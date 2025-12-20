@@ -1,7 +1,8 @@
 [
   {
     "id": "void_spider_test_item",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "void weaver effigy" },
     "description": "The severed leg of a void weaver, turned into some macabre ornament.",
     "weight": "1 g",

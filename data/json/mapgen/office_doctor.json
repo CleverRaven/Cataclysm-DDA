@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "office_doctor" ],
     "weight": 500,
     "object": {
@@ -24,9 +23,9 @@
         "   #f.f|IccS|..|HHllO#  ",
         "   #|+|||||||..|H...O#  ",
         "   #o..d.h.y|..|H...O#  ",
-        "   #d.hd.h..+..|H...6#  ",
-        "   #o......y|..|||X||#R ",
-        "   #|+|||||||...y...5#R ",
+        "   #d.hd.h..+..|H....#  ",
+        "   #o......y|..|||=||#R ",
+        "   #|+|||||||...y....#R ",
         "   #C.+..|..+........;~ ",
         "   #C<|s&|&s|y.eccScc#4 ",
         "   ###################  ",
@@ -42,30 +41,18 @@
         "c": { "item": "gear_medical", "chance": 60, "repeat": [ 2, 4 ] },
         "e": { "item": "SUS_fridge_breakroom", "chance": 80 },
         "t": { "item": "gear_medical", "chance": 60, "repeat": [ 2, 4 ] },
-        "f": { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 3 ] },
+        "f": [
+          { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 3 ] },
+          { "item": "record_patient", "chance": 80 }
+        ],
         "^": { "item": "gear_medical", "chance": 60, "repeat": [ 1, 2 ] }
       },
-      "place_items": [ { "item": "record_patient", "x": 7, "y": 6, "chance": 50 } ],
-      "place_loot": [ { "item": "anesthetic_kit", "x": 16, "y": [ 14, 17 ], "chance": 75, "ammo": 100 } ],
-      "computers": {
-        "5": {
-          "name": "Medical Supply Access",
-          "security": 2,
-          "options": [ { "name": "Unlock Door", "action": "unlock" } ],
-          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
-        },
-        "6": {
-          "name": "Medical Supply Access",
-          "security": 2,
-          "options": [ { "name": "Lock Door", "action": "lock" }, { "name": "Unlock Door", "action": "unlock" } ],
-          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
-        }
-      }
+      "place_items": [ { "item": "record_patient", "x": 7, "y": 6, "chance": 100 } ],
+      "place_loot": [ { "item": "anesthetic_kit", "x": 16, "y": [ 14, 17 ], "chance": 75, "ammo": 100 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "office_doctor_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -122,7 +109,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "office_doctor_access_roof",
     "object": {
       "rows": [
@@ -156,7 +142,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "office_doctor_1" ],
     "weight": 500,
     "object": {
@@ -198,20 +183,21 @@
         { "group": "cleaning", "x": [ 16, 19 ], "y": 20, "chance": 70, "repeat": [ 1, 5 ] },
         { "group": "gear_medical", "x": 10, "y": 12, "chance": 60, "repeat": [ 2, 5 ] },
         { "group": "softdrugs", "x": [ 4, 5 ], "y": 17, "chance": 60, "repeat": [ 3, 6 ] },
-        { "group": "office", "x": 4, "y": 19, "chance": 70 },
-        { "group": "office", "x": 4, "y": [ 3, 4 ], "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "SUS_office_desk", "x": 4, "y": 19, "chance": 70 },
+        { "group": "SUS_office_desk", "x": 4, "y": [ 3, 4 ], "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "doctors_books", "x": 9, "y": 3, "chance": 70 },
         { "group": "doctors_books", "x": 7, "y": 20, "chance": 70 },
         { "group": "gear_medical", "x": [ 4, 5 ], "y": 10, "chance": 60, "repeat": [ 2, 5 ] },
         { "group": "drugs_analgesic", "x": [ 4, 5 ], "y": 12, "chance": 75, "repeat": [ 1, 3 ] },
         { "group": "drugs_rare", "x": [ 4, 5 ], "y": 14, "chance": 75 },
-        { "item": "anesthetic_kit", "x": [ 4, 5 ], "y": 14, "chance": 75, "ammo": 100 }
+        { "item": "anesthetic_kit", "x": [ 4, 5 ], "y": 14, "chance": 75, "ammo": 100 },
+        { "item": "record_patient", "x": 7, "y": 20, "chance": 100 },
+        { "item": "record_patient", "x": 4, "y": 19, "chance": 100 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "office_doctor_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -267,7 +253,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "office_doctor_access_roof_1",
     "object": {
       "rows": [
@@ -301,7 +286,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "office_doctor_2" ],
     "weight": 200,
     "object": {
@@ -323,9 +307,9 @@
         " 0...t|...|t...|.ddd..0 ",
         " #.W.B|...|B.W.|yrA..o# ",
         " ##|||||!|||||||||||||# ",
-        "  #u!...........X....H# ",
-        "  ###|+|||+||||5|....H# ",
-        "    #c..|...^c|||OOO.H# ",
+        "  #u!...........=....H# ",
+        "  ###|+|||+||||||....H# ",
+        "    #c..|...^c|||HHH.H# ",
         "    #S..'.?/..c######## ",
         "    #S..|.....c#4       ",
         "    ############        ",
@@ -343,27 +327,19 @@
         "'": "t_door_glass_o"
       },
       "furniture": { "?": "f_bed", "/": "f_bed", "Y": "f_sofa", "T": "f_table", "A": "f_armchair", "R": "f_trashcan" },
-      "computers": {
-        "5": {
-          "name": "Medical Supply Access",
-          "security": 2,
-          "options": [ { "name": "Unlock Door", "action": "unlock" } ],
-          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
-        }
-      },
       "items": {
         "B": { "item": "hospital_bed", "chance": 60 },
-        "R": { "item": "SUS_trash_trashcan", "chance": 50 },
+        "R": { "item": "SUS_trash_trashcan_public", "chance": 50 },
         "o": { "item": "doctors_books", "chance": 60 },
         "e": { "item": "SUS_fridge_breakroom", "chance": 80 },
         "C": { "item": "dresser", "chance": 75 },
         "T": { "item": "office_breakroom", "chance": 80 },
-        "f": { "item": "SUS_office_filing_cabinet", "chance": 90 },
+        "f": [ { "item": "SUS_office_filing_cabinet", "chance": 90 }, { "item": "record_patient", "chance": 80 } ],
         "H": [
-          { "item": "harddrugs", "chance": 60 },
+          { "item": "harddrugs", "chance": 60, "repeat": [ 1, 3 ] },
           { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] },
           { "item": "drugs_analgesic", "chance": 60, "repeat": [ 1, 3 ] },
-          { "item": "drugs_rare", "chance": 60 },
+          { "item": "drugs_rare", "chance": 60, "repeat": [ 1, 3 ] },
           { "item": "surgery", "chance": 60 }
         ],
         "?": { "item": "autodoc_supplies", "chance": 100 },
@@ -373,7 +349,7 @@
         { "group": "waitingroom", "x": 12, "y": 3, "chance": 70, "repeat": [ 1, 3 ] },
         { "group": "waitingroom", "x": 10, "y": 5, "chance": 70, "repeat": [ 1, 3 ] },
         { "group": "dining", "x": 21, "y": [ 5, 6 ], "chance": 65, "repeat": [ 1, 3 ] },
-        { "group": "office", "x": [ 17, 19 ], "y": 13, "chance": 80, "repeat": [ 1, 2 ] },
+        { "group": "SUS_office_desk", "x": [ 17, 19 ], "y": 13, "chance": 80, "repeat": [ 1, 2 ] },
         { "group": "cleaning", "x": 21, "y": [ 8, 9 ], "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "surgery", "x": 14, "y": [ 19, 20 ], "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "gear_medical", "x": 14, "y": [ 19, 20 ], "chance": 70, "repeat": [ 1, 2 ] },
@@ -390,7 +366,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "office_doctor_roof_2",
     "object": {
       "fill_ter": "t_floor",
@@ -425,7 +400,7 @@
       "furniture": { "b": "f_bed", "c": "f_armchair", "i": "f_filing_cabinet", "?": "f_bed", "/": "f_bed" },
       "items": {
         "b": { "item": "hospital_bed", "chance": 60 },
-        "i": { "item": "SUS_office_filing_cabinet", "chance": 70 },
+        "i": [ { "item": "SUS_office_filing_cabinet", "chance": 70 }, { "item": "record_patient", "chance": 80 } ],
         "L": [
           { "item": "harddrugs", "chance": 60, "repeat": [ 1, 3 ] },
           { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] },
@@ -439,7 +414,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "office_doctor_upper_roof_2",
     "object": {
       "fill_ter": "t_flat_roof",

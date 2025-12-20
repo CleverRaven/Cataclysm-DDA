@@ -27,7 +27,6 @@
     "vision_day": 30,
     "vision_night": 10,
     "path_settings": { "max_dist": 10 },
-    "stomach_size": 4000,
     "special_attacks": [
       {
         "type": "bite",
@@ -128,7 +127,6 @@
       },
       { "id": "scratch_grab_required" }
     ],
-    "stomach_size": 500,
     "reproduction": { "baby_type": { "baby_monster": "mon_coyote_pup_mutant_shark" }, "baby_count": 4, "baby_timer": 63 },
     "harvest": "dog_with_skull_fur_mutant",
     "path_settings": { "max_dist": 7 }
@@ -248,7 +246,6 @@
     "copy-from": "mon_dog",
     "harvest": "dog_with_skull_fur_mutant",
     "aggression": -15,
-    "stomach_size": 400,
     "extend": { "flags": [ "NO_BREED" ], "special_attacks": [ [ "EAT_CARRION", 100 ] ] }
   },
   {
@@ -268,10 +265,9 @@
     "vision_night": 7,
     "reproduction": { "baby_type": { "baby_monster": "mon_dog_mutant_loper_pup" }, "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
-    "stomach_size": 400,
     "armor": { "bash": 1, "cut": 1 },
     "extend": {
-      "flags": [ "CLIMBS" ],
+      "move_skills": { "climb": 6 },
       "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 35, "move_cost": 100, "max_range": 3, "min_consider_range": 2 } ]
     }
   },
@@ -312,8 +308,7 @@
       [ "EAT_CARRION", 100 ],
       [ "LUNGE", 6 ],
       { "id": "grab" }
-    ],
-    "stomach_size": 500
+    ]
   },
   {
     "id": "mon_dog_mutant_mauler_pup",
@@ -321,7 +316,6 @@
     "copy-from": "mon_dog_pup",
     "name": { "str": "Mauler puppy", "str_pl": "Mauler puppies" },
     "description": "An adorable, but unusual puppy.  It wags its tail happily but something about its mouth seems off.",
-    "stomach_size": 200,
     "harvest": "dog_small_with_skull_mutant",
     "upgrades": { "age_grow": 42, "into": "mon_dog_mutant_mauler" }
   },
@@ -353,7 +347,6 @@
       [ "EAT_FOOD", 100 ],
       { "id": "grab" }
     ],
-    "stomach_size": 400,
     "armor": { "bash": 1, "cut": 1 },
     "extend": { "flags": [ "CAN_DIG" ] }
   },
@@ -363,7 +356,6 @@
     "copy-from": "mon_dog_pup",
     "name": { "str": "Thrasher puppy", "str_pl": "Thrasher puppies" },
     "description": "An adorable, but unusual puppy.  It wags its tail happily but something about its paws seems off.",
-    "stomach_size": 200,
     "harvest": "dog_small_with_skull_mutant",
     "upgrades": { "age_grow": 42, "into": "mon_dog_mutant_thrasher" }
   },

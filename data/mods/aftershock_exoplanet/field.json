@@ -53,11 +53,54 @@
     "display_field": false
   },
   {
+    "id": "fd_deco_mist",
+    "type": "field_type",
+    "looks_like": "fd_fog",
+    "intensity_levels": [
+      { "name": "mist", "sym": "~", "dangerous": false, "transparent": false, "translucency": 5 },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
+    "percent_spread": 30,
+    "priority": 2,
+    "display_items": false,
+    "accelerated_decay": true,
+    "display_field": true,
+    "half_life": "5 seconds",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_deco_mist_e",
+    "type": "field_type",
+    "looks_like": "fd_fog",
+    "intensity_levels": [ { "name": "mist", "sym": "~", "dangerous": false, "transparent": false, "translucency": 5 } ],
+    "wandering_field": "fd_deco_mist",
+    "percent_spread": 30,
+    "priority": 2,
+    "display_items": false,
+    "accelerated_decay": true,
+    "display_field": true,
+    "half_life": "5 seconds",
+    "phase": "gas"
+  },
+  {
     "id": "fd_hot_airAC",
     "type": "field_type",
     "intensity_levels": [ { "name": "air conditioner", "sym": "&", "convection_temperature_mod": 115 } ],
     "priority": -1,
     "display_field": false,
+    "phase": "gas"
+  },
+  {
+    "id": "fd_hot_airAC_temporary",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "air conditioner", "sym": "&", "convection_temperature_mod": 115 } ],
+    "priority": -1,
+    "display_field": false,
+    "percent_spread": 100,
+    "half_life": "120 seconds",
     "phase": "gas"
   },
   {
@@ -169,5 +212,42 @@
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_laser"
+  },
+  {
+    "id": "fd_toxic_dust",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "toxic dust",
+        "sym": "#",
+        "dangerous": true,
+        "translucency": 1,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "mouth",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel the toxic dust burn through your skin.",
+            "message_type": "bad"
+          }
+        ]
+      },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 30,
+    "has_fume": true,
+    "dirty_transparency_cache": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "torso", 15 ], [ "leg", 15 ], [ "foot", 15 ], [ "mouth", 15 ], [ "sensor", 15 ] ] },
+    "priority": 2,
+    "half_life": "5 seconds",
+    "phase": "solid",
+    "display_items": true,
+    "display_field": true,
+    "looks_like": "fd_fungal_haze"
   }
 ]

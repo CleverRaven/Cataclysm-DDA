@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "basement_messed",
     "//": "used for house_crack1, house_crack2",
     "object": {

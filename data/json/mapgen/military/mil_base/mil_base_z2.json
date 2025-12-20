@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mil_base_1b2", "mil_base_2b2", "mil_base_3b2", "mil_base_4b2" ] ],
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -36,7 +35,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mil_base_5b2", "mil_base_6b2", "mil_base_7b2", "mil_base_8b2" ] ],
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -71,7 +69,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mil_base_1g2", "mil_base_2g2", "mil_base_3g2" ] ],
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -107,7 +104,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_base_8g2" ],
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -142,7 +138,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_base_3i2" ],
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -178,7 +173,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mil_base_1k2", "mil_base_2k2", "mil_base_3k2", "mil_base_4k2" ] ],
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -213,7 +207,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_base_8k2" ],
     "object": {
       "fill_ter": "t_metal_floor_no_roof",

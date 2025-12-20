@@ -75,7 +75,6 @@
     "description": "Small, red berries with a pungent aroma.  It is said they are comparable to allspice, but also boasting their own flavor profile.",
     "smoking_result": "spicebush_berries_smoked",
     "spoils_in": "4 days",
-    "extend": { "flags": [ "SMOKABLE" ] },
     "color": "red"
   },
   {

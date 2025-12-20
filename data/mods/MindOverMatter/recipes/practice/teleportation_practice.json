@@ -38,7 +38,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: blink",
     "id": "practice_teleport_blink",
-    "description": "Contemplate your powers and improve your ability to travel nearby without crossing the intervening space.",
+    "description": "Contemplate your powers and improve your ability to travel to a random location nearby without crossing the intervening space.\n\nPower Difficulty: 1\n\nCurrent Power Level: <u_spell_level:teleport_blink>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -53,7 +53,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_BLINK",
-        "condition": { "math": [ "u_spell_level('teleport_blink') >= 1" ] },
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_blink", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -67,11 +67,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: stutterstep",
     "id": "practice_teleport_slow",
-    "description": "Contemplate your powers and improve your ability to reshape space around your enemies.",
+    "description": "Contemplate your powers and improve your ability to reshape space around your enemies.\n\nPower Difficulty: 2\n\nCurrent Power Level: <u_spell_level:teleport_slow>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
@@ -82,7 +82,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_SLOW",
-        "condition": { "math": [ "u_spell_level('teleport_slow') >= 1" ] },
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_slow", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -96,11 +96,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: phase",
     "id": "practice_teleport_phase",
-    "description": "Contemplate your powers and improve your ability to travel short distances without crossing the intervening space.",
+    "description": "Contemplate your powers and improve your ability to travel short distances in a controlled matter without crossing the intervening space.\n\nPower Difficulty: 2\n\nCurrent Power Level: <u_spell_level:teleport_phase>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
@@ -111,6 +111,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_PHASE",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_phase", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -148,11 +149,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: apportation",
     "id": "practice_teleport_item_apport",
-    "description": "Contemplate your powers and improve your ability to teleport an item without following it to its destination.",
+    "description": "Contemplate your powers and improve your ability to teleport an item without following it to its destination.\n\nPower Difficulty: 3\n\nCurrent Power Level: <u_spell_level:teleport_item_apport>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
@@ -163,6 +164,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_ITEM_APPORT",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_item_apport", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -200,11 +202,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: extended stride",
     "id": "practice_teleport_stride",
-    "description": "Contemplate your powers and improve your ability to warp space around your movements.",
+    "description": "Contemplate your powers and improve your ability to warp space around your movements.\n\nPower Difficulty: 3\n\nCurrent Power Level: <u_spell_level:teleport_stride>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
@@ -215,6 +217,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_STRIDE",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_stride", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -252,21 +255,23 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: transposition",
     "id": "practice_teleport_transpose",
-    "description": "Contemplate your powers and improve your control of relative position exchange.",
+    "description": "Contemplate your powers and improve your control of relative position exchange.\n\nPower Difficulty: 4\n\nCurrent Power Level: <u_spell_level:teleport_transpose>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 3,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_teleportation", -1 ] ]
     ],
+    "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_SWAP",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_transpose", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -304,11 +309,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: displacement",
     "id": "practice_teleport_displacement",
-    "description": "Contemplate your powers and improve your ability to teleport your enemies away from you.",
+    "description": "Contemplate your powers and improve your ability to teleport your enemies away from you.\n\nPower Difficulty: 4\n\nCurrent Power Level: <u_spell_level:teleport_displacement>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 3,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
@@ -320,6 +325,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_DISPLACEMENT",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_displacement", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -357,11 +363,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: reactive displacement",
     "id": "practice_teleport_reactive_displacement",
-    "description": "Contemplate your powers and improve your ability to automatically teleport attackers away from you.",
+    "description": "Contemplate your powers and improve your ability to automatically teleport attackers away from you.\n\nPower Difficulty: 5\n\nCurrent Power Level: <u_spell_level:teleport_reactive_displacement>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 5,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
@@ -373,6 +379,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_REACTIVE_DISPLACEMENT",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_reactive_displacement", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -410,11 +417,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: spacial vortex",
     "id": "practice_teleport_collapse",
-    "description": "Contemplate your powers and improve your ability to bring distant points close together.",
+    "description": "Contemplate your powers and improve your ability to bring distant points close together.\n\nPower Difficulty: 5\n\nCurrent Power Level: <u_spell_level:teleport_collapse>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 4,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
@@ -426,6 +433,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_COLLAPSE",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_collapse", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -463,21 +471,23 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: warped strikes",
     "id": "practice_teleport_warped_strikes",
-    "description": "Contemplate your powers and improve your ability to maintain a slight distance from reality.",
+    "description": "Contemplate your powers and improve your ability to maintain a slight distance from reality.\n\nPower Difficulty: 5\n\nCurrent Power Level: <u_spell_level:teleport_warped_strikes>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 4,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_teleportation", -1 ] ]
     ],
+    "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_WARPED_STRIKES",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_warped_strikes", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -515,21 +525,23 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: ephemeral walk",
     "id": "practice_teleport_ephemeral_walk",
-    "description": "Contemplate your powers and improve your ability to maintain a slight distance from reality.",
+    "description": "Contemplate your powers and improve your ability to maintain a slight distance from reality.\n\nPower Difficulty: 6\n\nCurrent Power Level: <u_spell_level:teleport_ephemeral_walk>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 5,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_teleportation", -1 ] ]
     ],
+    "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_EPHEMERAL_WALK",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_ephemeral_walk", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -567,11 +579,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: farstep",
     "id": "practice_teleport_farstep",
-    "description": "Contemplate your powers and develop your ability to instantly travel to a new location.",
+    "description": "Contemplate your powers and develop your ability to instantly travel to a new location.\n\nPower Difficulty: 6\n\nCurrent Power Level: <u_spell_level:teleport_farstep>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 5,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
@@ -583,6 +595,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_FARSTEP",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_farstep", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -620,11 +633,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: oubliette",
     "id": "practice_teleport_banish",
-    "description": "Contemplate your powers and improve your ability to banish your enemies to other dimensions.",
+    "description": "Contemplate your powers and improve your ability to banish your enemies to other dimensions.\n\nPower Difficulty: 7\n\nCurrent Power Level: <u_spell_level:teleport_banish>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
@@ -636,6 +649,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_BANISH",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_banish", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -673,11 +687,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: loci establishment",
     "id": "practice_teleport_loci_establishment",
-    "description": "Contemplate your powers and improve your ability to maintain an established locus that you can teleport to.",
+    "description": "Contemplate your powers and improve your ability to maintain an established locus that you can teleport to.\n\nPower Difficulty: 7\n\nCurrent Power Level: <u_spell_level:teleport_loci_establishment>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
@@ -689,6 +703,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_LOCI_ESTABLISHMENT",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_loci_establishment", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -726,11 +741,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: loci technique",
     "id": "practice_teleport_loci_technique",
-    "description": "Contemplate your powers and improve your ability to travel to an established locus.",
+    "description": "Contemplate your powers and improve your ability to travel to an established locus.\n\nPower Difficulty: 7\n\nCurrent Power Level: <u_spell_level:teleport_loci_technique>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
@@ -743,7 +758,7 @@
       {
         "id": "EOC_PRACTICE_TELEPORT_LOCI_TECHNIQUET",
         "//": "EOC is intentionally missing false effect since the loci technique power is learned via the loci establishment EOC rather than on its own.",
-        "condition": { "math": [ "u_spell_level('teleport_loci_technique') >= 1" ] },
+        "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_loci_technique') >= 1" ] } ] },
         "effect": [
           { "set_string_var": "teleport_loci_technique", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -757,11 +772,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: gateway",
     "id": "practice_teleport_gateway",
-    "description": "Contemplate your powers and improve your ability to travel to long-distant points.",
+    "description": "Contemplate your powers and improve your ability to travel to long-distant points.\n\nPower Difficulty: 8\n\nCurrent Power Level: <u_spell_level:teleport_gateway>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 7,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
@@ -773,6 +788,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_GATEWAY",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_gateway", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -810,11 +826,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: dilated gateway",
     "id": "practice_teleport_dilated_gateway",
-    "description": "Contemplate your powers and improve your ability to teleport other creatures with you to long-distant points.",
+    "description": "Contemplate your powers and improve your ability to teleport other creatures with you to long-distant points.\n\nPower Difficulty: 9\n\nCurrent Power Level: <u_spell_level:teleport_dilated_gateway>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 8,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
@@ -826,6 +842,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_dilated_gateway",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_dilated_gateway", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -863,11 +880,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: relocation",
     "id": "practice_teleport_relocation",
-    "description": "Contemplate your powers and improve your ability to teleport held items to long-distant points.",
+    "description": "Contemplate your powers and improve your ability to teleport held items to long-distant points.\n\nPower Difficulty: 9\n\nCurrent Power Level: <u_spell_level:teleport_relocation>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 8,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
@@ -879,6 +896,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_RELOCATION",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_relocation", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -916,11 +934,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: breach",
     "id": "practice_teleport_breach",
-    "description": "Contemplate your powers and improve your ability to open portals to the Nether.",
+    "description": "Contemplate your powers and improve your ability to open momentary portals to the Nether.\n\nPower Difficulty: 9\n\nCurrent Power Level: <u_spell_level:teleport_summon>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 8,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
@@ -932,6 +950,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_BREACH",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_summon", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -969,22 +988,23 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: flickerflash stance",
     "id": "practice_teleport_warper_combat",
-    "description": "Contemplate your powers and improve your ability to enact the TURQUOISE KEYSTONE protocols while in combat.",
+    "description": "Contemplate your powers and improve your ability to enact the TURQUOISE KEYSTONE protocols while in combat.\n\nPower Difficulty: 9\n\nCurrent Power Level: <u_spell_level:teleport_warper_combat>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 8,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_teleportation", -1 ] ]
     ],
+    "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_WARPER_COMBAT",
-        "condition": { "math": [ "u_spell_level('teleport_warper_combat') >= 1" ] },
+        "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_warper_combat') >= 1" ] } ] },
         "effect": [
           { "set_string_var": "teleport_warper_combat", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -998,11 +1018,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: reality tear",
     "id": "practice_teleport_reality_tear",
-    "description": "Contemplate your powers and improve your ability to permanently tear open reality.",
+    "description": "Contemplate your powers and improve your ability to permanently tear open reality.\n\nPower Difficulty: 10\n\nCurrent Power Level: <u_spell_level:teleport_reality_tear>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 10,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
@@ -1014,6 +1034,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_REALITY_TEAR",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_reality_tear", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },

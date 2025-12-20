@@ -10,7 +10,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
-#include "construction.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
@@ -22,7 +21,7 @@
 #include "item.h"
 #include "itype.h"
 #include "magic.h"
-#include "map.h"
+#include "messages.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
@@ -40,7 +39,6 @@
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
@@ -191,19 +189,6 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
             extra_info = string_format( "%d%%", percentage );
         }
 
-        if( type == ACT_BUILD ) {
-            map &here = get_map();
-
-            partial_con *pc =
-                here.partial_con_at( here.get_bub( u.activity.placement ) );
-            if( pc ) {
-                int counter = std::min( pc->counter, 10000000 );
-                const int percentage = counter / 100000;
-
-                extra_info = string_format( "%d%%", percentage );
-            }
-        }
-
         if( type == ACT_SPELLCASTING ) {
             const std::string spell_name = spell_id( name )->name.translated();
             extra_info = string_format( "%s …", spell_name );
@@ -238,6 +223,7 @@ void player_activity::do_turn( Character &you )
     // This is because the game can get stuck trying to fuel a fire when it's not...
     if( type == ACT_MIGRATION_CANCEL ) {
         actor->do_turn( *this, you );
+        activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
         return;
     }
     // first to ensure sync with actor
@@ -306,13 +292,10 @@ void player_activity::do_turn( Character &you )
     if( !type->do_turn_EOC.is_null() ) {
         // if we have an EOC defined in json do that
         dialogue d( get_talker_for( you ), nullptr );
-        if( type->do_turn_EOC->type == eoc_type::ACTIVATION ) {
-            type->do_turn_EOC->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
-        }
+        type->do_turn_EOC->activate_activation_only( d, "player activities" );
         // We may have canceled this via a message interrupt.
         if( type.is_null() ) {
+            activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
             return;
         }
     }
@@ -369,6 +352,7 @@ void player_activity::do_turn( Character &you )
         if( !ignoreQuery && auto_resume ) {
             you.assign_activity( wait_stamina_activity_actor( you.get_stamina_max() ) );
         }
+        activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
         return;
     }
     if( *this && type->rooted() ) {
@@ -382,12 +366,10 @@ void player_activity::do_turn( Character &you )
         if( !type->completion_EOC.is_null() ) {
             // if we have an EOC defined in json do that
             dialogue d( get_talker_for( you ), nullptr );
-            if( type->completion_EOC->type == eoc_type::ACTIVATION ) {
-                type->completion_EOC->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
-            }
+            type->completion_EOC->activate_activation_only( d, "player activities" );
         }
+        add_msg_debug( debugmode::DF_ACTIVITY, "Setting activity %s to null for %s, no moves left.",
+                       type.c_str(), you.name );
         get_event_bus().send<event_type::character_finished_activity>( you.getID(), type, false );
         g->wait_popup_reset();
         if( actor ) {
@@ -403,11 +385,15 @@ void player_activity::do_turn( Character &you )
         // Make sure data of previous activity is cleared
         you.activity = player_activity();
         you.resume_backlog_activity();
-
         // If whatever activity we were doing forced us to pick something up to
         // handle it, drop any overflow that may have caused
         you.drop_invalid_inventory();
     }
+    // According to the existing code, if 'you' is an NPC, the outer layer may try to resume activity from the
+    // backlog  (in npc::do_player_activity()), which results is (!you.activity) && (!you.get_destination_activity())
+    // is true here not meaning that mult_activity ends, so npc's activity_var cannot be handled here.
+    // only avatar's activity_var is erased in player_activity::do_turn.
+    activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
 }
 
 void player_activity::canceled( Character &who )
@@ -415,6 +401,7 @@ void player_activity::canceled( Character &who )
     if( *this && actor ) {
         actor->canceled( *this, who );
     }
+    activity_handlers::clean_may_activity_occupancy_items_var( who );
     get_event_bus().send<event_type::character_finished_activity>( who.getID(), type, true );
     g->wait_popup_reset();
 }

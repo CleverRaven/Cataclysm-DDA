@@ -19,7 +19,10 @@
     },
     "effect": [
       { "math": [ "u_vitamin('xedra_chronomancer_insight') += 50" ] },
-      { "u_message": "You gain a large amount of insight into the workings of time!", "type": "info" }
+      {
+        "if": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages != 1" ] },
+        "then": { "u_message": "You gain a large amount of insight into the workings of time!", "type": "info" }
+      }
     ]
   },
   {
@@ -48,7 +51,10 @@
     },
     "effect": [
       { "math": [ "u_vitamin('xedra_chronomancer_insight') += 10" ] },
-      { "u_message": "You gain a medium amount of insight into the workings of time.", "type": "info" }
+      {
+        "if": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages != 1" ] },
+        "then": { "u_message": "You gain a medium amount of insight into the workings of time.", "type": "info" }
+      }
     ]
   },
   {
@@ -78,7 +84,10 @@
     },
     "effect": [
       { "math": [ "u_vitamin('xedra_chronomancer_insight') += 5" ] },
-      { "u_message": "You gain a small amount of insight into the workings of time.", "type": "info" }
+      {
+        "if": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages != 1" ] },
+        "then": { "u_message": "You gain a small amount of insight into the workings of time.", "type": "info" }
+      }
     ]
   },
   {
@@ -89,7 +98,22 @@
     "condition": { "u_has_effect": "effect_chronomancy_field" },
     "effect": [
       { "math": [ "u_vitamin('xedra_chronomancer_insight') += 1" ] },
-      { "u_message": "You gain a tiny amount of insight into the workings of time.", "type": "info" }
+      {
+        "if": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages != 1" ] },
+        "then": { "u_message": "You gain a tiny amount of insight into the workings of time.", "type": "info" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_PARADOX_INSIGHT",
+    "effect": [
+      { "math": [ "_insight_gain = u_hp('ALL') / 6" ] },
+      { "math": [ "n_vitamin('xedra_chronomancer_insight') += _insight_gain" ] },
+      {
+        "if": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages != 1" ] },
+        "then": { "npc_message": "Observing this paradox gave you <context_val:insight_gain> Insight into time", "type": "info" }
+      }
     ]
   },
   {
@@ -141,11 +165,10 @@
       },
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true, "excluded_flags": [ "PSEUDO", "USES_BIONIC_POWER" ] } ],
+        "search_data": [ { "is_chargeable": true } ],
         "true_eocs": [
           {
             "id": "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INV_SCANNER_ENERGY",
-            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
             "effect": [
               {
                 "math": [ "n_val('power') += xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_reverse_entropy'), 0.1, 1 )" ]
@@ -274,11 +297,10 @@
       },
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true, "excluded_flags": [ "PSEUDO", "USES_BIONIC_POWER" ] } ],
+        "search_data": [ { "is_chargeable": true } ],
         "true_eocs": [
           {
             "id": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_ENERGY_SCANNER",
-            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
             "effect": [
               {
                 "math": [ "n_val('power') += xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_equipment_causality'), 10, 0 )" ]
@@ -445,18 +467,13 @@
     "id": "EOC_XEDRA_CHRONOMANCER_LOOPING_WOUND_DAMAGE",
     "condition": { "u_has_trait": "XEDRA_CHRONOMANCER_LOOPING_WOUND" },
     "effect": [
-      {
-        "if": { "not": { "u_has_effect": "effect_xedra_time_freeze" } },
-        "then": [
-          { "u_message": "You feel a sharp jolt of pain as a stab wound suddenly opens in your belly!", "type": "bad" },
-          { "math": [ "u_hp('torso')-=10" ] },
-          { "math": [ "u_xedra_last_damage_taken=10" ] },
-          { "set_string_var": "torso", "target_var": { "u_val": "xedra_last_damage_taken_bodypart" } },
-          { "math": [ "u_pain()+=30" ] },
-          { "math": [ "u_xedra_last_pain_taken=30" ] },
-          { "u_add_effect": "bleed", "duration": "10 minutes", "target_part": "torso" }
-        ]
-      },
+      { "u_message": "You feel a sharp jolt of pain as a stab wound suddenly opens in your belly!", "type": "bad" },
+      { "math": [ "u_hp('torso')-=10" ] },
+      { "math": [ "u_xedra_last_damage_taken=10" ] },
+      { "set_string_var": "torso", "target_var": { "u_val": "xedra_last_damage_taken_bodypart" } },
+      { "math": [ "u_pain()+=30" ] },
+      { "math": [ "u_xedra_last_pain_taken=30" ] },
+      { "u_add_effect": "bleed", "duration": "10 minutes", "target_part": "torso" },
       { "run_eocs": "EOC_XEDRA_CHRONOMANCER_LOOPING_WOUND_DAMAGE", "time_in_future": "24 hours" }
     ]
   },

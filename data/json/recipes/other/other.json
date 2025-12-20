@@ -69,8 +69,8 @@
     "components": [
       [ [ "paper", 1 ] ],
       [ [ "box_small", 1 ], [ "plastic_shopping_bag", 1 ] ],
-      [ [ "button_wood", 3 ], [ "button_steel", 3 ], [ "button_bronze", 3 ], [ "button_plastic", 3 ] ],
-      [ [ "button_wood", 3 ], [ "button_steel", 3 ], [ "button_bronze", 3 ], [ "button_plastic", 3 ] ]
+      [ [ "button", 3, "LIST" ] ],
+      [ [ "button", 3, "LIST" ] ]
     ]
   },
   {
@@ -100,7 +100,8 @@
     "components": [
       [ [ "paper", 1 ] ],
       [ [ "box_small", 1 ], [ "plastic_shopping_bag", 1 ] ],
-      [ [ "button_wood", 24 ], [ "button_steel", 24 ], [ "button_bronze", 24 ], [ "button_plastic", 24 ] ]
+      [ [ "button", 12, "LIST" ] ],
+      [ [ "button", 12, "LIST" ] ]
     ]
   },
   {
@@ -350,5 +351,34 @@
     "reversible": true,
     "components": [ [ [ "paper", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "cigar",
+    "variant": "handrolled",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "4 m",
+    "activity_level": "LIGHT_EXERCISE",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "tobacco", 4 ] ] ]
+  },
+  {
+    "result": "cigar",
+    "variant": "handrolled",
+    "id_suffix": "with_cutter_puncher",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "4 m",
+    "activity_level": "LIGHT_EXERCISE",
+    "autolearn": true,
+    "tools": [ [ [ "cigar_cutter", -1 ], [ "cigar_punch", -1 ] ] ],
+    "components": [ [ [ "tobacco", 4 ] ] ]
   }
 ]

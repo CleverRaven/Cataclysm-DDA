@@ -7,6 +7,7 @@
 #include <unordered_set>
 #include <utility>
 
+#include "activity_actor_definitions.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_imgui.h"
@@ -45,8 +46,6 @@
 #include "vpart_range.h"
 
 class uilist_impl;
-
-static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id itype_power_cord( "power_cord" );
@@ -152,11 +151,10 @@ bool place_appliance( map &here, const tripoint_bub_ms &p, const vpart_id &vpart
     return true;
 }
 
-player_activity veh_app_interact::run( map &here, vehicle &veh, const point_rel_ms &p )
+void veh_app_interact::run( map &here, vehicle &veh, const point_rel_ms &p )
 {
     veh_app_interact ap( veh, p );
     ap.app_loop( here );
-    return ap.act;
 }
 
 // Registers general appliance actions from keybindings
@@ -425,20 +423,13 @@ void veh_app_interact::refill( )
     item_location target = g->inv_map_splice( validate, string_format( _( "Refill %s" ), pt->name() ),
                            1 );
     if( target ) {
-        act = player_activity( ACT_VEHICLE, 1000, static_cast<int>( 'f' ) );
-        act.targets.push_back( target );
-        act.str_values.push_back( pt->info().id.str() );
         const point_rel_ms q = veh->coord_translate( pt->mount );
-        for( const tripoint_abs_ms &p : veh->get_points( true ) ) {
-            act.coord_set.insert( p );
-        }
-        act.values.push_back( veh->pos_abs().x() + q.x() );
-        act.values.push_back( veh->pos_abs().y() + q.y() );
-        act.values.push_back( a_point.x() );
-        act.values.push_back( a_point.y() );
-        act.values.push_back( -a_point.x() );
-        act.values.push_back( -a_point.y() );
-        act.values.push_back( veh->index_of_part( pt ) );
+        tripoint_abs_ms mount_adjusted = veh->pos_abs() + q;
+        Character &you = get_player_character();
+        you.set_moves( 0 );
+        you.assign_activity(
+            vehicle_activity_actor( VEHICLE_REFILL, 15_minutes, veh, mount_adjusted,
+                                    tripoint_rel_ms( a_point, 0 ), veh->index_of_part( pt ), pt->info().id, target ) );
     }
 }
 
@@ -462,7 +453,9 @@ void veh_app_interact::siphon( map &here )
     const int idx = veh->index_of_part( pt );
     item liquid( base.legacy_front() );
     const int liq_charges = liquid.charges;
-    if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
+    liquid_dest_opt liquid_target;
+
+    if( liquid_handler::handle_liquid( liquid, liquid_target, nullptr, 1, nullptr, veh, idx ) ) {
         veh->drain( here, idx, liq_charges - liquid.charges );
     }
 }
@@ -515,18 +508,9 @@ void veh_app_interact::remove( map &here )
         popup( msg );
         //~ Prompt the player if they want to remove the appliance. %s = appliance name.
     } else if( query_yn( _( "Are you sure you want to take down the %s?" ), veh->name ) ) {
-        act = player_activity( ACT_VEHICLE, to_moves<int>( time ), static_cast<int>( 'O' ) );
-        act.str_values.push_back( vpinfo.id.str() );
-        for( const tripoint_abs_ms &p : veh->get_points( true ) ) {
-            act.coord_set.insert( p );
-        }
-        act.values.push_back( a_point_abs.x() );
-        act.values.push_back( a_point_abs.y() );
-        act.values.push_back( a_point.x() );
-        act.values.push_back( a_point.y() );
-        act.values.push_back( -a_point.x() );
-        act.values.push_back( -a_point.y() );
-        act.values.push_back( veh->index_of_part( vp ) );
+        you.set_moves( 0 );
+        you.assign_activity( vehicle_activity_actor( VEHICLE_REMOVE_APPLIANCE, time, veh,
+                             a_point_abs, tripoint_rel_ms( a_point, 0 ), veh->index_of_part( vp ), vpinfo.id ) );
     }
 }
 
@@ -668,6 +652,7 @@ shared_ptr_fast<ui_adaptor> veh_app_interact::create_or_get_ui_adaptor( map &her
 void veh_app_interact::app_loop( map &here )
 {
     bool done = false;
+    Character &you = get_player_character();
     while( !done ) {
         // scope this tighter so that this ui is hidden when app_actions[ret]() triggers
         {
@@ -685,7 +670,7 @@ void veh_app_interact::app_loop( map &here )
             app_actions[ret]();
         }
         // Player activity queued up, close interaction menu
-        if( veh == nullptr || !act.is_null() || !get_player_character().activity.is_null() ) {
+        if( veh == nullptr || you.activity ) {
             done = true;
         }
     }

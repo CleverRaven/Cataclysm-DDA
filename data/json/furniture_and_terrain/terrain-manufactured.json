@@ -378,6 +378,13 @@
   },
   {
     "type": "terrain",
+    "id": "t_radiosphere_radio_tower_liminal_light",
+    "copy-from": "t_radio_tower",
+    "description": "The structure of a radio transmission tower, there's a bright spotlight hanging off it.",
+    "light_emitted": 50
+  },
+  {
+    "type": "terrain",
     "id": "t_radio_controls",
     "name": "radio controls",
     "description": "A console that appears to control a nearby radio transmission tower.  It doesn't seem to be fully operational.",
@@ -495,7 +502,7 @@
     "name": "drilling machinery",
     "description": "All the machinery required to operate and control de drill string and the drill bit down below.  It is now inactive.",
     "symbol": "&",
-    "color": "black",
+    "color": "dark_gray",
     "looks_like": "f_machinery_heavy",
     "move_cost": 0,
     "coverage": 50,
@@ -519,7 +526,7 @@
     "name": "drill string",
     "description": "An extremely resistant length of mechanical tubing used to reach deep under water and drill into pockets of oil.",
     "symbol": "O",
-    "color": "black",
+    "color": "dark_gray",
     "looks_like": "t_little_column",
     "move_cost": 0,
     "coverage": 50,
@@ -794,7 +801,9 @@
       "sound": "whack!",
       "sound_fail": "thunk.",
       "ter_set": "t_covered_well",
-      "items": [ { "item": "string_6", "count": [ 0, 18 ] }, { "item": "splinter", "count": [ 0, 24 ] } ]
+      "items": [ { "item": "string_6", "count": [ 0, 18 ] }, { "item": "splinter", "count": [ 0, 24 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "liquid_source": { "id": "water" },
     "examine_action": "water_source"
@@ -802,6 +811,7 @@
   {
     "type": "terrain",
     "id": "t_salt_water_pump",
+    "//": "After #78419 this can no longer be constructed, but is left in for old save compatibility",
     "name": "salt water pump",
     "looks_like": "t_water_pump",
     "description": "A water pump connected to a pipe supplying it with salt water.  Not good to drink, but it has other uses.",
@@ -1366,7 +1376,7 @@
     "looks_like": "t_pit",
     "move_cost": 0,
     "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS" ],
+    "flags": [ "TRANSPARENT", "PERMEABLE", "CONTAINER", "PLACE_ITEM", "INDOORS" ],
     "deconstruct": { "ter_set": "t_pit", "items": [ { "item": "rock", "count": 40 }, { "item": "stick", "count": [ 16, 16 ] } ] },
     "bash": {
       "str_min": 18,
@@ -1398,12 +1408,15 @@
         { "item": "2x4", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
     "type": "terrain",
     "id": "t_covered_salt_water_well",
+    "//": "After #78419 this can no longer be constructed, but is left in for old save compatibility",
     "name": "covered salt water well",
     "description": "A deep well, collecting salt water from a surrounding swamp.  You won't be able to get any water unless you add some mechanism for drawing it up to the surface.",
     "symbol": "#",
@@ -1423,7 +1436,9 @@
         { "item": "2x4", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1464,7 +1479,6 @@
     "flags": [
       "TRANSPARENT",
       "CONTAINER",
-      "FLAMMABLE_ASH",
       "THIN_OBSTACLE",
       "REDUCE_SCENT",
       "INDOORS",
@@ -1498,6 +1512,7 @@
     "flags": [
       "TRANSPARENT",
       "CONTAINER",
+      "FLAMMABLE_ASH",
       "THIN_OBSTACLE",
       "REDUCE_SCENT",
       "INDOORS",
@@ -1540,7 +1555,9 @@
         { "item": "stick", "count": [ 2, 7 ] },
         { "item": "splinter", "count": [ 8, 20 ] },
         { "item": "pine_bough", "count": [ 0, 2 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE" ]
@@ -1564,7 +1581,9 @@
         { "item": "stick", "count": [ 1, 2 ] },
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "plastic_chunk", "count": [ 4, 8 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "deconstruct": {
       "ter_set": "t_dirt",
@@ -1620,8 +1639,9 @@
     "description": "A large brick oven that could make several pizzas at once.",
     "color": "red",
     "move_cost": 0,
-    "flags": [ "REDUCE_SCENT", "NOITEM", "PERMEABLE", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE" ],
+    "flags": [ "REDUCE_SCENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PERMEABLE", "FIRE_CONTAINER" ],
     "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "fire_brick", "count": 90 } ] },
+    "examine_action": "fireplace",
     "bash": {
       "str_min": 25,
       "str_max": 50,

@@ -2,7 +2,8 @@
   {
     "id": "3x35_150_mag",
     "looks_like": "fnp90mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "3x35mm 150-round magazine" },
     "description": "A 150-round box magazine for use with 3x35mm flechette coilguns.  Marketed as GGS150.",
     "weight": "360 g",
@@ -19,7 +20,8 @@
   {
     "id": "3x35_75_mag",
     "looks_like": "fnp90mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "3x35mm 75-round magazine" },
     "description": "A 75-round box magazine for use with 3x35mm flechette coilguns.  Marketed as GGS75.",
     "weight": "240 g",

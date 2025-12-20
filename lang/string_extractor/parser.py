@@ -20,10 +20,11 @@ from .parsers.enchant import parse_enchant
 from .parsers.end_screen import parse_end_screen
 from .parsers.event_statistic import parse_event_statistic
 from .parsers.faction import parse_faction
+from .parsers.faction_mission import parse_faction_mission
 from .parsers.fault import parse_fault
 from .parsers.fault_fix import parse_fault_fix
 from .parsers.field_type import parse_field_type
-from .parsers.furniture import parse_furniture
+from .parsers.furniture_terrain import parse_furniture_terrain
 from .parsers.gate import parse_gate
 from .parsers.generic import parse_generic
 from .parsers.gun import parse_gun
@@ -38,6 +39,7 @@ from .parsers.limb_score import parse_limb_score
 from .parsers.loot_zone import parse_loot_zone
 from .parsers.map_extra import parse_map_extra
 from .parsers.mapgen import parse_mapgen
+from .parsers.mod_migration import parse_mod_migration
 from .parsers.mutation import parse_mutation
 from .parsers.nested_category import parse_nested_category
 from .parsers.npc import parse_npc
@@ -52,7 +54,6 @@ from .parsers.proficiency_category import parse_proficiency_category
 from .parsers.recipe import parse_recipe
 from .parsers.recipe_category import parse_recipe_category
 from .parsers.recipe_group import parse_recipe_group
-from .parsers.magazine import parse_magazine
 from .parsers.material import parse_material
 from .parsers.martial_art import parse_martial_art
 from .parsers.mission_definition import parse_mission_definition
@@ -79,12 +80,12 @@ from .parsers.sub_body_part import parse_sub_body_part
 from .parsers.talk_topic import parse_talk_topic
 from .parsers.technique import parse_technique
 from .parsers.ter_furn_transform import parse_ter_furn_transform
-from .parsers.terrain import parse_terrain
 from .parsers.tool_quality import parse_tool_quality
 from .parsers.trap import parse_trap
 from .parsers.vehicle import parse_vehicle
 from .parsers.vehicle_part import parse_vehicle_part
 from .parsers.vehicle_part_category import parse_vehicle_part_category
+from .parsers.vehicle_part_location import parse_vehicle_part_location
 from .parsers.vehicle_spawn import parse_vehicle_spawn
 from .parsers.vitamin import parse_vitamin
 from .parsers.weakpoint_set import parse_weakpoint_set
@@ -101,21 +102,17 @@ parsers = {
     "achievement": parse_achievement,
     "activity_type": parse_activity_type,
     "addiction_type": parse_addiction_type,
-    "ammo": parse_generic,
     "ammo_effect": dummy_parser,
     "ammunition_type": parse_ammunition_type,
     "anatomy": dummy_parser,
-    "armor": parse_generic,
     "ascii_art": dummy_parser,
     "attack_vector": dummy_parser,
-    "battery": parse_generic,
+    "bash_damage_profile": dummy_parser,
     "behavior": dummy_parser,
     "bionic": parse_bionic,
-    "bionic_item": parse_generic,
     "bionic_migration": dummy_parser,
     "body_graph": dummy_parser,
     "body_part": parse_body_part,
-    "book": parse_generic,
     "butchery_requirement": dummy_parser,
     "camp_migration": dummy_parser,
     "character_mod": parse_character_mod,
@@ -124,7 +121,6 @@ parsers = {
     "city_building": dummy_parser,
     "climbing_aid": parse_climbing_aid,
     "clothing_mod": parse_clothing_mod,
-    "comestible": parse_generic,
     "colordef": dummy_parser,
     "conduct": parse_achievement,
     "connect_group": dummy_parser,
@@ -137,21 +133,21 @@ parsers = {
     "disease_type": dummy_parser,
     "effect_on_condition": parse_effect_on_condition,
     "effect_type": parse_effect_type,
+    "effect_migration": dummy_parser,
     "emit": dummy_parser,
     "enchantment": parse_enchant,
     "end_screen": parse_end_screen,
-    "engine": parse_generic,
     "event_statistic": parse_event_statistic,
     "event_transformation": dummy_parser,
     "external_option": dummy_parser,
     "faction": parse_faction,
+    "faction_mission": parse_faction_mission,
     "fault": parse_fault,
     "fault_fix": parse_fault_fix,
     "fault_group": dummy_parser,
     "field_type": parse_field_type,
-    "furniture": parse_furniture,
+    "furniture": parse_furniture_terrain,
     "gate": parse_gate,
-    "generic": parse_generic,
     "gun": parse_gun,
     "gunmod": parse_gunmod,
     "harvest": parse_harvest,
@@ -168,7 +164,6 @@ parsers = {
     "keybinding": parse_keybinding,
     "limb_score": parse_limb_score,
     "loot_zone": parse_loot_zone,
-    "magazine": parse_magazine,
     "magic_type": dummy_parser,
     "map_extra": parse_map_extra,
     "mapgen": parse_mapgen,
@@ -177,6 +172,7 @@ parsers = {
     "migration": dummy_parser,
     "mission_definition": parse_mission_definition,
     "mod_info": parse_mod_info,
+    "mod_migration": parse_mod_migration,
     "mod_tileset": dummy_parser,
     "monster": parse_monster,
     "monster_adjustment": dummy_parser,
@@ -195,6 +191,7 @@ parsers = {
     "nested_category": parse_nested_category,
     "npc": parse_npc,
     "npc_class": parse_npc_class,
+    "omt_placeholder": dummy_parser,
     "oter_id_migration": dummy_parser,
     "oter_vision": parse_oter_vision,
     "option_slider": parse_option_slider,
@@ -206,19 +203,35 @@ parsers = {
     "overmap_special_migration": dummy_parser,
     "overmap_terrain": parse_overmap_terrain,
     "palette": parse_palette,
-    "pet_armor": parse_generic,
     "playlist": dummy_parser,
     "practice": parse_practice,
     "profession": parse_profession,
+    "profession_blacklist": dummy_parser,
     "profession_group": dummy_parser,
     "profession_item_substitutions": dummy_parser,
     "proficiency": parse_proficiency,
     "proficiency_category": parse_proficiency_category,
+    "proficiency_migration": dummy_parser,
     "recipe": parse_recipe,
     "recipe_category": parse_recipe_category,
     "recipe_group": parse_recipe_group,
     "region_overlay": dummy_parser,
     "region_settings": dummy_parser,
+    "region_settings_river": dummy_parser,
+    "region_settings_lake": dummy_parser,
+    "region_settings_ocean": dummy_parser,
+    "region_settings_ravine": dummy_parser,
+    "region_settings_forest": dummy_parser,
+    "region_settings_highway": dummy_parser,
+    "region_settings_forest_trail": dummy_parser,
+    "region_settings_city": dummy_parser,
+    "region_settings_terrain_furniture": dummy_parser,
+    "region_terrain_furniture": dummy_parser,
+    "region_settings_forest_mapgen": dummy_parser,
+    "region_settings_map_extras": dummy_parser,
+    "forest_biome_component": dummy_parser,
+    "forest_biome_mapgen": dummy_parser,
+    "map_extra_collection": dummy_parser,
     "relic_procgen_data": dummy_parser,
     "requirement": dummy_parser,
     "rotatable_symbol": dummy_parser,
@@ -243,23 +256,21 @@ parsers = {
     "technique": parse_technique,
     "temperature_removal_blacklist": dummy_parser,
     "ter_furn_transform": parse_ter_furn_transform,
-    "terrain": parse_terrain,
+    "terrain": parse_furniture_terrain,
     "ter_furn_migration": dummy_parser,
     "trait_blacklist": dummy_parser,
     "trait_group": dummy_parser,
     "trait_migration": dummy_parser,
     "trap": parse_trap,
     "trap_migration": dummy_parser,
-    "tool": parse_generic,
-    "tool_armor": parse_generic,
     "tool_quality": parse_tool_quality,
-    "toolmod": parse_generic,
     "uncraft": dummy_parser,
     "var_migration": dummy_parser,
     "vehicle": parse_vehicle,
     "vehicle_group": dummy_parser,
     "vehicle_part": parse_vehicle_part,
     "vehicle_part_category": parse_vehicle_part_category,
+    "vehicle_part_location": parse_vehicle_part_location,
     "vehicle_part_migration": dummy_parser,
     "vehicle_placement": dummy_parser,
     "vehicle_spawn": parse_vehicle_spawn,
@@ -267,6 +278,6 @@ parsers = {
     "weakpoint_set": parse_weakpoint_set,
     "weapon_category": parse_weapon_category,
     "weather_type": parse_weather_type,
-    "wheel": parse_generic,
+    "weather_generator": dummy_parser,
     "widget": parse_widget,
 }

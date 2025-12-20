@@ -1,6 +1,7 @@
 [
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "treesung_bow",
     "copy-from": "shortbow",
     "looks_like": "shortbow",
@@ -11,7 +12,8 @@
     "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "treesung_greatbow",
     "copy-from": "woodgreatbow",
     "looks_like": "woodgreatbow",
@@ -22,7 +24,8 @@
     "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_treesung",
     "copy-from": "arrow_fire_hardened_fletched",
     "name": { "str": "treesung arrow" },

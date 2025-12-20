@@ -9,7 +9,6 @@
       [ "improve_sights", 60 ],
       [ "compensator", 40 ],
       [ "muzzle_brake", 20 ],
-      [ "pistol_grip", 30 ],
       [ "rifle_scope", 30 ],
       [ "shoulder_strap", 50 ],
       [ "shoulder_strap_simple", 70 ],
@@ -38,7 +37,6 @@
       [ "grip", 80 ],
       [ "wooden_grip", 5 ],
       [ "laser_sight", 40 ],
-      [ "light_grip", 50 ],
       [ "pistol_bayonet", 10 ],
       [ "pistol_scope", 10 ],
       [ "pistol_stock", 10 ],
@@ -46,10 +44,7 @@
       [ "butt_hook", 20 ],
       [ "arredondo_chute", 20 ],
       [ "recoil_stock", 60 ],
-      [ "shot_suppressor", 10 ],
       [ "u_shotgun", 60 ],
-      [ "suppressor", 60 ],
-      [ "suppressor_compact", 40 ],
       [ "retool_ar15_300blk", 40 ],
       [ "acog_scope", 40 ],
       [ "holo_sight", 50 ],
@@ -57,6 +52,7 @@
       [ "hybrid_sight_4x", 30 ],
       [ "rifle_scope_high_end_mount", 20 ],
       [ "modern_handguard", 20 ],
+      [ "mounted_flashlight", 80 ],
       [ "bipod_handguard", 10 ],
       [ "high_end_folding_stock", 10 ],
       [ "muzzle_weight", 10 ]
@@ -173,7 +169,7 @@
     "id": "mosin_mods",
     "//": "Default mods for the EBR variants of the Mosin carbine and battle rifle",
     "subtype": "collection",
-    "entries": [ { "item": "grip_mount" }, { "item": "rail_mount" }, { "item": "stock_mount" } ]
+    "entries": [ { "item": "rail_mount" }, { "item": "stock_mount" } ]
   },
   {
     "type": "item_group",

@@ -1,7 +1,8 @@
 [
   {
     "id": "crane_pseudo_item",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "fake_butcher_rack",
     "name": { "str_sp": "suspending for butchering" }
   },
@@ -65,7 +66,6 @@
   {
     "id": "crane_tiny",
     "type": "vehicle_part",
-    "name": { "str": "pallet lifter" },
     "item": "pallet_lifter",
     "location": "center",
     "categories": [ "utility" ],
@@ -120,7 +120,6 @@
   {
     "id": "rockwheel",
     "type": "vehicle_part",
-    "name": { "str": "rockwheel" },
     "item": "v_rockwheel_item",
     "location": "structure",
     "categories": [ "utility" ],
@@ -155,7 +154,6 @@
   {
     "type": "vehicle_part",
     "id": "air_jack",
-    "name": { "str": "air jack system" },
     "item": "v_airjack_item",
     "location": "under",
     "categories": [ "utility" ],
@@ -190,12 +188,11 @@
   {
     "type": "vehicle_part",
     "id": "motorcycle_kickstand",
-    "name": { "str": "motorcycle kickstand" },
     "item": "v_motorcycle_kickstand_item",
+    "description": "A kickstand to keep a bike from falling over.  You could use this to lean a small vehicle forward or backward to change a tire.",
     "categories": [ "utility" ],
     "broken_color": "light_blue",
     "durability": 200,
-    "description": "A kickstand to keep the bike from falling over.  You could use this to lean it forward or backward to change a tire.",
     "breaks_into": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "qualities": [ [ "SELF_JACK", 1 ] ],
     "//": "20 cm of weld per quadrant of damage and 30 cm to install",

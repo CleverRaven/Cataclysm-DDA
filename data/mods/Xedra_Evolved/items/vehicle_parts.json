@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "unloaded_wave_rider_engine",
     "name": "elemental wave rider engine",
     "symbol": "v",
@@ -8,16 +8,16 @@
     "volume": "2 L",
     "weight": "10 kg",
     "color": "yellow",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "price": "8 kUSD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "floral_base_item",
     "name": { "str": "floral vessel" },
     "symbol": "v",
     "description": { "str": "The parts of the floral vehicle that have to exist for code reasons.", "//~": "NO_I18N" },
-    "volume": "1 L",
+    "volume": "2 L",
     "weight": "2 kg",
     "color": "green",
     "material": [ "veggy" ],

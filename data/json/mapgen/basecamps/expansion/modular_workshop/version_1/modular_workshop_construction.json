@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room0_construction",
     "object": {
       "parameters": {
@@ -38,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room0_roof_construction",
     "object": {
       "parameters": {
@@ -75,7 +73,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_room0_construction_northeast",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmw_room0_construction" ], "x": 15, "y": 3, "z": 0 },
@@ -85,7 +82,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room3_construction",
     "object": {
       "parameters": {
@@ -122,7 +118,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room3_roof_construction",
     "object": {
       "parameters": {
@@ -159,7 +154,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_room3_construction_north",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmw_room3_construction" ], "x": 9, "y": 3, "z": 0 },
@@ -169,7 +163,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room4_construction",
     "object": {
       "parameters": {
@@ -206,7 +199,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room4_roof_construction",
     "object": {
       "parameters": {
@@ -243,7 +235,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_room4_construction_east",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmw_room4_construction" ], "x": 15, "y": 9, "z": 0 },
@@ -253,7 +244,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room5_construction",
     "object": {
       "parameters": {
@@ -290,7 +280,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room5_roof_construction",
     "object": {
       "parameters": {
@@ -327,7 +316,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_room5_construction_center",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmw_room5_construction" ], "x": 9, "y": 9, "z": 0 },
@@ -337,7 +325,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room6_construction",
     "object": {
       "parameters": {
@@ -374,7 +361,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room6_roof_construction",
     "object": {
       "parameters": {
@@ -411,7 +397,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_room6_construction_north",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmw_room6_construction" ], "x": 9, "y": 3, "z": 0 },
@@ -427,7 +412,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room7_construction",
     "object": {
       "parameters": {
@@ -464,7 +448,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room7_roof_construction",
     "object": {
       "parameters": {
@@ -500,7 +483,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room8_construction",
     "object": {
       "parameters": {
@@ -537,7 +519,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room8_roof_construction",
     "object": {
       "parameters": {
@@ -573,7 +554,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room9_construction",
     "object": {
       "parameters": {
@@ -610,7 +590,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room9_roof_construction",
     "object": {
       "parameters": {
@@ -647,7 +626,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_room7to9_construction_northwest",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmw_room7_construction" ], "x": 3, "y": 3, "z": 0 },
@@ -661,7 +639,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room11_construction",
     "object": {
       "parameters": {
@@ -698,7 +675,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room11_roof_construction",
     "object": {
       "parameters": {
@@ -734,7 +710,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room12_construction",
     "object": {
       "parameters": {
@@ -771,7 +746,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room12_roof_construction",
     "object": {
       "parameters": {
@@ -808,7 +782,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_room11to12_construction_southeast",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmw_room11_construction" ], "x": 15, "y": 15, "z": 0 },

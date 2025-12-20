@@ -70,6 +70,7 @@ void cardreader( Character &you, const tripoint_bub_ms &examp );
 void cardreader_robofac( Character &you, const tripoint_bub_ms &examp );
 void cardreader_foodplace( Character &you, const tripoint_bub_ms &examp );
 void intercom( Character &you, const tripoint_bub_ms &examp );
+void intercom_balthazar( Character &you, const tripoint_bub_ms &examp );
 void cvdmachine( Character &you, const tripoint_bub_ms &examp );
 void change_appearance( Character &you, const tripoint_bub_ms &examp );
 void rubble( Character &you, const tripoint_bub_ms &examp );
@@ -150,7 +151,7 @@ void workbench_internal( Character &you, const tripoint_bub_ms &examp,
 void workout( Character &you, const tripoint_bub_ms &examp );
 void invalid( Character &you, const tripoint_bub_ms &examp );
 
-bool pour_into_keg( const tripoint_bub_ms &pos, item &liquid );
+bool pour_into_keg( const tripoint_bub_ms &pos, item &liquid, bool silent );
 std::optional<tripoint_bub_ms> getGasPumpByNumber( const tripoint_bub_ms &p, int number );
 bool toPumpFuel( const tripoint_bub_ms &src, const tripoint_bub_ms &dst, int units );
 std::optional<tripoint_bub_ms> getNearFilledGasTank( const tripoint_bub_ms &center, int &fuel_units,

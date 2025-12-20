@@ -12,7 +12,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_sevenoclock_track",
     "object": {
       "rows": [
@@ -50,7 +49,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sevenoclock_track",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -62,7 +60,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_sevenoclock" ],
     "object": {
       "rotation": [ 0, 3 ],
@@ -114,7 +111,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_sevenoclock",
     "object": {
       "rotation": [ 0, 3 ],
@@ -162,7 +158,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_deathworm_track",
     "object": {
       "rows": [
@@ -197,7 +192,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "acid_gibs_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -206,7 +200,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "deathworm_track",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -218,7 +211,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "field_deathworm",
     "object": {
       "fill_ter": "t_dirt",

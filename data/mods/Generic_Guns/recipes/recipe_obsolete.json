@@ -21,11 +21,6 @@
   },
   {
     "type": "recipe",
-    "result": "u_shotgun_mod",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "llink",
     "obsolete": true
   },
@@ -341,11 +336,6 @@
   },
   {
     "type": "recipe",
-    "result": "bp_46mm",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "bp_500_Magnum",
     "obsolete": true
   },
@@ -567,11 +557,6 @@
   {
     "type": "recipe",
     "result": "matchhead_45colt_cowboy",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_46mm",
     "obsolete": true
   },
   {
@@ -1147,6 +1132,16 @@
   {
     "type": "recipe",
     "result": "reloaded_460sw_jhp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "crude_40mm",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_45_410",
     "obsolete": true
   }
 ]

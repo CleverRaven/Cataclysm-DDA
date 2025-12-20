@@ -19,6 +19,7 @@
       "practice_photokinetic_rad_immunity",
       "practice_photokinetic_light_arms",
       "practice_photokinetic_hide_ugly",
+      "practice_photokinetic_flash_bang",
       "practice_photokinetic_light_image",
       "practice_photokinetic_radio",
       "practice_photokinetic_sterilize_food",
@@ -36,7 +37,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: candle's glow",
     "id": "practice_photokinetic_light_local",
-    "description": "Contemplate your powers and improve your ability to create a small amount of light.",
+    "description": "Contemplate your powers and improve your ability to create a small amount of light.\n\nPower Difficulty: 1\n\nCurrent Power Level: <u_spell_level:photokinetic_light_local>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -51,7 +52,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_LOCAL",
-        "condition": { "math": [ "u_spell_level('photokinetic_light_local') >= 1" ] },
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_light_local", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -65,11 +66,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: field of light",
     "id": "practice_photokinetic_create_light",
-    "description": "Contemplate your powers and improve your ability to create light at a distance.",
+    "description": "Contemplate your powers and improve your ability to create light at a distance.\n\nPower Difficulty: 2\n\nCurrent Power Level: <u_spell_level:photokinetic_create_light>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -80,7 +81,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_CREATE_LIGHT",
-        "condition": { "math": [ "u_spell_level('photokinetic_create_light') >= 1" ] },
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_create_light", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -94,11 +95,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: blackout",
     "id": "practice_photokinetic_snuff_light",
-    "description": "Contemplate your powers and improve your ability to snuff the light of an area.",
+    "description": "Contemplate your powers and improve your ability to snuff the light of an area.\n\nPower Difficulty: 2\n\nCurrent Power Level: <u_spell_level:photokinetic_snuff_light>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -109,6 +110,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_SNUFF_LIGHT",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_snuff_light", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -146,11 +148,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: illuminate",
     "id": "practice_photokinetic_light_up_enemy",
-    "description": "Contemplate your powers and improve your ability to light up a single target.",
+    "description": "Contemplate your powers and improve your ability to light up a single target.\n\nPower Difficulty: 2\n\nCurrent Power Level: <u_spell_level:photokinetic_light_up_enemy>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -161,6 +163,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_UP_ENEMY",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_light_up_enemy", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -198,11 +201,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: trick of the light",
     "id": "practice_photokinetic_light_dodge",
-    "description": "Contemplate your powers and improve your ability to create illusionary forms around yourself.",
+    "description": "Contemplate your powers and improve your ability to create illusionary forms around yourself.\n\nPower Difficulty: 2\n\nCurrent Power Level: <u_spell_level:photokinetic_light_dodge>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -213,6 +216,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_DODGE",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_light_dodge", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -250,11 +254,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: photon beam",
     "id": "practice_photokinetic_light_beam",
-    "description": "Contemplate your powers and improve your ability to focus photons into a high-energy beam.",
+    "description": "Contemplate your powers and improve your ability to focus photons into a high-energy beam.\n\nPower Difficulty: 3\n\nCurrent Power Level: <u_spell_level:photokinetic_light_beam>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -265,6 +269,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_BEAM",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_light_beam", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -302,11 +307,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: chameleoflage",
     "id": "practice_photokinetic_camouflage",
-    "description": "Contemplate your powers and improve your ability to hide your presence from distance observers.",
+    "description": "Contemplate your powers and improve your ability to hide your presence from distant observers.\n\nPower Difficulty: 3\n\nCurrent Power Level: <u_spell_level:photokinetic_camouflage>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -317,6 +322,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_CAMOUFLAGE",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_camouflage", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -354,11 +360,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: lucent barrier",
     "id": "practice_photokinetic_rad_immunity",
-    "description": "Contemplate your powers and improve your ability to create a barrier of light around you.",
+    "description": "Contemplate your powers and improve your ability to create a barrier of light around you.\n\nPower Difficulty: 3\n\nCurrent Power Level: <u_spell_level:photokinetic_rad_immunity>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -369,6 +375,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_RAD_IMMUNITY",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_rad_immunity", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -406,11 +413,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: refracted arms",
     "id": "practice_photokinetic_light_arms",
-    "description": "Contemplate your powers and improve your ability to create illusions of extra arms.",
+    "description": "Contemplate your powers and improve your ability to create illusions of extra arms.\n\nPower Difficulty: 4\n\nCurrent Power Level: <u_spell_level:photokinetic_light_arms>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 3,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -422,6 +429,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_ARMS",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_light_arms", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -457,13 +465,67 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: mirror-mask",
-    "id": "practice_photokinetic_hide_ugly",
-    "description": "Contemplate your powers and improve your ability to create illusions of extra arms.",
+    "name": "contemplation: flashbang",
+    "id": "practice_photokinetic_flash_bang",
+    "description": "Contemplate your powers and improve your ability to create a burst of light that will blind and deafen anyone nearby.\n\nPower Difficulty: 4\n\nCurrent Power Level: <u_spell_level:photokinetic_flash_bang>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 3,
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_photokinesis", -1 ] ]
+    ],
+    "components": [ [ [ "matrix_crystal_photokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PHOTOKIN_FLASH_BANG",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
+        "effect": [
+          { "set_string_var": "photokinetic_flash_bang", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
+          {
+            "if": { "math": [ "u_spell_level('photokinetic_flash_bang') >= 1" ] },
+            "then": { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] },
+            "else": [
+              { "run_eocs": [ "EOC_PSI_STUDYING_POWER_INITIAL_SETUP", "EOC_PSI_PRACTICE_FOCUS_MOD" ] },
+              {
+                "run_eocs": "EOC_PRACTICE_PHOTOKIN_FLASH_BANG_LEARNING",
+                "time_in_future": [
+                  { "math": [ "learn_new_power_lower_time_bound(u_latest_studied_power_difficulty)" ] },
+                  { "math": [ "learn_new_power_upper_time_bound(u_latest_studied_power_difficulty)" ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_PHOTOKIN_FLASH_BANG_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "photokinetic_flash_bang", { "u_val": "latest_studied_power_name" } ] },
+        { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: mirror-mask",
+    "id": "practice_photokinetic_hide_ugly",
+    "description": "Contemplate your powers and improve your ability to disguise your appearance behind an illusion.\n\nPower Difficulty: 4\n\nCurrent Power Level: <u_spell_level:photokinetic_hide_ugly>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -475,6 +537,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_HIDE_UGLY",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_hide_ugly", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -512,11 +575,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: lucid shadows",
     "id": "practice_photokinetic_light_image",
-    "description": "Contemplate your powers and improve your ability to create light clones.",
+    "description": "Contemplate your powers and improve your ability to create light clones.\n\nPower Difficulty: 5\n\nCurrent Power Level: <u_spell_level:photokinetic_light_image>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 4,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -528,6 +591,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_IMAGE",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_light_image", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -565,11 +629,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: radio transception",
     "id": "practice_photokinetic_radio",
-    "description": "Contemplate your powers and improve your ability to see, interpret, and transmit radio waves.",
+    "description": "Contemplate your powers and improve your ability to see, interpret, and transmit radio waves.\n\nPower Difficulty: 5\n\nCurrent Power Level: <u_spell_level:photokinetic_radio>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 4,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -581,6 +645,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_RADIO",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_radio", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -618,11 +683,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: gamma sterilization",
     "id": "practice_photokinetic_sterilize_food",
-    "description": "Contemplate your powers and improve your ability use focused radiation to make food last longer.",
+    "description": "Contemplate your powers and improve your ability use focused radiation to make food last longer.\n\nPower Difficulty: 5\n\nCurrent Power Level: <u_spell_level:photokinetic_sterilize_food>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 4,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -634,6 +699,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_STERILIZE_FOOD",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_sterilize_food", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -671,11 +737,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: sensor jamming",
     "id": "practice_photokinetic_stun_robots",
-    "description": "Contemplate your powers and improve your ability to overload the sensors of robots and other electronics.",
+    "description": "Contemplate your powers and improve your ability to overload the sensors of robots and other electronics.\n\nPower Difficulty: 5\n\nCurrent Power Level: <u_spell_level:photokinetic_stun_robots>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 4,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -687,6 +753,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_STUN_ROBOTS",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_stun_robots", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -724,11 +791,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: veil of light",
     "id": "practice_photokinetic_invisibility",
-    "description": "Contemplate your powers and improve your ability to refract light in a way that makes you invisible.",
+    "description": "Contemplate your powers and improve your ability to refract light in a way that makes you invisible.\n\nPower Difficulty: 6\n\nCurrent Power Level: <u_spell_level:photokinetic_invisibility>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 5,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -740,6 +807,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_INVISIBILITY",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_invisibility", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -777,11 +845,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: star flash",
     "id": "practice_photokinetic_light_flash",
-    "description": "Contemplate your powers and improve your ability to create a destructive flash of light towards a target.",
+    "description": "Contemplate your powers and improve your ability to create a destructive flash of light towards a target.\n\nPower Difficulty: 6\n\nCurrent Power Level: <u_spell_level:photokinetic_light_flash>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 5,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -793,6 +861,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_FLASH",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_light_flash", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -830,11 +899,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: blinding radiance",
     "id": "practice_photokinetic_light_blinding_glare",
-    "description": "Contemplate your powers and improve your ability to glow so brightly you can blind your enemies.",
+    "description": "Contemplate your powers and improve your ability to glow so brightly you can blind your enemies.\n\nPower Difficulty: 7\n\nCurrent Power Level: <u_spell_level:photokinetic_blinding_glare>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -846,6 +915,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_BLINDING_GLARE",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_blinding_glare", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -883,11 +953,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: luminous disintegration",
     "id": "practice_photokinetic_light_disintegrate",
-    "description": "Contemplate your powers and improve your ability to disintegrate matter with light.",
+    "description": "Contemplate your powers and improve your ability to disintegrate matter with light.\n\nPower Difficulty: 8\n\nCurrent Power Level: <u_spell_level:photokinetic_light_disintegrate>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 7,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -899,6 +969,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_DISINTEGRATE",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_light_disintegrate", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },
@@ -936,11 +1007,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: phantom legion",
     "id": "practice_photokinetic_light_army",
-    "description": "Contemplate your powers and improve your ability to summon a myriad of holographic clones of yourself.",
+    "description": "Contemplate your powers and improve your ability to summon a myriad of holographic clones of yourself.\n\nPower Difficulty: 9\n\nCurrent Power Level: <u_spell_level:photokinetic_light_army>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 8,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
@@ -952,6 +1023,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_ARMY",
+        "condition": { "u_has_trait": "PHOTOKINETIC" },
         "effect": [
           { "set_string_var": "photokinetic_light_army", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP" },

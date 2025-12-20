@@ -676,8 +676,6 @@ void editmap::draw_main_ui_overlay()
                     } else {
                         g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point_rel_ms::zero );
                     }
-                    g->draw_below_override( tripoint_bub_ms( map_p ),
-                                            tmpmap.ter( tmp_p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) );
                 }
             }
             // int: count, bool: more than 1 spawn data
@@ -743,8 +741,8 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     draw_border( w_info );
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w_info, point( 1, 0 ), c_light_gray, "< %d,%d,%d >", target.x(), target.y(),
-               target.z() );
+    mvwprintz( w_info, point( 1, 0 ), c_light_gray, "< bub_ms=%s abs_ms=%s >", target.to_string(),
+               here.get_abs( target ).to_string() );
 
     mvwputch( w_info, point( 1, off ), terrain_type.color(), terrain_type.symbol() );
     mvwprintw( w_info, point( 2, off++ ), _( "Ter: %s (%d); move cost %d" ), terrain_type.id.str(),
@@ -1131,6 +1129,9 @@ void editmap::edit_feature()
 
     blink = true;
     bool quit = false;
+
+    // Hold list till end
+    shared_ptr_fast<uilist_impl> ui_impl;
     do {
         const T_id override( emenu.selected );
         if( override ) {
@@ -1154,7 +1155,7 @@ void editmap::edit_feature()
         info_title_curr = info_title<T_t>();
         do_ui_invalidation();
 
-        emenu.query( false, get_option<int>( "BLINK_SPEED" ) );
+        ui_impl = emenu.query( false, get_option<int>( "BLINK_SPEED" ) );
         if( emenu.ret == UILIST_CANCEL ) {
             quit = true;
         } else if( ( emenu.ret >= 0 && static_cast<size_t>( emenu.ret ) < T_t::count() ) ||
@@ -1224,8 +1225,8 @@ void editmap::setup_fmenu( uilist &fmenu )
 void editmap::edit_rads() const
 {
     map &here = get_map();
-    int value = 0;
-    if( query_int( value, _( "Set rads to?  Currently: %d" ), here.get_radiation( target ) ) ) {
+    int value = here.get_radiation( target );
+    if( query_int( value, true, _( "Set rads to?" ) ) ) {
         here.set_radiation( target, value );
     }
 }
@@ -1254,6 +1255,7 @@ void editmap::edit_fld()
     restore_on_out_of_scope info_title_prev( info_title_curr );
     map &here = get_map();
 
+    shared_ptr_fast<uilist_impl> ui_impl;
     blink = true;
     do {
         const field_type_id override( fmenu.selected );
@@ -1280,7 +1282,7 @@ void editmap::edit_fld()
         info_title_curr = pgettext( "Map editor: Editing field effects", "Field effects" );
         do_ui_invalidation();
 
-        fmenu.query( false, get_option<int>( "BLINK_SPEED" ) );
+        ui_impl = fmenu.query( false, get_option<int>( "BLINK_SPEED" ) );
         if( ( fmenu.ret > 0 && static_cast<size_t>( fmenu.ret ) < field_type::count() ) ||
             ( fmenu.ret == UILIST_ADDITIONAL && ( fmenu.ret_act == "LEFT" || fmenu.ret_act == "RIGHT" ) ) ) {
 
@@ -1483,12 +1485,10 @@ void editmap::edit_itm()
                     }
                     string_input_popup popup;
                     int retval = 0;
+                    bool confirmed = false;
                     if( imenu.ret < imenu_tags ) {
-                        retval = popup
-                                 .title( "set:" )
-                                 .width( 20 )
-                                 .text( std::to_string( intval ) )
-                                 .query_int();
+                        retval = intval;
+                        confirmed = query_int( retval, true, "set:" );
                     } else if( imenu.ret == imenu_tags ) {
                         strval = popup
                                  .title( _( "Flags:" ) )
@@ -1496,7 +1496,7 @@ void editmap::edit_itm()
                                  .text( strval )
                                  .query_string();
                     }
-                    if( popup.confirmed() ) {
+                    if( popup.confirmed() || confirmed ) {
                         switch( imenu.ret ) {
                             case imenu_bday:
                                 it.set_birthday( time_point::from_turn( retval ) );

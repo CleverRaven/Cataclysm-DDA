@@ -6,8 +6,9 @@
     "category": "armor",
     "name": { "str": "boiled leather armor" },
     "description": "Thick leather body armor that has been hardened via chemical treatment.  Light and strong.",
-    "weight": "6600 g",
+    "weight": "8400 g",
     "volume": "9500 ml",
+    "//": "Unsure what exactly this armor is, I assume the extra thickness is because boiled leather is stronger, so in that case I just used the weight from regular leather body armor",
     "price": "260 USD",
     "price_postapoc": "30 USD",
     "material": [ "leather" ],
@@ -35,36 +36,49 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "chitinous armor" },
-    "description": "Leg and body armor made from the exoskeletons of insects.",
-    "weight": "2632 g",
-    "volume": "17500 ml",
+    "name": { "str": "chitinous scale mail suit" },
+    "description": "A full body suit of chitin sections overlapping with each other, secured to a leather backing.  The odd irregular shapes make full coverage impossible, not helped by how poor of a material chitin is.  Seems to be made more out of desperation than anything, and would benefit greatly from some underlying armor.",
+    "weight": "9056 g",
+    "volume": "7 L",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
+    "//1": "Chitin has a density of 1.45g/cm^3, thickness of 0.32 cm, coverage of 80% leaves us with 7 767 grams.",
+    "//2": "Leather has a density of 1.1g/cm^3, thickness of 0.07 cm, coverage of 100% leaves us with 1 289 grams.",
+    "//3": "Totalled up this is 9 056 grams with some rounding",
     "price": "1 kUSD 200 USD",
-    "price_postapoc": "30 USD",
-    "material": [ "chitin" ],
+    "price_postapoc": "5 USD",
+    "material": [ { "type": "chitin", "portion": 35 }, { "type": "leather", "portion": 1 } ],
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "green",
-    "warmth": 10,
+    "warmth": 20,
     "longest_side": "60 cm",
-    "material_thickness": 4,
-    "flags": [ "STURDY", "OUTER" ],
+    "flags": [ "OUTER" ],
     "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "encumbrance": 10 },
       {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 90,
-        "encumbrance": [ 5, 5 ],
-        "specifically_covers": [ "leg_upper_r", "leg_upper_l", "leg_hip_r", "leg_hip_l" ]
+        "material": [
+          { "type": "chitin", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 8
+      },
+      {
+        "material": [
+          { "type": "chitin", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 12
       }
-    ],
-    "melee_damage": { "bash": 2 }
+    ]
   },
   {
     "id": "xl_armor_chitin",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "chitinous armor" },
+    "name": { "str": "chitinous scale mail suit" },
     "copy-from": "armor_chitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -75,7 +89,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "armor_chitin",
     "looks_like": "armor_chitin",
-    "name": { "str": "chitinous armor" },
+    "name": { "str": "chitinous scale mail suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "STURDY", "OUTER", "UNDERSIZE", "PREFIX_XS" ]
   },
@@ -238,8 +252,8 @@
     "category": "armor",
     "name": { "str": "leather body armor" },
     "description": "A full suit of thick leather body armor.  Light and comfortable.",
-    "weight": "4400 g",
-    "volume": "7 L",
+    "weight": "8400 g",
+    "volume": "10 L",
     "price": "120 USD",
     "price_postapoc": "25 USD",
     "material": [ "leather" ],
@@ -1009,8 +1023,15 @@
     "category": "armor",
     "name": { "str": "plated leather armor" },
     "description": "Thick leather body armor that has been reinforced with strategically-placed metal plates.",
-    "weight": "6280 g",
+    "weight": "21 kg",
     "volume": "9 L",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36% leaving us with 6696 cm^2, arms are 18% leaving us with 3348 cm^2, and the legs are the 36% leaving us with 6696 cm^2.",
+    "//Torso": "Leather has a density of 1.1g/cm^3, thickness of 0.45 cm, coverage of 95% leaves us with 3 149 grams.",
+    "//Torso1": "Budget steel has a density of 8g/cm^3, thickness of 0.175 cm, coverage of 80.75% leaves us with 7 570 grams.",
+    "//Arms": "Leather has a density of 1.1g/cm^3, thickness of 0.4 cm, coverage of 90% leaves us with 1205 grams.",
+    "//Arms1": "Budget steel has a density of 8g/cm^3, thickness of 0.125 cm, coverage of 56.25% leaves us with 1 883 grams.",
+    "//Legs": "Leather has a density of 1.1g/cm^3, thickness of 0.4 cm, coverage of 95% leaves us with 3 149 grams.",
+    "//Legs1": "Budget steel has a density of 8g/cm^3, thickness of 0.125 cm, coverage of 52.5% leaves us with 3 515 grams.",
     "price": "1 kUSD 100 USD",
     "price_postapoc": "30 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
@@ -2634,7 +2655,9 @@
         "pocket_type": "CONTAINER",
         "volume_encumber_modifier": 0,
         "ablative": true,
-        "max_contains_volume": "8500 ml",
+        "max_contains_volume": "10500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2644,6 +2667,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -2653,6 +2678,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -2662,6 +2689,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2671,6 +2700,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1050 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -2691,7 +2722,9 @@
         "pocket_type": "CONTAINER",
         "volume_encumber_modifier": 0,
         "ablative": true,
-        "max_contains_volume": "6000 ml",
+        "max_contains_volume": "7000 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2701,6 +2734,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -2710,6 +2745,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "550 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -2719,6 +2756,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2728,6 +2767,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -2768,6 +2809,7 @@
     "id": "entry_suit",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
+    "category": "armor",
     "name": { "str": "entry suit" },
     "description": "A flame-resistant whole-body garment worn by firefighters as protection against extreme heat.  It requires a separate gas mask for full protection against smoke.",
     "weight": "2900 g",
@@ -2782,7 +2824,7 @@
     "longest_side": "30 cm",
     "material_thickness": 5,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "IRRITANT_IMMUNE", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER" ],
     "armor": [
       {
         "encumbrance": 50,
@@ -2814,6 +2856,7 @@
     "id": "bite_suit",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
+    "category": "armor",
     "name": { "str": "canine bite suit" },
     "description": "Designed to stop the injuries of dog bites, this thick, one piece suit is often used in the rehabilitation of abused animals and in training dogs by the police and military.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting, and to soften the blunt of animals jumping, slashing, or pouncing on the wearer.",
     "weight": "11556 g",
@@ -2877,6 +2920,7 @@
     "repairs_like": "ch_steel_lump",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
+    "category": "armor",
     "name": { "str": "hazmat suit" },
     "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
     "weight": "5000 g",
@@ -2890,17 +2934,7 @@
     "warmth": 40,
     "material_thickness": 2,
     "environmental_protection": 20,
-    "flags": [
-      "VARSIZE",
-      "WATERPROOF",
-      "IRRITANT_IMMUNE",
-      "RAINPROOF",
-      "GAS_PROOF",
-      "RAD_PROOF",
-      "ELECTRIC_IMMUNE",
-      "OUTER",
-      "SOFT"
-    ],
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER", "SOFT" ],
     "armor": [
       {
         "encumbrance": 37,
@@ -2952,6 +2986,7 @@
     "id": "robofac_enviro_suit",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
+    "category": "armor",
     "name": { "str": "Hub 01 environmental suit" },
     "description": "A lightweight environmental suit incorporating Kevlar-lined boots and gloves, worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.",
     "weight": "4000 g",
@@ -3108,7 +3143,7 @@
       "msg": "You slip out of the top of the suit and tie the sleeves around your waist.",
       "target": "robofac_enviro_suit_casual"
     },
-    "flags": [ "VARSIZE", "WATERPROOF", "IRRITANT_IMMUNE", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY" ]
   },
   {
     "id": "robofac_enviro_suit_casual",
@@ -3199,7 +3234,7 @@
       "msg": "You untie the sleeves and put back on the top of the suit.",
       "target": "robofac_enviro_suit"
     },
-    "delete": { "flags": [ "RAINPROOF", "IRRITANT_IMMUNE", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE" ] }
+    "delete": { "flags": [ "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE" ] }
   },
   {
     "id": "xedra_enviro_suit",
@@ -3314,6 +3349,7 @@
     "id": "touring_suit",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
+    "category": "armor",
     "name": { "str": "track touring suit" },
     "description": "A leather bodysuit with padding in high-impact areas, meant for motorcyclists out on the track.  The leather is stiff but makes the armor much sturdier and more protective than lighter counterparts.",
     "weight": "4700 g",
@@ -3390,7 +3426,7 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "suit",
-    "color": "black",
+    "color": "dark_gray",
     "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 7, 13 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 7, 10 ] },
@@ -3443,7 +3479,7 @@
   {
     "id": "armor_nomad_plate",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "copy-from": "armor_lc_plate",
     "name": { "str": "nomad plate armor" },
     "description": "A full body multilayered suit of plate armor with a 4 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable Lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
@@ -3482,24 +3518,22 @@
       }
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
-    },
     "use_action": {
       "type": "transform",
       "msg": "You turn the climate control on.",
       "target": "armor_nomad_plate_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "Your internal reservoir is empty."
     },
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
   },
   {
     "id": "armor_nomad_plate_on",
     "copy-from": "armor_nomad_plate",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "name": { "str": "nomad plate armor (on)", "str_pl": "nomad plate armors (on)" },
     "revert_to": "armor_nomad_plate",
     "power_draw": "100 W",
@@ -3514,7 +3548,7 @@
   {
     "id": "armor_nomad_lightplate",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "nomad light plate armor" },
     "description": "A full body multilayered light suit of plate armor with a 2 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable Lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
@@ -3553,24 +3587,22 @@
       }
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
-    },
     "use_action": {
       "type": "transform",
       "msg": "You turn the climate control on.",
       "target": "armor_nomad_lightplate_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "Your internal reservoir is empty."
     },
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
   },
   {
     "id": "armor_nomad_lightplate_on",
     "copy-from": "armor_nomad_lightplate",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "name": { "str": "nomad light plate armor (on)", "str_pl": "nomad light plate armors (on)" },
     "revert_to": "armor_nomad_lightplate",
     "power_draw": "100 W",
@@ -3585,7 +3617,7 @@
   {
     "id": "armor_nomad_heavyplate",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "nomad heavy plate armor" },
     "description": "A full body multilayered heavy suit of plate armor with a 6 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable Lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
@@ -3624,24 +3656,21 @@
       }
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
-    },
     "use_action": {
       "type": "transform",
       "msg": "You turn the climate control on.",
       "target": "armor_nomad_heavyplate_on",
-      "active": true,
-      "need_charges": 1,
       "need_charges_msg": "Your internal reservoir is empty."
     },
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
   },
   {
     "id": "armor_nomad_heavyplate_on",
     "copy-from": "armor_nomad_heavyplate",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "name": { "str": "nomad heavy plate armor (on)", "str_pl": "nomad heavy plate armors (on)" },
     "revert_to": "armor_nomad_heavyplate",
     "power_draw": "100 W",
@@ -3656,7 +3685,7 @@
   {
     "id": "armor_nomad_chainmail",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "copy-from": "qt_chainmail_jumpsuit",
     "name": { "str": "nomad chainmail", "str_pl": "suits of nomad chainmail" },
     "weight": "17200 g",
@@ -3694,23 +3723,21 @@
       }
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
-    },
     "use_action": {
       "type": "transform",
       "msg": "You turn the climate control on.",
       "target": "armor_nomad_chainmail_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "Your internal reservoir is empty."
-    }
+    },
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
   },
   {
     "id": "armor_nomad_chainmail_on",
     "copy-from": "armor_nomad_chainmail",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "name": { "str": "nomad chainmail (on)", "str_pl": "suits of nomad chainmail (on)" },
     "revert_to": "armor_nomad_chainmail",
     "power_draw": "100 W",

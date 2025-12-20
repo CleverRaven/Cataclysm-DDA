@@ -2,8 +2,8 @@
   {
     "id": "pseudo_debug_mon",
     "type": "MONSTER",
-    "name": { "str": "debug monster" },
-    "description": "This monster exists only for testing purposes.",
+    "name": { "str": "debug monster", "//~": "NO_I18N" },
+    "description": { "str": "This monster exists only for testing purposes.", "//~": "NO_I18N" },
     "default_faction": "",
     "species": [ "ZOMBIE" ],
     "volume": "62500 ml",
@@ -29,10 +29,23 @@
     "armor": { "bullet": 100 }
   },
   {
+    "id": "pseudo_debug_bullet_sponge",
+    "copy-from": "pseudo_debug_mon",
+    "type": "MONSTER",
+    "name": { "str": "debug bullet sponge", "//~": "NO_I18N" },
+    "description": { "str": "This monster exists only for testing purposes", "//~": "NO_I18N" },
+    "aggression": 0,
+    "morale": 0,
+    "regenerates": 5000
+  },
+  {
     "id": "mon_debug_grabber",
     "type": "MONSTER",
-    "name": { "str": "weak debug grabber" },
-    "description": "This monster exists only for grab testing purposes.  Same grab strength as a basic zombie.",
+    "name": { "str": "weak debug grabber", "//~": "NO_I18N" },
+    "description": {
+      "str": "This monster exists only for grab testing purposes.  Same grab strength as a basic zombie.",
+      "//~": "NO_I18N"
+    },
     "looks_like": "mon_thing",
     "default_faction": "",
     "species": [ "ZOMBIE" ],
@@ -60,30 +73,36 @@
     "id": "mon_debug_grabber_mid",
     "type": "MONSTER",
     "copy-from": "mon_debug_grabber",
-    "name": { "str": "middle-strength debug grabber" },
-    "description": "This monster exists only for grab testing purposes.  Same grab strength as a Tier 2 grabbing zombie.",
+    "name": { "str": "middle-strength debug grabber", "//~": "NO_I18N" },
+    "description": {
+      "str": "This monster exists only for grab testing purposes.  Same grab strength as a Tier 2 grabbing zombie.",
+      "//~": "NO_I18N"
+    },
     "grab_strength": 50
   },
   {
     "id": "mon_debug_grabber_strong",
     "type": "MONSTER",
     "copy-from": "mon_debug_grabber",
-    "name": { "str": "strong debug grabber" },
-    "description": "This monster exists only for grab testing purposes.  Same grab strength as a Tier 3 grabbing zombie.",
+    "name": { "str": "strong debug grabber", "//~": "NO_I18N" },
+    "description": {
+      "str": "This monster exists only for grab testing purposes.  Same grab strength as a Tier 3 grabbing zombie.",
+      "//~": "NO_I18N"
+    },
     "grab_strength": 100
   },
   {
     "id": "mon_debug_grabber_left",
     "type": "MONSTER",
     "copy-from": "mon_debug_grabber",
-    "description": "This grab testing monster has a strange fascination with your left arm.",
+    "description": { "str": "This grab testing monster has a strange fascination with your left arm.", "//~": "NO_I18N" },
     "special_attacks": [ { "id": "grab", "cooldown": 0, "move_cost": 0, "body_parts": [ [ "arm_l", 3 ] ] } ]
   },
   {
     "id": "mon_debug_grabber_right",
     "type": "MONSTER",
     "copy-from": "mon_debug_grabber",
-    "description": "This grab testing monster has a strange fascination with your right arm.",
+    "description": { "str": "This grab testing monster has a strange fascination with your right arm.", "//~": "NO_I18N" },
     "special_attacks": [ { "id": "grab", "cooldown": 0, "move_cost": 0, "body_parts": [ [ "arm_r", 1 ] ] } ]
   },
   {
@@ -92,24 +111,27 @@
     "copy-from": "mon_debug_grabber",
     "weight": "100 kg",
     "extend": { "flags": [ "ALL_SEEING" ] },
-    "name": { "str": "weak debug puller" },
-    "description": "This 100kg monster exists only to test ranged pulls using the base 0.5 pull weight ratio.",
+    "name": { "str": "weak debug puller", "//~": "NO_I18N" },
+    "description": { "str": "This 100kg monster exists only to test ranged pulls using the base 0.5 pull weight ratio.", "//~": "NO_I18N" },
     "special_attacks": [ { "id": "ranged_pull", "grab_data": { "pull_weight_ratio": 0.5 }, "cooldown": 0, "move_cost": 0 } ]
   },
   {
     "id": "mon_debug_puller_strong",
     "type": "MONSTER",
     "copy-from": "mon_debug_puller_weak",
-    "name": { "str": "strong debug puller" },
-    "description": "This 100kg monster is strong enough to pull 250kg targets.",
+    "name": { "str": "strong debug puller", "//~": "NO_I18N" },
+    "description": { "str": "This 100kg monster is strong enough to pull 250kg targets.", "//~": "NO_I18N" },
     "special_attacks": [ { "id": "ranged_pull", "grab_data": { "pull_weight_ratio": 2.5 }, "cooldown": 0, "move_cost": 0 } ]
   },
   {
     "id": "mon_debug_puller_incompetent",
     "type": "MONSTER",
     "copy-from": "mon_debug_puller_strong",
-    "name": { "str": "incompetent debug puller" },
-    "description": "This monster exists only to fail pulling its target despite technically being able to.  Truly a cursed existence.",
+    "name": { "str": "incompetent debug puller", "//~": "NO_I18N" },
+    "description": {
+      "str": "This monster exists only to fail pulling its target despite technically being able to.  Truly a cursed existence.",
+      "//~": "NO_I18N"
+    },
     "special_attacks": [ { "id": "ranged_pull", "grab_data": { "pull_weight_ratio": 2.5, "pull_chance": 0 }, "cooldown": 0, "move_cost": 0 } ]
   },
   {
@@ -117,8 +139,8 @@
     "type": "MONSTER",
     "copy-from": "mon_debug_grabber",
     "weight": "100 kg",
-    "name": { "str": "debug dragger" },
-    "description": "This monster exists to drag you behind it briefly.",
+    "name": { "str": "debug dragger", "//~": "NO_I18N" },
+    "description": { "str": "This monster exists to drag you behind it briefly.", "//~": "NO_I18N" },
     "special_attacks": [
       {
         "id": "grab_drag",
@@ -138,8 +160,8 @@
   {
     "id": "pseudo_weakpoint_mon",
     "type": "MONSTER",
-    "name": { "str": "weakpoint monster" },
-    "description": "This monster exists only for weakpoint testing purposes.",
+    "name": { "str": "weakpoint monster", "//~": "NO_I18N" },
+    "description": { "str": "This monster exists only for weakpoint testing purposes.", "//~": "NO_I18N" },
     "default_faction": "",
     "species": [ "ZOMBIE" ],
     "volume": "62500 ml",
@@ -374,34 +396,5 @@
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
     "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
-  },
-  {
-    "id": "mon_mannequin_decoy",
-    "type": "MONSTER",
-    "name": { "str": "mannequin decoy" },
-    "description": "A human-sized mannequin, speaking pre-recorded phrases.",
-    "looks_like": "mon_hallucinator",
-    "default_faction": "factionless",
-    "species": [ "UNKNOWN" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 20,
-    "speed": 1,
-    "symbol": "@",
-    "material": [ "wood" ],
-    "aggression": -99,
-    "morale": 100,
-    "special_attacks": [ [ "PARROT", 1 ], [ "DISAPPEAR", 2000 ] ],
-    "death_drops": {
-      "subtype": "collection",
-      "items": [
-        { "item": "mannequin", "prob": 100, "damage": [ 2, 4 ] },
-        { "item": "talking_doll", "prob": 100, "damage": [ 2, 4 ] }
-      ]
-    },
-    "death_function": { "message": "The %s falls over!", "corpse_type": "NO_CORPSE" },
-    "harvest": "exempt",
-    "revert_to_itype": "mannequin_decoy",
-    "flags": [ "IMMOBILE", "NO_BREATHE", "NOT_HALLUCINATION" ]
   }
 ]

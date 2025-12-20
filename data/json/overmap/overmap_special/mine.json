@@ -36,8 +36,8 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 40 ],
     "city_sizes": [ 4, -1 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "MAN_MADE" ]
+    "occurrences": [ 1, 80 ],
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -70,8 +70,8 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 40 ],
     "city_sizes": [ 4, -1 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "MAN_MADE" ]
+    "occurrences": [ 1, 80 ],
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -99,7 +99,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 40 ],
     "city_sizes": [ 4, -1 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "MAN_MADE" ]
+    "occurrences": [ 1, 80 ],
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE" ]
   }
 ]

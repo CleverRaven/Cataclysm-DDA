@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "unvitrified_farm_0",
     "object": {
       "fill_ter": "t_floor",
@@ -69,7 +68,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "unvitrified_farm_1",
     "object": {
       "fill_ter": "t_floor",
@@ -118,7 +116,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "unvitrified_farm_neg_1",
     "//": "Unfinished basement",
     "object": {
@@ -159,7 +156,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "unvitrified_farm_2",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -195,7 +191,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "unvitrified_orchard" ],
     "object": {
       "set": [ { "point": "variable", "id": "unvitrified_orchard_center", "x": 12, "y": 12 } ],
@@ -232,7 +227,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bedroom_4x4_child_vit",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -248,7 +242,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bedroom_5x4_adult_unvitrified",
     "object": {
       "mapgensize": [ 5, 5 ],

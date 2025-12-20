@@ -118,7 +118,7 @@
     "type": "effect_on_condition",
     "id": "pigeon_aura",
     "condition": "u_is_character",
-    "effect": [ { "math": [ "u_vitamin('passenger_pigeon_aura')", "+=", "400 + rand(100)" ] } ]
+    "effect": [ { "math": [ "u_vitamin('passenger_pigeon_aura') += 400 + rand(100)" ] } ]
   },
   {
     "id": "null_break_concentration_spell",
@@ -168,21 +168,15 @@
                     },
                     "effect": [
                       { "u_message": "An icy dagger seems to stab into your brain.", "type": "bad" },
-                      { "math": [ "u_pain()", "+=", "rand(3) + 1" ] },
+                      { "math": [ "u_pain() += rand(3) + 1" ] },
                       { "run_eocs": "EOC_END_PSI_POWERS_MAINTAINED" }
                     ],
-                    "false_effect": [
-                      { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" },
-                      { "math": [ "u_pain()", "+=", "1" ] }
-                    ]
+                    "false_effect": [ { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" }, { "math": [ "u_pain() += 1" ] } ]
                   }
                 ]
               }
             ],
-            "false_effect": [
-              { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" },
-              { "math": [ "u_pain()", "+=", "1" ] }
-            ]
+            "false_effect": [ { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" }, { "math": [ "u_pain() += 1" ] } ]
           }
         ]
       }
@@ -352,15 +346,15 @@
                     "condition": { "not": { "u_has_effect": "effect_electrokin_personal_battery" } },
                     "effect": {
                       "u_run_inv_eocs": "random",
-                      "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER" ] } ],
+                      "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER", "IS_UPS" ] } ],
                       "true_eocs": [
                         {
                           "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_INV_RESULT",
-                          "effect": [ { "math": [ "n_val('power')", "-=", "rand(200) + 50" ] } ]
+                          "effect": [ { "math": [ "n_val('power') -= rand(200) + 50" ] } ]
                         }
                       ]
                     },
-                    "false_effect": [ { "math": [ "u_val('stamina')", "-=", "rand(350) + 300" ] } ]
+                    "false_effect": [ { "math": [ "u_val('stamina') -= rand(350) + 300" ] } ]
                   }
                 ]
               }
@@ -606,5 +600,165 @@
     "max_duration": 7500,
     "targeted_monster_species": [ "ZOMBIE", "FERAL" ],
     "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "silent_one_drain_monster",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Silent One Draining attack", "//~": "NO_I18N" },
+    "description": { "str": "Silent One's draining attack.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "message": "",
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SILENT_ONE_DRAINING_POWER",
+    "shape": "blast",
+    "min_range": 15,
+    "max_range": 15
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SILENT_ONE_DRAINING_POWER",
+    "condition": "u_is_character",
+    "effect": [
+      {
+        "u_add_morale": "morale_silent_one_drain",
+        "bonus": -5,
+        "max_bonus": -200,
+        "duration": "24 hours",
+        "decay_start": "12 hours"
+      },
+      { "u_add_effect": "effect_nether_attunement_health_penalty", "duration": "10 seconds" },
+      {
+        "if": { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] },
+        "then": { "math": [ "u_calories()", "-=", "rand(125) + 250" ] },
+        "else": { "math": [ "u_calories()", "-=", "125" ] }
+      },
+      { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "125" ] },
+      { "u_message": "You feel a sudden wave of fatigue!", "type": "bad" },
+      { "math": [ "n_val('anger')", "-=", "rand(5) + 2" ] }
+    ],
+    "false_effect": [
+      { "math": [ "u_val('anger')", "-=", "rand(5) + 5" ] },
+      { "math": [ "u_val('morale')", "-=", "rand(10) + 10" ] },
+      { "u_add_effect": "effect_silent_one_monster_drain", "duration": 1800 }
+    ]
+  },
+  {
+    "id": "silent_one_apply_buffs",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Silent One Applying Buffs attack", "//~": "NO_I18N" },
+    "description": { "str": "Silent One's applying buffs to itself.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "message": "",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SILENT_ONE_BUFF_SELF",
+    "shape": "blast"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SILENT_ONE_BUFF_SELF",
+    "effect": [
+      { "u_add_effect": "eff_mind_seeing_bonus_5", "duration": "PERMANENT" },
+      { "u_add_effect": "eff_mind_seeing_bonus_10", "duration": "PERMANENT" },
+      { "u_add_effect": "eff_mind_seeing_bonus_30", "duration": "PERMANENT" },
+      { "u_add_effect": "effect_nether_silent_one_resistances", "duration": "PERMANENT" }
+    ]
+  },
+  {
+    "id": "silent_one_detect_psionic_activity",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Silent One Detect Psi", "//~": "NO_I18N" },
+    "description": { "str": "Silent One's detecting of psionic activity.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "valid_targets": [ "ally", "hostile", "self" ],
+    "message": "",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SILENT_ONE_DETECT_PSIONIC_ACTIVITY",
+    "shape": "blast",
+    "min_aoe": 45,
+    "max_aoe": 45
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SILENT_ONE_DETECT_PSIONIC_ACTIVITY",
+    "condition": "u_is_character",
+    "effect": [
+      {
+        "if": {
+          "or": [
+            { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] },
+            { "math": [ "u_nether_conduit_repeated_channeling_value >= 1" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "n_val('anger')", "+=", "rand(5) + 1" ] },
+          {
+            "u_message": "The hairs rise on the back of your neck as you feel a sudden sense of menace.",
+            "type": "bad"
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "n_val('anger') > 20" ] },
+        "then": [
+          { "npc_location_variable": { "context_val": "loc" } },
+          { "npc_cast_spell": { "id": "silent_one_polymorph_to_hostile" }, "loc": { "context_val": "loc" } }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "silent_one_polymorph_to_hostile",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Silent One polymorph", "//~": "NO_I18N" },
+    "description": { "str": "Silent One' polymorphing to hostile.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "difficulty": 8,
+    "max_level": 30,
+    "effect": "targeted_polymorph",
+    "effect_str": "mon_nether_silent_one_aggressive",
+    "shape": "blast",
+    "min_damage": 500,
+    "max_damage": 500,
+    "targeted_monster_ids": [ "mon_nether_silent_one_passive" ]
+  },
+  {
+    "id": "silent_one_detect_psionic_activity_aggressive",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Silent One Detect Psi Aggressive", "//~": "NO_I18N" },
+    "description": {
+      "str": "Silent One's detecting of psionic activity when it's already angry.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
+    "valid_targets": [ "ally", "hostile", "self" ],
+    "message": "",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SILENT_ONE_DETECT_PSIONIC_ACTIVITY_AGGRESSIVE",
+    "shape": "blast",
+    "min_aoe": 15,
+    "max_aoe": 15
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SILENT_ONE_DETECT_PSIONIC_ACTIVITY_AGGRESSIVE",
+    "condition": "u_is_character",
+    "effect": [
+      {
+        "if": {
+          "or": [
+            { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] },
+            { "math": [ "u_nether_conduit_repeated_channeling_value >= 1" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "n_val('anger')", "+=", "rand(10) + 2" ] },
+          { "u_message": "A chill aura emanates from the silent one.", "type": "bad" }
+        ],
+        "else": [ { "math": [ "n_val('anger')", "-=", "rand(25) + 25" ] } ]
+      }
+    ]
   }
 ]

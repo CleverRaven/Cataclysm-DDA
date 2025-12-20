@@ -1,43 +1,36 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "special_deep_rock",
     "object": { "predecessor_mapgen": "deep_rock" }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "special_rock",
     "object": { "predecessor_mapgen": "empty_rock" }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "special_earth",
     "object": { "predecessor_mapgen": "solid_earth" }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "special_field", "pasture", "special_field_highway" ],
     "object": { "predecessor_mapgen": "field" }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "special_forest", "special_forest_isherwood" ],
     "object": { "predecessor_mapgen": "forest" }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "special_forest_thick", "special_forest_thick_isherwood" ],
     "object": { "predecessor_mapgen": "forest_thick" }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "special_air",
     "object": { "predecessor_mapgen": "open_air" }
   }

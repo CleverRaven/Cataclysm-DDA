@@ -1,19 +1,16 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "npc_bandit",
     "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "bandit", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "npc_thug",
     "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "thug", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "trash",
     "object": { "mapgensize": [ 1, 1 ], "place_items": [ { "item": "SUS_trash_floor_heavy", "x": 0, "y": 0, "chance": 100 } ] }
   }

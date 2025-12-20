@@ -6,7 +6,7 @@
     "recurrence": [ "20 hours", "28 hours" ],
     "condition": { "and": [ { "u_has_trait": "DREAMSMITH" }, { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" } ] },
     "effect": [
-      { "math": [ "DREAMSMITH_RECIPE_SCORE", "+=", "u_skill('deduction')" ] },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE += u_skill('deduction')" ] },
       {
         "u_roll_remainder": [
           "dreamdross_bo",
@@ -35,9 +35,9 @@
     "//": "Increase the dreamsmith recipe score and recipe superscore for each `training` spell cast.  Each cast increase the gain score for 1",
     "condition": { "and": [ { "u_has_trait": "DREAMSMITH" }, { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" } ] },
     "effect": [
-      { "math": [ "DREAMSMITH_RECIPE_SCORE", "+=", "DREAMSMITH_RECIPE_SCORE_TRAINS" ] },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE += DREAMSMITH_RECIPE_SCORE_TRAINS" ] },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_TRAINS++" ] },
-      { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER", "+=", "DREAMSMITH_RECIPE_SCORE_TRAINS_SUPER" ] },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER += DREAMSMITH_RECIPE_SCORE_TRAINS_SUPER" ] },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_TRAINS_SUPER++" ] },
       { "run_eocs": "EOC_DREAMSMITHS_RECIPES_ENCH" },
       { "run_eocs": "EOC_DREAMSMITHS_RECIPES_SUPER" }
@@ -113,7 +113,7 @@
         }
       },
       { "math": [ "DREAMSMITH_RECIPE_SCORE = 0" ] },
-      { "math": [ "DREAMSMITH_RECIPE_SCORE_TARGET", "+=", "25" ] }
+      { "math": [ "DREAMSMITH_RECIPE_SCORE_TARGET += 25" ] }
     ],
     "false_effect": [
       {
@@ -160,7 +160,7 @@
         }
       },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER = 0" ] },
-      { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER_TARGET", "+=", "200" ] }
+      { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER_TARGET += 200" ] }
     ]
   },
   {

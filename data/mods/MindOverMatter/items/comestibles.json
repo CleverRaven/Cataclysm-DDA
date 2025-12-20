@@ -2,7 +2,7 @@
   {
     "id": "matrix_crystal_biokin_dust_potion",
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
+    "subtypes": [ "COMESTIBLE", "AMMO" ],
     "comestible_type": "DRINK",
     "name": { "str_sp": "pink crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint pink glow.",
@@ -18,14 +18,14 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_BIOKIN_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_BIOKIN_POTION" ],
+    "ammo_type": "water"
   },
   {
     "id": "matrix_crystal_clair_dust_potion",
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
+    "subtypes": [ "COMESTIBLE", "AMMO" ],
     "comestible_type": "DRINK",
     "name": { "str_sp": "gray crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint grayish glow.",
@@ -41,14 +41,14 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_CLAIR_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_CLAIR_POTION" ],
+    "ammo_type": "water"
   },
   {
     "id": "matrix_crystal_electrokin_dust_potion",
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
+    "subtypes": [ "COMESTIBLE", "AMMO" ],
     "comestible_type": "DRINK",
     "name": { "str_sp": "cyan crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint sky-blue glow.",
@@ -64,14 +64,14 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_ELECTROKIN_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_ELECTROKIN_POTION" ],
+    "ammo_type": "water"
   },
   {
     "id": "matrix_crystal_photokin_dust_potion",
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
+    "subtypes": [ "COMESTIBLE", "AMMO" ],
     "comestible_type": "DRINK",
     "name": { "str_sp": "golden crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint golden glow.",
@@ -87,14 +87,14 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_PHOTOKIN_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_PHOTOKIN_POTION" ],
+    "ammo_type": "water"
   },
   {
     "id": "matrix_crystal_pyrokin_dust_potion",
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
+    "subtypes": [ "COMESTIBLE", "AMMO" ],
     "comestible_type": "DRINK",
     "name": { "str_sp": "red crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint red glow.",
@@ -110,14 +110,14 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_PYROKIN_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_PYROKIN_POTION" ],
+    "ammo_type": "water"
   },
   {
     "id": "matrix_crystal_telekin_dust_potion",
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
+    "subtypes": [ "COMESTIBLE", "AMMO" ],
     "comestible_type": "DRINK",
     "name": { "str_sp": "yellow crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint yellow glow.",
@@ -133,14 +133,14 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_TELEKIN_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_TELEKIN_POTION" ],
+    "ammo_type": "water"
   },
   {
     "id": "matrix_crystal_telepath_dust_potion",
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
+    "subtypes": [ "COMESTIBLE", "AMMO" ],
     "comestible_type": "DRINK",
     "name": { "str_sp": "white crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint white glow.",
@@ -156,14 +156,14 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_TELEPATH_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_TELEPATH_POTION" ],
+    "ammo_type": "water"
   },
   {
     "id": "matrix_crystal_teleport_dust_potion",
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
+    "subtypes": [ "COMESTIBLE", "AMMO" ],
     "comestible_type": "DRINK",
     "name": { "str_sp": "blue crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint blue glow.",
@@ -179,14 +179,14 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_TELEPORT_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_TELEPORT_POTION" ],
+    "ammo_type": "water"
   },
   {
     "id": "matrix_crystal_vitakin_dust_potion",
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
+    "subtypes": [ "COMESTIBLE", "AMMO" ],
     "comestible_type": "DRINK",
     "name": { "str_sp": "green crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint green glow.",
@@ -202,9 +202,9 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_VITAKIN_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_VITAKIN_POTION" ],
+    "ammo_type": "water"
   },
   {
     "type": "ITEM",

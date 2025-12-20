@@ -153,7 +153,7 @@
   {
     "id": "TALK_FORGE_LORD_ASK_INTERVAL",
     "type": "talk_topic",
-    "dynamic_line": "My minions are busy putting the final touches on a few exciting projects, check back in <interval> and see what's new.",
+    "dynamic_line": "My minions are busy putting the final touches on a few exciting projects, check back on <restock_time_point> and see what's new.",
     "responses": [ { "text": "May your hammers be accurate.", "topic": "TALK_FORGE_LORD" } ]
   }
 ]

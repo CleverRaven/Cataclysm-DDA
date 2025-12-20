@@ -33,14 +33,36 @@
   },
   {
     "id": "armguard_demonchitin",
-    "copy-from": "armguard_chitin",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of demon chitin arm guards", "str_pl": "pairs of demon chitin arm guards" },
-    "description": "A pair of arm guards crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
-    "material": [ "demon_chitin" ],
-    "proportional": { "weight": 0.6, "encumbrance": 0.9, "price": 10, "warmth": 2 },
-    "environmental_protection": 8
+    "name": { "str": "demonous chitin scale mail sleeves (pair)", "str_pl": "demonous chitin scale mail sleeves (pairs)" },
+    "description": "A pair of sleeves of chitin sections overlapping with each other, secured to a leather backing.  The odd irregular shapes make full coverage impossible, but at least it's made with a tough chitin.  Seems to be made more out of desperation than anything, and would benefit greatly from some underlying armor.",
+    "weight": "663 g",
+    "volume": "4500 ml",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 arms are 18% leaving us with 3348 cm^2.",
+    "//1": "Demon chitin has a density of 0.356g/cm^3, thickness of 0.32 cm, coverage of 80% leaves us with 305 grams.",
+    "//2": "Leather has a density of 1.1g/cm^3, thickness of 0.07 cm, coverage of 100% leaves us with 258 grams.",
+    "//3": "Totalled up this is 663 grams with some rounding",
+    "price": "130 USD",
+    "price_postapoc": "20 USD",
+    "material": [ { "type": "demon_chitin", "portion": 35 }, { "type": "leather", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "green",
+    "warmth": 20,
+    "longest_side": "15 cm",
+    "flags": [ "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "demon_chitin", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 12
+      }
+    ]
   },
   {
     "id": "xl_armguard_demonchitin",
@@ -53,14 +75,46 @@
   },
   {
     "id": "armor_demonchitin",
-    "copy-from": "armor_chitin",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "demon chitin armor" },
-    "description": "Leg and body armor crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
-    "material": [ "demon_chitin" ],
-    "proportional": { "weight": 0.6, "encumbrance": 0.9, "price": 10, "warmth": 2 },
-    "environmental_protection": 8
+    "name": { "str": "demonous chitin scale mail suit" },
+    "description": "A full body suit of chitin sections overlapping with each other, secured to a leather backing.  The odd irregular shapes make full coverage impossible, but at least it's made with a strong chitin.  Seems to be made more out of desperation than anything, and would benefit greatly from some underlying armor.",
+    "weight": "2815 g",
+    "volume": "20 L",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
+    "//1": "Demon chitin has a density of 0.356g/cm^3, thickness of 0.32 cm, coverage of 80% leaves us with 1 526 grams.",
+    "//2": "Leather has a density of 1.1g/cm^3, thickness of 0.07 cm, coverage of 100% leaves us with 1 289 grams.",
+    "//3": "Totalled up this is 2 815 grams with some rounding",
+    "price": "1 kUSD 200 USD",
+    "price_postapoc": "50 USD",
+    "material": [ { "type": "demon_chitin", "portion": 35 }, { "type": "leather", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "green",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "environmental_protection": 8,
+    "flags": [ "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "demon_chitin", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 8
+      },
+      {
+        "material": [
+          { "type": "demon_chitin", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 12
+      }
+    ]
   },
   {
     "id": "xl_armor_demonchitin",
@@ -73,13 +127,34 @@
   },
   {
     "id": "helmet_demonchitin",
-    "copy-from": "helmet_chitin",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "demon chitin helmet" },
-    "description": "A helmet crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Covers the entire head; fire-resistant and very durable.",
-    "material": [ "demon_chitin" ],
-    "proportional": { "weight": 0.6, "encumbrance": 0.9, "price": 10, "warmth": 2 },
+    "name": { "str": "demonous chitin scale mail hood" },
+    "description": "Chitin sections overlapping with each other secured to a leather backing in the shape of a hood.  The odd irregular shapes make full coverage impossible, but at least it's made with a strong chitin.  Seems to be made more out of desperation than anything, and would benefit greatly from some underlying armor.",
+    "weight": "287 g",
+    "volume": "2 L",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the head is 9% leaving us with 1 674 cm^2.",
+    "//1": "Demon chitin has a density of 0.356 g/cm^3, thickness of 0.32 cm, coverage of 80% leaves us with 153 grams.",
+    "//2": "Leather has a density of 1.1g/cm^3, thickness of 0.07 cm, coverage of 100% leaves us with 129 grams.",
+    "//3": "Totalled up this is 287 grams with some rounding",
+    "price": "380 USD",
+    "price_postapoc": "10 USD",
+    "material": [ { "type": "demon_chitin", "portion": 35 }, { "type": "leather", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "helmet_larmor",
+    "color": "green",
+    "armor": [
+      {
+        "material": [
+          { "type": "demon_chitin", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_l", "head_ear_r", "head_nape", "head_throat" ],
+        "coverage": 95
+      }
+    ],
+    "warmth": 20,
     "environmental_protection": 8
   },
   {
@@ -96,11 +171,49 @@
     "copy-from": "gauntlets_chitin",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of demon chitin gauntlets", "str_pl": "pairs of demon chitin gauntlets" },
-    "description": "Gauntlets crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
-    "material": [ "demon_chitin" ],
-    "proportional": { "weight": 0.6, "encumbrance": 0.9, "price": 10, "warmth": 2 },
-    "environmental_protection": 8
+    "name": { "str": "demonous chitin scale mail gauntlets (pair)", "str_pl": "demonous chitin scale mail gauntlets (pairs)" },
+    "description": "A pair of gauntlets made from loose sections of chitin attached to a leather backing.  Due to the poor material qualities of chitin, it doesn't cover everything but is at least protective.",
+    "weight": "156 g",
+    "volume": "1 L",
+    "//": "Human hands assumed to be about 1 sq ft total, or 929 cm^2.",
+    "//1": "Demon chitin has a density of 0.356g/cm^3, thickness of 0.32 cm, total coverage of 44% leaves us with 85 grams.",
+    "//2": "Leather has a density of 1.1g/cm^3, thickness of 0.07 cm, coverage of 100% leaves us with 71 grams.",
+    "//3": "Totalled up this is 156 grams with some rounding",
+    "price": "380 USD",
+    "price_postapoc": "5 USD",
+    "material": [ { "type": "demon_chitin", "portion": 35 }, { "type": "leather", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "gauntlets_larmor",
+    "color": "green",
+    "warmth": 20,
+    "flags": [ "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "demon_chitin", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
+        "encumbrance": 12,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ]
+      },
+      {
+        "material": [
+          { "type": "demon_chitin", "covered_by_mat": 40, "thickness": 3.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      },
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 } ],
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_r", "hand_palm_l" ]
+      }
+    ]
   },
   {
     "id": "xl_gauntlets_demonchitin",
@@ -113,14 +226,35 @@
   },
   {
     "id": "boots_demonchitin",
-    "copy-from": "boots_chitin",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of demon chitin boots", "str_pl": "pairs of demon chitin boots" },
-    "description": "Boots crafted from carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
-    "material": [ "demon_chitin" ],
-    "proportional": { "weight": 0.6, "encumbrance": 0.9, "price": 10, "warmth": 2 },
-    "environmental_protection": 8
+    "name": { "str": "demonous chitin scale foot covers (pair)", "str_pl": "demonous chitin scale foot covers (pairs)" },
+    "description": "Sections of chitin attached to a leather backing meant to drape over existing foot wear.  Due to the nature of chitin, it cannot cover everything but it is very protective.  Seems like it was made out of desperation.",
+    "weight": "94 g",
+    "volume": "400 ml",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the feet are 3% leaving us with 558 cm^2.",
+    "//1": "Demon chitin has a density of 0.356g/cm^3, thickness of 0.32 cm, coverage of 80% leaves us with 51 grams.",
+    "//2": "Leather has a density of 1.1g/cm^3, thickness of 0.07 cm, coverage of 100% leaves us with 43 grams.",
+    "//3": "Totalled up this is 94 grams with some rounding",
+    "price": "135 USD",
+    "price_postapoc": "50 cent",
+    "material": [ { "type": "demon_chitin", "portion": 35 }, { "type": "leather", "portion": 1 } ],
+    "symbol": "[",
+    "color": "green",
+    "warmth": 10,
+    "flags": [ "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "demon_chitin", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l", "foot_toes_l", "foot_toes_r" ],
+        "encumbrance": 9,
+        "coverage": 100
+      }
+    ]
   },
   {
     "id": "xl_boots_demonchitin",

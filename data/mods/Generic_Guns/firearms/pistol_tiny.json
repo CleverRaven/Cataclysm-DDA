@@ -2,7 +2,8 @@
   {
     "id": "pistol_tiny_rifle",
     "copy-from": "marlin_9a",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "plinker carbine" },
     "ammo": [ "ammo_pistol_tiny" ],
     "description": "With near non-existent recoil and inexpensive ammunition, rifles like this one are popular introductory firearms.  It has a built in magazine, capable of holding an impressive amount of its small cartridges.  You could take small game with this, but anything bigger might not even notice.",
@@ -21,7 +22,8 @@
   {
     "id": "pistol_tiny_target",
     "copy-from": "ruger_mk4",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": "target pistol",
     "ammo": [ "ammo_pistol_tiny" ],
     "description": "This medium sized pistol fires cheap and plentiful plinking ammo, and is exceptionally popular for practice or target shooting.  This pistol is unsuited for taking on anything but small game, as it is meant to poke holes in paper.  Accepts box magazines.",
@@ -39,7 +41,8 @@
   {
     "id": "pistol_tiny_zip",
     "copy-from": "ruger_lcr_22",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": "zip gun",
     "ammo": [ "ammo_pistol_tiny" ],
     "description": "A crude single shot firearm made from improvised or homemade components, chambered for tiny plinking ammunition.  Zip guns like these often turned up in the hands of criminals and insurgents.  There's no extractor, so it might be slow to reload, and its construction leaves its longevity in question.",

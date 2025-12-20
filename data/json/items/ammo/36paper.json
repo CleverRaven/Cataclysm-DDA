@@ -1,7 +1,8 @@
 [
   {
     "id": "36navy",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": ".36 paper cartridge" },
     "description": "A paper cartridge containing a premeasured amount of black powder and a .36 projectile.  Used by the Colt M1861 Navy.",
     "ascii_picture": "36navy",

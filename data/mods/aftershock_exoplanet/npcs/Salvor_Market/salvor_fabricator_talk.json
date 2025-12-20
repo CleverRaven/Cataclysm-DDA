@@ -195,7 +195,7 @@
     ]
   },
   {
-    "id": [ "TALK_SALVOR_FABRICATOR_BACKSTORY_CURRENT_DAY" ],
+    "id": [ "TALK_SALVOR_FABRICATOR_BACKSTORY_CURRENT_DAY_WHY_STAY" ],
     "type": "talk_topic",
     "//": "In the future if the player demonstrates capability. Veronica will ask you to go to the ship her crew died at and blow up the Ship AI Core. Optionally she will reward you extra for recovering keepsakes from her crew.",
     "dynamic_line": "Well, it ain't like I got someplace to be.  And, well, I can't rightly explain it, but, I feel like I still got business here.  There's a score that needs to be settled, and it just wouldn't sit right leaving things at that.  Salus ain't through with me yet.",

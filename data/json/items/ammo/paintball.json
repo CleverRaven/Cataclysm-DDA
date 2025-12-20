@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "paintball",
     "price": "10 USD",
     "price_postapoc": "50 cent",

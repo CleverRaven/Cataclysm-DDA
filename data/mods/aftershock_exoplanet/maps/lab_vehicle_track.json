@@ -2,7 +2,6 @@
   {
     "//": "Aftershock - vehicle testing",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_1side" ],
     "weight": 100,
     "object": {

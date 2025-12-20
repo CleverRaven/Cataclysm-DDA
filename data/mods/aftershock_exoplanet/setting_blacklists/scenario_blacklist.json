@@ -2,6 +2,6 @@
   {
     "type": "SCENARIO_BLACKLIST",
     "subtype": "whitelist",
-    "scenarios": [ "escape_pod", "crashing_ship", "augustmoon", "last_dance", "afs_esper_start" ]
+    "scenarios": [ "escape_pod", "crashing_ship", "augustmoon", "ship", "last_dance", "afs_esper_start" ]
   }
 ]

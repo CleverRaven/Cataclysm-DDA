@@ -71,7 +71,7 @@
     "name": "concrete floor",
     "description": "A bare and cold concrete floor with painted stripes of black and yellow, could still insulate from the outdoors but roof collapse is possible if supporting walls are broken down.",
     "symbol": ".",
-    "color": "black",
+    "color": "dark_gray",
     "looks_like": "t_thconc_warning",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "connect_groups": [ "CONCRETE", "INDOORFLOOR" ],
@@ -457,6 +457,14 @@
   },
   {
     "type": "terrain",
+    "id": "t_highland_mosaic",
+    "name": "mosaic floor",
+    "copy-from": "t_marble_floor",
+    "looks_like": "t_floor_blue",
+    "description": "A mosaic floor made from colored stones arranged into fanciful patterns."
+  },
+  {
+    "type": "terrain",
     "id": "t_metal_floor",
     "name": "metal floor",
     "description": "High-quality and tough checkered metal flooring to reduce the risk of slips and falls.  Can support a roof.",
@@ -523,7 +531,9 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -548,7 +558,9 @@
         { "item": "log", "count": [ 0, 1 ] },
         { "item": "stick", "count": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -590,7 +602,9 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -636,7 +650,9 @@
       "str_max": 15,
       "sound_vol": 8,
       "sound_fail_vol": 8,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "straw_pile", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "straw_pile", "count": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -658,7 +674,9 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1410,7 +1428,9 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1431,7 +1451,9 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1451,7 +1473,9 @@
       "str_min_supported": 100,
       "ter_set": "t_null",
       "sound": "SMASH!",
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ]
   },
@@ -1627,6 +1651,28 @@
       "sound_fail": "splosh!",
       "ter_set": "t_water_dp",
       "items": [ { "item": "clay_lump", "count": [ 6, 12 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_burnt",
+    "name": "burnt floor",
+    "description": "Whatever this floor used to be made of, it's little more than charred remains now.",
+    "symbol": ".",
+    "looks_like": "t_dirtfloor",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "COLLAPSES", "INDOORS" ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 6,
+      "//COMMENT": "I don't know, charcoal breaking sounds? Onomatopoeia is outside my skillset!",
+      "sound": "crunch!",
+      "sound_fail": "twang!",
+      "sound_vol": 8,
+      "sound_fail_vol": 4,
+      "ter_set": "t_null"
     }
   },
   {

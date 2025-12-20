@@ -2,7 +2,8 @@
   {
     "id": "pellet_airgun",
     "copy-from": "varmint_airgun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "varmint air rifle" },
     "description": "A cheap varmint air rifle chambered in .177, suitable for hunting small game.",
     "ammo": [ "airgun_pellet" ],

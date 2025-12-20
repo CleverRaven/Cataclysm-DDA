@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "color.h"
 #include "coordinates.h"
@@ -229,7 +230,7 @@ std::string craft( item const &it, unsigned int /* quantity */,
 std::string wbl_mark( item const &it, unsigned int /* quantity */,
                       segment_bitset const &/* segments */ )
 {
-    std::vector<const item_pocket *> pkts = it.get_all_contained_pockets();
+    std::vector<const item_pocket *> pkts = it.get_container_pockets();
     bool wl = false;
     bool bl = false;
     bool player_wbl = false;
@@ -557,13 +558,26 @@ std::string wetness( item const &it, unsigned int /* quantity */,
 std::string active( item const &it, unsigned int /* quantity */,
                     segment_bitset const &/* segments */ )
 {
-    if( it.active && !it.has_temperature() && !string_ends_with( it.typeId().str(), "_on" ) ) {
+    if( it.active && ( !it.has_temperature() || it.type->countdown_interval > 0_seconds ) &&
+        !string_ends_with( it.typeId().str(), "_on" ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
+        // However, food that's being processed passively still get the string.
         return _( " (active)" );
     }
     return {};
 }
+std::string activity_occupany( item const &it, unsigned int /* quantity */,
+                               segment_bitset const &/* segments */ )
+{
+    if( it.has_var( "activity_var" ) ) {
+        // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
+        // in their name, also food is active while it rots.
+        return _( " (in use)" );
+    }
+    return {};
+}
+
 
 std::string sealed( item const &it, unsigned int /* quantity */,
                     segment_bitset const &/* segments */ )
@@ -686,6 +700,7 @@ constexpr std::array<decl_f_print_segment *, num_segments> get_segs_array()
     arr[static_cast<size_t>( tname::segments::VARS ) ] = vars;
     arr[static_cast<size_t>( tname::segments::WETNESS ) ] = wetness;
     arr[static_cast<size_t>( tname::segments::ACTIVE ) ] = active;
+    arr[static_cast<size_t>( tname::segments::ACTIVITY_OCCUPANCY ) ] = activity_occupany;
     arr[static_cast<size_t>( tname::segments::SEALED ) ] = sealed;
     arr[static_cast<size_t>( tname::segments::FAVORITE_POST ) ] = post_asterisk;
     arr[static_cast<size_t>( tname::segments::RELIC ) ] = relic_charges;
@@ -751,6 +766,7 @@ std::string enum_to_string<tname::segments>( tname::segments seg )
         case tname::segments::VARS: return "VARS";
         case tname::segments::WETNESS: return "WETNESS";
         case tname::segments::ACTIVE: return "ACTIVE";
+        case tname::segments::ACTIVITY_OCCUPANCY: return "ACTIVITY_OCCUPANCY";
         case tname::segments::SEALED: return "SEALED";
         case tname::segments::FAVORITE_POST: return "FAVORITE_POST";
         case tname::segments::RELIC: return "RELIC";

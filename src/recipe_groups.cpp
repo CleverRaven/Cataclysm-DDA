@@ -198,6 +198,11 @@ void recipe_group::load( const JsonObject &jo, const std::string &src )
     recipe_groups_data.load( jo, src );
 }
 
+void recipe_group::finalize()
+{
+    recipe_groups_data.finalize();
+}
+
 void recipe_group::check()
 {
     recipe_groups_data.check();

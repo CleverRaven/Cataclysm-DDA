@@ -1,51 +1,10 @@
 [
   {
-    "id": "sw_610",
-    "copy-from": "pistol_revolver",
-    "looks_like": "sw_619",
-    "type": "GUN",
-    "name": { "str": "10mm/.40 revolver" },
-    "description": "A classic six-shooter revolver chambered for 10mm and .40 rounds.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "sw_610",
-        "name": { "str": "S&W 610 revolver" },
-        "description": "The Smith and Wesson 610 is a classic six-shooter revolver chambered for 10mm rounds, or for S&W's own .40 round."
-      }
-    ],
-    "ascii_picture": "sw_610",
-    "weight": "1420 g",
-    "volume": "754 ml",
-    "longest_side": "332 mm",
-    "barrel_length": "197 mm",
-    "//": "165mm + 32mm max OAL for 10mm. Revolvers just built different.",
-    "price": "740 USD",
-    "price_postapoc": "22 USD 50 cent",
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "10mm", "40" ],
-    "dispersion": 320,
-    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
-    "durability": 8,
-    "blackpowder_tolerance": 56,
-    "clip_size": 6,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE",
-        "rigid": true,
-        "ammo_restriction": { "10mm": 6, "40": 6 },
-        "allowed_speedloaders": [ "40_speedloader6" ]
-      }
-    ],
-    "melee_damage": { "bash": 10 }
-  },
-  {
     "id": "glock_29",
     "copy-from": "gun_base_10mm_semi_pistol",
     "looks_like": "glock_19",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "compact Glock pistol" },
     "description": "A small pistol accepting Glock magazines and chambered in 10mm.  Because of its size, it is easy to carry, but it has rather fierce recoil.",
     "variant_type": "gun",
@@ -77,7 +36,8 @@
     "id": "glock_20",
     "copy-from": "gun_base_10mm_semi_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Glock pistol" },
     "description": "A semi-automatic pistol chambered in 10mm and accepting Glock magazines.",
     "variant_type": "gun",
@@ -109,7 +69,8 @@
     "id": "glock_40",
     "copy-from": "glock_20",
     "looks_like": "glock_20",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "hunter Glock pistol" },
     "description": "A full-sized, long-slide version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The extra barrel length makes for slightly more accurate and powerful shots, and the extra slide length means the sights are a little easier to use.  It also features Glock's Modular Optic System, making aftermarket optics much easier to mount.",
     "variant_type": "gun",
@@ -129,51 +90,11 @@
     "dispersion": 500
   },
   {
-    "id": "hk_mp5_10_semi",
-    "copy-from": "hk_mp5_semi_pistol",
-    "looks_like": "hk_mp5",
-    "type": "GUN",
-    "name": { "str": "BA10 rifle" },
-    "description": "A semi-automatic rifle chambered in 10mm and accepting BA10 magazines.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "hk_mp5_10_semi",
-        "name": { "str": "BA10 rifle" },
-        "description": "The MP5/10 served the FBI briefly alongside their 10mm Auto pistols, adding to the caliber's overall mystique.  Though the gun's usage was short-lived, a handful of clones were made and sold occasionally.  This semi-automatic clone manufactured by Brethren Arms features a welded-on M1913 rail and a collapsible arm brace."
-      }
-    ],
-    "weight": "2667 g",
-    "volume": "2411 ml",
-    "longest_side": "498 mm",
-    "barrel_length": "225 mm",
-    "price": "3 kUSD 600 USD",
-    "price_postapoc": "23 USD",
-    "durability": 7,
-    "min_cycle_recoil": 675,
-    "ammo": [ "10mm" ],
-    "skill": "rifle",
-    "built_in_mods": [ "folding_stock" ],
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "62 ml", "item_restriction": [ "mp5_10_mag" ] } ]
-  },
-  {
     "id": "m1911_10",
     "copy-from": "gun_base_10mm_semi_pistol",
     "looks_like": "m1911",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Colt Delta Elite pistol" },
     "description": "A semi-automatic pistol chambered in 10mm.  It accepts Colt Delta Elite magazines.",
     "variant_type": "gun",
@@ -199,7 +120,8 @@
     "id": "witness_10",
     "copy-from": "gun_base_10mm_semi_pistol",
     "looks_like": "cz75",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "EAA Witness pistol" },
     "description": "A semi-automatic pistol chambered in 10mm and accepting EAA Witness magazines.",
     "variant_type": "gun",
@@ -224,7 +146,8 @@
     "id": "p220_10",
     "copy-from": "gun_base_10mm_semi_pistol",
     "looks_like": "p226_357sig",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "SIG pistol" },
     "description": "A semi-automatic pistol chambered in 10mm and accepting SIG magazines.",
     "variant_type": "gun",
@@ -249,7 +172,8 @@
     "id": "xd_10",
     "copy-from": "gun_base_10mm_semi_pistol",
     "looks_like": "glock_19",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "XD-M pistol" },
     "description": "A semi-automatic pistol chambered in 10mm and accepting XD-M magazines.",
     "variant_type": "gun",
@@ -269,38 +193,5 @@
     "dispersion": 480,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "81 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xd_10_mag" ] } ]
-  },
-  {
-    "id": "TDI_10",
-    "copy-from": "gun_base_10mm_semi_pistol",
-    "looks_like": "TDI",
-    "type": "GUN",
-    "//": [
-      "Yes, I know it's not really a glock smg.",
-      "It takes glock magazines, and it's own special one that I am also renaming to a glock magazine",
-      "so, I'm calling it a glock smg."
-    ],
-    "name": { "str": "Glock submachine gun" },
-    "description": "A submachine gun chambered in 10mm, accepting Glock magazines.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "TDI_10",
-        "name": { "str": "Vector SDP 10mm pistol" },
-        "description": "The Vector SDP is a delayed blowback \"pistol\" with a unique, downward reciprocating bolt that helps combat muzzle climb.  This one is chambered in 10mm Auto."
-      }
-    ],
-    "weight": "2867 g",
-    "volume": "4386 ml",
-    "longest_side": "429 mm",
-    "price": "1 kUSD 429 USD",
-    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "103 ml",
-        "item_restriction": [ "glock_20mag_10", "glock_20mag", "tdi_10mm_mag" ]
-      }
-    ]
   }
 ]

@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_cloth_4",
     "copy-from": "afs_scrap_4",
     "name": { "str": "woven metamaterial sheet" },

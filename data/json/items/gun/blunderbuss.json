@@ -2,7 +2,8 @@
   {
     "id": "blunderbuss",
     "looks_like": "remington_870",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "blunderbuss", "str_pl": "blunderbusses" },
     "description": "A homemade version of a crude precursor to the shotgun.",

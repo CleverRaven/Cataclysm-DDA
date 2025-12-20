@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sieged_fungal_tower" ],
     "object": {
       "rows": [

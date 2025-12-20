@@ -23,7 +23,17 @@
         "cases": [
           { "case": 1, "effect": [ { "run_eocs": "EOC_create_bonus" } ] },
           { "case": 2, "effect": [ { "run_eocs": [ "EOC_create_bonus", "EOC_create_bonus" ] } ] },
-          { "case": 3, "effect": [ { "run_eocs": [ "EOC_create_bonus", "EOC_create_bonus", "EOC_create_bonus" ] } ] }
+          { "case": 3, "effect": [ { "run_eocs": [ "EOC_create_bonus", "EOC_create_bonus", "EOC_create_bonus" ] } ] },
+          {
+            "case": 4,
+            "effect": [ { "run_eocs": [ "EOC_create_bonus", "EOC_create_bonus", "EOC_create_bonus", "EOC_create_bonus" ] } ]
+          },
+          {
+            "case": 5,
+            "effect": [
+              { "run_eocs": [ "EOC_create_bonus", "EOC_create_bonus", "EOC_create_bonus", "EOC_create_bonus", "EOC_create_bonus" ] }
+            ]
+          }
         ]
       },
       {
@@ -34,6 +44,18 @@
           {
             "case": 2,
             "effect": [ { "run_eocs": [ "EOC_create_extract", "EOC_create_extract", "EOC_create_extract" ] } ]
+          },
+          {
+            "case": 3,
+            "effect": [ { "run_eocs": [ "EOC_create_extract", "EOC_create_extract", "EOC_create_extract", "EOC_create_extract" ] } ]
+          },
+          {
+            "case": 4,
+            "effect": [
+              {
+                "run_eocs": [ "EOC_create_extract", "EOC_create_extract", "EOC_create_extract", "EOC_create_extract", "EOC_create_extract" ]
+              }
+            ]
           }
         ]
       },
@@ -1034,7 +1056,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_exitroom",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -1059,7 +1080,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_treasuregoal",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1078,7 +1098,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mapgen_dummyplace",
     "//": "This is a stopgap.  If revert_location is called without a mapgen update, the game crashes.  So this is a blank map update that does nothing but still prevents the crash.  To be removed if the bug gets patched.",
     "object": {  }

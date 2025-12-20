@@ -13,6 +13,7 @@
       "'": "t_thconc_floor",
       "r": "t_thconc_floor",
       "O": "t_thconc_floor",
+      "Ł": "t_thconc_floor",
       ".": "t_linoleum_gray",
       ":": "t_linoleum_gray",
       "i": "t_linoleum_white",
@@ -76,19 +77,20 @@
       "r": [ { "item": "SUS_office_supplies", "chance": 65, "repeat": [ 1, 4 ] } ],
       "y": { "item": "SUS_janitors_closet", "chance": 90 },
       "Y": { "item": "coat_rack", "chance": 66, "repeat": [ 1, 5 ] },
-      "a": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 1, 3 ] },
+      "a": { "item": "SUS_trash_trashcan_public", "chance": 70 },
       "t": { "item": "dining", "chance": 40, "repeat": [ 1, 2 ] },
       "f": { "item": "SUS_office_filing_cabinet", "chance": 90 },
       "A": { "item": "homebooks", "chance": 40, "repeat": [ 1, 4 ] },
       "T": { "item": "SUS_toilet", "chance": 50 },
-      ".": { "item": "office_mess", "chance": 1 }
+      ".": { "item": "SUS_office_mess", "chance": 1 }
     },
     "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
     "monster": { "_": { "group": "GROUP_CIVILIAN", "chance": 1 }, ".": { "group": "GROUP_CIVILIAN", "chance": 1 } },
     "toilets": { "T": {  } },
     "vehicles": {
       "Á": { "vehicle": "parking_garage", "chance": 50, "rotation": 270 },
-      "É": { "vehicle": "parking_garage", "chance": 50, "rotation": 90 }
+      "É": { "vehicle": "parking_garage", "chance": 50, "rotation": 90 },
+      "Ł": { "vehicle": "hand_truck", "chance": 50 }
     },
     "nested": {
       "7": { "chunks": [ [ "5x5_corridor_office0_sw", 1 ], [ "5x5_corridor_office1_sw", 1 ], [ "5x5_corridor_sofas_sw", 2 ] ] },

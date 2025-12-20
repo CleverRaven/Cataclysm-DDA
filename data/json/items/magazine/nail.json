@@ -2,7 +2,8 @@
   {
     "id": "nailmag",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "coilgun 50-round makeshift magazine" },
     "description": "An improvised magazine for use with a coilgun.  Little more than a metal box, a spring, and some duct tape, it is awkward to reload.",
     "weight": "60 g",

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_occupied_a",
     "object": {
       "mapgensize": [ 18, 18 ],
@@ -33,7 +32,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_barricaded_a",
     "object": {
       "mapgensize": [ 18, 18 ],
@@ -66,7 +64,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_looted_a",
     "object": {
       "mapgensize": [ 18, 18 ],
@@ -104,7 +101,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_ransacked_a",
     "object": {
       "mapgensize": [ 18, 18 ],
@@ -152,7 +148,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_occupied_b",
     "object": {
       "mapgensize": [ 21, 21 ],
@@ -187,7 +182,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_barricaded_b",
     "object": {
       "mapgensize": [ 21, 21 ],
@@ -221,7 +215,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_looted_b",
     "object": {
       "mapgensize": [ 21, 21 ],
@@ -257,7 +250,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_ransacked_b",
     "object": {
       "mapgensize": [ 21, 21 ],
@@ -303,7 +295,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_looted_floor",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -322,7 +313,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_barricaded_safes_a",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -339,7 +329,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_barricaded_handloading_a",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -352,12 +341,12 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "gunstore_palette_unlooted" ],
-      "place_item": [ { "item": "press", "x": 1, "y": 3 }, { "item": "press", "x": 2, "y": 3 } ]
+      "place_item": [ { "item": "press", "x": 1, "y": 3 }, { "item": "press", "x": 2, "y": 3 } ],
+      "place_loot": [ { "group": "boxed_primers_full", "x": [ 1, 2 ], "y": 3, "repeat": [ 16, 20 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_looted_safes_a",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -374,7 +363,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_looted_handloading_a",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -387,12 +375,12 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "gunstore_palette_looted" ],
-      "place_item": [ { "item": "press", "x": [ 1, 2 ], "y": 3, "chance": 20 } ]
+      "place_item": [ { "item": "press", "x": [ 1, 2 ], "y": 3, "chance": 20 } ],
+      "place_loot": [ { "group": "boxed_primers_full", "x": [ 1, 2 ], "y": 3, "repeat": [ 0, 6 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_looted_storage_a",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -409,7 +397,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_unlooted_storage_a",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -426,7 +413,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "destroyed_furniture_concrete_floor",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -437,7 +423,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "no_items_concrete_floor",
     "object": {
       "mapgensize": [ 1, 1 ],

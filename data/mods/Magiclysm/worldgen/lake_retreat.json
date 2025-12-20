@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_retreat_ground",
     "object": {
       "fill_ter": "t_floor",
@@ -89,7 +88,7 @@
           { "item": "novels", "chance": 20, "repeat": [ 2, 4 ] }
         ],
         "I": [
-          { "item": "office", "chance": 30, "repeat": [ 2, 4 ] },
+          { "item": "SUS_office_desk", "chance": 50 },
           { "item": "magic_shop_potions", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "magic_shop_wands", "chance": 15 },
           { "item": "enchanted_small_items", "chance": 20 }
@@ -108,7 +107,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_retreat_z1",
     "object": {
       "fill_ter": "t_floor",
@@ -170,8 +168,8 @@
           { "item": "SUS_junk_drawer", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "SUS_cookware", "chance": 20 }
         ],
-        "s": { "item": "oven", "chance": 20, "repeat": [ 2, 4 ] },
-        "m": { "item": "fridge", "chance": 20, "repeat": [ 2, 4 ] },
+        "s": { "item": "SUS_oven", "chance": 20, "repeat": [ 2, 4 ] },
+        "m": { "item": "SUS_fridge", "chance": 20, "repeat": [ 1, 2 ] },
         "R": { "item": "SUS_trash_floor", "chance": 25, "repeat": [ 1, 2 ] },
         "W": { "item": "stash_wood", "chance": 25, "repeat": [ 1, 2 ] },
         "t": { "item": "condiments", "chance": 25, "repeat": [ 1, 2 ] },
@@ -189,7 +187,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_retreat_z2",
     "object": {
       "fill_ter": "t_floor",
@@ -270,7 +267,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_retreat_z3",
     "object": {
       "fill_ter": "t_concrete",
@@ -319,7 +315,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_retreat_z4",
     "object": {
       "fill_ter": "t_concrete",
@@ -360,7 +355,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_retreat_boathouse",
     "object": {
       "fill_ter": "t_grass",
@@ -451,7 +445,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_retreat_boathouse_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",

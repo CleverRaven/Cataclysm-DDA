@@ -1,3 +1,19 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Martial arts and Techniques](#martial-arts-and-techniques)
+  - [Martial arts](#martial-arts)
+    - [Martial art buffs](#martial-art-buffs)
+  - [Techniques](#techniques)
+    - [Technique effects](#technique-effects)
+  - [Bonuses](#bonuses)
+    - [Examples](#examples)
+  - [Attack vectors](#attack-vectors)
+  - [How to use](#how-to-use)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Martial arts and Techniques
 
 A Martial art (MA for short) just like in real life, is a set of physical practices, skills and stances for combat and sport.  In CDDA, these represent different combat styles of the survivor.
@@ -81,6 +97,7 @@ These are defined in JSON as `martial_art`, which sets rules for usage and appli
     "max_stacks": 8,                     // Maximum number of stacks on the buff. Buff bonuses are multiplied by current buff intensity
     "bonus_blocks": 1,                   // Extra blocks per turn
     "bonus_dodges": 1,                   // Extra dodges per turn
+    "free_dodges": 1,                    // Dodges per turn that won't consume stamina. Can be higher than actual amount of dodges, but won't add more dodges.
     "flat_bonuses": [  ],                // Flat bonuses, see Bonuses below
     "mult_bonuses": [  ],                // Multiplicative bonuses, see Bonuses below
   }

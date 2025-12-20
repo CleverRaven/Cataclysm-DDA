@@ -118,5 +118,53 @@
       { "run_eocs": "EOC_REDUCE_VAMPVIRUS2" },
       { "run_eocs": "EOC_REDUCE_VAMPVIRUS3" }
     ]
+  },
+  {
+    "id": "bloodthorne_druid_bandage_01",
+    "type": "ITEM",
+    "name": { "str_sp": "Heartvines" },
+    "looks_like": "bandage",
+    "description": { "str": "A magical bandage.  You should never see this.", "//~": "NO_I18N" },
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
+    "symbol": "!",
+    "color": "magenta",
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "max_worn": 1,
+    "use_action": { "type": "heal", "bandages_power": 1, "bleed": 7, "move_cost": 0 }
+  },
+  {
+    "id": "bloodthorne_druid_bandages_02",
+    "type": "ITEM",
+    "name": { "str_sp": "Heartvines" },
+    "looks_like": "bandage",
+    "description": { "str": "A magical bandage.  You should never see this.", "//~": "NO_I18N" },
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
+    "symbol": "!",
+    "color": "magenta",
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "max_worn": 1,
+    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 14, "move_cost": 0 }
+  },
+  {
+    "id": "bloodthorne_druid_bandages_03",
+    "type": "ITEM",
+    "name": { "str_sp": "Heartvines" },
+    "looks_like": "bandage",
+    "description": { "str": "A magical bandage.  You should never see this.", "//~": "NO_I18N" },
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
+    "symbol": "!",
+    "color": "magenta",
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "max_worn": 1,
+    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 20, "move_cost": 0 }
   }
 ]

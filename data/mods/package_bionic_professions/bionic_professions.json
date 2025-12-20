@@ -11,6 +11,7 @@
     "name": "Bionic Athlete",
     "description": "You'll never get your shot at the Cyberolympics.  All that's left of your dream is a single leftover protein shake.  Well, that and your bulging, cybernetically-enhanced muscles.",
     "points": 5,
+    "traits": [ "CBM_Interface" ],
     "skills": [ { "level": 3, "name": "swimming" } ],
     "CBMs": [ "bio_str_enhancer", "bio_adrenaline", "bio_hydraulics", "bio_metabolics", "bio_power_storage_mkII" ],
     "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ],
@@ -52,7 +53,7 @@
       "bio_power_storage_mkII",
       "bio_recoil"
     ],
-    "traits": [ "PROF_FED" ],
+    "traits": [ "PROF_FED", "CBM_Interface" ],
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "pistol" } ],
     "proficiencies": [ "prof_spotting" ],
     "items": {
@@ -82,6 +83,7 @@
     "name": "Commercial Cyborg",
     "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone?",
     "points": 6,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [ "bio_flashlight", "bio_tools", "bio_ups", "bio_watch", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "fabrication" } ],
     "items": {
@@ -106,6 +108,7 @@
     "name": "Bionic Firefighter",
     "description": "As a second-generation augmented firefighter, you have been cybernetically enhanced to operate in the most dire of emergency situations.  You're pretty sure this counts.",
     "points": 5,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [
       "bio_climate",
       "bio_heatsink",
@@ -142,7 +145,7 @@
     "name": "Bionic Game Master",
     "description": "You came into a large fortune, through luck or will, and hosted games for world-famous celebrities.  You could afford to spoil your players, and so you did.  You invested in bionics to make you smarter and memorized the entire handbook.  Let's hope that knowledge helps you now.",
     "points": 4,
-    "traits": [ "PROF_DICEMASTER" ],
+    "traits": [ "PROF_DICEMASTER", "CBM_Interface" ],
     "CBMs": [ "bio_batteries", "bio_power_storage", "bio_memory", "bio_int_enhancer" ],
     "skills": [
       { "level": 3, "name": "speech" },
@@ -183,6 +186,7 @@
     "name": "Bionic Gangster",
     "description": "You were the boss's favorite, their protege; they always counted on you to get the toughest jobs done.  They invested in \"basic\" augments and the best gear on the market in preparation for your biggest hit yet.  Sadly, you came out of surgery to find your whole gang had been eaten.",
     "points": 8,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [
       "bio_targeting",
       "bio_shotgun",
@@ -233,6 +237,7 @@
     "name": "Bionic Assassin",
     "description": "The product of millions of dollars of clandestine research, you are a bionic sleeper agent capable of silently engaging your target while maintaining an innocuous appearance.  Your handler cut all contact a week ago.",
     "points": 8,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [
       "bio_cqb",
       "bio_blade",
@@ -278,7 +283,7 @@
     "points": 4,
     "skills": [ { "level": 4, "name": "firstaid" }, { "level": 4, "name": "electronics" } ],
     "proficiencies": [ "prof_intro_biology", "prof_physiology", "prof_wound_care", "prof_dissect_humans" ],
-    "traits": [ "PROF_AUTODOC" ],
+    "traits": [ "PROF_AUTODOC", "CBM_Interface" ],
     "items": {
       "both": {
         "entries": [
@@ -318,7 +323,7 @@
       "prof_dissect_humans",
       "prof_gross_anatomy"
     ],
-    "traits": [ "PROF_MED" ],
+    "traits": [ "PROF_MED", "CBM_Interface" ],
     "items": {
       "both": {
         "entries": [
@@ -350,6 +355,7 @@
     "name": "Bionic Boffin",
     "description": "You were employed by a major international corporation as a representative and technical advisor, utilizing the incredible power of your cybernetically augmented mind.",
     "points": 4,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [ "bio_int_enhancer", "bio_face_mask", "bio_watch", "bio_memory", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 2, "name": "speech" } ],
     "no_bonus": "teleumbrella",
@@ -375,6 +381,7 @@
     "type": "profession",
     "id": "bionic_patient",
     "name": "Bionic Patient",
+    "traits": [ "CBM_Interface" ],
     "description": "When the diagnosis came back positive, you signed up for a series of experimental bionic surgeries that saved your life.  Now you're healthier than you ever were before, thanks to a suite of bionic systems powered by your own metabolic functions.  Make the most of your second chance at life.",
     "points": 5,
     "CBMs": [ "bio_leukocyte", "bio_blood_anal", "bio_blood_filter", "bio_nanobots", "bio_metabolics", "bio_power_storage_mkII" ],
@@ -400,6 +407,7 @@
     "name": "Bionic Prepper",
     "description": "You knew the end was coming.  You augmented yourself with some basic bionic tools and underwent extensive survival training.  Now the end has come, and it is time to see if your efforts have paid off.",
     "points": 6,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [
       "bio_metabolics",
       "bio_power_storage_mkII",
@@ -455,6 +463,7 @@
     "name": "Bionic Runner",
     "description": "You were the kind of sportsman who couldn't get off the track.  You love running, and you enhanced your body with cybernetics to go even faster.  Now there's plenty to run from - this is your kind of game.",
     "points": 4,
+    "traits": [ "CBM_Interface" ],
     "skills": [ { "level": 2, "name": "swimming" } ],
     "CBMs": [ "bio_adrenaline", "bio_torsionratchet", "bio_power_storage_mkII", "bio_jointservo" ],
     "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ],
@@ -484,6 +493,7 @@
     "name": "Bionic Sniper",
     "description": "A top-secret military program sought to convert you into the perfect sniper.  Your bionics, equipment, and extensive field training enable you to drop targets from implausible distances, even after weeks of total isolation in enemy territory.",
     "points": 8,
+    "traits": [ "CBM_Interface" ],
     "proficiencies": [
       "prof_gunsmithing_basic",
       "prof_spotting",
@@ -558,6 +568,7 @@
     "name": "Bionic Soldier",
     "description": "You are the result of one of the military's last research programs: a prototype cyborg soldier.  The wars they expected you to fight have become obsolete, but war never changes.",
     "points": 6,
+    "traits": [ "CBM_Interface" ],
     "proficiencies": [
       "prof_gunsmithing_basic",
       "prof_spotting",
@@ -622,6 +633,7 @@
     "name": "Bionic Agent",
     "description": "Your body conceals several bionic components, worth millions of dollars in public taxes.  The government turned you into an infiltration and recon specialist: you have night vision, an alarm, lock picking capabilities and a hacking module.",
     "points": 4,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [
       "bio_fingerhack",
       "bio_lockpick",
@@ -653,6 +665,7 @@
     "name": "Bionic Student",
     "description": "Your parents were so obsessed with making sure you aced every test that they had you outfitted with bionics to enhance your intellect and memory.  Now you're facing the hardest test yet, and you're not sure if those are the right kind of tools for the job.",
     "points": 3,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [ "bio_batteries", "bio_power_storage", "bio_int_enhancer", "bio_memory" ],
     "items": {
       "both": {
@@ -683,6 +696,7 @@
     "name": "Bionic Thief",
     "description": "Impeccable style and a few bionic tricks up your sleeve have seen you pull off a string of daring, high-profile heists.  The cops would love to get their hands on you, but seem otherwise occupied.",
     "points": 5,
+    "traits": [ "CBM_Interface" ],
     "proficiencies": [ "prof_lockpicking", "prof_lockpicking_expert", "prof_safecracking" ],
     "CBMs": [ "bio_batteries", "bio_lockpick", "bio_fingerhack", "bio_ears", "bio_power_storage_mkII" ],
     "skills": [
@@ -717,6 +731,7 @@
     "name": "Industrial Cyborg",
     "description": "For better or for worse, bionic augmentation has turned you into a walking power tool.  Upgraded with a standard industrial-grade manual labor surgery and training package, you are augmented with bionic muscles and an integrated toolset, both powered by standard batteries.",
     "points": 6,
+    "traits": [ "CBM_Interface" ],
     "skills": [ { "level": 4, "name": "fabrication" }, { "level": 2, "name": "mechanics" } ],
     "proficiencies": [ "prof_metalworking", "prof_welding_basic", "prof_plumbing" ],
     "CBMs": [
@@ -753,6 +768,7 @@
     "name": "Prototype Cyborg",
     "description": "You were normal once.  Before the tests, before the procedures, before they stripped away every outward sign of your humanity.  You're more machine than human now, but that might prove to be an advantage against the horrors that await.",
     "points": -2,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [
       "bio_dis_shock",
       "bio_dis_acid",
@@ -786,7 +802,9 @@
       "bio_power_storage"
     ],
     "items": {
-      "both": { "entries": [ { "item": "subsuit_xl" }, { "item": "footrags" }, { "item": "hat_noise_cancelling" } ] },
+      "both": {
+        "entries": [ { "item": "jumpsuit_pocketless", "variant": "orange" }, { "item": "footrags" }, { "item": "hat_noise_cancelling" } ]
+      },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
@@ -798,6 +816,7 @@
     "name": "Cyberjunkie",
     "description": "Long ago your lifelong infatuation with bionic enhancement lead you into a shady world of back-alley bionic clinics and self-installed secondhand CBMs.  Your posthuman hunger still cries out to be fed; where will you get your bionic fix now?",
     "points": 0,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [
       "bio_itchy",
       "bio_shakes",
@@ -838,6 +857,7 @@
     "name": "Bionic Monster",
     "description": "Completely overtaken by bionic-induced psychosis, you are a deformed posthuman monster, forced to hide in the shadows.  Amidst the desolation, however, even a creature such as yourself might find its niche.",
     "points": 2,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [
       "bio_thumbs",
       "bio_spasm",
@@ -888,6 +908,7 @@
     "name": "Failed Cyborg",
     "description": "After a series of surgical mistakes, your body is a wreck of bionic parts.  You have a large capacity for power, but are filled with broken and useless bionics.  Your ethanol power supply still works, at least.",
     "points": -2,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [
       "bio_drain",
       "bio_noise",
@@ -919,6 +940,7 @@
     "name": "Drone Operator",
     "description": "You had a job programming machines such as automatic street cleaners, newsbots, and pizza delivery drones.  Bionic implants helped you control them remotely.  Now all the drones carry guns instead of pizza.  At least you still have a… RC car?",
     "points": 1,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [ "bio_batteries", "bio_power_storage", "bio_remote" ],
     "skills": [ { "level": 2, "name": "computer" } ],
     "items": {
@@ -943,6 +965,7 @@
     "name": { "male": "Razor Boy", "female": "Razor Girl" },
     "description": "Through a series of painful and expensive surgeries, you became a walking bionic weapon, your services as a mercenary available to the highest bidder.",
     "points": 5,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [ "bio_razors", "bio_armor_eyes", "bio_sunglasses", "bio_dex_enhancer", "bio_ears", "bio_carbon" ],
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
     "proficiencies": [ "prof_unarmed_familiar", "prof_claws_familiar", "prof_bionics_familiar", "prof_gross_anatomy" ],

@@ -2,7 +2,8 @@
   {
     "id": "hk_g80mag",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "H&K G80 20-round magazine" },
     "description": "A magazine for the H&K G80 railgun which can hold up to 20 ferromagnetic projectiles.",
     "weight": "168 g",

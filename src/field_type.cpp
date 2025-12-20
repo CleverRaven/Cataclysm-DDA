@@ -292,6 +292,7 @@ void field_type::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "has_acid", has_acid, false );
     optional( jo, was_loaded, "has_elec", has_elec, false );
     optional( jo, was_loaded, "has_fume", has_fume, false );
+    optional( jo, was_loaded, "moppable", moppable, false );
     optional( jo, was_loaded, "priority", priority, 0 );
     optional( jo, was_loaded, "half_life", half_life, 0_turns );
     optional( jo, was_loaded, "linear_half_life", linear_half_life, false );
@@ -395,17 +396,17 @@ void field_types::load_immunity( const JsonObject &jid, field_immunity_data &fd 
     }
     for( JsonArray jao : jid.get_array( "body_part_env_resistance" ) ) {
         fd.immunity_data_body_part_env_resistance.emplace_back(
-            io::string_to_enum<body_part_type::type>
+            io::string_to_enum<bp_type>
             ( jao.get_string( 0 ) ), jao.get_int( 1 ) );
     }
     for( JsonArray jao : jid.get_array( "immunity_flags_worn" ) ) {
-        fd.immunity_data_part_item_flags.emplace_back( io::string_to_enum<body_part_type::type>
+        fd.immunity_data_part_item_flags.emplace_back( io::string_to_enum<bp_type>
                 ( jao.get_string( 0 ) ), jao.get_string( 1 ) );
     }
 
     for( JsonArray jao : jid.get_array( "immunity_flags_worn_any" ) ) {
         fd.immunity_data_part_item_flags_any.emplace_back(
-            io::string_to_enum<body_part_type::type>
+            io::string_to_enum<bp_type>
             ( jao.get_string( 0 ) ), jao.get_string( 1 ) );
     }
 }

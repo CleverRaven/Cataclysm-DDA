@@ -230,7 +230,7 @@ void diary::show_diary_ui( diary *c_diary )
                                currwin == window_mode::TEXT_WIN, false, report_color_error::no );
 
         trim_and_print( w_head, point::south_east, getmaxx( w_head ) - 2, c_white,
-                        c_diary->get_head_text() );
+                        c_diary->get_head_text( c_diary->get_page_ptr()->is_summary() ) );
 
         wnoutrefresh( w_border );
         wnoutrefresh( w_head );
@@ -312,7 +312,7 @@ void diary::show_diary_ui( diary *c_diary )
         center_print( w_info, 0, c_light_gray, string_format( _( "Info" ) ) );
         if( currwin == window_mode::CHANGE_WIN || currwin == window_mode::TEXT_WIN ) {
             fold_and_print( w_info, point::south_east, getmaxx( w_info ) - 2, c_white,
-                            c_diary->get_desc_map()[selected[window_mode::CHANGE_WIN]] );
+                            c_diary->get_desc_map()[ selected[window_mode::CHANGE_WIN] ] );
         }
 
         wnoutrefresh( w_info );
@@ -360,7 +360,7 @@ void diary::show_diary_ui( diary *c_diary )
         } else if( action == "VIEW_SCORES" ) {
             show_scores_ui();
         } else if( action == "DELETE PAGE" ) {
-            if( !c_diary->pages.empty() ) {
+            if( c_diary->pages.size() > 1 ) {
                 if( query_yn( _( "Really delete Page?" ) ) ) {
                     c_diary->delete_page();
                     if( selected[window_mode::PAGE_WIN] >= static_cast<int>( c_diary->pages.size() ) ) {
@@ -382,6 +382,9 @@ void diary::show_diary_ui( diary *c_diary )
 
 void diary::edit_page_ui( const std::function<catacurses::window()> &create_window )
 {
+    if( get_page_ptr()->is_summary() ) {
+        return;
+    }
     // Modify the stored text so the new text is displayed after exiting from
     // the editor window and before confirming or canceling the y/n query.
     std::string &new_text = get_page_ptr()->m_text;

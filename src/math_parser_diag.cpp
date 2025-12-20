@@ -13,6 +13,7 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_compiler_support.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
@@ -101,7 +102,8 @@ constexpr std::string_view _str_type_of()
 template <typename T>
 T _read_from_string( std::string_view s, const std::vector<std::pair<std::string, T>> &units )
 {
-    auto const error = [s]( char const * suffix, size_t /* offset */ ) {
+    // TODO: LAMBDA_NORETURN_CLANG21x1 can be replaced with [[noreturn]] once we switch to C++23 on all compilers
+    auto const error = [s]( char const * suffix, size_t /* offset */ ) LAMBDA_NORETURN_CLANG21x1 {
         throw math::runtime_error( R"(Failed to convert "%s" to a %s value: %s)", s,
                                    _str_type_of<T>(), suffix );
     };
@@ -200,6 +202,13 @@ double distance_eval( const_dialogue const &d, char /* scope */,
     return rl_dist( get_pos( params[0] ), get_pos( params[1] ) );
 }
 
+double artifact_resonance_eval( const_dialogue const &d, char scope,
+                                std::vector<diag_value> const & /* params */,
+                                diag_kwargs const & /* kwargs */ )
+{
+    return d.const_actor( is_beta( scope ) )->get_artifact_resonance();
+}
+
 double damage_level_eval( const_dialogue const &d, char scope,
                           std::vector<diag_value> const & /* params */,
                           diag_kwargs const & /* kwargs */ )
@@ -278,21 +287,9 @@ double faction_food_supply_eval( const_dialogue const &d, char /* scope */,
     faction *fac = g->faction_manager_ptr->get( faction_id( params[0].str( d ) ) );
     if( !vit_val.is_empty() ) {
         return static_cast<double>(
-                   fac->food_supply.get_vitamin( vitamin_id( vit_val.str( d ) ) ) );
+                   fac->food_supply().get_vitamin( vitamin_id( vit_val.str( d ) ) ) );
     }
-    return static_cast<double>( fac->food_supply.calories );
-}
-
-void faction_food_supply_ass( double val, dialogue &d, char /* scope */,
-                              std::vector<diag_value> const &params, diag_kwargs const &kwargs )
-{
-    diag_value vit_val = kwargs.kwarg_or( "vitamin" );
-    faction *fac = g->faction_manager_ptr->get( faction_id( params[0].str( d ) ) );
-    if( !vit_val.is_empty() ) {
-        fac->food_supply.add_vitamin( vitamin_id( vit_val.str( d ) ), val );
-        return;
-    }
-    fac->food_supply.calories = val;
+    return static_cast<double>( fac->food_supply().calories );
 }
 
 double faction_wealth_eval( const_dialogue const &d, char /* scope */,
@@ -1034,12 +1031,13 @@ double spell_sum_eval( const_dialogue const &d, char scope,
 
 double spell_difficulty_eval( const_dialogue const &d, char scope,
                               std::vector<diag_value> const &params,
-                              diag_kwargs const & /* kwargs */ )
+                              diag_kwargs const &kwargs )
 {
+    bool ignore_modifiers = is_true( kwargs.kwarg_or( "baseline" ).dbl( d ) );
     std::string const &sid_str = params[0].str( d );
     spell_id spell( sid_str );
     if( spell.is_valid() ) {
-        return d.const_actor( is_beta( scope ) )->get_spell_difficulty( spell );
+        return d.const_actor( is_beta( scope ) )->get_spell_difficulty( spell, ignore_modifiers );
     }
     throw math::runtime_error( R"(Unknown spell id "%s" for spell_difficulty_eval)", sid_str );
 }
@@ -1668,6 +1666,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "addiction_intensity", { "un", 1, addiction_intensity_eval } },
     { "addiction_turns", { "un", 1, addiction_turns_eval, addiction_turns_ass } },
     { "armor", { "un", 2, armor_eval } },
+    { "artifact_resonance", { "un", 0, artifact_resonance_eval } },
     { "attack_speed", { "un", 0, attack_speed_eval } },
     { "speed", { "un", 0, move_speed_eval } },
     { "characters_nearby", { "ung", 0, characters_nearby_eval, {}, { "radius", "attitude", "location" } } },
@@ -1684,7 +1683,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "faction_like", { "g", 1, faction_like_eval, faction_like_ass } },
     { "faction_respect", { "g", 1, faction_respect_eval, faction_respect_ass } },
     { "faction_trust", { "g", 1, faction_trust_eval, faction_trust_ass } },
-    { "faction_food_supply", { "g", 1, faction_food_supply_eval, faction_food_supply_ass, { "vitamin" } } },
+    { "faction_food_supply", { "g", 1, faction_food_supply_eval, {}, { "vitamin" } } },
     { "faction_wealth", { "g", 1, faction_wealth_eval, faction_wealth_ass } },
     { "faction_power", { "g", 1, faction_power_eval, faction_power_ass } },
     { "faction_size", { "g", 1, faction_size_eval, faction_size_ass } },
@@ -1717,7 +1716,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "skill", { "un", 1, skill_eval, skill_ass } },
     { "skill_exp", { "un", 1, skill_exp_eval, skill_exp_ass, { "format" } } },
     { "spell_count", { "un", 0, spell_count_eval, {}, { "school" } } },
-    { "spell_difficulty", { "un", 1, spell_difficulty_eval } },
+    { "spell_difficulty", { "un", 1, spell_difficulty_eval, {}, { "baseline" } } },
     { "spell_exp", { "un", 1, spell_exp_eval, spell_exp_ass } },
     { "spell_exp_for_level", { "g", 2, spell_exp_for_level_eval } },
     { "spell_level", { "un", 1, spell_level_eval, spell_level_ass } },

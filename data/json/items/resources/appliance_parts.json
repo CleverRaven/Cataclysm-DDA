@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "oven_stovetop",
     "symbol": "_",
     "color": "dark_gray",
@@ -15,7 +15,7 @@
     "longest_side": "60 cm"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "oven_cabinet",
     "symbol": "x",
     "color": "dark_gray_white",
@@ -30,7 +30,7 @@
     "longest_side": "69 cm"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "oven_controls",
     "symbol": "#",
     "color": "light_cyan",
@@ -45,7 +45,7 @@
     "longest_side": "65 cm"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "oven_door",
     "symbol": "#",
     "color": "light_cyan",
@@ -60,7 +60,7 @@
     "longest_side": "69 cm"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "oven_broiler_pan",
     "symbol": "_",
     "color": "dark_gray_white",

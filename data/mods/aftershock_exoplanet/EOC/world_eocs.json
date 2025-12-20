@@ -1,0 +1,31 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "afs_spot_spaceport",
+    "recurrence": [ "8 hours", "48 hours" ],
+    "condition": {
+      "and": [
+        { "one_in_chance": 2 },
+        { "not": { "math": [ "has_var(know_spaceport)" ] } },
+        { "not": { "u_has_mission": "MISSION_REACH_SPACEPORT" } },
+        { "not": "is_day" },
+        "u_can_see",
+        { "is_weather": "clear" },
+        "u_is_outside"
+      ]
+    },
+    "effect": [
+      { "assign_mission": "MISSION_REACH_SPACEPORT" },
+      {
+        "u_message": "You notice the rocket plumes of three ascending ships in the distance.  There must be a large space port in that direction."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_KNOW_SPACEPORT",
+    "global": true,
+    "condition": { "not": { "math": [ "has_var(know_spaceport)" ] } },
+    "effect": [ { "math": [ "know_spaceport = 1" ] } ]
+  }
+]

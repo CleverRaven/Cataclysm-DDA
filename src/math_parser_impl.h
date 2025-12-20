@@ -71,6 +71,16 @@ struct oper {
     std::shared_ptr<thingie> l, r;
     binary_op::f_t op{};
 };
+
+struct dot_oper {
+    dot_oper( var_info v_, std::string_view m_ );
+
+    double eval( const_dialogue const &d ) const;
+    void assign( dialogue &d, double val ) const;
+
+    var_info v;
+    char member{};
+};
 struct func {
     explicit func( std::vector<thingie> &&params_, math_func::f_t f_ );
 
@@ -164,7 +174,7 @@ struct thingie {
     constexpr double eval( const_dialogue const &d ) const;
 
     using impl_t =
-        std::variant<double, std::string, oper, ass_oper, func, func_jmath, func_diag, var, kwarg, ternary, array>;
+        std::variant<double, std::string, oper, dot_oper, ass_oper, func, func_jmath, func_diag, var, kwarg, ternary, array>;
     impl_t data;
 };
 
@@ -315,7 +325,7 @@ inline double b_neg( double /* zero */, double r )
 
 constexpr binary_op assignment_op{ "", -10, binary_op::associativity::left };
 
-constexpr std::array<binary_op, 14> binary_ops{
+constexpr std::array<binary_op, 15> binary_ops{
     binary_op{ "?", 0, binary_op::associativity::right },
     binary_op{ ":", 0, binary_op::associativity::right },
     binary_op{ "<", 1, binary_op::associativity::left, math_opers::lt },
@@ -330,6 +340,7 @@ constexpr std::array<binary_op, 14> binary_ops{
     binary_op{ "/", 3, binary_op::associativity::left, math_opers::div },
     binary_op{ "%", 3, binary_op::associativity::right, math_opers::mod },
     binary_op{ "^", 4, binary_op::associativity::right, math_opers::math_pow },
+    binary_op{ ".", 10, binary_op::associativity::right },
 };
 
 constexpr std::array<unary_op, 3> prefix_unary_ops{

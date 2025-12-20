@@ -2,7 +2,8 @@
   {
     "id": "wasp_gun",
     "looks_like": "fn_p90",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "GG-860 Wasp Rifle" },
     "description": "This light coilgun fires 3x35mm armor-piercing flechette.  Classified as a support crew weapon that can be stashed in hidden lockers throughout the floors of a ship.  Designed to be fired in short bursts, if the flechettes pierce a ship's hull they leave tiny holes that are easily repaired.",
@@ -41,7 +42,8 @@
   {
     "id": "3x35_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "3x35mm automatic 'Wandering Priest' coilpistol" },
     "description": "An automatic coilgun made entirely of lightweight ceramics, with no moving pieces and if loaded with splinter rounds almost entirely invisible on most security scanners.  No one is sure who manufactures this assassin's tool, but they randomly come onto the back room markets frequented by the unsavory.",

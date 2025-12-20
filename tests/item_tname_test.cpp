@@ -1,5 +1,4 @@
 #include <memory>
-#include <set>
 #include <string>
 #include <vector>
 
@@ -628,7 +627,7 @@ TEST_CASE( "weapon_fouling", "[item][tname][fouling][dirt]" )
         }
 
         WHEN( "it is fouled" ) {
-            gun.faults.insert( fault_gun_dirt );
+            gun.set_fault( fault_gun_dirt );
             REQUIRE( gun.has_fault( fault_gun_dirt ) );
 
             // Max dirt is 10,000
@@ -759,16 +758,16 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
         }
         SECTION( "container has whitelist" ) {
             std::string const wlmark = "⁺";
-            REQUIRE( backpack_hiking.get_all_contained_pockets().size() >= 2 );
-            backpack_hiking.get_all_contained_pockets().front()->settings.whitelist_item(
+            REQUIRE( backpack_hiking.get_container_pockets().size() >= 2 );
+            backpack_hiking.get_container_pockets().front()->settings.whitelist_item(
                 itype_rock );
             CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack" +
                    colorize( wlmark, c_dark_gray ) + " " + nesting_sym + " " + rock_nested_tname );
-            backpack_hiking.get_all_contained_pockets()[1]->settings.set_was_edited();
+            backpack_hiking.get_container_pockets()[1]->settings.set_was_edited();
             // different pocket was edited
             CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack" +
                    colorize( wlmark, c_dark_gray ) + " " + nesting_sym + " " + rock_nested_tname );
-            backpack_hiking.get_all_contained_pockets()[0]->settings.set_was_edited();
+            backpack_hiking.get_container_pockets()[0]->settings.set_was_edited();
             CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack" +
                    colorize( wlmark, c_light_gray ) + " " + nesting_sym + " " + rock_nested_tname );
         }

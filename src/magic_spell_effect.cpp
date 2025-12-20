@@ -32,6 +32,7 @@
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
+#include "game_inventory.h"
 #include "field.h"
 #include "field_type.h"
 #include "fungal_effects.h"
@@ -54,6 +55,7 @@
 #include "mtype.h"
 #include "npc.h"
 #include "overmapbuffer.h"
+#include "pickup.h"
 #include "pimpl.h"
 #include "point.h"
 #include "projectile.h"
@@ -72,18 +74,19 @@
 
 class translation;
 
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_teleglow( "teleglow" );
 
 static const flag_id json_flag_FIT( "FIT" );
 
+static const json_character_flag
+json_flag_BLOCK_SUPERNATURAL_HEALING( "BLOCK_SUPERNATURAL_HEALING" );
 static const json_character_flag json_flag_PRED1( "PRED1" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 
 static const morale_type morale_killed_monster( "morale_killed_monster" );
-static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
-static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -94,10 +97,9 @@ static const mtype_id mon_generator( "mon_generator" );
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
 static const species_id species_SLIME( "SLIME" );
 
-static const trait_id trait_KILLER( "KILLER" );
+static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 namespace spell_detail
 {
@@ -535,12 +537,8 @@ static void damage_targets( const spell &sp, Creature &caster,
             here.add_field( target, fd_fire, 1, 10_minutes );
 
             Character &player_character = get_player_character();
-            if( player_character.has_trait( trait_PYROMANIA ) &&
-                !player_character.has_morale( morale_pyromania_startfire ) ) {
-                player_character.add_msg_if_player( m_good,
-                                                    _( "You feel a surge of euphoria as flames burst out!" ) );
-                player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
-                player_character.rem_morale( morale_pyromania_nofire );
+            if( player_character.has_unfulfilled_pyromania() ) {
+                player_character.fulfill_pyromania_sees( here, target );
             }
         }
         Creature *const cr = creatures.creature_at<Creature>( target );
@@ -628,9 +626,13 @@ static void damage_targets( const spell &sp, Creature &caster,
                 cr->deal_projectile_attack( &here, &caster, atk, atk.missed_by, true );
             }
         } else if( sp.damage( caster ) < 0 ) {
-            sp.heal( target, caster );
-            add_msg_if_player_sees( cr->pos_bub(), m_good, _( "%s wounds are closing up!" ),
-                                    cr->disp_name( true ) );
+            if( !cr->has_flag( json_flag_BLOCK_SUPERNATURAL_HEALING ) ) {
+                sp.heal( target, caster );
+                add_msg_if_player_sees( cr->pos_bub(), m_good, _( "%s wounds are closing up!" ),
+                                        cr->disp_name( true ) );
+            } else {
+                caster.add_msg_if_player( m_bad, _( "Your healing spell has no effect!" ) );
+            }
         }
 
         // handling DOTs here
@@ -700,7 +702,7 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
 
     // if effect_str is empty, we become a random monster of close difficulty
     if( new_id.is_empty() ) {
-        int victim_diff = victim.type->difficulty;
+        int victim_diff = victim.type->get_total_difficulty();
         const std::vector<mtype> &mtypes = MonsterGenerator::generator().get_all_mtypes();
         for( int difficulty_variance = 1; difficulty_variance < 2048; difficulty_variance *= 2 ) {
             unsigned int random_entry = rng( 0, mtypes.size() );
@@ -709,8 +711,8 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
                 if( iter >= mtypes.size() ) {
                     iter = 0;
                 }
-                if( ( mtypes[iter].id != victim.type->id ) && ( std::abs( mtypes[iter].difficulty - victim_diff )
-                        <= difficulty_variance ) ) {
+                if( ( mtypes[iter].id != victim.type->id ) &&
+                    ( std::abs( mtypes[iter].get_total_difficulty() - victim_diff ) <= difficulty_variance ) ) {
                     if( !mtypes[iter].in_species( species_HALLUCINATION ) &&
                         mtypes[iter].id != mon_generator ) {
                         new_id = mtypes[iter].id;
@@ -990,15 +992,15 @@ static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint_bub_
                 caster.add_effect( effect_teleglow, 5_hours );
                 break;
             case 3:
-                std::string message_prefix = "A nearby";
-
-                if( caster.sees( here, field_position ) ) {
-                    message_prefix = "The";
+                if( sees_field ) {
+                    caster.add_msg_if_player( m_bad, _( "The %s pulls you in as it closes and ejects you violently!" ),
+                                              intensity_name );
+                } else {
+                    caster.add_msg_if_player( m_bad,
+                                              _( "A nearby %s pulls you in as it closes and ejects you violently!" ),
+                                              intensity_name );
                 }
 
-                caster.add_msg_if_player( m_bad,
-                                          _( "%s %s pulls you in as it closes and ejects you violently!" ),
-                                          message_prefix, intensity_name );
                 caster.as_character()->hurtall( 10, nullptr );
                 caster.add_effect( effect_teleglow, 630_minutes );
                 teleport::teleport_creature( caster );
@@ -1470,7 +1472,7 @@ void spell_effect::explosion( const spell &sp, Creature &caster, const tripoint_
 void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
 {
     explosion_handler::flashbang( target, caster.is_avatar() &&
-                                  !sp.is_valid_target( spell_target::self ) );
+                                  !sp.is_valid_target( spell_target::self ), sp.aoe( caster ) );
 }
 
 void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
@@ -1545,6 +1547,10 @@ void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripo
             mon->get_hp() <= sp.damage( caster ) ) {
             mon->unset_dest();
             mon->friendly += sp.duration( caster ) / 100;
+            if( mon->friendly != -1 && sp.has_flag( spell_flag::CHARM_PET ) ) {
+                mon->friendly = -1;
+                mon->add_effect( effect_pet, 1_turns, true );
+            }
         }
     }
 }
@@ -1646,7 +1652,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint_bub_
         guilt_thresholds[max_kills] = _( "You feel uneasy about killing %s." );
 
         Character &guy = *guilt_target;
-        if( guy.has_trait( trait_PSYCHOPATH ) || guy.has_trait( trait_KILLER ) ||
+        if( guy.has_trait( trait_NUMB ) || guy.has_trait( trait_PSYCHOPATH ) ||
             guy.has_flag( json_flag_PRED3 ) || guy.has_flag( json_flag_PRED4 ) ) {
             // specially immune.
             return;
@@ -1876,7 +1882,8 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
             // we wannt to leave 1 hp on each already unbroken limb
             caster_total_hp -= unbroken_parts;
             if( overflow > caster_total_hp ) {
-                caster.add_msg_if_player( m_bad, _( "Banishment failed, you are too weak!" ) );
+                std::string spell_name = sp.name();
+                caster.add_msg_if_player( m_bad, string_format( _( "%s failed, you are too weak!" ), spell_name ) );
                 return;
             } else {
                 // can change if a part has less hp than this
@@ -1900,11 +1907,34 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
             }
         }
 
-        caster.add_msg_if_player( m_good, string_format( _( "%s banished." ), mon->name() ) );
+        caster.add_msg_if_player( m_good, string_format( _( "The %s disappears." ), mon->name() ) );
         // banished monsters take their stuff with them
         mon->death_drops = false;
         mon->die( &here, &caster );
     }
+}
+
+void spell_effect::pickup( const spell &sp, Creature &caster,
+                           const tripoint_bub_ms &target )
+{
+    Character *c = caster.as_character();
+    if( !c ) {
+        // Only characters can loot items.
+        return;
+    }
+    const std::set<tripoint_bub_ms> area = spell_effect_area( sp, target, caster );
+    std::set<tripoint_bub_ms> valid_targets = {};
+    for( const tripoint_bub_ms &potential_target : area ) {
+        if( sp.is_valid_target( caster, potential_target ) ) {
+            valid_targets.emplace( potential_target );
+        }
+    }
+
+    int extra_moves_per_pickup = sp.damage( caster );
+    Pickup::pick_info pickup_info = Pickup::pick_info( extra_moves_per_pickup >= 0 ?
+                                    extra_moves_per_pickup : 0, -1_ml, -1_gram );
+    ( *c ).pick_up( game_menus::inv::pickup( valid_targets, {}, pickup_info ), pickup_info );
+
 }
 
 void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
@@ -1934,11 +1964,7 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
         write_var_value( var_type::context, "spell_location", &d, target_abs );
         d.amend_callstack( string_format( "Spell: %s Caster: %s", sp.id().c_str(), caster.disp_name() ) );
         effect_on_condition_id eoc = effect_on_condition_id( sp.effect_data() );
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a spell.  If you don't want the effect_on_condition to happen on its own (without the spell being cast), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this spell with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a spell", "spell being cast", "spell" );
     }
 }
 

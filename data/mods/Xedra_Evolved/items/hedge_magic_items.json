@@ -3,7 +3,8 @@
     "abstract": "magic_square_base",
     "name": { "str": "Magic Square abstract", "//~": "NO_I18N" },
     "description": { "str": "SATOR AREPO TENET OPERA ROTAS.", "//~": "NO_I18N" },
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "weight": "3 g",
     "color": "white",
     "symbol": "`",
@@ -17,7 +18,7 @@
   {
     "id": "aura_ward_off_rain",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "Rain Ward",
     "description": "Thanks to the words of the charm you spoke, you won't get wet.",
     "weight": "0 g",
@@ -39,19 +40,19 @@
       "RAINPROOF"
     ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "armor": [
       {
         "encumbrance": 0,
         "coverage": 100,
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
-    ]
+    ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ]
   },
   {
     "id": "item_hedge_witchlight",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "Witchlight",
     "description": "A bobbing ball of blueish-green light, just bright enough to read by.",
     "weight": "0 g",
@@ -59,8 +60,8 @@
     "price": "0 cent",
     "symbol": "x",
     "color": "yellow",
+    "light": 10,
     "flags": [
-      "LIGHT_10",
       "SEMITANGIBLE",
       "AURA",
       "OVERSIZE",
@@ -73,7 +74,6 @@
       "NONCONDUCTIVE"
     ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Dismiss the witchlight",
@@ -83,7 +83,8 @@
           "effect": [ { "run_eocs": "EOC_ITEM_HEDGE_WITCHLIGHT_DISMISS_ACTUAL", "time_in_future": 1 } ]
         }
       ]
-    }
+    },
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ]
   },
   {
     "type": "ITEM",
@@ -105,7 +106,8 @@
   },
   {
     "id": "hedge_fire_starter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "To Kindle the Flames" },
     "description": "The item that starts fires when using To Kindle the Flames.  This should be summoned and deleted as part of the spell, so you should never actually see it.",
     "weight": "0 g",
@@ -118,13 +120,13 @@
   {
     "id": "item_hedge_see_fae_necklace",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": "Faesight Charm",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  It's awaiting you to speak the final words of the charm and activate it.",
     "turns_per_charge": 25,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 360 } } ],
     "weight": "100 g",
-    "volume": "50 ml",
+    "volume": "150 ml",
     "price": "50 USD",
     "price_postapoc": "50 cent",
     "material": [ "leather", "veggy" ],
@@ -134,78 +136,74 @@
     "use_action": {
       "type": "transform",
       "need_charges": 1,
-      "active": true,
       "target": "item_hedge_see_fae_necklace_on",
       "msg": "You recite that last part of the charm.",
       "need_worn": true
     },
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "special_vision": [
-            {
-              "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
-              "distance": 20,
-              "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
-            }
-          ]
-        }
-      ]
-    },
-    "tool_ammo": "glamour_charge"
+    "tool_ammo": "glamour_charge",
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
+            "distance": 20,
+            "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "item_hedge_see_fae_necklace_on",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "Faesight Charm (active)", "str_pl": "Faesight Charms (active)" },
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.",
     "turns_per_charge": 25,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 360 } } ],
-    "weight": "100 g",
+    "weight": "45 g",
     "volume": "50 ml",
     "material": [ "leather", "veggy" ],
     "color": "green",
     "symbol": ",",
-    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "HEDGE_ENCHANTED" ],
+    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "HEDGE_ENCHANTED", "SPAWN_ACTIVE" ],
     "revert_to": "item_hedge_see_fae_necklace_done",
     "revert_msg": "Your otherworldly senses fade.",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "special_vision": [
-            {
-              "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
-              "distance": 20,
-              "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
-            }
-          ]
-        }
-      ]
-    },
-    "tool_ammo": "glamour_charge"
+    "tool_ammo": "glamour_charge",
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
+            "distance": 20,
+            "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "item_hedge_see_fae_necklace_done",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": "Faesight Charm",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  This charm seems lifeless somehow, its energy spent.",
-    "weight": "100 g",
+    "weight": "45 g",
     "volume": "50 ml",
     "material": [ "leather", "veggy" ],
     "color": "green",
     "symbol": ",",
     "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "MUNDANE" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ]
   },
   {
     "id": "item_hedge_changeling_snare",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "betweener's maze",
     "category": "traps",
     "properties": { "capture_species": "CHANGELING" },
@@ -264,7 +262,6 @@
     "volume": "4 L",
     "price": "245 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "fur", "bone" ],
     "symbol": "[",
     "looks_like": "cloak_leather",
@@ -313,6 +310,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {
@@ -335,6 +333,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {
@@ -360,6 +359,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {
@@ -382,6 +382,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {
@@ -416,6 +417,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {
@@ -438,6 +440,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {
@@ -449,5 +452,31 @@
         }
       ]
     }
+  },
+  {
+    "id": "item_hedge_astral_projection_cord",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str_sp": "[Ψ]silver cord" },
+    "description": "A thin silver cord, stretching off into the distance, connecting you to your body.  You could follow it back to return.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
+    "symbol": "[",
+    "color": "light_gray",
+    "flags": [
+      "PERSONAL",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS",
+      "INTEGRATED",
+      "PADDED",
+      "SEMITANGIBLE",
+      "WATER_FRIENDLY",
+      "NO_DROP"
+    ],
+    "max_worn": 1,
+    "environmental_protection": 0
   }
 ]

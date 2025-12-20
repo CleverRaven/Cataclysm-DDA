@@ -48,7 +48,8 @@
   },
   {
     "id": "rock_candy_chunk",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "rock candy chunk" },
     "description": "This is a chunk of hard rock candy.  It can be broken down into sugar.",

@@ -344,6 +344,9 @@ void submap::revert_submap( submap &sr )
             }
         }
     }
+    // copy cosmetics to new submap
+    // since their positions are stored in point_sm_ms, cosmetics do not require location updates.
+    cosmetics = sr.cosmetics;
 }
 
 submap submap::get_revert_submap() const
@@ -352,6 +355,7 @@ submap submap::get_revert_submap() const
     ret.uniform_ter = uniform_ter;
     if( !is_uniform() ) {
         ret.m = std::make_unique<maptile_soa>( *m );
+        ret.cosmetics = cosmetics;
     }
 
     return ret;

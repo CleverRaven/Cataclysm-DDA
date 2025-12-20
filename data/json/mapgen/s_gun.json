@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_gun_a" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -58,7 +57,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_gun_a_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -117,7 +115,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_gun_b_store", "s_gun_b_range" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -179,7 +176,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_gun_b_roof", "s_gun_b_range_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",

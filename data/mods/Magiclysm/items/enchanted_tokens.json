@@ -2,7 +2,7 @@
   {
     "abstract": "mtoken",
     "name": "magic token",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "weight": "8 g",
     "volume": "1 ml",
@@ -13,7 +13,7 @@
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_longsword",
     "name": "longsword token",
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a longsword.",
@@ -21,14 +21,13 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "longsword",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine longsword!"
     }
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_arming_sword",
     "name": { "str": "arming sword token" },
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case an arming sword.",
@@ -36,14 +35,13 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "arming_sword",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine arming sword!"
     }
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_broadsword",
     "name": "broadsword token",
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a broadsword.",
@@ -51,14 +49,13 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "broadsword",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine broadsword!"
     }
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_battleaxe",
     "name": { "str": "battle axe token" },
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a battle axe.",
@@ -66,14 +63,13 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "battleaxe",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine battle axe!"
     }
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_pike",
     "name": "pike token",
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a pike.",
@@ -81,14 +77,13 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "pike",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine pike!"
     }
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_mace",
     "name": "mace token",
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a mace.",
@@ -96,14 +91,13 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "mace",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine mace!"
     }
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_q_staff",
     "name": "quarterstaff token",
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a quarterstaff.",
@@ -111,14 +105,13 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "q_staff",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a pristine quarterstaff!"
     }
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_hammer",
     "name": "hammer token",
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a hammer.",
@@ -126,14 +119,13 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "hammer",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine hammer!"
     }
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_screwdriver_set",
     "name": "screwdriver set token",
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a screwdriver.",
@@ -141,14 +133,13 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "screwdriver_set",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine screwdriver set!"
     }
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_crowbar",
     "name": "crowbar token",
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a crowbar.",
@@ -156,7 +147,6 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "crowbar",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine crowbar!"
     }

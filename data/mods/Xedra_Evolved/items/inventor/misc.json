@@ -2,7 +2,8 @@
   {
     "id": "inventor_light_minus_cell",
     "copy-from": "light_minus_disposable_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "ultra-light modified battery", "str_pl": "ultra-light modified batteries" },
     "description": "A light battery cell that was modified and replaced with much more effective cells inside.",
@@ -14,7 +15,8 @@
   {
     "id": "inventor_light_cell",
     "copy-from": "light_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "light modified battery", "str_pl": "light modified batteries" },
     "description": "A light battery cell that was modified and replaced with much more effective cells inside.",
@@ -26,7 +28,8 @@
   {
     "id": "inventor_medium_cell",
     "copy-from": "medium_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "medium modified battery", "str_pl": "medium modified batteries" },
     "description": "A medium battery cell that was modified and replaced with much more effective cells inside.",
@@ -38,7 +41,8 @@
   {
     "id": "inventor_heavy_cell",
     "copy-from": "heavy_plus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "modified tool battery", "str_pl": "modified tool batteries" },
     "description": "A tool battery cell that was modified and replaced with much more effective cells inside.",
@@ -49,20 +53,44 @@
   },
   {
     "id": "inventor_welder",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "welder",
     "name": { "str": "inventor's welder" },
     "description": "A lightweight, battery-powered tool to weld metal pieces together using a plasma-inducted electric arc.  A decent tool, but you think you can do more with some modifications.",
     "weight": "2000 g",
     "volume": "2500 ml",
-    "material": [ "steel", "plastic" ],
+    "material": [ "lc_steel", "plastic" ],
     "extend": { "flags": [ "INVENTOR_CRAFTED" ] },
-    "pocket_data": [
+    "use_action": [
       {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
-        "default_magazine": "medium_battery_cell"
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [
+          "iron",
+          "steel",
+          "aluminum",
+          "copper",
+          "bronze",
+          "fancy_bronze",
+          "silver",
+          "gold",
+          "budget_steel",
+          "lc_steel",
+          "mc_steel",
+          "hc_steel",
+          "ch_steel",
+          "lc_steel_chain",
+          "mc_steel_chain",
+          "hc_steel_chain",
+          "ch_steel_chain",
+          "platinum",
+          "superalloy"
+        ],
+        "skill": "fabrication",
+        "tool_quality": 10,
+        "cost_scaling": 0.1,
+        "move_cost": 500
       },
       {
         "type": "link_up",
@@ -71,11 +99,20 @@
         "cable_length": 10,
         "charge_rate": "100 W"
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "default_magazine": "medium_battery_cell"
+      }
     ]
   },
   {
     "id": "heater_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "\"Heater\"", "str_pl": "\"Heaters\"" },
     "description": "An extremely small and light tool that creates and transfers the heat in an extremely effective way.  You think it would be interesting to develop it further.",
     "weight": "358 g",
@@ -113,7 +150,8 @@
   {
     "id": "software_AI",
     "copy-from": "abstract_software",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "IA software" },
     "description": "A simple intelligent agent to provide support in parsing big layers of information.",
     "extend": { "flags": [ "INVENTOR_CRAFTED" ] },
@@ -121,12 +159,13 @@
   },
   {
     "id": "inventor_portal_closer",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Netherium-Reality Smoothing Device" },
     "looks_like": "box_large_metal",
     "description": "An enormous industrial press shaped device, covered in sensors, circuits, and other doodads.  Two inverted teleporters are located on each side of the hammers, poised to perfectly align at the end of a strike.  Doing so will smoothen the overall local barrier between Earth and other realities, filling in any holes at the expense of weakening it in a much wider area.  This is an overall positive effect, allowing you to heal tears that would never naturally close, but expect large temporary side-effects.",
     "longest_side": "1495 mm",
-    "material": [ "steel" ],
+    "material": [ "mc_steel" ],
     "symbol": "#",
     "volume": "601475 ml",
     "weight": "226 kg",
@@ -157,14 +196,15 @@
   },
   {
     "id": "xedra_inventor_time_pierce_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Time Piercing Device" },
     "description": "A small remote with a sharp spike at the end.  You can activate this device while poking it into a zone of frozen time in order to unfreeze the area you're touching.",
     "looks_like": "spike",
     "weight": "300 g",
     "volume": "400 ml",
     "longest_side": "30 cm",
-    "material": [ "aluminum", "steel" ],
+    "material": [ "aluminum", "mc_steel" ],
     "symbol": ";",
     "color": "white",
     "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED", "TRADER_AVOID" ],

@@ -1,7 +1,8 @@
 [
   {
     "id": "damaged_shelter_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "damaged shelter kit" },
     "description": "A disassembled small shelter made of sticks and skins.  It's been damaged and needs to be repaired before you can set it up.",
     "weight": "1360 g",
@@ -9,14 +10,14 @@
     "longest_side": "90 cm",
     "price": "20 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "wood", "leather" ],
     "symbol": ";",
     "color": "brown",
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "large_damaged_shelter_kit",
     "symbol": ";",
     "color": "brown",
@@ -27,13 +28,14 @@
     "material": [ "wood", "leather" ],
     "weight": "15 kg",
     "volume": "17 L",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 4 }
   },
   {
     "id": "large_tent_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "large tent" },
     "description": "A family sized tent in a storage bag.  It provides a large amount of space, but is very bulky.",
     "weight": "2266 g",
@@ -41,7 +43,7 @@
     "longest_side": "90 cm",
     "price": "500 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "green",
@@ -59,7 +61,8 @@
   },
   {
     "id": "shelter_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "shelter kit" },
     "description": "A disassembled small shelter made of sticks and skins.  Activate it to set it up.",
     "weight": "1360 g",
@@ -67,7 +70,7 @@
     "longest_side": "90 cm",
     "price": "65 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "wood", "leather" ],
     "symbol": ";",
     "color": "brown",
@@ -84,7 +87,8 @@
   },
   {
     "id": "large_shelter_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "large shelter kit" },
     "description": "A large disassembled shelter made of sticks and skins.  Activate it to set it up.",
     "weight": "21 kg",
@@ -92,7 +96,7 @@
     "longest_side": "300 cm",
     "price": "65 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "wood", "leather" ],
     "symbol": ";",
     "color": "brown",
@@ -110,7 +114,8 @@
   },
   {
     "id": "tent_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tent" },
     "description": "A small personal tent in a storage bag.  It's just big enough to fit one person comfortably.",
     "weight": "1133 g",
@@ -118,7 +123,7 @@
     "longest_side": "90 cm",
     "price": "150 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "green",
@@ -134,7 +139,7 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tent_pole",
     "symbol": "/",
     "color": "dark_gray",
@@ -145,7 +150,7 @@
     "weight": "225 g",
     "volume": "100 ml",
     "longest_side": "90 cm",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 1 }
   }
 ]

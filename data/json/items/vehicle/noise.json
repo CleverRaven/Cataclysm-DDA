@@ -1,11 +1,11 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "muffler",
     "name": { "str": "muffler" },
     "description": "A muffler from a car.  Useful in a few crafting recipes.",
     "weight": "9525 g",
-    "to_hit": -10,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "color": "light_gray",
     "symbol": "/",
     "material": [ "lc_steel" ],
@@ -18,7 +18,7 @@
     "melee_damage": { "bash": 19 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "beeper",
     "name": { "str": "back-up beeper" },
     "description": "A safety device intended to warn passersby of a vehicle moving in reverse.  Usage of it now seems terribly unwise.",
@@ -27,7 +27,7 @@
     "color": "light_gray",
     "material": [ "plastic", "aluminum" ],
     "volume": "250 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "category": "veh_parts",
     "price": "60 USD",
     "price_postapoc": "1 USD",
@@ -36,7 +36,7 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "stereo",
     "name": { "str": "stereo system" },
     "description": "A stereo system with speakers.  It is capable of being hooked up to a vehicle.",
@@ -52,7 +52,7 @@
     "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chimes",
     "name": { "str_sp": "chime loudspeakers" },
     "description": "A stereo system with loudspeakers and a built-in set of simple melodies that it will play.  Commonly used by ice cream trucks to draw the attention of children in the days when children wanted ice cream more than brains.",

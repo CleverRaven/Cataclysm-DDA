@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "money",
     "price": "1 cent",
     "price_postapoc": "1 cent",
@@ -15,7 +16,8 @@
   },
   {
     "id": "cash_card",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "currency",
     "copy-from": "card_plastic_abstract",
     "symbol": "$",
@@ -28,7 +30,7 @@
     "tool_ammo": [ "money" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "currency",
     "id": "UICA_1d",
     "name": { "str": "$1 chit" },
@@ -44,7 +46,7 @@
     "material": [ "steel" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "currency",
     "id": "UICA_10d",
     "copy-from": "UICA_1d",
@@ -55,7 +57,7 @@
     "price_postapoc": "10 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "currency",
     "id": "UICA_50d",
     "copy-from": "UICA_1d",
@@ -66,7 +68,7 @@
     "price_postapoc": "50 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "currency",
     "id": "UICA_100d",
     "copy-from": "UICA_1d",
@@ -77,7 +79,7 @@
     "price_postapoc": "100 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "currency",
     "id": "UICA_1000d",
     "copy-from": "UICA_1d",
@@ -88,7 +90,7 @@
     "price_postapoc": "1 kUSD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "currency",
     "id": "UICA_10000d",
     "copy-from": "UICA_1d",
@@ -97,5 +99,14 @@
     "price": "10 kUSD",
     "color": "cyan",
     "price_postapoc": "10 kUSD"
+  },
+  {
+    "id": "gold_small",
+    "copy-from": "gold_small",
+    "type": "ITEM",
+    "name": { "str": "gold" },
+    "description": "Soft, shiny metal.  Near universally valuable across human cultures, and often kept aboard ships as emergency currency.",
+    "price": "30 kUSD",
+    "price_postapoc": "30 kUSD"
   }
 ]

@@ -7,7 +7,6 @@
     "weight": "258 g",
     "color": "white",
     "spoils_in": "1 d",
-    "container": "jug_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 70,
@@ -62,7 +61,6 @@
     "name": { "str_sp": "shelf stable milk" },
     "copy-from": "milk",
     "spoils_in": "7 d",
-    "container": "carton_sealed",
     "description": "This is milk that has been pasteurized at much higher temperatures than normal.  It tastes slightly different, but, unopened, will last far longer than regular milk.",
     "price": "50 cent",
     "price_postapoc": "1 USD 50 cent"
@@ -108,7 +106,7 @@
     "weight": "257 g",
     "color": "magenta",
     "spoils_in": "20 hours",
-    "container": "cup_plastic",
+    "container": "cup_plastic_yoghurt",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 150,
@@ -224,7 +222,7 @@
     "charges": 1,
     "phase": "liquid",
     "fun": -12,
-    "vitamins": [ [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -234,7 +232,7 @@
     "copy-from": "cheese",
     "weight": "34 g",
     "spoils_in": "180 days",
-    "container": "wrapper",
+    "container": "cheese_wheel_wax",
     "quench": -5,
     "calories": 135,
     "description": "Hard, dry cheese made to last, unlike modern processed cheese.  Will make you thirsty though.",
@@ -426,7 +424,6 @@
     "name": { "str_sp": "powdered milk" },
     "weight": "30 g",
     "color": "white",
-    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
@@ -437,7 +434,6 @@
     "material": [ "powder", "milk" ],
     "primary_material": "powder",
     "volume": "62 ml",
-    "cooks_like": "milk",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "vitC", 1 ], [ "calcium", 7 ], [ "milk_allergen", 1 ] ],
     "fun": -5,

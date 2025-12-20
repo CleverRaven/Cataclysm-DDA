@@ -2,48 +2,48 @@
   {
     "id": "pistol_tiny_casing",
     "copy-from": "32_casing",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": "tiny pistol casing",
     "description": "An empty casing from a tiny pistol round."
   },
   {
     "id": "pistol_casing",
     "copy-from": "9mm_casing",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "pistol casing" },
     "description": "An empty casing from a standard pistol round."
   },
   {
     "id": "pistol_magnum_casing",
     "copy-from": "44_casing",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "magnum pistol casing" },
     "description": "An empty casing from a magnum pistol round."
   },
   {
     "id": "rifle_casing",
     "copy-from": "308_casing",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "rifle casing" },
     "description": "An empty casing from a rifle round."
   },
   {
     "id": "rifle_huge_casing",
     "copy-from": "50_casing",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "huge rifle casing" },
     "description": "An empty casing from a huge rifle round."
   },
   {
     "id": "shot_casing",
     "copy-from": "shot_hull",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": "shotshell hull",
     "description": "A shotshell's casing, a plastic tube with a brass casehead, commonly referred to as a hull."
   },
   {
     "id": "caotel_cell_spent",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "caotel_cell_spent",
     "name": { "str": "spent plasma cell" },
     "description": "A plasma cell that has been depleted of energy.  It cannot be recharged."
@@ -51,28 +51,28 @@
   {
     "id": "grenade_casing",
     "copy-from": "40x46mm_m199_casing",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "grenade casing" },
     "description": "A large casing from a grenade round."
   },
   {
     "id": "ammolinkrifle",
     "copy-from": "ammolink",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "rifle belt linkage" },
     "use_action": { "type": "ammobelt", "belt": "rifle_belt" }
   },
   {
     "id": "ammolinkgrenade",
     "copy-from": "ammolink",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "grenade belt linkage" },
     "use_action": { "type": "ammobelt", "belt": "grenade_belt" }
   },
   {
     "id": "ammolinkrifle_huge",
     "copy-from": "ammolink",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "heavy machinegun belt linkage" },
     "use_action": { "type": "ammobelt", "belt": "rifle_huge_belt" }
   }

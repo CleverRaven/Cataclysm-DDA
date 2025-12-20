@@ -2,7 +2,8 @@
   {
     "id": "bio_shotgun_gun",
     "looks_like": "remington_870",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "bionic shotgun" },
     "description": "Bionic one-shot retracting shotgun integrated with your arm.",
     "volume": "103 ml",
@@ -24,7 +25,8 @@
   },
   {
     "id": "bio_emp_gun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "EMP Projector" },
     "description": { "str": "this a pseudo item", "//~": "NO_I18N" },
     "weight": "2950 g",
@@ -48,7 +50,8 @@
   },
   {
     "id": "bio_laser_gun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "laser finger" },
     "description": { "str": "this a pseudo item", "//~": "NO_I18N" },
     "volume": "3 L",
@@ -69,7 +72,8 @@
   },
   {
     "id": "bio_lightning",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Chain Lightning" },
     "description": { "str": "this a pseudo item", "//~": "NO_I18N" },
     "volume": "3 L",
@@ -90,7 +94,8 @@
   },
   {
     "id": "mut_quills",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": "Assault barbs" },
     "description": { "str": "this a pseudo item", "//~": "NO_I18N" },
     "volume": "3 L",
@@ -109,7 +114,8 @@
   },
   {
     "id": "mut_longpull",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Ranged pulling implement" },
     "description": { "str": "this a pseudo item", "//~": "NO_I18N" },
     "volume": "100 ml",

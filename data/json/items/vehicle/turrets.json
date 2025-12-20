@@ -1,7 +1,7 @@
 [
   {
     "id": "turret_mount",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "turret mount" },
     "description": "A universal mount for weapons intended to be installed as turrets.",
     "color": "cyan",

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "apartments_con_tower_110", "apartments_con_tower_010" ],
       [ "apartments_con_tower_100", "apartments_con_tower_000" ]
@@ -65,7 +64,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "apartments_con_tower_111", "apartments_con_tower_011" ] ],
     "//": "Level 1",
     "object": {
@@ -101,7 +99,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "apartments_con_tower_113", "apartments_con_tower_013" ] ],
     "//": "Levels 2 and 4",
     "object": {
@@ -137,7 +134,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "apartments_con_tower_112", "apartments_con_tower_012" ],
       [ "apartments_con_tower_102", "apartments_con_tower_002" ]
@@ -202,7 +198,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartments_con_tower_102" ],
     "weight": 15,
     "//": "Levels 1, 2, 3, 4, 5",
@@ -242,7 +237,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "apartments_con_tower_114", "apartments_con_tower_014" ],
       [ "apartments_con_tower_104", "apartments_con_tower_004" ]
@@ -318,7 +312,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "apartments_con_tower_115", "apartments_con_tower_015" ] ],
     "//": "Level 7",
     "object": {

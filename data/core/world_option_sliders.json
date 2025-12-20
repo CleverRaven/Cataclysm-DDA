@@ -4,28 +4,22 @@
     "id": "world_cities",
     "context": "WORLDGEN",
     "name": "Cities",
-    "default": 1,
+    "default": 0,
     "levels": [
       {
         "level": 0,
-        "name": "Rural",
-        "description": "Cities are half as large and twice as far apart.",
-        "options": [ { "option": "CITY_SIZE", "type": "int", "val": 4 }, { "option": "CITY_SPACING", "type": "int", "val": 8 } ]
-      },
-      {
-        "level": 1,
         "name": "Suburbia",
         "description": "Cities use default size and distances, with small to large cities separated by large rural areas.",
         "options": [ { "option": "CITY_SIZE", "type": "int", "val": 8 }, { "option": "CITY_SPACING", "type": "int", "val": 4 } ]
       },
       {
-        "level": 2,
+        "level": 1,
         "name": "Cityscape",
         "description": "Cities are 50% larger and 25% closer to each other.",
         "options": [ { "option": "CITY_SIZE", "type": "int", "val": 12 }, { "option": "CITY_SPACING", "type": "int", "val": 3 } ]
       },
       {
-        "level": 3,
+        "level": 2,
         "name": "Megacity",
         "description": "Cities are nearly continuous, with minimal distance between them.",
         "options": [ { "option": "CITY_SIZE", "type": "int", "val": 16 }, { "option": "CITY_SPACING", "type": "int", "val": 1 } ]

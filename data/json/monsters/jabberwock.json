@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "name": { "str": "fleshy shambler" },
     "description": "An amalgamation of throbbing organs from various creatures have fused together into this lurching, vaguely-humanoid shape.  Its myriad roughly-formed mouths susurrate in a chorus of sibilant groans and whispers.",
-    "default_faction": "jabberwock",
+    "default_faction": "flesh_abberation",
     "species": [ "ABERRATION" ],
     "volume": "108500 ml",
     "weight": "90 kg",
@@ -36,7 +36,7 @@
     "type": "MONSTER",
     "name": { "str": "flesh golem" },
     "description": "A seeping conglomeration of spasming muscle and organs have fused together into this towering caricature of the human form.  Various organs fall off of its hulking body only to be reabsorbed moments later.",
-    "default_faction": "jabberwock",
+    "default_faction": "flesh_abberation",
     "species": [ "ABERRATION" ],
     "volume": "300000 ml",
     "weight": "120 kg",
@@ -88,11 +88,48 @@
     "bleed_rate": 40,
     "vision_day": 50,
     "vision_night": 3,
-    "special_attacks": [ [ "FLESH_GOLEM", 5 ] ],
+    "grab_strength": 60,
+    "//": "Forest of limbs and heads mean multiple grabs and bites",
+    "special_attacks": [
+      [ "FLESH_GOLEM", 5 ],
+      {
+        "type": "monster_attack",
+        "attack_type": "bite",
+        "id": "bite_jabberwock_1",
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 10 } ],
+        "infection_chance": 5,
+        "cooldown": 4,
+        "move_cost": 100
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "bite",
+        "id": "bite_jabberwock_2",
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 5 } ],
+        "infection_chance": 15,
+        "cooldown": 5,
+        "move_cost": 100
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "bite",
+        "id": "bite_jabberwock_3",
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 15 } ],
+        "infection_chance": 30,
+        "cooldown": 8,
+        "move_cost": 100
+      },
+      { "id": "grab", "cooldown": 4 },
+      { "id": "grab_2", "cooldown": 4 },
+      { "id": "grab_3", "cooldown": 4 }
+    ],
     "harvest": "jabberwock",
     "dissect": "dissect_beast_sample_large",
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "POISON", "NEVER_WANDER" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "POISON", "NEVER_WANDER" ],
     "armor": { "bash": 12, "cut": 8, "bullet": 6, "electric": 3 }
   }
 ]

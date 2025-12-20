@@ -5,8 +5,7 @@
 
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
-#include "condition.h"
-#include "flexbuffer_json.h"
+#include "generic_factory.h"
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
@@ -334,12 +333,13 @@ void string_input_popup::query( const bool loop, const bool draw_only )
 }
 
 template<typename T>
-T query_int_impl( string_input_popup &p, const bool loop, const bool draw_only )
+std::optional<T> query_int_impl( string_input_popup &p, const bool loop, const bool draw_only )
 {
     do {
-        ret_val<T> result = try_parse_integer<T>( p.query_string( loop, draw_only ), true );
-        if( p.canceled() ) {
-            return 0;
+        const std::string &queried_string = p.query_string( loop, draw_only );
+        ret_val<T> result = try_parse_integer<T>( queried_string, true );
+        if( p.canceled() || queried_string.empty() ) {
+            return std::nullopt;
         }
         if( result.success() ) {
             return result.value();
@@ -350,12 +350,30 @@ T query_int_impl( string_input_popup &p, const bool loop, const bool draw_only )
     return 0;
 }
 
-int string_input_popup::query_int( const bool loop, const bool draw_only )
+std::optional<tripoint_abs_omt> string_input_popup::query_coordinate_abs_impl( bool loop,
+        bool draw_only )
+{
+    do {
+        const std::string &queried_string = query_string( loop, draw_only );
+        ret_val<tripoint_abs_omt> result = try_parse_coordinate_abs( queried_string );
+        if( canceled() || queried_string.empty() ) {
+            return std::nullopt;
+        }
+        if( result.success() ) {
+            return result.value();
+        }
+        popup( result.str() );
+    } while( loop );
+
+    return tripoint_abs_omt::zero;
+}
+
+std::optional<int> string_input_popup::query_int( const bool loop, const bool draw_only )
 {
     return query_int_impl<int>( *this, loop, draw_only );
 }
 
-int64_t string_input_popup::query_int64_t( const bool loop, const bool draw_only )
+std::optional<int64_t> string_input_popup::query_int64_t( const bool loop, const bool draw_only )
 {
     return query_int_impl<int64_t>( *this, loop, draw_only );
 }
@@ -680,24 +698,10 @@ void string_input_popup::add_callback( int input, const std::function<bool()> &c
 string_input_params string_input_params::parse_string_input_params( const JsonObject &jo )
 {
     string_input_params p;
-    if( jo.has_member( "title" ) ) {
-        const JsonValue &jv_title = jo.get_member( "title" );
-        p.title = get_str_translation_or_var( jv_title, "" );
-    }
-    if( jo.has_member( "description" ) ) {
-        const JsonValue &jv_description = jo.get_member( "description" );
-        p.description = get_str_translation_or_var( jv_description, "" );
-    }
-    if( jo.has_member( "default_text" ) ) {
-        const JsonValue &jv_default_text = jo.get_member( "default_text" );
-        p.default_text = get_str_translation_or_var( jv_default_text, "" );
-    }
-    if( jo.has_int( "width" ) ) {
-        p.width = jo.get_int( "width" );
-    }
-    if( jo.has_member( "identifier" ) ) {
-        const JsonValue &jv_identifier = jo.get_member( "identifier" );
-        p.identifier = get_str_or_var( jv_identifier, "" );
-    }
+    optional( jo, false, "title", p.title );
+    optional( jo, false, "description", p.description );
+    optional( jo, false, "default_text", p.default_text );
+    optional( jo, false, "width", p.width, 20 );
+    optional( jo, false, "identifier", p.identifier );
     return p;
 }

@@ -2,7 +2,8 @@
   {
     "id": "nailgun",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "nail gun" },
     "description": "A tool used to drive nails into wood or other material.  It could also be used as an ad-hoc weapon.",
@@ -28,9 +29,10 @@
   },
   {
     "id": "coilgun",
-    "copy-from": "gun_base",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "coilgun" },
     "//": "Hard to make, plentiful and cheap ammo, and silent - people will want this thing.",
     "description": "A homemade gun, using electromagnets to accelerate a ferromagnetic projectile to high velocity.  Powered by UPS.",
@@ -41,7 +43,6 @@
     "price_postapoc": "50 USD",
     "material": [ "copper", "steel" ],
     "ammo": [ "nail" ],
-    "skill": "rifle",
     "range": 12,
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 180,
@@ -51,6 +52,6 @@
     "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "rail mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "nailmag" ] } ],
     "flags": [ "USE_UPS" ],
-    "melee_damage": { "bash": 10 }
+    "faults": [  ]
   }
 ]

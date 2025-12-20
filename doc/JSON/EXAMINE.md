@@ -1,3 +1,45 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Terrain/Furniture Examination Actions](#terrainfurniture-examination-actions)
+  - [Hardcoded Examine Actions](#hardcoded-examine-actions)
+  - [Examine Actors](#examine-actors)
+    - [`appliance_convert`](#appliance_convert)
+      - [`furn_set`](#furn_set)
+      - [`ter_set`](#ter_set)
+      - [`item`](#item)
+      - [Example](#example)
+    - [`cardreader`](#cardreader)
+      - [`flags`](#flags)
+      - [`consume_card`](#consume_card)
+      - [`allow_hacking`](#allow_hacking)
+      - [`despawn_monsters`](#despawn_monsters)
+      - [`omt_allowed_radius`](#omt_allowed_radius)
+      - [`mapgen_id`](#mapgen_id)
+      - [`radius`](#radius)
+      - [`terrain_changes`](#terrain_changes)
+      - [`furn_changes`](#furn_changes)
+      - [`query`](#query)
+      - [`query_msg`](#query_msg)
+      - [`success_msg`](#success_msg)
+      - [`redundant_msg`](#redundant_msg)
+      - [Example](#example-1)
+    - [`effect_on_condition`](#effect_on_condition)
+      - [`effect_on_conditions`](#effect_on_conditions)
+    - [`mortar`](#mortar)
+      - [`ammo`](#ammo)
+      - [`range`](#range)
+      - [`condition`](#condition)
+      - [`condition_fail_msg`](#condition_fail_msg)
+      - [`aim_deviation`](#aim_deviation)
+      - [`aim_duration`](#aim_duration)
+      - [`flight_time`](#flight_time)
+      - [`effect_on_conditions`](#effect_on_conditions-1)
+      - [Example](#example-2)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Terrain/Furniture Examination Actions
 
 These are actions that will be performed when a terrain/furniture is examined.

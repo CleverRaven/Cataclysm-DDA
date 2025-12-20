@@ -2,7 +2,8 @@
   {
     "id": "pressurized_tank_chem",
     "looks_like": "pressurized_tank",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "2 L pressurized chemical tank" },
     "description": "A makeshift pressurized 2 L canister designed to feed a makeshift chemical thrower.",
     "weight": "800 g",

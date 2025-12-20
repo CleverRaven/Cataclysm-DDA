@@ -13,6 +13,12 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "WOUND_CHANCE",
+    "stype": "float",
+    "value": 0.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "CBM_SLOTS_ENABLED",
     "stype": "bool",
     "value": true

@@ -2,7 +2,8 @@
   {
     "id": "afs_25mm_mag",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "25mm 40-round magazine" },
     "description": "A 40-round magazine for use with 25mm firearms.",
     "weight": "340 g",

@@ -2,7 +2,8 @@
   {
     "abstract": "grenade_ammo",
     "copy-from": "40x46mm_grenade",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "grenade cartridge" },
     "ammo_type": "ammo_grenade",
     "casing": "grenade_casing"
@@ -10,7 +11,8 @@
   {
     "id": "grenade_ammo_hedp",
     "copy-from": "grenade_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "HEDP grenade cartridge" },
     "description": "A grenade cartridge with a high explosive dual purpose load, capable of producing good penetration and a high number of damaging fragments.  Good for armored or soft targets.",
     "extend": { "effects": [ "FRAG_20x66", "EXPLOSIVE", "SPECIAL_COOKOFF" ] }
@@ -18,7 +20,8 @@
   {
     "id": "grenade_ammo_beanbag",
     "copy-from": "grenade_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "beanbag grenade cartridge" },
     "description": "A less-lethal beanbag grenade cartridge that delivers strong impact on target, causing major pain and disorientation.  May still injure or kill.",
     "damage": { "damage_type": "bullet", "amount": 20 },
@@ -27,7 +30,8 @@
   {
     "id": "grenade_ammo_flare",
     "copy-from": "grenade_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "flare grenade cartridge" },
     "description": "A signal flare grenade cartridge.  It will burn brightly for up to a minute, and will also leave a streak of smoke cover in its wake.",
     "drop": "handflare_lit",
@@ -36,7 +40,8 @@
   {
     "id": "grenade_ammo_shot",
     "copy-from": "grenade_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "buckshot grenade cartridge" },
     "description": "A grenade cartridge with a powerful buckshot load, designed to provide some defensive options when carrying a grenade launcher.",
     "range": 12,
@@ -47,7 +52,8 @@
   {
     "id": "grenade_ammo_smoke",
     "copy-from": "grenade_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": "smoke grenade cartridge",
     "description": "A grenade cartridge grenade designed to provide smoke cover.",
     "drop": "smokebomb_act",
@@ -56,7 +62,8 @@
   {
     "id": "grenade_ammo_teargas",
     "copy-from": "grenade_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": "teargas grenade cartridge",
     "description": "A grenade cartridge with a teargas load.  It will disburse a cloud of highly incapacitating gas.",
     "drop": "gasbomb_act",
@@ -65,7 +72,8 @@
   {
     "id": "grenade_ammo_slug",
     "copy-from": "grenade_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": "slug grenade cartridge",
     "description": "A grenade cartridge loaded with a massive bullet.  Say goodbye to your shoulder, I guess.",
     "damage": { "damage_type": "bullet", "amount": 130 },

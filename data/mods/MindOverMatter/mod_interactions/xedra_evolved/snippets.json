@@ -1,0 +1,50 @@
+[
+  {
+    "type": "snippet",
+    "category": "lab_file_phavian_private",
+    "text": [
+      {
+        "name": "Note on the back of a schedule printout",
+        "id": "lab_file_xe_phavian_private_01",
+        "text": "I don't want one of those assignments ever again.  They call themselves \"Offworld Acquisitions\" but do you know what they actually do?  They're butchers!  I can only sit through so many lectures about how \"only humans have human rights\" before I want to just start trying to adjust their thought processes.  Give me an hour alone in a room with each one of them and they'll never want to hurt a fly.\n\nMark my words, those maniacs are making enemies that we can't afford to make.  We don't know everything that's out there beyond the gates and it's pure luck we haven't made contact with a civilization that wants to hunt US for something WE have.  Unless we have and some of those immersion teams that went missing were actually captured.  They're playing with fire and we're all going to get burned."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_photokinesis",
+    "text": [
+      {
+        "name": "Re: CE225",
+        "id": "lab_file_xe_photokinesis_01",
+        "//": "CE225 here is a vampire",
+        "text": "As instructed, we brought L85 to the subject's location and subjected it to increasingly-higher-lumen concentrations, all to no effect.  We got up to 50K lumens with no effect other than making everyone except L85 and (footage later showed) the subject blind briefly.  The subject simply laughed.\n\nIt wasn't laughing when we took it down the hall and threw it into the room with the open windows, though."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_telepathy",
+    "text": [
+      {
+        "name": "incident report: 223741",
+        "id": "lab_file_xe_telepathy_01",
+        "weight": 800,
+        "text": "At 0411 this morning, a GLASS ANVIL mathematician seconded to XEDRA-40 discovered an anomaly in one of the returning immersion teams during a routine random security scan.  While monitoring Dr. Mahika Mittal, the mathematician suddenly screamed and grabbed their head before collapsing to the floor.  In the ensuing confusion, Dr. Mittal attempted to grab Sgt Adams's rifle before making a gesture and \"causing the temperature in the room to drop to freezing\".  Following this, Dr. Mittal grabbed Dr. McDowell and dragged him back through the still-open dive aperture just before it closed.  An attempt to reopen the aperture to the previous destination was unsuccessful at producing a stable connection; further efforts are ongoing.\n\nWhen awakened, mathematician U72 stated that during her attempt to make contact she felt \"Something cold, icy, like a glacier.  Inhuman.  It wasn't Dr. Mahika, it was something that looked like her, or had taken her place or…I don't know.\"  When told that Dr. Mittal had escaped, U72 was emphatic that it (she only ever used the word it) had to be captured for study and to prevent similar incidents from happening again.\n\nQuestioning of the other dive team members is ongoing.  None of them said Dr. Mittal showed any suspicious behavior either before or during the dive."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_vitakinesis",
+    "text": [
+      {
+        "name": "a partial interview transcript",
+        "id": "lab_file_xe_vitakinesis_01",
+        "//": "CE473 here is a dhampir",
+        "weight": 750,
+        "text": "\"…summary of your sensations, please.\"\nM33: \"Uh, okay.  Well, it's hard to describe this, you know, but a normal…sorry, sorry, a standard person has a kind of glow to them.  If they're sick, or tired, or injured in some way, it affects the glow.  [REDACTED]…oh, sorry, I mean, uh, the CE473 had that same glow but it was muted\"\nInterviewer: \"Muted?\"\nM33: \"Like, the glow was just…lower, you know?  Like she was sick or something, but she wasn't.  I couldn't find anything wrong with her at all.  I did a full scan, as much as I could, you know, and she was in perfect health.  Better, even.  The, uh, CE473 is in her mid-40s?\"\nInterviewer: \"That's correct.\"\nM33: \"I never would have believed that if I wasn't told it.  She doesn't just look good for her age, she's physically younger.\"\nInterviewer: \"What was your impression of the subject on your second examination?\"M33: \"Oh, at the end of the day?  Well, I'm not sure how to describe it, she was…red.\"\nInterviewer: \"What do you mean by that?\"\nM33: \"Yeah, like she was even paler than usual and there were these kind of red streaks.  And it felt, uh…\"\n*fifteen second pause*\n\nInterviewer: \"Please continue.  Your impressions are very important to the success of the experiment.\"\n*six second pause*\nM33: \"Hungry.  It felt hungry.\""
+      }
+    ]
+  }
+]

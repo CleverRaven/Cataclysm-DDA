@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "micolab_meat_pools",
     "//": "There should be about 75% chance of this nest being empty.  Please adjust the weight accordingly if you add more pool mapgen variants.",
     "weight": 9,
@@ -9,7 +8,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "micolab_meat_pools",
     "weight": 1,
     "object": {
@@ -46,7 +44,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "micolab_meat_pools",
     "weight": 1,
     "object": {
@@ -83,7 +80,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "micolab_meat_pools",
     "weight": 1,
     "object": {

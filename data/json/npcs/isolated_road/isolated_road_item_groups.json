@@ -31,8 +31,8 @@
       { "item": "gambeson", "prob": 2 },
       { "item": "armor_lamellar", "prob": 2 },
       { "item": "cuirass_lightplate", "prob": 2 },
-      { "item": "armguard_lightplate", "prob": 2 },
-      { "item": "legguard_lightplate", "prob": 2 },
+      { "item": "armor_lc_armguard", "prob": 2 },
+      { "item": "armor_lc_leg_guard", "prob": 2 },
       { "item": "armor_samurai", "prob": 2 },
       { "item": "helmet_kabuto", "prob": 2 },
       { "item": "gloves_plate", "prob": 2 },
@@ -190,7 +190,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "blacksmith_prototypes",
     "category": "books",
     "symbol": ",",

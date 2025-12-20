@@ -1,3 +1,31 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Modding guide](#modding-guide)
+  - [Other guides](#other-guides)
+  - [The basics](#the-basics)
+    - [Creating a barebones mod](#creating-a-barebones-mod)
+    - [Modinfo.json](#modinfojson)
+    - [All MOD_INFO fields](#all-mod_info-fields)
+  - [Actually adding things to your mod](#actually-adding-things-to-your-mod)
+    - [File structure](#file-structure)
+    - [JSON_INFO.md](#json_infomd)
+    - [Adding a scenario](#adding-a-scenario)
+    - [Adding a profession.](#adding-a-profession)
+    - [Adding an item](#adding-an-item)
+    - [Preventing monsters from spawning](#preventing-monsters-from-spawning)
+    - [Preventing locations from spawning](#preventing-locations-from-spawning)
+    - [Disabling certain scenarios](#disabling-certain-scenarios)
+    - [Disabling certain professions or hobbies](#disabling-certain-professions-or-hobbies)
+    - [Adding dialogue to existing NPCs](#adding-dialogue-to-existing-npcs)
+  - [Adjusting monster stats](#adjusting-monster-stats)
+  - [External options](#external-options)
+  - [Important note on json files](#important-note-on-json-files)
+    - [That which cannot be modded](#that-which-cannot-be-modded)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Modding guide
 
 Certain features of the game can be modified without rebuilding the game from source code. This includes professions, monsters, npcs, and more. Just modify the pertinent files and run the game to see your changes.
@@ -12,7 +40,8 @@ contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-
 ## The basics
 
 ### Creating a barebones mod
-A mod is created by creating a folder within Cataclysm's `data/mods` directory. The mod's properties are set by the `modinfo.json` file that is present within that folder. In order for Cataclysm to recognize the folder as a mod, it **must** have a `modinfo.json` file present within it. <!--I know this isn't strictly true. A mod will function as long as there's a JSON file with a MOD_INFO structure in it. The file doesn't need to be called "modinfo.json"-->
+Mods are placed in different places depending on whether they are part of CDDA or are third party/private ones. Included ones are found in `data/mods`, while the placement third party/private ones depends on the installation environment: They are placed either in `./mods`, i.e. within the game installation, or in `USER_DIR/mods`.
+A mod is created by creating a folder within the appropriate mod directory of Cataclysm. The mod's properties are set by the `modinfo.json` file that is present within that folder. In order for Cataclysm to recognize the folder as a mod, it **must** have a `modinfo.json` file present within it. <!--I know this isn't strictly true. A mod will function as long as there's a JSON file with a MOD_INFO structure in it. The file doesn't need to be called "modinfo.json"-->
 
 ### Modinfo.json
 The modinfo.json file is a file that contains metadata for your mod. Every mod must have a `modinfo.json` file in order for Cataclysm to find it.
@@ -121,10 +150,11 @@ Professions are what the game calls the character classes you can choose from wh
     "traits": [ "PROF_POLICE" ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "boots", "whistle", "wristwatch" ],
+        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "whistle", "wristwatch" ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_two_way_radio" },
+          { "item": "postman_shirt", "variant": "sheriff" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
@@ -355,9 +385,3 @@ In game, that appears like this:
 
 Many editors have features that let you track `{ [` and `] }` to see if they're balanced (ie, have a matching opposite); These editors will also respect escaped characters properly. [Notepad++](https://notepad-plus-plus.org/) is a popular, free editor on Windows that contains this feature.  On Linux, there are a plethora of options, and you probably already have a preferred one 🙂
 
-### That which cannot be modded
-
-Almost everything in this game can be modded. Almost. This section is intended to chart those areas not supported for modding to save time and headaches.
-
-The Names folder and contents (EN etcetera) confirmed 5/23/20
-Construction recipes. Can be worked around by adding requirements and modding those, confirmed 7/4/22

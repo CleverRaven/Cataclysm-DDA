@@ -1,7 +1,7 @@
 [
   {
     "id": "digging_stick",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "digging stick" },
     "category": "tools",
     "description": "A large stick with the end carved into a broad blade for digging.  It could be used to dig shallow pits, but not deep ones.",
@@ -20,7 +20,8 @@
   },
   {
     "id": "g_shovel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "trowel" },
     "description": "A small, sharp gardening shovel, perfect for digging up grubs and worms.",
     "weight": "280 g",
@@ -29,7 +30,7 @@
     "price": "20 cent",
     "price_postapoc": "50 cent",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
-    "material": [ "steel" ],
+    "material": [ "mc_steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ], [ "CUT", 2 ] ],
@@ -39,7 +40,8 @@
   },
   {
     "id": "hoe",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hoe" },
     "description": "A farming implement.  You can use it to turn tillable land into a slow-to-cross pile of dirt, or dig a shallow pit.",
     "weight": "1088 g",
@@ -48,7 +50,7 @@
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
-    "material": [ "steel", "wood" ],
+    "material": [ "mc_steel", "wood" ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "DIG", 1 ], [ "SAW_W", 1 ] ],
@@ -60,7 +62,8 @@
   },
   {
     "id": "bronze_hoe",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "bronze hoe" },
     "description": "A farming implement made from bronze.  The added heft and durability should let you till soil for farming more easily as well.",
     "weight": "3100 g",
@@ -82,7 +85,8 @@
   },
   {
     "id": "primitive_shovel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "wooden shovel" },
     "description": "A crude shovel with a shovelhead made from wood, historically used as an alternative to metal shovels when metal was too expensive.  It works passably well, but really can't compare to a metal shovel.",
     "weight": "1581 g",
@@ -97,7 +101,8 @@
   },
   {
     "id": "rake",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "metal rake" },
     "description": "A sturdy metal rake, a must-have during autumn.",
     "weight": "1500 g",
@@ -105,7 +110,7 @@
     "longest_side": "150 cm",
     "price": "10 USD",
     "price_postapoc": "1 USD 50 cent",
-    "material": [ "steel", "wood" ],
+    "material": [ "lc_steel", "wood" ],
     "symbol": "/",
     "color": "brown",
     "flags": [ "NONCONDUCTIVE" ],
@@ -113,7 +118,8 @@
   },
   {
     "id": "rake_plastic",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "plastic rake" },
     "description": "A cheap plastic rake.  Will break quite quickly if used for anything other than raking leaves.",
     "weight": "1000 g",
@@ -129,7 +135,8 @@
   },
   {
     "id": "scythe",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "scythe" },
     "description": "An old-fashioned farming tool used to cut tall grass.  Despite being a giant blade on the end of a stick, it is incredibly awkward to use for anything but its intended purpose.",
     "weight": "2140 g",
@@ -138,7 +145,7 @@
     "price": "80 USD",
     "price_postapoc": "2 USD 50 cent",
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "uneven" },
-    "material": [ "steel", "wood" ],
+    "material": [ "ch_steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
@@ -150,7 +157,7 @@
   {
     "id": "scythe_fake",
     "copy-from": "scythe",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "scythe" },
@@ -165,7 +172,7 @@
   },
   {
     "id": "scythe_toy",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "grim reaper's scythe" },
@@ -179,7 +186,8 @@
   },
   {
     "id": "shovel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "shovel" },
     "description": "A digging tool.  Use it to dig pits adjacent to your location.",
     "weight": "2032 g",
@@ -188,7 +196,7 @@
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
-    "material": [ "steel", "wood" ],
+    "material": [ "mc_steel", "wood" ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "DIG", 3 ], [ "COOK", 1 ], [ "BUTCHER", -70 ] ],
@@ -199,7 +207,8 @@
   {
     "id": "shovel_snow",
     "looks_like": "shovel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "snow shovel" },
     "description": "A sturdy metal shovel used for picking up snow and moving it somewhere else.  It was useful before the Cataclysm, but now it's useless.",
     "weight": "2000 g",
@@ -207,7 +216,7 @@
     "longest_side": "150 cm",
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "steel", "wood" ],
+    "material": [ "lc_steel", "wood" ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "COOK", 1 ] ],
@@ -218,7 +227,8 @@
   {
     "id": "shovel_snow_plastic",
     "looks_like": "shovel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "plastic snow shovel" },
     "description": "A cheap plastic shovel used for picking up snow and moving it somewhere else.  It was useful before the Cataclysm, but now it's useless.",
     "weight": "1500 g",
@@ -235,7 +245,8 @@
   },
   {
     "id": "sickle_stone",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "stone sickle" },
     "description": "A primitive tool for cutting grass.  The sharp, crescent-shaped stone at the end of the handle is barely good enough for the job.",
     "weight": "470 g",
@@ -255,7 +266,8 @@
   },
   {
     "id": "sickle",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "sickle" },
     "description": "An old-fashioned farming tool for cutting tall grass.  Despite being a massive curved blade on a handle, it is incredibly awkward to use for anything but its intended purpose.",
     "weight": "907 g",
@@ -264,7 +276,7 @@
     "price": "38 USD",
     "price_postapoc": "2 USD 50 cent",
     "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "uneven" },
-    "material": [ "steel", "wood" ],
+    "material": [ "ch_steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "GRASS_CUT", 2 ], [ "BUTCHER", 7 ] ],
@@ -275,7 +287,8 @@
   },
   {
     "id": "bronze_sickle",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "bronze sickle" },
     "description": "A handheld grass-cutting tool with a cast bronze blade, fastened to a wood handle wrapped with leather.",
     "weight": "1 kg",
@@ -294,50 +307,104 @@
     "melee_damage": { "bash": 3, "cut": 12 }
   },
   {
-    "id": "brush_axe",
-    "type": "GENERIC",
+    "id": "brush_handaxe",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "bill" },
-    "description": "A long, slightly curved and hooked steel blade on the end of a sturdy shaft.  Could be used to thoroughly ruin something's day, or cut branches and small trees.",
+    "description": "A slightly curved steel blade with a nice wooden handle, not too dissimilar to a machete.",
+    "weapon_category": [ "MEDIUM_SWORDS", "HAND_AXES" ],
+    "looks_like": "machete",
+    "copy-from": "machete"
+  },
+  {
+    "id": "brush_axe",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "bill axe" },
+    "material": [ "wood", "mc_steel" ],
+    "description": "The steel curved blade of a bill placed stoutly ontop an axe handle.  It still isn't long enough to use as a spear, but it'll still cleave your enemies.",
+    "looks_like": "ax",
+    "weight": "2100 g",
+    "volume": "1900 ml",
+    "longest_side": "80 cm",
+    "price": "25 USD",
+    "price_postapoc": "12 USD 50 cent",
+    "symbol": "P",
+    "color": "brown",
+    "qualities": [ [ "AXE", 2 ], [ "GRASS_CUT", 1 ], [ "CUT", 1 ], [ "BUTCHER", -70 ] ],
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "weapon_category": [ "GREAT_AXES" ],
+    "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "blade_general" } ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "melee_damage": { "bash": 14, "cut": 26 }
+  },
+  {
+    "id": "brush_pole",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "bill pole" },
+    "description": "A long, slightly curved steel blade on the end of a sturdy shaft.  Could be used to thoroughly ruin something's day, or cut branches and small trees.",
     "weight": "2400 g",
     "volume": "2500 ml",
     "longest_side": "150 cm",
-    "price": "55 USD",
-    "price_postapoc": "2 USD 50 cent",
+    "price": "30 USD",
+    "price_postapoc": "24 USD",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
-    "material": [ "wood", "steel" ],
+    "material": [ "wood", "mc_steel" ],
     "symbol": "/",
     "color": "brown",
     "looks_like": "glaive",
     "qualities": [ [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT", 1 ], [ "BUTCHER", -70 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
-    "melee_damage": { "bash": 20, "cut": 30 }
+    "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "blade_general" } ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "SPEARS" ],
+    "melee_damage": { "bash": 16, "cut": 28 }
+  },
+  {
+    "id": "bronze_brush_handaxe",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "bronze bill" },
+    "description": "The bronze curved blade of a bill placed stoutly atop an axe handle.  It still isn't long enough to use as a spear, but it'll still cleave your enemies.",
+    "looks_like": "brush_handaxe",
+    "copy-from": "brush_handaxe",
+    "material": [ "wood", "bronze" ],
+    "color": "yellow",
+    "melee_damage": { "bash": 6, "cut": 18 }
   },
   {
     "id": "bronze_brush_axe",
-    "type": "GENERIC",
-    "name": { "str": "bronze bill" },
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "bronze bill axe" },
+    "description": "A slightly curved bronze blade with a nice wooden handle, not too dissimilar to a machete.",
+    "looks_like": "brush_axe",
+    "copy-from": "brush_axe",
+    "material": [ "wood", "bronze" ],
+    "color": "yellow",
+    "melee_damage": { "bash": 14, "cut": 20 }
+  },
+  {
+    "id": "bronze_brush_pole",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "bronze bill pole" },
     "description": "A long, slightly curved and hooked bronze blade on the end of a sturdy shaft.  Could be used to thoroughly ruin something's day, or cut branches and small trees.",
     "weight": "3000 g",
-    "volume": "2500 ml",
-    "longest_side": "150 cm",
-    "price": "55 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
+    "price": "25 USD",
+    "price_postapoc": "10 USD",
     "material": [ "wood", "bronze" ],
-    "symbol": "/",
     "color": "yellow",
     "looks_like": "brush_axe",
-    "qualities": [ [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT", 1 ], [ "BUTCHER", -70 ] ],
-    "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
-    "melee_damage": { "bash": 20, "cut": 24 }
+    "copy-from": "brush_pole",
+    "melee_damage": { "bash": 16, "cut": 22 }
   },
   {
     "id": "trimmer_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hedge trimmer (off)", "str_pl": "hedge trimmers (off)" },
     "description": "A cordless, double-sided, gasoline-powered hedge trimmer.  A long line of sharp-edged teeth extends from the engine; turning the trimmer on will make them rapidly vibrate.  The poor man's chainsaw as far as the zombies are concerned.",
     "weight": "4500 g",
@@ -346,7 +413,7 @@
     "price": "40 USD",
     "price_postapoc": "2 USD 50 cent",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
-    "material": [ "steel", "plastic" ],
+    "material": [ "ch_steel", "plastic" ],
     "symbol": "/",
     "color": "green",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 600 } } ],
@@ -361,10 +428,10 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_activate",
             "variables": {
-              "turn_cost": "0.8",
+              "turn_cost": 0.8,
               "transform_target": "trimmer_on",
               "success_message": { "i18n": true, "str": "With a roar, the hedge trimmer leaps to life!" },
-              "volume": "15",
+              "volume": 15,
               "failure_message": { "i18n": true, "str": "You yank the cord, but nothing happens." }
             }
           },
@@ -373,29 +440,20 @@
       ]
     },
     "flags": [ "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 4, "cut": 8 },
+    "melee_damage": { "bash": 4, "cut": 5 },
     "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "trimmer_on",
     "copy-from": "trimmer_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hedge trimmer (on)", "str_pl": "hedge trimmers (on)" },
     "description": "A cordless, double-sided, gasoline-powered hedge trimmer.  It is currently on, ready to do some zombie topiary; use this item to turn it off.",
     "power_draw": "500 W",
     "charges_per_use": 0,
     "revert_to": "trimmer_off",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "ammo_scale": 0,
-      "menu_text": "Turn off",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_deactivate__trimmer",
-          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "trimmer_off" } }
-        }
-      ]
-    },
+    "use_action": { "target": "trimmer_off", "msg": "Your %s goes quiet.", "menu_text": "Turn off", "type": "transform" },
     "tick_action": {
       "type": "effect_on_conditions",
       "effect_on_conditions": [
@@ -404,9 +462,9 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "15",
+              "sound_chance": 15,
               "sound_message": { "i18n": true, "str": "Your hedge trimmer rumbles." },
-              "volume": "10",
+              "volume": 10,
               "revert_to": "trimmer_off"
             }
           }
@@ -414,7 +472,7 @@
       ]
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 4, "cut": 40 }
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "SPAWN_ACTIVE" ],
+    "melee_damage": { "bash": 4, "cut": 8 }
   }
 ]

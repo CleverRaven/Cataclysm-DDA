@@ -95,7 +95,7 @@
     "//": "Your feel faintly more accepted by the world, it could be related with the decay of reality in here.",
     "effect": [
       { "u_message": "You suddenly feel a weight you didn't know you had on you, being lifted away.", "type": "good" },
-      { "math": [ "u_pain()", "-=", "5" ] }
+      { "math": [ "u_pain() -= 5" ] }
     ]
   },
   {
@@ -107,8 +107,8 @@
         "u_message": "You suddenly feel wakeful and energized, as if something that was slowing you down is now gone.",
         "type": "good"
       },
-      { "math": [ "u_val('sleepiness')", "-=", "20" ] },
-      { "math": [ "u_val('stamina')", "+=", "20" ] }
+      { "math": [ "u_val('sleepiness') -= 20" ] },
+      { "math": [ "u_val('stamina') += 20" ] }
     ]
   },
   {
@@ -158,10 +158,7 @@
     "id": "EOC_PORTAL_DEPENDENT_FOCUS_GOOD",
     "//": "Your mind gains focus as an effect of your connection with the portal storms.",
     "condition": { "not": { "u_has_effect": "sleep" } },
-    "effect": [
-      { "u_message": "Everything suddenly feels more clear.", "type": "good" },
-      { "math": [ "u_val('focus')", "+=", "10" ] }
-    ]
+    "effect": [ { "u_message": "Everything suddenly feels more clear.", "type": "good" }, { "math": [ "u_val('focus') += 10" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -258,7 +255,7 @@
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
       { "u_message": "You try to recall what you were about to do, but you can't focus…", "type": "bad" },
-      { "math": [ "u_val('focus')", "-=", "10" ] }
+      { "math": [ "u_val('focus') -= 10" ] }
     ]
   },
   {
@@ -389,7 +386,7 @@
         "u_message": "Faint sparks suddenly appear and disappear around you, as if rejecting your very existence.  Pain flares across your body.",
         "type": "bad"
       },
-      { "math": [ "u_pain()", "+=", "10" ] }
+      { "math": [ "u_pain() += 10" ] }
     ]
   },
   {

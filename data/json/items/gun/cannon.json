@@ -2,7 +2,8 @@
   {
     "id": "cannon_3in_ordnance",
     "looks_like": "remington_870",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "3-inch ordnance rifle" },
     "description": "A light cannon widely used in the American Civil War, noted for its reliability.",

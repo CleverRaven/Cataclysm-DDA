@@ -1,7 +1,7 @@
 [
   {
     "id": "magick_8_ball",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "magic_8_ball",
     "name": { "str": "magick 8-Ball" },
@@ -17,7 +17,7 @@
   },
   {
     "id": "glass_dagger_paperweight",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "knife_paring",
     "name": { "str": "glass dagger paperweight" },
@@ -34,7 +34,7 @@
   },
   {
     "id": "caravaggio_self_portrait",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "family_photo",
     "name": { "str": "Caravaggio on his deathbed", "str_pl": "copies of Caravaggio on his deathbed" },
@@ -50,7 +50,7 @@
     "use_action": { "type": "learn_spell", "spells": [ "dream_blade" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mirror_artifact",
     "symbol": "o",
     "color": "light_cyan",
@@ -90,7 +90,7 @@
   {
     "id": "artifact_dreamer_clairvoyance_eff",
     "looks_like": "family_photo",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "family photo" },
     "description": "A photo of a smiling family on a camping trip.  The background is always the same, but people are not.  Do you recall them?",
@@ -105,7 +105,7 @@
   },
   {
     "id": "artifact_shifter",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "sphere" },
     "description": "A small, black sphere.  It constantly changes its position.  It even tries to roll out of corners you wedge it into.",
@@ -121,7 +121,7 @@
   },
   {
     "id": "artifact_sapient_light",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "flashlight" },
     "looks_like": "flashlight",
@@ -138,7 +138,7 @@
   },
   {
     "id": "artifact_constructed_hammer",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "nail" },
     "looks_like": "nail",
@@ -154,7 +154,7 @@
   },
   {
     "id": "artifact_bubble",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "marble",
     "name": { "str": "bubble" },
@@ -170,7 +170,7 @@
   },
   {
     "id": "artifact_amber",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "shard of amber", "str_pl": "shards of amber" },
     "description": "A small shard of amber.  Looking carefully, you think you see some manner of creature trapped within.",
@@ -186,7 +186,7 @@
   {
     "id": "dreamer_coin_artifact",
     "repairs_like": "backpack",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "wallet" },
     "looks_like": "wallet",
@@ -201,7 +201,7 @@
   },
   {
     "id": "artifact_ophanim",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "toy_figurine",
     "name": "angel figurine",
@@ -217,7 +217,7 @@
   },
   {
     "id": "artifact_winch",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "toy_figurine",
     "name": "action figurine",
@@ -233,7 +233,7 @@
   },
   {
     "id": "artifact_ethereal_wings",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "marble",
     "name": "stone feather",
@@ -249,7 +249,7 @@
   },
   {
     "id": "artifact_dreamer_accelerated_time",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": "monochrome arrow",
     "description": "You see a blocky arrow, unerringly pointed in some far off direction.  It is completely colorless.",
@@ -264,7 +264,7 @@
   },
   {
     "id": "artifact_karma_arms",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "marble",
     "name": "odd circle",
@@ -280,7 +280,7 @@
   },
   {
     "id": "artifact_stalker_eyes",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "presence" },
     "description": "You feel like something took a glance at this place, and it was so menacing that the world itself curled up.",
@@ -293,7 +293,7 @@
   },
   {
     "id": "artifact_devil_tail",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "lizard tail" },
     "looks_like": "fur_cat_tail",

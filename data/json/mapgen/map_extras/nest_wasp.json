@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_nest_wasp_roof",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -36,7 +35,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_nest_wasp",
     "object": {
       "rows": [

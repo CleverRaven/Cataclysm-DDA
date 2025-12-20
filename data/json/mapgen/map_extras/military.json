@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "soldier_guns_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -28,7 +27,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_military",
     "object": {
       "rows": [

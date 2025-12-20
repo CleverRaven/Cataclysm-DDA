@@ -2,7 +2,8 @@
   {
     "id": "afs_cartridge",
     "looks_like": "light_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "power cartridge" },
     "description": "A standard-design power cell compatible with most common energy weapons.  Can be recharged by connecting to a power source.",
     "weight": "50 g",
@@ -21,7 +22,8 @@
   {
     "id": "afs_compact_cartridge",
     "copy-from": "afs_cartridge",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "compact power cartridge" },
     "description": "A compact power cell compatible with most common energy weapons.  Can be recharged by connecting to a power source.",
     "weight": "20 g",
@@ -34,7 +36,8 @@
   {
     "id": "afs_bootleg_cartridge",
     "copy-from": "afs_cartridge",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "bootleg power cartridge" },
     "description": "A functional but poorly-built power cell compatible with most common energy weapons.  It cannot be recharged.",
     "weight": "75 g",
@@ -48,7 +51,8 @@
   {
     "id": "afs_archeotech_cartridge",
     "copy-from": "afs_cartridge",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "chromoelectric cartridge" },
     "description": "A thin strip of transuranic metal, glowing a somber blue from within its shielded glass prison.  A rare and sought-after relic, it could be used to momentarily power all sorts of technology from the late Hyperspace Era.",
     "weight": "100 g",

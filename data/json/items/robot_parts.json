@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "abstract": "robot_module_abstract",
     "name": { "str": "module template", "//~": "NO_I18N" },
     "description": { "str": "This is a template for robot module.  If found in a game it is a bug.", "//~": "NO_I18N" },
@@ -14,56 +14,56 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "targeting_module",
     "name": { "str": "targeting module" },
     "description": "A module that integrates visual and proprioceptive information from peripheric sensors and outputs information necessary for accurate aiming.",
     "copy-from": "robot_module_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "identification_module",
     "name": { "str": "identification module" },
     "description": "A module that continuously runs image recognition algorithms to differentiate friend from foe.",
     "copy-from": "robot_module_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pathfinding_module",
     "name": { "str": "pathfinding module" },
     "description": "A module that uses a combination of vector integration and egocentric mapping to find the best path available.",
     "copy-from": "robot_module_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "memory_module",
     "name": { "str": "memory banks module" },
     "description": "A module that allows for the storage and recovery of information.",
     "copy-from": "robot_module_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sensor_module",
     "name": { "str": "sensor array" },
     "description": "A wide range of sensors meant to give the ability to perceive the surrounding world.",
     "copy-from": "robot_module_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "self_monitoring_module",
     "name": { "str_sp": "self monitoring sensors" },
     "description": "An array of sensors and diagnostic modules allowing a robot to perceive itself.",
     "copy-from": "robot_module_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ai_module",
     "name": { "str": "AI core" },
     "description": "A module that is responsible for decision-making, it basically runs the AI of a robot.",
     "copy-from": "robot_module_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ai_module_basic",
     "name": { "str": "basic AI core" },
     "description": "A very basic AI core with minimal cognitive abilities.",
@@ -71,21 +71,21 @@
     "copy-from": "ai_module"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ai_module_advanced",
     "name": { "str": "advanced AI core" },
     "description": "An advanced AI core with impressive cognitive abilities.",
     "copy-from": "ai_module"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "gun_module",
     "name": { "str": "gun operating system" },
     "description": "A system that can operate most conventional weapons.",
     "copy-from": "robot_module_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spidery_legs_small",
     "name": { "str": "set of tiny spidery legs", "str_pl": "sets of tiny spidery legs" },
     "description": "A set of tiny, pointy legs, like the ones found under a skitterbot.",
@@ -99,7 +99,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "omni_wheel",
     "name": { "str": "set of omni wheels", "str_pl": "sets of omni wheels" },
     "description": "A set of omni wheels, like the ones found under a police bot.",
@@ -113,7 +113,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "quad_rotors",
     "name": { "str": "set of rotors", "str_pl": "sets of rotors" },
     "description": "A set of rotors able to lift a small drone.",
@@ -127,7 +127,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "android_legs",
     "name": { "str": "set of android legs", "str_pl": "sets of android legs" },
     "description": "A set of human-like legs.",
@@ -141,7 +141,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "android_arms",
     "name": { "str": "set of android arms", "str_pl": "sets of android arms" },
     "description": "A set of human-like arms.",
@@ -155,7 +155,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tank_tread",
     "name": { "str": "set of small tank treads", "str_pl": "sets of small tank treads" },
     "description": "A set of small tank treads, like the ones used by the \"Beagle\" mini-tank.",
@@ -169,7 +169,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "turret_chassis",
     "name": { "str_sp": "turret interior chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton of a turret.",
@@ -183,7 +183,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "copbot_chassis",
     "name": { "str_sp": "police bot chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of a police bot.",
@@ -197,7 +197,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spidery_legs_big",
     "name": { "str": "set of spidery legs", "str_pl": "sets of spidery legs" },
     "description": "A set of big pointy legs, like the ones found under a tripod.",
@@ -210,7 +210,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "android_chassis",
     "name": { "str": "android skeleton" },
     "description": "What's left when you strip an android body from its components.",

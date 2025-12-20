@@ -1,9 +1,9 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "motor",
     "name": { "str": "electric motor" },
-    "description": "A standard electric motor.  Suitable for use in ultra-light vehicles.",
+    "description": "A medium-duty electrical motor, suitable for powering ultra-light vehicles, or as part of a hybrid gas-electric drivetrain.",
     "weight": "46 kg",
     "color": "light_cyan",
     "symbol": ",",
@@ -17,10 +17,10 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "motor_enhanced",
     "name": { "str": "enhanced electric motor" },
-    "description": "A powerful electric motor, as found in those consumer electric sports cars with ridiculous or ludicrous acceleration options.",
+    "description": "A powerful high-performance electric motor, as found in those consumer electric sports cars with ridiculous, ludicrous, or similarly hyperbolic acceleration options.  It needs a lot of battery power.",
     "weight": "120 kg",
     "material": [ "lc_steel", "copper" ],
     "volume": "140 L",
@@ -29,10 +29,10 @@
     "copy-from": "motor"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "motor_super",
     "name": { "str": "super electric motor" },
-    "description": "An extremely powerful electric motor.  This delivers massive torque and would be well suited to an electric racing car.",
+    "description": "A massive and extremely powerful electric motor, delivering high torque at the cost of significant power drain, this would be well suited to an electric racing car.",
     "weight": "140 kg",
     "material": [ "lc_steel", "copper" ],
     "volume": "200 L",
@@ -41,12 +41,12 @@
     "copy-from": "motor"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "motor_large",
     "name": { "str": "large electric motor" },
-    "description": "A large electric motor.  Could be used to power a full-size car or SUV.",
+    "description": "A heavy-duty electrical motor, capable of propelling a full-size car or SUV through electric power alone, provided you have the battery capacity.",
     "weight": "90 kg",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "symbol": ":",
     "volume": "75 L",
     "price": "220 USD",
@@ -55,11 +55,11 @@
     "melee_damage": { "bash": 9 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "motor_small",
     "name": { "str": "small electric motor" },
-    "description": "A light-duty electric motor.  Strong enough for an electric moped or golf cart.",
-    "weight": "9 kg",
+    "description": "A light-duty electrical motor, strong enough for an electric mopeds, golf carts, and even hybrid mopeds.",
+    "weight": "4 kg",
     "volume": "6 L",
     "price": "20 USD",
     "price_postapoc": "5 USD",
@@ -67,11 +67,11 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "motor_tiny",
     "name": { "str": "tiny electric motor" },
-    "description": "A small electric motor, suitable for powering a bicycle or a hedge trimmer.",
-    "weight": "1500 g",
+    "description": "A tiny electric motor just the right size for providing a gentle boost for a bicycle, or similarly light vehicles",
+    "weight": "2500 g",
     "color": "light_cyan",
     "symbol": ",",
     "material": [ "lc_steel", "plastic", "copper" ],
@@ -81,7 +81,7 @@
     "price_postapoc": "1 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "motor_train1300",
     "name": { "str": "1,300 HP electric train engine" },
     "description": "A 1,300 horsepower 3-phase 60 Hz electric engine.  Normally used in trains.",

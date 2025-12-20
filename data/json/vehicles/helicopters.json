@@ -40,9 +40,9 @@
       { "x": -5, "y": 2, "parts": [ "frame#se", "xlhalfboard#ne" ] }
     ],
     "items": [
-      { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_caff" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_nic" ] },
       { "x": 0, "y": 1, "chance": 100, "items": [ "roadmap" ] }
     ]
   },
@@ -87,7 +87,9 @@
       { "x": -5, "y": 2, "parts": [ "frame#se", "xlhalfboard#ne" ] }
     ],
     "items": [
-      { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_caff" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_nic" ] },
       { "x": 0, "y": 0, "chance": 100, "item_groups": [ "full_ifak" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "binoculars" ] },
       { "x": 0, "y": 1, "chance": 100, "items": [ "roadmap" ] }
@@ -121,9 +123,9 @@
       { "x": -4, "y": -1, "parts": [ "frame#sw", "xlhalfboard#nw" ] }
     ],
     "items": [
-      { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_caff" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_nic" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "roadmap" ] }
     ]
   },
@@ -157,9 +159,9 @@
       { "x": -4, "y": -1, "parts": [ "frame#sw", "xlhalfboard#nw" ] }
     ],
     "items": [
-      { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_caff" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_nic" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "roadmap" ] }
     ]
   },
@@ -195,9 +197,9 @@
       { "x": 0, "y": 0, "chance": 100, "items": [ "lighter" ] },
       { "x": 0, "y": 0, "chance": 100, "item_groups": [ "duct_tape_roll_part" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "flashlight" ], "ammo": 100 },
-      { "x": -1, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
-      { "x": -1, "y": 0, "chance": 100, "items": [ "gum" ] },
-      { "x": -1, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
+      { "x": -1, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_caff" ] },
+      { "x": -1, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used" ] },
+      { "x": -1, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_nic" ] },
       { "x": -1, "y": 0, "chance": 100, "items": [ "ampoule" ] }
     ]
   },
@@ -260,9 +262,9 @@
       { "x": -1, "y": 2, "chance": 100, "items": [ "stimpack_ammo" ] },
       { "x": -1, "y": 2, "chance": 100, "items": [ "rx11_stimpack" ] },
       { "x": -1, "y": 2, "chance": 100, "items": [ "rx12_injector" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_caff" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_nic" ] },
       { "x": 0, "y": 2, "chance": 100, "items": [ "roadmap" ] }
     ]
   },
@@ -325,9 +327,9 @@
       { "x": -1, "y": 2, "chance": 100, "items": [ "rx12_injector" ] },
       { "x": -1, "y": 2, "chance": 100, "items": [ "stimpack_ammo" ] },
       { "x": -1, "y": 2, "chance": 100, "items": [ "rx11_stimpack" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_caff" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_nic" ] },
       { "x": 0, "y": 2, "chance": 100, "items": [ "roadmap" ] }
     ]
   },
@@ -364,9 +366,9 @@
       { "x": -5, "y": 2, "parts": [ "frame#cover", "xlhalfboard#ne" ] }
     ],
     "items": [
-      { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] }
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_caff" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_nic" ] }
     ]
   },
   {
@@ -389,9 +391,9 @@
       { "x": -3, "y": 0, "parts": [ "frame#vertical" ] }
     ],
     "items": [
-      { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_caff" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_nic" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "roadmap" ] }
     ]
   },
@@ -419,9 +421,9 @@
       { "x": -4, "y": 1, "parts": [ "frame#cover", "xlhalfboard#ne" ] }
     ],
     "items": [
-      { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_caff" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_nic" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "roadmap" ] }
     ]
   },
@@ -455,9 +457,9 @@
       { "x": -1, "y": 0, "chance": 100, "items": [ "lighter" ] },
       { "x": -1, "y": 0, "chance": 100, "item_groups": [ "duct_tape_roll_part" ] },
       { "x": -1, "y": 0, "chance": 100, "items": [ "flashlight" ], "ammo": 100 },
-      { "x": 1, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
-      { "x": 1, "y": 0, "chance": 100, "items": [ "gum" ] },
-      { "x": 1, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
+      { "x": 1, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_caff" ] },
+      { "x": 1, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used" ] },
+      { "x": 1, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_nic" ] },
       { "x": 1, "y": 0, "chance": 100, "items": [ "ampoule" ] }
     ]
   },
@@ -509,9 +511,9 @@
       { "x": -1, "y": 2, "chance": 100, "items": [ "rx12_injector" ] },
       { "x": -1, "y": 2, "chance": 100, "items": [ "stimpack_ammo" ] },
       { "x": -1, "y": 2, "chance": 100, "items": [ "rx11_stimpack" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_caff" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_nic" ] },
       { "x": 0, "y": 2, "chance": 100, "items": [ "roadmap" ] }
     ]
   },
@@ -574,9 +576,9 @@
       { "x": -1, "y": 2, "chance": 100, "items": [ "rx12_injector" ] },
       { "x": -1, "y": 2, "chance": 100, "items": [ "stimpack_ammo" ] },
       { "x": -1, "y": 2, "chance": 100, "items": [ "rx11_stimpack" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_caff" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used" ] },
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "chewing_gum_used_nic" ] },
       { "x": 0, "y": 2, "chance": 100, "items": [ "roadmap" ] }
     ]
   },

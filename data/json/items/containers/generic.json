@@ -1,7 +1,7 @@
 [
   {
     "id": "shrink_wrap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "shrink wrapping" },
     "looks_like": "bag_plastic",
@@ -16,7 +16,7 @@
   },
   {
     "id": "trashcan",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "trash can" },
     "looks_like": "f_trashcan",
@@ -45,7 +45,7 @@
   },
   {
     "id": "trashcan_large",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "industrial trash can" },
     "looks_like": "f_recycle_bin",
@@ -74,7 +74,7 @@
   },
   {
     "id": "saline_bag_250_empty",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "small liquid bag" },
     "description": "Small bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
@@ -100,7 +100,7 @@
   },
   {
     "id": "saline_bag_500_empty",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "medium liquid bag" },
     "description": "Bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
     "copy-from": "saline_bag_250_empty",
@@ -121,7 +121,7 @@
   },
   {
     "id": "saline_bag_1000_empty",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "large liquid bag" },
     "description": "Large bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
     "copy-from": "saline_bag_250_empty",
@@ -142,7 +142,7 @@
   },
   {
     "id": "saline_bag_2000_empty",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "huge liquid bag" },
     "description": "Huge bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
     "copy-from": "saline_bag_250_empty",
@@ -163,10 +163,10 @@
   },
   {
     "id": "outfit_storage",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "set of clothes", "str_pl": "sets of clothes" },
-    "description": "A bundle of presses, coat hangars, and other miscellaneous items needed to store and keep a good change of clothes.  You can interact with it to swap to the clothes it's currently containing, or disassemble it to get the clothes back.",
+    "description": "A bundle of presses, coat hangars, and other miscellaneous items needed to store and keep a good change of clothes.  You can interact with it to swap to the clothes it's currently containing, or put your current clothes in if there's nothing already inside.",
     "weight": "1 kg",
     "volume": "1 L",
     "longest_side": "150 cm",
@@ -184,12 +184,12 @@
       }
     ],
     "symbol": "#",
-    "color": "black",
+    "color": "dark_gray",
     "flags": [ "SINGLE_USE", "NO_SALVAGE", "NO_RELOAD" ]
   },
   {
     "id": "box_paper_small",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "small paper box", "str_pl": "small paper boxes" },
     "looks_like": "box_tea",
@@ -205,7 +205,7 @@
   },
   {
     "id": "wrapping_vacuumed",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "looks_like": "bag_plastic",
     "name": { "str": "vacuum-sealed package" },
@@ -229,7 +229,7 @@
   },
   {
     "id": "basket_laundry",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "laundry basket" },
     "description": "A plastic basket meant for storing and hauling clothing.",
@@ -255,7 +255,7 @@
   },
   {
     "id": "wicker_basket_large",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "large wicker basket" },
     "description": "A large handmade straw basket.  Unwieldy but spacious.",
@@ -280,7 +280,7 @@
   },
   {
     "id": "bag_paper_charcoal",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "paper sack" },
     "looks_like": "bag_plastic",
@@ -294,5 +294,80 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "40 L", "max_contains_weight": "13 kg", "moves": 500 } ],
     "symbol": ")",
     "color": "white"
+  },
+  {
+    "id": "blister_pack_small",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "drug blister pack" },
+    "looks_like": "bag_plastic",
+    "description": "This is a thin piece of plastic and foil, with tiny bubbles meant to hold onto individual pills.  Often used for anti-depressants or more dangerous drugs to reduce the likelihood of purposeful overdose by making taking the individual pills out a pain in the ass.",
+    "variants": [
+      {
+        "id": "blister_pack_bc",
+        "name": { "str": "birth control pack" },
+        "description": "A thin piece of plastic and foil, with tiny bubbles meant for pills.  This one is for birth control, with 28 sections for pills in it.",
+        "weight": 0
+      },
+      {
+        "id": "blister_pack_gum",
+        "name": { "str": "pack of chewing gum", "str_pl": "packs of chewing gum" },
+        "description": "A thin piece of plastic and foil, with tiny bubbles meant for chewing gum.",
+        "weight": 0
+      }
+    ],
+    "weight": "5 g",
+    "volume": "7 ml",
+    "longest_side": "102 mm",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "plastic", "aluminum" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "transparent": true,
+        "max_contains_volume": "50 ml",
+        "max_contains_weight": "50 g",
+        "moves": 400
+      }
+    ],
+    "symbol": ")",
+    "color": "light_gray",
+    "flags": [ "COLLAPSE_CONTENTS", "NO_RELOAD" ]
+  },
+  {
+    "id": "primer_tray",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "primer tray" },
+    "looks_like": "box_small",
+    "description": "A small, flat plastic tray meant to hold primers encased in a cardboard sleeve.",
+    "weight": "2 g",
+    "volume": "26 ml",
+    "longest_side": "98 mm",
+    "price": "85 cent",
+    "price_postapoc": "1 cent",
+    "material": [ "plastic", "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "150 ml",
+        "max_contains_weight": "200 g",
+        "item_restriction": [
+          "smpistol_primer",
+          "lgpistol_primer",
+          "smrifle_primer",
+          "lgrifle_primer",
+          "shotgun_primer",
+          "spent_smpistol_primer",
+          "spent_lgpistol_primer",
+          "spent_smrifle_primer",
+          "spent_lgrifle_primer",
+          "spent_shotgun_primer"
+        ]
+      }
+    ],
+    "symbol": ")",
+    "color": "blue"
   }
 ]

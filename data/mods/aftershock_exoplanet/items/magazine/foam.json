@@ -2,7 +2,8 @@
   {
     "id": "afs_foam_tank",
     "looks_like": "pressurized_tank_chem",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "pressurized foam tank" },
     "description": "A pressurized 5L canister designed to feed an industrial foam gun.",
     "weight": "500 g",

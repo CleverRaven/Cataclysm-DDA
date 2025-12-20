@@ -1,7 +1,7 @@
 [
   {
     "id": "box_retool_huge",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "looks_like": "box_small",
     "name": { "str": "marksmen's conversion kit" },
@@ -27,7 +27,7 @@
   },
   {
     "id": "box_retool_large",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "looks_like": "box_small",
     "name": { "str": "large rifle conversion kit" },
@@ -53,7 +53,7 @@
   },
   {
     "id": "box_retool",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "standard rifle conversion kit" },
     "looks_like": "box_small",
@@ -79,7 +79,7 @@
   },
   {
     "id": "box_retool_sbr",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "SBR conversion kit" },
     "looks_like": "box_small",
@@ -105,7 +105,7 @@
   },
   {
     "id": "box_retool_sbr_micro",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "micro-carbine conversion kit" },
     "looks_like": "box_small",

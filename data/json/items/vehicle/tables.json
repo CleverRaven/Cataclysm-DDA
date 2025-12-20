@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "v_table",
     "name": { "str": "fancy table" },
     "description": "A very fancy table for those with fancy lives.  If times were better, it might be useful for something other than firewood.",
@@ -19,7 +19,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "w_table",
     "name": { "str": "wooden table" },
     "description": "A crude wooden table.",
@@ -28,10 +28,10 @@
     "copy-from": "v_table"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "workbench",
     "name": { "str": "workbench (folded)", "str_pl": "workbenches (folded)" },
-    "description": "A sturdy workbench made of metal and wood.  It is perfect for crafting large and heavy things, when unfolded.",
+    "description": "A sturdy workbench built out of metal.  It is perfect for crafting large and heavy things, when unfolded.",
     "weight": "18370 g",
     "volume": "44700 ml",
     "//": "73.3044 cm D x 76.962 cm W x 79.248 cm H, 447 L unfolded, assumed folding shave it to 10% of original volume",
@@ -43,10 +43,10 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "workbench_with_recharger",
-    "name": { "str": "workbench with battery recharger", "str_pl": "workbenches with battery rechargers" },
-    "description": "A sturdy metal workbench, perfect for crafting large and heavy things.  It also has a built-in battery charger for your phone.",
+    "name": { "str": "workbench with battery recharger (folded)", "str_pl": "workbenches with battery rechargers (folded)" },
+    "description": "A sturdy workbench built out of metal.  It is perfect for crafting large and heavy things, when unfolded.  It also has a built-in battery charger for your phone.",
     "weight": "20370 g",
     "flags": [ "TRADER_AVOID" ],
     "price": "400 USD",

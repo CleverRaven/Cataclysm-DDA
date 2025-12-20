@@ -4,7 +4,6 @@
     "overmap_terrain_coverage_whitelist": [
       "ants_lab",
       "ants_lab_stairs",
-      "hw_railings",
       "ice_lab",
       "ice_lab_core",
       "ice_lab_finale",
@@ -13,6 +12,14 @@
       "ravine_edge",
       "ravine_floor",
       "ravine_floor_edge",
+      "standing_stones_highlands",
+      "highlands",
+      "highland_crossroads_temple",
+      "highland_crossroads_temple_above",
+      "highland_crossroads_temple_above2",
+      "highland_road",
+      "radiosphere_radio_tower_top",
+      "radiosphere_deletion_plane",
       "rock_border",
       "s_restaurant_deserted_test",
       "gunshow_0",
@@ -42,7 +49,14 @@
       "farm_isherwood_.*",
       "corpse_head_neck_(l|r|center)_decap",
       "abandoned_textile_mill(_b)?_\\d_\\d",
-      "hotel_tower(_flr2)_1_5B?"
+      "hotel_tower(_flr2)_1_5B?",
+      "pottery_cottage",
+      "pottery_cottage_2nd",
+      "pottery_cottage_roof",
+      "pottery_cottage_field_2nd",
+      "pottery_cottage_field_roof",
+      "pottery_cottage_field",
+      "pottery_cottage_basement"
     ]
   }
 ]

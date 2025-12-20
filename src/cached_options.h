@@ -33,6 +33,10 @@ extern int pixel_minimap_a;
 namespace cata::options
 {
 extern std::vector<std::string> damage_indicators;
+extern struct mouse_t {
+    bool enabled: 1;
+    bool hidekb: 1;
+} mouse;
 } // namespace cata::options
 
 // test_mode is not a regular game option; it's true when we are running unit

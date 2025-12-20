@@ -10,6 +10,8 @@
       [ "crucible", 30 ],
       [ "swage", 60 ],
       [ "drift", 70 ],
+      { "item": "graphite", "prob": 70, "charges": [ 50, 12500 ] },
+      { "item": "chem_borax", "prob": 90, "charges": [ 0, 500 ] },
       [ "metal_file", 90 ],
       [ "hotcut", 90 ],
       [ "metalworking_tongs", 90 ],
@@ -46,7 +48,7 @@
       { "item": "tuning_pegs", "prob": 100, "count": [ 5, 15 ] },
       { "item": "qt_wire", "prob": 100, "count": [ 1, 3 ] },
       [ "hand_drill", 20 ],
-      { "item": "super_glue", "prob": 100, "count": [ 1, 3 ] },
+      { "group": "glue_strong_professional" },
       [ "chisel", 10 ],
       [ "sandpaper", 100 ]
     ]
@@ -56,14 +58,14 @@
     "type": "item_group",
     "//": "Industrial machinery used for construction",
     "items": [
-      { "item": "brick_kiln", "prob": 80, "charges": [ 0, 1000 ] },
-      { "item": "kiln", "prob": 40 },
+      { "item": "kiln", "prob": 80 },
       { "item": "con_mix_foldable", "prob": 120 },
       { "item": "elec_jackhammer", "prob": 40, "charges": [ 0, 6600 ] },
       { "item": "reciprocating_saw", "prob": 80, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 20, "charges": [ 0, 500 ] },
       [ "metal_smoother", 90 ],
       { "item": "jackhammer", "prob": 40, "charges": [ 0, 1200 ] },
+      { "item": "graphite", "prob": 10, "charges": [ 50, 12500 ] },
       { "group": "tools_toolbox", "prob": 20 },
       { "group": "tools_workshop", "prob": 5 },
       [ "recharge_station", 10 ],
@@ -84,6 +86,7 @@
       [ "rake_plastic", 25 ],
       [ "aluminum_stepladder", 5 ],
       [ "machete", 10 ],
+      [ "brush_handaxe", 5 ],
       { "item": "misc_repairkit", "prob": 25 },
       [ "saw", 60 ],
       { "item": "bow_saw", "prob": 50 },
@@ -103,7 +106,8 @@
       [ "screwdriver_set", 50 ],
       [ "socket_screwdriver_set", 10 ],
       { "group": "duct_tape_roll_part", "prob": 10 },
-      { "group": "superglue", "prob": 10 },
+      { "group": "glue_weak_domestic", "prob": 5 },
+      { "group": "glue_strong_domestic", "prob": 5 },
       [ "tin_snips", 10 ],
       [ "wrench", 20 ],
       [ "wrench_small", 20 ],
@@ -120,10 +124,12 @@
       [ "multitool", 10 ],
       [ "recharge_station", 10 ],
       [ "hand_crank_charger", 25 ],
+      { "item": "graphite", "prob": 10, "charges": [ 50, 12500 ] },
       [ "metal_file", 10 ],
       [ "clamp", 10 ],
       [ "sandpaper", 80 ],
-      { "group": "writing_utensils", "prob": 5 }
+      { "group": "writing_utensils", "prob": 5 },
+      { "group": "soldering_supplies", "prob": 50 }
     ]
   },
   {
@@ -142,6 +148,7 @@
       [ "hand_pump", 1 ],
       [ "funnel", 50 ],
       [ "metal_file", 40 ],
+      { "item": "graphite", "prob": 50, "charges": [ 50, 12500 ] },
       [ "sandpaper", 65 ]
     ]
   },
@@ -166,6 +173,7 @@
       [ "hacksaw", 30 ],
       [ "saw", 65 ],
       { "item": "bow_saw", "prob": 40 },
+      { "item": "graphite", "prob": 30, "charges": [ 50, 12500 ] },
       [ "pin_reamer", 18 ],
       [ "clamp", 30 ],
       [ "boxcutter", 20 ],
@@ -200,6 +208,9 @@
       { "item": "dehydrator", "prob": 5 },
       [ "tourist_table", 1 ],
       [ "vac_mold", 10 ],
+      [ "brush_handaxe", 15 ],
+      [ "brush_axe", 5 ],
+      [ "brush_pole", 5 ],
       [ "polycarbonate_sheet", 50 ],
       [ "sandpaper", 50 ],
       [ "plastic_sheet", 50 ],
@@ -271,6 +282,9 @@
       [ "shovel", 120 ],
       [ "sickle", 40 ],
       [ "machete", 25 ],
+      [ "brush_handaxe", 15 ],
+      [ "brush_axe", 10 ],
+      [ "brush_pole", 5 ],
       [ "rake", 20 ],
       [ "rake_plastic", 40 ],
       [ "shovel_snow", 20 ],
@@ -286,7 +300,8 @@
     "items": [
       { "group": "tools_common_small", "prob": 100 },
       [ "wrench", 200 ],
-      [ "wrench_large", 20 ],
+      [ "wrench_large", 50 ],
+      [ "wrench_48", 50 ],
       [ "big_pliers", 10 ],
       [ "claw_bar", 2 ],
       [ "crowbar", 10 ],
@@ -316,6 +331,7 @@
       { "item": "reciprocating_saw", "prob": 50, "charges": [ 0, 500 ] },
       { "item": "cordless_drill", "prob": 100, "charges": [ 0, 500 ] },
       [ "pin_reamer", 30 ],
+      { "item": "graphite", "prob": 30, "charges": [ 50, 12500 ] },
       [ "clamp", 10 ],
       [ "sandpaper", 90 ],
       [ "bench_vise", 15 ]
@@ -422,7 +438,8 @@
       },
       [ "clamp", 10 ],
       [ "goggles_welding", 80 ],
-      [ "thread_cutting_set", 40 ]
+      [ "thread_cutting_set", 40 ],
+      { "item": "graphite", "prob": 40, "charges": [ 50, 12500 ] }
     ]
   },
   {
@@ -434,6 +451,7 @@
       { "item": "jack", "prob": 100 },
       { "item": "lug_wrench", "prob": 80 },
       { "item": "jack_small", "prob": 80 },
+      { "item": "graphite", "prob": 50, "charges": [ 50, 12500 ] },
       { "item": "compressor", "prob": 40 },
       { "group": "tools_toolbox", "prob": 80 },
       { "group": "tools_workshop", "prob": 70 },
@@ -558,8 +576,7 @@
       [ "stethoscope", 50 ],
       [ "syringe", 50 ],
       [ "thermometer", 50 ],
-      [ "vacutainer", 50 ],
-      [ "bag_body_bag", 10 ]
+      [ "vacutainer", 50 ]
     ]
   },
   {
@@ -754,6 +771,7 @@
       [ "glasses_safety", 5 ],
       { "item": "UPS_OFF", "prob": 3, "charges": [ 0, 1000 ] },
       [ "microscope", 5 ],
+      { "item": "microscope_slide", "prob": 5, "count": [ 0, 20 ] },
       [ "microscope_dissecting", 5 ],
       [ "funnel_separation", 3 ],
       { "item": "filter_paper_qualitative", "prob": 3, "charges": [ 10, -1 ] },
@@ -777,7 +795,8 @@
       [ "xacto", 4 ],
       { "group": "cotton_ball_bag_used", "prob": 4 },
       { "group": "cotton_ball_bag_full", "prob": 2 },
-      { "group": "ammo_any_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_random", "prob": 25 },
+      { "group": "ammo_heavy_batteries_full", "prob": 25 },
       [ "acetylene_machine", 1 ],
       { "group": "writing_utensils", "prob": 5 }
     ]
@@ -823,13 +842,14 @@
       [ "recipe_lab_elec", 4 ],
       { "item": "UPS_OFF", "prob": 6, "charges": [ 0, 1000 ] },
       [ "file", 10 ],
-      [ "atomic_lamp", 1 ],
       { "item": "smart_lamp", "prob": 2, "charges": [ 0, 100 ] },
-      [ "bot_manhack", 2 ],
+      [ "bot_grenade_hack", 2 ],
       [ "teleporter", 1 ],
       { "group": "used_laptops", "prob": 4, "contents-group": "efiles_science" },
       { "item": "plut_cell", "prob": 4, "charges": [ 1, 5 ] },
-      { "group": "superglue", "prob": 30 },
+      { "group": "glue_weak_domestic", "prob": 15 },
+      { "group": "glue_strong_domestic", "prob": 15 },
+      { "item": "graphite", "prob": 30, "charges": [ 50, 12500 ] },
       [ "pliers", 10 ],
       [ "tin_snips", 10 ],
       { "item": "matches", "prob": 10, "charges": [ 1, 20 ] },
@@ -887,6 +907,7 @@
       { "item": "bow_saw", "prob": 40 },
       [ "ax", 20 ],
       [ "machete", 15 ],
+      [ "brush_handaxe", 5 ],
       [ "hacksaw", 50 ],
       [ "chipper", 60 ],
       [ "boltcutters", 50 ],
@@ -1054,16 +1075,89 @@
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "superglue",
-    "items": [ { "item": "super_glue", "charges": [ 0, 600 ], "container-group": "superglue_bottles" } ]
+    "id": "superglue_bottles",
+    "items": [ { "item": "small_squeeze_tube", "prob": 90 }, { "item": "bottle_plastic_tiny_glue", "prob": 10 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "superglue_bottles",
+    "id": "glue_weak_domestic",
     "items": [
-      { "item": "small_squeeze_tube", "variant": "small_squeeze_tube_superglue", "prob": 90 },
-      { "item": "bottle_plastic_tiny_glue", "variant": "bottle_plastic_tiny_superglue", "prob": 10 }
+      { "item": "glue_weak", "container-item": "bottle_plastic_tiny_glue", "charges": [ 0, 30 ] },
+      { "item": "glue_weak", "container-item": "bottle_plastic_small_glue", "charges": [ 0, 250 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "glue_weak_domestic_full",
+    "items": [
+      { "item": "glue_weak", "container-item": "bottle_plastic_tiny_glue", "charges": 30 },
+      { "item": "glue_weak", "container-item": "bottle_plastic_small_glue", "charges": 250 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "glue_weak_professional",
+    "items": [
+      { "item": "glue_weak", "container-item": "bottle_plastic_small_glue", "charges": [ 0, 500 ] },
+      { "item": "glue_weak", "container-item": "bottle_plastic_glue", "charges": [ 0, 1000 ] },
+      { "item": "glue_weak", "container-item": "bottle_twoliter_glue", "charges": [ 0, 2000 ] },
+      { "item": "glue_weak", "container-item": "jug_plastic_glue", "charges": [ 0, 3750 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "glue_weak_professional_full",
+    "items": [
+      { "item": "glue_weak", "container-item": "bottle_plastic_small_glue", "charges": 500 },
+      { "item": "glue_weak", "container-item": "bottle_plastic_glue", "charges": 1000 },
+      { "item": "glue_weak", "container-item": "bottle_twoliter_glue", "charges": 2000 },
+      { "item": "glue_weak", "container-item": "jug_plastic_glue", "charges": 3750 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "glue_strong_domestic",
+    "items": [
+      { "item": "glue_strong", "container-item": "small_squeeze_tube", "charges": [ 0, 4 ] },
+      { "item": "glue_strong", "container-item": "bottle_plastic_tiny_glue", "charges": [ 0, 30 ] },
+      { "item": "glue_strong", "container-item": "bottle_plastic_small_glue", "charges": [ 0, 250 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "glue_strong_domestic_full",
+    "items": [
+      { "item": "glue_strong", "container-item": "small_squeeze_tube", "charges": 4 },
+      { "item": "glue_strong", "container-item": "bottle_plastic_tiny_glue", "charges": 30 },
+      { "item": "glue_strong", "container-item": "bottle_plastic_small_glue", "charges": 250 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "glue_strong_professional",
+    "items": [
+      { "item": "glue_strong", "container-item": "bottle_plastic_small_glue", "charges": [ 0, 500 ] },
+      { "item": "glue_strong", "container-item": "bottle_plastic_glue", "charges": [ 0, 1000 ] },
+      { "item": "glue_strong", "container-item": "bottle_twoliter_glue", "charges": [ 0, 2000 ] },
+      { "item": "glue_strong", "container-item": "jug_plastic_glue", "charges": [ 0, 3750 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "glue_strong_professional_full",
+    "items": [
+      { "item": "glue_strong", "container-item": "bottle_plastic_small_glue", "charges": 500 },
+      { "item": "glue_strong", "container-item": "bottle_plastic_glue", "charges": 1000 },
+      { "item": "glue_strong", "container-item": "bottle_twoliter_glue", "charges": 2000 },
+      { "item": "glue_strong", "container-item": "jug_plastic_glue", "charges": 3750 }
     ]
   }
 ]

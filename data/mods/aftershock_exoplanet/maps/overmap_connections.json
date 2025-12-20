@@ -12,6 +12,7 @@
       { "terrain": "road", "locations": [ "forest_without_trail" ], "basic_cost": 20 },
       { "terrain": "road", "locations": [ "forest_trail" ], "basic_cost": 25 },
       { "terrain": "road", "locations": [ "swamp" ], "basic_cost": 40 },
+      { "terrain": "road", "locations": [ "aeolian_plain" ], "basic_cost": 110 },
       { "terrain": "road", "locations": [  ] },
       { "terrain": "bridge", "locations": [ "ravine" ], "basic_cost": 120 }
     ]

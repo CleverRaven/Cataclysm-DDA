@@ -2,7 +2,8 @@
   {
     "id": "afs_4g_plasma",
     "looks_like": "plasma",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "4g plasma cell" },
     "description": "A tiny canister that can safely store up to 4 grams of solid hydrogen in a cryo-pressurized state.",
     "weight": "25 g",
@@ -21,7 +22,8 @@
   {
     "id": "afs_20g_plasma",
     "looks_like": "plasma",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "20g plasma cell" },
     "description": "A reinforced canister that can safely store up to 20 grams of solid hydrogen in a cryo-pressurized state.",
     "weight": "30 g",
@@ -40,7 +42,8 @@
   {
     "id": "afs_40g_plasma_civ",
     "looks_like": "plasma",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "40g plasma cell (civilian)", "str_pl": "40g plasma cells (civilian)" },
     "description": "A yellow and red canister that can safely store up to 40 grams of solid hydrogen in a cryo-pressurized state.  A complex nozzle with integrated digital failsafes make it incompatible with military railguns.",
     "weight": "45 g",

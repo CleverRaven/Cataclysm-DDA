@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "nursing_home_1", "nursing_home_2", "nursing_home_3", "nursing_home_4" ],
       [ "nursing_home_5", "nursing_home_6", "nursing_home_7", "nursing_home_8" ],
@@ -122,7 +121,7 @@
         "8": { "item": "bed", "chance": 80 },
         "T": { "item": "games", "chance": 5 },
         "r": { "item": "groce_meat", "chance": 80, "repeat": [ 0, 1 ] },
-        "a": { "item": "office", "chance": 10 },
+        "a": { "item": "SUS_office_desk", "chance": 10 },
         "5": { "item": "nursing_home_clothes", "chance": 80, "repeat": [ 0, 1 ] },
         "f": { "item": "SUS_office_filing_cabinet", "chance": 90, "repeat": [ 1, 2 ] },
         "F": { "item": "SUS_office_filing_cabinet", "chance": 90, "repeat": [ 1, 2 ] },
@@ -181,7 +180,7 @@
         ],
         "9": [
           { "item": "donated_clothes", "chance": 20 },
-          { "item": "office_mess", "chance": 10, "repeat": [ 0, 2 ] },
+          { "item": "SUS_office_mess", "chance": 10, "repeat": [ 0, 2 ] },
           { "item": "softdrugs", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "restaur_bath", "chance": 10, "repeat": [ 1, 2 ] },
@@ -189,7 +188,7 @@
         ],
         "m": [
           { "item": "games", "chance": 20, "repeat": [ 0, 1 ] },
-          { "item": "office_mess", "chance": 20, "repeat": [ 0, 1 ] },
+          { "item": "SUS_office_mess", "chance": 20, "repeat": [ 0, 1 ] },
           { "item": "magazines", "chance": 20, "repeat": [ 0, 1 ] }
         ]
       },
@@ -211,7 +210,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Shady Hills Nursing Home",
     "om_terrain": [
       [ "nursing_home_sh1", "nursing_home_sh2", "nursing_home_sh3", "nursing_home_sh4" ],
@@ -337,9 +335,9 @@
         "3": { "item": "bed", "chance": 80 },
         "8": { "item": "bed", "chance": 80 },
         "T": { "item": "games", "chance": 5 },
-        "P": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 3, 6 ] },
+        "P": { "item": "SUS_trash_trashcan", "chance": 100 },
         "r": { "item": "groce_frozen", "chance": 100, "repeat": [ 3, 4 ] },
-        "a": { "item": "office", "chance": 10 },
+        "a": { "item": "SUS_office_desk", "chance": 10 },
         "5": { "item": "nursing_home_clothes", "chance": 80, "repeat": [ 0, 1 ] },
         "f": { "item": "SUS_office_filing_cabinet", "chance": 90, "repeat": [ 1, 2 ] },
         "F": { "item": "SUS_office_filing_cabinet", "chance": 90, "repeat": [ 1, 2 ] },
@@ -399,7 +397,7 @@
         ],
         "9": [
           { "item": "donated_clothes", "chance": 20 },
-          { "item": "office_mess", "chance": 10, "repeat": [ 0, 2 ] },
+          { "item": "SUS_office_mess", "chance": 10, "repeat": [ 0, 2 ] },
           { "item": "softdrugs", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "meth_ingredients", "chance": 10, "repeat": [ 0, 1 ] },
@@ -409,10 +407,10 @@
         ],
         "m": [
           { "item": "games", "chance": 20, "repeat": [ 0, 1 ] },
-          { "item": "office_mess", "chance": 20, "repeat": [ 0, 1 ] },
+          { "item": "SUS_office_mess", "chance": 20, "repeat": [ 0, 1 ] },
           { "item": "magazines", "chance": 20, "repeat": [ 0, 1 ] }
         ],
-        ".": [ { "item": "SUS_trash_floor", "chance": 2 }, { "item": "office_mess", "chance": 3 } ]
+        ".": [ { "item": "SUS_trash_floor", "chance": 2 }, { "item": "SUS_office_mess", "chance": 3 } ]
       },
       "vendingmachines": { "?": { "item_group": "vending_drink", "lootable": true }, ",": { "item_group": "vending_food", "lootable": true } },
       "palettes": [ "nursing_home_sh_palette" ],
@@ -432,7 +430,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "nursing_home_1_roof", "nursing_home_2_roof", "nursing_home_3_roof" ],
       [ "nursing_home_4_roof", "nursing_home_5_roof", "nursing_home_6_roof" ]
@@ -494,7 +491,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "nursing_home_b1", "nursing_home_b2", "nursing_home_b3", "nursing_home_b4" ],
       [ "nursing_home_b5", "nursing_home_b6", "nursing_home_b7", "nursing_home_b8" ],
@@ -581,7 +577,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "nursing_home_bb1", "nursing_home_bb2", "nursing_home_bb3", "nursing_home_bb4" ],
       [ "nursing_home_bb5", "nursing_home_bb6", "nursing_home_bb7", "nursing_home_bb8" ],
@@ -668,7 +663,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "nursing_home_lab1", "nursing_home_lab2", "nursing_home_lab3", "nursing_home_lab4" ],
       [ "nursing_home_lab5", "nursing_home_lab6", "nursing_home_lab7", "nursing_home_lab8" ],

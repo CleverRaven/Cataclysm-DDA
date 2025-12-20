@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mine_amigara_west", "mine_amigara_central", "mine_amigara_east" ] ],
     "object": {
       "fill_ter": "t_rock_floor",
@@ -72,7 +71,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mine_amigara_-1_west", "mine_amigara_-1_central", "mine_amigara_-1_east" ] ],
     "object": {
       "fill_ter": "t_rock_floor",
@@ -148,7 +146,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mine_amigara_finale_west", "mine_amigara_finale_central", "mine_amigara_finale_east" ] ],
     "object": {
       "fill_ter": "t_rock_floor",

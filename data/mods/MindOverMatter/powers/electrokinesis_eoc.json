@@ -3,6 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_PARALYSIS",
     "//": "Complicated formula here is to produce diminishing returns, since stunning for too long might as well just kill the target.  Level 1 minimum is .4615 seconds moves lost, level 20 maximum is 6.25 seconds, all before Intelligence scaling",
+    "condition": "has_alpha",
     "effect": [
       {
         "if": {
@@ -47,12 +48,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('electrokinetic_pain_immune') * 8) + 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_pain_immune') + u_spell_level('electrokinetic_pain_immune_knack') ) * 8) + 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('electrokinetic_pain_immune') * 13) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_pain_immune') + u_spell_level('electrokinetic_pain_immune_knack') ) * 13) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -66,7 +67,7 @@
     "condition": { "u_has_effect": "effect_electrokinetic_pain_immune" },
     "effect": [
       { "u_lose_effect": "effect_electrokinetic_pain_immune" },
-      { "math": [ "u_pain('type': 'perceived')", "+=", "(u_electrokin_pain_value * 1.1)" ] }
+      { "math": [ "u_pain('type': 'perceived') += (u_electrokin_pain_value * 1.1)" ] }
     ]
   },
   {

@@ -1,7 +1,7 @@
 [
   {
     "id": "cauldron_demon_chitin",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "cauldron of purification", "str_pl": "cauldrons of purification" },
     "description": "This cauldron made of demon spider chitin seems to absorb the light.  It will hold 16 liters of material and will absorb poisons from it.  It may have other properties that require discovery.",
@@ -21,7 +21,7 @@
   },
   {
     "id": "cauldron_orichalcum",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "orichalcum cauldron" },
     "description": "This is an alchemical cauldron made of orichalcum.  The metal is especially resistant to the unique types of corrosion caused by alchemy.",
@@ -41,7 +41,8 @@
   },
   {
     "id": "demon_forge",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "demon forge" },
     "description": "This is a portable version of the charcoal forge that is magically enhanced and fortified with demon spider chitin in order to be able to resmelt magical metals into their workable ingot form.",
     "weight": "8 kg",
@@ -57,7 +58,7 @@
     "tool_ammo": [ "alumentum" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fireproof_mortar",
     "symbol": "%",
     "color": "light_red",
@@ -75,7 +76,8 @@
     "id": "sewing_kit",
     "name": "sewing kit",
     "copy-from": "sewing_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
@@ -93,7 +95,6 @@
         "gutskin",
         "denim",
         "canvas",
-        "demon_chitin",
         "black_dragon_hide"
       ],
       "skill": "tailor",
@@ -106,7 +107,8 @@
     "id": "tailors_kit",
     "name": "tailor's kit",
     "copy-from": "tailors_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "use_action": [
       {
         "type": "repair_item",
@@ -126,8 +128,7 @@
           "gutskin",
           "denim",
           "canvas",
-          "black_dragon_hide",
-          "demon_chitin"
+          "black_dragon_hide"
         ],
         "skill": "tailor",
         "tool_quality": 1,
@@ -137,8 +138,65 @@
     ]
   },
   {
+    "id": "soldering_iron",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "soldering iron" },
+    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  Has a short cable that you can plug to your grid.",
+    "weight": "90 g",
+    "volume": "120 ml",
+    "longest_side": "22 cm",
+    "price": "10 USD",
+    "price_postapoc": "1 USD",
+    "material": [ { "type": "plastic", "portion": 75 }, { "type": "copper", "portion": 25 } ],
+    "symbol": ",",
+    "color": "light_gray",
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "lead", "tin", "zinc", "demon_chitin" ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "70 W" }
+    ],
+    "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "stab": 2 },
+    "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "soldering_iron_portable",
+    "copy-from": "soldering_iron",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "portable soldering iron" },
+    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  This one is a portable version, and contains a slot for a battery.",
+    "symbol": ",",
+    "color": "light_gray",
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "lead", "tin", "zinc", "demon_chitin" ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      }
+    ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_MEDIUM" ], "default_magazine": "medium_battery_cell" }
+    ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "stab": 2 }
+  },
+  {
     "id": "parabolan_wool_staple",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "parabolan wool staple" },
     "description": "The natural cluster of parabolan wool fibers.  Could be processed to felt patches or yarns.",
@@ -153,7 +211,8 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "glassteel_shard",
     "copy-from": "glass_shard",
     "name": { "str": "glassteel shard" },
@@ -164,7 +223,8 @@
   },
   {
     "id": "magic_circle_rank_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Magic Circle Rank 1", "str_pl": "Magic Circles Rank 1" },
     "description": {
       "str": "This is the pseudo-tool provided by having a nearby magic circle.  You shouldn't see this as an individual item.",
@@ -179,7 +239,8 @@
   },
   {
     "id": "magic_circle_rank_2",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Magic Circle Rank 2", "str_pl": "Magic Circles Rank 2" },
     "description": {
       "str": "This is the pseudo-tool provided by having a nearby magic circle.  You shouldn't see this as an individual item.",

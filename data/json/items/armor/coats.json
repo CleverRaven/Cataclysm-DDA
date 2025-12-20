@@ -169,7 +169,7 @@
         "id": "bomber_beaver_fur",
         "name": { "str": "beaver skin bomber jacket" },
         "description": "The skins of what used to be several beavers have taken to the skies within the composition of this sleek-fitting flight jacket, or, rather, they would if the coat were in any way designed to be a practical piece of kit.  With a soft spread of brown fur lining the inside of this wide-necked overcoat and its exterior finished in a bold, glossy black color, it's safe to say that this garment belongs more within a ski chalet than the cockpit of a fighter craft.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 6
       },
       {
@@ -213,6 +213,8 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "fur coat" },
+    "//": "delete fur coat variants, this is survivor made",
+    "variants": [  ],
     "copy-from": "coat_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -223,6 +225,8 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "coat_fur",
     "name": { "str": "fur coat" },
+    "//": "delete fur coat variants, this is survivor made",
+    "variants": [  ],
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -234,6 +238,8 @@
     "looks_like": "coat_fur",
     "name": { "str": "faux fur coat" },
     "description": "A garishly-colored faux fur coat with a couple small pockets.  Although not as warm as natural fur, it gives you some of that unique flair.",
+    "//": "delete fur coat variants",
+    "variants": [  ],
     "material": [ "faux_fur", "cotton" ],
     "color": "pink",
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
@@ -1057,7 +1063,7 @@
         "id": "m65_black",
         "name": { "str": "urban black combat jacket" },
         "description": "Fitted with a brass main zip and corresponding buttons, this entire jacket forgoes frivolities and is, instead, dyed a solid shade of midnight black.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 25,
         "append": true
       },
@@ -1750,7 +1756,7 @@
         "id": "black_varsity_jacket",
         "name": { "str": "black varsity jacket" },
         "description": "This one is completely black.  At least a dozen different patches are sewn on it.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 10,
         "append": true
       },
@@ -1766,7 +1772,7 @@
         "id": "black_red_varsity_jacket",
         "name": { "str": "Crimson Bulls varsity jacket" },
         "description": "This one's torso is black and its arms are red.  It has an angry looking red bull ready to charge on its back.  Across the front writes \"BULLS\".",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 10,
         "append": true
       },
@@ -1802,7 +1808,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "judo gi" },
     "description": "Plain white judo gi.",
-    "weight": "1000 g",
+    "weight": "750 g",
     "volume": "1500 ml",
     "price": "50 USD",
     "price_postapoc": "50 cent",
@@ -2059,6 +2065,7 @@
     "id": "leather_police_jacket",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
+    "category": "armor",
     "name": { "str": "motorcycle jacket" },
     "description": "A thick and heavy leather jacket used most commonly by motorcyclists, equestrians and Australian vigilantes.",
     "weight": "2700 g",
@@ -2111,7 +2118,7 @@
     "variants": [
       {
         "id": "leather_police_jacket",
-        "name": { "str": "motorcycle police jacket" },
+        "//": "inherit name from item",
         "description": "It is emblazoned with the insignia of the local police force.",
         "weight": 0,
         "append": true
@@ -2278,7 +2285,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "ghost's robe" },
     "description": "A white hooded ghost's robe characteristic of souls that haunt the living world.",
-    "weight": "348 g",
+    "weight": "250 g",
     "volume": "500 ml",
     "price": "28 USD",
     "price_postapoc": "80 cent",
@@ -2314,7 +2321,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "cheap ghost's robe" },
     "description": "A cheap ghost costume comprised of a white sheet with two eye holes cut out.  A simple hat is worn underneath to keep the sheet in place.",
-    "weight": "880 g",
+    "weight": "225 g",
     "volume": "550 ml",
     "price": "20 USD",
     "price_postapoc": "60 cent",
@@ -2352,7 +2359,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "grim reaper's robe" },
     "description": "A black hooded grim reaper's robe with a face cover to hide the user's lack of facial skin.  It pairs nicely with a scythe.  Use it to remove the face cover and show yourself before your victims.",
-    "weight": "453 g",
+    "weight": "225 g",
     "volume": "550 ml",
     "price": "35 USD",
     "price_postapoc": "90 cent",
@@ -3309,7 +3316,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "rag tunic" },
     "description": "A poorly-made long tunic with a string tied around the waist to keep it all in place.",
-    "weight": "683 g",
+    "weight": "500 g",
     "volume": "1 L",
     "price": "70 cent",
     "price_postapoc": "60 cent",
@@ -3405,7 +3412,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "waistcoat" },
     "description": "An elegant waistcoat.  Ideal for those occasions when wearing only a shirt would be too casual and a suit would be overdoing it.",
-    "weight": "516 g",
+    "weight": "500 g",
     "volume": "1 L",
     "price": "50 USD",
     "price_postapoc": "2 USD 50 cent",
@@ -3528,7 +3535,7 @@
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "trenchcoat",
-    "color": "black",
+    "color": "dark_gray",
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 11, 17 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] },
@@ -3785,7 +3792,7 @@
       },
       {
         "id": "tacjacket_arctic",
-        "name": { "str": "poler-camo tactical jacket" },
+        "name": { "str": "polar-camo tactical jacket" },
         "description": "Fit for utility in light snowfall and in the colder months, this jacket, while not as insulating as thicker winter overcoats, is resplendent with a mixed camo palette of snowy white, gray, and a hint of light brown.",
         "color": "white",
         "weight": 5,
@@ -3819,10 +3826,28 @@
         "id": "tacjacket_black_camo",
         "name": { "str": "urban-black tactical jacket" },
         "description": "Pitch-black, from its mandarin collar to its hems, this jacket is a coat for the aspiring nocturnal operator, tacticool edge lord, and those in the business to be afoot during the small hours of the night.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 15,
         "append": true
       }
     ]
+  },
+  {
+    "id": "abaya",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": "abaya",
+    "description": "A loose-fitting, full-length outer garment generally worn over clothing by Muslim women.",
+    "weight": "600 g",
+    "volume": "2 L",
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
+    "symbol": "Y",
+    "color": "dark_gray",
+    "material": [ "cotton" ],
+    "material_thickness": 0.2,
+    "warmth": 5,
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [ { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100 } ]
   }
 ]

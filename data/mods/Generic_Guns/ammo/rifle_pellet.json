@@ -1,13 +1,15 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "rifle_pellet_target",
     "copy-from": "airgun_pellet_target",
     "name": { "str": "air rifle target pellet" },
     "description": "A tin of small cone-shaped pellets meant to be used in an air rifle.  Suitable for plinking."
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "rifle_pellet_hunting",
     "copy-from": "airgun_pellet_hunting",
     "name": { "str": "air rifle hunting pellet" },

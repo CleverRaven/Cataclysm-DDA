@@ -162,7 +162,7 @@
         { "item": "home_display_case", "chance": 30 },
         { "item": "harddrugs_residential", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "maps", "chance": 2 },
-        { "item": "guns_pistol_common", "chance": 50, "ammo": 90, "magazine": 100 },
+        { "item": "guns_pistol_common", "chance": 50 },
         { "item": "gemstones", "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "O": { "item": "SUS_oven", "chance": 2 },

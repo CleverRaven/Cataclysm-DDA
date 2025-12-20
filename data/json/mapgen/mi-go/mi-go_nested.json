@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room1",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -22,7 +21,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room2",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -44,7 +42,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room3",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -66,7 +63,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room4",
     "//": "Observation room with zombies",
     "object": {
@@ -99,7 +95,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room5",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -120,7 +115,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room6",
     "//": "Mi-go surgical suite",
     "object": {
@@ -165,7 +159,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room7",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -187,7 +180,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room8",
     "//": "Menagerie",
     "object": {
@@ -216,7 +208,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room9",
     "//": "Storage room, left side",
     "object": {
@@ -240,7 +231,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room9a",
     "//": "Storage room, right side, split across map boundaries",
     "object": {
@@ -264,7 +254,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room10",
     "//": "Left entry",
     "object": {
@@ -284,7 +273,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room11",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -306,7 +294,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room12",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -330,7 +317,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room13",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -351,7 +337,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room14",
     "//": "Large monster holding cell",
     "object": {
@@ -372,7 +357,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room15",
     "//": "Roomfull of zaps",
     "object": {
@@ -394,7 +378,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room16",
     "//": "Right side entrance",
     "object": {
@@ -413,7 +396,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room17",
     "//": "Large monster holding cell",
     "object": {
@@ -434,7 +416,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_scout_tower_cells",
     "//": "Mi-go surgical suite and prisoner cells for upper z levels",
     "object": {

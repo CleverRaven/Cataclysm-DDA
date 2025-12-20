@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "crashing_ship_locker_card",
     "symbol": ",",
     "color": "blue",
@@ -16,7 +16,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "crashing_ship_armory_card",
     "symbol": ",",
     "color": "red",
@@ -32,7 +32,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "crashing_ship_exobay_card",
     "symbol": ",",
     "color": "yellow",
@@ -63,7 +63,7 @@
     "petfood": [ "STEED_registry" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tskbem_master_keycard",
     "symbol": ",",
     "color": "yellow",
@@ -79,7 +79,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "enforcer_master_keycard",
     "symbol": ",",
     "color": "blue",
@@ -95,7 +95,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mercurial_master_keycard",
     "symbol": ",",
     "color": "green",

@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fold_orichalcum_frame",
     "name": "foldable orichalcum frame",
     "copy-from": "foldframe",
@@ -11,7 +11,7 @@
     "price": "100 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "orichalcum_frame",
     "name": "orichalcum frame",
     "symbol": "]",
@@ -23,7 +23,7 @@
     "price": "800 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "light_orichalcum_frame",
     "name": "light orichalcum frame",
     "copy-from": "orichalcum_frame",

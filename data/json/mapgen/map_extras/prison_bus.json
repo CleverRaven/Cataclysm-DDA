@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_prison_bus",
     "object": {
       "place_vehicles": [ { "vehicle": "bus_prison", "x": 17, "y": 6, "rotation": 270 } ],
@@ -13,7 +12,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_prison_bus",
     "object": {
       "place_vehicles": [ { "vehicle": "bus_prison", "x": 5, "y": 15, "rotation": 180 } ],
@@ -25,7 +23,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_prison_bus",
     "object": {
       "place_vehicles": [

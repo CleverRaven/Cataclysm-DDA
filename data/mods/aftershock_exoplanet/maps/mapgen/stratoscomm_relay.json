@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_stratoscomm_relay_n1" ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -39,7 +38,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_stratoscomm_relay_s1" ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -88,7 +86,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_stratoscomm_relay_n2" ],
     "object": {
       "fill_ter": "t_metal_floor",

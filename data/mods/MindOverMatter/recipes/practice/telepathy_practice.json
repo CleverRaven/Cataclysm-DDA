@@ -31,7 +31,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: concentration trance",
     "id": "practice_telepathic_concentration",
-    "description": "Contemplate your powers and improve your laser-like focus.",
+    "description": "Contemplate your powers and improve your laser-like focus.\n\nPower Difficulty: 1\n\nCurrent Power Level: <u_spell_level:telepathic_concentration>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -44,7 +44,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_CONCENTRATION",
-        "condition": { "math": [ "u_spell_level('telepathic_concentration') >= 1" ] },
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_concentration", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -58,11 +58,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: mind sense",
     "id": "practice_telepathic_mind_sense",
-    "description": "Contemplate your powers and improve your ability to detect other minds.",
+    "description": "Contemplate your powers and improve your ability to detect other minds.\n\nPower Difficulty: 2\n\nCurrent Power Level: <u_spell_level:telepathic_mind_sense>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
@@ -71,7 +71,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_MIND_SENSE",
-        "condition": { "math": [ "u_spell_level('telepathic_mind_sense') >= 1" ] },
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_mind_sense", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -85,11 +85,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: telepathic shield",
     "id": "practice_telepathic_shield",
-    "description": "Contemplate your powers and improve the resilience of your mind.",
+    "description": "Contemplate your powers and improve the resilience of your mind.\n\nPower Difficulty: 2\n\nCurrent Power Level: <u_spell_level:telepathic_shield>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
@@ -98,6 +98,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_SHIELD",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_shield", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -135,11 +136,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: mesmerize",
     "id": "practice_telepathic_mesmerize",
-    "description": "Contemplate your powers and improve your mental strength to place your opponents into a trance.",
+    "description": "Contemplate your powers and improve your ability to place your opponents into a trance.\n\nPower Difficulty: 3\n\nCurrent Power Level: <u_spell_level:telepathic_mesmerize>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
@@ -148,6 +149,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATHIC_MESMERIZE",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_mesmerize", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -185,11 +187,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: mood stabilization",
     "id": "practice_telepathic_morale",
-    "description": "Contemplate your powers and improve your control of your own emotions.",
+    "description": "Contemplate your powers and improve your control of your own emotions.\n\nPower Difficulty: 3\n\nCurrent Power Level: <u_spell_level:telepathic_morale>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
@@ -198,6 +200,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_MORALE",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_morale", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -235,11 +238,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: synaptic overload",
     "id": "practice_telepathic_blast",
-    "description": "Contemplate your powers and improve your mental strength to telepathically assault your enemies.",
+    "description": "Contemplate your powers and improve your mental strength to telepathically assault your enemies.\n\nPower Difficulty: 4\n\nCurrent Power Level: <u_spell_level:telepathic_blast>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 3,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
@@ -249,6 +252,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATHIC_BLAST",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_blast", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -286,11 +290,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: beastmaster",
     "id": "practice_telepathic_beastmaster",
-    "description": "Contemplate your powers and improve your ability to overpower the minds of animals.",
+    "description": "Contemplate your powers and improve your ability to overpower the minds of animals.\n\nPower Difficulty: 4\n\nCurrent Power Level: <u_spell_level:telepathic_animal_mind_control>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 3,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
@@ -300,6 +304,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATHIC_ANIMAL_MIND_CONTROL",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_animal_mind_control", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -337,11 +342,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: sensory deprivation",
     "id": "practice_telepathic_confusion",
-    "description": "Contemplate your powers and improve your ability to confound your enemies's senses.",
+    "description": "Contemplate your powers and improve your ability to confound your enemies's senses.\n\nPower Difficulty: 5\n\nCurrent Power Level: <u_spell_level:telepathic_confusion>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 4,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
@@ -351,6 +356,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_CONFUSION",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_confusion", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -388,11 +394,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: obscurity",
     "id": "practice_telepathic_invisibility",
-    "description": "Contemplate your powers and improve your ability to make your enemies ignore you.",
+    "description": "Contemplate your powers and improve your ability to make your enemies ignore you.\n\nPower Difficulty: 6\n\nCurrent Power Level: <u_spell_level:telepathic_invisibility>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 5,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
@@ -402,6 +408,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_OBSCURITY",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_invisibility", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -439,11 +446,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: primal terror",
     "id": "practice_telepathic_fear",
-    "description": "Contemplate your powers and improve your ability to turn your enemies' greatest fears against them.",
+    "description": "Contemplate your powers and improve your ability to turn your enemies' greatest fears against them.\n\nPower Difficulty: 6\n\nCurrent Power Level: <u_spell_level:telepathic_fear>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 5,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
@@ -453,7 +460,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_PRIMAL_FEAR",
-        "condition": { "math": [ "u_spell_level('telepathic_fear') >= 1" ] },
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_fear", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -491,11 +498,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: psychic scream",
     "id": "practice_telepathic_scream",
-    "description": "Contemplate your powers and improve the volume of your undirected psionic shrieking.",
+    "description": "Contemplate your powers and improve the volume of your undirected psionic shrieking.\n\nPower Difficulty: 7\n\nCurrent Power Level: <u_spell_level:telepathic_blast_radius>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
@@ -505,6 +512,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_SCREAM_RADIUS",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_blast_radius", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -542,11 +550,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: beast tamer",
     "id": "practice_telepathic_beast_taming",
-    "description": "Contemplate your powers and improve your ability to control animals over the long term.",
+    "description": "Contemplate your powers and improve your ability to control animals over the long term.\n\nPower Difficulty: 7\n\nCurrent Power Level: <u_spell_level:telepathic_beast_taming>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
@@ -556,6 +564,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_BEAST_TAMING",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_beast_taming", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -593,11 +602,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: mind control",
     "id": "practice_telepathic_mind_control",
-    "description": "Contemplate your powers and improve your domination of others' minds.",
+    "description": "Contemplate your powers and improve your domination of others' minds.\n\nPower Difficulty: 8\n\nCurrent Power Level: <u_spell_level:telepathic_mind_control>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 7,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
@@ -607,6 +616,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_MIND_CONTROL",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_mind_control", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -644,11 +654,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: network effect",
     "id": "practice_telepathic_network",
-    "description": "Contemplate your powers and improve your ability to link multiple people into a gestalt whole.",
+    "description": "Contemplate your powers and improve your ability to link multiple people into a gestalt whole.\n\nPower Difficulty: 9\n\nCurrent Power Level: <u_spell_level:telepathic_network>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 8,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
@@ -658,6 +668,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_NETWORK_EFFECT",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_network", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },

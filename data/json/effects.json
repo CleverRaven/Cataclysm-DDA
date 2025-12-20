@@ -793,6 +793,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_true_seeing",
+    "apply_message": "Details stand out in stark relief!",
+    "remove_message": "The world returns to its normal appearance.",
+    "rating": "good",
+    "flags": [ "TRUE_SEEING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "immobilization",
     "name": [ "Immobilized" ],
     "desc": [ "You can't move!" ],
@@ -2274,14 +2282,13 @@
     "desc": [ "Your vision is obscured by a disgusting splatter of bile." ],
     "apply_message": "You're covered in bile!",
     "rating": "bad",
-    "base_mods": { "per_mod": [ -3 ] },
     "max_duration": "30 s",
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.1 },
       { "limb_score": "night_vis", "modifier": 0.0 },
       { "limb_score": "reaction", "modifier": 0.2 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL" ],
     "show_in_info": true
   },
   {
@@ -3767,6 +3774,12 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_bio_hydraulics_active",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": { "math": [ "20 - u_bio_hydraulics_strength_adjustment" ] } } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "crushed",
     "apply_message": "The ceiling collapses on you!",
     "rating": "bad"
@@ -4282,6 +4295,29 @@
   },
   {
     "type": "effect_type",
+    "id": "opiate_eff",
+    "//": "Gives Status warnings of danger levels only.  Significant chance that death occurs well before or after this scale suggests.  As Pkill is vitaminized move opiates to this scale for effects.",
+    "name": [
+      "Mild Opiate Euphoria",
+      "Moderate Opiate Euphoria",
+      "Significant Opiate Euphoria",
+      "Opiate Intoxication",
+      "Opiate Debilitation",
+      "Death"
+    ],
+    "desc": [
+      "Mild euphoric feelings from the Opiates you've taken.",
+      "Moderate euphoria, likely sedative effects.",
+      "Significant euphoria, heavy sedative effects.",
+      "Some incapacitation, sedation, nausea, numbness.",
+      "Significant chance of death, incapable of many tasks, narcolepsy.",
+      "Terminal Dosage achieved."
+    ],
+    "blood_analysis_description": "Sample contains opiate based painkillers.",
+    "max_intensity": 6
+  },
+  {
+    "type": "effect_type",
     "id": "bad_food_ennui",
     "name": [ "Gross Food", "Demoralizing Food", "Depressing Food" ],
     "desc": [
@@ -4301,7 +4337,7 @@
       "You've lost some blood and look somewhat pale.",
       "You've lost a large amount of blood, and you're not feeling well.",
       "You've lost an awful lot of blood, and your condition is severe.  Seek medical attention.",
-      "You've lost tremendous amount of blood, and you're standing on death's door.  Transfusion might save you."
+      "You've lost tremendous amount of blood, and you're standing on death's door.  Saline infusion might save you."
     ],
     "apply_message": "You have lost a lot of blood, and your condition worsens.",
     "remove_message": "You are no longer in shock.",
@@ -5041,8 +5077,8 @@
     "name": [ "Drank blood" ],
     "desc": [ "The star vampire has drunk blood and is now visible." ],
     "rating": "good",
-    "removes_effects": [ "invisibility" ],
-    "show_in_info": true
+    "show_in_info": true,
+    "flags": [ "SUPPRESS_INVISIBILITY" ]
   },
   {
     "id": "star_vampire_blood_drink_feral",
@@ -5256,5 +5292,48 @@
       { "condition": "ALWAYS", "values": [ { "value": "THIRST", "multiply": 0.2 } ] }
     ],
     "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "sunscreen",
+    "name": [ "Sunscreen" ],
+    "desc": [ "You applied sunscreen and should be protected from the sun rays for about two hours." ],
+    "remove_message": "Your sunscreen has worn off."
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_zombie_summoner_increase_power",
+    "//": "Tracker effect, used for the zombie summoner to increase its summon range",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 100,
+    "int_add_val": 1
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_shadow_unnatural_chill",
+    "name": [ "Unnatural Chill" ],
+    "desc": [ "You are chilled to the bone." ],
+    "rating": "bad",
+    "remove_message": "The chill in your bones finally fades away.",
+    "max_intensity": 100,
+    "int_add_val": 1,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [
+          {
+            "type": "cold",
+            "add": { "math": [ "max( (1 + (u_effect_intensity('effect_nether_shadow_unnatural_chill') * 0.5) ), 10)" ] }
+          }
+        ],
+        "values": [
+          {
+            "value": "CLIMATE_CONTROL_HEAT",
+            "add": { "math": [ "max( (-2 * u_effect_intensity('effect_nether_shadow_unnatural_chill') ), -50)" ] }
+          }
+        ]
+      }
+    ]
   }
 ]

@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_gene_disp",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "chems",
     "name": "Mercurial Genetech",
     "looks_like": "c4armed",
@@ -18,7 +19,8 @@
   },
   {
     "id": "afs_gene_template",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "chems",
     "name": "Mercurial Genetech",
     "looks_like": "c4armed",
@@ -37,7 +39,8 @@
     "id": "afs_gene_disp_low_tier",
     "name": "Mercurial Genetech",
     "copy-from": "afs_gene_disp",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "trait_group": "GENETECH_TRAITS_LOW_TIER"
   },
   {

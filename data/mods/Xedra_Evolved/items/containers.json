@@ -1,7 +1,7 @@
 [
   {
     "id": "wrapper_wyld",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "candy wrapper" },
     "description": { "str": "\"Wyld Candy, our flavors span the possible\" is emblazoned proudly upon this shiny colorful wrapper." },
     "copy-from": "wrapper",
@@ -9,7 +9,7 @@
   },
   {
     "id": "blood_bank",
-    "type": "GENERIC",
+    "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "container",
     "name": { "str": "blood bank" },
@@ -49,7 +49,7 @@
   },
   {
     "id": "blood_camel",
-    "type": "GENERIC",
+    "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "container",
     "name": { "str": "blood camel" },

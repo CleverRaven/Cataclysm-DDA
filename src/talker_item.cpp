@@ -10,6 +10,7 @@
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
+#include "magic_enchantment.h"
 #include "math_parser_diag_value.h"
 #include "messages.h"
 #include "units.h"
@@ -106,6 +107,15 @@ units::energy talker_item_const::power_max() const
     return 1_mJ * me_it_const->get_item()->ammo_capacity( ammo_battery );
 }
 
+int talker_item_const::get_artifact_resonance() const
+{
+    int ret = 0;
+    for( enchant_cache &this_ench : me_it_const->get_item()->get_proc_enchantments() ) {
+        ret += this_ench.get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE );
+    }
+    return ret;
+}
+
 int talker_item_const::get_count() const
 {
     return me_it_const->get_item()->count();
@@ -167,4 +177,15 @@ void talker_item::set_degradation( int set )
 void talker_item::die( map * )
 {
     me_it->remove_item();
+}
+
+void talker_item::set_fault( const fault_id &fault_id, bool force, bool message )
+{
+    me_it->get_item()->set_fault( fault_id, force, message );
+}
+
+void talker_item::set_random_fault_of_type( const std::string &fault_type, bool force,
+        const bool message )
+{
+    me_it->get_item()->set_random_fault_of_type( fault_type, force, message );
 }

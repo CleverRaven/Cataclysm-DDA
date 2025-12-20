@@ -30,11 +30,11 @@
     "difficulty": 3,
     "max_level": 35,
     "base_casting_time": 700,
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_channeling_magic"
   },
   {
     "id": "artificer_toolkit",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "artificer's toolkit" },
     "description": "This is a magical device that can take the shape of many tools.  When not in use it looks like a simple screwdriver.",
     "looks_like": "screwdriver",
@@ -107,6 +107,6 @@
     "final_casting_time": 500,
     "casting_time_increment": -30,
     "base_energy_cost": 100,
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_conjuration_magic"
   }
 ]

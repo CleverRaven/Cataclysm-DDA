@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_exterior_nw_corner_uplifts", "arcology_exterior_nw_corner_robots" ],
     "//": "Arcology general principles.  Ground floor will be mostly shops and the like.  Living quarters and administration/white collar goes up.  Manufacturing and secure locations go down. Mostly filled with nested chunks respecting hallways. Stairs and elevators are in center generally.  Make separate specials that have unique locations inside of them.",
     "//2": "There 19 rows vertically and 16 horizontally inside the walls this tile. This will house 2 8x8 nested chunks.",
@@ -36,13 +35,12 @@
       ],
       "palettes": [ "arcology_exterior" ],
       "nested": { "1": { "chunks": [ [ "arcology_8x8_foodplace", 20 ], [ "arcology_8x8_electronic", 20 ] ] } },
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_exterior_w_side_robots", "arcology_exterior_w_side_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -74,13 +72,12 @@
       ],
       "palettes": [ "arcology_exterior" ],
       "nested": { "1": { "chunks": [ [ "room_10x10_junk_S", 20 ], [ "room_10x10_junk_N", 20 ] ] } },
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_exterior_w_entrance_robots", "arcology_exterior_w_entrance_uplifts" ],
     "//": "Turn gate into a 8x8 nested chunk that can be a closed gate working console, closed gate broken console, broken gate working console, broken gate broken console, open gate working console, open gate broken console.",
     "object": {
@@ -126,13 +123,12 @@
           ]
         }
       },
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_exterior_sw_corner_robots", "arcology_exterior_sw_corner_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -167,13 +163,12 @@
         "1": { "chunks": [ [ "arcology_8x8_electronic", 20 ], [ "arcology_8x8_foodplace", 20 ] ] },
         "2": { "chunks": [ [ "lab_spawn_7x7", 20 ], [ "lab_spawn_7x7_crossdoors", 20 ] ] }
       },
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_exterior_s_side_robots", "arcology_exterior_s_side_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -205,13 +200,12 @@
       ],
       "palettes": [ "arcology_exterior" ],
       "nested": { "1": { "chunks": [ [ "arcology_24x24_s", 20 ], [ "arcology_24x24_s", 20 ] ] } },
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_exterior_s_entrance_robots", "arcology_exterior_s_entrance_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -256,13 +250,12 @@
           ]
         }
       },
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_exterior_se_corner_robots", "arcology_exterior_se_corner_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -300,13 +293,12 @@
         },
         "3": { "chunks": [ [ "lab_spawn_7x7", 20 ], [ "lab_spawn_7x7_crossdoors", 20 ] ] }
       },
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_exterior_e_side_robots", "arcology_exterior_e_side_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -338,13 +330,12 @@
       ],
       "palettes": [ "arcology_exterior" ],
       "nested": { "1": { "chunks": [ [ "workoutroom_12x12", 20 ], [ "tvroom_12x12", 20 ] ] } },
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_exterior_e_entrance_robots", "arcology_exterior_e_entrance_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -376,13 +367,12 @@
       ],
       "palettes": [ "arcology_exterior" ],
       "nested": { "1": { "chunks": [ [ "lab_spawn_7x7", 20 ], [ "lab_spawn_7x7_crossdoors", 20 ] ] } },
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_exterior_ne_corner_robots", "arcology_exterior_ne_corner_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -417,13 +407,12 @@
         "1": { "chunks": [ [ "arcology_8x8_foodplace", 20 ], [ "arcology_8x8_electronic", 20 ] ] },
         "2": { "chunks": [ [ "room_10x10_junk_S", 20 ], [ "room_10x10_junk_N", 20 ] ] }
       },
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_exterior_n_entrance_robots", "arcology_exterior_n_entrance_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -468,13 +457,12 @@
           ]
         }
       },
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_exterior_n_side_robots", "arcology_exterior_n_side_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -506,13 +494,12 @@
       ],
       "palettes": [ "arcology_exterior" ],
       "nested": { "1": { "chunks": [ [ "arcology_24x24_s", 20 ], [ "arcology_24x24_s", 20 ] ] } },
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_interior_ne_corner_robots", "arcology_interior_ne_corner_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -543,13 +530,12 @@
         "________________________"
       ],
       "palettes": [ "arcology_exterior" ],
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_interior_n_side_robots", "arcology_interior_n_side_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -580,13 +566,12 @@
         "________________________"
       ],
       "palettes": [ "arcology_exterior" ],
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_interior_nw_corner_robots", "arcology_interior_nw_corner_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -617,13 +602,12 @@
         "________________________"
       ],
       "palettes": [ "arcology_exterior" ],
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_interior_w_side_robots", "arcology_interior_w_side_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -654,13 +638,12 @@
         "________________________"
       ],
       "palettes": [ "arcology_exterior" ],
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_interior_sw_corner_robots", "arcology_interior_sw_corner_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -691,13 +674,12 @@
         "________________________"
       ],
       "palettes": [ "arcology_exterior" ],
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_interior_s_side_robots", "arcology_interior_s_side_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -728,13 +710,12 @@
         "________________________"
       ],
       "palettes": [ "arcology_exterior" ],
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_interior_se_corner_robots", "arcology_interior_se_corner_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -765,13 +746,12 @@
         "________________________"
       ],
       "palettes": [ "arcology_exterior" ],
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_interior_e_side_robots", "arcology_interior_e_side_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -802,13 +782,12 @@
         "________________________"
       ],
       "palettes": [ "arcology_exterior" ],
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "arcology_interior_center_robots", "arcology_interior_center_uplifts" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -839,7 +818,7 @@
         "________________________"
       ],
       "palettes": [ "arcology_exterior" ],
-      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_loot": [ { "group": "SUS_office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   }

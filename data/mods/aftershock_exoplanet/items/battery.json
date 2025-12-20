@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_heavy_suit_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "suit battery", "str_pl": "suit batteries" },
     "description": "A heavy battery cell, compatible with most industrial equipment but purposefully designed to power EVA suits  It's a bit too big to fit in most portable tools.",

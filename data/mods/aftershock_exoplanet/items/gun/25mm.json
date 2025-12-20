@@ -2,7 +2,8 @@
   {
     "id": "afs_gibs_shotgun",
     "looks_like": "m79",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "Gibson S86" },
     "description": "Manufactured by Gibson Armory, the S86 is a light-weight grenade launcher designed to take care of moderately armored opponents.  While the S86 firepower is nothing to truly gawk at, it still packs quite a punch both for the target and user and is usually mounted as it is impossible to fire with average strength.",
@@ -45,7 +46,8 @@
   {
     "id": "afs_25mm_goa",
     "looks_like": "m79",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str_sp": "1025 Goa" },
     "description": "A powerful, single shot 25mm rifle, heavy under the weight of several recoil dampening mechanisms.  Designed by the now defunct Goa Firearms, it was originally conceived as a luxury rifle for sport hunting alien megafauna.",
@@ -82,7 +84,8 @@
   {
     "id": "afs_wa2519",
     "looks_like": "m79",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT", "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "Wraitheon Armory 2519" },
     "description": "The much feared 2519 smart sniper platform leverages advanced ballistic targeting and guidance computers to deliver heavy munitions with unerring precision.  Its undisputed lethality makes it a rare sight outside of the company's max security divisions.",
@@ -105,8 +108,8 @@
     "clip_size": 1,
     "reload": 1000,
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_smart_gun" } ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_25mm_smart": 1 } } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "passive_effects": [ { "id": "ench_smart_gun" } ]
   }
 ]

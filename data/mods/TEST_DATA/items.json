@@ -1,7 +1,8 @@
 [
   {
     "id": "test_bomba",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "bomba" },
     "description": "boom",
@@ -15,7 +16,7 @@
     "flags": [ "BOMB", "DANGEROUS" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fridge_test",
     "looks_like": "minifridge",
     "symbol": "F",
@@ -39,7 +40,7 @@
   },
   {
     "id": "metal_tank_test",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "looks_like": "keg",
     "name": { "str": "metal tank (60L)", "str_pl": "metal tanks (60L)" },
@@ -48,7 +49,6 @@
     "volume": "60050 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -4,
     "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan",
@@ -61,11 +61,11 @@
         "max_contains_weight": "120 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 6 }
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "test_rock",
     "symbol": "*",
     "color": "light_gray",
@@ -98,7 +98,7 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "id": "test_ring_strength_1",
     "weight": "4 g",
     "volume": "1 ml",
@@ -112,8 +112,8 @@
     "max_worn": 1,
     "name": { "str": "ring of strength +1", "str_pl": "rings of strength +1" },
     "description": "A copper ring that makes you a little stronger when you wear it.",
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ] },
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
     "id": "test_rollerskates",
@@ -158,7 +158,8 @@
   },
   {
     "id": "test_rag",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": "TEST cotton patchwork",
     "description": "This is a largish piece of cloth, useful in crafting and possibly for staunching bleeding.",
@@ -181,7 +182,7 @@
   },
   {
     "id": "test_rag_bundle",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": "TEST rag bundle",
     "description": "This is a bundle of 100 cotton patchwork pieces tied together with a piece of string.",
@@ -194,11 +195,11 @@
   },
   {
     "id": "test_knotted_string_ball",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": "TEST knotted ball of string",
     "description": "This is a ball of 100 short pieces of string, all tangled and knotted together.",
-    "weight": "600 g",
+    "weight": "500 g",
     "volume": "1000 ml",
     "price": "0 cent",
     "material": [ "cotton" ],
@@ -206,7 +207,7 @@
     "color": "white"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_2x4",
     "name": "TEST plank",
     "description": "A narrow, thick plank of wood, like a 2 by 4 or similar piece of dimensional lumber.  Makes a decent melee weapon, and can be used for all kinds of construction.",
@@ -225,7 +226,7 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_pipe",
     "name": "TEST pipe",
     "description": "A steel pipe, makes a good melee weapon.  Useful in a few crafting recipes.",
@@ -244,7 +245,7 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_glass_pipe_mostly_steel",
     "name": "TEST pipe",
     "description": "A steel pipe, makes a good melee weapon.  Useful in a few crafting recipes.",
@@ -263,7 +264,7 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_glass_pipe_mostly_glass",
     "name": "TEST pipe",
     "description": "A steel pipe, makes a good melee weapon.  Useful in a few crafting recipes.",
@@ -282,7 +283,8 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "test_shears",
     "name": { "str_sp": "shears" },
     "description": "This is a set of shears designed to obtain wool from sheep.",
@@ -299,7 +301,8 @@
     "melee_damage": { "stab": 3 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "test_shears_mostly_steel",
     "name": { "str_sp": "shears" },
     "description": "This is a set of shears designed to obtain wool from sheep.",
@@ -316,7 +319,8 @@
     "melee_damage": { "stab": 3 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "test_shears_mostly_plastic",
     "name": { "str_sp": "shears" },
     "description": "This is a set of shears designed to obtain wool from sheep.",
@@ -333,7 +337,8 @@
     "melee_damage": { "stab": 3 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "test_shears_off",
     "copy-from": "test_shears",
     "name": { "str": "electric shears (off)" },
@@ -343,7 +348,6 @@
       "type": "transform",
       "msg": "Your %s activates.",
       "target": "test_shears_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The shears batteries are dead."
     },
@@ -360,7 +364,8 @@
     "tool_ammo": [ "battery" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "test_shears_on",
     "copy-from": "test_shears_off",
     "name": { "str": "electric shears (on)" },
@@ -368,11 +373,13 @@
     "power_draw": "10 W",
     "revert_to": "test_shears_off",
     "use_action": { "type": "transform", "msg": "Your %s deactivates.", "target": "test_shears_off" },
-    "qualities": [ [ "SHEAR", 3 ] ]
+    "qualities": [ [ "SHEAR", 3 ] ],
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] }
   },
   {
     "id": "test_cordless_drill",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "test cordless drill" },
     "description": "This is a cordless battery-powered drill with a selection of drill bits.",
     "weight": "2721 g",
@@ -543,7 +550,8 @@
   },
   {
     "id": "crowbar_pocket_test",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "crowbar" },
     "description": "This is a test crowbar from early pocket implementation tests.  Some or all of these values will possibly not match the current in-game stats, so beware.",
     "weight": "1200 g",
@@ -563,7 +571,8 @@
   },
   {
     "id": "hammer_pocket_test",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hammer" },
     "description": "This is a test hammer from early pocket implementation tests.  Some or all of these values will possibly not match the current in-game stats, so beware.",
     "ascii_picture": "hammer",
@@ -584,7 +593,8 @@
   },
   {
     "id": "wrench_pocket_test",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "adjustable wrench", "str_pl": "adjustable wrenches" },
     "description": "This is a test wrench from early pocket implementation tests.  Some or all of these values will possibly not match the current in-game stats, so beware.",
     "weight": "907 g",
@@ -602,7 +612,8 @@
   },
   {
     "id": "tongs_pocket_test",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pair of metal tongs", "str_pl": "pairs of metal tongs" },
     "description": "This is a test tongs from early pocket implementation tests.  Some or all of these values will possibly not match the current in-game stats, so beware.",
     "weight": "540 g",
@@ -707,7 +718,8 @@
   },
   {
     "id": "test_flashlight",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "flashlight (off)", "str_pl": "flashlights (off)" },
     "description": "This is a typical household flashlight with a plastic handle.  Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
     "material": [ "plastic", "aluminum" ],
@@ -724,7 +736,6 @@
       "type": "transform",
       "msg": "You turn the flashlight on.",
       "target": "flashlight_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The flashlight's batteries are dead."
     },
@@ -739,7 +750,7 @@
     "tool_ammo": [ "battery" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_sheet_metal",
     "name": "TEST sheet metal",
     "description": "A thin sheet of metal.",
@@ -756,7 +767,8 @@
   },
   {
     "id": "test_sheet_metal_small",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": "TEST small metal sheet",
     "description": "A small sheet of metal.",
@@ -775,7 +787,8 @@
   },
   {
     "id": "test_halligan",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "TEST Halligan bar",
     "description": "This is a heavy multiple-use tool commonly carried by firefighters, law enforcement, and military rescue units.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "3600 g",
@@ -793,7 +806,8 @@
     "melee_damage": { "bash": 20, "cut": 5 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "test_halligan_no_nails",
     "copy-from": "test_halligan",
     "name": "TEST Halligan bar no nail prying",
@@ -801,7 +815,8 @@
   },
   {
     "id": "test_fire_ax",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "TEST fire axe",
     "description": "This is a large, two-handed pickhead axe normally used by firefighters.  It makes a powerful melee weapon, but is a bit slow to recover between swings.",
     "weight": "2520 g",
@@ -819,7 +834,8 @@
   },
   {
     "id": "test_fire_ax_mostly_steel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "TEST fire axe",
     "description": "This is a large, two-handed pickhead axe normally used by firefighters.  It makes a powerful melee weapon, but is a bit slow to recover between swings.",
     "weight": "2520 g",
@@ -837,7 +853,8 @@
   },
   {
     "id": "test_fire_ax_mostly_wood",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "TEST fire axe",
     "description": "This is a large, two-handed pickhead axe normally used by firefighters.  It makes a powerful melee weapon, but is a bit slow to recover between swings.",
     "weight": "2520 g",
@@ -855,7 +872,8 @@
   },
   {
     "id": "test_screwdriver",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "TEST screwdriver",
     "description": "This is a Philips-head screwdriver.  It is important for almost all electronics crafting, most mechanics crafting, and has many more uses.",
     "weight": "170 g",
@@ -872,7 +890,8 @@
   },
   {
     "id": "test_sonic_screwdriver",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "TEST sonic screwdriver",
     "description": "This is a sonic screwdriver.  Like a normal screwdriver, but sonic.",
     "weight": "170 g",
@@ -893,7 +912,8 @@
   },
   {
     "id": "test_multitool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "TEST multi-tool" },
     "description": "Some kind of super-multi-tool, like a swiss army knife with a pocket dimension.",
     "weight": "500 g",
@@ -923,7 +943,8 @@
   },
   {
     "id": "test_soldering_iron",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "TEST soldering iron",
     "description": "This is a device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.",
     "weight": "181 g",
@@ -957,7 +978,8 @@
     "tool_ammo": [ "battery" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "test_ebook_reader",
     "name": { "str": "eBook reader" },
     "description": "Test book reader.",
@@ -978,11 +1000,13 @@
         "max_contains_weight": "1 g",
         "weight_multiplier": 0.0
       }
-    ]
+    ],
+    "extend": { "flags": [ "CAN_USE_IN_DARK" ] }
   },
   {
     "id": "test_battery_disposable",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "spare_parts",
     "name": { "str": "test disposable battery", "str_pl": "test disposable batteries" },
     "description": "This is a test disposable battery.",
@@ -1002,7 +1026,8 @@
   },
   {
     "id": "test_battery_rechargable",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "spare_parts",
     "name": { "str": "test rechargeable battery", "str_pl": "test rechargeable batteries" },
     "description": "This is a test battery that may be recharged.",
@@ -1021,7 +1046,8 @@
   },
   {
     "id": "test_jack_small",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "TEST scissor jack",
     "description": "A compact scissor jack used for lifting vehicles.",
     "material": [ "steel" ],
@@ -1035,7 +1061,8 @@
   },
   {
     "id": "test_smart_phone",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "test smartphone" },
     "description": "A popular, fancy smartphone.  Capable of making photos due to integrated camera and illuminating an area as per flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm.  Runs on a small, rechargeable power cell compatible with Unified Power Supply.",
     "weight": "200 g",
@@ -1053,19 +1080,18 @@
         "target": "smart_phone_flashlight",
         "msg": "You activate the flashlight app.",
         "menu_text": "Turn on flashlight",
-        "active": true,
         "need_charges": 5,
         "need_charges_msg": "The smartphone's charge is too low.",
         "type": "transform"
       },
-      "CAMERA",
-      "MP3"
+      "CAMERA"
     ],
     "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ],
     "tool_ammo": [ "battery" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "test_mp3",
     "name": { "str": "test mp3 player" },
     "description": "Test mp3 player",
@@ -1073,7 +1099,6 @@
     "volume": "75 ml",
     "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
     "symbol": ";",
-    "use_action": [ "MP3" ],
     "charges_per_use": 1,
     "flags": [ "WATER_BREAK_ACTIVE" ],
     "pocket_data": [
@@ -1500,7 +1525,6 @@
     "name": { "str": "long waist apron" },
     "description": "A long waist apron made of cotton.",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "symbol": "[",
     "looks_like": "vest_leather",
     "volume": "1750 ml",
@@ -1606,7 +1630,7 @@
   },
   {
     "id": "test_xl_waist_apron_long",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "long waist apron" },
     "copy-from": "test_waist_apron_long",
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
@@ -1631,7 +1655,7 @@
   },
   {
     "id": "test_umbrella",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "test umbrella" },
     "description": "A portable plastic dome to keep the rain and sun off.",
@@ -1651,7 +1675,8 @@
   {
     "id": "test_compbow",
     "looks_like": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "yellow",
     "name": "TEST compound bow",
@@ -1765,7 +1790,7 @@
     "price_postapoc": "1 USD",
     "material": [ "fruit" ],
     "fun": 10,
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 14 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
@@ -1823,7 +1848,7 @@
   },
   {
     "id": "test_jug_plastic",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": "TEST gallon jug",
     "description": "A standard plastic jug used for milk and household cleaning chemicals.",
@@ -1847,7 +1872,7 @@
   },
   {
     "id": "test_jug_large_open",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": "TEST gallon jug with large opening",
     "copy-from": "test_jug_plastic",
     "pocket_data": [
@@ -1864,7 +1889,7 @@
   },
   {
     "id": "test_waterskin",
-    "type": "GENERIC",
+    "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "container",
     "name": "TEST small waterskin",
@@ -1899,7 +1924,7 @@
   },
   {
     "id": "test_balloon",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "test balloon" },
     "description": "Stretchy, watertight, and airtight - the perfect trial balloon.",
@@ -1926,7 +1951,7 @@
   },
   {
     "id": "test_condom",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "test condom" },
     "description": "This condom is only for testing, and should not be used as a birth control device.",
@@ -1950,7 +1975,7 @@
   },
   {
     "id": "test_can_drink",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "test aluminum can" },
     "description": "A factory-sealed aluminum can for testing.",
@@ -1974,7 +1999,7 @@
   },
   {
     "id": "test_can_food",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "test small tin can" },
     "description": "A steel can that thinks its made of tin, maybe useful for testing, but you wouldn't want to eat out of it.",
@@ -1999,7 +2024,7 @@
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_waterproof_bag",
     "category": "container",
     "name": { "str": "body bag" },
@@ -2277,7 +2302,8 @@
   },
   {
     "id": "test_arrow_wood",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "price": "10 USD",
     "name": { "str": "test wooden broadhead arrow" },
     "symbol": "=",
@@ -2299,7 +2325,7 @@
   },
   {
     "id": "test_pointy_stick",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "test pointy stick" },
     "description": "A simple wood pole with one end sharpened.",
     "material": [ "wood" ],
@@ -2315,7 +2341,7 @@
     "melee_damage": { "bash": 5, "stab": 9 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_clumsy_sword",
     "name": "TEST clumsy sword",
     "description": "A poorly balanced sword for test purposes",
@@ -2332,7 +2358,7 @@
     "melee_damage": { "bash": 32, "cut": 32 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_normal_sword",
     "name": "TEST normal sword",
     "description": "A sword for test purposes",
@@ -2349,7 +2375,7 @@
     "melee_damage": { "bash": 32, "cut": 32 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_balanced_sword",
     "name": "TEST balanced sword",
     "description": "A well-balanced sword for test purposes",
@@ -2366,7 +2392,7 @@
     "melee_damage": { "bash": 32, "cut": 32 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_fire_sword",
     "name": "TEST fire sword",
     "description": "A sword that inflicts fire damage for test purposes",
@@ -2384,7 +2410,7 @@
   },
   {
     "id": "test_bullwhip",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "brown",
     "name": { "str": "TEST bullwhip" },
@@ -2400,7 +2426,7 @@
   },
   {
     "id": "test_glaive",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "TEST glaive" },
@@ -2418,7 +2444,8 @@
   },
   {
     "id": "test_glock",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Test Glock" },
     "description": "A handgun for testing, based on the Glock 9mm.",
     "weight": "600 g",
@@ -2448,8 +2475,9 @@
   },
   {
     "id": "test_glock_super_long",
-    "type": "GUN",
-    "copy-from": "pistol_base",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "copy-from": "gun_base_handgun_semi",
     "name": { "str": "Test Glock" },
     "description": "A handgun for testing barrel lengths, based on nothing.",
     "weight": "600 g",
@@ -2471,7 +2499,8 @@
   },
   {
     "id": "barrel_glock_short",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "shortened barrel" },
     "description": "A shortened barrel results in markedly reduced accuracy and a minor increase in noise, but also greatly improves the ease with which the weapon can be carried and wielded.",
     "volume": "0 ml",
@@ -2492,7 +2521,8 @@
   {
     "id": "test_glockmag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Test Glock magazine" },
     "description": "Magazine exclusively designed for Test Glocks.",
     "weight": "105 g",
@@ -2510,7 +2540,8 @@
   {
     "id": "test_glockbigmag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Test Glock extended magazine" },
     "description": "30-round magazine exclusively for use with the Test Glock.",
     "weight": "210 g",
@@ -2528,7 +2559,8 @@
   },
   {
     "id": "test_9mm_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "Test 9mm ammo" },
     "description": "Generic 9mm ammo based on JHP.",
     "weight": "7 g",
@@ -2551,7 +2583,8 @@
   },
   {
     "id": "test_100mm_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "Test 100mm ammo" },
     "description": "Generic 100mm ammo.",
     "weight": "7 g",
@@ -2578,14 +2611,16 @@
   },
   {
     "id": "test_100mm_ammo_relative",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "Test 100mm ammo prop" },
     "copy-from": "test_100mm_ammo",
     "relative": { "damage": { "damage_type": "bullet", "amount": 1 } }
   },
   {
     "id": "test_45_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "Test .45 ammo" },
     "description": "Test ammo based on the .45 JHP.",
     "weight": "10 g",
@@ -2609,7 +2644,8 @@
   {
     "id": "test_shot_00_fire_damage",
     "copy-from": "shotshell_abstract",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "00 shot" },
     "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
     "price": "5 USD",
@@ -2650,7 +2686,8 @@
   },
   {
     "id": "test_gas",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "ammo_type": "test_gas",
     "category": "chems",
     "name": { "str_sp": "test gas" },
@@ -2665,7 +2702,7 @@
   },
   {
     "id": "test_box",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "test box" },
     "description": "A simple 1-liter cardboard box of deliberately undefined proportions.",
@@ -2689,7 +2726,8 @@
     ]
   },
   {
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "id": "test_weldtank",
     "name": { "str": "welding tank" },
     "description": "A test welding tank full of oxyacetylene.",
@@ -2704,7 +2742,8 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "weldgas": 240 }, "watertight": true } ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "test_oxytorch",
     "name": { "str": "test acetylene torch", "str_pl": "test acetylene torches" },
     "description": "An acetylene torch.",
@@ -2728,7 +2767,7 @@
   },
   {
     "id": "test_rod_14cm",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": "test 14 cm rod",
     "description": "A thin rod exactly 14 cm in length",
     "category": "spare_parts",
@@ -2741,7 +2780,7 @@
   },
   {
     "id": "test_rod_15cm",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": "test 15 cm rod",
     "description": "A thin rod exactly 15 cm in length",
     "category": "spare_parts",
@@ -2753,7 +2792,8 @@
     "material": [ "steel" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "test_boltcutter",
     "name": { "str": "test pair of bolt cutters" },
     "description": "Test bolt cutters.",
@@ -2763,7 +2803,8 @@
     "symbol": ";"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "test_boltcutter_elec",
     "copy-from": "test_boltcutter",
     "name": { "str": "test electric pair of bolt cutters" },
@@ -2783,7 +2824,8 @@
   },
   {
     "id": "test_crafted_suppressor",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "test suppressor" },
     "description": "Gun suppressor mod for testing.",
     "weight": "880 g",
@@ -2808,7 +2850,8 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "test_hacksaw",
     "name": { "str": "test hacksaw" },
     "description": "Test hacksaw.",
@@ -2819,7 +2862,8 @@
     "qualities": [ [ "SAW_M", 2 ] ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "test_hacksaw_elec",
     "copy-from": "test_hacksaw",
     "name": { "str": "test electric hacksaw" },
@@ -2916,7 +2960,7 @@
   },
   {
     "id": "test_nuclear_carafe",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "test nuclear carafe" },
     "description": "This is a test coffee carafe designed to keep atomic beverages extra radioactive.  It leaks radiation all the time.",
@@ -3053,7 +3097,7 @@
   {
     "id": "test_power_armor",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "test power armor" },
     "description": "This is a prototype power armor just for testing.",
@@ -3065,15 +3109,6 @@
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "light_gray",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
-        }
-      ]
-    },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -3087,7 +3122,7 @@
     "power_armor": true,
     "material_thickness": 14,
     "environmental_protection": 16,
-    "use_action": { "type": "transform", "msg": "The %s engages.", "target": "test_power_armor_on", "active": true },
+    "use_action": { "type": "transform", "msg": "The %s engages.", "target": "test_power_armor_on" },
     "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ],
     "armor": [
       {
@@ -3096,7 +3131,14 @@
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+      }
+    ]
   },
   {
     "id": "test_power_armor_on",
@@ -3106,7 +3148,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "test power armor (on)" },
     "description": "This is a prototype power armor just for testing.",
-    "flags": [ "USE_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID" ],
+    "flags": [ "USE_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "power_draw": "4 kW",
     "revert_to": "test_power_armor",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s armor disengages.", "target": "test_power_armor" }
@@ -3143,7 +3185,8 @@
   },
   {
     "id": "test_matches",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "test matchbook" },
     "description": "Test matches - when you must burn things, for science!",
     "weight": "10 g",
@@ -3434,7 +3477,8 @@
   },
   {
     "id": "test_liquid_1ml",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "fuel",
     "ammo_type": "gasoline",
     "phase": "liquid",
@@ -3448,7 +3492,8 @@
   },
   {
     "id": "test_solid_1ml",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "ammo_type": "components",
     "name": { "str": "test solid" },
@@ -3461,7 +3506,7 @@
   },
   {
     "id": "test_watertight_open_sealed_container_250ml",
-    "type": "GENERIC",
+    "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "container",
     "name": { "str": "test can" },
@@ -3511,7 +3556,7 @@
     "material": [ "fruit" ],
     "volume": "375 ml",
     "fun": 3,
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 100 ], [ "calcium", 100 ], [ "iron", 100 ], [ "fruit_allergen", 1 ] ]
   },
@@ -3541,7 +3586,7 @@
   },
   {
     "id": "test_watertight_open_sealed_multipocket_container_2x250ml",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "test can" },
     "description": "Some strange can from another dimension.",
@@ -3575,7 +3620,7 @@
   },
   {
     "id": "test_watertight_open_sealed_container_1L",
-    "type": "GENERIC",
+    "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "container",
     "name": { "str": "test jug" },
@@ -3609,7 +3654,7 @@
   },
   {
     "id": "test_watertight_open_sealed_multipocket_container_2x1L",
-    "type": "GENERIC",
+    "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "container",
     "name": { "str": "test jug with strap", "str_pl": "test jugs with strap" },
@@ -3706,7 +3751,7 @@
     "fun": -10
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_baseball",
     "symbol": "*",
     "color": "white",
@@ -3721,7 +3766,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_steelball",
     "symbol": "*",
     "color": "white",
@@ -3737,7 +3782,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_baseball_half_degradation",
     "symbol": "*",
     "color": "white",
@@ -3753,7 +3798,7 @@
     "degradation_multiplier": 0.5
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_baseball_x2_degradation",
     "symbol": "*",
     "color": "white",
@@ -3770,7 +3815,8 @@
   },
   {
     "id": "test_glock_degrade",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Test Glock" },
     "description": "A handgun for testing, based on the Glock 9mm.",
     "weight": "600 g",
@@ -3801,7 +3847,8 @@
   },
   {
     "id": "test_exo_lense_module",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "exosuit multi-lens zoom module" },
     "description": "A series of strangely shaped hexagonal lenses that flutter about inside your helmet.  As the lenses shift things around you stay perfectly in focus no matter your eyesight or distance.  It can be mounted to an exosuit helmet.",
     "weight": "500 g",
@@ -3816,7 +3863,7 @@
   {
     "id": "test_modular_exosuit",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "exosuit frame" },
     "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the torso, back, arms, and legs.",
     "weight": "45 kg",
@@ -3960,12 +4007,13 @@
       }
     ],
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "DEAF" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ]
   },
   {
     "id": "test_knife_combat",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "GUNMOD" ],
     "category": "weapons",
     "name": { "str": "combat knife", "str_pl": "combat knives" },
     "description": "A military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.",
@@ -3978,12 +4026,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "gunmod_data": {
-      "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
-      "install_time": "5 s"
-    },
     "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID_TEST" ],
@@ -3991,7 +4033,11 @@
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 4, "stab": 26 }
+    "melee_damage": { "bash": 4, "stab": 26 },
+    "location": "underbarrel",
+    "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
+    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+    "install_time": "5 s"
   },
   {
     "id": "test_armor_chitin",
@@ -4614,7 +4660,7 @@
   {
     "id": "test_complex_phase",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -4631,7 +4677,6 @@
       "type": "transform",
       "msg": "Initiating\nRunning suit integrity diagnostics…\nAll systems operational.",
       "target": "phase_immersion_suit_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "Warning: Operating on minimal power.  Protection compromised."
     },
@@ -4658,7 +4703,6 @@
       "COMBAT_TOGGLEABLE",
       "UNBREAKABLE_MELEE"
     ],
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_all" } ] },
     "armor": [
       {
         "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 1.0 } ],
@@ -4730,7 +4774,8 @@
         "volume_encumber_modifier": 0
       }
     ],
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "ench_climate_control_all" } ]
   },
   {
     "id": "test_ghost_vest",
@@ -4903,7 +4948,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "Item that should be simpler" },
     "description": "This item should have only 1 armor entry in game since these three are identical.",
-    "weight": "1000 g",
+    "weight": "750 g",
     "volume": "1500 ml",
     "price": "50 USD",
     "price_postapoc": "50 cent",
@@ -4922,7 +4967,7 @@
   },
   {
     "id": "test_food",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "food" },
     "description": "Item to test plural form, which is the same as singular - food.",
     "weight": "1 g",
@@ -4932,7 +4977,7 @@
   },
   {
     "id": "test_oxygen",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "oxygen" },
     "description": "Item to test plural form, which is the same as singular - oxygen.",
     "weight": "5 g",
@@ -4942,7 +4987,7 @@
   },
   {
     "id": "test_item",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "item" },
     "description": "Item to test plural form - items.",
     "weight": "1 g",
@@ -4952,7 +4997,7 @@
   },
   {
     "id": "test_test_item",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "test item" },
     "description": "Item to test plural form - test items.",
     "weight": "1 g",
@@ -4962,7 +5007,7 @@
   },
   {
     "id": "test_lorry",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "lorry", "str_pl": "lorries" },
     "description": "Item to test plural form - lorries.",
     "weight": "1 g",
@@ -4972,7 +5017,7 @@
   },
   {
     "id": "test_mass",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "mass", "str_pl": "masses" },
     "description": "Item to test plural form - masses.",
     "weight": "1 g",
@@ -4982,7 +5027,7 @@
   },
   {
     "id": "test_block_of_cheese",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "block of cheese", "str_pl": "blocks of cheese" },
     "description": "Item to test plural form.",
     "weight": "1 g",
@@ -4992,7 +5037,7 @@
   },
   {
     "id": "test_pile_of_dirt",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "pile of dirt", "str_pl": "piles of dirt" },
     "description": "Item to test plural form.",
     "weight": "1 g",
@@ -5033,7 +5078,8 @@
   },
   {
     "id": "test_ups",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "UPS3000", "str_pl": "UPS3000es" },
     "description": "This UPS is better",
     "weight": "680 g",
@@ -5055,7 +5101,7 @@
     "tool_ammo": [ "battery" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_item_ench",
     "name": "test_item_ench",
     "description": "item, that applies enchantments, duh",
@@ -5066,54 +5112,57 @@
     "symbol": "*"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_SPEED_ench_item",
     "copy-from": "test_item_ench",
     "name": "test_SPEED_ench_item",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "SPEED", "add": 25, "multiply": -0.5 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "SPEED", "add": 25, "multiply": -0.5 } ] } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_ATTACK_NOISE_ench_item",
     "copy-from": "test_item_ench",
     "name": "test_ATTACK_NOISE_ench_item",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "ATTACK_NOISE", "add": 9999 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "ATTACK_NOISE", "add": 9999 } ] } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_ATTACK_SPEED_ench_item",
     "copy-from": "test_item_ench",
     "name": "test_ATTACK_SPEED_ench_item",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.5 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.5 } ] } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_ATTACK_SPEED_ench_item_2",
     "copy-from": "test_item_ench",
     "name": "test_ATTACK_SPEED_ench_item_2",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "ATTACK_SPEED", "add": 62 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "ATTACK_SPEED", "add": 62 } ] } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_PAIN_PENALTY_MOD_ench_item_1",
     "copy-from": "test_item_ench",
     "name": "test_PAIN_PENALTY_MOD_ench_item_1",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "values": [
-            { "value": "PAIN_PENALTY_MOD_STR", "add": 2 },
-            { "value": "PAIN_PENALTY_MOD_DEX", "multiply": -3 },
-            { "value": "PAIN_PENALTY_MOD_INT", "add": -3 },
-            { "value": "PAIN_PENALTY_MOD_PER", "multiply": 1 },
-            { "value": "PAIN_PENALTY_MOD_SPEED", "add": -10, "multiply": 1.2 }
-          ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "values": [
+          { "value": "PAIN_PENALTY_MOD_STR", "add": 2 },
+          { "value": "PAIN_PENALTY_MOD_DEX", "multiply": -3 },
+          { "value": "PAIN_PENALTY_MOD_INT", "add": -3 },
+          { "value": "PAIN_PENALTY_MOD_PER", "multiply": 1 },
+          { "value": "PAIN_PENALTY_MOD_SPEED", "add": -10, "multiply": 1.2 }
+        ]
+      }
+    ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_MELEE_STAMINA_CONSUMPTION_ench_item_0",
     "copy-from": "test_item_ench",
     "weight": "2000 g",
@@ -5122,78 +5171,84 @@
     "name": "test_MELEE_STAMINA_CONSUMPTION_ench_item_0"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_MELEE_STAMINA_CONSUMPTION_ench_item_1",
     "copy-from": "test_item_ench",
     "weight": "2000 g",
     "volume": "2000 ml",
     "name": "test_MELEE_STAMINA_CONSUMPTION_ench_item_1",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_STAMINA_CONSUMPTION", "add": 100 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "MELEE_STAMINA_CONSUMPTION", "add": 100 } ] } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_MELEE_STAMINA_CONSUMPTION_ench_item_2",
     "copy-from": "test_item_ench",
     "weight": "2000 g",
     "volume": "2000 ml",
     "name": "test_MELEE_STAMINA_CONSUMPTION_ench_item_2",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": 1 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": 1 } ] } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_MELEE_TO_HIT_ench_item_1",
     "copy-from": "test_item_ench",
     "name": "test_MELEE_TO_HIT_ench_item_1",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_TO_HIT", "add": 100 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "MELEE_TO_HIT", "add": 100 } ] } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_MELEE_TO_HIT_ench_item_2",
     "copy-from": "test_item_ench",
     "name": "test_MELEE_TO_HIT_ench_item_2",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_TO_HIT", "add": -100 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "MELEE_TO_HIT", "add": -100 } ] } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_BONUS_DODGE_ench_item_1",
     "copy-from": "test_item_ench",
     "name": "test_BONUS_DODGE_ench_item_1",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "BONUS_DODGE", "add": 3 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "BONUS_DODGE", "add": 3 } ] } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_BONUS_DODGE_ench_item_2",
     "name": "test_BONUS_DODGE_ench_item_2",
     "copy-from": "test_item_ench",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "BONUS_DODGE", "add": 4, "multiply": -0.5 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "BONUS_DODGE", "add": 4, "multiply": -0.5 } ] } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_SPEED_ench_item_1",
     "copy-from": "test_item_ench",
     "name": "test_item_ench",
-    "relic_data": { "passive_effects": [ { "has": "HELD", "values": [ { "value": "SPEED", "add": 25, "multiply": -0.5 } ] } ] }
+    "passive_effects": [ { "has": "HELD", "values": [ { "value": "SPEED", "add": 25, "multiply": -0.5 } ] } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_STAT_ench_item_1",
     "copy-from": "test_item_ench",
     "name": "test_STAT_ench_item_1",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "values": [
-            { "value": "STRENGTH", "add": 3, "multiply": 1 },
-            { "value": "DEXTERITY", "add": -2 },
-            { "value": "INTELLIGENCE", "add": 1, "multiply": -0.5 },
-            { "value": "PERCEPTION", "add": -7 }
-          ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 2, "multiply": 0.25 },
+          { "value": "DEXTERITY", "add": -2 },
+          { "value": "INTELLIGENCE", "add": 1, "multiply": -0.5 },
+          { "value": "PERCEPTION", "add": -7 }
+        ]
+      }
+    ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_rock_cheese",
     "category": "spare_parts",
     "symbol": ",",
@@ -5276,7 +5331,8 @@
     "monotony_penalty": 4
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "rock_volume_test",
     "name": { "str": "10L rock" },
     "copy-from": "rock",
@@ -5284,7 +5340,8 @@
   },
   {
     "id": "acidbomb_test",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "weapons",
     "name": { "str": "acid bomb" },
     "description": "A fragile container filled with acid.  Throw it to spill out a pool of potent acid.  It could also be used in a staff sling with a modified cradle.",
@@ -5308,51 +5365,234 @@
   },
   {
     "id": "debug_modular_m4_carbine",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "modular_m4_carbine",
     "name": { "str": "debug m4 carbine" },
     "default_mods": [ "retool_ar15_223rem_medium" ]
   },
   {
     "id": "test_laptop",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "test laptop" },
     "copy-from": "laptop"
   },
   {
     "id": "test_eink_tablet_pc",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "test e-ink tablet" },
     "copy-from": "eink_tablet_pc"
   },
   {
     "id": "test_efile_large",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "abstract_efile",
     "name": { "str": "large test file" },
     "ememory_size": "500 GB"
   },
   {
     "id": "test_efile_medium",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "abstract_efile",
     "name": { "str": "medium test file`" },
     "ememory_size": "24 GB"
   },
   {
     "id": "test_efile_small",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "abstract_efile",
     "name": { "str": "small test file" },
     "ememory_size": "1 KB"
   },
   {
     "id": "test_efile_copiable",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "test_book",
     "name": { "str": "copiable test file" },
     "ememory_size": "1 MB"
+  },
+  {
+    "id": "test_copyfrom_base",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "base" },
+    "description": "copy-from base item",
+    "symbol": "!",
+    "color": "white",
+    "flags": [ "NO_TURRET" ],
+    "volume": "1 L",
+    "weight": "1 kg",
+    "skill": "pistol",
+    "ranged_damage": { "damage_type": "heat", "amount": 3 }
+  },
+  {
+    "id": "test_copyfrom_overwrite",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "copy-from": "test_copyfrom_base",
+    "ranged_damage": { "damage_type": "cut", "amount": 5 }
+  },
+  {
+    "type": "ITEM",
+    "id": "corpse_fake_TEST",
+    "symbol": "%",
+    "color": "white",
+    "name": { "str": "corpse fake TEST" },
+    "description": "Visualize it as your annoying neighbor, if that helps you feel better.",
+    "//COMMENT": "Roughly human sized.",
+    "volume": "75 L",
+    "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS", "DAMAGE_VEHICLE_WHEELS" ],
+    "category": "corpses",
+    "copy-from": "corpse",
+    "looks_like": "corpse_generic_human",
+    "source_monster": "mon_child",
+    "material": [ "hflesh" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "corpse_fake_TEST_NODMG",
+    "copy-from": "corpse_fake_TEST",
+    "name": { "str": "corpse fake TEST NODMG" },
+    "delete": { "flags": [ "DAMAGE_VEHICLE_WHEELS" ] }
+  },
+  {
+    "type": "ITEM",
+    "id": "test_squishy_fruit",
+    "name": { "str": "test_squishy_fruit_name" },
+    "material": [ "fruit" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
+    "weight": "4518 g",
+    "color": "green",
+    "symbol": "%",
+    "description": "Test",
+    "price": "7 USD 58 cent",
+    "price_postapoc": "2 USD",
+    "volume": "7150 ml"
+  },
+  {
+    "type": "material",
+    "id": "DOOM_MATERIAL",
+    "name": "DOOM MATERIAL LOTS CHIP RESIST",
+    "density": 1.1,
+    "specific_heat_liquid": 3.9,
+    "specific_heat_solid": 1.9,
+    "latent_heat": 290,
+    "rotting": true,
+    "conductive": true,
+    "chip_resist": 1000,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "bruised",
+    "cut_dmg_verb": "cut",
+    "resist": { "bash": 1, "cut": 1, "acid": 2, "heat": 1, "bullet": 1 }
+  },
+  {
+    "type": "ITEM",
+    "id": "test_guarantee_wheel_dmg",
+    "name": { "str": "test_guarantee_wheel_dmg_name" },
+    "material": [ "DOOM_MATERIAL" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
+    "weight": "4518 g",
+    "color": "green",
+    "symbol": "%",
+    "description": "Test",
+    "price": "7 USD 58 cent",
+    "price_postapoc": "2 USD",
+    "volume": "7150 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "test_bodypillow_cloth_item",
+    "symbol": "[",
+    "color": "white",
+    "name": { "str": "test_bodypillow_cloth_item_name" },
+    "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily-clad version on the back.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
+    "price": "15 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "cotton" ],
+    "weight": "2317 g",
+    "volume": "50 L",
+    "flags": [ "SLEEP_AID", "DAMAGE_VEHICLE_WHEELS" ],
+    "category": "other"
+  },
+  {
+    "id": "carver_off_test",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "electric carver (off)", "str_pl": "electric carvers (off)" },
+    "description": "An electric meat carver powered by cord.  It has two serrated blades that vibrate together to slice just about anything from turkey to ham… even zombies!",
+    "//": "Based on https://www.amazon.com/dp/B07CDR4KFM",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
+    "weight": "680 g",
+    "volume": "1500 ml",
+    "longest_side": "482 mm",
+    "price": "24 USD",
+    "price_postapoc": "1 cent",
+    "material": [ "steel", "plastic" ],
+    "symbol": "/",
+    "color": "yellow",
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Turn on",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_toolweapon_activate__carver",
+            "effect": {
+              "run_eocs": "EOC_toolweapon_activate",
+              "variables": {
+                "turn_cost": 0.8,
+                "transform_target": "carver_on",
+                "success_message": { "i18n": true, "str": "The electric carver's serrated blades start buzzing!" },
+                "volume": 20,
+                "failure_message": { "i18n": true, "str": "You pull the trigger, but nothing happens." }
+              }
+            }
+          }
+        ]
+      },
+      { "type": "link_up", "cable_length": 2, "charge_rate": "120 W" }
+    ],
+    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE" ],
+    "melee_damage": { "bash": 2, "cut": 8 },
+    "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "test_lamp",
+    "type": "ITEM",
+    "category": "tools",
+    "name": { "str": "test lamp" },
+    "description": "Powered by the magic of debug and testing, this very expensive lamp will emit a small amount of light for enough time to get a test done.",
+    "weight": "1438 g",
+    "volume": "1 L",
+    "price": "1 kUSD 750 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ",",
+    "color": "light_green",
+    "light": 15
+  },
+  {
+    "id": "wearable_test_lamp",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "blue",
+    "looks_like": "wearable_light_on",
+    "name": { "str": "test headlamp" },
+    "description": "A headlamp fine-tuned for testing.",
+    "price": "40 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "steel", "plastic" ],
+    "light": 200,
+    "weight": "1 kg",
+    "volume": "1500 ml",
+    "material_thickness": 1,
+    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ]
   }
 ]

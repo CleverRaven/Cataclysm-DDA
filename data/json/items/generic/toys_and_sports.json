@@ -1,7 +1,8 @@
 [
   {
     "id": "talking_doll",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "talking doll" },
     "description": "This is a talking doll, meant for children.  Fortunately it still works, and you could unload the batteries out of it.",
     "//": "https://amz.run/7YNm",
@@ -21,15 +22,16 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_minus_disposable_cell"
+        "flag_restriction": [ "BATTERY_LIGHT" ],
+        "default_magazine": "light_battery_cell"
       }
     ],
     "tool_ammo": [ "battery" ]
   },
   {
     "id": "creepy_doll",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "talking doll" },
     "description": "This is a talking doll, meant for children.  Fortunately it still works, and you could unload the batteries out of it.",
     "copy-from": "talking_doll",
@@ -37,7 +39,7 @@
     "color": "pink"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "swimming_kickboard",
     "name": { "str": "swimming kickboard" },
     "description": "A swimming kickboard, would be a great training aid for the beach or the pool, if only they weren't full of zombies and mutant fish.",
@@ -53,7 +55,7 @@
   },
   {
     "id": "shuttlecock",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "badminton shuttlecock", "str_pl": "shuttlecocks" },
     "description": "A high-drag projectile used in the sport of badminton.",
@@ -68,7 +70,7 @@
   },
   {
     "id": "golf_tee",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "golf tee" },
     "description": "A pin-shaped piece of wood meant for holding a golf ball slightly off the ground.",
@@ -83,7 +85,7 @@
   },
   {
     "id": "golf_ball",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "golf ball" },
     "description": "A small, hard plastic ball with round indentations on it.",
@@ -97,7 +99,8 @@
     "color": "white"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "pool_ball",
     "symbol": "*",
     "color": "blue",
@@ -120,7 +123,7 @@
     "thrown_damage": [ { "damage_type": "bash", "amount": 3 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bowling_ball",
     "symbol": "*",
     "color": "blue",
@@ -136,7 +139,8 @@
     "melee_damage": { "bash": 18 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "baseball",
     "symbol": "*",
     "color": "white",
@@ -159,7 +163,7 @@
     "thrown_damage": [ { "damage_type": "bash", "amount": 3 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "football",
     "symbol": "*",
     "color": "brown",
@@ -174,7 +178,7 @@
     "longest_side": "29 cm"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "basketball",
     "symbol": "*",
     "color": "brown",
@@ -189,7 +193,7 @@
     "longest_side": "239 mm"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "indoor_volleyball",
     "symbol": "*",
     "color": "white",
@@ -204,7 +208,8 @@
     "longest_side": "26 cm"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "aim_game",
     "//": "lazerlyte trainer target was used as a reference",
     "symbol": "*",
@@ -230,7 +235,7 @@
     "tool_ammo": [ "battery" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "beach_volleyball",
     "symbol": "*",
     "color": "green",
@@ -246,7 +251,7 @@
     "thrown_damage": [ { "damage_type": "bash", "amount": 4 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "puck",
     "symbol": "*",
     "color": "dark_gray",
@@ -262,13 +267,13 @@
     "thrown_damage": [ { "damage_type": "bash", "amount": 7 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mannequin",
     "symbol": "@",
     "color": "dark_gray",
     "name": { "str": "mannequin" },
     "category": "other",
-    "description": "A figure of an adult human, as seen in the display case at the mall.  It might be able to fool some zombies if it could attract their attention.",
+    "description": "A figure of an adult human, as seen in the display case at the mall.",
     "price": "150 USD",
     "price_postapoc": "5 USD",
     "material": [ "wood" ],
@@ -277,41 +282,5 @@
     "longest_side": "180 cm",
     "melee_damage": { "bash": 18 },
     "use_action": [ { "type": "deploy_furn", "furn_type": "f_mannequin" } ]
-  },
-  {
-    "type": "TOOL",
-    "id": "mannequin_decoy",
-    "symbol": "@",
-    "color": "light_gray",
-    "name": { "str": "mannequin decoy" },
-    "category": "other",
-    "description": "A figure of an adult human, as seen in the display case at the mall.  This one is cradling a talking doll.  It can make sound when powered by batteries and can be used to distract some zombies.",
-    "price": "150 USD",
-    "price_postapoc": "5 USD",
-    "material": [ "wood" ],
-    "weight": "81500 g",
-    "volume": "62500 ml",
-    "longest_side": "180 cm",
-    "flags": [ "WATER_BREAK", "SINGLE_USE", "ELECTRONIC" ],
-    "faults": [ { "fault_group": "electronic_general" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_minus_disposable_cell"
-      }
-    ],
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_mannequin_decoy",
-      "friendly_msg": "You activate the talking doll on the mannequin.",
-      "hostile_msg": "Your mannequin seems to have a mind of its own!  If you see this, an error has occurred.",
-      "difficulty": 0,
-      "need_charges": 100,
-      "moves": 20
-    },
-    "melee_damage": { "bash": 18 },
-    "tool_ammo": [ "battery" ]
   }
 ]

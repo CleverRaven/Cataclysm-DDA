@@ -9,6 +9,7 @@
     "description": "Recipes related to practicing pyrokinesis.",
     "skill_used": "metaphysics",
     "nested_category_data": [
+      "practice_pyrokinetic_intensify_flames",
       "practice_pyrokinetic_flash",
       "practice_pyrokinetic_eruption",
       "practice_pyrokinetic_cauterize",
@@ -31,7 +32,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: brilliant flash",
     "id": "practice_pyrokinetic_flash",
-    "description": "Contemplate your powers and improve your ability to create light.",
+    "description": "Contemplate your powers and improve your ability to create a burst of light.\n\nPower Difficulty: 1\n\nCurrent Power Level: <u_spell_level:pyrokinetic_flash>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -46,7 +47,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_FLASH",
-        "condition": { "math": [ "u_spell_level('pyrokinetic_flash') >= 1" ] },
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_flash", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -58,13 +59,42 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: fountain of flames",
-    "id": "practice_pyrokinetic_eruption",
-    "description": "Contemplate your powers and improve your ability to summon flames.",
+    "name": "contemplation: intensify flames",
+    "id": "practice_pyrokinetic_intensify_flames",
+    "description": "Contemplate your powers and improve your ability increase the strength of existing flames.\n\nPower Difficulty: 1\n\nCurrent Power Level: <u_spell_level:pyrokinetic_intensify_flames>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
+    ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PYROKIN_INTENSIFY_FLAMES",
+        "condition": { "u_has_trait": "PYROKINETIC" },
+        "effect": [
+          { "set_string_var": "pyrokinetic_intensify_flames", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: fountain of flames",
+    "id": "practice_pyrokinetic_eruption",
+    "description": "Contemplate your powers and improve your ability to summon flames.\n\nPower Difficulty: 2\n\nCurrent Power Level: <u_spell_level:pyrokinetic_eruption>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
@@ -75,11 +105,24 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_FLAMES",
-        "condition": { "math": [ "u_spell_level('pyrokinetic_eruption') >= 1" ] },
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_eruption", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+          {
+            "if": { "math": [ "u_spell_level('pyrokinetic_eruption') >= 1" ] },
+            "then": { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] },
+            "else": [
+              { "run_eocs": [ "EOC_PSI_STUDYING_POWER_INITIAL_SETUP", "EOC_PSI_PRACTICE_FOCUS_MOD" ] },
+              {
+                "run_eocs": "EOC_PRACTICE_PYROKIN_CAUTERIZE_LEARNING",
+                "time_in_future": [
+                  { "math": [ "learn_new_power_lower_time_bound(u_latest_studied_power_difficulty)" ] },
+                  { "math": [ "learn_new_power_upper_time_bound(u_latest_studied_power_difficulty)" ] }
+                ]
+              }
+            ]
+          }
         ]
       }
     ]
@@ -89,11 +132,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: cauterize",
     "id": "practice_pyrokinetic_cauterize",
-    "description": "Contemplate your powers and improve your ability to close your wounds with precisely-directed fire.",
+    "description": "Contemplate your powers and improve your ability to close your wounds with precisely-directed fire.\n\nPower Difficulty: 2\n\nCurrent Power Level: <u_spell_level:pyrokinetic_cauterize>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
@@ -104,6 +147,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_CAUTERIZE",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_cauterize", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -141,11 +185,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: quell fire",
     "id": "practice_pyrokinetic_quell_flames",
-    "description": "Contemplate your powers and improve your ability to douse flames.",
+    "description": "Contemplate your powers and improve your ability to douse flames.\n\nPower Difficulty: 3\n\nCurrent Power Level: <u_spell_level:pyrokinetic_quell_flames>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
@@ -156,6 +200,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_QUELL_FIRE",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_quell_flames", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -193,11 +238,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: banked flames",
     "id": "practice_pyrokinetic_call_flames",
-    "description": "Contemplate your powers and improve your ability to summon a controlled flame.",
+    "description": "Contemplate your powers and improve your ability to summon a controlled flame.\n\nPower Difficulty: 3\n\nCurrent Power Level: <u_spell_level:pyrokinetic_call_flames>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
@@ -208,6 +253,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_CALL_FLAMES",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_call_flames", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -245,11 +291,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: cloak of warmth",
     "id": "practice_pyrokinetic_cloak",
-    "description": "Contemplate your powers and improve your control of nearby temperatures.",
+    "description": "Contemplate your powers and improve your control of nearby temperatures.\n\nPower Difficulty: 4\n\nCurrent Power Level: <u_spell_level:pyrokinetic_cloak>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 3,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
@@ -261,6 +307,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_CLOAK",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_cloak", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -298,11 +345,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: flamethrower",
     "id": "practice_pyrokinetic_flamethrower",
-    "description": "Contemplate your powers and improve your ability to direct a spray of flame.",
+    "description": "Contemplate your powers and improve your ability to direct a spray of flame.\n\nPower Difficulty: 5\n\nCurrent Power Level: <u_spell_level:pyrokinetic_flamethrower>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 4,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
@@ -314,6 +361,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_FLAMETHROWER",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_flamethrower", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -351,11 +399,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: incandescent lance",
     "id": "practice_pyrokinetic_lance",
-    "description": "Contemplate your powers and improve your ability to focus heat into a searing point.",
+    "description": "Contemplate your powers and improve your ability to focus heat into a searing point.\n\nPower Difficulty: 5\n\nCurrent Power Level: <u_spell_level:pyrokinetic_lance>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 4,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
@@ -367,6 +415,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_LANCE",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_lance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -404,11 +453,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: thermogenesis",
     "id": "practice_pyrokinetic_thermogenesis",
-    "description": "Contemplate your powers and improve your ability to warm the air to produce lasting heat.",
+    "description": "Contemplate your powers and improve your ability to warm the air to produce lasting heat.\n\nPower Difficulty: 6\n\nCurrent Power Level: <u_spell_level:pyrokinetic_thermogenesis>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 5,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
@@ -420,6 +469,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_THERMOGENESIS",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_thermogenesis", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -457,11 +507,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: blazing aura",
     "id": "practice_pyrokinetic_aura",
-    "description": "Contemplate your powers and improve your ability to heat the surrounding air to dangerous temperatures.",
+    "description": "Contemplate your powers and improve your ability to heat the surrounding air to dangerous temperatures.\n\nPower Difficulty: 6\n\nCurrent Power Level: <u_spell_level:pyrokinetic_aura>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 5,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
@@ -473,6 +523,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_AURA",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_aura", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -510,11 +561,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: flameshield",
     "id": "practice_pyrokinetic_flame_immunity",
-    "description": "Contemplate your powers and improve your immunity to fire.",
+    "description": "Contemplate your powers and improve your immunity to fire.\n\nPower Difficulty: 7\n\nCurrent Power Level: <u_spell_level:pyrokinetic_flame_immunity>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
@@ -526,6 +577,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_FLAME_IMMUNITY",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_flame_immunity", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -563,11 +615,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: conflagration",
     "id": "practice_pyrokinetic_blast",
-    "description": "Contemplate your powers and improve your manifestation of explosions.",
+    "description": "Contemplate your powers and improve your manifestation of explosions.\n\nPower Difficulty: 7\n\nCurrent Power Level: <u_spell_level:pyrokinetic_blast>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
@@ -579,6 +631,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_BLAST",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_blast", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -616,11 +669,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: hellfire",
     "id": "practice_pyrokinetic_aoe_blast",
-    "description": "Contemplate your powers and improve your ability to call down sheets of fire on everything around you.",
+    "description": "Contemplate your powers and improve your ability to call down sheets of fire on everything around you.\n\nPower Difficulty: 9\n\nCurrent Power Level: <u_spell_level:pyrokinetic_aoe_blast>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 8,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
@@ -632,6 +685,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_AOE_BLAST",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_aoe_blast", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -669,11 +723,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: crucible",
     "id": "practice_pyrokinetic_incineration",
-    "description": "Contemplate your powers and improve your ability to completely incinerate your target.",
+    "description": "Contemplate your powers and improve your ability to completely incinerate your target.\n\nPower Difficulty: 10\n\nCurrent Power Level: <u_spell_level:pyrokinetic_incineration>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 9,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
@@ -685,6 +739,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_INCINERATION",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_incineration", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },

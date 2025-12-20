@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_clinic_a1_floor_1",
     "object": {
       "fill_ter": "t_metal_floor",
@@ -45,7 +44,7 @@
         "3": "f_stool",
         "5": "f_locker",
         "6": "f_reinforced_displaycase_locked",
-        "7": "f_table"
+        "7": "f_metal_table"
       },
       "items": {
         "j": { "item": "SUS_office_filing_cabinet", "chance": 40 },
@@ -68,7 +67,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_clinic_a1_floor_2",
     "object": {
       "fill_ter": "t_metal_floor",
@@ -105,7 +103,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_clinic_unlooted",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -151,7 +148,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_clinic_looted",
     "object": {
       "mapgensize": [ 24, 24 ],

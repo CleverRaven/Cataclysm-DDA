@@ -223,7 +223,7 @@ TEST_CASE( "max_item_length", "[pocket][max_item_length]" )
     // Sheath that may contain items
     pocket_data data_sheath( pocket_type::CONTAINER );
     // Has plenty of weight/ volume, since we're only testing length
-    data_sheath.volume_capacity = 10_liter;
+    data_sheath.raw_volume_capacity = 10_liter;
     data_sheath.max_contains_weight = 10_kilogram;
 
     GIVEN( "pocket has max_item_length enough for some items, but not others" ) {
@@ -268,7 +268,7 @@ TEST_CASE( "max_item_length", "[pocket][max_item_length]" )
 
     GIVEN( "a 1-liter box without a defined max_item_length" ) {
         item box( itype_test_box );
-        REQUIRE( box.get_total_capacity() == 1_liter );
+        REQUIRE( box.get_volume_capacity() == 1_liter );
 
         THEN( "it can hold an item 14 cm in length" ) {
             item rod_14( itype_test_rod_14cm );
@@ -327,10 +327,10 @@ TEST_CASE( "max_item_volume", "[pocket][max_item_volume]" )
     data_jug.max_contains_weight = 10_kilogram;
 
     // Jug capacity is more than enough for several rocks, rags, or screwdrivers
-    data_jug.volume_capacity = 2_liter;
-    REQUIRE( data_jug.volume_capacity > 5 * rock.volume() );
-    REQUIRE( data_jug.volume_capacity > 5 * rag.volume() );
-    REQUIRE( data_jug.volume_capacity > 10 * screwdriver.volume() );
+    data_jug.raw_volume_capacity = 2_liter;
+    REQUIRE( data_jug.volume_capacity() > 5 * rock.volume() );
+    REQUIRE( data_jug.volume_capacity() > 5 * rag.volume() );
+    REQUIRE( data_jug.volume_capacity() > 10 * screwdriver.volume() );
 
     // But it has a narrow mouth, just barely enough to fit a screwdriver
     const units::volume max_volume = screwdriver.volume();
@@ -393,11 +393,11 @@ TEST_CASE( "max_container_volume", "[pocket][max_contains_volume]" )
     WHEN( "pocket has no ammo_restriction" ) {
         pocket_data data_box( pocket_type::CONTAINER );
         // Just a normal 1-liter box
-        data_box.volume_capacity = 1_liter;
+        data_box.raw_volume_capacity = 1_liter;
         REQUIRE( data_box.ammo_restriction.empty() );
 
-        THEN( "max_contains_volume is the pocket's volume_capacity" ) {
-            CHECK( data_box.max_contains_volume() == 1_liter );
+        THEN( "volume_capacity is the pocket's volume_capacity" ) {
+            CHECK( data_box.volume_capacity() == 1_liter );
         }
     }
 
@@ -410,10 +410,10 @@ TEST_CASE( "max_container_volume", "[pocket][max_contains_volume]" )
         REQUIRE_FALSE( data_ammo_box.ammo_restriction.empty() );
 
         // And because actual volume is derived from ammo needs, this volume should be ignored.
-        data_ammo_box.volume_capacity = 1_ml;
+        data_ammo_box.raw_volume_capacity = 1_ml;
 
-        THEN( "max_contains_volume is based on the pocket's ammo type" ) {
-            CHECK( data_ammo_box.max_contains_volume() == 1_liter );
+        THEN( "volume_capacity is based on the pocket's ammo type" ) {
+            CHECK( data_ammo_box.volume_capacity() == 1_liter );
         }
     }
 }
@@ -437,7 +437,7 @@ TEST_CASE( "magazine_with_ammo_restriction", "[pocket][magazine][ammo_restrictio
 
     // ammo_restriction takes precedence over volume/length/weight,
     // so it doesn't matter what these are set to - they can even be 0.
-    data_mag.volume_capacity = 0_liter;
+    data_mag.raw_volume_capacity = 0_liter;
     data_mag.min_item_volume = 0_liter;
     data_mag.max_item_length = 0_meter;
     data_mag.max_contains_weight = 0_gram;
@@ -550,7 +550,7 @@ TEST_CASE( "pocket_with_item_flag_restriction", "[pocket][flag_restriction]" )
     // Sonic screwdriver is the smallest item it can hold
     data_belt.min_item_volume = sonic.volume();
     // Halligan bar is the largest item it can hold
-    data_belt.volume_capacity = halligan.volume();
+    data_belt.raw_volume_capacity = halligan.volume();
 
     // Plenty of length and weight, since we only care about flag restrictions here
     data_belt.max_item_length = 10_meter;
@@ -596,7 +596,7 @@ TEST_CASE( "pocket_with_item_flag_restriction", "[pocket][flag_restriction]" )
             }
 
             WHEN( "item volume is equal to max_contains_volume" ) {
-                REQUIRE( halligan.volume() == data_belt.max_contains_volume() );
+                REQUIRE( halligan.volume() == data_belt.volume_capacity() );
 
                 THEN( "pocket can contain it" ) {
                     expect_can_contain( pocket_belt, halligan );
@@ -608,7 +608,7 @@ TEST_CASE( "pocket_with_item_flag_restriction", "[pocket][flag_restriction]" )
             }
 
             WHEN( "item volume is greater than max_contains_volume" ) {
-                REQUIRE( axe.volume() > data_belt.max_contains_volume() );
+                REQUIRE( axe.volume() > data_belt.volume_capacity() );
 
                 THEN( "pocket cannot contain it, because it is too big" ) {
                     expect_cannot_contain( pocket_belt, axe, "item is too big",
@@ -626,8 +626,8 @@ TEST_CASE( "pocket_with_item_flag_restriction", "[pocket][flag_restriction]" )
             REQUIRE_FALSE( rag.has_flag( flag_BELT_CLIP ) );
             REQUIRE_FALSE( rock.has_flag( flag_BELT_CLIP ) );
             // Ensure they are not too large otherwise
-            REQUIRE_FALSE( rag.volume() > data_belt.max_contains_volume() );
-            REQUIRE_FALSE( rock.volume() > data_belt.max_contains_volume() );
+            REQUIRE_FALSE( rag.volume() > data_belt.volume_capacity() );
+            REQUIRE_FALSE( rock.volume() > data_belt.volume_capacity() );
 
             THEN( "pocket cannot contain it, because it does not have the flag" ) {
                 expect_cannot_contain( pocket_belt, rag, "holster does not accept this item type or form factor",
@@ -661,7 +661,7 @@ TEST_CASE( "holster_can_contain_one_fitting_item", "[pocket][holster]" )
     // Construct data for a holster to perfectly fit this gun
     pocket_data data_holster( pocket_type::CONTAINER );
     data_holster.holster = true;
-    data_holster.volume_capacity = glock.volume();
+    data_holster.raw_volume_capacity = glock.volume();
     data_holster.max_item_length = glock.length();
     data_holster.max_contains_weight = glock.weight();
 
@@ -696,7 +696,7 @@ TEST_CASE( "holster_can_contain_one_fitting_item", "[pocket][holster]" )
 
     GIVEN( "holster has not enough volume capacity" ) {
         // Reduce perfect holster volume capacity by 1 ml
-        data_holster.volume_capacity = glock.volume() - 1_ml;
+        data_holster.raw_volume_capacity = glock.volume() - 1_ml;
         item_pocket pocket_holster( &data_holster );
 
         THEN( "it cannot contain the item, because it is too big" ) {
@@ -754,7 +754,7 @@ TEST_CASE( "pockets_containing_liquids", "[pocket][watertight][liquid]" )
     // Large watertight container
     pocket_data data_bucket( pocket_type::CONTAINER );
     data_bucket.watertight = true;
-    data_bucket.volume_capacity = 10_liter;
+    data_bucket.raw_volume_capacity = 10_liter;
     data_bucket.max_item_length = 1_meter;
     data_bucket.max_contains_weight = 10_kilogram;
 
@@ -849,7 +849,7 @@ TEST_CASE( "pockets_containing_gases", "[pocket][airtight][gas]" )
     pocket_data data_balloon( pocket_type::CONTAINER );
 
     // Has capacity for several charges of gas
-    data_balloon.volume_capacity = 4 * gas.volume();
+    data_balloon.raw_volume_capacity = 4 * gas.volume();
     data_balloon.max_contains_weight = 4 * gas.weight();
     // Avoid any length restrictions
     data_balloon.max_item_length = 1_meter;
@@ -900,7 +900,7 @@ TEST_CASE( "rigid_and_non-rigid_or_flexible_pockets", "[pocket][rigid][flexible]
 
     // Pocket with enough space for 2 rocks
     pocket_data data_sock( pocket_type::CONTAINER );
-    data_sock.volume_capacity = 2 * rock.volume();
+    data_sock.raw_volume_capacity = 2 * rock.volume();
 
     // Can hold plenty of length and weight (we only care about volume here)
     data_sock.max_item_length = 5 * rock.length();
@@ -1039,7 +1039,7 @@ TEST_CASE( "sealed_containers", "[pocket][seal]" )
         item can( itype_test_can_drink );
 
         // Ensure it has exactly one contained pocket, and get that pocket for testing
-        std::vector<item_pocket *> can_pockets = can.get_all_contained_pockets();
+        std::vector<item_pocket *> can_pockets = can.get_container_pockets();
         REQUIRE( !can_pockets.empty() );
         REQUIRE( can_pockets.size() == 1 );
         item_pocket &pocket = *can_pockets.front();
@@ -1089,7 +1089,7 @@ TEST_CASE( "sealed_containers", "[pocket][seal]" )
         item jug( itype_test_jug_plastic );
 
         // Ensure it has exactly one contained pocket, and get that pocket for testing
-        std::vector<item_pocket *>jug_pockets = jug.get_all_contained_pockets();
+        std::vector<item_pocket *>jug_pockets = jug.get_container_pockets();
         REQUIRE( !jug_pockets.empty() );
         REQUIRE( jug_pockets.size() == 1 );
         item_pocket &pocket = *jug_pockets.front();
@@ -1161,8 +1161,8 @@ TEST_CASE( "when_one_pocket_is_better_than_another", "[pocket][better]" )
     }
 
     SECTION( "pocket with less remaining volume is better" ) {
-        data_a.volume_capacity = 2_liter;
-        data_b.volume_capacity = 1_liter;
+        data_a.raw_volume_capacity = 2_liter;
+        data_b.raw_volume_capacity = 1_liter;
         CHECK( item_pocket( &data_a ).better_pocket( item_pocket( &data_b ), rock ) );
     }
 }
@@ -1185,7 +1185,7 @@ static bool has_best_pocket( item &container, const item &thing )
 /** Returns the only pocket for an item. */
 static item_pocket *get_only_pocket( item &container )
 {
-    std::vector<item_pocket *> pockets = container.get_all_contained_pockets();
+    std::vector<item_pocket *> pockets = container.get_container_pockets();
     REQUIRE( pockets.size() == 1 );
     return pockets[0];
 }
@@ -1938,7 +1938,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
 
     WHEN( "no nested, backpack autoinsert disabled" ) {
         WHEN( "space available in backpack" ) {
-            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : pack->get_contents().get_container_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup none" ) {
@@ -1947,7 +1947,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         }
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, 60, false, false, true );
-            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : pack->get_contents().get_container_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup none" ) {
@@ -1979,10 +1979,10 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     WHEN( "all autoinsert settings disabled" ) {
         WHEN( "space available in backpack" ) {
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : pack->get_contents().get_container_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
-            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_container_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup none, nested empty" ) {
@@ -1992,10 +1992,10 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : pack->get_contents().get_container_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
-            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_container_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup none, nested empty" ) {
@@ -2007,7 +2007,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     WHEN( "top container autoinsert settings disabled" ) {
         WHEN( "space available in backpack" ) {
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : pack->get_contents().get_container_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup all, nested filled" ) {
@@ -2017,7 +2017,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : pack->get_contents().get_container_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( ( soft_nested ? "pickup none, nested empty" : "pickup all, nested filled" ) ) {
@@ -2033,7 +2033,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     WHEN( "nested container autoinsert settings disabled" ) {
         WHEN( "space available in backpack" ) {
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_container_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup all, nested empty" ) {
@@ -2043,7 +2043,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_container_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup none, nested empty" ) {
@@ -2055,7 +2055,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     WHEN( "nested container whitelisting 1 item" ) {
         WHEN( "space available in backpack" ) {
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_container_pockets() ) {
                 pkts->settings.whitelist_item( obj1->typeId() );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 0 );
@@ -2067,7 +2067,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_container_pockets() ) {
                 pkts->settings.whitelist_item( obj1->typeId() );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 0 );
@@ -2085,7 +2085,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     WHEN( "nested container whitelisting 2 items" ) {
         WHEN( "space available in backpack" ) {
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_container_pockets() ) {
                 pkts->settings.whitelist_item( obj1->typeId() );
                 pkts->settings.whitelist_item( obj2->typeId() );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
@@ -2098,7 +2098,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_container_pockets() ) {
                 pkts->settings.whitelist_item( obj1->typeId() );
                 pkts->settings.whitelist_item( obj2->typeId() );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
@@ -2151,7 +2151,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         }
         item stack( itype_test_pine_nuts );
         item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-        for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+        for( item_pocket *&pkts : c->get_contents().get_container_pockets() ) {
             pkts->settings.blacklist_item( stack.typeId() );
             REQUIRE( pkts->settings.get_item_blacklist().count( stack.typeId() ) == 1 );
         }
@@ -2181,7 +2181,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         }
         item stack( itype_test_pine_nuts );
         item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-        for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+        for( item_pocket *&pkts : c->get_contents().get_container_pockets() ) {
             pkts->settings.whitelist_item( obj2->typeId() );
             REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 1 );
             REQUIRE( pkts->settings.get_item_whitelist().count( stack.typeId() ) == 0 );
@@ -2207,11 +2207,11 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     WHEN( "nested container high priority" ) {
         WHEN( "space available in backpack" ) {
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_container_pockets() ) {
                 pkts->settings.set_priority( 50 );
                 REQUIRE( pkts->settings.priority() == 50 );
             }
-            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : pack->get_contents().get_container_pockets() ) {
                 pkts->settings.set_priority( 10 );
                 REQUIRE( pkts->settings.priority() == 10 );
             }
@@ -2222,11 +2222,11 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_container_pockets() ) {
                 pkts->settings.set_priority( 50 );
                 REQUIRE( pkts->settings.priority() == 50 );
             }
-            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : pack->get_contents().get_container_pockets() ) {
                 pkts->settings.set_priority( 10 );
                 REQUIRE( pkts->settings.priority() == 10 );
             }
@@ -2243,11 +2243,11 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     WHEN( "nested container same priority as top container" ) {
         WHEN( "space available in backpack" ) {
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_container_pockets() ) {
                 pkts->settings.set_priority( 50 );
                 REQUIRE( pkts->settings.priority() == 50 );
             }
-            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : pack->get_contents().get_container_pockets() ) {
                 pkts->settings.set_priority( 50 );
                 REQUIRE( pkts->settings.priority() == 50 );
             }
@@ -2258,11 +2258,11 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_container_pockets() ) {
                 pkts->settings.set_priority( 50 );
                 REQUIRE( pkts->settings.priority() == 50 );
             }
-            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : pack->get_contents().get_container_pockets() ) {
                 pkts->settings.set_priority( 50 );
                 REQUIRE( pkts->settings.priority() == 50 );
             }
@@ -2339,7 +2339,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             liquid_target.item_loc = suit;
             u.set_moves( 100 );
             liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
-                    nullptr, -1, nullptr, liquid_target );
+                    nullptr, -1, nullptr, liquid_target, false );
             THEN( "liquid fills the worn container's pockets, some left over" ) {
                 CHECK( u.get_moves() == 0 );
                 CHECK( !jug_w_water->only_item().is_null() );
@@ -2367,7 +2367,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             liquid_target.item_loc = suit;
             u.set_moves( 100 );
             liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
-                    nullptr, -1, nullptr, liquid_target );
+                    nullptr, -1, nullptr, liquid_target, false );
             THEN( "liquid fills the worn container's pockets, some left over" ) {
                 CHECK( u.get_moves() == 0 );
                 CHECK( !jug_w_water->only_item().is_null() );
@@ -2393,7 +2393,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             liquid_target.item_loc = suit;
             u.set_moves( 100 );
             liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
-                    nullptr, -1, nullptr, liquid_target );
+                    nullptr, -1, nullptr, liquid_target, false );
             m.make_active( jug_w_water );
             CHECK( jug_w_water->only_item().charges == 0 );
             jug_w_water->remove_item( jug_w_water->only_item() );
@@ -2417,7 +2417,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             liquid_target.item_loc = suit;
             u.set_moves( 100 );
             liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
-                    nullptr, -1, nullptr, liquid_target );
+                    nullptr, -1, nullptr, liquid_target, false );
             m.make_active( jug_w_water );
             CHECK( jug_w_water->only_item().charges == 0 );
             jug_w_water->remove_item( jug_w_water->only_item() );
@@ -2446,7 +2446,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             for( item *&it : suit->all_items_top() ) {
                 u.set_moves( 100 );
                 REQUIRE( it->charges == 6 );
-                liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target );
+                liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target, false );
                 CHECK( u.get_moves() == 0 );
                 CHECK( it->charges == 0 );
                 suit->remove_item( *it );
@@ -2471,7 +2471,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             for( item *&it : suit->all_items_top() ) {
                 u.set_moves( 100 );
                 REQUIRE( it->charges == 6 );
-                liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target );
+                liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target, false );
                 if( u.get_moves() == 0 && it->charges == 0 ) {
                     suit->remove_item( *it );
                 }
@@ -2554,7 +2554,7 @@ TEST_CASE( "best_pocket_for_pocket-holster_mix", "[pocket][item]" )
             THEN( "flashlight stored in smallest available holster" ) {
                 bool found = false;
                 const std::list<std::string> valid_pkts = { "P4", "P5", "P6" };
-                for( const item_pocket *pkt : tb->get_all_contained_pockets() ) {
+                for( const item_pocket *pkt : tb->get_container_pockets() ) {
                     if( !pkt->empty() && pkt->front().typeId() == flashlight.typeId() ) {
                         CAPTURE( pkt->get_pocket_data()->pocket_name.translated() );
                         CHECK( !found ); // we shouldn't find this item in multiple pockets
@@ -2573,7 +2573,7 @@ TEST_CASE( "best_pocket_for_pocket-holster_mix", "[pocket][item]" )
         }
 
         WHEN( "attaching flashlight to tool belt, whitelisted pocket 1" ) {
-            for( item_pocket *pkt : tb->get_all_contained_pockets() ) {
+            for( item_pocket *pkt : tb->get_container_pockets() ) {
                 if( pkt->get_pocket_data()->pocket_name.translated() == "P1" ) {
                     pkt->settings.whitelist_item( flashlight.typeId() );
                 }
@@ -2587,7 +2587,7 @@ TEST_CASE( "best_pocket_for_pocket-holster_mix", "[pocket][item]" )
             THEN( "flashlight stored in pocket 1" ) {
                 bool found = false;
                 const std::list<std::string> valid_pkts = { "P1" };
-                for( const item_pocket *pkt : tb->get_all_contained_pockets() ) {
+                for( const item_pocket *pkt : tb->get_container_pockets() ) {
                     if( !pkt->empty() && pkt->front().typeId() == flashlight.typeId() ) {
                         CAPTURE( pkt->get_pocket_data()->pocket_name.translated() );
                         CHECK( !found ); // we shouldn't find this item in multiple pockets
@@ -2606,7 +2606,7 @@ TEST_CASE( "best_pocket_for_pocket-holster_mix", "[pocket][item]" )
         }
 
         WHEN( "attaching flashlight to tool belt, whitelisted pocket 2" ) {
-            for( item_pocket *pkt : tb->get_all_contained_pockets() ) {
+            for( item_pocket *pkt : tb->get_container_pockets() ) {
                 if( pkt->get_pocket_data()->pocket_name.translated() == "P2" ) {
                     pkt->settings.whitelist_item( flashlight.typeId() );
                 }
@@ -2620,7 +2620,7 @@ TEST_CASE( "best_pocket_for_pocket-holster_mix", "[pocket][item]" )
             THEN( "flashlight stored in pocket 2" ) {
                 bool found = false;
                 const std::list<std::string> valid_pkts = { "P2" };
-                for( const item_pocket *pkt : tb->get_all_contained_pockets() ) {
+                for( const item_pocket *pkt : tb->get_container_pockets() ) {
                     if( !pkt->empty() && pkt->front().typeId() == flashlight.typeId() ) {
                         CAPTURE( pkt->get_pocket_data()->pocket_name.translated() );
                         CHECK( !found ); // we shouldn't find this item in multiple pockets
@@ -2639,7 +2639,7 @@ TEST_CASE( "best_pocket_for_pocket-holster_mix", "[pocket][item]" )
         }
 
         WHEN( "attaching flashlight to tool belt, whitelisted pocket 5" ) {
-            for( item_pocket *pkt : tb->get_all_contained_pockets() ) {
+            for( item_pocket *pkt : tb->get_container_pockets() ) {
                 if( pkt->get_pocket_data()->pocket_name.translated() == "P5" ) {
                     pkt->settings.whitelist_item( flashlight.typeId() );
                 }
@@ -2653,7 +2653,7 @@ TEST_CASE( "best_pocket_for_pocket-holster_mix", "[pocket][item]" )
             THEN( "flashlight stored in pocket 5" ) {
                 bool found = false;
                 const std::list<std::string> valid_pkts = { "P5" };
-                for( const item_pocket *pkt : tb->get_all_contained_pockets() ) {
+                for( const item_pocket *pkt : tb->get_container_pockets() ) {
                     if( !pkt->empty() && pkt->front().typeId() == flashlight.typeId() ) {
                         CAPTURE( pkt->get_pocket_data()->pocket_name.translated() );
                         CHECK( !found ); // we shouldn't find this item in multiple pockets
@@ -2748,7 +2748,7 @@ TEST_CASE( "bag_with_restrictions_and_nested_bag_does_not_fit_too_large_items", 
     REQUIRE( mini_backpack.only_item().typeId() == backpack.typeId() );
 
     // need to set a setting on the pocket for this to work since that's when nesting starts trying weird stuff
-    mini_backpack.get_contents().get_all_standard_pockets().front()->settings.set_disabled( true );
+    mini_backpack.get_contents().get_standard_pockets().front()->settings.set_disabled( true );
 
     // check if the game thinks the mini bag can contain the second bag (it can't)
     // but that the bag could otherwise fit if not in the parent pocket
@@ -2813,14 +2813,14 @@ namespace
 {
 void check_whitelist( item const &it, bool should, itype_id const &id )
 {
-    REQUIRE( it.get_all_contained_pockets().size() == 1 );
+    REQUIRE( it.get_container_pockets().size() == 1 );
     if( should ) {
-        REQUIRE( !it.get_all_contained_pockets().front()->settings.get_item_whitelist().empty() );
-        CHECK( *it.get_all_contained_pockets().front()->settings.get_item_whitelist().begin() ==
+        REQUIRE( !it.get_container_pockets().front()->settings.get_item_whitelist().empty() );
+        CHECK( *it.get_container_pockets().front()->settings.get_item_whitelist().begin() ==
                id );
     } else {
         REQUIRE( it.empty_container() );
-        CHECK( it.get_all_contained_pockets().front()->settings.get_item_whitelist().empty() );
+        CHECK( it.get_container_pockets().front()->settings.get_item_whitelist().empty() );
     }
 }
 } // namespace
@@ -2854,9 +2854,9 @@ TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
     bool const edited = GENERATE( false, true );
     CAPTURE( edited );
     if( edited ) {
-        spawned_in_def_container->get_all_contained_pockets().front()->settings.set_was_edited();
-        spawned_w_modifier->get_all_contained_pockets().front()->settings.set_was_edited();
-        spawned_w_custom_container->get_all_contained_pockets().front()->settings.set_was_edited();
+        spawned_in_def_container->get_container_pockets().front()->settings.set_was_edited();
+        spawned_w_modifier->get_container_pockets().front()->settings.set_was_edited();
+        spawned_w_custom_container->get_container_pockets().front()->settings.set_was_edited();
     }
 
     SECTION( "container emptied by avatar" ) {

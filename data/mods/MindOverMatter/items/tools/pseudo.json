@@ -1,9 +1,23 @@
 [
   {
     "id": "black_nether_crystal_pseudo_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "nether crystal outcropping" },
     "description": "This is the pseudo-tool provided by having a nearby cluster of black nether crystal.  You shouldn't see this as an individual item.",
+    "symbol": "O",
+    "color": "red",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "flags": [ "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "psi_noetic_resonance_detector_tool",
+    "copy-from": "fake_appliance_tool",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "active noetic resonance detector" },
+    "description": "This is the pseudo-tool provided by having a nearby active noetic resonance detector.  You shouldn't see this as an individual item.",
     "symbol": "O",
     "color": "red",
     "weight": "0 g",

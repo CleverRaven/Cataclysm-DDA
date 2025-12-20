@@ -91,6 +91,41 @@
   },
   {
     "type": "furniture",
+    "id": "f_metal_table",
+    "name": "metal table",
+    "description": "A serviceable but simple table made completely out of metal.  Spartan in appearance and commonly found within habitats and spaceships.",
+    "symbol": "T",
+    "looks_like": "f_table",
+    "color": "light_gray",
+    "move_cost_mod": 4,
+    "coverage": 40,
+    "required_str": 8,
+    "crafting_pseudo_item": "medium_surface_pseudo",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "FLAT_SURF", "SHORT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "sheet_metal", "count": [ 0, 1 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "pipe_fittings", "count": 2 },
+        { "item": "scrap", "count": 4 },
+        { "item": "sheet_metal", "count": 1 },
+        { "item": "pipe", "count": 4 }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": "500 kg", "volume": "300 L" }
+  },
+  {
+    "type": "furniture",
     "id": "f_gene_editor_gutted",
     "name": "Ravaged Mercurial Resequencer",
     "description": "A large bio-sarcophagus and accompanying control machinery.  Panels dangle loosely from their hinges revealing a rat's nest of wires and cabling ripped from the machine.  Useless metal and electronics scraps are strewn about haphazardly on the floor.  It's clear anything of value has long been taken from this machine.",
@@ -158,7 +193,7 @@
       ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "50L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "50L" }
   },
   {
     "type": "furniture",
@@ -196,7 +231,7 @@
       ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75L" }
   },
   {
     "type": "furniture",
@@ -364,7 +399,7 @@
     "id": "f_sealed_intermodal_crate",
     "name": "sealed intermodal crate",
     "description": "A sealed metal crate used to ferry cargo to and from orbit.  This one appears to be secured with an electric lock.",
-    "required_str": 12,
+    "required_str": -1,
     "symbol": "O",
     "bgcolor": "brown",
     "move_cost_mod": -1,
@@ -380,7 +415,7 @@
             { "math": [ "_t_delay = time('20 m')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "9", "t_radius": "0" },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 9, "t_radius": 0 },
               "alpha_talker": "avatar"
             }
           ]
@@ -405,7 +440,7 @@
     "name": "powered down intermodal crate",
     "description": "A sealed metal crate used to ferry cargo to and from orbit.  This one appears to be secured with an electric lock that has shut down.",
     "looks_like": "f_sealed_intermodal_crate",
-    "required_str": 12,
+    "required_str": -1,
     "symbol": "O",
     "bgcolor": "brown",
     "move_cost_mod": -1,
@@ -446,7 +481,7 @@
             { "math": [ "_t_delay = time('20 m')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "0" },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 10, "t_radius": 0 },
               "alpha_talker": "avatar"
             }
           ]
@@ -475,7 +510,7 @@
     "color": "light_cyan",
     "move_cost_mod": 2,
     "coverage": 80,
-    "required_str": 10,
+    "required_str": -1,
     "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM" ],
     "rotates_to": "INDOORFLOOR",
     "bash": {
@@ -538,6 +573,45 @@
         { "item": "pipe", "count": [ 0, 3 ] },
         { "item": "sheet_metal", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 2, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_afs_sofa",
+    "name": "foam sofa",
+    "symbol": "H",
+    "description": "The classic corporate-style sofa, modular foam cushions mounted over a minimalist stainless steel frame.  A mainstay of frontier design since before the discontinuity.",
+    "bgcolor": "red",
+    "looks_like": "f_sofa",
+    "move_cost_mod": 1,
+    "coverage": 60,
+    "comfort": 4,
+    "floor_bedding_warmth": 500,
+    "required_str": 10,
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_nylon", "count": 8 },
+        { "item": "pipe", "count": [ 2, 3 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 8 ] },
+        { "item": "sheet_metal", "count": [ 2, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 10 ] },
+        { "item": "plastic_chunk", "count": [ 10, 20 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "BLOCKSDOOR", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "sheet_nylon", "count": 8 },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 8 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 10 ] },
+        { "item": "plastic_chunk", "count": [ 10, 20 ] }
       ]
     }
   },
@@ -606,7 +680,7 @@
             { "math": [ "_t_delay = time('20 m')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "6" },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 10, "t_radius": 6 },
               "alpha_talker": "avatar"
             }
           ]
@@ -640,7 +714,7 @@
             { "math": [ "_t_delay = time('20 m')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "10" },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 10, "t_radius": 10 },
               "alpha_talker": "avatar"
             }
           ]
@@ -721,7 +795,7 @@
             { "math": [ "_t_delay = time('1 h')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "13", "t_radius": "1" },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 13, "t_radius": 1 },
               "alpha_talker": "avatar"
             }
           ]
@@ -811,6 +885,95 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "plastic_chunk", "count": [ 9, 12 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ancient_atomic_backup",
+    "name": "atomic backup generator",
+    "description": "Backup analog dials remain functional, and some latent heat is still present in its aged core.  It will not be long until the cold snuffs it out completely.",
+    "looks_like": "t_nuclear_reactor",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost_mod": -6,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 3, 4 ] },
+        { "item": "lead", "charges": [ 10, 20 ] },
+        { "item": "afs_circuitry_2", "count": [ 1, 2 ], "prob": 40 },
+        { "item": "afs_energy_storage_1", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "afs_energy_storage_2", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 3 ], "prob": 12 },
+        { "item": "e_scrap", "count": [ 2, 16 ] },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 6, 9 ] },
+        { "item": "lead", "charges": [ 10, 20 ] },
+        { "item": "afs_energy_storage_1", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 3 ], "prob": 12 },
+        { "item": "e_scrap", "count": [ 2, 16 ] },
+        { "item": "power_supply", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ancient_controller",
+    "name": "ancient controller",
+    "description": "Some of its components remain viable, but most has decayed into useless scrap.",
+    "looks_like": "f_server",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost_mod": -6,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 3, 4 ] },
+        { "item": "cable", "charges": [ 10, 20 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 15 ], "prob": 40 },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 1 },
+        { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 50 },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 3 ], "prob": 12 },
+        { "item": "e_scrap", "count": [ 2, 16 ] },
+        { "item": "circuit", "count": [ 0, 3 ] },
+        { "item": "processor", "count": [ 0, 2 ] },
+        { "item": "RAM", "count": [ 0, 3 ] },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 3, 4 ] },
+        { "item": "cable", "charges": [ 10, 20 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 15 ], "prob": 40 },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 1 },
+        { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 50 },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 3 ], "prob": 12 },
+        { "item": "e_scrap", "count": [ 2, 16 ] },
+        { "item": "circuit", "count": [ 0, 3 ] },
+        { "item": "processor", "count": [ 0, 2 ] },
+        { "item": "RAM", "count": [ 0, 3 ] },
+        { "item": "power_supply", "count": 1 }
+      ]
     }
   }
 ]

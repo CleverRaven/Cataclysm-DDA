@@ -2,7 +2,6 @@
   {
     "nested_mapgen_id": "24x24_highway_fallback_intersection_support",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -37,7 +36,6 @@
   {
     "nested_mapgen_id": "24x24_highway_fallback_intersection_support",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [

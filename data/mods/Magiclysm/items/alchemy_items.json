@@ -1,7 +1,8 @@
 [
   {
     "id": "owlbear_stone",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "owlbear gastrolith",
     "description": "This strangely shaped rock was once a part of an owlbear's complex digestive system, creating a link between owl throat and bear stomach.  It is possible that it could serve a similar purpose in alchemy, helping to bind together two disparate halves.",
     "weight": "2 kg",
@@ -18,7 +19,7 @@
   },
   {
     "id": "stone_shell",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "*",
     "color": "light_gray",
     "name": "stone shell",
@@ -29,6 +30,20 @@
     "qualities": [ [ "BUTCHER", -50 ] ],
     "//": "Potion recipes that require a full owlbear egg could also instead require larger amounts of stone shell.  Since 1 egg gives 3 shells, you could perhaps have 1 egg be equivalent to 5 or more shells when making potions.",
     "melee_damage": { "bash": 5, "cut": 3 }
+  },
+  {
+    "id": "crystallized_mana_raw",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "raw mana crystal" },
+    "description": "A large chunk of crystal, removed from a leyline nexus.  It requires alchemical processing to transform into crystallized mana.",
+    "weight": "10325 g",
+    "volume": "5 L",
+    "price": "50 USD",
+    "price_postapoc": "3 USD 50 cent",
+    "material": [ "crystallized_mana" ],
+    "symbol": "=",
+    "color": "cyan"
   },
   {
     "id": "copper_infuser",
@@ -113,12 +128,12 @@
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "large adrenal gland" },
     "description": "An organ located above the kidneys responsible for secretion of adrenaline, cortisol, and aldosterone.  This one is huge, whether by nature or mutation.",
-    "delete": { "flags": [ "SMOKABLE" ] },
+    "smoking_result": "null",
     "price": "20 USD"
   },
   {
     "id": "glow_dust",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "*",
     "color": "yellow",
     "name": "glow dust",
@@ -130,7 +145,7 @@
   },
   {
     "id": "glow_light",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": "magical reading light",
     "description": "Powered by the magic of glow powder and lesser mana potions, this extremely expensive little light will provide just enough light to read by for at least a decade.  Use it to close the cover and hide the light.",
@@ -146,11 +161,12 @@
       "menu_text": "Close cover",
       "type": "transform"
     },
-    "flags": [ "LIGHT_5", "ALLOWS_REMOTE_USE" ]
+    "light": 5,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "glow_light_off",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "magical reading light (covered)", "str_pl": "magical reading lights (covered)" },
     "description": "Powered by the magic of glow powder and lesser mana potions, this extremely expensive little light will provide just enough light to read by for at least a decade.  The cover is closed.  Use it to open the cover and show the light.",
@@ -165,7 +181,7 @@
   },
   {
     "id": "bulette_plate",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": ")",
     "color": "light_gray",
     "name": "bulette plate",
@@ -177,7 +193,7 @@
   },
   {
     "id": "bulette_pearl",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "*",
     "color": "red",
     "name": "bulette pearl",
@@ -206,7 +222,7 @@
   },
   {
     "id": "stirge_proboscis",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "stirge proboscis", "str_pl": "stirge proboscises" },
     "description": "A long sucking apparatus harvested from stirge corpse.  Makes a poor melee weapon.",
     "volume": "100 ml",
@@ -221,7 +237,22 @@
     "melee_damage": { "stab": 7 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "id": "demon_chitin_flux",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "red",
+    "name": { "str_sp": "flux of demon chitin" },
+    "description": "Demon chitin turned into a paste like substance referred to as flux.  Used to create new; and fill in, repairing existing demon chitin items.",
+    "price": "10 USD",
+    "material": [ "demon_chitin" ],
+    "weight": "500 mg",
+    "volume": "1 ml",
+    "phase": "solid",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
     "id": "demon_chitin_piece",
     "category": "spare_parts",
     "symbol": ",",
@@ -237,7 +268,7 @@
   },
   {
     "id": "bundle_demon_chitin_piece",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "demon_chitin_piece",
     "symbol": "=",
     "name": { "str": "bundle of demon chitin chunks", "str_pl": "bundles of demon chitin chunks" },
@@ -245,7 +276,7 @@
     "description": "Pieces of demon spider exoskeleton, bundled tightly together for storage.  Disassemble to unpack."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "demon_chitin_plate",
     "category": "spare_parts",
     "symbol": "/",
@@ -260,7 +291,7 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "demon_spider_fang",
     "name": "demon spider fang",
     "description": "A fang from a demon spider.  It seems to still drip with poison; you might be able to use this in some alchemical recipe?",
@@ -276,7 +307,8 @@
     "melee_damage": { "stab": 8 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "alumentum",
     "category": "spare_parts",
     "price": "9 USD",
@@ -294,7 +326,7 @@
   },
   {
     "id": "mana_dust",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "*",
     "color": "blue",
     "name": "mana dust",
@@ -305,7 +337,7 @@
   },
   {
     "id": "mana_pearl",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "*",
     "color": "blue",
     "name": "mana pearl",
@@ -315,7 +347,7 @@
     "volume": "60 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "enchanted_wood",
     "symbol": "/",
     "color": "blue",
@@ -333,7 +365,8 @@
   },
   {
     "id": "alchemist_bomb",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "mana bomb" },
     "description": "Mana bombs are powerful explosive devices developed by a little-known alchemist group for use against enemy spellcasters.  These bombs are fueled by pure arcane energy and can kill instantly.  The exact workings are unclear, but they appear to use some kind of massive mana burn.",
@@ -358,7 +391,8 @@
   },
   {
     "id": "alchemist_bomb_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "mana bomb (lit)", "str_pl": "mana bombs (lit)" },
     "description": "The liquid in the bottle is sizzling.  Throwing it away from you, preferably at an enemy, would be a very good idea.",
@@ -379,7 +413,8 @@
   },
   {
     "id": "alchemist_mine",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "alchemical mine" },
     "description": "A pair of stabilized alchemist bombs with concentrated mana linking them.  Any movement in the mana linkage zone provokes an extremely powerful explosion in a small area.",
     "weight": "860 g",

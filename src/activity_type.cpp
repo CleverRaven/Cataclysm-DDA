@@ -8,10 +8,8 @@
 
 #include "activity_actor.h"
 #include "activity_handlers.h"
-#include "assign.h"
 #include "debug.h"
 #include "enums.h"
-#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -88,30 +86,28 @@ std::string enum_to_string<distraction_type>( distraction_type data )
 
 void activity_type::load( const JsonObject &jo )
 {
+    mandatory( jo, was_loaded, "id", id_ );
+    optional( jo, was_loaded, "rooted", rooted_, false );
+    optional( jo, was_loaded, "verb", verb_, to_translation( "THIS IS A BUG" ) );
+    optional( jo, was_loaded, "interruptable", interruptable_, true );
+    optional( jo, was_loaded, "interruptable_with_kb", interruptable_with_kb_, true );
+    optional( jo, was_loaded, "can_resume", can_resume_, true );
+    optional( jo, was_loaded, "multi_activity", multi_activity_, false );
+    optional( jo, was_loaded, "refuel_fires", refuel_fires, false );
+    optional( jo, was_loaded, "auto_needs", auto_needs, false );
+    optional( jo, was_loaded, "completion_eoc", completion_EOC );
+    optional( jo, was_loaded, "do_turn_eoc", do_turn_EOC );
+    optional( jo, was_loaded, "ignored_distractions", default_ignored_distractions_ );
+    optional( jo, was_loaded, "based_on", based_on_ );
+    mandatory( jo, was_loaded, "activity_level", activity_level, activity_level_reader{} );
+}
+
+void activity_type::load_all( const JsonObject &jo )
+{
     activity_type result;
-
-    result.id_ = activity_id( jo.get_string( "id" ) );
-    assign( jo, "rooted", result.rooted_, true );
-    assign( jo, "verb", result.verb_, true );
-    assign( jo, "interruptable", result.interruptable_, true );
-    assign( jo, "interruptable_with_kb", result.interruptable_with_kb_, true );
-    assign( jo, "can_resume", result.can_resume_, true );
-    assign( jo, "multi_activity", result.multi_activity_, false );
-    assign( jo, "refuel_fires", result.refuel_fires, false );
-    assign( jo, "auto_needs", result.auto_needs, false );
-    optional( jo, false, "completion_eoc", result.completion_EOC );
-    optional( jo, false, "do_turn_eoc", result.do_turn_EOC );
-    optional( jo, false, "ignored_distractions", result.default_ignored_distractions_ );
-    optional( jo, false, "based_on", result.based_on_ );
-
-    auto act_level_it = activity_levels_map.find( jo.get_string( "activity_level", "undefined" ) );
-    if( act_level_it == activity_levels_map.end() ) {
-        debugmsg( "activity_type '%s' has invalid activity_level '%s', defaulting to 'LIGHT_EXERCISE'",
-                  result.id().c_str() );
-        result.activity_level = activity_levels_map.at( "LIGHT_EXERCISE" );
-    } else {
-        result.activity_level = act_level_it->second;
-    }
+    result.load( jo );
+    // FIXME: use generic factory
+    result.was_loaded = true;
 
     if( activity_type_all.count( result.id_ ) ) {
         debugmsg( "Redefinition of %s", result.id_.c_str() );

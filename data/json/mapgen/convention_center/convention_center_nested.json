@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_up_left_vacant",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -32,7 +31,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_up_right_vacant",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -63,7 +61,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_mid_left_vacant",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -99,7 +96,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_mid_right_vacant",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -135,7 +131,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_down_left_vacant",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -166,7 +161,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_down_right_vacant",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -197,7 +191,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_up_left_fandom",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -228,7 +221,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_up_right_fandom",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -259,7 +251,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_mid_left_fandom",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -295,7 +286,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_mid_right_fandom",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -331,7 +321,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_down_left_fandom",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -362,7 +351,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_down_right_fandom",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -393,7 +381,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_up_left_lecture",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -424,7 +411,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_up_right_lecture",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -455,7 +441,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_mid_left_lecture",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -491,7 +476,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_mid_right_lecture",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -527,7 +511,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_down_left_lecture",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -558,7 +541,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_down_right_lecture",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -589,7 +571,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "conference_small_vacant",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -612,7 +593,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "conference_small_lecture",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -635,7 +615,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "conference_small_meeting",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -659,7 +638,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "conference_big_vacant",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -685,7 +663,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "conference_big_lecture",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -711,7 +688,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "conference_big_meeting",
     "object": {
       "mapgensize": [ 14, 14 ],

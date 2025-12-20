@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "microlab_ratkin" ],
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -16,7 +15,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "microlab_ratkin_edge" ],
     "object": {
       "fill_ter": "t_strconc_floor",

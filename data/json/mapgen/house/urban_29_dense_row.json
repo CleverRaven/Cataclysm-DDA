@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_29_1", "urban_29_2" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -59,7 +58,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_29_3", "urban_29_4" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -144,7 +142,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_29_5", "urban_29_6" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -197,7 +194,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_29_7", "urban_29_8" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -287,7 +283,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_29_9", "urban_29_10" ] ],
     "object": {
       "fill_ter": "t_flat_roof",

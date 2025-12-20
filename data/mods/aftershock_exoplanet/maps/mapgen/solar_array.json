@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "afs_solar_arrary_a1", "afs_solar_array_a2" ] ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -57,7 +56,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "afs_solar_arrary_a1_roof", "afs_solar_array_a2_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -94,7 +92,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_solar_array_panels_lines",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -129,7 +126,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_solar_array_panels_circle",
     "object": {
       "mapgensize": [ 24, 24 ],

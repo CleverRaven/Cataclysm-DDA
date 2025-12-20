@@ -189,33 +189,6 @@ class Item_factory
         std::vector<item_group_id> get_all_group_names();
 
         /**
-         * @name Item type loading
-         *
-         * These function load different instances of itype objects from json.
-         * The loaded item types are stored and can be accessed through @ref find_template.
-         * @param jo The json object to load data from.
-         * @throw JsonError if the json object contains invalid data.
-         */
-        /*@{*/
-        void load_ammo( const JsonObject &jo, const std::string &src );
-        void load_gun( const JsonObject &jo, const std::string &src );
-        void load_armor( const JsonObject &jo, const std::string &src );
-        void load_pet_armor( const JsonObject &jo, const std::string &src );
-        void load_tool( const JsonObject &jo, const std::string &src );
-        void load_toolmod( const JsonObject &jo, const std::string &src );
-        void load_tool_armor( const JsonObject &jo, const std::string &src );
-        void load_book( const JsonObject &jo, const std::string &src );
-        void load_comestible( const JsonObject &jo, const std::string &src );
-        void load_engine( const JsonObject &jo, const std::string &src );
-        void load_wheel( const JsonObject &jo, const std::string &src );
-        void load_gunmod( const JsonObject &jo, const std::string &src );
-        void load_magazine( const JsonObject &jo, const std::string &src );
-        void load_battery( const JsonObject &jo, const std::string &src );
-        void load_generic( const JsonObject &jo, const std::string &src );
-        void load_bionic( const JsonObject &jo, const std::string &src );
-        /*@}*/
-
-        /**
           *  a temporary function to aid in nested container migration of magazine and gun json
           *  - creates a magazine pocket if none is specified and the islot is loaded
           */
@@ -339,20 +312,6 @@ class Item_factory
          * @param ammo Ammo type to check.
          */
         bool check_ammo_type( std::string &msg, const ammotype &ammo ) const;
-
-        /**
-         * Called before creating a new template and handles inheritance via copy-from
-         * May defer instantiation of the template if depends on other objects not as-yet loaded
-         */
-        bool load_definition( const JsonObject &jo, const std::string &src, itype &def );
-
-        /**
-         * Load the data of the slot struct. It creates the slot object (of type SlotType) and
-         * and calls @ref load to do the actual (type specific) loading.
-         */
-        template<typename SlotType>
-        void load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
-                        const std::string &src );
 
         template<typename SlotType>
         static void load_slot( const JsonObject &jo, bool was_loaded,

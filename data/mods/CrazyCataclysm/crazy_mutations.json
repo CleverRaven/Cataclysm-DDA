@@ -7,7 +7,7 @@
     "description": "You're naturally quite lucky!",
     "starting_trait": true,
     "valid": false,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "cancels": [ "UNLUCKY" ]
   },
   {
@@ -18,7 +18,20 @@
     "description": "You're naturally quite unlucky.",
     "starting_trait": true,
     "valid": false,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "cancels": [ "LUCKY" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TROGLO3",
+    "copy-from": "TROGLO3",
+    "name": { "str": "Gamer" }
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_TROGLOBITE",
+    "copy-from": "THRESH_TROGLOBITE",
+    "name": { "str": "Basement Dweller" },
+    "description": "It might not be your parents', but it's a home."
   }
 ]

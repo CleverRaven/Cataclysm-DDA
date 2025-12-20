@@ -1,7 +1,7 @@
 [
   {
     "id": "ammunition_can_30",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": "small ammo can",
     "//0": "M19A1",
@@ -37,6 +37,12 @@
         "name": { "str": "1000 9x19mm FMJ ammo can" },
         "weight": 0,
         "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-172-9558 A363\n1000 CRTG 9 MM\nBALL M882</color>"
+      },
+      {
+        "id": "ammunition_can_30_9mm_P_1000",
+        "name": { "str": "1000 9x19mm FMJ ammo can" },
+        "weight": 0,
+        "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-663-9409\n1000 CRTG 9 MM\nBALL M1152</color>"
       },
       {
         "id": "ammunition_can_30_9mm_jhp_1000",
@@ -80,7 +86,7 @@
   },
   {
     "id": "ammunition_can_50",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": "ammo can",
     "//0": "M2A1/M2A2",
     "copy-from": "ammunition_can_30",
@@ -166,7 +172,7 @@
   },
   {
     "id": "ammunition_can_fat_50",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": "big ammo can",
     "//0": "PA108 SAW",
     "copy-from": "ammunition_can_30",
@@ -222,7 +228,7 @@
   },
   {
     "id": "ammunition_can_pa120",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": "heavy-duty ammo can",
     "//0": "PA-120",
     "copy-from": "ammunition_can_30",
@@ -256,7 +262,7 @@
   },
   {
     "id": "ammunition_can_pa124",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": "heavy-duty ammo can",
     "//0": "PA-124",
     "copy-from": "ammunition_can_30",
@@ -295,7 +301,7 @@
   },
   {
     "id": "ammunition_tube_mortar",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": "mortar container",
     "description": "A small, thick cylindrical container.  Designed to store a single mortar rounds.",
@@ -313,7 +319,7 @@
       }
     ],
     "symbol": "0",
-    "color": "black",
+    "color": "dark_gray",
     "variant_type": "gun",
     "variants": [
       {
@@ -332,7 +338,7 @@
   },
   {
     "id": "ammunition_box_grenade",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": "grenade container",
     "description": "A small, thick cylindrical container.  Designed to store a single grenade, it seems.",
@@ -341,7 +347,7 @@
     "material": [ { "type": "cardboard" } ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "550 ml", "max_contains_weight": "5000 g" } ],
     "symbol": "0",
-    "color": "black",
+    "color": "dark_gray",
     "variant_type": "gun",
     "variants": [
       {
@@ -354,7 +360,7 @@
   },
   {
     "id": "ammunition_can_carlgustav",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": "double 84mm HEDP container",
     "description": "Huge metal container, in a shape of two massive rockets.",
@@ -381,7 +387,7 @@
     ],
     "material": [ "steel" ],
     "symbol": "8",
-    "color": "black",
+    "color": "dark_gray",
     "variant_type": "gun",
     "variants": [
       {
@@ -400,7 +406,7 @@
   },
   {
     "id": "ammunition_box_carlgustav",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": "84mm HE crate",
     "description": "Relatively small metal box.  On one side it has label \"EXPLOSIVE\"",
@@ -419,7 +425,7 @@
     ],
     "material": [ "steel" ],
     "symbol": "#",
-    "color": "black",
+    "color": "dark_gray",
     "variant_type": "gun",
     "variants": [
       {
@@ -439,7 +445,7 @@
   },
   {
     "id": "ammunition_crate_40x46_72",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "box_medium_wood",
     "looks_like": "box_medium_wood",
     "name": { "str": "wooden crate" },
@@ -459,7 +465,7 @@
   },
   {
     "id": "ammo_box_army_3_clips",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "cardboard ammo box", "str_pl": "cardboard ammo boxes" },
     "description": "A small brown box without a cover.",
     "//": "30x223 clips or 50x223 or 20x300",
@@ -481,7 +487,7 @@
   },
   {
     "id": "55gal_drum_rubber",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "collapsible drum" },
     "description": "A beige collapsible drum with a water valve and D-Rings.  Text on its top clearly says \"POTABLE WATER ONLY\".",
@@ -507,7 +513,7 @@
   },
   {
     "id": "432gal_drum_rubber",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "big collapsible drum" },
     "description": "A black collapsible drum with a valve and D-Rings.  Yellow text on its top clearly says \"FLAMMABLE\".  Empty and collapsed, it could be moved elsewhere.",

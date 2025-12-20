@@ -81,11 +81,6 @@ void faults::finalize()
     fault_factory.finalize();
     fault_fixes_factory.finalize();
 
-    // actualize the requirements
-    for( const fault_fix &const_fix : fault_fixes_factory.get_all() ) {
-        fault_fix &fix = const_cast<fault_fix &>( const_fix );
-        fix.finalize();
-    }
     for( const fault &f : fault_factory.get_all() ) {
         if( !f.type().empty() ) {
             faults_by_type[f.type()].emplace_back( f.id.str() );
@@ -163,9 +158,19 @@ std::string fault::item_suffix() const
     return item_suffix_.translated();
 }
 
+std::string fault::message() const
+{
+    return message_.translated();
+}
+
 double fault::price_mod() const
 {
     return price_modifier;
+}
+
+int fault::degradation_mod() const
+{
+    return degradation_mod_;
 }
 
 std::vector<std::tuple<int, float, damage_type_id>> fault::melee_damage_mod() const
@@ -183,6 +188,16 @@ bool fault::affected_by_degradation() const
     return affected_by_degradation_;
 }
 
+double fault::encumb_mod_flat() const
+{
+    return encumbrance_mod_flat_;
+}
+
+double fault::encumb_mod_mult() const
+{
+    return encumbrance_mod_mult_;
+}
+
 std::string fault::type() const
 {
     return type_;
@@ -198,6 +213,11 @@ const std::set<fault_fix_id> &fault::get_fixes() const
     return fixes;
 }
 
+const std::set<fault_id> &fault::get_block_faults() const
+{
+    return block_faults;
+}
+
 void fault::load( const JsonObject &jo, std::string_view )
 {
 
@@ -205,16 +225,21 @@ void fault::load( const JsonObject &jo, std::string_view )
     mandatory( jo, was_loaded, "description", description_ );
     optional( jo, was_loaded, "item_prefix", item_prefix_ );
     optional( jo, was_loaded, "item_suffix", item_suffix_ );
+    optional( jo, was_loaded, "message", message_ );
     optional( jo, was_loaded, "fault_type", type_ );
     optional( jo, was_loaded, "flags", flags );
+    optional( jo, was_loaded, "block_faults", block_faults );
     optional( jo, was_loaded, "price_modifier", price_modifier, 1.0 );
+    optional( jo, was_loaded, "degradation_mod", degradation_mod_, 0 );
     optional( jo, was_loaded, "affected_by_degradation", affected_by_degradation_, false );
+    optional( jo, was_loaded, "encumbrance_add", encumbrance_mod_flat_, 0 );
+    optional( jo, was_loaded, "encumbrance_mult", encumbrance_mod_mult_, 1.f );
 
     if( jo.has_array( "melee_damage_mod" ) ) {
         for( JsonObject jo_f : jo.get_array( "melee_damage_mod" ) ) {
             melee_damage_mod_.emplace_back(
                 jo_f.get_int( "add", 0 ),
-                jo_f.get_float( "multiply", 1.0f ),
+                static_cast<float>( jo_f.get_float( "multiply", 1.0f ) ),
                 jo_f.get_string( "damage_id" ) );
         }
     }
@@ -223,7 +248,7 @@ void fault::load( const JsonObject &jo, std::string_view )
         for( JsonObject jo_f : jo.get_array( "armor_mod" ) ) {
             armor_mod_.emplace_back(
                 jo_f.get_int( "add", 0 ),
-                jo_f.get_float( "multiply", 1.0f ),
+                static_cast<float>( jo_f.get_float( "multiply", 1.0f ) ),
                 jo_f.get_string( "damage_id" ) );
         }
     }
@@ -296,6 +321,7 @@ void fault_fix::finalize()
     for( const fault_id &fid : faults_removed ) {
         const_cast<fault &>( *fid ).fixes.emplace( id );
     }
+    requirements->finalize();
 }
 
 void fault_fix::check() const

@@ -25,8 +25,11 @@
       "$": "t_thconc_floor",
       "{": "t_thconc_floor",
       "R": "t_thconc_floor",
+      "/": "t_metal_floor",
       "G": "t_thconc_floor",
-      "6": "t_thconc_floor",
+      "L": "t_thconc_floor",
+      "6": "t_floor",
+      "à": "t_thconc_floor",
       "H": "t_sconc_wall",
       "z": "t_concrete",
       "9": "t_gutter_downspout",
@@ -49,7 +52,13 @@
       "g": "t_metal_floor",
       "Y": "t_switchgear_s"
     },
-    "furniture": { "%": "f_machinery_heavy", "$": "f_machinery_light", "G": "f_generator_broken", "6": "f_console_broken" }
+    "furniture": {
+      "%": "f_machinery_heavy",
+      "$": "f_machinery_light",
+      "G": "f_generator_broken",
+      "6": "f_console_broken",
+      "à": "f_console_broken"
+    }
   },
   {
     "type": "palette",
@@ -59,7 +68,7 @@
       "l": "t_thconc_floor",
       "L": "t_thconc_floor",
       "n": "t_thconc_floor",
-      "{": "t_thconc_floor",
+      "{": "t_metal_floor",
       "f": "t_thconc_floor",
       ";": "t_thconc_floor",
       "q": "t_thconc_floor",
@@ -78,6 +87,7 @@
       "v": "t_thconc_floor",
       "G": "t_thconc_floor",
       "6": "t_thconc_floor",
+      "Ł": "t_thconc_floor",
       "=": "t_dirt",
       ">": "t_stairs_up",
       "!": "t_bars",
@@ -106,7 +116,8 @@
       "v": "f_machinery_old",
       "G": "f_generator_broken",
       "6": "f_console_broken"
-    }
+    },
+    "vehicles": { "Ł": { "vehicle": "hand_truck", "chance": 75 } }
   },
   {
     "id": "treatment_chemicals",
@@ -122,7 +133,7 @@
     "id": "sewage_samples",
     "type": "item_group",
     "items": [
-      { "item": "sewage", "container-item": "flask_glass", "charges": 1, "prob": 50 },
+      { "item": "water_sewage", "container-item": "flask_glass", "charges": 1, "prob": 50 },
       { "item": "water", "container-item": "flask_glass", "charges": 1, "prob": 50 },
       { "item": "water_clean", "container-item": "flask_glass", "charges": 1, "prob": 30 },
       { "prob": 10, "group": "slime_scrap_flask_glass_1" }
@@ -145,7 +156,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "sewage_treatment_0_0_0", "sewage_treatment_1_0_0" ], [ "sewage_treatment_0_1_0", "sewage_treatment_1_1_0" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -178,10 +188,10 @@
         "|  zzzzzzz  1111111111               ______OOO |",
         "| zzwwwwwzz 1HHHHHHH1 ?  ? HHHHHHHH  __ --b--- |",
         "|zzwwwwwwwzz1H11&%RH0      HJJFUYYH  __ -&m$&- |",
-        "|zwwwwwwwwwz H1ttttH  ?  ? WgttttgW  __ -%mm%- |",
-        "|zwwwwwwwwwz H|||C|H       H6ttttGH  __ W&mm&W |",
+        "|zwwwwwwwwwz H1ttttH  ?  ? WLttttLW  __ -%mm%- |",
+        "|zwwwwwwwwwz H|||C|H       HàttttGH  __ W&mm&W |",
         "|zwww!!!wwwz     _    ?  ? |||CC|||  __ -Mmm%- |",
-        "|zwww!@!wwwz OO  _            __     __ -Rmm&- |",
+        "|zwww!@!wwwz OO  _            __     __ -/mm&- |",
         "|zwww!@!wwwz OO  _     _________________bmmm%W |",
         "|zzww!@!wwzz____________________________-&%$&- |",
         "| zzw!@!wzz_____________             __ --W--- |",
@@ -211,9 +221,11 @@
         "A": "f_dumpster",
         "c": "f_counter",
         "R": "f_rack",
+        "/": "f_rack",
         "d": "f_desk",
         "f": "f_fridge",
         "g": "f_workbench",
+        "L": "f_workbench",
         "q": "f_indoor_plant_y",
         "l": "f_locker",
         "r": "f_trashcan",
@@ -225,22 +237,23 @@
         { "signage": "<city> sewage treatment plant", "x": 2, "y": 1 }
       ],
       "place_liquids": [
-        { "liquid": "sewage", "chance": 1, "amount": [ 2, 3 ], "x": [ 43, 45 ], "y": 25, "repeat": [ 1, 3 ] },
+        { "liquid": "water_sewage", "chance": 1, "amount": [ 2, 3 ], "x": [ 43, 45 ], "y": 25, "repeat": [ 1, 3 ] },
         { "liquid": "water", "chance": 1, "amount": [ 40, 60 ], "x": [ 13, 14 ], "y": [ 31, 32 ], "repeat": [ 2, 4 ] }
       ],
       "items": {
         "g": { "item": "supplies_hardware", "chance": 40 },
+        "L": { "item": "supplies_hardware", "chance": 40 },
         "R": { "item": "tools_plumbing", "chance": 60 },
+        "/": { "item": "tools_plumbing", "chance": 60 },
         "M": { "item": "treatment_chemicals", "chance": 80 },
         "A": { "item": "SUS_trash_dumpster", "chance": 80 },
         "{": [ { "item": "sewage_plant", "chance": 30 }, { "item": "supplies_plumbing", "chance": 20 } ],
-        "f": { "item": "fridgesnacks", "chance": 70, "repeat": [ 1, 3 ] },
+        "f": { "item": "SUS_fridge_breakroom", "chance": 70, "repeat": [ 1, 3 ] },
         "c": { "item": "office_breakroom", "chance": 60, "repeat": [ 1, 2 ] },
         "l": { "item": "clothing_work_set", "chance": 40 },
-        "d": { "item": "office", "chance": 60 },
-        "a": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 3 ] },
+        "d": { "item": "SUS_office_desk", "chance": 60 },
         "r": { "item": "SUS_trash_trashcan", "chance": 30 },
-        "[": { "item": "office_mess", "chance": 50, "repeat": [ 1, 3 ] },
+        "[": { "item": "SUS_office_desk", "chance": 50, "repeat": [ 1, 3 ] },
         "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "computers": {
@@ -265,7 +278,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "sewage_treatment_0_0_roof", "sewage_treatment_1_0_roof" ],
       [ "sewage_treatment_0_1_roof", "sewage_treatment_1_1_roof" ]
@@ -335,7 +347,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewage_treatment_1_0_upper_roof" ],
     "object": {
       "rows": [
@@ -369,7 +380,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "sewage_treatment_0_0_-1", "sewage_treatment_1_0_-1", "sewage_treatment_2_0_-1" ],
       [ "sewage_treatment_0_1_-1", "sewage_treatment_1_1_-1", "sewage_treatment_2_1_-1" ]
@@ -391,7 +401,7 @@
         "xxxx#xx2~~~~|| |L.|      |0001[.I|D6[[D61.I||..|||||||||||||~~~~2xx#xxxx",
         "~~~~~~x2~~~~~| ||+||||||||||||||||||||||||||>..+..&TTT&ww||~~~~~2x~~~~~~",
         "~~~~~~x2~~~~~| |...............................|........w||~~~~~2x~~~~~~",
-        "xxxxx#xx~~~~|| |...............................|&...8...&|||~~~~xx#xxxxx",
+        "xxxxx#xx~~~~|| |...............................|&...8.Ł.&|||~~~~xx#xxxxx",
         "22222~#2|||||  ||+||||+|||..|||||||||||||||||..|$#######$| |||||2#~22222",
         "|||||~#2|      |n..l|n..l|..|  |If6666;f|   |..|@...@...@|     |2#~|||||",
         "    |~#2|      ||+||||+|||..||||........|||||..|#...#...#|     |2#~|    ",
@@ -415,7 +425,7 @@
         "        |GGG.HYYYYY...U|    ||~~~~~~~~~~~~|| |.||2$&$&$&$&$&$&$|        ",
         "        |GGG.C........U|     ||||||~~||||||  |.||2.............|        ",
         "        |GGG.H........U|          |~~|       |.||2..@#@..@#@..@|        ",
-        "        ||||||r.......U||||||||||||~~|||||||||.||2..@#@..@#@..@|        ",
+        "        ||||||r.......U||||||||||||~~|||||||||.||2.Ł@#@..@#@..@|        ",
         "             |2.2.................####.........................|        ",
         "             |22222222222222222222x!*x222222222222..@#@..@#@..@|        ",
         "             ||||||||||||||||||||2x``x2||||||||||2..@#@..@#@..@|        ",
@@ -462,9 +472,9 @@
         ],
         "0": [ { "item": "tools_science", "chance": 50 }, { "item": "sewage_samples", "chance": 20 } ],
         "h": { "item": "chem_home", "chance": 50, "repeat": [ 1, 3 ] },
-        "D": { "item": "office_mess", "chance": 40 },
+        "D": { "item": "SUS_office_desk", "chance": 40 },
         "t": { "item": "electronics", "chance": 30 },
-        "[": [ { "item": "office_mess", "chance": 30 }, { "item": "sewage_samples", "chance": 10 } ],
+        "[": [ { "item": "SUS_office_mess", "chance": 30 }, { "item": "sewage_samples", "chance": 10 } ],
         "1": { "item": "SUS_trash_trashcan", "chance": 50 }
       },
       "place_loot": [
@@ -478,7 +488,7 @@
         "8": {
           "name": "EnviroCom OS v2.03",
           "security": 1,
-          "options": [ { "name": "Download Sewer Maps", "action": "map_sewer" }, { "name": "Divert sample", "action": "sample" } ],
+          "options": [ { "name": "Download Sewer Maps", "action": "map_sewer" } ],
           "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
         }
       },
@@ -492,7 +502,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewage_treatment_0_1_-1" ],
     "//": "10% chance of a hidden CHUD lair",
     "weight": 25,
@@ -541,7 +550,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewage_treatment_0_1_-1" ],
     "//": "Easter egg - TMNT reference",
     "weight": 1,
@@ -598,10 +606,10 @@
         "r": { "item": "tools_electronics", "chance": 30, "repeat": [ 1, 3 ] },
         "D": { "item": "dojo_manuals", "chance": 60, "repeat": [ 1, 2 ] },
         "[": { "item": "bed", "chance": 60 },
-        "f": { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 2 ] }
+        "f": { "item": "SUS_fridge_breakroom", "chance": 80, "repeat": [ 1, 2 ] }
       },
       "place_loot": [
-        { "item": "katana", "x": 2, "y": 11, "repeat": 2 },
+        { "item": "ch_katana", "x": 2, "y": 11, "repeat": 2 },
         { "item": "q_staff", "x": 3, "y": 12 },
         { "item": "television", "x": 1, "y": 15 },
         { "item": "judo_belt_orange", "x": 3, "y": 13 },

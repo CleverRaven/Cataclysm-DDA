@@ -27,6 +27,8 @@
     "copy-from": "mon_dog_zombie_rot",
     "description": "A huge swollen zombie dog, smeared black with slime.  Its teeth have grown longer, and its broad back ripples with muscles and oozing wounds.",
     "diff": 2,
+    "volume": "46 L",
+    "weight": "60 kg",
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5, "attack_cost": 1.5 },
     "relative": {
@@ -174,6 +176,7 @@
     "description": "This undead boar appears to have been a truly massive specimen in life.  Stretching eight to nine feet in length, the most arresting feature of this animal is that the enamel of its tusks has spread across its face, leaving a skull-like appearance with deep-set eye holes.",
     "diff": 2,
     "color": "red",
+    "volume": "281 L",
     "weight": "281 kg",
     "proportional": { "hp": 1.5, "speed": 1.5, "attack_cost": 1.5 },
     "relative": {
@@ -239,6 +242,7 @@
     "description": "This undead cougar's eyes ooze with dark, oily fluid, and its fur is torn, revealing deep, festering wounds.  Its claws and teeth are unnaturally long, and sharpened into dangerous looking spikes.",
     "hp": 200,
     "speed": 190,
+    "move_skills": { "climb": 9 },
     "attack_cost": 190,
     "color": "brown",
     "melee_dice": 6,
@@ -257,7 +261,7 @@
       }
     ],
     "upgrades": false,
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombear_skeleton",
@@ -431,6 +435,8 @@
     "copy-from": "mon_zoose",
     "description": "This once-great moose's eyes ooze with dark, oily fluid, and its flesh is torn and scarred.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
+    "volume": "465 L",
+    "weight": "465 kg",
     "hp": 315,
     "speed": 200,
     "attack_cost": 200,

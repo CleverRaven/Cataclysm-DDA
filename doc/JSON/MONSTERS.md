@@ -1,3 +1,70 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [MONSTERS](#monsters)
+  - [Monster properties](#monster-properties)
+  - ["name"](#name)
+  - ["description"](#description)
+  - ["categories"](#categories)
+  - ["species"](#species)
+  - ["volume"](#volume)
+  - ["weight"](#weight)
+  - ["scents_tracked"](#scents_tracked)
+  - ["scents_ignored"](#scents_ignored)
+  - ["symbol", "color"](#symbol-color)
+  - ["material"](#material)
+  - ["phase"](#phase)
+  - ["default_faction"](#default_faction)
+  - ["bodytype"](#bodytype)
+  - ["attack_cost"](#attack_cost)
+  - ["diff"](#diff)
+  - ["aggression"](#aggression)
+  - ["morale"](#morale)
+  - ["aggro_character"](#aggro_character)
+  - ["speed"](#speed)
+  - ["mountable_weight_ratio"](#mountable_weight_ratio)
+  - ["melee_skill"](#melee_skill)
+  - ["dodge"](#dodge)
+  - ["melee_damage"](#melee_damage)
+  - ["melee_dice", "melee_dice_sides"](#melee_dice-melee_dice_sides)
+  - ["hitsize_min", "hitsize_max"](#hitsize_min-hitsize_max)
+  - ["grab_strength"](#grab_strength)
+  - ["armor"](#armor)
+  - ["weakpoints"](#weakpoints)
+  - ["weakpoint_sets"](#weakpoint_sets)
+  - ["families"](#families)
+  - ["vision_day", "vision_night"](#vision_day-vision_night)
+  - ["luminance"](#luminance)
+  - ["hp"](#hp)
+  - ["bleed_rate"](#bleed_rate)
+  - ["death_drops"](#death_drops)
+  - ["death_function"](#death_function)
+  - ["emit_fields"](#emit_fields)
+  - ["regenerates"](#regenerates)
+  - ["regenerates_in_dark"](#regenerates_in_dark)
+  - ["regen_morale"](#regen_morale)
+  - ["flags"](#flags)
+  - ["fear_triggers", "anger_triggers", "placate_triggers"](#fear_triggers-anger_triggers-placate_triggers)
+  - ["chat_topics"](#chat_topics)
+  - ["revert_to_itype"](#revert_to_itype)
+  - ["starting_ammo"](#starting_ammo)
+  - ["upgrades"](#upgrades)
+  - ["reproduction"](#reproduction)
+  - ["zombify_into"](#zombify_into)
+  - ["revive_forms"](#revive_forms)
+  - ["baby_flags"](#baby_flags)
+  - ["shearing"](#shearing)
+  - ["speed_description"](#speed_description)
+  - ["petfood"](#petfood)
+  - ["special_when_hit"](#special_when_hit)
+  - ["attack_effs"](#attack_effs)
+  - ["path_settings"](#path_settings)
+  - ["move_skills"](#move_skills)
+  - ["special_attacks"](#special_attacks)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # MONSTERS
 
 Monsters include not just zombies, but fish, dogs, moose, Mi-gos, manhacks, and even stationary installations like turrets. They are defined in JSON objects with "type" set to "MONSTER":
@@ -23,7 +90,7 @@ Property          | Description
 ---               | ---
 `name`            | (string or object) Monster name, and optional plural name and translation context. Three words maximum.
 `description`     | (string) In-game description of the monster, in one or two sentences
-`hp`              | (integer) Hit points. Also see [monster HP scaling in GAME_BALANCE.md](GAME_BALANCE.md#monster-hp-scaling)
+`hp`              | (integer) Hit points. Also see [monster HP scaling in GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#monster-hp-scaling)
 `volume`          | (string) Volume of the creature's body, as an integer with metric units, ex. `"35 L"` or `"1500 ml"`. Used to calculate monster size, size influences melee hit chances on different-sized targets.
 `weight`          | (string) Monster weight, as an integer with metric units, ex. `"12 kg"` or `"7500 g"`
 `symbol`          | (string) UTF-8 single-character string representing the monster in-game
@@ -39,10 +106,10 @@ Property                 | Description
 `copy-from`              | (string) Inherit monster attributes from another. See [JSON_INHERITANCE.md](JSON_INHERITANCE.md)
 `categories`             | (array of strings) Monster categories (NULL, CLASSIC, or WILDLIFE). Important for mods who black or whitelist monsters.
 `ascii_picture`          | (string) Id of the `ascii_art` used for this monster
-`species`                | (array of strings) Species IDs, ex. HUMAN, ROBOT, ZOMBIE, BIRD, MUTANT, etc. Defined in [`species.json`](../data/json/species.json)
-`scents_tracked`         | (array of strings) Monster tracks these scents. Defined [`scent_types.json`](../data/json/scent_types.json)
+`species`                | (array of strings) Species IDs, ex. HUMAN, ROBOT, ZOMBIE, BIRD, MUTANT, etc. Defined in [`species.json`](/data/json/species.json)
+`scents_tracked`         | (array of strings) Monster tracks these scents. Defined [`scent_types.json`](/data/json/scent_types.json)
 `scents_ignored`         | (array of strings) Monster ignores these scents
-`material`               | (array of strings) Materials the monster is made of. Defined in [`materials.json`](../data/json/materials.json)
+`material`               | (array of strings) Materials the monster is made of. Defined in [`materials.json`](/data/json/materials.json)
 `phase`                  | (string) Monster's body matter state, ex. SOLID, LIQUID, GAS, PLASMA, NULL
 `attack_cost`            | (integer) Number of moves per regular attack. If not defined defaults to `100`.
 `diff`                   | (integer) Displayed monster difficulty, e.g affects how the monster name is colored, e.g red for very nasty critters. Also see [monster difficulty scaling in GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#monster-difficulty-scaling)
@@ -59,7 +126,7 @@ Property                 | Description
 `melee_training_cap`     | (integer) The maximum melee skill levels learnable by fighting this monster. If not defined defaults to `melee_skill + 2`.
 `armor`                  | (object) Monster's protection from different types of damage
 `weakpoints`             | (array of objects) Weakpoints in the monster's protection
-`weakpoint_sets`         | (array of strings) Weakpoint sets to apply to the monster. Defined in [`monster_weakpoints`](../data/json/monster_weakpoints)
+`weakpoint_sets`         | (array of strings) Weakpoint sets to apply to the monster. Defined in [`monster_weakpoints`](/data/json/monster_weakpoints)
 `status_chance_multiplier`| (float) Multiplier to chance to apply zapped when electric damage is dealt (no other effects are implemented at this time)
 `families`               | (array of objects or strings) Weakpoint families that the monster belongs to
 `vision_day`             | (integer) Vision range in full daylight, with `50` being the typical maximum
@@ -81,7 +148,7 @@ Property                 | Description
 `placate_triggers`       | (array of strings) Triggers that lower monster aggression (same flags as fear)
 `chat_topics`            | (array of strings) Conversation topics if dialog is opened with the monster
 `revert_to_itype`        | (string) Item monster can be converted to when friendly (ex. to deconstruct turrets)
-`broken_itype`           | (string) Item that will spawn when the monster dies with `corpse_type` set to `BROKEN`. Can be left empty to create a `broken_` item based on the monster's `id`. 
+`broken_itype`           | (string) Item that will spawn when the monster dies with `corpse_type` set to `BROKEN`. Can be left empty to create a `broken_` item based on the monster's `id`.
 `mech_weapon`            | (string) If this monster is a rideable mech with built-in weapons, this is the weapons id
 `mech_str_bonus`         | (integer) If this monster is a rideable mech with enhanced strength, this is the strength it gives to the player when ridden
 `mech_battery`           | (string) If this monster is a rideable mech, this is battery's id. Does not support objects or arrays (i.e. ONE battery id only)
@@ -109,7 +176,8 @@ Property                 | Description
 `absorb_material`        | (array of string) For monsters with the `ABSORB_ITEMS` special attack. Specifies the types of materials that the monster will seek to absorb. Items with multiple materials will be matched as long as it is made of at least one of the materials in this list. If not specified the monster will absorb all materials.
 `no_absorb_material`        | (array of string) For monsters with the `ABSORB_ITEMS` special attack. Specifies the types of materials that the monster is unable to absorb. This takes precedence over absorb_material; even if the monster is whitelisted for this material, it cannot do so if any of its materials are found here. If not specified, there are no limits placed on what was whitelisted.
 `split_move_cost`        | (int) For monsters with the `SPLIT` special attack. Determines the move cost when splitting into a copy of itself.
-`revive_forms`           | (array of objects) allows to define conditional monster revival, see explanation below
+`revive_forms`           | (array of objects) allows to define conditional monster
+`move_skills`           | (object with optional members) allows to define how well the monster moves on difficult terrain. Skill can range from 0-10.
 
 Properties in the above tables are explained in more detail in the sections below.
 
@@ -248,7 +316,7 @@ Value | Description
 `10`  | a powerful ranged attack, like a spitters zombie's spit or an turret's 9mm SMG.
 `15`  | a powerful ranged attack with additional hazards, like a corrosive zombie's spit
 `20`  | a very powerful ranged attack, like a laser turret or military turret's 5.56mm rifle, or a powerful special ability, like a zombie necromancer's ability to raise other zombies.
-`30`  | a ranged attack that is deadly even for armored characters, like an anti-material turret's .50 BMG rifle.
+`30`  | a ranged attack that is deadly even for armored characters, like an anti-materiel turret's .50 BMG rifle.
 
 Most monsters should have ``diff`` of 0 - even dangerous monsters like a zombie hulk or razorclaw alpha.  This field should only be used for exceptional, ranged, special attacks.
 
@@ -280,7 +348,7 @@ Used as the acceptable rider vs. mount weight percentage ratio. Defaults to "0.2
 ## "melee_skill"
 (integer, optional)
 
-Monster melee skill, ranges from 0 - 10, with 4 being an average mob. See [GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md) for more examples
+Monster melee skill, ranges from 0 - 10, with 4 being an average mob. See [GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#monster-melee-skill-scaling) for more examples
 
 ## "dodge"
 (integer, optional)
@@ -427,12 +495,17 @@ Field              | Description
 ## "vision_day", "vision_night"
 (integer, optional)
 
-Vision range in full daylight and in total darkness.
+Vision range in full daylight and in total darkness.  Defaults to 40 tiles for day and 1 for night.
 
 ## "luminance"
 (integer, optional)
 
 Amount of light passively output by monster. Ranges from 0 to 10.
+
+## "bash_skill"
+(object `{ damage_type_id: int }`, optional)
+
+Damage done bashing, of each type. If not specified, or specified as empty, it is autocalculated based on melee damage (and is only bash).
 
 ## "hp"
 (integer, required)
@@ -680,6 +753,16 @@ Field                | Description
 `avoid_rough_terrain` | (bool, default false) Monster may avoid rough terrain like rubble
 `avoid_sharp`        | (bool, default false) Monster may avoid sharp things like barbed wire
 `avoid_dangerous_fields` | (bool, default false) Monster may avoid dangerous fields like fire or acid
+
+## "move_skills"
+(object, optional)
+
+Field                | Description
+---                  | ---
+`swim`               | (int or null, 0-10,optional) swimming monsters ignore SWIMMABLE terrain-cost. Instead it applies a flat movecost penalty inversly related to the skill.
+`dig`                | (int or null, 0-10, optional) swimming monsters ignore DIGGABLE terrain-cost. Instead it applies a flat movecost penalty inversly related to the skill.
+`climb`              | (int or null, 0-10, optional) climbing monsters can climb CLIMBABLE ter/furn and can use DIFFICULT_Z ter/furn (i.e. ladders). The ter/furn cost gets multiplied by the skill modifier
+
 
 ## "special_attacks"
 

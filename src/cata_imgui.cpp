@@ -8,6 +8,7 @@
 #include <imgui/imgui_freetype.h>
 
 #include "catacharset.h"
+#include "cached_options.h"
 #include "color.h"
 #include "input.h"
 #include "output.h"
@@ -71,7 +72,7 @@ static ImVec4 compute_color( uint8_t index )
     }
 }
 
-ImVec4 cataimgui::imvec4_from_color( nc_color &color )
+ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
 {
     int pair_id = color.get_index();
     pairs &pair = colorpairs[pair_id];
@@ -238,7 +239,7 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
 
-ImVec4 cataimgui::imvec4_from_color( nc_color &color )
+ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
 {
     SDL_Color c = curses_color_to_SDL( color );
     return { static_cast<float>( c.r / 255. ),
@@ -585,7 +586,18 @@ void cataimgui::client::end_frame()
 void cataimgui::client::process_input( void *input )
 {
     if( any_window_shown() ) {
-        ImGui_ImplSDL2_ProcessEvent( static_cast<const SDL_Event *>( input ) );
+        const SDL_Event *evt = static_cast<const SDL_Event *>( input );
+        bool no_mouse = ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_NoMouse;
+        if( no_mouse ) {
+            switch( evt->type ) {
+                case SDL_MOUSEMOTION:
+                case SDL_MOUSEWHEEL:
+                case SDL_MOUSEBUTTONDOWN:
+                case SDL_MOUSEBUTTONUP:
+                    return;
+            }
+        }
+        ImGui_ImplSDL2_ProcessEvent( evt );
     }
 }
 
@@ -1135,6 +1147,8 @@ static void inherit_base_colors()
 static void load_imgui_style_file( const cata_path &style_path )
 {
     ImGuiStyle &style = ImGui::GetStyle();
+    // reset style first to unset colors
+    ImGui::StyleColorsDark( &style );
 
     JsonValue jsin = json_loader::from_path( style_path );
 
@@ -1223,7 +1237,8 @@ static void load_imgui_style_file( const cata_path &style_path )
 
 void cataimgui::init_colors()
 {
-    const cata_path default_style_path = PATH_INFO::datadir_path() / "raw" / "imgui_style.json";
+    const cata_path default_style_path = PATH_INFO::datadir_path() / "raw" / "imgui_styles" /
+                                         "default_style.json";
     const cata_path style_path = PATH_INFO::config_dir_path() / "imgui_style.json";
     if( !file_exist( style_path ) ) {
         assure_dir_exist( PATH_INFO::config_dir() );
@@ -1238,3 +1253,27 @@ void cataimgui::init_colors()
     }
 }
 
+void cataimgui::TextKeybinding( const input_context &ctxt,
+                                const char *action, const char *description, bool active,
+                                int max_limit, const nc_color &default_color )
+{
+    const nc_color color = active ? ACTIVE_HOTKEY_COLOR : default_color;
+    ImGui::TextColored( default_color, "[" );
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( color, "%s",
+                        // strlen(action) <= 1 // for non-action explicit keys
+                        ( *action == 0 || *( action + 1 ) == 0 ) ?
+                        action :
+                        ctxt.get_desc( action, max_limit ).c_str() );
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( default_color, "] " );
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( color, "%s", description );
+}
+
+void cataimgui::TextListSeparator( const nc_color &color )
+{
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( color, ", " );
+    ImGui::SameLine( 0, 0 );
+}

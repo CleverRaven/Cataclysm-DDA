@@ -2,7 +2,7 @@
   {
     "id": "psionic_shield_belt",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "shield belt" },
     "description": "A simple synthetic fabric belt with a box to the right of the belt loop.  The box has a toggleable switch and a stylized shield with Ψ and the XEDRA logo inside it.",
     "weight": "350 g",
@@ -19,12 +19,13 @@
       {
         "type": "transform",
         "msg": "You flip the switch on the box and a red LED lights up.",
+        "damage_failure_msg": "You flip the switch on the box, but nothing happens.",
         "target": "psionic_shield_belt_on",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The switch clicks but nothing happens.",
         "need_worn": true,
-        "menu_text": "Flip the switch"
+        "menu_text": "Flip the switch",
+        "moves": 75
       }
     ],
     "pocket_data": [
@@ -44,24 +45,22 @@
         "volume_encumber_modifier": 0.35
       }
     ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "name": "Active Shield Belt",
-          "description": "The air around you has a faint shimmer.",
-          "ench_effects": [ { "effect": "effect_shield_belt_telekin_protection", "intensity": 1 } ],
-          "incoming_damage_mod": [
-            { "type": "bash", "add": -8 },
-            { "type": "stab", "add": -20 },
-            { "type": "cut", "add": -15 },
-            { "type": "bullet", "add": -40 }
-          ]
-        }
-      ]
-    },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "name": "Active Shield Belt",
+        "description": "The air around you has a faint shimmer.",
+        "ench_effects": [ { "effect": "effect_shield_belt_telekin_protection", "intensity": 1 } ],
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -8 },
+          { "type": "stab", "add": -20 },
+          { "type": "cut", "add": -15 },
+          { "type": "bullet", "add": -40 }
+        ]
+      }
+    ]
   },
   {
     "id": "psionic_shield_belt_on",
@@ -77,33 +76,16 @@
         "target": "psionic_shield_belt",
         "msg": "You flip the switch on the box and the red LED turns off.",
         "menu_text": "Flip the switch",
-        "type": "transform"
+        "type": "transform",
+        "moves": 75
       }
     ],
-    "extend": { "flags": [ "NO_TAKEOFF" ] }
-  },
-  {
-    "id": "psionic_shield_belt_broken",
-    "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
-    "name": { "str": "shield belt" },
-    "copy-from": "psionic_shield_belt",
-    "description": "A simple synthetic fabric belt with a box to the right of the belt loop.  The box has a toggleable switch and a stylized shield with Ψ and the XEDRA logo inside it.  It also has a large crack across it and rattles when moved.",
-    "price_postapoc": "5 USD",
-    "use_action": [
-      {
-        "type": "transform",
-        "msg": "You flip the switch on the box, but nothing happens.",
-        "target": "psionic_shield_belt_broken",
-        "need_worn": true,
-        "menu_text": "Flip the switch"
-      }
-    ]
+    "extend": { "flags": [ "NO_TAKEOFF", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "psionic_fire_shield_belt",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "suppression belt" },
     "description": "A simple synthetic fabric belt with a box to the right of the belt loop.  The box has a toggleable switch and a stylized flame with a large circle and line superimposed over it and a Ψ behind the XEDRA logo inside it.",
     "weight": "350 g",
@@ -127,12 +109,13 @@
       {
         "type": "transform",
         "msg": "You flip the switch on the box and a red LED lights up.",
+        "damage_failure_msg": "You flip the switch on the box, but nothing happens.",
         "target": "psionic_fire_shield_belt_on",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The switch clicks but nothing happens.",
         "need_worn": true,
-        "menu_text": "Flip the switch"
+        "menu_text": "Flip the switch",
+        "moves": 75
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "NO_REPAIR", "COMBAT_TOGGLEABLE" ],
@@ -145,20 +128,18 @@
         "volume_encumber_modifier": 0.35
       }
     ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "name": "Active Suppression Belt",
-          "description": "The air around you feels cool.",
-          "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ],
-          "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ],
-          "ench_effects": [ { "effect": "effect_suppression_belt_fire_protection", "intensity": 1 } ]
-        }
-      ]
-    },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "name": "Active Suppression Belt",
+        "description": "The air around you feels cool.",
+        "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ],
+        "ench_effects": [ { "effect": "effect_suppression_belt_fire_protection", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "id": "psionic_fire_shield_belt_on",
@@ -174,35 +155,10 @@
         "target": "psionic_fire_shield_belt",
         "msg": "You flip the switch on the box and the red LED turns off.",
         "menu_text": "Flip the switch",
-        "type": "transform"
-      }
-    ],
-    "extend": { "flags": [ "NO_TAKEOFF" ] }
-  },
-  {
-    "id": "psionic_fire_shield_belt_broken",
-    "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
-    "copy-from": "psionic_fire_shield_belt",
-    "name": { "str": "suppression belt" },
-    "description": "A simple synthetic fabric belt with a box to the right of the belt loop.  The box has a toggleable switch and a stylized flame with a large circle and line superimposed over it and a Ψ behind the XEDRA logo inside it.  It also has a large crack across it and rattles when moved.",
-    "price_postapoc": "5 USD",
-    "use_action": [
-      {
         "type": "transform",
-        "msg": "You flip the switch on the box, but nothing happens.",
-        "target": "psionic_fire_shield_belt_broken",
-        "need_worn": true,
-        "menu_text": "Flip the switch"
+        "moves": 75
       }
     ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_electronoetic"
-      }
-    ]
+    "extend": { "flags": [ "NO_TAKEOFF", "SPAWN_ACTIVE" ] }
   }
 ]

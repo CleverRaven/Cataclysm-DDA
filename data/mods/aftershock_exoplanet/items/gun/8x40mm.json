@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_rm99_pistol",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "sw629",
     "name": { "str": "RM99 revolver" },
     "//": "Bear in mind that most revolvers don't reach $1K.  Expensive.",

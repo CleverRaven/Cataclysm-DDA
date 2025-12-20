@@ -59,6 +59,7 @@ enum class segments : std::size_t {
     TECHNIQUES,
     CONTENTS,
     EMEMORY,
+    ACTIVITY_OCCUPANCY,
 
     last_segment,
 

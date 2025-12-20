@@ -400,6 +400,8 @@ inline void wprintz( const catacurses::window &w, const nc_color &FG, std::strin
     wprintz( w, FG, string_format( mes, std::forward<Args>( args )... ) );
 }
 
+std::string wrap60( const std::string &text );
+
 void draw_custom_border(
     const catacurses::window &w, catacurses::chtype ls = 1, catacurses::chtype rs = 1,
     catacurses::chtype ts = 1, catacurses::chtype bs = 1, catacurses::chtype tl = 1,
@@ -471,11 +473,12 @@ inline query_ynq_result query_ynq( const char *const msg, Args &&... args )
     return query_ynq( string_format( msg, std::forward<Args>( args )... ) );
 }
 
-bool query_int( int &result, const std::string &text );
+//text query for getting integer input
+bool query_int( int &result, bool show_default, const std::string &text );
 template<typename ...Args>
-inline bool query_int( int &result, const char *const msg, Args &&... args )
+inline bool query_int( int &result, bool show_default, const char *const msg, Args &&... args )
 {
-    return query_int( result, string_format( msg, std::forward<Args>( args )... ) );
+    return query_int( result, show_default, string_format( msg, std::forward<Args>( args )... ) );
 }
 
 std::vector<std::string> get_hotkeys( std::string_view s );
@@ -629,13 +632,14 @@ std::string trim_trailing_punctuations( std::string_view s );
 std::string remove_punctuations( const std::string &s );
 // Converts the string to upper case.
 std::string to_upper_case( const std::string &s );
+// Converts the string to lower case.
+std::string to_lower_case( const std::string &s );
 
 std::string rewrite_vsnprintf( const char *msg );
 
 // TODO: move these elsewhere
 // string manipulations.
 void replace_city_tag( std::string &input, const std::string &name );
-void replace_keybind_tag( std::string &input );
 
 void replace_substring( std::string &input, const std::string &substring,
                         const std::string &replacement, bool all );

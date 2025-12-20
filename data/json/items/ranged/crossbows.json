@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "bolt_crude",
     "name": { "str": "crude wooden bolt" },
     "symbol": "=",
@@ -14,7 +15,8 @@
     "recovery_chance": 50
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "bolt_simple_wood",
     "name": { "str": "simple wooden bolt" },
     "symbol": "=",
@@ -29,7 +31,8 @@
     "recovery_chance": 83
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "bolt_simple_small_game",
     "name": { "str": "simple wooden small game bolt" },
     "symbol": "=",
@@ -45,7 +48,8 @@
     "effects": [ "NOGIB" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "bolt_makeshift",
     "name": { "str": "makeshift wooden bolt" },
     "symbol": "=",
@@ -61,7 +65,8 @@
     "recovery_chance": 87
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "bolt_wood",
     "name": { "str": "wooden broadhead bolt" },
     "symbol": "=",
@@ -73,7 +78,8 @@
     "recovery_chance": 96
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "bolt_wood_bodkin",
     "name": { "str": "wooden bodkin bolt" },
     "symbol": "=",
@@ -95,7 +101,8 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "bolt_wood_small_game",
     "name": { "str": "wooden small game bolt" },
     "symbol": "=",
@@ -108,7 +115,8 @@
     "effects": [ "NOGIB" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "bolt_metal",
     "name": { "str": "simple metal bolt" },
     "symbol": "=",
@@ -121,7 +129,8 @@
     "recovery_chance": 95
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "bolt_steel",
     "name": { "str": "aluminum broadhead bolt" },
     "symbol": "=",
@@ -138,7 +147,8 @@
     "recovery_chance": 97
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "bolt_steel_bodkin",
     "name": { "str": "aluminum field point bolt" },
     "symbol": "=",
@@ -155,7 +165,8 @@
     "recovery_chance": 97
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "bolt_steel_target",
     "name": { "str": "aluminum small game bolt" },
     "symbol": "=",
@@ -171,7 +182,8 @@
     "effects": [ "NOGIB" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "bolt_cf",
     "name": { "str": "carbon fiber hunting bolt" },
     "symbol": "=",
@@ -189,7 +201,8 @@
   },
   {
     "id": "bullet_crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",
@@ -227,7 +240,8 @@
   {
     "id": "hand_crossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",
@@ -265,7 +279,8 @@
   {
     "id": "crossbow",
     "//": "Tileset whitelist for crossbows",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 5,
     "symbol": "(",
     "color": "green",
@@ -299,7 +314,8 @@
   {
     "id": "compositecrossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "green",
     "name": { "str": "composite crossbow" },
@@ -341,7 +357,8 @@
   {
     "id": "compcrossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "green",
     "name": { "str": "compound crossbow" },
@@ -382,7 +399,8 @@
   {
     "id": "huge_crossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",
@@ -414,7 +432,8 @@
   {
     "id": "rep_crossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",

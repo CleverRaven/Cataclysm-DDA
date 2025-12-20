@@ -2,7 +2,7 @@
   {
     "id": "holy_shield",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "Holy Shield" },
     "description": "A Crusader's magical shield, enhanced to protect the Crusader from all that stands in their way.",
     "weight": "1905 g",
@@ -33,21 +33,19 @@
       "TRADER_AVOID"
     ],
     "max_worn": 1,
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "incoming_damage_mod": [
-            { "type": "bash", "add": -6 },
-            { "type": "stab", "add": -6 },
-            { "type": "cut", "add": -6 },
-            { "type": "bullet", "add": -3 }
-          ]
-        }
-      ]
-    },
-    "melee_damage": { "bash": 14 }
+    "melee_damage": { "bash": 14 },
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -6 },
+          { "type": "stab", "add": -6 },
+          { "type": "cut", "add": -6 },
+          { "type": "bullet", "add": -3 }
+        ]
+      }
+    ]
   },
   {
     "id": "holy_shield",
@@ -70,7 +68,7 @@
     "max_level": 35,
     "base_casting_time": 1500,
     "base_energy_cost": 500,
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_conjuration_magic"
   },
   {
     "id": "judgement_sword",
@@ -93,7 +91,7 @@
     "difficulty": 4,
     "max_level": 35,
     "spell_class": "CRUSADER",
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_conjuration_magic"
   },
   {
     "type": "technique",
@@ -110,7 +108,7 @@
   },
   {
     "id": "longsword_judgement",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "sword of judgement", "str_pl": "swords of judgement" },
     "looks_like": "longsword",
     "symbol": "/",
@@ -148,7 +146,7 @@
   },
   {
     "id": "dagger_judgement",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "dagger of judgement", "str_pl": "daggers of judgement" },
     "symbol": "/",
     "color": "light_gray",
@@ -184,7 +182,7 @@
   },
   {
     "id": "zwei_judgement",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "great sword of judgement", "str_pl": "great swords of judgement" },
     "symbol": "/",
     "color": "light_gray",
@@ -222,7 +220,7 @@
   },
   {
     "id": "qiang_judgement",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "spear of judgement", "str_pl": "spears of judgement" },
     "symbol": "/",
     "color": "light_gray",
@@ -260,7 +258,7 @@
   },
   {
     "id": "mace_judgement",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "mace of judgement", "str_pl": "maces of judgement" },
     "symbol": "/",
     "color": "light_gray",

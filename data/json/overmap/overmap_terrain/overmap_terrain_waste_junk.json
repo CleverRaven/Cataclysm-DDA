@@ -248,8 +248,6 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "ws_regional_dump_0_0",
-      "ws_regional_dump_1_0",
       "ws_regional_dump_2_0",
       "ws_regional_dump_3_0",
       "ws_regional_dump_3_0_roof",
@@ -288,6 +286,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "ws_regional_dump_0_0", "ws_regional_dump_1_0" ],
+    "copy-from": "generic_regional_dump",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "smallscrapyard",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "small scrap yard",
@@ -310,7 +315,8 @@
     "name": "small dump",
     "sym": "d",
     "color": "i_brown",
-    "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ] }
+    "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ] },
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",

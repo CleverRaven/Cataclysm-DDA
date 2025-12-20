@@ -16,6 +16,7 @@ class JsonOut;
 class const_talker;
 class item;
 class item_pocket;
+class pocket_constraint;
 class map;
 class map_cursor;
 class talker;
@@ -151,6 +152,11 @@ class item_location
         **/
         bool protected_from_liquids() const;
 
+        /**
+        * returns the pocket-related limitations (on volume_capacity, etc.) on this item due to ancestor pockets.
+        * @param pocket optional. begins with the limits of the given pocket, which must be in this location.
+        */
+        pocket_constraint get_pocket_constraints_recursive( const item_pocket *pocket = nullptr ) const;
         ret_val<void> parents_can_contain_recursive( item *it ) const;
         ret_val<int> max_charges_by_parent_recursive( const item &it ) const;
 
@@ -174,9 +180,9 @@ class item_location
         /**
         * returns the item's level of the specified quality.
         * @param quality the name of quality to check the level of
-        * @param boiling true if the item is required to be empty to have the boiling quality
+        * @param strict_boiling True if containers must be empty to have BOIL quality
         */
-        int get_quality( const std::string &quality, bool strict ) const;
+        int get_quality( const std::string &quality, bool strict_boiling ) const;
 
     private:
         class impl;

@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_energy_storage_1",
     "copy-from": "afs_scrap_1",
     "name": { "str": "nanowire battery", "str_pl": "nanowire batteries" },
@@ -8,7 +8,7 @@
     "looks_like": "scrap"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_energy_storage_2",
     "copy-from": "afs_scrap_2",
     "name": { "str": "ultracapacitor" },
@@ -16,7 +16,7 @@
     "looks_like": "scrap"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_energy_storage_3",
     "copy-from": "afs_scrap_3",
     "name": { "str": "ultracapacitor array" },
@@ -24,7 +24,7 @@
     "looks_like": "scrap"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_energy_storage_4",
     "copy-from": "afs_scrap_4",
     "name": { "str": "superconductive coil" },
@@ -32,7 +32,7 @@
     "looks_like": "scrap"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_energy_storage_5",
     "copy-from": "afs_scrap_5",
     "name": { "str": "zero-point energy extractor" },

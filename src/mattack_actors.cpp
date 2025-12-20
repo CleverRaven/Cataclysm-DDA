@@ -93,6 +93,17 @@ static const skill_id skill_throw( "throw" );
 static const trait_id trait_TOXICFLESH( "TOXICFLESH" );
 static const trait_id trait_VAMPIRE( "VAMPIRE" );
 
+bool invalid_mattack_actor::call( monster &m ) const
+{
+    debugmsg( "%s has invalid mattack actor definition!", m.type->id.str() );
+    return false;
+}
+
+std::unique_ptr<mattack_actor> invalid_mattack_actor::clone() const
+{
+    return std::make_unique<invalid_mattack_actor>( *this );
+}
+
 void leap_actor::load_internal( const JsonObject &obj, const std::string & )
 {
     // Mandatory:
@@ -640,7 +651,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
             std::set_intersection( neighbors.begin(), neighbors.end(), candidates.begin(), candidates.end(),
                                    std::inserter( intersect, intersect.begin() ) );
             tripoint_bub_ms target_square = random_entry<std::set<tripoint_bub_ms>>( intersect );
-            if( z.can_move_to( target_square ) ) {
+            if( !intersect.empty() && z.can_move_to( target_square ) ) {
                 monster *zz = target->as_monster();
                 tripoint_bub_ms zpt = monster_pos;
                 z.move_to( target_square, false, false, grab_data.drag_movecost_mod );
@@ -653,8 +664,9 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                                              zpt.x() >= HALF_MAPSIZE_X + SEEX || zpt.y() >= HALF_MAPSIZE_Y + SEEY ) ) {
                     g->update_map( zpt.x(), zpt.y() );
                     // update_map invalidates bubble positions on a shift. Refetch invalidated positions.
-                    zpt = z.pos_bub( here );
+                    monster_pos = z.pos_bub();
                     target_pos = target->pos_bub( here );
+                    zpt = target_pos;
                 }
                 if( foe != nullptr ) {
                     if( foe->in_vehicle ) {

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_w_3",
     "object": {
       "fill_ter": "t_floor",
@@ -18,7 +17,7 @@
         "o     |      |T    #ùù`.",
         "#     +      ||||||###`.",
         "#||+|||      +  d|v|U*`.",
-        "#D|D|>+      |jwt|6|g#..",
+        "#D|D|>+      |iwt|é|g#..",
         "#+|||||§     |||||+###..",
         "#é    +      |666Y #^...",
         "o     |            o....",
@@ -108,7 +107,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_w_3_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -120,7 +118,7 @@
         "      ........          ",
         "--------------------    ",
         "-..................-    ",
-        "-..................-    ",
+        "-..1...............-    ",
         "-..................-    ",
         "-..................-    ",
         "-..................---  ",
@@ -144,7 +142,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_w_3_basement",
     "object": {
       "fill_ter": "t_thconc_floor",

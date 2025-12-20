@@ -16,7 +16,7 @@
         "coverage": 10,
         "difficulty": { "melee": 3, "ranged": 7 },
         "coverage_mult": { "ranged": 0.05 },
-        "armor_mult": { "all": 1 }
+        "armor_mult": { "all": 0.75 }
       },
       {
         "id": "heavy_armor",

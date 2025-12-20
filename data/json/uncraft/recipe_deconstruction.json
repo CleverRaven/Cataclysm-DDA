@@ -2434,6 +2434,7 @@
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
+    "morale_modifier": [ -5, "2 hours" ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "thread", 1 ] ] ]
   },
@@ -2597,6 +2598,14 @@
     "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "fur", 8 ] ] ]
+  },
+  {
+    "result": "leather_journal",
+    "type": "uncraft",
+    "time": "30 s",
+    "activity_level": "LIGHT_EXERCISE",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 3 ] ] ]
   },
   {
     "result": "eink_tablet_pc",
@@ -4432,7 +4441,7 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
-    "result": "sheriffshirt",
+    "result": "postman_shirt",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",

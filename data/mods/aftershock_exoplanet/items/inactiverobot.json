@@ -1,7 +1,8 @@
 [
   {
     "id": "bot_migoturret",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive brain blaster" },
     "description": "This is a horrifying monstrosity.  Using this item is cannibalism in all but taste and involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its revolving laser cannons.",
     "weight": "40750 g",
@@ -26,7 +27,8 @@
   {
     "id": "bot_tankbot",
     "looks_like": "broken_tankbot",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive tank drone" },
     "description": "This is an inactive Beagle Mini-Tank UGV.  Using this item involves placing it on the ground, loading the unit with the factory-loaded 5.56 rounds and 40mm cartridge grenades in your inventory (if you wish to divide your ammunition, set aside whatever ammunition you do NOT want to give the robot) and turning it on.  If reprogrammed and rewired successfully the tank drone will then identify you as a friendly, roam around or follow you, and attack all enemies with a built-in firearm and grenade launcher.",
     "weight": "200000 g",
@@ -53,7 +55,8 @@
   {
     "id": "bot_chickenbot",
     "looks_like": "broken_tripod",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive chicken walker" },
     "description": "This is an inactive chicken walker.  Using this item involves placing it on the ground, loading the unit with the factory-loaded 5.56 rounds and 40mm cartridge grenades in your inventory (if you wish to divide your ammunition, set aside whatever ammunition you do NOT want to give the robot) and turning it on.  If reprogrammed and rewired successfully the tank drone will then identify you as a friendly, roam around or follow you, and attack all enemies with a built-in firearm and grenade launcher.",
     "weight": "190000 g",
@@ -79,7 +82,8 @@
   {
     "id": "bot_tripod",
     "looks_like": "broken_tripod",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive tripod" },
     "description": "This is an inactive Honda Regnal.  Using this item involves placing it on the ground, wondering how it fuels its flamethrower and turning it on.  If reprogrammed and rewired successfully the tribot will then identify you as an ally, roam around or follow you, and impale hostiles with its spiked cable weapons.",
     "weight": "120000 g",
@@ -103,7 +107,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_tripod",
     "symbol": ",",
     "color": "green",
@@ -118,7 +122,7 @@
     "melee_damage": { "bash": 10, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_scavbot_needle",
     "symbol": ",",
     "color": "green",
@@ -133,7 +137,7 @@
     "melee_damage": { "bash": 10, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_tankbot",
     "symbol": ",",
     "color": "green",
@@ -149,7 +153,7 @@
     "melee_damage": { "bash": 20, "cut": 15 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_chickenbot",
     "symbol": ",",
     "color": "green",
@@ -167,7 +171,8 @@
   },
   {
     "id": "bot_sentinel_lx",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive sentinel-lx", "str_pl": "inactive sentinels-lx" },
     "description": "Crouched and dead still, this armored luxurious robot resembles an ancient knight immersed in deep prayer.  If reprogrammed and rewired successfully the robot will identify you as a friendly, and will protect you from nearby foes.",
     "weight": "40750 g",
@@ -190,7 +195,8 @@
   },
   {
     "id": "bot_wraitheon_kaburaya",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive Kabura-ya drone" },
     "description": "An inactive Kabura-ya hunter drone, folded for ease of storage.  If deployed, it will seek and fly to the closest enemy before detonating.  Unlike most robots, its activation depends on a successful throw, and not on your computer skill.",
     "weight": "550 g",
@@ -214,7 +220,8 @@
   },
   {
     "id": "bot_bloodhound_drone",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive bloodhound drone" },
     "description": "This is an inactive bloodhound drone.  If successfully deployed, it will fly towards enemy targets and highlight them with a powerful spotlight.",
     "weight": "5400 g",
@@ -240,7 +247,8 @@
   },
   {
     "id": "bot_laserturret_x-ray",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive laser turret" },
     "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its replaceable laser cannons.  It requires ammunition tubes to fire.",
     "weight": "40750 g",
@@ -263,7 +271,8 @@
   },
   {
     "id": "bot_utilibot_beehive",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "bot_utilibot_base",
     "name": "inactive bee-bot",
     "description": "A salvaged utility robot converted into an ambulatory bee hive that periodically removes and delivers segments of fresh honey comb.  It protects the insect colony with a mechanical crossbow mounted to its chassis.  Activate this item, with wooden bolts in your inventory, to load and deploy the robot.",
@@ -279,7 +288,8 @@
   },
   {
     "id": "bot_shock_mine",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "bot_hack_base",
     "name": "inactive shock-mine",
     "description": "A less-than-lethal mine that emits a powerful electrical shock when triggered.  Activate this item to deploy the mine, which will have a lifetime of 10 hours after activation.",
@@ -296,7 +306,8 @@
   },
   {
     "abstract": "bot_medibot_base",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "looks_like": "mon_tripod",
     "name": { "str": "inactive medibot", "//~": "NO_I18N" },
     "material": [ "steel", "plastic" ],
@@ -320,7 +331,8 @@
   },
   {
     "abstract": "bot_utilibot_base",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive utilibot", "//~": "NO_I18N" },
     "looks_like": "mon_cleanerbot",
     "price": "100 USD",
@@ -336,7 +348,8 @@
   },
   {
     "abstract": "bot_hack_base",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "inactive hack",
     "description": "This is an inactive manhack.  Manhacks are fist-sized robots that fly through the air.  They are covered with whirring blades and attack by throwing themselves against their target.  Use this item to reprogram and activate the manhack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "5400 g",
@@ -352,7 +365,8 @@
   },
   {
     "id": "bot_light_hack",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "bot_hack_base",
     "name": "inactive floating lantern",
     "description": "An inactive floating lantern, a fist-sized robot that flies through the air and illuminates its surroundings with bright LEDs.  The lantern is non aggressive and has no means of attack.  Activate this item to deploy the salvaged robot.",
@@ -371,7 +385,8 @@
   },
   {
     "abstract": "bot_milbot_base",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive military robot", "//~": "NO_I18N" },
     "looks_like": "mon_secubot",
     "material": [ "steel", "kevlar" ],
@@ -387,7 +402,8 @@
   },
   {
     "id": "bot_milbot_308",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "bot_milbot_base",
     "name": "inactive military robot",
     "description": "An unpowered military robot fitted with an integrated 7.62 firearm and electric prod.  Activate this item, with ammo in your inventory, to load and deploy the robot.",
@@ -402,7 +418,8 @@
   },
   {
     "abstract": "bot_defbot_base",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive defense robot", "//~": "NO_I18N" },
     "looks_like": "mon_riotbot",
     "material": [ "steel", "plastic" ],
@@ -418,7 +435,8 @@
   },
   {
     "abstract": "bot_skitterbot_base",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive skitterbot", "//~": "NO_I18N" },
     "looks_like": "broken_skitterbot",
     "material": [ "steel", "plastic" ],
@@ -434,7 +452,8 @@
   },
   {
     "id": "bot_skitterbot_rat",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "bot_skitterbot_base",
     "name": "inactive rat snatcher",
     "description": "A small hexapod drone designed to hold small pests, folded into a small cube for easy storage.  It's capable of hunting all sorts of small mammals with remarkable efficiency, but shouldn't be expected to handle anything much bigger than a rat.",
@@ -454,7 +473,8 @@
   },
   {
     "id": "bot_skitterbot_grab",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "bot_skitterbot_base",
     "name": "inactive grab-bot",
     "description": "A salvaged skitterbot repurposed to grab onto and immobilize enemies.  Activate this item to deploy the robot.",
@@ -469,7 +489,8 @@
   },
   {
     "id": "bot_skitterbot_hunter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "bot_skitterbot_base",
     "name": "inactive pest hunter",
     "description": "A salvaged skitterbot refitted with an 8mm integrated firearm.  Activate this item, with ammo in your inventory, to load and deploy the robot.",
@@ -485,7 +506,8 @@
   },
   {
     "abstract": "bot_eyebot_base",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive eyebot", "//~": "NO_I18N" },
     "looks_like": "broken_afs_eyebot",
     "price": "100 USD",
@@ -501,7 +523,8 @@
   },
   {
     "id": "bot_eyebot_heater",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "bot_eyebot_base",
     "name": "inactive floating heater",
     "description": "A salvaged eyebot repurposed into a floating space heater.  It emits a constant jet of warm air to heat an enclosed space.  It is non-aggressive and has no weapons systems.  Activate this item to deploy the robot.",
@@ -518,7 +541,8 @@
   },
   {
     "id": "bot_laserturret_xray",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive laser turret" },
     "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its revolving laser cannons.  It requires sunlight in order to fire.",
     "weight": "40750 g",
@@ -542,7 +566,8 @@
   {
     "id": "bot_laserturret_interior",
     "looks_like": "bot_rifleturret",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive interior laser turret" },
     "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its revolving laser cannons.  It requires sunlight in order to fire.",
     "weight": "40750 g",
@@ -566,7 +591,8 @@
   {
     "id": "afs_bot_eyebot",
     "looks_like": "broken_afs_eyebot",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive eyebot" },
     "description": "An inactive eyebot.  Using this item involves turning it on and launching the UAV.  If reprogrammed and rewired successfully, the eyebot will then keep watch for intruders.",
     "weight": "40750 g",
@@ -593,7 +619,8 @@
   {
     "id": "afs_bot_copbot",
     "looks_like": "broken_afs_copbot",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive police bot" },
     "description": "An inactive police robot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the police bot will then identify you as law enforcement, roam around or follow you, and attempt to detain lawbreakers.",
     "weight": "81500 g",
@@ -620,7 +647,8 @@
   {
     "id": "afs_bot_riotbot",
     "looks_like": "broken_afs_riotbot",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive riot control bot" },
     "description": "An inactive riot control bot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the robot will bring order and peace to the horde.",
     "weight": "81500 g",

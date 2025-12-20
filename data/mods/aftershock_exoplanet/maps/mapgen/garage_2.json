@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_garage_2_a1_floor_1",
     "object": {
       "fill_ter": "t_metal_floor",
@@ -78,7 +77,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_garage_2_a1_floor_2",
     "object": {
       "fill_ter": "t_metal_floor",
@@ -115,7 +113,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_garage_2_open",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -151,7 +148,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_garage_2_closed",
     "object": {
       "mapgensize": [ 24, 24 ],

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_phavian_science",
     "object": {
       "rows": [
@@ -42,7 +41,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "corpse_blood_gibs_phavian_science_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],

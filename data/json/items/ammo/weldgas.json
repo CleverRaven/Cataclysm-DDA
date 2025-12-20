@@ -2,7 +2,8 @@
   {
     "//": "roughly 35grams of acetylene per cubic foot at STP. Volume given is when compressed - B tank has 9.17 L tank and holds 40 cubic feet.",
     "id": "oxyacetylene",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "oxyacetylene" },
     "description": "Pressurized, dangerous acetylene gas.  Can be used for welding or cutting with a torch.",
     "weight": "1 g",
@@ -23,7 +24,8 @@
   },
   {
     "id": "welding_rod_steel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "welding rod" },
     "description": "A length of coated welding electrode - a 3 mm thick steel rod coated in a special flux.  During the welding process, the hot metal of the electrode fills the seam, jointing parts together while the flux protects the surface of the seam from atmospheric gases and rapid cooling.  Required for arc welding.",
@@ -44,7 +46,8 @@
   },
   {
     "id": "welding_rod_alloy",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "aluminum welding rod" },
     "description": "A length of coated welding electrode - a 3.2 mm thick aluminum rod coated in a special protective flux.  Required for arc welding aluminum alloys.",
@@ -65,7 +68,8 @@
   },
   {
     "id": "welding_wire_steel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "welding wire" },
     "description": "A length of 0.8 mm steel wire for MAG welding.",
@@ -86,7 +90,8 @@
   },
   {
     "id": "welding_wire_alloy",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "aluminum welding wire" },
     "description": "A length of 0.9 mm aluminum wire for MIG welding.",
@@ -107,7 +112,8 @@
   },
   {
     "id": "brazing_rod_bronze",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "brazing rod" },
     "description": "A length of 3.2 mm flux-coated bronze rod, for brazing steel.",
@@ -128,7 +134,8 @@
   },
   {
     "id": "brazing_rod_alloy",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "aluminum brazing rod" },
     "description": "A length of 3.2 mm aluminum rod, for brazing aluminum alloys.  Also suitable for TIG welding.",

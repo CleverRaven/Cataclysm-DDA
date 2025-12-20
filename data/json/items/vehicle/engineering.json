@@ -1,7 +1,7 @@
 [
   {
     "id": "cantilever_medium",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "steel boom" },
     "description": "A large, rigid steel boom.  If attached to a frame it could be used to lift up to 20 metric tonnes.",
@@ -15,7 +15,7 @@
   },
   {
     "id": "cantilever_small",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "telescopic cantilever" },
     "description": "A small, telescoping steel cantilever.  If attached to a frame it could be used to lift up to 3.5 metric tonnes.",
@@ -29,7 +29,7 @@
   },
   {
     "id": "pallet_lifter",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "pallet lifter" },
     "description": "A makeshift pallet lifter.  If attached to a frame it could be used to lift up to 0.5 metric tonnes.",
@@ -42,7 +42,7 @@
     "color": "dark_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "v_rockwheel_item",
     "symbol": "&",
     "name": { "str": "rockwheel" },
@@ -57,7 +57,7 @@
     "volume": "80 L"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "v_airjack_item",
     "symbol": "&",
     "name": { "str": "airjack" },
@@ -72,7 +72,7 @@
     "qualities": [ [ "SELF_JACK", 17 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "v_motorcycle_kickstand_item",
     "symbol": "&",
     "name": { "str": "motorcycle kickstand" },

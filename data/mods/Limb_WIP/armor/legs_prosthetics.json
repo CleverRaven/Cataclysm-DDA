@@ -2,7 +2,7 @@
   {
     "id": "right_leg_prosthetic",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "prosthetic right leg" },
     "description": "A prosthetic leg, used as a replacement limb for those missing one.  Its modern design and sleek ergonomics make it very comfortable and highly suitable for use, and advanced designing makes it look exactly like the original.  This one is for the right leg.",
     "weight": "3629 g",
@@ -18,13 +18,13 @@
     "material_thickness": 1,
     "flags": [ "LEG_PROSTHETIC", "PADDED", "MUNDANE" ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "RIGHT_PROSTHETIC_LEG" ] } ] },
-    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_r", "leg_prosthetic_r", "foot_prosthetic_r" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_r", "leg_prosthetic_r", "foot_prosthetic_r" ] } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "RIGHT_PROSTHETIC_LEG" ] } ]
   },
   {
     "id": "left_leg_prosthetic",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "prosthetic left leg" },
     "description": "A prosthetic leg, used as a replacement limb for those missing one.  Its modern design and sleek ergonomics make it very comfortable and highly suitable for use, and advanced designing makes it look exactly like the original.  This one is for the left leg.",
     "weight": "3629 g",
@@ -40,13 +40,13 @@
     "material_thickness": 1,
     "flags": [ "LEG_PROSTHETIC", "PADDED", "MUNDANE" ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "LEFT_PROSTHETIC_LEG" ] } ] },
-    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_l", "leg_prosthetic_l", "foot_prosthetic_l" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_l", "leg_prosthetic_l", "foot_prosthetic_l" ] } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "LEFT_PROSTHETIC_LEG" ] } ]
   },
   {
     "id": "right_peg_leg_old",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "right peg leg" },
     "description": "A prosthetic leg, used as a replacement limb for those missing one.  A primitive peg leg, often remembered for pirate movies and such, this was a go-to replacement for decades for those who couldn't afford an iron or steel one.  This comes up above the knee and is fastened on with straps or rope, with the interior cushioned by stuffing.  This one is for the right leg.",
     "weight": "3629 g",
@@ -62,13 +62,13 @@
     "material_thickness": 1,
     "flags": [ "LEG_PROSTHETIC", "FRAGILE", "PADDED", "MUNDANE" ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "RIGHT_PEG_LEG" ] } ] },
-    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_r", "leg_peg_r" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_r", "leg_peg_r" ] } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "RIGHT_PEG_LEG" ] } ]
   },
   {
     "id": "left_peg_leg_old",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "left peg leg" },
     "description": "A prosthetic leg, used as a replacement limb for those missing one.  A primitive peg leg, often remembered for pirate movies and such, this was a go-to replacement for decades for those who couldn't afford an iron or steel one.  This comes up above the knee and is fastened on with straps or rope, with the interior cushioned by stuffing.  This one is for the left leg.",
     "weight": "3629 g",
@@ -84,13 +84,13 @@
     "material_thickness": 1,
     "flags": [ "LEG_PROSTHETIC", "FRAGILE", "PADDED", "MUNDANE" ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "LEFT_PEG_LEG" ] } ] },
-    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_l", "leg_peg_l" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_l", "leg_peg_l" ] } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "LEFT_PEG_LEG" ] } ]
   },
   {
     "id": "right_leg_prosthetic_steel_old",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "steel prosthetic right leg" },
     "description": "A prosthetic leg, used as a replacement limb for those missing one.  Dating back to the Middle Ages and the Renaissance, this prosthetic is made of iron placed over a framework, and is attached with leather straps to the leg, padding placed inside for comfort.  Made in a better fashion than more common prosthetics at the time, this limb is incredibly durable, with many noble warriors wearing these into battle.  However, they were incredibly expensive, time-consuming to make, and quite heavy, leaving them out of the hands of poorer individuals.  This one is for the right leg.",
     "weight": "8164 g",
@@ -106,13 +106,13 @@
     "material_thickness": 2,
     "flags": [ "LEG_PROSTHETIC", "PADDED", "MUNDANE" ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "RIGHT_PROSTHETIC_LEG" ] } ] },
-    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_r", "leg_prosthetic_r", "foot_prosthetic_r" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_r", "leg_prosthetic_r", "foot_prosthetic_r" ] } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "RIGHT_PROSTHETIC_LEG" ] } ]
   },
   {
     "id": "left_leg_prosthetic_steel_old",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "steel prosthetic left leg" },
     "description": "A prosthetic leg, used as a replacement limb for those missing one.  Dating back to the Middle Ages and the Renaissance, this prosthetic is made of iron placed over a framework, and is attached with leather straps to the leg, padding placed inside for comfort.  Made in a better fashion than more common prosthetics at the time, this limb is incredibly durable, with many noble warriors wearing these into battle.  However, they were incredibly expensive, time-consuming to make, and quite heavy, leaving them out of the hands of poorer individuals.  This one is for the left leg.",
     "weight": "8164 g",
@@ -128,7 +128,7 @@
     "material_thickness": 2,
     "flags": [ "LEG_PROSTHETIC", "PADDED", "MUNDANE" ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "LEFT_PROSTHETIC_LEG" ] } ] },
-    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_l", "leg_prosthetic_l", "foot_prosthetic_l" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_l", "leg_prosthetic_l", "foot_prosthetic_l" ] } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "LEFT_PROSTHETIC_LEG" ] } ]
   }
 ]

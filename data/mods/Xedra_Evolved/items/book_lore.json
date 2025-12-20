@@ -2,7 +2,7 @@
   {
     "id": "spy_map",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": "strategic points of interest tourist map",
     "description": "A tourist brochure that has markings on it in places that clearly aren't the advertised tourist 'zebras?'.",
@@ -15,7 +15,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spy_note",
     "category": "books",
     "symbol": ",",
@@ -27,7 +27,7 @@
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID" ],
-    "weight": "3 g",
+    "weight": "1 g",
     "volume": "1 ml"
   },
   {
@@ -43,7 +43,7 @@
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID" ],
-    "weight": "3 g",
+    "weight": "1 g",
     "volume": "1 ml",
     "required_level": 1,
     "intelligence": 6,
@@ -131,7 +131,8 @@
   },
   {
     "id": "vampire_mentor_book",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Walking the shadowed path of Blood", "str_pl": "copies of Walking the shadowed path of Blood" },
     "description": "This handwritten book contains a very thorough detailing of all what a vampire needs to reach their full potential.  You already know most of it, but some parts have yet to be read.",
     "weight": "830 g",
@@ -172,7 +173,7 @@
   {
     "id": "deathworm_map",
     "//": "The maps and notes are intended to share the same name, so the player won't know what they'll hunt before the game starts.",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "books",
     "name": "map to the cryptid",
     "description": "The map on which you wrote the cryptid's location.",
@@ -205,7 +206,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "deathworm_note",
     "//": "The notes are intended to be basic but telling some info, as they are the closest to a consensus reached on creatures defined by being nigh-impossible to find.",
     "category": "books",
@@ -217,19 +218,19 @@
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID" ],
-    "weight": "30 g",
+    "weight": "3 g",
     "volume": "10 ml"
   },
   {
     "id": "sevenoclock_map",
     "//": "The maps and notes are intended to share the same name, so the player won't know what they'll hunt before the game starts.",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "books",
     "name": "map to the cryptid",
     "description": "The map on which you wrote the cryptid's location.",
     "symbol": ",",
     "color": "white",
-    "weight": "30 g",
+    "weight": "3 g",
     "volume": "10 ml",
     "use_action": [
       {
@@ -256,7 +257,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sevenoclock_note",
     "category": "books",
     "symbol": ",",
@@ -267,13 +268,14 @@
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID" ],
-    "weight": "30 g",
+    "weight": "3 g",
     "volume": "10 ml"
   },
   {
     "id": "vampire_anathema_book",
-    "type": "TOOL",
-    "name": { "str_sp": "old leather-bound journal" },
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "old leather-bound journal" },
     "description": "This handwritten book contains the detailed yet disorganized notes of a vampire who found how to consume other vampires for power.  Reading it might tell you how to do it, if it is what you want.",
     "//": "As it is a unique item acquired in violent circumstances, I made it fireproof so the player can use fire without fearing the lost of this item.",
     "weight": "830 g",
@@ -305,5 +307,20 @@
       { "u_learn_recipe": "anathema_blood_catalyst_unready" },
       { "u_add_var": "you_know_vampire_anathema_recipe", "value": "yes" }
     ]
+  },
+  {
+    "type": "ITEM",
+    "id": "note_snippet_bloodthorne_druid",
+    "name": { "str": "druidic notes", "str_pl": "copies of druidic notes" },
+    "category": "books",
+    "description": "Some notes taken on paper with pen or pencil.  Some parts of them catch your eye.",
+    "snippet_category": "note_bloodthorne_druid",
+    "weight": "15 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "50 ml",
+    "flags": [ "TRADER_AVOID" ],
+    "copy-from": "file"
   }
 ]

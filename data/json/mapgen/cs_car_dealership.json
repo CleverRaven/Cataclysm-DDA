@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "cs_car_dealership" ],
-    "method": "json",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -77,13 +76,12 @@
         "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_items": [ { "item": "oa_ig_cd_fuel", "chance": 30, "x": 6, "y": 19 } ],
-      "add": [ { "item": "microwave", "x": 5, "y": 16, "chance": 2 }, { "item": "coffeemaker", "x": 6, "y": 16, "chance": 2 } ],
+      "place_item": [ { "item": "microwave", "x": 5, "y": 16, "chance": 2 }, { "item": "coffeemaker", "x": 6, "y": 16, "chance": 2 } ],
       "toilets": { "T": {  } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cs_car_dealership_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",

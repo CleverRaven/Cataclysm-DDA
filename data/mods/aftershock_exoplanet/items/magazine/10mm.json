@@ -2,7 +2,8 @@
   {
     "id": "afs_84k_20mag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "84k 10mm 20-round magazine" },
     "description": "A 20-round magazine for use with the Seyfert 84k.",
     "weight": "70 g",
@@ -19,7 +20,8 @@
   {
     "id": "afs_marsec_14mag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "MarSec 14-round magazine" },
     "description": "A magazine for the MarSec handguns.  It holds 14 rounds.",
     "weight": "70 g",
@@ -37,7 +39,8 @@
   {
     "id": "afs_silvergram_22mag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Silvergram 22-round magazine" },
     "description": "A transparent polymer 22-round magazine for Silvergram pattern smart pistols.",
     "weight": "70 g",

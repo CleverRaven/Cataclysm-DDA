@@ -1,7 +1,7 @@
 [
   {
     "abstract": "afs_scrap_1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "ur-scrap" },
     "description": "A small techno doodad.",
@@ -15,7 +15,7 @@
     "color": "light_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "abstract": "afs_scrap_2",
     "name": { "str": "ur-scrap" },
     "copy-from": "afs_scrap_1",
@@ -23,7 +23,7 @@
     "price_postapoc": "100 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "abstract": "afs_scrap_3",
     "name": { "str": "ur-scrap" },
     "copy-from": "afs_scrap_1",
@@ -31,7 +31,7 @@
     "price_postapoc": "500 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "abstract": "afs_scrap_4",
     "name": { "str": "ur-scrap" },
     "copy-from": "afs_scrap_1",
@@ -39,7 +39,7 @@
     "price_postapoc": "1 kUSD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "abstract": "afs_scrap_5",
     "name": { "str": "ur-scrap" },
     "copy-from": "afs_scrap_1",

@@ -22,6 +22,34 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_STR_VALUE",
+    "//": "Sets a cap on maximum effective strength for characters.",
+    "stype": "int",
+    "value": 20
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_DEX_VALUE",
+    "//": "Sets a cap on maximum effective dexterity for characters.",
+    "stype": "int",
+    "value": 20
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_PER_VALUE",
+    "//": "Sets a cap on maximum effective perception for characters.",
+    "stype": "int",
+    "value": 20
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_INT_VALUE",
+    "//": "Sets a cap on maximum effective intelligence for characters.",
+    "stype": "int",
+    "value": 20
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "PLAYER_CARDIOFIT_STAMINA_SCALING",
     "//": "Sets the effect of cardio on maximum stamina.",
     "stype": "int",
@@ -106,6 +134,13 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "WOUND_CHANCE",
+    "//": "Probability to get a wound from taking damage.  0.25 means 25% to get a wound.",
+    "stype": "float",
+    "value": 0.25
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "PAIN_PENALTY_MOD_STR",
     "//": "Scales how much pain decrease your stat.  0.005 means 0.5% of stat loss per one unit of pain.",
     "stype": "float",
@@ -176,20 +211,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "SPEEDYDEX_MIN_DEX",
-    "//": "The minimum dex required for speedydex mod to add speed",
-    "stype": "int",
-    "value": 0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "SPEEDYDEX_DEX_SPEED",
-    "//": "The amount of moves gained per dex above SPEEDYDEX_MIN_DEX",
-    "stype": "int",
-    "value": 0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "DISABLE_ROBOT_RESPONSE",
     "//": "Disables robot spawning from alerts and from being wanted.",
     "stype": "bool",
@@ -206,13 +227,6 @@
     "type": "EXTERNAL_OPTION",
     "name": "CRAZY",
     "//": "A boolean specifically for Crazy Cataclysm.",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "STATS_THROUGH_KILLS",
-    "//": "Stats through Kills.  A mod that allows your stats to increase by killing zombies.",
     "stype": "bool",
     "value": false
   },
@@ -292,174 +306,6 @@
     "//": "Path to pregenerated overmap files.  Should include mod folder name and folder where omap files are stored.",
     "stype": "string_input",
     "value": ""
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_POPULATE_OUTSIDE_CONNECTIONS_FROM_NEIGHBORS",
-    "//": "Allows to populate outside connections from neighbors.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_RIVERS",
-    "//": "Allows to place procgen rivers during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_LAKES",
-    "//": "Allows to place procgen lakes during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_OCEANS",
-    "//": "Allows to place procgen oceans during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_FORESTS",
-    "//": "Allows to place procgen forests during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_FOREST_INCREASE_NORTH",
-    "//": "Rate at which forest coverage of the map increases to the North, based on regional map settings thresholds.  0=no increase.",
-    "stype": "float",
-    "value": 0.04
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_FOREST_INCREASE_EAST",
-    "//": "Rate at which forest coverage of the map increases to the East.  0=no increase.",
-    "stype": "float",
-    "value": 0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_FOREST_INCREASE_WEST",
-    "//": "Rate at which forest coverage of the map increases to the West.  0=no increase.",
-    "stype": "float",
-    "value": 0.02
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_FOREST_INCREASE_SOUTH",
-    "//": "Rate at which forest coverage of the map increases to the South.  0=no increase.",
-    "stype": "float",
-    "value": 0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_FOREST_LIMIT",
-    "//": "Caps how high the forest threshold can rise.  No cities form at values over 0.4",
-    "stype": "float",
-    "value": 0.395
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_SWAMPS",
-    "//": "Allows to place procgen swamps during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_RAVINES",
-    "//": "Allows to place procgen ravines during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_CITIES",
-    "//": "Allows to place cities during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_FOREST_TRAILS",
-    "//": "Allows to place procgen forest trails during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_ROADS",
-    "//": "Allows to place procgen roads during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_RAILROADS",
-    "//": "Allows to place procgen railroads during overmap generation.",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_RAILROADS_BEFORE_ROADS",
-    "//": "Defines whether to place railroads before roads.",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_SPECIALS",
-    "//": "Allows to place overmap specials during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_FOREST_TRAILHEADS",
-    "//": "Allows to place procgen forest trailheads during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_URBAN_INCREASE_NORTH",
-    "//": "Rate at which urbanity of the map increases to the North.  0=no increase.  Negative numbers are technically allowed but may cause weird effects.",
-    "stype": "int",
-    "value": 0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_URBAN_INCREASE_EAST",
-    "//": "Rate at which urbanity of the map increases to the East.  0=no increase.",
-    "stype": "int",
-    "value": 10
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_URBAN_INCREASE_WEST",
-    "//": "Rate at which urbanity of the map increases to the South.  0=no increase.",
-    "stype": "int",
-    "value": 0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_URBAN_INCREASE_SOUTH",
-    "//": "Rate at which urbanity of the map increases to the West.  0=no increase.",
-    "stype": "int",
-    "value": 5
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_MAXIMUM_URBANITY",
-    "//": "How urban do we allow our megacities to go?  Mostly functions as a multiple of map settings city size.",
-    "stype": "int",
-    "value": 8
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -578,7 +424,7 @@
     "name": "RAD_MUTATION",
     "//": "If true, radiation causes the player to mutate.",
     "stype": "bool",
-    "value": true
+    "value": false
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -621,5 +467,58 @@
     "//": "Scales experience gained from practicing proficiencies.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables proficiency training except for NPC training.",
     "stype": "float",
     "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SEASON_LENGTH",
+    "//": "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results.",
+    "stub": true,
+    "stype": "int",
+    "value": 91
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CONSTRUCTION_SCALING",
+    "//": "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length.",
+    "stub": true,
+    "stype": "int",
+    "value": 100
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "ETERNAL_SEASON",
+    "//": "If true, keep the initial season for ever.",
+    "stub": true,
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "ETERNAL_TIME_OF_DAY",
+    "//": "Day/night cycle settings.  'normal' sets a normal cycle.  'day' sets eternal day.  'night' sets eternal night.",
+    "stub": true,
+    "stype": "string_input",
+    "value": "normal"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "HIGHWAY_GRID_ROW_SEPARATION",
+    "//": "The distance between east-west highways in overmaps, with the whole overmap gap being `grid_row_seperation` - 1.",
+    "stype": "int",
+    "value": 8
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "HIGHWAY_GRID_COLUMN_SEPARATION",
+    "//": "The distance between north-south highways in overmaps, with the whole overmap gap being `grid_column_seperation` - 1.",
+    "stype": "int",
+    "value": 10
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "HIGHWAY_GRID_VARIANCE",
+    "//": "The maximum number of overmaps that an intersection can deviate from its gridded position. Cannot be greater than or equal to row / 2 or column / 2, may cause bugs for > row / 4, column / 4.",
+    "stype": "int",
+    "value": 2
   }
 ]

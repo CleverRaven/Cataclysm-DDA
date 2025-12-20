@@ -1,7 +1,8 @@
 [
   {
     "id": "changeling_thrown_knife",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "%",
     "color": "red",
     "name": { "str": "thrown knife" },
@@ -55,16 +56,17 @@
     "hit_dmg_npc": "%1$s impales <npcname>!",
     "miss_msg_u": "%1$s tries to impale your %2$s, but you dodge!",
     "miss_msg_npc": "%1$s tries to impale <npcname>, but they dodge!",
-    "no_dmg_msg_u": "%1$s tries to impale your %2$s, but fails to penetrate your armor!",
-    "no_dmg_msg_npc": "%1$s tries to impale <npcname>, but fails to penetrate their armor!",
+    "no_dmg_msg_u": "%1$s tries to impale your %2$s, but fails to penetrate your armor.",
+    "no_dmg_msg_npc": "%1$s tries to impale <npcname>, but fails to penetrate their armor.",
     "dodgeable": true,
     "blockable": true
   },
   {
     "id": "renfield_glock",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_19",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": "Glock 19", "//~": "NO_I18N" },
     "description": { "str": "A poorly maintained and inaccurate version of the Glock 19 for renfields.", "//~": "NO_I18N" },
     "ascii_picture": "glock_19",
@@ -75,26 +77,21 @@
     "price_postapoc": "25 USD",
     "ranged_damage": { "damage_type": "bullet", "amount": -4 },
     "material": [ "steel", "aluminum" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "range": 1,
     "dispersion": 4800,
     "durability": 7,
-    "min_cycle_recoil": 450,
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "renfield_remington",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "R",
     "color": "dark_gray",
     "name": { "str_sp": "renfield Remington", "//~": "NO_I18N" },
@@ -115,9 +112,10 @@
   },
   {
     "id": "feral_57",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_57_semi_pistol",
     "looks_like": "fn57",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": "FN Five-seveN", "//~": "NO_I18N" },
     "description": { "str": "A poorly maintained and inaccurate version of the Five-seveN for feral agents.", "//~": "NO_I18N" },
     "ascii_picture": "FN_five_seven",
@@ -128,21 +126,16 @@
     "price_postapoc": "25 USD",
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "material": [ "steel", "aluminum" ],
-    "symbol": "(",
-    "color": "light_gray",
-    "ammo": [ "57" ],
     "range": 1,
     "dispersion": 4800,
     "durability": 7,
-    "min_cycle_recoil": 120,
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fn57mag" ] } ],
-    "melee_damage": { "bash": 6 }
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fn57mag" ] } ]
   },
   {
     "id": "feral_p90",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "P90 automatic PDW", "//~": "NO_I18N" },
     "description": {
@@ -315,7 +308,10 @@
     "id": "xedra_monster_erosion_attack",
     "type": "SPELL",
     "name": { "str": "Monster Erosion - Attack", "//~": "NO_I18N" },
-    "description": "This causes the dot when attacking targets with the erosion buff.  Having the spell is a bug.  Monster version",
+    "description": {
+      "str": "This causes the dot when attacking targets with the erosion buff.  Having the spell is a bug.  Monster version",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile", "ground", "none" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE", "RANDOM_DURATION", "SPLIT_DAMAGE" ],
     "message": "monster erosion attack",
@@ -333,7 +329,7 @@
     "id": "xedra_monster_erosion_buff",
     "type": "SPELL",
     "name": { "str": "Monster Erosion - Buff", "//~": "NO_I18N" },
-    "description": "This gives the monster the erosion buff.  Having the spell is a bug.  Monster version",
+    "description": { "str": "This gives the monster the erosion buff.  Having the spell is a bug.  Monster version", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",

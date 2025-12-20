@@ -36,7 +36,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: overcome pain",
     "id": "practice_biokin_overcome_pain",
-    "description": "Contemplate your powers and improve your ability to resist pain.",
+    "description": "Contemplate your powers and improve your ability to resist pain.\n\nPower Difficulty: 1\n\nCurrent Power Level: <u_spell_level:biokin_overcome_pain>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -45,12 +45,18 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_OVERCOME_PAIN",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_overcome_pain", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -67,21 +73,27 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: physical enhancement",
     "id": "practice_biokin_physical_enhance",
-    "description": "Contemplate your powers and improve your ability to enhance your physical strength and agility.",
+    "description": "Contemplate your powers and improve your ability to enhance your physical strength and agility.\n\nPower Difficulty: 2\n\nCurrent Power Level: <u_spell_level:biokin_physical_enhance>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_PHYSICAL_ENHANCE",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_physical_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -98,21 +110,27 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: oxygen absorption",
     "id": "practice_biokin_breathe_skin",
-    "description": "Contemplate your powers and improve your ability to draw any possible oxygen from the environment.",
+    "description": "Contemplate your powers and improve your ability to draw any possible oxygen from the environment.\n\nPower Difficulty: 2\n\nCurrent Power Level: <u_spell_level:biokin_breathe_skin>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_breathe_skin", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -150,21 +168,27 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: flexibility",
     "id": "practice_biokin_flexibility",
-    "description": "Contemplate your powers and improve your ability to move your body.",
+    "description": "Contemplate your powers and improve your ability to move your body.\n\nPower Difficulty: 3\n\nCurrent Power Level: <u_spell_level:biokin_flexibility>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_FLEXIBILITY",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_flexibility", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -202,21 +226,27 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: burst of speed",
     "id": "practice_biokin_dash",
-    "description": "Contemplate your powers and improve your ability to cross distances in moments.",
+    "description": "Contemplate your powers and improve your ability to cross distances in moments.\n\nPower Difficulty: 3\n\nCurrent Power Level: <u_spell_level:biokin_dash>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_DASH",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_dash", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -254,22 +284,28 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: armor skin",
     "id": "practice_biokin_armor_skin",
-    "description": "Contemplate your powers and improve your ability to harden your flesh.",
+    "description": "Contemplate your powers and improve your ability to harden your flesh against incoming damage.\n\nPower Difficulty: 4\n\nCurrent Power Level: <u_spell_level:biokin_armor_skin>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 3,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_armor_skin", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -307,22 +343,28 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: temperature adaptability",
     "id": "practice_biokin_climate_control",
-    "description": "Contemplate your powers and improve your ability to withstand temperature variations.",
+    "description": "Contemplate your powers and improve your ability to withstand temperature variations.\n\nPower Difficulty: 4\n\nCurrent Power Level: <u_spell_level:biokin_climate_control>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 3,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_climate_control", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -360,22 +402,28 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: adrenaline trigger",
     "id": "practice_biokin_adrenaline",
-    "description": "Contemplate your powers and improve your ability to harden your flesh.",
+    "description": "Contemplate your powers and improve your ability to trigger a burst of adrenaline on command.\n\nPower Difficulty: 4\n\nCurrent Power Level: <u_spell_level:biokin_adrenaline>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 3,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_ADRENALINE",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_adrenaline", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -413,22 +461,28 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: enhance mobility",
     "id": "practice_biokin_enhance_mobility",
-    "description": "Contemplate your powers and improve your ability to deal with encumbering gear.",
+    "description": "Contemplate your powers and improve your ability to deal with encumbering gear.\n\nPower Difficulty: 5\n\nCurrent Power Level: <u_spell_level:biokin_enhance_mobility>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 4,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_enhance_mobility", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -466,22 +520,28 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: hammerhand",
     "id": "practice_biokin_hammerhand",
-    "description": "Contemplate your powers and improve your ability to eschew the use of tools.",
+    "description": "Contemplate your powers and improve your ability to eschew the use of tools, using your own body in place of a hammer or wrench.\n\nPower Difficulty: 5\n\nCurrent Power Level: <u_spell_level:biokin_hammerhand>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 4,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_HAMMERHAND",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_hammerhand", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -519,22 +579,28 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: heightened reflexes",
     "id": "practice_biokin_reflex_enhance",
-    "description": "Contemplate your powers and improve your ability to enhance your reflexes.",
+    "description": "Contemplate your powers and improve your ability to enhance your reflexes.\n\nPower Difficulty: 6\n\nCurrent Power Level: <u_spell_level:biokin_reflex_enhance>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 5,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_reflex_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -572,22 +638,28 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: sealed system",
     "id": "practice_biokin_sealed_system",
-    "description": "Contemplate your powers and improve your ability to hermetically seal your body.",
+    "description": "Contemplate your powers and improve your ability to hermetically seal your body.\n\nPower Difficulty: 7\n\nCurrent Power Level: <u_spell_level:biokin_sealed_system>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_sealed_system", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -625,22 +697,28 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: metabolic hyperefficiency",
     "id": "practice_biokin_metabolism_enhance",
-    "description": "Contemplate your powers and improve your ability to extract every possible nutrient from your food and water.",
+    "description": "Contemplate your powers and improve your ability to extract every possible nutrient from your food and water.\n\nPower Difficulty: 7\n\nCurrent Power Level: <u_spell_level:biokin_metabolism_enhance>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_METABOLISM_ENHANCE",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_metabolism_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -678,22 +756,28 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: vitaminosis",
     "id": "practice_biokin_vitaminosis",
-    "description": "Contemplate your powers and improve your ability to convert calories into vitamins.",
+    "description": "Contemplate your powers and improve your ability to convert calories into vitamins.\n\nPower Difficulty: 8\n\nCurrent Power Level: <u_spell_level:biokin_vitaminosis>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 8,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_VITAMINOSIS",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_vitaminosis", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -731,22 +815,28 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: guided evolution",
     "id": "practice_biokin_guided_evolution",
-    "description": "Contemplate your powers and improve your ability to alter how mutations are expressed.",
+    "description": "Contemplate your powers and improve your ability to alter how mutations are expressed.\n\nPower Difficulty: 9\n\nCurrent Power Level: <u_spell_level:biokin_guided_evolution>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 8,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_GUIDED_EVOLUTION",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_guided_evolution", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -784,22 +874,28 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: combat dance",
     "id": "practice_biokin_combat_dance",
-    "description": "Contemplate your powers and improve your combat prowess.",
+    "description": "Contemplate your powers and improve your overall combat prowess.\n\nPower Difficulty: 8\n\nCurrent Power Level: <u_spell_level:biokin_combat_dance>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 7,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_combat_dance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -837,22 +933,28 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: perfected motion",
     "id": "practice_biokin_perfected_motion",
-    "description": "Contemplate your powers and improve your ability to outrun a racehorse.",
+    "description": "Contemplate your powers and improve your ability to outrun a racehorse.\n\nPower Difficulty: 9\n\nCurrent Power Level: <u_spell_level:biokin_perfected_motion>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 8,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_perfected_motion", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -890,22 +992,28 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: hurricane blows",
     "id": "practice_biokin_hurricane_blows",
-    "description": "Contemplate your powers and improve your ability to strike your opponents faster than thought.",
+    "description": "Contemplate your powers and improve your ability to strike your opponents faster than thought.\n\nPower Difficulty: 10\n\nCurrent Power Level: <u_spell_level:biokin_hurricane_blows>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 9,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_biokinesis", -1 ],
+        [ "matrix_crystal_biokinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_HURRICANE_BLOWS",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_hurricane_blows", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },

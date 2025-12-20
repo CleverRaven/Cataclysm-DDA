@@ -24,6 +24,7 @@ class Character;
 class recipe;
 struct tripoint;
 class vehicle;
+class zone_data;
 struct mutation_variant;
 enum class get_body_part_flags;
 
@@ -72,6 +73,10 @@ class const_talker
             return nullptr;
         }
         virtual vehicle const *get_const_vehicle() const {
+            return nullptr;
+        }
+
+        virtual zone_data const *get_const_zone() const {
             return nullptr;
         }
 
@@ -152,6 +157,9 @@ class const_talker
             return false;
         }
         // stats, skills, traits, bionics, and magic
+        virtual int get_artifact_resonance() const {
+            return 0;
+        }
         virtual int str_cur() const {
             return 0;
         }
@@ -200,7 +208,7 @@ class const_talker
         virtual int get_spell_level( const spell_id & ) const {
             return 0;
         }
-        virtual int get_spell_difficulty( const spell_id & ) const {
+        virtual int get_spell_difficulty( const spell_id &, bool ) const {
             return 0;
         }
         virtual int get_spell_exp( const spell_id & ) const {
@@ -393,6 +401,10 @@ class const_talker
         }
         virtual int cash_to_favor( int ) const {
             return 0;
+        }
+        virtual bool has_software( const itype_id &, int = 0,
+                                   const itype_id & = itype_id::NULL_ID() ) const {
+            return false;
         }
 
         // missions
@@ -748,6 +760,9 @@ class talker: virtual public const_talker
         virtual vehicle *get_vehicle() {
             return nullptr;
         }
+        virtual zone_data *get_zone() {
+            return nullptr;
+        }
         virtual void set_pos( tripoint_bub_ms ) {}
         virtual void set_pos( tripoint_abs_ms ) {}
         virtual void update_missions( const std::vector<mission *> & ) {}
@@ -861,6 +876,8 @@ class talker: virtual public const_talker
         virtual void set_all_parts_hp_cur( int ) {}
         virtual void set_degradation( int ) {}
         virtual void die( map * ) {}
+        virtual void set_fault( const fault_id &, bool, bool ) {};
+        virtual void set_random_fault_of_type( const std::string &, bool, bool ) {};
         virtual void set_mana_cur( int ) {}
         virtual void mod_daily_health( int, int ) {}
         virtual void mod_livestyle( int ) {}

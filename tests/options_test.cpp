@@ -54,6 +54,8 @@ TEST_CASE( "option_slider_test", "[option]" )
         CHECK( opt.second == old_opts.at( opt.first ) );
         const auto iter = expected_default_lvl3.find( opt.first );
         if( iter != expected_default_lvl3.end() ) {
+            CAPTURE( opt.first );
+            CAPTURE( opt.second.getType() );
             CHECK( opt.second.getValue() == iter->second );
             checked++;
         }
@@ -66,6 +68,8 @@ TEST_CASE( "option_slider_test", "[option]" )
     for( const auto &opt : opts ) {
         const auto iter = expected_highest_difficulty_lvl6.find( opt.first );
         if( iter != expected_highest_difficulty_lvl6.end() ) {
+            CAPTURE( opt.first );
+            CAPTURE( opt.second.getType() );
             CHECK( opt.second.getValue() == iter->second );
             checked++;
         }
@@ -79,6 +83,8 @@ TEST_CASE( "option_slider_test", "[option]" )
         CHECK( opt.second == old_opts.at( opt.first ) );
         const auto iter = expected_default_lvl3.find( opt.first );
         if( iter != expected_default_lvl3.end() ) {
+            CAPTURE( opt.first );
+            CAPTURE( opt.second.getType() );
             CHECK( opt.second.getValue() == iter->second );
             checked++;
         }

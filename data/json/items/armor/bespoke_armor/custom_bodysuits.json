@@ -2,7 +2,7 @@
   {
     "id": "armor_nomad",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "nomad jumpsuit" },
     "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Rather than advanced polymer fabrics which may not be available in many worlds, it is made of breathable twill fabric with leather reinforcements ensuring it can be produced easily regardless of technology level.  Its clever construction adds additional core support, helping you to carry more equipment.",
     "weight": "3600 g",
@@ -28,13 +28,13 @@
     "environmental_protection": 2,
     "warmth": 10,
     "material_thickness": 2,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "MUNDANE" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "MUNDANE" ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ]
   },
   {
     "id": "armor_nomad_advanced",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "advanced nomad jumpsuit" },
     "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Rather than advanced polymer fabrics which may not be available in many worlds, it is made of breathable twill fabric with leather reinforcements ensuring it can be produced easily regardless of technology level.  Its clever construction adds additional core support, helping you to carry more equipment.  A set of cooling tubes run throughout the clothing as well.",
     "weight": "4000 g",
@@ -81,17 +81,14 @@
       "type": "transform",
       "msg": "You turn the climate control on.",
       "target": "armor_nomad_advanced_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "Your internal reservoir is empty."
     },
     "warmth": 10,
     "material_thickness": 4,
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
-    },
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "MUNDANE" ],
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
   },
   {
     "id": "armor_nomad_advanced_on",
@@ -101,7 +98,7 @@
     "name": { "str": "advanced nomad jumpsuit (on)", "str_pl": "advanced nomad jumpsuits (on)" },
     "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Rather than advanced polymer fabrics which may not be available in many worlds, it is made of breathable twill fabric with leather reinforcements ensuring it can be produced easily regardless of technology level.  Its clever construction adds additional core support, helping you to carry more equipment.  The internal cooling tubes are active and humming.",
     "revert_to": "armor_nomad_advanced",
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "MUNDANE" ],
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "MUNDANE", "SPAWN_ACTIVE" ],
     "power_draw": "100 W",
     "use_action": {
       "ammo_scale": 0,
@@ -146,7 +143,12 @@
     "category": "armor",
     "name": { "str": "light Kevlar jumpsuit" },
     "description": "A lightweight, hand-built combination armor made of Kevlar with a moisture-wicking core and additional padding in many places.  Protects from the elements as well as from harm.",
-    "weight": "5200 g",
+    "weight": "5563 g",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
+    "//1": "Spandex has a density of ~1.225g/cm^3, thickness of 0.02 cm leaves us with 410 grams.",
+    "//2": "Kevlar has a density of 1.44g/cm^3, thickness of 0.1 cm leaves us with 4580 grams with the 100% and 90% coverage.",
+    "//3": "Nylon has a density of 1.14g/cm^3, thickness of 0.03 cm leaves us with 573 grams.",
+    "//4": "Totalled up this is 5 563 grams",
     "volume": "10500 ml",
     "price": "1 kUSD 100 USD",
     "price_postapoc": "50 USD",
@@ -216,7 +218,12 @@
     "category": "armor",
     "name": { "str": "Kevlar jumpsuit" },
     "description": "A hand-built combination armor made of thick Kevlar with a moisture-wicking core and substantial padding in many places.  Protects from the elements as well as from harm.",
-    "weight": "7500 g",
+    "weight": "9420 g",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
+    "//1": "Spandex has a density of ~1.225g/cm^3, thickness of 0.02 cm leaves us with 410 grams.",
+    "//2": "Kevlar has a density of 1.44g/cm^3, thickness of 0.17 cm leaves us with 4098 grams, thickness of 0.1 cm and 90% coverage times two leaves us with 4339 grams.",
+    "//3": "Nylon has a density of 1.14g/cm^3, thickness of 0.03 cm leaves us with 573 grams.",
+    "//4": "Totalled up this is 9 420 grams",
     "volume": "11500 ml",
     "price": "1 kUSD 500 USD",
     "price_postapoc": "50 USD",
@@ -288,7 +295,13 @@
     "category": "armor",
     "name": { "str": "steel-plated Kevlar jumpsuit" },
     "description": "A hand-built combination armor made of thick Kevlar with a moisture-wicking core and thin steel plating in many places.  Protects from the elements as well as from harm.",
-    "weight": "9500 g",
+    "weight": "20810 g",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
+    "//1": "Spandex has a density of ~1.225g/cm^3, thickness of 0.02 cm leaves us with 410 grams.",
+    "//2": "Kevlar has a density of 1.44g/cm^3, thickness of 0.23 cm leaves us with 5544 grams.",
+    "//3": "Nylon has a density of 1.14g/cm^3, thickness of 0.03 cm leaves us with 573 grams.",
+    "//4": "Steel has a density of ~7.9g/cm^3, thickness of 0.06 cm, two layers of 90% coverage leaves us with 14 283 grams.",
+    "//5": "Totalled up this is 20 810 grams",
     "volume": "12 L",
     "price": "2 kUSD",
     "price_postapoc": "70 USD",
@@ -345,7 +358,12 @@
     "category": "armor",
     "name": { "str": "fur Kevlar jumpsuit" },
     "description": "A warm and heavy hand-built combination armor made from a moisture-wicking core padded with layers of Kevlar and fur.  Protects from the elements as well as from harm.",
-    "weight": "8400 g",
+    "weight": "9397 g",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
+    "//1": "Spandex has a density of ~1.225g/cm^3, thickness of 0.02 cm leaves us with 410 grams.",
+    "//2": "Kevlar has a density of 1.44g/cm^3, thickness of 0.13 cm leaves us with 3134 grams, thickness of 0.1cm and 90% coverage leaves us with 2170.",
+    "//3": "Fur has a density of ~1.1g/cm^3 based off of the materials json, thickness of 0.2 cm leaves us with 3 683 grams.",
+    "//4": "Totalled up this is 9 397 grams",
     "volume": "14 L",
     "price": "2 kUSD",
     "price_postapoc": "50 USD",
@@ -442,7 +460,12 @@
     "category": "armor",
     "name": { "str": "Kevlar wetsuit" },
     "description": "A hand-built combination armor made from a wetsuit padded with layers of Kevlar.  Protects from the elements as well as from harm.",
-    "weight": "8450 g",
+    "weight": "11205 g",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
+    "//1": "Nylon has a density of 1.14g/cm^3, thickness of 0.02 cm leaves us with 382 grams.",
+    "//2": "Kevlar has a density of 1.44g/cm^3, thickness of 0.15 cm leaves us with 3 616 grams.",
+    "//3": "Neoprene has a density of 1.23, thickness of 0.35 cm leaves us with 7 207 grams.",
+    "//4": "Totalled up this is 9 397 grams",
     "volume": "9200 ml",
     "price_postapoc": "50 USD",
     "material": [ "neoprene", "kevlar" ],
@@ -462,7 +485,7 @@
         "encumbrance": [ 19, 19 ]
       }
     ],
-    "//": "Pockets are half in size of those found on technical shorts and without a pocket in the flap.",
+    "//5": "Pockets are half in size of those found on technical shorts and without a pocket in the flap.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -531,7 +554,12 @@
     "category": "armor",
     "name": { "str": "light Kevlar wetsuit oversuit" },
     "description": "A hand-built light combination armor made from an expanded and lightened wetsuit padded with layers of Kevlar.  Protects from the elements as well as from harm.",
-    "weight": "6400 g",
+    "weight": "8116 g",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
+    "//1": "Nylon has a density of 1.14g/cm^3, thickness of 0.02 cm leaves us with 382 grams.",
+    "//2": "Kevlar has a density of 1.44g/cm^3, thickness of 0.15 cm leaves us with 3 616 grams.",
+    "//3": "Neoprene has a density of 1.23, thickness of 0.2 cm leaves us with 4 118 grams.",
+    "//4": "Totalled up this is 8 116 grams",
     "volume": "7000 ml",
     "price_postapoc": "50 USD",
     "material": [ "neoprene", "kevlar" ],
@@ -551,7 +579,7 @@
         "encumbrance": [ 11, 11 ]
       }
     ],
-    "//": "Pockets are half in size of those found on technical shorts and without a pocket in the flap.",
+    "//5": "Pockets are half in size of those found on technical shorts and without a pocket in the flap.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -620,7 +648,12 @@
     "category": "armor",
     "name": { "str": "thick Kevlar wetsuit" },
     "description": "A hand-built combination armor made from a thick wetsuit padded with layers of Kevlar.  While uncomfortably warm and hard to move in it provides substantial protection from harm and from the elements.",
-    "weight": "14905 g",
+    "weight": "18290 g",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
+    "//1": "Nylon has a density of 1.14g/cm^3, thickness of 0.04 cm leaves us with 763 grams.",
+    "//2": "Kevlar has a density of 1.44g/cm^3, thickness of 0.3 cm leaves us with 7 232 grams.",
+    "//3": "Neoprene has a density of 1.23, thickness of 0.5 cm leaves us with 10 295 grams.",
+    "//4": "Totalled up this is 18 290 grams",
     "volume": "15000 ml",
     "price_postapoc": "50 USD",
     "material": [ "neoprene", "nylon", "kevlar" ],
@@ -640,7 +673,7 @@
         "encumbrance": [ 26, 26 ]
       }
     ],
-    "//": "Pockets are from normal thick wetsuit with back pockets added on.",
+    "//5": "Pockets are from normal thick wetsuit with back pockets added on.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -709,7 +742,11 @@
     "category": "armor",
     "name": { "str": "Kevlar firesuit" },
     "description": "A heavy, hand-built combination armor made from flame-resistant Nomex padded with layers of Kevlar.  Protects from fire as well as from harm.",
-    "weight": "6800 g",
+    "weight": "8150 g",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
+    "//1": "Nomex has a density of ~0.85g/cm^3, thickness of 0.2 cm leaves us with 2 846 grams.",
+    "//2": "Kevlar has a density of 1.44g/cm^3, thickness of 0.13 cm leaves us with 3 134 grams, 0.1cm at 90% coverage at 2 170.",
+    "//3": "Totalled up this is 8 150 grams",
     "volume": "11500 ml",
     "price": "2 kUSD",
     "price_postapoc": "50 USD",

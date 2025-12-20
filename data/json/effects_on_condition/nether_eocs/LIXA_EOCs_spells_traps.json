@@ -1642,6 +1642,7 @@
       { "run_eocs": "EOC_LIXA_unfold_spawn_goodbye_cards", "time_in_future": "0 seconds" },
       { "alter_timed_events": "LIXA_escape_key" },
       { "u_lose_effect": "LIXA_unfolded_eff" },
+      { "u_add_trait": "anti_shape" },
       { "mapgen_update": "turn_off_LIXA", "target_var": { "global_val": "LIXA_chamber_1" } },
       { "mapgen_update": "turn_off_LIXA", "target_var": { "global_val": "LIXA_chamber_2" } },
       { "mapgen_update": "turn_off_LIXA", "target_var": { "global_val": "LIXA_chamber_3" } },
@@ -1654,10 +1655,11 @@
       { "mapgen_update": "turn_off_LIXA", "target_var": { "global_val": "LIXA_surface_2a" } },
       { "mapgen_update": "turn_off_LIXA", "target_var": { "global_val": "LIXA_surface_2b" } },
       {
-        "u_message": "There is a soft sound, like a champagne cork popping in an empty concert hall.  The world is as it was again.  The LIXA device still hums quietly as it finishes powering down.",
+        "u_message": "There is a soft sound, like a champagne cork popping in an empty concert hall.  The world is almost as it was again, aside from a brief strange feeling.  The LIXA device still hums quietly as it finishes powering down.",
         "popup": true
       },
-      { "u_teleport": { "global_val": "LIXA_return_tp" }, "force": true }
+      { "u_teleport": { "global_val": "LIXA_return_tp" }, "force": true },
+      { "give_achievement": "achievement_LIXA_finale" }
     ]
   },
   {
