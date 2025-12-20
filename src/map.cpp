@@ -5703,7 +5703,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             add_msg( _( "The autoclave has finished its cycle." ) );
         }
     }
-    
+
     const bool mws_here = vpi.has_flag( VPFLAG_MWS ) && vp.enabled;
     if( mws_here ) {
         bool mws_finished = false;
