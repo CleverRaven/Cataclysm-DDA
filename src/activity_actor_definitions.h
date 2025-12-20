@@ -2895,7 +2895,38 @@ class butchery_activity_actor : public activity_actor
         std::vector<butchery_data> bd;
 };
 
-class wait_stamina_activity_actor : public activity_actor
+/**
+* Wait (do nothing) for a given duration (indefinitely by default)
+*/
+class wait_activity_actor : public activity_actor
+{
+
+    public:
+        wait_activity_actor() = default;
+        explicit wait_activity_actor( time_duration initial_wait_time ) :
+            initial_wait_time( initial_wait_time ) {};
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_WAIT( "ACT_WAIT" );
+            return ACT_WAIT;
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<wait_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+
+    protected:
+        time_duration initial_wait_time = time_duration::from_turns( calendar::INDEFINITELY_LONG );
+};
+
+class wait_stamina_activity_actor : public wait_activity_actor
 {
 
     public:
@@ -2906,7 +2937,6 @@ class wait_stamina_activity_actor : public activity_actor
         explicit wait_stamina_activity_actor( int stamina_threshold ) : stamina_threshold(
                 stamina_threshold ) {};
 
-        void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &act, Character &you ) override;
         void finish( player_activity &act, Character &you ) override;
 
@@ -2919,7 +2949,6 @@ class wait_stamina_activity_actor : public activity_actor
             return std::make_unique<wait_stamina_activity_actor>( *this );
         }
 
-        void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
@@ -2927,13 +2956,11 @@ class wait_stamina_activity_actor : public activity_actor
         int initial_stamina = -1;
 };
 
-class wait_followers_activity_actor : public activity_actor
+class wait_followers_activity_actor : public wait_activity_actor
 {
     public:
-        // Wait until stamina is at the maximum.
         wait_followers_activity_actor() = default;
 
-        void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &act, Character &you ) override;
         void finish( player_activity &act, Character &you ) override;
 
@@ -2948,7 +2975,56 @@ class wait_followers_activity_actor : public activity_actor
             return std::make_unique<wait_followers_activity_actor>( *this );
         }
 
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
+// wait_activity_actor, but takes an NPC name to display on finish
+// used mostly for NPC talk functions
+class wait_npc_activity_actor : public wait_activity_actor
+{
+    public:
+        wait_npc_activity_actor( time_duration initial_wait_time,
+                                 const std::string &waiting_for_npc_name ) :
+            wait_activity_actor( initial_wait_time ), waiting_for_npc_name( waiting_for_npc_name ) {
+        };
+
+        void finish( player_activity &act, Character &who ) override;
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
+            return ACT_WAIT_NPC;
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<wait_npc_activity_actor>( *this );
+        }
+
         void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        std::string waiting_for_npc_name;
+        // private empty constructor for deserialization
+        explicit wait_npc_activity_actor() = default;
+};
+
+class wait_weather_activity_actor : public wait_activity_actor
+{
+
+    public:
+        wait_weather_activity_actor() = default;
+
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
+            return ACT_WAIT_WEATHER;
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<wait_weather_activity_actor>( *this );
+        }
+
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
