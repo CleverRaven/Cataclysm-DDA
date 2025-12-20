@@ -180,6 +180,8 @@ static const itype_id itype_hew_printout_data_strange_temple( "HEW_printout_data
 static const itype_id itype_hew_printout_data_lixa( "HEW_printout_data_lixa" );
 static const itype_id itype_hew_printout_data_highlands( "HEW_printout_data_highlands" );
 static const itype_id itype_hew_printout_data_labyrinth( "HEW_printout_data_labyrinth" );
+static const itype_id itype_hew_printout_data_physics_lab( "HEW_printout_data_physics_lab" );
+static const itype_id itype_hew_printout_data_amigara( "HEW_printout_data_amigara" );
 
 static const json_character_flag json_flag_ONE_STORY_FALL( "ONE_STORY_FALL" );
 static const json_character_flag
@@ -5743,6 +5745,8 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                         "labyrinth_entrance", 10, false );
                 const tripoint_abs_omt closest_physics_lab = overmap_buffer.find_closest( veh_position,
                         "microlab_portal_security1", 10, false );
+                const tripoint_abs_omt closest_amigara = overmap_buffer.find_closest( veh_position,
+                                                        "mine_amigara_finale_central", 10, false );
                 if( trig_dist( veh_position, closest_vitrified_farm ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_hew_printout_data_vitrified, calendar::turn_zero ) );
                 }
@@ -5763,6 +5767,9 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 }
                 if( trig_dist( veh_position, closest_physics_lab ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_hew_printout_data_physics_lab, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_physics_lab ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_hew_printout_data_amigara, calendar::turn_zero ) );
                 }
             }
         }
