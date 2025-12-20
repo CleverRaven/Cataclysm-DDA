@@ -1,0 +1,143 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "radiosphere_radio_tower_top" ],
+    "vision_levels": "isolated_tower",
+    "name": "radio tower",
+    "sym": ".",
+    "color": "light_gray",
+    "see_cost": "all_clear"
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "radiosphere_radio_tower_top",
+    "object": {
+      "fill_ter": "t_metal_floor_no_roof",
+      "rows": [
+        "          g gg g        ",
+        "          g gg g        ",
+        "          g gg g        ",
+        "gggggggggggggggggggggggg",
+        "          g,,,,g        ",
+        "ggggggggggg,RR,ggggggggg",
+        "ggggggggggg,RU,ggggggggg",
+        "          gv,,,g        ",
+        "gggggggggggggggggggggggg",
+        "          g gg g        ",
+        "          g gg g        ",
+        "          g gg g        ",
+        "          g gg g        ",
+        "          g gg g        ",
+        "          g gg g        ",
+        "          g gg g        ",
+        "          g gg g        ",
+        "          g gg g        ",
+        "          g gg g        ",
+        "          g gg g        ",
+        "          g gg g        ",
+        "          g gg g        ",
+        "          g gg g        ",
+        "          g gg g        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": {
+        "R": "t_radio_tower",
+        "U": [ [ "t_radio_tower", 90 ], [ "t_radiosphere_radio_tower_liminal_light", 10 ] ],
+        "a": "t_railing",
+        ",": "t_metal_floor_no_roof",
+        "g": "t_grate",
+        "*": "t_glass_roof"
+      },
+      "place_nested": [ { "chunks": [ [ "null", 99 ], [ "mx_radiosphere_radio_tower", 1 ] ], "x": 9, "y": 2 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "weight": 100,
+    "nested_mapgen_id": "mx_radiosphere_radio_tower",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " cllllc ",
+        "ctcllctc",
+        "lcllllcl",
+        "lllcclll",
+        "lllCTlll",
+        "lcllllcl",
+        "ctcllctc",
+        " cllllc "
+      ],
+      "terrain": {
+        " ": "t_open_air",
+        "l": "t_linoleum_white",
+        "c": "t_linoleum_white",
+        "C": "t_linoleum_white",
+        "t": "t_linoleum_white",
+        "T": "t_linoleum_white",
+        "w": "t_wall_w",
+        "W": "t_wall_glass",
+        "d": [ [ "t_door_glass_c", 70 ], [ "t_door_glass_o", 30 ] ]
+      },
+      "furniture": { "c": [ [ "f_null", 40 ], [ "f_chair", 60 ] ], "t": "f_table", "T": "f_counter", "C": "f_counter" },
+      "items": {
+        "t": { "item": "coffee_table", "chance": 25 },
+        "C": { "item": "cash_register_random", "chance": 100 },
+        "T": { "item": "coffee_counter", "chance": 20 }
+      },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_radiosphere_glowing_floor",
+    "name": "vanishing floor",
+    "description": "The sheer fact you can stand on this dumbfounds you, but anything left behind on this plane will vanish.",
+    "symbol": "~",
+    "color": "cyan",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "NO_SCENT", "DESTROY_ITEM" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "radiosphere_deletion_plane" ],
+    "name": "vanishing plane",
+    "sym": "~",
+    "color": "cyan",
+    "see_cost": "all_clear"
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "radiosphere_deletion_plane",
+    "object": {
+      "fill_ter": "t_radiosphere_glowing_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_radiosphere_glowing_floor" }
+    }
+  }
+]

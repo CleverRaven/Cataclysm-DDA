@@ -135,8 +135,6 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-static const activity_id ACT_GAME( "ACT_GAME" );
-static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
@@ -4206,19 +4204,27 @@ std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint_b
                 //Cancel
                 return std::nullopt;
         }
-
-        //Play in 15-minute chunks
-        const int moves = to_moves<int>( 15_minutes );
         size_t num_friends = w_friends ? friends_w_game.size() : 0;
-        int winner = rng( 0, num_friends );
-        if( winner == 0 ) {
-            winner = get_player_character().getID().get_value();
-        } else {
-            winner = friends_w_game[winner - 1]->getID().get_value();
+        std::vector<character_id> entertain_players = { p->getID() };
+        int winner = -1;
+        if( w_friends ) {
+            winner = rng( 0, num_friends );
+            for( npc *n : friends_w_game ) {
+                entertain_players.emplace_back( n->getID() );
+            }
+            for( npc *n : friends_w_game ) {
+                // this vector may be empty, so a nullptr would be passed
+                std::vector<item *> nit = n->cache_get_items_with( it->typeId(), []( const item & i ) {
+                    return i.ammo_sufficient( nullptr );
+                } );
+                portable_game_activity_actor portable_game_act( 15_minutes, item_location( *n, nit.front() ),
+                        entertain_players, winner );
+                n->assign_activity( portable_game_act );
+            }
         }
-        player_activity game_act( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), num_friends,
-                                  p->get_item_position( it ), w_friends ? "gaming with friends" : "gaming" );
-        game_act.values.emplace_back( winner );
+        portable_game_activity_actor portable_game_act( 15_minutes, item_location( *p, it ),
+                entertain_players, winner );
+        p->assign_activity( portable_game_act );
 
         if( w_friends ) {
             std::string it_name = it->type_name( num_friends + 1 );
@@ -4228,24 +4234,15 @@ std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint_b
             } else {
                 p->add_msg_if_player( _( "You and your friend play on your %s for a while." ), it_name );
             }
-            for( npc *n : friends_w_game ) {
-                std::vector<item *> nit = n->cache_get_items_with( it->typeId(), []( const item & i ) {
-                    return i.ammo_sufficient( nullptr );
-                } );
-                n->assign_activity( game_act );
-                n->activity.targets.emplace_back( *n, nit.front() );
-                n->activity.position = n->get_item_position( nit.front() );
-            }
         } else {
             p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
         }
+
         if( loaded_software == "null" ) {
-            p->assign_activity( game_act );
-            p->activity.targets.emplace_back( *p, it );
             return 0;
         }
-        p->assign_activity( ACT_GAME, moves, -1, 0, "gaming" );
-        p->activity.targets.emplace_back( *p, it );
+        // actually play game in the terminal
+        // the activity is just simluating the avatar playing the game
         std::map<std::string, std::string> game_data;
         game_data.clear();
         int game_score = 0;
@@ -8891,47 +8888,62 @@ std::optional<int> iuse::coin_flip( Character *p, item *it, const tripoint_bub_m
 std::optional<int> iuse::play_game( Character *p, item *it, const tripoint_bub_ms & )
 {
     const map &here = get_map();
-
-    if( p->is_avatar() ) {
-        std::vector<npc *> followers = g->get_npcs_if( [p, &here]( const npc & n ) {
-            return n.is_ally( *p ) && p->sees( here, n ) && n.can_hear( p->pos_bub(), p->get_shout_volume() );
-        } );
-        int fcount = followers.size();
-        if( fcount > 0 ) {
-            const char *qstr = fcount > 1 ? _( "Play the %s with your friends?" ) :
-                               _( "Play the %s with your friend?" );
-            std::string res = query_popup()
-                              .context( "FRIENDS_ME_CANCEL" )
-                              .message( qstr, it->tname() )
-                              .option( "FRIENDS" ).option( "ME" ).option( "CANCEL" )
-                              .query().action;
-            if( res == "FRIENDS" ) {
-                if( fcount > 1 ) {
-                    add_msg( n_gettext( "You and your %d friend start playing.",
-                                        "You and your %d friends start playing.", fcount ), fcount );
-                } else {
-                    add_msg( _( "You and your friend start playing." ) );
-                }
-                p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), fcount,
-                                    p->get_item_position( it ), "gaming with friends" );
-                for( npc *n : followers ) {
-                    n->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), fcount,
-                                        n->get_item_position( it ), "gaming with friends" );
-                }
-            } else if( res == "ME" ) {
-                p->add_msg_if_player( _( "You start playing." ) );
-                p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
-                                    p->get_item_position( it ), "gaming" );
-            } else {
-                return std::nullopt;
-            }
-            return 0;
-        } // else, fall through to playing alone
+    if( p->is_npc() ) {
+        return std::nullopt;
     }
+
+    std::vector<npc *> followers = g->get_npcs_if( [p, &here]( const npc & n ) {
+        return n.is_ally( *p ) && p->sees( here, n ) && n.can_hear( p->pos_bub(), p->get_shout_volume() );
+    } );
+    int fcount = followers.size();
+    const bool w_friends = fcount > 0;
+    std::vector<character_id> entertain_players = { p->getID() };
+    const time_duration play_time = 1_hours;
+    const item_location entertain_item( *p, it );
+    int winner_index = -1;
+
+    auto assign_game_activity = [&play_time, &entertain_item, &entertain_players,
+                &winner_index]( Character * p ) {
+        tabletop_game_activity_actor tabletop_game_act( play_time, entertain_item, entertain_players,
+                winner_index );
+        p->assign_activity( tabletop_game_act );
+    };
+
+    if( w_friends ) {
+        const char *qstr = fcount > 1 ? _( "Play the %s with your friends?" ) :
+                           _( "Play the %s with your friend?" );
+        std::string res = query_popup()
+                          .context( "FRIENDS_ME_CANCEL" )
+                          .message( qstr, it->tname() )
+                          .option( "FRIENDS" ).option( "ME" ).option( "CANCEL" )
+                          .query().action;
+        if( res == "FRIENDS" ) {
+            if( fcount > 1 ) {
+                add_msg( n_gettext( "You and your %d friend start playing.",
+                                    "You and your %d friends start playing.", fcount ), fcount );
+            } else {
+                add_msg( _( "You and your friend start playing." ) );
+            }
+            for( npc *n : followers ) {
+                entertain_players.emplace_back( n->getID() );
+            }
+            winner_index = rng( 0, fcount );
+            assign_game_activity( p );
+            for( npc *n : followers ) {
+                assign_game_activity( n );
+            }
+        } else if( res == "ME" ) {
+            p->add_msg_if_player( _( "You start playing." ) );
+            assign_game_activity( p );
+        } else {
+            return std::nullopt;
+        }
+        return 0;
+    } // else, fall through to playing alone
+
     if( query_yn( _( "Play a game with the %s?" ), it->tname() ) ) {
         p->add_msg_if_player( _( "You start playing." ) );
-        p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
-                            p->get_item_position( it ), "gaming" );
+        assign_game_activity( p );
     } else {
         return std::nullopt;
     }
