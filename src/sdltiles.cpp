@@ -2583,7 +2583,7 @@ void draw_gamepad_radial_menu()
         font->OutputChar( renderer, geometry, label, point( draw_x + 1, draw_y + 1 ), 0, 0.8f );
 
         if( is_selected ) {
-            // Draw selected item in yellow 
+            // Draw selected item in yellow
             font->OutputChar( renderer, geometry, label, point( draw_x, draw_y ),
                               11, 1.0f );
         } else {

@@ -162,22 +162,38 @@ static void send_input( int ibtn, input_event_t itype = input_event_t::gamepad )
 static int get_alt_button( int base_code )
 {
     switch( base_code ) {
-        case JOY_A:  return JOY_ALT_A;
-        case JOY_B:  return JOY_ALT_B;
-        case JOY_X:  return JOY_ALT_X;
-        case JOY_Y:  return JOY_ALT_Y;
-        case JOY_LB: return JOY_ALT_LB;
-        case JOY_RB: return JOY_ALT_RB;
-        case JOY_RT: return JOY_ALT_RT;
-        case JOY_LS: return JOY_ALT_LS;
-        case JOY_RS: return JOY_ALT_RS;
-        case JOY_DPAD_UP:    return JOY_ALT_DPAD_UP;
-        case JOY_DPAD_DOWN:  return JOY_ALT_DPAD_DOWN;
-        case JOY_DPAD_LEFT:  return JOY_ALT_DPAD_LEFT;
-        case JOY_DPAD_RIGHT: return JOY_ALT_DPAD_RIGHT;
-        case JOY_START: return JOY_ALT_START;
-        case JOY_BACK:  return JOY_ALT_BACK;
-        default: return base_code;
+        case JOY_A:
+            return JOY_ALT_A;
+        case JOY_B:
+            return JOY_ALT_B;
+        case JOY_X:
+            return JOY_ALT_X;
+        case JOY_Y:
+            return JOY_ALT_Y;
+        case JOY_LB:
+            return JOY_ALT_LB;
+        case JOY_RB:
+            return JOY_ALT_RB;
+        case JOY_RT:
+            return JOY_ALT_RT;
+        case JOY_LS:
+            return JOY_ALT_LS;
+        case JOY_RS:
+            return JOY_ALT_RS;
+        case JOY_DPAD_UP:
+            return JOY_ALT_DPAD_UP;
+        case JOY_DPAD_DOWN:
+            return JOY_ALT_DPAD_DOWN;
+        case JOY_DPAD_LEFT:
+            return JOY_ALT_DPAD_LEFT;
+        case JOY_DPAD_RIGHT:
+            return JOY_ALT_DPAD_RIGHT;
+        case JOY_START:
+            return JOY_ALT_START;
+        case JOY_BACK:
+            return JOY_ALT_BACK;
+        default:
+            return base_code;
     }
 }
 
@@ -185,15 +201,24 @@ static int get_alt_button( int base_code )
 static int direction_to_num_key( direction dir )
 {
     switch( dir ) {
-        case direction::N:  return '8';
-        case direction::NE: return '9';
-        case direction::E:  return '6';
-        case direction::SE: return '3';
-        case direction::S:  return '2';
-        case direction::SW: return '1';
-        case direction::W:  return '4';
-        case direction::NW: return '7';
-        default: return -1;
+        case direction::N:
+            return '8';
+        case direction::NE:
+            return '9';
+        case direction::E:
+            return '6';
+        case direction::SE:
+            return '3';
+        case direction::S:
+            return '2';
+        case direction::SW:
+            return '1';
+        case direction::W:
+            return '4';
+        case direction::NW:
+            return '7';
+        default:
+            return -1;
     }
 }
 
@@ -205,15 +230,24 @@ int direction_to_radial_joy( direction dir, int stick_idx )
     }
     int base = ( stick_idx == 0 ) ? JOY_RADIAL_L_N : JOY_RADIAL_R_N;
     switch( dir ) {
-        case direction::N:  return base + 0;
-        case direction::NE: return base + 1;
-        case direction::E:  return base + 2;
-        case direction::SE: return base + 3;
-        case direction::S:  return base + 4;
-        case direction::SW: return base + 5;
-        case direction::W:  return base + 6;
-        case direction::NW: return base + 7;
-        default: return -1;
+        case direction::N:
+            return base + 0;
+        case direction::NE:
+            return base + 1;
+        case direction::E:
+            return base + 2;
+        case direction::SE:
+            return base + 3;
+        case direction::S:
+            return base + 4;
+        case direction::SW:
+            return base + 5;
+        case direction::W:
+            return base + 6;
+        case direction::NW:
+            return base + 7;
+        default:
+            return -1;
     }
 }
 
@@ -223,13 +257,13 @@ static direction angle_to_direction( int x, int y )
     // atan2 returns angle in radians, with 0 pointing right (East)
     // We want 0 to be North, so we use atan2(x, -y)
     double angle = std::atan2( static_cast<double>( x ), static_cast<double>( -y ) );
-    
+
     // Convert to degrees (0-360, with 0 = North, clockwise)
     double degrees = angle * 180.0 / M_PI;
     if( degrees < 0 ) {
         degrees += 360.0;
     }
-    
+
     // Each direction covers 45 degrees, centered on its cardinal/diagonal
     // N: 337.5 - 22.5, NE: 22.5 - 67.5, E: 67.5 - 112.5, etc.
     if( degrees >= 337.5 || degrees < 22.5 ) {
@@ -257,18 +291,35 @@ static void send_direction_movement()
     if( left_stick_dir == direction::NONE ) {
         return;
     }
-    
+
     // Convert direction to old-style JOY movement for keybinding lookup
     switch( left_stick_dir ) {
-        case direction::N:  send_input( JOY_L_UP ); break;
-        case direction::NE: send_input( JOY_L_RIGHTUP ); break;
-        case direction::E:  send_input( JOY_L_RIGHT ); break;
-        case direction::SE: send_input( JOY_L_RIGHTDOWN ); break;
-        case direction::S:  send_input( JOY_L_DOWN ); break;
-        case direction::SW: send_input( JOY_L_LEFTDOWN ); break;
-        case direction::W:  send_input( JOY_L_LEFT ); break;
-        case direction::NW: send_input( JOY_L_LEFTUP ); break;
-        default: break;
+        case direction::N:
+            send_input( JOY_L_UP );
+            break;
+        case direction::NE:
+            send_input( JOY_L_RIGHTUP );
+            break;
+        case direction::E:
+            send_input( JOY_L_RIGHT );
+            break;
+        case direction::SE:
+            send_input( JOY_L_RIGHTDOWN );
+            break;
+        case direction::S:
+            send_input( JOY_L_DOWN );
+            break;
+        case direction::SW:
+            send_input( JOY_L_LEFTDOWN );
+            break;
+        case direction::W:
+            send_input( JOY_L_LEFT );
+            break;
+        case direction::NW:
+            send_input( JOY_L_LEFTUP );
+            break;
+        default:
+            break;
     }
 }
 
@@ -290,7 +341,7 @@ bool handle_axis_event( SDL_Event &event )
         task_t &task = all_tasks[triggers_task_index + idx];
         bool trigger_pressed = value > triggers_threshold + error_margin;
         bool trigger_released = value < triggers_threshold - error_margin;
-        
+
         if( idx == 1 ) {
             // Right trigger (RT)
             if( !state && trigger_pressed ) {
@@ -354,13 +405,13 @@ bool handle_axis_event( SDL_Event &event )
         if( axis_idx >= 0 ) {
             // Get current values for both axes of this stick
             int x_val = SDL_GameControllerGetAxis( controller,
-                        static_cast<SDL_GameControllerAxis>( sticks_axis[i][0] ) );
+                                                   static_cast<SDL_GameControllerAxis>( sticks_axis[i][0] ) );
             int y_val = SDL_GameControllerGetAxis( controller,
-                        static_cast<SDL_GameControllerAxis>( sticks_axis[i][1] ) );
+                                                   static_cast<SDL_GameControllerAxis>( sticks_axis[i][1] ) );
 
             // Calculate magnitude (distance from center)
             double magnitude = std::sqrt( static_cast<double>( x_val ) * x_val +
-                                            static_cast<double>( y_val ) * y_val );
+                                          static_cast<double>( y_val ) * y_val );
 
             direction dir = ( magnitude > sticks_threshold ) ? angle_to_direction( x_val,
                             y_val ) : direction::NONE;
@@ -390,7 +441,7 @@ bool handle_axis_event( SDL_Event &event )
                     if( dir != radial_last ) {
                         radial_last = dir;
                     }
-                } else{
+                } else {
                     // When stick is released just update the UI
                     if( radial_open ) {
                         direction_changed = true;
@@ -405,7 +456,7 @@ bool handle_axis_event( SDL_Event &event )
 
                 if( i == 0 ) {
                     // Left stick (i=0): Map to num keys in menu if the radial menu is not open
-                    if( is_in_menu() && !radial_left_open) {
+                    if( is_in_menu() && !radial_left_open ) {
                         joy_code = direction_to_num_key( dir );
                         itype = input_event_t::keyboard_char;
                     }
@@ -413,21 +464,38 @@ bool handle_axis_event( SDL_Event &event )
                 } else {
                     // Right stick (i=1): Map to num keys in menu if the radial menu is not open, or JOY_R_* in gameplay
                     if( is_in_menu() ) {
-                        if( !radial_right_open) {
+                        if( !radial_right_open ) {
                             joy_code = direction_to_num_key( dir );
                             itype = input_event_t::keyboard_char;
                         }
                     } else {
                         switch( dir ) {
-                            case direction::N:  joy_code = JOY_R_UP; break;
-                            case direction::NE: joy_code = JOY_R_RIGHTUP; break;
-                            case direction::E:  joy_code = JOY_R_RIGHT; break;
-                            case direction::SE: joy_code = JOY_R_RIGHTDOWN; break;
-                            case direction::S:  joy_code = JOY_R_DOWN; break;
-                            case direction::SW: joy_code = JOY_R_LEFTDOWN; break;
-                            case direction::W:  joy_code = JOY_R_LEFT; break;
-                            case direction::NW: joy_code = JOY_R_LEFTUP; break;
-                            default: break;
+                            case direction::N:
+                                joy_code = JOY_R_UP;
+                                break;
+                            case direction::NE:
+                                joy_code = JOY_R_RIGHTUP;
+                                break;
+                            case direction::E:
+                                joy_code = JOY_R_RIGHT;
+                                break;
+                            case direction::SE:
+                                joy_code = JOY_R_RIGHTDOWN;
+                                break;
+                            case direction::S:
+                                joy_code = JOY_R_DOWN;
+                                break;
+                            case direction::SW:
+                                joy_code = JOY_R_LEFTDOWN;
+                                break;
+                            case direction::W:
+                                joy_code = JOY_R_LEFT;
+                                break;
+                            case direction::NW:
+                                joy_code = JOY_R_LEFTUP;
+                                break;
+                            default:
+                                break;
                         }
                     }
                 }

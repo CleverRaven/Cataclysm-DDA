@@ -629,18 +629,24 @@ void input_manager::init_keycode_mapping()
     add_gamepad_keycode_pair( JOY_L_UP,        translate_marker_context( "key name", "JOY_L_UP" ) );
     add_gamepad_keycode_pair( JOY_L_DOWN,      translate_marker_context( "key name", "JOY_L_DOWN" ) );
     add_gamepad_keycode_pair( JOY_L_LEFTUP,    translate_marker_context( "key name", "JOY_L_LEFTUP" ) );
-    add_gamepad_keycode_pair( JOY_L_LEFTDOWN,  translate_marker_context( "key name", "JOY_L_LEFTDOWN" ) );
-    add_gamepad_keycode_pair( JOY_L_RIGHTUP,   translate_marker_context( "key name", "JOY_L_RIGHTUP" ) );
-    add_gamepad_keycode_pair( JOY_L_RIGHTDOWN, translate_marker_context( "key name", "JOY_L_RIGHTDOWN" ) );
+    add_gamepad_keycode_pair( JOY_L_LEFTDOWN,  translate_marker_context( "key name",
+                              "JOY_L_LEFTDOWN" ) );
+    add_gamepad_keycode_pair( JOY_L_RIGHTUP,   translate_marker_context( "key name",
+                              "JOY_L_RIGHTUP" ) );
+    add_gamepad_keycode_pair( JOY_L_RIGHTDOWN, translate_marker_context( "key name",
+                              "JOY_L_RIGHTDOWN" ) );
 
     add_gamepad_keycode_pair( JOY_R_LEFT,      translate_marker_context( "key name", "JOY_R_LEFT" ) );
     add_gamepad_keycode_pair( JOY_R_RIGHT,     translate_marker_context( "key name", "JOY_R_RIGHT" ) );
     add_gamepad_keycode_pair( JOY_R_UP,        translate_marker_context( "key name", "JOY_R_UP" ) );
     add_gamepad_keycode_pair( JOY_R_DOWN,      translate_marker_context( "key name", "JOY_R_DOWN" ) );
     add_gamepad_keycode_pair( JOY_R_LEFTUP,    translate_marker_context( "key name", "JOY_R_LEFTUP" ) );
-    add_gamepad_keycode_pair( JOY_R_LEFTDOWN,  translate_marker_context( "key name", "JOY_R_LEFTDOWN" ) );
-    add_gamepad_keycode_pair( JOY_R_RIGHTUP,   translate_marker_context( "key name", "JOY_R_RIGHTUP" ) );
-    add_gamepad_keycode_pair( JOY_R_RIGHTDOWN, translate_marker_context( "key name", "JOY_R_RIGHTDOWN" ) );
+    add_gamepad_keycode_pair( JOY_R_LEFTDOWN,  translate_marker_context( "key name",
+                              "JOY_R_LEFTDOWN" ) );
+    add_gamepad_keycode_pair( JOY_R_RIGHTUP,   translate_marker_context( "key name",
+                              "JOY_R_RIGHTUP" ) );
+    add_gamepad_keycode_pair( JOY_R_RIGHTDOWN, translate_marker_context( "key name",
+                              "JOY_R_RIGHTDOWN" ) );
     // Named gamepad buttons
     add_gamepad_keycode_pair( JOY_A,         translate_marker_context( "key name", "JOY_A" ) );
     add_gamepad_keycode_pair( JOY_B,         translate_marker_context( "key name", "JOY_B" ) );
@@ -655,7 +661,8 @@ void input_manager::init_keycode_mapping()
     add_gamepad_keycode_pair( JOY_DPAD_UP,   translate_marker_context( "key name", "JOY_DPAD_UP" ) );
     add_gamepad_keycode_pair( JOY_DPAD_DOWN, translate_marker_context( "key name", "JOY_DPAD_DOWN" ) );
     add_gamepad_keycode_pair( JOY_DPAD_LEFT, translate_marker_context( "key name", "JOY_DPAD_LEFT" ) );
-    add_gamepad_keycode_pair( JOY_DPAD_RIGHT, translate_marker_context( "key name", "JOY_DPAD_RIGHT" ) );
+    add_gamepad_keycode_pair( JOY_DPAD_RIGHT, translate_marker_context( "key name",
+                              "JOY_DPAD_RIGHT" ) );
     add_gamepad_keycode_pair( JOY_START,     translate_marker_context( "key name", "JOY_START" ) );
     add_gamepad_keycode_pair( JOY_BACK,      translate_marker_context( "key name", "JOY_BACK" ) );
 
@@ -669,32 +676,52 @@ void input_manager::init_keycode_mapping()
     add_gamepad_keycode_pair( JOY_ALT_RT,    translate_marker_context( "key name", "JOY_ALT_RT" ) );
     add_gamepad_keycode_pair( JOY_ALT_LS,    translate_marker_context( "key name", "JOY_ALT_LS" ) );
     add_gamepad_keycode_pair( JOY_ALT_RS,    translate_marker_context( "key name", "JOY_ALT_RS" ) );
-    add_gamepad_keycode_pair( JOY_ALT_DPAD_UP, translate_marker_context( "key name", "JOY_ALT_DPAD_UP" ) );
-    add_gamepad_keycode_pair( JOY_ALT_DPAD_DOWN, translate_marker_context( "key name", "JOY_ALT_DPAD_DOWN" ) );
-    add_gamepad_keycode_pair( JOY_ALT_DPAD_LEFT, translate_marker_context( "key name", "JOY_ALT_DPAD_LEFT" ) );
-    add_gamepad_keycode_pair( JOY_ALT_DPAD_RIGHT, translate_marker_context( "key name", "JOY_ALT_DPAD_RIGHT" ) );
+    add_gamepad_keycode_pair( JOY_ALT_DPAD_UP, translate_marker_context( "key name",
+                              "JOY_ALT_DPAD_UP" ) );
+    add_gamepad_keycode_pair( JOY_ALT_DPAD_DOWN, translate_marker_context( "key name",
+                              "JOY_ALT_DPAD_DOWN" ) );
+    add_gamepad_keycode_pair( JOY_ALT_DPAD_LEFT, translate_marker_context( "key name",
+                              "JOY_ALT_DPAD_LEFT" ) );
+    add_gamepad_keycode_pair( JOY_ALT_DPAD_RIGHT, translate_marker_context( "key name",
+                              "JOY_ALT_DPAD_RIGHT" ) );
     add_gamepad_keycode_pair( JOY_ALT_START, translate_marker_context( "key name", "JOY_ALT_START" ) );
     add_gamepad_keycode_pair( JOY_ALT_BACK,  translate_marker_context( "key name", "JOY_ALT_BACK" ) );
 
     // Left radial menu
-    add_gamepad_keycode_pair( JOY_RADIAL_L_N,  translate_marker_context( "key name", "JOY_RADIAL_L_N" ) );
-    add_gamepad_keycode_pair( JOY_RADIAL_L_NE, translate_marker_context( "key name", "JOY_RADIAL_L_NE" ) );
-    add_gamepad_keycode_pair( JOY_RADIAL_L_E,  translate_marker_context( "key name", "JOY_RADIAL_L_E" ) );
-    add_gamepad_keycode_pair( JOY_RADIAL_L_SE, translate_marker_context( "key name", "JOY_RADIAL_L_SE" ) );
-    add_gamepad_keycode_pair( JOY_RADIAL_L_S,  translate_marker_context( "key name", "JOY_RADIAL_L_S" ) );
-    add_gamepad_keycode_pair( JOY_RADIAL_L_SW, translate_marker_context( "key name", "JOY_RADIAL_L_SW" ) );
-    add_gamepad_keycode_pair( JOY_RADIAL_L_W,  translate_marker_context( "key name", "JOY_RADIAL_L_W" ) );
-    add_gamepad_keycode_pair( JOY_RADIAL_L_NW, translate_marker_context( "key name", "JOY_RADIAL_L_NW" ) );
+    add_gamepad_keycode_pair( JOY_RADIAL_L_N,  translate_marker_context( "key name",
+                              "JOY_RADIAL_L_N" ) );
+    add_gamepad_keycode_pair( JOY_RADIAL_L_NE, translate_marker_context( "key name",
+                              "JOY_RADIAL_L_NE" ) );
+    add_gamepad_keycode_pair( JOY_RADIAL_L_E,  translate_marker_context( "key name",
+                              "JOY_RADIAL_L_E" ) );
+    add_gamepad_keycode_pair( JOY_RADIAL_L_SE, translate_marker_context( "key name",
+                              "JOY_RADIAL_L_SE" ) );
+    add_gamepad_keycode_pair( JOY_RADIAL_L_S,  translate_marker_context( "key name",
+                              "JOY_RADIAL_L_S" ) );
+    add_gamepad_keycode_pair( JOY_RADIAL_L_SW, translate_marker_context( "key name",
+                              "JOY_RADIAL_L_SW" ) );
+    add_gamepad_keycode_pair( JOY_RADIAL_L_W,  translate_marker_context( "key name",
+                              "JOY_RADIAL_L_W" ) );
+    add_gamepad_keycode_pair( JOY_RADIAL_L_NW, translate_marker_context( "key name",
+                              "JOY_RADIAL_L_NW" ) );
 
     // Right radial menu
-    add_gamepad_keycode_pair( JOY_RADIAL_R_N,  translate_marker_context( "key name", "JOY_RADIAL_R_N" ) );
-    add_gamepad_keycode_pair( JOY_RADIAL_R_NE, translate_marker_context( "key name", "JOY_RADIAL_R_NE" ) );
-    add_gamepad_keycode_pair( JOY_RADIAL_R_E,  translate_marker_context( "key name", "JOY_RADIAL_R_E" ) );
-    add_gamepad_keycode_pair( JOY_RADIAL_R_SE, translate_marker_context( "key name", "JOY_RADIAL_R_SE" ) );
-    add_gamepad_keycode_pair( JOY_RADIAL_R_S,  translate_marker_context( "key name", "JOY_RADIAL_R_S" ) );
-    add_gamepad_keycode_pair( JOY_RADIAL_R_SW, translate_marker_context( "key name", "JOY_RADIAL_R_SW" ) );
-    add_gamepad_keycode_pair( JOY_RADIAL_R_W,  translate_marker_context( "key name", "JOY_RADIAL_R_W" ) );
-    add_gamepad_keycode_pair( JOY_RADIAL_R_NW, translate_marker_context( "key name", "JOY_RADIAL_R_NW" ) );
+    add_gamepad_keycode_pair( JOY_RADIAL_R_N,  translate_marker_context( "key name",
+                              "JOY_RADIAL_R_N" ) );
+    add_gamepad_keycode_pair( JOY_RADIAL_R_NE, translate_marker_context( "key name",
+                              "JOY_RADIAL_R_NE" ) );
+    add_gamepad_keycode_pair( JOY_RADIAL_R_E,  translate_marker_context( "key name",
+                              "JOY_RADIAL_R_E" ) );
+    add_gamepad_keycode_pair( JOY_RADIAL_R_SE, translate_marker_context( "key name",
+                              "JOY_RADIAL_R_SE" ) );
+    add_gamepad_keycode_pair( JOY_RADIAL_R_S,  translate_marker_context( "key name",
+                              "JOY_RADIAL_R_S" ) );
+    add_gamepad_keycode_pair( JOY_RADIAL_R_SW, translate_marker_context( "key name",
+                              "JOY_RADIAL_R_SW" ) );
+    add_gamepad_keycode_pair( JOY_RADIAL_R_W,  translate_marker_context( "key name",
+                              "JOY_RADIAL_R_W" ) );
+    add_gamepad_keycode_pair( JOY_RADIAL_R_NW, translate_marker_context( "key name",
+                              "JOY_RADIAL_R_NW" ) );
 
     add_mouse_keycode_pair( MouseInput::LeftButtonPressed,
                             translate_marker_context( "key name", "MOUSE_LEFT_PRESSED" ) );
