@@ -305,7 +305,7 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a wearing test response." );
     CHECK( d.responses[2].text == "This is a trait flags test response." );
-    CHECK( d.responses[3].text == "This is an npc trait flags test response." );
+    CHECK( d.responses[3].text == "This is an NPC trait flags test response." );
     player_character.toggle_trait( trait_PSYCHOPATH );
     talker_npc.toggle_trait( trait_SAPIOVORE );
 }
@@ -322,12 +322,12 @@ TEST_CASE( "npc_talk_effect", "[npc_talk]" )
     talker_npc.add_effect( effect_gave_quest_item, 9999_turns );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is an npc effect test response." );
+    CHECK( d.responses[1].text == "This is an NPC effect test response." );
     player_character.add_effect( effect_gave_quest_item, 9999_turns );
     d.gen_responses( d.topic_stack.back() );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is an npc effect test response." );
+    CHECK( d.responses[1].text == "This is an NPC effect test response." );
     CHECK( d.responses[2].text == "This is a player effect test response." );
 }
 
@@ -350,8 +350,8 @@ TEST_CASE( "npc_talk_service", "[npc_talk]" )
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a cash test response." );
-    CHECK( d.responses[2].text == "This is an npc service test response." );
-    CHECK( d.responses[3].text == "This is an npc available test response." );
+    CHECK( d.responses[2].text == "This is an NPC service test response." );
+    CHECK( d.responses[3].text == "This is an NPC available test response." );
 }
 
 TEST_CASE( "npc_talk_location", "[npc_talk]" )
@@ -426,7 +426,7 @@ TEST_CASE( "npc_talk_allies", "[npc_talk]" )
     d.add_topic( "TALK_TEST_NPC_ALLIES" );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is an npc allies 1 test response." );
+    CHECK( d.responses[1].text == "This is an NPC allies 1 test response." );
 }
 
 TEST_CASE( "npc_talk_needs", "[npc_talk]" )
@@ -442,9 +442,9 @@ TEST_CASE( "npc_talk_needs", "[npc_talk]" )
     talker_npc.set_sleepiness( sleepiness_levels::EXHAUSTED );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is an npc thirst test response." );
-    CHECK( d.responses[2].text == "This is an npc hunger test response." );
-    CHECK( d.responses[3].text == "This is an npc sleepiness test response." );
+    CHECK( d.responses[1].text == "This is an NPC thirst test response." );
+    CHECK( d.responses[2].text == "This is an NPC hunger test response." );
+    CHECK( d.responses[3].text == "This is an NPC sleepiness test response." );
 }
 
 TEST_CASE( "npc_talk_mission_goal", "[npc_talk]" )
@@ -1183,7 +1183,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     // TODO: Reliably test the random number generator.
     std::vector<std::string> expected_responses = {
         "This is a math test response that increments by 1.",
-        "This is an math test response that increments by 2.",
+        "This is a math test response that increments by 2.",
         "PC strength is five.",
         "PC dexterity is six.",
         "PC intelligence is seven.",
