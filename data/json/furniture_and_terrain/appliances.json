@@ -1196,46 +1196,19 @@
   {
     "type": "vehicle_part",
     "id": "ap_mobile_weather_station",
-    "name": { "str": "deployed weather station" },
-    "categories": [ "energy" ],
-    "looks_like": "mobile_weather_station",
-    "color": "yellow",
-    "flags": [ "OBSTACLE", "APPLIANCE" ],
-    "description": "A mobile weather station.  Its instruments are deployed and it is mounted on its tall telescoping stand.",
-    "item": "mobile_weather_station",
-    "breaks_into": [ { "item": "plastic_chunk", "count": [ 14, 20 ] }, { "item": "scrap", "charges": [ 2, 3 ] } ],
-    "durability": 50,
-    "requirements": { "removal": { "time": "20 m" } },
-    "variants": [ { "symbols": "T", "symbols_broken": "#" } ]
+    "copy-from": "veh_mobile_weather_station",
+    "extend": { "flags": [ "APPLIANCE" ] }
   },
   {
     "type": "vehicle_part",
     "id": "ap_xedra_mobile_weather_station",
-    "name": { "str": "deployed hazardous environment weather station" },
-    "categories": [ "energy" ],
-    "looks_like": "xedra_mobile_weather_station",
-    "color": "black",
-    "flags": [ "OBSTACLE", "APPLIANCE" ],
-    "description": "A mobile hazardous environment weather station.  Its instruments are deployed and it is mounted on its tall telescoping stand.",
-    "item": "xedra_mobile_weather_station",
-    "breaks_into": [ { "item": "plastic_chunk", "count": [ 14, 20 ] }, { "item": "scrap", "charges": [ 2, 3 ] } ],
-    "durability": 50,
-    "requirements": { "removal": { "time": "20 m" } },
-    "variants": [ { "symbols": "T", "symbols_broken": "#" } ]
+    "copy-from": "veh_xedra_mobile_weather_station",
+    "extend": { "flags": [ "APPLIANCE" ] }
   },
   {
     "type": "vehicle_part",
     "id": "ap_robofac_mobile_weather_station",
-    "name": { "str": "deployed HEW-NRE station" },
-    "categories": [ "energy" ],
-    "looks_like": "robofac_mobile_weather_station",
-    "color": "brown",
-    "flags": [ "OBSTACLE", "APPLIANCE" ],
-    "description": "A mobile HEW-NRE weather station.  Its instruments are deployed and it is mounted on its tall telescoping stand.",
-    "item": "robofac_mobile_weather_station",
-    "breaks_into": [ { "item": "plastic_chunk", "count": [ 14, 20 ] }, { "item": "scrap", "charges": [ 2, 3 ] } ],
-    "durability": 50,
-    "requirements": { "removal": { "time": "20 m" } },
-    "variants": [ { "symbols": "T", "symbols_broken": "#" } ]
+    "copy-from": "veh_robofac_mobile_weather_station",
+    "extend": { "flags": [ "APPLIANCE" ] }
   }
 ]

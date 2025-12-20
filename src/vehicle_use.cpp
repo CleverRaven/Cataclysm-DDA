@@ -104,6 +104,7 @@ static const itype_id itype_water_purifier( "water_purifier" );
 static const itype_id itype_welder( "welder" );
 static const itype_id itype_welder_crude( "welder_crude" );
 static const itype_id itype_welding_kit( "welding_kit" );
+static const itype_id itype_mws_weather_data_incomplete( "mws_weather_data_incomplete" );
 
 static const quality_id qual_SCREW( "SCREW" );
 
@@ -1577,6 +1578,29 @@ void vehicle::use_dishwasher( map &here, int p )
     }
 }
 
+void vehicle::use_mws( map &here, int p )
+{
+    vehicle_part &vp = parts[p];
+    vehicle_stack items = get_items( vp );
+
+    if( vp.enabled ) {
+        vp.enabled = false;
+        add_msg( m_bad,
+                 _( "You switch off the sensor array before it is finished its recording." ) );
+    } else {
+        vp.enabled = true;
+        //check if an internal timer is there already, if not, add one
+        if( items.empty() ) {
+            add_item( here, vp, item( itype_mws_weather_data_incomplete, calendar::turn_zero ) );
+        }
+        for( item &n : items ) {
+            n.set_age( 0_turns );
+        }
+        add_msg( m_good,
+                 _( "The printer whirs and the instruments start to spin as you switch on the sensor array." ) );
+    }
+}
+
 void vehicle::use_monster_capture( int part, map */*here*/, const tripoint_bub_ms &pos )
 {
     if( parts[part].is_broken() || parts[part].removed ) {
@@ -2357,6 +2381,17 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
                   : _( "Activate the dishwasher (1.5 hours)" ) )
         .hotkey( "TOGGLE_DISHWASHER" )
         .on_submit( [this, dw_idx, here] { use_dishwasher( *here, dw_idx ); } );
+    }
+    
+    const std::optional<vpart_reference> vp_mws = vp.avail_part_with_feature( "MWS" );
+    //mobile weather station
+    if( vp_mws ) {
+        const size_t dw_idx = vp_mws->part_index();
+        menu.add( vp_mws->part().enabled
+                  ? _( "Deactivate the sensor array" )
+                  : _( "Activate the recording subroutine (1 hour)" ) )
+        .hotkey( "TOGGLE_MWS" )
+        .on_submit( [this, dw_idx, here] { use_mws( *here, dw_idx ); } );
     }
 
     const std::optional<vpart_reference> vp_cargo = vp.cargo();

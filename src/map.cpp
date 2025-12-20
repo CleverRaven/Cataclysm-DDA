@@ -170,6 +170,16 @@ static const itype_id itype_scrap( "scrap" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_steel_chunk( "steel_chunk" );
 static const itype_id itype_wire( "wire" );
+static const itype_id itype_mws_weather_data_incomplete( "mws_weather_data_incomplete" );
+static const itype_id itype_mws_weather_data( "mws_weather_data" );
+static const itype_id itype_hew_weather_data( "HEW_weather_data" );
+static const itype_id itype_hew_printout_data( "HEW_printout_data" );
+static const itype_id itype_hew_printout_data_exodii( "HEW_printout_data_exodii" );
+static const itype_id itype_hew_printout_data_vitrified( "HEW_printout_data_vitrified" );
+static const itype_id itype_hew_printout_data_strange_temple( "HEW_printout_data_strange_temple" );
+static const itype_id itype_hew_printout_data_lixa( "HEW_printout_data_lixa" );
+static const itype_id itype_hew_printout_data_highlands( "HEW_printout_data_highlands" );
+static const itype_id itype_hew_printout_data_labyrinth( "HEW_printout_data_labyrinth" );
 
 static const json_character_flag json_flag_ONE_STORY_FALL( "ONE_STORY_FALL" );
 static const json_character_flag
@@ -5691,6 +5701,54 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             add_msg( _( "The autoclave in the %s has finished its cycle." ), cur_veh.name );
         } else if( autoclave_finished ) {
             add_msg( _( "The autoclave has finished its cycle." ) );
+        }
+    }
+    
+    const bool mws_here = vpi.has_flag( VPFLAG_MWS ) && vp.enabled;
+    if( mws_here ) {
+        bool mws_finished = false;
+        vehicle_stack icheck = cur_veh.get_items( vp );
+        if( icheck.empty() ) {
+            add_msg( _( "The mobile weather station malfunctions and aborts the scan!" ) );
+            vp.enabled = false;
+        }
+        for( item &n : cur_veh.get_items( vp ) ) {
+            const time_duration cycle_time = 60_minutes;
+            const time_duration time_left = cycle_time - n.age();
+            if( time_left <= 0_turns ) {
+                mws_finished = true;
+                vp.enabled = false;
+                cur_veh.remove_item( vp, &n );
+            } else if( calendar::once_every( 15_minutes ) ) {
+                add_msg( _( "The instruments on the mobile weather station silently rotate." ) );
+                break;
+            }
+        }
+        if( mws_finished ) {
+            add_msg( _( "The mobile weather station has finished its recording.  The printer whirs and the report sits ready to be torn away." ) );
+            cur_veh.add_item( here, vp, item( itype_mws_weather_data, calendar::turn_zero ) );
+            if ( vpi.has_flag( VPFLAG_ADVANCED_MWS ) ) {
+                const tripoint_abs_omt veh_position = cur_veh.pos_abs_omt();
+                const tripoint_abs_omt closest_vitrified_farm = overmap_buffer.find_closest( veh_position, "unvitrified_orchard", 10, false );
+                const tripoint_abs_omt closest_lixa = overmap_buffer.find_closest( veh_position, "LIXA_surface_1a", 10, false );
+                const tripoint_abs_omt closest_temple = overmap_buffer.find_closest( veh_position, "temple_stairs", 10, false );
+                const tripoint_abs_omt closest_highlands = overmap_buffer.find_closest( veh_position, "highlands", 10, false );
+                const tripoint_abs_omt closest_exodii = overmap_buffer.find_closest( veh_position, "exodii_base_x0y0z0", 10, false );
+                const tripoint_abs_omt closest_labyrinth = overmap_buffer.find_closest( veh_position, "labyrinth_entrance", 10, false );
+                if( trig_dist( veh_position, closest_vitrified_farm ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_hew_printout_data_vitrified, calendar::turn_zero ) );
+                } if( trig_dist( veh_position, closest_lixa ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_hew_printout_data_lixa, calendar::turn_zero ) );
+                } if( trig_dist( veh_position, closest_temple ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_hew_printout_data_strange_temple, calendar::turn_zero ) );
+                } if( trig_dist( veh_position, closest_highlands ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_hew_printout_data_highlands, calendar::turn_zero ) );
+                } if( trig_dist( veh_position, closest_exodii ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_hew_printout_data_exodii, calendar::turn_zero ) );
+                } if( trig_dist( veh_position, closest_labyrinth ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_hew_printout_data_labyrinth, calendar::turn_zero ) );
+                }
+            }
         }
     }
 
