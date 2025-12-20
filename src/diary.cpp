@@ -162,7 +162,7 @@ void diary::changes( Container diary_page::* member, Fn &&get_entry,
     if( !currpage ) {
         return;
     }
-    size_t heading_index;
+    size_t heading_index{};
     int count = 0;
     for( const auto &elem : currpage->*member ) {
         const diary_entry_opt entry = get_entry( elem, prevpage );
