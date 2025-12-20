@@ -921,7 +921,6 @@ void faction_manager::display() const
     basecamp *camp = nullptr;
     std::vector<basecamp *> camps;
     size_t active_vec_size = 0;
-    std::pair<snippet_id, std::string> *snippet = nullptr;
     std::vector<mtype_id> creatures; // Creatures we've recorded
     mtype_id cur_creature = mtype_id::NULL_ID();
 
@@ -1054,7 +1053,6 @@ void faction_manager::display() const
         }
         guy = nullptr;
         cur_fac = nullptr;
-        snippet = nullptr;
         cur_creature = mtype_id::NULL_ID();
         interactable = false;
         radio_interactable = false;
@@ -1073,11 +1071,6 @@ void faction_manager::display() const
             }
             camps.push_back( temp_camp );
         }
-        auto compare_second =
-            []( const std::pair<snippet_id, std::string> &a,
-        const std::pair<snippet_id, std::string> &b ) {
-            return localized_compare( a.second, b.second );
-        };
         if( tab < tab_mode::FIRST_TAB || tab >= tab_mode::NUM_TABS ) {
             debugmsg( "The sanity check failed because tab=%d", static_cast<int>( tab ) );
             tab = tab_mode::FIRST_TAB;
