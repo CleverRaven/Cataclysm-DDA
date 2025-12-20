@@ -5746,7 +5746,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 const tripoint_abs_omt closest_physics_lab = overmap_buffer.find_closest( veh_position,
                         "microlab_portal_security1", 10, false );
                 const tripoint_abs_omt closest_amigara = overmap_buffer.find_closest( veh_position,
-                                                        "mine_amigara_finale_central", 10, false );
+                        "mine_amigara_finale_central", 10, false );
                 if( trig_dist( veh_position, closest_vitrified_farm ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_hew_printout_data_vitrified, calendar::turn_zero ) );
                 }
