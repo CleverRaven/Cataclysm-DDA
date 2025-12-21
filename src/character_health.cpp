@@ -1215,6 +1215,9 @@ void Character::regen( int rate_multiplier )
         int healing_apply = roll_remainder( healing );
         mod_part_healed_total( bp, healing_apply );
         heal( bp, healing_apply );
+        // Consume 1 "health" for every Hit Point healed via medicine healing.
+        // This has a significant effect on long-term healing.
+        mod_daily_health( -healing_apply, -200 );
         if( get_part_damage_bandaged( bp ) > 0 ) {
             mod_part_damage_bandaged( bp, -healing_apply );
             if( get_part_damage_bandaged( bp ) <= 0 ) {
