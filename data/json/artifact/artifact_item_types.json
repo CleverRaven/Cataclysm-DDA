@@ -32,7 +32,7 @@
     "category": "artifacts",
     "looks_like": "philosophy_book",
     "name": { "str": "ancient codex", "str_pl": "ancient codices" },
-    "description": "Vellum pages bound in bark.  The strange symbols within seems to have been overwritten hundreds of times.",
+    "description": "Vellum pages bound in bark.  The strange symbols within seem to have been overwritten hundreds of times.",
     "symbol": "?",
     "color": "light_blue",
     "volume": "500 ml",
