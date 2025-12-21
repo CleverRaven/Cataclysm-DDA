@@ -387,7 +387,7 @@
     "name": { "str": "Generic Anthology Book" },
     "description": "Template for a collection of stories.",
     "intelligence": 5,
-    "price": "16.99 USD",
+    "price": "16 USD 99 cent",
     "price_postapoc": "3 USD",
     "symbol": "?",
     "looks_like": "story_book",
