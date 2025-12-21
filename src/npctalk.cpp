@@ -4655,10 +4655,17 @@ talk_effect_fun_t::func f_query_omt( const JsonObject &jo, std::string_view memb
                 tripoint_abs_ms abs_ms = read_var_value( *target_var, d ).tripoint();
                 target_pos = project_to<coords::omt>( abs_ms );
             }
-
+            int distance = distance_limit.evaluate( d );
+            bool is_distance_set = distance != INT_MAX;
+            if( is_distance_set ) {
+                ui::omap::range_mark( target_pos, distance );
+            }
             tripoint_abs_omt pick =
                 ui::omap::choose_point( message.evaluate( d ).translated(), target_pos, false,
-                                        distance_limit.evaluate( d ) );
+                                        distance );
+            if( is_distance_set ) {
+                ui::omap::range_mark( target_pos, distance, false );
+            }
             if( pick != tripoint_abs_omt::invalid ) {
                 tripoint_abs_ms abs_pos_ms = project_to<coords::ms>( pick );
                 // aim at the center of OMT
