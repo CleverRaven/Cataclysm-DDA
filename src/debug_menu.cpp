@@ -386,7 +386,7 @@ bool _trim_mapbuffer( std::filesystem::path const &dep, rdi_t &iter,
 {
     // discard map memory outside of current region and adjacent regions
     if( dep.parent_path().extension() == std::filesystem::u8path( ".mm1" ) ) {
-        if( dep.has_extension() && dep.extension() == ".zzip" ) { // NOLINT(cata-u8-path)
+        if( dep.has_extension() && dep.extension() == zzip_suffix ) { // NOLINT(cata-u8-path)
             // Compressed map memory has to be handled separately
             return false;
         }
@@ -399,7 +399,7 @@ bool _trim_mapbuffer( std::filesystem::path const &dep, rdi_t &iter,
     if( dep.parent_path().filename() == std::filesystem::u8path( "maps" ) ) {
         std::filesystem::path map_folder = dep.filename();
         std::string map_coords;
-        if( map_folder.extension().string() == ".zzip" ) {
+        if( map_folder.extension().string() == zzip_suffix ) {
             map_coords = map_folder.stem().string();
         } else {
             map_coords = map_folder.filename().string();
@@ -414,7 +414,7 @@ bool _trim_mapbuffer( std::filesystem::path const &dep, rdi_t &iter,
 
 bool _trim_overmapbuffer( std::filesystem::path const &dep, tripoint_range<tripoint> const &oms )
 {
-    std::string const fname = dep.extension() == ".zzip" ?  // NOLINT(cata-u8-path)
+    std::string const fname = dep.extension() == zzip_suffix ?  // NOLINT(cata-u8-path)
                               dep.filename().replace_extension( "" ).generic_u8string() : // NOLINT(cata-u8-path)
                               dep.filename().generic_u8string();
 
@@ -475,7 +475,7 @@ void write_min_archive()
                     }
                 }
                 std::filesystem::path min_mmr_save_rel = ( std::filesystem::path{ entry_filename } / // NOLINT(cata-u8-path)
-                        entry_filename ).concat( ".cold.zzip" ); // NOLINT(cata-u8-path)
+                        entry_filename ).concat( ".cold" + std::string( zzip_suffix ) ); // NOLINT(cata-u8-path)
                 std::filesystem::path min_mmr_temp_zzip_path = ( PATH_INFO::world_base_save_path() /
                         min_mmr_save_rel +
                         ".temp" ).get_unrelative_path();

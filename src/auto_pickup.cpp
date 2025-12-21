@@ -42,6 +42,7 @@
 #include "uilist.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "worldfactory.h"
 
 using namespace auto_pickup;
 
@@ -889,7 +890,7 @@ bool player_settings::save( const bool bCharacter )
         savefile = PATH_INFO::player_base_save_path() + ".apu.json";
 
         const cata_path player_save = PATH_INFO::player_base_save_path() + ".sav";
-        const cata_path player_save_zzip = player_save + ".zzip";
+        const cata_path player_save_zzip = player_save + zzip_suffix;
         //Character not saved yet.
         if( !file_exist( player_save ) || !file_exist( player_save_zzip ) ) {
             return true;
