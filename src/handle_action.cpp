@@ -122,10 +122,6 @@ static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
-static const activity_id ACT_WAIT( "ACT_WAIT" );
-static const activity_id ACT_WAIT_FOLLOWERS( "ACT_WAIT_FOLLOWERS" );
-static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
-static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -1314,22 +1310,13 @@ static void wait()
         // Waiting
         activity_id actType;
         if( as_m.ret == 13 ) {
-            actType = ACT_WAIT_WEATHER;
+            player_character.assign_activity( wait_weather_activity_actor() );
         } else if( as_m.ret == 14 ) {
-            actType = ACT_WAIT_STAMINA;
-        } else if( as_m.ret == 15 ) {
-            actType = ACT_WAIT_FOLLOWERS;
-        } else {
-            actType = ACT_WAIT;
-        }
-
-        if( actType == ACT_WAIT_STAMINA ) {
             player_character.assign_activity( wait_stamina_activity_actor() );
-        } else if( actType == ACT_WAIT_FOLLOWERS ) {
+        } else if( as_m.ret == 15 ) {
             player_character.assign_activity( wait_followers_activity_actor() );
         } else {
-            player_activity new_act( actType, 100 * to_turns<int>( time_to_wait ), 0 );
-            player_character.assign_activity( new_act );
+            player_character.assign_activity( wait_activity_actor( time_to_wait ) );
         }
     }
 }

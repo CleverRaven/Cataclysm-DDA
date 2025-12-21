@@ -134,9 +134,6 @@ static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
-static const activity_id ACT_WAIT( "ACT_WAIT" );
-static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
-static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
 static const ammotype ammo_battery( "battery" );
 
@@ -242,9 +239,6 @@ activity_handlers::finish_functions = {
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
-    { ACT_WAIT, wait_finish },
-    { ACT_WAIT_WEATHER, wait_weather_finish },
-    { ACT_WAIT_NPC, wait_npc_finish },
     { ACT_SOCIALIZE, socialize_finish },
     { ACT_OPERATION, operation_finish },
     { ACT_VIBE, vibe_finish },
@@ -1484,18 +1478,6 @@ void activity_handlers::dismember_do_turn( player_activity * /*act*/, Character 
     you->burn_energy_arms( -20 );
 }
 
-void activity_handlers::wait_finish( player_activity *act, Character *you )
-{
-    you->add_msg_if_player( _( "You finish waiting." ) );
-    act->set_to_null();
-}
-
-void activity_handlers::wait_weather_finish( player_activity *act, Character *you )
-{
-    you->add_msg_if_player( _( "You finish waiting." ) );
-    act->set_to_null();
-}
-
 void activity_handlers::find_mount_do_turn( player_activity *act, Character *you )
 {
     //npc only activity
@@ -1539,12 +1521,6 @@ void activity_handlers::find_mount_do_turn( player_activity *act, Character *you
             you->set_destination( route, player_activity( ACT_FIND_MOUNT ) );
         }
     }
-}
-
-void activity_handlers::wait_npc_finish( player_activity *act, Character *you )
-{
-    you->add_msg_if_player( _( "%s finishes with you…" ), act->str_values[0] );
-    act->set_to_null();
 }
 
 void activity_handlers::socialize_finish( player_activity *act, Character *you )
