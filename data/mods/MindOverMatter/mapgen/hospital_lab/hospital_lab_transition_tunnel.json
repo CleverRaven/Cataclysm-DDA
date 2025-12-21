@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "phavian_hospital_transition_tunnel_upper" ],
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -37,7 +36,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "phavian_hospital_transition_tunnel_lower" ],
     "object": {
       "fill_ter": "t_linoleum_white",

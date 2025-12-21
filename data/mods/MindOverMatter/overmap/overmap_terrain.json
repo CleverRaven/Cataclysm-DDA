@@ -320,7 +320,11 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "phavian_hospital_transition_tunnel_upper", "phavian_hospital_transition_tunnel_lower" ],
+    "id": [
+      "phavian_hospital_transition_tunnel_upper",
+      "phavian_hospital_transition_tunnel_lower",
+      "phavian_hospital_elevator_connection"
+    ],
     "name": "PHAVIAN lab",
     "looks_like": "microlab_generic",
     "sym": "L",

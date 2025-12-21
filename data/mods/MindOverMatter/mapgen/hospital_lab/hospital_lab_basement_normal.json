@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "phavian_hospital_basement_nw", "phavian_hospital_basement_ne" ],
       [ "phavian_hospital_basement_sw", "phavian_hospital_basement_se" ]
@@ -17,7 +16,7 @@
         "#G Att  I|||||³³³³³|  JLJJJJJ  M#...............",
         "#G  tt  I|ØØØ|||||||        J  M#...............",
         "#G  ttA I|ØØØ|TL|hv|³       L  M#...............",
-        "#G  tt  I|&$$|  | v|³       J  L#...............",
+        "#G  tt  I|&ḊḊ|  | v|³       J  L#...............",
         "#G  tt  I|   ||+|+||³       J  M#...............",
         "#G   ɱ   $   $              L  M#...............",
         "#G ɱ     $   $              J  M#...............",
@@ -28,7 +27,7 @@
         "#|||||||||   |||||||||||||||||||#############...",
         "# ONNNO1 |   |QQQQQQQQQ|---|L |T|°°°°°°°°°°°#...",
         "#    A   o   $         |---|z   |°d°d°d°d°d°#...",
-        "#N    N  o   |||||||||||&**||+|||° ° ° ° ° °#...",
+        "#N    N  o   |||||||||||&;;||+|||° ° ° ° ° °#...",
         "#N    N  o                      |°*°*°*°*°*°#...",
         "#7    8  |                      |       A   #...",
         "#        ||  °°°°°°°°°°°°  ||o*||  d  d  d  #...",
@@ -65,22 +64,22 @@
         "Ø": "t_open_air",
         "°": "t_wall_metal",
         ";": [ "t_door_metal_locked", "t_door_metal_elocked" ],
+        "Ḋ": "t_door_metal_locked",
         "˽": "t_card_reader_broken",
         "-": "t_metal_floor",
         "£": "t_linoleum_whitefloor_olight"
       },
       "furniture": { "`": "f_dishwasher", "³": "f_rack" },
       "items": {
-        "¢": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
         "p": [
           { "item": "restaur_fridge", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "baked_goods", "chance": 40 },
-          { "item": "fridge", "chance": 90, "repeat": [ 1, 2 ] }
+          { "item": "SUS_fridge", "chance": 90, "repeat": [ 1, 2 ] }
         ],
         "³": [
           { "item": "restaur_kitchen", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "groce_bread", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "pantry", "chance": 60, "repeat": [ 1, 2 ] },
+          { "item": "SUS_pantry", "chance": 60, "repeat": [ 1, 2 ] },
           { "item": "cannedfood", "chance": 60, "repeat": [ 1, 2 ] },
           { "item": "groce_condiment", "chance": 20, "repeat": [ 1, 2 ] }
         ],
@@ -89,11 +88,11 @@
         "u": { "item": "dissection", "chance": 40 },
         "N": { "item": "hospital_lab", "chance": 40 },
         "d": { "item": "dissection", "chance": 30 },
-        "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
-        "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
+        "v": { "item": "SUS_office_desk", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
           { "item": "harddrugs", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "drugs_rare", "chance": 70, "repeat": [ 1, 2 ] }

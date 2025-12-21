@@ -26,12 +26,13 @@
       ")": "t_card_reader_broken",
       ".": "t_open_air",
       "-": "t_open_air_rooved",
-      "/": "t_secretdoor_strconcrete_c"
+      "/": "t_secretdoor_strconcrete_c",
+      "£": "t_linoleum_whitefloor_olight"
     },
     "vendingmachines": { "R": { "item_group": "vending_drink" }, "S": { "item_group": "vending_food" } },
     "furniture": {
       "A": "f_stool",
-      "B": "f_locker",
+      "B": "f_bed",
       "C": "f_filing_cabinet",
       "D": "f_glass_cabinet",
       "E": "f_armchair",
@@ -42,6 +43,7 @@
       "J": "f_cupboard",
       "K": "f_bookcase",
       "L": "f_sink",
+      "Ł": "f_locker",
       "M": "f_oven",
       "N": "f_lab_bench",
       "O": "f_sample_freezer",
@@ -88,7 +90,8 @@
       "w": "f_desk",
       "x": "f_table",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
-      "z": "f_trashcan"
+      "z": "f_trashcan",
+      "Ṛ": "f_room_divider"
     },
     "toilets": { "T": {  } },
     "items": { "4": [ { "item": "saline_bottle_random", "chance": 100 } ] },

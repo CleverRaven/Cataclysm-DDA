@@ -85,6 +85,7 @@
       { "point": [ -1, 1, -3 ], "overmap": "phavian_hospital_main_floor_z3_ne_upper_south" },
       { "point": [ -1, 0, -3 ], "overmap": "phavian_hospital_main_floor_z3_se_upper_south" },
       { "point": [ -1, 0, -2 ], "overmap": "phavian_hospital_transition_tunnel_lower_south" },
+      { "point": [ 1, 1, -2 ], "overmap": "phavian_hospital_elevator_connection_south" },
       { "point": [ -1, 0, -1 ], "overmap": "phavian_hospital_transition_tunnel_upper_south" },
       { "point": [ 1, 1, -1 ], "overmap": "phavian_hospital_basement_nw_south" },
       { "point": [ 0, 1, -1 ], "overmap": "phavian_hospital_basement_ne_south" },
