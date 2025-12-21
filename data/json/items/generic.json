@@ -238,7 +238,7 @@
     "description": "A small scrap of thermal paper pulled from a spool.",
     "price": "0 cent",
     "volume": "1 ml",
-    "weight": "4 g",
+    "weight": "1 g",
     "material": [ "paper" ]
   },
   {
@@ -251,7 +251,7 @@
     "description": "A piece of paper covered in complex weather recordings.  It requires specialized software to interpret.",
     "price": "0 cent",
     "volume": "1 ml",
-    "weight": "4 g",
+    "weight": "1 g",
     "material": [ "paper" ]
   },
   {

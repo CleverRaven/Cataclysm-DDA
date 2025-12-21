@@ -162,7 +162,16 @@ static const item_group_id Item_spawn_data_default_zombie_clothes( "default_zomb
 static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie_items" );
 
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_HEW_printout_data_amigara( "HEW_printout_data_amigara" );
+static const itype_id itype_HEW_printout_data_exodii( "HEW_printout_data_exodii" );
+static const itype_id itype_HEW_printout_data_highlands( "HEW_printout_data_highlands" );
+static const itype_id itype_HEW_printout_data_labyrinth( "HEW_printout_data_labyrinth" );
+static const itype_id itype_HEW_printout_data_lixa( "HEW_printout_data_lixa" );
+static const itype_id itype_HEW_printout_data_physics_lab( "HEW_printout_data_physics_lab" );
+static const itype_id itype_HEW_printout_data_strange_temple( "HEW_printout_data_strange_temple" );
+static const itype_id itype_HEW_printout_data_vitrified( "HEW_printout_data_vitrified" );
 static const itype_id itype_maple_sap( "maple_sap" );
+static const itype_id itype_mws_weather_data( "mws_weather_data" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_pipe( "pipe" );
 static const itype_id itype_rock( "rock" );
@@ -170,18 +179,6 @@ static const itype_id itype_scrap( "scrap" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_steel_chunk( "steel_chunk" );
 static const itype_id itype_wire( "wire" );
-static const itype_id itype_mws_weather_data_incomplete( "mws_weather_data_incomplete" );
-static const itype_id itype_mws_weather_data( "mws_weather_data" );
-static const itype_id itype_hew_weather_data( "HEW_weather_data" );
-static const itype_id itype_hew_printout_data( "HEW_printout_data" );
-static const itype_id itype_hew_printout_data_exodii( "HEW_printout_data_exodii" );
-static const itype_id itype_hew_printout_data_vitrified( "HEW_printout_data_vitrified" );
-static const itype_id itype_hew_printout_data_strange_temple( "HEW_printout_data_strange_temple" );
-static const itype_id itype_hew_printout_data_lixa( "HEW_printout_data_lixa" );
-static const itype_id itype_hew_printout_data_highlands( "HEW_printout_data_highlands" );
-static const itype_id itype_hew_printout_data_labyrinth( "HEW_printout_data_labyrinth" );
-static const itype_id itype_hew_printout_data_physics_lab( "HEW_printout_data_physics_lab" );
-static const itype_id itype_hew_printout_data_amigara( "HEW_printout_data_amigara" );
 
 static const json_character_flag json_flag_ONE_STORY_FALL( "ONE_STORY_FALL" );
 static const json_character_flag
@@ -5748,28 +5745,28 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 const tripoint_abs_omt closest_amigara = overmap_buffer.find_closest( veh_position,
                         "mine_amigara_finale_central", 10, false );
                 if( trig_dist( veh_position, closest_vitrified_farm ) <= 10 ) {
-                    cur_veh.add_item( here, vp, item( itype_hew_printout_data_vitrified, calendar::turn_zero ) );
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_vitrified, calendar::turn_zero ) );
                 }
                 if( trig_dist( veh_position, closest_lixa ) <= 10 ) {
-                    cur_veh.add_item( here, vp, item( itype_hew_printout_data_lixa, calendar::turn_zero ) );
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_lixa, calendar::turn_zero ) );
                 }
                 if( trig_dist( veh_position, closest_temple ) <= 10 ) {
-                    cur_veh.add_item( here, vp, item( itype_hew_printout_data_strange_temple, calendar::turn_zero ) );
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_strange_temple, calendar::turn_zero ) );
                 }
                 if( trig_dist( veh_position, closest_highlands ) <= 10 ) {
-                    cur_veh.add_item( here, vp, item( itype_hew_printout_data_highlands, calendar::turn_zero ) );
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_highlands, calendar::turn_zero ) );
                 }
                 if( trig_dist( veh_position, closest_exodii ) <= 10 ) {
-                    cur_veh.add_item( here, vp, item( itype_hew_printout_data_exodii, calendar::turn_zero ) );
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_exodii, calendar::turn_zero ) );
                 }
                 if( trig_dist( veh_position, closest_labyrinth ) <= 10 ) {
-                    cur_veh.add_item( here, vp, item( itype_hew_printout_data_labyrinth, calendar::turn_zero ) );
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_labyrinth, calendar::turn_zero ) );
                 }
                 if( trig_dist( veh_position, closest_physics_lab ) <= 10 ) {
-                    cur_veh.add_item( here, vp, item( itype_hew_printout_data_physics_lab, calendar::turn_zero ) );
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_physics_lab, calendar::turn_zero ) );
                 }
-                if( trig_dist( veh_position, closest_physics_lab ) <= 10 ) {
-                    cur_veh.add_item( here, vp, item( itype_hew_printout_data_amigara, calendar::turn_zero ) );
+                if( trig_dist( veh_position, closest_amigara ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_amigara, calendar::turn_zero ) );
                 }
             }
         }
