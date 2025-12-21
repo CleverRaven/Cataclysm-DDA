@@ -171,6 +171,7 @@ static const json_character_flag json_flag_HEAL_OVERRIDE( "HEAL_OVERRIDE" );
 static const json_character_flag json_flag_NO_BODY_HEAT( "NO_BODY_HEAT" );
 static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
+static const json_character_flag json_flag_NUMB( "NUMB" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
@@ -628,12 +629,14 @@ void Character::apply_murder_penalties( Creature *victim )
             morale_effect -= 15;
         }
         if( player_character.has_flag( json_flag_PSYCHOPATH ) ||
-            player_character.has_flag( json_flag_SAPIOVORE ) ) {
+            player_character.has_flag( json_flag_SAPIOVORE ) ||
+            player_character.has_flag( json_flag_NUMB ) ) {
             morale_effect = 0;
         } // only god can juge me
         if( player_character.has_flag( json_flag_SPIRITUAL ) &&
             !player_character.has_flag( json_flag_PSYCHOPATH ) &&
-            !player_character.has_flag( json_flag_SAPIOVORE ) ) {
+            !player_character.has_flag( json_flag_SAPIOVORE ) &&
+            !player_character.has_flag( json_flag_NUMB ) ) {
             add_msg( _( "You feel ashamed of your actions." ) );
             morale_effect -= 10;
         }
