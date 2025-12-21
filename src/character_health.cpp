@@ -636,7 +636,7 @@ void Character::apply_murder_penalties( Creature *victim )
         if( player_character.has_flag( json_flag_SPIRITUAL ) &&
             !player_character.has_flag( json_flag_PSYCHOPATH ) &&
             !player_character.has_flag( json_flag_SAPIOVORE )
-            !player_character.has_flag( json_flag_NUMB )) {
+            !player_character.has_flag( json_flag_NUMB ) ) {
             add_msg( _( "You feel ashamed of your actions." ) );
             morale_effect -= 10;
         }
