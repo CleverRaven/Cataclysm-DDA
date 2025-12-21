@@ -35,7 +35,7 @@
 #include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "talker.h"
+#include "talker.h"  // IWYU pragma: keep
 #include "translations.h"
 #include "type_id.h"
 #include "uilist.h"
