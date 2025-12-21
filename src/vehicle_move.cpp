@@ -831,7 +831,7 @@ static void terrain_collision_data( map &here, const tripoint_bub_ms &p, bool ba
     elastic = 0.30;
     // Just a rough rescale for now to obtain approximately equal numbers
     const int bash_min = here.bash_resistance( p, bash_floor );
-    const int bash_max = here.bash_strength( p, bash_floor );
+    const int bash_max = std::min( here.bash_strength( p, bash_floor ), MAX_REGULAR_BASH ) ;
     mass = ( bash_min + bash_max ) / 2.0;
     density = bash_min;
 }
