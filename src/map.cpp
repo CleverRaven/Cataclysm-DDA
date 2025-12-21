@@ -161,7 +161,6 @@ static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
 static const item_group_id Item_spawn_data_default_zombie_clothes( "default_zombie_clothes" );
 static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie_items" );
 
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_HEW_printout_data_amigara( "HEW_printout_data_amigara" );
 static const itype_id itype_HEW_printout_data_exodii( "HEW_printout_data_exodii" );
 static const itype_id itype_HEW_printout_data_highlands( "HEW_printout_data_highlands" );
@@ -170,6 +169,7 @@ static const itype_id itype_HEW_printout_data_lixa( "HEW_printout_data_lixa" );
 static const itype_id itype_HEW_printout_data_physics_lab( "HEW_printout_data_physics_lab" );
 static const itype_id itype_HEW_printout_data_strange_temple( "HEW_printout_data_strange_temple" );
 static const itype_id itype_HEW_printout_data_vitrified( "HEW_printout_data_vitrified" );
+static const itype_id itype_battery( "battery" );
 static const itype_id itype_maple_sap( "maple_sap" );
 static const itype_id itype_mws_weather_data( "mws_weather_data" );
 static const itype_id itype_nail( "nail" );
