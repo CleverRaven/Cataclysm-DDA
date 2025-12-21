@@ -6692,7 +6692,7 @@ bool map::mopsafe_field_at( const tripoint_bub_ms &p )
 }
 
 bool map::add_field( const tripoint_bub_ms &p, const field_type_id &type_id, int intensity,
-                     const time_duration &age, bool hit_player )
+                     const time_duration &age, bool hit_player, effect_source source )
 {
     if( !inbounds( p ) ) {
         return false;
@@ -6731,7 +6731,7 @@ bool map::add_field( const tripoint_bub_ms &p, const field_type_id &type_id, int
     current_submap->ensure_nonuniform();
     invalidate_max_populated_zlev( p.z() );
 
-    if( current_submap->get_field( l ).add_field( converted_type_id, intensity, age ) ) {
+    if( current_submap->get_field( l ).add_field( converted_type_id, intensity, age, source ) ) {
         //Only adding it to the count if it doesn't exist.
         if( !current_submap->field_count++ ) {
             get_cache( p.z() ).field_cache.set(
