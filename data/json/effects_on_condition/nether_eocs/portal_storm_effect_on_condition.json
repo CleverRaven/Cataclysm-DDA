@@ -1336,7 +1336,12 @@
             { "is_weather": "close_portal_storm" }
           ]
         },
-        { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+        {
+          "or": [
+            { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+            { "u_has_items": { "item": "robofac_mobile_weather_station", "charges": 1 } }
+          ]
+        },
         "u_is_outside"
       ]
     },
@@ -1384,7 +1389,12 @@
     "type": "effect_on_condition",
     "id": "capture_generic_nre_anomaly",
     "global": true,
-    "condition": { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+    "condition": {
+      "or": [
+        { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+        { "u_has_items": { "item": "robofac_mobile_weather_station", "charges": 1 } }
+      ]
+    },
     "effect": [ { "math": [ "u_generic_nre_anomaly++" ] }, { "u_message": "The NRE recorder emits a sharp beep!", "type": "info" } ]
   },
   {
@@ -1395,7 +1405,12 @@
     "//": "Only add monsters with significant reality altering powers, not just anything in the nether species.",
     "condition": {
       "and": [
-        { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+        {
+          "or": [
+            { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+            { "u_has_items": { "item": "robofac_mobile_weather_station", "charges": 1 } }
+          ]
+        },
         {
           "or": [
             {

@@ -31,6 +31,7 @@
       [ "thermometer", 3 ],
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
+      { "item": "mobile_weather_station", "prob": 1, "charges": [ 0, 1000 ] },
       { "item": "electrohack", "prob": 3, "charges": [ 0, 100 ] },
       [ "RAM", 22 ],
       [ "screwdriver", 40 ],

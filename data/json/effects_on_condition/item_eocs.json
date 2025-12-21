@@ -18,6 +18,31 @@
     "effect": { "u_spawn_item": "modular_m4a1", "use_item_group": true }
   },
   {
+    "type": "effect_on_condition",
+    "id": "EOC_scan_advanced_weather",
+    "condition": {
+      "or": [
+        { "is_weather": "portal_storm" },
+        { "is_weather": "distant_portal_storm" },
+        { "is_weather": "close_portal_storm" },
+        { "u_near_om_location": "unvitrified_orchard", "range": 10 },
+        { "u_near_om_location": "LIXA_surface_1a", "range": 10 },
+        { "u_near_om_location": "temple_stairs", "range": 10 },
+        { "u_near_om_location": "mine_amigara_finale_central", "range": 10 },
+        { "u_near_om_location": "highlands", "range": 10 },
+        { "u_near_om_location": "exodii_base_x0y0z0", "range": 10 },
+        { "u_near_om_location": "microlab_portal_security1", "range": 10 },
+        { "u_near_om_location": "labyrinth_entrance", "range": 10 }
+      ]
+    },
+    "effect": {
+      "u_message": "The instruments whir for a moment before the computer emits 3 sharp beeps.  The LED screen reads \"ANOMALOUS CONDITIONS DETECTED - FULL SCAN RECOMMENDED\"."
+    },
+    "false_effect": {
+      "u_message": "The instruments whir for a moment before the computer beeps once.  The LED screen reads \"CONDITIONS NORMAL\"."
+    }
+  },
+  {
     "id": "EOC_vitrified_doll_talk",
     "type": "effect_on_condition",
     "condition": { "not": { "u_has_item": "imperfect_doll_complete" } },
