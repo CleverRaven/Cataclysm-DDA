@@ -1166,13 +1166,15 @@ bool zzip::compact_to( std::filesystem::path const &dest, double bloat_factor )
     return compact_to( std::move( compacted_file ) );
 }
 
-bool zzip::compact_to( std::shared_ptr<mmap_file> dest ) const
+bool zzip::compact_to( std::shared_ptr<mmap_file> const &dest ) const
 {
-    std::optional<zzip> new_zip = zzip::load( std::move( dest ) );
+    std::optional<zzip> new_zip = zzip::load( dest );
     if( !new_zip ) {
         return false;
     }
-    return new_zip->copy_files( get_entries(), *this, /* shrink_to_fit = */ true );
+    bool success = new_zip->copy_files( get_entries(), *this, /* shrink_to_fit = */ true );
+    dest->flush();
+    return success;
 }
 
 bool zzip::clear()
