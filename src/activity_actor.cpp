@@ -10261,7 +10261,10 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         bool can_reach_any_dest = false;
         for( const tripoint_abs_ms &possible_dest : dest_set ) {
             const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
-            if( !zone_sorting::route_to_destination( you, act, dest_bub, stage ) ) {
+            // Routing will fail if we're already adjacent or at the destination. So we need to avoid checking it unless there's an actual route that needs to be checked.
+            const bool is_adjacent_or_closer_to_dest = square_dist( you.pos_bub(), dest_bub ) <= 1;
+            if( !is_adjacent_or_closer_to_dest &&
+                !zone_sorting::route_to_destination( you, act, dest_bub, stage ) ) {
                 continue; // Not a valid destination
             }
             // This is a separate statement so we can have specific messaging if this failure state is reached.
