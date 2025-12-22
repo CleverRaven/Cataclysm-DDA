@@ -129,7 +129,7 @@
         { "item": "phavian_psionic_control_mutations_book", "x": 9, "y": 32, "chance": 100 }
       ],
       "items": {
-        "d": { "item": "SUS_office_desk", "chance": 70 },
+        "d": { "item": "SUS_phavian_office_desk", "chance": 65 },
         "B": [ { "item": "textbooks", "chance": 50 }, { "item": "manuals", "chance": 50 } ],
         "F": [
           { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },

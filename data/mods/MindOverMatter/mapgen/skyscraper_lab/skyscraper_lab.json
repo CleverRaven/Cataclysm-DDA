@@ -85,7 +85,7 @@
       "items": {
         "e": { "item": "SUS_fridge_breakroom", "chance": 80, "repeat": [ 1, 4 ] },
         "l": { "item": "feral_security_death_drops_9mm", "chance": 80, "repeat": [ 1, 3 ] },
-        "d": { "item": "SUS_office_desk", "chance": 33 },
+        "d": { "item": "SUS_phavian_office_desk", "chance": 33 },
         ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "vendingmachines": { "Đ": { "item_group": "vending_drink" }, "Ƒ": { "item_group": "vending_food" } },
@@ -213,7 +213,7 @@
       "items": {
         "e": { "item": "SUS_fridge_breakroom", "chance": 80, "repeat": [ 1, 4 ] },
         "l": { "item": "feral_security_death_drops_9mm", "chance": 80, "repeat": [ 1, 3 ] },
-        "d": { "item": "SUS_office_desk", "chance": 33 },
+        "d": { "item": "SUS_phavian_office_desk", "chance": 33 },
         ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "vendingmachines": { "Đ": { "item_group": "vending_drink" }, "Ƒ": { "item_group": "vending_food" } },
@@ -341,7 +341,7 @@
       "items": {
         "e": { "item": "SUS_fridge_breakroom", "chance": 80, "repeat": [ 1, 4 ] },
         "l": { "item": "feral_security_death_drops_9mm", "chance": 80, "repeat": [ 1, 3 ] },
-        "d": { "item": "SUS_office_desk", "chance": 33 },
+        "d": { "item": "SUS_phavian_office_desk", "chance": 33 },
         ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "vendingmachines": { "Đ": { "item_group": "vending_drink" }, "Ƒ": { "item_group": "vending_food" } },

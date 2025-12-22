@@ -102,5 +102,48 @@
     "extend": {
       "items": [ { "group": "dist_meditation_books_begin", "prob": 12 }, { "group": "dist_meditation_books_int", "prob": 5 } ]
     }
+  },
+  {
+    "id": "SUS_phavian_office_desk",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for an lab office desk containing documents and electronics for work and some desk clutter.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "used_eink_tablet_pcs", "prob": 20, "contents-group": "SUS_phavian_efiles_office" },
+      { "group": "used_laptops", "prob": 60, "contents-group": "SUS_phavian_efiles_office" },
+      { "group": "used_usb_drives", "prob": 50, "contents-group": "SUS_phavian_efiles_office" },
+      { "group": "used_memory_cards", "prob": 30, "contents-group": "SUS_phavian_efiles_office" },
+      { "item": "battery_charger", "prob": 80 },
+      { "item": "file", "count": [ 1, 8 ], "prob": 50 },
+      { "item": "paper", "count": [ 2, 9 ], "prob": 60 },
+      { "group": "pens", "count": [ 1, 10 ], "prob": 95, "charges": [ 0, 100 ] },
+      { "item": "rubber_band", "prob": 20 },
+      { "item": "book_binder", "prob": 90 },
+      { "item": "stapler", "prob": 60 },
+      { "item": "office_holepunch", "prob": 35 },
+      { "item": "scissors", "prob": 35 },
+      { "item": "phonebook", "prob": 10 },
+      { "item": "family_photo", "prob": 10 },
+      { "item": "coin_quarter", "prob": 10 },
+      { "group": "oa_discarded_news", "count": [ 2, 12 ], "prob": 20 }
+    ]
+  },
+  {
+    "id": "SUS_phavian_efiles_office",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "SUS_efiles_office", "prob": 100 },
+      { "item": "manual_meditation", "prob": 10, "count": 1 },
+      { "item": "manual_meditation_int", "prob": 15, "count": 1 },
+      { "item": "manual_psionics_advan", "prob": 6, "count": 1 },
+      { "item": "phavian_report_psionic_drain", "prob": 4, "count": 1 },
+      { "group": "psionic_recipes_beginner", "prob": 10, "count": [ 1, 3 ] },
+      { "group": "psionic_recipes_tools", "prob": 10, "count": 1 },
+      { "group": "psionic_recipes_medicine", "prob": 5, "count": 1 },
+      { "group": "psionic_recipes_powers", "prob": 4, "count": 1 },
+      { "group": "psionic_recipes_advanced", "prob": 2, "count": 1 }
+    ]
   }
 ]

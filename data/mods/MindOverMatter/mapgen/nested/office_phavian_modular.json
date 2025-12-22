@@ -25,8 +25,8 @@
         { "item": "water_clean", "x": 7, "y": 1, "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "items": {
-        "d": [ { "item": "SUS_office_desk", "chance": 50, "repeat": [ 1, 2 ] } ],
-        "t": { "item": "SUS_office_desk", "chance": 20 },
+        "d": [ { "item": "SUS_phavian_office_desk", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "t": { "item": "SUS_phavian_office_desk", "chance": 20 },
         "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 1, 3 ], "chance": 50 } ]
@@ -58,8 +58,8 @@
         { "item": "water_clean", "x": 3, "y": 7, "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "items": {
-        "d": [ { "item": "SUS_office_desk", "chance": 50, "repeat": [ 1, 2 ] } ],
-        "t": { "item": "SUS_office_desk", "chance": 20 },
+        "d": [ { "item": "SUS_phavian_office_desk", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "t": { "item": "SUS_phavian_office_desk", "chance": 20 },
         "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 1, 3 ], "chance": 50 } ]
@@ -89,7 +89,7 @@
         { "item": "television", "x": 4, "y": 7, "chance": 100 }
       ],
       "items": {
-        "t": { "item": "SUS_office_desk", "chance": 40 },
+        "t": { "item": "SUS_phavian_office_desk", "chance": 40 },
         "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 1, 3 ], "chance": 50 } ]
@@ -119,7 +119,7 @@
         { "item": "television", "x": 4, "y": 0, "chance": 100 }
       ],
       "items": {
-        "t": { "item": "SUS_office_desk", "chance": 40 },
+        "t": { "item": "SUS_phavian_office_desk", "chance": 40 },
         "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 1, 3 ], "chance": 50 } ]
@@ -150,7 +150,7 @@
       },
       "items": {
         "d": [
-          { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 3 ] },
+          { "item": "SUS_phavian_office_desk", "chance": 30, "repeat": [ 1, 3 ] },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
         "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
@@ -185,7 +185,7 @@
       },
       "items": {
         "d": [
-          { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 3 ] },
+          { "item": "SUS_phavian_office_desk", "chance": 30, "repeat": [ 1, 3 ] },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
         "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
@@ -525,7 +525,7 @@
       "items": {
         "l": [ { "item": "boxing_clothes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "d": [
-          { "item": "SUS_office_desk", "chance": 60, "repeat": [ 1, 2 ] },
+          { "item": "SUS_phavian_office_desk", "chance": 60, "repeat": [ 1, 2 ] },
           { "item": "psi_lab", "chance": 30, "repeat": [ 0, 2 ] }
         ]
       },
@@ -571,7 +571,7 @@
       "items": {
         "l": [ { "item": "boxing_clothes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "d": [
-          { "item": "SUS_office_desk", "chance": 60, "repeat": [ 1, 2 ] },
+          { "item": "SUS_phavian_office_desk", "chance": 60, "repeat": [ 1, 2 ] },
           { "item": "psi_lab", "chance": 30, "repeat": [ 0, 2 ] }
         ]
       },
@@ -615,7 +615,7 @@
       ],
       "items": {
         "U": [ { "item": "cleaning", "chance": 70, "repeat": [ 1, 3 ] }, { "item": "novels", "chance": 100, "repeat": [ 1, 3 ] } ],
-        "đ": { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 3 ] }
+        "đ": { "item": "SUS_phavian_office_desk", "chance": 30, "repeat": [ 1, 3 ] }
       },
       "place_monster": [
         { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 2, 4 ], "chance": 60 },
@@ -656,7 +656,7 @@
       ],
       "items": {
         "U": [ { "item": "cleaning", "chance": 70, "repeat": [ 1, 3 ] }, { "item": "novels", "chance": 100, "repeat": [ 1, 3 ] } ],
-        "đ": { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 3 ] }
+        "đ": { "item": "SUS_phavian_office_desk", "chance": 30, "repeat": [ 1, 3 ] }
       },
       "place_monster": [
         { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 2, 4 ], "chance": 60 },
@@ -898,7 +898,7 @@
       ],
       "palettes": [ "office_phavian_palette" ],
       "items": {
-        "d": [ { "item": "SUS_office_desk", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "d": [ { "item": "SUS_phavian_office_desk", "chance": 50, "repeat": [ 1, 2 ] } ],
         "l": [
           { "item": "cop_armory", "chance": 40, "repeat": [ 2, 3 ] },
           { "item": "security_torso", "chance": 20, "repeat": [ 1, 2 ] },
