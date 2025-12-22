@@ -268,7 +268,7 @@ struct file_impl : mmap_file::impl {
         }
 #endif
 
-        if( !map_view() ) {
+        if( desired_size != 0 && !map_view() ) {
             return false;
         }
         return true;

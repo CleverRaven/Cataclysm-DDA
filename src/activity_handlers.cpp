@@ -101,8 +101,6 @@ static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
-static const activity_id ACT_GAME( "ACT_GAME" );
-static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
@@ -136,9 +134,6 @@ static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
-static const activity_id ACT_WAIT( "ACT_WAIT" );
-static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
-static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
 static const ammotype ammo_battery( "battery" );
 
@@ -183,7 +178,6 @@ static const json_character_flag json_flag_SOCIAL1( "SOCIAL1" );
 static const json_character_flag json_flag_SOCIAL2( "SOCIAL2" );
 
 static const morale_type morale_feeling_good( "morale_feeling_good" );
-static const morale_type morale_game( "morale_game" );
 static const morale_type morale_tree_communion( "morale_tree_communion" );
 
 static const skill_id skill_computer( "computer" );
@@ -198,8 +192,6 @@ using namespace activity_handlers;
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 activity_handlers::do_turn_functions = {
     { ACT_FILL_LIQUID, fill_liquid_do_turn },
-    { ACT_GAME, game_do_turn },
-    { ACT_GENERIC_GAME, generic_game_do_turn },
     { ACT_START_FIRE, start_fire_do_turn },
     { ACT_VIBE, vibe_do_turn },
     { ACT_HAND_CRANK, hand_crank_do_turn },
@@ -240,7 +232,6 @@ activity_handlers::do_turn_functions = {
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 activity_handlers::finish_functions = {
     { ACT_START_FIRE, start_fire_finish },
-    { ACT_GENERIC_GAME, generic_game_finish },
     { ACT_TRAIN, train_finish },
     { ACT_TRAIN_TEACHER, teach_finish },
     { ACT_START_ENGINES, start_engines_finish },
@@ -248,9 +239,6 @@ activity_handlers::finish_functions = {
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
-    { ACT_WAIT, wait_finish },
-    { ACT_WAIT_WEATHER, wait_weather_finish },
-    { ACT_WAIT_NPC, wait_npc_finish },
     { ACT_SOCIALIZE, socialize_finish },
     { ACT_OPERATION, operation_finish },
     { ACT_VIBE, vibe_finish },
@@ -483,69 +471,6 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         act_ref.set_to_null();
         return;
     }
-}
-
-// Repurposing the activity's index to convey the number of friends participating
-void activity_handlers::generic_game_turn_handler( player_activity *act, Character *you,
-        int morale_bonus, int morale_max_bonus )
-{
-    // Consume battery charges for every minute spent playing
-    if( calendar::once_every( 1_minutes ) ) {
-        if( !act->targets.empty() ) {
-            item &game_item = *act->targets.front();
-            int req = game_item.ammo_required();
-            bool fail = req > 0 && game_item.ammo_consume( req, tripoint_bub_ms::zero, you ) == 0;
-            if( fail ) {
-                act->moves_left = 0;
-                if( you->is_avatar() ) {
-                    add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
-                }
-                return;
-            }
-        }
-        if( act->index > 0 && act->name.find( "with friends" ) != std::string::npos ) {
-            // 1 friend -> x1.2,  2 friends -> x1.4,  3 friends -> x1.6  ...
-            float mod = std::sqrt( ( act->index * 0.5f ) + 0.5f ) + 0.2f;
-            morale_bonus = std::ceil( morale_bonus * mod );
-            // half mult for max bonus
-            mod = 1.f + ( mod - 1.f ) * 0.5f;
-            morale_max_bonus *= mod;
-        }
-        // Playing alone - 1 points/min, almost 2 hours to fill
-        you->add_morale( morale_game, morale_bonus, morale_max_bonus );
-    }
-}
-
-// Repurposing the activity's index to convey the number of friends participating
-void activity_handlers::generic_game_finish( player_activity *act, Character *you )
-{
-    // Apply small bonus with diminishing returns for playing with friends
-    if( act->index > 0 && act->name.find( "with friends" ) != std::string::npos ) {
-        float mod = 1.f;
-        float acc = 0.4f;
-        for( int i = act->index; i > 0; i-- ) {
-            mod += acc;
-            acc *= acc;
-        }
-        if( !act->values.empty() && act->values[0] == you->getID().get_value() ) {
-            // A winner is you! Feel more happy!
-            mod *= 1.5f;
-            you->add_msg_if_player( m_good, _( "You won!" ) );
-            you->add_msg_if_npc( m_good, _( "<npcname> won!" ) );
-        }
-        you->add_morale( morale_game, 4 * mod );
-    }
-    act->set_to_null();
-}
-
-void activity_handlers::generic_game_do_turn( player_activity *act, Character *you )
-{
-    generic_game_turn_handler( act, you, 4, 60 );
-}
-
-void activity_handlers::game_do_turn( player_activity *act, Character *you )
-{
-    generic_game_turn_handler( act, you, 1, 100 );
 }
 
 void activity_handlers::start_fire_finish( player_activity *act, Character *you )
@@ -1553,18 +1478,6 @@ void activity_handlers::dismember_do_turn( player_activity * /*act*/, Character 
     you->burn_energy_arms( -20 );
 }
 
-void activity_handlers::wait_finish( player_activity *act, Character *you )
-{
-    you->add_msg_if_player( _( "You finish waiting." ) );
-    act->set_to_null();
-}
-
-void activity_handlers::wait_weather_finish( player_activity *act, Character *you )
-{
-    you->add_msg_if_player( _( "You finish waiting." ) );
-    act->set_to_null();
-}
-
 void activity_handlers::find_mount_do_turn( player_activity *act, Character *you )
 {
     //npc only activity
@@ -1608,12 +1521,6 @@ void activity_handlers::find_mount_do_turn( player_activity *act, Character *you
             you->set_destination( route, player_activity( ACT_FIND_MOUNT ) );
         }
     }
-}
-
-void activity_handlers::wait_npc_finish( player_activity *act, Character *you )
-{
-    you->add_msg_if_player( _( "%s finishes with you…" ), act->str_values[0] );
-    act->set_to_null();
 }
 
 void activity_handlers::socialize_finish( player_activity *act, Character *you )

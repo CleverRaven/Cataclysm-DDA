@@ -481,6 +481,16 @@
     "type": "json_flag"
   },
   {
+    "id": "MWS",
+    "type": "json_flag",
+    "info": "This part functions as a mobile weather station."
+  },
+  {
+    "id": "ADVANCED_MWS",
+    "type": "json_flag",
+    "info": "This part functions as an advanced mobile weather station."
+  },
+  {
     "id": "NEEDS_JACKING",
     "type": "json_flag"
   },

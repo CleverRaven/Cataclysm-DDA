@@ -320,6 +320,7 @@
     "weight": "887 g",
     "volume": "483 ml",
     "longest_side": "241 mm",
+    "barrel_length": "108 mm",
     "ammo": [ "45" ],
     "material": [ "plastic", "steel" ],
     "price": "700 USD",

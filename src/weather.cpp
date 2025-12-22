@@ -974,6 +974,7 @@ const weather_generator &weather_manager::get_cur_weather_gen() const
 void weather_manager::update_weather()
 {
     Character &player_character = get_player_character();
+    weather_changed = false;
     if( weather_id == WEATHER_NULL || calendar::turn >= nextweather ) {
         w_point &w = *weather_precise;
         const weather_generator &weather_gen = get_cur_weather_gen();
@@ -988,6 +989,7 @@ void weather_manager::update_weather()
         } else {
             weather_id = weather_override;
         }
+        weather_changed = weather_id != old_weather;
 
         sfx::do_ambient();
         temperature = w.temperature;
@@ -997,15 +999,11 @@ void weather_manager::update_weather()
         nextweather = calendar::turn + rng( weather_id->duration_min, weather_id->duration_max );
         map &here = get_map();
         if( uistate.distraction_weather_change &&
-            weather_id != old_weather && weather_id->dangerous &&
+            weather_changed && weather_id->dangerous &&
             here.get_abs_sub().z() >= 0 && here.is_outside( player_character.pos_bub() )
             && !player_character.has_activity( ACT_WAIT_WEATHER ) ) {
             g->cancel_activity_or_ignore_query( distraction_type::weather_change,
                                                 string_format( _( "The weather changed to %s!" ), weather_id->name ) );
-        }
-
-        if( weather_id != old_weather && player_character.has_activity( ACT_WAIT_WEATHER ) ) {
-            player_character.assign_activity( ACT_WAIT_WEATHER, 0, 0 );
         }
 
         if( weather_id->sight_penalty != old_weather->sight_penalty ) {
@@ -1014,7 +1012,7 @@ void weather_manager::update_weather()
             }
             here.set_seen_cache_dirty( tripoint_bub_ms::zero );
         }
-        if( weather_id != old_weather ) {
+        if( weather_changed ) {
             effect_on_conditions::process_reactivate();
         }
     }
