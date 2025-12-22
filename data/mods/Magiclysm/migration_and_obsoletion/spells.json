@@ -113,6 +113,7 @@
   },
   {
     "id": "magus_baleful_polymorph",
+    "//": "Remove after 0.J",
     "type": "SPELL",
     "name": "Baleful Polymorph",
     "description": "Transform your enemies into frogs.",

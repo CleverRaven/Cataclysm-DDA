@@ -145,13 +145,13 @@ TEST_CASE( "weather_realism", "[weather]" )
         // Check the proportion of hours with light precipitation
         // or more, counting snow (mm of rain equivalent per hour).
         const double at_least_light_precip = proportion_gteq_x( data.hourly_precip, 1 );
-        CHECK( at_least_light_precip >= .025 );
-        CHECK( at_least_light_precip <= .05 );
+        CHECK( at_least_light_precip >= .075 );
+        CHECK( at_least_light_precip <= .1 );
 
         // Likewise for heavy precipitation.
         const double heavy_precip = proportion_gteq_x( data.hourly_precip, 2.5 );
-        CHECK( heavy_precip >= .005 );
-        CHECK( heavy_precip <= .02 );
+        CHECK( heavy_precip >= .02 );
+        CHECK( heavy_precip <= .05 );
     }
 }
 

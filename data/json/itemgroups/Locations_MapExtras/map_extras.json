@@ -21,7 +21,8 @@
       { "group": "socks_unisex", "damage": [ 1, 3 ] },
       { "group": "lab_shoes", "damage": [ 1, 3 ] },
       { "group": "lab_torso", "damage": [ 1, 3 ] },
-      { "group": "underwear", "damage": [ 1, 3 ] }
+      { "group": "underwear", "damage": [ 1, 3 ] },
+      { "item": "xedra_mobile_weather_station", "prob": 1, "charges": [ 0, 1000 ] }
     ]
   },
   {

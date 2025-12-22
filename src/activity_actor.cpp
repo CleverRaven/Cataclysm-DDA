@@ -105,6 +105,8 @@
 #include "uilist.h"
 #include "uistate.h"
 #include "units.h"
+#include "weather.h"
+#include "weather_type.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
@@ -146,6 +148,8 @@ static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_FURNITURE_MOVE( "ACT_FURNITURE_MOVE" );
+static const activity_id ACT_GAME( "ACT_GAME" );
+static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_GLIDE( "ACT_GLIDE" );
 static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_GUNMOD_REMOVE( "ACT_GUNMOD_REMOVE" );
@@ -194,8 +198,11 @@ static const activity_id ACT_UNLOAD_LOOT( "ACT_UNLOAD_LOOT" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_FOLD( "ACT_VEHICLE_FOLD" );
 static const activity_id ACT_VEHICLE_UNFOLD( "ACT_VEHICLE_UNFOLD" );
+static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_FOLLOWERS( "ACT_WAIT_FOLLOWERS" );
+static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
+static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 static const activity_id ACT_WASH( "ACT_WASH" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 static const activity_id ACT_WIELD( "ACT_WIELD" );
@@ -263,6 +270,7 @@ static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const morale_type morale_book( "morale_book" );
 static const morale_type morale_feeling_good( "morale_feeling_good" );
+static const morale_type morale_game( "morale_game" );
 static const morale_type morale_haircut( "morale_haircut" );
 static const morale_type morale_play_with_pet( "morale_play_with_pet" );
 static const morale_type morale_shave( "morale_shave" );
@@ -328,7 +336,7 @@ static const std::string gun_mechanical_simple( "gun_mechanical_simple" );
 
 std::string activity_actor::get_progress_message( const player_activity &act ) const
 {
-    if( act.moves_total > 0 ) {
+    if( act.moves_total > 0 && act.moves_total != calendar::INDEFINITELY_LONG * 100 ) {
         const int pct = ( ( act.moves_total - act.moves_left ) * 100 ) / act.moves_total;
         return string_format( "%d%%", pct );
     } else {
@@ -9254,6 +9262,117 @@ std::unique_ptr<activity_actor> heat_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+void generic_entertainment_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( entertain_duration );
+    act.moves_left = act.moves_total;
+}
+
+void generic_entertainment_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    // Consume battery charges for every minute spent playing
+    if( calendar::once_every( 1_minutes ) ) {
+        if( !!entertain_item ) {
+            item &game_item = *entertain_item;
+            int req = game_item.ammo_required();
+            bool fail = req > 0 && game_item.ammo_consume( req, tripoint_bub_ms::zero, &who ) == 0;
+            if( fail ) {
+                act.moves_left = 0;
+                if( who.is_avatar() ) {
+                    add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
+                }
+                return;
+            }
+        }
+
+        int morale_bonus = get_morale_bonus();
+        int morale_bonus_max = get_morale_bonus_max();
+        const int entertain_player_count = entertain_players.size();
+        if( entertain_player_count > 1 ) {
+            // 1 friend -> x1.2,  2 friends -> x1.4,  3 friends -> x1.6  ...
+            float mod = std::sqrt( ( entertain_player_count * 0.5f ) + 0.5f ) + 0.2f;
+            morale_bonus = std::ceil( morale_bonus * mod );
+            // half mult for max bonus
+            mod = 1.f + ( mod - 1.f ) * 0.5f;
+            morale_bonus_max *= mod;
+        }
+        // Playing alone - 1 points/min, almost 2 hours to fill
+        who.add_morale( morale_game, morale_bonus, morale_bonus_max );
+    }
+}
+
+void generic_entertainment_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( winner_index > -1 ) {
+
+        const Character *winner_character = g->critter_by_id<Character>( entertain_players[winner_index] );
+        const int entertain_player_count = entertain_players.size();
+        // Apply small morale bonus with diminishing returns for playing with friends
+        float mod = 1.f;
+        float acc = 0.4f;
+        for( int i = entertain_player_count; i > 0; i-- ) {
+            mod += acc;
+            acc *= acc;
+        }
+        if( winner_character != nullptr ) {
+            if( who.is_avatar() ) {
+                add_msg( m_good, _( "%s won!" ), winner_character->disp_name() );
+            }
+            // Extra for the winning player
+            if( winner_character->getID() == who.getID() ) {
+                mod *= 1.5f;
+            }
+        }
+
+        who.add_morale( morale_game, 4 * mod );
+    }
+    act.set_to_null();
+}
+
+void generic_entertainment_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "entertain_duration", entertain_duration );
+    jsout.member( "entertain_players", entertain_players );
+    jsout.member( "entertain_item", entertain_item );
+    jsout.member( "winner_index", winner_index );
+    jsout.end_object();
+}
+
+
+JsonObject generic_entertainment_activity_actor::deserialize_base( JsonValue &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "entertain_duration", entertain_duration );
+    data.read( "entertain_players", entertain_players );
+    data.read( "entertain_item", entertain_item );
+    data.read( "winner_index", winner_index );
+    return data;
+}
+
+std::unique_ptr<activity_actor> tabletop_game_activity_actor::deserialize( JsonValue &jsin )
+{
+    tabletop_game_activity_actor actor;
+    actor.deserialize_base( jsin );
+    return actor.clone();
+}
+
+std::unique_ptr<activity_actor> portable_game_activity_actor::deserialize( JsonValue &jsin )
+{
+    portable_game_activity_actor actor;
+    actor.deserialize_base( jsin );
+    return actor.clone();
+}
+
+// Repurposing the activity's index to convey the number of friends participating
+std::string generic_entertainment_activity_actor::get_name() const
+{
+    if( entertain_players.size() > 1 ) {
+        return "gaming with friends";
+    }
+    return "gaming";
+}
+
 void wash_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = requirements.time;
@@ -9795,6 +9914,10 @@ void butchery_activity_actor::do_turn( player_activity &act, Character &you )
         // Uses max(1, ..) to prevent it going all the way to zero, which would stop the activity by the general `activity_actor` handling.
         // Instead, the checks for `bd.empty()` will make sure to stop the activity by explicitly setting it to zero.
         act.moves_left = std::max( 1, to_moves<int>( this_bd->time_to_butcher - this_bd->progress ) );
+
+        item &corpse_item = *this_bd->corpse;
+        corpse_item.set_var( butcher_progress_time_var(),
+                             to_turns<double>( calendar::turn - calendar::start_of_cataclysm ) );
     }
 }
 
@@ -9860,10 +9983,27 @@ std::unique_ptr<activity_actor> butchery_activity_actor::deserialize( JsonValue 
     return actor.clone();
 }
 
-void wait_stamina_activity_actor::start( player_activity &act, Character & )
+void wait_activity_actor::start( player_activity &act, Character & )
 {
-    act.moves_total = calendar::INDEFINITELY_LONG;
-    act.moves_left = calendar::INDEFINITELY_LONG;
+    act.moves_total = to_moves<int>( initial_wait_time );
+    act.moves_left = act.moves_total;
+}
+
+void wait_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( _( "You finish waiting." ) );
+    act.set_to_null();
+}
+
+void wait_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> wait_activity_actor::deserialize( JsonValue & )
+{
+    return wait_activity_actor().clone();
 }
 
 void wait_stamina_activity_actor::do_turn( player_activity &act, Character &you )
@@ -9895,20 +10035,28 @@ void wait_stamina_activity_actor::finish( player_activity &act, Character &you )
     act.set_to_null();
 }
 
-void wait_stamina_activity_actor::serialize( JsonOut &jsout ) const
-{
-    jsout.write_null();
-}
-
 std::unique_ptr<activity_actor> wait_stamina_activity_actor::deserialize( JsonValue & )
 {
     return wait_stamina_activity_actor().clone();
 }
 
-void wait_followers_activity_actor::start( player_activity &act, Character & )
+void wait_weather_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    act.moves_total = calendar::INDEFINITELY_LONG;
-    act.moves_left = calendar::INDEFINITELY_LONG;
+    if( get_weather().weather_changed ) {
+        finish( act, who );
+    }
+}
+
+void wait_weather_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( string_format( _( "The weather changed to %s!" ),
+                                          get_weather().weather_id->name ) );
+    wait_activity_actor::finish( act, who );
+}
+
+std::unique_ptr<activity_actor> wait_weather_activity_actor::deserialize( JsonValue & )
+{
+    return wait_weather_activity_actor().clone();
 }
 
 std::vector<npc *> wait_followers_activity_actor::get_absent_followers( Character &you )
@@ -9918,7 +10066,6 @@ std::vector<npc *> wait_followers_activity_actor::get_absent_followers( Characte
         return ( att == NPCATT_FOLLOW || att == NPCATT_ACTIVITY ) && rl_dist( n.pos_bub(), you.pos_bub() ) > n.follow_distance();
     } );
 }
-
 
 void wait_followers_activity_actor::do_turn( player_activity &act, Character &you )
 {
@@ -9937,14 +10084,30 @@ void wait_followers_activity_actor::finish( player_activity &act, Character &you
     act.set_to_null();
 }
 
-void wait_followers_activity_actor::serialize( JsonOut &jsout ) const
-{
-    jsout.write_null();
-}
-
 std::unique_ptr<activity_actor> wait_followers_activity_actor::deserialize( JsonValue & )
 {
-    return wait_stamina_activity_actor().clone();
+    return wait_followers_activity_actor().clone();
+}
+
+void wait_npc_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( _( "%s finishes with you…" ), waiting_for_npc_name );
+    act.set_to_null();
+}
+
+void wait_npc_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "waiting_for_npc_name", waiting_for_npc_name );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> wait_npc_activity_actor::deserialize( JsonValue &jsin )
+{
+    wait_npc_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "waiting_for_npc_name", actor.waiting_for_npc_name );
+    return actor.clone();
 }
 
 void zone_activity_actor::do_turn( player_activity &act, Character &you )
@@ -10092,7 +10255,7 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
     return true;
 }
 
-void zone_sort_activity_actor::stage_do( player_activity &, Character &you )
+void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 {
     const map &here = get_map();
     const zone_manager &mgr = zone_manager::get_manager();
@@ -10138,6 +10301,28 @@ void zone_sort_activity_actor::stage_do( player_activity &, Character &you )
         // out of moves, or unloaded item container was destroyed or prompted an activity restart
         if( !move_and_reset ) {
             return;
+        }
+
+        bool can_reach_any_dest = false;
+        for( const tripoint_abs_ms &possible_dest : dest_set ) {
+            const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
+            // Routing will fail if we're already adjacent or at the destination. So we need to avoid checking it unless there's an actual route that needs to be checked.
+            const bool is_adjacent_or_closer_to_dest = square_dist( you.pos_bub(), dest_bub ) <= 1;
+            if( !is_adjacent_or_closer_to_dest &&
+                !zone_sorting::route_to_destination( you, act, dest_bub, stage ) ) {
+                continue; // Not a valid destination
+            }
+            // This is a separate statement so we can have specific messaging if this failure state is reached.
+            if( here.is_open_air( dest_bub ) ) {
+                you.add_msg_if_player( _( "You can't sort things into the air!" ) );
+                continue;
+            }
+            can_reach_any_dest = true;
+            break;
+        }
+
+        if( !can_reach_any_dest ) {
+            continue;
         }
 
         zone_sorting::move_item( you, vp, src_bub, dest_set, thisitem, num_processed );
@@ -10218,6 +10403,8 @@ deserialize_functions = {
     { ACT_FISH, &fish_activity_actor::deserialize },
     { ACT_FORAGE, &forage_activity_actor::deserialize },
     { ACT_FURNITURE_MOVE, &move_furniture_activity_actor::deserialize },
+    { ACT_GAME, &portable_game_activity_actor::deserialize },
+    { ACT_GENERIC_GAME, &tabletop_game_activity_actor::deserialize },
     { ACT_GLIDE, &glide_activity_actor::deserialize },
     { ACT_GUNMOD_ADD, &gunmod_add_activity_actor::deserialize },
     { ACT_GUNMOD_REMOVE, &gunmod_remove_activity_actor::deserialize },
@@ -10262,8 +10449,11 @@ deserialize_functions = {
     { ACT_VEHICLE, &vehicle_activity_actor::deserialize },
     { ACT_VEHICLE_FOLD, &vehicle_folding_activity_actor::deserialize },
     { ACT_VEHICLE_UNFOLD, &vehicle_unfolding_activity_actor::deserialize },
+    { ACT_WAIT, &wait_activity_actor::deserialize },
     { ACT_WAIT_FOLLOWERS, &wait_followers_activity_actor::deserialize },
+    { ACT_WAIT_NPC, &wait_npc_activity_actor::deserialize },
     { ACT_WAIT_STAMINA, &wait_stamina_activity_actor::deserialize },
+    { ACT_WAIT_WEATHER, &wait_weather_activity_actor::deserialize },
     { ACT_WASH, &wash_activity_actor::deserialize },
     { ACT_WEAR, &wear_activity_actor::deserialize },
     { ACT_WIELD, &wield_activity_actor::deserialize},

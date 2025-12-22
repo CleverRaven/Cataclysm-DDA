@@ -293,7 +293,18 @@
         "$": { "vehicle": "shopping_cart" },
         "£": { "vehicle": "shopping_cart" },
         "¢": { "vehicle": "shopping_cart", "rotation": 90 }
-      }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.1 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 0, 23 ], "density": 0.1 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 48, 71 ], "y": [ 0, 23 ], "density": 0.5 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 24, 47 ], "density": 0.5 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 24, 47 ], "density": 0.5 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 48, 71 ], "y": [ 24, 47 ], "density": 0.5 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 48, 71 ], "density": 0.5 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 48, 71 ], "density": 0.5 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 48, 71 ], "y": [ 48, 71 ], "density": 0.5 }
+      ]
     }
   },
   {

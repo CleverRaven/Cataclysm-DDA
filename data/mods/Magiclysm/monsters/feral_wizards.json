@@ -632,7 +632,11 @@
     ],
     "death_drops": {
       "subtype": "collection",
-      "items": [ { "group": "enchanted_combat_items", "prob": 30 }, { "group": "mon_feral_druid_death_drops", "prob": 100 } ]
+      "items": [
+        { "group": "enchanted_combat_items", "prob": 30 },
+        { "item": "rune_druid_nature_staff", "prob": 15 },
+        { "group": "mon_feral_druid_death_drops", "prob": 100 }
+      ]
     },
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],

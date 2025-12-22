@@ -1117,41 +1117,23 @@
         { "item": "glass_sheet", "count": 1 }
       ]
     },
-    "lockpick_result": "f_board_map_o",
-    "lockpick_message": "With a satisfying click, the locked glass panel opens.",
-    "examine_action": "locked_object_pickable",
-    "bash": {
-      "str_min": 6,
-      "str_max": 20,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 12,
-      "furn_set": "f_board_map_b",
-      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_board_map_o",
-    "name": "open map board",
-    "looks_like": "f_bulletin",
-    "description": "A successfully picked metal board with an open glass panel used to display a map.",
-    "symbol": "6",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 75,
-    "required_str": -1,
-    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
-    "deconstruct": {
-      "items": [
-        { "item": "pipe", "count": 4 },
-        { "item": "sheet_metal", "count": 1 },
-        { "item": "hinge", "count": 2 },
-        { "item": "glass_sheet", "count": 1 }
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "eoc_pick_and_read_map",
+          "effect": [
+            {
+              "u_map_run_item_eocs": "all",
+              "loc": { "context_val": "pos" },
+              "accessible": false,
+              "search_data": [ { "category": "maps" } ],
+              "true_eocs": [ { "id": "EOC_ACTIVATE_MAP", "effect": [ { "u_activate": "reveal_map" } ] } ]
+            }
+          ]
+        }
       ]
     },
-    "rotates_to": "INDOORFLOOR",
     "bash": {
       "str_min": 6,
       "str_max": 20,

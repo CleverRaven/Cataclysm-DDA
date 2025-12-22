@@ -55,7 +55,6 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "kill_tracker.h"
-#include "line.h"
 #include "list.h"
 #include "localized_comparator.h"
 #include "map.h"
@@ -319,14 +318,6 @@ static tripoint_abs_omt om_target_tile(
     const std::unordered_set<oter_type_str_id> &possible_om_types = {}, bool must_see = true,
     const tripoint_abs_omt &source = tripoint_abs_omt::invalid, bool bounce = false,
     const std::optional<std::string> &message = std::nullopt );
-static void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes = true,
-                           const std::string &message = "Y;X: MAX RANGE" );
-static void om_line_mark(
-    const tripoint_abs_omt &origin, const tripoint_abs_omt &dest, bool add_notes = true,
-    const std::string &message = "R;X: PATH" );
-static void om_path_mark(
-    const std::vector<tripoint_abs_omt> &note_pts, bool add_notes = true,
-    const std::string &message = "R;X: PATH" );
 /**
  * Select waypoints and plot a path for a companion to travel
  * @param start start point
@@ -4885,8 +4876,8 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
     const std::unordered_set<oter_type_str_id> bounce_locations = { oter_type_faction_hide_site_0 };
 
     tripoint_abs_omt where;
-    om_range_mark( omt_pos, range );
-    om_range_mark( omt_pos, min_range, true, "Y;X: MIN RANGE" );
+    ui::omap::range_mark( omt_pos, range );
+    ui::omap::range_mark( omt_pos, min_range, true, "Y;X: MIN RANGE" );
     const std::string &real_message = string_format(
                                           message ? *message : _( "Select a location from %d to %d tiles away." ), min_range, range );
     if( source.is_invalid() ) {
@@ -4894,8 +4885,8 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
     } else {
         where = ui::omap::choose_point( real_message, source );
     }
-    om_range_mark( omt_pos, range, false );
-    om_range_mark( omt_pos, min_range, false, "Y;X: MIN RANGE" );
+    ui::omap::range_mark( omt_pos, range, false );
+    ui::omap::range_mark( omt_pos, min_range, false, "Y;X: MIN RANGE" );
 
     if( where.is_invalid() ) {
         return where;
@@ -4920,10 +4911,10 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
         for( const oter_type_str_id &pos_om : bounce_locations ) {
             if( bounce && pos_om == omt_ref && range > 5 ) {
                 if( query_yn( _( "Do you want to bounce off this location to extend range?" ) ) ) {
-                    om_line_mark( omt_pos, omt_tgt );
+                    ui::omap::line_mark( omt_pos, omt_tgt );
                     tripoint_abs_omt dest =
                         om_target_tile( omt_tgt, 2, range * .75, possible_om_types, true, omt_tgt, true );
-                    om_line_mark( omt_pos, omt_tgt, false );
+                    ui::omap::line_mark( omt_pos, omt_tgt, false );
                     return dest;
                 }
             }
@@ -4936,85 +4927,6 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
 
     return om_target_tile( omt_pos, min_range, range, possible_om_types, must_see, omt_pos );
 }
-
-void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes,
-                    const std::string &message )
-{
-    std::vector<tripoint_abs_omt> note_pts;
-
-    if( trigdist ) {
-        note_pts.reserve( range * 7 ); // actual multiplier varies from 5.33 to 8, mostly 6 to 7
-        for( const tripoint_abs_omt &pos : points_on_radius_circ( origin, range ) ) {
-            note_pts.emplace_back( pos );
-        }
-    } else {
-        note_pts.reserve( range * 8 );
-        //North Limit
-        for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
-            note_pts.emplace_back( x, origin.y() - range, origin.z() );
-        }
-        //South
-        for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
-            note_pts.emplace_back( x, origin.y() + range, origin.z() );
-        }
-        //West
-        for( int y = origin.y() - range; y < origin.y() + range + 1; y++ ) {
-            note_pts.emplace_back( origin.x() - range, y, origin.z() );
-        }
-        //East
-        for( int y = origin.y() - range; y < origin.y() + range + 1; y++ ) {
-            note_pts.emplace_back( origin.x() + range, y, origin.z() );
-        }
-    }
-
-    for( tripoint_abs_omt &pt : note_pts ) {
-        if( add_notes ) {
-            if( !overmap_buffer.has_note( pt ) ) {
-                overmap_buffer.add_note( pt, message );
-            }
-        } else {
-            if( overmap_buffer.has_note( pt ) && overmap_buffer.note( pt ) == message ) {
-                overmap_buffer.delete_note( pt );
-            }
-        }
-    }
-}
-
-void om_line_mark( const tripoint_abs_omt &origin, const tripoint_abs_omt &dest, bool add_notes,
-                   const std::string &message )
-{
-    std::vector<tripoint_abs_omt> note_pts = line_to( origin, dest );
-
-    for( const tripoint_abs_omt &pt : note_pts ) {
-        if( add_notes ) {
-            if( !overmap_buffer.has_note( pt ) ) {
-                overmap_buffer.add_note( pt, message );
-            }
-        } else {
-            if( overmap_buffer.has_note( pt ) && overmap_buffer.note( pt ) == message ) {
-                overmap_buffer.delete_note( pt );
-            }
-        }
-    }
-}
-
-static void om_path_mark(
-    const std::vector<tripoint_abs_omt> &note_pts, bool add_notes,
-    const std::string &message )
-{
-    for( const tripoint_abs_omt &pt : note_pts ) {
-        if( add_notes ) {
-            if( !overmap_buffer.has_note( pt ) ) {
-                overmap_buffer.add_note( pt, message );
-            }
-        } else {
-            if( overmap_buffer.has_note( pt ) && overmap_buffer.note( pt ) == message ) {
-                overmap_buffer.delete_note( pt );
-            }
-        }
-    }
-}
-
 
 bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
                        const drop_locations &itms,
@@ -5114,7 +5026,7 @@ pf::simple_path<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &sta
             if( scout_segments.empty() ) {
                 return {};
             }
-            om_path_mark( scout_segments.back().points, false );
+            ui::omap::path_mark( scout_segments.back().points, false );
             range += scout_segments.back().cost / 24;
             scout_segments.pop_back();
             if( scout_segments.empty() ) {
@@ -5133,10 +5045,10 @@ pf::simple_path<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &sta
             debugmsg( "Got empty travel path during mission planning." );
             continue;
         }
-        om_path_mark( note_pts.points );
+        ui::omap::path_mark( note_pts.points );
         if( note_pts.cost / 24 > range ) {
             ui::omap::choose_point( _( "This path is too far, continue to undo and try again." ), spt );
-            om_path_mark( note_pts.points, false );
+            ui::omap::path_mark( note_pts.points, false );
             continue;
         }
         scout_segments.emplace_back( note_pts );
@@ -5151,7 +5063,7 @@ pf::simple_path<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &sta
         }
     }
     for( const pf::simple_path<tripoint_abs_omt> &scout_segment : scout_segments ) {
-        om_path_mark( scout_segment.points, false );
+        ui::omap::path_mark( scout_segment.points, false );
     }
     return std::accumulate( scout_segments.begin(), scout_segments.end(),
                             pf::simple_path<tripoint_abs_omt>(), []( pf::simple_path<tripoint_abs_omt> a,

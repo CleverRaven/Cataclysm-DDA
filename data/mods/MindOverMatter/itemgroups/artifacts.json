@@ -252,5 +252,67 @@
         "prob": 1
       }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "pyrokinetic_crystal_awakening_artifact_procgen",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "pyrokinetic_crystal_awakening_artifact_item",
+        "artifact": {
+          "procgen_id": "pyrokinetic_matrix_crystal_procgen",
+          "rules": { "power_level": 1250, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
+        "prob": 100
+      },
+      {
+        "group": "pyrokinetic_crystal_awakening_artifact_item",
+        "artifact": {
+          "procgen_id": "pyrokinetic_matrix_crystal_procgen",
+          "rules": { "power_level": 2500, "max_attributes": 6, "max_negative_power": -1500, "resonant": true }
+        },
+        "prob": 10
+      },
+      {
+        "group": "pyrokinetic_crystal_awakening_artifact_item",
+        "artifact": {
+          "procgen_id": "pyrokinetic_matrix_crystal_procgen",
+          "rules": { "power_level": 5000, "max_attributes": 8, "max_negative_power": -2500, "resonant": true }
+        },
+        "prob": 1
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pyrokinetic_crystal_artifact_procgen",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "pyrokinetic_crystal_artifact_item",
+        "artifact": {
+          "procgen_id": "pyrokinetic_crystal_procgen",
+          "rules": { "power_level": 1250, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
+        "prob": 100
+      },
+      {
+        "group": "pyrokinetic_crystal_artifact_item",
+        "artifact": {
+          "procgen_id": "pyrokinetic_crystal_procgen",
+          "rules": { "power_level": 2500, "max_attributes": 6, "max_negative_power": -1500, "resonant": true }
+        },
+        "prob": 10
+      },
+      {
+        "group": "pyrokinetic_crystal_artifact_item",
+        "artifact": {
+          "procgen_id": "pyrokinetic_crystal_procgen",
+          "rules": { "power_level": 5000, "max_attributes": 8, "max_negative_power": -2500, "resonant": true }
+        },
+        "prob": 1
+      }
+    ]
   }
 ]

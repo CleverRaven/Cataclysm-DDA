@@ -432,5 +432,12 @@
     "category": "VEHICLE",
     "name": "Play arcade machine",
     "bindings": [ { "input_method": "keyboard_char", "key": "R" }, { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "MWS",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Use sensor array",
+    "bindings": [ { "input_method": "keyboard_char", "key": "w" } ]
   }
 ]
