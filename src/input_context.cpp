@@ -36,6 +36,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "sdl_gamepad.h"
 
 enum class kb_menu_status {
     remove, reset, add, add_global, execute, show, filter
@@ -1143,11 +1144,6 @@ input_event input_context::get_raw_input()
 
 #if defined(TUI)
 // Also specify that we don't have a gamepad plugged in.
-bool gamepad_available()
-{
-    return false;
-}
-
 std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses::window
         &capture_win, const point &offset, const bool center_cursor ) const
 {
@@ -1345,7 +1341,7 @@ bool input_context::is_event_type_enabled( const input_event_t type ) const
         case input_event_t::keyboard_code:
             return input_manager::actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keycode;
         case input_event_t::gamepad:
-            return gamepad_available();
+            return gamepad::is_active();
         case input_event_t::mouse:
             return true;
     }
