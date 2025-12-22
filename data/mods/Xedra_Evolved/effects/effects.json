@@ -4251,7 +4251,7 @@
     "type": "effect_type",
     "id": "effect_bio_inventor_rad_boost",
     "name": [ "Engineered Hero" ],
-    "desc": "New powers awaken in you as the engine starts!",
+    "desc": [ "New powers awaken in you as the engine starts!" ],
     "remove_message": "Your new powers vanish as the engine powers down.",
     "rating": "mixed",
     "//": "This uses the bat form flight enchant instead of making an identical version of a hidden effect.",
@@ -4268,12 +4268,17 @@
         "condition": { "not": { "u_has_flag": "NO_RADIATION" } },
         "values": [ { "value": "STAMINA_REGEN_MOD", "add": { "math": [ "u_val('rad') / 50" ] } } ]
       },
-      { "value": "PAIN_PENALTY_MOD_STR", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
-      { "value": "PAIN_PENALTY_MOD_DEX", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
-      { "value": "PAIN_PENALTY_MOD_INT", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
-      { "value": "PAIN_PENALTY_MOD_PER", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
-      { "value": "PAIN_PENALTY_MOD_SPEED", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
-      { "value": "KNOCKBACK_RESIST", "add": { "math": [ "( u_val('rad') * 0.1)" ] } },
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "PAIN_PENALTY_MOD_STR", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
+          { "value": "PAIN_PENALTY_MOD_DEX", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
+          { "value": "PAIN_PENALTY_MOD_INT", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
+          { "value": "PAIN_PENALTY_MOD_PER", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
+          { "value": "PAIN_PENALTY_MOD_SPEED", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
+          { "value": "KNOCKBACK_RESIST", "add": { "math": [ "( u_val('rad') * 0.1)" ] } }
+        ]
+      },
       {
         "condition": { "and": [ { "not": { "u_has_flag": "NO_RADIATION" } }, { "math": [ "u_val('rad') >= 500" ] } ] },
         "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
@@ -4284,8 +4289,9 @@
     "type": "effect_type",
     "id": "effect_bio_inventor_calorie_storage",
     "name": [ "Orbiting Calories" ],
-    "desc": [ [ "Your calories are stored through the most efficient storage ever conceived.", "good" ] ],
-    "remove_message": [ [ "Your orbiting calories dissipate as the bionic powers down.", "bad" ] ]
+    "desc": [ "Your calories are stored through the most efficient storage ever conceived." ],
+    "remove_message": "Your orbiting calories dissipate as the bionic powers down.",
+    "rating": "good"
   },
   {
     "type": "effect_type",
@@ -4314,9 +4320,20 @@
       "You struggle to remember what you did minutes ago, but you hold more knowledge in your head than an entire library holds in its books.",
       "No new knowledge can enter your mind, but this is no matter for your buddy keeps it filled to the brim with information."
     ],
-    "apply_message": "Information fills your mind!",
+    "apply_message": "Incendiary information fills your mind!",
     "remove_message": "The false knowledge fully exits your mind.",
-    "decay_messages": [ [ "You know less things than before, but you find it easier to learn." ] ],
+    "decay_messages": [
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "You know less things than before, but you find it easier to learn.", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "You forgot many things, but you regained your ability to learn.", "mixed" ]
+    ],
     "max_intensity": 10,
     "rating": "mixed"
   }

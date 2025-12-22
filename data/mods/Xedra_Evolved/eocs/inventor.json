@@ -475,43 +475,51 @@
             },
             { "npc_message": "My items are falling apart!  It isn't me!" }
           ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_CBM_DEGRADATION",
+    "recurrence": [ "1 d", "2 d" ],
+    "global": true,
+    "run_for_npcs": true,
+    "condition": { "not": { "u_has_trait": "INVENTOR" } },
+    "effect": {
+      "if": {
+        "or": [
+          { "u_has_bionics": "bio_inventor_rad_boost" },
+          { "u_has_bionics": "bio_inventor_mana_kj_penalty_switch" },
+          { "u_has_bionics": "bio_inventor_calorie_storage" },
+          { "u_has_bionics": "bio_inventor_creative_fuel" },
+          { "u_has_bionics": "bio_inventor_book_burn_boost" }
+        ]
+      },
+      "then": [
+        {
+          "if": { "u_has_bionics": "bio_inventor_rad_boost" },
+          "then": [ { "u_lose_bionic": "bio_inventor_rad_boost" }, { "u_add_bionic": "bio_radleak" } ]
         },
         {
-          "if": {
-            "or": [
-              { "u_has_bionics": "bio_inventor_rad_boost" },
-              { "u_has_bionics": "bio_inventor_mana_kj_penalty_switch" },
-              { "u_has_bionics": "bio_inventor_calorie_storage" },
-              { "u_has_bionics": "bio_inventor_creative_fuel" },
-              { "u_has_bionics": "bio_inventor_book_burn_boost" }
-            ]
-          },
-          "then": [
-            {
-              "if": { "u_has_bionics": "bio_inventor_rad_boost" },
-              "then": [ { "u_lose_bionic": "bio_inventor_rad_boost" }, { "u_add_bionic": "bio_radleak" } ]
-            },
-            {
-              "if": { "u_has_bionics": "bio_inventor_mana_kj_penalty_switch" },
-              "then": [ { "u_lose_bionic": "bio_inventor_mana_kj_penalty_switch" }, { "u_add_bionic": "bio_power_weakness" } ]
-            },
-            {
-              "if": { "u_has_bionics": "bio_inventor_calorie_storage" },
-              "then": [ { "u_lose_bionic": "bio_inventor_calorie_storage" }, { "u_add_bionic": "bio_drain" } ]
-            },
-            {
-              "if": { "u_has_bionics": "bio_inventor_creative_fuel" },
-              "then": [ { "u_lose_bionic": "bio_inventor_creative_fuel" }, { "u_add_bionic": "bio_dis_shock" } ]
-            },
-            {
-              "if": { "u_has_bionics": "bio_inventor_book_burn_boost" },
-              "then": [ { "u_lose_bionic": "bio_inventor_book_burn_boost" }, { "u_add_bionic": "bio_leaky" } ]
-            },
-            { "message": "You hear a sudden crack!" },
-            { "u_message": "Your lack of an inventor's aura is breaking the bionics that depend on it!" },
-            { "npc_message": "My bionics are falling apart!  It isn't me!" }
-          ]
-        }
+          "if": { "u_has_bionics": "bio_inventor_mana_kj_penalty_switch" },
+          "then": [ { "u_lose_bionic": "bio_inventor_mana_kj_penalty_switch" }, { "u_add_bionic": "bio_power_weakness" } ]
+        },
+        {
+          "if": { "u_has_bionics": "bio_inventor_calorie_storage" },
+          "then": [ { "u_lose_bionic": "bio_inventor_calorie_storage" }, { "u_add_bionic": "bio_drain" } ]
+        },
+        {
+          "if": { "u_has_bionics": "bio_inventor_creative_fuel" },
+          "then": [ { "u_lose_bionic": "bio_inventor_creative_fuel" }, { "u_add_bionic": "bio_dis_shock" } ]
+        },
+        {
+          "if": { "u_has_bionics": "bio_inventor_book_burn_boost" },
+          "then": [ { "u_lose_bionic": "bio_inventor_book_burn_boost" }, { "u_add_bionic": "bio_leaky" } ]
+        },
+        { "message": "You hear a sudden crack!" },
+        { "u_message": "Your lack of an inventor's aura is breaking the bionics that depend on it!" },
+        { "npc_message": "My bionics are falling apart!  It isn't me!" }
       ]
     }
   },
