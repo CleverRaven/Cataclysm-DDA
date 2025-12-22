@@ -1113,7 +1113,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     d.add_topic( "TALK_TEST_COMPARE_INT" );
     gen_response_lines( d, expected_answers );
     CHECK( d.responses[ 0 ].text == "This is a math test response that increments by 1." );
-    CHECK( d.responses[ 1 ].text == "This is an math test response that increments by 2." );
+    CHECK( d.responses[ 1 ].text == "This is a math test response that increments by 2." );
     CHECK( d.responses[ 2 ].text == "This is a u_add_var time test response." );
     CHECK( d.responses[expected_answers - 2].text == "Exp of Pew, Pew is -1." );
     CHECK( d.responses[expected_answers - 1].text ==
