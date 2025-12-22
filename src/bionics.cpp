@@ -38,6 +38,7 @@
 #include "dispersion.h"
 #include "effect.h"
 #include "effect_on_condition.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -923,7 +924,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         const std::optional<tripoint_bub_ms> pnt = choose_adjacent( _( "Start a fire where?" ) );
         if( pnt && here.is_flammable( *pnt ) && !here.get_field( *pnt, fd_fire ) ) {
             add_msg_activate();
-            here.add_field( *pnt, fd_fire, 1 );
+            here.add_field( *pnt, fd_fire, 1, 0_turns, true, effect_source( this ) );
             if( has_unfulfilled_pyromania() ) {
                 fulfill_pyromania_msg( _( "You happily light a fire." ), 5, 10, 3_hours, 2_hours );
             }
