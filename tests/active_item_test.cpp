@@ -70,7 +70,7 @@ TEST_CASE( "active_items_processed_regularly", "[active_item]" )
     CHECK( player_character.get_wielded_item()->typeId().str() == "chainsaw_off" );
     CHECK( here.i_at( player_character.pos_bub() ).only_item().typeId().str() == "chainsaw_off" );
 
-    const auto &vehicle_items = cargo->vehicle().get_items( cargo->part() );
+    const vehicle_stack &vehicle_items = cargo->vehicle().get_items( cargo->part() );
     const auto it = std::find_if( vehicle_items.begin(), vehicle_items.end(), []( const item & it ) {
         return it.typeId().str() == "chainsaw_off";
     } );
