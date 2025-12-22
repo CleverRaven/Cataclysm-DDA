@@ -113,7 +113,7 @@
     "responses": [
       { "text": "This is a basic test response.", "topic": "TALK_DONE" },
       {
-        "text": "This is an npc effect test response.",
+        "text": "This is an NPC effect test response.",
         "topic": "TALK_DONE",
         "condition": { "npc_has_effect": "gave_quest_item" }
       },
@@ -131,8 +131,8 @@
     "responses": [
       { "text": "This is a basic test response.", "topic": "TALK_DONE" },
       { "text": "This is a cash test response.", "topic": "TALK_DONE", "condition": { "u_has_cash": 500 } },
-      { "text": "This is an npc service test response.", "topic": "TALK_DONE", "condition": { "npc_service": 500 } },
-      { "text": "This is an npc available test response.", "topic": "TALK_DONE", "condition": "npc_available" }
+      { "text": "This is an NPC service test response.", "topic": "TALK_DONE", "condition": { "npc_service": 500 } },
+      { "text": "This is an NPC available test response.", "topic": "TALK_DONE", "condition": "npc_available" }
     ]
   },
   {
@@ -322,25 +322,25 @@
     "responses": [
       { "text": "This is a basic test response.", "topic": "TALK_DONE" },
       {
-        "text": "This is an switch 1 test response.",
+        "text": "This is a switch 1 test response.",
         "topic": "TALK_DONE",
         "condition": { "u_has_cash": 500 },
         "switch": true
       },
       {
-        "text": "This is an switch 2 test response.",
+        "text": "This is a switch 2 test response.",
         "topic": "TALK_DONE",
         "condition": { "u_has_cash": 50 },
         "switch": true
       },
       {
-        "text": "This is an switch default 1 test response.",
+        "text": "This is a switch default 1 test response.",
         "topic": "TALK_DONE",
         "condition": { "u_has_cash": 5 },
         "switch": true,
         "default": true
       },
-      { "text": "This is an switch default 2 test response.", "topic": "TALK_DONE", "switch": true, "default": true },
+      { "text": "This is a switch default 2 test response.", "topic": "TALK_DONE", "switch": true, "default": true },
       { "text": "This is another basic test response.", "topic": "TALK_DONE" }
     ]
   },
@@ -878,7 +878,7 @@
         "effect": { "math": [ "u_test_var_compare_test_test++" ] }
       },
       {
-        "text": "This is an math test response that increments by 2.",
+        "text": "This is a math test response that increments by 2.",
         "topic": "TALK_DONE",
         "effect": { "math": [ "n_test_var_compare_test_test += 2" ] }
       },
