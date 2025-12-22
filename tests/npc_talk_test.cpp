@@ -539,23 +539,23 @@ TEST_CASE( "npc_talk_switch", "[npc_talk]" )
     player_character.cash = 1000;
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is an switch 1 test response." );
+    CHECK( d.responses[1].text == "This is a switch 1 test response." );
     CHECK( d.responses[2].text == "This is another basic test response." );
     player_character.cash = 100;
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is an switch 2 test response." );
+    CHECK( d.responses[1].text == "This is a switch 2 test response." );
     CHECK( d.responses[2].text == "This is another basic test response." );
     player_character.cash = 10;
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is an switch default 1 test response." );
-    CHECK( d.responses[2].text == "This is an switch default 2 test response." );
+    CHECK( d.responses[1].text == "This is a switch default 1 test response." );
+    CHECK( d.responses[2].text == "This is a switch default 2 test response." );
     CHECK( d.responses[3].text == "This is another basic test response." );
     player_character.cash = 0;
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is an switch default 2 test response." );
+    CHECK( d.responses[1].text == "This is a switch default 2 test response." );
     CHECK( d.responses[2].text == "This is another basic test response." );
 }
 
