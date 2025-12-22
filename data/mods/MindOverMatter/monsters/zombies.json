@@ -125,6 +125,8 @@
     "emit_fields": [ { "emit_id": "emit_anti_psi", "delay": "1 s" } ],
     "grab_strength": 30,
     "special_attacks": [
+      [ "PARROT", 400 ],
+      [ "PARROT_AT_DANGER", 0 ],
       { "id": "grab", "cooldown": { "math": [ "5 + rand(10)" ] } },
       { "id": "bite_humanoid", "cooldown": { "math": [ "2 + rand(4)" ] } },
       {
