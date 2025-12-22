@@ -10208,7 +10208,6 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
     // iterate over zone positions and look for items to move
     for( const tripoint_abs_ms &src : src_sorted ) {
         placement = src;
-        coord_set.erase( src );
 
         const tripoint_bub_ms src_bub = here.get_bub( src );
         if( !here.inbounds( src_bub ) ) {
