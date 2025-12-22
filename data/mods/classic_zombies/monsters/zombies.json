@@ -80,13 +80,14 @@
       ]
     }
   },
-  {  
+  {
     "id": "mon_zombie_cunning",
     "type": "MONSTER",
     "copy-from": "mon_zombie",
     "name": { "str": "cunning zombie" },
     "description": "A human body, skin a sickly grayish color, moving with a slow shuffling motion.  Unlike the other zombies, there is a faint spark in its eyes, and it occasionally warily looks at its surroundings.",
     "upgrades": false,
+    "categories": [ "CLASSIC" ],
     "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "extend": { "flags": [ "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "PATH_AVOID_FALL" ] }
   }

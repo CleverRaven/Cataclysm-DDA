@@ -4,9 +4,6 @@
     "id": "GROUP_ZOMBIE_UPGRADE",
     "override": true,
     "//": "Upgrade group for classic zombies",
-    "monsters": [
-      { "monster": "mon_zombie", "weight": 1000 },
-      { "monster": "mon_zombie_cunning", "weight": 5 }
-    ]
+    "monsters": [ { "monster": "mon_zombie", "weight": 1000 }, { "monster": "mon_zombie_cunning", "weight": 5 } ]
   }
 ]
