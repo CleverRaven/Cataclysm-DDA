@@ -685,7 +685,7 @@ bool monexamine::pet_menu( monster &z )
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
     if( z.has_flag( mon_flag_EATS ) ) {
-        amenu.text = string_format( _( "What to do with your %s?\n" ), pet_name );
+        amenu.text = string_format( _( "What to do with your %s?\n" "Fullness: %i%%" ), pet_name, 100 );
     }
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push the %s" ), pet_name );
@@ -1008,7 +1008,7 @@ bool monexamine::mfriend_menu( monster &z )
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
     if( z.has_flag( mon_flag_EATS ) ) {
-        amenu.text = string_format( _( "What to do with your %s?\n" ), pet_name );
+        amenu.text = string_format( _( "What to do with your %s?\n" "Fullness: %i%%" ), pet_name, 100 );
     }
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
