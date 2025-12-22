@@ -647,7 +647,7 @@ bool main_menu::opening_screen()
                 if( queued_save_id_to_load.empty() ) {
                     world_to_load = world_generator->get_world( queued_world_to_load );
                     const std::vector<save_t> &world_saves = world_to_load->world_saves;
-                    if ( world_saves.empty() ) {
+                    if( world_saves.empty() ) {
                         throw false;
                     }
                     return world_saves.front();
