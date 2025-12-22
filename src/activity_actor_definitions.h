@@ -1057,6 +1057,7 @@ class migration_cancel_activity_actor : public activity_actor
 {
     public:
         migration_cancel_activity_actor() = default;
+        explicit migration_cancel_activity_actor( activity_id migrated_id ) : migrated_id( migrated_id ) {};
 
         const activity_id &get_type() const override {
             static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
@@ -1075,8 +1076,14 @@ class migration_cancel_activity_actor : public activity_actor
             return std::string();
         }
 
+        // some migrated activities need to revert behavior
+        // e.g. effects set by an activity
+        void revert( player_activity &, Character &who );
+
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        activity_id migrated_id = activity_id::NULL_ID();
 };
 
 class mine_activity_actor : public activity_actor

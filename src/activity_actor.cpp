@@ -4039,6 +4039,9 @@ void migration_cancel_activity_actor::do_turn( player_activity &act, Character &
     // Stop the activity
     act.set_to_null();
 
+    // Do activity-specific reversion
+    revert( act, who );
+
     // Ensure that neither avatars nor npcs end up in an invalid state
     if( who.is_npc() ) {
         npc &npc_who = dynamic_cast<npc &>( who );
@@ -4047,6 +4050,15 @@ void migration_cancel_activity_actor::do_turn( player_activity &act, Character &
         avatar &avatar_who = dynamic_cast<avatar &>( who );
         avatar_who.clear_destination();
         avatar_who.backlog.clear();
+    }
+}
+
+void migration_cancel_activity_actor::revert( player_activity &, Character &who )
+{
+    if( migrated_id == ACT_OPERATION ) {
+        who.remove_effect( effect_under_operation );
+        who.remove_effect( effect_narcosis );
+        who.remove_effect( effect_sleep );
     }
 }
 
