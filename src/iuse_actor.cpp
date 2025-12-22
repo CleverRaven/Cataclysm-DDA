@@ -37,6 +37,7 @@
 #include "dialogue_helpers.h"
 #include "effect.h"
 #include "effect_on_condition.h"
+#include "effect_source.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "explosion.h"
@@ -1516,7 +1517,7 @@ bool firestarter_actor::resolve_start( Character *p, map *here,
 {
     switch( type ) {
         case start_type::FIRE:
-            return here->add_field( pos, fd_fire, 1, 10_minutes );
+            return here->add_field( pos, fd_fire, 1, 10_minutes, true, effect_source( p ) );
         case start_type::SMOKER:
             return iexamine::smoker_fire( *p, pos );
         case start_type::KILN:

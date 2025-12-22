@@ -1098,7 +1098,7 @@ void field_processor_fd_fire( const tripoint_bub_ms &p, field_entry &cur, field_
                 maptile dst_tile = here.maptile_at_internal( dst );
                 field_entry *fire_there = dst_tile.find_field( fd_fire );
                 if( !fire_there ) {
-                    here.add_field( dst, fd_fire, 1, 0_turns, false );
+                    here.add_field( dst, fd_fire, 1, 0_turns, true, cur.get_effect_source() );
                     cur.mod_field_intensity( -1 );
                 } else {
                     // Don't fuel raging fires or they'll burn forever
@@ -1273,7 +1273,7 @@ void field_processor_fd_fire( const tripoint_bub_ms &p, field_entry &cur, field_
             if( nearfire != nullptr ) {
                 nearfire->mod_field_age( -2_turns );
             } else {
-                here.add_field( dst_p, fd_fire, 1, 0_turns, false );
+                here.add_field( dst_p, fd_fire, 1, 0_turns, true, cur.get_effect_source() );
             }
             // Fueling fires above doesn't cost fuel
         }
@@ -1327,7 +1327,7 @@ void field_processor_fd_fire( const tripoint_bub_ms &p, field_entry &cur, field_
                 ) ) {
                 // Nearby open flammable ground? Set it on fire.
                 // Make the new fire quite weak, so that it doesn't start jumping around instantly
-                if( here.add_field( dst_p, fd_fire, 1, 2_minutes, false ) ) {
+                if( here.add_field( dst_p, fd_fire, 1, 2_minutes, true, cur.get_effect_source() ) ) {
                     // Consume a bit of our fuel
                     cur.set_field_age( cur.get_field_age() + 1_minutes );
                 }
@@ -1387,7 +1387,7 @@ void field_processor_fd_fire( const tripoint_bub_ms &p, field_entry &cur, field_
                 ) ) {
                 // Nearby open flammable ground? Set it on fire.
                 // Make the new fire quite weak, so that it doesn't start jumping around instantly
-                if( here.add_field( dst_p, fd_fire, 1, 2_minutes, false ) ) {
+                if( here.add_field( dst_p, fd_fire, 1, 2_minutes, true, cur.get_effect_source() ) ) {
                     // Consume a bit of our fuel
                     cur.set_field_age( cur.get_field_age() + 1_minutes );
                 }
@@ -1600,7 +1600,7 @@ void map::player_in_field( Character &you )
 
                     int total_damage = 0;
                     for( const bodypart_id &part_burned : parts_burned ) {
-                        const dealt_damage_instance dealt = you.deal_damage( nullptr, part_burned,
+                        const dealt_damage_instance dealt = you.deal_damage( cur.get_causer(), part_burned,
                                                             damage_instance( damage_heat, rng( burn_min, burn_max ) ) );
                         total_damage += dealt.type_damage( damage_heat );
                     }
@@ -2085,7 +2085,7 @@ void map::monster_in_field( monster &z )
 
         // Finally, apply damage
         if( dam > 0 ) {
-            z.apply_damage( nullptr, z.get_random_body_part_of_type( bp_type::torso ), dam, true );
+            z.apply_damage( cur.get_causer(), z.get_random_body_part_of_type( bp_type::torso ), dam, true );
             z.check_dead_state( this );
         }
     }

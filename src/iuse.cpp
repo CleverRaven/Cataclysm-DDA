@@ -46,6 +46,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
+#include "effect_source.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -252,6 +253,8 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
+
+static const faction_id faction_your_followers( "your_followers" );
 
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
 
@@ -3621,6 +3624,9 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub
 
     if( !p ) {
         // It was thrown or dropped, so burst into flames
+        // This bool is a bit nasty, once it's left the character's inventory we're really not sure who threw or dropped it!
+        // But items assign ownership on pickup by a character, so if the owner is your_followers then it stands to reason it must be the player.
+        const bool thrown_by_player_or_follower = it->get_owner() == faction_your_followers;
         map &here = get_map();
         // Because fields decay with a half-life, we need to know how long it takes for the field to decay and set the age to slightly before that.
         // the duration is also used for the effect's timer. It's hilariously lethal regardless.
@@ -3629,9 +3635,17 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub
         for( const tripoint_bub_ms &pt : here.points_in_radius( pos, 1, 0 ) ) {
             Creature *critter = get_creature_tracker().creature_at( pt, true );
             if( critter && one_in( 2 ) ) {
-                critter->add_effect( effect_onfire, target_duration );
+                if( thrown_by_player_or_follower ) {
+                    critter->add_effect( effect_source( &get_player_character() ), effect_onfire, target_duration );
+                } else {
+                    critter->add_effect( effect_onfire, target_duration );
+                }
             } else if( !here.get_field( pt, fd_fire ) && one_in( 2 ) ) {
-                here.add_field( pt, fd_fire, 1, base_age );
+                if( thrown_by_player_or_follower ) {
+                    here.add_field( pt, fd_fire, 1, base_age, true, effect_source( &get_player_character() ) );
+                } else {
+                    here.add_field( pt, fd_fire, 1, base_age );
+                }
             }
         }
         avatar &player = get_avatar();
