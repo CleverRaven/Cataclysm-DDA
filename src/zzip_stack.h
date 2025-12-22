@@ -149,6 +149,8 @@ class zzip_stack
         mutable std::unordered_map<std::filesystem::path, file_temp, std_fs_path_hash> path_temp_map_;
         file_temp temp_of_file( std::filesystem::path const &zzip_relative_path ) const;
 
+        static std::filesystem::path filename_of_temp( std::filesystem::path const &folder,
+                file_temp temp );
         zzip &zzip_of_temp( file_temp temp ) const;
         std::optional<zzip> load_temp( file_temp temp ) const;
 };

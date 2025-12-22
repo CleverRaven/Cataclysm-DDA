@@ -25,6 +25,7 @@
 #include "translations.h"
 #include "uilist.h"
 #include "ui_manager.h"
+#include "worldfactory.h"
 
 namespace auto_notes
 {
@@ -42,7 +43,7 @@ void auto_note_settings::clear()
 bool auto_note_settings::save( bool bCharacter )
 {
     if( bCharacter && ( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) &&
-                        !file_exist( PATH_INFO::player_base_save_path() + ".sav.zzip" ) ) ) {
+                        !file_exist( PATH_INFO::player_base_save_path() + ".sav" + zzip_suffix ) ) ) {
         return true;
     }
     cata_path sGlobalFile = PATH_INFO::autonote();
