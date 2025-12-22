@@ -22,7 +22,6 @@
 #include "type_id.h"
 #include "units.h"
 
-static const bionic_id bio_metabolics( "bio_metabolics" );
 static const bionic_id bio_batteries( "bio_batteries" );
 // Change to some other weapon CBM if bio_blade is ever removed
 static const bionic_id bio_blade( "bio_blade" );
@@ -31,6 +30,7 @@ static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fuel_cell_gasoline( "bio_fuel_cell_gasoline" );
 static const bionic_id bio_fuel_wood( "bio_fuel_wood" );
+static const bionic_id bio_metabolics( "bio_metabolics" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 // Change to some other weapon CBM if bio_surgical_razor is ever removed
 static const bionic_id bio_surgical_razor( "bio_surgical_razor" );
