@@ -1,6 +1,42 @@
 [
   {
     "type": "speech",
+    "speaker": [ "mon_zombie_scientist_phavian" ],
+    "sound": "wheezing.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_scientist_phavian" ],
+    "sound": "moaning.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_scientist_phavian" ],
+    "sound": "gargling.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_scientist_phavian" ],
+    "sound": "growling.",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_scientist_phavian" ],
+    "sound": "grunting.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_scientist_phavian" ],
+    "sound": "gasping.",
+    "volume": 5
+  },
+  {
+    "type": "speech",
     "speaker": [ "mon_feral_human_pyrokin3", "mon_feral_human_pyrokin2", "mon_civilian_pyrokinetic" ],
     "sound": "the crackle of flames.",
     "volume": 10
