@@ -196,7 +196,6 @@ void generic_game_turn_handler( player_activity *act, Character *you, int morale
 void adv_inventory_do_turn( player_activity *act, Character *you );
 void armor_layers_do_turn( player_activity *act, Character *you );
 void atm_do_turn( player_activity *act, Character *you );
-void build_do_turn( player_activity *act, Character *you );
 void dismember_do_turn( player_activity *act, Character *you );
 void chop_trees_do_turn( player_activity *act, Character *you );
 void consume_drink_menu_do_turn( player_activity *act, Character *you );
@@ -207,8 +206,6 @@ void fertilize_plot_do_turn( player_activity *act, Character *you );
 void fetch_do_turn( player_activity *act, Character *you );
 void fill_liquid_do_turn( player_activity *act, Character *you );
 void find_mount_do_turn( player_activity *act, Character *you );
-void game_do_turn( player_activity *act, Character *you );
-void generic_game_do_turn( player_activity *act, Character *you );
 void hand_crank_do_turn( player_activity *act, Character *you );
 void multiple_butcher_do_turn( player_activity *act, Character *you );
 void multiple_chop_planks_do_turn( player_activity *act, Character *you );
@@ -221,7 +218,6 @@ void multiple_read_do_turn( player_activity *act, Character *you );
 void multiple_study_do_turn( player_activity *act, Character *you );
 void multiple_mine_do_turn( player_activity *act, Character *you );
 void multiple_mop_do_turn( player_activity *act, Character *you );
-void operation_do_turn( player_activity *act, Character *you );
 void repair_item_do_turn( player_activity *act, Character *you );
 void robot_control_do_turn( player_activity *act, Character *you );
 void start_fire_do_turn( player_activity *act, Character *you );
@@ -240,12 +236,9 @@ do_turn_functions;
 /** activity_finish functions: */
 void atm_finish( player_activity *act, Character *you );
 void eat_menu_finish( player_activity *act, Character *you );
-void generic_game_finish( player_activity *act, Character *you );
 void gunmod_add_finish( player_activity *act, Character *you );
 void heat_item_finish( player_activity *act, Character *you );
 void mend_item_finish( player_activity *act, Character *you );
-void operation_finish( player_activity *act, Character *you );
-void plant_seed_finish( player_activity *act, Character *you );
 void pull_creature_finish( player_activity *act, Character *you );
 void repair_item_finish( player_activity *act, Character *you );
 void robot_control_finish( player_activity *act, Character *you );
@@ -258,7 +251,6 @@ void teach_finish( player_activity *act, Character *you );
 void toolmod_add_finish( player_activity *act, Character *you );
 void train_finish( player_activity *act, Character *you );
 void vibe_finish( player_activity *act, Character *you );
-void wait_npc_finish( player_activity *act, Character *you );
 
 int move_cost( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest );
 int move_cost_cart( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest,
