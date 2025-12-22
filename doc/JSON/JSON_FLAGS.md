@@ -1166,7 +1166,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```GROUP_MORALE``` More courageous when near friends.
 - ```GUILT_ANIMAL``` Killing this monster(i.e. a hatchling or a kitten) causes guilt to the player and is counted for the kill thresholds of animals where player experiences progressively less morale penalty. WARNING: Do not use without 'death_guilt' death function or together with other guilt flags.
 - ```GUILT_CHILD``` Killing this monster(i.e. a zombie child or mutant child) causes guilt to the player and is counted for the kill thresholds of children where player experiences progressively less morale penalty. WARNING: Do not use without 'death_guilt' death function or together with other guilt flags.
-- ```GUILT_HUMAN``` Killing this monster(i.e. a panicked person or futile fighter) causes guilt to the player and is counted for the kill thresholds of non-NPC humans where player experiences progressively less morale penalty. WARNING: Do not use without 'death_guilt' death function or together with other guilt flags.
+- ```GUILT_HUMAN``` Killing this monster(i.e. a panicked person or futile fighter) counts as murdering an NPC. This is a special case, and does not require a death_function. (The effect is hardcoded)
 - ```GUILT_OTHERS``` Killing this monster(i.e. a blood sacrifice) causes guilt to the player and is counted for the kill thresholds of monsters that do not fit other categories where player experiences progressively less morale penalty. WARNING: Do not use without 'death_guilt' death function or together with other guilt flags.
 - ```HARDTOSHOOT``` It's one size smaller for ranged attacks, no less than the `TINY` flag.
 - ```HAS_MIND``` Is sapient and capable of reason (mi-go, triffids, cyborgs, etc.).  `HUMAN` assumes `HAS_MIND`.
@@ -1235,7 +1235,8 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```SUNDEATH``` Dies in full sunlight.
 - ```SWARMS``` Groups together and forms loose packs.
 - ```SWIMS``` (depricated in favor of [moveskills](MONSTERS.md#move_skills)) Treats water as 50 movement point terrain.
-- ```TRUESIGHT``` - The monster can see creatures normally even if they have the `CAMOUFLAGE`, `INVISIBLE` or `NIGHT_INVISIBILITY` flags
+- ```TRUESIGHT``` The monster can see creatures normally even if they have the `CAMOUFLAGE`, `INVISIBLE` or `NIGHT_INVISIBILITY` flags
+- ```UNREAKABLE_MORALE``` The monster will never run from combat once engaged
 - ```VAMP_VIRUS``` This monster can inflict the `vampire_virus` effect.  Used by Xedra Evolved mod.
 - ```VENOM``` Attack may poison the player.
 - ```WARM``` Warm blooded.

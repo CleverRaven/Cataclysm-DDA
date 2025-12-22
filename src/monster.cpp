@@ -3070,6 +3070,11 @@ void monster::die( map *here, Creature *nkiller )
         }
     }
 
+    // This is special-cased "death guilt" for human "monsters". They apply full murder penalties, it's quite a bit different to kill a living human than to re-kill the corpse of a child.
+    if( type->has_flag( mon_flag_GUILT_HUMAN ) && get_killer() == &get_player_character() ) {
+        get_player_character().apply_murder_penalties( this );
+    }
+
     if( type->mdeath_effect.eoc.has_value() ) {
         //Not a hallucination, go process the death effects.
         if( type->mdeath_effect.eoc.value().is_valid() ) {
@@ -3511,6 +3516,10 @@ void monster::process_effects()
             anger += 5;
             anger = std::min( anger, type->agro );
         }
+    }
+
+    if( has_flag( mon_flag_UNBREAKABLE_MORALE ) ) {
+        morale += 100;
     }
 
     if( has_flag( mon_flag_CORNERED_FIGHTER ) ) {

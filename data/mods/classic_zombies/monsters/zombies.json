@@ -3,7 +3,7 @@
     "id": "mon_zombie",
     "type": "MONSTER",
     "copy-from": "mon_zombie",
-    "description": "A human body, skin a grayish-green, moving with a slow shuffling motion.  Its eyes are glassy and unfocused.",
+    "delete": { "flags": [ "UNBREAKABLE_MORALE" ] },
     "extend": {
       "special_attacks": [
         {

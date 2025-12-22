@@ -606,7 +606,7 @@ units::length item::barrel_length() const
         units::length l = type->gun->barrel_length;
         for( const item *mod : mods() ) {
             // if a gun has a barrel length specifying mod then use that length for sure
-            if( mod->type->gunmod->barrel_length > 0_mm ) {
+            if( !mod->is_gun() && mod->type->gunmod->barrel_length > 0_mm ) {
                 l = mod->type->gunmod->barrel_length;
                 // if we find an explicit barrel mod then use that and quit the loop
                 break;

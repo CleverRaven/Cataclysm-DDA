@@ -655,6 +655,7 @@ class inventory_selector
         void add_character_items( Character &character, bool add_efiles = false );
         void add_character_ebooks( Character &character );
         void add_map_items( const tripoint_bub_ms &target, bool add_efiles = false );
+        void add_inaccessible_map_items( const tripoint_bub_ms &target, bool add_efiles = false );
         void add_vehicle_items( const tripoint_bub_ms &target, bool add_efiles = false );
         void add_nearby_items( int radius = 1, bool add_efiles = false );
         void add_remote_map_items( tinymap *remote_map, const tripoint_omt_ms &target );

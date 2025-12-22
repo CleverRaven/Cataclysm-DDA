@@ -143,6 +143,11 @@ std::string butcher_progress_var( const butcher_type action )
     return io::enum_to_string( action ) + "_progress";
 }
 
+std::string butcher_progress_time_var()
+{
+    return "butchery_progress_time";
+}
+
 // How much of `butcher_type` has already been completed, in range [0..1], 0=not started yet, 1=completed.
 // used for resuming previously started butchery
 double butcher_get_progress( const item &corpse_item, const butcher_type action )
@@ -1063,6 +1068,7 @@ void destroy_the_carcass( const butchery_data &bd, Character &you )
     const field_type_id type_gib = corpse->gibType();
 
     corpse_item.erase_var( butcher_progress_var( action ) );
+    corpse_item.erase_var( butcher_progress_time_var() );
 
     if( action == butcher_type::QUARTER ) {
         butchery_quarter( &corpse_item, you );
