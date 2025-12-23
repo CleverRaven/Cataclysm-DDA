@@ -32,8 +32,12 @@
       [ "hand_r", 1 ]
     ],
     "enchantments": [
-      { "value": "BIONIC_MANA_PENALTY", "multiply": -1 },
-      { "value": "BIONIC_POWER", "add": { "math": [ "u_val('mana') * -1000000" ] } }
+      {
+        "values": [
+          { "value": "BIONIC_MANA_PENALTY", "multiply": -1 },
+          { "value": "BIONIC_POWER", "add": { "math": [ "u_val('mana') * -1000000" ] } }
+        ]
+      }
     ]
   },
   {
@@ -70,8 +74,8 @@
     "enchantments": [
       {
         "values": [
-          { "value": "READING_EXP", "add": { "math": [ "u_effect_intensity('effect_burned_books') * -15" ] } },
-          { "value": "LEARNING_FOCUS", "add": { "math": [ "u_effect_intensity('effect_burned_books') * -15" ] } }
+          { "value": "READING_EXP", "add": { "math": [ "u_effect_intensity('effect_burned_books') * -20" ] } },
+          { "value": "LEARNING_FOCUS", "add": { "math": [ "u_effect_intensity('effect_burned_books') * -20" ] } }
         ]
       },
       { "skills": [ { "value": "deduction", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },

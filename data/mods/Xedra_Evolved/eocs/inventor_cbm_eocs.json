@@ -106,7 +106,7 @@
         ],
         "else": [
           {
-            "if": { "math": [ "u_vitamin('stored_calories') >= u_calories_needed * 1.2)" ] },
+            "if": { "math": [ "u_vitamin('stored_calories') >= u_calories_needed * 1.2" ] },
             "then": [
               { "math": [ "u_calories('dont_affect_weariness': true) -= 100" ] },
               { "math": [ "u_vitamin('stored_calories') += 75" ] },

@@ -729,7 +729,6 @@
       {
         "target": "crafting_assistant_on",
         "need_charges": 1,
-        "active": true,
         "msg": "The assistant deploys its new arms, ready to help with crafting.",
         "type": "transform"
       }

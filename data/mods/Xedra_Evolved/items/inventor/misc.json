@@ -239,8 +239,8 @@
     "longest_side": "200 mm",
     "material": [ "plastic", "steel" ],
     "symbol": ";",
-    "volume": "4 l",
-    "weight": "1.76 kg",
+    "volume": "4 L",
+    "weight": "1760 g",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -299,21 +299,12 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "Oneiromantic gaming rig" },
-    "looks_like": "",
     "description": "One of the harsh realities of being an inventor is needing to devote a third of your time to sleep and then devote some time to do non-inventor fun things.  This little wonder alleviates this issue by turning your sleep time in entertainment time through application of your deductive power!  Have it on your person while you sleep and your dreams will become anything you want!  No nightmare will disturb you, for you decide if they happen at all!",
     "material": [ "steel" ],
     "symbol": "n",
-    "volume": " ml",
-    "weight": "kg",
-    "use_action": [
-      {
-        "target": "inventor_gaming_rig_on",
-        "need_charges": 1,
-        "active": true,
-        "msg": "The gaming rig is ready.",
-        "type": "transform"
-      }
-    ],
+    "volume": "750 ml",
+    "weight": "1 kg",
+    "use_action": [ { "target": "inventor_gaming_rig_on", "need_charges": 1, "msg": "The gaming rig is ready.", "type": "transform" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

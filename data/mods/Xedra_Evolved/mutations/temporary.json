@@ -548,7 +548,6 @@
     "type": "mutation",
     "id": "CRAFTING_ASSISTANT_ARMS",
     "name": { "str": "Assistant's Arms" },
-    "active": true,
     "points": 1,
     "visibility": 10,
     "description": "Two arms emerge from your assistant, ready to help you with all crafting tasks.",
