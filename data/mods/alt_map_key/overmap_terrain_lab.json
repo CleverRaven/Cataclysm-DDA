@@ -210,10 +210,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "lab_surface_brick_blockA0", "lab_surface_brick_blockB0" ],
+    "copy-from": "lab_surface_brick_blockA0",
+    "name": "research facility garden",
+    "sym": "G",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
-      "lab_surface_brick_blockA0",
       "lab_surface_brick_blockA1",
-      "lab_surface_brick_blockB0",
       "lab_surface_brick_blockB1",
       "lab_surface_brick_blockC0",
       "lab_surface_brick_blockC1",
@@ -223,7 +229,7 @@
       "lab_surface_brick_blockE0",
       "lab_surface_brick_blockE1"
     ],
-    "copy-from": "lab_surface_brick_blockA0",
+    "copy-from": "lab_surface_brick_blockA1",
     "name": "parking lot",
     "sym": "P",
     "color": "light_blue"
@@ -367,7 +373,7 @@
       "lab_surface_brick_block5E4"
     ],
     "copy-from": "lab_surface_brick_block5A2",
-    "name": "research facility, roof",
+    "name": "research facility roof",
     "sym": "R",
     "color": "pink"
   },

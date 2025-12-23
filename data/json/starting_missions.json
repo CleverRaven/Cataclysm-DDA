@@ -207,7 +207,7 @@
         { "u_has_item": "remmington_700" },
         { "u_has_item": "modular_ar15" },
         { "u_has_item": "remington700_270" },
-        { "u_has_item": "savage_111f" }
+        { "u_has_item": "remington_700_308" }
       ]
     },
     "difficulty": 3,
@@ -382,13 +382,8 @@
         { "u_has_item": "maid_dress" },
         { "u_has_item": "mummy_dress" },
         { "u_has_item": "bee_dress" },
-        { "u_has_item": "sinister_dress" },
-        { "u_has_item": "sinister_gown" },
         { "u_has_item": "cloak_vampire" },
         { "u_has_item": "cloak_vampire_red" },
-        { "u_has_item": "witch_dress" },
-        { "u_has_item": "witch_dress_long" },
-        { "u_has_item": "witch_dress_short" },
         { "u_has_item": "robe_wizard" },
         { "u_has_item": "ninja_dress" },
         { "u_has_item": "ninja_dress_sleeveless" },
@@ -455,7 +450,7 @@
     "name": { "str": "Dress with style" },
     "description": "You need to always dress in style and fashion.  Find a dress or tuxedo for your personal use.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "or": [ { "u_has_item": "dress" }, { "u_has_item": "sinister_gown" }, { "u_has_item": "tux" } ] },
+    "goal_condition": { "or": [ { "u_has_item": "gown" }, { "u_has_item": "tux" } ] },
     "difficulty": 2,
     "value": 0,
     "end": {

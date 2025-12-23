@@ -424,7 +424,7 @@ void outfit::recalc_ablative_blocking( const Character *guy )
     for( item &w : worn ) {
         if( w.is_ablative() ) {
             should_warn = true;
-            for( item_pocket *p : w.get_all_ablative_pockets() ) {
+            for( item_pocket *p : w.get_ablative_pockets() ) {
                 p->set_no_rigid( rigid_locations );
             }
         }
@@ -495,7 +495,7 @@ ret_val<void> Character::can_takeoff( const item &it, const std::list<item> *res
 {
     if( !worn.is_worn( it ) ) {
         return ret_val<void>::make_failure( !is_npc() ? _( "You are not wearing that item." ) :
-                                            _( "<npcname> is not wearing that item." ) );
+                                            _( "<npcname> isn't wearing that item." ) );
     }
 
     if( it.has_flag( flag_INTEGRATED ) ) {
@@ -650,7 +650,7 @@ bool Character::is_wearing_shoes( const side &check_side ) const
 
     for( const bodypart_id &part : get_all_body_parts() ) {
         // Is any right|left foot...
-        if( !part->has_type( body_part_type::type::foot ) ) {
+        if( !part->has_type( bp_type::foot ) ) {
             continue;
         }
         side_covered = worn.is_wearing_shoes( part );
@@ -858,7 +858,7 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
             // do the sublayers of this armor conflict
             bool conflicts = false;
 
-            // check if we've already added conflict for the layer and body part since each sbp is check individually
+            // check if we've already added conflict for the layer and body part since each sbp is checked individually
             std::map<layer_level, bool> bpcovered;
 
             // add the sublocations to the overall body part layer and update if we are conflicting
@@ -1214,18 +1214,6 @@ units::mass outfit::weight_carried_with_tweaks( const std::map<const item *, int
                 }
             }
             ret += i.weight();
-        }
-    }
-    return ret;
-}
-
-units::volume outfit::contents_volume_with_tweaks( const std::map<const item *, int> &without )
-const
-{
-    units::volume ret = 0_ml;
-    for( const item &i : worn ) {
-        if( !without.count( &i ) ) {
-            ret += i.get_contents_volume_with_tweaks( without );
         }
     }
     return ret;
@@ -1635,23 +1623,17 @@ bool outfit::covered_with_flag( const flag_id &f, const body_part_set &parts ) c
     return to_cover.none();
 }
 
-units::volume outfit::free_space() const
+units::volume outfit::remaining_volume_recursive( const std::function<bool( const item_pocket & )> &
+        include_pocket,
+        const std::function<bool( const item_pocket & )> &check_pocket_tree ) const
 {
-    units::volume volume_capacity = 0_ml;
+    units::volume result = 0_ml;
     for( const item &w : worn ) {
-        volume_capacity += w.get_total_capacity();
-        for( const item_pocket *pocket : w.get_all_contained_pockets() ) {
-            if( pocket->contains_phase( phase_id::SOLID ) ) {
-                for( const item *it : pocket->all_items_top() ) {
-                    volume_capacity -= it->volume();
-                }
-            } else if( !pocket->empty() ) {
-                volume_capacity -= pocket->volume_capacity();
-            }
-        }
-        volume_capacity += w.check_for_free_space();
+        // discarded, currently don't care if a character's entire outfit gets bigger.
+        units::volume expansion = 0_ml;
+        result += w.get_remaining_volume_recursive( include_pocket, check_pocket_tree, expansion );
     }
-    return volume_capacity;
+    return result;
 }
 
 units::mass outfit::free_weight_capacity() const
@@ -1663,89 +1645,15 @@ units::mass outfit::free_weight_capacity() const
     return weight_capacity;
 }
 
-units::volume outfit::holster_volume() const
-{
-    units::volume ret = 0_ml;
-    for( const item &w : worn ) {
-        if( w.is_holster() ) {
-            ret += w.get_total_capacity();
-        }
-    }
-    return ret;
-}
-
-int outfit::empty_holsters() const
-{
-    int e_holsters = 0;
-    for( const item &w : worn ) {
-        if( w.is_holster() && w.is_container_empty() ) {
-            e_holsters += 1;
-        }
-    }
-    return e_holsters;
-}
-
-int outfit::used_holsters() const
-{
-    int e_holsters = 0;
-    for( const item &w : worn ) {
-        e_holsters += w.get_used_holsters();
-    }
-    return e_holsters;
-}
-
-int outfit::total_holsters() const
-{
-    int e_holsters = 0;
-    for( const item &w : worn ) {
-        e_holsters += w.get_total_holsters();
-    }
-    return e_holsters;
-}
-
-units::volume outfit::free_holster_volume() const
-{
-    units::volume holster_volume = 0_ml;
-    for( const item &w : worn ) {
-        holster_volume += w.get_total_holster_volume() - w.get_used_holster_volume();
-    }
-    return holster_volume;
-}
-
-units::volume outfit::small_pocket_volume( const units::volume &threshold )  const
-{
-    units::volume small_spaces = 0_ml;
-    for( const item &w : worn ) {
-        if( !w.is_holster() ) {
-            for( const item_pocket *pocket : w.get_all_contained_pockets() ) {
-                if( pocket->volume_capacity() <= threshold ) {
-                    small_spaces += pocket->volume_capacity();
-                }
-            }
-        }
-    }
-    return small_spaces;
-}
-
-units::volume outfit::volume_capacity() const
+units::volume outfit::volume_capacity( const std::function<bool( const item_pocket & )>
+                                       &include_pocket )
+const
 {
     units::volume cap = 0_ml;
     for( const item &w : worn ) {
-        cap += w.get_total_capacity();
+        cap += w.get_volume_capacity( include_pocket );
     }
     return cap;
-}
-
-units::volume outfit::volume_capacity_with_tweaks(
-    const std::map<const item *, int> &without ) const
-{
-    units::volume vol = 0_ml;
-    for( const item &i : worn ) {
-        if( !without.count( &i ) ) {
-            vol += i.get_total_capacity();
-        }
-    }
-    return vol;
 }
 
 int outfit::pocket_warmth() const
@@ -2037,7 +1945,7 @@ std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy )
             if( !i.is_bp_rigid_selective( sbp ) && !i.is_bp_comfortable( sbp ) &&
                 i.weight() > units::from_gram( 250 ) ) {
 
-                // need to go through each locations under location to check if its covered, since secondary locations can cover multiple underlying locations
+                // need to go through each locations under location to check if it's covered, since secondary locations can cover multiple underlying locations
                 for( const sub_bodypart_str_id &under_sbp : sbp->locations_under ) {
                     if( covered_sbps.count( under_sbp ) != 1 ) {
                         guy.add_msg_if_player(
@@ -2291,7 +2199,7 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
         }
         info.avg_coverage += temp_coverage;
 
-        // need to do each sub part seperately and then average them if need be
+        // need to do each sub part separately and then average them if need be
         for( const sub_bodypart_id &sbp : sub_parts ) {
             int coverage = armor.get_coverage( sbp );
 
@@ -2382,12 +2290,71 @@ static std::vector<pocket_data_with_parent> get_child_pocket_with_parent(
 
         for( const item *contained : pocket->all_items_top() ) {
             const item_location poc_loc = item_location( it, const_cast<item *>( contained ) );
-            for( const item_pocket *pocket_nest : contained->get_all_contained_pockets() ) {
+            for( const item_pocket *pocket_nest : contained->get_container_pockets() ) {
                 std::vector<pocket_data_with_parent> child =
                     get_child_pocket_with_parent( pocket_nest, new_parent,
                                                   poc_loc, nested_level + 1, filter );
                 ret.insert( ret.end(), child.begin(), child.end() );
             }
+        }
+    }
+    return ret;
+}
+
+using pocket_with_constraint = std::pair<const item_pocket *, pocket_constraint>;
+
+static std::vector<pocket_with_constraint> get_all_pockets_with_constraints_recursive(
+    const item_pocket *pocket,
+    const std::function<bool( const item_pocket & )> &include_pocket,
+    const std::function<bool( const item_pocket & )> &check_pocket_tree )
+{
+    std::vector<pocket_with_constraint> pwcs;
+    if( include_pocket( *pocket ) ) {
+        pwcs.emplace_back( pocket, pocket_constraint( pocket ) );
+    }
+    for( const item *contained : pocket->all_items_top() ) {
+        for( const item_pocket *inner_pocket : contained->get_pockets( check_pocket_tree ) ) {
+            std::vector<pocket_with_constraint> children = get_all_pockets_with_constraints_recursive(
+                        inner_pocket,
+                        include_pocket,
+                        check_pocket_tree
+                    );
+            for( auto &c : children ) {
+                c.second.constrain_by( pocket );
+            }
+            pwcs.insert( pwcs.end(), children.begin(), children.end() );
+        }
+    }
+    return pwcs;
+}
+
+static void get_all_pockets_with_constraints_in_loc_recursive( const item_location &loc,
+        const std::function<bool( const item_pocket & )> &include_pocket,
+        const std::function<bool( const item_pocket & )> &check_pocket_tree,
+        std::vector<pocket_with_constraint> &insert_in )
+{
+    for( const item_pocket *pocket : loc->get_pockets( check_pocket_tree ) ) {
+        std::vector<pocket_with_constraint> children = get_all_pockets_with_constraints_recursive( pocket,
+                include_pocket, check_pocket_tree );
+        insert_in.insert( insert_in.end(), children.begin(), children.end() );
+    }
+}
+
+std::vector<pocket_with_constraint> Character::get_all_pockets_with_constraints(
+    const std::function<bool( const item_pocket & )> &include_pocket,
+    const std::function<bool( const item_pocket & )> &check_pocket_tree
+)
+{
+    std::vector<pocket_with_constraint> ret;
+    item_location carried_item = get_wielded_item();
+    if( carried_item != item_location::nowhere ) {
+        get_all_pockets_with_constraints_in_loc_recursive( carried_item, include_pocket, check_pocket_tree,
+                ret );
+    }
+    for( item_location &worn_loc : top_items_loc() ) {
+        if( worn_loc != item_location::nowhere ) {
+            get_all_pockets_with_constraints_in_loc_recursive( worn_loc, include_pocket, check_pocket_tree,
+                    ret );
         }
     }
     return ret;
@@ -2417,7 +2384,7 @@ std::vector<pocket_data_with_parent> Character::get_all_pocket_with_parent(
     }
 
     for( item_location &loc : locs ) {
-        for( const item_pocket *pocket : loc->get_all_contained_pockets() ) {
+        for( const item_pocket *pocket : loc->get_container_pockets() ) {
             std::vector<pocket_data_with_parent> child =
                 get_child_pocket_with_parent( pocket, item_location::nowhere, loc, 0, filter );
             ret.insert( ret.end(), child.begin(), child.end() );
@@ -2577,7 +2544,7 @@ int outfit::clatter_sound() const
     for( const item &i : worn ) {
         // if the item has noise making pockets we should check if they have clatered
         if( i.has_noisy_pockets() ) {
-            for( const item_pocket *pocket : i.get_all_contained_pockets() ) {
+            for( const item_pocket *pocket : i.get_container_pockets() ) {
                 int noise_chance = pocket->get_pocket_data()->activity_noise.chance;
                 int volume = pocket->get_pocket_data()->activity_noise.volume;
                 if( noise_chance > 0 && !pocket->empty() ) {
@@ -2592,7 +2559,7 @@ int outfit::clatter_sound() const
     return std::round( max_volume );
 }
 
-float outfit::clothing_wetness_mult( const bodypart_id &bp ) const
+float outfit::clothing_wetness_mult( const bodypart_id &bp, bool permeability_check ) const
 {
     float clothing_mult = 1.0;
     for( const item &i : worn ) {
@@ -2607,9 +2574,13 @@ float outfit::clothing_wetness_mult( const bodypart_id &bp ) const
         }
     }
 
-    // always some evaporation even if completely covered
-    // doesn't handle things that would be "air tight"
-    clothing_mult = std::max( clothing_mult, .1f );
+    // Skip this part if we're checking for permeability
+    // and not dealing with sweat
+    if( !permeability_check ) {
+        // always some evaporation even if completely covered
+        // doesn't handle things that would be "air tight"
+        clothing_mult = std::max( clothing_mult, .1f );
+    }
     return clothing_mult;
 }
 
@@ -2618,7 +2589,7 @@ std::vector<item_pocket *> outfit::grab_drop_pockets()
     std::vector<item_pocket *> pd;
     for( item &i : worn ) {
         if( i.has_ripoff_pockets() ) {
-            for( item_pocket *pocket : i.get_all_contained_pockets() ) {
+            for( item_pocket *pocket : i.get_container_pockets() ) {
                 if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
                     pd.push_back( pocket );
                 }
@@ -2637,7 +2608,7 @@ std::vector<item_pocket *> outfit::grab_drop_pockets( const bodypart_id &bp )
             continue;
         }
         if( i.has_ripoff_pockets() ) {
-            for( item_pocket *pocket : i.get_all_contained_pockets() ) {
+            for( item_pocket *pocket : i.get_container_pockets() ) {
                 if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
                     pd.push_back( pocket );
                 }

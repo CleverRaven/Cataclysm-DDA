@@ -10,7 +10,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
-#include "construction.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
@@ -22,7 +21,7 @@
 #include "item.h"
 #include "itype.h"
 #include "magic.h"
-#include "map.h"
+#include "messages.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
@@ -40,7 +39,6 @@
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
@@ -191,19 +189,6 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
             extra_info = string_format( "%d%%", percentage );
         }
 
-        if( type == ACT_BUILD ) {
-            map &here = get_map();
-
-            partial_con *pc =
-                here.partial_con_at( here.get_bub( u.activity.placement ) );
-            if( pc ) {
-                int counter = std::min( pc->counter, 10000000 );
-                const int percentage = counter / 100000;
-
-                extra_info = string_format( "%d%%", percentage );
-            }
-        }
-
         if( type == ACT_SPELLCASTING ) {
             const std::string spell_name = spell_id( name )->name.translated();
             extra_info = string_format( "%s …", spell_name );
@@ -307,11 +292,7 @@ void player_activity::do_turn( Character &you )
     if( !type->do_turn_EOC.is_null() ) {
         // if we have an EOC defined in json do that
         dialogue d( get_talker_for( you ), nullptr );
-        if( type->do_turn_EOC->type == eoc_type::ACTIVATION ) {
-            type->do_turn_EOC->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
-        }
+        type->do_turn_EOC->activate_activation_only( d, "player activities" );
         // We may have canceled this via a message interrupt.
         if( type.is_null() ) {
             activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
@@ -385,12 +366,10 @@ void player_activity::do_turn( Character &you )
         if( !type->completion_EOC.is_null() ) {
             // if we have an EOC defined in json do that
             dialogue d( get_talker_for( you ), nullptr );
-            if( type->completion_EOC->type == eoc_type::ACTIVATION ) {
-                type->completion_EOC->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
-            }
+            type->completion_EOC->activate_activation_only( d, "player activities" );
         }
+        add_msg_debug( debugmode::DF_ACTIVITY, "Setting activity %s to null for %s, no moves left.",
+                       type.c_str(), you.name );
         get_event_bus().send<event_type::character_finished_activity>( you.getID(), type, false );
         g->wait_popup_reset();
         if( actor ) {

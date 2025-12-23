@@ -17,15 +17,27 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "afs_magellan_suit_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 25 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 25 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 15 },
-      { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 10 },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "titanium", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "encumbrance": 25,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "torso", "leg_l", "leg_r" ]
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 2,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
+      },
       {
         "material": [
           { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 },
@@ -34,8 +46,7 @@
         "encumbrance": 6,
         "coverage": 100,
         "cover_vitals": 100,
-        "covers": [ "foot_l", "foot_r" ],
-        "volume_encumber_modifier": 0.3
+        "covers": [ "foot_l", "foot_r" ]
       }
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
@@ -49,7 +60,6 @@
       "GAS_PROOF",
       "POCKETS",
       "RAINPROOF",
-      "STURDY",
       "RAD_RESIST",
       "RECHARGE",
       "OUTER",
@@ -64,7 +74,7 @@
     "copy-from": "afs_magellan_suit",
     "repairs_like": "afs_magellan_suit",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "Magellan exosuit (on)", "str_pl": "Magellan exosuits (on)" },
     "looks_like": "afs_cryopod_bodyglove",
     "description": "The temperature control units of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
@@ -78,7 +88,7 @@
       "msg": "Your %s deactivates.",
       "target": "afs_magellan_suit"
     },
-    "extend": { "flags": [ "ACTIVE_CRYOSUIT" ] }
+    "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "afs_frontier_cryo",
@@ -98,26 +108,37 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "afs_frontier_cryo_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
     "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 5 },
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 35 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 25 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 25 },
-      { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 25 },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 25,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 35,
+        "coverage": 100,
+        "covers": [ "torso" ]
+      },
       {
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
+          { "type": "nanoprinted_alloy", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "encumbrance": 6,
         "coverage": 100,
         "cover_vitals": 100,
-        "covers": [ "foot_l", "foot_r" ],
-        "volume_encumber_modifier": 0.3
+        "covers": [ "foot_l", "foot_r" ]
       }
     ],
     "pocket_data": [
@@ -130,7 +151,6 @@
     ],
     "warmth": 20,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OUTER" ],
     "tool_ammo": "battery",
@@ -141,14 +161,14 @@
     "copy-from": "afs_frontier_cryo",
     "repairs_like": "afs_frontier_cryo",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "frontier cryo suit (on)", "str_pl": "frontier cryo suits (on)" },
-    "looks_like": "afs_cryopod_bodyglove",
+    "looks_like": "robofac_enviro_suit",
     "description": "The temperature control units of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
     "power_draw": "6944 mW",
     "warmth": 150,
     "revert_to": "afs_frontier_cryo",
-    "extend": { "flags": [ "ACTIVE_CRYOSUIT" ] },
+    "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] },
     "use_action": {
       "type": "transform",
       "ammo_scale": 0,
@@ -176,28 +196,26 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "afs_combat_cryo_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
     "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 2 },
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 2 },
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 2 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 2 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 2 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 2 },
-      { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 2 },
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "encumbrance": 2,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "head", "torso", "eyes", "mouth", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ]
+      },
       {
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "nanoprinted_alloy", "covered_by_mat": 100, "thickness": 1.0 }
         ],
-        "encumbrance": 2,
+        "encumbrance": 6,
         "coverage": 100,
         "cover_vitals": 100,
-        "covers": [ "foot_l", "foot_r" ],
-        "volume_encumber_modifier": 0.3
+        "covers": [ "foot_l", "foot_r" ]
       }
     ],
     "pocket_data": [
@@ -211,7 +229,7 @@
     "warmth": 20,
     "material_thickness": 0.5,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "SKINTIGHT", "SOFT" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "NORMAL", "SOFT" ],
     "tool_ammo": "battery",
     "passive_effects": [ { "id": "afs_ench_climate_control_warm" }, { "id": "afs_ench_cryo_ui" } ]
   },
@@ -220,7 +238,7 @@
     "copy-from": "afs_combat_cryo",
     "repairs_like": "afs_frontier_cryo",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "combat cryo suit (on)", "str_pl": "combat cryo suits (on)" },
     "looks_like": "afs_cryopod_bodyglove",
     "description": "The temperature control units of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
@@ -234,7 +252,7 @@
       "msg": "Your %s deactivates.",
       "target": "afs_combat_cryo"
     },
-    "extend": { "flags": [ "ACTIVE_CRYOSUIT" ] }
+    "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "afs_combat_cryo_xl",
@@ -248,7 +266,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "afs_combat_cryo_on_xl",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -269,7 +286,7 @@
       "msg": "Your %s deactivates.",
       "target": "afs_combat_cryo_xl"
     },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ACTIVE_CRYOSUIT" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "afs_cryopod_bodyglove",
@@ -283,7 +300,7 @@
     "description": "A dark orange bodyglove, hundreds of tubes curl over its surface, tracing the contours of human musculature.  Meant to control body temperature during prolonged cryopreservation, it could easily keep you comfortable in any earthly climate.  Use it to activate its climate control functionality.",
     "price": "15 kUSD",
     "price_postapoc": "1 kUSD 500 USD",
-    "material": [ "nylon", "cotton" ],
+    "material": [ "nylon", "nanoprinted_alloy" ],
     "weight": "1250 g",
     "volume": "4500 ml",
     "charges_per_use": 5,
@@ -299,19 +316,30 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "afs_cryopod_bodyglove_on",
-      "active": true,
       "need_charges": 5,
       "need_charges_msg": "The %s's batteries are dead."
     },
     "warmth": 20,
     "environmental_protection": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "RAINPROOF", "STURDY", "WATERPROOF", "PADDED" ],
+    "flags": [ "VARSIZE", "NORMAL", "RAINPROOF", "STURDY", "WATERPROOF", "PADDED" ],
     "armor": [
       {
-        "encumbrance": 5,
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "encumbrance": 2,
         "coverage": 100,
-        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "cover_vitals": 100,
+        "covers": [ "head", "torso", "eyes", "mouth", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "nanoprinted_alloy", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 6,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "foot_l", "foot_r" ]
       }
     ],
     "tool_ammo": "battery",
@@ -322,7 +350,7 @@
     "copy-from": "afs_cryopod_bodyglove",
     "repairs_like": "afs_cryopod_bodyglove",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "cryopod bodyglove (on)", "str_pl": "cryopod bodygloves (on)" },
     "looks_like": "afs_cryopod_bodyglove",
     "description": "A dark orange bodyglove, hundreds of tubes curl over its surface, tracing the contours of human musculature.  Meant to control body temperature during prolonged cryopreservation, it could easily keep you comfortable in any earthly climate.  The temperature control units of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
@@ -345,7 +373,8 @@
       "PADDED",
       "THERMOMETER",
       "HYGROMETER",
-      "ACTIVE_CRYOSUIT"
+      "ACTIVE_CRYOSUIT",
+      "SPAWN_ACTIVE"
     ]
   }
 ]

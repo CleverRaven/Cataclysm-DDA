@@ -1,6 +1,6 @@
 [
   {
-    "//": "This file contains *personality* traits, intended to give players an idea an NPC's decision making via TALK_ASSESS_PERSON and other dialogue.",
+    "//": "This file contains *personality* traits, intended to give players an idea of an NPC's decision making via TALK_ASSESS_PERSON and other dialogue.",
     "//1": "None of them should provide gameplay effects (e.g. more HP or more damage).",
     "//2": "All of them are reset when the game is loaded, and otherwise applied to any newly generated NPCs at the time of generation.",
     "id": "personality_ultra_selfish",
@@ -121,7 +121,7 @@
     "id": "personality_collector_plus",
     "type": "mutation",
     "name": { "str": "Scrooge" },
-    "description": "<npc_name> collects trash like a RPG protagonist collects potions.",
+    "description": "<npc_name> collects trash like an RPG protagonist collects potions.",
     "points": 0,
     "valid": false,
     "purifiable": false,

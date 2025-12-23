@@ -289,7 +289,8 @@
                         "VAMPIRE_EARTH_SLUMBER",
                         "VAMPIRE_CARDIO_BONUS",
                         "VAMPIRE_MOTION_ALARM",
-                        "VAMPIRE_BONUS_HP"
+                        "VAMPIRE_BONUS_HP",
+                        "VAMPIRE_RENDING_TEETH"
                       ],
                       "type": "mutation",
                       "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
@@ -328,6 +329,7 @@
                         "VAMPIRE_DOMINATE",
                         "VAMPIRE_NO_BREATHE",
                         "VAMPIRE_NO_ILLNESS",
+                        "VAMPIRE_SUMMON_SHADOWS",
                         "VAMPIRE_BAT_FORM",
                         "VAMPIRE_WOLF_FORM",
                         "VAMPIRE_MIST_FORM"
@@ -617,20 +619,6 @@
       {
         "u_roll_remainder": [ "ANATHEMA_WEAKNESS_SUN_BURN", "ANATHEMA_WEAKNESS_MIND_CHAOS", "ANATHEMA_WEAKNESS_NEED_VAMPIRE_BLOOD" ],
         "type": "mutation"
-      },
-      {
-        "run_eocs": {
-          "id": "EOC_VAMPIRE_ANATHEMA_ADD_SUN_GRACE_PERIOD",
-          "//": "As suddenly gaining this weakness in the wild or otherwise away from shelter is a death sentence, its effects won't trigger instantly after gaining the weakness.",
-          "condition": { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
-          "effect": [
-            {
-              "u_message": "You have a sudden feeling of dread.  In a few hours, the sun will burn you to a crisp if you ever stand under its unblocked rays.",
-              "type": "bad"
-            },
-            { "u_add_effect": "effect_sun_burn_grace_period", "intensity": 1, "duration": "5 hours" }
-          ]
-        }
       }
     ]
   },

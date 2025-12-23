@@ -175,10 +175,7 @@ static const ter_str_id ter_t_slide( "t_slide" );
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
 static const ter_str_id ter_t_underbrush( "t_underbrush" );
-static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvested_autumn" );
-static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
-static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvested_summer" );
-static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
+static const ter_str_id ter_t_underbrush_harvested( "t_underbrush_harvested" );
 
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
@@ -440,7 +437,7 @@ static int get_signal_for_hordes( const centroid &centr )
     const int underground_div = 2; //Coefficient for volume reduction underground
     const int hordes_sig_div = SEEX; //Divider coefficient for hordes
     const int min_sig_cap = 8; //Signal for hordes can't be lower that this if it pass min_vol_cap
-    const int max_sig_cap = 26; //Signal for hordes can't be higher that this
+    const int max_sig_cap = 180; //Signal for hordes can't be higher that this
     //Lower the level - lower the sound
     int vol_hordes = ( ( centr.z < 0 ) ? vol / ( underground_div * std::abs( centr.z ) ) : vol );
     if( vol_hordes > min_vol_cap ) {
@@ -1308,7 +1305,7 @@ void sfx::do_ambient()
 
 // firing is the item that is fired. It may be the wielded gun, but it can also be an attached
 // gunmod. p is the character that is firing, this may be a pseudo-character (used by monattack/
-// vehicle turrets) or a NPC.
+// vehicle turrets) or an NPC.
 void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
 {
     if( test_mode ) {
@@ -1768,10 +1765,7 @@ void sfx::do_footstep()
             ter_t_shrub_lilac,
             ter_t_shrub_lilac_harvested,
             ter_t_underbrush,
-            ter_t_underbrush_harvested_spring,
-            ter_t_underbrush_harvested_summer,
-            ter_t_underbrush_harvested_autumn,
-            ter_t_underbrush_harvested_winter,
+            ter_t_underbrush_harvested,
             ter_t_moss,
             ter_t_grass_white,
             ter_t_grass_long,

@@ -7,7 +7,7 @@
     "name": "broken sniper bot",
     "category": "other",
     "description": "A broken sniper bot.  Total scrap, but some stuff is still useful.",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "weight": "40 kg",
     "volume": "150 L",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
@@ -20,7 +20,7 @@
     "name": "broken shotgun bot",
     "category": "other",
     "description": "A broken shotgun bot.  Total scrap, but some stuff is still useful.",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "weight": "40 kg",
     "volume": "150 L",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
@@ -33,7 +33,7 @@
     "name": "broken cutthroater",
     "category": "other",
     "description": "A broken cutthroater.  Total scrap, but some stuff is still useful.",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "weight": "40 kg",
     "volume": "150 L",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
@@ -50,7 +50,6 @@
     "material": [ "qt_steel" ],
     "volume": "410 L",
     "weight": "498 kg",
-    "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 20, "cut": 15 }
   },
@@ -63,10 +62,9 @@
     "category": "other",
     "description": "The automaton is now much more broken than it was before.  It resembles a pile of random parts and its internals are fried beyond salvage but could be gutted for materials.",
     "price": "0 USD",
-    "material": [ "steel", "dreamstuff" ],
+    "material": [ "lc_steel", "dreamstuff" ],
     "volume": "210 L",
     "weight": "195 kg",
-    "to_hit": -2,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 10 }
   },
@@ -76,6 +74,7 @@
     "//": "Changeling corpses.",
     "copy-from": "corpse",
     "name": { "str": "fae corpse" },
+    "volume": "810 L",
     "description": "The dead body of a changeling.  There are multiple bites across the body and numerous scratches.  It looks like blood loss might have brought them down.",
     "looks_like": "corpse_generic_human",
     "material": [ "fae_flesh" ],

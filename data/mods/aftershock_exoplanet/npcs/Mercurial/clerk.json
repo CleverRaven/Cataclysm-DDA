@@ -52,7 +52,7 @@
     "dynamic_line": "&The Mercurial store is attended by a massive clerk, sleek scales adorn their massive forearms and slightly pointed ears.  They greet you with a voice that is both deep and melodious, \"Welcome to Mercurial Genetech, where we can help you unlock your potential.\"",
     "responses": [
       {
-        "text": "I'm looking into augments",
+        "text": "I'm looking into augments.",
         "topic": "TALK_DONE",
         "effect": "start_trade",
         "condition": { "not": { "u_has_any_trait": [ "ESPER_ADVANCEMENT_OKAY", "ESPER_STARTER_ADVANCEMENT_OKAY" ] } }

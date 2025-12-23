@@ -33,6 +33,7 @@ static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_none( "null" );
 
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_seed_buckwheat( "seed_buckwheat" );
 
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
@@ -80,13 +81,7 @@ std::vector<item> vehicle_part::get_salvageable() const
         item newit( comp.type, calendar::turn );
         if( base.typeId() != comp.type && !newit.has_flag( flag_UNRECOVERABLE ) ) {
             int compcount = comp.count;
-            const bool is_liquid = newit.made_of( phase_id::LIQUID );
-            if( newit.count_by_charges() || is_liquid ) {
-                newit.charges = compcount;
-                compcount = 1;
-            } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
-                newit.charges = 0;
-            }
+            newit.compress_charges_or_liquid( compcount );
             for( ; compcount > 0; compcount-- ) {
                 tmp.push_back( newit );
             }
@@ -271,7 +266,7 @@ int vehicle_part::ammo_capacity( const ammotype &ammo ) const
 {
     if( is_tank() ) {
         const itype *ammo_type = item::find_type( ammo->default_ammotype() );
-        const int max_charges_volume = ammo_type->charges_per_volume( base.get_total_capacity() );
+        const int max_charges_volume = ammo_type->charges_per_volume( base.get_volume_capacity() );
         const int max_charges_weight = ammo_type->weight == 0_gram ? INT_MAX :
                                        static_cast<int>( base.get_total_weight_capacity() / ammo_type->weight );
         return std::min( max_charges_volume, max_charges_weight );
@@ -296,9 +291,9 @@ int vehicle_part::item_capacity( const itype_id &stuffing_id ) const
                             static_cast<int>( base.get_total_weight_capacity() / stuffing->weight );
 
     if( stuffing->count_by_charges() ) {
-        max_amount_volume = stuffing->charges_per_volume( base.get_total_capacity() );
+        max_amount_volume = stuffing->charges_per_volume( base.get_volume_capacity() );
     } else {
-        max_amount_volume = base.get_total_capacity() / stuffing->volume;
+        max_amount_volume = base.get_volume_capacity() / stuffing->volume;
     }
 
     return std::min( max_amount_volume, max_amount_weight );
@@ -385,7 +380,7 @@ int vehicle_part::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos )
 
 units::energy vehicle_part::consume_energy( const itype_id &ftype, units::energy wanted_energy )
 {
-    if( !is_fuel_store() ) {
+    if( !is_fuel_store() || has_flag( vp_flag::carried_flag ) ) {
         return 0_J;
     }
 
@@ -732,9 +727,12 @@ bool vehicle::can_enable( map &here, const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( get_player_character().pos_bub() ) ) {
+    // FIXME/HACK: Always checks buckwheat seeds!
+    ret_val<void>can_plant = warm_enough_to_plant( get_player_character().pos_bub(),
+                             itype_seed_buckwheat );
+    if( pt.info().has_flag( "PLANTER" ) && !can_plant.success() ) {
         if( alert ) {
-            add_msg( m_bad, _( "It is too cold to plant anything now." ) );
+            add_msg( m_bad, can_plant.c_str() );
         }
         return false;
     }

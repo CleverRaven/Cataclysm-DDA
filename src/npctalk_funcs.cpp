@@ -61,7 +61,6 @@
 #include "viewer.h"
 
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
-static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
@@ -72,12 +71,12 @@ static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
+static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
-static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 
 static const efftype_id effect_allow_sleep( "allow_sleep" );
 static const efftype_id effect_asked_for_item( "asked_for_item" );
@@ -247,7 +246,7 @@ void talk_function::start_trade( npc &p )
 
 void talk_function::sort_loot( npc &p )
 {
-    p.assign_activity( ACT_MOVE_LOOT );
+    p.assign_activity( zone_sort_activity_actor() );
 }
 
 void talk_function::do_construction( npc &p )
@@ -278,6 +277,11 @@ void talk_function::do_eread( npc &p )
 void talk_function::do_read_repeatedly( npc &p )
 {
     p.assign_activity( ACT_MULTIPLE_READ );
+}
+
+void talk_function::do_study( npc &p )
+{
+    p.assign_activity( ACT_MULTIPLE_STUDY );
 }
 
 void talk_function::dismount( npc &p )
@@ -659,7 +663,7 @@ void talk_function::give_equipment_allowance( npc &p, int allowance )
     }
     item it = *giving[chosen].loc.get_item();
     giving[chosen].loc.remove_item();
-    popup( _( "%1$s gives you a %2$s" ), p.get_name(), it.tname() );
+    popup( _( "%1$s gives you a %2$s." ), p.get_name(), it.tname() );
     Character &player_character = get_player_character();
     it.set_owner( player_character );
     player_character.i_add( it );
@@ -680,9 +684,8 @@ void talk_function::lesser_give_aid( npc &p )
             player_character.remove_effect( effect_bleed, bp );
         }
     }
-    const int moves = to_moves<int>( 15_minutes );
-    player_character.assign_activity( ACT_WAIT_NPC, moves );
-    player_character.activity.str_values.push_back( p.get_name() );
+    player_character.assign_activity( wait_npc_activity_actor( 15_minutes, p.get_name() ) );
+
     p.add_effect( effect_currently_busy, 60_minutes );
 }
 
@@ -702,10 +705,7 @@ void talk_function::lesser_give_all_aid( npc &p )
             }
         }
     }
-
-    const int moves = to_moves<int>( 30_minutes );
-    player_character.assign_activity( ACT_WAIT_NPC, moves );
-    player_character.activity.str_values.push_back( p.get_name() );
+    player_character.assign_activity( wait_npc_activity_actor( 30_minutes, p.get_name() ) );
     p.add_effect( effect_currently_busy, 120_minutes );
 }
 
@@ -725,10 +725,7 @@ void talk_function::give_aid( npc &p )
             player_character.remove_effect( effect_infected, bp );
         }
     }
-
-    const int moves = to_moves<int>( 30_minutes );
-    player_character.assign_activity( ACT_WAIT_NPC, moves );
-    player_character.activity.str_values.push_back( p.get_name() );
+    player_character.assign_activity( wait_npc_activity_actor( 30_minutes, p.get_name() ) );
     p.add_effect( effect_currently_busy, 120_minutes );
 }
 
@@ -754,10 +751,7 @@ void talk_function::give_all_aid( npc &p )
             }
         }
     }
-
-    const int moves = to_moves<int>( 60_minutes );
-    player_character.assign_activity( ACT_WAIT_NPC, moves );
-    player_character.activity.str_values.push_back( p.get_name() );
+    player_character.assign_activity( wait_npc_activity_actor( 60_minutes, p.get_name() ) );
     p.add_effect( effect_currently_busy, 240_minutes );
 }
 
@@ -809,9 +803,7 @@ void talk_function::buy_haircut( npc &p )
 {
     Character &player_character = get_player_character();
     player_character.add_morale( morale_haircut, 5, 5, 720_minutes, 3_minutes );
-    const int moves = to_moves<int>( 20_minutes );
-    player_character.assign_activity( ACT_WAIT_NPC, moves );
-    player_character.activity.str_values.push_back( p.get_name() );
+    player_character.assign_activity( wait_npc_activity_actor( 20_minutes, p.get_name() ) );
     add_msg( m_good, _( "%s gives you a decent haircut…" ), p.get_name() );
 }
 
@@ -819,9 +811,7 @@ void talk_function::buy_shave( npc &p )
 {
     Character &player_character = get_player_character();
     player_character.add_morale( morale_shave, 10, 10, 360_minutes, 3_minutes );
-    const int moves = to_moves<int>( 5_minutes );
-    player_character.assign_activity( ACT_WAIT_NPC, moves );
-    player_character.activity.str_values.push_back( p.get_name() );
+    player_character.assign_activity( wait_npc_activity_actor( 5_minutes, p.get_name() ) );
     add_msg( m_good, _( "%s gives you a decent shave…" ), p.get_name() );
 }
 

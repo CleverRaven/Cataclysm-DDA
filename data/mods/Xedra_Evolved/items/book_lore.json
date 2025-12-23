@@ -27,7 +27,7 @@
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID" ],
-    "weight": "3 g",
+    "weight": "1 g",
     "volume": "1 ml"
   },
   {
@@ -43,7 +43,7 @@
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID" ],
-    "weight": "3 g",
+    "weight": "1 g",
     "volume": "1 ml",
     "required_level": 1,
     "intelligence": 6,
@@ -218,7 +218,7 @@
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID" ],
-    "weight": "30 g",
+    "weight": "3 g",
     "volume": "10 ml"
   },
   {
@@ -230,7 +230,7 @@
     "description": "The map on which you wrote the cryptid's location.",
     "symbol": ",",
     "color": "white",
-    "weight": "30 g",
+    "weight": "3 g",
     "volume": "10 ml",
     "use_action": [
       {
@@ -268,14 +268,14 @@
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID" ],
-    "weight": "30 g",
+    "weight": "3 g",
     "volume": "10 ml"
   },
   {
     "id": "vampire_anathema_book",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str_sp": "old leather-bound journal" },
+    "name": { "str": "old leather-bound journal" },
     "description": "This handwritten book contains the detailed yet disorganized notes of a vampire who found how to consume other vampires for power.  Reading it might tell you how to do it, if it is what you want.",
     "//": "As it is a unique item acquired in violent circumstances, I made it fireproof so the player can use fire without fearing the lost of this item.",
     "weight": "830 g",

@@ -8,7 +8,7 @@
       { "terrain": "road", "locations": [ "field" ], "basic_cost": 5 },
       { "terrain": "road", "locations": [ "forest" ], "basic_cost": 20 },
       { "terrain": "road", "locations": [ "swamp" ], "basic_cost": 40 },
-      { "terrain": "road", "locations": [ "highway" ], "basic_cost": 120, "flags": [ "PERPENDICULAR_CROSSING" ] },
+      { "terrain": "road", "locations": [ "highway" ], "basic_cost": 80, "flags": [ "PERPENDICULAR_CROSSING" ] },
       { "terrain": "road_nesw_manhole", "locations": [  ] },
       { "terrain": "bridge", "locations": [ "water" ], "basic_cost": 120, "flags": [ "ORTHOGONAL" ] },
       { "terrain": "bridgehead_ground", "locations": [ "water" ], "basic_cost": 120, "flags": [ "ORTHOGONAL" ] }

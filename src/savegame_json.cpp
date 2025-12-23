@@ -36,7 +36,6 @@
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "addiction.h"
-#include "assign.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -260,7 +259,7 @@ static tripoint_bub_ms read_legacy_creature_pos( const JsonObject &data )
 
 void item_contents::serialize( JsonOut &json ) const
 {
-    if( !contents.empty() || !get_all_ablative_pockets().empty() || !additional_pockets.empty() ) {
+    if( !contents.empty() || !get_ablative_pockets().empty() || !additional_pockets.empty() ) {
         json.start_object();
 
         json.member( "contents", contents );
@@ -432,8 +431,8 @@ void player_activity::deserialize( const JsonObject &data )
     // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
     // this may cause inconvenience but should avoid any lasting damage to npcs
     if( is_obsolete || ( has_actor && ( data.has_null( "actor" ) || !data.has_member( "actor" ) ) ) ) {
+        actor = std::make_unique<migration_cancel_activity_actor>( type );
         type = ACT_MIGRATION_CANCEL;
-        actor = std::make_unique<migration_cancel_activity_actor>();
     } else {
         data.read( "actor", actor );
     }
@@ -767,6 +766,8 @@ void Character::load( const JsonObject &data )
 
     data.read( "proficiencies", _proficiencies );
 
+    _proficiencies->migrate_proficiencies();
+
     // If the proficiency XP required has changed such that a proficiency is now known
     for( const proficiency_id &prof : _proficiencies->learning_profs() ) {
         if( _proficiencies->pct_practiced_time( prof ) >= prof->time_to_learn() ) {
@@ -778,27 +779,13 @@ void Character::load( const JsonObject &data )
     data.read( "stim", stim );
     data.read( "stamina", stamina );
 
-    // stats through kills
+    //legacy value, maintained until kill_xp dependency removed from in-repo mods
     data.read( "kill_xp", kill_xp );
-    if( !data.read( "spent_upgrade_points", spent_upgrade_points ) ) {
-        // TEMPORARY until 0.G, remove migration logic after
-        int str_upgrade = 0;
-        int dex_upgrade = 0;
-        int int_upgrade = 0;
-        int per_upgrade = 0;
-        if( data.read( "str_upgrade", str_upgrade ) && data.read( "dex_upgrade", dex_upgrade ) &&
-            data.read( "int_upgrade", int_upgrade ) && data.read( "per_upgrade", per_upgrade ) ) {
-            str_max += str_upgrade;
-            dex_max += dex_upgrade;
-            int_max += int_upgrade;
-            per_max += per_upgrade;
-            spent_upgrade_points = str_upgrade + dex_upgrade + int_upgrade + per_upgrade;
-        }
-    }
 
     data.read( "moncams", moncams );
 
     data.read( "magic", magic );
+    magic->migrate_spells();
 
     data.read( "traits", my_traits );
     // If a trait has been migrated, we'll need to add it.
@@ -1095,8 +1082,18 @@ void Character::load( const JsonObject &data )
     recalc_sight_limits();
     calc_encumbrance();
 
-    assign( data, "power_level", power_level, false, 0_kJ );
-    assign( data, "max_power_level_modifier", max_power_level_modifier, false, units::energy::min() );
+    // migration code, added in early 0.J
+    if( data.has_int( "power_level" ) ) {
+        power_level = units::from_kilojoule( data.get_int64( "power_level" ) );
+    } else {
+        data.read( "power_level", power_level );
+    }
+    // migration code, added in early 0.J
+    if( data.has_int( "max_power_level_modifier" ) ) {
+        max_power_level_modifier = units::from_kilojoule( data.get_int64( "max_power_level_modifier" ) );
+    } else {
+        data.read( "max_power_level_modifier", max_power_level_modifier );
+    }
 
     // Bionic power should not be negative!
     if( power_level < 0_mJ ) {
@@ -1420,9 +1417,8 @@ void Character::store( JsonOut &json ) const
     json.member( "type_of_scent", type_of_scent );
     json.member( "focus_pool", focus_pool );
 
-    // stats through kills
+    //legacy value, maintained until kill_xp dependency removed from in-repo mods
     json.member( "kill_xp", kill_xp );
-    json.member( "spent_upgrade_points", spent_upgrade_points );
 
     // breathing
     json.member( "underwater", underwater );
@@ -1461,14 +1457,8 @@ void Character::store( JsonOut &json ) const
     json.member( "proficiencies", _proficiencies );
 
     // npc; unimplemented
-    if( power_level < 1_J ) {
-        json.member( "power_level", std::to_string( units::to_millijoule( power_level ) ) + " mJ" );
-    } else if( power_level < 1_kJ ) {
-        json.member( "power_level", std::to_string( units::to_joule( power_level ) ) + " J" );
-    } else {
-        json.member( "power_level", units::to_kilojoule( power_level ) );
-    }
-    json.member( "max_power_level_modifier", units::to_kilojoule( max_power_level_modifier ) );
+    json.member( "power_level", power_level );
+    json.member( "max_power_level_modifier", max_power_level_modifier );
 
     if( !overmap_time.empty() ) {
         json.member( "overmap_time" );
@@ -1636,10 +1626,23 @@ void avatar::store( JsonOut &json ) const
 
     // mission stuff
     json.member( "active_mission", active_mission == nullptr ? -1 : active_mission->get_id() );
+    json.member( "active_point_of_interest_pos", active_point_of_interest.pos );
+    json.member( "active_point_of_interest_text",
+                 active_point_of_interest.pos == tripoint_abs_omt::invalid ? "" : active_point_of_interest.text );
 
     json.member( "active_missions", mission::to_uid_vector( active_missions ) );
     json.member( "completed_missions", mission::to_uid_vector( completed_missions ) );
     json.member( "failed_missions", mission::to_uid_vector( failed_missions ) );
+
+    json.member( "points_of_interest" );
+    json.start_array();
+    for( const point_of_interest &entry : points_of_interest ) {
+        json.start_object();
+        json.member( "pos", entry.pos );
+        json.member( "text", entry.text );
+        json.end_object();
+    }
+    json.end_array();
 
     json.member( "show_map_memory", show_map_memory );
 
@@ -1716,8 +1719,6 @@ void avatar::load( const JsonObject &data )
               std::distance( obj_type_name.begin(), iter ) ),
           grab_point );
 
-    data.read( "magic", magic );
-
     calc_mutation_levels();
     drench_mut_calc();
     std::string scen_ident = "(null)";
@@ -1754,11 +1755,24 @@ void avatar::load( const JsonObject &data )
         completed_missions = mission::to_ptr_vector( tmpmissions );
     }
 
+    for( JsonObject object : data.get_array( "points_of_interest" ) ) {
+        point_of_interest poi;
+        object.read( "pos", poi.pos );
+        object.read( "text", poi.text );
+        points_of_interest.push_back( poi );
+    }
+
     int tmpactive_mission = 0;
     if( data.read( "active_mission", tmpactive_mission ) ) {
         if( tmpactive_mission != -1 ) {
             active_mission = mission::find( tmpactive_mission );
         }
+    }
+    if( !data.read( "active_point_of_interest_pos", active_point_of_interest.pos ) ) {
+        active_point_of_interest.pos = tripoint_abs_omt::invalid;
+        active_point_of_interest.text = "";
+    } else {
+        data.read( "active_point_of_interest_text", active_point_of_interest.text );
     }
 
     // Normally there is only one player character loaded, so if a mission that is assigned to
@@ -1772,11 +1786,7 @@ void avatar::load( const JsonObject &data )
     std::copy( last, active_missions.end(), std::back_inserter( failed_missions ) );
     active_missions.erase( last, active_missions.end() );
     if( active_mission && active_mission->has_failed() ) {
-        if( active_missions.empty() ) {
-            active_mission = nullptr;
-        } else {
-            active_mission = active_missions.front();
-        }
+        update_active_mission();
     }
 
     data.read( "show_map_memory", show_map_memory );
@@ -1922,6 +1932,8 @@ void dialogue_chatbin::serialize( JsonOut &json ) const
     json.member( "talk_stranger_friendly", talk_stranger_friendly );
     json.member( "talk_stranger_neutral", talk_stranger_neutral );
     json.member( "talk_friend_guard", talk_friend_guard );
+    json.member( "talk_mission_inquire", talk_mission_inquire );
+    json.member( "talk_mission_describe_urgent", talk_mission_describe_urgent );
 
     if( mission_selected != nullptr ) {
         json.member( "mission_selected", mission_selected->get_id() );
@@ -1962,6 +1974,8 @@ void dialogue_chatbin::deserialize( const JsonObject &data )
     data.read( "style", style );
     data.read( "dialogue_spell", dialogue_spell );
     data.read( "proficiency", proficiency );
+    data.read( "talk_mission_inquire", talk_mission_inquire );
+    data.read( "talk_mission_describe_urgent", talk_mission_describe_urgent );
 
     std::vector<int> tmpmissions;
     data.read( "missions", tmpmissions );
@@ -2615,6 +2629,7 @@ void monster::load( const JsonObject &data )
     biosig_timer = time_point( data.get_int( "biosig_timer", -1 ) );
 
     data.read( "udder_timer", udder_timer );
+    data.read( "times_combatted_player", times_combatted_player );
 
     horde_attraction = static_cast<monster_horde_attraction>( data.get_int( "horde_attraction", 0 ) );
 
@@ -2701,6 +2716,7 @@ void monster::store( JsonOut &json ) const
     json.member( "biosignatures", biosignatures );
     json.member( "biosig_timer", biosig_timer );
     json.member( "udder_timer", udder_timer );
+    json.member( "times_combatted_player", times_combatted_player );
 
     if( horde_attraction > MHA_NULL && horde_attraction < NUM_MONSTER_HORDE_ATTRACTION ) {
         json.member( "horde_attraction", horde_attraction );
@@ -2742,7 +2758,11 @@ void time_duration::serialize( JsonOut &jsout ) const
 void time_duration::deserialize( const JsonValue &jsin )
 {
     if( jsin.test_string() ) {
-        *this = read_from_json_string<time_duration>( jsin, time_duration::units );
+        if( std::string const &str = jsin.get_string(); str == "infinite" ) {
+            *this = time_duration::from_turns( calendar::INDEFINITELY_LONG );
+        } else {
+            *this = read_from_json_string<time_duration>( jsin, time_duration::units );
+        }
     } else {
         turns_ = jsin.get_int();
     }
@@ -3655,9 +3675,7 @@ void mission::deserialize( const JsonObject &jo )
 {
     jo.allow_omitted_members();
 
-    if( jo.has_int( "type_id" ) ) {
-        type = &mission_type::from_legacy( jo.get_int( "type_id" ) ).obj();
-    } else if( jo.has_string( "type_id" ) ) {
+    if( jo.has_string( "type_id" ) ) {
         type = &mission_type_id( jo.get_string( "type_id" ) ).obj();
     } else {
         debugmsg( "Saved mission has no type" );
@@ -3693,9 +3711,14 @@ void mission::deserialize( const JsonObject &jo )
         target.y() = ja.get_int( 1 );
     }
 
-    if( jo.has_int( "follow_up" ) ) {
-        follow_up = mission_type::from_legacy( jo.get_int( "follow_up" ) );
-    } else if( jo.has_string( "follow_up" ) ) {
+    if( jo.has_string( "dimension" ) ) {
+        dimension = jo.get_string( "dimension" );
+    } else {
+        // dimension is set as the main one
+        dimension = "";
+    }
+
+    if( jo.has_string( "follow_up" ) ) {
         follow_up = mission_type_id( jo.get_string( "follow_up" ) );
     }
 
@@ -3740,6 +3763,7 @@ void mission::serialize( JsonOut &json ) const
     json.write( target.z() );
     json.end_array();
 
+    json.member( "dimension", dimension );
     json.member( "item_id", item_id );
     json.member( "item_count", item_count );
     json.member( "target_id", target_id.str() );
@@ -3851,6 +3875,7 @@ void Creature::store( JsonOut &jsout ) const
 
     jsout.member( "blocks_left", num_blocks );
     jsout.member( "dodges_left", num_dodges );
+    jsout.member( "num_free_dodges", num_free_dodges );
     jsout.member( "num_blocks_bonus", num_blocks_bonus );
     jsout.member( "num_dodges_bonus", num_dodges_bonus );
 
@@ -3917,6 +3942,8 @@ void Creature::load( const JsonObject &jsin )
     } else {
         jsin.read( "effects", *effects );
     }
+
+    migrate_effects();
 
     // u/npc variables
     jsin.read( "values", values );
@@ -4320,7 +4347,7 @@ void deserialize( recipe_subset &value, const JsonArray &ja )
     value.clear();
     for( std::string && recipe_id_string : ja ) {
         recipe_id rid( std::move( recipe_id_string ) );
-        if( !rid.is_valid() ) {
+        if( !rid.is_valid() && rid != recipe_id::NULL_ID() ) {
             DebugLog( DebugLevel::D_WARNING, DebugClass::D_MAIN )
                     << "recipe_subset deserialized invalid recipe_id '" << rid.str() << "'";
             rid = recipe_id::NULL_ID();
@@ -4971,6 +4998,7 @@ void submap::store( JsonOut &jsout ) const
                     jsout.write( cur.get_field_type().id() );
                     jsout.write( cur.get_field_intensity() );
                     jsout.write( cur.get_field_age() );
+                    cur.get_effect_source().serialize( jsout );
                 }
                 jsout.end_array();
             }
@@ -5232,18 +5260,20 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                     field_type_str_id ft = field_type_str_id( type_value.get_string() );
                     const int intensity = field_json.next_int();
                     const int age = field_json.next_int();
+                    effect_source source;
+                    if( version >= 39 ) {
+                        const JsonObject source_obj = field_json.next_object();
+                        source.deserialize( source_obj );
+                    }
                     if( auto it = field_migrations.find( ft ); it != field_migrations.end() ) {
                         ft = it->second;
                     }
                     if( !ft.is_valid() ) {
                         debugmsg( "invalid field_type_str_id '%s'", ft.c_str() );
                     } else if( ft != field_type_str_id::NULL_ID() &&
-                               m->fld[i][j].add_field( ft.id(), intensity, time_duration::from_turns( age ) ) ) {
+                               m->fld[i][j].add_field( ft.id(), intensity, time_duration::from_turns( age ), source ) ) {
                         field_count++;
                     }
-                } else { // Handle removed int enum method
-                    field_json.next_value(); // Skip intensity
-                    field_json.next_value(); // Skip age
                 }
             }
         }

@@ -79,6 +79,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "highland_road",
+    "vision_levels": "large_pavement",
+    "name": "cobblestone road",
+    "color": "dark_gray",
+    "see_cost": "none",
+    "travel_cost_type": "road",
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "roadstop", "roadstop_roof" ],
     "vision_levels": "isolated_building",
     "see_cost": "high",
@@ -494,6 +504,7 @@
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray",
+    "looks_like": "s_lot",
     "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
@@ -560,7 +571,8 @@
     "sym": "│",
     "color": "light_gray",
     "//": "SHOULD_NOT_SPAWN is to temporarily avoid overmap_test failures",
-    "flags": [ "HIGHWAY" ]
+    "flags": [ "HIGHWAY" ],
+    "vision_levels": "blends_till_outlines"
   },
   {
     "type": "overmap_terrain",

@@ -66,7 +66,8 @@
       "300_casing",
       "30carbine_casing",
       "123ln_casing",
-      "33_naval_casing"
+      "33_naval_casing",
+      "3030_casing"
     ],
     "type": "MIGRATION",
     "replace": "rifle_casing"

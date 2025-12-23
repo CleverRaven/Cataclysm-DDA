@@ -20,7 +20,7 @@
         {
           "id": "EOC_PARACLESIAN_FAE_SIGHT_PROCESSING_2",
           "condition": { "x_in_y_chance": { "x": 1, "y": 8 } },
-          "effect": [ { "math": [ "u_val('mana')", "-=", "1" ] } ]
+          "effect": [ { "math": [ "u_val('mana') -= 1" ] } ]
         }
       ]
     },

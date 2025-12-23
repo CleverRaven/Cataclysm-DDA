@@ -122,10 +122,8 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_SHIP_THI_MANUAL_CONTROL",
+    "id": "EOC_SHIP_THI_MANUAL_QUERY",
     "effect": [
-      { "turn_cost": "4 s" },
-      { "u_add_effect": "blind_no_msg", "duration": "3s" },
       { "u_query_omt": { "global_val": "ship_new" }, "message": "Select Destination:" },
       { "u_location_variable": { "global_val": "ship" } },
       { "math": [ "ship_new.z = 0" ] },
@@ -137,21 +135,28 @@
             { "math": [ "distance('u', ship_new) >= 190" ] }
           ]
         },
-        "then": [
-          { "remove_active_mission": "MISSION_thi_location" },
-          { "assign_mission": "MISSION_thi_location" },
-          { "math": [ "ship_new.z = 1" ] },
-          {
-            "copy_location": { "global_val": "ship" },
-            "new_loc": { "global_val": "ship_new" },
-            "time_in_future": "infinite",
-            "key": "tp_key"
-          },
-          { "alter_timed_events": "tp_key" },
-          { "run_eocs": "EOC_SHIP_TELEPORTS", "time_in_future": "1s" }
-        ],
-        "else": [ { "u_message": "You can only plot a course to an empty field at least 5 map tiles away.", "type": "warning" } ]
+        "then": [ { "math": [ "ship_can_travel = 1" ] } ],
+        "else": [ { "math": [ "ship_can_travel = 0" ] } ]
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_THI_MANUAL_CONTROL",
+    "effect": [
+      { "turn_cost": "4 s" },
+      { "u_add_effect": "blind_no_msg", "duration": "3s" },
+      { "remove_active_mission": "MISSION_thi_location" },
+      { "assign_mission": "MISSION_thi_location" },
+      { "math": [ "ship_new.z = 1" ] },
+      {
+        "copy_location": { "global_val": "ship" },
+        "new_loc": { "global_val": "ship_new" },
+        "time_in_future": "infinite",
+        "key": "tp_key"
+      },
+      { "alter_timed_events": "tp_key" },
+      { "run_eocs": "EOC_SHIP_TELEPORTS", "time_in_future": "1s" }
     ]
   },
   {
@@ -161,6 +166,7 @@
       { "run_eocs": "EOC_SHIP_veh" },
       { "run_eocs": "EOC_SHIP_npc" },
       { "run_eocs": "EOC_SHIP_mon" },
+      { "run_eocs": "EOC_SHIP_zone" },
       { "run_eocs": "EOC_SHIP_TP" },
       { "run_eocs": "EOC_SHIP_CLEANUP", "time_in_future": "1s" },
       { "run_eocs": "EOC_SHIP_VER", "time_in_future": "1s" }
@@ -169,17 +175,51 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SHIP_veh",
-    "effect": [ { "u_run_vehicle_eocs": [ "EOC_SHIP_TP" ], "vehicle_range": 24 } ]
+    "effect": [
+      {
+        "u_run_vehicle_eocs": [ "EOC_SHIP_TP" ],
+        "vehicle_range": 24,
+        "z_min": { "math": [ "ship.z" ] },
+        "z_max": { "math": [ "ship.z" ] }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SHIP_npc",
-    "effect": [ { "u_run_npc_eocs": [ "EOC_SHIP_TP" ], "npc_range": 24, "local": true } ]
+    "effect": [
+      {
+        "u_run_npc_eocs": [ "EOC_SHIP_TP" ],
+        "npc_range": 24,
+        "local": true,
+        "z_min": { "math": [ "ship.z" ] },
+        "z_max": { "math": [ "ship.z" ] }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SHIP_mon",
-    "effect": [ { "u_run_monster_eocs": [ "EOC_SHIP_TP" ], "monster_range": 24 } ]
+    "effect": [
+      {
+        "u_run_monster_eocs": [ "EOC_SHIP_TP" ],
+        "monster_range": 24,
+        "z_min": { "math": [ "ship.z" ] },
+        "z_max": { "math": [ "ship.z" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_zone",
+    "effect": [
+      {
+        "u_run_fixed_zone_eocs": [ "EOC_SHIP_TP" ],
+        "zone_range": 24,
+        "z_min": { "math": [ "ship.z" ] },
+        "z_max": { "math": [ "ship.z" ] }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

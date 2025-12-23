@@ -21,7 +21,10 @@ static ImGuiKey cata_key_to_imgui( int cata_key );
 
 #ifdef TUI
 #include "wcwidth.h"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 #include <curses.h>
+#pragma GCC diagnostic pop
 #include <imtui/imtui-impl-ncurses.h>
 #include <imtui/imtui-impl-text.h>
 
@@ -72,7 +75,7 @@ static ImVec4 compute_color( uint8_t index )
     }
 }
 
-ImVec4 cataimgui::imvec4_from_color( nc_color &color )
+ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
 {
     int pair_id = color.get_index();
     pairs &pair = colorpairs[pair_id];
@@ -156,6 +159,8 @@ void cataimgui::client::set_alloced_pair_count( short count )
     ImTui_ImplNcurses_SetAllocedPairCount( count );
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 void cataimgui::client::process_input( void *input )
 {
     if( !any_window_shown() ) {
@@ -203,6 +208,7 @@ void cataimgui::client::process_input( void *input )
         }
     }
 }
+#pragma GCC diagnostic pop
 
 void cataimgui::load_colors()
 {
@@ -239,7 +245,7 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
 
-ImVec4 cataimgui::imvec4_from_color( nc_color &color )
+ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
 {
     SDL_Color c = curses_color_to_SDL( color );
     return { static_cast<float>( c.r / 255. ),
@@ -1146,10 +1152,9 @@ static void inherit_base_colors()
 
 static void load_imgui_style_file( const cata_path &style_path )
 {
-    // reset style first to unset colors
-    ImGui::GetStyle() = ImGuiStyle();
-
     ImGuiStyle &style = ImGui::GetStyle();
+    // reset style first to unset colors
+    ImGui::StyleColorsDark( &style );
 
     JsonValue jsin = json_loader::from_path( style_path );
 
@@ -1254,3 +1259,27 @@ void cataimgui::init_colors()
     }
 }
 
+void cataimgui::TextKeybinding( const input_context &ctxt,
+                                const char *action, const char *description, bool active,
+                                int max_limit, const nc_color &default_color )
+{
+    const nc_color color = active ? ACTIVE_HOTKEY_COLOR : default_color;
+    ImGui::TextColored( default_color, "[" );
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( color, "%s",
+                        // strlen(action) <= 1 // for non-action explicit keys
+                        ( *action == 0 || *( action + 1 ) == 0 ) ?
+                        action :
+                        ctxt.get_desc( action, max_limit ).c_str() );
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( default_color, "] " );
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( color, "%s", description );
+}
+
+void cataimgui::TextListSeparator( const nc_color &color )
+{
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( color, ", " );
+    ImGui::SameLine( 0, 0 );
+}

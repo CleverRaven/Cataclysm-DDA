@@ -3,21 +3,17 @@ from ..write_text import write_text
 
 
 def parse_technique(json, origin):
-    name = ""
-    if "name" in json:
-        name = get_singular_name(json["name"])
-        write_text(json["name"], origin, comment="Martial technique name")
+    name = get_singular_name(json)
 
-    if "description" in json:
-        write_text(json["description"], origin, c_format=False,
-                   comment="Description of martial technique \"{}\""
-                   .format(name))
+    write_text(json.get("name"), origin,
+               comment="Martial technique name")
+    write_text(json.get("description"), origin,
+               comment=f"Description of martial technique '{name}'")
 
     for msg in json.get("messages", []):
         write_text(msg, origin,
-                   comment="Message of martial technique \"{}\"".format(name))
+                   comment=f"Message of martial technique '{name}'")
 
-    if "condition_desc" in json:
-        write_text(json["condition_desc"], origin, c_format=False,
-                   comment="Condition description of martial technique \"{}\""
-                   .format(name))
+    write_text(json.get("condition_desc"), origin,
+               comment="Condition description of "
+               f"martial technique '{name}'")

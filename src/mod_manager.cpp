@@ -7,13 +7,15 @@
 #include <memory>
 #include <ostream>
 #include <queue>
+#include <stdexcept>
 
-#include "assign.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "dependency_tree.h"
 #include "filesystem.h"
 #include "flexbuffer_json.h"
+#include "generic_factory.h"
+#include "input_context.h"
 #include "json.h"
 #include "localized_comparator.h"
 #include "output.h"
@@ -278,21 +280,22 @@ void mod_manager::load_modfile( const JsonObject &jo, const cata_path &path )
     modfile.category = p_cat;
 
     std::string mod_json_path;
-    if( assign( jo, "path", mod_json_path ) ) {
+    if( jo.has_member( "path" ) ) {
+        optional( jo, false, "path", mod_json_path );
         modfile.path = path / mod_json_path;
     } else {
         modfile.path = path;
     }
 
-    assign( jo, "authors", modfile.authors );
-    assign( jo, "maintainers", modfile.maintainers );
-    assign( jo, "description", modfile.description );
-    assign( jo, "version", modfile.version );
-    assign( jo, "dependencies", modfile.dependencies );
-    assign( jo, "conflicts", modfile.conflicts );
-    assign( jo, "core", modfile.core );
-    assign( jo, "obsolete", modfile.obsolete );
-    assign( jo, "loading_images", modfile.loading_images );
+    optional( jo, false, "authors", modfile.authors );
+    optional( jo, false, "maintainers", modfile.maintainers );
+    optional( jo, false, "description", modfile.description );
+    optional( jo, false, "version", modfile.version );
+    optional( jo, false, "dependencies", modfile.dependencies );
+    optional( jo, false, "conflicts", modfile.conflicts );
+    optional( jo, false, "core", modfile.core, false );
+    optional( jo, false, "obsolete", modfile.obsolete, false );
+    optional( jo, false, "loading_images", modfile.loading_images );
 
     if( std::find( modfile.dependencies.begin(), modfile.dependencies.end(),
                    modfile.ident ) != modfile.dependencies.end() ) {
@@ -469,18 +472,28 @@ void mod_manager::check_mods_list( WORLD *world ) const
                 amo.insert( check_it, replace_it->second );
                 amo.erase( check_it );
                 changed = true;
-            } else if( const auto it = removed_mods.find( *check_it ); it != removed_mods.end() ) {
-                if( query_yn(
-                        _( "Mod %s has been removed with reason: %s\nRemove it from this world's active mods?" ),
-                        check_it->c_str(), it->second.translated() ) ) {
-                    amo.erase( check_it-- );
-                    changed = true;
-                }
             } else {
-                if( query_yn( _( "Mod %s not found in mods folder, remove it from this world's active mods?" ),
-                              check_it->c_str() ) ) {
-                    amo.erase( check_it-- );
-                    changed = true;
+                input_context dummy_ctxt( "YESNOQUIT" );
+                const std::string cancel_option_name = dummy_ctxt.get_action_name( "QUIT" );
+                query_ynq_result res;
+                if( const auto it = removed_mods.find( *check_it ); it != removed_mods.end() ) {
+                    res = query_ynq(
+                              _( "Mod %s has been removed with reason: %s\nRemove it from this world's active mods?  (%s aborts load)" ),
+                              check_it->c_str(), it->second.translated(), cancel_option_name );
+                } else {
+                    res = query_ynq(
+                              _( "Mod %s not found in mods folder, remove it from this world's active mods?  (%s aborts load)" ),
+                              check_it->c_str(), cancel_option_name );
+                }
+                switch( res ) {
+                    case query_ynq_result::quit:
+                        throw std::runtime_error( _( "Player aborted load." ) );
+                    case query_ynq_result::no:
+                        break;
+                    case query_ynq_result::yes:
+                        amo.erase( check_it-- );
+                        changed = true;
+                        break;
                 }
             }
         }

@@ -24,6 +24,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_scale_constants.h"
@@ -46,6 +47,7 @@
 #include "trap.h"
 #include "uistate.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "weather_gen.h"
 
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
@@ -131,7 +133,7 @@ void glare( const weather_type_id &w )
         }
         // Glare in all your eyes
         for( bodypart_id &bp : player_character.get_all_body_parts_of_type(
-                 body_part_type::type::sensor ) ) {
+                 bp_type::sensor ) ) {
             player_character.add_effect( *effect, dur, bp );
         }
     }
@@ -461,7 +463,9 @@ void handle_weather_effects( const weather_type_id &w )
         }
         here.decay_fields_and_scent( decay_time );
         // Coarse correction to get us back to previously intended soaking rate.
-        if( calendar::once_every( 6_seconds ) && is_creature_outside( target ) ) {
+        const bool no_roof_above = here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR,
+                                   target.pos_bub() + tripoint::above );
+        if( calendar::once_every( 6_seconds ) && is_creature_outside( target ) && no_roof_above ) {
             wet_character( target, wetness );
         }
     }
@@ -469,7 +473,7 @@ void handle_weather_effects( const weather_type_id &w )
     get_weather().lightning_active = false;
 }
 
-static std::string to_string( const weekdays &d )
+std::string to_string( const weekdays &d )
 {
     static const std::array<std::string, 7> weekday_names = {{
             translate_marker( "Sunday" ), translate_marker( "Monday" ),
@@ -871,15 +875,85 @@ rl_vec2d convert_wind_to_coord( const int angle )
     return rl_vec2d( 0, 0 );
 }
 
-bool warm_enough_to_plant( const tripoint_bub_ms &pos )
+static units::temperature highest_temp_on_day( time_point &base_date, const tripoint_abs_omt &pos,
+        const weather_generator &weather_gen )
 {
-    // semi-appropriate temperature for most plants
-    return get_weather().get_temperature( pos ) >= units::from_fahrenheit( 50 );
+    units::temperature highest_temp = 0_C;
+    // we search a 24 hour period around the base_date, the base_date is exactly in the center
+    const time_duration search_radius = 12_hours;
+    // how long between each check. The performance on this shouldn't be a problem, but if we want more/less granularity this is a simple lever.
+    const time_duration check_interval = 15_minutes;
+
+    // Iterate through the search window, checking temp each check_interval. Highest found value in the entire range is what ends up being returned.
+    time_point check_date = base_date - search_radius;
+    while( check_date <= base_date + search_radius ) {
+        const w_point &w = weather_gen.get_weather( project_to<coords::ms>( pos ), check_date,
+                           g->get_seed() );
+        const units::temperature checked_temp = w.temperature;
+        highest_temp = std::max( highest_temp, checked_temp );
+        check_date = check_date + check_interval;
+    }
+
+    return highest_temp;
 }
 
-bool warm_enough_to_plant( const tripoint_abs_omt &pos )
+static bool has_sunlight_access( const tripoint_bub_ms &pos )
 {
-    return get_weather().get_temperature( pos ) >= units::from_fahrenheit( 50 );
+    tripoint_bub_ms checked_pnt = pos;
+    const map &here = get_map();
+    while( checked_pnt.z() < OVERMAP_HEIGHT ) {
+        const tripoint_bub_ms pnt_above = {checked_pnt.xy(), checked_pnt.z() + 1 };
+        const bool should_check_above = pnt_above.z() < OVERMAP_HEIGHT;
+        // If checking above would take us outside of game bounds, just assume that it's all open air up there.
+        const bool transparent_roof = should_check_above ?
+                                      here.is_outside( pnt_above ) && here.has_flag_ter( "TRANSPARENT", pnt_above ) :
+                                      true;
+        if( !here.is_outside( checked_pnt ) || !transparent_roof ) {
+            return false;
+        }
+        checked_pnt = pnt_above;
+    }
+    return true;
+}
+
+ret_val<void> warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &it )
+{
+    std::map<time_point, units::temperature> planting_times;
+
+    if( !has_sunlight_access( pos ) ) {
+        return ret_val<void>::make_failure( _( "Plants need sunlight to grow!  You can't plant there." ) );
+    }
+
+    const tripoint_abs_ms abs = get_map().get_abs( pos );
+    const tripoint_abs_omt checked_omt = project_to<coords::omt>( abs );
+
+    const std::vector<std::pair<flag_id, time_duration>> &growth_stages = it->seed->get_growth_stages();
+    // we will iterate a copy of the weather into the future to see if they'll be plantable then as well.
+    const weather_generator weather_gen = get_weather().get_cur_weather_gen();
+    // initialize the first...
+    time_point check_date = calendar::turn;
+    planting_times[check_date] = highest_temp_on_day( check_date, checked_omt, weather_gen );
+    for( const auto &pair : growth_stages ) {
+        // TODO: Replace epoch checks with data from a farmer's almanac
+        check_date = check_date + pair.second;
+        // The [] operator in std::map inserts an entry if it doesn't already exist.
+        planting_times[check_date] = highest_temp_on_day( check_date, checked_omt, weather_gen );
+    }
+    for( const std::pair<const time_point, units::temperature> &pair : planting_times ) {
+        // This absolutely needs to be a time point.
+        add_msg_debug( debugmode::DF_MAP,
+                       "Checking plant time %s, highest temperature %s…",
+                       //NOLINTNEXTLINE(cata-translations-in-debug-messages)
+                       to_string( pair.first ), print_temperature( pair.second, 2 ) );
+        if( pair.second < it->seed->get_growth_temp() ) {
+            add_msg_debug( debugmode::DF_MAP, "Planting failure!  %s needs temperature of %s but found only %s",
+                           it->nname( 1 ), print_temperature( it->seed->get_growth_temp(), 2 ),
+                           print_temperature( pair.second, 2 ) );
+            return ret_val<void>::make_failure(
+                       _( "If you plant now, the cold will kill this plant before it can be harvested!" ) );
+        }
+    }
+    return ret_val<void>::make_success();
 }
 
 weather_manager::weather_manager()
@@ -894,13 +968,13 @@ weather_manager::weather_manager()
 const weather_generator &weather_manager::get_cur_weather_gen() const
 {
     const overmap &om = g->get_cur_om();
-    const regional_settings &settings = om.get_settings();
-    return settings.weather;
+    return om.get_settings().get_settings_weather();
 }
 
 void weather_manager::update_weather()
 {
     Character &player_character = get_player_character();
+    weather_changed = false;
     if( weather_id == WEATHER_NULL || calendar::turn >= nextweather ) {
         w_point &w = *weather_precise;
         const weather_generator &weather_gen = get_cur_weather_gen();
@@ -915,6 +989,7 @@ void weather_manager::update_weather()
         } else {
             weather_id = weather_override;
         }
+        weather_changed = weather_id != old_weather;
 
         sfx::do_ambient();
         temperature = w.temperature;
@@ -924,15 +999,11 @@ void weather_manager::update_weather()
         nextweather = calendar::turn + rng( weather_id->duration_min, weather_id->duration_max );
         map &here = get_map();
         if( uistate.distraction_weather_change &&
-            weather_id != old_weather && weather_id->dangerous &&
+            weather_changed && weather_id->dangerous &&
             here.get_abs_sub().z() >= 0 && here.is_outside( player_character.pos_bub() )
             && !player_character.has_activity( ACT_WAIT_WEATHER ) ) {
             g->cancel_activity_or_ignore_query( distraction_type::weather_change,
                                                 string_format( _( "The weather changed to %s!" ), weather_id->name ) );
-        }
-
-        if( weather_id != old_weather && player_character.has_activity( ACT_WAIT_WEATHER ) ) {
-            player_character.assign_activity( ACT_WAIT_WEATHER, 0, 0 );
         }
 
         if( weather_id->sight_penalty != old_weather->sight_penalty ) {
@@ -941,7 +1012,7 @@ void weather_manager::update_weather()
             }
             here.set_seen_cache_dirty( tripoint_bub_ms::zero );
         }
-        if( weather_id != old_weather ) {
+        if( weather_changed ) {
             effect_on_conditions::process_reactivate();
         }
     }
@@ -968,7 +1039,7 @@ units::temperature weather_manager::get_temperature( const tripoint_bub_ms &loca
     units::temperature temp = location.z() < 0 ? units::from_celsius(
                                   get_cur_weather_gen().base_temperature ) : temperature;
 
-    if( !g->new_game ) {
+    if( !g->new_game && !g->swapping_dimensions ) {
         units::temperature_delta temp_mod;
         temp_mod = get_heat_radiation( location );
         temp_mod += get_convection_temperature( location );
@@ -981,7 +1052,7 @@ units::temperature weather_manager::get_temperature( const tripoint_bub_ms &loca
     return temp;
 }
 
-units::temperature weather_manager::get_temperature( const tripoint_abs_omt &location ) const
+units::temperature weather_manager::get_area_temperature( const tripoint_abs_omt &location ) const
 {
     return location.z() < 0 ? units::from_celsius(
                get_weather().get_cur_weather_gen().base_temperature ) : temperature;

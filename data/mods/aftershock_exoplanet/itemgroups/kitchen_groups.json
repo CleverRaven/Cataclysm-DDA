@@ -5,7 +5,7 @@
     "//": "A rather complete one tile kitchen. Should spawn cooking implements and kitchen objects.",
     "subtype": "collection",
     "items": [
-      [ "hotplate", 70 ],
+      [ "hotplate_induction", 85 ],
       { "group": "SUS_appliances_cupboard", "prob": 30 },
       { "group": "SUS_knife_drawer", "prob": 20 },
       { "group": "SUS_utensils", "prob": 20 },

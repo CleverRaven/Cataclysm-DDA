@@ -1,29 +1,22 @@
 [
   {
-    "id": "adobe_pallet_full",
+    "id": "adobe_pallet_full_active",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "pallet of wet adobe bricks", "str_pl": "pallets of wet adobe bricks" },
-    "description": "A pallet full of heavy mud bricks which need to dry slowly to be usable.",
-    "weight": "39 kg",
-    "volume": "53750 ml",
-    "longest_side": "122 cm",
+    "description": "A pallet full of heavy mud bricks which need to dry slowly to be usable, so it will transform after a week.",
+    "weight": "220 kg",
+    "volume": "220000 ml",
+    "longest_side": "180 cm",
     "price": "1 USD",
     "price_postapoc": "0 cent",
     "material": [ "soil", "wood" ],
     "symbol": "#",
     "color": "brown",
     "looks_like": "frame_wood_light",
-    "flags": [ "NONCONDUCTIVE", "ALLOWS_REMOTE_USE" ],
-    "use_action": {
-      "target": "adobe_pallet_done",
-      "msg": "You test the bricks, and they're solid enough to use.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 604800,
-      "not_ready_msg": "The bricks are still too damp to bear weight.",
-      "//": "Should be about a week. Irl it's ten days, so make big batches."
-    }
+    "flags": [ "NONCONDUCTIVE", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ],
+    "countdown_interval": "7 days",
+    "revert_to": "adobe_pallet_done"
   },
   {
     "id": "adobe_pallet_done",
@@ -32,9 +25,9 @@
     "category": "tools",
     "name": { "str": "pallet of dry adobe bricks", "str_pl": "pallets of dry adobe bricks" },
     "description": "A pallet of humble mud bricks that have dried for a week while you were out risking your life.  Disassemble it to retrieve your frame and building supplies.",
-    "weight": "34 kg",
-    "volume": "53750 ml",
-    "longest_side": "122 cm",
+    "weight": "220 kg",
+    "volume": "220000 ml",
+    "longest_side": "180 cm",
     "price": "400 USD",
     "price_postapoc": "2 USD 50 cent",
     "material": [ "ceramic", "wood" ],
@@ -117,29 +110,10 @@
     "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
-    "id": "brick_kiln",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "brick kiln" },
-    "description": "A portable coal-or-charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
-    "weight": "9600 g",
-    "volume": "30 L",
-    "price": "250 USD",
-    "price_postapoc": "10 USD",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "dark_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 1000, "coal": 5000 } } ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 13 },
-    "tool_ammo": [ "charcoal", "coal" ]
-  },
-  {
     "id": "carding_paddles",
     "type": "ITEM",
     "category": "tools",
-    "name": { "str": "carding paddles", "str_pl": "pairs of carding paddles" },
+    "name": { "str_sp": "carding paddles (pair)" },
     "description": "A pair of toothy wooden paddles used to clean fibers for use in textile production.",
     "weight": "360 g",
     "volume": "500 ml",
@@ -479,6 +453,54 @@
     "qualities": [ [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ] ],
     "use_action": [  ],
     "melee_damage": { "bash": 7 }
+  },
+  {
+    "id": "hammer_peen",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "ball-peen hammer" },
+    "description": "A hammer with two heads; one flat and the other rounded used in the peening process in metalworking.",
+    "ascii_picture": "hammer",
+    "longest_side": "25 cm",
+    "weight": "566 g",
+    "volume": "320 ml",
+    "price": "7 USD",
+    "price_postapoc": "1 USD",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "material": [ "mc_steel", "wood" ],
+    "symbol": ";",
+    "color": "brown",
+    "qualities": [ [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "BATONS" ],
+    "melee_damage": { "bash": 6 },
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "peen_ball",
+        "name": { "str": "ball-peen hammer" },
+        "description": "A hammer with two heads; one flat and the other rounded used in the peening process in metalworking.",
+        "color": "brown"
+      },
+      {
+        "id": "peen_straight",
+        "name": { "str": "straight-peen hammer" },
+        "description": "A hammer with two heads; one flat and the other wedge-shaped oriented parallel to the hammer's handle used in the peening process in metalworking.",
+        "color": "brown"
+      },
+      {
+        "id": "peen_cross",
+        "name": { "str": "cross-peen hammer" },
+        "description": "A hammer with two heads; one flat and the other wedge-shaped oriented perpendicular to the hammer's handle used in the peening process in metalworking.",
+        "color": "brown"
+      },
+      {
+        "id": "rounding",
+        "name": { "str": "rounding hammer" },
+        "description": "A hammer with rounded face used by blacksmiths and farriers for drawing out the metal in metalworking.",
+        "color": "dark_gray"
+      }
+    ]
   },
   {
     "id": "nail_puller_bronze",
@@ -907,12 +929,13 @@
     "price": "160 USD",
     "price_postapoc": "12 USD 50 cent",
     "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "uneven" },
-    "material": [ "wood", "steel" ],
+    "material": [ "wood", "hc_steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "use_action": [ "PICKAXE" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE", "NO_SALVAGE" ],
+    "faults": [ { "fault_group": "handle_short" } ],
     "weapon_category": [ "HOOKING_WEAPONRY" ],
     "melee_damage": { "bash": 30, "stab": 15 }
   },
@@ -1839,7 +1862,7 @@
     "id": "exodii_kiln",
     "type": "ITEM",
     "name": { "str": "Exodii kiln" },
-    "description": "An electric kiln, powered by your electric grid.  A bit larger than a refridgerator, this Exodii-manufactured kiln is large enough to repair the sheets of ceramic they use for armor.  It is designed for firing sheets of the Exodii's ceramic, but you could use it to fire anything made of clay.  A large and power-hungry appliance.",
+    "description": "An electric kiln, powered by your electric grid.  A bit larger than a refrigerator, this Exodii-manufactured kiln is large enough to repair the sheets of ceramic they use for armor.  It is designed for firing sheets of the Exodii's ceramic, but you could use it to fire anything made of clay.  A large and power-hungry appliance.",
     "weight": "175 kg",
     "volume": "1000 L",
     "price": "5000 USD",
@@ -1851,5 +1874,56 @@
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "2500 W" } ],
     "melee_damage": { "bash": 20 }
+  },
+  {
+    "id": "monkey_tool",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "monkey tool" },
+    "description": "A small cylindrical chunk of steel with a hole in the middle, made to fit into the hand.  It's used to make rivets by inserting a small rod of steel inside then hammering the end sticking out until it forms the characteristic mushroom shape of the rivet head.",
+    "longest_side": "12 cm",
+    "weight": "1 kg",
+    "volume": "125 ml",
+    "price": "20 USD",
+    "price_postapoc": "3 USD",
+    "material": [ "lc_steel" ],
+    "symbol": "-",
+    "color": "light_gray"
+  },
+  {
+    "id": "nail_header",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "nail header" },
+    "description": "A square hole punched through the flat end of a metal handle.  Used to form the flat end of a nail by feeding it through the header then hammering the material sticking out of it.",
+    "longest_side": "20 cm",
+    "weight": "500 g",
+    "volume": "64 ml",
+    "price": "20 USD",
+    "price_postapoc": "3 USD",
+    "material": [ "mc_steel" ],
+    "symbol": "i",
+    "color": "light_gray"
+  },
+  {
+    "id": "nail_header_bronze",
+    "copy-from": "nail_header",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "bronze nail header" },
+    "description": "A square hole punched through the flat end of a metal handle.  Used to form the flat end of a nail by feeding it through the header then hammering the material sticking out of it.  This one is made of bronze.",
+    "proportional": { "weight": 1.1 },
+    "material": [ "bronze" ],
+    "color": "yellow"
+  },
+  {
+    "id": "razor_blade_taped",
+    "copy-from": "razor_blade",
+    "looks_like": "razor_blade",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "taped razorblade" },
+    "description": "A double-edged razor blade with one side taped to allow its use as a basic tool.",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ], [ "FABRIC_CUT", 1 ] ]
   }
 ]

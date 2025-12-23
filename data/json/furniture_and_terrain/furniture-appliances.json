@@ -12,7 +12,7 @@
     "required_str": -1,
     "deconstruct": {
       "items": [
-        { "item": "pipe", "count": 1 },
+        { "item": "cu_pipe", "count": 1 },
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
@@ -373,6 +373,21 @@
   },
   {
     "type": "furniture",
+    "id": "f_mill_vertical",
+    "name": "vertical mill",
+    "description": "A one knee vertical milling machine, commonly known as a Bridgeport.  Used to shape blocks of metal into useful parts.  You can disconnect it to install somewhere else.",
+    "looks_like": "f_machinery_light",
+    "symbol": "M",
+    "color": "light_gray",
+    "rotates_to": "INDOORFLOOR",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": 20,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "mill_vertical" }
+  },
+  {
+    "type": "furniture",
     "id": "f_shredder",
     "name": "document shredder",
     "description": "A simple electronic device mounted to a large basket.  It is designed to efficiently destroy paper documents with sensitive information.  Good for parts, as identity theft and corporate espionage probably aren't big concerns anymore.",
@@ -575,5 +590,30 @@
     "flags": [ "OBSTACLE" ],
     "item": "hd_compressor_unit",
     "bash": { "str_min": 45, "str_max": 180, "sound": "metal screeching!", "sound_fail": "clang!" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_deep_fryer",
+    "name": "deep fryer",
+    "description": "An industrial deep fryer, for frying huge batches of food at once.  You could take this down and use it for your own purposes if you wanted.",
+    "looks_like": "f_oven",
+    "symbol": "h",
+    "color": "light_gray",
+    "rotates_to": "INDOORFLOOR",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 4,
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE_HARD",
+      "CONTAINER",
+      "PLACE_ITEM",
+      "BLOCKSDOOR",
+      "MOUNTABLE",
+      "LIQUIDCONT",
+      "EASY_DECONSTRUCT"
+    ],
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "deep_fryer" },
+    "item": "deep_fryer"
   }
 ]

@@ -20,7 +20,6 @@
       "target": "grenade_inferno_act",
       "msg": "You pull the pin on the grenade.",
       "target_timer": "5 seconds",
-      "active": true,
       "menu_text": "Pull pin",
       "type": "transform"
     },
@@ -50,8 +49,9 @@
       "fields_min_intensity": 2,
       "fields_max_intensity": 3
     },
+    "countdown_interval": "5 seconds",
     "revert_to": "canister_empty",
-    "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "grenade_inferno_makeshift",
@@ -74,7 +74,6 @@
       "target": "grenade_inferno_makeshift_act",
       "msg": "You pull the pin on the grenade.",
       "target_timer": "5 seconds",
-      "active": true,
       "menu_text": "Pull pin",
       "type": "transform"
     },
@@ -104,8 +103,9 @@
       "fields_min_intensity": 2,
       "fields_max_intensity": 3
     },
+    "countdown_interval": "5 seconds",
     "revert_to": "canister_empty",
-    "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "grenade_anti_psi",
@@ -210,7 +210,8 @@
       "fields_max_intensity": 3
     },
     "countdown_interval": "5 seconds",
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "LIGHT_20" ],
+    "light": 20,
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
     "melee_damage": { "bash": 6 }
   },
   {

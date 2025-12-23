@@ -3,31 +3,91 @@
     "id": "adhesive",
     "type": "requirement",
     "//": "Materials used for joining (typically non-metallic) parts",
-    "components": [ [ [ "duct_tape", 25 ], [ "super_glue", 10 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "duct_tape", 25 ], [ "glue_strong", 10 ], [ "glue_weak", 150 ] ] ]
   },
   {
     "id": "glue_any",
     "type": "requirement",
     "//": "Any type of all-surface glue.  Each unit is 1cm^2 of coverage",
-    "components": [ [ [ "super_glue", 4 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "glue_strong", 4 ], [ "glue_weak", 150 ] ] ]
   },
   {
     "id": "glue_waterproof",
     "type": "requirement",
     "//": "Any type of waterproof glue, which is just about everything except bone/hide glue.  Each unit is 1cm^2 of coverage",
-    "components": [ [ [ "super_glue", 4 ] ] ]
+    "components": [ [ [ "glue_strong", 4 ] ] ]
   },
   {
     "id": "glue_strong",
     "type": "requirement",
     "//": "Strong glue, such as superglues, epoxy resin.  Each unit is 0.5cm^2 of coverage",
-    "components": [ [ [ "super_glue", 1 ] ] ]
+    "components": [ [ [ "glue_strong", 1 ] ] ]
   },
   {
     "id": "adhesive_cordage",
     "type": "requirement",
     "//": "Materials used for joining or tying with strings (typically non-metallic) parts. For use with improvised or simple items.",
     "components": [ [ [ "adhesive", 1, "LIST" ], [ "cordage", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "wood_sealant_any",
+    "type": "requirement",
+    "//": "Any kind of wood, for handicrafts and staves etc. Includes toxic sealants like motor oil. Each unit is up to 1500cm^2 of coverage.",
+    "components": [
+      [
+        [ "wood_sealant_nontoxic", 1, "LIST" ],
+        [ "any_tallow", 5, "LIST" ],
+        [ "lamp_oil", 250 ],
+        [ "motor_oil", 250 ],
+        [ "wax_any", 1, "LIST" ],
+        [ "rosin", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "wood_sealant_any_small",
+    "type": "requirement",
+    "//": "Any kind of wood, for handicrafts and staves etc. Includes toxic sealants like motor oil. Each unit is up to 750cm^2 of coverage.",
+    "components": [
+      [
+        [ "wood_sealant_nontoxic_small", 1, "LIST" ],
+        [ "any_tallow", 2, "LIST" ],
+        [ "lamp_oil", 125 ],
+        [ "motor_oil", 125 ],
+        [ "wax_any", 1, "LIST" ],
+        [ "rosin", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "wood_sealant_nontoxic",
+    "type": "requirement",
+    "//": "Wood sealant, for handicrafts and staves etc. Only sealants that can be used on food surfaces allowed. Each unit is 1500cm^2 of coverage.",
+    "components": [
+      [
+        [ "cooking_oil", 16 ],
+        [ "edible_tallow", 5, "LIST" ],
+        [ "wax", 1 ],
+        [ "pine_resin", 1 ],
+        [ "raw_butter", 20 ],
+        [ "butter", 20 ]
+      ]
+    ]
+  },
+  {
+    "id": "wood_sealant_nontoxic_small",
+    "type": "requirement",
+    "//": "Wood sealant, for handicrafts and staves etc. Only sealants that can be used on food surfaces allowed. Each unit is 750cm^2 of coverage.",
+    "components": [
+      [
+        [ "cooking_oil", 8 ],
+        [ "edible_tallow", 2, "LIST" ],
+        [ "wax", 1 ],
+        [ "pine_resin", 1 ],
+        [ "raw_butter", 10 ],
+        [ "butter", 10 ]
+      ]
+    ]
   },
   {
     "id": "concrete_materials_dry",
@@ -347,9 +407,8 @@
     "//": "Materials for glazing pottery",
     "components": [
       [
-        [ "edible_tallow", 1, "LIST" ],
+        [ "any_tallow", 1, "LIST" ],
         [ "cooking_oil", 8 ],
-        [ "cooking_oil2", 8 ],
         [ "wax", 1 ],
         [ "lamp_oil", 200 ],
         [ "motor_oil", 200 ],
@@ -420,6 +479,21 @@
         [ "steel_lump", 1 ],
         [ "budget_steel_lump", 1 ],
         [ "lump_cast_iron", 1 ],
+        [ "lc_steel_lump", 1 ],
+        [ "mc_steel_lump", 1 ],
+        [ "hc_steel_lump", 1 ],
+        [ "ch_steel_lump", 1 ],
+        [ "qt_steel_lump", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "steel_lump_any_steel",
+    "type": "requirement",
+    "//": "Any lump of steel but only lumps of steel",
+    "components": [
+      [
+        [ "budget_steel_lump", 1 ],
         [ "lc_steel_lump", 1 ],
         [ "mc_steel_lump", 1 ],
         [ "hc_steel_lump", 1 ],
@@ -537,7 +611,7 @@
     "id": "adhesive_rubber",
     "type": "requirement",
     "//": "Materials used for joining soft, flexible material where regular brittle superglue would be inappropriate.",
-    "components": [ [ [ "rubber_cement", 1 ] ] ]
+    "components": [ [ [ "glue_weak", 250 ] ] ]
   },
   {
     "id": "lc_steel_standard",
@@ -572,6 +646,12 @@
       ],
       [ [ "pebble", 10 ], [ "material_sand", 10 ] ]
     ]
+  },
+  {
+    "id": "clay_refractory",
+    "type": "requirement",
+    "//": "High temp resistant clay, either kaolin alone or clay+feldspar",
+    "components": [ [ [ "clay_lump", 1 ] ], [ [ "clay_kaolin", 1 ], [ "chunk_feldspar", 1 ] ] ]
   },
   {
     "id": "organic_waste",
@@ -719,5 +799,11 @@
     "type": "requirement",
     "//": "All steel wires",
     "components": [ [ [ "lc_wire", 1 ], [ "mc_wire", 1 ], [ "hc_wire", 1 ], [ "ch_wire", 1 ], [ "qt_wire", 1 ] ] ]
+  },
+  {
+    "id": "any_pipe",
+    "type": "requirement",
+    "//": "when it doesn't matter if it's a steel, plastic, aluminum pipe or whatever",
+    "components": [ [ [ "pipe", 1 ], [ "pipe_cpvc", 1 ], [ "cu_pipe", 1 ] ] ]
   }
 ]

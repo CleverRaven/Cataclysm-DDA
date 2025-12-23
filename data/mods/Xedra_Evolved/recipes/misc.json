@@ -115,6 +115,17 @@
     "subcategory": "CSC_XEDRA_MISC"
   },
   {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "laptop",
+    "components": [ [ [ "laptop_xedra", 1 ] ] ],
+    "time": "30 m",
+    "skill_used": "computer",
+    "difficulty": 0,
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_MISC"
+  },
+  {
     "id": "bait_abyssal_hunger",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

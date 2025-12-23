@@ -5,6 +5,7 @@
 #include <exception>
 #include <filesystem>
 #include <functional>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <stdexcept>
@@ -19,6 +20,7 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "flexbuffer_json.h"
+#include "game.h"
 #include "input.h"
 #include "json.h"
 #include "json_loader.h"
@@ -39,13 +41,6 @@
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
-class game;
-
-// NOLINTNEXTLINE(cata-static-declarations)
-extern std::unique_ptr<game> g;
-// NOLINTNEXTLINE(cata-static-declarations)
-extern const int savegame_version;
-
 static std::string quad_file_name( const tripoint_abs_omt &om_addr )
 {
     return string_format( "%d.%d.%d.map", om_addr.x(), om_addr.y(), om_addr.z() );
@@ -54,9 +49,10 @@ static std::string quad_file_name( const tripoint_abs_omt &om_addr )
 static cata_path find_dirname( const tripoint_abs_omt &om_addr )
 {
     const tripoint_abs_seg segment_addr = project_to<coords::seg>( om_addr );
-    return PATH_INFO::world_base_save_path() / "maps" / string_format( "%d.%d.%d",
-            segment_addr.x(),
-            segment_addr.y(), segment_addr.z() );
+    std::string segment = string_format( "%d.%d.%d",
+                                         segment_addr.x(),
+                                         segment_addr.y(), segment_addr.z() );
+    return PATH_INFO::current_dimension_save_path() / "maps" / segment;
 }
 
 mapbuffer MAPBUFFER;
@@ -160,13 +156,13 @@ bool mapbuffer::submap_exists_approx( const tripoint_abs_sm &p )
 
             if( world_generator->active_world->has_compression_enabled() ) {
                 cata_path zzip_name = dirname;
-                zzip_name += ".zzip";
+                zzip_name += zzip_suffix;
                 if( !file_exist( zzip_name ) ) {
                     return false;
                 }
-                std::shared_ptr<zzip> z = zzip::load( zzip_name.get_unrelative_path(),
-                                                      ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
-                return z->has_file( std::filesystem::u8path( file_name ) );
+                std::optional<zzip> z = zzip::load( zzip_name.get_unrelative_path(),
+                                                    ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
+                return z && z->has_file( std::filesystem::u8path( file_name ) );
             } else {
                 return file_exist( dirname / file_name );
             }
@@ -181,8 +177,7 @@ bool mapbuffer::submap_exists_approx( const tripoint_abs_sm &p )
 
 void mapbuffer::save( bool delete_after_save )
 {
-    assure_dir_exist( PATH_INFO::world_base_save_path() / "maps" );
-
+    assure_dir_exist( PATH_INFO::current_dimension_save_path() / "maps" );
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
 
@@ -252,13 +247,13 @@ void mapbuffer::save_quad(
     bool reverted_to_uniform = false;
     bool file_exists = false;
 
-    std::shared_ptr<zzip> z;
+    std::optional<zzip> z;
+    cata_path zzip_name = dirname;
+    zzip_name += zzip_suffix;
     // The number of uniform submaps is so enormous that the filesystem overhead
     // for this step of just checking if the quad exists approaches 70% of the
     // total cost of saving the mapbuffer, in one test save I had.
     if( world_generator->active_world->has_compression_enabled() ) {
-        cata_path zzip_name = dirname;
-        zzip_name += ".zzip";
         z = zzip::load( zzip_name.get_unrelative_path(),
                         ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
         if( !z ) {
@@ -341,7 +336,6 @@ void mapbuffer::save_quad(
 
     if( z ) {
         z->add_file( filename.get_relative_path().filename(), s );
-        z->compact( 2.0 );
     } else {
         // Don't create the directory if it would be empty
         assure_dir_exist( dirname );
@@ -355,6 +349,13 @@ void mapbuffer::save_quad(
             z->delete_files( { filename.get_relative_path().filename() } );
         } else {
             std::filesystem::remove( filename.get_unrelative_path() );
+        }
+    }
+    if( z ) {
+        cata_path tmp_path = zzip_name + ".tmp";
+        if( z->compact_to( tmp_path.get_unrelative_path(), 2.0 ) ) {
+            z.reset();
+            rename_file( tmp_path, zzip_name );
         }
     }
 }
@@ -374,13 +375,13 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
         if( world_generator->active_world->has_compression_enabled() )
         {
             cata_path zzip_name = dirname;
-            zzip_name += ".zzip";
+            zzip_name += zzip_suffix;
             if( !file_exist( zzip_name ) ) {
                 return false;
             }
-            std::shared_ptr<zzip> z = zzip::load( zzip_name.get_unrelative_path(),
-                                                  ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
-            if( !z->has_file( file_name_path ) ) {
+            std::optional<zzip> z = zzip::load( zzip_name.get_unrelative_path(),
+                                                ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
+            if( !z || !z->has_file( file_name_path ) ) {
                 return false;
             }
             std::vector<std::byte> contents = z->get_file( file_name_path );
@@ -399,7 +400,6 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
             return read_from_file_optional_json( quad_path, [this]( const JsonValue & jsin ) {
                 deserialize( jsin );
             } );
-
         }
     }();
 

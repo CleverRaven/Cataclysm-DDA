@@ -70,7 +70,7 @@
     "description": "A remote-controlled toy car.  It is turned on and draining its batteries just like a real electric car!  Use a remote control to drive it around.",
     "turns_per_charge": 5,
     "revert_to": "radio_car",
-    "use_action": [ "RADIOCARON" ],
+    "use_action": { "type": "transform", "target": "radio_car", "msg": "You turned off your RC car.", "menu_text": "Turn off" },
     "tick_action": [
       {
         "type": "sound",
@@ -81,7 +81,8 @@
       }
     ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID", "RADIOCAR", "WATER_BREAK", "ELECTRONIC" ]
+    "light": 15,
+    "flags": [ "RADIO_CONTAINER", "TRADER_AVOID", "RADIOCAR", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "id": "radio_mod",
@@ -117,7 +118,18 @@
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 1,
-    "use_action": [ "RADIO_OFF", { "type": "link_up", "cable_length": 3, "charge_rate": "5 W" } ],
+    "use_action": [
+      { "type": "link_up", "cable_length": 3, "charge_rate": "5 W" },
+      {
+        "type": "transform",
+        "target": "radio_on",
+        "ammo_scale": 0,
+        "menu_text": "Turn on",
+        "msg": "You turn the radio on.",
+        "need_charges": 1,
+        "need_charges_msg": "It's dead."
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -144,7 +156,7 @@
     ],
     "tick_action": [ "RADIO_TICK" ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "SPAWN_ACTIVE" ]
   },
   {
     "id": "two_way_radio",

@@ -11,7 +11,7 @@
         "names": [ "name_1", "name_2", "<context_val:name>", "should_fail" ],
         "keys": [ "a", "b", "c", "d" ],
         "descriptions": [ "option 1", "option 2", "<context_val:description>", "should not be available" ],
-        "variables": [ { "val": "8" } ],
+        "variables": [ { "val": 8 } ],
         "title": "<context_val:title>",
         "allow_cancel": true
       }
@@ -47,7 +47,7 @@
         "names": [ "name_1", "name_2", "name_3", "should_fail" ],
         "keys": [ "a", "b", "c", "d" ],
         "descriptions": [ "option 1", "option 2", "option 3", "should not be available" ],
-        "variables": [ { "val": "8" } ],
+        "variables": [ { "val": 8 } ],
         "hide_failing": true
       }
     ]
@@ -97,7 +97,7 @@
       { "u_message": "[Skill experience test]" },
       { "math": [ "u_skill_test = u_skill_exp('swimming')" ] },
       { "u_message": "Swimming skill experience before: <u_val:skill_test>" },
-      { "math": [ "u_skill_exp('swimming')", "+=", "10" ] },
+      { "math": [ "u_skill_exp('swimming') += 10" ] },
       { "math": [ "u_skill_test = u_skill_exp('swimming')" ] },
       { "u_message": "Swimming skill experience after: <u_val:skill_test>" },
       { "u_message": "[Weight and volume test]" },
@@ -449,9 +449,9 @@
     "effect": [
       {
         "run_eoc_selector": [ "EOC_control_npc", "EOC_return_to_player" ],
-        "names": [ "Control a NPC", "Return to Player" ],
+        "names": [ "Control an NPC", "Return to Player" ],
         "keys": [ "a", "b" ],
-        "descriptions": [ "Control a NPC", "Return to Player" ],
+        "descriptions": [ "Control an NPC", "Return to Player" ],
         "allow_cancel": true
       }
     ]
@@ -467,10 +467,10 @@
         "then": {
           "run_eocs": {
             "id": "_EOC_control_npc_do",
-            "effect": [ { "if": "npc_is_npc", "then": [ "follow", "take_control" ], "else": { "message": "Please select a NPC." } } ]
+            "effect": [ { "if": "npc_is_npc", "then": [ "follow", "take_control" ], "else": { "message": "Please select an NPC." } } ]
           },
           "beta_loc": { "context_val": "loc" },
-          "false_eocs": { "id": "_EOC_control_npc_fail_msg", "effect": { "message": "Please select a NPC." } }
+          "false_eocs": { "id": "_EOC_control_npc_fail_msg", "effect": { "message": "Please select an NPC." } }
         },
         "else": { "u_message": "Canceled" }
       }
@@ -496,7 +496,7 @@
         "run_eocs": { "id": "_EOC_hello_world_msg", "effect": { "message": "hello world" } },
         "alpha_talker": "",
         "beta_talker": "",
-        "false_eocs": { "id": "_EOC_null_talker_msg", "effect": { "message": "Constructed a EOC with no talkers!" } }
+        "false_eocs": { "id": "_EOC_null_talker_msg", "effect": { "message": "Constructed an EOC with no talkers!" } }
       }
     ]
   },
@@ -517,6 +517,61 @@
       { "math": [ "ITEM_POWER_MAX = n_val('power_max')" ] },
       { "math": [ "ITEM_POWER_PERC = n_val('power_percentage')" ] },
       { "u_message": "<global_val:ITEM_POWER> / <global_val:ITEM_POWER_MAX> (<global_val:ITEM_POWER_PERC>%)" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_dimension_swap_test",
+    "//": "shifts the character to a new dimension",
+    "global": true,
+    "effect": [
+      {
+        "set_string_var": "default",
+        "string_input": {
+          "title": { "str": "teleport to dimension named:" },
+          "description": { "str": "empty for main dimension" },
+          "width": 30
+        },
+        "target_var": { "u_val": "destination_dimension" }
+      },
+      {
+        "set_string_var": "default",
+        "string_input": {
+          "title": { "str": "region type for the dimension?" },
+          "description": { "str": "empty for default region." },
+          "width": 30
+        },
+        "target_var": { "u_val": "region_type" }
+      },
+      {
+        "u_travel_to_dimension": { "u_val": "destination_dimension" },
+        "npc_travel_radius": 5,
+        "region_type": { "u_val": "region_type" },
+        "npc_travel_filter": "follower",
+        "fail_message": "your body doesn't move",
+        "success_message": "This place feels different."
+      },
+      { "u_message": { "u_val": "destination_dimension" } },
+      { "if": { "current_dimension": "" }, "then": { "u_message": "home sweet home" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_dimension_clear_test",
+    "//": "clears out a dimension in '/dimensions' folder",
+    "global": true,
+    "effect": [
+      {
+        "set_string_var": "",
+        "string_input": {
+          "title": { "str": "clear the dimension named:" },
+          "description": { "str": "the main dimension can't be cleared." },
+          "width": 30
+        },
+        "target_var": { "u_val": "target_dimension" }
+      },
+      { "clear_dimension": { "u_val": "target_dimension" } },
+      { "u_message": "if dimension with ID <u_val:target_dimension> existed, it doesn't anymore." }
     ]
   }
 ]

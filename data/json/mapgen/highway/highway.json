@@ -48,7 +48,12 @@
       ],
       "palettes": [ "highway_palette" ],
       "place_nested": [ { "chunks": [ "24x24_highway_road_bridge_ramp" ], "x": 0, "y": 0, "neighbors": { "above": "hw_road_bridge" } } ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_items": [
+        { "item": "SUS_trash_highway_shoulder", "x": [ 0, 9 ], "y": [ 0, 23 ], "chance": 10, "repeat": [ 0, 32 ] },
+        { "item": "road", "x": [ 8, 23 ], "y": [ 0, 23 ], "chance": 20 }
+      ],
+      "place_vehicles": [ { "vehicle": "highway", "x": 10, "y": 10, "fuel": -1, "status": 1, "chance": 10, "rotation": 270 } ]
     }
   },
   {

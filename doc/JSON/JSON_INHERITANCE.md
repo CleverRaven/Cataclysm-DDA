@@ -1,3 +1,15 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [JSON Inheritance](#json-inheritance)
+  - [Examples](#examples)
+  - [Support](#support)
+  - [Behavior](#behavior)
+  - [Guidelines](#guidelines)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # JSON Inheritance
 
 To reduce duplication in the JSON data, it is possible for _some_ JSON `type`s to inherit from existing objects.  Some restraint should be used, see [Guidelines](#guidelines) section.  It is important to note that inheritance is not always completely standard between `type`s.  See the [Behavior](#behavior) section for further details.

@@ -367,6 +367,17 @@
     "locations": [ "land" ]
   },
   {
+    "id": "afs_vehicle_bay",
+    "type": "city_building",
+    "overmaps": [
+      { "point": [ 1, 0, 0 ], "overmap": "afs_vehicle_bay_a1_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "afs_vehicle_bay_a2_south" },
+      { "point": [ 1, 0, 1 ], "overmap": "afs_vehicle_bay_a1_roof_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_vehicle_bay_a2_roof_south" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
     "id": "afs_gene_clinic_1",
     "type": "city_building",
     "overmaps": [

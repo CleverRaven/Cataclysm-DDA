@@ -6,6 +6,7 @@
     <string name="helpMessage">"Swipe" for directional movement (hold for virtual joystick). "Tap" to confirm selection in menu or Pause one turn in-game (hold to Pause several turns in-game). "Double tap" to cancel or go back in menus (works like Escape key). "Pinch" to zoom in/out (in-game). Use hardware "Back" button to toggle virtual keyboard (hold to toggle keyboard shortcuts).</string>
     <string name="accessibilityServicesTitle">Accessibility Services Warning</string>
     <string name="accessibilityServicesMessage">If swipe commands and shortcuts menus are not working in game, you might want to disable one of the following accessibility services/software that interact with touchscreen (swipe assists, auto-clickers, one-handed mode, etc.):\n%1$s</string>
+    <string name="ignoreFalsePostives">Mark as false positive(s)</string>
     <string name="softwareRendering">Software rendering</string>
     <string name="forceFullscreen">Force fullscreen</string>
     <string name="trapBackButton">Trap Back button</string>

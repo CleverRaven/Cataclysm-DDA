@@ -378,6 +378,13 @@
   },
   {
     "type": "terrain",
+    "id": "t_radiosphere_radio_tower_liminal_light",
+    "copy-from": "t_radio_tower",
+    "description": "The structure of a radio transmission tower, there's a bright spotlight hanging off it.",
+    "light_emitted": 50
+  },
+  {
+    "type": "terrain",
     "id": "t_radio_controls",
     "name": "radio controls",
     "description": "A console that appears to control a nearby radio transmission tower.  It doesn't seem to be fully operational.",
@@ -1369,7 +1376,7 @@
     "looks_like": "t_pit",
     "move_cost": 0,
     "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS" ],
+    "flags": [ "TRANSPARENT", "PERMEABLE", "CONTAINER", "PLACE_ITEM", "INDOORS" ],
     "deconstruct": { "ter_set": "t_pit", "items": [ { "item": "rock", "count": 40 }, { "item": "stick", "count": [ 16, 16 ] } ] },
     "bash": {
       "str_min": 18,
@@ -1632,8 +1639,9 @@
     "description": "A large brick oven that could make several pizzas at once.",
     "color": "red",
     "move_cost": 0,
-    "flags": [ "REDUCE_SCENT", "NOITEM", "PERMEABLE", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE" ],
+    "flags": [ "REDUCE_SCENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PERMEABLE", "FIRE_CONTAINER" ],
     "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "fire_brick", "count": 90 } ] },
+    "examine_action": "fireplace",
     "bash": {
       "str_min": 25,
       "str_max": 50,

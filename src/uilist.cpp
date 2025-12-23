@@ -777,49 +777,63 @@ void uilist::reposition()
     setup();
 }
 
-
-int uilist::scroll_amount_from_action( const std::string &action )
+uilist::scroll_amount uilist::scroll_amount_from_action( const std::string &action )
 {
     const int scroll_rate = vmax > 20 ? 10 : 3;
     if( action == "UILIST.UP" ) {
-        return -1;
+        return uilist::scroll_amount::wrapped( -1 );
     } else if( action == "PAGE_UP" ) {
-        return -scroll_rate;
+        return uilist::scroll_amount::clamped( -scroll_rate );
     } else if( action == "HOME" ) {
-        return -fselected;
+        return uilist::scroll_amount::abs( 0 );
     } else if( action == "END" ) {
-        return fentries.size() - fselected - 1;
+        return uilist::scroll_amount::abs( static_cast<int>( fentries.size() - 1 ) );
     } else if( action == "UILIST.DOWN" ) {
-        return 1;
+        return uilist::scroll_amount::wrapped( 1 );
     } else if( action == "PAGE_DOWN" ) {
-        return scroll_rate;
+        return uilist::scroll_amount::clamped( scroll_rate );
     } else {
-        return 0;
+        return uilist::scroll_amount::clamped( 0 );
     }
 }
 
 /**
  * check for valid scrolling keypress and handle. return false if invalid keypress
  */
-bool uilist::scrollby( const int scrollby )
+bool uilist::scrollby( const uilist::scroll_amount scrollby )
 {
-    if( scrollby == 0 ) {
+    bool is_relative = scrollby.type == uilist::scroll_amount::relative_wrapped ||
+                       scrollby.type == uilist::scroll_amount::relative_clamped;
+    if( is_relative && scrollby.qty == 0 ) {
         return false;
     }
 
-    bool looparound = scrollby == -1 || scrollby == 1;
-    bool backwards = scrollby < 0;
+    bool may_wrap = scrollby.type == uilist::scroll_amount::relative_wrapped;
+    bool backwards = false;
+    if( may_wrap ) {
+        backwards = scrollby.qty < 0;
+    } else {
+        backwards = scrollby.qty > 0;
+    }
     int recmax = static_cast<int>( fentries.size() );
 
-    fselected += scrollby;
-    if( !looparound ) {
-        if( backwards && fselected < 0 ) {
+    if( scrollby.type == uilist::scroll_amount::absolute ) {
+        fselected = scrollby.qty;
+    } else {
+        fselected += scrollby.qty;
+    }
+
+    if( !may_wrap ) {
+        // if wrapping is not allowed then clamp to the bounds of the list
+        if( fselected < 0 ) {
             fselected = 0;
         } else if( fselected >= recmax ) {
             fselected = fentries.size() - 1;
         }
     }
 
+    // if the current selected entry is disabled, find the next
+    // enabled entry in the direction of movement
     if( backwards ) {
         if( fselected < 0 ) {
             fselected = fentries.size() - 1;
@@ -873,7 +887,7 @@ shared_ptr_fast<uilist_impl> uilist::create_or_get_ui()
  * Handle input and update display
  *
  */
-void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
+shared_ptr_fast<uilist_impl> uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
 {
 #if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_NATIVE_UI" ) && !entries.empty() && !desired_bounds ) {
@@ -936,13 +950,13 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
         } else {
             ret = UILIST_ERROR;
         }
-        return;
+        return nullptr;
     }
 #endif
     ret_evt = input_event();
     if( entries.empty() ) {
         ret = UILIST_ERROR;
-        return;
+        return nullptr;
     }
     ret = UILIST_WAIT_INPUT;
 
@@ -974,13 +988,8 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
         } else if( filtering && ret_act == "UILIST.FILTER" ) {
             inputfilter();
         } else if( !categories.empty() && ( ret_act == "UILIST.LEFT" || ret_act == "UILIST.RIGHT" ) ) {
-            int tmp = current_category + ( ret_act == "UILIST.LEFT" ? -1 : 1 );
-            if( tmp < 0 ) {
-                tmp = categories.size() - 1;
-            } else if( tmp >= static_cast<int>( categories.size() ) ) {
-                tmp = 0;
-            }
-            switch_to_category = static_cast<size_t>( tmp );
+            switch_to_category = inc_clamp_wrap( current_category, ret_act == "UILIST.RIGHT",
+                                                 categories.size() );
         } else if( iter != keymap.end() ) {
             if( allow_unfiltered_hotkeys ) {
                 const bool enabled = entries[iter->second].enabled;
@@ -1030,6 +1039,8 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
             }
         }
     } while( loop && ret == UILIST_WAIT_INPUT );
+
+    return ui;
 }
 
 ///@}

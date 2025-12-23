@@ -209,7 +209,7 @@
     "is_limb": true,
     "base_hp": 100,
     "smash_efficiency": 1.5,
-    "smash_message": "You smash %s with your tail."
+    "smash_message": "You smash %s with your tail!"
   },
   {
     "id": "devil_tail_tip",
@@ -220,5 +220,14 @@
     "opposite": "devil_tail_tip",
     "name": "devil's tail tip",
     "name_multiple": "devil's tail tips"
+  },
+  {
+    "id": "eyes",
+    "type": "body_part",
+    "copy-from": "eyes",
+    "name": "eyes",
+    "limb_type": "sensor",
+    "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.0 ], [ "reaction", 0.7 ] ],
+    "similar_bodyparts": [ "gracken_eyes", "stalker_eyes" ]
   }
 ]

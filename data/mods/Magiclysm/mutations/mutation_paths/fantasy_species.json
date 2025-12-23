@@ -4,6 +4,19 @@
     "id": "HERITAGE"
   },
   {
+    "type": "mutation",
+    "id": "HUMAN_BUILD",
+    "name": { "str": "Human" },
+    "types": [ "HERITAGE" ],
+    "purifiable": false,
+    "mixed_effect": false,
+    "points": 1,
+    "visibility": 2,
+    "description": "Elves might say you are short-lived, and goblins might say you are strong, but the one thing humans really are is tenacious.  Hopefully that will serve you well after the Cataclysm.",
+    "empathize_with": [ "GOBLIN", "RAVENFOLK", "LIZARDFOLK", "ELF", "DWARF", "HUMAN" ],
+    "flags": [ "HERITAGE" ]
+  },
+  {
     "type": "mutation_category",
     "id": "SPECIES_DWARF",
     "name": "Dwarf",
@@ -171,6 +184,7 @@
     "ugliness": 0,
     "description": "Dwarves are smaller than humans, the better to deal with confined spaces underground, but as solid as the mountains (+2 STR, -1 DEX).",
     "category": [ "SPECIES_DWARF" ],
+    "empathize_with": [ "GOBLIN", "RAVENFOLK", "LIZARDFOLK", "ELF", "DWARF", "HUMAN" ],
     "enchantments": [
       {
         "values": [
@@ -316,6 +330,7 @@
     "description": "Elves are more lithe and frail than humans, but possess an almost otherworldly grace (-1 STR, +2 DEX).",
     "category": [ "SPECIES_ELF" ],
     "threshreq": [ "THRESH_SPECIES_ELF" ],
+    "empathize_with": [ "GOBLIN", "RAVENFOLK", "LIZARDFOLK", "ELF", "DWARF", "HUMAN" ],
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -325,6 +340,10 @@
           { "value": "DEXTERITY", "add": 2 },
           { "value": "WEIGHT", "multiply": -0.15 }
         ]
+      },
+      {
+        "condition": { "math": [ "u_effect_intensity('effect_vitamin_elven_wilderness') <= 3" ] },
+        "mutations": [ "DISIMMUNE" ]
       }
     ],
     "flags": [ "HERITAGE" ]
@@ -347,10 +366,43 @@
     "id": "ELVEN_SIGHT",
     "name": { "str": "Elvensight" },
     "points": 2,
-    "description": "Like a cat, elven eyes are well-attuned to low levels of light, able to pick up even the slightest glimmer.  You have greatly-enhanced night vision.",
+    "description": "Like a cat, elven eyes are well-attuned to low levels of light, able to pick up even the slightest glimmer.  You have greatly-enhanced night vision.  However, you have no additional vision while in complete darkness.",
     "types": [ "EYES" ],
     "category": [ "SPECIES_ELF" ],
-    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": 5 } ] } ]
+    "enchantments": [
+      {
+        "condition": { "and": [ "u_is_outside", { "or": [ { "is_weather": "clear" }, { "is_weather": "sunny" } ] } ] },
+        "values": [ { "value": "NIGHT_VIS", "add": 20 }, { "value": "OVERMAP_SIGHT", "add": 6 } ],
+        "ench_effects": [ { "effect": "effect_magiclysm_craft_in_darkness", "intensity": 1 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            "u_is_outside",
+            { "not": { "is_weather": "clear" } },
+            { "not": { "is_weather": "sunny" } },
+            { "and": [ { "math": [ "moon_phase() >= 2" ] }, { "math": [ "moon_phase() < 7" ] } ] }
+          ]
+        },
+        "values": [ { "value": "NIGHT_VIS", "add": 10 }, { "value": "OVERMAP_SIGHT", "add": 2 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            "u_is_outside",
+            { "not": { "is_weather": "clear" } },
+            { "not": { "is_weather": "sunny" } },
+            { "or": [ { "math": [ "moon_phase() <= 1" ] }, { "math": [ "moon_phase() == 7" ] } ] }
+          ]
+        },
+        "values": [ { "value": "NIGHT_VIS", "add": 2 } ]
+      },
+      {
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('fine_detail_vision_mod') <= 7" ] } ] },
+        "values": [ { "value": "NIGHT_VIS", "add": 6 } ],
+        "ench_effects": [ { "effect": "effect_magiclysm_craft_in_darkness", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -399,7 +451,6 @@
             { "u_is_on_terrain": "t_grass_long" },
             { "u_is_on_terrain": "t_bamboo" },
             { "u_is_on_terrain": "t_bamboo_harvested" },
-            { "u_is_on_terrain": "t_underbrush_harvested_winter" },
             { "u_is_on_terrain": "t_grass" },
             { "u_is_on_terrain": "t_grass_white" },
             { "u_is_on_terrain": "t_moss" },
@@ -407,6 +458,53 @@
           ]
         },
         "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELVEN_NEED_FOR_WILDERNESS",
+    "name": { "str": "The Longing" },
+    "points": -4,
+    "description": "Elves are tied to the wilderness in a literal sense, and being away from the wilds too long makes them weak and frail.  Spending too long underground, indoors, or in the remnants of the cities will reduce your health stat; spending time in the wilderness will restore it.  Being indoors in magically-created natural buildings or in public parks can hold the Longing at bay, but it is no substitute for the wilderness.",
+    "purifiable": false,
+    "category": [ "SPECIES_ELF" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "math": [ "u_magiclysm_elf_is_in_wilderness == 1" ] },
+            {
+              "or": [
+                "u_is_outside",
+                {
+                  "and": [ { "not": "u_is_outside" }, { "test_eoc": "EOC_CONDITION_MAGICLYSM_ELF_WILDERNESS_EQUIVALENTS" } ]
+                }
+              ]
+            }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_elven_wilderness_bonus_gain_vitamin", "intensity": 1 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "math": [ "u_magiclysm_elf_is_in_wilderness == 0" ] },
+            {
+              "or": [ { "test_eoc": "EOC_CONDITION_MAGICLYSM_ELF_WILDERNESS_EQUIVALENTS" }, { "u_has_effect": "natures_commune" } ]
+            }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_elven_wilderness_bonus_steady_state", "intensity": 1 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "or": [ { "math": [ "u_magiclysm_elf_is_in_wilderness == 0" ] }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
+            { "not": { "test_eoc": "EOC_CONDITION_MAGICLYSM_ELF_WILDERNESS_EQUIVALENTS" } }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_elven_wilderness_bonus_lose_vitamin", "intensity": 1 } ]
       }
     ]
   },
@@ -508,6 +606,7 @@
     "category": [ "SPECIES_GOBLIN" ],
     "anger_relations": [ [ "WARG", -90 ] ],
     "spells_learned": [ [ "goblin_tame_warg_spell", 1 ] ],
+    "empathize_with": [ "GOBLIN", "RAVENFOLK", "LIZARDFOLK", "ELF", "DWARF", "HUMAN" ],
     "enchantments": [
       {
         "values": [
@@ -533,7 +632,7 @@
     "description": "Your people have always had an easier time operating at night, away from the hated light of the sun.",
     "mixed_effect": true,
     "valid": false,
-    "flags": [ "MYOPIC_IN_LIGHT" ],
+    "flags": [ "MYOPIC_IN_LIGHT_SUPERNATURAL" ],
     "category": [ "SPECIES_GOBLIN" ],
     "enchantments": [
       {
@@ -609,7 +708,10 @@
     "ugliness": 0,
     "description": "Lizardfolk are taller and stronger than humans but not much thicker and are surprisingly fast for their size (+1 STR, +1 DEX).",
     "category": [ "SPECIES_LIZARDFOLK" ],
+    "empathize_with": [ "GOBLIN", "RAVENFOLK", "LIZARDFOLK", "ELF", "DWARF", "HUMAN" ],
     "enchantments": [
+      { "condition": { "u_has_trait": "SLIT_NOSTRILS" }, "encumbrance_modifier": [ { "part": "mouth", "add": -10 } ] },
+      { "condition": { "u_has_trait": "SCALES" }, "encumbrance_modifier": [ { "part": "mouth", "add": -1 } ] },
       {
         "values": [
           { "value": "MOVECOST_SWIM_MOD", "multiply": -0.1 },
@@ -711,7 +813,7 @@
     "ugliness": 8,
     "mixed_effect": true,
     "description": "Your face and jaws are those of a predatory lizard, with a set of sharp teeth to go with them.  They look NASTY--as do the bite wounds they can inflict--but prevent wearing mouthgear.",
-    "types": [ "MUZZLE" ],
+    "types": [ "TEETH" ],
     "prereqs": [ "SNOUT" ],
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 10 },
@@ -742,6 +844,7 @@
     "description": "Ravenfolk are about the same size as humans, though their feathers and wings obviously set them apart.",
     "category": [ "SPECIES_RAVENFOLK" ],
     "enchantments": [ { "values": [ { "value": "WEIGHT", "multiply": -0.25 } ] } ],
+    "empathize_with": [ "GOBLIN", "RAVENFOLK", "LIZARDFOLK", "ELF", "DWARF", "HUMAN" ],
     "flags": [ "HERITAGE" ]
   },
   {

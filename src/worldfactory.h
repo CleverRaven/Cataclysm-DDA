@@ -9,6 +9,7 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <string_view>
 
 #include "cuboid_rectangle.h"
 #include "options.h"
@@ -19,6 +20,9 @@ enum class special_game_type;
 
 class JsonArray;
 class JsonObject;
+
+constexpr std::string_view zzip_overmap_directory = "overmaps";
+constexpr std::string_view zzip_suffix = ".zzip";
 
 namespace catacurses
 {
@@ -37,7 +41,7 @@ class save_t
         std::string base_path() const;
 
         static save_t from_save_id( const std::string &save_id );
-        static save_t from_base_path( const std::string &base_path );
+        static save_t from_base_path( std::string_view base_path );
 
         bool operator==( const save_t &rhs ) const {
             return name == rhs.name;

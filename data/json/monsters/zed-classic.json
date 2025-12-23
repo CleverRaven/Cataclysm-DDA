@@ -49,7 +49,8 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "UNBREAKABLE_MORALE"
     ],
     "armor": { "electric": 1 },
     "revive_forms": [
@@ -87,7 +88,7 @@
     "description": "A human body covered by a weather-beaten and badly damaged set of police gear.",
     "copy-from": "mon_zombie",
     "color": "blue",
-    "melee_skill": 6,
+    "melee_skill": 5,
     "melee_dice_sides": 4,
     "vision_day": 30,
     "death_drops": "mon_zombie_cop_death_drops",

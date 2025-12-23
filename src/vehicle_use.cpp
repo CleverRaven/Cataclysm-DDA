@@ -19,6 +19,8 @@
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "game.h"
 #include "game_inventory.h"
@@ -79,6 +81,7 @@ static const flag_id json_flag_PSEUDO( "PSEUDO" );
 
 static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
 static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
+static const furn_str_id furn_f_plant_unharvested_overgrown( "f_plant_unharvested_overgrown" );
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
@@ -89,6 +92,7 @@ static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
+static const itype_id itype_mws_weather_data_incomplete( "mws_weather_data_incomplete" );
 static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
 static const itype_id itype_pseudo_magazine_mod( "pseudo_magazine_mod" );
@@ -494,7 +498,7 @@ void vehicle::autopilot_patrol_check( map &here )
     if( mgr.has_near( zone_type_VEHICLE_PATROL, pos_abs(), MAX_VIEW_DISTANCE ) ) {
         enable_patrol( here );
     } else {
-        g->zones_manager();
+        zone_manager_ui::display_zone_manager();
     }
 }
 
@@ -907,8 +911,8 @@ void vehicle::reload_seeds( map *here, const tripoint_bub_ms &pos )
 
     if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const int count = std::get<2>( seed_entries[seed_index] );
-        int amount = 0;
-        query_int( amount, false, _( "Move how many?  [Have %d] (0 to cancel)" ), count );
+        int amount = count;
+        query_int( amount, true, _( "Move how many?  (0 to cancel)" ) );
 
         if( amount > 0 ) {
             int actual_amount = std::min( amount, count );
@@ -1045,10 +1049,13 @@ void vehicle::operate_reaper( map &here )
 {
     for( const vpart_reference &vp : get_enabled_parts( "REAPER" ) ) {
         const tripoint_bub_ms reaper_pos = vp.pos_bub( here );
-        const int plant_produced = rng( 1, vp.info().bonus );
-        const int seed_produced = rng( 1, 3 );
+        int plant_produced = rng( 1, vp.info().bonus );
+        int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = vp.info().size / 20;
-        if( here.furn( reaper_pos ) != furn_f_plant_harvest ) {
+        if( here.furn( reaper_pos ) == furn_f_plant_unharvested_overgrown ) {
+            plant_produced = 0;
+            seed_produced = 0;
+        } else if( here.furn( reaper_pos ) != furn_f_plant_harvest ) {
             continue;
         }
         // Can't use item_stack::only_item() since there might be fertilizer
@@ -1275,7 +1282,6 @@ void vehicle::lock( int part_index )
 
 bool vehicle::can_close( int part_index, Character &who )
 {
-    creature_tracker &creatures = get_creature_tracker();
     part_index = get_non_fake_part( part_index );
     std::vector<std::vector<int>> openable_parts = find_lines_of_parts( part_index, "OPENABLE" );
     if( openable_parts.empty() ) {
@@ -1287,16 +1293,7 @@ bool vehicle::can_close( int part_index, Character &who )
         for( int partID : vec ) {
             // Check the part for collisions, then if there's a fake part present check that too.
             while( partID >= 0 ) {
-                const Creature *const mon = creatures.creature_at( abs_part_pos( parts[partID] ) );
-                if( mon ) {
-                    if( mon->is_avatar() ) {
-                        who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
-                    } else if( mon->is_monster() ) {
-                        // TODO: Houseflies, mosquitoes, etc shouldn't count
-                        who.add_msg_if_player( m_info, _( "The %s is in the way!" ), mon->get_name() );
-                    } else {
-                        who.add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name() );
-                    }
+                if( doors::check_mon_blocking_door( who, abs_part_pos( parts[partID] ) ) ) {
                     return false;
                 }
                 if( parts[partID].has_fake && parts[parts[partID].fake_part_at].is_active_fake ) {
@@ -1578,6 +1575,29 @@ void vehicle::use_dishwasher( map &here, int p )
 
         add_msg( m_good,
                  _( "You pour some detergent into the dishwasher, close its lid, and turn it on.  The dishwasher is being filled from the water tanks." ) );
+    }
+}
+
+void vehicle::use_mws( map &here, int p )
+{
+    vehicle_part &vp = parts[p];
+    vehicle_stack items = get_items( vp );
+
+    if( vp.enabled ) {
+        vp.enabled = false;
+        add_msg( m_bad,
+                 _( "You switch off the sensor array before it is finished its recording." ) );
+    } else {
+        vp.enabled = true;
+        //check if an internal timer is there already, if not, add one
+        if( items.empty() ) {
+            add_item( here, vp, item( itype_mws_weather_data_incomplete, calendar::turn_zero ) );
+        }
+        for( item &n : items ) {
+            n.set_age( 0_turns );
+        }
+        add_msg( m_good,
+                 _( "The printer whirs and the instruments start to spin as you switch on the sensor array." ) );
     }
 }
 
@@ -2059,7 +2079,7 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
             .hotkey( "TOGGLE_ALARM" )
             .on_submit( [this] {
                 is_alarm_on = true;
-                add_msg( _( "You trigger the alarm" ) );
+                add_msg( _( "You trigger the alarm!" ) );
             } );
         }
     }
@@ -2070,6 +2090,15 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .hotkey( "TOGGLE_ALARM" )
         .on_submit( [this, here] { smash_security_system( *here ); } );
     }
+    for( const vpart_reference &vp : this->get_avail_parts( "EOC_ACTIVATION" ) ) {
+        vehicle_part &part = vp.part();
+        menu.add( string_format( _( "Activate  %s" ), vp.part().name() ) )
+        .on_submit( [&part] {
+            dialogue newDialog( get_talker_for( get_player_character() ), nullptr );
+            part.info().activatable_eoc.value()->activate( newDialog );
+        } );
+    }
+
 
     if( remote ) {
         menu.add( _( "Stop controlling" ) )
@@ -2354,6 +2383,17 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .on_submit( [this, dw_idx, here] { use_dishwasher( *here, dw_idx ); } );
     }
 
+    const std::optional<vpart_reference> vp_mws = vp.avail_part_with_feature( "MWS" );
+    //mobile weather station
+    if( vp_mws ) {
+        const size_t dw_idx = vp_mws->part_index();
+        menu.add( vp_mws->part().enabled
+                  ? _( "Deactivate the sensor array" )
+                  : _( "Activate the recording subroutine (1 hour)" ) )
+        .hotkey( "TOGGLE_MWS" )
+        .on_submit( [this, dw_idx, here] { use_mws( *here, dw_idx ); } );
+    }
+
     const std::optional<vpart_reference> vp_cargo = vp.cargo();
     // Whether vehicle part (cargo) contains items, and whether map tile (ground) has items
     if( with_pickup && (
@@ -2422,7 +2462,7 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .enable( fuel_left( *here, itype_water ) &&
                  fuel_left( *here, itype_battery ) >= itype_water_purifier->charges_to_use() )
         .hotkey( "PURIFY_WATER" )
-        .on_submit( [this, &here] {
+        .on_submit( [this, here] {
             const auto sel = []( const map &, const vehicle_part & pt )
             {
                 return pt.is_tank() && pt.ammo_current() == itype_water;

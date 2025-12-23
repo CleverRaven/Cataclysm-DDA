@@ -16,7 +16,6 @@
 #include <vector>
 
 #include "addiction.h"
-#include "assign.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -41,6 +40,7 @@
 #include "item_category.h"
 #include "item_components.h"
 #include "item_location.h"
+#include "item_tname.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -101,7 +101,6 @@ static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_tapeworm( "tapeworm" );
-static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_visuals( "visuals" );
 
 static const flag_id json_flag_ALLERGEN_CHEESE( "ALLERGEN_CHEESE" );
@@ -130,6 +129,7 @@ static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
+static const json_character_flag json_flag_SKIP_HEALTH( "SKIP_HEALTH" );
 static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
 static const json_character_flag json_flag_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
 
@@ -181,7 +181,6 @@ static const trait_id trait_PROJUNK2( "PROJUNK2" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
-static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
@@ -765,7 +764,7 @@ float Character::metabolic_rate_base() const
     float hunger_rate = get_option< float >( hunger_rate_string );
     const float final_hunger_rate = enchantment_cache->modify_value( enchant_vals::mod::METABOLISM,
                                     hunger_rate );
-    return std::clamp( final_hunger_rate, 0.0f, float_max );
+    return std::clamp( final_hunger_rate, 0.0f, std::numeric_limits<float>::max() );
 }
 
 // TODO: Make this less chaotic to let NPC retroactive catch up work here
@@ -1173,23 +1172,26 @@ static bool eat( item &food, Character &you, bool force )
         you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
                                    food.tname() );
     } else if( drinkable ) {
-        if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
-            you.is_avatar() ) {
+        if( you.is_avatar() && you.schizo_symptoms( 50 ) && !spoiled && food.goes_bad() &&
+            !you.has_trait( trait_SAPROVORE ) ) {
+            const std::string tname = food.tname( 1,
+                                                  tname::segment_bitset( tname::default_tname_bits & ~( 1ULL << static_cast<size_t>
+                                                          ( tname::segments::FOOD_STATUS ) ) ) );
 
-            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
-            add_msg( _( "You drink your %s (rotten)." ), food.tname() );
+            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), tname );
+            add_msg( _( "You drink your %s (rotten)." ), tname );
         } else {
             you.add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
                                        food.tname() );
         }
     } else if( chew ) {
-        if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
-            you.is_avatar() ) {
-
-            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
-            add_msg( _( "You eat your %s (rotten)." ), food.tname() );
+        if( you.is_avatar() && you.schizo_symptoms( 50 ) && !spoiled && food.goes_bad() &&
+            !you.has_trait( trait_SAPROVORE ) ) {
+            const std::string tname = food.tname( 1,
+                                                  tname::segment_bitset( tname::default_tname_bits & ~( 1ULL << static_cast<size_t>
+                                                          ( tname::segments::FOOD_STATUS ) ) ) );
+            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), tname );
+            add_msg( _( "You eat your %s (rotten)." ), tname );
         } else {
             you.add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
                                        food.tname() );
@@ -1626,7 +1628,7 @@ bool Character::consume_effects( item &food )
 
     // Used in hibernation messages.
     const int nutr = nutrition_for( food );
-    const bool skip_health = has_trait( trait_PROJUNK2 ) && comest.healthy < 0;
+    const bool skip_health = has_flag( json_flag_SKIP_HEALTH ) && comest.healthy < 0;
     // We can handle junk just fine
     if( !skip_health ) {
         modify_health( comest );
@@ -1849,7 +1851,7 @@ static bool query_consume_ownership( item &target, Character &p )
     if( !target.is_owned_by( p, true ) ) {
         bool choice = true;
         if( p.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
-            choice = Pickup::query_thief();
+            choice = Pickup::query_thief( target );
         }
         if( p.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" || !choice ) {
             return false;
@@ -1921,7 +1923,7 @@ static bool consume_med( item &target, Character &you )
 trinary Character::consume( item &target, bool force )
 {
     if( target.is_null() ) {
-        add_msg_if_player( m_info, _( "You do not have that item." ) );
+        add_msg_if_player( m_info, _( "You don't have that item." ) );
         return trinary::NONE;
     }
     if( ( !has_trait( trait_WATERSLEEP ) && !has_trait( trait_UNDINE_SLEEP_WATER ) ) &&

@@ -55,10 +55,11 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "skills_required": [ [ "fabrication", 3 ] ],
-    "time": "12 h",
+    "time": "1 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_arthropod", 3 ] ],
-    "using": [ [ "armor_chitin", 18 ], [ "strap_small", 4 ], [ "clasps", 2 ] ],
+    "byproducts": [ [ "scrap_leather", 2 ] ],
+    "using": [ [ "armor_chitin", 3 ], [ "strap_small", 4 ], [ "clasps", 2 ], [ "tailoring_leather_small", 2 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
@@ -71,8 +72,7 @@
     "result": "xs_boots_chitin",
     "type": "recipe",
     "copy-from": "boots_chitin",
-    "time": "12 h",
-    "using": [ [ "armor_chitin", 13 ], [ "strap_small", 3 ], [ "clasps", 1 ] ],
+    "using": [ [ "armor_chitin", 2 ], [ "strap_small", 4 ], [ "clasps", 2 ], [ "tailoring_leather_small", 2 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ]
   },
   {
@@ -81,8 +81,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "boots_chitin",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
-    "using": [ [ "armor_chitin", 23 ], [ "strap_small", 6 ], [ "clasps", 2 ] ],
-    "time": "13 h 30 m"
+    "using": [ [ "armor_chitin", 4 ], [ "strap_small", 4 ], [ "clasps", 2 ], [ "tailoring_leather_small", 3 ] ]
   },
   {
     "result": "boots_acidchitin",
@@ -159,7 +158,8 @@
     "copy-from": "boots_fsurvivor",
     "time": "22 h 30 m",
     "byproducts": [ [ "scrap_kevlar", 20 ], [ "scrap_nomex", 20 ] ],
-    "using": [ [ "tailoring_kevlar_fabric", 6 ], [ "tailoring_nomex_patchwork", 6 ], [ "fastener_small", 2 ] ]
+    "using": [ [ "tailoring_kevlar_fabric", 6 ], [ "tailoring_nomex_patchwork", 6 ], [ "fastener_small", 2 ] ],
+    "components": [ [ [ "duct_tape", 62 ] ], [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ] ]
   },
   {
     "result": "boots_fur",
@@ -412,7 +412,8 @@
       [ "adhesive_rubber", 1 ],
       [ "tailoring_neoprene_patchwork", 2 ],
       [ "fastener_small", 6 ]
-    ]
+    ],
+    "components": [ [ [ "wetsuit_booties", 1 ] ] ]
   },
   {
     "result": "xl_boots_h20survivor",
@@ -425,7 +426,8 @@
       [ "adhesive_rubber", 2 ],
       [ "tailoring_neoprene_patchwork", 4 ],
       [ "fastener_small", 6 ]
-    ]
+    ],
+    "components": [ [ [ "wetsuit_booties", 1 ] ] ]
   },
   {
     "result": "boots_h20survivor_light",
@@ -464,7 +466,8 @@
       [ "adhesive_rubber", 1 ],
       [ "tailoring_neoprene_patchwork", 1 ],
       [ "fastener_small", 6 ]
-    ]
+    ],
+    "components": [ [ [ "wetsuit_booties", 1 ] ] ]
   },
   {
     "result": "xl_boots_h20survivor_light",
@@ -477,7 +480,8 @@
       [ "adhesive_rubber", 2 ],
       [ "tailoring_neoprene_patchwork", 2 ],
       [ "fastener_small", 6 ]
-    ]
+    ],
+    "components": [ [ [ "wetsuit_booties", 1 ] ] ]
   },
   {
     "result": "boots_h20survivor_thick",
@@ -516,7 +520,8 @@
       [ "adhesive_rubber", 1 ],
       [ "tailoring_neoprene_patchwork", 1 ],
       [ "fastener_small", 6 ]
-    ]
+    ],
+    "components": [ [ [ "wetsuit_booties_thick", 1 ] ] ]
   },
   {
     "result": "xl_boots_h20survivor_thick",
@@ -529,7 +534,8 @@
       [ "adhesive_rubber", 2 ],
       [ "tailoring_neoprene_patchwork", 2 ],
       [ "fastener_small", 6 ]
-    ]
+    ],
+    "components": [ [ [ "wetsuit_booties_thick", 1 ] ] ]
   },
   {
     "result": "boots_hsurvivor",
@@ -1990,6 +1996,7 @@
     "id_suffix": "from_rope",
     "type": "recipe",
     "time": "2 h",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rope_natural_short", 1, "LIST" ] ] ],
     "byproducts": [ [ "string_36", 3 ] ]
   },
@@ -1997,6 +2004,7 @@
     "copy-from": "espadrilles",
     "result": "xl_espadrilles",
     "type": "recipe",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "using": [ [ "tailoring_cotton", 1.5 ] ],
     "components": [ [ [ "filament", 1200, "LIST" ] ] ]
   },
@@ -2006,6 +2014,7 @@
     "id_suffix": "from_rope",
     "type": "recipe",
     "time": "2 h",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rope_natural_short", 1, "LIST" ] ] ],
     "byproducts": [ [ "string_36", 2 ] ]
   },
@@ -2013,6 +2022,7 @@
     "copy-from": "espadrilles",
     "result": "xs_espadrilles",
     "type": "recipe",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "using": [ [ "tailoring_cotton", 1 ] ],
     "components": [ [ [ "filament", 600, "LIST" ] ] ]
   },
@@ -2022,6 +2032,7 @@
     "id_suffix": "from_rope",
     "type": "recipe",
     "time": "2 h",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rope_natural_short", 1, "LIST" ] ] ],
     "byproducts": [ [ "string_36", 4 ] ]
   }

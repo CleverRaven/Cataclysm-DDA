@@ -51,6 +51,7 @@ class talker_character_const: virtual public const_talker
         units::temperature get_cur_part_temp( const bodypart_id &bp ) const override;
 
         // stats, skills, traits, bionics, and magic
+        int get_artifact_resonance() const override;
         int str_cur() const override;
         int dex_cur() const override;
         int int_cur() const override;
@@ -142,6 +143,8 @@ class talker_character_const: virtual public const_talker
         bool unarmed_attack() const override;
         bool can_stash_weapon() const override;
         bool has_stolen_item( const_talker const &guy ) const override;
+        bool has_software( const itype_id &software_id, int min_charges = 0,
+                           const itype_id &device_id = itype_id::NULL_ID() ) const override;
 
         // factions and alliances
         faction *get_faction() const override;

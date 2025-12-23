@@ -108,6 +108,18 @@
         "topic": "SKYISLAND_SERVICES"
       },
       {
+        "text": "Save me from danger.",
+        "effect": [
+          { "math": [ "u_spell_level('island_hostile_eviction') = 1" ] },
+          { "math": [ "u_spell_level('island_close_tear_and_portal') = 1" ] },
+          {
+            "u_message": "You now have the power to close holes in existence and banish hostiles from the island until your next expedition.",
+            "popup": true
+          }
+        ],
+        "topic": "SKYISLAND_SERVICES"
+      },
+      {
         "text": "View my expedition stats.",
         "effect": [ { "run_eocs": [ "EOC_statcheck" ] } ],
         "topic": "SKYISLAND_SERVICES"
@@ -265,6 +277,14 @@
         "topic": "SKYISLAND_UPGRADES_TERRAFORM"
       },
       {
+        "text": "Unlock: Personal Radiation Shield",
+        "condition": {
+          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_radblock" } }, { "not": { "u_has_trait": "mut_skyisland_radblock" } } ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_radblock" } ],
+        "topic": "SKYISLAND_UPGRADES_TERRAFORM"
+      },
+      {
         "text": "Unlock: Personal Windblocker",
         "condition": {
           "and": [
@@ -273,6 +293,17 @@
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_windblock" } ],
+        "topic": "SKYISLAND_UPGRADES_TERRAFORM"
+      },
+      {
+        "text": "Unlock: Island-Side Resilience",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_island_steady" } },
+            { "not": { "u_has_trait": "mut_skyisland_island_steady" } }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_island_steady" } ],
         "topic": "SKYISLAND_UPGRADES_TERRAFORM"
       },
       {
@@ -426,7 +457,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting6" } },
-            { "math": [ "scoutingdistancetargets == 7" ] },
+            { "math": [ "scoutingdistancetargets == 10" ] },
             { "math": [ "islandrank >= 4" ] }
           ]
         },
@@ -438,7 +469,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting7" } },
-            { "math": [ "scoutingdistancetargets == 8" ] },
+            { "math": [ "scoutingdistancetargets == 14" ] },
             { "math": [ "islandrank >= 4" ] }
           ]
         },
@@ -450,7 +481,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting8" } },
-            { "math": [ "scoutingdistancetargets == 7" ] },
+            { "math": [ "scoutingdistancetargets == 18" ] },
             { "math": [ "islandrank >= 4" ] }
           ]
         },
@@ -458,7 +489,7 @@
         "topic": "SKYISLAND_UPGRADES_FEATURES"
       },
       {
-        "text": "Upgrade: Scouting Clairvoyance",
+        "text": "Upgrade: Scouting Clairvoyance 1",
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scoutingclairvoyance1" } },
@@ -534,7 +565,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing6" } },
-            { "math": [ "scoutingdistancelanding == 20" ] },
+            { "math": [ "scoutingdistancelanding == 24" ] },
             { "math": [ "islandrank >= 4" ] }
           ]
         },
@@ -546,7 +577,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing7" } },
-            { "math": [ "scoutingdistancelanding == 24" ] },
+            { "math": [ "scoutingdistancelanding == 32" ] },
             { "math": [ "islandrank >= 4" ] }
           ]
         },
@@ -558,7 +589,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing8" } },
-            { "math": [ "scoutingdistancelanding == 28" ] },
+            { "math": [ "scoutingdistancelanding == 40" ] },
             { "math": [ "islandrank >= 4" ] }
           ]
         },
@@ -690,7 +721,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_bonusmissions5" } },
-            { "math": [ "bonusmissions == 2" ] },
+            { "math": [ "bonusmissions == 4" ] },
             { "math": [ "islandrank >= 4" ] }
           ]
         },

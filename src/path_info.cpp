@@ -421,6 +421,10 @@ std::string PATH_INFO::worldoptions()
 {
     return "worldoptions.json";
 }
+std::string PATH_INFO::external_options()
+{
+    return "external_options.json";
+}
 std::string PATH_INFO::world_timestamp()
 {
     return "world_timestamp.json";

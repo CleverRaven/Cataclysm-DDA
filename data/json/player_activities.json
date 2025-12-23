@@ -82,6 +82,16 @@
     "auto_needs": true
   },
   {
+    "id": "ACT_MULTIPLE_STUDY",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "studying",
+    "based_on": "neither",
+    "can_resume": false,
+    "multi_activity": true,
+    "auto_needs": true
+  },
+  {
     "id": "ACT_MOP",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
@@ -708,6 +718,15 @@
     "can_resume": false
   },
   {
+    "id": "ACT_WAIT_FOLLOWERS",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "waiting for followers to catch up",
+    "rooted": true,
+    "based_on": "time",
+    "can_resume": false
+  },
+  {
     "id": "ACT_WAIT_NPC",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -1126,6 +1145,28 @@
     "refuel_fires": false,
     "auto_needs": false,
     "interruptable_with_kb": false
+  },
+  {
+    "id": "ACT_PHONE_RECOVERY_BASIC",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "recovering",
+    "based_on": "time",
+    "interruptable": true,
+    "can_resume": false,
+    "interruptable_with_kb": true,
+    "completion_eoc": "EOC_SMARTPHONE_RECOVERY_BASIC_2"
+  },
+  {
+    "id": "ACT_PHONE_RECOVERY_ADVANCED",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "recovering",
+    "based_on": "time",
+    "interruptable": true,
+    "can_resume": false,
+    "interruptable_with_kb": true,
+    "completion_eoc": "EOC_SMARTPHONE_RECOVERY_ADVANCED_2"
   },
   {
     "id": "ACT_SALINE_INFUSE",

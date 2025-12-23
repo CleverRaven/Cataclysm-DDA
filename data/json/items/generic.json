@@ -230,6 +230,175 @@
   },
   {
     "type": "ITEM",
+    "id": "mws_weather_data_incomplete",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str_sp": "unspooled thermal paper" },
+    "description": "A small scrap of thermal paper pulled from a spool.",
+    "price": "0 cent",
+    "volume": "1 ml",
+    "weight": "1 g",
+    "material": [ "paper" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "mws_weather_data",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str_sp": "weather datasheet" },
+    "description": "A piece of paper covered in complex weather recordings.  It requires specialized software to interpret.",
+    "price": "0 cent",
+    "volume": "1 ml",
+    "weight": "1 g",
+    "material": [ "paper" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "HEW_weather_data",
+    "name": { "str": "HEW datasheet" },
+    "category": "books",
+    "description": "A piece of paper with data on various local conditions, including weather, radiation, and measurements foreign to you.  The document is coded in a series of overlapping numbers and dots that you cannot understand.  It likely requires specialized software to interpret.",
+    "weight": "1 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "HEW_printout_data",
+    "name": { "str": "HEW printout" },
+    "category": "books",
+    "description": "A short sheet of paper.  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"CONDITIONS NORMAL.\"",
+    "weight": "1 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "HEW_printout_data_portal_storm",
+    "name": { "str": "HEW printout PSR13" },
+    "category": "books",
+    "description": "A short paper report labeled with the mysterious title \"PSR13.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  ACTIVE SPACETIME DISTURBANCES.  ARTIFICIAL ELECTROMAGNETIC FLUCTUATIONS.  RESONANCE DENSITIES.\"",
+    "weight": "1 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "HEW_printout_data_vitrified",
+    "name": { "str": "HEW printout CC1044" },
+    "category": "books",
+    "description": "A short paper report labeled with the mysterious title \"CC1044.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  ACTIVE SPACETIME DISTURBANCES.\"",
+    "weight": "1 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "HEW_printout_data_exodii",
+    "name": { "str": "HEW printout IAE20" },
+    "category": "books",
+    "description": "A short paper report labeled with the mysterious title \"IAE20.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  SIGNIFICANT ALIEN ELECTROMAGNETIC FLUCTUATIONS.  SPACETIME DISTURBANCE.\"",
+    "weight": "1 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "HEW_printout_data_strange_temple",
+    "name": { "str": "HEW printout WKG1" },
+    "category": "books",
+    "description": "A short paper report labeled with the mysterious title \"WKG1.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  RESONANCE DENSITY.\"",
+    "weight": "1 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "HEW_printout_data_lixa",
+    "name": { "str": "HEW printout DP72063" },
+    "category": "books",
+    "description": "A short paper report labeled with the mysterious title \"DP72063.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  ACTIVE SPACETIME DISTURBANCES.\"",
+    "weight": "1 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "HEW_printout_data_highlands",
+    "name": { "str": "HEW printout TCOB1" },
+    "category": "books",
+    "description": "A short paper report labeled with the mysterious title \"TCOB1.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  NON-EARTH CONDITIONS.  SIGNIFICANT ABSENCE OF ARTIFICIAL ELECTROMAGNETIC FLUCTUATIONS.  RESONANCE DENSITIES.\"",
+    "weight": "1 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "HEW_printout_data_labyrinth",
+    "name": { "str": "HEW printout DB86" },
+    "category": "books",
+    "description": "A short paper report labeled with the mysterious title \"DB86.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  NON-EARTH CONDITIONS.  SIGNIFICANT ALIEN ELECTROMAGNETIC FLUCTUATIONS.\"",
+    "weight": "1 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "HEW_printout_data_physics_lab",
+    "name": { "str": "HEW printout 22BMBS" },
+    "category": "books",
+    "description": "A short paper report labeled with the mysterious title \"22BMBS.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  ACTIVE SPACETIME DISTURBANCES.  RESONANCE DENSITY.\"",
+    "weight": "1 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "HEW_printout_data_amigara",
+    "name": { "str": "HEW printout 01ITO" },
+    "category": "books",
+    "description": "A short paper report labeled with the mysterious title \"01ITO.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  ACTIVE SPACETIME DISTURBANCES.  ABNORMAL SEISMIC ACTIVITY.  RESONANCE DENSITY.\"",
+    "weight": "1 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
     "id": "fp_loyalty_card",
     "category": "other",
     "symbol": "-",
@@ -306,57 +475,6 @@
     "material": [ "dry_plant" ],
     "volume": "200 ml",
     "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "id": "super_glue",
-    "category": "spare_parts",
-    "symbol": ",",
-    "phase": "liquid",
-    "color": "white",
-    "name": { "str_sp": "superglue" },
-    "description": "Cyanoacrylate, more commonly known as superglue, is a strong, quick curing glue with many applications.  It was a favorite of many post-Cataclysm hobbyists, but has become a sought-after trade good due to its wide applications, and the fact it has become essentially impossible to manufacture.",
-    "price": "1 USD",
-    "price_postapoc": "1 USD",
-    "material": [ "plastic" ],
-    "weight": "26 mg",
-    "volume": "1 ml",
-    "ammo_type": "superglue",
-    "//": "1 charge of superglue should cover an area of 5mm^2",
-    "count": 40,
-    "flags": [ "UNRECOVERABLE" ]
-  },
-  {
-    "type": "ITEM",
-    "id": "rubber_cement",
-    "category": "spare_parts",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str_sp": "rubber cement" },
-    "looks_like": "super_glue",
-    "description": "A tin of adhesive typically used to glue rubber together.  It forms a less rigid bond than typical superglue, making it ideal for projects requiring flexibility.  Typically smelly and toxic.",
-    "price": "18 USD",
-    "price_postapoc": "80 cent",
-    "material": [ "plastic" ],
-    "weight": "52 g",
-    "volume": "250 ml",
-    "flags": [ "UNRECOVERABLE" ]
-  },
-  {
-    "type": "ITEM",
-    "id": "bone_glue",
-    "symbol": ",",
-    "category": "spare_parts",
-    "color": "brown",
-    "name": { "str": "bone glue" },
-    "description": "Glue made from boiling animal bones.  The adhesive isn't strong enough for heavy-duty usages, but it can be used as a varnish or holding together small items.",
-    "price": "18 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "bone" ],
-    "weight": "45 g",
-    "volume": "150 ml",
-    "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ]
   },
   {
     "type": "ITEM",
@@ -470,7 +588,7 @@
     "category": "spare_parts",
     "name": { "str": "bundle of cotton patches", "str_pl": "bundles of cotton patches" },
     "description": "A hundred cotton patches, bundled tightly together for storage.  Disassemble to unpack.",
-    "weight": "500 g",
+    "weight": "250 g",
     "volume": "500 ml",
     "price": "200 USD",
     "price_postapoc": "2 USD",
@@ -484,7 +602,7 @@
     "category": "spare_parts",
     "name": { "str": "bundle of cotton sheets", "str_pl": "bundles of cotton sheets" },
     "description": "Twenty-five cotton sheets, bundled tightly together for storage.  Disassemble to unpack.",
-    "weight": "950 g",
+    "weight": "500 g",
     "volume": "1000 ml",
     "price": "200 USD",
     "price_postapoc": "2 USD",
@@ -960,7 +1078,7 @@
     "price": "44 cent",
     "price_postapoc": "50 cent",
     "material": [ "glass" ],
-    "flags": [ "LIGHT_8" ],
+    "light": 8,
     "volume": "50 ml"
   },
   {
@@ -1088,6 +1206,7 @@
     "color": "light_gray",
     "name": { "str": "rebar" },
     "description": "A rod of rebar, makes a nice melee weapon, and could be handy in constructing tougher walls and such.",
+    "//": "80 cm x 16mm diameter",
     "category": "spare_parts",
     "price": "75 USD",
     "price_postapoc": "25 cent",
@@ -1169,7 +1288,7 @@
     "id": "spring",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "spring" },
+    "name": { "str": "large spring" },
     "category": "spare_parts",
     "description": "A large, heavy-duty spring.  Expands with significant force when compressed.",
     "price": "10 USD",
@@ -1179,6 +1298,36 @@
     "volume": "750 ml",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 3 }
+  },
+  {
+    "type": "ITEM",
+    "id": "spring_medium",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "medium spring" },
+    "category": "spare_parts",
+    "description": "A medium spring wound from tempered steel wire.  Resists corrosion and expands consistently when compressed.",
+    "price": "50 cents",
+    "price_postapoc": "10 cent",
+    "material": [ "steel" ],
+    "weight": "100 g",
+    "volume": "50 ml",
+    "longest_side": "10 cm"
+  },
+  {
+    "type": "ITEM",
+    "id": "spring_small",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "small spring" },
+    "category": "spare_parts",
+    "description": "A small spring wound from tempered steel wire.  Resists corrosion and expands consistently when compressed.",
+    "price": "20 cents",
+    "price_postapoc": "5 cent",
+    "material": [ "steel" ],
+    "weight": "10 g",
+    "volume": "5 ml",
+    "longest_side": "3 cm"
   },
   {
     "type": "ITEM",
@@ -1959,7 +2108,7 @@
     "id": "glass_tinted",
     "symbol": ".",
     "color": "dark_gray",
-    "name": { "str": "pair of tinted glass lenses", "str_pl": "pairs of tinted glass lenses" },
+    "name": { "str_sp": "tinted glass lenses (pair)" },
     "category": "spare_parts",
     "description": "A pair of small, darkened glass lenses, like the ones used in sunglasses.",
     "price": "10 USD",
@@ -2273,7 +2422,7 @@
   },
   {
     "type": "ITEM",
-    "id": "brew_sake_koji",
+    "id": "brew_sake_koji_active",
     "looks_like": "rice_cooked",
     "name": { "str_sp": "unfinished koji rice" },
     "description": "Some cooked rice mixed with yeast and koji mold fragments, set aside to let koji mold grow on it so that it can make a passable sake base.",
@@ -2281,19 +2430,13 @@
     "weight": "200 g",
     "color": "white",
     "container": "bottle_glass",
-    "flags": [ "TRADER_AVOID", "SOFT" ],
+    "flags": [ "TRADER_AVOID", "SOFT", "SPAWN_ACTIVE" ],
     "symbol": "%",
     "price": "0 cent",
     "volume": "250 ml",
     "category": "food",
-    "use_action": {
-      "target": "sake_koji_rice",
-      "msg": "The koji mold seems to have overtaken all the rice; this batch is usable now.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 345600,
-      "not_ready_msg": "The koji mold is still growing."
-    }
+    "countdown_interval": "4 days",
+    "revert_to": "sake_koji_rice"
   },
   {
     "type": "ITEM",
@@ -2311,25 +2454,19 @@
   },
   {
     "type": "ITEM",
-    "id": "young_koji",
+    "id": "young_koji_active",
     "looks_like": "rice_cooked",
     "name": { "str_sp": "growing wild koji mold" },
     "description": "Some cooked rice sprinkled with ash and wrapped into a corn husk.  If left alone for a while, it will most likely grow koji mold.",
     "material": [ "veggy", "mold", "yeast" ],
     "weight": "200 g",
     "color": "white",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "symbol": ",",
     "price": "0 cent",
     "volume": "250 ml",
-    "use_action": {
-      "target": "young_koji_done",
-      "msg": "Patches of koji mold have grown on the rice; you can now extract it.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 345600,
-      "not_ready_msg": "The koji mold hasn't grown yet."
-    }
+    "countdown_interval": "4 days",
+    "revert_to": "young_koji_done"
   },
   {
     "type": "ITEM",
@@ -2346,24 +2483,18 @@
   },
   {
     "type": "ITEM",
-    "id": "soy_wheat_dough",
+    "id": "soy_wheat_dough_active",
     "looks_like": "flour",
     "name": { "str_sp": "soy and wheat dough" },
     "description": "Dough made from cooked and mashed soybeans and wheat flour, wrapped in wet paper.  If left to dry for some time, it'll grow koji mold, as necessary for making soy sauce.",
     "weight": "550 g",
     "color": "white",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "symbol": "%",
     "price": "0 cent",
     "volume": "500 ml",
-    "use_action": {
-      "target": "soy_wheat_dough_done",
-      "msg": "The koji mold seems to have overtaken all the dough; this batch is usable now.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 345600,
-      "not_ready_msg": "The koji mold hasn't grown yet."
-    }
+    "countdown_interval": "4 days",
+    "revert_to": "soy_wheat_dough_done"
   },
   {
     "type": "ITEM",
@@ -2489,6 +2620,20 @@
   },
   {
     "type": "ITEM",
+    "id": "clay_kaolin",
+    "symbol": ",",
+    "color": "white",
+    "looks_like": "clay_lump",
+    "name": { "str": "lump of kaolin clay", "str_pl": "lumps of kaolin clay" },
+    "category": "spare_parts",
+    "description": "A fresh soft lump of kaolin.  Useful for making ceramics like porcelain, or for high temperature applications as refractory.",
+    "price": "19 USD 99 cent",
+    "price_postapoc": "10 cent",
+    "weight": "660 g",
+    "volume": "250 ml"
+  },
+  {
+    "type": "ITEM",
     "id": "brick",
     "symbol": ",",
     "color": "brown",
@@ -2537,27 +2682,22 @@
   },
   {
     "type": "ITEM",
-    "id": "soft_adobe_brick",
+    "id": "soft_adobe_brick_active",
     "category": "spare_parts",
     "symbol": ",",
     "color": "brown",
+    "flags": [ "SPAWN_ACTIVE" ],
     "name": { "str": "soft adobe brick" },
     "description": "A compacted mass of soil and natural fibers, still too wet to build with.  Load it onto a pallet and leave it to dry.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "soil" ],
-    "weight": "1750 g",
-    "volume": "2250 ml",
+    "weight": "11500 g",
+    "volume": "8000 ml",
+    "longest_side": "36 cm",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "use_action": {
-      "target": "adobe_brick",
-      "msg": "You test the brick, and it seems solid enough to use.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 604800,
-      "not_ready_msg": "The brick is still too damp to bear weight.",
-      "//": "Should be about a week. Irl it's ten days, so make big batches."
-    },
+    "countdown_interval": "7 days",
+    "revert_to": "adobe_brick",
     "melee_damage": { "bash": 1 }
   },
   {
@@ -2571,8 +2711,9 @@
     "description": "A compacted mass of soil and natural fibers, baked dry enough to harden into a brick.",
     "material": [ "soil" ],
     "flags": [ "NONCONDUCTIVE" ],
-    "weight": "1500 g",
-    "volume": "2250 ml",
+    "weight": "10000 g",
+    "volume": "8000 ml",
+    "longest_side": "36 cm",
     "price": "20 USD",
     "price_postapoc": "10 cent",
     "qualities": [ [ "HAMMER", 1 ] ],
@@ -3003,18 +3144,14 @@
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
     "revert_to": "cigar_butt",
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": [
-      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
-      {
-        "target": "cigar_butt",
-        "msg": "You extinguish the cigar.",
-        "active": false,
-        "menu_text": "Extinguish",
-        "type": "transform"
-      }
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
+      { "target": "cigar_butt", "msg": "You extinguish the cigar.", "menu_text": "Extinguish", "type": "transform" }
     ],
     "material": [ "paper" ],
-    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "light": 8,
+    "flags": [ "LITCIG", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE", "SPAWN_ACTIVE" ],
     "warmth": 6,
     "armor": [
       {
@@ -3050,18 +3187,14 @@
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
     "revert_to": "cig_butt",
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": [
-      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
-      {
-        "target": "cig_butt",
-        "msg": "You extinguish the cigarette.",
-        "active": false,
-        "menu_text": "Extinguish",
-        "type": "transform"
-      }
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
+      { "target": "cig_butt", "msg": "You extinguish the cigarette.", "menu_text": "Extinguish", "type": "transform" }
     ],
     "material": [ "paper" ],
-    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "light": 2,
+    "flags": [ "LITCIG", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE", "SPAWN_ACTIVE" ],
     "warmth": 3,
     "armor": [
       {
@@ -3097,18 +3230,14 @@
     "category": "drugs",
     "emits": [ "emit_joint_trail" ],
     "revert_to": "joint_roach",
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": [
-      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
-      {
-        "target": "joint_roach",
-        "msg": "You extinguish the joint.",
-        "active": false,
-        "menu_text": "Extinguish",
-        "type": "transform"
-      }
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
+      { "target": "joint_roach", "msg": "You extinguish the joint.", "menu_text": "Extinguish", "type": "transform" }
     ],
     "material": [ "paper" ],
-    "flags": [ "LITCIG", "LIGHT_2", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "light": 2,
+    "flags": [ "LITCIG", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE", "SPAWN_ACTIVE" ],
     "warmth": 3,
     "armor": [
       {
@@ -3420,6 +3549,21 @@
     "melee_damage": { "bash": 5 }
   },
   {
+    "id": "highland_censer",
+    "type": "ITEM",
+    "name": { "str": "censer" },
+    "description": "A small bronze vessel used to burn incense and other aromatic substances.  Its adorned with a variety of natural and knotwork designs.",
+    "looks_like": "oil_lamp",
+    "weight": "1720 g",
+    "volume": "1 L",
+    "price": "10 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "bronze" ],
+    "symbol": ";",
+    "color": "yellow",
+    "melee_damage": { "bash": 5 }
+  },
+  {
     "type": "ITEM",
     "id": "lock",
     "category": "spare_parts",
@@ -3528,6 +3672,7 @@
   {
     "type": "ITEM",
     "id": "broken_turret_rifle_balthazar",
+    "name": { "str": "broken M249 autonomous CROWS II", "str_pl": "broken M249 autonomous CROWS II turrets" },
     "copy-from": "broken_turret_rifle"
   },
   {
@@ -3577,6 +3722,7 @@
   {
     "type": "ITEM",
     "id": "broken_secubot_balthazar",
+    "name": { "str": "broken secubot" },
     "copy-from": "broken_secubot"
   },
   {
@@ -4057,5 +4203,21 @@
     ],
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 5 }
+  },
+  {
+    "type": "ITEM",
+    "id": "helmet_mounting_brackets",
+    "//": "Based on https://www.cadexdefence.com/products/helmet-electro-optic-mount/ach-side-mounted-helmet-bracket/ + https://www.cadexdefence.com/products/helmet-electro-optic-mount/universal-helmet-strap-kit/",
+    "symbol": "+",
+    "color": "dark_gray",
+    "name": { "str_sp": "helmet mounting brackets" },
+    "category": "other",
+    "description": "An assortment of mounting brackets designed to allow stuff such as NV goggles or flashlights to be mounted to army helmets.  These can be attached to other types of helmets, providing it's properly modified.",
+    "price": "90 USD",
+    "price_postapoc": "2 USD",
+    "material": [ { "type": "plastic", "portion": 9 }, { "type": "mc_steel", "portion": 6 } ],
+    "weight": "230 g",
+    "volume": "100 ml",
+    "longest_side": "5 cm"
   }
 ]

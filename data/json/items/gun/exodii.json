@@ -1,7 +1,6 @@
 [
   {
     "id": "brogyeki",
-    "copy-from": "shotgun_base",
     "looks_like": "m79",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -23,14 +22,18 @@
         "weight": 1
       }
     ],
+    "skill": "shotgun",
     "to_hit": -3,
     "material": [ "qt_steel", "aluminum" ],
     "symbol": "(",
+    "color": "light_gray",
     "ammo": [ "273x44", "273x110", "273x44RG" ],
     "dispersion": 350,
     "durability": 9,
     "blackpowder_tolerance": 120,
     "clip_size": 1,
+    "faults": [ { "fault": "fault_gun_blackpowder" }, { "fault": "fault_gun_dirt" }, { "fault": "fault_gun_chamber_spent" } ],
+    "handling": 20,
     "reload": 140,
     "valid_mod_locations": [ [ "stock", 1 ], [ "sling", 1 ] ],
     "default_mods": [ "wire_stock" ],
@@ -46,7 +49,7 @@
   },
   {
     "id": "brogyaga",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "trexgun",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -67,7 +70,6 @@
         "weight": 1
       }
     ],
-    "to_hit": 1,
     "material": [ "qt_steel", "wood" ],
     "color": "dark_gray",
     "ammo": [ "273x44", "273x110", "273x44RG" ],
@@ -80,8 +82,7 @@
     "barrel_volume": "934 ml",
     "valid_mod_locations": [ [ "sights mount", 1 ], [ "sling", 1 ], [ "stock accessory", 2 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "273x110": 2, "273x44": 2 } } ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE", "EASY_CLEAN" ],
-    "melee_damage": { "bash": 12 }
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE", "EASY_CLEAN" ]
   },
   {
     "id": "khuunaofaai",
@@ -213,7 +214,7 @@
   },
   {
     "id": "pamd68",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -234,10 +235,7 @@
         "description": "The most popular gun to use the 12.3ln cartridge was, of course, the PA md. 71.  Its predecessor, the md. 68, was viewed by many as a sort of failure: although it was reliable and powerful, it was too heavy to be used as a good infantry weapon, and not really heavy enough to be a good support gun.  Enough were made, though, that during the zombie apocalypse, it gained a great deal of resurgent popularity as a light emplacement gun that used readily available ammunition.  It perfectly served the purposes of the Exodii, who had far less concern about its unwieldiness."
       }
     ],
-    "to_hit": -3,
     "material": [ "qt_steel", "aluminum" ],
-    "symbol": "(",
-    "color": "dark_gray",
     "ammo": [ "123ln" ],
     "dispersion": 190,
     "durability": 9,
@@ -257,19 +255,11 @@
       [ "underbarrel", 1 ]
     ],
     "barrel_volume": "1200 ml",
-    "faults": [
-      { "fault": "fault_gun_dirt" },
-      { "fault": "fault_gun_chamber_spent" },
-      { "fault": "fault_fail_to_feed" },
-      { "fault": "fault_stovepipe" },
-      { "fault": "fault_double_feed" }
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiBRmag", "exodiiBRmag_153", "exodiiBRmag_26" ] } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiBRmag", "exodiiBRmag_153", "exodiiBRmag_26" ] } ]
   },
   {
     "id": "pamd71z",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -290,23 +280,12 @@
         "description": "This extremely popular Romanian rifle, made famous in the third Carpathian War, has been redesigned slightly by the Exodii for precision shots against high-priority targets.  In a pinch this modified design can fire a 2-shot burst, with the goal of shredding the target and preventing revivification.  However, the recoil is much greater for a human than it would be for a cyborg or giant quadruped, causing the burst to more often miss than hit."
       }
     ],
-    "to_hit": -1,
     "material": [ "qt_steel", "aluminum" ],
-    "color": "light_gray",
     "ammo": [ "123ln" ],
     "dispersion": 100,
-    "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "burst", 2 ] ],
     "barrel_volume": "250 ml",
-    "faults": [
-      { "fault": "fault_gun_dirt" },
-      { "fault": "fault_gun_chamber_spent" },
-      { "fault": "fault_fail_to_feed" },
-      { "fault": "fault_stovepipe" },
-      { "fault": "fault_double_feed" }
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiminimag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiminimag" ] } ]
   },
   {
     "id": "pamd68mountable",
@@ -422,7 +401,7 @@
   },
   {
     "id": "ree_33",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "m2browning",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -451,7 +430,6 @@
     "ammo": [ "33naval" ],
     "range": 100,
     "dispersion": 130,
-    "durability": 8,
     "min_cycle_recoil": 80000,
     "default_mods": [ "ree_33_tripod", "rifle_scope" ],
     "flags": [ "NEVER_JAMS" ],

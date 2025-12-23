@@ -38,6 +38,7 @@
         { "group": "spellbook_tier_0", "prob": 80 },
         { "item": "magazine_augmentative_review", "prob": 10 },
         { "group": "spellbook_loot_0", "prob": 4 },
+        { "item": "alchemy_mana_processing", "prob": 2 },
         { "item": "history_botanical_enchantment", "prob": 2 }
       ]
     }
@@ -72,6 +73,7 @@
         { "group": "dragon_books", "prob": 3 },
         { "item": "spellcraft_theory", "prob": 2 },
         { "item": "caster_boosts_info", "prob": 2 },
+        { "item": "alchemy_mana_processing", "prob": 2 },
         { "item": "alchemy_illegal", "prob": 1 },
         { "item": "alchemy_master", "prob": 1 }
       ]
@@ -87,6 +89,7 @@
         { "group": "magic_recipe_basic", "prob": 6 },
         { "group": "magic_recipe_advanced", "prob": 2 },
         { "group": "dragon_books", "prob": 5 },
+        { "item": "alchemy_mana_processing", "prob": 5 },
         { "group": "spellcraft_books", "prob": 4 },
         { "item": "alchemy_illegal", "prob": 1 },
         { "item": "alchemy_master", "prob": 1 }
@@ -1284,6 +1287,7 @@
           { "item": "spell_scroll_animist_vocalize", "prob": 35 },
           { "item": "spell_scroll_animist_luck_bone", "prob": 30 },
           { "item": "spell_scroll_animist_add_evasion_spell", "prob": 40 },
+          { "item": "spell_scroll_animist_see_invisibility", "prob": 40 },
           { "item": "spell_scroll_animist_do_psionic_damage_to_head", "prob": 30 }
         ],
         "prob": 35
@@ -1434,7 +1438,8 @@
           { "item": "spell_scroll_earthshaper_danger_sense", "prob": 50 },
           { "item": "spell_scroll_earthshaper_fortitude_of_stone", "prob": 50 },
           { "item": "spell_scroll_earthshaper_turning_of_earth", "prob": 50 },
-          { "item": "spell_scroll_earthshaper_repair_metal_stone", "prob": 25 }
+          { "item": "spell_scroll_earthshaper_repair_metal_stone", "prob": 25 },
+          { "item": "spell_scroll_earthshaper_remove_corpses", "prob": 35 }
         ],
         "prob": 45
       },
@@ -1479,7 +1484,8 @@
           { "item": "spell_scroll_biomancer_visceral_projection", "prob": 50 },
           { "item": "spell_scroll_biomancer_swim_frog", "prob": 35 },
           { "item": "spell_scroll_biomancer_cure_disease_minor", "prob": 50 },
-          { "item": "spell_scroll_biomancer_eat_tons_of_food", "prob": 30 }
+          { "item": "spell_scroll_biomancer_eat_tons_of_food", "prob": 30 },
+          { "item": "spell_scroll_biomancer_pull_items_from_distance", "prob": 30 }
         ],
         "prob": 45
       },
@@ -1504,6 +1510,7 @@
         "distribution": [
           { "item": "wizard_advanced", "prob": 10 },
           { "item": "biomancer_spellbook", "prob": 10 },
+          { "item": "spell_scroll_biomancer_baleful_polymorph", "prob": 35 },
           { "item": "spell_scroll_biomancer_giant_growth", "prob": 30 },
           { "item": "spell_scroll_vicious_tentacle", "prob": 50 },
           { "item": "spell_scroll_bio_bonespear", "prob": 50 },
@@ -1538,6 +1545,7 @@
       {
         "distribution": [
           { "item": "druid_spellbook", "prob": 20 },
+          { "item": "rune_druid_nature_staff", "prob": 25 },
           { "item": "spell_scroll_druid_veggrasp", "prob": 100 },
           { "item": "spell_scroll_druid_naturebow1", "prob": 100 },
           { "item": "spell_scroll_druid_whisper_leaves", "prob": 100 },
@@ -1569,11 +1577,23 @@
       },
       {
         "distribution": [
+          { "group": "druid_shapeshifting_learn_books", "prob": 5 },
           { "item": "spell_scroll_druid_renew_forest_spell", "prob": 50 },
           { "item": "spell_scroll_druid_turn_tree_into_treant", "prob": 25 }
         ],
         "prob": 5
       }
+    ]
+  },
+  {
+    "id": "druid_shapeshifting_learn_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "druid_shapeshifting_learn_book_bear", "prob": 1 },
+      { "item": "druid_shapeshifting_learn_book_cougar", "prob": 1 },
+      { "item": "druid_shapeshifting_learn_book_deer", "prob": 1 },
+      { "item": "druid_shapeshifting_learn_book_raven", "prob": 1 }
     ]
   },
   {
@@ -1653,7 +1673,10 @@
         "distribution": [ { "group": "enchanted_rings_common", "prob": 30 }, { "group": "enchanted_rings_uncommon", "prob": 10 } ],
         "prob": 40
       },
-      { "item": "crystallized_mana", "prob": 50, "charges": [ 1, 10 ] },
+      {
+        "distribution": [ { "item": "crystallized_mana_raw", "prob": 1 }, { "item": "crystallized_mana", "prob": 1, "charges": [ 1, 10 ] } ],
+        "prob": 50
+      },
       [ "copper_circlet", 10 ],
       [ "cauldron_orichalcum", 1 ],
       { "item": "small_mana_crystal", "prob": 40, "charges": [ 5, 50 ] }
@@ -1749,6 +1772,12 @@
       [ "sandpaper", 90 ],
       [ "small_mana_crystal", 180 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "fireman_gear",
+    "copy-from": "fireman_gear",
+    "extend": { "items": [ { "item": "mring_fire_protection", "prob": 1 } ] }
   },
   {
     "id": "forge_vault_items",
@@ -1848,9 +1877,14 @@
     "subtype": "collection",
     "id": "lab_torso_research_thaumaturge",
     "items": [
-      [ "coat_lab", 20 ],
-      [ "coat_lab", 20 ],
-      [ "coat_lab", 20 ],
+      {
+        "distribution": [
+          { "item": "coat_lab", "prob": 80 },
+          { "item": "coat_lab_plus_one", "prob": 20 },
+          { "item": "coat_lab_plus_two", "prob": 5 }
+        ],
+        "prob": 50
+      },
       [ "coat_lab", 20 ],
       [ "tshirt", 80 ],
       [ "longshirt", 80 ],
@@ -1865,9 +1899,7 @@
       [ "jumpsuit", 20 ],
       [ "badge_doctor", 10 ],
       [ "hazmat_suit", 5 ],
-      [ "cleansuit", 10 ],
-      { "item": "coat_lab_plus_one", "prob": 20 },
-      { "item": "coat_lab_plus_two", "prob": 5 }
+      [ "cleansuit", 10 ]
     ]
   },
   {
@@ -1977,5 +2009,11 @@
       { "item": "spell_scroll_biomancer_control_mutations", "prob": 1 },
       { "item": "spell_scroll_biomancer_remove_instability", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "sometimes_bird_litter",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 3 }, { "item": "feces_bird", "prob": 1, "count": 4 } ]
   }
 ]

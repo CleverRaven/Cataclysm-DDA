@@ -303,5 +303,115 @@
         { "overmap": "hallway_cross", "weight": 1 }
       ]
     ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_deserted_test",
+    "name": "abandoned drive-through",
+    "sym": "^",
+    "color": "dark_gray_magenta",
+    "see_cost": "high",
+    "extras": "build",
+    "mondensity": 2,
+    "mapgen": [
+      {
+        "weight": 1000,
+        "object": {
+          "fill_ter": "t_sand",
+          "rows": [
+            ",_____ssssssssssss_____,",
+            ",__,__#### ss ####__,__,",
+            ",_,,,_#ssssssssss#__,__,",
+            ",__,__#hthsssshth#__,__,",
+            ",__,__#ssssssssss#_,,,_,",
+            ",__,__|-555++555-|__,__,",
+            ",_____|.hh....hh.%_____,",
+            ",_____%.tt....tt.%_____,",
+            ",_____%.tt....tt.%_____,",
+            ",_____%.hh....hh.|_____,",
+            ",_____|..........%_____,",
+            ",,,,,,|..........+_____,",
+            ",_____|ccccxcc|..%_____,",
+            ",_____w.......+..|_____,",
+            ",_____|e.ccl.c|+-|_____,",
+            ",_____|O.....S|.S|_____,",
+            ",_____||erle.x|T||_____,",
+            ",_____#|----w-|-|#_____,",
+            ",________,_____________,",
+            ",________,_____________,",
+            ",________,_____________,",
+            " ,_______,____________, ",
+            "  ,,,,,,,,,,,,,,,,,,,,  ",
+            "   dd                   "
+          ],
+          "terrain": {
+            " ": "t_sand",
+            "d": "t_floor",
+            "5": "t_wall_glass",
+            "%": "t_wall_glass",
+            "O": "t_floor",
+            ",": "t_pavement_y",
+            "_": "t_pavement",
+            "r": "t_floor",
+            "^": "t_floor",
+            ".": "t_floor",
+            "-": "t_wall",
+            "|": "t_wall",
+            "#": "t_dirt",
+            "t": "t_floor",
+            "+": "t_door_glass_c",
+            "=": "t_door_locked_alarm",
+            "D": "t_door_locked",
+            "w": "t_window_domestic",
+            "T": "t_floor",
+            "S": "t_floor",
+            "e": "t_floor",
+            "h": "t_floor",
+            "c": "t_floor",
+            "l": "t_floor",
+            "s": "t_sidewalk"
+          },
+          "furniture": {
+            "6": "f_console",
+            "x": "f_console_broken",
+            "d": "f_dumpster",
+            "O": "f_oven",
+            "r": "f_rack",
+            "t": "f_table",
+            "T": "f_toilet",
+            "S": "f_sink",
+            "e": "f_fridge",
+            "h": "f_chair",
+            "c": "f_counter",
+            "l": "f_locker",
+            "#": "f_mutcactus_test"
+          },
+          "set": [ { "point": "terrain", "x": [ 0, 23 ], "y": 23, "id": "t_dirt", "repeat": [ 5, 15 ] } ]
+        }
+      }
+    ],
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_searth_test",
+    "name": "scorched earth",
+    "description": "",
+    "symbol": ".",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_mutcactus_test",
+    "name": "mutated cactus",
+    "description": "",
+    "symbol": "f",
+    "color": "green",
+    "move_cost_mod": 4,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH" ],
+    "examine_action": "flower_cactus"
   }
 ]

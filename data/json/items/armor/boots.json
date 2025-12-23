@@ -207,46 +207,39 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str_sp": "chitinous boots (pair)" },
-    "description": "Boots made from the exoskeletons of insects.",
-    "weight": "1620 g",
-    "volume": "4250 ml",
+    "name": { "str_sp": "chitinous scale foot covers (pair)" },
+    "description": "Sections of chitin attached to a leather backing meant to drape over existing foot wear.  Due to the nature of chitin, it cannot cover everything and isn't very protective.  Seems like it was made out of desperation.",
+    "weight": "239 g",
+    "volume": "400 ml",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the feet are 3% leaving us with 558 cm^2.",
+    "//1": "Chitin has a density of 1.37g/cm^3, thickness of 0.32 cm, coverage of 80% leaves us with 196 grams.",
+    "//2": "Leather has a density of 1.1g/cm^3, thickness of 0.07 cm, coverage of 100% leaves us with 43 grams.",
+    "//3": "Totalled up this is 239 grams with some rounding",
     "price": "135 USD",
-    "price_postapoc": "12 USD 50 cent",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "material": [ "chitin" ],
+    "price_postapoc": "50 cent",
+    "material": [ { "type": "chitin", "portion": 35 }, { "type": "leather", "portion": 1 } ],
     "symbol": "[",
-    "looks_like": "boots_bone",
     "color": "green",
     "warmth": 10,
-    "material_thickness": 4,
-    "environmental_protection": 3,
-    "flags": [ "STURDY", "VARSIZE", "WATERPROOF" ],
+    "flags": [ "OUTER" ],
     "armor": [
       {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [
-          "foot_heel_r",
-          "foot_heel_l",
-          "foot_arch_r",
-          "foot_arch_l",
-          "foot_toes_l",
-          "foot_toes_r",
-          "foot_sole_l",
-          "foot_sole_r"
+        "material": [
+          { "type": "chitin", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
         ],
-        "encumbrance": 14,
-        "coverage": 95
-      },
-      { "coverage": 75, "covers": [ "foot_l", "foot_r" ], "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ] }
-    ],
-    "melee_damage": { "bash": 2 }
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l", "foot_toes_l", "foot_toes_r" ],
+        "encumbrance": 9,
+        "coverage": 100
+      }
+    ]
   },
   {
     "id": "xl_boots_chitin",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "chitinous boots (pair)" },
+    "name": { "str_sp": "chitinous scale foot covers (pair)" },
     "copy-from": "boots_chitin",
     "proportional": { "weight": 1.25, "volume": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -257,7 +250,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "boots_chitin",
     "looks_like": "boots_chitin",
-    "name": { "str_sp": "chitinous boots (pair)" },
+    "name": { "str_sp": "chitinous scale foot covers (pair)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -801,11 +794,11 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "scrap boots (pair)" },
-    "description": "Boots made of random metal scraps attached to simple cloth wraps.  They're uncomfortable, but provide decent protection.",
-    "weight": "1845 g",
-    "volume": "3 L",
-    "price": "120 USD",
-    "price_postapoc": "5 USD",
+    "description": "Boots made of random metal scraps attached to simple cloth wraps.  They're very uncomfortable, but provide some level of protection.",
+    "weight": "2400 g",
+    "volume": "2 L",
+    "price": "4 USD",
+    "price_postapoc": "2 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
@@ -827,20 +820,20 @@
           "foot_arch_l"
         ],
         "material": [
-          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 },
+          { "type": "budget_steel", "covered_by_mat": 55, "thickness": 1.8 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
         ],
-        "encumbrance": 6,
-        "coverage": 80
+        "encumbrance": 24,
+        "coverage": 65
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 },
+          { "type": "budget_steel", "covered_by_mat": 55, "thickness": 1.5 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
         ],
-        "coverage": 80
+        "coverage": 65
       }
     ],
     "melee_damage": { "bash": 2 }
@@ -974,7 +967,7 @@
     "longest_side": "254 mm",
     "price": "120 USD",
     "price_postapoc": "9 USD 25 cent",
-    "material": [ "leather", "plastic", "steel" ],
+    "material": [ "nylon", "plastic", "steel" ],
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "symbol": "[",
     "looks_like": "sneakers",
@@ -1731,12 +1724,7 @@
     "melee_damage": { "bash": 1 },
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_knee_high_boots",
-        "name": { "str_sp": "knee-high boots (pair)" },
-        "description": "Very long leather boots that cover the lower legs, they are cumbersome to wear.",
-        "weight": 10
-      },
+      { "id": "generic_knee_high_boots", "//": "inherit name and description from item", "weight": 10 },
       {
         "id": "jackboots",
         "name": { "str_sp": "jackboots (pair)" },
@@ -1932,7 +1920,7 @@
     "category": "armor",
     "name": { "str_sp": "motorcycle boots (pair)" },
     "description": "A pair of durable boots used by dirt bikers and motorcyclists.",
-    "weight": "2125 g",
+    "weight": "1800 g",
     "volume": "2 L",
     "price": "80 USD",
     "price_postapoc": "7 USD 50 cent",
@@ -2971,199 +2959,198 @@
         "id": "stockings_black",
         "name": { "str_sp": "black stockings (pair)" },
         "description": "This one is colored black.",
-        "weight": 140,
         "color": "dark_gray",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_white",
         "name": { "str_sp": "white stockings (pair)" },
         "description": "This one is colored white.",
-        "weight": 70,
         "color": "light_gray",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_white_striped",
         "name": { "str_sp": "striped stockings (pair)" },
         "description": "This one is black, with white stripes.  Or is it white with black stripes?",
-        "weight": 45,
         "color": "light_gray",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_red",
         "name": { "str_sp": "red stockings (pair)" },
         "description": "This one is colored red.",
-        "weight": 30,
         "color": "red",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_red_polka_dot",
         "name": { "str_sp": "red polka dot stockings (pair)" },
         "description": "This one is colored red with a polka dot pattern.",
-        "weight": 45,
         "color": "light_red",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_red_floral",
         "name": { "str_sp": "red floral stockings (pair)" },
         "description": "This one is colored in various shades of red with a floral pattern.",
-        "weight": 40,
         "color": "red",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_yellow",
         "name": { "str_sp": "yellow stockings (pair)" },
         "description": "This one is colored yellow.",
-        "weight": 10,
         "color": "yellow",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_green",
         "name": { "str_sp": "green stockings (pair)" },
         "description": "This one is colored green.",
-        "weight": 40,
         "color": "green",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_orange_striped",
         "name": { "str_sp": "orange striped stockings (pair)" },
         "description": "This one is colored orange with a striped pattern.",
-        "weight": 45,
         "color": "light_red",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_blue",
         "name": { "str_sp": "blue stockings (pair)" },
         "description": "This one is colored blue.",
-        "weight": 60,
         "color": "blue",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_blue_striped",
         "name": { "str_sp": "blue striped stockings (pair)" },
         "description": "This one is colored blue and white with a striped pattern.",
-        "weight": 20,
         "color": "blue",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_blue_floral",
         "name": { "str_sp": "blue floral stockings (pair)" },
         "description": "This one is colored in various shades of blue with a floral pattern.",
-        "weight": 40,
         "color": "blue",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_blue_checkered",
         "name": { "str_sp": "blue checkered stockings (pair)" },
         "description": "This one is colored blue and black with a checkered pattern.",
-        "weight": 20,
         "color": "blue",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_purple",
         "name": { "str_sp": "purple stockings (pair)" },
         "description": "This one is colored purple.",
-        "weight": 50,
         "color": "magenta",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_purple_striped",
         "name": { "str_sp": "purple striped stockings (pair)" },
         "description": "This one is colored purple and white with a striped pattern.",
-        "weight": 50,
         "color": "light_red",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_purple_polka_dot",
         "name": { "str_sp": "purple polka dot stockings (pair)" },
         "description": "This one is colored purple with a polka dot pattern.",
-        "weight": 35,
         "color": "magenta",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_purple_floral",
         "name": { "str_sp": "purple floral stockings (pair)" },
         "description": "This one is colored in various shades of purple with a floral pattern.",
-        "weight": 40,
         "color": "magenta",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_pink",
         "name": { "str_sp": "pink stockings (pair)" },
         "description": "This one is colored pink.",
-        "weight": 35,
         "color": "magenta",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_pink_striped",
         "name": { "str_sp": "pink striped stockings (pair)" },
         "description": "This one is colored pink and white with a striped pattern.",
-        "weight": 45,
         "color": "light_red",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_pink_polka_dot",
         "name": { "str_sp": "pink polka dot stockings (pair)" },
         "description": "This one is colored pink with a polka dot pattern.",
-        "weight": 35,
         "color": "light_red",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_green_striped",
         "name": { "str_sp": "green striped stockings (pair)" },
         "description": "This one is colored green and white with a striped pattern.",
-        "weight": 40,
         "color": "green",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_gray_striped",
         "name": { "str_sp": "gray striped stockings (pair)" },
         "description": "This one is colored gray and white with a striped pattern.",
-        "weight": 55,
         "color": "light_gray",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_brown",
         "name": { "str_sp": "brown stockings (pair)" },
         "description": "This one is colored brown.",
-        "weight": 80,
         "color": "brown",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_brown_polka_dot",
         "name": { "str_sp": "brown polka dot stockings (pair)" },
         "description": "This one is colored brown with a polka dot pattern.",
-        "weight": 20,
         "color": "brown",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_pride_default",
         "name": { "str_sp": "pride flag stockings (pair)" },
         "description": "This one has patterns akin to the pride flag.",
-        "weight": 80,
         "color": "yellow",
         "append": true
       },
@@ -3171,7 +3158,6 @@
         "id": "stockings_pride_lesbian",
         "name": { "str_sp": "lesbian flag stockings (pair)" },
         "description": "This one has patterns akin to the lesbian flag.",
-        "weight": 75,
         "color": "red",
         "append": true
       },
@@ -3179,7 +3165,6 @@
         "id": "stockings_pride_bisexual",
         "name": { "str_sp": "bisexual flag stockings (pair)" },
         "description": "This one has patterns akin to the bisexual flag.",
-        "weight": 45,
         "color": "magenta",
         "append": true
       },
@@ -3187,7 +3172,6 @@
         "id": "stockings_pride_transgender",
         "name": { "str_sp": "transgender flag stockings (pair)" },
         "description": "This one has patterns akin to the transgender flag.",
-        "weight": 90,
         "color": "blue",
         "append": true
       },
@@ -3195,7 +3179,6 @@
         "id": "stockings_pride_asexual",
         "name": { "str_sp": "asexual flag stockings (pair)" },
         "description": "This one has patterns akin to the asexual flag.",
-        "weight": 75,
         "color": "magenta",
         "append": true
       },
@@ -3203,7 +3186,6 @@
         "id": "stockings_pride_aromantic",
         "name": { "str_sp": "aromantic flag stockings (pair)" },
         "description": "This one has patterns akin to the aromantic flag.",
-        "weight": 65,
         "color": "green",
         "append": true
       },
@@ -3211,7 +3193,6 @@
         "id": "stockings_pride_pansexual",
         "name": { "str_sp": "pansexual flag stockings (pair)" },
         "description": "This one has patterns akin to the pansexual flag.",
-        "weight": 75,
         "color": "blue",
         "append": true
       },
@@ -3219,7 +3200,6 @@
         "id": "stockings_pride_genderqueer",
         "name": { "str_sp": "genderqueer flag stockings (pair)" },
         "description": "This one has patterns akin to the genderqueer flag.",
-        "weight": 55,
         "color": "magenta",
         "append": true
       },
@@ -3227,7 +3207,6 @@
         "id": "stockings_pride_genderfluid",
         "name": { "str_sp": "genderfluid flag stockings (pair)" },
         "description": "This one has patterns akin to the genderfluid flag.",
-        "weight": 45,
         "color": "magenta",
         "append": true
       },
@@ -3235,7 +3214,6 @@
         "id": "stockings_pride_agender",
         "name": { "str_sp": "agender flag stockings (pair)" },
         "description": "This one has patterns akin to the agender flag.",
-        "weight": 45,
         "color": "dark_gray",
         "append": true
       },
@@ -3243,7 +3221,6 @@
         "id": "stockings_pride_nonbinary",
         "name": { "str_sp": "non-binary flag stockings (pair)" },
         "description": "This one has patterns akin to the non-binary flag.",
-        "weight": 75,
         "color": "yellow",
         "append": true
       },
@@ -3251,7 +3228,6 @@
         "id": "stockings_pride_intersex",
         "name": { "str_sp": "intersex flag stockings (pair)" },
         "description": "This one has patterns akin to the intersex flag.",
-        "weight": 55,
         "color": "yellow",
         "append": true
       },
@@ -3259,7 +3235,6 @@
         "id": "stockings_pride_polysexual",
         "name": { "str_sp": "polysexual flag stockings (pair)" },
         "description": "This one has patterns akin to the polysexual flag.",
-        "weight": 25,
         "color": "green",
         "append": true
       }
@@ -3449,7 +3424,7 @@
     "symbol": "[",
     "material": "cotton",
     "volume": "600 ml",
-    "weight": "500 g",
+    "weight": "300 g",
     "flags": [ "VARSIZE" ],
     "warmth": 2,
     "armor": [

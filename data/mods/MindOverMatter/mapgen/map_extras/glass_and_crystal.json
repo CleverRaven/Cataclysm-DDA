@@ -4,8 +4,20 @@
     "update_mapgen_id": "mx_glass_and_crystal",
     "object": {
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "place_nested": [ { "chunks": [ "glass_and_crystal_chunk" ], "x": [ 2, 15 ], "y": [ 2, 15 ] } ],
-      "monsters": { " ": { "monster": "GROUP_CRYSTAL_FIELD", "chance": 1, "density": 0.0001 } }
+      "place_nested": [
+        { "chunks": [ "glass_and_crystal_chunk" ], "x": [ 2, 15 ], "y": [ 2, 15 ] },
+        {
+          "chunks": [
+            [ "null", 1 ],
+            [ "mx_glass_and_crystal_monsters_migo", 5 ],
+            [ "mx_glass_and_crystal_monsters_nether", 8 ],
+            [ "mx_glass_and_crystal_monsters_feral_psions", 5 ],
+            [ "mx_glass_and_crystal_monsters_mixed", 3 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
     }
   },
   {
@@ -61,6 +73,41 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "X": "t_nether_stone" },
       "place_fields": [ { "field": "fd_fatigue", "x": 0, "y": 0, "intensity": 3 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mx_glass_and_crystal_monsters_migo",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [
+        { "group": "GROUP_MI-GO_CAMP_OM", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 75, "repeat": [ 3, 6 ] },
+        { "group": "GROUP_MI-GO_PSIONS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 65, "repeat": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mx_glass_and_crystal_monsters_nether",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "group": "GROUP_NETHER_PORTAL", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 85, "repeat": [ 4, 8 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mx_glass_and_crystal_monsters_feral_psions",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "group": "GROUP_FERAL_PSYCHIC", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 85, "repeat": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mx_glass_and_crystal_monsters_mixed",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "group": "GROUP_CRYSTAL_FIELD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 85, "repeat": [ 5, 13 ] } ]
     }
   }
 ]

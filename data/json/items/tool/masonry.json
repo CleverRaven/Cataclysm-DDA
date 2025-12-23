@@ -27,10 +27,10 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_activate",
             "variables": {
-              "turn_cost": "0.8",
+              "turn_cost": 0.8,
               "transform_target": "masonrysaw_on",
               "success_message": { "i18n": true, "str": "With a roar, the <npc_name> screams to life!" },
-              "volume": "20",
+              "volume": 20,
               "failure_message": { "i18n": true, "str": "You yank the cord, but nothing happens." }
             }
           },
@@ -55,17 +55,7 @@
     "revert_to": "masonrysaw_off",
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -100 ] ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "menu_text": "Turn off",
-      "ammo_scale": 0,
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_deactivate__masonrysaw",
-          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "masonrysaw_off" } }
-        }
-      ]
-    },
+    "use_action": { "target": "masonrysaw_off", "msg": "Your %s goes quiet.", "menu_text": "Turn off", "type": "transform" },
     "tick_action": {
       "type": "effect_on_conditions",
       "effect_on_conditions": [
@@ -74,17 +64,17 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "15",
+              "sound_chance": 15,
               "sound_message": { "i18n": true, "str": "Your masonry saw buzzes." },
-              "volume": "7",
+              "volume": 7,
               "revert_to": "masonrysaw_off"
             }
           }
         }
       ]
     },
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 4, "cut": 70 }
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE", "SPAWN_ACTIVE" ],
+    "melee_damage": { "bash": 4, "cut": 10 }
   },
   {
     "id": "electric_masonrysaw_off",
@@ -105,7 +95,7 @@
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
     "use_action": [
-      { "target": "electric_masonrysaw_on", "msg": "You turn on the masonry saw.", "active": true, "type": "transform" },
+      { "target": "electric_masonrysaw_on", "msg": "You turn on the masonry saw.", "type": "transform" },
       {
         "type": "link_up",
         "menu_text": "Plug in / Unplug",
@@ -135,17 +125,7 @@
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -100 ] ],
     "use_action": [
-      {
-        "type": "effect_on_conditions",
-        "menu_text": "Turn off",
-        "ammo_scale": 0,
-        "effect_on_conditions": [
-          {
-            "id": "EOC_toolweapon_deactivate__electric_masonrysaw",
-            "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "electric_masonrysaw_off" } }
-          }
-        ]
-      },
+      { "target": "electric_masonrysaw_off", "msg": "Your %s goes quiet.", "menu_text": "Turn off", "type": "transform" },
       {
         "type": "link_up",
         "menu_text": "Plug in / Unplug",
@@ -162,9 +142,9 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "15",
+              "sound_chance": 15,
               "sound_message": { "i18n": true, "str": "Your electric masonry saw buzzes." },
-              "volume": "7",
+              "volume": 7,
               "revert_to": "electric_masonrysaw_off"
             }
           }
@@ -181,10 +161,11 @@
       "NO_UNLOAD",
       "NO_RELOAD",
       "WATER_BREAK",
-      "ELECTRONIC"
+      "ELECTRONIC",
+      "SPAWN_ACTIVE"
     ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "melee_damage": { "bash": 4, "cut": 70 }
+    "melee_damage": { "bash": 4, "cut": 10 }
   },
   {
     "type": "ITEM",

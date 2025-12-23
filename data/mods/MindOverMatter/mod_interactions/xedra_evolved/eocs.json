@@ -23,5 +23,54 @@
       ]
     },
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_XE_NOETIC_RANGE_BOOSTER_ACTIVE_CHECK",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_effect": "effect_ench_bio_psi_range_increaser" },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('range', 'flag_whitelist': 'PSIONIC') = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_XE_NOETIC_RANGE_BOOSTER_POSSESSION_HEADACHES_AND_FEVER",
+    "recurrence": [ "2 hours", "72 hours" ],
+    "condition": { "u_has_bionics": "bio_psi_range_increaser" },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_psi_range_increaser" } },
+    "effect": [
+      {
+        "if": { "math": [ "rand(1) == 1" ] },
+        "then": [
+          { "u_message": "Your head begins to pound.", "type": "bad" },
+          { "u_add_effect": "psionic_overload", "duration": { "math": [ "rng(900,1800)" ] } }
+        ]
+      },
+      {
+        "if": { "math": [ "rand(10) > 8" ] },
+        "then": [
+          { "u_add_effect": "effect_pyrokin_overload", "duration": { "math": [ "rng(1800,10800)" ] } },
+          { "u_message": "You feel feverish.", "type": "bad" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_XE_NOETIC_RANGE_BOOSTER_ACTIVE_HEADACHES_AND_FEVER",
+    "recurrence": [ "1 minutes", "30 minutes" ],
+    "condition": { "u_has_effect": "effect_ench_bio_psi_range_increaser" },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_psi_range_increaser" } },
+    "effect": [
+      { "u_message": "Your head begins to pound.", "type": "bad" },
+      { "u_add_effect": "psionic_overload", "duration": { "math": [ "rng(900,1800)" ] } },
+      {
+        "if": { "math": [ "rand(10) > 5" ] },
+        "then": [
+          { "u_add_effect": "effect_pyrokin_overload", "duration": { "math": [ "rng(1800,10800)" ] } },
+          { "u_message": "You feel feverish.", "type": "bad" }
+        ]
+      }
+    ]
   }
 ]

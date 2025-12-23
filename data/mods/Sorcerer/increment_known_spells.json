@@ -1,0 +1,78 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_incremnet_sorcerer_known_spells",
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_incremnet_sorcerer_known_spells_level_0",
+          "condition": { "math": [ "u_picked_level < 1" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_0_spells_known++" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "EOC_incremnet_sorcerer_known_spells_level_1",
+          "condition": { "math": [ "u_picked_level == 1" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_1_spells_known++" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "EOC_incremnet_sorcerer_known_spells_level_2",
+          "condition": { "math": [ "u_picked_level == 2" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_2_spells_known++" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "EOC_incremnet_sorcerer_known_spells_level_3",
+          "condition": { "math": [ "u_picked_level == 3" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_3_spells_known++" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "EOC_incremnet_sorcerer_known_spells_level_4",
+          "condition": { "math": [ "u_picked_level == 4" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_4_spells_known++" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "EOC_incremnet_sorcerer_known_spells_level_5",
+          "condition": { "math": [ "u_picked_level == 5" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_5_spells_known++" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "EOC_incremnet_sorcerer_known_spells_level_6",
+          "condition": { "math": [ "u_picked_level == 6" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_6_spells_known++" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "EOC_incremnet_sorcerer_known_spells_level_7",
+          "condition": { "math": [ "u_picked_level == 7" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_7_spells_known++" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "EOC_incremnet_sorcerer_known_spells_level_8",
+          "condition": { "math": [ "u_picked_level == 8" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_8_spells_known++" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "EOC_incremnet_sorcerer_known_spells_level_9",
+          "condition": { "math": [ "u_picked_level == 9" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_9_spells_known++" ] } ]
+        }
+      }
+    ]
+  }
+]

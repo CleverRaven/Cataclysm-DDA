@@ -25,7 +25,7 @@
         "volume_encumber_modifier": 0.3
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Sheath axe", "holster_msg": "You sheath your %s" },
+    "use_action": { "type": "holster", "holster_prompt": "Sheathe axe", "holster_msg": "You sheathe your %s" },
     "flags": [ "NONCONDUCTIVE", "BELTED", "BELT_CLIP", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 0, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
@@ -34,7 +34,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "longsword scabbard" },
-    "description": "A leather scabbard, big enough for anything up to a longsword, or even a bit larger than that.  Designed to be worn at the waist, secured to the sturdy leather belt.  Activate to sheath/draw a sword.",
+    "description": "A leather scabbard, big enough for anything up to a longsword, or even a bit larger than that.  Designed to be worn at the waist, secured to the sturdy leather belt.  Activate to sheathe/draw a sword.",
     "weight": "1625 g",
     "volume": "2 L",
     "price": "75 USD",
@@ -106,7 +106,7 @@
         "transparent": true
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
+    "use_action": { "type": "holster", "holster_prompt": "Sheathe sword", "holster_msg": "You sheathe your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "STURDY" ],
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
@@ -182,7 +182,7 @@
         "max_item_length": "35 cm"
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
+    "use_action": { "type": "holster", "holster_prompt": "Sheathe knife", "holster_msg": "You sheathe your %s" },
     "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY", "NONCONDUCTIVE" ],
     "armor": [
       {
@@ -221,7 +221,7 @@
         "max_item_length": "30 cm"
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
+    "use_action": { "type": "holster", "holster_prompt": "Sheathe knife", "holster_msg": "You sheathe your %s" },
     "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY", "NONCONDUCTIVE" ],
     "armor": [
       {
@@ -269,7 +269,7 @@
         "max_item_length": "30 cm"
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
+    "use_action": { "type": "holster", "holster_prompt": "Sheathe knife", "holster_msg": "You sheathe your %s" },
     "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY", "NONCONDUCTIVE" ],
     "armor": [
       {
@@ -308,7 +308,7 @@
         "max_item_length": "30 cm"
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
+    "use_action": { "type": "holster", "holster_prompt": "Sheathe knife", "holster_msg": "You sheathe your %s" },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
     "armor": [
       {
@@ -325,7 +325,7 @@
     "id": "bootsheath_birchbark",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "birchbark ankle sheath", "str_pl": "birchbark ankle sheathes" },
+    "name": { "str": "birchbark ankle sheath" },
     "description": "A handcrafted small concealed knife sheath worn on the ankle, made from birch bark.  It is awkward to use without practice.  Activate to sheathe/draw a weapon.",
     "weight": "190 g",
     "volume": "500 ml",
@@ -348,7 +348,7 @@
         "max_item_length": "30 cm"
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
+    "use_action": { "type": "holster", "holster_prompt": "Sheathe knife", "holster_msg": "You sheathe your %s" },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
     "armor": [
       {
@@ -387,7 +387,7 @@
         "flag_restriction": [ "SHEATH_SWORD" ]
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
+    "use_action": { "type": "holster", "holster_prompt": "Sheathe sword", "holster_msg": "You sheathe your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
@@ -456,7 +456,7 @@
         "flag_restriction": [ "SHEATH_SWORD" ]
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
+    "use_action": { "type": "holster", "holster_prompt": "Sheathe sword", "holster_msg": "You sheathe your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [
       {
@@ -494,7 +494,7 @@
         "flag_restriction": [ "SHEATH_KNIFE" ]
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
+    "use_action": { "type": "holster", "holster_prompt": "Sheathe knife", "holster_msg": "You sheathe your %s" },
     "flags": [ "BELTED", "BELT_CLIP", "OVERSIZE", "WATER_FRIENDLY", "PALS_SMALL" ],
     "armor": [
       {
@@ -509,7 +509,7 @@
     "id": "sheath_birchbark",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "birchbark sheath", "str_pl": "birchbark sheathes" },
+    "name": { "str": "birchbark sheath" },
     "description": "A handcrafted sheath made from birch bark, for holding knives and other small blades, with a strap attached.  Activate to sheathe/draw a weapon.",
     "weight": "250 g",
     "volume": "500 ml",
@@ -532,7 +532,7 @@
         "flag_restriction": [ "SHEATH_KNIFE" ]
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
+    "use_action": { "type": "holster", "holster_prompt": "Sheathe knife", "holster_msg": "You sheathe your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [
       {
@@ -572,5 +572,18 @@
     "use_action": { "type": "holster", "holster_prompt": "Holster spear", "holster_msg": "You holster your %s." },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "spearsling_canvas",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "spearsling",
+    "name": { "str": "canvas spear strap" },
+    "description": "A canvas strap tied around the torso for toting spears while keeping your hands free.  You have to duck to get through doors while one's in it, though.  Activate to holster/draw a weapon.",
+    "material": [ "canvas" ],
+    "price": "25 USD",
+    "price_postapoc": "1 USD 50 cent",
+    "symbol": "[",
+    "color": "blue"
   }
 ]

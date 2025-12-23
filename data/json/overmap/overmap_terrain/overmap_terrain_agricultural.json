@@ -31,6 +31,17 @@
     "color": "i_brown",
     "vision_levels": "isolated_building",
     "delete": { "flags": [ "RISK_HIGH", "PP_GENERATE_RIOT_DAMAGE" ] },
+    "extend": { "flags": [ "SOURCE_FOOD", "RISK_LOW", "SOURCE_FARMING" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_rural_field",
+    "copy-from": "generic_open_land",
+    "name": "field",
+    "sym": "#",
+    "color": "i_brown",
+    "vision_levels": "farm_field",
+    "travel_cost_type": "field",
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ] }
   },
   {
@@ -94,9 +105,7 @@
       "farm_8",
       "farm_9"
     ],
-    "copy-from": "generic_rural_building",
-    "vision_levels": "farm_field",
-    "travel_cost_type": "field",
+    "copy-from": "generic_rural_field",
     "name": "farm field"
   },
   {
@@ -142,11 +151,8 @@
       "farmland_turn_inside",
       "farmland_U"
     ],
-    "copy-from": "generic_rural_building",
+    "copy-from": "generic_rural_field",
     "name": "farm field",
-    "vision_levels": "farm_field",
-    "travel_cost_type": "field",
-    "see_cost": "none",
     "extras": "agricultural",
     "looks_like": "farm_5",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 2 ], "chance": 15 }
@@ -154,12 +160,9 @@
   {
     "type": "overmap_terrain",
     "id": [ "hayfield_straight", "hayfield_turnL", "hayfield_turnR", "hayfield_end" ],
-    "copy-from": "generic_rural_building",
+    "copy-from": "generic_rural_field",
     "name": "hay field",
     "color": "brown",
-    "vision_levels": "farm_field",
-    "travel_cost_type": "field",
-    "see_cost": "none",
     "extras": "agricultural",
     "looks_like": "ranch_camp_76",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 2 ], "chance": 15 }
@@ -441,8 +444,7 @@
       "splitrail_fence_DR",
       "splitrail_fence_inner"
     ],
-    "copy-from": "generic_rural_building",
-    "travel_cost_type": "field",
+    "copy-from": "generic_rural_field",
     "name": "pasture",
     "sym": "#",
     "color": "brown"
@@ -479,9 +481,8 @@
       "paddock_end_DL",
       "paddock_end_DR"
     ],
-    "copy-from": "generic_rural_building",
+    "copy-from": "generic_rural_field",
     "name": "paddock",
-    "travel_cost_type": "field",
     "sym": "#",
     "color": "white"
   },
@@ -764,9 +765,8 @@
   {
     "type": "overmap_terrain",
     "id": "yard",
-    "copy-from": "generic_rural_building",
+    "copy-from": "generic_rural_field",
     "name": "yard",
-    "travel_cost_type": "field",
     "color": "brown"
   },
   {

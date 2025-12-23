@@ -110,7 +110,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -187,7 +188,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -195,17 +197,24 @@
     "name": "Xedra Offworld Team: Big Game Hunter",
     "description": "You are what Xedra refers to as a non-local guide.  A mature Gracken hired on to join the Offworld Acquisitions Team, you trained in human long distance weaponry in order to take down big game and create new improvements to bring back to your people.  They gave you a big gun and a little training in how to use it and in return you help them know what things in other dimensions to hunt and what to run from.",
     "recipes": [
+      "gracken_shade_arms",
       "gracken_strong_arms",
       "gracken_long_arms",
-      "gracken_shade_arms",
       "gracken_shade_hands",
       "gracken_sharp_nails",
-      "gracken_dextrous_hands"
+      "gracken_dextrous_hands",
+      "gracken_carnivorous_stomach",
+      "gracken_herbivorous_stomach",
+      "gracken_omnivorous_stomach",
+      "gracken_shade_legs",
+      "gracken_short_legs",
+      "gracken_long_legs"
     ],
     "traits": [
       "THRESH_SPECIES_GRACKEN",
       "GRACKEN_BUILD",
       "NIGHTVISION",
+      "SHADE_EYES",
       "SHADE_SKIN",
       "SHADE_LEGS",
       "SHADE_ARMS",
@@ -248,7 +257,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -297,7 +307,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -342,7 +353,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -396,7 +408,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -442,7 +455,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -485,7 +499,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -522,7 +537,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -571,7 +587,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -599,7 +616,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -627,7 +645,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -655,7 +674,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -683,7 +703,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -711,7 +732,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -739,7 +761,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -886,7 +909,59 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
+    "id": "archaeologist",
+    "name": "Archaeologist",
+    "description": "You've traveled the world, discovering ancient relics, unknown ruins, and all manner of things that belong in a museum.  Even though you don't believe in the supernatural, you've seen enough to know when something can't easily be explained by science, and right now, you've got a bad feeling about this.",
+    "npc_background": "BG_survival_story_WORKER_COMMERCIAL",
+    "points": 3,
+    "skills": [
+      { "level": 4, "name": "survival" },
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 5, "name": "melee" },
+      { "level": 5, "name": "bashing" },
+      { "level": 5, "name": "unarmed" },
+      { "level": 5, "name": "deduction" }
+    ],
+    "proficiencies": [
+      "prof_athlete_basic",
+      "prof_gun_cleaning",
+      "prof_auto_pistols_familiar",
+      "prof_whips_familiar",
+      "prof_whips_pro",
+      "prof_spotting",
+      "prof_unarmed_familiar",
+      "prof_unarmed_pro"
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "undershirt" },
+          { "item": "leather_belt" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "jacket_leather" },
+          { "item": "knit_scarf" },
+          { "item": "bullwhip" },
+          { "item": "mbag" },
+          { "item": "fedora" },
+          { "item": "wristwatch" },
+          { "item": "petrified_eye" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "group": "speedloaders_s&w619_special" },
+          { "item": "sw_619", "ammo-item": "38_special", "charges": 7, "container-item": "holster" },
+          { "item": "pants", "variant": "generic_pants" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
   },
   {
     "type": "item_group",
@@ -950,6 +1025,7 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "chargen_allow_npc": false
   }
 ]

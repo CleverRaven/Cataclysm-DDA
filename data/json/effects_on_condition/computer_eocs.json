@@ -88,7 +88,17 @@
     "type": "effect_on_condition",
     "id": "EOC_SMARTPHONE_RECOVERY_BASIC",
     "effect": [
-      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "15 minutes" },
+      {
+        "u_assign_activity": "ACT_PHONE_RECOVERY_BASIC",
+        "//": "15 min + 5 minute for each smartphone if more than 1",
+        "duration": { "math": [ "time('15 m') + ( (u_item_count('smart_phone_locked') - 1 ) * time('5 m') )" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SMARTPHONE_RECOVERY_BASIC_2",
+    "effect": [
       {
         "u_run_inv_eocs": "all",
         "search_data": [ { "id": "smart_phone_locked" } ],
@@ -115,13 +125,22 @@
     "id": "EOC_SMARTPHONE_RECOVERY_ADVANCED",
     "condition": {
       "and": [
-        { "u_has_item": "software_hacking" },
-        { "u_has_items": { "item": "laptop", "charges": 10 } },
+        { "u_has_software": { "item": "software_hacking", "charges": 20, "device": "laptop" } },
         { "math": [ "u_skill('computer') >= 4" ] }
       ]
     },
     "effect": [
-      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "60 minutes" },
+      {
+        "u_assign_activity": "ACT_PHONE_RECOVERY_ADVANCED",
+        "//": "90 min + 15 minute for each smartphone if more than 1",
+        "duration": { "math": [ "time('90 m') + ( (u_item_count('smart_phone_locked') - 1 ) * time('15 m') )" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SMARTPHONE_RECOVERY_ADVANCED_2",
+    "effect": [
       {
         "u_run_inv_eocs": "all",
         "search_data": [ { "id": "smart_phone_locked" } ],
@@ -135,7 +154,7 @@
       {
         "u_run_inv_eocs": "random",
         "search_data": [ { "id": "laptop" } ],
-        "true_eocs": [ { "id": "EOC_CONSUME_POWER", "effect": [ { "math": [ "n_val('power') -= 100" ] } ] } ]
+        "true_eocs": [ { "id": "EOC_CONSUME_POWER", "effect": [ { "math": [ "n_val('power') -= 20" ] } ] } ]
       },
       {
         "if": { "math": [ "_amount_of_smartphones_recovered == 1" ] },

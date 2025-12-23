@@ -27,17 +27,18 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "mapbuffer.h"
 #include "omdata.h"
+#include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "recipe.h"
-#include "regional_settings.h"
 #include "rng.h"
 #include "test_data.h"
 #include "type_id.h"
@@ -472,6 +473,9 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
                     MAPBUFFER.clear_outside_reality_bubble();
                     smallmap tm;
                     tm.generate( pos, calendar::turn, false );
+                    // Map edits without the "mapgen_in_progress" variable set will toggle
+                    // player_adjusted_map to true, this should find callers that fail to do so.
+                    CHECK( !map_meddler::has_altered_submaps( *tm.cast_to_map() ) );
                     bool found = tally_items( item_counts, p.second.item_counts, tm );
                     if( enable_item_demographics && found && !p.second.found ) {
                         goal_samples = std::pow( std::log( std::max( 10, count ) ), 3 );
@@ -654,13 +658,13 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
 TEST_CASE( "highway_find_intersection_bounds", "[overmap]" )
 {
     overmap_buffer.clear();
-    overmap_buffer.set_highway_global_offset();
-    point_abs_om pos = overmap_buffer.get_highway_global_offset();
-    const overmap_highway_settings &highway_settings = overmap_buffer.get_default_settings(
-                pos ).overmap_highway;
+    highway_intersection_grid &highway_grid =
+        overmap_buffer.global_state.highway_intersections;
+    highway_grid.set_grid_origin( point_abs_om::zero );
+    point_abs_om pos = highway_grid.get_grid_origin();
 
-    const int c_seperation = highway_settings.grid_column_seperation;
-    const int r_seperation = highway_settings.grid_row_seperation;
+    const int c_seperation = get_option<int>( "HIGHWAY_GRID_COLUMN_SEPARATION" );
+    const int r_seperation = get_option<int>( "HIGHWAY_GRID_ROW_SEPARATION" );
 
     const int col_test = c_seperation / 2;
     const int row_test = r_seperation / 2;
@@ -695,7 +699,7 @@ TEST_CASE( "highway_find_intersection_bounds", "[overmap]" )
     };
 
     for( const std::pair<point_rel_om, point_rel_om> &p : input_output_pairs ) {
-        std::vector<point_abs_om> bounds = overmap_buffer.find_highway_intersection_bounds( pos + p.first );
+        std::vector<point_abs_om> bounds = highway_grid.find_feature_point_bounds( pos + p.first );
         CHECK( bounds.back() == pos + p.second );
     }
 

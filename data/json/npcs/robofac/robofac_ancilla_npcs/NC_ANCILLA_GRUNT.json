@@ -36,7 +36,7 @@
       { "item": "under_armor" },
       { "item": "under_armor_shorts" },
       { "item": "holster" },
-      { "item": "survivor_machete", "container-item": "scabbard" },
+      { "item": "survivor_machete_qt", "container-item": "scabbard" },
       { "item": "gloves_fingerless_mod" }
     ]
   },

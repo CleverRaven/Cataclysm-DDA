@@ -17,11 +17,11 @@
     "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_bird" } },
     "effect": [
       { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
-      { "math": [ "u_vitamin('mutagen_bird')", "+=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "math": [ "u_vitamin('mutagen_bird') += 2500" ] },
+      { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_bird')", "-=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+      { "math": [ "u_vitamin('mutagen_bird') -= 2500" ] },
+      { "math": [ "u_vitamin('mutagen') -= 1000" ] }
     ]
   },
   {
@@ -42,11 +42,11 @@
     "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_feline" } },
     "effect": [
       { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
-      { "math": [ "u_vitamin('mutagen_feline')", "+=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "math": [ "u_vitamin('mutagen_feline') += 2500" ] },
+      { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_feline')", "-=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+      { "math": [ "u_vitamin('mutagen_feline') -= 2500" ] },
+      { "math": [ "u_vitamin('mutagen') -= 1000" ] }
     ]
   },
   {
@@ -67,11 +67,11 @@
     "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_insect" } },
     "effect": [
       { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
-      { "math": [ "u_vitamin('mutagen_insect')", "+=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "math": [ "u_vitamin('mutagen_insect') += 2500" ] },
+      { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_insect')", "-=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+      { "math": [ "u_vitamin('mutagen_insect') -= 2500" ] },
+      { "math": [ "u_vitamin('mutagen') -= 1000" ] }
     ]
   },
   {
@@ -92,11 +92,11 @@
     "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_lupine" } },
     "effect": [
       { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
-      { "math": [ "u_vitamin('mutagen_lupine')", "+=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "math": [ "u_vitamin('mutagen_lupine') += 2500" ] },
+      { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_lupine')", "-=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+      { "math": [ "u_vitamin('mutagen_lupine') -= 2500" ] },
+      { "math": [ "u_vitamin('mutagen') -= 1000" ] }
     ]
   },
   {
@@ -117,11 +117,11 @@
     "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_plant" } },
     "effect": [
       { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
-      { "math": [ "u_vitamin('mutagen_plant')", "+=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "math": [ "u_vitamin('mutagen_plant') += 2500" ] },
+      { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_plant')", "-=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+      { "math": [ "u_vitamin('mutagen_plant') -= 2500" ] },
+      { "math": [ "u_vitamin('mutagen') -= 1000" ] }
     ]
   },
   {
@@ -142,11 +142,11 @@
     "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_spider" } },
     "effect": [
       { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
-      { "math": [ "u_vitamin('mutagen_spider')", "+=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "math": [ "u_vitamin('mutagen_spider') += 2500" ] },
+      { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_spider')", "-=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+      { "math": [ "u_vitamin('mutagen_spider') -= 2500" ] },
+      { "math": [ "u_vitamin('mutagen') -= 1000" ] }
     ]
   }
 ]

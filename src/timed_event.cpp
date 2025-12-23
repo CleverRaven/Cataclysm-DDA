@@ -485,3 +485,8 @@ void timed_event_manager::set_all( const std::string &key, time_duration time_in
         }
     }
 }
+
+bool you_know_where_you_are()
+{
+    return !get_timed_events().get( timed_event_type::OVERRIDE_PLACE );
+}

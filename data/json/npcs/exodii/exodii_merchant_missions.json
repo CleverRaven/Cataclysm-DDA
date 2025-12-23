@@ -526,7 +526,7 @@
     "goal": "MGOAL_NULL",
     "difficulty": 1,
     "value": 0,
-    "fail": { "effect": { "math": [ "faction_trust('exodii')", "-=", "20" ] } },
+    "fail": { "effect": { "math": [ "faction_trust('exodii') -= 20" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "deadline": [ "20 days", "20 days" ],

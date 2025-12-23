@@ -614,7 +614,7 @@ void memorial_logger::notify( const cata::event &e )
             character_id ch = e.get<character_id>( "killer" );
             if( ch == avatar_id ) {
                 mtype_id victim_type = e.get<mtype_id>( "victim_type" );
-                if( victim_type->difficulty >= 30 ) {
+                if( victim_type->get_total_difficulty() >= 30 ) {
                     add( pgettext( "memorial_male", "Killed a %s." ),
                          pgettext( "memorial_female", "Killed a %s." ),
                          victim_type->nname() );

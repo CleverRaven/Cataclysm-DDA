@@ -103,5 +103,30 @@
       { "item": "anesthetic_kit", "prob": 10, "charges": [ 0, -1 ] },
       { "item": "gold_dental_grill", "prob": 1 }
     ]
+  },
+  {
+    "id": "farrier_tools",
+    "type": "item_group",
+    "//": "Set of mostly fluff farrier tools.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hoof_pick", "prob": 75 },
+      { "item": "horseshoe_pliers", "prob": 75 },
+      { "item": "nail_puller", "prob": 75 },
+      { "item": "hoof_tester", "prob": 75 },
+      { "item": "hoof_nippers", "prob": 75 },
+      { "item": "pockknife", "prob": 65 },
+      { "item": "hoof_rasp", "prob": 65 },
+      { "item": "hammer_peen", "variant": "peen_ball", "prob": 65 },
+      { "item": "hammer_peen", "variant": "peen_straight", "prob": 65 },
+      { "item": "hammer_peen", "variant": "peen_cross", "prob": 65 },
+      { "item": "hammer_peen", "variant": "rounding", "prob": 65 },
+      { "item": "hammer", "prob": 65 },
+      { "item": "pritchel", "prob": 65 },
+      { "item": "clinch_block", "prob": 65 },
+      { "item": "clinch_pliers", "prob": 65 },
+      { "item": "clinch_cutter", "prob": 65 },
+      { "item": "hoof_stand", "prob": 65 }
+    ]
   }
 ]

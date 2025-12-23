@@ -1267,6 +1267,21 @@
   },
   {
     "type": "construction_group",
+    "id": "place_mobile_weather_station",
+    "name": "Place Mobile Weather Station"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_xedra_mobile_weather_station",
+    "name": "Place Mobile Weather Station, Hazardous Environment"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_robofac_mobile_weather_station",
+    "name": "Place Mobile Weather Station, HEW-NRE"
+  },
+  {
+    "type": "construction_group",
     "id": "place_apartment_freezer",
     "name": "Place Home Freezer"
   },
@@ -1568,7 +1583,7 @@
   {
     "type": "construction_group",
     "id": "place_anvil_scavenged",
-    "name": "Mount Scavenged Anvil"
+    "name": "Mount Scavenger's Anvil"
   },
   {
     "type": "construction_group",
@@ -2114,5 +2129,25 @@
     "type": "construction_group",
     "id": "build_beanbag",
     "name": "Place a bean bag"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_lathe",
+    "name": "Place a Lathe/Mill"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_deep_fryer",
+    "name": "Place a deep fryer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_oil_press_industrial",
+    "name": "Place an industrial oil press"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_glass_onto_window_bars",
+    "name": "Install glass onto window with bars"
   }
 ]

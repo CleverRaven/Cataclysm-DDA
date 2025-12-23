@@ -101,7 +101,7 @@
     "id": "high_end_folding_stock_folded",
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
-    "name": { "str": "modular folding stock (folded)", "str_pl": "modular folding stocks (folded)" },
+    "name": { "str": "adjustable folding stock (folded)", "str_pl": "adjustable folding stocks (folded)" },
     "description": "A multi position, high-end folding stock which reduces length when folded.  Currently folded, making shooting this gun hard.",
     "copy-from": "high_end_folding_stock",
     "use_action": {

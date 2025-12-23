@@ -8,7 +8,8 @@
     "sym": "I",
     "min_max_zlevel": [ 0, 0 ],
     "color": "magenta_yellow",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
   },
   {
     "type": "mapgen",
@@ -91,7 +92,8 @@
     "min_max_zlevel": [ -2, 0 ],
     "sym": "S",
     "color": "yellow",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
   },
   {
     "id": "mx_trees_map_salamander",
@@ -240,7 +242,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "E",
     "color": "green",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "type": "mapgen",
@@ -595,7 +598,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "G",
     "color": "magenta",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
   },
   {
     "type": "mapgen",
@@ -669,7 +673,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "m",
     "color": "light_gray",
-    "autonote": false
+    "autonote": false,
+    "flags": [ "CLASSIC" ]
   },
   {
     "type": "mapgen",
@@ -889,6 +894,7 @@
     "sym": "w",
     "min_max_zlevel": [ 0, 0 ],
     "color": "dark_gray_red",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
   }
 ]

@@ -18,7 +18,8 @@
       },
       { "type": "firestarter", "moves": 100 }
     ],
-    "flags": [ "LIGHT_30", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "FIRESTARTER" ]
+    "light": 30,
+    "flags": [ "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "FIRESTARTER" ]
   },
   {
     "id": "oil_lamp_clay_on",
@@ -41,7 +42,8 @@
       },
       { "type": "firestarter", "moves": 100 }
     ],
-    "flags": [ "LIGHT_20", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "WIND_EXTINGUISH", "FIRESTARTER" ]
+    "light": 20,
+    "flags": [ "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "WIND_EXTINGUISH", "FIRESTARTER" ]
   },
   {
     "id": "torch_lit",
@@ -63,16 +65,11 @@
     "revert_to": "torch_done",
     "use_action": [
       { "type": "firestarter", "moves": 30 },
-      {
-        "target": "torch",
-        "msg": "The torch is extinguished.",
-        "active": false,
-        "menu_text": "Extinguish",
-        "type": "transform"
-      }
+      { "target": "torch", "msg": "The torch is extinguished.", "menu_text": "Extinguish", "type": "transform" }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "FIRE", "LIGHT_60", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "BURNOUT" ],
+    "light": 60,
+    "flags": [ "FIRE", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "BURNOUT", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 8 }
   }
 ]

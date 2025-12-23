@@ -4,7 +4,7 @@
       "HOW THE KEYS OF THESE PALLETES ARE ASSIGNED.",
       "Structural and common immovable elements (aka doors, bathroom fixtures) are keyed to symbols.",
       "Common fixtures (use this term because some furniture style elements are actually terrains for game purposes) use letters",
-      "Numbers and tilded characters deliberatedly left unocuppied so that individual pieces of mapgen can use them to spawn custom stuff."
+      "Numbers and tilded characters deliberately left unoccupied so that individual pieces of mapgen can use them to spawn custom stuff."
     ],
     "type": "palette",
     "id": "afs_habitat_structure",

@@ -94,6 +94,16 @@
     "phase": "gas"
   },
   {
+    "id": "fd_hot_airAC_temporary",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "air conditioner", "sym": "&", "convection_temperature_mod": 115 } ],
+    "priority": -1,
+    "display_field": false,
+    "percent_spread": 100,
+    "half_life": "120 seconds",
+    "phase": "gas"
+  },
+  {
     "id": "fd_elect_anomaly",
     "type": "field_type",
     "intensity_levels": [

@@ -215,7 +215,7 @@
     "using": [ [ "welding_standard", 10 ] ],
     "components": [
       [ [ "brick", 600 ] ],
-      [ [ "pipe", 8 ] ],
+      [ [ "any_pipe", 8, "LIST" ] ],
       [ [ "pipe_fittings", 8 ] ],
       [ [ "metal_tank", 1 ] ],
       [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ],
@@ -392,7 +392,7 @@
     "pre_note": "Must be built indoors.",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "rope_30", 1 ] ], [ [ "nails", 6, "LIST" ] ], [ [ "2x4", 2 ] ] ],
-    "pre_flags": [ "SUPPORTS_ROOF", "INDOORS" ],
+    "pre_special": [ "check_empty", "check_floor_above" ],
     "post_terrain": "f_hoist_rope"
   },
   {
@@ -417,7 +417,7 @@
     "pre_note": "Must be built indoors.",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "rope_30", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "spike", 1 ] ] ],
-    "pre_flags": [ "SUPPORTS_ROOF", "INDOORS" ],
+    "pre_special": [ "check_empty", "check_floor_above" ],
     "post_terrain": "f_hoist_pulley"
   },
   {

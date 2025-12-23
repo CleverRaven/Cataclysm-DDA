@@ -1,0 +1,23 @@
+[
+  {
+    "type": "vehicle_part",
+    "id": "app_battery_car_assembly",
+    "name": { "str": "grid-attached car battery assembly" },
+    "categories": [ "energy" ],
+    "looks_like": "large_storage_battery",
+    "color": "red",
+    "flags": [ "OBSTACLE", "APPLIANCE", "NO_INSTALL_HIDDEN" ],
+    "description": "A group of six car batteries connected with a battery management system and wired into a static power grid.",
+    "item": "battery_car_assembly",
+    "breaks_into": [
+      { "item": "lead", "charges": [ 10080, 14280 ] },
+      { "item": "chem_sulphuric_acid", "count": [ 30, 40 ], "container-item": "null" },
+      { "item": "plastic_chunk", "count": [ 84, 120 ] },
+      { "item": "scrap", "charges": [ 12, 18 ] },
+      { "item": "shredded_rubber", "charges": [ 60, 84 ] }
+    ],
+    "durability": 120,
+    "requirements": { "removal": { "time": "25 m" } },
+    "variants": [ { "symbols": "B", "symbols_broken": "#" } ]
+  }
+]

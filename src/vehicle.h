@@ -260,6 +260,7 @@ class turret_cpu
 struct vehicle_part {
         friend vehicle;
         friend class veh_interact;
+        friend class vehicle_activity_actor;
         friend class vehicle_cursor;
         friend class vehicle_stack;
         friend item_location;
@@ -829,10 +830,12 @@ class vehicle
         bool is_connected( const vehicle_part &to, const vehicle_part &from,
                            const vehicle_part &excluded ) const;
 
+    public:
         // direct damage to part (armor protection and internals are not counted)
         // @returns damage still left to apply
         int damage_direct( map &here, vehicle_part &vp, int dmg,
                            const damage_type_id &type = damage_type_id( "pure" ) );
+    private:
         // Removes the part, breaks it into pieces and possibly removes parts attached to it
         int break_off( map &here, vehicle_part &vp, int dmg );
         // Returns if it did actually explode
@@ -1390,7 +1393,7 @@ class vehicle
         int next_part_to_unlock( int p, bool outside = false ) const;
 
         // returns indices of all parts in the given location slot
-        std::vector<int> all_parts_at_location( const std::string &location ) const;
+        std::vector<int> all_parts_at_location( const vpart_location_id &location ) const;
         // shifts an index to next available of that type for NPC activities
         int get_next_shifted_index( int original_index, Character &you ) const;
         // Given a part and a flag, returns the indices of all contiguously adjacent parts
@@ -1858,6 +1861,16 @@ class vehicle
         veh_collision part_collision( map &here, int part, const tripoint_abs_ms &p,
                                       bool just_detect, bool bash_floor );
 
+        // Probability that the wheel will hit the item.
+        static double hit_probability( const item &it, const vehicle_part *vp_wheel );
+
+        // extracted helper for calculating damage chance in damage_wheel_on_item(). Used for tests.
+        double wheel_damage_chance_vs_item( const item &it, vehicle_part &vp_wheel ) const;
+
+        // Calculates damage on the wheel from running over item and adds damage levels and messages to the vector if needed.
+        void damage_wheel_on_item( vehicle_part *vp_wheel, const item &it, int *damage_levels,
+                                   std::vector<std::string> *messages ) const;
+
         // Process the trap beneath
         void handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp_wheel );
         void activate_magical_follow();
@@ -2194,9 +2207,11 @@ class vehicle
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
         void set_submap_moved( map *here, const tripoint_bub_sm &p );
+        void translate_cables( const tripoint_rel_ms &offset );
         void use_autoclave( map &here, int p );
         void use_washing_machine( map &here, int p );
         void use_dishwasher( map &here, int p );
+        void use_mws( map &here, int p );
         void use_monster_capture( int part, map *here, const tripoint_bub_ms &pos );
         void use_tiedown_furniture( int part, map *here, const tripoint_bub_ms & );
         void use_harness( int part, map *here, const tripoint_bub_ms &pos );

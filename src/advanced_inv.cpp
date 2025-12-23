@@ -325,12 +325,12 @@ void advanced_inventory::print_items( side p, bool active )
         if( pane.get_area() == AIM_CONTAINER ) {
             weight_carried = convert_weight( pane.container->get_total_contained_weight() );
             weight_capacity = convert_weight( pane.container->get_total_weight_capacity() );
-            volume_carried = pane.container->get_total_contained_volume();
-            volume_capacity = pane.container->get_total_capacity();
+            volume_carried = pane.container->get_contents_volume();
+            volume_capacity = pane.container->get_volume_capacity();
         } else {
             weight_carried = convert_weight( player_character.weight_carried() );
             weight_capacity = convert_weight( player_character.weight_capacity() );
-            volume_carried = player_character.volume_carried();
+            volume_carried = player_character.volume_capacity() - player_character.free_space();
             volume_capacity = player_character.volume_capacity();
         }
         // align right, so calculate formatted head length
@@ -360,7 +360,7 @@ void advanced_inventory::print_items( side p, bool active )
             units::volume maxvolume = 0_ml;
             advanced_inv_area &s = squares[pane.get_area()];
             if( pane.get_area() == AIM_CONTAINER && pane.container ) {
-                maxvolume = pane.container->get_total_capacity();
+                maxvolume = pane.container->get_volume_capacity();
             } else if( pane.in_vehicle() ) {
                 maxvolume = s.get_vehicle_stack().max_volume();
             } else {
@@ -714,7 +714,7 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
                             data_location <= AIM_NORTHEAST );
         nc_color bcolor = c_red;
         nc_color kcolor = c_red;
-        // Highlight location [#] if it can recieve items,
+        // Highlight location [#] if it can receive items,
         // or highlight container [C] if container mode is active.
         if( can_put_items ) {
             bcolor = in_vehicle ? c_light_blue :
@@ -2032,9 +2032,8 @@ void advanced_inventory::display()
                                     TERMX - 2 * ( panel_manager::get_manager().get_width_right() +
                                                   panel_manager::get_manager().get_width_left() ) );
 
-            w_height = TERMY < min_w_height + head_height ? min_w_height : TERMY - head_height;
-            w_width = TERMX < min_w_width ? min_w_width : TERMX > max_w_width ? max_w_width :
-                      static_cast<int>( TERMX );
+            w_height = std::max( min_w_height, TERMY - head_height );
+            w_width = std::clamp( TERMX, min_w_width, max_w_width );
 
             //(TERMY>w_height)?(TERMY-w_height)/2:0;
             headstart = 0;
@@ -2346,9 +2345,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         if( amount <= 0 ) {
             return false;
         }
-        if( amount > possible_max ) {
-            amount = possible_max;
-        }
+        amount = std::min( amount, possible_max );
     }
     return true;
 }

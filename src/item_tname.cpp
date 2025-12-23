@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "color.h"
 #include "coordinates.h"
@@ -229,7 +230,7 @@ std::string craft( item const &it, unsigned int /* quantity */,
 std::string wbl_mark( item const &it, unsigned int /* quantity */,
                       segment_bitset const &/* segments */ )
 {
-    std::vector<const item_pocket *> pkts = it.get_all_contained_pockets();
+    std::vector<const item_pocket *> pkts = it.get_container_pockets();
     bool wl = false;
     bool bl = false;
     bool player_wbl = false;
@@ -557,9 +558,11 @@ std::string wetness( item const &it, unsigned int /* quantity */,
 std::string active( item const &it, unsigned int /* quantity */,
                     segment_bitset const &/* segments */ )
 {
-    if( it.active && !it.has_temperature() && !string_ends_with( it.typeId().str(), "_on" ) ) {
+    if( it.active && ( !it.has_temperature() || it.type->countdown_interval > 0_seconds ) &&
+        !string_ends_with( it.typeId().str(), "_on" ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
+        // However, food that's being processed passively still get the string.
         return _( " (active)" );
     }
     return {};

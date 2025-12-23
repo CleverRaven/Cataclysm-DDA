@@ -3,7 +3,7 @@
     "abstract": "mon_proxy_frog_zombie",
     "type": "MONSTER",
     "name": { "str": "zombie frog" },
-    "description": "A hypothetical frog of the zombie variety.  You should not be seeing it without debug.",
+    "description": { "str": "A hypothetical frog of the zombie variety.  You should not be seeing it without debug.", "//~": "NO_I18N" },
     "default_faction": "zombie",
     "bodytype": "frog",
     "species": [ "ZOMBIE" ],
@@ -209,7 +209,7 @@
   {
     "id": "mon_toad_zombie",
     "type": "MONSTER",
-    "name": { "str": "zombie toad" },
+    "name": { "str": "giant zombie toad" },
     "description": "The revivified remains of a giant mutant toad.  Its condition has left it slowed but no less dangerous.",
     "copy-from": "mon_proxy_frog_zombie",
     "color": "brown_green",
@@ -220,7 +220,7 @@
   {
     "id": "mon_frog_shocker",
     "type": "MONSTER",
-    "name": { "str": "zapping zombfrog" },
+    "name": { "str": "bioelectric zombie frog" },
     "description": "The hum coming from this giant, rotten frog sounds unlike any kind of vocalization.  The sound is clearly a result of the bolts of electricity that skip across its skin and arc between its lips.",
     "copy-from": "mon_proxy_frog_zombie",
     "speed": 75,
@@ -229,14 +229,7 @@
     "melee_dice": 2,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "dodge": 2,
-    "families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_physiology",
-      "prof_wp_basic_amphibian",
-      "prof_wp_zombie",
-      "prof_electromagnetics"
-    ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog", "wps_amphibian_electric" ],
     "harvest": "zombie_animal_electric",
     "luminance": 16,
@@ -322,7 +315,7 @@
   {
     "id": "mon_zombtreefrog",
     "type": "MONSTER",
-    "name": { "str": "zombie treefrog" },
+    "name": { "str": "giant zombie treefrog" },
     "description": "The pale, empty eyes of this large, reanimated treefrog still swivel in their sockets, searching for prey.  Its steps are ungainly but its hind legs look capable of great leaps.",
     "copy-from": "mon_proxy_frog_zombie",
     "volume": "108500 ml",
@@ -363,8 +356,7 @@
     ],
     "burn_into": "mon_frog_husk",
     "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBTREEFROG_UPGRADE" },
-    "extend": { "flags": [ "HARDTOSHOOT", "HIT_AND_RUN" ] },
-    "//": "Translation note - 'Croaked' is a euphemistic way of saying 'died' in American English, while 'croak' is an onomatopoeic word for the sound frogs make.  A simple, literal translation of 'zombie treefrog' would also be fitting."
+    "extend": { "flags": [ "HARDTOSHOOT", "HIT_AND_RUN" ] }
   },
   {
     "id": "mon_frog_shadow",

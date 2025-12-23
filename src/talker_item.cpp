@@ -10,6 +10,7 @@
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
+#include "magic_enchantment.h"
 #include "math_parser_diag_value.h"
 #include "messages.h"
 #include "units.h"
@@ -104,6 +105,15 @@ units::energy talker_item_const::power_cur() const
 units::energy talker_item_const::power_max() const
 {
     return 1_mJ * me_it_const->get_item()->ammo_capacity( ammo_battery );
+}
+
+int talker_item_const::get_artifact_resonance() const
+{
+    int ret = 0;
+    for( enchant_cache &this_ench : me_it_const->get_item()->get_proc_enchantments() ) {
+        ret += this_ench.get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE );
+    }
+    return ret;
 }
 
 int talker_item_const::get_count() const

@@ -80,7 +80,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "electrolysis kit" },
-    "description": "A set of wiring and electrodes for applying a direct current, usually to a liquid.  Useful for crafting.  Load with a storage battery or 12 V vehicle battery to use.",
+    "description": "A set of wiring and electrodes for applying a direct current, usually to a liquid.  Useful for crafting.  Load with a storage battery or 12V vehicle battery to use.",
     "weight": "250 g",
     "volume": "250 ml",
     "price": "10 USD",
@@ -107,7 +107,7 @@
     "weight": "1800 g",
     "volume": "2 L",
     "price": "200 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "2 USD",
     "material": [ "glass", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -132,7 +132,7 @@
     "weight": "3200 g",
     "volume": "1500 ml",
     "price": "200 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "1 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": "^",
@@ -173,7 +173,7 @@
     "weight": "3200 g",
     "volume": "1500 ml",
     "price": "200 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "2 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic" ],
     "symbol": ":",
@@ -214,7 +214,7 @@
     "weight": "3200 g",
     "volume": "1500 ml",
     "price": "200 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "50 cent",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "glass" ],
     "symbol": "^",
@@ -247,7 +247,7 @@
     "weight": "40860 g",
     "volume": "27 L",
     "price": "1 kUSD",
-    "price_postapoc": "30 USD",
+    "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "E",
@@ -270,7 +270,7 @@
     "weight": "36 kg",
     "volume": "60 L",
     "price": "5 kUSD",
-    "price_postapoc": "60 USD",
+    "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
@@ -289,7 +289,7 @@
     "weight": "181600 g",
     "volume": "240 L",
     "price": "20 kUSD",
-    "price_postapoc": "100 USD",
+    "price_postapoc": "15 USD",
     "material": [ "steel" ],
     "symbol": "E",
     "color": "dark_gray",
@@ -310,7 +310,8 @@
     "looks_like": "55gal_drum",
     "weight": "22700 g",
     "volume": "210 L",
-    "price": "200 USD",
+    "price": "100 USD",
+    "price_postapoc": "2 USD",
     "material": [ "steel" ],
     "qualities": [ [ "EXTRACT", 1 ] ]
   },
@@ -326,6 +327,7 @@
     "weight": "500 kg",
     "volume": "500 L",
     "price": "200 USD",
+    "price_postapoc": "5 USD",
     "material": [ "steel" ]
   },
   {
@@ -386,7 +388,7 @@
     "weight": "22700 g",
     "volume": "6 L",
     "price": "3 kUSD",
-    "price_postapoc": "45 USD",
+    "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "iron" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
@@ -423,7 +425,7 @@
     "weight": "27240 g",
     "volume": "8 L",
     "price": "2 kUSD 800 USD",
-    "price_postapoc": "35 USD",
+    "price_postapoc": "2 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "melee_damage": { "bash": 10 }
@@ -635,6 +637,116 @@
     "flags": [ "HYGROMETER" ]
   },
   {
+    "id": "mobile_weather_station",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "//": "Based on several examples, including the ecoTech Mini Met mobile weather station & aem weather backpack",
+    "name": { "str": "mobile weather station" },
+    "description": "A large yellow case filled with equipment to measure atmospheric conditions.  It is outfitted with a carrying handle, a telescoping stand, and a rechargeable battery pack.  Its small display can show the current weather.  It can also make long-term recordings, but these data are useless without specialized software to interpret them.",
+    "weight": "5000 g",
+    "volume": "89400 ml",
+    "longest_side": "60 cm",
+    "price": "400 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": "[",
+    "looks_like": "briefcase",
+    "color": "yellow",
+    "flags": [ "WATERPROOF", "ELECTRONIC", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ]
+  },
+  {
+    "id": "mws_weather_sensor_array",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "ambient weather sensor array" },
+    "description": "Represents the hardware and software for displaying the weather.  You should not see this item in game.",
+    "weight": "4000 g",
+    "volume": "80000 ml",
+    "longest_side": "55 cm",
+    "price": "400 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": "[",
+    "looks_like": "briefcase",
+    "color": "yellow",
+    "charges_per_use": 1,
+    "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER", "ELECTRONIC" ],
+    "use_action": [ "WEATHER_TOOL" ],
+    "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "mws_HE_sensor_array",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "ambient HE sensor array" },
+    "description": "Represents the hardware and software to scan for nethery stuff.  You should not see this item in game.",
+    "weight": "4000 g",
+    "volume": "80000 ml",
+    "longest_side": "55 cm",
+    "price": "400 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": "[",
+    "looks_like": "briefcase",
+    "color": "yellow",
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "description": "Scan with the advanced sensor array.",
+        "effect_on_conditions": [ "EOC_scan_advanced_weather" ]
+      }
+    ],
+    "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "xedra_mobile_weather_station",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL" ],
+    "//": "Based on several examples, including the ecoTech Mini Met mobile weather station & aem weather backpack, but with some high-tech doodads for interdimensional exploration",
+    "name": { "str": "mobile hazardous environment weather station" },
+    "description": "A sleek black case housing a mix of mundane and otherworldly devices that can be deployed from the top of the box.  It is also equipped with a built-in analysis computer, a small thermal printer, and a rechargeable battery.  The case itself is outfitted with back straps and a telescoping stand.  \"X.E.D.R.A.\" and \"HE weather station\" are engraved on the case.",
+    "weight": "6000 g",
+    "volume": "90000 ml",
+    "longest_side": "60 cm",
+    "price": "900 USD",
+    "price_postapoc": "40 USD 50 cent",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": "[",
+    "looks_like": "briefcase",
+    "color": "black",
+    "charges_per_use": 1,
+    "flags": [ "BELTED", "ELECTRONIC", "WATERPROOF", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ],
+    "warmth": 10,
+    "max_worn": 1,
+    "armor": [ { "encumbrance": 30, "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ]
+  },
+  {
+    "id": "robofac_mobile_weather_station",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL" ],
+    "name": { "str": "mobile HEW-NRE station" },
+    "description": "A brown and white case housing equipment to measure atmospheric conditions in extremely hazardous environments.  It is equipped with several deployable sensors, a Hub 01 NRE recorder, a built-in analysis computer, a thermal printer, and a rechargeable battery.  The case itself is outfitted with back straps and a telescoping stand.  The Hub 01 logo is displayed proudly on the case lid.",
+    "weight": "6230 g",
+    "volume": "90000 ml",
+    "longest_side": "60 cm",
+    "price": "900 USD",
+    "price_postapoc": "40 USD 50 cent",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": "[",
+    "looks_like": "briefcase",
+    "color": "brown",
+    "charges_per_use": 1,
+    "flags": [ "BELTED", "ELECTRONIC", "WATERPROOF", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ],
+    "warmth": 10,
+    "max_worn": 1,
+    "armor": [ { "encumbrance": 30, "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
+    "use_action": [ { "type": "effect_on_conditions", "description": "Print NRE data.", "effect_on_conditions": [ "print_nre_data" ] } ]
+  },
+  {
     "id": "nitrogen_tank",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -770,36 +882,6 @@
     "charges_per_use": 1,
     "use_action": [ "TELEPORT" ],
     "melee_damage": { "bash": 2 }
-  },
-  {
-    "id": "weather_reader",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "category": "tools",
-    "name": { "str": "Doppler Radar Turbo 2000" },
-    "description": "A briefcase with a built-in laptop that looks like it's from the 80s.  Its vintage monochrome monitor displays a plethora of meteorological data.  No sign of the FLDSMDFR, however.",
-    "weight": "1 kg",
-    "volume": "2500 ml",
-    "price": "2 USD",
-    "price_postapoc": "5 USD",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "charges_per_use": 5,
-    "use_action": [ "WEATHER_TOOL" ],
-    "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER", "WATER_BREAK", "ELECTRONIC" ],
-    "faults": [ { "fault_group": "electronic_general" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ],
-    "melee_damage": { "bash": 2 },
-    "tool_ammo": [ "battery" ]
   },
   {
     "id": "analytical_set_basic",
@@ -1053,7 +1135,7 @@
     "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "microscope" },
-    "description": "A classic tool for the ages!  This hefty, durable piece of lab equipment makes small things look bigger.  Without electricity the light doesn't work, but the rest of it is surprisingly functional.  Unfortunately it's not useful for very much at the moment.",
+    "description": "A classic tool for the ages!  This hefty, durable piece of lab equipment makes small things look bigger.  When powered, it allows the user to observe various samples on a microscopic scale.",
     "weight": "2 kg",
     "volume": "3800 ml",
     "price": "30 USD",
@@ -1062,7 +1144,16 @@
     "material": [ "steel", "glass" ],
     "symbol": "G",
     "color": "white",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "charges_per_use": 1,
+    "use_action": [
+      { "type": "link_up", "cable_length": 2, "charge_rate": "10 W" },
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Observe samples",
+        "effect_on_conditions": [ "EOC_use_microscope" ]
+      }
+    ]
   },
   {
     "id": "microscope_dissecting",
@@ -1204,6 +1295,24 @@
     ],
     "melee_damage": { "bash": 4 },
     "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "centrifuge",
+    "copy-from": "microcentrifuge",
+    "//": "based on https://www.eppendorf.com/ae-en/Products/Centrifugation/High-Speed-Centrifuges/High-Speed-Centrifuge-CR30NX-p-PF-923312",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "tools",
+    "name": { "str": "centrifuge" },
+    "description": "A centrifuge, a liquid separating device with an automated analyzer unit.",
+    "weight": "310 kg",
+    "volume": "547 L",
+    "use_action": [
+      { "type": "link_up", "cable_length": 2, "charge_rate": "400 W" },
+      { "type": "deploy_furn", "furn_type": "f_centrifuge" }
+    ],
+    "pocket_data": [  ],
+    "tool_ammo": [  ]
   },
   {
     "id": "stopcock",
@@ -1371,7 +1480,7 @@
           "condition": { "not": { "one_in_chance": 100 } },
           "effect": [
             { "u_message": "You have an intense feeling of being watched." },
-            { "math": [ "u_migo_interest_interest_migo_interest", "+=", "10" ] }
+            { "math": [ "u_migo_interest_interest_migo_interest += 10" ] }
           ]
         },
         {
@@ -1399,20 +1508,17 @@
         {
           "id": "EOC_MIGO_BIO_TECH_FOCUS",
           "condition": { "compare_string": [ "focus", { "npc_val": "mbt_f_function" } ] },
-          "effect": [
-            { "u_message": "You feel incredibly focused!" },
-            { "math": [ "u_val('focus')", "+=", "min( u_val('focus') + 30, 130)" ] }
-          ]
+          "effect": [ { "u_message": "You feel incredibly focused!" }, { "math": [ "u_val('focus') += min( u_val('focus') + 30, 130)" ] } ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_PAIN",
           "condition": { "compare_string": [ "pain", { "npc_val": "mbt_f_function" } ] },
-          "effect": [ { "u_message": "You feel your aches and pains fade away!" }, { "math": [ "u_pain()", "-=", "30" ] } ]
+          "effect": [ { "u_message": "You feel your aches and pains fade away!" }, { "math": [ "u_pain() -= 30" ] } ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_SLEEPINESS",
           "condition": { "compare_string": [ "sleepiness", { "npc_val": "mbt_f_function" } ] },
-          "effect": [ { "u_message": "You instantly feel more awake!" }, { "math": [ "u_val('sleepiness')", "-=", "30" ] } ]
+          "effect": [ { "u_message": "You instantly feel more awake!" }, { "math": [ "u_val('sleepiness') -= 30" ] } ]
         }
       ]
     }
@@ -1475,5 +1581,32 @@
     "color": "light_red",
     "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "THERMOMETER" ]
+  },
+  {
+    "id": "microscope_slide",
+    "type": "ITEM",
+    "name": { "str": "microscope slide" },
+    "//": "Includes the glass cover.",
+    "description": "A tiny, thin rectangle of glass, used to observe samples through microscopes.",
+    "material": [ "glass" ],
+    "weight": "4125 mg",
+    "volume": "2 ml",
+    "price_postapoc": "0 USD",
+    "symbol": "-",
+    "color": "light_cyan"
+  },
+  {
+    "id": "microscope_slide_water_murky",
+    "copy-from": "microscope_slide",
+    "type": "ITEM",
+    "name": { "str": "microscope slide of murky water", "str_pl": "microscope slides of murky water" },
+    "description": "A microscope slide with a sample of murky water."
+  },
+  {
+    "id": "microscope_slide_soil",
+    "copy-from": "microscope_slide",
+    "type": "ITEM",
+    "name": { "str": "microscope slide of soil", "str_pl": "microscope slides of soil" },
+    "description": "A microscope slide with a sample of soil."
   }
 ]

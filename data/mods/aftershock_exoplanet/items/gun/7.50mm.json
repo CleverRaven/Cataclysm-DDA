@@ -7,7 +7,7 @@
     "name": { "str": "MarSec. T72" },
     "description": "A massive, unwieldy revolver, using combined magnetic and chemical propulsion to fire 7.50mm rounds at energies that rival a sniping platform.  It additionally features a secondary barrel for a single 00 shot shell.\n\nThe T72 remains a relic of the early hyperspace era, meant to be used by and against the posthuman.  Its perhaps most notable for its use by fictional rebel figures than for any sort of actual combat effectiveness.",
     "weight": "2204 g",
-    "volume": "1750 ml",
+    "volume": "1250 ml",
     "longest_side": "25 cm",
     "price": "6400 USD",
     "price_postapoc": "6400 USD",
@@ -21,6 +21,7 @@
     "min_strength": 16,
     "clip_size": 9,
     "flags": [ "WATERPROOF_GUN", "RELOAD_ONE", "NEVER_JAMS" ],
+    "variants": [  ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -60,16 +61,17 @@
     "durability": 5,
     "blackpowder_tolerance": 60,
     "ammo": [ "afs_7.50mm" ],
+    "variants": [  ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm": 1 } } ],
     "faults": [ { "fault": "fault_gun_blackpowder" }, { "fault": "fault_gun_dirt" } ]
   },
   {
     "id": "afs_Accipitermg",
-    "copy-from": "rifle_auto",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Accipiter Hawk-00" },
+    "skill": "rifle",
     "description": "A light machine gun manufactured by Accipiter Firearms and distributed by Wraitheon.  The Hawk-00's high rate of fire makes it ideally suited to lay down suppressive fire; but also makes it exceedingly hard to control while unmounted.",
     "weight": "7500 g",
     "volume": "10610 ml",
@@ -83,9 +85,18 @@
     "dispersion": 200,
     "durability": 7,
     "min_cycle_recoil": 1350,
+    "faults": [
+      { "fault": "fault_gun_blackpowder" },
+      { "fault": "fault_gun_dirt" },
+      { "fault": "fault_gun_chamber_spent" },
+      { "fault": "fault_fail_to_feed" },
+      { "fault": "fault_stovepipe" },
+      { "fault": "fault_double_feed" }
+    ],
     "reload": 400,
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
+    "variants": [  ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -112,8 +123,8 @@
   },
   {
     "id": "afs_gibrifle",
-    "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "copy-from": "gun_base_rifle_semi",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "G&W SR-P9" },
@@ -132,6 +143,7 @@
     "dispersion": 150,
     "durability": 10,
     "min_cycle_recoil": 1350,
+    "variants": [  ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -154,9 +166,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ],
       [ "ETCfirmware", 1 ]
-    ],
-    "melee_damage": { "bash": 12 },
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    ]
   },
   {
     "id": "afs_sr77",
@@ -165,13 +175,13 @@
     "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "G&W SR-P77" },
-    "description": "Compact and powerful, the SR-77 serves as the current main firearm of UICA assault teams, having replaced the SR-P9 in the very last decade of the reclamation wars.  Designed for combat withing the tight confines of spacecraft and habitats, the SR-77 is a bullpup carbine with a top-mounted magazine and a high rate of fire.  Performance in open terrain is subpar.",
+    "description": "Compact and powerful, the SR-77 serves as the current main firearm of UICA assault teams, having replaced the SR-P9 in the very last decade of the reclamation wars.  Designed for combat within the tight confines of spacecraft and habitats, the SR-77 is a bullpup carbine with a top-mounted magazine and a high rate of fire.  Performance in open terrain is subpar.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "military",
         "name": { "str": "G&W SR-P77" },
-        "description": "Compact and powerful, the SR-77 serves as the current main firearm of UICA assault teams, having replaced the SR-P9 in the very last decade of the reclamation wars.  Designed for combat withing the tight confines of spacecraft and habitats, the SR-77 is a bullpup carbine with a top-mounted magazine and a high rate of fire.  Performance in open terrain is subpar.",
+        "description": "Compact and powerful, the SR-77 serves as the current main firearm of UICA assault teams, having replaced the SR-P9 in the very last decade of the reclamation wars.  Designed for combat within the tight confines of spacecraft and habitats, the SR-77 is a bullpup carbine with a top-mounted magazine and a high rate of fire.  Performance in open terrain is subpar.",
         "weight": 3
       },
       {
@@ -197,7 +207,7 @@
     "dispersion": 260,
     "durability": 10,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "burst", 5 ], [ "AUTO", "auto", 15 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 5 ], [ "AUTO", "auto", 15 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -221,8 +231,8 @@
   },
   {
     "id": "afs_vahagn_smartgun",
-    "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "copy-from": "gun_base_rifle_semi",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "ARTIFACT", "GUN" ],
     "name": { "str": "Wraitheon Vahagn 10XR" },
@@ -231,7 +241,6 @@
     "volume": "4300 ml",
     "longest_side": "830 mm",
     "price": "2350 kUSD",
-    "to_hit": -1,
     "material": [ "superalloy", "plastic" ],
     "modes": [ [ "DEFAULT", "SMART TRACK", 2 ] ],
     "built_in_mods": [ "afs_smart_scope" ],
@@ -245,6 +254,7 @@
     "blackpowder_tolerance": 0,
     "min_cycle_recoil": 0,
     "handling": 25,
+    "variants": [  ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -257,7 +267,6 @@
     "melee_damage": { "bash": 12 },
     "flags": [ "NEVER_JAMS", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
     "ammo_effects": [ "VAHAGN" ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "passive_effects": [ { "id": "ench_smart_gun" } ]
   }
 ]
