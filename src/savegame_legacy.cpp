@@ -29,7 +29,6 @@ static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
-static const activity_id ACT_VIBE( "ACT_VIBE" );
 
 namespace std
 {
@@ -214,11 +213,11 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         ACT_TRAIN,
         activity_id::NULL_ID(), // ACT_WAIT_WEATHER is an actor now
         activity_id::NULL_ID(), // ACT_FIRSTAID is an actor now
-        activity_id::NULL_ID(), //ACT_FISH is an actor now
-        activity_id::NULL_ID(), //ACT_PICKAXE is an actor now
+        activity_id::NULL_ID(), // ACT_FISH is an actor now
+        activity_id::NULL_ID(), // ACT_PICKAXE is an actor now
         ACT_BURROW,
         ACT_PULP,
-        ACT_VIBE,
+        activity_id::NULL_ID(), // ACT_VIBE is an actor now
         activity_id::NULL_ID(), // ACT_MAKE_ZLAVE is deprecated
         activity_id::NULL_ID(), // ACT_DROP is an actor now
         activity_id::NULL_ID(), // ACT_STASH is an actor now

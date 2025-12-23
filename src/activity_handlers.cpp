@@ -131,7 +131,6 @@ static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
-static const activity_id ACT_VIBE( "ACT_VIBE" );
 
 static const ammotype ammo_battery( "battery" );
 
@@ -167,7 +166,6 @@ static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SOCIAL1( "SOCIAL1" );
 static const json_character_flag json_flag_SOCIAL2( "SOCIAL2" );
 
-static const morale_type morale_feeling_good( "morale_feeling_good" );
 static const morale_type morale_tree_communion( "morale_tree_communion" );
 
 static const skill_id skill_computer( "computer" );
@@ -183,7 +181,6 @@ const std::map< activity_id, std::function<void( player_activity *, Character * 
 activity_handlers::do_turn_functions = {
     { ACT_FILL_LIQUID, fill_liquid_do_turn },
     { ACT_START_FIRE, start_fire_do_turn },
-    { ACT_VIBE, vibe_do_turn },
     { ACT_HAND_CRANK, hand_crank_do_turn },
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
@@ -191,7 +188,13 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_MOP, multiple_mop_do_turn },
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
     { ACT_MULTIPLE_FARM, multiple_farm_do_turn },
+    { ACT_MULTIPLE_CHOP_PLANKS, multiple_chop_planks_do_turn },
+    { ACT_MULTIPLE_CRAFT, multiple_craft_do_turn },
+    { ACT_MULTIPLE_DIS, multiple_dis_do_turn },
+    { ACT_MULTIPLE_READ, multiple_read_do_turn },
+    { ACT_MULTIPLE_STUDY, multiple_study_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
+    { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_EAT_MENU, eat_menu_do_turn },
     { ACT_VEHICLE_DECONSTRUCTION, vehicle_deconstruction_do_turn },
     { ACT_VEHICLE_REPAIR, vehicle_repair_do_turn },
@@ -204,18 +207,11 @@ activity_handlers::do_turn_functions = {
     { ACT_REPAIR_ITEM, repair_item_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
     { ACT_DISMEMBER, dismember_do_turn },
-    { ACT_TIDY_UP, tidy_up_do_turn },
-    { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },
-    { ACT_MULTIPLE_CHOP_PLANKS, multiple_chop_planks_do_turn },
     { ACT_FERTILIZE_PLOT, fertilize_plot_do_turn },
     { ACT_ROBOT_CONTROL, robot_control_do_turn },
     { ACT_TREE_COMMUNION, tree_communion_do_turn },
     { ACT_STUDY_SPELL, study_spell_do_turn },
-    { ACT_MULTIPLE_CRAFT, multiple_craft_do_turn },
-    { ACT_MULTIPLE_DIS, multiple_dis_do_turn },
-    { ACT_MULTIPLE_READ, multiple_read_do_turn },
-    { ACT_MULTIPLE_STUDY, multiple_study_do_turn },
 };
 
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -229,7 +225,6 @@ activity_handlers::finish_functions = {
     { ACT_MEND_ITEM, mend_item_finish },
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
     { ACT_SOCIALIZE, socialize_finish },
-    { ACT_VIBE, vibe_finish },
     { ACT_ATM, atm_finish },
     { ACT_EAT_MENU, eat_menu_finish },
     { ACT_CONSUME_FOOD_MENU, eat_menu_finish },
@@ -743,40 +738,6 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, Character *you
         add_msg( m_info, _( "You're too exhausted to keep cranking." ) );
     }
 
-}
-
-void activity_handlers::vibe_do_turn( player_activity *act, Character *you )
-{
-    //Using a vibrator takes time (10 minutes), not speed
-    //Linear increase in morale during action with a small boost at end
-    //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
-    item &vibrator_item = *act->targets.front();
-
-    if( you->encumb( bodypart_id( "mouth" ) ) >= 30 ) {
-        act->moves_left = 0;
-        add_msg( m_bad, _( "You have trouble breathing, and stop." ) );
-    }
-
-    if( calendar::once_every( 1_minutes ) ) {
-        if( vibrator_item.ammo_remaining( you ) > 0 ) {
-            vibrator_item.ammo_consume( 1, you->pos_bub(), you );
-            you->add_morale( morale_feeling_good, 3, 40 );
-            if( vibrator_item.ammo_remaining( you ) == 0 ) {
-                add_msg( m_info, _( "The %s runs out of batteries." ), vibrator_item.tname() );
-            }
-        } else {
-            //twenty minutes to fill
-            you->add_morale( morale_feeling_good, 1, 40 );
-        }
-    }
-    // Dead Tired: different kind of relaxation needed
-    if( you->get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
-        act->moves_left = 0;
-        add_msg( m_info, _( "You're too tired to continue." ) );
-    }
-
-    // Vibrator requires that you be able to move around, stretch, etc, so doesn't play
-    // well with roots.  Sorry.  :-(
 }
 
 void activity_handlers::start_engines_finish( player_activity *act, Character *you )
@@ -1595,13 +1556,6 @@ void activity_handlers::multiple_farm_do_turn( player_activity *act, Character *
 void activity_handlers::fetch_do_turn( player_activity *act, Character *you )
 {
     generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::vibe_finish( player_activity *act, Character *you )
-{
-    you->add_msg_if_player( m_good, _( "You feel much better." ) );
-    you->add_morale( morale_feeling_good, 10, 40 );
-    act->set_to_null();
 }
 
 void activity_handlers::atm_finish( player_activity *act, Character * )

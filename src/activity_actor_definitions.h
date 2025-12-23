@@ -2385,6 +2385,36 @@ class tabletop_game_activity_actor : public generic_entertainment_activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+
+// self-pleasure
+class vibe_activity_actor : public activity_actor
+{
+    public:
+        const activity_id &get_type() const override {
+            static const activity_id ACT_VIBE( "ACT_VIBE" );
+            return ACT_VIBE;
+        }
+        //install
+        vibe_activity_actor() = default;
+        explicit vibe_activity_actor( time_duration vibe_duration, const item_location &vibe_item ) :
+            vibe_duration( vibe_duration ), vibe_item( vibe_item ) {};
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<vibe_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        time_duration vibe_duration; // NOLINT(cata-serialize)
+        item_location vibe_item;
+};
+
+
 class wash_activity_actor : public activity_actor
 {
     private:
