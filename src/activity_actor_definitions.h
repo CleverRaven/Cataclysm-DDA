@@ -487,6 +487,48 @@ class bikerack_unracking_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+// the act of (un)installing a CBM into a subject through surgery (operation)
+// TODO: split into two separate actors for uninstall/install?
+class bionic_operation_activity_actor : public activity_actor
+{
+    public:
+        const activity_id &get_type() const override {
+            static const activity_id ACT_OPERATION( "ACT_OPERATION" );
+            return ACT_OPERATION;
+        }
+        //install
+        bionic_operation_activity_actor( bool installing, int operation_success, bool operation_autodoc,
+                                         int operation_skill, int operation_difficulty, bionic_id installed_bionic,
+                                         bionic_uid uninstalled_bionic, const std::string &installer_name = std::string() ) :
+            installing( installing ), operation_success( operation_success ),
+            operation_autodoc( operation_autodoc ), operation_skill( operation_skill ),
+            operation_difficulty( operation_difficulty ), installed_bionic( installed_bionic ),
+            uninstalled_bionic( uninstalled_bionic ), installer_name( installer_name ) {};
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<bionic_operation_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        explicit bionic_operation_activity_actor() = default;
+
+        bool installing;
+        // see Character::bionics_uninstall_failure
+        int operation_success;
+        bool operation_autodoc;
+        int operation_skill;
+        int operation_difficulty;
+        bionic_id installed_bionic;
+        bionic_uid uninstalled_bionic;
+        std::string installer_name;
+};
+
 class read_activity_actor : public activity_actor
 {
     public:
@@ -1015,6 +1057,7 @@ class migration_cancel_activity_actor : public activity_actor
 {
     public:
         migration_cancel_activity_actor() = default;
+        explicit migration_cancel_activity_actor( activity_id migrated_id ) : migrated_id( migrated_id ) {};
 
         const activity_id &get_type() const override {
             static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
@@ -1033,8 +1076,14 @@ class migration_cancel_activity_actor : public activity_actor
             return std::string();
         }
 
+        // some migrated activities need to revert behavior
+        // e.g. effects set by an activity
+        void revert( player_activity &, Character &who );
+
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        activity_id migrated_id = activity_id::NULL_ID();
 };
 
 class mine_activity_actor : public activity_actor

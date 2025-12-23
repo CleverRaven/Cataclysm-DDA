@@ -68,7 +68,6 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player_activity.h"
 #include "pocket_type.h"
 #include "point.h"
 #include "projectile.h"
@@ -89,8 +88,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
-
-static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
 static const ammo_effect_str_id ammo_effect_DRAW_AS_LINE( "DRAW_AS_LINE" );
 static const ammo_effect_str_id ammo_effect_JET( "JET" );
@@ -2138,20 +2135,8 @@ bool Character::uninstall_bionic( const bionic &bio, Character &installer, bool 
         perform_uninstall( bio, difficulty, success, pl_skill );
         return true;
     }
-    assign_activity( ACT_OPERATION, to_moves<int>( difficulty * 20_minutes ) );
-
-    activity.values.push_back( difficulty );
-    activity.values.push_back( success );
-    activity.values.push_back( bio.get_uid() );
-    activity.values.push_back( pl_skill );
-    activity.str_values.emplace_back( "uninstall" );
-    activity.str_values.push_back( bio.id.str() );
-    activity.str_values.emplace_back( "" ); // installer_name is unused for uninstall
-    if( autodoc ) {
-        activity.str_values.emplace_back( "true" );
-    } else {
-        activity.str_values.emplace_back( "false" );
-    }
+    assign_activity( bionic_operation_activity_actor( false, success, autodoc, pl_skill,
+                     difficulty, bio.id, bio.get_uid() ) );
     for( const std::pair<const bodypart_str_id, size_t> &elem : bio.id->occupied_bodyparts ) {
         add_effect( effect_under_operation, difficulty * 20_minutes, elem.first.id(), true, difficulty );
     }
@@ -2447,24 +2432,12 @@ bool Character::install_bionics( const itype &type, Character &installer, bool a
                          bioid->canceled_mutations, pos_bub() );
         return true;
     }
-    assign_activity( ACT_OPERATION, to_moves<int>( difficulty * 20_minutes ) );
-    activity.values.push_back( difficulty );
-    activity.values.push_back( success );
-    activity.values.push_back( upbio_uid );
-    activity.values.push_back( pl_skill );
-    activity.str_values.emplace_back( "install" );
-    activity.str_values.push_back( bioid.str() );
+    const std::string installer_name = installer.has_trait( trait_PROF_MED ) ||
+                                       installer.has_trait( trait_PROF_AUTODOC ) ? installer.disp_name( true ) : "NOT_MED";
 
-    if( installer.has_trait( trait_PROF_MED ) || installer.has_trait( trait_PROF_AUTODOC ) ) {
-        activity.str_values.push_back( installer.disp_name( true ) );
-    } else {
-        activity.str_values.emplace_back( "NOT_MED" );
-    }
-    if( autodoc ) {
-        activity.str_values.emplace_back( "true" );
-    } else {
-        activity.str_values.emplace_back( "false" );
-    }
+    assign_activity( bionic_operation_activity_actor( true, success, autodoc, pl_skill,
+                     difficulty, bioid, upbio_uid, installer_name ) );
+
     for( const std::pair<const bodypart_str_id, size_t> &elem : bioid->occupied_bodyparts ) {
         add_effect( effect_under_operation, difficulty * 20_minutes, elem.first.id(), true, difficulty );
     }
