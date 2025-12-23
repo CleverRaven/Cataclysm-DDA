@@ -292,6 +292,10 @@ class item : public visitable
         void set_damage( int qty );
 
         /**
+        * Same as set_damage, but bypasses any checks and just sets value to desired level
+        */
+        void force_set_damage( int qty );
+        /**
          * Set item degradation constrained by [0 and @ref max_damage].
          * If item damage is lower it is raised up to @ref degradation.
          */
