@@ -189,9 +189,6 @@ item_location mdeath::splatter( map *here, monster &z )
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
-        if( !z.has_eaten_enough() ) {
-            corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
-        }
         return here->add_item_or_charges_ret_loc( z.pos_bub( *here ), corpse );
     }
     return {};
@@ -285,9 +282,6 @@ item_location make_mon_corpse( map *here, monster &z, int damageLvl )
     corpse.set_damage( damageLvl );
     if( z.has_effect( effect_no_ammo ) ) {
         corpse.set_var( "no_ammo", "no_ammo" );
-    }
-    if( !z.has_eaten_enough() ) {
-        corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
     }
     if( z.times_combatted_player ) {
         corpse.set_var( "times_combatted", z.times_combatted_player );
