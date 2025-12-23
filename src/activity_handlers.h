@@ -227,7 +227,6 @@ void travel_do_turn( player_activity *act, Character *you );
 void tree_communion_do_turn( player_activity *act, Character *you );
 void vehicle_deconstruction_do_turn( player_activity *act, Character *you );
 void vehicle_repair_do_turn( player_activity *act, Character *you );
-void vibe_do_turn( player_activity *act, Character *you );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -250,7 +249,6 @@ void study_spell_finish( player_activity *act, Character *you );
 void teach_finish( player_activity *act, Character *you );
 void toolmod_add_finish( player_activity *act, Character *you );
 void train_finish( player_activity *act, Character *you );
-void vibe_finish( player_activity *act, Character *you );
 
 int move_cost( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest );
 int move_cost_cart( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest,

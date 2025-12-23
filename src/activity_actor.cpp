@@ -200,6 +200,7 @@ static const activity_id ACT_UNLOAD_LOOT( "ACT_UNLOAD_LOOT" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_FOLD( "ACT_VEHICLE_FOLD" );
 static const activity_id ACT_VEHICLE_UNFOLD( "ACT_VEHICLE_UNFOLD" );
+static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_FOLLOWERS( "ACT_WAIT_FOLLOWERS" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
@@ -9608,13 +9609,75 @@ std::unique_ptr<activity_actor> portable_game_activity_actor::deserialize( JsonV
     return actor.clone();
 }
 
-// Repurposing the activity's index to convey the number of friends participating
 std::string generic_entertainment_activity_actor::get_name() const
 {
     if( entertain_players.size() > 1 ) {
         return "gaming with friends";
     }
     return "gaming";
+}
+
+void vibe_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( vibe_duration );
+    act.moves_left = act.moves_total;
+}
+
+void vibe_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    //Using a vibrator takes time (10 minutes), not speed
+    //Linear increase in morale during action with a small boost at end
+    //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
+    item &vibrator_item = *vibe_item;
+    Character *who_ptr = &who;
+
+    if( who.encumb( bodypart_id( "mouth" ) ) >= 30 ) {
+        act.moves_left = 0;
+        add_msg( m_bad, _( "You have trouble breathing, and stop." ) );
+    }
+
+    if( calendar::once_every( 1_minutes ) ) {
+        if( vibrator_item.ammo_remaining( who_ptr ) > 0 ) {
+            vibrator_item.ammo_consume( 1, who.pos_bub(), who_ptr );
+            who.add_morale( morale_feeling_good, 3, 40 );
+            if( vibrator_item.ammo_remaining( who_ptr ) == 0 ) {
+                add_msg( m_info, _( "The %s runs out of batteries." ), vibrator_item.tname() );
+            }
+        } else {
+            //twenty minutes to fill
+            who.add_morale( morale_feeling_good, 1, 40 );
+        }
+    }
+    // Dead Tired: different kind of relaxation needed
+    if( who.get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
+        act.moves_left = 0;
+        add_msg( m_info, _( "You're too tired to continue." ) );
+    }
+
+    // Vibrator requires that you be able to move around, stretch, etc, so doesn't play
+    // well with roots.  Sorry.  :-(
+}
+
+void vibe_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( m_good, _( "You feel much better." ) );
+    who.add_morale( morale_feeling_good, 10, 40 );
+    act.set_to_null();
+}
+
+void vibe_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "vibe_item", vibe_item );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> vibe_activity_actor::deserialize( JsonValue &jsin )
+{
+    vibe_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "vibe_item", actor.vibe_item );
+    return actor.clone();
 }
 
 void wash_activity_actor::start( player_activity &act, Character & )
@@ -10694,6 +10757,7 @@ deserialize_functions = {
     { ACT_VEHICLE, &vehicle_activity_actor::deserialize },
     { ACT_VEHICLE_FOLD, &vehicle_folding_activity_actor::deserialize },
     { ACT_VEHICLE_UNFOLD, &vehicle_unfolding_activity_actor::deserialize },
+    { ACT_VIBE, &vibe_activity_actor::deserialize },
     { ACT_WAIT, &wait_activity_actor::deserialize },
     { ACT_WAIT_FOLLOWERS, &wait_followers_activity_actor::deserialize },
     { ACT_WAIT_NPC, &wait_npc_activity_actor::deserialize },

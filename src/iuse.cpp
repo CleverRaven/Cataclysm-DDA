@@ -140,7 +140,6 @@ static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
-static const activity_id ACT_VIBE( "ACT_VIBE" );
 
 static const addiction_id addiction_marloss_b( "marloss_b" );
 static const addiction_id addiction_marloss_r( "marloss_r" );
@@ -4408,7 +4407,6 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint_bub_ms & )
         return std::nullopt;
 
     } else {
-        int moves = to_moves<int>( 20_minutes );
         if( it->ammo_remaining( ) > 0 ) {
             p->add_msg_if_player( _( "You fire up your %s and start getting the tension out." ),
                                   it->tname() );
@@ -4416,8 +4414,7 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint_bub_ms & )
             p->add_msg_if_player( _( "You whip out your %s and start getting the tension out." ),
                                   it->tname() );
         }
-        p->assign_activity( ACT_VIBE, moves, -1, 0, "de-stressing" );
-        p->activity.targets.emplace_back( *p, it );
+        p->assign_activity( vibe_activity_actor( 20_minutes, item_location( *p, it ) ) );
     }
     return 1;
 }
