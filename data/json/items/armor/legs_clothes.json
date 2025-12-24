@@ -2575,9 +2575,16 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "encumbrance": 0,
+        "coverage": 100,
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 } ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ]
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "encumbrance": 0,
         "coverage": 80,
         "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 } ],
-        "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_ankle_r", "foot_ankle_l" ]
+        "specifically_covers": [ "foot_arch_l", "foot_arch_r" ]
       }
     ]
   },
@@ -2613,12 +2620,22 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "encumbrance": 1,
-        "coverage": 80,
+        "coverage": 100,
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 },
-          { "type": "canvas", "covered_by_mat": 50, "thickness": 0.5 }
+          { "type": "canvas", "covered_by_mat": 40, "thickness": 0.5 }
         ],
-        "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_ankle_r", "foot_ankle_l" ]
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ]
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "encumbrance": 1,
+        "coverage": 90,
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "canvas", "covered_by_mat": 40, "thickness": 0.5 }
+        ],
+        "specifically_covers": [ "foot_arch_l", "foot_arch_r" ]
       }
     ]
   },
@@ -2654,12 +2671,22 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "encumbrance": 0,
-        "coverage": 80,
+        "coverage": 95,
         "material": [
           { "type": "plastic", "covered_by_mat": 100, "thickness": 0.1 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 }
         ],
-        "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_ankle_r", "foot_ankle_l" ]
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ]
+      }
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "encumbrance": 0,
+        "coverage": 70,
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 }
+        ],
+        "specifically_covers": [ "foot_arch_l", "foot_arch_r" ]
       }
     ]
   }
