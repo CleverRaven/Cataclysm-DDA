@@ -1,6 +1,6 @@
 [
   {
-    "//": "10x10 side room with south center door",
+    "//": "10x10 side room with south center door.  This is an office space",
     "//2": "Available area is 10x9, hence the empty row",
     "type": "mapgen",
     "nested_mapgen_id": "phavian_hospital_lab_south_door_10x10_room",
@@ -36,7 +36,7 @@
     }
   },
   {
-    "//": "10x10 side room with south center door",
+    "//": "10x10 side room with south center door.  This is an office space",
     "//2": "Available area is 10x9, hence the empty row",
     "type": "mapgen",
     "nested_mapgen_id": "phavian_hospital_lab_south_door_10x10_room",
@@ -71,7 +71,72 @@
     }
   },
   {
-    "//": "10x10 side room with north center door",
+    "//": "10x10 side room with south center door.  This is a meeting room.",
+    "//2": "Available area is 10x9, hence the empty rows",
+    "weight": 900,
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_south_door_10x10_room",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "          ",
+        "dddddddddd",
+        "d........d",
+        "d...cc...d",
+        "...cttc..d",
+        "ð..cttc..&",
+        "ð..cttc...",
+        "...cttc...",
+        "....cc....",
+        "y........y"
+      ],
+       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "furniture": { "ð": "t_desk" },
+      "items": {
+        "t": [
+          { "item": "SUS_office_desk", "chance": 70 },
+          { "item": "lab_files_psi", "chance": 5 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 2 }
+        ],
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
+      },
+      "place_item": [
+        { "item": "television", "x": 0, "y": 5 },
+        { "item": "television", "x": 0, "y": 6 }
+      ],
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 9 ], "y": [ 2, 9 ], "repeat": [ 1, 3 ], "chance": 70 } ]
+    }
+  },
+  {
+    "//": "10x10 side room with south center door.  This is a server room.",
+    "//2": "Available area is 10x9, hence the empty rows",
+    "type": "mapgen",
+    "weight": 500,
+    "nested_mapgen_id": "phavian_hospital_lab_south_door_10x10_room",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "          ",
+        "5.5.55.5.5",
+        "5.5.55.5.5",
+        "5.5.55.5.5",
+        "5.5.55.5.5",
+        "5.5.55.5.5",
+        "5.5....5.5",
+        "5.5....5.5",
+        ":f:fDDf:f:",
+        ".........."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "furniture": { "5": "f_server", "f": "f_air_filter" }
+    }
+  },
+  {
+    "//": "10x10 side room with north center door.  This is an office space",
     "//2": "Available area is 10x9, hence the empty row",
     "type": "mapgen",
     "nested_mapgen_id": "phavian_hospital_lab_north_door_10x10_room",
@@ -107,7 +172,7 @@
     }
   },
   {
-    "//": "10x10 side room with north center door",
+    "//": "10x10 side room with north center door.  This is an office space",
     "//2": "Available area is 10x9, hence the empty row",
     "type": "mapgen",
     "nested_mapgen_id": "phavian_hospital_lab_north_door_10x10_room",
@@ -142,7 +207,33 @@
     }
   },
   {
-    "//": "11x11 side room with south center door",
+    "//": "10x10 side room with north center door.  This is a server room.",
+    "//2": "Available area is 10x9, hence the empty rows",
+    "type": "mapgen",
+    "weight": 500,
+    "nested_mapgen_id": "phavian_hospital_lab_north_door_10x10_room",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "..........",
+        ":f:fDDf:f:",
+        "5.5....5.5",
+        "5.5....5.5",
+        "5.5.55.5.5",
+        "5.5.55.5.5",
+        "5.5.55.5.5",
+        "5.5.55.5.5",
+        "5.5.55.5.5",
+        "          "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "furniture": { "5": "f_server", "f": "f_air_filter" }
+    }
+  },
+  {
+    "//": "11x11 side room with south center door.  This is an office space.",
     "//2": "Available area is 11x9, hence the empty rows",
     "type": "mapgen",
     "nested_mapgen_id": "phavian_hospital_lab_south_door_11x11_room",
@@ -179,7 +270,7 @@
     }
   },
   {
-    "//": "11x11 side room with south center door",
+    "//": "11x11 side room with south center door.  This is an office space.",
     "//2": "Available area is 11x9, hence the empty rows",
     "type": "mapgen",
     "nested_mapgen_id": "phavian_hospital_lab_south_door_11x11_room",
@@ -215,6 +306,73 @@
       "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 60, "repeat": [ 1, 6 ] } ]
     }
   },
+  {
+    "//": "11x11 side room with south center door.  This is a meeting room.",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "weight": 900,
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_south_door_11x11_room",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        "ddddddddddd",
+        "d.........d",
+        "d...ccc...d",
+        "...ctttc..d",
+        "ð..ctttc..&",
+        "ð..ctttc...",
+        "...ctttc...",
+        "....ccc....",
+        "y.........y",
+        "           "
+      ],
+       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "furniture": { "ð": "t_desk" },
+      "items": {
+        "t": [
+          { "item": "SUS_office_desk", "chance": 70 },
+          { "item": "lab_files_psi", "chance": 5 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 2 }
+        ],
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
+      },
+      "place_item": [
+        { "item": "television", "x": 0, "y": 5 },
+        { "item": "television", "x": 0, "y": 6 }
+      ],
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 9 ], "y": [ 2, 9 ], "repeat": [ 1, 3 ], "chance": 70 } ]
+    }
+  },
+  {
+ "//": "11x11 side room with south center door.  This is an Osiris chamber room for Ascension-level awakenings.",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "weight": 500,
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_south_door_11x11_room",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        "X..:X..:X..",
+        "...:...:...",
+        "...:...:...",
+        ":D:::D:::D:",
+        "...........",
+        "UU...U...UU",
+        "hh...h...hh",
+        "...........",
+        "...........",
+        "           "
+      ],
+       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+       "palettes": [ "phavian_hospital_lab" ],
+       "nested": { "X": { "chunks": [ [ "phavian_hospital_lab_osiris_chamber", 1 ] ] } }
+       "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 0, 11 ], "y": [ 6, 10 ], "repeat": [ 2, 4 ], "chance": 70 } ]
+       }
+       }
   {
     "//": "11x11 side room with north center door",
     "//2": "Available area is 11x9, hence the empty rows",
@@ -728,5 +886,55 @@
         { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
       ]
     }
-  }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_osiris_chamber",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "   ",
+        " T ",
+        "   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "terrain": { "T": "t_ascension_chamber_biokinesis" },
+      "place_computers": [
+        {
+          "x": 2,
+          "y": 2,
+          "name": "Project OBSIDIAN RING access",
+          "eocs": [ "EOC_OBSIDIAN_RING_COMPUTER_BIOKINETIC_DIALOGUE" ],
+          "chat_topics": [ "COMP_OBSIDIAN_RING_COMPUTER_BIOKINETIC" ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_osiris_chamber",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "   ",
+        " T ",
+        "   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "terrain": { "T": "t_ascension_chamber_vitakinesis" },
+      "place_computers": [
+        {
+          "x": 2,
+          "y": 2,
+          "name": "Project OBSIDIAN RING access",
+          "eocs": [ "EOC_OBSIDIAN_RING_COMPUTER_VITAKINETIC_DIALOGUE" ],
+          "chat_topics": [ "COMP_OBSIDIAN_RING_COMPUTER_VITAKINETIC" ]
+        }
+      ]
+    }
+  }  
 ]
