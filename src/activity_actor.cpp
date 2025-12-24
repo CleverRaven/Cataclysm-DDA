@@ -10266,24 +10266,33 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     const tripoint_abs_ms abspos = you.pos_abs();
 
     // Dropping off
-    if( you.has_destination() && !you.activity.targets.empty() ) {
-        // First: Try to disgorge anything we're carrying.
-        const bool is_adjacent_or_closer_to_dest = square_dist( you.pos_abs(),
-                *you.destination_point ) <= 1;
-        if( is_adjacent_or_closer_to_dest ) {
-            auto iter = you.activity.targets.begin();
-            while( iter != you.activity.targets.end() ) {
-                if( you.get_moves() <= 0 ) { // Ran out of moves dropping stuff
-                    return;
+    if( !you.activity.coords.empty() && !you.activity.targets.empty() ) {
+        auto dest_iter = you.activity.coords.begin();
+        while( dest_iter != you.activity.coords.end() ) {
+            const tripoint_abs_ms drop_dest = *dest_iter;
+            // Sometimes we loop back to here while still picking stuff up (because we spent all our moves picking up)
+            // Don't start trying to teleport-undrop at the destination until we're actually adjacent.
+            const bool is_adjacent_or_closer_to_dest = square_dist( abspos, drop_dest ) <= 1;
+
+            if( is_adjacent_or_closer_to_dest ) {
+                auto iter = you.activity.targets.begin();
+                while( iter != you.activity.targets.end() ) {
+                    if( you.get_moves() <= 0 ) { // Ran out of moves dropping stuff
+                        return;
+                    }
+
+                    // FIXME HACK: teleports item onto ground
+                    // FIXME: Needs to check if the destination can accept it!
+                    // Want to use actual dropping here, so it is interruptable and produces the appropriate log messages, normal things happen on drop, etc.
+                    you.mod_moves( -you.item_handling_cost( **iter ) );
+                    here.add_item( here.get_bub( drop_dest ), **iter );
+                    you.i_rem( iter->get_item() );
+                    iter = you.activity.targets.erase( iter );
                 }
-                // FIXME HACK: teleport item onto ground
-                you.mod_moves( -you.item_handling_cost( **iter ) );
-                here.add_item( here.get_bub( *you.destination_point ), **iter );
-                you.i_rem( iter->get_item() );
-                iter++;
+                dest_iter = you.activity.coords.erase( dest_iter ); // Done dropping stuff here.
             }
-        } else {
-            return; // Still moving to destination.
+            // FIXME: If none of the adjacent squares were valid, but we have other squares that we could drop them at then we need to handle that.
+            // That means we need to path to a new one. But only if there's nothing to pick up for sorting(?)
         }
     }
 
@@ -10299,6 +10308,12 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
     zone_sorting::unload_sort_options zone_unload_options = zone_sorting::set_unload_options( you, src,
             false );
+
+
+    // HACK HACK HACK HACK
+    // Without this, zone sorting only picks up half of the stack (???)
+    // zone_sorting::move_item() was manually decrementing it sometimes - maybe do that instead? But where?
+    num_processed = 0;
 
     const std::optional<vpart_reference> vp = here.veh_at( src_bub ).cargo();
     //Skip items that have already been processed
@@ -10327,15 +10342,22 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
         // Picking up
 
-        if( you.has_destination() && !you.activity.targets.empty() ) {
-            if( mgr.get_near_zone_type_for_item( thisitem, *you.destination_point, 1,
-                                                 fac_id ) == zone_type_id() ) {
-                // We have an existing item to drop off, but thisitem needs a different destination. Skip to the next item.
+        if( !you.activity.targets.empty() ) {
+            bool thisitem_shares_existing_dest = false;
+            for( const tripoint_abs_ms &possible_dest : you.activity.coords ) {
+                zone_type_id zt_dest = mgr.get_near_zone_type_for_item( thisitem, possible_dest, 0, fac_id );
+                if( zt_dest != zone_type_id() ) {
+                    // Found a valid destination.
+                    thisitem_shares_existing_dest = true;
+                    break;
+                }
+            }
+            if( !thisitem_shares_existing_dest ) {
                 continue;
             }
         }
 
-        // FIXME HACK: teleport thisitem into inventory
+        // FIXME HACK: teleports thisitem into inventory
         // FIXME: None of this checks if we actually have space, only the returned values are correct!
         item copy_thisitem( thisitem );
         item_location thisitem_loc;
@@ -10367,23 +10389,18 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             here.i_rem( src_bub, &thisitem );
         }
 
-        bool found_dest = you.has_destination();
-        if( !found_dest ) {
+        if( you.activity.coords.empty() ) {
             for( const tripoint_abs_ms &possible_dest : dest_set ) {
                 const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
                 if( here.is_open_air( dest_bub ) ) {
                     you.add_msg_if_player( _( "You can't sort things into the air!" ) );
                     continue;
                 }
-                if( !zone_sorting::route_to_destination( you, act, dest_bub, stage ) ) {
-                    continue;
-                }
-                found_dest = true;
-                break;
+                you.activity.coords.emplace_back( possible_dest );
             }
         }
 
-        if( !found_dest ) {
+        if( you.activity.coords.empty() ) {
             you.add_msg_if_player( m_info,
                                    _( "You have items to sort.  However, there are no valid locations to sort to." ) );
             // Set activity to null??
@@ -10398,8 +10415,15 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         }
     }
 
-    //this location is sorted
-    stage = THINK;
+    if( you.activity.targets.empty() ) {
+        //this location is sorted
+        stage = THINK;
+        you.activity.coords.clear();
+    } else if( !you.activity.coords.empty() && !you.has_destination() )  {
+        zone_sorting::route_to_destination( you, act, here.get_bub( you.activity.coords.front() ), stage );
+    } else if( !you.has_destination() ) {
+        debugmsg( "Sort activity has items to sort but no valid destination, this is a bug" );
+    }
 }
 
 void zone_sort_activity_actor::serialize( JsonOut &jsout ) const
