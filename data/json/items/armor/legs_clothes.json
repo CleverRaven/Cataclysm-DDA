@@ -2642,7 +2642,7 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "makeshift gaiters (pair)" },
-    "description": "A pair of makeshift gaiters made from cotton wrapped in duct tape. Useful for keeping water out of your shoes, though far from fashionable",
+    "description": "A pair of makeshift gaiters made from cotton wrapped in duct tape.  Useful for keeping water out of your shoes, though far from fashionable.",
     "weight": "130 g",
     "volume": "225 ml",
     "price": "1 USD",
