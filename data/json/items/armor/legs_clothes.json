@@ -2677,7 +2677,7 @@
           { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ]
-      }
+      },
       {
         "covers": [ "foot_l", "foot_r" ],
         "encumbrance": 0,
