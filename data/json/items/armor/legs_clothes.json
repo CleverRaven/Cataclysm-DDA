@@ -2606,7 +2606,7 @@
         "coverage": 100,
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 },
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.75 }
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 }
         ],
         "specifically_covers": [ "leg_lower_l", "leg_lower_r" ]
       },
@@ -2614,7 +2614,10 @@
         "covers": [ "foot_l", "foot_r" ],
         "encumbrance": 0,
         "coverage": 80,
-        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 } ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "canvas", "covered_by_mat": 50, "thickness": 0.5 }
+        ],
         "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_ankle_r", "foot_ankle_l" ]
       }
     ]
