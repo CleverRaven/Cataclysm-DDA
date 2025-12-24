@@ -10265,6 +10265,28 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     const tripoint_bub_ms src_bub = here.get_bub( src );
     const tripoint_abs_ms abspos = you.pos_abs();
 
+    // Dropping off
+    if( you.has_destination() && !you.activity.targets.empty() ) {
+        // First: Try to disgorge anything we're carrying.
+        const bool is_adjacent_or_closer_to_dest = square_dist( you.pos_abs(),
+                *you.destination_point ) <= 1;
+        if( is_adjacent_or_closer_to_dest ) {
+            auto iter = you.activity.targets.begin();
+            while( iter != you.activity.targets.end() ) {
+                if( you.get_moves() <= 0 ) { // Ran out of moves dropping stuff
+                    return;
+                }
+                // FIXME HACK: teleport item onto ground
+                you.mod_moves( -you.item_handling_cost( **iter ) );
+                here.add_item( here.get_bub( *you.destination_point ), **iter );
+                you.i_rem( iter->get_item() );
+                iter++;
+            }
+        } else {
+            return; // Still moving to destination.
+        }
+    }
+
     bool is_adjacent_or_closer = square_dist( you.pos_bub(), src_bub ) <= 1;
     // before we move any item, check if player is at or
     // adjacent to the loot source tile
@@ -10302,30 +10324,19 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         if( !move_and_reset ) {
             return;
         }
-        // Dropping off
+
+        // Picking up
+
         if( you.has_destination() && !you.activity.targets.empty() ) {
-            // First: Try to disgorge anything we're carrying.
-            const bool is_adjacent_or_closer_to_dest = square_dist( you.pos_abs(),
-                    *you.destination_point ) <= 1;
-            if( is_adjacent_or_closer_to_dest ) {
-
-            }
-
-            // OK so we're dropping off, but not there yet.
-            // could never sort thisitem
-            if( dest_set.empty() ) {
-                continue;
-            }
-            // We have an existing item to drop off, but thisitem needs a different destination.
-            if( mgr.get_near_zone_type_for_item( *you.activity.targets.front(), *you.destination_point, 1,
+            if( mgr.get_near_zone_type_for_item( thisitem, *you.destination_point, 1,
                                                  fac_id ) == zone_type_id() ) {
+                // We have an existing item to drop off, but thisitem needs a different destination. Skip to the next item.
                 continue;
             }
         }
 
-        // Picking up
-
         // FIXME HACK: teleport thisitem into inventory
+        // FIXME: None of this checks if we actually have space, only the returned values are correct!
         item copy_thisitem( thisitem );
         item_location thisitem_loc;
         if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
@@ -10346,34 +10357,41 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             debugmsg( "Failed to pick up %s during sorting", copy_thisitem.tname() );
             continue;
         }
-		// Pickup cost
+        // Pickup cost
         you.mod_moves( -you.item_handling_cost( copy_thisitem ) );
-        here.i_rem( src_bub, &thisitem );
+
+        // Remove the item we just copy-teleported
+        if( vp ) {
+            vp->vehicle().remove_item( vp->part(), &thisitem );
+        } else {
+            here.i_rem( src_bub, &thisitem );
+        }
+
+        bool found_dest = you.has_destination();
+        if( !found_dest ) {
+            for( const tripoint_abs_ms &possible_dest : dest_set ) {
+                const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
+                if( here.is_open_air( dest_bub ) ) {
+                    you.add_msg_if_player( _( "You can't sort things into the air!" ) );
+                    continue;
+                }
+                if( !zone_sorting::route_to_destination( you, act, dest_bub, stage ) ) {
+                    continue;
+                }
+                found_dest = true;
+                break;
+            }
+        }
+
+        if( !found_dest ) {
+            you.add_msg_if_player( m_info,
+                                   _( "You have items to sort.  However, there are no valid locations to sort to." ) );
+            // Set activity to null??
+            return;
+        }
+
+        // OK, we can sort this!
         you.activity.targets.emplace_back( thisitem_loc );
-
-        std::optional<tripoint_abs_ms> dest_tile = std::nullopt;
-        for( const tripoint_abs_ms &possible_dest : dest_set ) {
-            const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
-            // Routing will fail if we're already adjacent or at the destination. So we need to avoid checking it unless there's an actual route that needs to be checked.
-            const bool is_adjacent_or_closer_to_dest = square_dist( you.pos_bub(), dest_bub ) <= 1;
-            if( !is_adjacent_or_closer_to_dest &&
-                !zone_sorting::route_to_destination( you, act, dest_bub, stage ) ) {
-                continue; // Not a valid destination
-            }
-            // This is a separate statement so we can have specific messaging if this failure state is reached.
-            if( here.is_open_air( dest_bub ) ) {
-                you.add_msg_if_player( _( "You can't sort things into the air!" ) );
-                continue;
-            }
-            dest_tile = possible_dest;
-            break;
-        }
-
-        if( !dest_tile ) { // Never found a destination
-            continue;
-        }
-
-        zone_sorting::move_item( you, vp, src_bub, dest_set, thisitem, num_processed );
         // out of moves or item was unloaded
         if( you.get_moves() <= 0 || *move_and_reset ) {
             return;
