@@ -521,7 +521,6 @@ overmap sidebar ImGui conversion
 Add vehicle zone enable/disable keys to the zone manager UI
 Rework inventory capacity summary
 Show weapon category in item info
-Fixed missing syntax
 Optimize pinyin search
 Move the lore snippets from the faction to the diary UI
 
@@ -969,14 +968,8 @@ Martial Mastery Stat Widget
 [DDotD] Albertan trees rework
 [XE/DDotD] Add XE_CLASSIC category, apply it to appropriate XE monsters
 [DDotD] Laptop rework
-[MoM] Psychic Knacks grant noetic crafting proficiencies
 Add Mind Over Matter: Psychic Scream mod to the CDDA repository
-Move Psychic Scream to rebalance category, add a bit of documentation for modmods 
-[DDotD] Blacklist Compromised Shelter scenario
-[MoM] Add more knacks
-DDotD battery overhaul
 Martial Mastery: New defense oriented perkline.
-[MoM] Pyrokinesis artifact crystals
 [Magiclysm] Shapeshifting and druid items
 
 
@@ -1094,9 +1087,7 @@ Rebalance Aikido to emphasize surviving and escaping opponents
 Make single fruit bushes less common, add huckleberry/hobbleberry/autumn olive patches
 Add UNBREAKABLE_MORALE flag, apply it to zombies
 Murdering humans('monsters') is still murdering humans
-Neoprene has less bash resistance
 Fixes Cloud Formation and Pressure
-Subcutaneous Protective Mesh bionics no longer conflict with most mutations
 Getting hurt is bad for your long-term health
 
 
@@ -1509,18 +1500,7 @@ Make dry_veggy (dehydrated vegetable) not dryable
 Properly load the region type of the dimension the game was last saved in
 Make pockets check volume of a single charge against min_item_volume
 fix a crash when opening the item comparison window
-[Magiclysm] Add 'type': 'perceived' to pain equation in spell failure formula
-restricted genetics mutation behaves more correctly
-[MoM] Fix negative concentration limit problem
 Remove anvilmancy (the ability to teleport anvils above zombies)
-remove JACKHAMMER from auto-mining
-Typo in iuse
-Fix failing to route to a tile we're already on during sorting
-distance_limit of EOC 'u_query_omt' not visualized on overmap UI when using tiles
-Fix basic typos and spelling errors
-Make numb work with new murder guilt
-[Fix spelling mistakes in doc/CONTRIBUTING.md]
-Add missing price to book_antho_pl
 
 
 ## Performance:
@@ -1720,10 +1700,7 @@ Add tests for match_include_exclude filter rules
 move ACT_VEHICLE handler to vehicle_activity_actor
 Add an effect for EoCs to be able to browse or unbrowse items
 move ACT_BUILD handler to build_construction_activity_actor
-Add tests for logarithmic and logarithmic_range
-move ACT_GAME/ACT_GENERIC_GAME handler to activity_actor
 Allow overriding in snippets definitions
-move ACT_WAIT handlers to activity_actors
 
 
 ## Build:
