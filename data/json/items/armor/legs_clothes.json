@@ -2569,21 +2569,21 @@
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 1,
         "coverage": 60,
-        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 } ],
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 } ],
         "specifically_covers": [ "leg_lower_l", "leg_lower_r" ]
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "encumbrance": 0,
         "coverage": 100,
-        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 } ],
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 } ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ]
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "encumbrance": 0,
         "coverage": 80,
-        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 } ],
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 } ],
         "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_heel_r", "foot_heel_l" ]
       }
     ]
@@ -2612,7 +2612,7 @@
         "encumbrance": 2,
         "coverage": 100,
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
           { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 }
         ],
         "specifically_covers": [ "leg_lower_l", "leg_lower_r" ]
@@ -2622,7 +2622,7 @@
         "encumbrance": 1,
         "coverage": 100,
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
           { "type": "canvas", "covered_by_mat": 40, "thickness": 0.5 }
         ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ]
@@ -2631,7 +2631,7 @@
         "covers": [ "foot_l", "foot_r" ],
         "encumbrance": 1,
         "coverage": 90,
-        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 } ],
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 } ],
         "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_heel_r", "foot_heel_l" ]
       }
     ]
@@ -2660,7 +2660,7 @@
         "encumbrance": 2,
         "coverage": 100,
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.2 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "specifically_covers": [ "leg_lower_l", "leg_lower_r" ]
@@ -2670,7 +2670,7 @@
         "encumbrance": 0,
         "coverage": 95,
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.2 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ]
@@ -2680,7 +2680,7 @@
         "encumbrance": 1,
         "coverage": 70,
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.2 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_heel_r", "foot_heel_l" ]
