@@ -2552,7 +2552,7 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "gaiters (pair)" },
-    "description": "A pair of short, lightweight nylon gaiters, designed to keep water and snow out of your shins.",
+    "description": "A pair of short, lightweight nylon gaiters designed to keep water and snow off your shins.",
     "weight": "80 g",
     "volume": "125 ml",
     "price": "50 USD",
@@ -2594,7 +2594,7 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "heavy gaiters (pair)" },
-    "description": "A pair of nearly knee high, heavy duty nylon gaiters, designed to keep water and snow out of your lower legs.",
+    "description": "A pair of knee-high, heavy-duty nylon and canvas gaiters designed to keep water and snow off your lower legs.",
     "weight": "130 g",
     "volume": "225 ml",
     "price": "50 USD",
@@ -2621,7 +2621,10 @@
         "covers": [ "foot_l", "foot_r" ],
         "encumbrance": 1,
         "coverage": 5,
-        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.1 }
+        ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ]
       },
       {
@@ -2639,7 +2642,7 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "makeshift gaiters (pair)" },
-    "description": "A pair of makeshift gaiters, made out of cotton wrapped in duct tape. Useful for keeping water out of your shoes, but not all that fashionable.",
+    "description": "A pair of makeshift gaiters made from cotton wrapped in duct tape. Useful for keeping water out of your shoes, though far from fashionable",
     "weight": "130 g",
     "volume": "225 ml",
     "price": "50 USD",

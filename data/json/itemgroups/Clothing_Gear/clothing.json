@@ -3427,8 +3427,8 @@
       [ "survivor_hairtrimmer", 1 ],
       [ "survivor_scope", 1 ],
       [ "survnote", 30 ],
-      [ "gaiter_boot", 10 ],
-      [ "gaiter_boot_heavy", 10 ]
+      [ "gaiter_boot", 5 ],
+      [ "gaiter_boot_heavy", 5 ]
     ]
   },
   {
