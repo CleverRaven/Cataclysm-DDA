@@ -260,7 +260,6 @@ endif
 
 ifneq (,$(findstring clang,$(COMPILER)))
   CLANG = $(COMPILER)
-  CXX_WARNINGS += -Wno-unknown-warning-option
 endif
 
 # Windows sets the OS environment variable so we can cheaply test for it.
@@ -386,6 +385,7 @@ ifneq ($(CLANG), 0)
     CXX = $(CROSS)$(CLANGCMD)
     LD  = $(CROSS)$(CLANGCMD)
   endif
+  CXX_WARNINGS += -Wno-unknown-warning-option
 else
   # Compiler version & target machine - used later for MXE ICE workaround
   ifdef CROSS
