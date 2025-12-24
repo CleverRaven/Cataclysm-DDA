@@ -2629,7 +2629,7 @@
       },
       {
         "covers": [ "foot_l", "foot_r" ],
-        "encumbrance": 1,
+        "encumbrance": 0,
         "coverage": 90,
         "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 } ],
         "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_heel_r", "foot_heel_l" ]
