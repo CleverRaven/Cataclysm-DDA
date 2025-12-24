@@ -112,6 +112,7 @@
 #include "veh_type.h"
 #include "veh_utils.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 
@@ -10208,7 +10209,6 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
     // iterate over zone positions and look for items to move
     for( const tripoint_abs_ms &src : src_sorted ) {
         placement = src;
-        coord_set.erase( src );
 
         const tripoint_bub_ms src_bub = here.get_bub( src );
         if( !here.inbounds( src_bub ) ) {
@@ -10257,7 +10257,7 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
 
 void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 {
-    const map &here = get_map();
+    map &here = get_map();
     const zone_manager &mgr = zone_manager::get_manager();
 
     const faction_id fac_id = you.get_faction_id();
@@ -10302,8 +10302,56 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         if( !move_and_reset ) {
             return;
         }
+        // Dropping off
+        if( you.has_destination() && !you.activity.targets.empty() ) {
+            // First: Try to disgorge anything we're carrying.
+            const bool is_adjacent_or_closer_to_dest = square_dist( you.pos_abs(),
+                    *you.destination_point ) <= 1;
+            if( is_adjacent_or_closer_to_dest ) {
 
-        bool can_reach_any_dest = false;
+            }
+
+            // OK so we're dropping off, but not there yet.
+            // could never sort thisitem
+            if( dest_set.empty() ) {
+                continue;
+            }
+            // We have an existing item to drop off, but thisitem needs a different destination.
+            if( mgr.get_near_zone_type_for_item( *you.activity.targets.front(), *you.destination_point, 1,
+                                                 fac_id ) == zone_type_id() ) {
+                continue;
+            }
+        }
+
+        // Picking up
+
+        // FIXME HACK: teleport thisitem into inventory
+        item copy_thisitem( thisitem );
+        item_location thisitem_loc;
+        if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
+            // Resolve the item location if we put it into a vehicle...
+            const tripoint_bub_ms cart_position = you.pos_bub() + you.as_avatar()->grab_point;
+            if( std::optional<vpart_reference> ovp = get_map().veh_at( cart_position ).cargo() ) {
+                vehicle &veh = ovp->vehicle();
+                std::optional<vehicle_stack::iterator> vehstack = veh.add_item( here, ovp->part(), copy_thisitem );
+                if( vehstack ) {
+                    thisitem_loc = item_location( vehicle_cursor( veh, ovp->part_index() ), &*vehstack.value() );
+                }
+            }
+        } else {
+            // Otherwise trying to put it into our inventory is really easy.
+            thisitem_loc = you.try_add( copy_thisitem );
+        }
+        if( !thisitem_loc ) {
+            debugmsg( "Failed to pick up %s during sorting", copy_thisitem.tname() );
+            continue;
+        }
+		// Pickup cost
+        you.mod_moves( -you.item_handling_cost( copy_thisitem ) );
+        here.i_rem( src_bub, &thisitem );
+        you.activity.targets.emplace_back( thisitem_loc );
+
+        std::optional<tripoint_abs_ms> dest_tile = std::nullopt;
         for( const tripoint_abs_ms &possible_dest : dest_set ) {
             const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
             // Routing will fail if we're already adjacent or at the destination. So we need to avoid checking it unless there's an actual route that needs to be checked.
@@ -10317,11 +10365,11 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 you.add_msg_if_player( _( "You can't sort things into the air!" ) );
                 continue;
             }
-            can_reach_any_dest = true;
+            dest_tile = possible_dest;
             break;
         }
 
-        if( !can_reach_any_dest ) {
+        if( !dest_tile ) { // Never found a destination
             continue;
         }
 

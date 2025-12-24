@@ -639,6 +639,7 @@ int activity_handlers::move_cost_cart(
 int activity_handlers::move_cost( const item &it, const tripoint_bub_ms &src,
                                   const tripoint_bub_ms &dest )
 {
+	// ?!??!?! This always checks the player regardless of who's doing the activity
     avatar &player_character = get_avatar();
     if( player_character.get_grab_type() == object_type::VEHICLE ) {
         const tripoint_bub_ms cart_position = player_character.pos_bub() + player_character.grab_point;
