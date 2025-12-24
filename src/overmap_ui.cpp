@@ -161,20 +161,20 @@ void overmap_sidebar::draw_controls()
     ImGui::BeginChild( "Overmap Sidebar Scrolling Content", {0, 0}, 0, ImGuiWindowFlags_NoNav );
     bool &quickref = om_sidebar_state.quickref_header;
     ImGui::SetNextItemOpen( quickref );
-    quickref = ImGui::CollapsingHeader( "Quick Reference" );
+    quickref = ImGui::CollapsingHeader( _( "Quick Reference" ) );
     if( quickref ) {
         draw_quick_reference();
     };
     bool &layers = om_sidebar_state.layers_header;
     ImGui::SetNextItemOpen( layers );
-    layers = ImGui::CollapsingHeader( "Layers" );
+    layers = ImGui::CollapsingHeader( _( "Layers" ) );
     if( layers ) {
         draw_layer_info();
     }
     if( debug_mode || draw_data.debug_editor ) {
         bool &debug_info = om_sidebar_state.debug_header;
         ImGui::SetNextItemOpen( debug_info );
-        debug_info = ImGui::CollapsingHeader( "Debug" );
+        debug_info = ImGui::CollapsingHeader( _( "Debug" ) );
         if( debug_info ) {
             draw_debug();
         }
@@ -259,7 +259,7 @@ void overmap_sidebar::draw_tile_info()
             draw_sidebar_text( _( "# Weather unknown" ), c_dark_gray );
         }
     } else {
-        draw_sidebar_text( "Not viewing weather", c_dark_gray );
+        draw_sidebar_text( _( "Not viewing weather" ), c_dark_gray );
     }
 
     const std::string coords = display::overmap_position_text( cursor_pos );
