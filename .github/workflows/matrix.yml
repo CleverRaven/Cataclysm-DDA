@@ -224,11 +224,15 @@ jobs:
           }}
         SKIP_TESTS: ${{ fromJSON(needs.matrix-variables.outputs.skip_tests) || (matrix.android != '') }}
     steps:
-    - name: Maximize build space
+    - name: Maximize build space (ubuntu)
       if: ${{ runner.os == 'Linux' }}
       uses: AdityaGarg8/remove-unwanted-software@v4.1
       with:
         remove-android: ${{ matrix.android == '' }}
+    - name: Maximize build space (mac)
+      if: ${{ runner.os == 'macos' && matrix.android == '' }}
+      run: |
+        sudo rm -rf $ANDROID_HOME
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
       uses: actions/checkout@v4
