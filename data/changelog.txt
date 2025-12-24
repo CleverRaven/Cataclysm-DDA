@@ -169,6 +169,8 @@ Add activity zone to automatically study books
 Completely remove the animal food system
 Restrict follower sleep spot to the same vehicle when player is sleeping in a vehicle
 allow to extend region feature flag settings
+allow the player to simply read map boards without forcing them to smash it
+Mobile weather stations and things to do with them
 
 
 
@@ -386,6 +388,8 @@ Add a supermarket
 Portable hand truck for moving furniture and appliances
 RANGE_DODGE no longer applies to spells, can be applied to monsters
 Move dense forest raspberry/strawberry/blueberry spawn to patches
+Add Radiosphere dimension
+Rework the blood analysis quest
 
 
 ## Interface:
@@ -517,6 +521,8 @@ overmap sidebar ImGui conversion
 Add vehicle zone enable/disable keys to the zone manager UI
 Rework inventory capacity summary
 Show weapon category in item info
+Optimize pinyin search
+Move the lore snippets from the faction to the diary UI
 
 
 ## Mods:
@@ -962,6 +968,9 @@ Martial Mastery Stat Widget
 [DDotD] Albertan trees rework
 [XE/DDotD] Add XE_CLASSIC category, apply it to appropriate XE monsters
 [DDotD] Laptop rework
+Add Mind Over Matter: Psychic Scream mod to the CDDA repository
+Martial Mastery: New defense oriented perkline.
+[Magiclysm] Shapeshifting and druid items
 
 
 
@@ -1075,6 +1084,11 @@ Make picking individual threads out of cotton scraps SUCK (for morale)
 Change Throwing Assist CBM's enchant to use THROW_STR and THROW_DAMAGE instead of adding to skill
 Greatly reduce lone fruit trees in the forest
 Rebalance Aikido to emphasize surviving and escaping opponents
+Make single fruit bushes less common, add huckleberry/hobbleberry/autumn olive patches
+Add UNBREAKABLE_MORALE flag, apply it to zombies
+Murdering humans('monsters') is still murdering humans
+Fixes Cloud Formation and Pressure
+Getting hurt is bad for your long-term health
 
 
 ## Bugfixes:
@@ -1486,6 +1500,7 @@ Make dry_veggy (dehydrated vegetable) not dryable
 Properly load the region type of the dimension the game was last saved in
 Make pockets check volume of a single charge against min_item_volume
 fix a crash when opening the item comparison window
+Remove anvilmancy (the ability to teleport anvils above zombies)
 
 
 ## Performance:
@@ -1685,6 +1700,7 @@ Add tests for match_include_exclude filter rules
 move ACT_VEHICLE handler to vehicle_activity_actor
 Add an effect for EoCs to be able to browse or unbrowse items
 move ACT_BUILD handler to build_construction_activity_actor
+Allow overriding in snippets definitions
 
 
 ## Build:
