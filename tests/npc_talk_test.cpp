@@ -1089,6 +1089,9 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     const skill_id skill = skill_driving;
     player_character.set_skill_level( skill, 0 );
 
+    tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint::east;
+    monster &dummy_monster = spawn_test_monster( "mon_dragon_dummy", loc);
+
     get_weather().temperature = units::from_fahrenheit( 19 );
     get_weather().windspeed = 20;
     get_weather().weather_precise->temperature = units::from_fahrenheit( 19 );
@@ -1160,7 +1163,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.inv->add_item( item( itype_bottle_glass ) );
     cata::event e = cata::event::make<event_type::character_kills_monster>(
                         get_player_character().getID(), mon_zombie, 0 );
-    get_event_bus().send( e );
+    get_event_bus().send_with_talker( get_player_character().as_character(), dummy_monster.as_monster(), e );
     player_character.magic->learn_spell( spell_test_spell_json, player_character, false );
     player_character.set_mutation( trait_test_trait ); // Give the player the spell scool test_trait
     player_character.magic->set_spell_level( spell_test_spell_json, 1, &player_character );
