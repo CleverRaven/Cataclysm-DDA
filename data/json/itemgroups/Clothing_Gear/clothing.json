@@ -99,7 +99,9 @@
         "prob": 65
       },
       { "item": "pants_tactical", "prob": 20 },
-      { "item": "pants_hiking", "prob": 10 }
+      { "item": "pants_hiking", "prob": 10 },
+      { "item": "gaiter_boot", "prob": 10 },
+      { "item": "gaiter_boot_heavy", "prob": 10 }
     ]
   },
   {
@@ -1544,6 +1546,7 @@
       [ "long_glove_white", 1 ],
       [ "veil_wedding", 1 ],
       [ "dress_wedding", 1 ],
+      [ "gaiter_boot", 1 ],
       [ "tshirt", 80 ],
       [ "tshirt_cropped", 8 ],
       [ "longshirt", 70 ],
@@ -3423,7 +3426,9 @@
       [ "survivor_shavingkit", 3 ],
       [ "survivor_hairtrimmer", 1 ],
       [ "survivor_scope", 1 ],
-      [ "survnote", 30 ]
+      [ "survnote", 30 ],
+      [ "gaiter_boot", 10 ],
+      [ "gaiter_boot_heavy", 10 ]
     ]
   },
   {

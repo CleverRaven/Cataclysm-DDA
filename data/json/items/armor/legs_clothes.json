@@ -2545,5 +2545,133 @@
       },
       { "coverage": 38, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
     ]
+  },
+  {
+    "id": "gaiter_boot",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "gaiters (pair)" },
+    "description": "A pair of short, lightweight nylon gaiters, designed to keep water and snow out of your shins.",
+    "weight": "80 g",
+    "volume": "125 ml",
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "leg_warmers",
+    "color": "black",
+    "warmth": 10,
+    "environmental_protection": 2,
+    "flags": [ "OUTER", "VARSIZE", "WATERPROOF" ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 1,
+        "coverage": 60,
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 } ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r" ]
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "encumbrance": 0,
+        "coverage": 5,
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1 } ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ]
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "encumbrance": 0,
+        "coverage": 80,
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 } ],
+        "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_ankle_r", "foot_ankle_l" ]
+      }
+    ]
+  },
+  {
+    "id": "gaiter_boot_heavy",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "heavy gaiters (pair)" },
+    "description": "A pair of nearly knee high, heavy duty nylon gaiters, designed to keep water and snow out of your lower legs.",
+    "weight": "130 g",
+    "volume": "225 ml",
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "nylon", "canvas" ],
+    "symbol": "[",
+    "looks_like": "leg_warmers",
+    "color": "black",
+    "warmth": 20,
+    "environmental_protection": 2,
+    "flags": [ "OUTER", "VARSIZE", "WATERPROOF" ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 2,
+        "coverage": 100,
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.75 }
+        ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r" ]
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "encumbrance": 1,
+        "coverage": 5,
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ]
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "encumbrance": 0,
+        "coverage": 80,
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 } ],
+        "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_ankle_r", "foot_ankle_l" ]
+      }
+    ]
+  },
+  {
+    "id": "gaiter_boot_makeshift",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "makeshift gaiters (pair)" },
+    "description": "A pair of makeshift gaiters, made out of cotton wrapped in duct tape. Useful for keeping water out of your shoes, but not all that fashionable.",
+    "weight": "130 g",
+    "volume": "225 ml",
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "plastic", "cotton" ],
+    "symbol": "[",
+    "looks_like": "leg_warmers",
+    "color": "black",
+    "warmth": 15,
+    "environmental_protection": 2,
+    "flags": [ "OUTER", "VARSIZE", "WATERPROOF" ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 2,
+        "coverage": 100,
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 }
+        ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r" ]
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "encumbrance": 0,
+        "coverage": 80,
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 }
+        ],
+        "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_ankle_r", "foot_ankle_l" ]
+      }
+    ]
   }
 ]
