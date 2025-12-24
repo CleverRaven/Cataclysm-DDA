@@ -2997,6 +2997,6 @@
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 3 ] ],
-    "components": [ [ [ "duct_tape", 10 ] ] ]
+    "components": [ [ [ "duct_tape", 150 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
   }
 ]
