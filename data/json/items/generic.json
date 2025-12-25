@@ -1486,7 +1486,8 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "135 L",
-        "max_contains_weight": "15 kg"
+        "max_contains_weight": "15 kg",
+        "item_restriction": [ "water", "water_clean" ]
       }
     ],
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
