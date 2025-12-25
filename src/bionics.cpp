@@ -1144,6 +1144,11 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                                    _( "You have at least one free cable in your inventory that you could use to connect yourself." ) );
             }
         }
+        if( !success && bio.auto_shutdown ) {
+            refund_power();
+            bio.powered = false;
+            return false;
+        }
     } else {
         add_msg_activate();
 
@@ -1318,11 +1323,27 @@ Character::bionic_fuels Character::bionic_fuel_check( bionic &bio,
     } else if( !is_perpetual && result.connected_vehicles.empty() &&
                result.connected_solar.empty() &&
                result.connected_fuel.empty() ) {
-        if( start ) {
-            add_msg_player_or_npc( m_info,
-                                   _( "Your %s does not currently have enough fuel to produce energy." ),
-                                   _( "<npcname>'s %s does not currently have enough fuel to produce energy." ),
-                                   bio.info().name );
+        if( bio.auto_shutdown ) {
+            if( start ) {
+                add_msg_player_or_npc( m_bad, _( "Your %s does not have enough fuel to start." ),
+                                       _( "<npcname>'s %s does not have enough fuel to start." ),
+                                       bio.info().name );
+            } else if( bio.powered ) {
+                add_msg_player_or_npc( m_info,
+                                       _( "Your %s runs out of fuel and turns off." ),
+                                       _( "<npcname>'s %s runs out of fuel and turns off." ),
+                                       bio.info().name );
+                bio.powered = false;
+                deactivate_bionic( bio, true );
+            }
+            result.can_be_on = false;
+        } else {
+            if( start ) {
+                add_msg_player_or_npc( m_info,
+                                       _( "Your %s does not currently have enough fuel to produce energy." ),
+                                       _( "<npcname>'s %s does not currently have enough fuel to produce energy." ),
+                                       bio.info().name );
+            }
         }
     }
 
@@ -1410,7 +1431,7 @@ void Character::burn_fuel( bionic &bio )
                 i_rem( fuel );
                 depleted = true;
             }
-            if( depleted ) {
+            if( depleted && !bio.auto_shutdown ) {
                 add_msg_player_or_npc( m_info,
                                        _( "Your %s runs out of fuel." ),
                                        _( "<npcname>'s %s runs out of fuel." ),
@@ -3102,6 +3123,7 @@ void bionic::serialize( JsonOut &json ) const
         json.member( "safe_fuel_threshold", safe_fuel_threshold );
     }
     json.member( "show_sprite", show_sprite );
+    json.member( "auto_shutdown", auto_shutdown );
 
     if( has_weapon() ) {
         json.member( "weapon", weapon );
@@ -3160,6 +3182,9 @@ void bionic::deserialize( const JsonObject &jo )
     }
     if( jo.has_bool( "show_sprite" ) ) {
         show_sprite = jo.get_bool( "show_sprite" );
+    }
+    if( jo.has_bool( "auto_shutdown" ) ) {
+        auto_shutdown = jo.get_bool( "auto_shutdown" );
     }
     if( jo.has_array( "bionic_tags" ) ) {
         for( const std::string line : jo.get_array( "bionic_tags" ) ) {
