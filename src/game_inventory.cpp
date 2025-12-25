@@ -3025,7 +3025,7 @@ item_location game_menus::inv::change_sprite( Character &you )
 class unload_selector_preset : public inventory_selector_preset
 {
     public:
-        explicit unload_selector_preset() : inventory_selector_preset( ), you( get_avatar() ) {
+        explicit unload_selector_preset() : you( get_avatar() ) {
             _pk_type = { pocket_type::CONTAINER, pocket_type::MOD };
         }
         bool is_shown( const item_location &location ) const override {

@@ -8100,7 +8100,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 class reload_selector_preset : public inventory_selector_preset
 {
     public:
-        explicit reload_selector_preset() : inventory_selector_preset( ), you( get_avatar() ) {
+        explicit reload_selector_preset() : you( get_avatar() ) {
             _pk_type = { pocket_type::CONTAINER, pocket_type::MOD };
         }
         bool is_shown( const item_location &location ) const override {

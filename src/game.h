@@ -26,7 +26,6 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "global_vars.h"
-#include "inventory_ui.h"
 #include "item_location.h"
 #include "map_scale_constants.h"
 #include "memory_fast.h"
@@ -76,6 +75,7 @@ class eoc_events;
 class event_bus;
 class faction_manager;
 class field_entry;
+class inventory_selector_preset;
 class item;
 class kill_tracker;
 class live_view;
