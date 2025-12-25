@@ -26,6 +26,7 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "global_vars.h"
+#include "inventory_ui.h"
 #include "item_location.h"
 #include "map_scale_constants.h"
 #include "memory_fast.h"
@@ -764,6 +765,8 @@ class game
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( const item_filter &filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
+        item_location inv_map_splice( const inventory_selector_preset &preset, const std::string &title,
+                                      int radius = 0, const std::string &none_message = "" );
         item_location inv_map_splice( const item_location_filter &filter, const std::string &title,
                                       int radius = 0, const std::string &none_message = "" );
 

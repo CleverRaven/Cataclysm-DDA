@@ -708,15 +708,8 @@ inventory_selector_preset::inventory_selector_preset()
     } ) );
 }
 
-bool inventory_selector_preset::is_shown( const item_location &loc ) const
+bool inventory_selector_preset::is_shown( const item_location & ) const
 {
-    if( loc->is_gunmod() ) {
-        item_location parent = loc.parent_item();
-        const bool installed = parent && parent->is_gun();
-        if( installed && !loc->type->gunmod->is_visible_when_installed ) {
-            return false;
-        }
-    }
     return true;
 }
 
