@@ -81,7 +81,7 @@ TEST_CASE( "stats_tracker_count_events", "[stats]" )
     b.subscribe( &s );
 
     tripoint_bub_ms loc = get_player_character().pos_bub() + tripoint::east;
-    monster &dummy_monster = spawn_test_monster( "mon_dragon_dummy", loc);
+    monster &dummy_monster = spawn_test_monster( "mon_dragon_dummy", loc );
 
     const character_id u_id = get_player_character().getID();
     const cata::event kill1 =
@@ -944,7 +944,7 @@ TEST_CASE( "achievements_tracker_in_game", "[stats]" )
     send_game_start( get_event_bus(), u_id );
 
     mtype_id type( "mon_zombie" );
-    monster dummy_monster(type);
+    monster dummy_monster( type );
 
     std::vector<std::string> args{ std::to_string( u_id.get_value() ), mon_zombie.c_str(), "0" };
 
@@ -955,7 +955,8 @@ TEST_CASE( "achievements_tracker_in_game", "[stats]" )
         dynamic_event
         ? cata::event::make_dyn( event_type::character_kills_monster, args )
         : cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
-    get_event_bus().send_with_talker( get_player_character().as_character(), dummy_monster.as_monster(), avatar_zombie_kill );
+    get_event_bus().send_with_talker( get_player_character().as_character(), dummy_monster.as_monster(),
+                                      avatar_zombie_kill );
 
     achievement_id c_pacifist( "conduct_zero_kills" );
     achievement_id a_kill_zombie( "achievement_kill_zombie" );
