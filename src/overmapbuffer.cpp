@@ -2291,7 +2291,7 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
         specials.push_back( &special );
         overmap_special_batch batch( om->pos(), specials );
 
-        // Filter the sectors to those which are in in range of our center point, so
+        // Filter the sectors to those which are in range of our center point, so
         // that we don't end up creating specials in areas that are outside of our radius,
         // since the whole point is to create a special that is within the parameters.
         std::vector<point_om_omt> sector_points_in_range;

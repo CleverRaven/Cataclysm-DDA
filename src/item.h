@@ -430,7 +430,7 @@ class item : public visitable
         nc_color color() const;
         /**
          * Returns the color of the item depending on usefulness for the player character,
-         * e.g. differently if it its an unread book or a spoiling food item etc.
+         * e.g. differently if it is an unread book or a spoiling food item etc.
          * This should only be used for displaying data, it should not affect game play.
          */
         nc_color color_in_inventory( const Character *ch = nullptr ) const;
