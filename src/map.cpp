@@ -5728,9 +5728,9 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 if( n.typeId() == itype_mws_weather_data_incomplete ) {
                     if( n.has_flag( flag_MWS_PORTAL_STORM_DATA ) ) {
                         if( vpi.has_flag( VPFLAG_ADVANCED_MWS ) ) {
-                            cur_veh.add_item( here, vp, item( itype_mws_portal_storm_weather_data, calendar::turn_zero ) );
-                        } else {
                             cur_veh.add_item( here, vp, item( itype_HEW_printout_data_portal_storm, calendar::turn_zero ) );
+                        } else {
+                            cur_veh.add_item( here, vp, item( itype_mws_portal_storm_weather_data, calendar::turn_zero ) );
                         }
                     }
                     cur_veh.remove_item( vp, &n );
