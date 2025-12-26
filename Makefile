@@ -409,6 +409,7 @@ else
     CXX = $(CROSS)$(OS_COMPILER)
     LD  = $(CROSS)$(OS_LINKER)
   endif
+  CXX_WARNINGS += -Wno-unknown-warning
 endif
 
 STRIP = $(CROSS)strip

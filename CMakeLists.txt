@@ -228,7 +228,6 @@ if (NOT MSVC)
              -Wsuggest-override \
              -Wunused-macros \
              -Wzero-as-null-pointer-constant \
-             -Wno-unknown-warning-option \
              -Wno-dangling-reference \
              -Wno-c++20-compat")
     if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
