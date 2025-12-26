@@ -1077,7 +1077,7 @@
         "msg": "The fruit's melody fills your mind.",
         "type": "transform",
         "need_charges": 0,
-        "need_charges_msg": "Something is preventing this fruit from working.  Please report it on github."
+        "need_charges_msg": "Something is preventing this fruit from working.  Please report it on GitHub."
       }
     ],
     "charges_per_use": 0,

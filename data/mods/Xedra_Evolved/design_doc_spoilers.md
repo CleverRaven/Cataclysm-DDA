@@ -1,6 +1,6 @@
 # Design Docs
 
-These documents are for the lore basis and mechnical assumptions behind some of XEs systems. They contain heavy spoilers, obviously--if you're a player, don't read if you want to be surprised!
+These documents are for the lore basis and mechanical assumptions behind some of XEs systems. They contain heavy spoilers, obviously--if you're a player, don't read if you want to be surprised!
 
 ## The Principle of Supernatural Exclusivity
 
