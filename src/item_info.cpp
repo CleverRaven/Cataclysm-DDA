@@ -1200,9 +1200,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     std::map<gun_mode_id, gun_mode> fire_modes = mod->gun_all_modes();
 
     if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) ) {
-        info.emplace_back( "GUN", _( "Reload time: " ),
-                           has_flag( flag_RELOAD_ONE ) ? _( "<num> moves per round" ) :
-                           _( "<num> moves" ),
+        info.emplace_back( "GUN", _( "Reload time: " ), _( "<num> moves" ),
                            iteminfo::lower_is_better,  mod->get_reload_time() );
     }
 
