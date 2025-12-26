@@ -238,7 +238,7 @@
     "description": "A small scrap of thermal paper pulled from a spool.",
     "price": "0 cent",
     "volume": "1 ml",
-    "weight": "1 g",
+    "weight": "4 g",
     "material": [ "paper" ]
   },
   {
@@ -251,7 +251,20 @@
     "description": "A piece of paper covered in complex weather recordings.  It requires specialized software to interpret.",
     "price": "0 cent",
     "volume": "1 ml",
-    "weight": "1 g",
+    "weight": "4 g",
+    "material": [ "paper" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "mws_portal_storm_weather_data",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str_sp": "strange weather datasheet" },
+    "description": "A piece of paper covered in complex weather recordings.  This one is riddled with visible error messages, but it requires specialized software to interpret.",
+    "price": "0 cent",
+    "volume": "1 ml",
+    "weight": "4 g",
     "material": [ "paper" ]
   },
   {
@@ -283,9 +296,9 @@
   {
     "type": "ITEM",
     "id": "HEW_printout_data_portal_storm",
-    "name": { "str": "HEW printout PSR13" },
+    "name": { "str": "HEW anomalous weather printout" },
     "category": "books",
-    "description": "A short paper report labeled with the mysterious title \"PSR13.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  ACTIVE SPACETIME DISTURBANCES.  ARTIFICIAL ELECTROMAGNETIC FLUCTUATIONS.  RESONANCE DENSITIES.\"",
+    "description": "A short paper report labeled with the mysterious title \"ANOMALOUS WEATHER.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  ACTIVE SPACETIME DISTURBANCES.  ARTIFICIAL ELECTROMAGNETIC FLUCTUATIONS.  RESONANCE DENSITIES.\"",
     "weight": "1 g",
     "color": "white",
     "symbol": ",",

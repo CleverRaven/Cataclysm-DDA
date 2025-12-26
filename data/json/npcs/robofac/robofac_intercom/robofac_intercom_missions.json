@@ -63,10 +63,10 @@
         "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_FAILED"
       },
       {
-        "text": "I have a weather datasheet for you.  [Hand over the datasheet.]",
-        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_1" }, { "u_has_item": "mws_weather_data" } ] },
+        "text": "I have that portal storm recording for you.  [Hand over the datasheet.]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_1" }, { "u_has_item": "mws_portal_storm_weather_data" } ] },
         "effect": [
-          { "u_consume_item": "mws_weather_data", "count": 1, "popup": true },
+          { "u_consume_item": "mws_portal_storm_weather_data", "count": 1, "popup": true },
           { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_1", "success": true }
         ],
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_1_COMPLETE"
@@ -927,7 +927,7 @@
       "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Replacement"
     ],
     "type": "talk_topic",
-    "dynamic_line": "Your field NRE recordings are of continued interest of us.  Since you have proved yourself capable, we would like to expand your assignment.  We are willing to provide you with a mobile weather station.  We'd like you to set it up and deploy it during one of these portal storms.  A standard recording takes 1 hour.  We realize the anomalies may not last that long, so anything you record will be useful - just get a full hour of data starting in a portal storm.  As payment we will let you keep the weather system and pay you our standard subcontracting rate.",
+    "dynamic_line": "Your field NRE recordings are of continued interest of us.  Since you have proved yourself capable, we would like to expand your assignment.  We are willing to provide you with a mobile weather station.  We'd like you to set it up and deploy it near the eye of one of these portal storms.  A standard recording takes 1 hour.  We realize the anomalies may not last that long, so as long as the portal storm passes over the unit while recording, we can make use of the data.  As payment we will let you keep the weather system and pay you our standard subcontracting rate.",
     "responses": [
       {
         "text": "More science?  I'm in.",

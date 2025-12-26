@@ -2896,5 +2896,11 @@
     "type": "json_flag",
     "//": "Terrain / Furniture flag used in Construction pre_flags field",
     "name": "Wired Wall"
+  },
+  {
+    "id": "MWS_PORTAL_STORM_DATA",
+    "type": "json_flag",
+    "name": "Odd recordings",
+    "info": "This ongoing report has a series of odd recordings, as if the instruments malfunctioned."
   }
 ]
