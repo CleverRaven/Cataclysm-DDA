@@ -1822,7 +1822,7 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
 
     if( source && source->times_combatted_player <= 100 ) {
         source->times_combatted_player++;
-        practice( skill_dodge, difficulty * 2, difficulty );
+        practice( skill_dodge, difficulty * 2 );
     }
     martial_arts_data->ma_ondodge_effects( *this );
 
