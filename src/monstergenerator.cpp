@@ -1052,8 +1052,7 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
         }
     }
 
-    optional( jo, was_loaded, "melee_training_cap", melee_training_cap, std::min( melee_skill + 2,
-              MAX_SKILL ) );
+    optional( jo, was_loaded, "melee_training_cap", melee_training_cap, MAX_SKILL );
     optional( jo, was_loaded, "chat_topics", chat_topics );
     // Disable upgrading when JSON contains `"upgrades": false`, but fallback to the
     // normal behavior (including error checking) if "upgrades" is not boolean or not `false`.
