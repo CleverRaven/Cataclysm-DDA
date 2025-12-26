@@ -599,7 +599,7 @@ void handle_button_event( SDL_Event &event )
         // If in a menu, send keyboard arrow keys for navigation
         // If in gameplay, send JOY_* codes for mapped actions
         case SDL_CONTROLLER_BUTTON_DPAD_UP:
-            if( is_in_menu() && !alt_modifier_held) {
+            if( is_in_menu() && !alt_modifier_held ) {
                 joy_code = KEY_UP;
                 input_type = input_event_t::keyboard_char;
             } else {
@@ -607,7 +607,7 @@ void handle_button_event( SDL_Event &event )
             }
             break;
         case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-            if( is_in_menu() && !alt_modifier_held) {
+            if( is_in_menu() && !alt_modifier_held ) {
                 joy_code = KEY_DOWN;
                 input_type = input_event_t::keyboard_char;
             } else {
@@ -615,7 +615,7 @@ void handle_button_event( SDL_Event &event )
             }
             break;
         case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
-            if( is_in_menu() && !alt_modifier_held) {
+            if( is_in_menu() && !alt_modifier_held ) {
                 joy_code = KEY_LEFT;
                 input_type = input_event_t::keyboard_char;
             } else {
@@ -623,7 +623,7 @@ void handle_button_event( SDL_Event &event )
             }
             break;
         case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
-            if( is_in_menu() && !alt_modifier_held) {
+            if( is_in_menu() && !alt_modifier_held ) {
                 joy_code = KEY_RIGHT;
                 input_type = input_event_t::keyboard_char;
             } else {

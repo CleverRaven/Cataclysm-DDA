@@ -135,7 +135,7 @@ void overmap_sidebar::draw_sidebar_text( const std::string_view &original_text,
 }
 
 overmap_sidebar::overmap_sidebar( overmap_ui::overmap_draw_data_t &data,
-                                 const input_context &ictxt ) :
+                                  const input_context &ictxt ) :
     cataimgui::window( _( "OVERMAP_SIDEBAR" ),
                        ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoNav ),
     draw_data( data ), ictxt( ictxt )
