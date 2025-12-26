@@ -1102,7 +1102,7 @@ ifeq ($(RELEASE), 1)
 endif
 
 $(PCH_P): $(PCH_H)
-	-$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP -Wno-error -c $(PCH_H) -o $(PCH_P)
+	-$(COMPILE.cc) $(OUTPUT_OPTION) -MMD -MP -Wno-error $<
 
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(AR_FLAGS) $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
@@ -1134,8 +1134,7 @@ DIRS = $(sort $(dir $(OBJS)))
 $(shell mkdir -p $(DIRS))
 
 $(ODIR)/%.inc: $(SRC_DIR)/%.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -Wno-error -H -E $< -o /dev/null 2> $@
-
+	$(COMPILE.cc) -o /dev/null -Wno-error -H -E $< 2> $@
 $(ODIR)/%.inc: $(SRC_DIR)/%.c
 	$(CXX) -x c $(CPPFLAGS) $(DEFINES) $(CFLAGS) -Wno-error -H -E $< -o /dev/null 2> $@
 
@@ -1144,13 +1143,13 @@ includes: $(OBJS:.o=.inc)
 	+make -C tests includes
 
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -w -MMD -MP -c $< -o $@
+	$(COMPILE.cc) $(OUTPUT_OPTION) -w -MMD -MP $<
 
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.c
 	$(CXX) -x c $(CPPFLAGS) $(DEFINES) $(CFLAGS) -w -MMD -MP -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(PCHFLAGS) -c $< -o $@
+	$(COMPILE.cc) $(OUTPUT_OPTION) $(PCHFLAGS) -MMD -MP $<
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
@@ -1178,7 +1177,7 @@ lang/mo_built.stamp: $(MO_DEPS)
 localization: lang/mo_built.stamp
 
 $(CHKJSON_BIN): $(CHKJSON_SOURCES)
-	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Isrc/chkjson -Isrc -isystem src/third-party $(CHKJSON_SOURCES) -o $(CHKJSON_BIN)
+	$(LINK.cc) $(OUTPUT_OPTION) $(TOOL_CXXFLAGS) -Isrc/chkjson -Isrc -isystem src/third-party $^
 
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
@@ -1435,14 +1434,13 @@ style-all-json-parallel: $(JSON_FORMATTER_BIN)
 	find data -name "*.json" -print0 | xargs -0 -L 1 -P $$(nproc) $(JSON_FORMATTER_BIN)
 
 $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
-	$(CXX) $(CXXFLAGS) -MMD -MP $(TOOL_CXXFLAGS) -Itools/format -Isrc -isystem src/third-party \
-	  $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
+	$(LINK.cc) $(OUTPUT_OPTION) -MMD -MP $(TOOL_CXXFLAGS) -Itools/format -Isrc -isystem src/third-party $^
 
 $(BUILD_PREFIX)zstd.a: $(filter $(ODIR)/third-party/zstd/%.o,$(OBJS))
 	$(AR) rcs $(AR_FLAGS) $(BUILD_PREFIX)zstd.a $^
 
 $(ZZIP_BIN): $(ZZIP_SOURCES) $(BUILD_PREFIX)zstd.a
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(ZZIP_SOURCES) $(BUILD_PREFIX)zstd.a -isystem src/third-party -o $(ZZIP_BIN)
+	$(LINK.cc) $(OUTPUT_OPTION) -MMD -MP -isystem src/third-party $^
 
 python-check:
 	flake8
