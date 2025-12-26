@@ -1135,8 +1135,6 @@ $(shell mkdir -p $(DIRS))
 
 $(ODIR)/%.inc: $(SRC_DIR)/%.cpp
 	$(COMPILE.cc) -o /dev/null -Wno-error -H -E $< 2> $@
-$(ODIR)/%.inc: $(SRC_DIR)/%.c
-	$(CXX) -x c $(CPPFLAGS) $(DEFINES) $(CFLAGS) -Wno-error -H -E $< -o /dev/null 2> $@
 
 .PHONY: includes
 includes: $(OBJS:.o=.inc)
