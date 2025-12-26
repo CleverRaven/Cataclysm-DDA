@@ -48,6 +48,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "item_tname.h"
 #include "itype.h"
 #include "line.h"
@@ -1523,7 +1524,8 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
                        thrown.get_property_int64_t( "burst_when_filled" ) <= static_cast<double>
-                       ( thrown.total_contained_volume().value() ) / thrown.get_total_capacity().value() *
+                       ( thrown.get_contents_volume( item_pocket::ok_all_containers ).value() ) /
+                       thrown.get_volume_capacity( item_pocket::ok_all_containers ).value() *
                        100;
 
     // Add some flags to the projectile
@@ -1583,7 +1585,7 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
     }
 
     // Throw from the player's position, unless we're blind throwing, in which case
-    // throw from the the blind throw position instead.
+    // throw from the blind throw position instead.
     const tripoint_bub_ms throw_from = blind_throw_from_pos ? *blind_throw_from_pos : pos_bub();
 
     float range = rl_dist( throw_from, target );

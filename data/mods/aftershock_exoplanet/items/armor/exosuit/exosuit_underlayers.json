@@ -19,7 +19,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "afs_exo_standard_underlayer_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -63,7 +62,7 @@
     "copy-from": "afs_exo_standard_underlayer",
     "repairs_like": "afs_exo_standard_underlayer",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "exosuit underlayer (on)", "str_pl": "exosuit underlayers (on)" },
     "description": "A form-fitting suit meant to be worn by an exosuit pilot.  Although not a requirement for the operation of an exosuit, it features haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor.  This standard model uses a scale mail of overlapping plastic disks for incidental protection.\n\nIts temperature control unit is active and drawing power from its own battery port.",
     "power_draw": "10288 mW",
@@ -76,7 +75,7 @@
       "msg": "Your %s deactivates.",
       "target": "afs_exo_standard_underlayer"
     },
-    "extend": { "flags": [ "ACTIVE_CRYOSUIT" ] }
+    "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "afs_exo_combat_underlayer",
@@ -98,7 +97,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "afs_exo_combat_underlayer_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -142,7 +140,7 @@
     "copy-from": "afs_exo_combat_underlayer",
     "repairs_like": "afs_exo_combat_underlayer",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "exosuit combat underlayer (on)", "str_pl": "exosuit combat underlayers (on)" },
     "description": "A form-fitting suit meant to be worn by an exosuit pilot.  Although not a requirement for the operation of an exosuit, it features haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor.  This model includes tough Kevlar to protect from spalling.\n\nIts temperature control unit is active and drawing power from its own battery port.",
     "power_draw": "12626 mW",
@@ -155,7 +153,7 @@
       "msg": "Your %s deactivates.",
       "target": "afs_exo_combat_underlayer"
     },
-    "extend": { "flags": [ "ACTIVE_CRYOSUIT" ] }
+    "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "afs_exo_eva_underlayer",
@@ -177,7 +175,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "afs_exo_eva_underlayer_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -223,7 +220,7 @@
     "copy-from": "afs_exo_eva_underlayer",
     "repairs_like": "afs_exo_eva_underlayer",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "exosuit EVA underlayer (on)", "str_pl": "exosuit EVA underlayers (on)" },
     "description": "A form-fitting suit meant to be worn by an exosuit pilot.  Although not a requirement for the operation of an exosuit, it features haptic feedback systems that offer improved performance and comfort while doing so.  This model is designed for hazardous environments and sacrifices mobility for extra protection.\n\nIts temperature control unit is active and drawing power from its own battery port.",
     "power_draw": "15432 mW",
@@ -236,7 +233,7 @@
       "msg": "Your %s deactivates.",
       "target": "afs_exo_eva_underlayer"
     },
-    "extend": { "flags": [ "ACTIVE_CRYOSUIT" ] }
+    "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "afs_exo_hazard_underlayer",
@@ -258,7 +255,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "afs_exo_hazard_underlayer_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -304,7 +300,7 @@
     "copy-from": "afs_exo_hazard_underlayer",
     "repairs_like": "afs_exo_hazard_underlayer",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "exosuit utility underlayer (on)", "str_pl": "exosuit utility underlayers (on)" },
     "description": "A form-fitting suit meant to be worn by an exosuit pilot.  Although not a requirement for the operation of an exosuit, it features haptic feedback systems that offer improved performance and comfort while doing so.  This model is designed for hazardous environments and sacrifices mobility for extra protection.\n\nIts temperature control unit is active and drawing power from its own battery port.",
     "power_draw": "13227 mW",
@@ -317,6 +313,6 @@
       "msg": "Your %s deactivates.",
       "target": "afs_exo_hazard_underlayer"
     },
-    "extend": { "flags": [ "ACTIVE_CRYOSUIT" ] }
+    "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
   }
 ]

@@ -1554,15 +1554,15 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
     // I'm sure you can optimize this
     auto get_filtered_fieldcost = [&]( const field & field ) {
         int cost = 0;
-        // filter fields wethere they are ignored
-        for( const auto [field_id, field_entry] : field ) {
-            if( !is_immune_field( field_id ) ) {
-                const int mc = field_entry.get_intensity_level().move_cost;
+        // filter fields whether they are ignored
+        for( const std::pair<const int_id<field_type>, field_entry> &pair : field ) {
+            if( !is_immune_field( pair.first ) ) {
+                const int mc = pair.second.get_intensity_level().move_cost;
                 if( mc >= 0 ) {
                     cost += mc;
                 } else {
                     debugmsg( "%s cannot pass through field %s. monster::calc_movecost expects to be called with valid destination.",
-                              get_name(), field_id->get_name() );
+                              get_name(), pair.first->get_name() );
                     return -1;
                 }
             }

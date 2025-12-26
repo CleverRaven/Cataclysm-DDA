@@ -46,6 +46,7 @@
 #include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "item_transformation.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -605,7 +606,7 @@ units::length item::barrel_length() const
         units::length l = type->gun->barrel_length;
         for( const item *mod : mods() ) {
             // if a gun has a barrel length specifying mod then use that length for sure
-            if( mod->type->gunmod->barrel_length > 0_mm ) {
+            if( !mod->is_gun() && mod->type->gunmod->barrel_length > 0_mm ) {
                 l = mod->type->gunmod->barrel_length;
                 // if we find an explicit barrel mod then use that and quit the loop
                 break;
@@ -3070,7 +3071,7 @@ bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
         if( carrier ) {
             carrier->add_msg_if_player( m_info, _( "The %s ran out of energy!" ), tname() );
         }
-        if( type->revert_to.has_value() ) {
+        if( type->transform_into.has_value() ) {
             deactivate( carrier );
             return false;
         } else {

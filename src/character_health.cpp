@@ -61,6 +61,7 @@
 #include "morale.h"
 #include "move_mode.h"
 #include "mutation.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
@@ -162,6 +163,7 @@ static const json_character_flag json_flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_BIONIC_SHOCKPROOF( "BIONIC_SHOCKPROOF" );
 static const json_character_flag json_flag_BLIND( "BLIND" );
+static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
@@ -169,7 +171,11 @@ static const json_character_flag json_flag_HEAL_OVERRIDE( "HEAL_OVERRIDE" );
 static const json_character_flag json_flag_NO_BODY_HEAT( "NO_BODY_HEAT" );
 static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
+static const json_character_flag json_flag_NUMB( "NUMB" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
+static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
 static const json_character_flag json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
 static const json_character_flag json_flag_WALK_UNDERWATER( "WALK_UNDERWATER" );
 static const json_character_flag json_flag_WATERWALKING( "WATERWALKING" );
@@ -179,6 +185,8 @@ static const limb_score_id limb_score_vision( "vision" );
 
 static const morale_type morale_cold( "morale_cold" );
 static const morale_type morale_hot( "morale_hot" );
+static const morale_type morale_killed_innocent( "morale_killed_innocent" );
+static const morale_type morale_killer_has_killed( "morale_killer_has_killed" );
 static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
 static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
@@ -203,6 +211,7 @@ static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
@@ -594,6 +603,50 @@ void Character::calc_discomfort()
     for( const bodypart_id &bp : worn.where_discomfort( *this ) ) {
         if( bp->feels_discomfort ) {
             add_effect( effect_chafing, 1_turns, bp, true, 1 );
+        }
+    }
+}
+
+void Character::apply_murder_penalties( Creature *victim )
+{
+    Character &player_character = get_player_character();
+    // Currently no support for handling anyone else's murdering
+    cata_assert( this == &player_character );
+    if( !victim || !victim->is_dead_state() || victim->get_killer() != &player_character ) {
+        return; // Nothing to do here
+    }
+    if( player_character.has_trait( trait_PACIFIST ) ) {
+        add_msg( _( "A cold shock of guilt washes over you." ) );
+        player_character.add_morale( morale_killer_has_killed, -15, 0, 1_days, 1_hours );
+    }
+    if( victim->as_monster() || ( victim->as_npc() && victim->as_npc()->hit_by_player ) ) {
+        int morale_effect = -90;
+        // Just because you like eating people doesn't mean you love killing innocents
+        if( player_character.has_flag( json_flag_CANNIBAL ) && morale_effect < 0 ) {
+            morale_effect = std::min( 0, morale_effect + 50 );
+        } // Pacifists double dip on penalties if they kill an innocent
+        if( player_character.has_trait( trait_PACIFIST ) ) {
+            morale_effect -= 15;
+        }
+        if( player_character.has_flag( json_flag_PSYCHOPATH ) ||
+            player_character.has_flag( json_flag_SAPIOVORE ) ||
+            player_character.has_flag( json_flag_NUMB ) ) {
+            morale_effect = 0;
+        } // only god can juge me
+        if( player_character.has_flag( json_flag_SPIRITUAL ) &&
+            !player_character.has_flag( json_flag_PSYCHOPATH ) &&
+            !player_character.has_flag( json_flag_SAPIOVORE ) &&
+            !player_character.has_flag( json_flag_NUMB ) ) {
+            add_msg( _( "You feel ashamed of your actions." ) );
+            morale_effect -= 10;
+        }
+        cata_assert( morale_effect <= 0 );
+        if( morale_effect == 0 ) {
+            // No morale effect
+        } else if( morale_effect <= -50 ) {
+            player_character.add_morale( morale_killed_innocent, morale_effect, 0, 14_days, 7_days );
+        } else if( morale_effect > -50 && morale_effect < 0 ) {
+            player_character.add_morale( morale_killed_innocent, morale_effect, 0, 10_days, 7_days );
         }
     }
 }
@@ -1165,6 +1218,9 @@ void Character::regen( int rate_multiplier )
         int healing_apply = roll_remainder( healing );
         mod_part_healed_total( bp, healing_apply );
         heal( bp, healing_apply );
+        // Consume 1 "health" for every Hit Point healed via medicine healing.
+        // This has a significant effect on long-term healing.
+        mod_daily_health( -healing_apply, -200 );
         if( get_part_damage_bandaged( bp ) > 0 ) {
             mod_part_damage_bandaged( bp, -healing_apply );
             if( get_part_damage_bandaged( bp ) <= 0 ) {
@@ -2462,10 +2518,10 @@ weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categori
     return weighted_output;
 }
 
-int Character::vitamin_RDA( const vitamin_id &vitamin, int ammount ) const
+int Character::vitamin_RDA( const vitamin_id &vitamin, int amount ) const
 {
     const double multiplier = vitamin_rate( vitamin ) * 100 / 1_days;
-    return std::lround( ammount * multiplier );
+    return std::lround( amount * multiplier );
 }
 
 void Character::apply_wound( bodypart_id bp, wound_type_id wd )
@@ -2800,6 +2856,11 @@ int Character::hitall( int dam, int vary, Creature *source )
 void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
 {
     const map &here = get_map();
+
+    // If we actually know the source, and the source is the player, flag the NPC as being unjustly attacked
+    if( is_npc() && source && source == &get_player_character() && !as_npc()->guaranteed_hostile() ) {
+        as_npc()->hit_by_player = true;
+    }
 
     if( has_trait( trait_ADRENALINE ) && !has_effect( effect_adrenaline ) &&
         ( get_part_hp_cur( body_part_head ) < 25 ||

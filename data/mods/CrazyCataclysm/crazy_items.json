@@ -179,6 +179,7 @@
     "category": "weapons",
     "name": { "str": "flammenschwert (aus)", "str_pl": "flammenschwerter (aus)" },
     "//": "All of this is SUPPOSED to be in German.",
+    "//I18N": false,
     "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter Zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
     "weight": "3400 g",
     "volume": "3750 ml",
@@ -258,6 +259,7 @@
     "category": "weapons",
     "name": { "str": "flammenschwert", "str_pl": "flammenschwerter" },
     "//": "All of this is SUPPOSED to be in German.",
+    "//I18N": false,
     "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter Zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
     "weight": "3400 g",
     "volume": "3750 ml",
@@ -329,7 +331,6 @@
     "use_action": {
       "target": "battletorch_lit",
       "msg": "You light the Louisville Slaughterer.",
-      "active": true,
       "need_fire": 1,
       "menu_text": "Light",
       "type": "transform"
@@ -361,13 +362,12 @@
       {
         "target": "battletorch",
         "msg": "The Louisville Slaughterer is extinguished.",
-        "active": false,
         "menu_text": "Extinguish",
         "type": "transform"
       }
     ],
     "light": 310,
-    "flags": [ "FIRE", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ],
+    "flags": [ "FIRE", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 18 }
   },
   {
@@ -661,5 +661,24 @@
     "name": { "str": "Kitchen Gun™", "str_pl": "Kitchen Guns™" },
     "description": "Say goodbye to daily stains and dirty surfaces with new Kitchen Gun!  Just aim at the dust, blood, or splinters, and then shoot it a bunch of times to clean it.  Blast the filth away with Kitchen Gun™!",
     "ammo_effects": [ "CLEAN_DUST", "CLEAN_SPLINTERS", "CLEAN_BLOOD" ]
+  },
+  {
+    "id": "troglobite_sample",
+    "copy-from": "troglobite_sample",
+    "type": "ITEM",
+    "name": { "str": "gamer sample" },
+    "description": "A slurry of… uhh…"
+  },
+  {
+    "id": "iv_mutagen_troglobite",
+    "copy-from": "iv_mutagen_troglobite",
+    "type": "ITEM",
+    "name": { "str": "gamer mutagenic primer" }
+  },
+  {
+    "id": "mutagen_troglobite",
+    "copy-from": "mutagen_troglobite",
+    "type": "ITEM",
+    "name": { "str": "gamer mutagen" }
   }
 ]

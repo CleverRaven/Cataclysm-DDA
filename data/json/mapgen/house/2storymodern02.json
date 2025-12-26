@@ -57,7 +57,7 @@
         "?": "f_home_furnace"
       },
       "items": {
-        "$": { "item": "beer", "chance": 15 },
+        "$": { "item": "beer_in_container", "chance": 15 },
         "&": { "item": "liquor_and_spirits", "chance": 50 },
         "%": { "item": "table_foyer", "chance": 40 }
       }

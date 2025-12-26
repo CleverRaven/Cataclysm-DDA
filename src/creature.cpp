@@ -348,6 +348,7 @@ void Creature::reset_bonuses()
 {
     num_blocks = 1;
     num_dodges = 1;
+    num_free_dodges = 0;
     num_blocks_bonus = 0;
     num_dodges_bonus = 0;
 
@@ -505,12 +506,6 @@ bool Creature::sees( const map &here, const Creature &critter ) const
         return true;
     }
 
-    bool char_has_mindshield = ch && ch->has_flag( json_flag_TEEPSHIELD );
-    bool has_eff_flag_seer_protection = critter.has_effect( effect_eff_monster_immune_to_telepathy ) ||
-                                        critter.has_flag( mon_flag_TEEP_IMMUNE );
-    bool seen_by_mindseers = critter.has_mind() && !char_has_mindshield &&
-                             !has_eff_flag_seer_protection;
-
     if( std::abs( posz() - critter.posz() ) > fov_3d_z_range ) {
         return false;
     }
@@ -530,12 +525,20 @@ bool Creature::sees( const map &here, const Creature &critter ) const
         return target_range <= std::max( m->type->vision_day, m->type->vision_night );
     }
 
-    if( this->has_flag( mon_flag_MIND_SEEING ) && seen_by_mindseers ) {
-        int mindsight_bonus_range = ( has_effect( effect_eff_mind_seeing_bonus_5 ) * 5 ) + ( has_effect(
-                                        effect_eff_mind_seeing_bonus_10 ) * 10 ) + ( has_effect( effect_eff_mind_seeing_bonus_20 ) * 20 )
-                                    + ( has_effect( effect_eff_mind_seeing_bonus_30 ) * 30 );
-        int mindsight_vision = 5 + mindsight_bonus_range;
-        return target_range <= mindsight_vision;
+    if( this->has_flag( mon_flag_MIND_SEEING ) ) {
+        bool char_has_mindshield = ch && ch->has_flag( json_flag_TEEPSHIELD );
+        bool has_eff_flag_seer_protection = critter.has_effect( effect_eff_monster_immune_to_telepathy ) ||
+                                            critter.has_flag( mon_flag_TEEP_IMMUNE );
+        bool seen_by_mindseers = critter.has_mind() && !char_has_mindshield &&
+                                 !has_eff_flag_seer_protection;
+
+        if( seen_by_mindseers ) {
+            int mindsight_bonus_range = ( has_effect( effect_eff_mind_seeing_bonus_5 ) * 5 ) + ( has_effect(
+                                            effect_eff_mind_seeing_bonus_10 ) * 10 ) + ( has_effect( effect_eff_mind_seeing_bonus_20 ) * 20 )
+                                        + ( has_effect( effect_eff_mind_seeing_bonus_30 ) * 30 );
+            int mindsight_vision = 5 + mindsight_bonus_range;
+            return target_range <= mindsight_vision;
+        }
     }
 
     if( critter.is_hallucination() && !is_avatar() ) {
@@ -1361,8 +1364,8 @@ void Creature::deal_projectile_attack( map *here, Creature *source, dealt_projec
 
     viewer &player_view = get_player_view();
     Character *guy = as_character();
-    if( guy ) {
-        double range_dodge_chance = guy->enchantment_cache->modify_value( enchant_vals::mod::RANGE_DODGE,
+    if( !magic ) {
+        double range_dodge_chance = enchantment_cache->modify_value( enchant_vals::mod::RANGE_DODGE,
                                     1.0f ) - 1.0f;
         if( x_in_y( range_dodge_chance, 1.0f ) ) {
             on_try_dodge();
@@ -1850,9 +1853,10 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
 
     if( !found ) {
         // If we don't already have it then add a new one
-
         // Now we can make the new effect for application
-        effect e( effect_source( source ), &type, dur, bp.id(), permanent, intensity, calendar::turn );
+
+        time_duration duration = permanent ? std::max( dur, 1_seconds ) : dur;
+        effect e( effect_source( source ), &type, duration, bp.id(), permanent, intensity, calendar::turn );
 
         ( *effects )[eff_id][bp] = e;
         if( Character *ch = as_character() ) {
@@ -2316,6 +2320,11 @@ int Creature::get_num_blocks() const
 int Creature::get_num_dodges() const
 {
     return num_dodges + num_dodges_bonus;
+}
+
+int Creature::get_num_free_dodges() const
+{
+    return num_free_dodges;
 }
 
 int Creature::get_num_blocks_bonus() const

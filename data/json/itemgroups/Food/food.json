@@ -256,9 +256,7 @@
       { "item": "dry_corn", "prob": 1 },
       { "item": "dry_fruit", "prob": 10 },
       { "prob": 40, "group": "oatmeal_box_1lb" },
-      { "prob": 30, "group": "toastem_box_small_8" },
-      { "prob": 30, "group": "toastem2_box_small_8" },
-      { "prob": 35, "group": "toastem3_box_small_8" },
+      { "prob": 90, "group": "toastem_box_small_8" },
       { "prob": 20, "group": "toasterpastryfrozen_box_snack_2" },
       { "prob": 20, "group": "sugar_various" },
       { "prob": 5, "group": "artificial_sweetener_box_small_71" },
@@ -444,51 +442,71 @@
     ]
   },
   {
+    "id": "any_soda",
     "type": "item_group",
-    "id": "softdrinks_canned",
     "subtype": "distribution",
-    "entries": [
-      { "item": "cola", "prob": 60 },
-      { "item": "colamdew", "prob": 55 },
-      { "item": "creamsoda", "prob": 50 },
-      { "item": "lemonlime", "prob": 50 },
-      { "item": "orangesoda", "prob": 45 },
-      { "item": "rootbeer", "prob": 40 },
-      { "item": "crispycran", "prob": 35 },
-      { "item": "purple_drink", "prob": 35 },
-      { "item": "zerocola", "prob": 35 },
-      { "item": "zeroorange", "prob": 35 },
-      { "item": "zerotropical", "prob": 35 },
-      { "item": "zeromdew", "prob": 35 },
-      { "item": "foodplace_zero_drink", "prob": 10 },
-      { "item": "choc_drink", "prob": 25 },
-      { "item": "sparkling", "prob": 20 },
-      { "item": "sparkling_peach", "prob": 20 },
-      { "item": "sparkling_pomegranate", "prob": 20 }
+    "items": [
+      [ "cola", 60 ],
+      [ "colamdew", 55 ],
+      [ "creamsoda", 50 ],
+      [ "lemonlime", 50 ],
+      [ "orangesoda", 50 ],
+      [ "rootbeer", 45 ],
+      [ "crispycran", 40 ],
+      [ "purple_drink", 35 ],
+      [ "zerocola", 35 ],
+      [ "zeroorange", 35 ],
+      [ "zerotropical", 35 ],
+      [ "zeromdew", 35 ],
+      [ "foodplace_zero_drink", 10 ],
+      [ "choc_drink", 25 ],
+      [ "sparkling", 20 ],
+      [ "sparkling_peach", 20 ],
+      [ "sparkling_pomegranate", 20 ]
     ]
   },
   {
+    "id": "soda_in_container_full",
     "type": "item_group",
-    "id": "softdrinks_bottled",
     "subtype": "distribution",
-    "entries": [
-      { "item": "cola", "prob": 60, "container-item": "bottle_plastic" },
-      { "item": "colamdew", "prob": 55, "container-item": "bottle_plastic" },
-      { "item": "creamsoda", "prob": 50, "container-item": "bottle_plastic" },
-      { "item": "lemonlime", "prob": 50, "container-item": "bottle_plastic" },
-      { "item": "orangesoda", "prob": 45, "container-item": "bottle_plastic" },
-      { "item": "rootbeer", "prob": 40, "container-item": "bottle_plastic" },
-      { "item": "crispycran", "prob": 35, "container-item": "bottle_plastic" },
-      { "item": "purple_drink", "prob": 35, "container-item": "bottle_plastic" },
-      { "item": "zerocola", "prob": 35, "container-item": "bottle_plastic" },
-      { "item": "zeroorange", "prob": 35, "container-item": "bottle_plastic" },
-      { "item": "zerotropical", "prob": 35, "container-item": "bottle_plastic" },
-      { "item": "zeromdew", "prob": 35, "container-item": "bottle_plastic" },
-      { "item": "foodplace_zero_drink", "prob": 10, "container-item": "bottle_plastic" },
-      { "item": "choc_drink", "prob": 25, "container-item": "bottle_plastic" },
-      { "item": "sparkling", "prob": 20, "container-item": "bottle_plastic" },
-      { "item": "sparkling_peach", "prob": 20, "container-item": "bottle_plastic" },
-      { "item": "sparkling_pomegranate", "prob": 20, "container-item": "bottle_plastic" }
+    "items": [
+      { "group": "any_soda", "container-item": "bottle_twoliter" },
+      { "group": "any_soda", "container-item": "bottle_plastic" },
+      { "group": "any_soda", "container-item": "bottle_plastic_355ml" },
+      { "group": "any_soda", "container-item": "can_drink" },
+      { "group": "any_soda", "container-item": "can_aluminum_250ml" }
+    ]
+  },
+  {
+    "id": "soda_in_container",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "any_soda", "container-item": "bottle_twoliter", "charges": [ 1, -1 ] },
+      { "group": "any_soda", "container-item": "bottle_plastic", "charges": [ 1, -1 ] },
+      { "group": "any_soda", "container-item": "bottle_plastic_355ml", "charges": [ 1, -1 ] },
+      { "group": "any_soda", "container-item": "can_drink", "charges": [ 1, -1 ] },
+      { "group": "any_soda", "container-item": "can_aluminum_250ml", "charges": [ 1, -1 ] }
+    ]
+  },
+  {
+    "id": "soda_in_small_container_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "any_soda", "container-item": "bottle_plastic_355ml" },
+      { "group": "any_soda", "container-item": "can_drink" },
+      { "group": "any_soda", "container-item": "can_aluminum_250ml" }
+    ]
+  },
+  {
+    "id": "soda_in_small_container",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "any_soda", "container-item": "bottle_plastic_355ml", "charges": [ 1, -1 ] },
+      { "group": "any_soda", "container-item": "can_drink", "charges": [ 1, -1 ] },
+      { "group": "any_soda", "container-item": "can_aluminum_250ml", "charges": [ 1, -1 ] }
     ]
   },
   {
@@ -534,7 +552,7 @@
     "type": "item_group",
     "id": "toastems",
     "subtype": "distribution",
-    "entries": [ { "group": "toastem_box_small_8" }, { "group": "toastem2_box_small_8" }, { "group": "toastem3_box_small_8" } ]
+    "entries": [ { "group": "toastem_box_small_8" } ]
   },
   {
     "type": "item_group",
@@ -649,24 +667,44 @@
     "entries": [
       { "group": "liquor_and_spirits", "prob": 108 },
       { "group": "wines_worthy", "prob": 39 },
-      { "group": "beer", "prob": 141 },
+      { "group": "beer_in_container", "prob": 141 },
       { "group": "misc_alcohol", "prob": 88 }
     ]
   },
   {
+    "id": "any_beer",
     "type": "item_group",
-    "id": "beer",
     "subtype": "distribution",
-    "entries": [
-      { "item": "beer", "prob": 35 },
-      { "item": "european_pilsner", "prob": 25 },
-      { "item": "drink_hard_seltzer", "prob": 25 },
-      { "item": "pale_ale", "prob": 25 },
-      { "item": "india_pale_ale", "prob": 25 },
-      { "item": "stout", "prob": 15 },
-      { "item": "belgian_ale", "prob": 10 },
-      { "item": "imperial_stout", "prob": 4 },
-      { "item": "wine_barley", "prob": 2 }
+    "items": [
+      [ "beer", 35 ],
+      [ "european_pilsner", 25 ],
+      [ "drink_hard_seltzer", 25 ],
+      [ "pale_ale", 25 ],
+      [ "india_pale_ale", 25 ],
+      [ "stout", 15 ],
+      [ "belgian_ale", 10 ],
+      [ "imperial_stout", 4 ],
+      [ "wine_barley", 2 ]
+    ]
+  },
+  {
+    "id": "beer_in_container_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "any_beer", "container-item": "bottle_glass" },
+      { "group": "any_beer", "container-item": "bottle_glass_330ml" },
+      { "group": "any_beer", "container-item": "can_drink" }
+    ]
+  },
+  {
+    "id": "beer_in_container",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "any_beer", "container-item": "bottle_glass", "charges": [ 1, -1 ] },
+      { "group": "any_beer", "container-item": "bottle_glass_330ml", "charges": [ 1, -1 ] },
+      { "group": "any_beer", "container-item": "can_drink", "charges": [ 1, -1 ] }
     ]
   },
   {
@@ -741,8 +779,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "beer", "prob": 15 },
-      { "item": "drink_hard_seltzer", "prob": 15 },
+      { "group": "beer_in_container_full", "prob": 30 },
       { "item": "meat", "prob": 65 },
       { "item": "glazed_tenderloin", "prob": 55, "count": 3 },
       { "item": "fish", "prob": 10 },
@@ -835,7 +872,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "candy_chocolate", "prob": 480 },
-      { "group": "softdrinks_canned", "prob": 480 },
+      { "group": "soda_in_small_container", "prob": 480 },
       { "item": "water_clean", "prob": 90 },
       { "prob": 30, "group": "sandwich_t_wrapper_2" },
       { "item": "sandwich_pb", "prob": 30 },
@@ -1646,5 +1683,91 @@
     "id": "chewing_gum_used_nic",
     "container-item": { "item": "blister_pack_small", "variant": "blister_pack_gum" },
     "items": [ { "item": "caff_gum", "count": [ 0, 12 ] } ]
+  },
+  {
+    "id": "any_milk_standard",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "milk", 20 ], [ "milk_UHT", 80 ] ]
+  },
+  {
+    "id": "any_milk_lactosefree",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "soy_milk", 33 ], [ "almond_milk", 33 ], [ "oat_milk", 11 ], [ "hazelnut_milk", 11 ], [ "walnut_milk", 11 ] ]
+  },
+  {
+    "id": "any_milk",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "any_milk_standard", "prob": 71 }, { "group": "any_milk_lactosefree", "prob": 5 } ]
+  },
+  {
+    "id": "milk_in_container_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "any_milk", "container-item": "jug_plastic" },
+      { "group": "any_milk", "container-item": "jug_plastic_1892ml" },
+      { "group": "any_milk", "container-item": "carton_sealed" },
+      { "group": "any_milk", "container-item": "carton_946ml" }
+    ]
+  },
+  {
+    "id": "milk_in_container",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "any_milk", "container-item": "jug_plastic", "charges": [ 1, -1 ] },
+      { "group": "any_milk", "container-item": "jug_plastic_1892ml", "charges": [ 1, -1 ] },
+      { "group": "any_milk", "container-item": "carton_sealed", "charges": [ 1, -1 ] },
+      { "group": "any_milk", "container-item": "carton_946ml", "charges": [ 1, -1 ] }
+    ]
+  },
+  {
+    "id": "milk_in_big_container_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "any_milk", "container-item": "jug_plastic" } ]
+  },
+  {
+    "id": "beer_in_six_pack_rings",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "six_pack_rings",
+    "entries": [
+      { "prob": 35, "container-item": "can_drink", "count": 6, "item": "beer" },
+      { "prob": 25, "container-item": "can_drink", "count": 6, "item": "european_pilsner" },
+      { "prob": 25, "container-item": "can_drink", "count": 6, "item": "drink_hard_seltzer" },
+      { "prob": 25, "container-item": "can_drink", "count": 6, "item": "pale_ale" },
+      { "prob": 25, "container-item": "can_drink", "count": 6, "item": "india_pale_ale" },
+      { "prob": 15, "container-item": "can_drink", "count": 6, "item": "stout" },
+      { "prob": 10, "container-item": "can_drink", "count": 6, "item": "belgian_ale" },
+      { "prob": 4, "container-item": "can_drink", "count": 6, "item": "imperial_stout" },
+      { "prob": 2, "container-item": "can_drink", "count": 6, "item": "wine_barley" }
+    ]
+  },
+  {
+    "id": "beer_in_six_pack_cardboard",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_medium",
+    "entries": [
+      { "prob": 35, "container-item": "bottle_glass_330ml", "count": 6, "item": "beer" },
+      { "prob": 25, "container-item": "bottle_glass_330ml", "count": 6, "item": "european_pilsner" },
+      { "prob": 25, "container-item": "bottle_glass_330ml", "count": 6, "item": "drink_hard_seltzer" },
+      { "prob": 25, "container-item": "bottle_glass_330ml", "count": 6, "item": "pale_ale" },
+      { "prob": 25, "container-item": "bottle_glass_330ml", "count": 6, "item": "india_pale_ale" },
+      { "prob": 15, "container-item": "bottle_glass_330ml", "count": 6, "item": "stout" },
+      { "prob": 10, "container-item": "bottle_glass_330ml", "count": 6, "item": "belgian_ale" },
+      { "prob": 4, "container-item": "bottle_glass_330ml", "count": 6, "item": "imperial_stout" },
+      { "prob": 2, "container-item": "bottle_glass_330ml", "count": 6, "item": "wine_barley" }
+    ]
+  },
+  {
+    "id": "beer_in_six_pack",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "beer_in_six_pack_rings" }, { "group": "beer_in_six_pack_cardboard" } ]
   }
 ]

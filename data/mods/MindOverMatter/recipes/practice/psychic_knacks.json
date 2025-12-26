@@ -33,7 +33,10 @@
       "practice_telekinetic_push_knack",
       "practice_telekinetic_slam_down_knack",
       "practice_telekinetic_wave_knack",
-      "practice_telekinetic_shield_knack"
+      "practice_telekinetic_shield_knack",
+      "practice_telepathic_blast_knack",
+      "practice_telepathic_blast_radius_knack",
+      "practice_vita_banish_illness_knack"
     ],
     "difficulty": 10
   },
@@ -42,7 +45,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: flexibility",
     "id": "practice_biokin_flexibility_knack",
-    "description": "Contemplate your powers and improve your ability to move your body.",
+    "description": "Contemplate your powers and improve your ability to move your body.\n\nCurrent Power Level: <u_spell_level:biokin_flexibility_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -69,7 +72,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: adrenaline trigger",
     "id": "practice_biokin_adrenaline_knack",
-    "description": "Contemplate your powers and improve your ability to trigger a burst of adrenaline on command.",
+    "description": "Contemplate your powers and improve your ability to trigger a burst of adrenaline on command.\n\nCurrent Power Level: <u_spell_level:biokin_adrenaline_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -96,7 +99,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: heightened senses",
     "id": "practice_clair_better_senses_knack",
-    "description": "Contemplate your powers and improve your ability to enhance your mundane senses.",
+    "description": "Contemplate your powers and improve your ability to enhance your mundane senses.\n\nCurrent Power Level: <u_spell_level:clair_better_senses_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -123,7 +126,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: premonition",
     "id": "practice_clair_danger_sense_knack",
-    "description": "Contemplate your powers and improve your sense of nearby danger.",
+    "description": "Contemplate your powers and improve your sense of nearby danger.\n\nCurrent Power Level: <u_spell_level:clair_danger_sense_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -150,7 +153,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: psychometry",
     "id": "practice_clair_examine_item_knack",
-    "description": "Contemplate your powers and improve your ability to determine hidden aspects of items.",
+    "description": "Contemplate your powers and improve your ability to determine hidden aspects of items.\n\nCurrent Power Level: <u_spell_level:clair_examine_item_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -177,7 +180,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: astral projection",
     "id": "practice_clair_astral_projection_knack",
-    "description": "Contemplate your powers and improve your ability to cast your spirit forth from your body.",
+    "description": "Contemplate your powers and improve your ability to cast your spirit forth from your body.\n\nCurrent Power Level: <u_spell_level:clair_astral_projection_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -204,7 +207,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: spark sight",
     "id": "practice_electrokinetic_see_electric_knack",
-    "description": "Contemplate your powers and improve your ability to detect electrical creatures or robots.",
+    "description": "Contemplate your powers and improve your ability to detect electrical creatures or robots.\n\nCurrent Power Level: <u_spell_level:electrokinetic_see_electric_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -231,7 +234,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: analgesic block",
     "id": "practice_electrokinetic_pain_immune_knack",
-    "description": "Contemplate your powers and improve your ability to put off the effects of pain completely until later.",
+    "description": "Contemplate your powers and improve your ability to put off the effects of pain completely until later.\n\nCurrent Power Level: <u_spell_level:electrokinetic_pain_immune_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -258,7 +261,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: hacking interface",
     "id": "practice_electrokinetic_hacking_interface_knack",
-    "description": "Contemplate your powers and improve your ability to hack nearby devices with your powers.",
+    "description": "Contemplate your powers and improve your ability to hack nearby devices with your powers.\n\nCurrent Power Level: <u_spell_level:electrokinetic_hacking_interface_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -285,7 +288,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: chameleoflage",
     "id": "practice_photokinetic_camouflage_knack",
-    "description": "Contemplate your powers and improve your ability to hide your presence from distance observers.",
+    "description": "Contemplate your powers and improve your ability to hide your presence from distance observers.\n\nCurrent Power Level: <u_spell_level:photokinetic_camouflage_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -312,7 +315,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: mirror-mask",
     "id": "practice_photokinetic_hide_ugly_knack",
-    "description": "Contemplate your powers and improve your ability to disguise your appearance behind an illusion.",
+    "description": "Contemplate your powers and improve your ability to disguise your appearance behind an illusion.\n\nCurrent Power Level: <u_spell_level:photokinetic_hide_ugly_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -339,7 +342,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: radio transception",
     "id": "practice_photokinetic_radio_knack",
-    "description": "Contemplate your powers and improve your ability to see, interpret, and transmit radio waves.",
+    "description": "Contemplate your powers and improve your ability to see, interpret, and transmit radio waves.\n\nCurrent Power Level: <u_spell_level:photokinetic_radio_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -366,7 +369,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: brilliant flash",
     "id": "practice_pyrokinetic_flash_knack",
-    "description": "Contemplate your powers and improve your ability to create light.",
+    "description": "Contemplate your powers and improve your ability to create light.\n\nCurrent Power Level: <u_spell_level:pyrokinetic_flash_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -392,7 +395,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: intensify flames",
     "id": "practice_pyrokinetic_intensify_flames_knack",
-    "description": "Contemplate your powers and improve your ability increase the strength of existing flames.",
+    "description": "Contemplate your powers and improve your ability increase the strength of existing flames.\n\nCurrent Power Level: <u_spell_level:pyrokinetic_intensify_flames_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -418,7 +421,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: fountain of flames",
     "id": "practice_pyrokinetic_eruption_knack",
-    "description": "Contemplate your powers and improve your ability to summon flames.",
+    "description": "Contemplate your powers and improve your ability to summon flames.\n\nCurrent Power Level: <u_spell_level:pyrokinetic_eruption_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -444,7 +447,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: banked flames",
     "id": "practice_pyrokinetic_call_flames_knack",
-    "description": "Contemplate your powers and improve your ability to summon a controlled flame.",
+    "description": "Contemplate your powers and improve your ability to summon a controlled flame.\n\nCurrent Power Level: <u_spell_level:pyrokinetic_call_flames_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -470,7 +473,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: cloak of warmth",
     "id": "practice_pyrokinetic_cloak_knack",
-    "description": "Contemplate your powers and improve your control of nearby temperatures.",
+    "description": "Contemplate your powers and improve your control of nearby temperatures.\n\nCurrent Power Level: <u_spell_level:pyrokinetic_cloak_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -496,7 +499,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: flamethrower",
     "id": "practice_pyrokinetic_flamethrower_knack",
-    "description": "Contemplate your powers and improve your ability to direct a spray of flame.",
+    "description": "Contemplate your powers and improve your ability to direct a spray of flame.\n\nCurrent Power Level: <u_spell_level:pyrokinetic_flamethrower_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -522,7 +525,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: blazing aura",
     "id": "practice_pyrokinetic_aura_knack",
-    "description": "Contemplate your powers and improve your ability to heat the surrounding air to dangerous temperatures.",
+    "description": "Contemplate your powers and improve your ability to heat the surrounding air to dangerous temperatures.\n\nCurrent Power Level: <u_spell_level:pyrokinetic_aura_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -548,7 +551,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: conflagration",
     "id": "practice_pyrokinetic_blast_knack",
-    "description": "Contemplate your powers and improve your manifestation of explosions.",
+    "description": "Contemplate your powers and improve your manifestation of explosions.\n\nCurrent Power Level: <u_spell_level:pyrokinetic_blast_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -574,7 +577,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: far hand",
     "id": "practice_telekinetic_pull_knack",
-    "description": "Contemplate your powers and improve your manipulation of non-living matter.",
+    "description": "Contemplate your powers and improve your manipulation of non-living matter.\n\nCurrent Power Level: <u_spell_level:telekinetic_pull_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -601,7 +604,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: force shove",
     "id": "practice_telekinetic_push_knack",
-    "description": "Contemplate your powers and improve your manipulation of living beings.",
+    "description": "Contemplate your powers and improve your manipulation of living beings.\n\nCurrent Power Level: <u_spell_level:telekinetic_push_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -628,7 +631,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: knockdown",
     "id": "practice_telekinetic_slam_down_knack",
-    "description": "Contemplate your powers and improve your ability to knock your targets over.",
+    "description": "Contemplate your powers and improve your ability to knock your targets over.\n\nCurrent Power Level: <u_spell_level:telekinetic_slam_down_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -655,7 +658,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: wave of force",
     "id": "practice_telekinetic_wave_knack",
-    "description": "Contemplate your powers and develop your ability to control bursts of telekinetic force.",
+    "description": "Contemplate your powers and develop your ability to control bursts of telekinetic force.\n\nCurrent Power Level: <u_spell_level:telekinetic_wave_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -682,7 +685,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: inertial barrier",
     "id": "practice_telekinetic_shield_knack",
-    "description": "Contemplate your powers and improve your creation of force barriers.",
+    "description": "Contemplate your powers and improve your creation of force barriers.\n\nCurrent Power Level: <u_spell_level:telekinetic_shield_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -696,9 +699,90 @@
         "id": "EOC_PRACTICE_TELEKIN_BARRIER_KNACK",
         "condition": { "u_has_trait": "PSYCHIC_KNACK" },
         "effect": [
-          { "set_string_var": "telekinetic_wave_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "set_string_var": "telekinetic_shield_knack", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "run_eocs": [ "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: synaptic overload",
+    "id": "practice_telepathic_blast_knack",
+    "description": "Contemplate your powers and improve your mental strength to telepathically assault your enemies.\n\nCurrent Power Level: <u_spell_level:telepathic_blast_knack>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEPATHIC_BLAST_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "telepathic_blast_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: psychic scream",
+    "id": "practice_telepathic_blast_radius_knack",
+    "description": "Contemplate your powers and improve the volume of your undirected psionic shrieking.\n\nCurrent Power Level: <u_spell_level:telepathic_blast_radius_knack>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEPATHIC_BLAST_RADIUS_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "telepathic_blast_radius_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: banish illness",
+    "id": "practice_vita_banish_illness_knack",
+    "description": "Contemplate your powers and improve your ability to cure permanent or long-term conditions.\n\nCurrent Power Level: <u_spell_level:vita_banish_illness_knack>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_VITAKIN_BANISH_ILLNESS_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "vita_banish_illness_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
           }
         ]
       }

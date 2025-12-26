@@ -174,7 +174,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "ring of Gyges", "str_pl": "rings of Gyges" },
     "description": "A small ring.  There is nothing special about it, except the word \"Republic\" embossed on it.",
-    "weight": "9 g",
+    "weight": "1 g",
     "volume": "1 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",

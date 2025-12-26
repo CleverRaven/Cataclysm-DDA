@@ -578,7 +578,7 @@ bool damage_instance::handle_proportional( const JsonValue &jval )
         prop_damage.unconditional_res_mult *= read_proportional_entry( jo, "constant_armor_multiplier" );
         prop_damage.unconditional_damage_mult *= read_proportional_entry( jo,
                 "constant_damage_multiplier" );
-        float barrel_mult = read_proportional_entry( jo, "barrels" );
+        float barrel_mult = read_proportional_entry( jo, "amount" );
         for( barrel_desc &bd : prop_damage.barrels ) {
             bd.amount *= barrel_mult;
         }

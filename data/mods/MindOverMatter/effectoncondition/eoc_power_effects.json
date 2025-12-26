@@ -181,6 +181,30 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MOM_CASCADE_STONE_POWER_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_effect": "effect_mom_cascade_stone" },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('cost','flag_whitelist': 'PSIONIC') = -.9" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_CASCADE_STONE_CONSEQUENCES",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
+        { "u_has_effect": "effect_mom_cascade_stone" }
+      ]
+    },
+    "effect": [
+      { "if": { "math": [ "rand(1) >= 1" ] }, "then": { "math": [ "u_health() -= 1" ] } },
+      { "if": { "math": [ "rand(8) >= 7" ] }, "then": { "u_deal_damage": "biological", "amount": 1, "arpen": 999 } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_MOM_PSYCHIC_VAMPIRE_TELEPATHY",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
@@ -218,7 +242,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('casting_time', 'flag_whitelist': 'PSIONIC') = 25" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('casting_time', 'flag_whitelist': 'PSIONIC') = 4" ] } ]
   },
   {
     "type": "effect_on_condition",

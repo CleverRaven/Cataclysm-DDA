@@ -80,7 +80,7 @@ TEST_CASE( "Damage_indicator_thresholds", "[item][damage_level]" )
     item it( itype_test_baseball );
     CHECK( it.damage() == 0 );
     CHECK( it.degradation() == 0 );
-    for( int dmg = 0; dmg <= it.type->damage_max(); dmg++ ) {
+    for( int dmg = 0; dmg <= it.type->damage_max(); dmg += itype::damage_scale ) {
         it.set_damage( dmg );
         CHECK( it.damage() == dmg );
         CAPTURE( it.damage() );

@@ -243,7 +243,7 @@
     "//": "a general group that was probably intended to spawn in radio tower maintenance offices or similar, but currently only called as a zombie scientist drop. This needs a revamp.",
     "subtype": "distribution",
     "entries": [
-      { "group": "softdrinks_canned", "prob": 290 },
+      { "group": "soda_in_small_container", "prob": 290 },
       { "prob": 25, "group": "caffeine_bottle_plastic_pill_supplement_10" },
       { "prob": 30, "group": "maltballs_box_snack_4" },
       { "group": "tobacco_products", "prob": 141 },
@@ -288,8 +288,7 @@
       { "item": "radiocontrol", "prob": 15, "charges": [ 0, 100 ] },
       { "item": "thermometer", "prob": 10 },
       { "item": "hygrometer", "prob": 10 },
-      { "item": "barometer", "prob": 10 },
-      { "item": "weather_reader", "prob": 1 }
+      { "item": "barometer", "prob": 10 }
     ]
   },
   {

@@ -31,6 +31,7 @@
       [ "thermometer", 3 ],
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
+      { "item": "mobile_weather_station", "prob": 1, "charges": [ 0, 1000 ] },
       { "item": "electrohack", "prob": 3, "charges": [ 0, 100 ] },
       [ "RAM", 22 ],
       [ "screwdriver", 40 ],
@@ -316,6 +317,7 @@
         ]
       },
       { "item": "iv_mutagen", "prob": 100, "count": 1 },
+      { "item": "mutagen_chelator", "prob": 80, "count": [ 1, 2 ] },
       { "item": "syringe", "prob": 100, "count": 2 },
       { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
       { "item": "lab_file_mutagen_guide", "prob": 100 },
@@ -329,6 +331,7 @@
     "subtype": "collection",
     "items": [
       { "item": "iv_mutagen", "prob": 100, "count": 5 },
+      { "item": "mutagen_chelator", "prob": 100, "count": 3 },
       { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
       { "item": "lab_file_mutagen_guide", "prob": 100 },
       { "item": "lab_file_mutation_testing", "prob": 100 }
@@ -372,6 +375,7 @@
         ]
       },
       { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
+      { "item": "mutagen_chelator", "prob": 80, "count": [ 1, 2 ] },
       { "item": "lab_file_mutagen_guide", "prob": 100 },
       { "item": "lab_file_mutation_testing", "prob": 100 }
     ]
@@ -411,6 +415,7 @@
           { "item": "mutagen_crustacean", "count": [ 7, 11 ], "prob": 2 }
         ]
       },
+      { "item": "mutagen_chelator", "prob": 50, "count": 1 },
       { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
       { "item": "lab_file_mutagen_guide", "prob": 100 },
       { "item": "lab_file_mutation_testing", "prob": 100 }
@@ -479,8 +484,7 @@
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
       [ "boots_rubber", 20 ],
       [ "recipe_medicalmut", 2 ],
-      [ "canister_goo", 8 ],
-      [ "canister_goo", 8 ],
+      [ "canister_goo", 16 ],
       [ "recipe_labchem", 2 ],
       [ "recipe_creepy", 2 ],
       [ "recipe_animal", 1 ],
@@ -634,5 +638,11 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_glass",
     "entries": [ { "item": "chem_citric_acid", "container-item": "null", "count": [ 100, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "any_centrifuge",
+    "subtype": "distribution",
+    "items": [ [ "microcentrifuge", 1 ], [ "centrifuge", 1 ] ]
   }
 ]

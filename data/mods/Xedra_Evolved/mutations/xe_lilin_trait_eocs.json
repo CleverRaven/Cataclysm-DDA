@@ -29,7 +29,7 @@
           ]
         },
         "else": [
-          { "u_message": "You are already so beautiful no illusion could enhance your appearance", "type": "mixed" },
+          { "u_message": "You are already so beautiful no illusion could enhance your appearance.", "type": "mixed" },
           { "run_eocs": "EOC_LILIN_TEMPORARY_GLORIOUS_deactivate_future", "time_in_future": 0 }
         ]
       }

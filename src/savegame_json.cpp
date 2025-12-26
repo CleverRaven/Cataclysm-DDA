@@ -259,7 +259,7 @@ static tripoint_bub_ms read_legacy_creature_pos( const JsonObject &data )
 
 void item_contents::serialize( JsonOut &json ) const
 {
-    if( !contents.empty() || !get_all_ablative_pockets().empty() || !additional_pockets.empty() ) {
+    if( !contents.empty() || !get_ablative_pockets().empty() || !additional_pockets.empty() ) {
         json.start_object();
 
         json.member( "contents", contents );
@@ -431,8 +431,8 @@ void player_activity::deserialize( const JsonObject &data )
     // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
     // this may cause inconvenience but should avoid any lasting damage to npcs
     if( is_obsolete || ( has_actor && ( data.has_null( "actor" ) || !data.has_member( "actor" ) ) ) ) {
+        actor = std::make_unique<migration_cancel_activity_actor>( type );
         type = ACT_MIGRATION_CANCEL;
-        actor = std::make_unique<migration_cancel_activity_actor>();
     } else {
         data.read( "actor", actor );
     }
@@ -3875,6 +3875,7 @@ void Creature::store( JsonOut &jsout ) const
 
     jsout.member( "blocks_left", num_blocks );
     jsout.member( "dodges_left", num_dodges );
+    jsout.member( "num_free_dodges", num_free_dodges );
     jsout.member( "num_blocks_bonus", num_blocks_bonus );
     jsout.member( "num_dodges_bonus", num_dodges_bonus );
 
@@ -4997,6 +4998,7 @@ void submap::store( JsonOut &jsout ) const
                     jsout.write( cur.get_field_type().id() );
                     jsout.write( cur.get_field_intensity() );
                     jsout.write( cur.get_field_age() );
+                    cur.get_effect_source().serialize( jsout );
                 }
                 jsout.end_array();
             }
@@ -5258,18 +5260,20 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                     field_type_str_id ft = field_type_str_id( type_value.get_string() );
                     const int intensity = field_json.next_int();
                     const int age = field_json.next_int();
+                    effect_source source;
+                    if( version >= 39 ) {
+                        const JsonObject source_obj = field_json.next_object();
+                        source.deserialize( source_obj );
+                    }
                     if( auto it = field_migrations.find( ft ); it != field_migrations.end() ) {
                         ft = it->second;
                     }
                     if( !ft.is_valid() ) {
                         debugmsg( "invalid field_type_str_id '%s'", ft.c_str() );
                     } else if( ft != field_type_str_id::NULL_ID() &&
-                               m->fld[i][j].add_field( ft.id(), intensity, time_duration::from_turns( age ) ) ) {
+                               m->fld[i][j].add_field( ft.id(), intensity, time_duration::from_turns( age ), source ) ) {
                         field_count++;
                     }
-                } else { // Handle removed int enum method
-                    field_json.next_value(); // Skip intensity
-                    field_json.next_value(); // Skip age
                 }
             }
         }

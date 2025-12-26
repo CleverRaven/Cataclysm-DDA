@@ -522,7 +522,7 @@
     "min_damage": 1,
     "max_damage": {
       "math": [
-        " (u_spell_level('photokinetic_light_beam') / 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        " (u_spell_level('photokinetic_light_image') / 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_duration": {

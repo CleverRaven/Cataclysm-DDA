@@ -146,7 +146,7 @@
     "id": "concentration_trait_bonuses",
     "num_args": 0,
     "//": "Effects with an intelligence penalty have not been included below to avoid double counting",
-    "return": "(u_has_trait('CONCENTRATION_GOOD')) + (u_has_trait('CONCENTRATION_BAD') ? -1 : 0) + (u_has_trait('INT_ALPHA')) + (u_has_trait('NOMAD2') ? -1 : 0) + (u_has_trait('NOMAD3') ? -1 : 0) + (u_has_trait('PER_SLIME') ? -15 : 0) + (u_has_trait('CONCENTRATION_DEBUG') ? 50 : 0) + (u_has_proficiency('prof_concentration_basic')) + (u_has_proficiency('prof_concentration_intermediate')) + (u_has_proficiency('prof_concentration_master') * 2) + (u_effect_intensity('effect_disease_psionic_drain') > 4 ? -1 : 0) + (u_effect_intensity('effect_disease_psionic_drain') > 10 ? -1 : 0) + (u_effect_intensity('hallu') > 0 ? -1 : 0) + (u_effect_intensity('winded') > 0 ? -2 : 0) + (u_effect_intensity('nausea') > 0 ? -1 : 0) + (u_effect_intensity('nausea') > 3 ? -1 : 0) +  (u_effect_intensity('cold') > 1 ? -1 : 0) + (u_effect_intensity('hot') > 1 ? -1 : 0) + (u_effect_intensity('asthma') > 0 ? -3 : 0) + (u_effect_intensity('datura') > 0 ? -3 : 0) + (u_effect_intensity('dazed') > 0 ? -2 : 0) + (u_effect_intensity('psi_dazed') > 0 ? -2 : 0) + (u_effect_intensity('psi_dazed_zap') > 0 ? -1 : 0) + (u_effect_intensity('downed') > 0 ? -2 : 0) + (u_effect_intensity('boomered') > 0 ? -1 : 0) + (u_effect_intensity('conjunctivitis') > 0 ? -1 : 0) + (u_effect_intensity('teargas') > 0 ? -3 : 0) + (u_effect_intensity('smoke_eyes') > 0 ? -1 : 0) + (u_effect_intensity('smoke_lungs') > 0 ? -2 : 0) + (u_effect_intensity('effect_whispering_amalgamation_whispers') > 0 ? -2 : 0)"
+    "return": "(u_has_trait('CONCENTRATION_GOOD')) + (u_has_trait('CONCENTRATION_BAD') ? -1 : 0) + (u_has_trait('INT_ALPHA')) + (u_has_trait('NOMAD2') ? -1 : 0) + (u_has_trait('NOMAD3') ? -1 : 0) + (u_has_trait('PER_SLIME') ? -15 : 0) + (u_has_trait('CONCENTRATION_DEBUG') ? 50 : 0) + (u_has_proficiency('prof_concentration_basic')) + (u_has_proficiency('prof_concentration_intermediate')) + (u_has_proficiency('prof_concentration_master') * 2) + (u_effect_intensity('effect_disease_psionic_drain') > 4 ? -1 : 0) + (u_effect_intensity('effect_disease_psionic_drain') > 10 ? -1 : 0) + (u_effect_intensity('effect_psi_studying_power') > 0 ? -2 : 0) + (u_effect_intensity('effect_psi_learning_new_power') > 0 ? -3 : 0) + (u_effect_intensity('hallu') > 0 ? -1 : 0) + (u_effect_intensity('winded') > 0 ? -2 : 0) + (u_effect_intensity('nausea') > 0 ? -1 : 0) + (u_effect_intensity('nausea') > 3 ? -1 : 0) +  (u_effect_intensity('cold') > 1 ? -1 : 0) + (u_effect_intensity('hot') > 1 ? -1 : 0) + (u_effect_intensity('asthma') > 0 ? -3 : 0) + (u_effect_intensity('datura') > 0 ? -3 : 0) + (u_effect_intensity('dazed') > 0 ? -2 : 0) + (u_effect_intensity('psi_dazed') > 0 ? -2 : 0) + (u_effect_intensity('psi_dazed_zap') > 0 ? -1 : 0) + (u_effect_intensity('downed') > 0 ? -2 : 0) + (u_effect_intensity('boomered') > 0 ? -1 : 0) + (u_effect_intensity('conjunctivitis') > 0 ? -1 : 0) + (u_effect_intensity('teargas') > 0 ? -3 : 0) + (u_effect_intensity('smoke_eyes') > 0 ? -1 : 0) + (u_effect_intensity('smoke_lungs') > 0 ? -2 : 0) + (u_effect_intensity('effect_whispering_amalgamation_whispers') > 0 ? -2 : 0)"
   },
   {
     "type": "jmath_function",
@@ -163,15 +163,27 @@
   {
     "type": "jmath_function",
     "id": "contemplation_factor",
-    "num_args": 1,
-    "//": "This equates to about 400 XP per hour of contemplation when at minimum focus, modified by Nether Attunement",
-    "return": "(u_val('focus_effective') * 0.004) * (_0) * u_nether_attunement_power_scaling"
+    "num_args": 0,
+    "//": "This equates to about 400 XP per hour of contemplation when at minimum focus, modified by Nether Attunement.  Maintaining powers reduces the XP by a lot.",
+    "return": "(u_val('focus_effective') * 0.004) * u_nether_attunement_power_scaling * clamp( ( ( u_vitamin('vitamin_maintained_powers') > 0 ) ? ( (1 + u_has_proficiency('prof_concentration_master') ) / ( 1 + u_vitamin('vitamin_maintained_powers') ) ) : 1), 0.1,1)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "learn_new_power_learn_roll",
+    "num_args": 0,
+    "return": "max( (rand(u_skill('metaphysics') ) ), ( u_skill('metaphysics') / 2 ) ) + rand(u_val('intelligence') / 2 ) + (u_has_proficiency(u_latest_studied_power_proficiency) * 5) + rng(-2,8) + rng(-2,8) + learn_new_power_additional_modifiers()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "learn_new_power_additional_modifiers",
+    "num_args": 0,
+    "return": "(u_effect_intensity('effect_disease_psionic_drain') > 5 ? 1 : 0) + (u_effect_intensity('effect_disease_psionic_drain') > 10 ? 1 : 0) + (u_effect_intensity('psi_nether_attention') > 0 ? 2 : 0)"
   },
   {
     "type": "jmath_function",
     "id": "learn_new_power_difficulty_setting",
     "num_args": 0,
-    "return": "u_latest_studied_power_difficulty + 4"
+    "return": "(u_latest_studied_power_difficulty * 1.5) + 7 + clamp( ( (u_vitamin('vitamin_maintained_powers') * 2) - 1 ), 0, 10) + (concentration_calculations() < 0 ? ( concentration_calculations() * -1 ) : 0)"
   },
   {
     "type": "jmath_function",
@@ -202,7 +214,7 @@
     "id": "jmath_psi_learning_counter_time_low",
     "num_args": 1,
     "//": "Reduces time between insight moments by 3% per point of Intelligence above 10 (increase by 3% per point below 10), to a max of 60% faster from intelligence, and by 5% per point of Metaphysics skill above 5.",
-    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * clamp(( 1 - (((u_skill('metaphysics') - 4) + 20 ) / 21) + 1),0.75,1)"
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * clamp( ( 1 - ( ( (u_skill('metaphysics') - 4) + 20 ) / 21) + 1),0.75,1)"
   },
   {
     "type": "jmath_function",
@@ -268,6 +280,12 @@
     "type": "jmath_function",
     "id": "jmath_telepathy_knacks_combined_level",
     "num_args": 0,
-    "return": "u_spell_level('telepathic_shield_knack') + u_spell_level('telepathic_mind_sense_knack') + u_spell_level('telepathic_morale_knack') + u_spell_level('telepathic_mesmerize_knack') + u_spell_level('telepathic_animal_mind_control_knack') + u_spell_level('telepathic_invisibility_knack')"
+    "return": "u_spell_level('telepathic_shield_knack') + u_spell_level('telepathic_mind_sense_knack') + u_spell_level('telepathic_morale_knack') + u_spell_level('telepathic_blast_knack') + u_spell_level('telepathic_mesmerize_knack') + u_spell_level('telepathic_animal_mind_control_knack') + u_spell_level('telepathic_invisibility_knack') + u_spell_level('telepathic_blast_radius_knack')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "vita_banish_illness_equation",
+    "num_args": 0,
+    "return": "rand(u_spell_level('vita_banish_illness') ) + rand(u_spell_level('vita_banish_illness_knack') ) + rand(u_val('intelligence') / 2) + rng(-2,8) + rng(-2,8) + (u_effect_intensity('effect_disease_psionic_drain') > 5 ? 1 : 0) + (u_effect_intensity('effect_disease_psionic_drain') > 10 ? 1 : 0)"
   }
 ]

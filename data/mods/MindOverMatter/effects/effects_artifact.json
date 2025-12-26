@@ -100,5 +100,16 @@
     "rating": "bad",
     "show_in_info": true,
     "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 5 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_burning_cloak",
+    "name": [ "Burning Air" ],
+    "desc": [ "The air around you is superheated." ],
+    "apply_message": "",
+    "remove_message": "The air around you loses its heat.",
+    "rating": "good",
+    "removes_effects": [ "effect_pyrokinetic_aura_damage" ],
+    "enchantments": [ { "emitter": "emit_pyrokinetic_aura_4" } ]
   }
 ]

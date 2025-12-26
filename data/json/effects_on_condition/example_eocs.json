@@ -449,9 +449,9 @@
     "effect": [
       {
         "run_eoc_selector": [ "EOC_control_npc", "EOC_return_to_player" ],
-        "names": [ "Control a NPC", "Return to Player" ],
+        "names": [ "Control an NPC", "Return to Player" ],
         "keys": [ "a", "b" ],
-        "descriptions": [ "Control a NPC", "Return to Player" ],
+        "descriptions": [ "Control an NPC", "Return to Player" ],
         "allow_cancel": true
       }
     ]
@@ -467,10 +467,10 @@
         "then": {
           "run_eocs": {
             "id": "_EOC_control_npc_do",
-            "effect": [ { "if": "npc_is_npc", "then": [ "follow", "take_control" ], "else": { "message": "Please select a NPC." } } ]
+            "effect": [ { "if": "npc_is_npc", "then": [ "follow", "take_control" ], "else": { "message": "Please select an NPC." } } ]
           },
           "beta_loc": { "context_val": "loc" },
-          "false_eocs": { "id": "_EOC_control_npc_fail_msg", "effect": { "message": "Please select a NPC." } }
+          "false_eocs": { "id": "_EOC_control_npc_fail_msg", "effect": { "message": "Please select an NPC." } }
         },
         "else": { "u_message": "Canceled" }
       }
@@ -496,7 +496,7 @@
         "run_eocs": { "id": "_EOC_hello_world_msg", "effect": { "message": "hello world" } },
         "alpha_talker": "",
         "beta_talker": "",
-        "false_eocs": { "id": "_EOC_null_talker_msg", "effect": { "message": "Constructed a EOC with no talkers!" } }
+        "false_eocs": { "id": "_EOC_null_talker_msg", "effect": { "message": "Constructed an EOC with no talkers!" } }
       }
     ]
   },

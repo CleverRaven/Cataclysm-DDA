@@ -98,8 +98,9 @@ Finally, there are some sources of true-random mutations that can be inflicted b
 
 ### Further reading and relevant files
 
-`data/json/mutations/changing_eocs.json` - contains the EOCs that power the mutation system
-`data/json/mutations/mutations.json` - type definitions for every mutation in the game
+[changing_eocs.json](/data/json/effects_on_condition/mutation_eocs/changing_eocs.json) - contains the EOCs that power the mutation system
+
+[mutations/](/data/json/mutations/) - type definitions for every mutation in the game
 
 # Syntax documentation
 
@@ -152,7 +153,7 @@ Specific mutations are extremely versatile. A mutation only needs to have a few 
       "min_bravery": -10,                              // mins or maxes defined *at all* will be applied to all NPCs.)
       "max_bravery": 10,                               //
       "min_collector": -10,                            // As an example, a trait with a `personality_score` which defines only `"min_bravery": -5` will be applied to NPCs with
-      "max_collector": 10,                             // bravery of -5, -1, 0, 2, 7, or 10 (all of them being higher than the minimum), but not to a NPC with -6 (being lower than the
+      "max_collector": 10,                             // bravery of -5, -1, 0, 2, 7, or 10 (all of them being higher than the minimum), but not to an NPC with -6 (being lower than the
       "min_altruism": -10,                             // minimum). This can be used to define a range of values for which a trait should be applied (e.g. min 2 max 4 excludes all
       "max_altruism": 10,                              // numbers except 2, 3, and 4.)
     }
@@ -323,7 +324,7 @@ These fields are optional, but are very frequently used in mutations and their c
 | `starting_trait`  | false   | If true, this trait can be selected during character creation.                                                                                              |
 | `valid`           | true    | Whether or not this trait can be obtained through mutation. Invalid traits are still obtainable while creating a character.                                 |
 | `purifiable`      | true    | Whether or not this trait can be removed. If false, the trait cannot be removed by any means.                                                               |
-| `player_display`  | true    | If false, this trait is invisible, and will not appear in messages or the character sheet.                                                                  |
+| `player_display`  | true    | If false, this trait is invisible, and will not appear in messages or the character sheet. Also implies that this mutation is non-translatable, see [here](/doc/JSON/JSON_INFO.md#translatable-strings). |
 | `mixed_effect`    | false   | Whether this trait has both positive and negative effects. Used only for UI; mixed mutations will appear with purple text instead of green, yellow, or red (which is usually automatically determined by point cost). |
 | `vanity`          | false   | This trait is purely cosmetic, and can be changed at any time. This is for things like skin color, eye color, hair color, etc.                              |
 | `debug`           | false   | Identifies this trait as a debug trait that should never be obtainable in normal play. Debug traits will have a distinct teal color on the character sheet. |

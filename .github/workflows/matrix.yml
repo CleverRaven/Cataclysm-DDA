@@ -46,7 +46,7 @@ concurrency:
 # | GCC 9, Curses, LTO                   | ubuntu   | gcc-9    | oldest   (gcc) |       |       | yes      |       | yes       | yes |          |      |
 # | GCC 14, Ubuntu, Curses               | ubuntu   | gcc-14   | newest   (gcc) |       |       | yes      |       |           |     |          |      |
 # | GCC 9, Ubuntu, Tiles, Sound, CMake   | ubuntu   | gcc-9    | oldest   (gcc) | yes   | yes   |          | yes   |           |     |          |      |
-# | macOS 13, Apple Clang 15             | macOS 13 | apple clang-15  |  N/A    | yes   | yes   | yes      |       |           |     |          |      |
+# | macOS 15, Apple Clang 17             | macOS 15 | apple clang-17  |  N/A    | yes   | yes   | yes      |       |           |     |          |      |
 # | Windows (in msvc-full-features.yml)  | windows  | msvc     |     N/A        | yes   | yes   | yes      |       | yes?      |     |          |      |
 
 jobs:
@@ -120,9 +120,9 @@ jobs:
             tiles: 1
             sound: 1
             localize: 1
-            title: macOS 15, Apple Clang 18, Tiles, Sound, x64 and arm64 Universal Binary
+            title: macOS 15, Apple Clang 17, Tiles, Sound, x64 and arm64 Universal Binary
             ccache_limit: 12G
-            ccache_key: macos-llvm-15-universal
+            ccache_key: macos-llvm-17-universal
 
           - title: Android x64 (build only)
             os: ubuntu-latest
@@ -224,11 +224,15 @@ jobs:
           }}
         SKIP_TESTS: ${{ fromJSON(needs.matrix-variables.outputs.skip_tests) || (matrix.android != '') }}
     steps:
-    - name: Maximize build space
+    - name: Maximize build space (ubuntu)
       if: ${{ runner.os == 'Linux' }}
       uses: AdityaGarg8/remove-unwanted-software@v4.1
       with:
         remove-android: ${{ matrix.android == '' }}
+    - name: Maximize build space (mac)
+      if: ${{ runner.os == 'macos' && matrix.android == '' }}
+      run: |
+        sudo rm -rf $ANDROID_HOME
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
       uses: actions/checkout@v4

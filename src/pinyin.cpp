@@ -20,7 +20,7 @@ bool pinyin_match( const std::u32string_view str, const std::u32string_view qry 
     //Build the indexed map if not built yet
     if( indexed_pinyin_map.empty() ) {
         for( auto const &entry : pinyin_data ) {
-            //entry.first = a pinyin; entry.second = all characters that have this pronounciation
+            //entry.first = a pinyin; entry.second = all characters that have this pronunciation
             for( const char32_t current_char : entry.second ) {
                 //for each character, use it as the index and add its pinyin to the indexed map
                 if( indexed_pinyin_map.find( current_char ) == indexed_pinyin_map.end() ) {
@@ -46,7 +46,7 @@ bool pinyin_match( const std::u32string_view str, const std::u32string_view qry 
         //longest pinyin is 6 letter for a character, so we pre-allocate here
         current_combination.reserve( str.length() * 6 );
 
-        int combination = combination_index;    //a copy so the record will not be destoryed
+        int combination = combination_index;    //a copy so the record will not be destroyed
         int total_combination = 1;              //the total possible amount of combinations
 
         for( const char32_t ch : str ) {

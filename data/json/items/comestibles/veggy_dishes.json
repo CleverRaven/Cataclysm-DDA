@@ -1184,6 +1184,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } }
     ],
     "copy-from": "veggy",
+    "smoking_result": "null",
     "proportional": { "weight": 0.5 },
     "color": "green",
     "spoils_in": "360 days",
@@ -1791,5 +1792,27 @@
     "price": "50 cent",
     "price_postapoc": "30 cent",
     "sealed": true
+  },
+  {
+    "id": "vegetarian_dolmas",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "vegetarian dolmas" },
+    "symbol": "%",
+    "looks_like": "homemade_burrito",
+    "description": "Grape leaves stuffed with rice, vegetables, and spices.  A popular dish in Mediterranean and Middle Eastern cuisines.",
+    "price_postapoc": "40 cent",
+    "material": [ "veggy" ],
+    "primary_material": "veggy",
+    "color": "green",
+    "weight": "110 g",
+    "volume": "104 ml",
+    "spoils_in": "6 days",
+    "calories": 140,
+    "fun": 5,
+    "flags": [ "FREEZERBURN" ],
+    "quench": -2,
+    "vitamins": [ [ "vitC", 10 ], [ "iron", 10 ], [ "veggy_allergen", 1 ], [ "calcium", 4 ] ]
   }
 ]

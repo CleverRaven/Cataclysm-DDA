@@ -264,21 +264,82 @@
     "type": "effect_on_condition",
     "id": "EOC_CONDITION_MONSTER_MAINTAINING_PSI_POWER",
     "condition": {
-      "or": [
-        { "u_has_effect": "effect_monster_hardened_skin" },
-        { "u_has_effect": "effect_monster_heightened_reflex" },
-        { "u_has_effect": "effect_monster_heightened_reflex_enhanced" },
-        { "u_has_effect": "effect_psi_biokin3_hurricane_blows" },
-        { "u_has_effect": "effect_feral_regeneration" },
-        { "u_has_effect": "effect_pattern_screamer_rock_thrower" },
-        { "u_has_effect": "effect_monster_neuro_acceleration" },
-        { "u_has_effect": "effect_monster_neuro_acceleration_enhanced" },
-        { "u_has_effect": "effect_monster_pyrokinetic_fire_immunity" },
-        { "u_has_effect": "effect_monster_momentum_alteration" },
-        { "u_has_effect": "effect_monster_inertial_barrier" },
-        { "u_has_effect": "effect_monster_inertial_barrier_improved" },
-        { "u_has_effect": "effect_feral_regeneration" },
-        { "u_has_effect": "effect_telepath_network_monster_effect" }
+      "u_has_any_effect": [
+        "effect_monster_hardened_skin",
+        "effect_monster_heightened_reflex",
+        "effect_monster_heightened_reflex_enhanced",
+        "effect_psi_biokin3_hurricane_blows",
+        "effect_feral_heightened_senses",
+        "effect_feral_heightened_senses_2",
+        "effect_feral_combat_sense_2",
+        "effect_feral_combat_sense_3",
+        "effect_feral_heightened_senses_3",
+        "effect_feral_regeneration",
+        "effect_pattern_screamer_rock_thrower",
+        "effect_monster_neuro_acceleration",
+        "effect_monster_neuro_acceleration_enhanced",
+        "effect_monster_pyrokinetic_fire_immunity",
+        "effect_monster_momentum_alteration",
+        "effect_monster_inertial_barrier",
+        "effect_monster_inertial_barrier_improved",
+        "effect_telepath_network_monster_effect"
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_MOM_QUALIFY_FOR_BIOKINETIC_KNACK_CRAFTING",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PSYCHIC_KNACK" },
+        {
+          "or": [
+            { "math": [ "u_spell_level('biokin_flexibility_knack') >= 5" ] },
+            { "math": [ "u_spell_level('biokin_adrenaline_knack') >= 5" ] }
+          ]
+        }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_MOM_QUALIFY_FOR_PYROKINETIC_KNACK_CRAFTING",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PSYCHIC_KNACK" },
+        {
+          "or": [
+            { "math": [ "u_spell_level('pyrokinetic_flash_knack') >= 5" ] },
+            { "math": [ "u_spell_level('pyrokinetic_intensify_flames_knack') >= 5" ] },
+            { "math": [ "u_spell_level('pyrokinetic_eruption_knack') >= 5" ] },
+            { "math": [ "u_spell_level('pyrokinetic_call_flames_knack') >= 5" ] },
+            { "math": [ "u_spell_level('pyrokinetic_cloak_knack') >= 5" ] },
+            { "math": [ "u_spell_level('pyrokinetic_flamethrower_knack') >= 5" ] },
+            { "math": [ "u_spell_level('pyrokinetic_aura_knack') >= 5" ] },
+            { "math": [ "u_spell_level('pyrokinetic_blast_knack') >= 5" ] }
+          ]
+        }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_MOM_QUALIFY_FOR_VITAKINETIC_KNACK_CRAFTING",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PSYCHIC_KNACK" },
+        {
+          "or": [
+            { "math": [ "u_spell_level('vita_health_power_knack') >= 5" ] },
+            { "math": [ "u_spell_level('vita_concentrated_healing_knack') >= 5" ] },
+            { "math": [ "u_spell_level('vita_remove_poison_knack') >= 5" ] },
+            { "math": [ "u_spell_level('vita_cure_disease_knack') >= 5" ] },
+            { "math": [ "u_spell_level('vita_banish_illness_knack') >= 5" ] }
+          ]
+        }
       ]
     },
     "effect": [  ]

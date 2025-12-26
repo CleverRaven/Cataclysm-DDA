@@ -177,7 +177,7 @@
     "looks_like": "223_casing",
     "type": "ITEM",
     "name": { "str": ".303 British casing" },
-    "description": "An empty casing from a .303 round.",
+    "description": "An empty casing from a .303 British round.",
     "weight": "7 g",
     "volume": "10ml"
   },
@@ -186,8 +186,8 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
-    "name": { "str": "primerless .303 casing" },
-    "description": "An empty casing from a .303 round, with its primer removed.",
+    "name": { "str": "primerless .303 British casing" },
+    "description": "An empty casing from a .303 British round, with its primer removed.",
     "weight": "7 g",
     "volume": "10ml"
   },
@@ -206,7 +206,7 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
-    "name": { "str": "primerless .300 Win Mag casing" },
+    "name": { "str": "primerless .300 Winchester Magnum casing" },
     "description": "An empty casing from a .300 Winchester Magnum round, with its primer removed.",
     "weight": "7 g",
     "volume": "10ml"
@@ -217,7 +217,7 @@
     "looks_like": "223_casing",
     "type": "ITEM",
     "name": { "str": ".308 Winchester casing" },
-    "description": "An empty casing from a .308 round.",
+    "description": "An empty casing from a .308 Winchester round.",
     "weight": "6 g",
     "volume": "9ml"
   },
@@ -226,8 +226,8 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
-    "name": { "str": "primerless .308 casing" },
-    "description": "An empty casing from a .308 round, with its primer removed.",
+    "name": { "str": "primerless .308 Winchester casing" },
+    "description": "An empty casing from a .308 Winchester round, with its primer removed.",
     "weight": "6 g",
     "volume": "9ml"
   },
@@ -237,7 +237,7 @@
     "looks_like": "223_casing",
     "type": "ITEM",
     "name": { "str": "7.62x51mm NATO casing" },
-    "description": "An empty casing from a 7.62x51mm M80 round.",
+    "description": "An empty casing from a 7.62x51mm NATO round.",
     "weight": "6 g",
     "volume": "9ml"
   },
@@ -246,8 +246,8 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
-    "name": { "str": "primerless 7.62x51mm casing" },
-    "description": "An empty casing from a 7.62x51mm M80 round, with its primer removed.",
+    "name": { "str": "primerless 7.62x51mm NATO casing" },
+    "description": "An empty casing from a 7.62x51mm NATO round, with its primer removed.",
     "weight": "6 g",
     "volume": "9ml"
   },
@@ -739,7 +739,7 @@
     "copy-from": "casing",
     "looks_like": "50beowulf_casing",
     "type": "ITEM",
-    "name": { "str": "primerless .458 WM casing" },
+    "name": { "str": "primerless .458 Winchester Magnum casing" },
     "description": "An empty casing from a .458 Winchester Magnum round, with its primer removed.",
     "weight": "13 g",
     "volume": "8ml"
@@ -790,7 +790,7 @@
     "looks_like": "9mm_casing",
     "type": "ITEM",
     "name": { "str": "7.62x25mm Tokarev casing" },
-    "description": "An empty casing from a 7.62x25mm round.",
+    "description": "An empty casing from a 7.62x25mm Tokarev round.",
     "weight": "4 g",
     "volume": "7ml"
   },
@@ -799,8 +799,8 @@
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "ITEM",
-    "name": { "str": "primerless 7.62x25mm casing" },
-    "description": "An empty casing from a 7.62x25mm round, with its primer removed.",
+    "name": { "str": "primerless 7.62x25mm Tokarev casing" },
+    "description": "An empty casing from a 7.62x25mm Tokarev round, with its primer removed.",
     "weight": "4 g",
     "volume": "7ml"
   },
@@ -857,8 +857,8 @@
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "ITEM",
-    "name": { "str": "primerless .357 magnum casing" },
-    "description": "An empty casing from a .357 magnum round, with its primer removed.",
+    "name": { "str": "primerless .357 Magnum casing" },
+    "description": "An empty casing from a .357 Magnum round, with its primer removed.",
     "weight": "3 g",
     "volume": "5ml"
   },
@@ -868,7 +868,7 @@
     "looks_like": "9mm_casing",
     "type": "ITEM",
     "name": { "str": "9x18mm Makarov casing" },
-    "description": "An empty casing from a 9x18mm round.",
+    "description": "An empty casing from a 9x18mm Makarov round.",
     "weight": "3 g",
     "volume": "5ml"
   },
@@ -877,8 +877,8 @@
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "ITEM",
-    "name": { "str": "primerless 9x18mm casing" },
-    "description": "An empty casing from a 9x18mm round, with its primer removed.",
+    "name": { "str": "primerless 9x18mm Makarov casing" },
+    "description": "An empty casing from a 9x18mm Makarov round, with its primer removed.",
     "weight": "3 g",
     "volume": "5ml"
   },
@@ -982,7 +982,7 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
-    "name": { "str": "primerless .300BLK casing" },
+    "name": { "str": "primerless .300 AAC Blackout casing" },
     "description": "An empty casing from a .300 AAC Blackout round, with its primer removed.",
     "weight": "6 g",
     "volume": "9ml"

@@ -374,9 +374,10 @@ Certain entries like the snippets above are taken from the game state as opposed
 | `<item_name:ID>`                              | N/A            | gets replaced with the name of the item from ID
 | `<item_description:ID>`                       | N/A            | gets replaced with the description of the item from ID
 | `<trait_name:ID>`                             | N/A            | gets replaced with the name of the trait from ID
-| `<trait_description:ID>`                      | beta           | gets replaced with the description of the trait from ID (uses beta talker to grab the description)
-| `<spell_name:ID>`                             | N/A            | gets replaced with the description of the name from ID
-| `<spell_description:ID>`                      | N/A            | gets replaced with the description of the trait from ID
+| `<trait_description:ID>`                      | N/A            | gets replaced with the description of the trait from ID (avatar variant of trait is used, if avatar has such trait)
+| `<spell_name:ID>`                             | N/A            | gets replaced with the name of the spell from ID
+| `<spell_description:ID>`                      | N/A            | gets replaced with the description of the spell from id
+| `<u_spell_level:ID>`                          | alpha          | gets replaced with the spell level of corresponding spell alpha talker has. If alpha talker has no such spell, it returns -1
 | `<keybind:ID>` and `<keybind:CATEGORY_ID:ID>` | N/A            | gets replaced with the keys bound to a specific `"type": "keybind"` found in data/raw or "Unbound globally/locally! (<keybind_name> in keybind category CATEGORY_ID)" if unbound.
 | `<city>`                                      | N/A            | gets replaced with the name of the closest city to the avatar
 | `<time_survived>`                             | N/A            | gets replaced with time since start of the game
@@ -982,7 +983,7 @@ Condition | Type | Description
 `"has_available_mission" or "u_has_available_mission" or "npc_has_available_mission"` | simple string | `true` if u or the NPC has one job available for the player character.
 `"has_many_available_missions"` | simple string | `true` if the NPC has several jobs available for the player character.
 `"mission_goal" or "npc_mission_goal" or "u_mission_goal"` | string or [variable object](#variable-object) | `true` if u or the NPC's current mission has the same goal as `mission_goal`.
-`"u_has_activity" or "npc_has_activity" | simple string | `true` if the [selected talker](EFFECT_ON_CONDITION.md#alpha-and-beta-talkers) is currently performing an [activity](PLAYER_ACTIVITY.md).
+`"u_has_activity" or "npc_has_activity" | simple string | `true` if the [selected talker](EFFECT_ON_CONDITION.md#alpha-and-beta-talkers) is currently performing an [activity](/doc/PLAYER_ACTIVITY.md).
 `"u_is_travelling" or "npc_is_travelling" | simple string | `true` if the [selected talker](EFFECT_ON_CONDITION.md#alpha-and-beta-talkers) has a current destination. Note that this just checks the destination exists, not whether u or npc is actively moving to it.
 `"mission_complete" or "npc_mission_complete" or "u_mission_complete"` | simple string | `true` if u or the NPC has completed the other's current mission.
 `"mission_incomplete" or "npc_mission_incomplete" or "u_mission_incomplete"` | simple string | `true` if u or the NPC hasn't completed the other's current mission.

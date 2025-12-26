@@ -30,7 +30,7 @@
     "id": "artifact_energy_shield",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "distorted air" },
+    "name": { "str_sp": "distorted air" },
     "description": "The empty air around you vibrates faintly.",
     "weight": "10 g",
     "volume": "1 ml",
@@ -1959,7 +1959,6 @@
       "type": "transform",
       "msg": "Your optical cloak flickers as it becomes transparent.",
       "target": "optical_cloak_on",
-      "active": true,
       "need_charges": 20,
       "need_charges_msg": "You don't have enough UPS charges to turn on the %s"
     },

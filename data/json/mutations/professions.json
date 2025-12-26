@@ -1,0 +1,253 @@
+[
+  {
+    "type": "mutation",
+    "id": "PROF_POLICE",
+    "name": { "str": "Police Officer" },
+    "description": "You are a duly sworn law enforcement officer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
+    "points": 0,
+    "profession": true,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_PD_DET",
+    "name": { "str": "Police Detective" },
+    "description": "You are a duly sworn law enforcement investigator, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether your shield means anything now is another question.",
+    "points": 0,
+    "profession": true,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_SWAT",
+    "name": { "str": "SWAT Officer" },
+    "description": "You are a duly sworn law enforcement officer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
+    "points": 0,
+    "profession": true,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_FED",
+    "name": { "str": "US Marshal" },
+    "description": "You are a duly sworn Federal marshal, with nationwide jurisdiction and the authority of the United States of America.",
+    "cancels": [ "PROF_HUB01_ANCILLIARY" ],
+    "points": 0,
+    "profession": true,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_MED",
+    "name": { "str": "MD" },
+    "description": "You trained as a medical professional in a clinic or hospital.  You can put \"Dr.\" in front of your name and everything.",
+    "points": 0,
+    "profession": true,
+    "purifiable": false,
+    "valid": false,
+    "//": "In the US, a medical 'residency' is essentially an extended post-graduate, on-the-job medical training.  The idea here is that hospital computer systems would recognize the PC as a valid user and grant access."
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_SKATER",
+    "name": { "str": "Skater" },
+    "description": "You are skilled in maneuvering on skates.  You suffer lower penalties to dodging and are less likely to fall down if hit in melee combat while you're wearing rollerskates or rollerblades.",
+    "points": 1,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_DICEMASTER",
+    "name": { "str": "Dungeon Master" },
+    "description": "Weeks spent picking through manuals and researching topics you aren't versed in has taught you to find what you need to know more quickly.  You read slightly faster, and suffer no reading time penalty for books too complex for you to easily understand.",
+    "cancels": [ "ILLITERATE" ],
+    "points": 0,
+    "profession": true,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": -0.1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_HUB01_ANCILLIARY",
+    "name": { "str": "Hub 01 Ancillary" },
+    "description": "You are known to be a capable and resourceful mercenary at the employ of Hub 01.",
+    "cancels": [ "PROF_FED" ],
+    "points": 0,
+    "profession": true,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_FOODP",
+    "name": { "str": "True Foodperson" },
+    "description": "You are the true Foodperson, some might think Foodperson is just a mascot, but you know better.  You are Foodperson, the mask has become your face; you are real, and the only thing standing between this world and oblivion is you.",
+    "points": 0,
+    "profession": true,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_CHURL",
+    "name": { "str": "Churl" },
+    "description": "Thou art a lewede man, a lowly cowherd, though where thi catel been thou hast not ynn certain.",
+    "points": 0,
+    "profession": true,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_BOXER",
+    "name": { "str": "Pugilist" },
+    "description": "You are experienced in the Sweet Science of boxing.  You could've had a shot at a local boxing tournament, if the Cataclysm hadn't screwed that up.",
+    "points": 0,
+    "profession": true,
+    "purifiable": false,
+    "valid": false,
+    "initial_ma_styles": [ "style_boxing" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_KICKBOXER",
+    "name": { "str": "Kickboxer" },
+    "description": "You have some training in the art of kickboxing.  It's just boxing with kicks, right?",
+    "points": 0,
+    "profession": true,
+    "purifiable": false,
+    "valid": false,
+    "initial_ma_styles": [ "style_kickboxing" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_MA_ORANGE",
+    "name": { "str": "Martial Artist" },
+    "description": "You were shaping up to be a pretty decent student of the martial arts before the Cataclysm struck.  Time to see just how good you really are.",
+    "points": 0,
+    "profession": true,
+    "purifiable": false,
+    "valid": false,
+    "initial_ma_styles": [
+      "style_aikido",
+      "style_capoeira",
+      "style_crane",
+      "style_dragon",
+      "style_judo",
+      "style_karate",
+      "style_krav_maga",
+      "style_leopard",
+      "style_muay_thai",
+      "style_ninjutsu",
+      "style_pankration",
+      "style_snake",
+      "style_taekwondo",
+      "style_tai_chi",
+      "style_tiger",
+      "style_wingchun",
+      "style_zui_quan"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_MA_BLACK",
+    "name": { "str": "Black Belt" },
+    "description": "You were competitive at national levels, and had considered teaching your art.  Defending against the entire town may still be a challenge, though.",
+    "points": 0,
+    "profession": true,
+    "purifiable": false,
+    "valid": false,
+    "initial_ma_styles": [
+      "style_aikido",
+      "style_capoeira",
+      "style_crane",
+      "style_dragon",
+      "style_judo",
+      "style_karate",
+      "style_krav_maga",
+      "style_leopard",
+      "style_muay_thai",
+      "style_ninjutsu",
+      "style_pankration",
+      "style_snake",
+      "style_taekwondo",
+      "style_tai_chi",
+      "style_tiger",
+      "style_wingchun",
+      "style_zui_quan"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "MARTIAL_ARTS",
+    "name": { "str": "Martial Arts Training" },
+    "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, Taekwondo, or Pankration.",
+    "points": 2,
+    "player_display": false,
+    "valid": false,
+    "initial_ma_styles": [ "style_karate", "style_judo", "style_aikido", "style_tai_chi", "style_taekwondo", "style_pankration" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MARTIAL_ARTS2",
+    "name": { "str": "Self-Defense Classes" },
+    "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Boxing, Kickboxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
+    "points": 2,
+    "player_display": false,
+    "valid": false,
+    "initial_ma_styles": [
+      "style_krav_maga",
+      "style_muay_thai",
+      "style_ninjutsu",
+      "style_capoeira",
+      "style_zui_quan",
+      "style_wingchun",
+      "style_kickboxing",
+      "style_boxing"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "MARTIAL_ARTS3",
+    "name": { "str": "Shaolin Adept" },
+    "description": "You have studied the arts of the Shaolin monks.  You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
+    "points": 2,
+    "player_display": false,
+    "valid": false,
+    "initial_ma_styles": [ "style_tiger", "style_crane", "style_leopard", "style_snake", "style_dragon" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MARTIAL_ARTS5",
+    "name": { "str": "Melee Weapon Training" },
+    "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Bōjutsu, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pencak Silat, or Sōjutsu.",
+    "points": 3,
+    "player_display": false,
+    "valid": false,
+    "initial_ma_styles": [
+      "style_bojutsu",
+      "style_barbaran",
+      "style_eskrima",
+      "style_fencing",
+      "style_silat",
+      "style_niten",
+      "style_sojutsu",
+      "style_swordsmanship",
+      "style_medievalpole"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "MARTIAL_FENCING",
+    "name": { "str": "Competitive Fencer" },
+    "description": "You were an avid fencer, starting with foil and moving onto saber, then épée.  You competed nationally and dabbled with some of the historical fencing weapons afforded by HEMA's popularity.",
+    "points": 0,
+    "valid": false,
+    "initial_ma_styles": [ "style_fencing" ]
+  }
+]

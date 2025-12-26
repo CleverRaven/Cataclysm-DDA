@@ -41,7 +41,7 @@
     "points": 2,
     "visibility": 0,
     "ugliness": 0,
-    "description": { "str": "Gives the integrated music player.  Should not be player-visible.", "//~": "NO_I18N" },
+    "description": "Gives the integrated music player.  Should not be player-visible.",
     "integrated_armor": [ "internal_mp3_fruit" ]
   },
   {
@@ -154,12 +154,9 @@
   {
     "type": "mutation",
     "id": "TURN_INTO_BEAR_TRAITS",
-    "name": { "str": "Bear Form", "//~": "NO_I18N" },
+    "name": "Bear Form",
     "points": 98,
-    "description": {
-      "str": "You are a bear.  This provides the actual effects of bear form.  Should not be player-visible",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a bear.  This provides the actual effects of bear form.  Should not be player-visible",
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
@@ -206,12 +203,9 @@
   {
     "type": "mutation",
     "id": "TURN_INTO_DEER_TRAITS",
-    "name": { "str": "Deer Form", "//~": "NO_I18N" },
+    "name": "Deer Form",
     "points": 98,
-    "description": {
-      "str": "You are a deer.  This provides the actual effects of deer form.  Should not be player-visible",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a deer.  This provides the actual effects of deer form.  Should not be player-visible",
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
@@ -247,12 +241,9 @@
   {
     "type": "mutation",
     "id": "TURN_INTO_COUGAR_TRAITS",
-    "name": { "str": "Cougar Form", "//~": "NO_I18N" },
+    "name": "Cougar Form",
     "points": 98,
-    "description": {
-      "str": "You are a cougar.  This provides the actual effects of cougar form.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a cougar.  This provides the actual effects of cougar form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -290,12 +281,9 @@
   {
     "type": "mutation",
     "id": "TURN_INTO_OWL_TRAITS",
-    "name": { "str": "Owl Form", "//~": "NO_I18N" },
+    "name": "Owl Form",
     "points": 98,
-    "description": {
-      "str": "You are an owl.  This provides the actual effects of owl form.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You are an owl.  This provides the actual effects of owl form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -348,14 +336,11 @@
   {
     "type": "mutation",
     "id": "LILIN_WAR_OWL_FORM_TRAITS",
-    "name": { "str": "Strix Form", "//~": "NO_I18N" },
+    "name": "Strix Form",
     "points": 98,
     "ugliness": 30,
     "visibility": 30,
-    "description": {
-      "str": "You are in strix form.  This provides the actual effects of strix form.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You are in strix form.  This provides the actual effects of strix form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -382,12 +367,9 @@
   {
     "type": "mutation",
     "id": "TURN_INTO_RAVEN_TRAITS",
-    "name": { "str": "Raven Form", "//~": "NO_I18N" },
+    "name": "Raven Form",
     "points": 98,
-    "description": {
-      "str": "You are a raven.  This provides the actual effects of raven form.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a raven.  This provides the actual effects of raven form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -439,9 +421,9 @@
   {
     "type": "mutation",
     "id": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
-    "name": { "str": "Changeling Bush disguise", "//~": "NO_I18N" },
+    "name": "Changeling Bush disguise",
     "points": 99,
-    "description": { "str": "You are a bush and no one can see you.", "//~": "NO_I18N" },
+    "description": "You are a bush and no one can see you.",
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
@@ -480,8 +462,8 @@
   {
     "type": "mutation",
     "id": "GOBLIN_FRUIT_ANIMAL_IGNORE",
-    "name": { "str": "Effect of furry fruit", "//~": "NO_I18N" },
-    "description": { "str": "What makes the furry fruit work.  You should never see this.", "//~": "NO_I18N" },
+    "name": "Effect of furry fruit",
+    "description": "What makes the furry fruit work.  You should never see this.",
     "valid": false,
     "player_display": false,
     "points": 0,
@@ -491,8 +473,8 @@
     "type": "mutation",
     "id": "WINTER_FEIGN_DEATH_TRAITS",
     "//": "Also used by vampires",
-    "name": { "str": "Stillness of the Tomb", "//~": "NO_I18N" },
-    "description": { "str": "You are feigning death.  Shhhhhhh!", "//~": "NO_I18N" },
+    "name": "Stillness of the Tomb",
+    "description": "You are feigning death.  Shhhhhhh!",
     "valid": false,
     "player_display": false,
     "points": 0,
@@ -537,8 +519,8 @@
   {
     "type": "mutation",
     "id": "ASTRAL_PROJECTION_APPEARANCE",
-    "name": { "str": "Astral Form", "//~": "NO_I18N" },
-    "description": { "str": "You're a disembodied mind so you're all glowy and blue.  Spooky!", "//~": "NO_I18N" },
+    "name": "Astral Form",
+    "description": "You're a disembodied mind so you're all glowy and blue.  Spooky!",
     "points": 0,
     "valid": false,
     "player_display": false,

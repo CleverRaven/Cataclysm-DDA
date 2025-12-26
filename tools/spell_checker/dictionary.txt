@@ -1582,6 +1582,7 @@ dokie
 Dolichovespula
 dollkin
 dolm
+dolmas
 domestica
 Donatello
 donburi
@@ -2659,6 +2660,7 @@ hnefatafl
 Hobbes
 hobblebush
 hobbleberries
+hobbleberry
 hoc
 Hockomock
 hodag
@@ -4174,11 +4176,13 @@ nanomesh
 nanoprinted
 nanoribbon
 nanoribbons
+nanos
 nanosaurus
 nanoskirt
 nanoskirts
 nanotech
 nanotubes
+nanotyrannus
 nanowire
 Nantucket
 nanuqsaurus

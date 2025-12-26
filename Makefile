@@ -114,7 +114,6 @@ CXX_WARNINGS = \
   -Woverloaded-virtual \
   -Wsuggest-override \
   -Wzero-as-null-pointer-constant \
-  -Wno-unknown-warning-option \
   -Wno-dangling-reference \
   -Wno-c++20-compat
 ifeq ($(NATIVE), emscripten)
@@ -386,6 +385,7 @@ ifneq ($(CLANG), 0)
     CXX = $(CROSS)$(CLANGCMD)
     LD  = $(CROSS)$(CLANGCMD)
   endif
+  CXX_WARNINGS += -Wno-unknown-warning-option
 else
   # Compiler version & target machine - used later for MXE ICE workaround
   ifdef CROSS
@@ -1113,7 +1113,7 @@ version:
         [ -e ".git" ] && \
           GITVERSION=$$( git describe --tags --always --match "[0-9A-Z]*.[0-9A-Z]*" --match "cdda-experimental-*" --exact-match 2>/dev/null || true ) && \
           GITSHA=$$( git rev-parse --short HEAD ) && \
-          DIRTYFLAG=$$( [ -z "$$(git diff --numstat | grep -v lang/po/)" ] || echo "-dirty") && \
+          DIRTYFLAG=$$( [ -z "$$(git -c core.autocrlf=input -c core.safecrlf=false diff --numstat | grep -v lang/po/)" ] || echo "-dirty") && \
           VERSION_STRING="$$GITVERSION $$GITSHA$$DIRTYFLAG" && \
           VERSION_STRING="$${VERSION_STRING## }" ; \
         [ -e "$(SRC_DIR)/version.h" ] && \
@@ -1398,7 +1398,7 @@ astyle-fast: $(ASTYLE_SOURCES)
 	echo $(ASTYLE_SOURCES) | xargs -P 0 -L 1 $(ASTYLE_BINARY) --quiet --options=.astylerc -n
 
 astyle-diff: $(ASTYLE_SOURCES)
-	$(ASTYLE_BINARY) --options=.astylerc -n $$(git diff --name-only src/*.h src/*.cpp tests/*.h tests/*.cpp tools/*.h tools/*.cpp)
+	$(ASTYLE_BINARY) --options=.astylerc -n $$(git -c core.autocrlf=input -c core.safecrlf=false diff --name-only src/*.h src/*.cpp tests/*.h tests/*.cpp tools/*.h tools/*.cpp)
 
 astyle-all: $(ASTYLE_SOURCES)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)

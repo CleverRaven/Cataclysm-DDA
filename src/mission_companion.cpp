@@ -1424,7 +1424,7 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const missi
             popup( _( "A bandit party approaches the caravan in the open!" ) );
             force_on_force( caravan_party, "caravan", bandit_party, "band", 1 );
         } else if( one_in( 3 ) ) {
-            popup( _( "A bandit party attacks the caravan while it it's camped!" ) );
+            popup( _( "A bandit party attacks the caravan while it's camped!" ) );
             force_on_force( caravan_party, "caravan", bandit_party, "band", 2 );
         } else {
             popup( _( "The caravan walks into a bandit ambush!" ) );
@@ -1436,7 +1436,7 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const missi
     for( const auto &elem : caravan_party ) {
         //Scrub temporary party members and the dead
         if( elem->get_part_hp_cur( bodypart_id( "torso" ) ) == 0 && elem->has_companion_mission() ) {
-            overmap_buffer.remove_npc( comp->getID() );
+            overmap_buffer.remove_npc( elem->getID() );
             merch_amount += ( time / 600 ) * 4;
         } else if( elem->has_companion_mission() ) {
             merch_amount += ( time / 600 ) * 7;

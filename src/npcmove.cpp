@@ -58,6 +58,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
+#include "item_transformation.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -519,7 +520,7 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
     float speed = std::max( 0.25f, candidate.get_speed() / 100.0f );
     bool is_fleeing = candidate.has_effect( effect_npc_run_away );
     int perception_inverted = std::max( ( 20 - get_per() ), 0 );
-    if( has_effect( effect_bleed ) ) {
+    if( candidate.has_effect( effect_bleed ) ) {
         int bleed_intensity = 0;
         for( const bodypart_id &bp : candidate.get_all_body_parts() ) {
             const effect &bleediness = candidate.get_effect( effect_bleed, bp );
@@ -1709,7 +1710,27 @@ void npc::execute_action( npc_action action )
             // Find a nice spot to sleep
             tripoint_bub_ms best_spot = pos_bub();
             int best_sleepy = evaluate_sleep_spot( best_spot );
-            for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), MAX_VIEW_DISTANCE ) ) {
+
+            // first build a list of positions to search
+            std::vector<tripoint_bub_ms> search_positions;
+
+            if( is_walking_with() && player_character.in_vehicle && player_character.in_sleep_state() ) {
+                const optional_vpart_position player_part_pos = here.veh_at( player_character.pos_bub() );
+                if( player_part_pos ) {
+                    vehicle *player_vehicle = &player_part_pos->vehicle();
+                    for( const vpart_reference &part : player_vehicle->get_avail_parts( VPFLAG_BOARDABLE ) ) {
+                        search_positions.push_back( player_vehicle->bub_part_pos( here, part.part() ) );
+                    }
+                }
+            }
+
+            if( search_positions.empty() ) {
+                search_positions = closest_points_first( pos_bub(), MAX_VIEW_DISTANCE );
+            }
+
+
+            // then search through all positions to find the best sleep spot
+            for( const tripoint_bub_ms &p : search_positions ) {
                 if( !could_move_onto( p ) || !g->is_empty( p ) ) {
                     continue;
                 }
@@ -1723,6 +1744,7 @@ void npc::execute_action( npc_action action )
                     }
                 }
             }
+
             if( is_walking_with() ) {
                 complain_about( "napping", 30_minutes, chat_snippets().snip_warn_sleep.translated() );
             }
@@ -2422,7 +2444,7 @@ void outfit::activate_combat_items( npc &guy )
             // Due to how UPS works, there can be no charges_needed for UPS items.
             // Energy consumption is thus not checked at activation.
             // To prevent "flickering", this is a hard check for UPS charges > 0.
-            if( transform->target->has_flag( flag_USE_UPS ) && guy.available_ups() == 0_kJ ) {
+            if( transform->transform.target->has_flag( flag_USE_UPS ) && guy.available_ups() == 0_kJ ) {
                 continue;
             }
             if( transform->can_use( guy, candidate, tripoint_bub_ms::zero ).success() ) {
@@ -3377,7 +3399,8 @@ bool npc::find_job_to_perform()
         }
         player_activity scan_act = player_activity( elem );
         if( elem == ACT_MOVE_LOOT ) {
-            assign_activity( elem );
+            assign_activity( zone_sort_activity_actor() );
+            return true;
         } else if( generic_multi_activity_handler( scan_act, *this->as_character(), true ) ) {
             assign_activity( elem );
             return true;
@@ -3602,7 +3625,7 @@ void npc::find_item()
     wanted_item = {};
     int best_value = minimum_item_value();
     // Not perfect, but has to mirror pickup code
-    units::volume volume_allowed = volume_capacity() - volume_carried();
+    units::volume volume_allowed = free_space();
     units::mass   weight_allowed = weight_capacity() - weight_carried();
     // For some reason range limiting by vision doesn't work properly
     const int range = 6;

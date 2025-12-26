@@ -271,7 +271,6 @@
       { "group": "boxed_ruger_lcr_22", "prob": 2 },
       { "group": "boxed_22_revolver", "prob": 75 },
       { "group": "boxed_sig_mosquito", "prob": 65 },
-      { "group": "boxed_cp33", "prob": 16 },
       { "group": "boxed_ruger_mk4", "prob": 113 },
       { "group": "boxed_1911_22", "prob": 100 },
       { "group": "boxed_sw617", "prob": 46 },
@@ -324,13 +323,6 @@
     "id": "boxed_glock_44",
     "container-item": "box_pistol",
     "items": [ { "item": "glock_44" }, { "group": "firearm_box_extras" }, { "item": "glock44_mag", "count": [ 1, 2 ] } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "boxed_cp33",
-    "container-item": "box_pistol",
-    "items": [ { "item": "cp33" }, { "group": "firearm_box_extras" }, { "item": "cp33_mag", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
@@ -656,8 +648,7 @@
       { "group": "boxed_m1911_10", "prob": 30 },
       { "group": "boxed_p220_10", "prob": 35 },
       { "group": "boxed_xd_10", "prob": 85 },
-      { "group": "boxed_witness_10", "prob": 10 },
-      { "group": "boxed_sw_610", "prob": 34 }
+      { "group": "boxed_witness_10", "prob": 10 }
     ]
   },
   {
@@ -669,12 +660,7 @@
       { "item": "glock_20mag_10", "count": [ 1, 2 ] },
       { "group": "firearm_box_extras" },
       {
-        "distribution": [
-          { "item": "glock_40", "prob": 100 },
-          { "item": "TDI_10", "prob": 183 },
-          { "item": "glock_20", "prob": 121 },
-          { "item": "glock_29", "prob": 62 }
-        ]
+        "distribution": [ { "item": "glock_40", "prob": 100 }, { "item": "glock_20", "prob": 121 }, { "item": "glock_29", "prob": 62 } ]
       }
     ]
   },
@@ -709,13 +695,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "boxed_sw_610",
-    "container-item": "box_pistol",
-    "items": [ { "item": "sw_610" }, { "group": "firearm_box_extras" }, { "item": "40_speedloader6", "prob": 5 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "guns_pistol_common_boxed_223",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_handgun" },
     "entries": [
@@ -738,11 +717,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_boxed_57",
-    "items": [
-      { "group": "boxed_ruger_57", "prob": 100 },
-      { "group": "boxed_fn57", "prob": 13 },
-      { "group": "boxed_p50", "prob": 12 }
-    ]
+    "items": [ { "group": "boxed_ruger_57", "prob": 100 }, { "group": "boxed_fn57", "prob": 13 } ]
   },
   {
     "type": "item_group",
@@ -757,13 +732,6 @@
     "id": "boxed_fn57",
     "container-item": "box_pistol",
     "items": [ { "item": "fn57" }, { "group": "firearm_box_extras" }, { "item": "fn57mag_10rd", "count": [ 1, 2 ] } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "boxed_p50",
-    "container-item": "box_pistol",
-    "items": [ { "item": "p50" }, { "group": "firearm_box_extras" }, { "item": "fnp90mag_10rd" } ]
   },
   {
     "type": "item_group",
@@ -972,7 +940,6 @@
           { "item": "rdb_223", "prob": 44 },
           { "group": "mdrx", "prob": 5 },
           { "group": "mdrx_223", "prob": 4 },
-          { "group": "cz600", "prob": 4 },
           { "item": "sig_assault_rifle", "prob": 1 },
           { "item": "scar_16s", "prob": 14 },
           { "item": "iwi_tavor_x95_300blk", "prob": 27 },
@@ -1100,7 +1067,6 @@
     "items": [
       { "group": "boxed_sks", "prob": 34 },
       { "group": "boxed_akmag", "prob": 126 },
-      { "group": "boxed_bren2_762", "prob": 1 },
       { "group": "boxed_ar15_762", "prob": 5 }
     ]
   },
@@ -1121,13 +1087,6 @@
       { "group": "firearm_box_extras" },
       { "distribution": [ { "item": "aksemi", "prob": 100 }, { "item": "mk47", "prob": 26 } ] }
     ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "boxed_bren2_762",
-    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "item": "bren2_762" }, { "group": "firearm_box_extras" }, { "item": "bren2_762mag10", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",

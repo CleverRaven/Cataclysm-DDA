@@ -329,7 +329,7 @@
           {
             "collection": [
               { "item": "ceramic_mug", "prob": 50 },
-              { "group": "beer", "prob": 50 },
+              { "group": "beer_in_container", "prob": 50 },
               { "group": "liquor_and_spirits", "prob": 20 },
               { "group": "wines_worthy", "prob": 10 },
               { "item": "cigar", "prob": 20 },
@@ -415,7 +415,7 @@
           {
             "collection": [
               { "item": "ceramic_mug", "prob": 50 },
-              { "group": "beer", "prob": 50 },
+              { "group": "beer_in_container", "prob": 50 },
               { "group": "liquor_and_spirits", "prob": 20 },
               { "group": "wines_worthy", "prob": 10 },
               { "item": "cigar", "prob": 20 },
@@ -453,7 +453,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "group": "softdrinks_canned", "prob": 325 },
+      { "group": "soda_in_small_container", "prob": 325 },
       { "group": "magazines", "prob": 265 },
       { "item": "basket_laundry", "prob": 20 },
       { "item": "television", "prob": 30 },
@@ -720,9 +720,7 @@
       { "item": "nachosc", "prob": 10 },
       { "item": "nachosm", "prob": 10 },
       { "item": "nachosmc", "prob": 2 },
-      { "prob": 30, "group": "toastem_box_small_8" },
-      { "prob": 30, "group": "toastem2_box_small_8" },
-      { "prob": 35, "group": "toastem3_box_small_8" },
+      { "prob": 95, "group": "toastem_box_small_8" },
       { "prob": 20, "group": "toasterpastryfrozen_box_snack_2" },
       { "prob": 30, "group": "brownie_box_small_4" },
       { "prob": 15, "group": "lemonade_powder_bottle_plastic_small_10" },
@@ -987,7 +985,7 @@
       { "item": "firecracker", "prob": 5 },
       { "prob": 30, "group": "fried_seeds_bag_plastic_4" },
       { "prob": 65, "group": "bag_chips" },
-      { "group": "softdrinks_canned", "prob": 380 },
+      { "group": "soda_in_small_container", "prob": 380 },
       { "item": "picklocks", "prob": 10 },
       { "item": "fursuit", "prob": 6 },
       { "item": "zentai", "prob": 4 },
@@ -1678,22 +1676,6 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "box_small",
     "entries": [ { "item": "toastem", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "toastem2_box_small_8",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "box_small",
-    "entries": [ { "item": "toastem2", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "toastem3_box_small_8",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "box_small",
-    "entries": [ { "item": "toastem3", "container-item": "null", "count": 8 } ]
   },
   {
     "type": "item_group",

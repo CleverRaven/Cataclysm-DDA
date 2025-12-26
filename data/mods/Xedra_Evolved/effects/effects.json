@@ -13,7 +13,8 @@
     "apply_message": "",
     "remove_message": "You return to your normal speed.",
     "rating": "good",
-    "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 250 ] }
+    "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 250 ] },
+    "enchantments": [ { "values": [ { "value": "RANGE_DODGE", "add": 0.25 } ] } ]
   },
   {
     "type": "effect_type",
@@ -638,6 +639,13 @@
     "type": "effect_type",
     "id": "effect_vampire_immune_to_classic_zombification",
     "//": "Hidden--does nothing in base XE, used for DDotD interactions",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_weird_equipment",
+    "//": "Hidden, but provides effect for when a mad inventor has gadgets in inventory.",
     "name": [ "" ],
     "desc": [ "" ]
   },

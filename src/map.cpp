@@ -161,8 +161,17 @@ static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
 static const item_group_id Item_spawn_data_default_zombie_clothes( "default_zombie_clothes" );
 static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie_items" );
 
+static const itype_id itype_HEW_printout_data_amigara( "HEW_printout_data_amigara" );
+static const itype_id itype_HEW_printout_data_exodii( "HEW_printout_data_exodii" );
+static const itype_id itype_HEW_printout_data_highlands( "HEW_printout_data_highlands" );
+static const itype_id itype_HEW_printout_data_labyrinth( "HEW_printout_data_labyrinth" );
+static const itype_id itype_HEW_printout_data_lixa( "HEW_printout_data_lixa" );
+static const itype_id itype_HEW_printout_data_physics_lab( "HEW_printout_data_physics_lab" );
+static const itype_id itype_HEW_printout_data_strange_temple( "HEW_printout_data_strange_temple" );
+static const itype_id itype_HEW_printout_data_vitrified( "HEW_printout_data_vitrified" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_maple_sap( "maple_sap" );
+static const itype_id itype_mws_weather_data( "mws_weather_data" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_pipe( "pipe" );
 static const itype_id itype_rock( "rock" );
@@ -3581,7 +3590,7 @@ bool map::has_nearby_fire( const tripoint_bub_ms &p, int radius ) const
         if( has_field_at( pt, fd_fire ) ) {
             return true;
         }
-        if( has_flag_ter_or_furn( ter_furn_flag::TFLAG_USABLE_FIRE, p ) ) {
+        if( has_flag_ter_or_furn( ter_furn_flag::TFLAG_USABLE_FIRE, pt ) ) {
             return true;
         }
     }
@@ -5489,7 +5498,7 @@ item &map::add_item( const tripoint_bub_ms &p, item new_item, int copies )
         if( new_item.has_flag( flag_BOMB ) && new_item.is_transformable() ) {
             //Convert a bomb item into its transformable version, e.g. incendiary grenade -> active incendiary grenade
             new_item.convert( dynamic_cast<const iuse_transform *>
-                              ( new_item.type->get_use( "transform" )->get_actor_ptr() )->target );
+                              ( new_item.type->get_use( "transform" )->get_actor_ptr() )->transform.target );
         }
         new_item.active = true;
     }
@@ -5694,6 +5703,75 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
         }
     }
 
+    const bool mws_here = vpi.has_flag( VPFLAG_MWS ) && vp.enabled;
+    if( mws_here ) {
+        bool mws_finished = false;
+        vehicle_stack icheck = cur_veh.get_items( vp );
+        if( icheck.empty() ) {
+            add_msg( _( "The mobile weather station malfunctions and aborts the scan!" ) );
+            vp.enabled = false;
+        }
+        for( item &n : cur_veh.get_items( vp ) ) {
+            const time_duration cycle_time = 60_minutes;
+            const time_duration time_left = cycle_time - n.age();
+            if( time_left <= 0_turns ) {
+                mws_finished = true;
+                vp.enabled = false;
+                cur_veh.remove_item( vp, &n );
+            } else if( calendar::once_every( 15_minutes ) ) {
+                add_msg( _( "The instruments on the mobile weather station silently rotate." ) );
+                break;
+            }
+        }
+        if( mws_finished ) {
+            add_msg( _( "The mobile weather station has finished its recording.  The printer whirs and the report sits ready to be torn away." ) );
+            cur_veh.add_item( here, vp, item( itype_mws_weather_data, calendar::turn_zero ) );
+            if( vpi.has_flag( VPFLAG_ADVANCED_MWS ) ) {
+                const tripoint_abs_omt veh_position = cur_veh.pos_abs_omt();
+                const tripoint_abs_omt closest_vitrified_farm = overmap_buffer.find_closest( veh_position,
+                        "unvitrified_orchard", 10, false );
+                const tripoint_abs_omt closest_lixa = overmap_buffer.find_closest( veh_position, "LIXA_surface_1a",
+                                                      10, false );
+                const tripoint_abs_omt closest_temple = overmap_buffer.find_closest( veh_position, "temple_stairs",
+                                                        10, false );
+                const tripoint_abs_omt closest_highlands = overmap_buffer.find_closest( veh_position,
+                        "highlands", 10, false );
+                const tripoint_abs_omt closest_exodii = overmap_buffer.find_closest( veh_position,
+                                                        "exodii_base_x0y0z0", 10, false );
+                const tripoint_abs_omt closest_labyrinth = overmap_buffer.find_closest( veh_position,
+                        "labyrinth_entrance", 10, false );
+                const tripoint_abs_omt closest_physics_lab = overmap_buffer.find_closest( veh_position,
+                        "microlab_portal_security1", 10, false );
+                const tripoint_abs_omt closest_amigara = overmap_buffer.find_closest( veh_position,
+                        "mine_amigara_finale_central", 10, false );
+                if( trig_dist( veh_position, closest_vitrified_farm ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_vitrified, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_lixa ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_lixa, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_temple ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_strange_temple, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_highlands ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_highlands, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_exodii ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_exodii, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_labyrinth ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_labyrinth, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_physics_lab ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_physics_lab, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_amigara ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_amigara, calendar::turn_zero ) );
+                }
+            }
+        }
+    }
+
     const int recharge_part_idx = cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true );
     if( recharge_part_idx >= 0 ) {
 
@@ -5859,9 +5937,8 @@ void map::process_items_in_submap( submap &current_submap, const tripoint_rel_sm
         bool furniture_is_sealed = has_flag( ter_furn_flag::TFLAG_SEALED, map_location );
 
         map_stack items = i_at( map_location );
-
         process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent,
-                           map_location, 1, flag,
+                           map_location, active_item_ref.insulation(), flag,
                            spoil_multiplier * active_item_ref.spoil_multiplier(),
                            furniture_is_sealed || active_item_ref.has_watertight_container() );
     }
@@ -6693,7 +6770,7 @@ bool map::mopsafe_field_at( const tripoint_bub_ms &p )
 }
 
 bool map::add_field( const tripoint_bub_ms &p, const field_type_id &type_id, int intensity,
-                     const time_duration &age, bool hit_player )
+                     const time_duration &age, bool hit_player, effect_source source )
 {
     if( !inbounds( p ) ) {
         return false;
@@ -6732,7 +6809,7 @@ bool map::add_field( const tripoint_bub_ms &p, const field_type_id &type_id, int
     current_submap->ensure_nonuniform();
     invalidate_max_populated_zlev( p.z() );
 
-    if( current_submap->get_field( l ).add_field( converted_type_id, intensity, age ) ) {
+    if( current_submap->get_field( l ).add_field( converted_type_id, intensity, age, source ) ) {
         //Only adding it to the count if it doesn't exist.
         if( !current_submap->field_count++ ) {
             get_cache( p.z() ).field_cache.set(

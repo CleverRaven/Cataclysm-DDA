@@ -600,7 +600,7 @@
   {
     "type": "recipe",
     "activity_level": "ACTIVE_EXERCISE",
-    "result": "adobe_pallet_full",
+    "result": "adobe_pallet_full_active",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",

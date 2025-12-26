@@ -13,7 +13,7 @@
       { "group": "preserved_food", "prob": 30, "count": [ 1, 5 ] },
       { "item": "water_clean", "prob": 75, "count": [ 4, 12 ] },
       { "item": "water_mineral", "prob": 10, "count": [ 1, 4 ] },
-      { "group": "softdrinks_canned", "prob": 5, "count": [ 1, 4 ] },
+      { "group": "soda_in_small_container", "prob": 5, "count": [ 1, 4 ] },
       { "prob": 10, "group": "salt_various" },
       { "prob": 5, "group": "seasoning_salt_various" },
       { "item": "instant_coffee", "prob": 25, "count": [ 1, 12 ] },
@@ -570,8 +570,8 @@
     "items": [
       { "group": "candy_chocolate", "prob": 75 },
       { "group": "salty_snacks", "prob": 75 },
-      { "group": "softdrinks_canned", "prob": 55 },
-      { "group": "softdrinks_bottled", "prob": 45 },
+      { "group": "soda_in_small_container", "prob": 55 },
+      { "group": "soda_in_container", "prob": 45 },
       { "prob": 30, "group": "cookies_box_snack_1_4" },
       { "group": "toastems", "prob": 15 }
     ]

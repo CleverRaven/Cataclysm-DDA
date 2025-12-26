@@ -68,7 +68,7 @@
     "item": { "X": { "item": "tire_wide_or", "repeat": [ 2, 3 ] } },
     "items": {
       "b": [
-        { "item": "softdrinks_canned", "chance": 1, "repeat": [ 1, 2 ] },
+        { "item": "soda_in_small_container", "chance": 1, "repeat": [ 1, 2 ] },
         { "item": "snacks", "chance": 1, "repeat": [ 1, 2 ] },
         { "item": "jackets", "chance": 1 }
       ],
@@ -509,7 +509,7 @@
         { "item": "ketchup", "x": 167, "y": 19 },
         { "item": "mustard", "x": 167, "y": 19 },
         { "group": "hotdog_fridge", "x": 167, "y": 20 },
-        { "group": "softdrinks_canned", "x": 167, "y": 21, "repeat": [ 1, 10 ] }
+        { "group": "soda_in_small_container", "x": 167, "y": 21, "repeat": [ 1, 10 ] }
       ],
       "place_monster": [
         { "group": "GROUP_VANILLA", "x": [ 48, 71 ], "y": [ 2, 23 ], "repeat": [ 2, 5 ] },

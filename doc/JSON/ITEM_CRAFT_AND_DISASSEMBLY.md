@@ -50,7 +50,7 @@ Crafting recipes are defined as a JSON object with the following fields:
 },
 "difficulty": 3,             // Difficulty of success check
 "time": "5 m",               // Preferred time to perform recipe, can specify in minutes, hours etc.
-"time": 5000,                // Legacy time to perform recipe (where 1000 ~= 10 turns ~= 10 seconds game time).
+"morale_modifier": [ -5, "2 hours" ], // Optional (int, time duration). Any morale penalty or bonus conferred by crafting this recipe. Penalties are conferred at the start of crafting, bonuses upon completion. The second member of the pair is how long the morale will last. Decay always starts after half of the total time.
 "reversible": true,          // Can be disassembled. Time taken is as long as to craft the item.
 "reversible": { "time": "30 s" }, // Can be disassembled. Time to disassemble as specified.
 "autolearn": true,           // Automatically learned upon gaining required skills
@@ -83,9 +83,10 @@ Crafting recipes are defined as a JSON object with the following fields:
   "BLIND_EASY",
   "ANOTHERFLAG"
 ],
-"result_eocs": [ {"id": "TEST", "effect": { "u_message": "You feel Test" } } // List of inline effect_on_conditions or effect_on_condition ids that attempt to activate when this recipe is successfully finished.  If a value is provided a result becomes optional, though a name and id will be needed it it is missing.  If no result is provided and a description is present, that will be displayed as the result on the crafting gui.
+"result_eocs": [ {"id": "TEST", "effect": { "u_message": "You feel Test" } } // List of inline effect_on_conditions or effect_on_condition ids that attempt to activate when this recipe is successfully finished.  If a value is provided a result becomes optional, though a name and id will be needed if it is missing.  If no result is provided and a description is present, "description" will be displayed as the result on the crafting gui.
 ], 
 "name" : "%s with quern", // optional string to further describe recipe where %s is the recipe result name. Example if the result name is "flour", the final name will be "flour with quern". Especially useful for recipes with "id_suffix" that produce the same result as other recipes.
+"description": "foobar.  your name is <u_name>" // if crafting result is not an item, this text will be shown. Support color and NPC tags
 "construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings
 "on_display": false,         // this is a hidden construction item, used by faction camps to calculate construction times but not available to the player
 "qualities": [               // Generic qualities of tools needed to craft

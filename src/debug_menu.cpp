@@ -284,6 +284,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::EXPORT_FOLLOWER: return "EXPORT_FOLLOWER";
         case debug_menu::debug_menu_index::EXPORT_SELF: return "EXPORT_SELF";
 		case debug_menu::debug_menu_index::QUICK_SETUP: return "QUICK_SETUP";
+		case debug_menu::debug_menu_index::QUICK_SETUP_FLAG_DIRTY: return "QUICK_SETUP_FLAG_DIRTY";
 		case debug_menu::debug_menu_index::TOGGLE_SETUP_MUTATION: return "TOGGLE_SETUP_MUTATION";
 		case debug_menu::debug_menu_index::NORMALIZE_BODY_STAT: return "NORMALIZE_BODY_STAT";
 		case debug_menu::debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR: return "SIX_MILLION_DOLLAR_SURVIVOR";
@@ -390,7 +391,7 @@ bool _trim_mapbuffer( std::filesystem::path const &dep, rdi_t &iter,
 {
     // discard map memory outside of current region and adjacent regions
     if( dep.parent_path().extension() == std::filesystem::u8path( ".mm1" ) ) {
-        if( dep.has_extension() && dep.extension() == ".zzip" ) { // NOLINT(cata-u8-path)
+        if( dep.has_extension() && dep.extension() == zzip_suffix ) { // NOLINT(cata-u8-path)
             // Compressed map memory has to be handled separately
             return false;
         }
@@ -403,7 +404,7 @@ bool _trim_mapbuffer( std::filesystem::path const &dep, rdi_t &iter,
     if( dep.parent_path().filename() == std::filesystem::u8path( "maps" ) ) {
         std::filesystem::path map_folder = dep.filename();
         std::string map_coords;
-        if( map_folder.extension().string() == ".zzip" ) {
+        if( map_folder.extension().string() == zzip_suffix ) {
             map_coords = map_folder.stem().string();
         } else {
             map_coords = map_folder.filename().string();
@@ -418,7 +419,7 @@ bool _trim_mapbuffer( std::filesystem::path const &dep, rdi_t &iter,
 
 bool _trim_overmapbuffer( std::filesystem::path const &dep, tripoint_range<tripoint> const &oms )
 {
-    std::string const fname = dep.extension() == ".zzip" ?  // NOLINT(cata-u8-path)
+    std::string const fname = dep.extension() == zzip_suffix ?  // NOLINT(cata-u8-path)
                               dep.filename().replace_extension( "" ).generic_u8string() : // NOLINT(cata-u8-path)
                               dep.filename().generic_u8string();
 
@@ -479,7 +480,7 @@ void write_min_archive()
                     }
                 }
                 std::filesystem::path min_mmr_save_rel = ( std::filesystem::path{ entry_filename } / // NOLINT(cata-u8-path)
-                        entry_filename ).concat( ".cold.zzip" ); // NOLINT(cata-u8-path)
+                        entry_filename ).concat( ".cold" + std::string( zzip_suffix ) ); // NOLINT(cata-u8-path)
                 std::filesystem::path min_mmr_temp_zzip_path = ( PATH_INFO::world_base_save_path() /
                         min_mmr_save_rel +
                         ".temp" ).get_unrelative_path();
@@ -1095,6 +1096,7 @@ static int quick_setup_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::QUICK_SETUP, true, 'Q', _( "Quick setup…" ) ) },
+        { uilist_entry( debug_menu_index::QUICK_SETUP_FLAG_DIRTY, true, 'D', _( "Quick setup and flag save as dirty" ) ) },
         { uilist_entry( debug_menu_index::TOGGLE_SETUP_MUTATION, true, 't', _( "Toggle debug mutations" ) ) },
         { uilist_entry( debug_menu_index::NORMALIZE_BODY_STAT, true, 'n', _( "Normalize body stats" ) ) },
         { uilist_entry( debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR, true, 'B', _( "Install ALL bionics" ) ) },
@@ -4071,14 +4073,11 @@ static void write_global_vars()
     popup( _( "Var list written to var_list.output" ) );
 }
 
-void do_debug_quick_setup()
+void do_debug_quick_setup( bool flag_dirty )
 {
-    if( !debug_mode ) {
-        // Turn on debug mode if not already on, but without any filters enabled (to prevent log spam).
-        // Save a few keypresses.
-        debug_mode = true;
-        debugmode::enabled_filters.clear();
-    }
+    // Turn on debug mode. Some debug information displays require just this to be on, so we want it on. Save a few keypresses.
+    debug_mode = true;
+
     Character &u = get_avatar();
     normalize_body( u );
     // Specifically only adds mutations instead of toggling them.
@@ -4091,6 +4090,9 @@ void do_debug_quick_setup()
         u.set_skill_level( pair.first, 10 );
     }
     map_reveal( static_cast<int>( om_vision_level::full ) );
+    if( flag_dirty ) {
+        g->save_is_dirty = true;
+    }
 }
 
 void debug()
@@ -4469,8 +4471,9 @@ void debug()
             break;
         case debug_menu_index::QUICKLOAD:
             if( query_yn(
-                    _( "Quickload without saving?  This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
+                    _( "Quickload without saving?  This will mark save as 'dirty' and disable future saving to prevent accidental overwriting save.  Also this may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 g->quickload();
+                g->save_is_dirty = true;
             }
             break;
         case debug_menu_index::TEST_WEATHER: {
@@ -4580,6 +4583,11 @@ void debug()
 
         case debug_menu_index::QUICK_SETUP: {
             do_debug_quick_setup();
+            break;
+        }
+
+        case debug_menu_index::QUICK_SETUP_FLAG_DIRTY: {
+            do_debug_quick_setup( true );
             break;
         }
 

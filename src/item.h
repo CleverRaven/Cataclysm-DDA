@@ -292,6 +292,10 @@ class item : public visitable
         void set_damage( int qty );
 
         /**
+        * Same as set_damage, but bypasses any checks and just sets value to desired level
+        */
+        void force_set_damage( int qty );
+        /**
          * Set item degradation constrained by [0 and @ref max_damage].
          * If item damage is lower it is raised up to @ref degradation.
          */
@@ -426,7 +430,7 @@ class item : public visitable
         nc_color color() const;
         /**
          * Returns the color of the item depending on usefulness for the player character,
-         * e.g. differently if it its an unread book or a spoiling food item etc.
+         * e.g. differently if it is an unread book or a spoiling food item etc.
          * This should only be used for displaying data, it should not affect game play.
          */
         nc_color color_in_inventory( const Character *ch = nullptr ) const;
@@ -646,7 +650,7 @@ class item : public visitable
         int price_no_contents( bool practical, std::optional<int> price_override = std::nullopt ) const;
 
         /**
-         * Whether two items should stack when displayed in a inventory menu.
+         * Whether two items should stack when displayed in an inventory menu.
          * This is different from stacks_with, when two previously non-stackable
          * items are now stackable and mergeable because, for example, they
          * reaches the same temperature. This is necessary to avoid misleading
@@ -654,7 +658,7 @@ class item : public visitable
          */
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         /**
-         * Check wether each element of tname::segments stacks, ie. wether the respective
+         * Check whether each element of tname::segments stacks, ie. whether the respective
          * pieces of information are considered equal for display purposes
          *
          * stacking_info is implicitly convertible to bool and will be true only if ALL segments stack
@@ -732,7 +736,7 @@ class item : public visitable
         /**
          * @name Melee
          *
-         * The functions here assume the item is used in melee, even if's a gun or not a weapon at
+         * The functions here assume the item is used in melee, even if it's a gun or not a weapon at
          * all. Because the functions apply to all types of items, several of the is_* functions here
          * may return true for the same item. This only indicates that it can be used in various ways.
          */
@@ -878,15 +882,20 @@ class item : public visitable
 
         bool container_type_pockets_empty() const;
 
-        /** Get all pockets contained in this item. */
-        std::vector<const item_pocket *> get_all_contained_pockets() const;
-        std::vector<item_pocket *> get_all_contained_pockets();
-        std::vector<const item_pocket *> get_all_standard_pockets() const;
-        std::vector<item_pocket *> get_all_standard_pockets();
-        std::vector<item_pocket *> get_all_ablative_pockets();
-        std::vector<const item_pocket *> get_all_ablative_pockets() const;
-        std::vector<const item_pocket *> get_all_contained_and_mod_pockets() const;
-        std::vector<item_pocket *> get_all_contained_and_mod_pockets();
+        std::vector<item_pocket *> get_pockets( const std::function<bool( const item_pocket &pocket )> &
+                                                include_pocket );
+        std::vector<const item_pocket *> get_pockets( const
+                std::function<bool( const item_pocket &pocket )> &
+                include_pocket ) const;
+        /** Get all CONTAINER/is_standard_type/ablative/etc pockets that are part of this item */
+        std::vector<const item_pocket *> get_container_pockets() const;
+        std::vector<item_pocket *> get_container_pockets();
+        std::vector<const item_pocket *> get_standard_pockets() const;
+        std::vector<item_pocket *> get_standard_pockets();
+        std::vector<item_pocket *> get_ablative_pockets();
+        std::vector<const item_pocket *> get_ablative_pockets() const;
+        std::vector<const item_pocket *> get_container_and_mod_pockets() const;
+        std::vector<item_pocket *> get_container_and_mod_pockets();
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
          * Pockets which are modified that contain an item will be spilled
@@ -948,28 +957,31 @@ class item : public visitable
         int get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
                                                std::string *err = nullptr ) const;
 
-        units::volume total_contained_volume() const;
-
         /**
-         * It returns the maximum volume of any contents, including liquids,
-         * ammo, magazines, weapons, etc.
+         * Returns total capacity of pockets belonging to this item
          */
-        units::volume get_total_capacity( bool unrestricted_pockets_only = false ) const;
+        units::volume get_volume_capacity( const std::function<bool( const item_pocket & )> &include_pocket
+                                           =
+                                               item_pocket::ok_default_containers ) const;
+        units::volume get_volume_capacity_recursive( const std::function<bool( const item_pocket & )> &
+                include_pocket,
+                const std::function<bool( const item_pocket & )> &check_pocket_tree,
+                units::volume &out_volume_expansion ) const;
         units::mass get_total_weight_capacity( bool unrestricted_pockets_only = false ) const;
 
-        units::volume get_remaining_capacity( bool unrestricted_pockets_only = false ) const;
+        units::volume get_remaining_volume( const std::function<bool( const item_pocket & )> &include_pocket
+                                            =
+                                                item_pocket::ok_default_containers ) const;
+        units::volume get_remaining_volume_recursive( const std::function<bool( const item_pocket & )> &
+                include_pocket,
+                const std::function<bool( const item_pocket & )> &check_pocket_tree,
+                units::volume &out_volume_expansion ) const;
         units::mass get_remaining_weight_capacity( bool unrestricted_pockets_only = false ) const;
 
-        units::volume get_total_contained_volume( bool unrestricted_pockets_only = false ) const;
+        units::volume get_contents_volume( const std::function<bool( const item_pocket & )> &include_pocket
+                                           =
+                                               item_pocket::ok_default_containers ) const;
         units::mass get_total_contained_weight( bool unrestricted_pockets_only = false ) const;
-
-        int get_used_holsters() const;
-        int get_total_holsters() const;
-        units::volume get_total_holster_volume() const;
-        units::volume get_used_holster_volume() const;
-
-        units::mass get_total_holster_weight() const;
-        units::mass get_used_holster_weight() const;
 
         /**
          * Return capacity of the biggest pocket. Ignore blacklist restrictions etc.
@@ -978,13 +990,7 @@ class item : public visitable
          */
         units::volume get_biggest_pocket_capacity() const;
 
-        /** Recursive function checking pockets for remaining free space. */
-        units::volume check_for_free_space() const;
-        units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
         bool has_unrestricted_pockets() const;
-        units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
-        units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
-        const;
 
         /**
          * Return the abstract 'size' of the pocket.
@@ -1417,6 +1423,12 @@ class item : public visitable
         /** @see itype::damage_level(). */
         int damage_level( bool precise = false ) const;
 
+        /** Whether activation of an item should be successful based on it's damage level and chance
+        * Note that it does not perform any activation: that's up to the caller. Also, it's based
+        * on damage only, without any considerations for faults.
+        */
+        bool activation_success() const;
+
         /** Modifiy melee weapon damage to account for item's damage. */
         float damage_adjusted_melee_weapon_damage( float value, const damage_type_id &dt ) const;
         /** Modifiy gun damage to account for item's damage. */
@@ -1776,9 +1788,9 @@ class item : public visitable
          * @param nested whether or not the current call is nested (used recursively).
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          * @param ignore_non_container_pocket ignore magazine pockets, such as weapon magazines
-         * @param remaining_parent_volume the ammount of space in the parent pocket,
+         * @param remaining_parent_volume the amount of space in the parent pocket,
          * @param allow_nested whether nested pockets should be checked
-         * needed to make sure we dont try to nest items which can't fit in the nested pockets
+         * needed to make sure we don't try to nest items which can't fit in the nested pockets
          */
         /*@{*/
         ret_val<void> can_contain( const item &it, bool nested = false,
@@ -1806,7 +1818,7 @@ class item : public visitable
          * Return an item_location and a pointer to the best pocket that can contain the item @it.
          * if param allow_nested=true, Check all items contained in every pocket of CONTAINER pocket type,
          * otherwise, only check this item's pockets.
-         * @param it the item that function wil find the best pocket that can contain it
+         * @param it the item that function will find the best pocket that can contain it
          * @param this_loc location of it
          * @param avoid item that will be avoided in recursive lookup item pocket
          * @param allow_sealed allow use sealed pocket
@@ -1825,7 +1837,7 @@ class item : public visitable
 
         /**
          * Is it ever possible to reload this item?
-         * ALso checks for reloading installed gunmods
+         * Also checks for reloading installed gunmods
          * @see player::can_reload()
          */
         bool is_reloadable() const;

@@ -600,7 +600,7 @@
       [ "orangesoda", 30 ],
       [ "magic_8_ball", 10 ],
       [ "hairpin", 30 ],
-      [ "purple_drink", 20 ],
+      { "group": "soda_in_container", "prob": 20 },
       [ "candy", 20 ],
       [ "slingshot", 10 ],
       [ "rock", 10 ],

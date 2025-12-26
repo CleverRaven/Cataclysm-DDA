@@ -146,7 +146,7 @@
   {
     "id": "teashop_fridge",
     "type": "item_group",
-    "items": [ { "item": "milk", "container-item": "carton_milk", "charges": [ 1, -1 ], "prob": 70 } ]
+    "items": [ { "group": "milk_in_container", "prob": 70 } ]
   },
   {
     "id": "teashop_kitchen_counter",
@@ -164,7 +164,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "group": "beer", "prob": 453 },
+      { "group": "beer_in_container", "prob": 453 },
       { "group": "wines_worthy", "prob": 100 },
       { "group": "liquor_and_spirits", "prob": 116 },
       { "group": "mixed_alcoholic_drinks", "prob": 202 },
@@ -226,7 +226,7 @@
       { "item": "juice", "charges": [ 2, -1 ], "prob": 35 },
       { "item": "tomato_juice", "charges": [ 2, -1 ], "prob": 25 },
       { "item": "cranberry_juice", "charges": [ 2, -1 ], "prob": 35 },
-      { "group": "softdrinks_canned", "prob": 95 },
+      { "group": "soda_in_small_container", "prob": 95 },
       { "item": "V8", "charges": [ 2, -1 ], "prob": 15 },
       { "item": "fries", "prob": 7 },
       { "item": "cheese_fries", "prob": 5 },
@@ -318,7 +318,7 @@
     "id": "pizza_beer",
     "type": "item_group",
     "items": [
-      { "group": "beer", "prob": 10 },
+      { "group": "beer_in_container", "prob": 10 },
       { "item": "wine_chardonnay", "charges": -1, "prob": 1 },
       { "item": "wine_cabernet", "charges": -1, "prob": 1 }
     ]
@@ -327,7 +327,7 @@
     "id": "pizza_soda",
     "type": "item_group",
     "items": [
-      { "group": "softdrinks_canned", "prob": 70 },
+      { "group": "soda_in_small_container", "prob": 70 },
       [ "energy_drink", 5 ],
       { "item": "lemonade", "charges": -1, "prob": 8 }
     ]
@@ -407,7 +407,7 @@
       { "item": "box_small", "prob": 30 },
       { "item": "honey_bottled", "charges": -1, "prob": 10 },
       { "prob": 10, "item": "honey_glassed", "count": -1 },
-      { "item": "milk", "container-item": "carton_milk", "charges": [ 1, -1 ], "prob": 10 },
+      { "group": "milk_in_container", "prob": 10 },
       { "item": "oat_milk", "charges": [ 1, -1 ], "prob": 8 },
       { "prob": 65, "group": "milk_powder_various" },
       { "prob": 15, "group": "salt_various" },
@@ -538,7 +538,7 @@
       { "prob": 15, "group": "fried_mozzarella_sticks_bag_plastic_4" },
       { "item": "hamburger", "prob": 15 },
       { "item": "fish_sandwich", "prob": 10 },
-      { "group": "softdrinks_canned", "prob": 75 },
+      { "group": "soda_in_small_container", "prob": 75 },
       { "prob": 25, "group": "hotdogs_cooked_wrapper_1_inf" },
       { "prob": 15, "group": "hotdogs_newyork_wrapper_1_inf" },
       { "prob": 20, "group": "crab_cakes_box_small_1_inf" },
@@ -668,9 +668,7 @@
       { "prob": 25, "item": "cereal_fp5", "count": -1 },
       { "prob": 25, "item": "cereal_fp6", "count": -1 },
       { "prob": 25, "item": "cereal_fp7", "count": -1 },
-      { "prob": 40, "group": "toastem_box_small_8" },
-      { "prob": 32, "group": "toastem2_box_small_8" },
-      { "prob": 25, "group": "toastem3_box_small_8" }
+      { "prob": 100, "group": "toastem_box_small_8" }
     ]
   },
   {
@@ -728,7 +726,7 @@
       { "prob": 10, "group": "yogurt_starter_culture_bag_plastic_4" },
       { "prob": 2, "group": "koji_bag_plastic_25" },
       { "prob": 55, "group": "powder_eggs_bottle_plastic_small_16" },
-      { "item": "milk_UHT", "charges": -1, "prob": 15 },
+      { "group": "milk_in_container_full", "prob": 15 },
       { "item": "milk_evap", "prob": 25 },
       { "item": "con_milk", "prob": 25 },
       { "prob": 45, "group": "milk_powder_various_full" },
@@ -751,7 +749,7 @@
       { "item": "sports_drink", "charges": -1, "prob": 40 },
       { "item": "energy_drink", "prob": 40 },
       { "item": "energy_drink_atomic", "prob": 5 },
-      { "group": "softdrinks_canned", "prob": 290 },
+      { "group": "soda_in_small_container", "prob": 290 },
       { "item": "spezi", "prob": 10 },
       { "item": "cola", "prob": 30, "container-item": "bottle_plastic", "charges": -1 },
       { "item": "creamsoda", "prob": 20, "container-item": "bottle_plastic", "charges": -1 },
@@ -858,7 +856,7 @@
     "subtype": "distribution",
     "entries": [
       { "prob": 65, "group": "egg_bird_unfert_carton_egg_6_12" },
-      { "item": "milk", "charges": -1, "prob": 80 },
+      { "group": "milk_in_container_full", "prob": 80 },
       { "item": "milk_raw", "charges": -1, "prob": 5 },
       { "group": "groce_dairyfake", "prob": 40 },
       { "prob": 35, "group": "butter_wrapper_8" },
@@ -938,7 +936,7 @@
     "items": [
       { "item": "water_clean", "charges": -1, "prob": 10 },
       { "item": "water_mineral", "charges": -1, "prob": 10 },
-      { "item": "milk", "charges": [ 2, -1 ], "prob": 20 },
+      { "group": "milk_in_container", "prob": 20 },
       { "prob": 35, "group": "butter_wrapper_8_64" },
       { "item": "ghee", "prob": 5, "charges": [ 1, 64 ], "container-item": "jar_glass_sealed", "sealed": false },
       [ "yoghurt", 10 ],
@@ -987,7 +985,7 @@
     "items": [
       { "item": "water_clean", "charges": -1, "prob": 10 },
       { "item": "water_mineral", "charges": -1, "prob": 10 },
-      { "item": "milk", "charges": [ 2, -1 ], "prob": 20 },
+      { "group": "milk_in_container", "prob": 20 },
       [ "egg_bird_unfert", 20 ],
       { "prob": 35, "group": "butter_wrapper_8_64" },
       { "item": "ghee", "prob": 5, "charges": [ 1, 64 ], "container-item": "jar_glass_sealed", "sealed": false },
@@ -1416,7 +1414,7 @@
     "items": [
       { "item": "water_clean", "charges": -1, "prob": 10 },
       { "item": "water_mineral", "charges": -1, "prob": 10 },
-      { "item": "milk", "charges": [ 2, -1 ], "prob": 20 },
+      { "group": "milk_in_container", "prob": 20 },
       { "prob": 35, "group": "butter_wrapper_8_64" },
       { "item": "ghee", "prob": 5, "charges": [ 1, 64 ], "container-item": "jar_glass_sealed", "sealed": false },
       [ "cactus_pad", 20 ],
@@ -1537,19 +1535,13 @@
     "//": "Large amounts of butter, milk, and eggs for use in baking.",
     "//2": "These are large-ish quantities for use in commercial bakeries.",
     "entries": [
-      { "group": "milk_full_gallon", "prob": 50, "count": [ 1, 3 ] },
-      { "group": "milk_full_gallon", "prob": 40, "count": [ 2, 4 ] },
+      { "group": "milk_in_big_container_full", "prob": 50, "count": [ 1, 3 ] },
+      { "group": "milk_in_big_container_full", "prob": 40, "count": [ 2, 4 ] },
       { "group": "butter_wrapper_8", "prob": 50, "count": [ 2, 4 ] },
       { "group": "butter_wrapper_8", "prob": 40, "count": [ 2, 5 ] },
       { "group": "egg_bird_unfert_carton_egg_6_12", "prob": 50, "count": [ 1, 2 ] },
       { "group": "egg_bird_unfert_carton_egg_6_12", "prob": 40, "count": [ 1, 3 ] }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_full_gallon",
-    "subtype": "distribution",
-    "entries": [ { "item": "milk", "charges": -1, "container-item": "jug_plastic" } ]
   },
   {
     "type": "item_group",

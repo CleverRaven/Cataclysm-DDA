@@ -567,7 +567,7 @@ See [Text widgets](#text-widgets) for a variety of predefined text widgets you c
 ## label
 
 The "label" is the word or phrase that appears in the UI to identify this widget. For "number",
-"graph", or "text" widgets, the label is shown to the left of the the value unless the
+"graph", or "text" widgets, the label is shown to the left of the value unless the
 `W_LABEL_NONE` [flag](#flags) is given. For "layout" widgets, the label may appear as the name of a
 section within the sidebar.
 

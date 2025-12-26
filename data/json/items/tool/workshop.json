@@ -1,10 +1,10 @@
 [
   {
-    "id": "adobe_pallet_full",
+    "id": "adobe_pallet_full_active",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "pallet of wet adobe bricks", "str_pl": "pallets of wet adobe bricks" },
-    "description": "A pallet full of heavy mud bricks which need to dry slowly to be usable.",
+    "description": "A pallet full of heavy mud bricks which need to dry slowly to be usable, so it will transform after a week.",
     "weight": "220 kg",
     "volume": "220000 ml",
     "longest_side": "180 cm",
@@ -14,16 +14,9 @@
     "symbol": "#",
     "color": "brown",
     "looks_like": "frame_wood_light",
-    "flags": [ "NONCONDUCTIVE", "ALLOWS_REMOTE_USE" ],
-    "use_action": {
-      "target": "adobe_pallet_done",
-      "msg": "You test the bricks, and they're solid enough to use.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 604800,
-      "not_ready_msg": "The bricks are still too damp to bear weight.",
-      "//": "Should be about a week. Irl it's ten days, so make big batches."
-    }
+    "flags": [ "NONCONDUCTIVE", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ],
+    "countdown_interval": "7 days",
+    "revert_to": "adobe_pallet_done"
   },
   {
     "id": "adobe_pallet_done",
@@ -115,25 +108,6 @@
     "volume": "250 ml",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "neutral" },
     "melee_damage": { "bash": 1, "cut": 1 }
-  },
-  {
-    "id": "brick_kiln",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "brick kiln" },
-    "description": "A portable coal-or-charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
-    "weight": "9600 g",
-    "volume": "30 L",
-    "price": "250 USD",
-    "price_postapoc": "10 USD",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "dark_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 1000, "coal": 5000 } } ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 13 },
-    "tool_ammo": [ "charcoal", "coal" ]
   },
   {
     "id": "carding_paddles",
@@ -1888,7 +1862,7 @@
     "id": "exodii_kiln",
     "type": "ITEM",
     "name": { "str": "Exodii kiln" },
-    "description": "An electric kiln, powered by your electric grid.  A bit larger than a refridgerator, this Exodii-manufactured kiln is large enough to repair the sheets of ceramic they use for armor.  It is designed for firing sheets of the Exodii's ceramic, but you could use it to fire anything made of clay.  A large and power-hungry appliance.",
+    "description": "An electric kiln, powered by your electric grid.  A bit larger than a refrigerator, this Exodii-manufactured kiln is large enough to repair the sheets of ceramic they use for armor.  It is designed for firing sheets of the Exodii's ceramic, but you could use it to fire anything made of clay.  A large and power-hungry appliance.",
     "weight": "175 kg",
     "volume": "1000 L",
     "price": "5000 USD",
@@ -1941,5 +1915,15 @@
     "proportional": { "weight": 1.1 },
     "material": [ "bronze" ],
     "color": "yellow"
+  },
+  {
+    "id": "razor_blade_taped",
+    "copy-from": "razor_blade",
+    "looks_like": "razor_blade",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "taped razorblade" },
+    "description": "A double-edged razor blade with one side taped to allow its use as a basic tool.",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ], [ "FABRIC_CUT", 1 ] ]
   }
 ]

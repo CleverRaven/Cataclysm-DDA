@@ -1549,7 +1549,8 @@ class map
          */
         bool add_field(
             const tripoint_bub_ms &p, const field_type_id &type_id, int intensity = INT_MAX,
-            const time_duration &age = 0_turns, bool hit_player = true );
+            const time_duration &age = 0_turns, bool hit_player = true,
+            effect_source source = effect_source() );
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
          */

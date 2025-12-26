@@ -43,6 +43,7 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "mapdata.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "npc.h"
 #include "npctrade.h"
@@ -388,7 +389,9 @@ class armor_inventory_preset: public inventory_selector_preset
 
             // Show total storage capacity in user's preferred volume units, to 2 decimal places
             append_cell( [ this ]( const item_location & loc ) {
-                const int storage_ml = to_milliliter( loc->get_total_capacity() );
+                const int storage_ml = to_milliliter(
+                                           loc->get_volume_capacity( item_pocket::ok_default_containers )
+                                       );
                 return get_decimal_string( round_up( convert_volume( storage_ml ), 2 ) );
             }, string_format( _( "STORAGE (%s)" ), volume_units_abbr() ) );
         }
@@ -1665,10 +1668,10 @@ drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereade
         const std::string time = colorize( to_string( required_time, true ),
                                            c_light_gray );
         using stats = inventory_selector::stats;
-        return stats{{
+        return inventory_selector::convert_stats_to_header_stats( stats{{
                 {{ _( "Charges" ), charges }},
                 {{ _( "Estimated time" ), time }}
-            }};
+            }} );
     };
 
     inventory_multiselector inv_s( who, preset, _( "SELECT BOOKS TO SCAN" ),
@@ -1835,11 +1838,11 @@ drop_locations game_menus::inv::efile_select( Character &who, item_location &use
                                        colorize( _( "Estimated time (slow!):" ), c_yellow );
         const std::string time = colorize( to_string( required_time, true ),
                                            c_light_gray );
-        return inventory_selector::stats{ {
+        return inventory_selector::convert_stats_to_header_stats( inventory_selector::stats{ {
                 {{ _( "Processed / Available Memory: " ), ememory }},
                 {{ _( "Charges" ), charges }},
                 {{ time_label, time}}
-            } };
+            } } );
     };
 
     std::string action_name = efile_activity_actor::efile_action_name( action );
@@ -2508,7 +2511,7 @@ drop_locations game_menus::inv::smoke_food( Character &you, units::volume total_
             added_volume += loc.first->volume() * loc.second / loc.first->count();
         }
         std::string volume_caption = string_format( _( "Volume (%s):" ), volume_units_abbr() );
-        return inventory_selector::stats{
+        return inventory_selector::convert_stats_to_header_stats( inventory_selector::stats{
             {
                 display_stat( volume_caption,
                               units::to_milliliter( used_capacity + added_volume ),
@@ -2517,7 +2520,7 @@ drop_locations game_menus::inv::smoke_food( Character &you, units::volume total_
                     return format_volume( units::from_milliliter( v ) );
                 } )
             }
-        };
+        } );
     };
 
     inventory_multiselector smoke_s( you, preset, _( "FOOD TO SMOKE" ), make_raw_stats );
@@ -3146,6 +3149,22 @@ class select_ammo_inventory_preset : public inventory_selector_preset
             item_location left = lhs.any_item();
             item_location right = rhs.any_item();
 
+            // if we remember what round we used last time, it's wise to try to use it again
+            // it supposed to be stored elsewhere, potentially in a gun itself, but all item_locations are const here
+            const std::string last_ammo = you.get_value( "last_round_reloaded_id" ).str();
+            if( !last_ammo.empty() ) {
+                if( ( left.get_item()->type->id.str() == last_ammo ) !=
+                    ( right.get_item()->typeId().str() == last_ammo ) ) {
+                    return left.get_item()->typeId().str() == last_ammo;
+                }
+            }
+
+            // if gun already has a round of this type inside, prioritize this type
+            if( ( target.get_item()->ammo_current() == left.get_item()->typeId() ) !=
+                ( target.get_item()->ammo_current() == right.get_item()->typeId() ) ) {
+                return ( target.get_item()->ammo_current() == left.get_item()->typeId() );
+            }
+
             if( left->ammo_remaining( ) == 0 || right->ammo_remaining( ) == 0 ) {
                 return ( left->ammo_remaining( ) != 0 ) > ( right->ammo_remaining( ) != 0 );
             }
@@ -3176,7 +3195,8 @@ item::reload_option game_menus::inv::select_ammo( Character &you, const item_loc
     inv_s.set_title( string_format( loc->is_watertight_container() ? _( "Refill %s" ) :
                                     loc->has_flag( flag_RELOAD_AND_SHOOT ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
                                     loc->display_name() ) );
-    inv_s.set_hint( _( "Choose ammo to reload" ) );
+    inv_s.set_hint(
+        _( "Choose ammo to reload\nRepeating the last keybind picks the lastly loaded round" ) );
     inv_s.set_display_stats( false );
 
     inv_s.clear_items();
@@ -3208,6 +3228,7 @@ item::reload_option game_menus::inv::select_ammo( Character &you, const item_loc
         }
     }
 
+    you.set_value( "last_round_reloaded_id", selected.first.get_item()->type->id.str() );
     item::reload_option opt( &you, target_loc, selected.first );
     opt.qty( selected.second );
 

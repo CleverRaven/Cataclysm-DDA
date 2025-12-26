@@ -587,7 +587,7 @@ static std::string practice_recipe_description( const recipe &recp,
         const Character &crafter )
 {
     std::ostringstream oss;
-    oss << recp.description.translated() << "\n\n";
+    oss << recp.get_description( crafter ) << "\n\n";
     if( recp.practice_data->min_difficulty != recp.practice_data->max_difficulty ) {
         std::string txt = string_format( _( "Difficulty range: %d to %d" ),
                                          recp.practice_data->min_difficulty, recp.practice_data->max_difficulty );
@@ -817,7 +817,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
     item dummy_result = get_recipe_result_item( *rec, crafter );
     std::string result_description;
     if( dummy_result.is_null() ) {
-        result_description = rec->description.translated();
+        result_description = rec->get_description( crafter );
     }
     bool result_uses_charges = dummy_result.count_by_charges();
     int const makes_amount = rec->makes_amount();
@@ -1628,7 +1628,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                             w_iteminfo ) ).apply( w_iteminfo );
                 wnoutrefresh( w_iteminfo );
             } else if( cur_recipe->is_nested() ) {
-                std::string desc = cur_recipe->description.translated() + "\n\n";
+                std::string desc = cur_recipe->get_description( *crafter ) + "\n\n";
                 desc += list_nested( *crafter, cur_recipe, available_recipes );
                 fold_and_print( w_iteminfo, point::zero, item_info_width, c_light_gray, desc );
                 scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(

@@ -205,6 +205,8 @@ class weather_manager
         weather_type_id weather_id = WEATHER_NULL;
         int winddirection = 0;
         int windspeed = 0;
+        // whether the last update_weather() resulted in `weather_id` changing
+        bool weather_changed = false;
 
         // For debug menu option "Force temperature"
         std::optional<units::temperature> forced_temperature;
