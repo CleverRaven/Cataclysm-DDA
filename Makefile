@@ -1463,4 +1463,8 @@ clean-lang:
 
 .PHONY: tests check ctags etags clean-tests clean-pch clean-lang install lint
 
+compile_commands.txt:
+	@echo 'COMPILE.cc := $(COMPILE.cc)' > $@
+	@echo 'LINK.cc := $(LINK.cc)' >> $@
+
 -include ${OBJS:.o=.d}
