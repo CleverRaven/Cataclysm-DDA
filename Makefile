@@ -1136,6 +1136,9 @@ $(shell mkdir -p $(DIRS))
 $(ODIR)/%.inc: $(SRC_DIR)/%.cpp
 	$(COMPILE.cc) -o /dev/null -Wno-error -H -E $< 2> $@
 
+$(ODIR)/%.inc: $(SRC_DIR)/third-party/%.c
+	$(COMPILE.cc) -o /dev/null -Wno-error -H -E $< 2> $@
+
 .PHONY: includes
 includes: $(OBJS:.o=.inc)
 	+make -C tests includes
