@@ -134,10 +134,11 @@ void overmap_sidebar::draw_sidebar_text( const std::string_view &original_text,
     ImGui::NewLine();
 }
 
-overmap_sidebar::overmap_sidebar( overmap_ui::overmap_draw_data_t &data ) :
+overmap_sidebar::overmap_sidebar( overmap_ui::overmap_draw_data_t &data,
+                                 const input_context &ictxt ) :
     cataimgui::window( _( "OVERMAP_SIDEBAR" ),
                        ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoNav ),
-    draw_data( data )
+    draw_data( data ), ictxt( ictxt )
 {
     init();
 }
@@ -184,9 +185,8 @@ void overmap_sidebar::draw_controls()
 
 void overmap_sidebar::print_hint( const std::string &action, nc_color color )
 {
-    const input_context &ctxt = draw_data.ictxt;
     draw_sidebar_text( string_format( _( "%s - %s" ),
-                                      ctxt.get_desc( action ), ctxt.get_action_name( action ) ), color );
+                                      ictxt.get_desc( action ), ictxt.get_action_name( action ) ), color );
 }
 
 void overmap_sidebar::draw_tile_info()
@@ -274,10 +274,9 @@ void overmap_sidebar::draw_settings_info()
 
 void overmap_sidebar::draw_quick_reference()
 {
-    const input_context &ctxt = draw_data.ictxt;
     draw_sidebar_text( _( "Use movement keys to pan." ), c_magenta );
     draw_sidebar_text( string_format( _( "Press %s to preview route." ),
-                                      ctxt.get_desc( "CHOOSE_DESTINATION" ) ), c_magenta );
+                                      ictxt.get_desc( "CHOOSE_DESTINATION" ) ), c_magenta );
     draw_sidebar_text( _( "Press again to confirm." ), c_magenta );
     print_hint( "LEVEL_UP" );
     print_hint( "LEVEL_DOWN" );
@@ -2061,7 +2060,7 @@ static tripoint_abs_omt display()
     tripoint_abs_omt &orig = data.origin_pos;
     std::vector<tripoint_abs_omt> &display_path = data.display_path;
     tripoint_abs_omt &select = data.select;
-    input_context &ictxt = data.ictxt;
+    input_context ictxt( "OVERMAP" );
 
     const int previous_zoom = g->get_zoom();
     g->set_zoom( overmap_zoom_level );
@@ -2076,7 +2075,7 @@ static tripoint_abs_omt display()
     data.ui = std::make_shared<ui_adaptor>();
     std::shared_ptr<ui_adaptor> ui = data.ui;
 
-    overmap_sidebar om_sidebar( data );
+    overmap_sidebar om_sidebar( data, ictxt );
 
     ui->on_screen_resize( []( ui_adaptor & ui ) {
         /**

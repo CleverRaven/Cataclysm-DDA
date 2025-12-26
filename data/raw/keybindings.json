@@ -18,7 +18,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_UP"
+        "key": "RS_UP"
       }
     ]
   },
@@ -41,7 +41,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_DOWN"
+        "key": "RS_DOWN"
       }
     ]
   },
@@ -64,7 +64,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_LEFT"
+        "key": "RS_LEFT"
       }
     ]
   },
@@ -87,7 +87,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_RIGHT"
+        "key": "RS_RIGHT"
       }
     ]
   },
@@ -152,7 +152,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_L_UP"
+        "key": "LS_UP"
       }
     ]
   },
@@ -179,7 +179,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_L_DOWN"
+        "key": "LS_DOWN"
       }
     ]
   },
@@ -206,7 +206,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_L_LEFT"
+        "key": "LS_LEFT"
       }
     ]
   },
@@ -233,7 +233,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_L_RIGHT"
+        "key": "LS_RIGHT"
       }
     ]
   },
@@ -256,7 +256,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_L_LEFTUP"
+        "key": "LS_UP_LEFT"
       }
     ]
   },
@@ -279,7 +279,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_L_RIGHTUP"
+        "key": "LS_UP_RIGHT"
       }
     ]
   },
@@ -302,7 +302,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_L_LEFTDOWN"
+        "key": "LS_DOWN_LEFT"
       }
     ]
   },
@@ -325,7 +325,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_L_RIGHTDOWN"
+        "key": "LS_DOWN_RIGHT"
       }
     ]
   },
@@ -426,7 +426,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_UP"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -449,7 +449,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_DOWN"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -469,7 +469,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_UP"
+        "key": "UP"
       }
     ]
   },
@@ -489,7 +489,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_DOWN"
+        "key": "DOWN"
       }
     ]
   },
@@ -509,7 +509,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_LEFT"
+        "key": "LEFT"
       }
     ]
   },
@@ -660,7 +660,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_UP"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -683,7 +683,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_DOWN"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -984,7 +984,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -1011,7 +1011,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -1038,7 +1038,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -1065,7 +1065,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SE"
+        "key": "L_RADIAL_SE"
       }
     ]
   },
@@ -1092,7 +1092,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -1119,7 +1119,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SW"
+        "key": "L_RADIAL_SW"
       }
     ]
   },
@@ -1146,7 +1146,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_W"
+        "key": "L_RADIAL_W"
       }
     ]
   },
@@ -1170,7 +1170,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_DPAD_UP"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -1190,7 +1190,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_DPAD_DOWN"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -1217,7 +1217,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NW"
+        "key": "L_RADIAL_NW"
       }
     ]
   },
@@ -1244,7 +1244,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_N"
+        "key": "R_RADIAL_N"
       }
     ]
   },
@@ -1359,7 +1359,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -1382,7 +1382,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -1398,7 +1398,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -1421,7 +1421,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SE"
+        "key": "L_RADIAL_SE"
       }
     ]
   },
@@ -1444,7 +1444,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_UP"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -1467,7 +1467,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_DOWN"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -1483,7 +1483,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -1506,7 +1506,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SW"
+        "key": "L_RADIAL_SW"
       }
     ]
   },
@@ -1522,7 +1522,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_W"
+        "key": "L_RADIAL_W"
       }
     ]
   },
@@ -1661,7 +1661,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -1684,7 +1684,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -1700,7 +1700,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -1716,7 +1716,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SE"
+        "key": "L_RADIAL_SE"
       }
     ]
   },
@@ -1734,7 +1734,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -1757,7 +1757,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_UP"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -1780,7 +1780,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_DOWN"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -1803,7 +1803,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_SW"
+        "key": "R_RADIAL_SW"
       }
     ]
   },
@@ -1830,7 +1830,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_W"
+        "key": "L_RADIAL_SW"
       }
     ]
   },
@@ -1853,7 +1853,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NW"
+        "key": "L_RADIAL_NW"
       }
     ]
   },
@@ -1879,7 +1879,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_DPAD_UP"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -1905,7 +1905,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_DPAD_DOWN"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -1929,7 +1929,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -1949,7 +1949,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -1965,7 +1965,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -1981,7 +1981,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SE"
+        "key": "L_RADIAL_SE"
       }
     ]
   },
@@ -1997,7 +1997,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -2013,7 +2013,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -2029,7 +2029,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -2049,7 +2049,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -2065,7 +2065,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -2107,7 +2107,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -2123,7 +2123,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -2147,7 +2147,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -2167,7 +2167,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SE"
+        "key": "L_RADIAL_SE"
       }
     ]
   },
@@ -2333,7 +2333,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -2396,7 +2396,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -2423,7 +2423,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -2450,7 +2450,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SE"
+        "key": "L_RADIAL_SE"
       }
     ]
   },
@@ -2477,7 +2477,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -2504,7 +2504,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SW"
+        "key": "L_RADIAL_SW"
       }
     ]
   },
@@ -2701,6 +2701,10 @@
         "mod": [
           "shift"
         ]
+      },
+      {
+        "input_method": "gamepad",
+        "key": "L_RADIAL_SW"
       }
     ]
   },
@@ -2720,6 +2724,10 @@
         "mod": [
           "shift"
         ]
+      },
+      {
+        "input_method": "gamepad",
+        "key": "L_RADIAL_W"
       }
     ]
   },
@@ -2758,6 +2766,10 @@
         "mod": [
           "shift"
         ]
+      },
+      {
+        "input_method": "gamepad",
+        "key": "R_RADIAL_N"
       }
     ]
   },
@@ -2777,6 +2789,10 @@
         "mod": [
           "shift"
         ]
+      },
+      {
+        "input_method": "gamepad",
+        "key": "R_RADIAL_NE"
       }
     ]
   },
@@ -2796,6 +2812,10 @@
         "mod": [
           "shift"
         ]
+      },
+      {
+        "input_method": "gamepad",
+        "key": "R_RADIAL_E"
       }
     ]
   },
@@ -2815,6 +2835,10 @@
         "mod": [
           "shift"
         ]
+      },
+      {
+        "input_method": "gamepad",
+        "key": "R_RADIAL_SE"
       }
     ]
   },
@@ -2834,6 +2858,10 @@
         "mod": [
           "shift"
         ]
+      },
+      {
+        "input_method": "gamepad",
+        "key": "R_RADIAL_S"
       }
     ]
   },
@@ -2853,6 +2881,10 @@
         "mod": [
           "shift"
         ]
+      },
+      {
+        "input_method": "gamepad",
+        "key": "R_RADIAL_SW"
       }
     ]
   },
@@ -2865,6 +2897,10 @@
       {
         "input_method": "keyboard_any",
         "key": "w"
+      },
+      {
+        "input_method": "gamepad",
+        "key": "R_RADIAL_W"
       }
     ]
   },
@@ -2884,6 +2920,10 @@
         "mod": [
           "shift"
         ]
+      },
+      {
+        "input_method": "gamepad",
+        "key": "R_RADIAL_NW"
       }
     ]
   },
@@ -2906,7 +2946,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -2953,7 +2993,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -3076,6 +3116,10 @@
         "mod": [
           "shift"
         ]
+      },
+      {
+        "input_method": "gamepad",
+        "key": "L_RADIAL_SW"
       }
     ]
   },
@@ -3186,6 +3230,10 @@
         "mod": [
           "shift"
         ]
+      },
+      {
+        "input_method": "gamepad",
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -3197,6 +3245,10 @@
       {
         "input_method": "keyboard_any",
         "key": "g"
+      },
+      {
+        "input_method": "gamepad",
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -3208,6 +3260,10 @@
       {
         "input_method": "keyboard_any",
         "key": "c"
+      },
+      {
+        "input_method": "gamepad",
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -3262,7 +3318,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_LB"
+        "key": "LB"
       }
     ]
   },
@@ -3286,7 +3342,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RB"
+        "key": "RB"
       }
     ]
   },
@@ -3314,7 +3370,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RT"
+        "key": "RT"
       }
     ]
   },
@@ -3342,7 +3398,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -3358,7 +3414,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -3374,7 +3430,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -3390,7 +3446,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SE"
+        "key": "L_RADIAL_SE"
       }
     ]
   },
@@ -3417,7 +3473,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -3472,7 +3528,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -3488,7 +3544,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SW"
+        "key": "L_RADIAL_SW"
       }
     ]
   },
@@ -3582,7 +3638,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RB"
+        "key": "RB"
       }
     ]
   },
@@ -3604,7 +3660,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_LB"
+        "key": "LB"
       }
     ]
   },
@@ -3630,7 +3686,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RS"
+        "key": "RS"
       }
     ]
   },
@@ -3759,7 +3815,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_NE"
+        "key": "R_RADIAL_NE"
       }
     ]
   },
@@ -4198,7 +4254,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_DOWN"
+        "key": "RS_DOWN"
       }
     ]
   },
@@ -4220,7 +4276,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_UP"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -4242,7 +4298,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_DOWN"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -4296,7 +4352,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -4312,7 +4368,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -4328,7 +4384,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -4344,7 +4400,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SE"
+        "key": "L_RADIAL_SE"
       }
     ]
   },
@@ -4360,7 +4416,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -4376,7 +4432,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SW"
+        "key": "L_RADIAL_SW"
       }
     ]
   },
@@ -4392,7 +4448,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -4408,7 +4464,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -4424,7 +4480,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -4440,7 +4496,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SE"
+        "key": "L_RADIAL_SE"
       }
     ]
   },
@@ -4456,7 +4512,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -4472,7 +4528,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SW"
+        "key": "L_RADIAL_SW"
       }
     ]
   },
@@ -4488,7 +4544,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_N"
+        "key": "R_RADIAL_N"
       }
     ]
   },
@@ -4504,7 +4560,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_W"
+        "key": "L_RADIAL_W"
       }
     ]
   },
@@ -4520,7 +4576,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NW"
+        "key": "L_RADIAL_NW"
       }
     ]
   },
@@ -4536,7 +4592,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_NE"
+        "key": "R_RADIAL_NE"
       }
     ]
   },
@@ -4552,7 +4608,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_E"
+        "key": "R_RADIAL_E"
       }
     ]
   },
@@ -4568,7 +4624,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_SE"
+        "key": "R_RADIAL_SE"
       }
     ]
   },
@@ -4615,7 +4671,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_DPAD_UP"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -4631,7 +4687,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_DPAD_DOWN"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -4654,7 +4710,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_DPAD_UP"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -4677,7 +4733,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_DOWN"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -4700,7 +4756,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_UP"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -4723,7 +4779,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_DPAD_DOWN"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -4739,7 +4795,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -4762,7 +4818,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_DPAD_DOWN"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -4785,7 +4841,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_DPAD_UP"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -5119,7 +5175,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SW"
+        "key": "L_RADIAL_SW"
       }
     ]
   },
@@ -5135,7 +5191,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -5151,7 +5207,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -5174,7 +5230,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_W"
+        "key": "L_RADIAL_W"
       }
     ]
   },
@@ -5190,7 +5246,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -5206,7 +5262,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SE"
+        "key": "L_RADIAL_SE"
       }
     ]
   },
@@ -5233,7 +5289,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NW"
+        "key": "L_RADIAL_NW"
       }
     ]
   },
@@ -5256,7 +5312,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -5310,7 +5366,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -5333,7 +5389,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -5356,7 +5412,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -5379,7 +5435,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SE"
+        "key": "L_RADIAL_SE"
       }
     ]
   },
@@ -5402,7 +5458,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -5418,7 +5474,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SW"
+        "key": "L_RADIAL_SW"
       }
     ]
   },
@@ -5441,7 +5497,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -5464,7 +5520,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_UP"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -5487,7 +5543,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_DOWN"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -5510,7 +5566,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -5538,7 +5594,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RT"
+        "key": "RT"
       }
     ]
   },
@@ -5568,7 +5624,7 @@
     "bindings": [
       {
         "input_method": "gamepad",
-        "key": "JOY_R_UP"
+        "key": "RS_UP"
       }
     ]
   },
@@ -5580,7 +5636,7 @@
     "bindings": [
       {
         "input_method": "gamepad",
-        "key": "JOY_R_RIGHT"
+        "key": "RS_RIGHT"
       }
     ]
   },
@@ -5592,7 +5648,7 @@
     "bindings": [
       {
         "input_method": "gamepad",
-        "key": "JOY_R_DOWN"
+        "key": "RS_DOWN"
       }
     ]
   },
@@ -5604,7 +5660,7 @@
     "bindings": [
       {
         "input_method": "gamepad",
-        "key": "JOY_R_LEFT"
+        "key": "RS_LEFT"
       }
     ]
   },
@@ -5644,7 +5700,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_X"
+        "key": "ALT_X"
       }
     ]
   },
@@ -5668,7 +5724,7 @@
     "bindings": [
       {
         "input_method": "gamepad",
-        "key": "JOY_X"
+        "key": "X"
       }
     ]
   },
@@ -5688,7 +5744,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_SE"
+        "key": "R_RADIAL_SE"
       }
     ]
   },
@@ -5729,7 +5785,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_B"
+        "key": "B"
       }
     ]
   },
@@ -5745,7 +5801,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_B"
+        "key": "ALT_B"
       }
     ]
   },
@@ -5790,10 +5846,6 @@
         "mod": [
           "shift"
         ]
-      },
-      {
-        "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
       }
     ]
   },
@@ -5813,6 +5865,10 @@
         "mod": [
           "shift"
         ]
+      },
+      {
+        "input_method": "gamepad",
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -5857,7 +5913,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_RS"
+        "key": "ALT_RS"
       }
     ]
   },
@@ -5880,7 +5936,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RS"
+        "key": "RS"
       }
     ]
   },
@@ -5915,7 +5971,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_S"
+        "key": "R_RADIAL_S"
       }
     ]
   },
@@ -5981,7 +6037,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_DPAD_RIGHT"
+        "key": "ALT_RIGHT"
       }
     ]
   },
@@ -6004,7 +6060,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_DPAD_LEFT"
+        "key": "LEFT"
       }
     ]
   },
@@ -6027,7 +6083,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_DPAD_LEFT"
+        "key": "ALT_LEFT"
       }
     ]
   },
@@ -6050,7 +6106,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_DPAD_UP"
+        "key": "UP"
       }
     ]
   },
@@ -6079,7 +6135,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -6095,7 +6151,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_DPAD_RIGHT"
+        "key": "RIGHT"
       }
     ]
   },
@@ -6118,7 +6174,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_RB"
+        "key": "ALT_RB"
       }
     ]
   },
@@ -6162,6 +6218,10 @@
         "mod": [
           "shift"
         ]
+      },
+      {
+        "input_method": "gamepad",
+        "key": "L_RADIAL_NW"
       }
     ]
   },
@@ -6177,7 +6237,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_Y"
+        "key": "Y"
       }
     ]
   },
@@ -6217,7 +6277,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_LB"
+        "key": "LB"
       }
     ]
   },
@@ -6264,7 +6324,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_DPAD_DOWN"
+        "key": "DOWN"
       }
     ]
   },
@@ -6336,7 +6396,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_NE"
+        "key": "R_RADIAL_NE"
       }
     ]
   },
@@ -6359,7 +6419,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_SW"
+        "key": "R_RADIAL_SW"
       }
     ]
   },
@@ -6405,7 +6465,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SE"
+        "key": "L_RADIAL_SE"
       }
     ]
   },
@@ -6428,7 +6488,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -6445,10 +6505,6 @@
       {
         "input_method": "keyboard_code",
         "key": "KEYPAD_MINUS"
-      },
-      {
-        "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NW"
       }
     ]
   },
@@ -6475,7 +6531,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -6498,7 +6554,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_W"
+        "key": "L_RADIAL_W"
       }
     ]
   },
@@ -6521,7 +6577,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SW"
+        "key": "L_RADIAL_SW"
       }
     ]
   },
@@ -6575,7 +6631,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_LS"
+        "key": "ALT_LS"
       }
     ]
   },
@@ -6591,7 +6647,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_LS"
+        "key": "LS"
       }
     ]
   },
@@ -6658,7 +6714,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_N"
+        "key": "R_RADIAL_N"
       }
     ]
   },
@@ -6674,7 +6730,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_BACK"
+        "key": "BACK"
       }
     ]
   },
@@ -6714,7 +6770,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_W"
+        "key": "R_RADIAL_W"
       }
     ]
   },
@@ -6737,7 +6793,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_E"
+        "key": "R_RADIAL_E"
       }
     ]
   },
@@ -6749,7 +6805,7 @@
     "bindings": [
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_NW"
+        "key": "R_RADIAL_NW"
       }
     ]
   },
@@ -6799,7 +6855,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_START"
+        "key": "ALT_START"
       }
     ]
   },
@@ -6821,7 +6877,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_BACK"
+        "key": "ALT_BACK"
       }
     ]
   },
@@ -7027,7 +7083,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_LB"
+        "key": "ALT_LB"
       }
     ]
   },
@@ -7089,7 +7145,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_A"
+        "key": "A"
       }
     ]
   },
@@ -7112,7 +7168,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_A"
+        "key": "ALT_A"
       }
     ]
   },
@@ -7136,7 +7192,7 @@
     "bindings": [
       {
         "input_method": "gamepad",
-        "key": "JOY_R_RIGHTUP"
+        "key": "RS_UP_RIGHT"
       }
     ]
   },
@@ -7148,7 +7204,7 @@
     "bindings": [
       {
         "input_method": "gamepad",
-        "key": "JOY_R_RIGHTDOWN"
+        "key": "RS_DOWN_RIGHT"
       }
     ]
   },
@@ -7160,7 +7216,7 @@
     "bindings": [
       {
         "input_method": "gamepad",
-        "key": "JOY_R_LEFTDOWN"
+        "key": "RS_DOWN_LEFT"
       }
     ]
   },
@@ -7172,7 +7228,7 @@
     "bindings": [
       {
         "input_method": "gamepad",
-        "key": "JOY_R_LEFTUP"
+        "key": "RS_UP_LEFT"
       }
     ]
   },
@@ -7206,7 +7262,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RB"
+        "key": "RB"
       }
     ]
   },
@@ -7222,7 +7278,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_START"
+        "key": "START"
       }
     ]
   },
@@ -7324,7 +7380,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_RT"
+        "key": "ALT_RT"
       }
     ]
   },
@@ -7340,7 +7396,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_Y"
+        "key": "ALT_Y"
       }
     ]
   },
@@ -7388,7 +7444,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_UP"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -7411,7 +7467,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_DOWN"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -7449,7 +7505,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -7476,7 +7532,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -7500,7 +7556,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -7520,7 +7576,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_W"
+        "key": "L_RADIAL_W"
       }
     ]
   },
@@ -7547,7 +7603,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SE"
+        "key": "L_RADIAL_SE"
       }
     ]
   },
@@ -7563,7 +7619,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -7579,7 +7635,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -7595,7 +7651,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -7614,7 +7670,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_W"
+        "key": "L_RADIAL_W"
       }
     ]
   },
@@ -7637,7 +7693,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RS"
+        "key": "RS"
       }
     ]
   },
@@ -7673,7 +7729,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_UP"
+        "key": "UP"
       }
     ]
   },
@@ -7697,7 +7753,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_DOWN"
+        "key": "DOWN"
       }
     ]
   },
@@ -7745,7 +7801,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_UP"
+        "key": "UP"
       }
     ]
   },
@@ -7769,7 +7825,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_DOWN"
+        "key": "DOWN"
       }
     ]
   },
@@ -7923,7 +7979,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -7950,7 +8006,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -7977,7 +8033,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -8001,7 +8057,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_DPAD_UP"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -8021,7 +8077,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_DPAD_DOWN"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -8048,7 +8104,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SE"
+        "key": "L_RADIAL_SE"
       }
     ]
   },
@@ -8075,7 +8131,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -8102,7 +8158,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SW"
+        "key": "L_RADIAL_SW"
       }
     ]
   },
@@ -8129,7 +8185,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_W"
+        "key": "L_RADIAL_W"
       }
     ]
   },
@@ -8156,7 +8212,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NW"
+        "key": "L_RADIAL_NW"
       }
     ]
   },
@@ -8183,7 +8239,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_N"
+        "key": "R_RADIAL_N"
       }
     ]
   },
@@ -8210,7 +8266,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_NE"
+        "key": "R_RADIAL_NE"
       }
     ]
   },
@@ -8237,7 +8293,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_E"
+        "key": "R_RADIAL_E"
       }
     ]
   },
@@ -8264,7 +8320,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_SE"
+        "key": "R_RADIAL_SE"
       }
     ]
   },
@@ -8287,7 +8343,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_S"
+        "key": "R_RADIAL_S"
       }
     ]
   },
@@ -8314,7 +8370,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_DPAD_DOWN"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -8341,7 +8397,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_ALT_DPAD_UP"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -8361,7 +8417,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_UP"
+        "key": "UP"
       }
     ]
   },
@@ -8381,7 +8437,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_DOWN"
+        "key": "DOWN"
       }
     ]
   },
@@ -8401,7 +8457,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_LEFT"
+        "key": "LEFT"
       }
     ]
   },
@@ -8456,7 +8512,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NW"
+        "key": "L_RADIAL_NW"
       }
     ]
   },
@@ -8472,7 +8528,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_W"
+        "key": "L_RADIAL_W"
       }
     ]
   },
@@ -8499,7 +8555,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RS"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -8526,7 +8582,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -8558,7 +8614,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -8581,7 +8637,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -8597,7 +8653,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SE"
+        "key": "L_RADIAL_SE"
       }
     ]
   },
@@ -8613,7 +8669,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -8640,7 +8696,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SW"
+        "key": "L_RADIAL_SW"
       }
     ]
   },
@@ -8688,7 +8744,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -8704,7 +8760,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -8720,7 +8776,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -8740,7 +8796,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -8768,7 +8824,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_LEFT"
+        "key": "LEFT"
       }
     ]
   },
@@ -8994,6 +9050,10 @@
       {
         "input_method": "keyboard_code",
         "key": "KEYPAD_0"
+      },
+      {
+        "input_method": "gamepad",
+        "key": "R_RADIAL_NW"
       }
     ]
   },
@@ -9017,6 +9077,10 @@
         "mod": [
           "shift"
         ]
+      },
+      {
+        "input_method": "gamepad",
+        "key": "R_RADIAL_N"
       }
     ]
   },
@@ -9040,6 +9104,10 @@
         "mod": [
           "shift"
         ]
+      },
+      {
+        "input_method": "gamepad",
+        "key": "R_RADIAL_NE"
       }
     ]
   },
@@ -9052,6 +9120,10 @@
       {
         "input_method": "keyboard_any",
         "key": "o"
+      },
+      {
+        "input_method": "gamepad",
+        "key": "R_RADIAL_E"
       }
     ]
   },
@@ -9068,6 +9140,10 @@
       {
         "input_method": "keyboard_any",
         "key": "U"
+      },
+      {
+        "input_method": "gamepad",
+        "key": "R_RADIAL_SW"
       }
     ]
   },
@@ -9091,6 +9167,10 @@
         "mod": [
           "shift"
         ]
+      },
+      {
+        "input_method": "gamepad",
+        "key": "R_RADIAL_SE"
       }
     ]
   },
@@ -9137,6 +9217,10 @@
         "mod": [
           "shift"
         ]
+      },
+      {
+        "input_method": "gamepad",
+        "key": "R_RADIAL_S"
       }
     ]
   },
@@ -9324,7 +9408,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -9355,7 +9439,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -9382,7 +9466,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -9409,7 +9493,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_W"
+        "key": "L_RADIAL_W"
       }
     ]
   },
@@ -9440,7 +9524,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NW"
+        "key": "L_RADIAL_NW"
       }
     ]
   },
@@ -9467,7 +9551,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -9494,7 +9578,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -9521,7 +9605,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_W"
+        "key": "L_RADIAL_W"
       }
     ]
   },
@@ -9548,7 +9632,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -9575,7 +9659,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -9629,7 +9713,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -9660,7 +9744,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -9687,7 +9771,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -9737,7 +9821,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -9764,7 +9848,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -9791,7 +9875,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -9824,7 +9908,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -9863,7 +9947,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -9896,7 +9980,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -9929,7 +10013,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_W"
+        "key": "L_RADIAL_W"
       }
     ]
   },
@@ -9973,7 +10057,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -9989,7 +10073,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -10005,7 +10089,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -10021,7 +10105,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SE"
+        "key": "L_RADIAL_SE"
       }
     ]
   },
@@ -10037,7 +10121,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_N"
+        "key": "R_RADIAL_N"
       }
     ]
   },
@@ -10053,7 +10137,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_NE"
+        "key": "R_RADIAL_NE"
       }
     ]
   },
@@ -10069,7 +10153,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_E"
+        "key": "R_RADIAL_E"
       }
     ]
   },
@@ -10085,7 +10169,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_SE"
+        "key": "R_RADIAL_SE"
       }
     ]
   },
@@ -10101,7 +10185,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_S"
+        "key": "R_RADIAL_S"
       }
     ]
   },
@@ -10117,7 +10201,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_SW"
+        "key": "R_RADIAL_SW"
       }
     ]
   },
@@ -10133,7 +10217,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_W"
+        "key": "R_RADIAL_W"
       }
     ]
   },
@@ -10149,7 +10233,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_R_NW"
+        "key": "R_RADIAL_NW"
       }
     ]
   },
@@ -10527,7 +10611,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_UP"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -10550,7 +10634,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_DOWN"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -10573,7 +10657,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_UP"
+        "key": "ALT_UP"
       }
     ]
   },
@@ -10596,7 +10680,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_R_DOWN"
+        "key": "ALT_DOWN"
       }
     ]
   },
@@ -10619,7 +10703,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -10642,7 +10726,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_NE"
+        "key": "L_RADIAL_NE"
       }
     ]
   },
@@ -10665,7 +10749,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_E"
+        "key": "L_RADIAL_E"
       }
     ]
   },
@@ -10688,7 +10772,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_SE"
+        "key": "L_RADIAL_SE"
       }
     ]
   },
@@ -10711,7 +10795,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_S"
+        "key": "L_RADIAL_S"
       }
     ]
   },
@@ -10727,7 +10811,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },
@@ -10743,7 +10827,7 @@
       },
       {
         "input_method": "gamepad",
-        "key": "JOY_RADIAL_L_N"
+        "key": "L_RADIAL_N"
       }
     ]
   },

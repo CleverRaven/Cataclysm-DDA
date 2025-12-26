@@ -2531,9 +2531,15 @@ void draw_gamepad_radial_menu()
 
     int w, h;
     SDL_GetRendererOutputSize( renderer.get(), &w, &h );
+
+    // Draw a semi-transparent black background over the whole screen
+    SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
+    geometry->rect( renderer, { 0, 0, w, h }, { 0, 0, 0, 150 } );
+    SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
+
     const int center_x = w / 2;
     const int center_y = h / 2;
-    const float radius = h / 3.0f;
+    const float radius = h * 0.8f / 2.0f;
 
     // Scale font relative to window height.
     // Base scale 1.0 at 720p, for labels to be legible.
@@ -2578,9 +2584,6 @@ void draw_gamepad_radial_menu()
         draw_y -= text_h / 2;
 
         bool is_selected = ( dir == selected_dir );
-
-        // Draw shadow
-        font->OutputChar( renderer, geometry, label, point( draw_x + 1, draw_y + 1 ), 0, 0.8f );
 
         if( is_selected ) {
             // Draw selected item in yellow
@@ -2661,10 +2664,10 @@ void handle_finger_input( uint32_t ticks )
                 } else if( std::abs( delta_y ) < delta_x * 2.0f ) {
                     if( delta_y < 0 ) {
                         // swipe up-right
-                        last_input = input_event( JOY_RIGHTUP, input_event_t::gamepad );
+                        last_input = input_event( JOY_UP_RIGHT, input_event_t::gamepad );
                     } else {
                         // swipe down-right
-                        last_input = input_event( JOY_RIGHTDOWN, input_event_t::gamepad );
+                        last_input = input_event( JOY_DOWN_RIGHT, input_event_t::gamepad );
                     }
                 } else {
                     if( delta_y < 0 ) {
@@ -2682,11 +2685,11 @@ void handle_finger_input( uint32_t ticks )
                 } else if( std::abs( delta_y ) < -delta_x * 2.0f ) {
                     if( delta_y < 0 ) {
                         // swipe up-left
-                        last_input = input_event( JOY_LEFTUP, input_event_t::gamepad );
+                        last_input = input_event( JOY_UP_LEFT, input_event_t::gamepad );
 
                     } else {
                         // swipe down-left
-                        last_input = input_event( JOY_LEFTDOWN, input_event_t::gamepad );
+                        last_input = input_event( JOY_DOWN_LEFT, input_event_t::gamepad );
                     }
                 } else {
                     if( delta_y < 0 ) {
@@ -3359,6 +3362,7 @@ static void CheckMessages()
                 if( gamepad::handle_axis_event( ev ) ) {
                     // Direction indicator changed, need to redraw
                     needupdate = true;
+                    ui_manager::redraw_invalidated();
                 }
                 break;
             case SDL_CONTROLLERDEVICEADDED:

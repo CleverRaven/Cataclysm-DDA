@@ -10,6 +10,7 @@
 #include "input_enums.h"
 #include "point.h"
 #include "ui_manager.h"
+#include "game.h"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -180,14 +181,14 @@ static int get_alt_button( int base_code )
             return JOY_ALT_LS;
         case JOY_RS:
             return JOY_ALT_RS;
-        case JOY_DPAD_UP:
-            return JOY_ALT_DPAD_UP;
-        case JOY_DPAD_DOWN:
-            return JOY_ALT_DPAD_DOWN;
-        case JOY_DPAD_LEFT:
-            return JOY_ALT_DPAD_LEFT;
-        case JOY_DPAD_RIGHT:
-            return JOY_ALT_DPAD_RIGHT;
+        case JOY_UP:
+            return JOY_ALT_UP;
+        case JOY_DOWN:
+            return JOY_ALT_DOWN;
+        case JOY_LEFT:
+            return JOY_ALT_LEFT;
+        case JOY_RIGHT:
+            return JOY_ALT_RIGHT;
         case JOY_START:
             return JOY_ALT_START;
         case JOY_BACK:
@@ -228,7 +229,7 @@ int direction_to_radial_joy( direction dir, int stick_idx )
     if( dir == direction::NONE ) {
         return -1;
     }
-    int base = ( stick_idx == 0 ) ? JOY_RADIAL_L_N : JOY_RADIAL_R_N;
+    int base = ( stick_idx == 0 ) ? JOY_L_RADIAL_N : JOY_R_RADIAL_N;
     switch( dir ) {
         case direction::N:
             return base + 0;
@@ -295,28 +296,28 @@ static void send_direction_movement()
     // Convert direction to old-style JOY movement for keybinding lookup
     switch( left_stick_dir ) {
         case direction::N:
-            send_input( JOY_L_UP );
+            send_input( JOY_LS_UP );
             break;
         case direction::NE:
-            send_input( JOY_L_RIGHTUP );
+            send_input( JOY_LS_UP_RIGHT );
             break;
         case direction::E:
-            send_input( JOY_L_RIGHT );
+            send_input( JOY_LS_RIGHT );
             break;
         case direction::SE:
-            send_input( JOY_L_RIGHTDOWN );
+            send_input( JOY_LS_DOWN_RIGHT );
             break;
         case direction::S:
-            send_input( JOY_L_DOWN );
+            send_input( JOY_LS_DOWN );
             break;
         case direction::SW:
-            send_input( JOY_L_LEFTDOWN );
+            send_input( JOY_LS_DOWN_LEFT );
             break;
         case direction::W:
-            send_input( JOY_L_LEFT );
+            send_input( JOY_LS_LEFT );
             break;
         case direction::NW:
-            send_input( JOY_L_LEFTUP );
+            send_input( JOY_LS_UP_LEFT );
             break;
         default:
             break;
@@ -419,6 +420,13 @@ bool handle_axis_event( SDL_Event &event )
             task_t &stick_task = all_tasks[sticks_task_index + i];
             direction old_dir = ( i == 0 ) ? left_stick_dir : right_stick_dir;
 
+            if( dir != old_dir ) {
+                direction_changed = true;
+                if( i == 0 && g ) {
+                    g->invalidate_main_ui_adaptor();
+                }
+            }
+
             if( i == 0 ) {
                 left_stick_dir = dir;
             } else {
@@ -454,14 +462,7 @@ bool handle_axis_event( SDL_Event &event )
                 int joy_code = -1;
                 input_event_t itype = input_event_t::gamepad;
 
-                if( i == 0 ) {
-                    // Left stick (i=0): Map to num keys in menu if the radial menu is not open
-                    if( is_in_menu() && !radial_left_open ) {
-                        joy_code = direction_to_num_key( dir );
-                        itype = input_event_t::keyboard_char;
-                    }
-                    // In gameplay, left stick only updates left_stick_dir (handled above)
-                } else {
+                if( i == 1 ) {
                     // Right stick (i=1): Map to num keys in menu if the radial menu is not open, or JOY_R_* in gameplay
                     if( is_in_menu() ) {
                         if( !radial_right_open ) {
@@ -471,28 +472,28 @@ bool handle_axis_event( SDL_Event &event )
                     } else {
                         switch( dir ) {
                             case direction::N:
-                                joy_code = JOY_R_UP;
+                                joy_code = JOY_RS_UP;
                                 break;
                             case direction::NE:
-                                joy_code = JOY_R_RIGHTUP;
+                                joy_code = JOY_RS_UP_RIGHT;
                                 break;
                             case direction::E:
-                                joy_code = JOY_R_RIGHT;
+                                joy_code = JOY_RS_RIGHT;
                                 break;
                             case direction::SE:
-                                joy_code = JOY_R_RIGHTDOWN;
+                                joy_code = JOY_RS_DOWN_RIGHT;
                                 break;
                             case direction::S:
-                                joy_code = JOY_R_DOWN;
+                                joy_code = JOY_RS_DOWN;
                                 break;
                             case direction::SW:
-                                joy_code = JOY_R_LEFTDOWN;
+                                joy_code = JOY_RS_DOWN_LEFT;
                                 break;
                             case direction::W:
-                                joy_code = JOY_R_LEFT;
+                                joy_code = JOY_RS_LEFT;
                                 break;
                             case direction::NW:
-                                joy_code = JOY_R_LEFTUP;
+                                joy_code = JOY_RS_UP_LEFT;
                                 break;
                             default:
                                 break;
@@ -596,37 +597,37 @@ void handle_button_event( SDL_Event &event )
 
         // D-pad handling
         // If in a menu, send keyboard arrow keys for navigation
-        // If in gameplay, send JOY_DPAD_* codes for mapped actions
+        // If in gameplay, send JOY_* codes for mapped actions
         case SDL_CONTROLLER_BUTTON_DPAD_UP:
-            if( is_in_menu() ) {
+            if( is_in_menu() && !alt_modifier_held) {
                 joy_code = KEY_UP;
                 input_type = input_event_t::keyboard_char;
             } else {
-                joy_code = JOY_DPAD_UP;
+                joy_code = JOY_UP;
             }
             break;
         case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-            if( is_in_menu() ) {
+            if( is_in_menu() && !alt_modifier_held) {
                 joy_code = KEY_DOWN;
                 input_type = input_event_t::keyboard_char;
             } else {
-                joy_code = JOY_DPAD_DOWN;
+                joy_code = JOY_DOWN;
             }
             break;
         case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
-            if( is_in_menu() ) {
+            if( is_in_menu() && !alt_modifier_held) {
                 joy_code = KEY_LEFT;
                 input_type = input_event_t::keyboard_char;
             } else {
-                joy_code = JOY_DPAD_LEFT;
+                joy_code = JOY_LEFT;
             }
             break;
         case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
-            if( is_in_menu() ) {
+            if( is_in_menu() && !alt_modifier_held) {
                 joy_code = KEY_RIGHT;
                 input_type = input_event_t::keyboard_char;
             } else {
-                joy_code = JOY_DPAD_RIGHT;
+                joy_code = JOY_RIGHT;
             }
             break;
 

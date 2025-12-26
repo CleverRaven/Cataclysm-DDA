@@ -1945,7 +1945,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     }
 
     // Draw gamepad direction indicator
-    if( gamepad::is_active() && !gamepad::is_in_menu() ) {
+    if( gamepad::is_active() ) {
         gamepad::direction dir = gamepad::get_left_stick_direction();
         if( dir != gamepad::direction::NONE ) {
             tripoint offset = gamepad::direction_to_offset( dir );

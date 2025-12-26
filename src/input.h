@@ -179,23 +179,23 @@ constexpr int JOY_28 = 28;
 constexpr int JOY_29 = 29;
 constexpr int JOY_30 = 30;
 
-constexpr int JOY_L_LEFT      = 256 + 1;
-constexpr int JOY_L_RIGHT     = 256 + 2;
-constexpr int JOY_L_UP        = 256 + 3;
-constexpr int JOY_L_DOWN      = 256 + 4;
-constexpr int JOY_L_RIGHTUP   = 256 + 5;
-constexpr int JOY_L_RIGHTDOWN = 256 + 6;
-constexpr int JOY_L_LEFTUP    = 256 + 7;
-constexpr int JOY_L_LEFTDOWN  = 256 + 8;
+constexpr int JOY_LS_LEFT      = 256 + 1;
+constexpr int JOY_LS_RIGHT     = 256 + 2;
+constexpr int JOY_LS_UP        = 256 + 3;
+constexpr int JOY_LS_DOWN      = 256 + 4;
+constexpr int JOY_LS_UP_RIGHT   = 256 + 5;
+constexpr int JOY_LS_DOWN_RIGHT = 256 + 6;
+constexpr int JOY_LS_UP_LEFT    = 256 + 7;
+constexpr int JOY_LS_DOWN_LEFT  = 256 + 8;
 
-constexpr int JOY_R_LEFT      = 256 + 9;
-constexpr int JOY_R_RIGHT     = 256 + 10;
-constexpr int JOY_R_UP        = 256 + 11;
-constexpr int JOY_R_DOWN      = 256 + 12;
-constexpr int JOY_R_RIGHTUP   = 256 + 13;
-constexpr int JOY_R_RIGHTDOWN = 256 + 14;
-constexpr int JOY_R_LEFTUP    = 256 + 15;
-constexpr int JOY_R_LEFTDOWN  = 256 + 16;
+constexpr int JOY_RS_LEFT      = 256 + 9;
+constexpr int JOY_RS_RIGHT     = 256 + 10;
+constexpr int JOY_RS_UP        = 256 + 11;
+constexpr int JOY_RS_DOWN      = 256 + 12;
+constexpr int JOY_RS_UP_RIGHT   = 256 + 13;
+constexpr int JOY_RS_DOWN_RIGHT = 256 + 14;
+constexpr int JOY_RS_UP_LEFT    = 256 + 15;
+constexpr int JOY_RS_DOWN_LEFT  = 256 + 16;
 
 // Named gamepad buttons (SDL controller mapping)
 // Face buttons (SDL: A=0, B=1, X=2, Y=3)
@@ -217,10 +217,10 @@ constexpr int JOY_LS = 256 + 40;  // Left stick click
 constexpr int JOY_RS = 256 + 41;  // Right stick click
 
 // D-pad (for gameplay actions, not menu navigation)
-constexpr int JOY_DPAD_UP    = 256 + 42;
-constexpr int JOY_DPAD_DOWN  = 256 + 43;
-constexpr int JOY_DPAD_LEFT  = 256 + 44;
-constexpr int JOY_DPAD_RIGHT = 256 + 45;
+constexpr int JOY_UP    = 256 + 42;
+constexpr int JOY_DOWN  = 256 + 43;
+constexpr int JOY_LEFT  = 256 + 44;
+constexpr int JOY_RIGHT = 256 + 45;
 
 // Start/Back
 constexpr int JOY_START = 256 + 46;
@@ -236,32 +236,32 @@ constexpr int JOY_ALT_LB = 256 + 53;
 constexpr int JOY_ALT_RT = 256 + 55;
 constexpr int JOY_ALT_LS = 256 + 56;
 constexpr int JOY_ALT_RS = 256 + 57;
-constexpr int JOY_ALT_DPAD_UP    = 256 + 58;
-constexpr int JOY_ALT_DPAD_DOWN  = 256 + 59;
-constexpr int JOY_ALT_DPAD_LEFT  = 256 + 60;
-constexpr int JOY_ALT_DPAD_RIGHT = 256 + 61;
+constexpr int JOY_ALT_UP    = 256 + 58;
+constexpr int JOY_ALT_DOWN  = 256 + 59;
+constexpr int JOY_ALT_LEFT  = 256 + 60;
+constexpr int JOY_ALT_RIGHT = 256 + 61;
 constexpr int JOY_ALT_START = 256 + 62;
 constexpr int JOY_ALT_BACK  = 256 + 63;
 
 // Left radial menu
-constexpr int JOY_RADIAL_L_N  = 256 + 64;
-constexpr int JOY_RADIAL_L_NE = 256 + 65;
-constexpr int JOY_RADIAL_L_E  = 256 + 66;
-constexpr int JOY_RADIAL_L_SE = 256 + 67;
-constexpr int JOY_RADIAL_L_S  = 256 + 68;
-constexpr int JOY_RADIAL_L_SW = 256 + 69;
-constexpr int JOY_RADIAL_L_W  = 256 + 70;
-constexpr int JOY_RADIAL_L_NW = 256 + 71;
+constexpr int JOY_L_RADIAL_N  = 256 + 64;
+constexpr int JOY_L_RADIAL_NE = 256 + 65;
+constexpr int JOY_L_RADIAL_E  = 256 + 66;
+constexpr int JOY_L_RADIAL_SE = 256 + 67;
+constexpr int JOY_L_RADIAL_S  = 256 + 68;
+constexpr int JOY_L_RADIAL_SW = 256 + 69;
+constexpr int JOY_L_RADIAL_W  = 256 + 70;
+constexpr int JOY_L_RADIAL_NW = 256 + 71;
 
 // Right radial menu
-constexpr int JOY_RADIAL_R_N  = 256 + 72;
-constexpr int JOY_RADIAL_R_NE = 256 + 73;
-constexpr int JOY_RADIAL_R_E  = 256 + 74;
-constexpr int JOY_RADIAL_R_SE = 256 + 75;
-constexpr int JOY_RADIAL_R_S  = 256 + 76;
-constexpr int JOY_RADIAL_R_SW = 256 + 77;
-constexpr int JOY_RADIAL_R_W  = 256 + 78;
-constexpr int JOY_RADIAL_R_NW = 256 + 79;
+constexpr int JOY_R_RADIAL_N  = 256 + 72;
+constexpr int JOY_R_RADIAL_NE = 256 + 73;
+constexpr int JOY_R_RADIAL_E  = 256 + 74;
+constexpr int JOY_R_RADIAL_SE = 256 + 75;
+constexpr int JOY_R_RADIAL_S  = 256 + 76;
+constexpr int JOY_R_RADIAL_SW = 256 + 77;
+constexpr int JOY_R_RADIAL_W  = 256 + 78;
+constexpr int JOY_R_RADIAL_NW = 256 + 79;
 
 
 /**
