@@ -566,5 +566,50 @@
         }
       ]
     }
+  },
+  {
+    "type": "ITEM",
+    "id": "xedra_field_notes",
+    "name": "field notebook",
+    "category": "maps",
+    "symbol": ",",
+    "color": "white",
+    "description": "A small notebook with \"X.E.D.R.A\" embossed on the cover.  It's filled with notes scribbled by pencil.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
+    "weight": "5 g",
+    "volume": "5 ml",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Study the notebook",
+      "description": "Activate to highlight interesting locations",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_XEDRA_FIELD_NOTES",
+          "condition": {
+            "and": [
+              "u_can_see",
+              {
+                "or": [ { "u_has_flag": "READ_IN_DARKNESS" }, { "math": [ "u_val('fine_detail_vision_mod') <= 4" ] } ]
+              }
+            ]
+          },
+          "effect": {
+            "if": { "u_has_mission": "MISSION_XEDRA_FIELD_STATION_1" },
+            "then": { "u_message": "You study the notebook, but don't find anything interesting or new.", "popup": true },
+            "else": [
+              {
+                "u_message": "You study the notebook.  The most recent entry has an address underlined several times, with a note: \"S02a deployed for anomaly collection.\"  You mark down the address.",
+                "popup": true
+              },
+              { "assign_mission": "MISSION_XEDRA_FIELD_STATION_1" }
+            ]
+          },
+          "false_effect": { "u_message": "It's too dark to read." }
+        }
+      ]
+    }
   }
 ]
