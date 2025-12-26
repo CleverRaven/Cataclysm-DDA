@@ -1143,7 +1143,7 @@ $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.cpp
 	$(COMPILE.cc) $(OUTPUT_OPTION) -w -MMD -MP $<
 
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.c
-	$(CXX) -x c $(CPPFLAGS) $(DEFINES) $(CFLAGS) -w -MMD -MP -c $< -o $@
+	$(COMPILE.cc) $(OUTPUT_OPTION) -x c $(CFLAGS) -w -MMD -MP -c $<
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
 	$(COMPILE.cc) $(OUTPUT_OPTION) $(PCHFLAGS) -MMD -MP $<
