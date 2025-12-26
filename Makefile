@@ -273,7 +273,7 @@ ifneq (,$(findstring Windows_NT,$(OS)))
   endif
 else
   IS_WINDOWS_HOST = 0
-  OS = $(shell uname -o)
+  OS := $(shell uname -o)
 endif
 
 ifneq ($(findstring Darwin,$(OS)),)
