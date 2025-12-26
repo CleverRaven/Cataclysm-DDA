@@ -1071,7 +1071,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_2_ACCEPTED",
     "type": "talk_topic",
-    "dynamic_line": "Excellent.  Transfering the coordinates now."
+    "dynamic_line": "Excellent.  Transferring the coordinates now."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_2_COMPLETE",
@@ -1159,12 +1159,12 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE",
     "type": "talk_topic",
-    "dynamic_line": "Anywhere there is portal activity, or where you think portal activity occured in the recent past.  If you happen to find yourself transported to... exotic places... that would also be a good time to make recordings."
+    "dynamic_line": "Anywhere there is portal activity, or where you think portal activity occurred in the recent past.  If you happen to find yourself transported to... exotic places... that would also be a good time to make recordings."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE_FRAME",
     "type": "talk_topic",
-    "dynamic_line": "It is a 3D-printed pack frame, much like those used to move equipment for more... traditional field work.  We've designed an ergonomic frame to accomodate your HEW unit, a small tent, a rollmat, as well as waterproof compartments for essential electronics: one UPS, one folding solar panel, and one standard laptop.  It is cumbersome, and you won't be able to store anything in it other than the specific equipment, but it is lightweight and efficient.  We will provide only frame and some solar panels for field charging your HEW unit."
+    "dynamic_line": "It is a 3D-printed pack frame, much like those used to move equipment for more... traditional field work.  We've designed an ergonomic frame to accommodate your HEW unit, a small tent, a rollmat, as well as waterproof compartments for essential electronics: one UPS, one folding solar panel, and one standard laptop.  It is cumbersome, and you won't be able to store anything in it other than the specific equipment, but it is lightweight and efficient.  We will provide only frame and some solar panels for field charging your HEW unit."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE_NRE",

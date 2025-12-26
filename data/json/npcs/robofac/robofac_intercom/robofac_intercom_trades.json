@@ -622,7 +622,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_LIXA",
     "type": "talk_topic",
-    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"You've located a severe spacetime disturbance.  Several of the recordings undewent loops in their subroutines.  We also picked up signatures typical of some DARPA laboratories - for this reason, we strongly suggest you avoid the area.\"",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"You've located a severe spacetime disturbance.  Several of the recordings performed unexpected loops in their subroutines.  We also picked up signatures typical of some DARPA laboratories - for this reason, we strongly suggest you avoid the area.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
