@@ -147,7 +147,9 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_1" } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_1" } ] } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_1" } ] }
+            },
             { "math": [ "u_portal_storm_recordings_sold >= 1" ] }
           ]
         },
@@ -158,7 +160,9 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_2" } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_2" } ] } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_2" } ] }
+            },
             { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_1" } ] }
           ]
         },
@@ -169,7 +173,9 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_3" } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_3" } ] } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_3" } ] }
+            },
             { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_2" } ] }
           ]
         },
@@ -180,7 +186,9 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_4" } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] }
+            },
             { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_3" } ] }
           ]
         },
@@ -985,10 +993,7 @@
     "responses": [
       {
         "text": "More science?  I'm in.",
-        "effect": [
-          { "assign_mission": "MISSION_ROBOFAC_INTERCOM_MWS_1" },
-          { "u_spawn_item": "mobile_weather_station", "count": 1 }
-        ],
+        "effect": [ { "assign_mission": "MISSION_ROBOFAC_INTERCOM_MWS_1" }, { "u_spawn_item": "mobile_weather_station", "count": 1 } ],
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_1_ACCEPTED"
       },
       { "text": "How does the weather station work?", "topic": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_MWS" },
@@ -1027,9 +1032,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_1_COMPLETE",
     "type": "talk_topic",
     "dynamic_line": "Fantastic.  Just a moment.\"  The intercom's tray slides shut.  There is a very long silence, and then it opens again, this time with your payment.  \"You have our thanks and your payment.  Unfortunately, this equipment seems to have malfunctioned in the storm.  We will need more sensitive equipment to proceed.  If you'd like another contract, we're prepared to make an offer.",
-    "responses": [
-      { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
-    ]
+    "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   },
   {
     "id": [
@@ -1042,15 +1045,10 @@
     "responses": [
       {
         "text": "Alright, I'll find the advanced weather recording equipment.",
-        "effect": [
-          { "assign_mission": "MISSION_ROBOFAC_INTERCOM_MWS_2" }
-        ],
+        "effect": [ { "assign_mission": "MISSION_ROBOFAC_INTERCOM_MWS_2" } ],
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_2_ACCEPTED"
       },
-      {
-        "text": "What does the equipment look like?",
-        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_2_OFFER_ADVICE_MWS"
-      },
+      { "text": "What does the equipment look like?", "topic": "MISSION_ROBOFAC_INTERCOM_MWS_2_OFFER_ADVICE_MWS" },
       {
         "text": "Based on our previous work together, I'm guessing there may be some resistance?",
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_2_OFFER_ADVICE_Dangers"
@@ -1077,15 +1075,10 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_2_COMPLETE",
     "type": "talk_topic",
     "dynamic_line": "Fantastic.  Please hand over the unit.\"  The intercom's tray slides open, you deposit the device, and it quickly closes.  There is a brief silence, and then it opens again, this time with your payment.  \"You have our thanks and your payment, once again.  Please let us know if you are interested in additional field work.",
-    "responses": [
-      { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
-    ]
+    "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   },
   {
-    "id": [
-      "MISSION_ROBOFAC_INTERCOM_MWS_3_OFFER",
-      "MISSION_ROBOFAC_INTERCOM_MWS_3_OFFER_ADVICE_HEW"
-    ],
+    "id": [ "MISSION_ROBOFAC_INTERCOM_MWS_3_OFFER", "MISSION_ROBOFAC_INTERCOM_MWS_3_OFFER_ADVICE_HEW" ],
     "type": "talk_topic",
     "dynamic_line": "We've confirmed that the Hazardous Environment unit that you've recovered is in working condition.  We are willing to pay you a standard contracting fee to repeat your previous storm recordings.",
     "responses": [
@@ -1097,10 +1090,7 @@
         ],
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_3_ACCEPTED"
       },
-      {
-        "text": "Anything different from last time?",
-        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_3_OFFER_ADVICE_HEW"
-      },
+      { "text": "Anything different from last time?", "topic": "MISSION_ROBOFAC_INTERCOM_MWS_3_OFFER_ADVICE_HEW" },
       { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
     ]
   },
@@ -1118,9 +1108,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_3_COMPLETE",
     "type": "talk_topic",
     "dynamic_line": "Fantastic.\"  The intercom's tray slides open, you deposit the datasheet, and it quickly closes.  There is a brief silence, and then it opens again, this time with your payment.  \"You have our thanks and your payment, once again.  If you are interested in an open-ended contract as a research, we are prepared to offer you one.",
-    "responses": [
-      { "text": "Thank you.  I'll consider it.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
-    ]
+    "responses": [ { "text": "Thank you.  I'll consider it.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   },
   {
     "id": [
@@ -1149,10 +1137,7 @@
         "text": "Tell me more about this custom frame.",
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE_FRAME"
       },
-      {
-        "text": "Tell me more about the HEW-NRE unit.",
-        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE_NRE"
-      },
+      { "text": "Tell me more about the HEW-NRE unit.", "topic": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE_NRE" },
       { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
     ]
   },
@@ -1181,9 +1166,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_4_COMPLETE",
     "type": "talk_topic",
     "dynamic_line": "The intercom's tray slides open and you deposit the report.  There is a brief silence, and then it opens with your payment.  \"You have our thanks and your payment.  If you're interested in an open contract, please let us know.",
-    "responses": [
-      { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
-    ]
+    "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
@@ -1515,6 +1498,12 @@
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
+    "end": {
+      "effect": [
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_mws_4", "value": "yes" },
+        { "math": [ "u_hub01_completed_missions++" ] }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {

@@ -424,7 +424,8 @@
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_HIGHLANDS",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_LABYRINTH",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_PHYSICS_LAB",
-      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_AMIGARA"
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_AMIGARA",
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_RADIOSPHERE"
     ],
     "type": "talk_topic",
     "dynamic_line": "Excellent; please deposit the printouts in the intercom's tray.",
@@ -462,10 +463,7 @@
       {
         "text": "[Deposit datasheet IAE20.]",
         "condition": {
-          "and": [
-            { "u_has_items": { "item": "HEW_printout_data_exodii", "count": 1 } },
-            { "math": [ "HEW_exodii_data_sold < 1" ] }
-          ]
+          "and": [ { "u_has_items": { "item": "HEW_printout_data_exodii", "count": 1 } }, { "math": [ "HEW_exodii_data_sold < 1" ] } ]
         },
         "effect": [
           { "u_consume_item": "HEW_printout_data_exodii", "count": 1, "popup": true },
@@ -492,10 +490,7 @@
       {
         "text": "[Deposit datasheet DP72063.]",
         "condition": {
-          "and": [
-            { "u_has_items": { "item": "HEW_printout_data_lixa", "count": 1 } },
-            { "math": [ "HEW_lixa_data_sold < 1" ] }
-          ]
+          "and": [ { "u_has_items": { "item": "HEW_printout_data_lixa", "count": 1 } }, { "math": [ "HEW_lixa_data_sold < 1" ] } ]
         },
         "effect": [
           { "u_consume_item": "HEW_printout_data_lixa", "count": 1, "popup": true },
@@ -552,10 +547,7 @@
       {
         "text": "[Deposit datasheet 01ITO.]",
         "condition": {
-          "and": [
-            { "u_has_items": { "item": "HEW_printout_data_amigara", "count": 1 } },
-            { "math": [ "HEW_amigara_data_sold < 1" ] }
-          ]
+          "and": [ { "u_has_items": { "item": "HEW_printout_data_amigara", "count": 1 } }, { "math": [ "HEW_amigara_data_sold < 1" ] } ]
         },
         "effect": [
           { "u_consume_item": "HEW_printout_data_amigara", "count": 1, "popup": true },
@@ -563,6 +555,18 @@
           { "u_spawn_item": "RobofacCoin", "count": 20 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_AMIGARA"
+      },
+      {
+        "text": "[Deposit datasheet VKTRS.]",
+        "condition": {
+          "and": [ { "u_has_items": { "item": "HEW_printout_data_radiosphere", "count": 1 } }, { "math": [ "HEW_radiosphere_data_sold < 1" ] } ]
+        },
+        "effect": [
+          { "u_consume_item": "HEW_printout_data_radiosphere", "count": 1, "popup": true },
+          { "math": [ "HEW_radiosphere_lab_data_sold++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 20 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_RADIOSPHERE"
       },
       { "text": "That would be all.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
@@ -667,6 +671,17 @@
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_AMIGARA",
     "type": "talk_topic",
     "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"We have detected an extremely large source of extra-dimensional energy - energy we have not seen since the initial cataclysm.  We have also detected extreme geological anomalies.  We believe this underground location is unstable, perhaps due to an active tear in spacetime.\"",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
+        { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_4", "success": true }
+      ]
+    }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_RADIOSPHERE",
+    "type": "talk_topic",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"Incredible - these are clearly non-Earth conditions!  What is strange is that there are a substantial number of man-made radio waves, but they all appear to be the same very high frequency radio waveform.  We will study these further.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
