@@ -436,7 +436,7 @@
     "looks_like": "t_concrete",
     "color": "white",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "MINEABLE" ],
     "bash": {
       "ter_set": "t_lake_bed",
       "str_min": 50,
@@ -459,7 +459,7 @@
     "looks_like": "t_pavement_y",
     "color": "yellow",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "MINEABLE" ],
     "bash": {
       "ter_set": "t_lake_bed",
       "str_min": 50,
