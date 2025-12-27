@@ -1174,7 +1174,8 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_4_ACCEPTED",
     "type": "talk_topic",
-    "dynamic_line": "Excellent.  We look forward to your progress."
+    "dynamic_line": "Excellent.  We look forward to your progress.",
+    "speaker_effect": { "effect": [ { "u_add_var": "dialogue_intercom_u_hub_prototypes", "value": "yes" } ] }
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_4_COMPLETE",
