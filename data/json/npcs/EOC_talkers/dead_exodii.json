@@ -2,7 +2,7 @@
     {
         "type": "talk_topic",
         "id": "TALK_DEAD_EXODII_MAIN",
-        "dynamic_line": "The knight lies still.  Only the tiny flowers sprouting on it move in the wind.  You would be lying if you said you didn't find the scene somewhat beautiful, the way they're frozen in what looks to be prayer.  Perhaps they knew they were going to die, perhaps they knew they would remain kneeling here forever.",
+        "dynamic_line": "The knight lies still.  Only the tiny flowers sprouting on it move in the wind.  You would be lying if you said you didn't find the scene somewhat beautiful, the way they're locked in what looks to be prayer.  Perhaps they knew they were going to die, perhaps they knew they would remain kneeling here forever.",
         "responses": [
             {
                 "text": "Investigate the body further.",
