@@ -340,17 +340,11 @@
     "entries": [ { "group": "milk_in_container_full", "count": [ 0, 60 ] } ]
   },
   {
-    "id": "commercial_eggs",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [ [ "egg_chicken", 1 ] ]
-  },
-  {
     "id": "SUS_shelf_commercial_eggs",
     "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "group": "commercial_eggs", "count": [ 1, 60 ] } ]
+    "entries": [ { "group": "egg_bird_unfert", "count": [ 1, 60 ] } ]
   },
   {
     "id": "commercial_deli",
