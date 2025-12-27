@@ -1812,6 +1812,7 @@
             "TRANSPARENT"
         ],
         "move_cost_mod": -1,
+        "required_str": -1,
         "bash": {
             "str_min": 50,
             "str_max": 80,
@@ -1863,6 +1864,7 @@
         "name": "remains of a cyborg",
         "looks_like": "metal_wreckage",
         "move_cost_mod": -1,
+        "required_str": -1,
         "description": "These don't even resemble the knight they once used to be.  Soon, the environment will claim what little remains, and nothing will be left.",
         "copy-from": "f_highlands_dead_exodii",
         "examine_action": {
