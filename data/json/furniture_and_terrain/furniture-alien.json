@@ -676,7 +676,7 @@
     "description": "The deteriorated, heavily rusted remains of some sort of robotic knight.  Their form lies frozen on its knee, head bowed, hands gripped around the barrel of what must have once been a gigantic rifle stuck into the dirt in front of it.  Flowers grow out of the cracks and gaps of its plating; whoever this was, they must have died here a long time ago.",
     "symbol": "@",
     "color": "dark_gray",
-    "flags": [ "NOITEM", "BLOCK_WIND", "TRANSPARENT" ],
+    "flags": [ "NOITEM", "BLOCK_WIND" ],
     "bash": {
       "str_min": 50,
       "str_max": 80,
