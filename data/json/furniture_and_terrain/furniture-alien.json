@@ -1842,7 +1842,7 @@
                 }
             ]
         },
-        "examine_actions": {
+        "examine_action": {
             "type": "effect_on_condition",
             "effect_on_conditions": [
                 {
