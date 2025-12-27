@@ -38,7 +38,7 @@
                 "text": "Rip it out.",
                 "effect": [
                     {
-                        "u_spawn_item": "bio_creeyncaggii"
+                        "u_spawn_item": "bionics_ancient", "use_item_group": true
                     },
                     {
                         "u_transform_radius": 5,

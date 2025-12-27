@@ -196,5 +196,11 @@
       [ "bio_synlungs", 10 ],
       [ "bio_taser", 10 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_ancient",
+    "items": [ [ "bio_creeyncaggii", 100 ] ],
+    "faults": { "id": [ "fault_bionic_salvaged" ], "chance": 100 }
   }
 ]
