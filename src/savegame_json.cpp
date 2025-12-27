@@ -1127,6 +1127,7 @@ void Character::load( const JsonObject &data )
     data.read( "slow_rad", slow_rad );
     data.read( "scent", scent );
     data.read( "male", male );
+    data.read( "free_dodges_left", free_dodges_left );
     data.read( "cash", cash );
     data.read( "recoil", recoil );
     data.read( "book_chapters", book_chapters );
@@ -1493,6 +1494,8 @@ void Character::store( JsonOut &json ) const
     // gender
     json.member( "male", male );
 
+    // Some misc values that are character-specific
+    json.member( "free_dodges_left", free_dodges_left );
     json.member( "cash", cash );
     json.member( "recoil", recoil );
     json.member( "book_chapters", book_chapters );
@@ -3875,7 +3878,6 @@ void Creature::store( JsonOut &jsout ) const
 
     jsout.member( "blocks_left", num_blocks );
     jsout.member( "dodges_left", num_dodges );
-    jsout.member( "num_free_dodges", num_free_dodges );
     jsout.member( "num_blocks_bonus", num_blocks_bonus );
     jsout.member( "num_dodges_bonus", num_dodges_bonus );
 
@@ -3960,6 +3962,7 @@ void Creature::load( const JsonObject &jsin )
 
     jsin.read( "damage_over_time_map", damage_over_time_map );
 
+    // FIXME? dodges_left and blocks_left (members of Character, not Creature!) are not stored or read
     jsin.read( "blocks_left", num_blocks );
     jsin.read( "dodges_left", num_dodges );
     jsin.read( "num_blocks_bonus", num_blocks_bonus );
