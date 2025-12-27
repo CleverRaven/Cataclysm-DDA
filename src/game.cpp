@@ -10759,6 +10759,7 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     if( undo_shift ) {
         travel_to_dimension( old_prefix, region_type, npc_travellers, veh );
     }
+    game::mon_info_update();
     return true;
 }
 
