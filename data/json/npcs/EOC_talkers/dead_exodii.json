@@ -17,7 +17,7 @@
     {
         "type": "talk_topic",
         "id": "TALK_DEAD_EXODII_EXAMINE",
-        "dynamic_line": "Although they appear to have once been incredibly high tech, all that remains is little more than a corroded husk; any components save the armor itself have degraded to uselessness…That is, until you hear something from deeper within its chest cavity.  You stop to listen for it, and sure enough you hear it again - A ticking, followed by a drawn out, barely audiable hiss.",
+        "dynamic_line": "Although they appear to have once been incredibly high tech, all that remains is little more than a corroded husk; any components save the armor itself have degraded to uselessness…That is, until you hear something from deeper within its chest cavity.  You stop to listen for it, and sure enough you hear it again - A ticking, followed by a drawn out, barely audible hiss.",
         "responses": [
             {
                 "text": "Find the source of the noise.",
@@ -52,7 +52,7 @@
     {
         "type": "talk_topic",
         "id": "TALK_DEAD_EXODII_END",
-        "dynamic_line": "You hear the snapping of roots coalesced around the object as you pull it free.  It gets stuck on more debris, so you dive your other hand into the knight's torso and give it a final yank.  More broken metal and plating is dislodged as you finally have eyes on what you desecrated a corpse for - A black, polyhedron shaped device a little bigger than your fist.  There's a bundle of silvery metal pipes sticking of various sizes sticking out the top, the biggest ones ending in complicated looking valves.  You hear the ticking noise again, and as the polyhedron swells outward before shrinking again you realize what you're holding is some sort of cybernetic heart, inexplicably pristine unlike every other part of its owner.  Before you can ponder this further you hear a clatter and see the carcass of metal finally collapse in on itself - the opening you made caves in, the knight's arms snap off and fall to pieces, their head rolls off its shoulders and splits apon hitting the ground.  The empty eye sockets of its cracked faceplate point to the sky above.  After it finishes collapsing Everything is still, except for the heart, which slowly beats in your hand again.",
+        "dynamic_line": "You hear the snapping of roots coalesced around the object as you pull it free.  It gets stuck on more debris, so you dive your other hand into the knight's torso and give it a final yank.  More broken metal and plating is dislodged as you finally have eyes on what you desecrated a corpse for - A black, polyhedron shaped device a little bigger than your fist.  There's a bundle of silvery metal pipes sticking of various sizes sticking out the top, the biggest ones ending in complicated looking valves.  You hear the ticking noise again, and as the polyhedron swells outward before shrinking again you realize what you're holding is some sort of cybernetic heart, inexplicably pristine unlike every other part of its owner.  Before you can ponder this further you hear a clatter and see the carcass of metal finally collapse in on itself - the opening you made caves in, the knight's arms snap off and fall to pieces, their head rolls off its shoulders and splits upon hitting the ground.  The empty eye sockets of its cracked faceplate point to the sky above.  After it finishes collapsing Everything is still, except for the heart, which slowly beats in your hand again.",
         "responces": [
             {
                 "text": "Leave them.",
