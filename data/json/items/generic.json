@@ -237,8 +237,8 @@
     "name": { "str_sp": "unspooled thermal paper" },
     "description": "A small scrap of thermal paper pulled from a spool.",
     "price": "0 cent",
-    "volume": "1 ml",
-    "weight": "4 g",
+    "volume": "4 ml",
+    "weight": "1 g",
     "material": [ "paper" ]
   },
   {
@@ -250,8 +250,8 @@
     "name": { "str_sp": "weather datasheet" },
     "description": "A piece of paper covered in complex weather recordings.  It requires specialized software to interpret.",
     "price": "0 cent",
-    "volume": "1 ml",
-    "weight": "4 g",
+    "volume": "4 ml",
+    "weight": "1 g",
     "material": [ "paper" ]
   },
   {
@@ -263,8 +263,8 @@
     "name": { "str_sp": "strange weather datasheet" },
     "description": "A piece of paper covered in complex weather recordings.  This one is riddled with visible error messages, but it requires specialized software to interpret.",
     "price": "0 cent",
-    "volume": "1 ml",
-    "weight": "4 g",
+    "volume": "4 ml",
+    "weight": "1 g",
     "material": [ "paper" ]
   },
   {
@@ -273,11 +273,11 @@
     "name": { "str": "HEW datasheet" },
     "category": "books",
     "description": "A piece of paper with data on various local conditions, including weather, radiation, and measurements foreign to you.  The document is coded in a series of overlapping numbers and dots that you cannot understand.  It likely requires specialized software to interpret.",
-    "weight": "1 g",
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": "1 ml",
+    "volume": "4 ml",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -286,11 +286,11 @@
     "name": { "str": "HEW printout" },
     "category": "books",
     "description": "A short sheet of paper.  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"CONDITIONS NORMAL.\"",
-    "weight": "1 g",
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": "1 ml",
+    "volume": "4 ml",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -299,11 +299,11 @@
     "name": { "str": "HEW anomalous weather printout" },
     "category": "books",
     "description": "A short paper report labeled with the mysterious title \"ANOMALOUS WEATHER.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  ACTIVE SPACETIME DISTURBANCES.  ARTIFICIAL ELECTROMAGNETIC FLUCTUATIONS.  RESONANCE DENSITIES.\"",
-    "weight": "1 g",
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": "1 ml",
+    "volume": "4 ml",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -312,11 +312,11 @@
     "name": { "str": "HEW printout CC1044" },
     "category": "books",
     "description": "A short paper report labeled with the mysterious title \"CC1044.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  ACTIVE SPACETIME DISTURBANCES.\"",
-    "weight": "1 g",
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": "1 ml",
+    "volume": "4 ml",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -325,11 +325,11 @@
     "name": { "str": "HEW printout IAE20" },
     "category": "books",
     "description": "A short paper report labeled with the mysterious title \"IAE20.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  SIGNIFICANT ALIEN ELECTROMAGNETIC FLUCTUATIONS.  SPACETIME DISTURBANCE.\"",
-    "weight": "1 g",
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": "1 ml",
+    "volume": "4 ml",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -351,11 +351,11 @@
     "name": { "str": "HEW printout DP72063" },
     "category": "books",
     "description": "A short paper report labeled with the mysterious title \"DP72063.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  ACTIVE SPACETIME DISTURBANCES.\"",
-    "weight": "1 g",
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": "1 ml",
+    "volume": "4 ml",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -364,11 +364,11 @@
     "name": { "str": "HEW printout TCOB1" },
     "category": "books",
     "description": "A short paper report labeled with the mysterious title \"TCOB1.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  NON-EARTH CONDITIONS.  SIGNIFICANT ABSENCE OF ARTIFICIAL ELECTROMAGNETIC FLUCTUATIONS.  RESONANCE DENSITIES.\"",
-    "weight": "1 g",
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": "1 ml",
+    "volume": "4 ml",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -377,11 +377,11 @@
     "name": { "str": "HEW printout DB86" },
     "category": "books",
     "description": "A short paper report labeled with the mysterious title \"DB86.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  NON-EARTH CONDITIONS.  SIGNIFICANT ALIEN ELECTROMAGNETIC FLUCTUATIONS.\"",
-    "weight": "1 g",
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": "1 ml",
+    "volume": "4 ml",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -390,11 +390,11 @@
     "name": { "str": "HEW printout 22BMBS" },
     "category": "books",
     "description": "A short paper report labeled with the mysterious title \"22BMBS.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  ACTIVE SPACETIME DISTURBANCES.  RESONANCE DENSITY.\"",
-    "weight": "1 g",
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": "1 ml",
+    "volume": "4 ml",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -403,11 +403,11 @@
     "name": { "str": "HEW printout 01ITO" },
     "category": "books",
     "description": "A short paper report labeled with the mysterious title \"01ITO.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  ACTIVE SPACETIME DISTURBANCES.  ABNORMAL SEISMIC ACTIVITY.  RESONANCE DENSITY.\"",
-    "weight": "1 g",
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": "1 ml",
+    "volume": "4 ml",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -416,11 +416,11 @@
     "name": { "str": "HEW printout VKTRS" },
     "category": "books",
     "description": "A short paper report labeled with the mysterious title \"VKTRS.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  NON-EARTH CONDITIONS.\"",
-    "weight": "1 g",
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": "1 ml",
+    "volume": "4 ml",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
