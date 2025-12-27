@@ -671,6 +671,42 @@
   },
   {
     "type": "furniture",
+    "id": "f_highlands_dead_exodii",
+    "name": "remains of a cyborg",
+    "description": "The deteriorated, heavily rusted remains of some sort of robotic knight.  Their form lies frozen on its knee, head bowed, hands gripped around the barrel of what must have once been a gigantic rifle stuck into the dirt in front of it.  Flowers grow out of the cracks and gaps of its plating; whoever this was, they must have died here a long time ago.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "flags": [ "NOITEM", "BLOCK_WIND", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 80,
+      "sound": "crash!",
+      "sound_fail": "an absence of sound.",
+      "items": [
+        { "item": "scrap", "count": [ 5, 12 ] },
+        { "item": "ch_steel_chunk", "count": [ 10, 18 ] },
+        { "item": "burnt_out_bionic", "count": [ 0, 4 ] }
+      ]
+    },
+    "examine_actions": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [ { "id": "DEAD_EXODII_EXAMINE", "effect": [ { "open_dialogue": { "topic": "TALK_DEAD_EXODII_MAIN" } } ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_highlands_dead_exodii_heartless",
+    "name": "remains of a cyborg",
+    "looks_like": "metal_wreckage",
+    "description": "These don't even resemble the knight they once used to be.  Soon, the environment will claim what little remains, and nothing will be left.",
+    "copy-from": "f_highlands_dead_exodii",
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [ { "id": "EOC_DEAD_EXODII_FINISHED", "effect": [ { "u_message": "Memento Mori." } ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_exodii_locator_antenna",
     "name": "locator antenna",
     "description": "A tall metal pole solidly fixed to the roof.  It does not look activated but there's a small set of holes near its base, maybe something could be plugged in one to reboot the locator.",
