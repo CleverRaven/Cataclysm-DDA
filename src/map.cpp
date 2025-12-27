@@ -147,7 +147,6 @@ static const flag_id json_flag_EASY_DECONSTRUCT( "EASY_DECONSTRUCT" );
 static const flag_id json_flag_FLAT( "FLAT" );
 static const flag_id json_flag_JETPACK( "JETPACK" );
 static const flag_id json_flag_LEVITATION( "LEVITATION" );
-static const flag_id json_flag_MWS_PORTAL_STORM_DATA( "MWS_PORTAL_STORM_DATA" );
 static const flag_id json_flag_PLOWABLE( "PLOWABLE" );
 static const flag_id json_flag_PRESERVE_SPAWN_LOC( "PRESERVE_SPAWN_LOC" );
 static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
@@ -175,8 +174,8 @@ static const itype_id itype_HEW_printout_data_vitrified( "HEW_printout_data_vitr
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_maple_sap( "maple_sap" );
 static const itype_id itype_mws_portal_storm_weather_data( "mws_portal_storm_weather_data" );
-static const itype_id itype_mws_weather_data_incomplete( "mws_weather_data_incomplete" );
 static const itype_id itype_mws_weather_data( "mws_weather_data" );
+static const itype_id itype_mws_weather_data_incomplete( "mws_weather_data_incomplete" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_pipe( "pipe" );
 static const itype_id itype_rock( "rock" );
