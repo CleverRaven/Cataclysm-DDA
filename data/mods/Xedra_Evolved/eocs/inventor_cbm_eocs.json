@@ -77,9 +77,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_calorie_storage_convert",
-    "condition": {
-      "and": [ { "u_has_effect": "effect_bio_inventor_calorie_storage" }, { "math": [ "u_vitamin('stored_calories') > 0" ] } ]
-    },
+    "condition": { "u_has_effect": "effect_bio_inventor_calorie_storage" },
     "effect": [
       {
         "if": { "math": [ "u_calories() <= u_calories_needed" ] },
@@ -95,18 +93,20 @@
               }
             ],
             "else": [
-              { "math": [ "u_calories('dont_affect_weariness': true) += u_vitamin('stored_calories')" ] },
-              { "math": [ "u_vitamin('stored_calories') = 0" ] },
               {
-                "if": { "x_in_y_chance": { "x": 1, "y": 20 } },
-                "then": { "u_message": "The last of your orbiting calories settle inside your body.", "type": "mixed" }
+                "if": { "and": [ { "math": [ "u_vitamin('stored_calories') < 100" ] }, { "math": [ "u_vitamin('stored_calories') > 0" ] } ] },
+                "then": [
+                  { "math": [ "u_calories('dont_affect_weariness': true) += u_vitamin('stored_calories')" ] },
+                  { "math": [ "u_vitamin('stored_calories') -= u_vitamin('stored_calories')" ] },
+                  { "u_message": "The last of your orbiting calories settle inside your body.", "type": "mixed" }
+                ]
               }
             ]
           }
         ],
         "else": [
           {
-            "if": { "math": [ "u_vitamin('stored_calories') >= u_calories_needed * 1.2" ] },
+            "if": { "math": [ "u_calories() >= u_calories_needed * 1.05" ] },
             "then": [
               { "math": [ "u_calories('dont_affect_weariness': true) -= 100" ] },
               { "math": [ "u_vitamin('stored_calories') += 75" ] },
@@ -131,7 +131,7 @@
     "condition": { "math": [ "u_vitamin('creative_spark') > 0" ] },
     "effect": [
       { "math": [ "u_vitamin('creative_spark')--" ] },
-      { "math": [ "u_val('power') += rng(9000000, 11000000)" ] },
+      { "math": [ "u_val('power') += rng(900000000, 1100000000)" ] },
       { "u_message": "Some of your brillance is converted into electricity.", "type": "info" }
     ],
     "false_effect": [ { "u_message": "Your creativity isn't potent enough to be converted to electricity.", "type": "bad" } ]

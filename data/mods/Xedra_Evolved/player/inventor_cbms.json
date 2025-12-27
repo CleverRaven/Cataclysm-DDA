@@ -60,6 +60,8 @@
     "description": "Blood is fuel?  More like everything is fuel.  This device drains your very creativity to produce power for your bionics.  It's somehow simultaneously among your best and worst ideas.",
     "occupied_bodyparts": [ [ "head", 4 ] ],
     "activated_eocs": [ "EOC_inventor_creative_fuel" ],
+    "//": "The activation cost is required for the bionic to be a non-toggled active, as creativity isn't a fuel item.",
+    "act_cost": "1 J",
     "flags": [ "BIONIC_FUEL_SOURCE" ]
   },
   {
