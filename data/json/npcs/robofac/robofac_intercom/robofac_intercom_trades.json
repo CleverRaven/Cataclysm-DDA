@@ -582,7 +582,7 @@
       "yes": "Research has requested we no longer pay for portal storm recordings.  You have done enough.",
       "no": {
         "compare_string": [ "yes", { "npc_val": "dialogue_intercom_accepted_HEW_recording" } ],
-        "no": "Excellent. Here's your agreed-upon reward.\"  The tray slides shut, and quickly reopens with your payment.",
+        "no": "Excellent.  Here's your agreed-upon reward.\"  The tray slides shut, and quickly reopens with your payment.",
         "yes": "&\"Thank you.\"  The recording changes hands."
       }
     },
@@ -607,7 +607,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_EXODII",
     "type": "talk_topic",
-    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"You've clearly picked up a large variety of alien transmissions from an intelligence.  They appear... human-like.  We've encountered these transmissions before.  We strongly suggest you do not engage with these creatures, should you find the source of the information.\"",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"You've clearly picked up a large variety of alien transmissions from an intelligence.  They appear… human-like.  We've encountered these transmissions before.  We strongly suggest you do not engage with these creatures, should you find the source of the information.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },

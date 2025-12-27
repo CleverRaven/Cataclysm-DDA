@@ -1059,7 +1059,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_2_OFFER_ADVICE_MWS",
     "type": "talk_topic",
-    "dynamic_line": "The station is a self-contained meteorology unit like the one you've previously used.  The case is black, and will be marked as a \"Hazardous Environment\" unit.  It will have been kept behind a locked door, but this is likely non-functional without power.  The station is situated in a lake and was actively researching the effects of... weather... on the sediment, so there may be other access points."
+    "dynamic_line": "The station is a self-contained meteorology unit like the one you've previously used.  The case is black, and will be marked as a \"Hazardous Environment\" unit.  It will have been kept behind a locked door, but this is likely non-functional without power.  The station is situated in a lake and was actively researching the effects of… weather… on the sediment, so there may be other access points."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_2_OFFER_ADVICE_Dangers",
@@ -1097,7 +1097,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_3_OFFER_ADVICE_HEW",
     "type": "talk_topic",
-    "dynamic_line": "The station is a self-contained meteorology unit like the one you've previously used.  The case is black, and will be marked as a \"Hazardous Environment\" unit.  It will have been kept behind a locked door, but this is likely non-functional without power.  The station is situated in a lake and was actively researching the effects of... weather... on the sediment, so there may be other access points."
+    "dynamic_line": "The station is a self-contained meteorology unit like the one you've previously used.  The case is black, and will be marked as a \"Hazardous Environment\" unit.  It will have been kept behind a locked door, but this is likely non-functional without power.  The station is situated in a lake and was actively researching the effects of… weather… on the sediment, so there may be other access points."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_3_ACCEPTED",
@@ -1118,7 +1118,7 @@
       "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE_NRE"
     ],
     "type": "talk_topic",
-    "dynamic_line": "We believe your HEW unit can produce scientifically useful recordings near many types of of anomalous, extra-dimensional activity - not just portal storms.  In fact, we now know that it is equipped with a small, and relatively simple DARPA AI program trained on extensive data collected before... recent events.  It is capable of producing reports for anomalies and relating them to previously studied laboratory phenomena - anomalies it can assign unique codes to, which we can then interpret using our supercomputers.  If you can bring us these reports, we will pay you for them.  We will also pay for more portal storm recordings.  To facilitate your work, we can offer you two things.  First, we are prepared to give you a custom-printed pack frame, which will allow you to carry your HEW station and some essential supplies.  Secondly, if you are willing to pay, we would be willing to put R&D time into integrating your NRE recorder with your HEW unit.",
+    "dynamic_line": "We believe your HEW unit can produce scientifically useful recordings near many types of of anomalous, extra-dimensional activity - not just portal storms.  In fact, we now know that it is equipped with a small, and relatively simple DARPA AI program trained on extensive data collected before… recent events.  It is capable of producing reports for anomalies and relating them to previously studied laboratory phenomena - anomalies it can assign unique codes to, which we can then interpret using our supercomputers.  If you can bring us these reports, we will pay you for them.  We will also pay for more portal storm recordings.  To facilitate your work, we can offer you two things.  First, we are prepared to give you a custom-printed pack frame, which will allow you to carry your HEW station and some essential supplies.  Secondly, if you are willing to pay, we would be willing to put R&D time into integrating your NRE recorder with your HEW unit.",
     "responses": [
       {
         "text": "Well, I guess you can call me the weatherperson.  I'm in.",
@@ -1144,12 +1144,12 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE",
     "type": "talk_topic",
-    "dynamic_line": "Anywhere there is portal activity, or where you think portal activity occurred in the recent past.  If you happen to find yourself transported to... exotic places... that would also be a good time to make recordings."
+    "dynamic_line": "Anywhere there is portal activity, or where you think portal activity occurred in the recent past.  If you happen to find yourself transported to… exotic places… that would also be a good time to make recordings."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE_FRAME",
     "type": "talk_topic",
-    "dynamic_line": "It is a 3D-printed pack frame, much like those used to move equipment for more... traditional field work.  We've designed an ergonomic frame to accommodate your HEW unit, a small tent, a rollmat, as well as waterproof compartments for essential electronics: one UPS, one folding solar panel, and one standard laptop.  It is cumbersome, and you won't be able to store anything in it other than the specific equipment, but it is lightweight and efficient.  We will provide only frame and some solar panels for field charging your HEW unit."
+    "dynamic_line": "It is a 3D-printed pack frame, much like those used to move equipment for more… traditional field work.  We've designed an ergonomic frame to accommodate your HEW unit, a small tent, a rollmat, as well as waterproof compartments for essential electronics: one UPS, one folding solar panel, and one standard laptop.  It is cumbersome, and you won't be able to store anything in it other than the specific equipment, but it is lightweight and efficient.  We will provide only frame and some solar panels for field charging your HEW unit."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE_NRE",
