@@ -529,6 +529,7 @@
     "exothermic_power_gen": true,
     "time": "1 s",
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ],
+    "processed_eocs": "bio_noise_quiet_burn",
     "passive_pseudo_items": [ "internal_ethanol_tank" ]
   },
   {
@@ -541,6 +542,7 @@
     "fuel_efficiency": 0.35,
     "exothermic_power_gen": true,
     "time": "5 s",
+    "processed_eocs": "bio_noise_quiet_burn",
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ],
     "passive_pseudo_items": [ "internal_oil_tank" ]
   },
@@ -938,6 +940,7 @@
     "fuel_options": [ "metabolism" ],
     "fuel_efficiency": 0.25,
     "time": "1 s",
+    "processed_eocs": "bio_noise_digestive",
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
@@ -1504,6 +1507,7 @@
     "fuel_efficiency": 0.25,
     "exothermic_power_gen": true,
     "time": "1 s",
+    "processed_eocs": "bio_noise_burn",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE" ],
     "passive_pseudo_items": [ "internal_gasoline_tank" ]
   },
