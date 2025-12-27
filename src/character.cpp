@@ -6184,11 +6184,21 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
     return g->get_creatures_if( [this, range, melee, &here]( const Creature & critter ) -> bool {
         //the call to map.sees is to make sure that even if we can see it through walls
         //via a mutation or cbm we only attack targets with a line of sight
-        bool can_see = ( ( sees( here, critter ) || sees_with_specials( critter ) ) && here.sees( pos_bub( here ), critter.pos_bub( here ), 100 ) );
+        tripoint_bub_ms you_pos = pos_bub( here );
+        tripoint_bub_ms critter_pos = critter.pos_bub( here );
+        bool can_see = ( sees( here, critter ) || sees_with_specials( critter ) ) && here.sees( you_pos, critter_pos, 100 );
         if( can_see && melee )  //handles the case where we can see something with glass in the way for melee attacks
         {
-            std::vector<tripoint_bub_ms> path = here.find_clear_path( pos_bub( here ),
-                    critter.pos_bub( here ) );
+            if( you_pos.z() > critter_pos.z() && ( !here.has_floor( you_pos ) &&
+                                                   !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, you_pos ) &&
+                                                   !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, you_pos ) ) ) {
+                return false;
+            } else if( you_pos.z() < critter_pos.z() && ( !here.has_floor( critter_pos ) &&
+                       !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, critter_pos ) &&
+                       !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, critter_pos ) ) ) {
+                return false;
+            }
+            std::vector<tripoint_bub_ms> path = here.find_clear_path( you_pos, critter_pos );
             for( const tripoint_bub_ms &point : path ) {
                 if( here.impassable( point ) &&
                     !( weapon.has_flag( flag_SPEAR ) && // Fences etc. Spears can stab through those
