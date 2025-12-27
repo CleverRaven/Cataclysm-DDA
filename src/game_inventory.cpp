@@ -478,6 +478,13 @@ item_location game::inv_map_splice( const item_filter &filter, const std::string
                          title, radius, none_message );
 }
 
+item_location game::inv_map_splice( const inventory_selector_preset &preset,
+                                    const std::string &title,
+                                    int radius, const std::string &none_message )
+{
+    return inv_internal( u, preset, title, radius, none_message );
+}
+
 item_location game::inv_map_splice( const item_location_filter &filter, const std::string &title,
                                     int radius, const std::string &none_message )
 {
@@ -1107,6 +1114,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
         explicit activatable_inventory_preset() : pickup_inventory_preset( get_avatar() ),
             you( get_avatar() ) {
             _collate_entries = true;
+            _pk_type = { pocket_type::CONTAINER, pocket_type::MOD };
             if( get_option<bool>( "INV_USE_ACTION_NAMES" ) ) {
                 append_cell( [ this ]( const item_location & loc ) {
                     return string_format( "<color_light_green>%s</color>", get_action_name( *loc ) );
@@ -1115,7 +1123,8 @@ class activatable_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->type->has_use() || loc->has_relic_activation();
+            return !loc.is_invisible_installed_gunmod( )
+                   && ( loc->type->has_use() || loc->has_relic_activation() );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -3012,12 +3021,23 @@ item_location game_menus::inv::change_sprite( Character &you )
                          _( "You have nothing to wear." ) );
 }
 
+class unload_selector_preset : public inventory_selector_preset
+{
+    public:
+        explicit unload_selector_preset() : you( get_avatar() ) {
+            _pk_type = { pocket_type::CONTAINER, pocket_type::MOD };
+        }
+        bool is_shown( const item_location &location ) const override {
+            return !location.is_invisible_installed_gunmod( ) &&
+                   you.rate_action_unload( *location ) == hint_rating::good;
+        }
+    private:
+        const Character &you;
+};
+
 std::pair<item_location, bool> game_menus::inv::unload( Character &you )
 {
-
-    const inventory_filter_preset preset( [&you]( const item_location & location ) {
-        return you.rate_action_unload( *location ) == hint_rating::good;
-    } );
+    const unload_selector_preset preset;
     unload_selector inv_s( you, preset );
 
     inv_s.set_title( _( "Unload item" ) );
