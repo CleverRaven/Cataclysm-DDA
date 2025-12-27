@@ -63,7 +63,6 @@
     "container": "bottle_plastic",
     "sealed": false,
     "color": "light_blue",
-    "ammo_type": "water",
     "copy-from": "water",
     "extend": { "flags": [ "INVENTOR_CRAFTED" ] }
   },

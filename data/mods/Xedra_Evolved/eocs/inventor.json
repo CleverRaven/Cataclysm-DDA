@@ -499,6 +499,12 @@
         }
       ]
     },
+    "effect": [ { "run_eocs": [ "EOC_INVENTOR_CBM_DEGRADATION_BREAKDOWN" ], "alpha_talker": "u" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_CBM_DEGRADATION_BREAKDOWN",
+    "//": "Inserting the effect inside the reccurent EOC fails to grant the faulty bionics through an invalid beta talker error.",
     "effect": [
       {
         "if": { "u_has_bionics": "bio_inventor_rad_boost" },
@@ -521,8 +527,11 @@
         "then": [ { "u_lose_bionic": "bio_inventor_book_burn_boost" }, { "u_add_bionic": "bio_leaky" } ]
       },
       { "message": "You hear a sudden crack!" },
-      { "u_message": "Your lack of an inventor's aura is breaking the bionics that depend on it!" },
-      { "npc_message": "My bionics are falling apart!  It isn't me!" }
+      {
+        "if": "u_is_avatar",
+        "then": { "message": "Your lack of an inventor's aura is breaking the bionics that depend on it!" },
+        "else": { "message": "My bionics are falling apart!  It isn't me!" }
+      }
     ]
   },
   {

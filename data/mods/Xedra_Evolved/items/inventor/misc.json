@@ -297,14 +297,16 @@
   {
     "id": "inventor_gaming_rig",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "name": { "str": "Oneiromantic gaming rig" },
     "description": "One of the harsh realities of being an inventor is needing to devote a third of your time to sleep and then devote some time to do non-inventor fun things.  This little wonder alleviates this issue by turning your sleep time in entertainment time through application of your deductive power!  Have it on your person while you sleep and your dreams will become anything you want!  No nightmare will disturb you, for you decide if they happen at all!",
     "material": [ "steel" ],
     "symbol": "n",
     "volume": "750 ml",
     "weight": "1 kg",
-    "use_action": [ { "target": "inventor_gaming_rig_on", "need_charges": 1, "msg": "The gaming rig is ready.", "type": "transform" } ],
+    "use_action": [
+      { "target": "inventor_gaming_rig_on", "need_charges": 1, "msg": "The gaming rig is activated.", "type": "transform" }
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -324,17 +326,17 @@
     ],
     "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ],
     "faults": [ { "fault_group": "electronic_general" } ],
+    "passive_effects": [ { "id": "ench_inventor_gaming_rig" } ],
     "tool_ammo": "battery"
   },
   {
     "id": "inventor_gaming_rig_on",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL" ],
     "copy-from": "inventor_gaming_rig",
     "name": { "str": "Oneiromantic gaming rig (on)" },
     "power_draw": "10 W",
     "revert_to": "inventor_gaming_rig",
-    "use_action": [ { "ammo_scale": 0, "target": "inventor_gaming_rig", "msg": "The gaming rig powers down.", "type": "transform" } ],
-    "enchantments": [ { "condition": "ACTIVE", "ench_effects": [ { "effect": "effect_hedge_no_nightmares", "intensity": 1 } ] } ]
+    "use_action": [ { "ammo_scale": 0, "target": "inventor_gaming_rig", "msg": "The gaming rig powers down.", "type": "transform" } ]
   }
 ]

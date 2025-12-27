@@ -703,7 +703,7 @@
   {
     "id": "crafting_assistant",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "Crafting Assistant Robot" },
     "description": "A bulky wearable robot that significantly helps with all crafting tasks while powered.  It has some strange obsession with frequently taking apart and reassembling its own arms and its programming is far too focused on creation and disassembly for it to have any combat or destructive use.",
@@ -735,6 +735,7 @@
     ],
     "flags": [ "MORPHIC", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE", "ELECTRONIC", "INVENTOR_CRAFTED" ],
     "faults": [ { "fault_group": "electronic_general" } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "mutations": [ "CRAFTING_ASSISTANT_ARMS" ] } ],
     "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
     "tool_ammo": [ "battery" ]
   },
@@ -753,8 +754,7 @@
         "msg": "The assistant retracts and recycles its arms.",
         "type": "transform"
       }
-    ],
-    "enchantments": [ { "mutations": [ "CRAFTING_ASSISTANT_ARMS" ] } ]
+    ]
   },
   {
     "id": "xedra_inventor_damage_reversal_device",
