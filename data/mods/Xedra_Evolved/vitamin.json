@@ -98,6 +98,7 @@
     "vit_type": "counter",
     "name": { "str": "Stored Calories" },
     "min": 0,
+    "max": 10000000,
     "rate": "2 m"
   },
   {

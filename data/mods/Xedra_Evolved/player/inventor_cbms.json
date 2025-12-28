@@ -8,7 +8,6 @@
     "act_cost": "5 kJ",
     "react_cost": "1 kJ",
     "time": "1 s",
-    "enchantments": [ { "condition": "ACTIVE", "ench_effects": [ { "effect": "bio_rad_boost_eff", "intensity": 1 } ] } ],
     "activated_eocs": [ "EOC_bio_inventor_rad_boost_activated" ],
     "deactivated_eocs": [ "EOC_bio_inventor_rad_boost_deactivated" ],
     "flags": [ "BIONIC_TOGGLED" ]
@@ -76,8 +75,11 @@
     "enchantments": [
       {
         "values": [
-          { "value": "READING_EXP", "add": { "math": [ "u_effect_intensity('effect_burned_books') * -20" ] } },
-          { "value": "LEARNING_FOCUS", "add": { "math": [ "u_effect_intensity('effect_burned_books') * -20" ] } }
+          { "value": "READING_EXP", "add": { "math": [ "(u_effect_intensity('effect_burned_books') * -20) -20" ] } },
+          {
+            "value": "LEARNING_FOCUS",
+            "add": { "math": [ "(u_effect_intensity('effect_burned_books') * -20) - 20" ] }
+          }
         ]
       },
       { "skills": [ { "value": "deduction", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },

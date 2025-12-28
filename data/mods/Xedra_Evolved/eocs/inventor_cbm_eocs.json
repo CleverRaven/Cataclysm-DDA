@@ -6,7 +6,7 @@
     "effect": [
       {
         "u_run_inv_eocs": "manual",
-        "search_data": [ { "worn_only": true, "flags": [ "RADIOACTIVE" ] } ],
+        "search_data": [ { "flags": [ "RADIOACTIVE" ] } ],
         "true_eocs": [
           {
             "id": "EOC_bio_inventor_rad_boost_start",
@@ -16,7 +16,12 @@
         "false_eocs": [
           {
             "id": "EOC_bio_inventor_rad_boost_fail",
-            "effect": [ { "u_message": "The engine won't start without radioactive fuel!", "type": "bad" } ]
+            "effect": [
+              {
+                "if": { "not": { "u_has_effect": "effect_bio_inventor_rad_boost" } },
+                "then": [ { "u_message": "The engine won't start without radioactive fuel!", "type": "bad" } ]
+              }
+            ]
           }
         ]
       }
@@ -86,11 +91,7 @@
             "if": { "math": [ "u_vitamin('stored_calories') >= 100" ] },
             "then": [
               { "math": [ "u_calories('dont_affect_weariness': true) += 100" ] },
-              { "math": [ "u_vitamin('stored_calories') -= 100" ] },
-              {
-                "if": { "x_in_y_chance": { "x": 1, "y": 20 } },
-                "then": { "u_message": "Some of your orbiting calories settle inside your body.", "type": "good" }
-              }
+              { "math": [ "u_vitamin('stored_calories') -= 100" ] }
             ],
             "else": [
               {
@@ -109,11 +110,7 @@
             "if": { "math": [ "u_calories() >= u_calories_needed * 1.05" ] },
             "then": [
               { "math": [ "u_calories('dont_affect_weariness': true) -= 100" ] },
-              { "math": [ "u_vitamin('stored_calories') += 75" ] },
-              {
-                "if": { "x_in_y_chance": { "x": 1, "y": 20 } },
-                "then": { "u_message": "Some of your calories move outside of your body.", "type": "good" }
-              }
+              { "math": [ "u_vitamin('stored_calories') += 75" ] }
             ]
           }
         ]

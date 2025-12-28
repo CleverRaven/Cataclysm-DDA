@@ -141,7 +141,7 @@
           { "damage_type": "bash", "amount": 12, "armor_multiplier": 0.5 }
         ]
       },
-      { "id": "drag_followup" }
+      { "id": "grab_drag", "cooldown": 1 }
     ],
     "extend": { "flags": [ "GRABS", "CANPLAY" ] }
   }

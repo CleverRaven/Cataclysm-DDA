@@ -504,7 +504,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_INVENTOR_CBM_DEGRADATION_BREAKDOWN",
-    "//": "Inserting the effect inside the reccurent EOC fails to grant the faulty bionics through an invalid beta talker error.",
+    "//": "Inserting the effect inside the recurrent EOC fails to grant the faulty bionics through an invalid beta talker error.",
     "effect": [
       {
         "if": { "u_has_bionics": "bio_inventor_rad_boost" },

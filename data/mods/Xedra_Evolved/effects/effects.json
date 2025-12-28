@@ -4259,26 +4259,23 @@
     "type": "effect_type",
     "id": "effect_bio_inventor_rad_boost",
     "name": [ "Engineered Hero" ],
-    "desc": [ "New powers awaken in you as the engine starts!" ],
+    "desc": [ "New powers awaken in you as the engine starts and radiation fills your being!" ],
     "remove_message": "Your new powers vanish as the engine powers down.",
     "rating": "mixed",
     "//": "This uses the bat form flight enchant instead of making an identical version of a hidden effect.",
+    "//2": "The stats and speed boosts cancel the penalties of radiation exposure.",
     "enchantments": [
       {
         "condition": { "not": { "u_has_flag": "NO_RADIATION" } },
-        "values": [ { "value": "ARMOR_ALL", "add": { "math": [ "u_val('rad') / 10" ] } } ]
-      },
-      {
-        "condition": { "not": { "u_has_flag": "NO_RADIATION" } },
-        "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "u_val('rad') / 15" ] } } ]
-      },
-      {
-        "condition": { "not": { "u_has_flag": "NO_RADIATION" } },
-        "values": [ { "value": "STAMINA_REGEN_MOD", "add": { "math": [ "u_val('rad') / 50" ] } } ]
-      },
-      {
-        "condition": "ALWAYS",
+        "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "u_val('rad') / 15" ] } } ],
         "values": [
+          { "value": "SPEED", "add": { "math": [ "(u_val('rad') * 0.2)" ] } },
+          { "value": "STRENGTH", "add": { "math": [ "(u_val('rad') * 0.125)" ] } },
+          { "value": "DEXTERITY", "add": { "math": [ "(u_val('rad') * 0.09)" ] } },
+          { "value": "INTELLIGENCE", "add": { "math": [ "(u_val('rad') * 0.1)" ] } },
+          { "value": "PERCEPTION", "add": { "math": [ "(u_val('rad') * 0.083)" ] } },
+          { "value": "ARMOR_ALL", "add": { "math": [ "u_val('rad') / 10" ] } },
+          { "value": "STAMINA_REGEN_MOD", "add": { "math": [ "u_val('rad') / 50" ] } },
           { "value": "PAIN_PENALTY_MOD_STR", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
           { "value": "PAIN_PENALTY_MOD_DEX", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
           { "value": "PAIN_PENALTY_MOD_INT", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
