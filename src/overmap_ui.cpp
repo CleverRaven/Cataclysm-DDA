@@ -2656,6 +2656,85 @@ std::optional<city> ui::omap::select_city( uilist &cities_menu,
     return ret_val;
 }
 
+void ui::omap::range_mark( const tripoint_abs_omt &origin, int range, bool add_notes,
+                           const std::string &message )
+{
+    std::vector<tripoint_abs_omt> note_pts;
+
+    if( trigdist ) {
+        note_pts.reserve( range * 7 ); // actual multiplier varies from 5.33 to 8, mostly 6 to 7
+        for( const tripoint_abs_omt &pos : points_on_radius_circ( origin, range ) ) {
+            note_pts.emplace_back( pos );
+        }
+    } else {
+        note_pts.reserve( range * 8 );
+        //North Limit
+        for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
+            note_pts.emplace_back( x, origin.y() - range, origin.z() );
+        }
+        //South
+        for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
+            note_pts.emplace_back( x, origin.y() + range, origin.z() );
+        }
+        //West
+        for( int y = origin.y() - range; y < origin.y() + range + 1; y++ ) {
+            note_pts.emplace_back( origin.x() - range, y, origin.z() );
+        }
+        //East
+        for( int y = origin.y() - range; y < origin.y() + range + 1; y++ ) {
+            note_pts.emplace_back( origin.x() + range, y, origin.z() );
+        }
+    }
+
+    for( tripoint_abs_omt &pt : note_pts ) {
+        if( add_notes ) {
+            if( !overmap_buffer.has_note( pt ) ) {
+                overmap_buffer.add_note( pt, message );
+            }
+        } else {
+            if( overmap_buffer.has_note( pt ) && overmap_buffer.note( pt ) == message ) {
+                overmap_buffer.delete_note( pt );
+            }
+        }
+    }
+}
+
+void ui::omap::line_mark( const tripoint_abs_omt &origin, const tripoint_abs_omt &dest,
+                          bool add_notes,
+                          const std::string &message )
+{
+    std::vector<tripoint_abs_omt> note_pts = line_to( origin, dest );
+
+    for( const tripoint_abs_omt &pt : note_pts ) {
+        if( add_notes ) {
+            if( !overmap_buffer.has_note( pt ) ) {
+                overmap_buffer.add_note( pt, message );
+            }
+        } else {
+            if( overmap_buffer.has_note( pt ) && overmap_buffer.note( pt ) == message ) {
+                overmap_buffer.delete_note( pt );
+            }
+        }
+    }
+}
+
+void ui::omap::path_mark(
+    const std::vector<tripoint_abs_omt> &note_pts, bool add_notes,
+    const std::string &message )
+{
+    for( const tripoint_abs_omt &pt : note_pts ) {
+        if( add_notes ) {
+            if( !overmap_buffer.has_note( pt ) ) {
+                overmap_buffer.add_note( pt, message );
+            }
+        } else {
+            if( overmap_buffer.has_note( pt ) && overmap_buffer.note( pt ) == message ) {
+                overmap_buffer.delete_note( pt );
+            }
+        }
+    }
+}
+
 void ui::omap::force_quit()
 {
     overmap_ui::generated_omts.clear();
