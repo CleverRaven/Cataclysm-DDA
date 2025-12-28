@@ -233,6 +233,22 @@
   {
     "type": "overmap_terrain",
     "id": [
+      "dls_small_roof",
+      "dls_small_surface",
+      "dls_small_-1",
+      "dls_small_-2",
+      "dls_small_-3",
+      "dls_small_-4",
+      "dls_small_-5"
+    ],
+    "copy-from": "dls_small_roof",
+    "name": "limnological station",
+    "sym": "#",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
       "nursing_home_lab1",
       "nursing_home_lab2",
       "nursing_home_lab3",
