@@ -70,7 +70,7 @@
         "looks_like": "jabberwock_heart",
         "symbol": "%",
         "color": "black_red",
-        "str": "Heart of The Warrior CBM",
+        "name": { "str": "Heart of The Warrior CBM" },
         "description": "The Cree'yn Cag'gii, a forgotten relic of the Exodii.  Legends say it continues beating long after its user expires.",
         "//": "this is Manx, and vaguely translates to warrior heart or similar.  Some artistic liberties were taken.",
         "volume": "850 ml",
