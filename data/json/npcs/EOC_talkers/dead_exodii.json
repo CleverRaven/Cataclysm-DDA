@@ -32,11 +32,10 @@
     {
         "type": "talk_topic",
         "id": "TALK_DEAD_EXODII_HEART",
-        "dynamic_line": "It doesn't take much effort to pull the chestplates of the dead knight open - their insides have long since broken down, the decayed cybernetics and electronics are just barely held together by the winding roots plants that have overtaken the shell.  You dig through the rotted innards, most of them crumple to dust the moment you touch them.  Loose bits of metal and rust pool at you and the knight's feet.  Eventually your hand touches something solid which doesn't break down, and it's also warm.  After hearing the ticking noise once more you grab ahold of the object.",
+        "dynamic_line": "It doesn't take much effort to pull the chestplates of the dead knight open - their insides have long since broken down, the decayed cybernetics and electronics are just barely held together by the winding roots plants that have overtaken the shell.  You dig through the rotted cyber-innards, most of them crumple to dust the moment you touch them.  Loose bits of metal and rust pool at you and the knight's feet.  Eventually your hand touches something solid which doesn't break down, and it's also warm.  After grabbing the object you hear the ticking, hissing noise once more.",
         "responses": [
             {
                 "text": "Rip it out.",
-                "topic": "TALK_DEAD_EXODII_END",
                 "effect": [
                     {
                         "u_spawn_item": "bionics_ancient", "use_item_group": true
@@ -45,7 +44,12 @@
                         "u_transform_radius": 5,
                         "ter_furn_transform": "dead_exodii_transform"
                     }
-                ]
+                ],
+                "topic": "TALK_DEAD_EXODII_END"
+			}
+            {
+                "text": "Let go and withdraw your arm.",
+                "topic": "TALK_DONE"
             }
         ]
     },
