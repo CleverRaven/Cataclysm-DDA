@@ -54,7 +54,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "PADDED", "SUN_GLASSES", "FRAGILE" ],
     "environmental_protection_with_filter": 16,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "flag_restriction": [ "GASFILTER_MED" ], "default_magazine": "gasfilter_med" } ],
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
     "melee_damage": { "bash": 10 },
