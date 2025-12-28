@@ -42,7 +42,7 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
     REQUIRE( gun->ammo_remaining( ) == 0 );
 
     const item::reload_option gun_option( &dummy, gun, ammo );
-    REQUIRE( gun_option.qty() == 1 );
+    REQUIRE( gun_option.qty() == 7 );
 
     item_location speedloader = dummy.i_add( item( itype_38_speedloader, calendar::turn_zero, 0 ) );
     REQUIRE( speedloader->ammo_remaining( ) == 0 );

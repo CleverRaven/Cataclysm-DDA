@@ -2243,10 +2243,6 @@ void item::reload_option::qty( int val )
     int remaining_capacity = target->is_watertight_container() ?
                              target->get_remaining_capacity_for_liquid( ammo_obj, true ) :
                              target->remaining_ammo_capacity();
-    if( target->has_flag( flag_RELOAD_ONE ) &&
-        !( ammo->has_flag( flag_SPEEDLOADER ) || ammo->has_flag( flag_SPEEDLOADER_CLIP ) ) ) {
-        remaining_capacity = 1;
-    }
     if( ammo_obj.type->ammo ) {
         if( ammo_obj.ammo_type() == ammo_plutonium ) {
             remaining_capacity = remaining_capacity / PLUTONIUM_CHARGES +

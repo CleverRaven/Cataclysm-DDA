@@ -601,6 +601,7 @@ class item : public visitable
                 const Character *who = nullptr;
                 item_location target;
                 item_location ammo;
+                bool is_reload_one = false;
 
                 int qty() const {
                     return qty_;
