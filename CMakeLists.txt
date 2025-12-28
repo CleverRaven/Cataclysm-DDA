@@ -418,12 +418,28 @@ if (USE_XDG_DIR)
     add_definitions(-DUSE_XDG_DIR)
 endif ()
 
-find_program(CCACHE_FOUND ccache)
+find_program(CCACHE_FOUND ccache HINTS ${CMAKE_CURRENT_SOURCE_DIR}/ccache)
 if (CCACHE_FOUND AND CATA_CCACHE)
     set(CMAKE_C_COMPILER_LAUNCHER ${CCACHE_FOUND})
     set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE_FOUND})
     set(CMAKE_C_LINKER_LAUNCHER ${CCACHE_FOUND})
     set(CMAKE_CXX_LINKER_LAUNCHER ${CCACHE_FOUND})
+    if (MSVC)
+        string(REPLACE /Zi /Z7 CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
+        string(REPLACE /Zi /Z7 CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+        string(REPLACE /Zi /Z7 CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO}")
+        string(REPLACE /Zi /Z7 CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
+        cmake_path(GET CCACHE_FOUND PARENT_PATH ClToolPath)
+        file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/Directory.Build.props "
+<Project>
+    <PropertyGroup>
+        <ClToolPath>${ClToolPath}</ClToolPath>
+        <TrackFileAccess>false</TrackFileAccess>
+        <UseMultiToolTask>true</UseMultiToolTask>
+    </PropertyGroup>
+</Project>
+        ")
+    endif ()
 endif ()
 
 add_subdirectory(src)
