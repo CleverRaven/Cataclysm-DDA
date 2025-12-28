@@ -36,6 +36,7 @@
         "responses": [
             {
                 "text": "Rip it out.",
+                "topic": "TALK_DEAD_EXODII_END",
                 "effect": [
                     {
                         "u_spawn_item": "bionics_ancient", "use_item_group": true
@@ -44,8 +45,7 @@
                         "u_transform_radius": 5,
                         "ter_furn_transform": "dead_exodii_transform"
                     }
-                ],
-                "topic": "TALK_DEAD_EXODII_END"
+                ]
             }
         ]
     },
