@@ -4073,7 +4073,7 @@ std::optional<int> iuse::gasmask_activate( Character *p, item *it, const tripoin
         it->active = true;
         it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
     }
-    
+
     if( it->has_flag( flag_PAPR_MASK ) ) {
         if( !p->has_item_with_flag( flag_PAPR_BLOWER ) ) {
             p->add_msg_if_player( m_bad,
