@@ -201,6 +201,6 @@
     "type": "item_group",
     "id": "bionics_ancient",
 	"subtype": "collection",
-    "entries": [ { "item": "bio_creeyncaggii", "prob": 100, "faults": { "id": [ "<ancient_bionic_fault>" ], "chance": 100 } } ]
+    "entries": [ { "item": "bio_creeyncaggii", "prob": 100, "faults": { "id": [ "<fault_bionic_salvaged>" ], "chance": 100 } } ]
   }
 ]
