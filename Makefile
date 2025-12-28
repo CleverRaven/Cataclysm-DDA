@@ -533,9 +533,9 @@ ifeq ($(PCH), 1)
 
   ifeq ($(CLANG), 0)
     PCHFLAGS += -include pch/main-pch.hpp
-    PCH_P = $(PCH_H).gch
+    PCH_P = $(ODIR)/$(PCH_H).gch
   else
-    PCH_P = $(PCH_H).pch
+    PCH_P = $(ODIR)/$(PCH_H).pch
     PCHFLAGS += -include-pch $(PCH_P)
 
     # FIXME: dirty hack ahead
@@ -1132,7 +1132,7 @@ prefix:
          )
 
 # Unconditionally create the object dirs on every invocation.
-DIRS = $(sort $(dir $(OBJS)))
+DIRS = $(sort $(dir $(OBJS) $(PCH_P)))
 $(shell mkdir -p $(DIRS))
 
 $(ODIR)/%.inc: $(SRC_DIR)/%.cpp
@@ -1185,7 +1185,7 @@ $(CHKJSON_BIN): $(CHKJSON_SOURCES)
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
 
-clean: clean-tests clean-pch clean-lang
+clean: clean-tests clean-lang
 	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
@@ -1457,16 +1457,10 @@ check: version $(BUILD_PREFIX)cataclysm.a $(LOCALIZE_TEST_DEPS)
 clean-tests:
 	$(MAKE) -C tests clean
 
-clean-pch:
-	rm -f pch/*pch.hpp.gch
-	rm -f pch/*pch.hpp.pch
-	rm -f pch/*pch.hpp.d
-	$(MAKE) -C tests clean-pch
-
 clean-lang:
 	$(MAKE) -C lang clean
 
-.PHONY: tests check ctags etags clean-tests clean-pch clean-lang install lint
+.PHONY: tests check ctags etags clean-tests clean-lang install lint
 
 compile_commands.txt:
 	@echo 'COMPILE.cc := $(COMPILE.cc)' > $@
