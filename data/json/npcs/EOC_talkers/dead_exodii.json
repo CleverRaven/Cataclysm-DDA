@@ -46,7 +46,7 @@
                     }
                 ],
                 "topic": "TALK_DEAD_EXODII_END"
-			}
+			},
             {
                 "text": "Let go and withdraw your arm.",
                 "topic": "TALK_DONE"
