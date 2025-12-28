@@ -2451,6 +2451,146 @@
     "passive_effects": [ { "id": "nvg_bad" } ]
   },
   {
+    "id": "basic_papr_helmet",
+    "//": "Based on 3M M-307",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "PAPR helmet" },
+    "description": "A helmet fit with a transparent full-face mask.  On the back of the helmet is a long tube to attach to a power air purifying respirator blower system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gasmask it must be loaded with a filter and prepared before use; unlike a standard gas mask, it is relatively cool and comfortable, but will only function when paired with an active PAPR blower unit.",
+    "weight": "857 g",
+    "volume": "2250 ml",
+    "price": "700 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 20,
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "eyes" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "mouth" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      }
+    ],
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 16,
+    "flags": [ "WATERPROOF", "PADDED", "NORMAL", "SLEEP_IGNORE", "VARSIZE", "PAPR_MASK" ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GASFILTER_MED" ], "default_magazine": "gasfilter_med" }
+    ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "tool_ammo": "gasfilter_m"
+  },
+  {
+    "id": "basic_papr_belt_off",
+    "//": "Based on 3M TR-300",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "PAPR blower (off)", "str_pl": "PAPR blowers (off)" },
+    "description": "A blower unit for a powered air purifying respirator system.  It has been attached to a basic rubber and plastic belt.  When active and paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.",
+    "weight": "918 g",
+    "volume": "500 ml",
+    "price": "300 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "rubber", "plastic" ],
+    "symbol": "[",
+    "looks_like": "leather_belt",
+    "color": "black",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "charges_per_use": 1,
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s.",
+      "target": "basic_papr_belt_on",
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead."
+    },
+    "tool_ammo": [ "battery" ],
+    "flags": [ "BELTED", "OVERSIZE", "ELECTRONIC", "WATER_BREAK_ACTIVE" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "coverage": 50,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_waist" ],
+        "volume_encumber_modifier": 0.35
+      }
+    ]
+  },
+  {
+    "id": "basic_papr_belt_on",
+    "copy-from": "basic_papr_belt_off",
+    "//": "Based on 3M TR-300",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "PAPR blower (on)", "str_pl": "PAPR blowers (on)" },
+    "description": "A blower unit for a powered air purifying respirator system.  It has been attached to a basic rubber and plastic belt.  If paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.",
+    "weight": "918 g",
+    "volume": "500 ml",
+    "material": [ "rubber", "plastic" ],
+    "symbol": "[",
+    "looks_like": "leather_belt",
+    "color": "black",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "power_draw": "4000 mW",
+    "revert_to": "basic_papr_belt_off",
+    "use_action": {
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You turn the %s off.",
+      "target": "basic_papr_belt_off",
+      "ammo_scale": 0
+    },
+    "tool_ammo": [ "battery" ],
+    "flags": [ "BELTED", "OVERSIZE", "ELECTRONIC", "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE", "PAPR_BLOWER" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "coverage": 50,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_waist" ],
+        "volume_encumber_modifier": 0.35
+      }
+    ]
+  },
+  {
     "id": "goggles_nv_on",
     "copy-from": "goggles_nv",
     "type": "ITEM",

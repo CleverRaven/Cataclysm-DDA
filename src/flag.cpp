@@ -246,6 +246,8 @@ const flag_id flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 const flag_id flag_PALS_LARGE( "PALS_LARGE" );
 const flag_id flag_PALS_MEDIUM( "PALS_MEDIUM" );
 const flag_id flag_PALS_SMALL( "PALS_SMALL" );
+const flag_id flag_PAPR_BLOWER( "PAPR_BLOWER" );
+const flag_id flag_PAPR_MASK( "PAPR_MASK" );
 const flag_id flag_PARTIAL_DEAF( "PARTIAL_DEAF" );
 const flag_id flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
 const flag_id flag_PERPETUAL( "PERPETUAL" );

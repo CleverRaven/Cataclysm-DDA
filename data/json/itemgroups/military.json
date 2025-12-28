@@ -462,6 +462,7 @@
     "entries": [
       { "item": "e_tool", "prob": 60 },
       { "group": "gasmask_bag_full", "prob": 20 },
+      { "group": "papr_kit", "prob": 5 },
       { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
       { "item": "balthazar_radio", "prob": 1 },
       { "group": "infantry_knives", "prob": 80 }
@@ -474,6 +475,7 @@
     "entries": [
       { "item": "e_tool", "prob": 60 },
       { "group": "gasmask_bag_full", "prob": 20 },
+      { "group": "papr_kit", "prob": 5 },
       { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
       { "group": "infantry_knives", "prob": 100 }
     ]
@@ -582,6 +584,7 @@
       { "item": "officer_uniform", "prob": 20 },
       { "item": "flight_helmet", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "mil_flight_suit", "prob": 30 },
+      { "group": "papr_kit", "prob": 15 },
       { "item": "combo_cover", "prob": 20 },
       { "item": "pants_army", "prob": 70 },
       { "item": "combat_shirt", "prob": 35 },
@@ -758,6 +761,7 @@
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "UPS_OFF", "prob": 8, "charges": [ 0, 1000 ] },
+      { "group": "papr_kit", "prob": 5 },
       { "item": "tacvest", "prob": 10 },
       { "group": "molle_backpacks_and_accessories", "prob": 15 },
       { "item": "legrig", "prob": 10 },

@@ -2522,6 +2522,16 @@
     "restriction": "Item must be able to clip into place within a gas mask that has a single, panoramic eyepiece."
   },
   {
+    "id": "PAPR_MASK",
+    "type": "json_flag",
+    "info": "This item functions as a powered air purifying respirator."
+  },
+  {
+    "id": "PAPR_BLOWER",
+    "type": "json_flag",
+    "info": "This item functions as a powered air purifying respirator blower."
+  },
+  {
     "id": "REBREATHER_CART",
     "type": "json_flag",
     "info": "A filter for a rebreather.",

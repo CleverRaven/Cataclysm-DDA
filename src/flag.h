@@ -256,6 +256,8 @@ extern const flag_id flag_PAIN_IMMUNE;
 extern const flag_id flag_PALS_SMALL;
 extern const flag_id flag_PALS_MEDIUM;
 extern const flag_id flag_PALS_LARGE;
+extern const flag_id flag_PAPR_BLOWER;
+extern const flag_id flag_PAPR_MASK;
 extern const flag_id flag_PARTIAL_DEAF;
 extern const flag_id flag_PERFECT_LOCKPICK;
 extern const flag_id flag_PERPETUAL;
