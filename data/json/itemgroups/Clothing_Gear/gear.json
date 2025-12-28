@@ -54,6 +54,16 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "papr_kit",
+    "items": [
+      { "item": "basic_papr_helmet" },
+      { "item": "basic_papr_belt_off" },
+      { "group": "wrapped_gasmask_filter" },
+      { "item": "medium_battery_cell" }
+    ]
+  },
+  {
     "id": "gasmask_bag_used",
     "type": "item_group",
     "subtype": "collection",
