@@ -214,6 +214,7 @@ extern const flag_id flag_MOUNTED_GUN;
 extern const flag_id flag_MOUSE;
 extern const flag_id flag_MUNDANE;
 extern const flag_id flag_MUSHY;
+extern const flag_id flag_MWS_PORTAL_STORM_DATA;
 extern const flag_id flag_MYCUS_OK;
 extern const flag_id flag_NANOFAB_REPAIR;
 extern const flag_id flag_NANOFAB_TEMPLATE;

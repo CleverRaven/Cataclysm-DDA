@@ -948,5 +948,83 @@
     ],
     "extend": { "flags": [ "STURDY" ] },
     "proportional": { "weight": 1.5 }
+  },
+  {
+    "id": "hub_meteorology_pack",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Hub 01 hazardous meteorology pack" },
+    "description": "A 3D printed pack frame for the true frontier explorer.  While this resembles a standard military or hiking pack frame, this one appears to be made entirely of lightweight plastics and artificial fabrics.  This cumbersome contraption eschews the modular nature of standard frame packs in favor of ergonomic, pre-fabricated attachment points.  The back of the frame is a thin, solid piece with a slot labeled \"SOLAR PANEL\".  The base of the frame has two custom-fit slots labeled \"UPS\" and \"WORKSTATION\".  Hanging from the bottom are two wide loops labeled \"TENT\" and \"ROLLMAT\".  The frame itself has several large clips, each labeled with \"HEW SYSTEM\" in small text.  The pack is secured by shoulder straps - the left shoulder strap proudly displays the Hub 01 logo, while the right strap has \"HE\" sewn in bright white letters.",
+    "weight": "1200 g",
+    "volume": "4500 ml",
+    "longest_side": "70 cm",
+    "price": "400 USD",
+    "price_postapoc": "30 USD",
+    "material": [ { "type": "thermo_resin", "portion": 2 }, { "type": "plastic", "portion": 2 }, { "type": "nylon", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "folding_solar_panel" ],
+        "moves": 300,
+        "max_contains_volume": "8000 ml",
+        "max_contains_weight": "6 kg",
+        "description": "Secured in a slot labeled \"SOLAR PANEL.\""
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "mobile_weather_station", "xedra_mobile_weather_station", "robofac_mobile_weather_station" ],
+        "max_contains_volume": "90000 ml",
+        "max_contains_weight": "7 kg",
+        "moves": 300,
+        "description": "Attached to points labeled \"HEW SYSTEM.\""
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "laptop" ],
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 300,
+        "description": "Secured in a slot labeled \"WORKSTATION.\""
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "UPS_off", "UPS_ON" ],
+        "max_contains_volume": "4000 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 300,
+        "description": "Secured in a slot labeled \"UPS.\""
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "tent_kit" ],
+        "moves": 300,
+        "max_contains_volume": "3000 ml",
+        "max_contains_weight": "2 kg",
+        "extra_encumbrance": 1,
+        "description": "Secured under compression straps labeled \"TENT.\"",
+        "ripoff": 5,
+        "transparent": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "rollmat", "fur_rollmat" ],
+        "moves": 300,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "1 kg",
+        "extra_encumbrance": 1,
+        "description": "Secured under compression straps labeled \"ROLLMAT.\"",
+        "ripoff": 5,
+        "transparent": true
+      }
+    ],
+    "warmth": 8,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "WATERPROOF" ],
+    "armor": [
+      { "encumbrance": [ 10, 30 ], "coverage": 95, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
   }
 ]

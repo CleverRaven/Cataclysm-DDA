@@ -4,6 +4,13 @@
     "overmap_terrain_coverage_whitelist": [
       "ants_lab",
       "ants_lab_stairs",
+      "dls_small_roof",
+      "dls_small_surface",
+      "dls_small_-1",
+      "dls_small_-2",
+      "dls_small_-3",
+      "dls_small_-4",
+      "dls_small_-5",
       "ice_lab",
       "ice_lab_core",
       "ice_lab_finale",

@@ -3453,6 +3453,8 @@ Lilit
 lilypad
 Lima
 limbed
+limnology
+limnological
 Lincoln
 Linda
 Lindbergh
@@ -6284,6 +6286,7 @@ Thumper
 thunderball
 Thunderdome
 thunk
+thunks
 Thursday
 thyreophoran
 Tiamat
