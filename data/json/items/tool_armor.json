@@ -2457,7 +2457,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "name": { "str": "PAPR helmet" },
-    "description": "A helmet fit with a transparent full-face mask.  On the back of the helmet is a long tube which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gasmask it must be loaded with a filter and prepared before use; unlike a standard gas mask, it is relatively cool and comfortable, but will only function when paired with an active PAPR blower unit.",
+    "description": "A helmet fit with a transparent full-face mask.  On the back of the helmet is a long tube which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be loaded with a filter and prepared before use; unlike a standard gas mask, it is relatively cool and comfortable, but will only function when paired with an active PAPR blower unit.",
     "weight": "857 g",
     "volume": "2250 ml",
     "price": "700 USD",
