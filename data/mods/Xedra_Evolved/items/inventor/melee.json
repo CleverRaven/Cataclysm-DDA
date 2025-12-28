@@ -97,7 +97,7 @@
       "target": "megachette",
       "msg": "With a quiet click, the megachette is unfolded."
     },
-    "to_hit": -1,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "bad" },
     "techniques": [  ],
     "melee_damage": { "cut": 0, "bash": 3 }
   },
