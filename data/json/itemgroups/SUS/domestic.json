@@ -1061,7 +1061,7 @@
     "//": "clothing found in a man's wardrobe",
     "subtype": "collection",
     "entries": [
-      { "group": "shoes_unisex", "prob": 50, "count": [ 1, 2 ] },
+      { "group": "shoes_unisex", "count": [ 0, 3 ] },
       { "item": "sleeping_bag_roll", "prob": 5 },
       { "group": "coats_unisex", "prob": 50, "count": [ 0, 3 ] },
       { "group": "suits_unisex", "prob": 50, "count": [ 0, 2 ] },
