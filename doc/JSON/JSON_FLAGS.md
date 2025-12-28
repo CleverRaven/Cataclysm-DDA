@@ -991,6 +991,7 @@ These can be applied to guns or gunmods, adding different effects to the guns.
 - ```NEVER_JAMS``` Never malfunctions.  Unaffected by the `JAMMED_GUN` fault.
 - ```NO_DIRTYING``` Prevents the gun from receiving `fault_gun_dirt` fault.
 - ```NON_FOULING``` Gun does not become dirty or blackpowder fouled.
+- ```OVERHEATS``` Adds a description stating the gun overheats when fired continuously. Purely informational. Does not affect behavior.
 - ```JAMMED_GUN``` Stops burst fire.  Adds delay on next shot.
 - ```UNLUBRICATED``` Randomly causes screeching noise when firing and applies damage when that happens.
 
