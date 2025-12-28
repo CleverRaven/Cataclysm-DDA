@@ -4076,7 +4076,8 @@ std::optional<int> iuse::gasmask_activate( Character *p, item *it, const tripoin
     
     if( it->has_flag( flag_PAPR_MASK ) ) {
         if( !p->has_item_with_flag( flag_PAPR_BLOWER ) ) {
-            p->add_msg_if_player( m_bad, _( "You don't have an active PAPR blower unit so the %s fails to function." ), it->tname() );
+            p->add_msg_if_player( m_bad,
+                                  _( "You don't have an active PAPR blower unit so the %s fails to function." ), it->tname() );
             it->set_var( "overwrite_env_resist", 0 );
             it->active = false;
         }
@@ -4144,7 +4145,7 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint_bub_ms 
         it->set_var( "overwrite_env_resist", 0 );
         it->active = false;
     }
-    
+
     if( it->has_flag( flag_PAPR_MASK ) ) {
         if( !p->has_item_with_flag( flag_PAPR_BLOWER ) ) {
             p->add_msg_if_player( m_bad, _( "Your PAPR system stops working!" ) );
@@ -4153,7 +4154,6 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint_bub_ms 
         }
     }
 
-    
     return 0;
 }
 

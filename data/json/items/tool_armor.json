@@ -2495,9 +2495,7 @@
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
     "flags": [ "WATERPROOF", "PADDED", "NORMAL", "SLEEP_IGNORE", "VARSIZE", "PAPR_MASK" ],
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GASFILTER_MED" ], "default_magazine": "gasfilter_med" }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GASFILTER_MED" ], "default_magazine": "gasfilter_med" } ],
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
     "tool_ammo": "gasfilter_m"
