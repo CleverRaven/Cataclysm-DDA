@@ -43,10 +43,6 @@ static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
-static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
-static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
@@ -148,10 +144,6 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
     if( type == ACT_AIM ||
         type == ACT_ARMOR_LAYERS ||
         type == ACT_ATM ||
-        type == ACT_CONSUME_DRINK_MENU ||
-        type == ACT_CONSUME_FOOD_MENU ||
-        type == ACT_CONSUME_MEDS_MENU ||
-        type == ACT_EAT_MENU ||
         type == ACT_INVOKE_ITEM
       ) {
         return std::nullopt;

@@ -17,7 +17,6 @@
 
 #include "activity_actor.h"
 #include "avatar.h"
-#include "avatar_action.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -91,11 +90,7 @@
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
-static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
@@ -195,13 +190,9 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_STUDY, multiple_study_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
-    { ACT_EAT_MENU, eat_menu_do_turn },
     { ACT_VEHICLE_DECONSTRUCTION, vehicle_deconstruction_do_turn },
     { ACT_VEHICLE_REPAIR, vehicle_repair_do_turn },
     { ACT_MULTIPLE_CHOP_TREES, chop_trees_do_turn },
-    { ACT_CONSUME_FOOD_MENU, consume_food_menu_do_turn },
-    { ACT_CONSUME_DRINK_MENU, consume_drink_menu_do_turn },
-    { ACT_CONSUME_MEDS_MENU, consume_meds_menu_do_turn },
     { ACT_ARMOR_LAYERS, armor_layers_do_turn },
     { ACT_ATM, atm_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
@@ -226,10 +217,6 @@ activity_handlers::finish_functions = {
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
     { ACT_SOCIALIZE, socialize_finish },
     { ACT_ATM, atm_finish },
-    { ACT_EAT_MENU, eat_menu_finish },
-    { ACT_CONSUME_FOOD_MENU, eat_menu_finish },
-    { ACT_CONSUME_DRINK_MENU, eat_menu_finish },
-    { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
     { ACT_PULL_CREATURE, pull_creature_finish },
     { ACT_SPELLCASTING, spellcasting_finish },
@@ -1324,40 +1311,6 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
     act->targets[1].remove_item();
 }
 
-// This activity opens the menu (it's not meant to queue consumption of items)
-void activity_handlers::eat_menu_do_turn( player_activity *, Character *you )
-{
-    if( !you->is_avatar() ) {
-        debugmsg( "Character %s somehow opened the eat menu!  Cancelling their activity to prevent infinite loop",
-                  you->name );
-        you->cancel_activity();
-        return;
-    }
-
-    avatar &player_character = get_avatar();
-    avatar_action::eat_or_use( player_character, game_menus::inv::consume() );
-}
-
-void activity_handlers::consume_food_menu_do_turn( player_activity *, Character * )
-{
-    avatar &player_character = get_avatar();
-    item_location loc = game_menus::inv::consume_food();
-    avatar_action::eat( player_character, loc );
-}
-
-void activity_handlers::consume_drink_menu_do_turn( player_activity *, Character * )
-{
-    avatar &player_character = get_avatar();
-    item_location loc = game_menus::inv::consume_drink();
-    avatar_action::eat( player_character, loc );
-}
-
-void activity_handlers::consume_meds_menu_do_turn( player_activity *, Character * )
-{
-    avatar &player_character = get_avatar();
-    avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds() );
-}
-
 void activity_handlers::travel_do_turn( player_activity *act, Character *you )
 {
     if( !you->omt_path.empty() ) {
@@ -1564,11 +1517,6 @@ void activity_handlers::atm_finish( player_activity *act, Character * )
     if( !act->index ) {
         act->set_to_null();
     }
-}
-
-void activity_handlers::eat_menu_finish( player_activity *, Character * )
-{
-    // Only exists to keep the eat activity alive between turns
 }
 
 template<typename fn>

@@ -2270,7 +2270,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( !locThisItem.get_item()->is_container() ) {
                         avatar_action::eat( u, locThisItem );
                     } else {
-                        avatar_action::eat_or_use( u, game_menus::inv::consume( locThisItem ) );
+                        avatar_action::eat_or_use( u, game_menus::inv::consume( std::string(), locThisItem ) );
                     }
                     break;
                 case 'W': {

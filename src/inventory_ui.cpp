@@ -421,6 +421,8 @@ void uistatedata::serialize( JsonOut &json ) const
 
     json.member( "overmap_sidebar_uistate" );
     overmap_sidebar_state.serialize( json );
+    json.member( "consume_menu_uistate" );
+    consume_uistate.serialize( json );
 
     json.member( "input_history" );
     json.start_object();
@@ -469,6 +471,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_show_hordes", overmap_show_hordes );
     jo.read( "overmap_show_revealed_omts", overmap_show_revealed_omts );
     jo.read( "overmap_show_forest_trails", overmap_show_forest_trails );
+    jo.read( "consume_menu_uistate", consume_uistate );
     jo.read( "hidden_recipes", hidden_recipes );
     jo.read( "favorite_recipes", favorite_recipes );
     jo.read( "expanded_recipes", expanded_recipes );

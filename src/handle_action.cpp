@@ -2014,21 +2014,22 @@ void game::open_consume_item_menu()
     avatar &player_character = get_avatar();
     switch( as_m.ret ) {
         case 0: {
-            item_location loc = game_menus::inv::consume_food();
+            item_location loc = game_menus::inv::consume( "FOOD" );
             avatar_action::eat( player_character, loc );
             break;
         }
         case 1: {
-            item_location loc = game_menus::inv::consume_drink();
+            item_location loc = game_menus::inv::consume( "DRINK" );
             avatar_action::eat( player_character, loc );
             break;
         }
         case 2:
-            avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds() );
+            avatar_action::eat_or_use( player_character, game_menus::inv::consume( "MED" ) );
             break;
         default:
-            break;
+            return;
     }
+
 }
 
 static void handle_debug_mode()
