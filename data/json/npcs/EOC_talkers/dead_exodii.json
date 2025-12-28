@@ -1,96 +1,63 @@
 [
-    {
-        "type": "talk_topic",
-        "id": "TALK_DEAD_EXODII_MAIN",
-        "dynamic_line": "The knight lies still.  Only the tiny flowers sprouting on it move in the wind.  You would be lying if you said you didn't find the scene somewhat beautiful, the way they're locked in what looks to be prayer.  Perhaps they knew they were going to die, perhaps they knew they would remain kneeling here forever.",
-        "responses": [
-            {
-                "text": "Investigate the body further.",
-                "topic": "TALK_DEAD_EXODII_EXAMINE"
-            },
-            {
-                "text": "Leave them.",
-                "topic": "TALK_DONE"
-            }
-        ]
-    },
-    {
-        "type": "talk_topic",
-        "id": "TALK_DEAD_EXODII_EXAMINE",
-        "dynamic_line": "Although they appear to have once been incredibly high tech, all that remains is little more than a corroded husk; any components save the armor itself have degraded to uselessness…That is, until you hear something from deeper within its chest cavity.  You stop to listen for it, and sure enough you hear it again - A ticking, followed by a drawn out, barely audible hiss.",
-        "responses": [
-            {
-                "text": "Find the source of the noise.",
-                "topic": "TALK_DEAD_EXODII_HEART"
-            },
-            {
-                "text": "Just leave this thing be.",
-                "topic": "TALK_DONE"
-            }
-        ]
-    },
-    {
-        "type": "talk_topic",
-        "id": "TALK_DEAD_EXODII_HEART",
-        "dynamic_line": "It doesn't take much effort to pull the chestplates of the dead knight open - their insides have long since broken down, the decayed cybernetics and electronics are just barely held together by the winding roots plants that have overtaken the shell.  You dig through the rotted cyber-innards, most of them crumple to dust the moment you touch them.  Loose bits of metal and rust pool at you and the knight's feet.  Eventually your hand touches something solid which doesn't break down, and it's also warm.  After grabbing the object you hear the ticking, hissing noise once more.",
-        "responses": [
-            {
-                "text": "Rip it out.",
-                "effect": [
-                    {
-                        "u_spawn_item": "bionics_ancient", "use_item_group": true
-                    },
-                    {
-                        "u_transform_radius": 5,
-                        "ter_furn_transform": "dead_exodii_transform"
-                    }
-                ],
-                "topic": "TALK_DEAD_EXODII_END"
-			}
-        ]
-    },
-    {
-        "type": "talk_topic",
-        "id": "TALK_DEAD_EXODII_END",
-        "dynamic_line": "You hear the snapping of roots coalesced around the object as you yank it free.  More broken metal and plating is dislodged as you finally have eyes on what you desecrated a corpse for - A black, polyhedron shaped device a little bigger than your fist.  There's a bundle of silvery metal pipes of various sizes sticking out the top, the biggest ones ending in complicated looking valves.  You hear the ticking noise again, and as the polyhedron expands and contracts you realize what you're holding is some sort of cybernetic heart, inexplicably pristine unlike its owner.  Before you can ponder this further you hear a clatter and see the carcass of metal finally collapse in on itself - the opening you made caves in, the knight's arms snap off and fall to pieces, their head rolls off its shoulders and splits upon hitting the ground.  The empty eye sockets of its cracked faceplate point to the sky above.  After it finishes collapsing, everything is still.  Except for the heart, which slowly beats in your hand again.",
-        "responses": [
-            {
-                "text": "Leave them.",
-                "topic": "TALK_DONE"
-            }
-        ]
-    },
-    {
-        "type": "ITEM",
-        "id": "bio_creeyncaggii",
-        "subtypes": [
-            "BIONIC_ITEM"
+  {
+    "type": "talk_topic",
+    "id": "TALK_DEAD_EXODII_MAIN",
+    "dynamic_line": "The knight lies still.  Only the tiny flowers sprouting on it move in the wind.  You would be lying if you said you didn't find the scene somewhat beautiful, the way they're locked in what looks to be prayer.  Perhaps they knew they were going to die, perhaps they knew they would remain kneeling here forever.",
+    "responses": [
+      { "text": "Investigate the body further.", "topic": "TALK_DEAD_EXODII_EXAMINE" },
+      { "text": "Leave them.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DEAD_EXODII_EXAMINE",
+    "dynamic_line": "Although they appear to have once been incredibly high tech, all that remains is little more than a corroded husk; any components save the armor itself have degraded to uselessness…That is, until you hear something from deeper within its chest cavity.  You stop to listen for it, and sure enough you hear it again - A ticking, followed by a drawn out, barely audible hiss.",
+    "responses": [
+      { "text": "Find the source of the noise.", "topic": "TALK_DEAD_EXODII_HEART" },
+      { "text": "Just leave this thing be.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DEAD_EXODII_HEART",
+    "dynamic_line": "It doesn't take much effort to pull the chestplates of the dead knight open - their insides have long since broken down, the decayed cybernetics and electronics are just barely held together by the winding roots plants that have overtaken the shell.  You dig through the rotted cyber-innards, most of them crumple to dust the moment you touch them.  Loose bits of metal and rust pool at you and the knight's feet.  Eventually your hand touches something solid which doesn't break down, and it's also warm.  After grabbing the object you hear the ticking, hissing noise once more.",
+    "responses": [
+      {
+        "text": "Rip it out.",
+        "effect": [
+          { "u_spawn_item": "bionics_ancient", "use_item_group": true },
+          { "u_transform_radius": 5, "ter_furn_transform": "dead_exodii_transform" }
         ],
-        "category": "bionics",
-        "looks_like": "jabberwock_heart",
-        "symbol": "%",
-        "color": "black_red",
-        "name": { "str": "Heart of The Warrior CBM" },
-        "description": "The Cree'yn Cag'gii, a forgotten relic of the Exodii.  Legends say it continues beating long after its user expires.",
-        "//": "this is Manx, and vaguely translates to warrior heart or similar.  Some artistic liberties were taken.",
-        "volume": "850 ml",
-        "weight": "500 g",
-        "material": [
-            "steel",
-            "plastic"
-        ],
-        "flags": [
-            "CBM",
-            "BIONIC_NPC_USABLE"
-        ],
-        "price": "60710 kUSD 614 USD",
-        "price_postapoc": "1 kUSD 460 USD",
-        "is_upgrade": false,
-        "faults": [
-            {
-                "fault": "fault_bionic_salvaged"
-            }
-        ],
-        "difficulty": 7
-    }
+        "topic": "TALK_DEAD_EXODII_END"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DEAD_EXODII_END",
+    "dynamic_line": "You hear the snapping of roots coalesced around the object as you yank it free.  More broken metal and plating is dislodged as you finally have eyes on what you desecrated a corpse for - A black, polyhedron shaped device a little bigger than your fist.  There's a bundle of silvery metal pipes of various sizes sticking out the top, the biggest ones ending in complicated looking valves.  You hear the ticking noise again, and as the polyhedron expands and contracts you realize what you're holding is some sort of cybernetic heart, inexplicably pristine unlike its owner.  Before you can ponder this further you hear a clatter and see the carcass of metal finally collapse in on itself - the opening you made caves in, the knight's arms snap off and fall to pieces, their head rolls off its shoulders and splits upon hitting the ground.  The empty eye sockets of its cracked faceplate point to the sky above.  After it finishes collapsing, everything is still.  Except for the heart, which slowly beats in your hand again.",
+    "responses": [ { "text": "Leave them.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "ITEM",
+    "id": "bio_creeyncaggii",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "category": "bionics",
+    "looks_like": "jabberwock_heart",
+    "symbol": "%",
+    "color": "black_red",
+    "name": { "str": "Heart of The Warrior CBM" },
+    "description": "The Cree'yn Cag'gii, a forgotten relic of the Exodii.  Legends say it continues beating long after its user expires.",
+    "//": "this is Manx, and vaguely translates to warrior heart or similar.  Some artistic liberties were taken.",
+    "volume": "850 ml",
+    "weight": "500 g",
+    "material": [ "steel", "plastic" ],
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ],
+    "price": "60710 kUSD 614 USD",
+    "price_postapoc": "1 kUSD 460 USD",
+    "use_action": [ "install_bionic" ],
+    "is_upgrade": false,
+    "faults": [ { "fault": "fault_bionic_salvaged" } ],
+    "difficulty": 7
+  }
 ]
