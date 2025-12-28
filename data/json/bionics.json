@@ -1125,6 +1125,28 @@
     ]
   },
   {
+    "id": "bio_creeyncaggii",
+    "type": "bionic",
+    "name": { "str": "Heart of The Warrior CBM" },
+    "description": "The Cree'yn Cag'gii, a forgotten relic of the Exodii.  Legends say it continues beating long after its user expires.",
+    "occupied_bodyparts": [ [ "torso", 10 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SLEEPINESS", "multiply": -0.1 },
+          { "value": "STAMINA_REGEN_MOD", "multiply": 0.2 },
+          { "value": "METABOLISM", "multiply": 0.2 },
+          { "value": "CARDIO_MULTIPLIER", "multiply": 4 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.15 },
+          { "value": "REGEN_HP", "multiply": 0.5 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 5 }
+        ]
+      }
+    ]
+  },
+  {
     "id": "bio_remote",
     "type": "bionic",
     "name": { "str": "Remote Controller" },
