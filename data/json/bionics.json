@@ -1138,7 +1138,7 @@
           { "value": "SLEEPINESS", "multiply": -0.1 },
           { "value": "STAMINA_REGEN_MOD", "multiply": 0.2 },
           { "value": "METABOLISM", "multiply": 0.2 },
-          { "value": "CARDIO_MULTIPLIER", "multiply": 4 },
+          { "value": "CARDIO_MULTIPLIER", "multiply": 0.4 },
           { "value": "REGEN_HP_AWAKE", "multiply": 0.15 },
           { "value": "REGEN_HP", "multiply": 0.5 },
           { "value": "CLIMATE_CONTROL_HEAT", "add": 5 }
