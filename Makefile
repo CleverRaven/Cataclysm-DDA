@@ -381,9 +381,11 @@ ifneq ($(CLANG), 0)
   ifeq ($(CCACHE), 1)
     CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
     LD  = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
+    CC  = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(subst ++,,$(CLANGCMD))
   else
     CXX = $(CROSS)$(CLANGCMD)
     LD  = $(CROSS)$(CLANGCMD)
+    CC  = $(CROSS)$(subst ++,,$(CLANGCMD))
   endif
   CXX_WARNINGS += -Wno-unknown-warning-option
 else
