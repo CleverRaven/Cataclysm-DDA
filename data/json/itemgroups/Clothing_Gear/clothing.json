@@ -4366,62 +4366,61 @@
     "subtype": "distribution",
     "items": [
       {
-        "distribution": [
-          { "item": "boots", "prob": 80 },
-          { "item": "boots_hiking", "prob": 50 },
-          { "item": "boots_steel", "prob": 50 },
-          { "item": "sneakers_steel", "prob": 35 },
-          { "item": "boots_combat", "prob": 45 },
-          { "item": "boots_fur", "prob": 10 },
-          { "item": "boots_western", "prob": 40 },
-          { "item": "boots_winter", "prob": 30 },
-          { "item": "knee_high_boots", "prob": 15 },
-          { "item": "motorbike_boots", "prob": 35 },
-          { "item": "thigh_high_boots", "prob": 5 },
-          { "item": "boots_denim", "prob": 5 }
-        ],
-        "prob": 60
+        "distribution": [ { "item": "sneakers", "prob": 3 }, { "item": "boots", "prob": 2 }, { "item": "dress_shoes", "prob": 1 } ],
+        "prob": 90
       },
       {
         "distribution": [
-          { "item": "bastsandals", "prob": 20 },
-          { "item": "straw_sandals", "prob": 20 },
-          { "item": "flip_flops", "prob": 40 },
-          { "item": "flip_flops_exp", "prob": 5 },
-          { "item": "leathersandals", "prob": 35 },
-          { "item": "espadrilles", "prob": 20 }
+          { "item": "slippers", "prob": 8 },
+          { "item": "flip_flops", "prob": 8 },
+          { "item": "flip_flops_exp", "prob": 3 },
+          { "item": "straw_sandals", "prob": 3 },
+          { "item": "bastsandals", "prob": 3 },
+          { "item": "leathersandals", "prob": 3 },
+          { "item": "espadrilles", "prob": 3 },
+          { "item": "mocassins", "prob": 3 },
+          { "item": "clogs", "prob": 1 },
+          { "item": "geta", "prob": 1 }
         ],
-        "prob": 60
+        "prob": 50
+      },
+      {
+        "distribution": [ { "item": "boots_steel", "prob": 4 }, { "item": "sneakers_steel", "prob": 3 }, { "item": "boots_rubber", "prob": 1 } ],
+        "prob": 30
       },
       {
         "distribution": [
-          { "item": "cleats", "prob": 20 },
-          { "item": "golf_shoes", "prob": 20 },
-          { "item": "dance_shoes", "prob": 30 },
-          { "item": "roller_blades", "prob": 35 },
-          { "item": "rollerskates", "prob": 35 },
-          { "item": "roller_shoes_off", "prob": 45 }
+          { "item": "boots_hiking", "prob": 5 },
+          { "item": "motorbike_boots", "prob": 3 },
+          { "item": "boots_combat", "prob": 2 }
+        ],
+        "prob": 30
+      },
+      {
+        "distribution": [
+          { "item": "lowtops", "prob": 3 },
+          { "item": "golf_shoes", "prob": 3 },
+          { "item": "dance_shoes", "prob": 3 },
+          { "item": "cleats", "prob": 2 },
+          { "item": "rollerskates", "prob": 4 },
+          { "item": "roller_shoes_off", "prob": 4 },
+          { "item": "roller_blades", "prob": 2 }
         ],
         "prob": 20
       },
       {
-        "distribution": [
-          { "item": "dress_shoes", "prob": 50 },
-          { "item": "lowtops", "prob": 30 },
-          { "item": "mocassins", "prob": 10 },
-          { "item": "sneakers", "prob": 35 },
-          { "item": "shoes_denim", "prob": 5 }
-        ],
-        "prob": 70
+        "distribution": [ { "item": "boots_fur", "prob": 1 }, { "item": "boots_faux_fur", "prob": 1 }, { "item": "boots_winter", "prob": 2 } ],
+        "prob": 20
       },
       {
         "distribution": [
-          { "item": "boots_rubber", "prob": 50 },
-          { "item": "clogs", "prob": 20 },
-          { "item": "geta", "prob": 10 },
-          { "item": "slippers", "prob": 75 }
+          { "item": "knee_high_boots", "prob": 5 },
+          { "item": "thigh_high_boots", "prob": 1 },
+          { "item": "boots_western", "prob": 3 },
+          { "item": "shoes_denim", "prob": 2 },
+          { "item": "boots_denim", "prob": 2 }
         ],
-        "prob": 70
+        "prob": 10
       }
     ]
   },
