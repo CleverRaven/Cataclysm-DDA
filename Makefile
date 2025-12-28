@@ -1441,7 +1441,7 @@ $(BUILD_PREFIX)zstd.a: $(filter $(ODIR)/third-party/zstd/%.o,$(OBJS))
 	$(AR) rcs $(AR_FLAGS) $(BUILD_PREFIX)zstd.a $^
 
 $(ZZIP_BIN): $(ZZIP_SOURCES) $(BUILD_PREFIX)zstd.a
-	$(LINK.cc) $(OUTPUT_OPTION) -MMD -MP -isystem src/third-party $^
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -o $@ -MMD -MP -isystem src/third-party $^
 
 python-check:
 	flake8
