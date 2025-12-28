@@ -1469,5 +1469,7 @@ clean-lang:
 compile_commands.txt:
 	@echo 'COMPILE.cc := $(COMPILE.cc)' > $@
 	@echo 'LINK.cc := $(LINK.cc)' >> $@
+	@echo 'COMPILE.c := $(COMPILE.c)' >> $@
+	@echo 'LINK.c := $(LINK.c)' >> $@
 
 -include ${OBJS:.o=.d}
