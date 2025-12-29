@@ -2949,7 +2949,9 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
             int required_charges = wanted_charges / link().efficiency;
             int spent_charges = std::min( { possible_transfer, available_charges, required_charges } );
             // Avoid rounding error on full charge
-            int received_charges = spent_charges == required_charges ? wanted_charges : spent_charges * link().efficiency;
+            int received_charges = spent_charges == required_charges
+                                   ? wanted_charges
+                                   : spent_charges * link().efficiency;
 
             linked_veh.discharge_battery( here, spent_charges, true );
             ammo_set( itype_battery, ammo_remaining( ) + received_charges );
@@ -2978,7 +2980,9 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
             int required_charges = wanted_charges / link().efficiency;
             int spent_charges = std::min( { possible_transfer, available_charges, required_charges } );
             // Avoid rounding error on full charge
-            int received_charges = spent_charges == required_charges ? wanted_charges : spent_charges * link().efficiency;
+            int received_charges = spent_charges == required_charges
+                                   ? wanted_charges
+                                   : spent_charges * link().efficiency;
 
             ammo_set( itype_battery, ammo_remaining( ) - spent_charges );
             linked_veh.charge_battery( here, received_charges, true );
