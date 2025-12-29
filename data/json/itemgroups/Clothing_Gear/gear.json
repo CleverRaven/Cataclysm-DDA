@@ -66,11 +66,7 @@
   {
     "type": "item_group",
     "id": "military_papr_kit",
-    "items": [
-      { "item": "military_papr_mask" },
-      { "item": "military_papr_blower_off" },
-      { "group": "wrapped_gasmask_filter" }
-    ]
+    "items": [ { "item": "military_papr_mask" }, { "item": "military_papr_blower_off" }, { "group": "wrapped_gasmask_filter" } ]
   },
   {
     "type": "item_group",
