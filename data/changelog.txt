@@ -172,7 +172,6 @@ allow to extend region feature flag settings
 allow the player to simply read map boards without forcing them to smash it
 Mobile weather stations and things to do with them
 Allow fields to track their sources (i.e. who started a fire)
-Restore quick reload
 New Hub 01 quest-line for hazard meteorologists
 overthrow the reign of RELOAD_ONE, aka Reload everything one by one as part of activity
 
@@ -394,7 +393,6 @@ RANGE_DODGE no longer applies to spells, can be applied to monsters
 Move dense forest raspberry/strawberry/blueberry spawn to patches
 Add Radiosphere dimension
 Rework the blood analysis quest
-Add boot gaiters
 A new nether-creature encounter with prototype XEDRA tech as a reward
 new 2-piece Powered Air Purifying Respirator (PAPR) system
 
@@ -530,9 +528,6 @@ Rework inventory capacity summary
 Show weapon category in item info
 Optimize pinyin search
 Move the lore snippets from the faction to the diary UI
-adds the missing use_action of holster
-Mark some of the string in overmap_ui as i18n
-Show a brief description that the HM12 overheats when fired continuously.
 
 
 ## Mods:
@@ -981,11 +976,7 @@ Martial Mastery Stat Widget
 Add Mind Over Matter: Psychic Scream mod to the CDDA repository
 Martial Mastery: New defense oriented perkline.
 [Magiclysm] Shapeshifting and druid items
-[DDotD] Edit description to specify setting
 Add an enchantment that modifies the 'free dodges' stat introduced for Martial Art styles
-[MoM] Fix Speed Reading practice recipe power snippet
-[alt-map-key] Add new rural church tile to the mod
-[alt-map-key] Added new limnological station hub01 quest location
 
 
 
@@ -1104,9 +1095,6 @@ Add UNBREAKABLE_MORALE flag, apply it to zombies
 Murdering humans('monsters') is still murdering humans
 Fixes Cloud Formation and Pressure
 Getting hurt is bad for your long-term health
-Allow power producing bionics to be turned on and stay on when empty
-melee warning occurs at lower move costs than previous
-Increase shoe spawn rate in wardrobes
 
 
 ## Bugfixes:
@@ -1519,19 +1507,6 @@ Properly load the region type of the dimension the game was last saved in
 Make pockets check volume of a single charge against min_item_volume
 fix a crash when opening the item comparison window
 Remove anvilmancy (the ability to teleport anvils above zombies)
-A vs An NPC
-Fix --world on empty worlds
-[MoM] Add speech snippets for PHAVIAN scientists
-[Magiclysm] Add missing perceived pain to success formula
-Fix repeat words and typos
-Typos in the descriptions of three items
-Fix empty ammo belts in lab barracks
-Adds some text strings and fixes some punctuation and spelling errors and inconsistencies
-Fix installed gunmods appearing in multidrop
-Fix lack of autoaim in certain cases
-fix freshwater research station moon pool
-distance_limit of EOC 'u_query_omt' not visualized on overmap UI when using tiles
-Fix pockets on MWS quest reward
 
 
 ## Performance:
@@ -1732,9 +1707,6 @@ move ACT_VEHICLE handler to vehicle_activity_actor
 Add an effect for EoCs to be able to browse or unbrowse items
 move ACT_BUILD handler to build_construction_activity_actor
 Allow overriding in snippets definitions
-move ACT_OPERATION handler to bionic_operation_activity_actor
-move ACT_VIBE handler to vibe_activity_actor
-Add coverage for active item processing in vehicles
 
 
 ## Build:
