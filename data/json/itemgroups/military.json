@@ -771,7 +771,7 @@
       { "group": "full_survival_kit", "prob": 3 },
       { "item": "tac_helmet", "prob": 5 },
       { "item": "tac_fullhelmet", "prob": 2 },
-      { "item": "molle_papr_kit", "prob": 5 },
+      { "group": "molle_papr_kit", "prob": 5 },
       { "item": "cowboy_hat", "prob": 4 },
       { "item": "mask_bal", "prob": 1 },
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
