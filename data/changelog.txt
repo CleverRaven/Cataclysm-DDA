@@ -171,6 +171,9 @@ Restrict follower sleep spot to the same vehicle when player is sleeping in a ve
 allow to extend region feature flag settings
 allow the player to simply read map boards without forcing them to smash it
 Mobile weather stations and things to do with them
+Allow fields to track their sources (i.e. who started a fire)
+New Hub 01 quest-line for hazard meteorologists
+overthrow the reign of RELOAD_ONE, aka Reload everything one by one as part of activity
 
 
 
@@ -390,6 +393,8 @@ RANGE_DODGE no longer applies to spells, can be applied to monsters
 Move dense forest raspberry/strawberry/blueberry spawn to patches
 Add Radiosphere dimension
 Rework the blood analysis quest
+A new nether-creature encounter with prototype XEDRA tech as a reward
+new 2-piece Powered Air Purifying Respirator (PAPR) system
 
 
 ## Interface:
@@ -971,6 +976,7 @@ Martial Mastery Stat Widget
 Add Mind Over Matter: Psychic Scream mod to the CDDA repository
 Martial Mastery: New defense oriented perkline.
 [Magiclysm] Shapeshifting and druid items
+Add an enchantment that modifies the 'free dodges' stat introduced for Martial Art styles
 
 
 
@@ -1732,6 +1738,7 @@ Build tilesets in CI for releases, delete tilesets from repo
 Build translations in CI for releases, delete translations from repo
 Fix clang 21 warnings
 Upgrade vcpkg baseline
+Remove MXE from release, fix clang on macOS
 
 
 ## I18N and A11Y:
