@@ -1982,6 +1982,7 @@ class Character : public Creature, public visitable
         void disp_morale();
         /** Opens the medical window */
         void disp_medical();
+        void disp_medical_old();
         void conduct_blood_analysis();
         // --------------- Generic Item Stuff ---------------
 
