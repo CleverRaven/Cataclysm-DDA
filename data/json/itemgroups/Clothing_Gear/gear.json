@@ -64,6 +64,25 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "military_papr_kit",
+    "items": [
+      { "item": "military_papr_mask" },
+      { "item": "military_papr_blower_off" },
+      { "group": "wrapped_gasmask_filter" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "molle_papr_kit",
+    "items": [
+      { "item": "military_papr_mask" },
+      { "item": "molle_papr_blower_off" },
+      { "group": "wrapped_gasmask_filter" },
+      { "item": "modular_papr_strap" }
+    ]
+  },
+  {
     "id": "gasmask_bag_used",
     "type": "item_group",
     "subtype": "collection",
