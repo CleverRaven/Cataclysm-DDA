@@ -519,7 +519,7 @@
     "//3": "Frequency of pet food appearing based on percentage of Massachusetts homes with a pet.",
     "subtype": "collection",
     "entries": [
-      { "group": "pantry_liquids", "prob": 50, "count": [ 1, 2 ] },
+      { "group": "pantry_liquids", "prob": 60, "count": [ 1, 2 ] },
       { "group": "pasta_ingredients", "prob": 70, "count": [ 1, 3 ] },
       { "group": "cannedfood", "prob": 100, "count": [ 1, 6 ] },
       { "group": "big_canned_food", "prob": 20, "count": [ 1, 2 ] },
