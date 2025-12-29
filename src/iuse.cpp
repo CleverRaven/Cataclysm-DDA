@@ -4519,7 +4519,6 @@ std::optional<int> iuse::call_of_tindalos( Character *p, item *, const tripoint_
 
 std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_ms & )
 {
-    map &here = get_map();
     if( p->is_npc() ) {
         return std::nullopt;    // No NPCs for now!
     }
