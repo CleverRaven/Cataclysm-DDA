@@ -388,6 +388,7 @@ ifneq ($(CLANG), 0)
     CC  = $(CROSS)$(subst ++,,$(CLANGCMD))
   endif
   CXX_WARNINGS += -Wno-unknown-warning-option
+  WARNINGS += -Wno-unknown-warning-option
 else
   # Compiler version & target machine - used later for MXE ICE workaround
   ifdef CROSS
@@ -412,6 +413,7 @@ else
     LD  = $(CROSS)$(OS_LINKER)
   endif
   CXX_WARNINGS += -Wno-unknown-warning
+  WARNINGS += -Wno-unknown-warning
 endif
 
 STRIP = $(CROSS)strip
@@ -967,7 +969,7 @@ ifeq ($(MSYS2),1)
 endif
 
 CFLAGS := $(CXXFLAGS)
-CFLAGS += $(C_STD) $(CXX_WARNINGS)
+CFLAGS += $(C_STD) $(WARNINGS)
 CXXFLAGS += $(CXX_STD) $(CXX_WARNINGS)
 
 # Enumerations of all the source files and headers.
