@@ -59,7 +59,6 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
-#include "harvest.h"
 #include "iexamine.h"
 #include "input_context.h"
 #include "input_enums.h"
@@ -254,8 +253,6 @@ static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
-
-static const harvest_drop_type_id harvest_drop_blood( "blood" );
 
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_apparatus( "apparatus" );
@@ -4523,8 +4520,6 @@ std::optional<int> iuse::call_of_tindalos( Character *p, item *, const tripoint_
 std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_ms & )
 {
     map &here = get_map();
-    const tripoint_bub_ms pos = p->pos_bub( here );
-
     if( p->is_npc() ) {
         return std::nullopt;    // No NPCs for now!
     }
