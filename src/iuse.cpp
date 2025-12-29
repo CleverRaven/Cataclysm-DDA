@@ -9307,13 +9307,6 @@ ret_val<void> use_function::can_call( const Character &p, const item &it,
     } else if( it.is_broken() ) {
         return ret_val<void>::make_failure( _( "Your %s is broken and won't activate." ),
                                             it.tname() );
-    } else if( actor->type == "GUNMOD_ATTACH" &&
-               it.is_gunmod() && !p.has_item( it ) ) {
-        // this should just check if gunmod is in MOD pocket already
-        // but it requires item_location
-        // so check if character do not have item in CONTAINER pockets
-        return ret_val<void>::make_failure(
-                   _( "Your %s is already installed and needs to be detached first." ), it.tname() );
     }
     return actor->can_use( p, it, here, pos );
 }
