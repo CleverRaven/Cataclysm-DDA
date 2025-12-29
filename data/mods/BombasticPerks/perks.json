@@ -975,7 +975,7 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "melee_damage_bonus": [ { "type": "bash", "add": {  { "math": [ "min( 15, u_armor('bash', 'arm_r') * u_attack_speed() / 200 ] )" ]
+        "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "min( 15, u_armor('bash', 'arm_r') * u_attack_speed() / 200 )" ] } } ]
       }
     ]
   },
