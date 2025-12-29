@@ -1198,7 +1198,7 @@
     "subtypes": [ "ARMOR" ],
     "looks_like": "holster",
     "name": "modular PAPR strap",
-    "description": "A patch of velcro and MOLLE straps for attaching a modular PAPR blower to a compatable MOLLE unit.  It can also be strapped to the hip.",
+    "description": "A patch of velcro and MOLLE straps for attaching a modular PAPR blower to a compatible MOLLE unit.  It can also be strapped to the hip.",
     "weight": "300 g",
     "volume": "300 ml",
     "price": "19 USD 95 cent",
