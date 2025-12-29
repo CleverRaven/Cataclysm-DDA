@@ -967,7 +967,7 @@ ifeq ($(MSYS2),1)
 endif
 
 CFLAGS := $(CXXFLAGS)
-CFLAGS += $(C_STD)
+CFLAGS += $(C_STD) $(CXX_WARNINGS)
 CXXFLAGS += $(CXX_STD) $(CXX_WARNINGS)
 
 # Enumerations of all the source files and headers.
