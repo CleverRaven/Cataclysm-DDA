@@ -616,11 +616,13 @@ endif
 ifeq ($(NATIVE), osx)
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=10.15
+  CFLAGS += -mmacosx-version-min=10.15
   LDFLAGS += -mmacosx-version-min=10.15 -framework CoreFoundation -Wl,-headerpad_max_install_names
   # doesn't use GNU ar
   THIN_AR=0
   ifeq ($(UNIVERSAL_BINARY), 1)
     CXXFLAGS += -arch x86_64 -arch arm64
+    CFLAGS += -arch x86_64 -arch arm64
     LDFLAGS += -arch x86_64 -arch arm64
   endif
   ifdef FRAMEWORK
