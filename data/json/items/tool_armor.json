@@ -2557,7 +2557,7 @@
     "category": "clothing",
     "name": { "str": "military PAPR mask" },
     "looks_like": "mask_gas",
-    "description": "A black, full-face military respirator made from a silicon and butyl rubber blend, providing decent user comfort in addition to a clear field of view and a secure fit thanks to the mask's single-element visor and 6-point head harness.  The mask has preinstalled tubing which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be loaded with a filter and prepared before use; unlike a standard gas mask it will only function when paired with an active PAPR blower unit. Unlike large commerical and industrial models, this respirator sits close to the face and can accomodate various attachments.",
+    "description": "A black, full-face military respirator made from a silicon and butyl rubber blend, providing decent user comfort in addition to a clear field of view and a secure fit thanks to the mask's single-element visor and 6-point head harness.  The mask has preinstalled tubing which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be loaded with a filter and prepared before use; unlike a standard gas mask it will only function when paired with an active PAPR blower unit.  Unlike large commerical and industrial models, this respirator sits close to the face and can accomodate various attachments.",
     "weight": "490 g",
     "volume": "1536 ml",
     "longest_side": "27 cm",
