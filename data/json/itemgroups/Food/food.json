@@ -382,7 +382,7 @@
       { "item": "syrup_simple", "charges": [ 1, -1 ], "prob": 1 },
       { "item": "syrup_corn", "charges": [ 1, -1 ], "prob": 5 },
       { "item": "molasses", "charges": [ 1, -1 ], "prob": 15 },
-      { "group": "vegetable_oil_bottle", "prob": 40 },
+      { "group": "vegetable_oil_bottle", "prob": 60 },
       { "item": "honey_bottled", "charges": [ 1, -1 ], "prob": 15 },
       { "prob": 5, "item": "honey_glassed", "count": [ 1, -1 ] },
       { "item": "jar_glass_sealed", "prob": 20 },
