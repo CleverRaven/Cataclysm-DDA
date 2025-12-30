@@ -10312,11 +10312,6 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             false );
 
 
-    // HACK HACK HACK HACK
-    // Without this, zone sorting only picks up half of the stack (???)
-    // zone_sorting::move_item() was manually decrementing it sometimes - maybe do that instead? But where?
-    num_processed = 0;
-
     const std::optional<vpart_reference> vp = here.veh_at( src_bub ).cargo();
     //Skip items that have already been processed
     for( zone_sorting::zone_items::iterator it = items.begin() + num_processed; it < items.end();
@@ -10362,7 +10357,6 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         }
 
         // FIXME HACK: teleports thisitem into inventory
-        // FIXME: None of this checks if we actually have space, only the returned values are correct!
         item copy_thisitem( thisitem );
         item_location thisitem_loc;
         if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
@@ -10375,12 +10369,14 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                     thisitem_loc = item_location( vehicle_cursor( veh, ovp->part_index() ), &*vehstack.value() );
                 }
             }
-        } else {
-            // Otherwise trying to put it into our inventory is really easy.
+        }
+
+        if( !thisitem_loc ) {  // We either couldn't put it in a vehicle, or didn't have one. Let's try pockets.
             thisitem_loc = you.try_add( copy_thisitem );
         }
         if( !thisitem_loc ) {
-            debugmsg( "Failed to pick up %s during sorting", copy_thisitem.tname() );
+            you.add_msg_if_player( _( "Not enough space to pick up %s during sorting." ),
+                                   copy_thisitem.tname() );
             continue;
         }
         // Pickup cost
@@ -10392,6 +10388,8 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         } else {
             here.i_rem( src_bub, &thisitem );
         }
+        // Decrement the count of how many items we need to process; one just disappeared from the stack
+        num_processed--;
 
         if( dropoff_coords.empty() ) {
             for( const tripoint_abs_ms &possible_dest : dest_set ) {
@@ -10440,6 +10438,8 @@ void zone_sort_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "coord_set", coord_set );
     jsout.member( "placement", placement );
     jsout.member( "other_activity_items", other_activity_items );
+    jsout.member( "picked_up_stuff", picked_up_stuff );
+    jsout.member( "dropoff_coords", dropoff_coords );
 
     jsout.end_object();
 }
@@ -10456,6 +10456,8 @@ std::unique_ptr<activity_actor> zone_sort_activity_actor::deserialize( JsonValue
     data.read( "coord_set", actor.coord_set );
     data.read( "placement", actor.placement );
     data.read( "other_activity_items", actor.other_activity_items );
+    data.read( "picked_up_stuff", actor.picked_up_stuff );
+    data.read( "dropoff_coords", actor.dropoff_coords );
 
     return actor.clone();
 }
