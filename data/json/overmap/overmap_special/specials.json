@@ -373,7 +373,7 @@
     "locations": [ "forest_without_trail" ],
     "city_distance": [ 25, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 100, 100 ],
+    "occurrences": [ 20, 100 ],
     "priority": 1,
     "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE", "WILDERNESS", "SAFE_AT_WORLDGEN" ]
   },
