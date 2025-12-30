@@ -37,6 +37,7 @@
     "type": "region_settings_city",
     "id": "default_aftershock",
     "copy-from": "default",
+    "name_snippet": "<afs_city>",
     "shop_radius": 30,
     "shop_sigma": 80,
     "park_radius": 20,
