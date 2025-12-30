@@ -1143,7 +1143,8 @@
           { "value": "REGEN_HP", "multiply": 0.5 },
           { "value": "CLIMATE_CONTROL_HEAT", "add": 5 }
         ]
-      }
+      },
+	  {	"condition": "ALWAYS", "ench_effects": [ { "effect": "bio_bloodreplenish", "intensity": 1 } ] }
     ]
   },
   {
