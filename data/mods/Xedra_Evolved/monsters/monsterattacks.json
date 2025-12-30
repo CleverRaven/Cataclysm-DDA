@@ -26,7 +26,7 @@
     "weight": "540 g",
     "volume": "210 ml",
     "longest_side": "75 mm",
-    "to_hit": 1,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "loudness": 2,
     "range": 6,
     "dispersion": 150,
