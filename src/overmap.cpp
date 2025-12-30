@@ -1718,6 +1718,9 @@ void overmap::spawn_mongroup( const tripoint_om_sm &p, const mongroup_id &type, 
                     // Ran out of space on the submap!
                     return;
                 }
+                if( result.id.is_null() || !result.id.is_valid() ) {
+                    continue; // Blacklisted monster, don't try to spawn this
+                }
                 hordes.spawn_entity( project_combine( pos(), *open_space ), result.id );
             }
         }
