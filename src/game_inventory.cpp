@@ -5,6 +5,7 @@
 #include <bitset>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <iterator>
 #include <list>
@@ -176,7 +177,7 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         }
         // Set position after filter to keep cursor at the right position
         const std::vector<item_location> &locs = cm_uistate.consume_menu_selected_items;
-        const std::optional<std::pair<size_t, size_t>> &selections = cm_uistate.consume_menu_selections;
+        const std::vector<uint64_t> &selections = cm_uistate.consume_menu_selections;
         bool position_set = false;
         if( !locs.empty() ) {
             bool const hidden = cm_uistate.collated;
@@ -185,8 +186,8 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
                 position_set = inv_s.highlight_one_of( locs );
             }
         }
-        if( !position_set && !!selections ) {
-            inv_s.highlight_position( *selections );
+        if( !position_set && selections.size() == 2 ) {
+            inv_s.highlight_position( { selections[0], selections[1] } );
         }
     }
 
@@ -208,7 +209,7 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         u.activity.values.clear();
         const std::pair<size_t, size_t> &init_pair = inv_s.get_highlighted_position();
         consume_menu_uistate new_state{
-            std::make_pair( init_pair.first, init_pair.second ),
+            { init_pair.first, init_pair.second },
             collated ? std::vector<item_location> { location, inv_s.get_collation_next() }
 :
             inv_s.get_highlighted().locations,
