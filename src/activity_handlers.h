@@ -10,7 +10,8 @@
 #include <string>
 #include <vector>
 
-#include "coords_fwd.h"
+#include "coordinates.h"
+#include "point.h"
 #include "requirements.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -175,7 +176,7 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items,
                                map *here, const tripoint_bub_ms &where, bool force_ground = false );
 std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you, item_drop_reason,
-        const std::list<item> &items );
+        const std::list<item> &items, tripoint_bub_ms dest = tripoint_bub_ms::invalid );
 std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you, item_drop_reason,
         const std::list<item> &items, map *here, const tripoint_bub_ms &where,
         bool force_ground = false );

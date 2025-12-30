@@ -10282,12 +10282,15 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                     }
 
                     // FIXME HACK: teleports item onto ground
-                    // FIXME: Needs to check if the destination can accept it!
-                    // Want to use actual dropping here, so it is interruptable and produces the appropriate log messages, normal things happen on drop, etc.
                     you.mod_moves( -you.item_handling_cost( **iter ) );
-                    here.add_item( here.get_bub( drop_dest ), **iter );
-                    you.i_rem( iter->get_item() );
-                    iter = picked_up_stuff.erase( iter );
+                    std::vector<item_location> dropped_crap = put_into_vehicle_or_drop_ret_locs( you,
+                            item_drop_reason::deliberate, { **iter }, here.get_bub( drop_dest ) );
+                    if( !dropped_crap.empty() ) {
+                        you.i_rem( iter->get_item() );
+                        iter = picked_up_stuff.erase( iter );
+                    } else {
+                        iter++; // Failed to drop for some reason?!
+                    }
                 }
                 dest_iter = dropoff_coords.erase( dest_iter ); // Done dropping stuff here.
             } else {

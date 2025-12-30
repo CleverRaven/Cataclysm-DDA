@@ -541,11 +541,16 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
 
 std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
         item_drop_reason reason,
-        const std::list<item> &items )
+        const std::list<item> &items, tripoint_bub_ms dest )
 {
     map &here = get_map();
 
-    return put_into_vehicle_or_drop_ret_locs( you, reason, items, &here, you.pos_bub( here ) );
+    // If they didn't specify somewhere to place, drop at the character's feet.
+    if( dest == tripoint_bub_ms::invalid ) {
+        dest = you.pos_bub( here );
+    }
+
+    return put_into_vehicle_or_drop_ret_locs( you, reason, items, &here, dest );
 }
 
 std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
