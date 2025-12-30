@@ -10266,17 +10266,17 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     const tripoint_abs_ms abspos = you.pos_abs();
 
     // Dropping off
-    if( !you.activity.coords.empty() && !you.activity.targets.empty() ) {
-        auto dest_iter = you.activity.coords.begin();
-        while( dest_iter != you.activity.coords.end() ) {
+    if( !dropoff_coords.empty() && !picked_up_stuff.empty() ) {
+        auto dest_iter = dropoff_coords.begin();
+        while( dest_iter != dropoff_coords.end() ) {
             const tripoint_abs_ms drop_dest = *dest_iter;
             // Sometimes we loop back to here while still picking stuff up (because we spent all our moves picking up)
             // Don't start trying to teleport-undrop at the destination until we're actually adjacent.
             const bool is_adjacent_or_closer_to_dest = square_dist( abspos, drop_dest ) <= 1;
 
             if( is_adjacent_or_closer_to_dest ) {
-                auto iter = you.activity.targets.begin();
-                while( iter != you.activity.targets.end() ) {
+                auto iter = picked_up_stuff.begin();
+                while( iter != picked_up_stuff.end() ) {
                     if( you.get_moves() <= 0 ) { // Ran out of moves dropping stuff
                         return;
                     }
@@ -10287,12 +10287,14 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                     you.mod_moves( -you.item_handling_cost( **iter ) );
                     here.add_item( here.get_bub( drop_dest ), **iter );
                     you.i_rem( iter->get_item() );
-                    iter = you.activity.targets.erase( iter );
+                    iter = picked_up_stuff.erase( iter );
                 }
-                dest_iter = you.activity.coords.erase( dest_iter ); // Done dropping stuff here.
+                dest_iter = dropoff_coords.erase( dest_iter ); // Done dropping stuff here.
+            } else {
+                dest_iter++; // Evaluate next dropoff
+                // FIXME: If none of the adjacent squares were valid, but we have other squares that we could drop them at then we need to handle that.
+                // That means we need to path to a new one. But only if there's nothing to pick up for sorting(?)
             }
-            // FIXME: If none of the adjacent squares were valid, but we have other squares that we could drop them at then we need to handle that.
-            // That means we need to path to a new one. But only if there's nothing to pick up for sorting(?)
         }
     }
 
@@ -10342,9 +10344,9 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
         // Picking up
 
-        if( !you.activity.targets.empty() ) {
+        if( !picked_up_stuff.empty() ) {
             bool thisitem_shares_existing_dest = false;
-            for( const tripoint_abs_ms &possible_dest : you.activity.coords ) {
+            for( const tripoint_abs_ms &possible_dest : dropoff_coords ) {
                 zone_type_id zt_dest = mgr.get_near_zone_type_for_item( thisitem, possible_dest, 0, fac_id );
                 if( zt_dest != zone_type_id() ) {
                     // Found a valid destination.
@@ -10353,6 +10355,8 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 }
             }
             if( !thisitem_shares_existing_dest ) {
+                // Skip evaluating this item. If we picked it up, we would have two separate destinations. This loop only works with *one* (set of) destination.
+                // Everything we're must holding for dropoff must be valid for the existing destination.
                 continue;
             }
         }
@@ -10389,18 +10393,18 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             here.i_rem( src_bub, &thisitem );
         }
 
-        if( you.activity.coords.empty() ) {
+        if( dropoff_coords.empty() ) {
             for( const tripoint_abs_ms &possible_dest : dest_set ) {
                 const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
                 if( here.is_open_air( dest_bub ) ) {
                     you.add_msg_if_player( _( "You can't sort things into the air!" ) );
                     continue;
                 }
-                you.activity.coords.emplace_back( possible_dest );
+                dropoff_coords.emplace_back( possible_dest );
             }
         }
 
-        if( you.activity.coords.empty() ) {
+        if( dropoff_coords.empty() ) {
             you.add_msg_if_player( m_info,
                                    _( "You have items to sort.  However, there are no valid locations to sort to." ) );
             // Set activity to null??
@@ -10408,19 +10412,19 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         }
 
         // OK, we can sort this!
-        you.activity.targets.emplace_back( thisitem_loc );
+        picked_up_stuff.emplace_back( thisitem_loc );
         // out of moves or item was unloaded
         if( you.get_moves() <= 0 || *move_and_reset ) {
             return;
         }
     }
 
-    if( you.activity.targets.empty() ) {
+    if( picked_up_stuff.empty() ) {
         //this location is sorted
         stage = THINK;
-        you.activity.coords.clear();
-    } else if( !you.activity.coords.empty() && !you.has_destination() )  {
-        zone_sorting::route_to_destination( you, act, here.get_bub( you.activity.coords.front() ), stage );
+        dropoff_coords.clear();
+    } else if( !dropoff_coords.empty() && !you.has_destination() )  {
+        zone_sorting::route_to_destination( you, act, here.get_bub( dropoff_coords.front() ), stage );
     } else if( !you.has_destination() ) {
         debugmsg( "Sort activity has items to sort but no valid destination, this is a bug" );
     }
