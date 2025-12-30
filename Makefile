@@ -381,11 +381,14 @@ ifneq ($(CLANG), 0)
   ifeq ($(CCACHE), 1)
     CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
     LD  = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
+    CC  = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(subst ++,,$(CLANGCMD))
   else
     CXX = $(CROSS)$(CLANGCMD)
     LD  = $(CROSS)$(CLANGCMD)
+    CC  = $(CROSS)$(subst ++,,$(CLANGCMD))
   endif
   CXX_WARNINGS += -Wno-unknown-warning-option
+  WARNINGS += -Wno-unknown-warning-option
 else
   # Compiler version & target machine - used later for MXE ICE workaround
   ifdef CROSS
@@ -410,6 +413,7 @@ else
     LD  = $(CROSS)$(OS_LINKER)
   endif
   CXX_WARNINGS += -Wno-unknown-warning
+  WARNINGS += -Wno-unknown-warning
 endif
 
 STRIP = $(CROSS)strip
@@ -531,9 +535,9 @@ ifeq ($(PCH), 1)
 
   ifeq ($(CLANG), 0)
     PCHFLAGS += -include pch/main-pch.hpp
-    PCH_P = $(PCH_H).gch
+    PCH_P = $(ODIR)/$(PCH_H).gch
   else
-    PCH_P = $(PCH_H).pch
+    PCH_P = $(ODIR)/$(PCH_H).pch
     PCHFLAGS += -include-pch $(PCH_P)
 
     # FIXME: dirty hack ahead
@@ -612,11 +616,13 @@ endif
 ifeq ($(NATIVE), osx)
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=10.15
+  CFLAGS += -mmacosx-version-min=10.15
   LDFLAGS += -mmacosx-version-min=10.15 -framework CoreFoundation -Wl,-headerpad_max_install_names
   # doesn't use GNU ar
   THIN_AR=0
   ifeq ($(UNIVERSAL_BINARY), 1)
     CXXFLAGS += -arch x86_64 -arch arm64
+    CFLAGS += -arch x86_64 -arch arm64
     LDFLAGS += -arch x86_64 -arch arm64
   endif
   ifdef FRAMEWORK
@@ -964,8 +970,7 @@ ifeq ($(MSYS2),1)
   DEFINES += -DMSYS2 -D_GLIBCXX_USE_C99_MATH_TR1
 endif
 
-CFLAGS := $(CXXFLAGS)
-CFLAGS += $(C_STD)
+CFLAGS += $(C_STD) $(WARNINGS)
 CXXFLAGS += $(CXX_STD) $(CXX_WARNINGS)
 
 # Enumerations of all the source files and headers.
@@ -1130,14 +1135,14 @@ prefix:
          )
 
 # Unconditionally create the object dirs on every invocation.
-DIRS = $(sort $(dir $(OBJS)))
+DIRS = $(sort $(dir $(OBJS) $(PCH_P)))
 $(shell mkdir -p $(DIRS))
 
 $(ODIR)/%.inc: $(SRC_DIR)/%.cpp
 	$(COMPILE.cc) -o /dev/null -Wno-error -H -E $< 2> $@
 
 $(ODIR)/%.inc: $(SRC_DIR)/%.c
-	$(CXX) -x c $(CPPFLAGS) $(DEFINES) $(CFLAGS) -Wno-error -H -E $< -o /dev/null 2> $@
+	$(COMPILE.c) -o /dev/null -Wno-error -H -E $< 2> $@
 
 .PHONY: includes
 includes: $(OBJS:.o=.inc)
@@ -1147,7 +1152,7 @@ $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.cpp
 	$(COMPILE.cc) $(OUTPUT_OPTION) -w -MMD -MP $<
 
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.c
-	$(COMPILE.cc) $(OUTPUT_OPTION) -x c $(CFLAGS) -w -MMD -MP -c $<
+	$(COMPILE.c) $(OUTPUT_OPTION) -x c $(CFLAGS) -w -MMD -MP $<
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
 	$(COMPILE.cc) $(OUTPUT_OPTION) $(PCHFLAGS) -MMD -MP $<
@@ -1183,7 +1188,7 @@ $(CHKJSON_BIN): $(CHKJSON_SOURCES)
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
 
-clean: clean-tests clean-pch clean-lang
+clean: clean-tests clean-lang
 	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
@@ -1441,7 +1446,8 @@ $(BUILD_PREFIX)zstd.a: $(filter $(ODIR)/third-party/zstd/%.o,$(OBJS))
 	$(AR) rcs $(AR_FLAGS) $(BUILD_PREFIX)zstd.a $^
 
 $(ZZIP_BIN): $(ZZIP_SOURCES) $(BUILD_PREFIX)zstd.a
-	$(LINK.cc) $(OUTPUT_OPTION) -MMD -MP -isystem src/third-party $^
+  # Remove SDL libraries used by cataclysm
+	$(subst $(LDFLAGS),,$(LINK.cc)) $(OUTPUT_OPTION) -MMD -MP -isystem src/third-party $^
 
 python-check:
 	flake8
@@ -1455,19 +1461,15 @@ check: version $(BUILD_PREFIX)cataclysm.a $(LOCALIZE_TEST_DEPS)
 clean-tests:
 	$(MAKE) -C tests clean
 
-clean-pch:
-	rm -f pch/*pch.hpp.gch
-	rm -f pch/*pch.hpp.pch
-	rm -f pch/*pch.hpp.d
-	$(MAKE) -C tests clean-pch
-
 clean-lang:
 	$(MAKE) -C lang clean
 
-.PHONY: tests check ctags etags clean-tests clean-pch clean-lang install lint
+.PHONY: tests check ctags etags clean-tests clean-lang install lint
 
 compile_commands.txt:
 	@echo 'COMPILE.cc := $(COMPILE.cc)' > $@
 	@echo 'LINK.cc := $(LINK.cc)' >> $@
+	@echo 'COMPILE.c := $(COMPILE.c)' >> $@
+	@echo 'LINK.c := $(LINK.c)' >> $@
 
 -include ${OBJS:.o=.d}

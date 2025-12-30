@@ -407,10 +407,13 @@ void Character::queue_effects( const std::vector<effect_on_condition_id> &effect
 void Character::queue_effect( const std::string &name, const time_duration &delay,
                               const time_duration &effect_duration )
 {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
     global_variables::impl_t ctx = {
         { "effect", diag_value{ name } },
         { "duration", diag_value{ to_turns<int>( effect_duration ) } }
     };
+#pragma GCC diagnostic pop
 
     effect_on_conditions::queue_effect_on_condition( delay, effect_on_condition_add_effect, *this,
             ctx );

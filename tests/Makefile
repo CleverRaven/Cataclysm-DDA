@@ -39,9 +39,9 @@ ifeq ($(PCH), 1)
 PCHFLAGS += -DCATA_CATCH_PCH
 PCH_H = pch/tests-pch.hpp
 ifeq ($(CLANG), 0)
-PCH_P = $(PCH_H).gch
+PCH_P = $(ODIR)/$(PCH_H).gch
 else
-PCH_P = $(PCH_H).pch
+PCH_P = $(ODIR)/$(PCH_H).pch
 CXXFLAGS += -Wno-unused-macros
 endif
 endif
@@ -70,17 +70,12 @@ check: $(TEST_TARGET) $(TEST_BATCHES)
 check-single: $(TEST_TARGET)
 	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time --order lex
 
-clean: clean-pch
+clean:
 	rm -rf *obj *objwin
 	rm -f *cata_test
 
-clean-pch:
-	rm -f pch/*pch.hpp.gch
-	rm -f pch/*pch.hpp.pch
-	rm -f pch/*pch.hpp.d
-
 #Unconditionally create object directory on invocation.
-$(shell mkdir -p $(ODIR))
+$(shell mkdir -p $(ODIR) $(dir $(PCH_P)))
 
 # Adding ../tests/ so that the directory appears in __FILE__ for log messages
 $(ODIR)/%.o: %.cpp $(PCH_P)
@@ -92,7 +87,7 @@ $(ODIR)/%.inc: %.cpp
 .PHONY: includes
 includes: $(OBJS:.o=.inc)
 
-.PHONY: clean clean-pch check check-single tests precompile_header
+.PHONY: clean check check-single tests precompile_header
 
 .SECONDARY: $(OBJS)
 
