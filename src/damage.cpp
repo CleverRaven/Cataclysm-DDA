@@ -472,6 +472,17 @@ damage_instance damage_instance::di_considering_length( units::length barrel_len
     }
     return di;
 }
+
+bool damage_instance::has_damage_by_barrel() const
+{
+    for( const damage_unit &du : damage_units ) {
+        if( !du.barrels.empty() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void damage_instance::clear()
 {
     damage_units.clear();

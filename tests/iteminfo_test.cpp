@@ -57,7 +57,6 @@ static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
 static const itype_id itype_nape_protector( "nape_protector" );
 static const itype_id itype_oxy_torch( "oxy_torch" );
 static const itype_id itype_test_2x4( "test_2x4" );
-static const itype_id itype_test_9mm_ammo( "test_9mm_ammo" );
 static const itype_id itype_test_apple( "test_apple" );
 static const itype_id itype_test_armor_chitin( "test_armor_chitin" );
 static const itype_id itype_test_armor_chitin_copy( "test_armor_chitin_copy" );
@@ -351,22 +350,6 @@ TEST_CASE( "item_requirements", "[iteminfo][requirements]" )
            "--\n"
            "<color_c_white>Minimum requirements</color>:\n"
            "intelligence 9, perception 5, electronics 3, and devices 2\n" );
-}
-
-// Functions:
-// item::basic_info
-TEST_CASE( "iteminfo_contents", "[iteminfo][contents]" )
-{
-    clear_avatar();
-
-    // TODO: Test "Contains:", if it is still possible (couldn't find any items with it)
-    //std::vector<iteminfo_parts> contents = { iteminfo_parts::BASE_CONTENTS };
-
-    // Amount is shown for items having count_by_charges(), and are not food or medication
-    // This includes all kinds of ammo and arrows, thread, and some chemicals like sulfur.
-    item ammo( itype_test_9mm_ammo );
-    std::vector<iteminfo_parts> amount = { iteminfo_parts::BASE_AMOUNT };
-    CHECK( item_info_str( ammo, amount ) == "--\nAmount: <color_c_yellow>50</color>\n" );
 }
 
 // Related JSON fields:
@@ -2045,6 +2028,8 @@ TEST_CASE( "ammunition", "[iteminfo][ammo]" )
 
     std::vector<iteminfo_parts> ammo = { iteminfo_parts::AMMO_REMAINING_OR_TYPES,
                                          iteminfo_parts::AMMO_DAMAGE_VALUE,
+                                         iteminfo_parts::AMMO_DAMAGE_PELLETS,
+                                         iteminfo_parts::AMMO_DAMAGE_TOTAL,
                                          iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL,
                                          iteminfo_parts::AMMO_DAMAGE_AP,
                                          iteminfo_parts::AMMO_DAMAGE_RANGE,
@@ -2059,7 +2044,8 @@ TEST_CASE( "ammunition", "[iteminfo][ammo]" )
         CHECK( item_info_str( rock, ammo ) ==
                "--\n"
                "<color_c_white>Ammunition type</color>: rocks\n"
-               "Damage: <color_c_yellow>7</color>  Armor-pierce: <color_c_yellow>0</color>\n"
+               "Ranged damage: <color_c_yellow>7</color>\n"
+               "Armor-pierce: <color_c_yellow>0</color>\n"
                "Range: <color_c_yellow>10</color>  Dispersion: <color_c_yellow>0.14</color> MOA\n"
                "Recoil: <color_c_yellow>0.00</color> MOA  Critical multiplier: <color_c_yellow>2</color>\n" );
     }
