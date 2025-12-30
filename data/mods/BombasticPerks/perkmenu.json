@@ -983,6 +983,25 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_safety_squint" } },
+        "text": "Gain [<trait_name:perk_safety_squint>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_safety_squint>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_safety_squint>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_safety_squint", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "FIX THIS PART",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { FIX THIS PART }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_troubleseeker" } },
         "text": "Gain [<trait_name:perk_troubleseeker>]",
         "effect": [

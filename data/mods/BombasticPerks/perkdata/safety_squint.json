@@ -1,0 +1,52 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_safety_squint_on",
+    "effect": [ { "u_spawn_item": "perk_safety_squint_integrated_goggles", "suppress_message": true, "force_equip": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_safety_squint_off",
+    "effect": [ { "u_remove_item_with_item": "perk_safety_squint_integrated_goggles" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_perk_safety_squint_reduced_vision",
+    "//": "Hidden effect",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "MYOPIA_SUPERNATURAL" ]
+  },
+  {
+  "id": "perk_safety_squint_integrated_goggles",
+  "copy-from": "goggles_welding",  "type": "ITEM",
+  "subtypes": [
+    "ARMOR", "ARTIFACT"
+  ],
+  "category": "armor",
+  "name": {
+    "str_sp": "the safety squint"
+  },
+  "description": "You've got your eyes shut against the glare, but not all the way.",
+  "weight": "0 g",
+  "volume": "0 ml",
+  "material": [
+    "flesh"
+  ],
+  "symbol": "[",
+  "color": "dark_gray",
+  "warmth": 0,
+  "material_thickness": 0,
+  "environmental_protection": 0,
+  "extend": { "flags": [
+    "ZERO_WEIGHT",
+    "TRADER_AVOID",
+    "PERSONAL",
+    "INTEGRATED",
+    "SEMITANGIBLE",
+    "UNBREAKABLE",
+    "OVERSIZE"
+  ] },
+  "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_perk_safety_squint_reduced_vision", "intensity": 1 } ] } ]
+  }
+]

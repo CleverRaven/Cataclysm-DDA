@@ -465,6 +465,20 @@
   },
   {
     "type": "mutation",
+    "id": "perk_safety_squint",
+    "name": { "str": "The Safety Squint" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "They told it to you as a joke, but you always knew it was real and now you've figured out how to do it.  With the proper squinting technique, you can safely weld without any external protection, though you won't be able to see much of your surroundings.  Activate to toggle.",
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You squint your eyes just right.",
+    "activated_eocs": [ "EOC_safety_squint_on" ],
+    "deactivated_eocs": [ "EOC_safety_squint_off" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_bedtime_reader",
     "name": { "str": "Bedtime Stories" },
     "points": 0,

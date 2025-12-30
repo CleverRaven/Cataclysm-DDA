@@ -49,6 +49,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PERK_ABSIT_INVIDIA_SALT",
+    "condition": { "u_has_trait": "perk_absit_invidia" },
     "effect": [
       { "u_lose_effect": "taint" },
       {
