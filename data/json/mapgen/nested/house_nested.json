@@ -2468,8 +2468,8 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
-      "furniture": { " ": "f_freezer" },
-      "items": { " ": [ { "item": "SUS_freezer" } ] },
+      "place_furniture": [ { "furn": "f_freezer", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_freezer", "x": 0, "y": 0 } ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   }
