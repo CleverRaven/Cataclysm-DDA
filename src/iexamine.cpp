@@ -3120,7 +3120,7 @@ static void add_firestarter( item *it, std::multimap<int, item *> &firestarters,
     const use_function *usef = it->type->get_use( "firestarter" );
     if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
         const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-        if( actor->can_use( you, *it, examp ).success() ) {
+        if( actor->can_use( you, *it, &get_map(), examp ).success() ) {
             firestarters.insert( std::pair<int, item *>( actor->moves_cost_fast, it ) );
         }
     }
@@ -3170,9 +3170,9 @@ static void pick_firestarter_and_fire( Character &you, const tripoint_bub_ms &ex
             const use_function *usef = it->type->get_use( "firestarter" );
             const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
             you.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
-            const ret_val<void> can_use = actor->can_use( you, *it, examp );
+            const ret_val<void> can_use = actor->can_use( you, *it, &get_map(), examp );
             if( can_use.success() ) {
-                const int charges = actor->use( &you, *it, examp ).value_or( 0 );
+                const int charges = actor->use( &you, *it, &get_map(), examp ).value_or( 0 );
                 you.use_charges( it->typeId(), charges );
                 return;
             } else {
@@ -3768,9 +3768,9 @@ void iexamine::fireplace( Character &you, const tripoint_bub_ms &examp )
                 const use_function *usef = it->type->get_use( "firestarter" );
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
                 you.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
-                const ret_val<void> can_use = actor->can_use( you, *it, examp );
+                const ret_val<void> can_use = actor->can_use( you, *it, &get_map(), examp );
                 if( can_use.success() ) {
-                    const int charges = actor->use( &you, *it, examp ).value_or( 0 );
+                    const int charges = actor->use( &you, *it, &get_map(), examp ).value_or( 0 );
                     you.use_charges( it->typeId(), charges );
                     return;
                 } else {
