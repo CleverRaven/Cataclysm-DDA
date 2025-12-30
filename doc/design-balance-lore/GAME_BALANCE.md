@@ -589,7 +589,26 @@ For reference, each cartridge's bullet diameter, **Dia**  and weight, **Proj. wt
 | 20 mm x138               | 46.0 in | 198.3   | 39322.9 J | 78.524  | -102.3  | 8.0 in  | 0.787 in | 1852.0 gr    |
 | 20 mm x102               | 46.0 in | 209.3   | 43806.5 J |  63.381 | - 33.41 | 6.6 in  | 0.820 in | 1521.0 gr    |
 
+### Shotshell stats
 
+Shotshells, while being a subset of firearm cartridge, work under a bit different rules. Slugs, by virtue of being a single projectile, do not have a problem of it's damage being calculated, and damage for slugs is evaluated and listed in table above. Same goes for any shots, even birdshots, at point blank distance, this one uses a generic `damage` field and behaves like a single bullet, for the amount of time it flies is not enough for pellets to spread far enough. 
+
+Everything goes south in our calculations once we are behaving at distance bigger than 0 tiles from the target, since now the pellet spread is substantial enough that separate bits of armor can protect us against single pellet much more effectively, but otherwise the spread would tear more area than a single bullet can - that will result in shot dealing substantially more damage against unarmored target, but if there is even a tiny bit of protection, the damage quickly decreases to zero. In game it works as us using `shot_damage` value, and applying it's damage as many time as `projectile_count` dictates. Due to a technical limitations, the damage below 1 unit works by shrinking amount of pellets shot; 100 pellets with damage 0.5 the game would shrink to 50 pellets with damage of 1
+
+Because we already have quite valid slug damage calculated, it would be a shame to not use it, so we will try to derive the damage of single pellet from it, and we will do it the next way:
+
+TODO: Note exact math described in https://discord.com/channels/598523535169945603/598529174302490644/1416505321651961966
+
+In simple words, it resolves to this:
+```c++
+pellet_damage = (sqrt(num_pellet) * slug_damage) / num_pellet
+```
+We pick the damage of a slug, multiply it by square root of pellet amount, and then divide by amount of pellets.
+
+Sadly, the formula breaks apart on birdshots, since it doesn't include other forces that makes smaller pellets lose it's energy more quickly, so for now we will just arbitrarily stop scaling at 10 pellets:
+```c++
+pellet_damage = (sqrt( min(num_pellet, 10) ) * slug_damage) / num_pellet
+```
 
 # LIQUIDS:
 Multi-charge items are weighed by the charge/use.  If you have an item that contains 40 uses, it'll weigh 40x as much (when found in-game) as you entered in the JSON. Liquids are priced by the 250mL unit, but handled in containers.  This can cause problems if you create something that comes in (say) a gallon jug (15 charges) and price it at the cost of a jug's worth: it'll be 15x as expensive as intended.
