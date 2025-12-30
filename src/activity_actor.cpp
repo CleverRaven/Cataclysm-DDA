@@ -10286,7 +10286,12 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                     std::vector<item_location> dropped_crap = put_into_vehicle_or_drop_ret_locs( you,
                             item_drop_reason::deliberate, { **iter }, here.get_bub( drop_dest ) );
                     if( !dropped_crap.empty() ) {
-                        you.i_rem( iter->get_item() );
+                        if( const vehicle_cursor *veh_curs = iter->veh_cursor() ) {
+                            vehicle &cart_with_items = veh_curs->veh;
+                            cart_with_items.remove_item( cart_with_items.part( veh_curs->part ), iter->get_item() );
+                        } else if( iter->carrier() ) {
+                            iter->carrier()->i_rem( iter->get_item() );
+                        }
                         iter = picked_up_stuff.erase( iter );
                     } else {
                         iter++; // Failed to drop for some reason?!
@@ -10408,7 +10413,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         if( dropoff_coords.empty() ) {
             you.add_msg_if_player( m_info,
                                    _( "You have items to sort.  However, there are no valid locations to sort to." ) );
-            // Set activity to null??
+            stage = LAST;
             return;
         }
 
@@ -10428,6 +10433,8 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         zone_sorting::route_to_destination( you, act, here.get_bub( dropoff_coords.front() ), stage );
     } else if( !you.has_destination() ) {
         debugmsg( "Sort activity has items to sort but no valid destination, this is a bug" );
+        // Completely kick us out of this activity, something's gone wrong and we don't know what's going on.
+        stage = LAST;
     }
 }
 

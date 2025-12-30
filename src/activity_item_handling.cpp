@@ -311,8 +311,9 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
             it.charges = 0;
         }
 
-        if( veh.add_item( here, vp, it ) ) {
+        if( std::optional<vehicle_stack::iterator> maybe_item = veh.add_item( here, vp, it ) ) {
             into_vehicle_count += it.count();
+            result.emplace_back( vehicle_cursor( veh, vpr.part_index() ), &*maybe_item.value() );
         } else {
             if( it.count_by_charges() ) {
                 // Maybe we can add a few charges in the trunk and the rest on the ground.
