@@ -729,7 +729,7 @@ bool Character::handle_gun_damage( item &it )
 
 
     // i am bad at math, so we will use vibes instead
-    double gun_jam_chance;
+    double gun_jam_chance = 0;
     int gun_damage = it.damage() / 1000.0;
     switch( gun_damage ) {
         case 0:
@@ -749,7 +749,7 @@ bool Character::handle_gun_damage( item &it )
             break;
     }
 
-    int mag_damage;
+    int mag_damage = 0;
     double mag_jam_chance = 0;
     if( it.magazine_current() ) {
         mag_damage = it.magazine_current()->damage() / 1000.0;
