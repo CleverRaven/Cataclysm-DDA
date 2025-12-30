@@ -936,14 +936,15 @@ bool Character::handle_gun_overheat( item &it )
     }
 
     // Forced safety completely prevents other failures.  The gun still fires the shot that triggers the safety.
-    if ( ( it.faults_potential().count( fault_overheat_forced_safety ) && heat + heat_for_shot > threshold ) ) {
+    if( ( it.faults_potential().count( fault_overheat_forced_safety ) &&
+          heat + heat_for_shot > threshold ) ) {
         it.set_fault( fault_overheat_safety );
         it.set_var( "gun_heat", heat + heat_for_shot );
         return true;
     }
 
     if( heat > threshold ) {
-        if ( it.faults_potential().count( fault_overheat_safety ) && !one_in( gun_type.durability ) ) {
+        if( it.faults_potential().count( fault_overheat_safety ) && !one_in( gun_type.durability ) ) {
             add_msg_if_player( m_bad,
                                _( "Your %s displays a warning sequence as its active cooling cycle engages." ),
                                it.tname() );
