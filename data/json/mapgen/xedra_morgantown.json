@@ -97,10 +97,7 @@
         "W": "t_covered_well"
       },
       "vehicles": { "Á": { "vehicle": "xedra_silent_eagle", "chance": 100, "rotation": 0 } },
-      "monster": {
-        "%": { "monster": "mon_turret_searchlight" },
-        "M": { "monster": "mon_dish_head" }
-      }
+      "monster": { "%": { "monster": "mon_turret_searchlight" }, "M": { "monster": "mon_dish_head" } }
     }
   },
   {
