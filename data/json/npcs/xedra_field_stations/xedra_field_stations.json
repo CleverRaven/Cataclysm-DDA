@@ -35,10 +35,6 @@
         "search_range": 4000
       }
     },
-    "end": {
-      "effect": [
-        { "u_add_var": "completed_xedra_field_station_2", "value": "yes" }
-      ]
-    }
+    "end": { "effect": [ { "u_add_var": "completed_xedra_field_station_2", "value": "yes" } ] }
   }
 ]
