@@ -35,6 +35,7 @@ class math_exception_impl : public exception
         constexpr explicit math_exception_impl( Args &&...args )
             : exception( string_format( "%s: %s", _severity_str<severity_>(),
                                         string_format( std::forward<Args>( args )... ) ) ) {}
+        math_exception_impl(math_exception_impl &) = delete;
 };
 
 // syntax error in parsed expression
