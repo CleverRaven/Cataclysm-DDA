@@ -4615,6 +4615,8 @@ papalotl
 Papaver
 paperclipped
 papier
+PAPR
+PAPRs
 Papuan
 papyrifera
 parabellum

@@ -27,6 +27,7 @@
       { "group": "guns_swat", "prob": 20 },
       { "group": "mags_swat", "prob": 20 },
       { "group": "gear_eod", "prob": 20 },
+      { "group": "molle_papr_kit", "prob": 10 },
       { "item": "survnote", "prob": 1 }
     ]
   },
