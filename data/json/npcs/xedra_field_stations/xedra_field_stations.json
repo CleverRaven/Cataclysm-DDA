@@ -16,11 +16,7 @@
         "search_range": 800
       }
     },
-    "end": {
-      "effect": [
-        { "u_add_var": "completed_xedra_field_station_1", "value": "yes" }
-      ]
-    }
+    "end": { "effect": [ { "u_add_var": "completed_xedra_field_station_1", "value": "yes" } ] }
   },
   {
     "id": "MISSION_XEDRA_FIELD_STATION_2",
