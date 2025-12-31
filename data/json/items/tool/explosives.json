@@ -731,6 +731,7 @@
     "material": [ "glass", "cotton" ],
     "symbol": "*",
     "color": "light_gray",
+    "//COMMENT": "The moves action cost should always be at least 100 (one full second) so that the molotov can properly know who's throwing it. See iuse::molotov_lit() for more details.",
     "use_action": {
       "need_wielding": true,
       "target": "molotov_lit",

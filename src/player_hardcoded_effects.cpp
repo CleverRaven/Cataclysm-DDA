@@ -20,6 +20,7 @@
 #include "creature_tracker.h"
 #include "damage.h"
 #include "effect.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -154,7 +155,13 @@ static const vitamin_id vitamin_redcells( "redcells" );
 static void eff_fun_onfire( Character &u, effect &it )
 {
     const int intense = it.get_intensity();
-    u.deal_damage( nullptr, it.get_bp(), damage_instance( damage_heat, rng( intense, intense * 2 ) ) );
+    u.deal_damage( it.get_source().resolve_creature(), it.get_bp(), damage_instance( damage_heat,
+                   rng( intense, intense * 2 ) ) );
+    if( u.is_limb_broken( it.get_bp() ) ) {
+        // Set effect to be cleaned up during effect processing instead of endlessly burning broken limb.
+        // TODO: Transfer damage towards core instead? (e.g. broken feet --> try legs, if broken --> try torso etc)
+        it.set_duration( 0_turns );
+    }
 }
 static void eff_fun_spores( Character &u, effect &it )
 {
