@@ -6072,9 +6072,11 @@ void reload_activity_actor::reload( player_activity &act, Character &who, int lo
     }
 
     // Attempt to put item in another pocket before prompting
-    if( who.try_add( reloadable, nullptr, nullptr, false ) != item_location::nowhere ) {
+    item_location new_loc = who.try_add( reloadable, nullptr, nullptr, false );
+    if( new_loc != item_location::nowhere ) {
         // try_add copied the old item, so remove it now.
         loc.remove_item();
+        target_loc = new_loc;
         return;
     }
 
