@@ -464,7 +464,7 @@ void player_activity::set_resume_values( const player_activity &other, const Cha
     }
 
     if( actor && other.actor ) {
-        return actor->set_resume_values( *other.actor, who );
+        actor->set_resume_values( *other.actor, who );
     }
 }
 
