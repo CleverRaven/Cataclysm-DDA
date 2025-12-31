@@ -1,0 +1,14 @@
+[
+  {
+    "abstract": "mon_bird_flying_base",
+    "copy-from": "mon_bird_flying_base",
+    "type": "MONSTER",
+    "extend": { "families": [ "prof_wp_dino" ] }
+  },
+  {
+    "abstract": "mon_generic_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_generic_chick",
+    "extend": { "families": [ "prof_wp_dino" ] }
+  }
+]
