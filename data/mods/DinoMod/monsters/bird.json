@@ -1,32 +1,92 @@
 [
   {
-    "abstract": "mon_bird_flying_base",
-    "copy-from": "mon_bird_flying_base",
+    "id": "mon_chicken",
+    "copy-from": "mon_chicken",
     "type": "MONSTER",
     "extend": { "families": [ "prof_wp_dino" ] }
   },
   {
-    "abstract": "mon_bird_flightless_base",
-    "copy-from": "mon_bird_flightless_base",
+    "id": "mon_grouse",
+    "copy-from": "mon_grouse",
     "type": "MONSTER",
     "extend": { "families": [ "prof_wp_dino" ] }
   },
   {
-    "abstract": "mon_bird_flying_base",
-    "copy-from": "mon_bird_flying_base",
+    "id": "mon_crow",
+    "copy-from": "mon_crow",
     "type": "MONSTER",
     "extend": { "families": [ "prof_wp_dino" ] }
   },
   {
-    "abstract": "mon_bird_water_base",
-    "copy-from": "mon_bird_water_base",
+    "id": "mon_raven",
+    "copy-from": "mon_raven",
     "type": "MONSTER",
     "extend": { "families": [ "prof_wp_dino" ] }
   },
   {
-    "abstract": "mon_generic_chick",
+    "id": "mon_bluejay",
     "type": "MONSTER",
-    "copy-from": "mon_generic_chick",
+    "copy-from": "mon_bluejay",
+    "extend": { "families": [ "prof_wp_dino" ] }
+  },
+  {
+    "id": "mon_cardinal",
+    "type": "MONSTER",
+    "copy-from": "mon_cardinal",
+    "extend": { "families": [ "prof_wp_dino" ] }
+  },
+  {
+    "id": "mon_robin",
+    "type": "MONSTER",
+    "copy-from": "mon_robin",
+    "extend": { "families": [ "prof_wp_dino" ] }
+  },
+  {
+    "id": "mon_sparrow",
+    "type": "MONSTER",
+    "copy-from": "mon_sparrow",
+    "extend": { "families": [ "prof_wp_dino" ] }
+  },
+  {
+    "id": "mon_chickadee",
+    "type": "MONSTER",
+    "copy-from": "mon_chickadee",
+    "extend": { "families": [ "prof_wp_dino" ] }
+  },
+  {
+    "id": "mon_chickadee_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_chickadee",
+    "extend": { "families": [ "prof_wp_dino" ] }
+  },
+  {
+    "id": "mon_waxwing",
+    "type": "MONSTER",
+    "copy-from": "mon_waxwing",
+    "extend": { "families": [ "prof_wp_dino" ] }
+  },
+  {
+    "id": "mon_waxwing_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_waxwing_chick",
+    "extend": { "families": [ "prof_wp_dino" ] }
+  },
+  {
+    "id": "mon_duck",
+    "type": "MONSTER",
+    "copy-from": "mon_duck",
+    "extend": { "families": [ "prof_wp_dino" ] }
+  },
+  {
+    "id": "mon_duck_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_duck_chick",
+    "extend": { "families": [ "prof_wp_dino" ] }
+  },
+  {
+    "id": "mon_duck_domestic",
+    "type": "MONSTER",
+    "copy-from": "mon_duck_domestic",
     "extend": { "families": [ "prof_wp_dino" ] }
   }
 ]
