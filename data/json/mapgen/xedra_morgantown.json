@@ -270,7 +270,13 @@
         "3": "f_null",
         "*": "f_barricade_road"
       },
-      "place_signs": [ { "signage": "The sign has the logo of the Morgantown Entry Forest Association and reads \"NO TRESPASSING\"", "x": 11, "y": 21 } ],
+      "place_signs": [
+        {
+          "signage": "The sign has the logo of the Morgantown Entry Forest Association and reads \"NO TRESPASSING\"",
+          "x": 11,
+          "y": 21
+        }
+      ],
       "monster": { "M": { "monster": "mon_dish_head" } }
     }
   },
