@@ -335,8 +335,9 @@
     "subtypes": [ "TOOL" ],
     "copy-from": "inventor_gaming_rig",
     "name": { "str": "Oneiromantic gaming rig (on)" },
-    "power_draw": "10 W",
+    "power_draw": "3 W",
     "revert_to": "inventor_gaming_rig",
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "use_action": [ { "ammo_scale": 0, "target": "inventor_gaming_rig", "msg": "The gaming rig powers down.", "type": "transform" } ]
   }
 ]
