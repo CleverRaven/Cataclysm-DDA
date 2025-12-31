@@ -56,7 +56,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "morgantown_forest_fence_s", "morgantown_forest", "morgantown_forest_fence_corner", "morgantown_forest_fence_entry", "morgantown_forest_fence_entry_2" ],
+    "id": [
+      "morgantown_forest_fence_s",
+      "morgantown_forest",
+      "morgantown_forest_fence_corner",
+      "morgantown_forest_fence_entry",
+      "morgantown_forest_fence_entry_2"
+    ],
     "vision_levels": "isolated_building",
     "name": "fenced-off forest",
     "sym": "f",
