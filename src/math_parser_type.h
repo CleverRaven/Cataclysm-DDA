@@ -31,11 +31,15 @@ class math_exception_impl : public exception
     public:
         static constexpr int severity = severity_;
 
-        template <typename... Args>
+        template <typename... Args,
+            typename = std::enable_if_t<
+                ( sizeof...( Args ) > 0 ) &&
+                !( ( std::is_same_v<std::decay_t<Args>, math_exception_impl> || ... ) )
+            >
+        >
         constexpr explicit math_exception_impl( Args &&...args )
             : exception( string_format( "%s: %s", _severity_str<severity_>(),
                                         string_format( std::forward<Args>( args )... ) ) ) {}
-        math_exception_impl(math_exception_impl &) = delete;
 };
 
 // syntax error in parsed expression
