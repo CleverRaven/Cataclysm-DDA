@@ -41,7 +41,6 @@
     "harvest": "mammal_tiny",
     "dissect": "dissect_rat_sample_single",
     "path_settings": { "max_dist": 10 },
-    "stomach_size": 30,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "CANPLAY", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER" ]
@@ -77,7 +76,6 @@
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "regen_morale": true,
-    "stomach_size": 60,
     "special_attacks": [
       {
         "type": "bite",
@@ -109,7 +107,7 @@
     "melee_dice_sides": 1,
     "special_when_hit": [ "ZAPBACK", 100 ],
     "special_attacks": [ [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_electromagnetics" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "upgrades": false,
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ELECTRIC", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER" ],
     "emit_fields": [ { "emit_id": "emit_shock_burst_rat", "delay": "5 s" } ]
@@ -133,7 +131,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
-    "stomach_size": 120,
     "upgrades": false,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [
@@ -179,7 +176,6 @@
     "upgrades": false,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "ratkin_death_drops_pack_rat",
-    "stomach_size": 800,
     "special_attacks": [
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 17, "armor_multiplier": 0.8 } ] },
       {
@@ -220,14 +216,13 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 3,
-    "stomach_size": 800,
     "death_drops": "ratkin_death_drops_teke",
     "dissect": "dissect_alpha_sample_small",
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [ { "id": "teke_push" }, [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ],
     "zombify_into": "mon_meat_cocoon_tiny",
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "RANGED_ATTACKER", "PATH_AVOID_DANGER", "EATS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "HAS_MIND", "RANGED_ATTACKER", "PATH_AVOID_DANGER", "EATS" ],
     "armor": { "bash": 15, "cut": 3, "bullet": 26 }
   },
   {
@@ -250,7 +245,6 @@
     "aggro_character": false,
     "melee_dice": 6,
     "melee_dice_sides": 4,
-    "stomach_size": 800,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 4,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
@@ -264,7 +258,7 @@
     ],
     "zombify_into": "mon_meat_cocoon_tiny",
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "PATH_AVOID_DANGER", "EATS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "WARM", "PATH_AVOID_DANGER", "EATS" ],
     "dissect": "dissect_rat_sample_small",
     "armor": { "bash": 10, "cut": 10, "bullet": 6 }
   }

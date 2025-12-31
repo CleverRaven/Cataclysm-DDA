@@ -121,6 +121,69 @@
   },
   {
     "type": "furniture",
+    "id": "test_f_bash_nofield",
+    "name": "Bash nofield furniture",
+    "description": "Testing fields produced on bash",
+    "symbol": "f",
+    "color": "blue",
+    "bash": { "str_min": 4, "str_max": 100, "sound": "Tests testing!", "sound_fail": "Tests testing!" },
+    "move_cost_mod": 1,
+    "required_str": 8
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_bash_hitfield",
+    "name": "Bash hit field furniture",
+    "description": "Testing fields produced on bash",
+    "symbol": "f",
+    "color": "blue",
+    "bash": {
+      "str_min": 4,
+      "str_max": 100,
+      "sound": "Tests testing!",
+      "sound_fail": "Tests testing!",
+      "hit_field": [ "fd_marker1", 2 ]
+    },
+    "move_cost_mod": 1,
+    "required_str": 8
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_bash_destroyfield",
+    "name": "Bash destroy field furniture",
+    "description": "Testing fields produced on bash",
+    "symbol": "f",
+    "color": "blue",
+    "bash": {
+      "str_min": 4,
+      "str_max": 100,
+      "sound": "Tests testing!",
+      "sound_fail": "Tests testing!",
+      "destroyed_field": [ "fd_marker1", 1 ]
+    },
+    "move_cost_mod": 1,
+    "required_str": 8
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_bash_bothfield",
+    "name": "Bash both field furniture",
+    "description": "Testing fields produced on bash",
+    "symbol": "f",
+    "color": "blue",
+    "bash": {
+      "str_min": 4,
+      "str_max": 100,
+      "sound": "Tests testing!",
+      "sound_fail": "Tests testing!",
+      "hit_field": [ "fd_marker2", 1 ],
+      "destroyed_field": [ "fd_marker1", 2 ]
+    },
+    "move_cost_mod": 1,
+    "required_str": 8
+  },
+  {
+    "type": "furniture",
     "id": "test_f_bash_persist",
     "name": "Bash persistence furniture",
     "description": "Testing that bashing data does not persist when furniture changes",

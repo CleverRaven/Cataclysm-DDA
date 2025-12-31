@@ -3,6 +3,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "bread_flour",
+    "name": "%s with quern",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "cooking",
@@ -33,6 +34,7 @@
     "activity_level": "NO_EXERCISE",
     "id_suffix": "with_from_food_processor",
     "result": "bread_flour",
+    "name": "%s using food processor",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "cooking",
@@ -969,7 +971,14 @@
     "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [
-      [ [ "seed_cotton_boll", 8 ], [ "seed_grapes", 8 ], [ "seed_pumpkin", 8 ], [ "seed_sunflower", 8 ], [ "seed_weed", 8 ] ]
+      [
+        [ "seed_cotton_boll", 8 ],
+        [ "seed_grapes", 8 ],
+        [ "seed_pumpkin", 8 ],
+        [ "seed_sunflower", 8 ],
+        [ "seed_poppy_bud", 8 ],
+        [ "seed_weed", 8 ]
+      ]
     ]
   },
   {
@@ -992,6 +1001,7 @@
         [ "seed_sunflower", 8 ],
         [ "seed_canola", 1 ],
         [ "seed_grapes", 8 ],
+        [ "seed_poppy_bud", 8 ],
         [ "seed_weed", 8 ]
       ]
     ]

@@ -145,7 +145,6 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "sealab_small_roof",
       "sealab_small_surface",
       "sealab_small_-1",
       "sealab_small_-2",
@@ -153,8 +152,16 @@
       "sealab_small_-4",
       "sealab_small_-5"
     ],
-    "copy-from": "sealab_small_roof",
+    "copy-from": "sealab_small_surface",
     "name": "freshwater research station",
+    "sym": "F",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "sealab_small_roof" ],
+    "copy-from": "sealab_small_roof",
+    "name": "freshwater research station roof",
     "sym": "F",
     "color": "pink"
   },
@@ -221,6 +228,22 @@
     "copy-from": "robofachq_roof_a1",
     "name": "hub 01",
     "sym": "H",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "dls_small_roof",
+      "dls_small_surface",
+      "dls_small_-1",
+      "dls_small_-2",
+      "dls_small_-3",
+      "dls_small_-4",
+      "dls_small_-5"
+    ],
+    "copy-from": "dls_small_roof",
+    "name": "limnological station",
+    "sym": "L",
     "color": "pink"
   },
   {

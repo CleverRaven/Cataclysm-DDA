@@ -109,7 +109,7 @@
       ],
       "items": {
         "@": { "item": "bed", "chance": 80 },
-        "D": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 3 ] },
+        "D": { "item": "SUS_trash_trashcan", "chance": 60 },
         "F": { "item": "SUS_fridge_survivor", "chance": 60 },
         "L": { "item": "allclothes", "chance": 90, "repeat": [ 1, 5 ] },
         "c": [ { "item": "kitchen_appliances", "chance": 5 }, { "item": "dishes_utility", "chance": 5 } ],
@@ -117,12 +117,12 @@
           { "item": "dishes_utility", "chance": 80, "repeat": [ 1, 3 ] },
           { "item": "dishes_dining", "chance": 80, "repeat": [ 5, 25 ] }
         ],
-        "i": { "item": "office", "chance": 90, "repeat": [ 1, 6 ] },
+        "i": { "item": "SUS_office_desk", "chance": 90 },
         "k": { "item": "cubical_office", "chance": 20, "repeat": [ 1, 2 ] },
         "u": { "item": "cleaning", "chance": 80, "repeat": [ 1, 3 ] },
         "v": [
           { "item": "cannedfood", "chance": 50, "repeat": [ 1, 3 ] },
-          { "item": "pasta", "chance": 50, "repeat": [ 1, 3 ] },
+          { "item": "pasta_ingredients", "chance": 50, "repeat": [ 1, 3 ] },
           { "item": "snacks", "chance": 50, "repeat": [ 1, 3 ] }
         ],
         "z": { "item": "shelter", "chance": 90, "repeat": [ 1, 3 ] }
@@ -201,7 +201,7 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 21, 23 ] }
       ],
       "items": {
-        "D": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 3 ] },
+        "D": { "item": "SUS_trash_trashcan", "chance": 60 },
         "L": { "item": "cleaning", "chance": 80, "repeat": [ 2, 6 ] },
         "S": [ { "item": "dishes_dining", "chance": 80, "repeat": [ 1, 3 ] }, { "item": "dishes_utility", "chance": 10 } ],
         "T": { "item": "dishes_dining", "chance": 5 },
@@ -209,7 +209,10 @@
         "d": { "item": "dishes_dining", "chance": 80, "repeat": [ 2, 5 ] },
         "k": { "item": "cubical_office", "chance": 20, "repeat": [ 1, 2 ] },
         "r": { "item": "shower", "chance": 80, "repeat": [ 1, 3 ] },
-        "u": [ { "item": "cannedfood", "chance": 80, "repeat": [ 1, 8 ] }, { "item": "pasta", "chance": 70, "repeat": [ 1, 8 ] } ]
+        "u": [
+          { "item": "cannedfood", "chance": 80, "repeat": [ 1, 8 ] },
+          { "item": "pasta_ingredients", "chance": 70, "repeat": [ 1, 8 ] }
+        ]
       },
       "place_vehicles": [
         { "vehicle": "schoolbus", "x": 4, "y": 8, "chance": 75, "rotation": 270 },
@@ -286,14 +289,14 @@
       ],
       "items": {
         "@": { "item": "bed", "chance": 80 },
-        "D": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 3 ] },
+        "D": { "item": "SUS_trash_trashcan", "chance": 60 },
         "L": { "item": "shelter", "chance": 30 },
-        "i": { "item": "office", "chance": 90, "repeat": [ 1, 6 ] },
+        "i": { "item": "SUS_office_desk", "chance": 90 },
         "k": { "item": "cubical_office", "chance": 20, "repeat": [ 1, 2 ] },
         "o": [ { "item": "homebooks", "chance": 80, "repeat": [ 1, 2 ] }, { "item": "textbooks", "chance": 20 } ],
         "u": [ { "item": "cannedfood", "chance": 80, "repeat": [ 2, 8 ] }, { "item": "snacks", "chance": 25, "repeat": [ 1, 3 ] } ],
         "v": [
-          { "item": "pasta", "chance": 80, "repeat": [ 2, 8 ] },
+          { "item": "pasta_ingredients", "chance": 80, "repeat": [ 2, 8 ] },
           { "item": "kitchen", "chance": 50, "repeat": [ 1, 3 ] },
           { "item": "snacks", "chance": 25, "repeat": [ 1, 3 ] }
         ],

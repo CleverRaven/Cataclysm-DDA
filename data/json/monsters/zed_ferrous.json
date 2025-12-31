@@ -50,6 +50,7 @@
     "material": [ "flesh", "steel" ],
     "color": "brown",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
+    "melee_dice": 3,
     "melee_dice_sides": 4,
     "bleed_rate": 0,
     "harvest": "zombie_rust",
@@ -78,6 +79,7 @@
     "material": [ "flesh", "steel" ],
     "color": "brown",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
+    "melee_skill": 3,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "bleed_rate": 0,
@@ -88,7 +90,7 @@
     "burn_into": "mon_zombie_scorched_rust",
     "upgrades": false,
     "armor": { "bash": 5, "cut": 5, "stab": 5, "bullet": 5 },
-    "extend": { "flags": [ "SMELLS" ], "special_attacks": [ { "id": "impale" } ] }
+    "extend": { "special_attacks": [ { "id": "impale" } ] }
   },
   {
     "id": "mon_zombie_hammer_hands",
@@ -103,10 +105,12 @@
     "looks_like": "mon_zombie_brute",
     "color": "brown",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
+    "melee_dice": 3,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "bleed_rate": 0,
     "vision_day": 14,
+    "vision_night": 1,
     "harvest": "zombie_rust",
     "decay": "zombie_decay_bone_human_skull_rust",
     "special_attacks": [

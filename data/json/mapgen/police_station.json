@@ -338,9 +338,9 @@
           { "item": "harddrugs", "chance": 50, "repeat": [ 1, 2 ] },
           { "item": "jewelry_safe", "chance": 20 }
         ],
-        "F": [ { "item": "office", "chance": 50 }, { "item": "consumer_electronics", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "F": [ { "item": "SUS_office_desk", "chance": 50 }, { "item": "consumer_electronics", "chance": 30, "repeat": [ 1, 2 ] } ],
         "t": { "item": "SUS_trash_floor_light", "chance": 30, "repeat": [ 1, 2 ] },
-        "d": { "item": "office", "chance": 30, "repeat": [ 1, 2 ] },
+        "d": { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 2 ] },
         "B": { "item": "bed", "chance": 30 },
         "b": { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] },
         "^": { "item": "bedroom", "chance": 30, "repeat": [ 1, 2 ] },
@@ -492,7 +492,7 @@
         "[": { "item": "police_armory_any_pistol", "chance": 90, "repeat": 2 },
         "]": { "item": "police_armory_any_shotgun", "chance": 5 },
         "L": { "item": "cop_evidence", "chance": 60, "repeat": [ 2, 3 ] },
-        "D": { "item": "office", "chance": 60, "repeat": [ 2, 3 ] },
+        "D": { "item": "SUS_office_desk", "chance": 60 },
         "T": { "item": "dining", "chance": 60, "repeat": [ 2, 3 ] },
         "Y": { "item": "magazines", "chance": 80, "repeat": [ 2, 3 ] },
         "O": { "item": "office_breakroom", "chance": 70, "repeat": [ 2, 3 ] }
@@ -516,7 +516,7 @@
       "place_loot": [
         { "group": "kitchen", "x": 11, "y": 13, "chance": 70, "repeat": [ 1, 3 ] },
         { "group": "SUS_fridge_breakroom", "x": 12, "y": 13, "chance": 70 },
-        { "group": "office", "x": [ 15, 16 ], "y": 3, "chance": 70, "repeat": [ 1, 3 ] },
+        { "group": "SUS_office_desk", "x": [ 15, 16 ], "y": 3, "chance": 70, "repeat": [ 1, 2 ] },
         { "item": "microwave", "x": 10, "y": 13, "chance": 85 },
         { "item": "laptop", "x": 17, "y": 3, "chance": 85 }
       ],

@@ -64,6 +64,7 @@
     "id": [
       "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1_STARTED",
       "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2_STARTED",
+      "TALK_ROBOFAC_INTERCOM_HEW_UPGRADE_STARTED",
       "TALK_ROBOFAC_INTERCOM_ARMOR_STARTED",
       "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU",
       "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED_LONG",
@@ -200,6 +201,23 @@
         "text": "Any progress on the Hub anchor?",
         "condition": { "compare_string": [ "anchor_pt_2", { "u_val": "dialogue_hub_rnd_u_current_project" } ] },
         "topic": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2_COMPLETE"
+      },
+      {
+        "text": "You mentioned you could improve my HEW system.  Can you tell me more?",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "xedra_mobile_weather_station", "count": 1 } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] },
+            { "math": [ "!has_var(u_dialogue_hub_rnd_u_project_ongoing)" ] },
+            { "math": [ "!has_var(u_dialogue_hub_rnd_u_completed_mws)" ] }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_HEW_UPGRADE"
+      },
+      {
+        "text": "Any progress on the HEW-NRE system?",
+        "condition": { "compare_string": [ "hew_upgrade", { "u_val": "dialogue_hub_rnd_u_current_project" } ] },
+        "topic": "TALK_ROBOFAC_INTERCOM_HEW_UPGRADE_COMPLETE"
       },
       {
         "text": "I've found a rifle chambered for a caliber I don't recognize.  Do you think you could make an HWP adapter for it?",
@@ -343,7 +361,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_armor) >= time('1 d')" ],
-      "yes": "Yes we have!  The disk contained the configuration necessary to print our armors with a much more resilient composite than was previously available to us, without sacrificing any maneuverability.  As a form of payment, we are willing to provide you with the first functional models of the armor at a good price - six HGC.  While that may seem steep, the materials used are very high-end, and six coins just barely covers the production cost alone.  If you are unwilling or incapable of filling that price now, the offer will remain available indefinitely - just let us know when you'd like it.\n\n\"Should you find anything else of interest in the world, please bring it to us.  We would be happy to collaborate like this again in the future.",
+      "yes": "Yes we have!  The disk contained the configuration necessary to print our armors with a much more resilient composite than was previously available to us, without sacrificing any maneuverability.  As a form of payment, we are willing to provide you with the first functional models of the armor at a good price - six HGC.  While that may seem steep, the materials used are very high-end, and six coins just barely covers the production cost alone.  If you are unwilling or incapable of filling that price now, the offer will remain available indefinitely - just let us know when you'd like it.\"\n\n\"Should you find anything else of interest in the world, please bring it to us.  We would be happy to collaborate like this again in the future.",
       "no": "Not yet.  The contents are very strongly encrypted, so simply pulling the data is impossible.  Work is underway to deduce the correct access key, but even with our facilities, it will take some time."
     },
     "speaker_effect": {
@@ -785,6 +803,63 @@
     "id": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2_STARTED",
     "type": "talk_topic",
     "dynamic_line": "The combination should be a fairly simple matter.  Return in two days to pick up the finished product."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_HEW_UPGRADE",
+    "//": "creating better mobile weather station",
+    "type": "talk_topic",
+    "dynamic_line": "Yes.  For the cost of three HGC we can begin R&D to incorporate your NRE recorder.  You'll need to provide the HEW and your NRE recorder.  R&D will take one working week.",
+    "responses": [
+      {
+        "text": "[3 HGC, HEW, NRE] See you in five days.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 3 } },
+            { "u_has_items": { "item": "xedra_mobile_weather_station", "count": 1 } },
+            { "u_has_items": { "item": "nre_recorder", "count": 1 } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "RobofacCoin", "count": 3, "popup": true },
+          { "u_consume_item": "xedra_mobile_weather_station", "count": 1, "popup": true },
+          { "u_consume_item": "nre_recorder", "count": 1, "popup": true },
+          { "u_add_faction_trust": 1 },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now')" ] },
+          { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
+          { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "hew_upgrade" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_HEW_UPGRADE_STARTED"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_HEW_UPGRADE_STARTED",
+    "type": "talk_topic",
+    "dynamic_line": "Lovely.  Research will begin within the next few hours."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_HEW_UPGRADE_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub) >= time('5 d')" ],
+      "yes": "The NRE has been integrated into the HEW.",
+      "no": "Work is still ongoing."
+    },
+    "responses": [
+      {
+        "text": "Thanks.",
+        "condition": { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub) >= time('5 d')" ] },
+        "effect": [
+          { "u_lose_var": "dialogue_hub_rnd_u_current_project" },
+          { "u_lose_var": "dialogue_hub_rnd_u_project_ongoing" },
+          { "u_lose_var": "timer_hub_rnd_u_waiting_on_hub" },
+          { "u_spawn_item": "robofac_mobile_weather_station" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" }
+    ]
   },
   {
     "id": [ "TALK_ROBOFAC_INTERCOM_HWP_EXODII", "TALK_ROBOFAC_INTERCOM_HWP_EXODII_1", "TALK_ROBOFAC_INTERCOM_HWP_EXODII_2" ],

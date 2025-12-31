@@ -206,6 +206,10 @@
     "conflicts": [ "PARTIAL_DEAF" ]
   },
   {
+    "id": "DESTROY_ON_CHARGE_USE",
+    "type": "json_flag"
+  },
+  {
     "id": "OVERHEATS",
     "type": "json_flag",
     "info": "Continuously firing this weapon will cause it to <bad>overheat</bad> and <info>can potentially damage it</info>."
@@ -483,6 +487,21 @@
     "id": "FIX_NEARSIGHT",
     "type": "json_flag",
     "info": "This gear <good>corrects nearsightedness</good>."
+  },
+  {
+    "id": "MYOPIC_SUPERNATURAL",
+    "type": "json_flag",
+    "//": "Like MYOPIC, but can't be fixed by glasses."
+  },
+  {
+    "id": "MYOPIC_IN_LIGHT_SUPERNATURAL",
+    "type": "json_flag",
+    "//": "Like MYOPIC_IN_LIGHT, but can't be fixed by glasses."
+  },
+  {
+    "id": "BLOCK_SUPERNATURAL_HEALING",
+    "type": "json_flag",
+    "//": "Supernatural healing effects, like magical spells, do not work while you have this flag.  Does not block u_hp EoC effects"
   },
   {
     "id": "FILTHY",
@@ -1208,6 +1227,22 @@
     "//": "Due to shapeshifting, the character is size Huge."
   },
   {
+    "id": "TEMPORARY_SHAPESHIFT_NO_HANDS",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character lacks humanoid hands."
+  },
+  {
+    "id": "SHAPESHIFTED_ARMOR",
+    "type": "json_flag",
+    "//": "Used to tag armor that is part of the character's new form to apply other flags.",
+    "info": "This item is currently <good>part of your form</good> and <bad>will not protect you</bad>."
+  },
+  {
+    "id": "INTANGIBLE_ARMOR",
+    "type": "json_flag",
+    "//": "Prevents armor from protecting the character."
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "//": "This mutation does not count toward thresholds at all."
@@ -1216,6 +1251,11 @@
     "id": "ROBUST_GENETIC",
     "type": "json_flag",
     "//": "Applies robust genetic bonus - mutations give only 1 unit of instability for all traits instead of 1 unit for your current tree, and 2 for any outer tree."
+  },
+  {
+    "id": "SKIP_HEALTH",
+    "type": "json_flag",
+    "//": "If food gives any health bonus or penalty, having this flag would prevent you from receiving such."
   },
   {
     "id": "HIDDEN_HALLU",
@@ -1852,10 +1892,6 @@
     "type": "json_flag"
   },
   {
-    "id": "SMOKABLE",
-    "type": "json_flag"
-  },
-  {
     "id": "SMOKED",
     "type": "json_flag"
   },
@@ -2090,6 +2126,10 @@
     "type": "json_flag"
   },
   {
+    "id": "DAMAGE_VEHICLE_WHEELS",
+    "type": "json_flag"
+  },
+  {
     "id": "SCIENCE_CARD_VISITOR",
     "type": "json_flag",
     "info": "You could probably use this to get into a science facility."
@@ -2127,7 +2167,7 @@
   {
     "id": "SCIENCE_CARD_SECURITY_BLACK",
     "type": "json_flag",
-    "info": "You could probably use this to get into a secured  area."
+    "info": "You could probably use this to get into a secured law enforcement area."
   },
   {
     "id": "SCIENCE_CARD_MUTAGEN_GREEN",
@@ -2214,6 +2254,11 @@
     "id": "LEVITATION",
     "type": "json_flag",
     "info": "Allows movement in open air."
+  },
+  {
+    "id": "NO_BODY_HEAT",
+    "type": "json_flag",
+    "info": "The character produces no body heat and is not visible on infrared (for characters only, for monsters use the WARM flag to enable infrared visibility)."
   },
   {
     "id": "ALL_TERRAIN_NAVIGATION",
@@ -2325,6 +2370,16 @@
     "info": "This tool can test for voltage."
   },
   {
+    "id": "SUNBURN_SUPERNATURAL",
+    "type": "json_flag",
+    "info": "You burn in the sunlight like a vampire.  Probably because you're a vampire."
+  },
+  {
+    "id": "SUNBURN_SUPERNATURAL_REDUCTION",
+    "type": "json_flag",
+    "info": "You burn in the sunlight like a vampire, but not quite as badly."
+  },
+  {
     "id": "SHREDDED",
     "type": "json_flag",
     "info": "This is a small fragment."
@@ -2361,6 +2416,11 @@
     "id": "E_STORABLE",
     "type": "json_flag",
     "//": "Any item that can be an electronic file"
+  },
+  {
+    "id": "E_STORABLE_EXCLUSIVE",
+    "type": "json_flag",
+    "//": "Any item that can ONLY be an electronic file"
   },
   {
     "id": "E_COPIABLE",
@@ -2462,6 +2522,16 @@
     "restriction": "Item must be able to clip into place within a gas mask that has a single, panoramic eyepiece."
   },
   {
+    "id": "PAPR_MASK",
+    "type": "json_flag",
+    "info": "This item functions as a powered air purifying respirator."
+  },
+  {
+    "id": "PAPR_BLOWER",
+    "type": "json_flag",
+    "info": "This item functions as a powered air purifying respirator blower."
+  },
+  {
     "id": "REBREATHER_CART",
     "type": "json_flag",
     "info": "A filter for a rebreather.",
@@ -2500,6 +2570,21 @@
     "info": "You can ascend straight up even with no physical surface to climb on."
   },
   {
+    "id": "HERITAGE",
+    "type": "json_flag",
+    "info": "You have nonhuman ancestry or are not human"
+  },
+  {
+    "id": "SUFFOCATION_IMMUNE",
+    "type": "json_flag",
+    "info": "You are immune to being crowd-crushed"
+  },
+  {
+    "id": "INHALED_TOXIN_IMMUNE",
+    "type": "json_flag",
+    "info": "You are immune to gaseous toxins"
+  },
+  {
     "id": "TREE_COMMUNION_PLUS",
     "type": "json_flag",
     "info": "You gain greatly enhanced effects from the Mycorrhizal Communion mutation"
@@ -2533,6 +2618,16 @@
     "id": "ANIMALEMPATH",
     "type": "json_flag",
     "info": "The character is liked by natural animals."
+  },
+  {
+    "id": "TRUE_SEEING",
+    "type": "json_flag",
+    "info": "The character can see through CAMOUFLAGE, NIGHT_INVISIBILITY, or the invisibility effect."
+  },
+  {
+    "id": "SUPPRESS_INVISIBILITY",
+    "type": "json_flag",
+    "info": "If you're invisible, now you're not"
   },
   {
     "id": "ANIMALEMPATH2",
@@ -2701,5 +2796,121 @@
     "id": "ONE_STORY_FALL",
     "type": "json_flag",
     "//": "When the character falls, the height is reduced by 1 Z level before calculating damage."
+  },
+  {
+    "id": "CYLINDER_GRENADE",
+    "type": "json_flag",
+    "//": "A flag for the large grenade bandolier to limit the type of grenades it will accept."
+  },
+  {
+    "id": "BARRICADABLE_DOOR_DAMAGED",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Damaged Barricadable Door"
+  },
+  {
+    "id": "BARRICADABLE_DOOR_REINFORCED_DAMAGED",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Damaged Barricadable Reinforced Door"
+  },
+  {
+    "id": "BARRICADABLE_DOOR_REINFORCED",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Barricadable Reinforced Door"
+  },
+  {
+    "id": "BARRICADABLE_DOOR",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Barricadable Door"
+  },
+  {
+    "id": "BARRICADABLE_WINDOW_CURTAINS",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Barricadable Window with Curtains"
+  },
+  {
+    "id": "BARRICADABLE_WINDOW",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Barricadable Window"
+  },
+  {
+    "id": "CHIP",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Chip",
+    "info": "A paint chipper can be used to remove paint from this."
+  },
+  {
+    "id": "DIGGABLE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Diggable",
+    "info": "A hole can be dug here."
+  },
+  {
+    "id": "EASY_DECONSTRUCT",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Simple"
+  },
+  {
+    "id": "FLAT",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Flat"
+  },
+  {
+    "id": "PIT_FILLABLE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Fillable pit"
+  },
+  {
+    "id": "PLOWABLE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Plowable"
+  },
+  {
+    "id": "RUBBLE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Rubble"
+  },
+  {
+    "id": "SUPPORTS_ROOF",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Supports roof",
+    "info": "A roof can be built above this without other support."
+  },
+  {
+    "id": "TREE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Tree"
+  },
+  {
+    "id": "WALL",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Wall"
+  },
+  {
+    "id": "WIRED_WALL",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Wired Wall"
+  },
+  {
+    "id": "MWS_PORTAL_STORM_DATA",
+    "type": "json_flag",
+    "name": "Odd recordings",
+    "info": "This ongoing report has a series of odd recordings, as if the instruments malfunctioned."
   }
 ]

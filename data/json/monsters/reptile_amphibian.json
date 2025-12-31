@@ -473,7 +473,10 @@
   {
     "abstract": "mon_proxy_tadpole",
     "type": "MONSTER",
-    "description": "The larval form of some species of frog.  This one is only hypothetical and you shouldn't be seeing it without debug.",
+    "description": {
+      "str": "The larval form of some species of frog.  This one is only hypothetical and you shouldn't be seeing it without debug.",
+      "//~": "NO_I18N"
+    },
     "name": { "str": "tadpole" },
     "default_faction": "fish_tiny",
     "bodytype": "fish",
@@ -679,7 +682,7 @@
     "type": "MONSTER",
     "copy-from": "mon_proxy_bigtad",
     "color": "red",
-    "description": "This tadpole's expanded size only eccentuates its other unique feature.  Its tail fin is a vibrant gradient of crimson to yellow.",
+    "description": "This tadpole's expanded size only accentuates its other unique feature.  Its tail fin is a vibrant gradient of crimson to yellow.",
     "name": { "str": "giant tadpole" },
     "upgrades": { "age_grow": 10, "into": "mon_shift_bigfrog" }
   },

@@ -45,7 +45,6 @@
     "subtypes": [ "TOOL" ],
     "copy-from": "fake_crafting_tool",
     "name": { "str": "basecamp clay kiln" },
-    "sub": "brick_kiln",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000, "coal": 10000 } } ],
     "tool_ammo": [ "charcoal", "coal" ]
   },

@@ -178,19 +178,21 @@
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
     "material": [ "fae_cotton" ],
-    "armor": [ { "encumbrance": 5, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ],
+    "variants": [  ]
   },
   {
     "id": "gown_gossamer",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "copy-from": "dress",
+    "copy-from": "gown",
     "name": { "str": "gossamer evening gown" },
     "description": "A full-length gossamer gown, like a waterfall of coruscating light.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
     "material": [ "fae_cotton" ],
-    "armor": [ { "encumbrance": 9, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 9, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ],
+    "variants": [  ]
   },
   {
     "id": "cloak_gossamer",
@@ -346,7 +348,8 @@
         "moves": 80
       }
     ],
-    "armor": [ { "encumbrance": [ 5, 7 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 5, 7 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
+    "variants": [  ]
   },
   {
     "id": "pants_no_pocket_gossamer",
@@ -359,7 +362,8 @@
     "color": "white",
     "material": [ "fae_cotton" ],
     "pocket_data": [  ],
-    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
+    "variants": [  ]
   },
   {
     "id": "skirt_gossamer",
@@ -371,7 +375,8 @@
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
     "material": [ "fae_cotton" ],
-    "pocket_data": [  ]
+    "pocket_data": [  ],
+    "variants": [  ]
   },
   {
     "id": "skirt_long_gossamer",
@@ -413,7 +418,8 @@
         "encumbrance": 3
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 60 }
-    ]
+    ],
+    "variants": [  ]
   },
   {
     "id": "slippers_gossamer",
@@ -471,7 +477,6 @@
     "volume": "3 L",
     "price": "107 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "veggy" ],
     "symbol": "[",
     "looks_like": "cloak",

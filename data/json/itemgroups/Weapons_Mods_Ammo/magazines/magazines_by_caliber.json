@@ -59,7 +59,6 @@
     "//": "Collections of magazines for 10mm guns that are sold in gunstores, such as Glocks.",
     "items": [
       { "group": "magazines_10mm_glock", "prob": 100 },
-      { "item": "40_speedloader6", "prob": 16 },
       { "item": "m1911_10mag", "prob": 3 },
       { "item": "p220_10_mag", "prob": 21 },
       { "item": "witness_mag_10", "prob": 13 },
@@ -74,7 +73,6 @@
     "items": [
       { "item": "glock_29mag", "prob": 39 },
       { "item": "glock_20mag_10", "prob": 61 },
-      { "item": "40_speedloader6", "prob": 16 },
       { "item": "m1911_10mag", "prob": 3 },
       { "item": "p220_10_mag", "prob": 21 },
       { "item": "witness_mag_10", "prob": 13 },
@@ -89,13 +87,13 @@
     "items": [
       { "group": "magazines_22_ar", "prob": 8 },
       { "group": "magazines_22_1022", "prob": 100 },
-      { "group": "magazines_22_cp33", "prob": 5 },
       { "item": "22_speedloader8", "prob": 1 },
       { "item": "mosquitomag", "prob": 20 },
       { "item": "wp22mag", "prob": 23 },
       { "item": "sr22_mag", "prob": 98 },
       { "item": "ruger_mk4_mag", "prob": 39 },
-      { "item": "1911_22_mag", "prob": 26 }
+      { "item": "1911_22_mag", "prob": 26 },
+      { "item": "mp1522_mag", "prob": 45 }
     ]
   },
   {
@@ -106,14 +104,14 @@
     "items": [
       { "item": "22_ar15mag_10", "prob": 8 },
       { "item": "ruger1022mag", "prob": 100 },
-      { "item": "cp33_mag", "prob": 5 },
       { "item": "glock44_mag", "prob": 2 },
       { "item": "22_speedloader8", "prob": 1 },
       { "item": "mosquitomag", "prob": 20 },
       { "item": "wp22mag", "prob": 23 },
       { "item": "sr22_mag", "prob": 98 },
       { "item": "ruger_mk4_mag", "prob": 39 },
-      { "item": "1911_22_mag", "prob": 26 }
+      { "item": "1911_22_mag", "prob": 26 },
+      { "item": "mp1522_mag", "prob": 45 }
     ]
   },
   {
@@ -128,7 +126,7 @@
     "subtype": "distribution",
     "id": "common_magazines_32",
     "//": "Collections of magazines for 32 ACP guns that are sold in gunstores, such as a PPK.",
-    "items": [ { "item": "ppkmag", "prob": 100 }, { "item": "kp32mag", "prob": 68 } ]
+    "items": [ { "item": "ppkmag", "prob": 100 }, { "item": "lws32mag", "prob": 2000 } ]
   },
   {
     "type": "item_group",
@@ -223,8 +221,8 @@
     "//": "Collections of magazines for 5.7mm guns that can be found in gunstores, that are limited to 10 rounds or less.",
     "items": [
       { "item": "ruger_57_10_round_mag", "prob": 100 },
-      { "item": "fn57mag", "prob": 13 },
-      { "item": "fnp90mag", "prob": 115 }
+      { "item": "fn57mag_10rd", "prob": 13 },
+      { "item": "fnp90mag_10rd", "prob": 115 }
     ]
   },
   {
@@ -308,7 +306,6 @@
     "//": "Collections of magazines for 7.62x39 guns that can be found in gunstores.",
     "items": [
       { "group": "magazines_akm", "prob": 100 },
-      { "group": "magazines_bren2762", "prob": 44 },
       { "group": "magazines_ar762", "prob": 19 },
       { "item": "762x39_clip", "prob": 35 }
     ]
@@ -320,7 +317,6 @@
     "//": "Collections of magazines for 7.62x39 guns that can be found in gunstores, that are limited to 10 rounds or less.",
     "items": [
       { "item": "akmag10", "prob": 100 },
-      { "item": "bren2_762mag10", "prob": 44 },
       { "group": "magazines_restricted_ar762", "prob": 19 },
       { "item": "762x39_clip", "prob": 35 }
     ]
@@ -376,13 +372,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "rare_magazines_9mm",
-    "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Calicos, Lugers.",
+    "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Lugers.",
     "items": [
-      { "group": "magazines_9mm_calico", "prob": 1 },
       { "group": "magazines_9mm_luger", "prob": 60 },
       { "group": "magazines_9mm_mp40", "prob": 60 },
       { "group": "magazines_9mm_sten", "prob": 40 },
-      { "group": "magazines_9mm_tec9", "prob": 60 },
       { "group": "magazines_9mm_uzi", "prob": 18 }
     ]
   },

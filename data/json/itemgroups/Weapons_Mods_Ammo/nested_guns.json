@@ -247,19 +247,6 @@
     ]
   },
   {
-    "id": "nested_glock_31",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "glock_31", "charges": [ 0, 15 ] },
-      { "item": "glock40mag" },
-      { "item": "glock40mag", "prob": 50 },
-      { "group": "on_hand_357sig" }
-    ]
-  },
-  {
     "id": "nested_glock_40",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -380,19 +367,6 @@
     ]
   },
   {
-    "id": "nested_cp33",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "cp33", "charges": [ 0, 33 ] },
-      { "item": "cp33_mag" },
-      { "item": "cp33_mag", "prob": 50 },
-      { "group": "on_hand_22" }
-    ]
-  },
-  {
     "id": "nested_ruger_mk4",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -432,33 +406,12 @@
     ]
   },
   {
-    "id": "nested_ruger_charger",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "ruger_charger", "charges": [ 0, 10 ] },
-      { "item": "ruger1022mag" },
-      { "item": "ruger1022mag", "prob": 50 },
-      { "group": "on_hand_22" }
-    ]
-  },
-  {
     "id": "nested_marlin60",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "marlin60", "charges": [ 0, 14 ] }, { "group": "on_hand_22" } ]
-  },
-  {
-    "id": "nested_sw_610",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [ { "item": "sw_610", "charges": [ 0, 6 ] }, { "group": "on_hand_10mm" } ]
   },
   {
     "id": "nested_sw_619",
@@ -576,15 +529,15 @@
     ]
   },
   {
-    "id": "nested_kp32",
+    "id": "nested_lws32",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "kp32", "charges": [ 0, 7 ] },
-      { "item": "kp32mag" },
-      { "item": "kp32mag", "prob": 50 },
+      { "item": "lws32", "charges": [ 0, 6 ] },
+      { "item": "lws32mag" },
+      { "item": "lws32mag", "prob": 50 },
       { "group": "on_hand_32" }
     ]
   },
@@ -1013,71 +966,6 @@
     ]
   },
   {
-    "id": "nested_TDI_10",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "TDI_10", "charges": [ 0, 30 ] },
-      { "item": "tdi_10mm_mag" },
-      { "item": "tdi_10mm_mag", "prob": 50 },
-      { "group": "on_hand_10mm" }
-    ]
-  },
-  {
-    "id": "nested_draco",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "draco", "charges": [ 0, 30 ] },
-      { "item": "akmag30" },
-      { "item": "akmag30", "prob": 50 },
-      { "group": "on_hand_762" }
-    ]
-  },
-  {
-    "id": "nested_draco_mini",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "draco_mini", "charges": [ 0, 30 ] },
-      { "item": "akmag30" },
-      { "item": "akmag30", "prob": 50 },
-      { "group": "on_hand_762" }
-    ]
-  },
-  {
-    "id": "nested_draco_micro",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "draco_micro", "charges": [ 0, 30 ] },
-      { "item": "akmag30" },
-      { "item": "akmag30", "prob": 50 },
-      { "group": "on_hand_762" }
-    ]
-  },
-  {
-    "id": "nested_draco_9mm",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "draco_9mm", "charges": [ 0, 17 ] },
-      { "item": "glockbigmag" },
-      { "item": "glock17_17", "prob": 50 },
-      { "group": "on_hand_9mm" }
-    ]
-  },
-  {
     "id": "nested_m17",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1265,19 +1153,6 @@
     ]
   },
   {
-    "id": "nested_calico",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "calico", "charges": [ 0, 50 ] },
-      { "item": "calicomag" },
-      { "item": "calicomag", "prob": 50 },
-      { "group": "on_hand_9mm" }
-    ]
-  },
-  {
     "id": "nested_fn_p90",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1457,32 +1332,6 @@
       { "item": "mp5mag_10rd" },
       { "item": "mp5mag_10rd", "prob": 50 },
       { "group": "on_hand_9mm" }
-    ]
-  },
-  {
-    "id": "nested_tec9",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "tec9", "charges": [ 0, 30 ] },
-      { "item": "tec9mag" },
-      { "item": "tec9mag", "prob": 50 },
-      { "group": "on_hand_9mm" }
-    ]
-  },
-  {
-    "id": "nested_hk_mp7",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "hk_mp7", "charges": [ 0, 20 ] },
-      { "item": "hk46mag" },
-      { "item": "hk46mag", "prob": 50 },
-      { "group": "on_hand_46" }
     ]
   },
   {
@@ -1679,6 +1528,14 @@
     "entries": [ { "item": "henry_golden_boy", "charges": [ 0, 16 ] }, { "group": "on_hand_22" } ]
   },
   {
+    "id": "nested_rascal",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "savage_rascal", "charges": [ 0, 11 ] }, { "group": "on_hand_22" } ]
+  },
+  {
     "id": "nested_rossi_gallery",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1733,6 +1590,14 @@
     "entries": [ { "item": "remington_700", "charges": [ 0, 4 ] }, { "group": "on_hand_3006" } ]
   },
   {
+    "id": "nested_remington_700_308",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "remington_700_308", "charges": [ 0, 4 ] }, { "group": "on_hand_308" } ]
+  },
+  {
     "id": "nested_ruger_1022",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1746,6 +1611,19 @@
     ]
   },
   {
+    "id": "nested_mp_15_22",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "mp_15_22", "charges": [ 0, 10 ] },
+      { "item": "mp1522_mag" },
+      { "item": "mp1522_mag", "prob": 50 },
+      { "group": "on_hand_22" }
+    ]
+  },
+  {
     "id": "nested_ruger_mini",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1755,6 +1633,19 @@
       { "item": "ruger_mini", "charges": [ 0, 5 ] },
       { "item": "ruger10" },
       { "item": "ruger10", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_mp_15",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "mp_15", "charges": [ 0, 5 ] },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -1979,14 +1870,6 @@
       { "item": "mosin91_30", "variant": "mosin91_30_ebr", "contents-group": "mosin_mods", "prob": 1, "charges": [ 0, 5 ] },
       { "group": "on_hand_762R" }
     ]
-  },
-  {
-    "id": "nested_savage_111f",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [ { "item": "savage_111f", "charges": [ 0, 3 ] }, { "group": "on_hand_308" } ]
   },
   {
     "id": "nested_sharps",
@@ -2289,14 +2172,6 @@
     ]
   },
   {
-    "id": "nested_bfg50",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [ { "item": "bfg50", "charges": [ 0, 1 ] }, { "group": "on_hand_50" } ]
-  },
-  {
     "id": "nested_carbine_flintlock",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -2398,12 +2273,20 @@
     "entries": [ { "item": "mossberg_930", "charges": [ 0, 6 ] }, { "group": "on_hand_shot" } ]
   },
   {
-    "id": "nested_shotgun_410",
+    "id": "nested_mossberg_590_shockwave",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "shotgun_410", "charges": [ 0, 1 ] }, { "group": "on_hand_410shot" } ]
+    "entries": [ { "item": "mossberg_590_shockwave", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
+  },
+  {
+    "id": "nested_mossberg_500_410",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "mossberg_500_410", "charges": [ 0, 5 ] }, { "group": "on_hand_410shot" } ]
   },
   {
     "id": "nested_shotgun_d",
@@ -2591,14 +2474,6 @@
     ]
   },
   {
-    "id": "nested_remington_870_breacher",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [ { "item": "remington_870_breacher", "charges": [ 0, 4 ] }, { "group": "on_hand_shot" } ]
-  },
-  {
     "id": "nested_saiga_12",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -2612,28 +2487,15 @@
     ]
   },
   {
-    "id": "nested_p50",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "p50", "charges": [ 0, 50 ] },
-      { "item": "fnp90mag" },
-      { "item": "fnp90mag", "prob": 50 },
-      { "group": "on_hand_57" }
-    ]
-  },
-  {
     "id": "nested_fn_ps90",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "fn_ps90", "charges": [ 0, 50 ] },
-      { "item": "fnp90mag" },
-      { "item": "fnp90mag", "prob": 50 },
+      { "item": "fn_ps90", "charges": [ 0, 10 ] },
+      { "item": "fnp90mag_10rd" },
+      { "item": "fnp90mag_10rd", "prob": 50 },
       { "group": "on_hand_57" }
     ]
   },
@@ -2683,9 +2545,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "ak556", "charges": [ 0, 30 ] },
-      { "item": "zpap85mag" },
-      { "item": "zpap85mag", "prob": 50 },
+      { "item": "ak556", "charges": [ 0, 10 ] },
+      { "item": "zpap85mag_10rd" },
+      { "item": "zpap85mag_10rd", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -2734,30 +2596,6 @@
       { "item": "ruger_pr_mag" },
       { "item": "ruger_pr_mag", "prob": 50 },
       { "group": "on_hand_300" }
-    ]
-  },
-  {
-    "id": "nested_bren2_762",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "entries": [
-      { "item": "bren2_762", "variant": "bren2_762", "charges": [ 0, 30 ] },
-      { "item": "bren2_762mag30" },
-      { "item": "bren2_762mag30", "prob": 50 },
-      { "group": "on_hand_762" }
-    ]
-  },
-  {
-    "id": "nested_805_bren",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "entries": [
-      { "item": "bren2_762", "variant": "805_bren", "charges": [ 0, 30 ] },
-      { "item": "bren2_762mag30" },
-      { "item": "bren2_762mag30", "prob": 50 },
-      { "group": "on_hand_762" }
     ]
   },
   {
@@ -2839,18 +2677,6 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "ithaca37", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
-  },
-  {
-    "id": "nested_cz600",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "entries": [
-      { "group": "cz600", "charges": [ 0, 10 ] },
-      { "item": "stanag10" },
-      { "item": "stanag10", "prob": 50 },
-      { "group": "on_hand_223" }
-    ]
   },
   {
     "id": "nested_ruger_arr",
@@ -3023,5 +2849,21 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "taurus_judge", "charges": [ 0, 5 ] }, { "group": "on_hand_410shot" } ]
+  },
+  {
+    "id": "nested_winchester_94_3030",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "winchester_94_3030", "charges": [ 0, 8 ] }, { "group": "on_hand_3030" } ]
+  },
+  {
+    "id": "nested_marlin_336_3030",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "marlin_336_3030", "charges": [ 0, 6 ] }, { "group": "on_hand_3030" } ]
   }
 ]

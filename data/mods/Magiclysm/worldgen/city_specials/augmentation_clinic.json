@@ -140,7 +140,7 @@
         "f": { "item": "SUS_office_filing_cabinet", "chance": 90 },
         "F": { "item": "SUS_office_desk", "chance": 90 },
         "£": [ { "item": "bionics_civilian", "chance": 70, "repeat": [ 1, 3 ] }, { "item": "autodoc_supplies", "chance": 20 } ],
-        "d": { "item": "office", "chance": 60 },
+        "d": { "item": "SUS_office_desk", "chance": 60 },
         "l": [
           { "item": "harddrugs", "chance": 30, "repeat": [ 1, 3 ] },
           { "item": "drugs_analgesic", "chance": 50, "repeat": [ 1, 3 ] },
@@ -213,7 +213,7 @@
           { "item": "SUS_office_filing_cabinet", "chance": 80 },
           { "item": "technomancer_items", "chance": 50, "repeat": [ 1, 2 ] }
         ],
-        "ð": [ { "item": "office", "chance": 60 }, { "item": "technomancer_items", "chance": 15 } ],
+        "ð": [ { "item": "SUS_office_desk", "chance": 60 }, { "item": "technomancer_items", "chance": 15 } ],
         "k": [ { "item": "SUS_book", "chance": 50, "repeat": [ 2, 8 ] }, { "item": "technomancer_items", "chance": 15 } ]
       },
       "place_monster": [

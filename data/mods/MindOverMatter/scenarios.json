@@ -29,8 +29,10 @@
       "sloc_house_boarded",
       "sloc_mall_food_court"
     ],
-    "professions": [ "psi_teleporter_slider" ],
+    "professions": [ "psi_teleporter_slider", "psi_fifth_sun_cuauhpilli_special_forces" ],
+    "forbidden_traits": [ "ALWAYS_GAIN_PSIONICS" ],
     "reveal_locale": false,
+    "requirement": "mom_psi_awakening_teleportation",
     "flags": [ "LONE_START" ]
   },
   {
@@ -49,13 +51,7 @@
     "points": 0,
     "description": "You always loved setting fires as a child, sometimes spending hours just watching the flames.  That fire awakened in you during the Cataclysm, powerful and almost uncontrollable.  You can call up flames from thin air, burn zombies to ash with a thought, surround yourself in a blazing inferno, but the fire demands release.  It's like a internal pressure, growing as long as you don't use your powers, until it flows out as the flames rise.  Can you survive in the new world without burning yourself to ash?",
     "start_name": "Away from civilization",
-    "allowed_locs": [
-      "sloc_shelter_vandalized_a",
-      "sloc_shelter_vandalized_b",
-      "sloc_shelter_vandalized_c",
-      "sloc_cabin",
-      "sloc_hermit_shack"
-    ],
+    "allowed_locs": [ "sloc_shelter_vandal", "sloc_cabin", "sloc_hermit_shack" ],
     "whitelist_hobbies": false,
     "hobbies": [
       "knack_flexibility",
@@ -66,7 +62,11 @@
       "knack_electrokinetic_pain_immune",
       "knack_electrokinetic_hacking_interface",
       "knack_photokinetic_camouflage",
+      "knack_photokinetic_hide_ugly",
+      "knack_photokinetic_radio",
       "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_intensify_flames",
+      "knack_pyrokinetic_eruption",
       "knack_pyrokinetic_call_flames",
       "knack_pyrokinetic_cloak",
       "knack_telekinetic_push",
@@ -75,15 +75,19 @@
       "knack_telepathic_shield",
       "knack_telepathic_mind_sense",
       "knack_telepathic_morale",
+      "knack_telepathic_blast",
       "knack_telepathic_mesmerize",
       "knack_telepathic_animal_mind_control",
       "knack_telepathic_invisibility",
+      "knack_telepathic_blast_radius",
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "forced_traits": [ "PSYCHIC_KNACK", "PYROMANIA", "SCEN_HEART_OF_FIRE" ],
+    "requirement": "mom_learn_torrential_channeling",
     "flags": [ "CHALLENGE" ],
     "eoc": [ "EOC_MOM_SCEN_HEART_OF_FIRE_INITIATE" ]
   }

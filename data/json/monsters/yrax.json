@@ -205,6 +205,7 @@
     "dodge": 0,
     "melee_dice": 1,
     "melee_dice_sides": 1,
+    "melee_training_cap": 0,
     "flags": [ "GOODHEARING", "NOHEAD", "NO_BREATHE", "IMMOBILE", "PACIFIST" ],
     "special_attacks": [
       {
@@ -285,6 +286,7 @@
     "material": [ "gold", "steel" ],
     "symbol": "A",
     "aggression": 70,
+    "morale": 100,
     "aggro_character": false,
     "color": "yellow",
     "luminance": 20,
@@ -381,7 +383,7 @@
     "melee_skill": 5,
     "melee_dice": 2,
     "melee_dice_sides": 4,
-    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "death_function": { "corpse_type": "BROKEN" },
     "extend": { "flags": [ "HIT_AND_RUN" ] },

@@ -124,15 +124,18 @@
     "type": "MONSTER",
     "name": { "str": "zombie brute" },
     "description": "This zombie's entire body bulges with distended muscles and swollen, festering wounds.",
+    "species": [ "ZOMBIE" ],
     "copy-from": "mon_zombie_base",
     "diff": 2,
     "hp": 120,
     "speed": 105,
+    "volume": "100 L",
+    "weight": "135 kg",
     "color": "red",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "melee_dice": 3,
     "melee_dice_sides": 8,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "bleed_rate": 50,
     "vision_night": 4,
     "grab_strength": 30,
@@ -144,7 +147,14 @@
       "flags": [ "SMELLS", "PUSH_VEH" ],
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
       "special_attacks": [ { "id": "smash", "throw_strength": 72, "cooldown": 30 } ]
-    }
+    },
+    "delete": { "flags": [ "STUMBLES" ] },
+    "revive_forms": [
+      {
+        "condition": { "map_terrain_with_flag": "FUNGUS", "loc": { "context_val": "loc" } },
+        "monster": "mon_fungal_mound_large"
+      }
+    ]
   },
   {
     "id": "mon_zombie_brute_grappler",
@@ -307,7 +317,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NEMESIS_DIED",
-    "effect": [ { "math": [ "Nemesis_iteration", "+=", "1" ] } ]
+    "effect": [ { "math": [ "Nemesis_iteration += 1" ] } ]
   },
   {
     "id": "mon_zombie_grabber",
@@ -420,7 +430,14 @@
       "flags": [ "SMELLS", "PUSH_VEH", "DESTROYS" ],
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
       "families": [ "prof_wp_hulk" ]
-    }
+    },
+    "delete": { "flags": [ "STUMBLES" ] },
+    "revive_forms": [
+      {
+        "condition": { "map_terrain_with_flag": "FUNGUS", "loc": { "context_val": "loc" } },
+        "monster": "mon_fungal_mound_massive"
+      }
+    ]
   },
   {
     "id": "mon_zombie_hunter",
@@ -474,7 +491,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 2,
     "weakpoints": [
-      { "name": "the inside of the mouth", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the inside of its mouth", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "weakpoint_sets": [  ],
@@ -569,6 +586,42 @@
       "corpse_type": "NO_CORPSE",
       "message": "The %s lets out an unholy screech, and the corpses around it stir."
     }
+  },
+  {
+    "id": "mon_zombie_summoner",
+    "type": "MONSTER",
+    "name": { "str": "zombie summoner", "//~": "Summoner as in 'to request the presence of' not 'to conjure up by magic' " },
+    "description": "This zombie stands straight up and moves with purposeful motions, its gaze sweeping its surrounding as it moves.  As it looks, nearby zombies also turn and look in the same direction for a moment.",
+    "copy-from": "mon_zombie_base",
+    "species": [ "ZOMBIE" ],
+    "diff": 20,
+    "hp": 150,
+    "speed": 95,
+    "color": "black_red",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
+    "aggression": 5,
+    "melee_dice": 3,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "dodge": 3,
+    "bleed_rate": 0,
+    "vision_day": 50,
+    "vision_night": 5,
+    "path_settings": { "max_dist": 10, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "id": "mon_zombie_summoner_summon_hordes",
+        "spell_data": { "id": "mon_zombie_summoner_summon_hordes_spell", "min_level": 1 },
+        "monster_message": "%1$s fixes %3$s with a stare.",
+        "cooldown": 25
+      }
+    ],
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "upgrades": false,
+    "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 3 },
+    "extend": { "flags": [ "SMELLS", "HAS_MIND", "CAN_OPEN_DOORS", "PRIORITIZE_TARGETS", "NO_FUNG_DMG", "PATH_AVOID_DANGER" ] },
+    "delete": { "flags": [ "STUMBLES" ] }
   },
   {
     "id": "mon_zombie_runner",

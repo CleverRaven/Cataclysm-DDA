@@ -46,16 +46,10 @@
     }
   },
   {
-    "id": "spider",
-    "type": "item_group",
-    "copy-from": "spider",
-    "extend": { "items": [ [ "afs_energy_saber_off", 1 ], [ "afs_hydraulic_gauntlet", 1 ], [ "alien_battery", 1 ] ] }
-  },
-  {
     "id": "camping",
     "type": "item_group",
     "copy-from": "camping",
-    "extend": { "items": [ [ "atomic_light", 1 ] ] }
+    "extend": { "items": [ [ "afs_atomic_light", 1 ] ] }
   },
   {
     "id": "drugdealer",
@@ -88,31 +82,31 @@
     "id": "livingroom",
     "type": "item_group",
     "copy-from": "livingroom",
-    "extend": { "items": [ [ "afs_atomic_smartphone", 1 ], [ "atomic_light", 2 ] ] }
+    "extend": { "items": [ [ "afs_atomic_smartphone", 1 ], [ "afs_atomic_light", 2 ] ] }
   },
   {
     "id": "bedroom",
     "type": "item_group",
     "copy-from": "bedroom",
-    "extend": { "items": [ [ "afs_atomic_smartphone", 1 ], [ "atomic_light", 2 ] ] }
+    "extend": { "items": [ [ "afs_atomic_smartphone", 1 ], [ "afs_atomic_light", 2 ] ] }
   },
   {
     "id": "consumer_electronics",
     "type": "item_group",
     "copy-from": "consumer_electronics",
-    "extend": { "items": [ [ "afs_atomic_smartphone", 2 ], [ "afs_imager", 2 ], [ "atomic_light", 4 ], [ "STEED_registry", 1 ] ] }
+    "extend": { "items": [ [ "afs_atomic_smartphone", 2 ], [ "afs_imager", 2 ], [ "afs_atomic_light", 4 ], [ "STEED_registry", 1 ] ] }
   },
   {
     "id": "electronics",
     "type": "item_group",
     "copy-from": "electronics",
-    "extend": { "items": [ [ "afs_atomic_smartphone", 1 ], [ "afs_imager", 2 ], [ "atomic_light", 2 ], [ "STEED_registry", 1 ] ] }
+    "extend": { "items": [ [ "afs_atomic_smartphone", 1 ], [ "afs_imager", 2 ], [ "afs_atomic_light", 2 ], [ "STEED_registry", 1 ] ] }
   },
   {
     "id": "lab_dorm",
     "type": "item_group",
     "copy-from": "lab_dorm",
-    "extend": { "items": [ [ "afs_atomic_smartphone", 5 ], [ "atomic_light", 3 ], [ "STEED_registry", 1 ] ] }
+    "extend": { "items": [ [ "afs_atomic_smartphone", 5 ], [ "afs_atomic_light", 3 ], [ "STEED_registry", 1 ] ] }
   },
   {
     "id": "subway",

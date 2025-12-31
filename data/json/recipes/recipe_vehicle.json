@@ -19,7 +19,7 @@
       [ [ "pipe", 16 ] ],
       [ [ "scrap", 90 ], [ "steel_chunk_any", 30, "LIST" ], [ "steel_lump_any", 10, "LIST" ] ],
       [ [ "chain", 4 ] ],
-      [ [ "spring", 4 ] ],
+      [ [ "spring_medium", 4 ] ],
       [ [ "30gal_drum", 3 ] ],
       [ [ "filter_air", 1 ], [ "filter_air_makeshift", 1 ] ],
       [ [ "well_pump", 2 ] ],
@@ -688,7 +688,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 30 ] ] ]
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nails", 30, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -730,7 +730,7 @@
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "using": [ [ "sewing_standard", 100 ] ],
-    "components": [ [ [ "sheet", 2 ] ], [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "sheet", 2 ] ], [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "nails", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -744,7 +744,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ]
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nails", 10, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -767,7 +767,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "log", 1 ] ],
-      [ [ "nail", 2 ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ], [ "duct_tape", 40 ] ]
+      [ [ "nails", 2, "LIST" ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ], [ "duct_tape", 40 ] ]
     ]
   },
   {
@@ -799,7 +799,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "2x4", 2 ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ], [ [ "towel", 3 ] ] ]
+    "components": [ [ [ "nails", 4, "LIST" ] ], [ [ "2x4", 2 ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ], [ [ "towel", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -814,7 +814,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "DRILL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "nail", 12 ] ], [ [ "2x4", 2 ] ], [ [ "any_wire", 1, "LIST" ] ] ]
+    "components": [ [ [ "nails", 12, "LIST" ] ], [ [ "2x4", 2 ] ], [ [ "any_wire", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -852,7 +852,7 @@
       { "id": "WRENCH", "level": 1 },
       { "id": "SCREW", "level": 1 }
     ],
-    "components": [ [ [ "pipe", 3 ] ], [ [ "motor_tiny", 2 ] ], [ [ "spring", 1 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "pipe", 3 ] ], [ [ "motor_tiny", 2 ] ], [ [ "spring_medium", 1 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -952,7 +952,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "2x4", 5 ] ], [ [ "stick", 2 ] ], [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "2x4", 5 ] ], [ [ "stick", 2 ] ], [ [ "nails", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1082,7 +1082,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nails", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1110,7 +1110,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nails", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1125,7 +1125,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 30 ] ], [ [ "scrap", 5 ] ] ]
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nails", 30, "LIST" ] ], [ [ "scrap", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -1381,39 +1381,6 @@
       { "id": "FABRIC_CUT", "level": 1 }
     ],
     "components": [ [ [ "seatbelt", 5 ] ], [ [ "nuts_bolts", 1 ] ] ]
-  },
-  {
-    "result": "oil_press_electric",
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "reversible": true,
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "time": "90 m",
-    "autolearn": true,
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
-    "skills_required": [ [ "electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 5 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "WRENCH", "level": 1 }
-    ],
-    "components": [
-      [ [ "funnel", 1 ], [ "metal_funnel", 1 ] ],
-      [ [ "frame", 1 ] ],
-      [ [ "sheet_metal", 4 ] ],
-      [ [ "element", 4 ], [ "crude_heating_element", 6 ] ],
-      [ [ "motor_tiny", 1 ] ],
-      [ [ "cable", 10 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "pipe_fittings", 2 ] ],
-      [ [ "pipe", 2 ] ],
-      [ [ "wire_mesh", 1 ], [ "cotton_patchwork", 1 ] ],
-      [ [ "metal_tank_little", 1 ], [ "jerrycan_big", 1 ], [ "jerrycan", 1 ] ]
-    ]
   },
   {
     "type": "recipe",

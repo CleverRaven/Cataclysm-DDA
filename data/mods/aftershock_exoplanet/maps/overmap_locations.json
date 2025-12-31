@@ -7,6 +7,12 @@
   },
   {
     "type": "start_location",
+    "id": "your_ship",
+    "name": "Crashed escape pod",
+    "terrain": [ "afs_shuttlepad_salvors_old_pad" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_escape_pod",
     "name": "Crashed escape pod",
     "terrain": [ "afs_crashed_escape_pod" ]

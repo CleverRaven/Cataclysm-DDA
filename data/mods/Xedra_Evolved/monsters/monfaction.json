@@ -13,7 +13,7 @@
     "base_faction": "zombie",
     "neutral": [ "zombie" ],
     "by_mood": [ "nether", "nightmares" ],
-    "hate": [ "changeling" ]
+    "hate": [ "changeling", "thornbeast", "werewolves" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -28,7 +28,7 @@
     "base_faction": "changeling",
     "neutral": [ "small_animal", "fish" ],
     "by_mood": [ "nether", "nightmares", "ierde", "undine", "sylph", "salamander" ],
-    "hate": [ "zombie", "homullus" ]
+    "hate": [ "zombie", "homullus", "thornbeast" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -73,6 +73,12 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "thornbeast",
+    "by_mood": [ "zombie", "nether", "nightmares" ],
+    "hate": [ "arvore", "vampire" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "fish",
     "copy-from": "fish",
     "extend": { "neutral": [ "changeling", "nightmares", "vampire" ] }
@@ -99,19 +105,28 @@
     "type": "MONSTER_FACTION",
     "name": "zombie",
     "copy-from": "zombie",
-    "extend": { "hate": [ "changeling", "vampire_anathema" ], "neutral": [ "vampire" ] }
+    "extend": { "hate": [ "changeling", "vampire_anathema", "werewolves" ], "neutral": [ "vampire" ] }
   },
   {
     "type": "MONSTER_FACTION",
     "name": "triffid",
     "copy-from": "triffid",
-    "extend": { "hate": [ "changeling" ] }
+    "extend": { "hate": [ "changeling", "werewolves" ] }
   },
   {
     "type": "MONSTER_FACTION",
     "name": "fungus",
     "copy-from": "fungus",
-    "extend": { "hate": [ "changeling" ] }
+    "extend": { "hate": [ "changeling", "werewolves" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nether",
+    "copy-from": "nether",
+    "extend": {
+      "hate": [ "werewolves" ],
+      "by_mood": [ "changeling", "arvore", "ierde", "sylph", "undine", "homullus", "salamander" ]
+    }
   },
   {
     "type": "MONSTER_FACTION",
@@ -129,7 +144,13 @@
     "type": "MONSTER_FACTION",
     "name": "nightmares",
     "base_faction": "nether_hate_humans",
+    "friendly": "nether",
     "neutral": [ "fish", "small_animal", "slime" ],
-    "by_mood": [ "nether", "changeling", "vampire" ]
+    "by_mood": [ "changeling", "vampire" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "werewolves",
+    "hate": [ "zombie", "nether", "triffid", "vampire", "fungus" ]
   }
 ]

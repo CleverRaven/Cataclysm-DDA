@@ -1,5 +1,5 @@
 /***
-Github: https://github.com/ampersand55/CddaTools/
+GitHub: https://github.com/ampersand55/CddaTools/
 Usage: node cddaUpdateJsonVolume.js "c:\Cataclysm-DDA\data\json"
  ***/
 

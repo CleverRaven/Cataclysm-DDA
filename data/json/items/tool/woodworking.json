@@ -115,17 +115,17 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "15",
+              "sound_chance": 15,
               "sound_message": { "i18n": true, "str": "Your chainsaw rumbles." },
-              "volume": "12",
+              "volume": 12,
               "revert_to": "chainsaw_off"
             }
           }
         }
       ]
     },
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 4, "cut": 70 }
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE", "SPAWN_ACTIVE" ],
+    "melee_damage": { "bash": 4, "cut": 18 }
   },
   {
     "id": "polesaw_off",
@@ -147,23 +147,12 @@
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
     "use_action": {
-      "type": "effect_on_conditions",
+      "target": "polesaw_on",
+      "msg": "With a roar, the pole saw screams to life!",
+      "sound_volume": 20,
       "menu_text": "Turn on",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_activate__polesaw",
-          "effect": {
-            "run_eocs": "EOC_toolweapon_activate",
-            "variables": {
-              "turn_cost": "0.8",
-              "transform_target": "polesaw_on",
-              "success_message": { "i18n": true, "str": "With a roar, the pole saw screams to life!" },
-              "volume": "15",
-              "failure_message": { "i18n": true, "str": "You yank the cord, but nothing happens." }
-            }
-          }
-        }
-      ]
+      "moves": 1,
+      "type": "transform"
     },
     "flags": [ "POLEARM", "NONCONDUCTIVE", "FRAGILE_MELEE", "REACH_ATTACK" ],
     "melee_damage": { "bash": 6 },
@@ -182,17 +171,7 @@
     "revert_to": "polesaw_off",
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -100 ] ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "menu_text": "Turn off",
-      "ammo_scale": 0,
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_deactivate__polesaw",
-          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "polesaw_off" } }
-        }
-      ]
-    },
+    "use_action": { "target": "polesaw_off", "msg": "Your %s goes quiet.", "menu_text": "Turn off", "type": "transform" },
     "tick_action": {
       "type": "effect_on_conditions",
       "effect_on_conditions": [
@@ -201,24 +180,24 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "15",
+              "sound_chance": 15,
               "sound_message": { "i18n": true, "str": "Your pole saw rumbles." },
-              "volume": "12",
+              "volume": 12,
               "revert_to": "polesaw_off"
             }
           }
         }
       ]
     },
-    "flags": [ "MESSY", "POLEARM", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE", "REACH_ATTACK" ],
-    "melee_damage": { "bash": 4, "cut": 35 }
+    "flags": [ "MESSY", "POLEARM", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE", "REACH_ATTACK", "SPAWN_ACTIVE" ],
+    "melee_damage": { "bash": 4, "cut": 11 }
   },
   {
     "id": "circsaw_off",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "circular saw (off)", "str_pl": "circular saws (off)" },
-    "description": "A lightweight, handheld cordless circular saw.  Spins a circular blade fast enough to cut wood, zombies, or in an emergency, pizza.  The blade, while effective in combat, is hard to hit with due to its small size.",
+    "description": "A lightweight, handheld cordless circular saw.  Spins a circular blade fast enough to cut wood, or in an emergency, pizza.",
     "weight": "2940 g",
     "volume": "750 ml",
     "longest_side": "44 cm",
@@ -230,23 +209,12 @@
     "color": "yellow",
     "charges_per_use": 1,
     "use_action": {
-      "type": "effect_on_conditions",
+      "target": "circsaw_on",
+      "msg": "With a loud buzz, the %s roars to life!",
+      "sound_volume": 15,
       "menu_text": "Turn on",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_activate__circsaw",
-          "effect": {
-            "run_eocs": "EOC_toolweapon_activate",
-            "variables": {
-              "turn_cost": "0.6",
-              "transform_target": "circsaw_on",
-              "success_message": { "i18n": true, "str": "With a loud buzz, the <npc_name> roars to life!" },
-              "volume": "15",
-              "failure_message": { "i18n": true, "str": "You flip the switch, but nothing happens." }
-            }
-          }
-        }
-      ]
+      "moves": 1,
+      "type": "transform"
     },
     "flags": [ "NONCONDUCTIVE" ],
     "pocket_data": [
@@ -267,17 +235,7 @@
     "power_draw": "1200 W",
     "revert_to": "circsaw_off",
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -40 ] ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "menu_text": "Turn off",
-      "ammo_scale": 0,
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_deactivate__circsaw",
-          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "circsaw_off" } }
-        }
-      ]
-    },
+    "use_action": { "target": "circsaw_off", "msg": "Your %s goes quiet.", "menu_text": "Turn off", "type": "transform" },
     "tick_action": {
       "type": "effect_on_conditions",
       "effect_on_conditions": [
@@ -286,17 +244,17 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "15",
+              "sound_chance": 15,
               "sound_message": { "i18n": true, "str": "Your circular saw buzzes." },
-              "volume": "7",
+              "volume": 7,
               "revert_to": "circsaw_off"
             }
           }
         }
       ]
     },
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 2, "cut": 50 }
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "SPAWN_ACTIVE" ],
+    "melee_damage": { "bash": 2, "cut": 10 }
   },
   {
     "id": "copper_ax",
@@ -406,10 +364,10 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_activate",
             "variables": {
-              "turn_cost": "0.6",
+              "turn_cost": 0.6,
               "transform_target": "elec_chainsaw_on",
               "success_message": { "i18n": true, "str": "With a roar, the electric chainsaw screams to life!" },
-              "volume": "20",
+              "volume": 20,
               "failure_message": { "i18n": true, "str": "You flip the switch, but nothing happens." }
             }
           },
@@ -436,17 +394,7 @@
     "charges_per_use": 0,
     "revert_to": "elec_chainsaw_off",
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "menu_text": "Turn off",
-      "ammo_scale": 0,
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_deactivate__elec_chainsaw",
-          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_off" } }
-        }
-      ]
-    },
+    "use_action": { "target": "elec_chainsaw_off", "msg": "Your %s goes quiet.", "menu_text": "Turn off", "type": "transform" },
     "tick_action": {
       "type": "effect_on_conditions",
       "effect_on_conditions": [
@@ -455,17 +403,17 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "5",
+              "sound_chance": 5,
               "sound_message": { "i18n": true, "str": "Your electric chainsaw rumbles." },
-              "volume": "12",
+              "volume": 12,
               "revert_to": "elec_chainsaw_off"
             }
           }
         }
       ]
     },
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 4, "cut": 70 }
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE", "SPAWN_ACTIVE" ],
+    "melee_damage": { "bash": 4, "cut": 16 }
   },
   {
     "id": "elec_chainsaw_cord_off",
@@ -487,10 +435,10 @@
             "effect": {
               "run_eocs": "EOC_toolweapon_activate",
               "variables": {
-                "turn_cost": "0.6",
+                "turn_cost": 0.6,
                 "transform_target": "elec_chainsaw_cord_on",
                 "success_message": { "i18n": true, "str": "With a roar, the corded electric chainsaw screams to life!" },
-                "volume": "20",
+                "volume": 20,
                 "failure_message": { "i18n": true, "str": "You flip the switch, but nothing happens." }
               }
             },
@@ -510,17 +458,7 @@
     "subtypes": [ "TOOL" ],
     "name": { "str": "corded electric chainsaw (on)", "str_pl": "corded electric chainsaws (on)" },
     "use_action": [
-      {
-        "type": "effect_on_conditions",
-        "menu_text": "Turn off",
-        "ammo_scale": 0,
-        "effect_on_conditions": [
-          {
-            "id": "EOC_toolweapon_deactivate__elec_chainsaw_cord",
-            "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_cord_off" } }
-          }
-        ]
-      },
+      { "target": "elec_chainsaw_cord_off", "msg": "Your %s goes quiet.", "menu_text": "Turn off", "type": "transform" },
       { "type": "link_up", "cable_length": 4, "charge_rate": "2400 W" }
     ],
     "tick_action": {
@@ -531,9 +469,9 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "5",
+              "sound_chance": 5,
               "sound_message": { "i18n": true, "str": "Your corded electric chainsaw rumbles." },
-              "volume": "12",
+              "volume": 12,
               "revert_to": "elec_chainsaw_cord_off"
             }
           }
@@ -542,7 +480,7 @@
     },
     "power_draw": "2 kW",
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE", "SPAWN_ACTIVE" ],
     "pocket_data": [  ],
     "revert_to": "elec_chainsaw_cord_off"
   },

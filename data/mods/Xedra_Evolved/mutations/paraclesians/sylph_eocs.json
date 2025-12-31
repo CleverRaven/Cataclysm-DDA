@@ -34,7 +34,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_melee_attacks_monster",
     "condition": { "u_has_trait": "SYLPH_LIGHTNING_MELEE_ATTACKS_ACTIVE" },
-    "effect": [ { "math": [ "u_val('mana')", "-=", "3" ] } ]
+    "effect": [ { "math": [ "u_val('mana') -= 3" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -42,7 +42,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_melee_attacks_character",
     "condition": { "u_has_trait": "SYLPH_LIGHTNING_MELEE_ATTACKS_ACTIVE" },
-    "effect": [ { "math": [ "u_val('mana')", "-=", "3" ] } ]
+    "effect": [ { "math": [ "u_val('mana') -= 3" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -60,7 +60,7 @@
           "EOC_SYLPH_JUMP_HIGH_SELECTOR_TWO",
           "EOC_SYLPH_JUMP_HIGH_SELECTOR_FOUR",
           "EOC_SYLPH_JUMP_HIGH_SELECTOR_SIX",
-          "EOC_NULL"
+          "EOC_NONE"
         ],
         "names": [ "Leap two stories up", "Leap four stories up", "Leap six stories up", "Cancel" ],
         "keys": [ "1", "2", "3", "4" ],
@@ -109,7 +109,7 @@
     "id": "EOC_SYLPH_FLY_AT_WILL",
     "condition": { "math": [ "u_val('mana') >= 3" ] },
     "effect": [
-      { "math": [ "u_val('mana')", "-=", "3" ] },
+      { "math": [ "u_val('mana') -= 3" ] },
       { "u_add_effect": "effect_sylph_levitation", "duration": "2 s" },
       { "u_add_effect": "effect_sylph_climb_flying", "duration": "2 s" }
     ],
@@ -132,7 +132,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SYLPH_CLOUD_FORM_PER_TURN",
     "condition": { "math": [ "u_val('mana') >= 10" ] },
-    "effect": [ { "math": [ "u_val('mana')", "-=", "10" ] } ],
+    "effect": [ { "math": [ "u_val('mana') -= 10" ] } ],
     "false_effect": [
       { "u_message": "You do not have enough mana to maintain your cloud body!", "type": "bad" },
       { "u_lose_effect": [ "incorporeal", "effect_sylph_cloud_body" ] }

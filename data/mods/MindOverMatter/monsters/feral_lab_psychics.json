@@ -147,5 +147,24 @@
     "default_faction": "science",
     "description": "A feral security guard with a military-style uniform, bearing the XEDRA logo and some kind of rank insignia.  Their movements are precise, controlled, and inhumanly smooth, and while their eyes are still bloodshot, they have a spark lacking in most ferals you've seen.",
     "death_drops": "feral_security_captain_death_drops_psychic"
+  },
+  {
+    "id": "mon_mutant_biokinetic_alpha",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_bio2",
+    "looks_like": "mon_mutant_alpha",
+    "name": "project EMERALD VANGUARD participant",
+    "description": "An experimental subject wearing a surprisingly clean orange jumpsuit.  They look unchanged at a distance, but as you approach their head spins towards you with unnatural speed.  Their face is disconcertingly beautiful, but their eyes shine with an intelligence far beyond human - and a deep disgust directed at you.",
+    "hp": 120,
+    "aggression": 40,
+    "morale": 40,
+    "aggro_character": false,
+    "regen_morale": true,
+    "harvest": "mutant_human",
+    "dissect": "dissect_alpha_sample_large",
+    "death_drops": "mon_mutant_biokinetic_alpha_death_drops",
+    "tracking_distance": 4,
+    "regenerates": 1,
+    "extend": { "special_attacks": [ { "id": "feral_weapon_pipe" } ] }
   }
 ]

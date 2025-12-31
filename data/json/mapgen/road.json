@@ -513,7 +513,7 @@
       "items": {
         "t": { "item": "fast_food", "chance": 33, "repeat": [ 0, 2 ] },
         "x": { "item": "SUS_trash_floor", "chance": 50, "repeat": [ 0, 5 ] },
-        "X": { "item": "SUS_trash_trashcan_public", "chance": 50, "repeat": [ 0, 5 ] }
+        "X": { "item": "SUS_trash_trashcan_public", "chance": 50 }
       },
       "place_nested": [
         { "chunks": [ [ "24x24_road_curved_layby_vehicles", 1 ], [ "null", 3 ] ], "x": 0, "y": 0 },

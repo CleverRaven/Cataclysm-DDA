@@ -95,7 +95,7 @@
         "   -r'''''''''''''r-    ",
         "   -OO''''''''O''''-    ",
         "   -OO'''''''OOOO''-    ",
-        "   -OOO'''''OOOOOO'-    ",
+        "   -OOO''Ł''OOOOOO'-    ",
         "   -----------------    ",
         "                        ",
         "                        ",
@@ -115,7 +115,7 @@
       "fill_ter": "t_thconc_floor",
       "rows": [
         "││││││││││││││││││││││││  ##w######ffff#####w#ffffffffffffffffffffffffff││││││││││││││││││││││││",
-        "││││││││││││││││││││││││  #'''xXXX|ssss|x'''q#                         f││││││││││││││││││││││││",
+        "││││││││││││││││││││││││  #'Ł'xXXX|ssss|x'''q#                         f││││││││││││││││││││││││",
         "││││││││││││││││││││││││  w'''xXXX|s66s|x'''qw                         f││││││││││││││││││││││││",
         "││││││││││││││││││││││││  #N''''''|s66s|x'''qw     ssssssssssssssssss  f││││││││││││││││││││││││",
         "││││││││││││││││││││││││  #N''qNNN|ssss=''''q#     ssssssssssssssssss  f││││││││││││││││││││││││",
@@ -293,6 +293,7 @@
       ".": "t_floor",
       "'": "t_thconc_floor",
       "l": "t_thconc_floor",
+      "Ł": "t_thconc_floor",
       "i": "t_linoleum_white",
       "S": "t_linoleum_white",
       "T": "t_linoleum_white",
@@ -339,7 +340,7 @@
       "o": { "item": "SUS_oven", "chance": 70 },
       "y": { "item": "SUS_janitors_closet", "chance": 100 },
       "Y": { "item": "unisex_coat_rack", "chance": 33, "repeat": [ 1, 4 ] },
-      "a": { "item": "SUS_trash_trashcan_public", "chance": 70, "repeat": [ 2, 5 ] },
+      "a": { "item": "SUS_trash_trashcan_public", "chance": 70 },
       "t": { "item": "dining", "chance": 40, "repeat": [ 1, 2 ] },
       "F": { "item": "SUS_office_filing_cabinet", "chance": 50 },
       "l": { "item": "clothing_work_set", "chance": 70 },
@@ -355,7 +356,8 @@
     "vendingmachines": { "8": { "item_group": "vending_drink", "lootable": true }, "9": { "item_group": "vending_food", "lootable": true } },
     "vehicles": {
       "Á": { "vehicle": "parkinglotbasic", "chance": 33, "rotation": 270 },
-      "É": { "vehicle": "parkinglotbasic", "chance": 33, "rotation": 90 }
+      "É": { "vehicle": "parkinglotbasic", "chance": 33, "rotation": 90 },
+      "Ł": { "vehicle": "hand_truck", "chance": 75 }
     },
     "toilets": { "T": {  } }
   }

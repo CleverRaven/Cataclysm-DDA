@@ -101,7 +101,7 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
 
 // Attitude is how we feel about the player, what we do around them
 enum npc_attitude : int {
-    NPCATT_NULL = 0, // Don't care/ignoring player The places this is assigned is on shelter NPC generation, and when you order a NPC to stay in a location, and after talking to a NPC that wanted to talk to you.
+    NPCATT_NULL = 0, // Don't care/ignoring player The places this is assigned is on shelter NPC generation, and when you order an NPC to stay in a location, and after talking to an NPC that wanted to talk to you.
     NPCATT_TALK,  // Move to and talk to player
     NPCATT_LEGACY_1,
     NPCATT_FOLLOW,  // Follow the player
@@ -176,7 +176,7 @@ enum npc_mission : int {
     NPC_MISSION_LEGACY_3,
 
     NPC_MISSION_GUARD_ALLY, // Assigns an allied NPC to guard a position
-    NPC_MISSION_GUARD, // Assigns an non-allied NPC to remain in place
+    NPC_MISSION_GUARD, // Assigns a non-allied NPC to remain in place
     NPC_MISSION_GUARD_PATROL, // Assigns a non-allied NPC to guard and investigate
     NPC_MISSION_ACTIVITY, // Perform a player_activity until it is complete
     NPC_MISSION_TRAVELLING
@@ -567,6 +567,7 @@ struct npc_short_term_cache {
 struct npc_combat_memory_cache {
     float assess_ally = 0.0f;
     float assess_enemy = 0.0f;
+    float my_defence_assess = 0.0f;
     int panic = 0;
     int swarm_count = 0; //so you can tell if you're getting away over multiple turns
     int failing_to_reposition = 0; // Inc. when tries to flee/move and doesn't change assess
@@ -574,6 +575,7 @@ struct npc_combat_memory_cache {
     int assessment_before_repos = 0; // assessment of enemy threat level at the start of repos
     float my_health = 1.0f; // saved when we evaluate_self.  Health 1.0 means 100% unhurt.
     bool repositioning = false; // is NPC running away or just moving around / kiting.
+    int turns_next_to_leader = 0;
     int formation_distance = -1; // dist to nearest ally with a gun, or to player
     int engagement_distance = 6; // applies to melee NPCs in formation with ranged ones or the player.
 };
@@ -916,7 +918,6 @@ class npc : public Character
         bool is_guarding() const;
         // Has a guard patrol mission
         bool is_patrolling() const;
-        bool within_boundaries_of_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
         bool is_travelling() const;
@@ -936,6 +937,7 @@ class npc : public Character
 
         // Re-roll the inventory of a shopkeeper
         void shop_restock();
+        time_point restock_time() const;
         std::string get_restock_interval() const;
         bool is_shopkeeper() const;
         // Use and assessment of items
@@ -1015,7 +1017,7 @@ class npc : public Character
         bool is_dead() const;
         void prevent_death() override;
         // How well we smash terrain (not corpses!)
-        int smash_ability() const override;
+        std::map<damage_type_id, int> smash_ability() const override;
 
         /*
          *  CBM management functions
@@ -1129,8 +1131,6 @@ class npc : public Character
         int evaluate_sleep_spot( tripoint_bub_ms p );
         // Returns true if did something and we should end turn
         bool scan_new_items();
-        // Returns score for how well this weapon might kill things
-        double evaluate_weapon( item &maybe_weapon, bool can_use_gun, bool use_silent ) const;
         // Returns best weapon. Can return null (fists)
         item *evaluate_best_weapon() const;
         // Returns true if did wield it
@@ -1288,7 +1288,7 @@ class npc : public Character
         float speed_rating() const override;
         /**
          * Note: this places NPC on a given position in CURRENT MAP coordinates.
-         * Do not use when placing a NPC in mapgen.
+         * Do not use when placing an NPC in mapgen.
          */
         void travel_overmap( const tripoint_abs_omt &pos );
         npc_attitude get_attitude() const override;
@@ -1351,7 +1351,7 @@ class npc : public Character
         tripoint_bub_ms wanted_item_pos; // The square containing an item we want
         // These are the coordinates that a guard will return to inside of their goal tripoint
         std::optional<tripoint_abs_ms> guard_pos;
-        // This is the spot the NPC wants to move to to sit and relax.
+        // This is the spot the NPC wants to move to sit and relax.
         std::optional<tripoint_abs_ms> chair_pos;
         std::optional<tripoint_abs_omt> base_location; // our faction base location in OMT coords.
         /**
@@ -1506,6 +1506,8 @@ class npc_template
         static void load( const JsonObject &jsobj, std::string_view src );
         static void reset();
         static void check_consistency();
+
+        static std::map<npc_template_id, npc_template> &get_npc_templates();
 };
 
 std::ostream &operator<< ( std::ostream &os, const npc_need &need );

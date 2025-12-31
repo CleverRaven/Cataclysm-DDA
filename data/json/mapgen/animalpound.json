@@ -133,7 +133,7 @@
         { "item": "animalshelter_utility", "x": 15, "y": 13, "chance": 35, "repeat": [ 2, 5 ] },
         { "item": "cubical_office", "x": 3, "y": 4, "chance": 25, "repeat": [ 1, 2 ] },
         { "item": "cubical_office", "x": 3, "y": 5, "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "office", "x": 7, "y": 4, "chance": 25, "repeat": [ 1, 2 ] },
+        { "item": "SUS_office_desk", "x": 7, "y": 4, "chance": 25, "repeat": [ 1, 2 ] },
         { "item": "doctors_books", "x": 3, "y": 4, "chance": 15, "repeat": [ 1, 2 ] },
         { "item": "doctors_books", "x": 15, "y": 13, "chance": 15, "repeat": [ 1, 2 ] }
       ],

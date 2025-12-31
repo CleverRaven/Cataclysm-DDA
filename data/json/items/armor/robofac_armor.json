@@ -24,8 +24,7 @@
         "description": "Watertight internal reservoir.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
-        "//": "more cylindrical",
-        "max_item_length": "200 mm",
+        "max_item_volume": "32 ml",
         "watertight": true,
         "spoil_multiplier": 0.8,
         "max_contains_weight": "4 kg",
@@ -35,8 +34,7 @@
         "description": "Watertight internal reservoir.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
-        "//": "more cylindrical",
-        "max_item_length": "200 mm",
+        "max_item_volume": "32 ml",
         "watertight": true,
         "spoil_multiplier": 0.8,
         "max_contains_weight": "4 kg",
@@ -93,8 +91,7 @@
           "robofac_gun_shotgun",
           "robofac_gun_shotgun_breach",
           "robofac_gun_exodii",
-          "robofac_gun_57",
-          "robofac_gun_46"
+          "robofac_gun_57"
         ]
       }
     ],
@@ -131,6 +128,7 @@
         "description": "Watertight internal reservoir.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
+        "max_item_volume": "32 ml",
         "watertight": true,
         "spoil_multiplier": 0.8,
         "max_contains_weight": "4 kg",
@@ -140,6 +138,7 @@
         "description": "Watertight internal reservoir.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
+        "max_item_volume": "32 ml",
         "watertight": true,
         "spoil_multiplier": 0.8,
         "max_contains_weight": "4 kg",
@@ -196,8 +195,7 @@
           "robofac_gun_shotgun",
           "robofac_gun_shotgun_breach",
           "robofac_gun_exodii",
-          "robofac_gun_57",
-          "robofac_gun_46"
+          "robofac_gun_57"
         ]
       },
       {
@@ -212,7 +210,6 @@
       "menu_text": "Turn on anchor",
       "msg": "You activate the anchor, and the Hub 01 logo on your front begins to glow white.",
       "target": "robofac_armor_anchor_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "It seems like this device needs power."
     },
@@ -270,7 +267,18 @@
       "msg": "The Hub logo on your front stops glowing.",
       "target": "robofac_armor_anchor"
     },
-    "flags": [ "DIMENSIONAL_ANCHOR", "PORTAL_PROOF", "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "RAINPROOF", "HOOD", "SOFT" ]
+    "flags": [
+      "DIMENSIONAL_ANCHOR",
+      "PORTAL_PROOF",
+      "STURDY",
+      "OUTER",
+      "WATERPROOF",
+      "VARSIZE",
+      "RAINPROOF",
+      "HOOD",
+      "SOFT",
+      "SPAWN_ACTIVE"
+    ]
   },
   {
     "id": "robofac_head_rig",
@@ -295,7 +303,6 @@
       "type": "transform",
       "msg": "You lower the visor and flick the control dial to light amplification mode.",
       "target": "robofac_head_rig_nv",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The visor's batteries are dead."
     },
@@ -330,7 +337,7 @@
     "copy-from": "robofac_head_rig",
     "name": { "str_sp": "Hub 01 modular recon headgear (NV+IR)" },
     "description": "Heavy duty hooded headwear for the true frontier explorer.  The visor has been lowered over the eyes, and is drawing low power to provide light amplification by way of an infrared illuminator and detector.  Lets you see in the dark, and detects heat signatures emitted by (un)living organisms.  Activate again to turn off and stow the visor.",
-    "extend": { "flags": [ "GNV_EFFECT" ] },
+    "extend": { "flags": [ "GNV_EFFECT", "SPAWN_ACTIVE" ] },
     "power_draw": "320 mW",
     "use_action": {
       "ammo_scale": 0,
@@ -557,7 +564,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "pair of abstract armored vambraces", "str_pl": "pairs of abstract armored vambraces", "//~": "NO_I18N" },
+    "name": { "str_sp": "abstract armored vambraces (pair)" },
     "looks_like": "armguard_hard",
     "weight": "845 g",
     "volume": "4000 ml",
@@ -585,7 +592,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "pair of abstract armored greaves", "str_pl": "pairs of abstract armored greaves", "//~": "NO_I18N" },
+    "name": { "str_sp": "abstract armored greaves (pair)" },
     "looks_like": "legguard_hard",
     "weight": "1295 g",
     "volume": "5000 ml",
@@ -759,7 +766,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
-    "name": { "str": "pair of Hub 01 prototype vambraces", "str_pl": "pairs of Hub 01 prototype vambraces" },
+    "name": { "str_sp": "Hub 01 prototype vambraces (pair)" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  The end of each sheet features a clip and drawstring, to fit the armor to any size.  Despite the rough finish, it fits securely, and feels quite comfortable.",
     "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ]
   },
@@ -769,7 +776,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
-    "name": { "str": "pair of Hub 01 kinetic vambraces", "str_pl": "pairs of Hub 01 kinetic vambraces" },
+    "name": { "str_sp": "Hub 01 kinetic vambraces (pair)" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  These ones are built in an overlapping pattern that diffuses impacts and provides excellent protection from blunt trauma.",
     "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "rubber", "portion": 4 } ],
     "proportional": { "weight": 1.576 }
@@ -780,7 +787,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
-    "name": { "str": "pair of Hub 01 turnout vambraces", "str_pl": "pairs of Hub 01 turnout vambraces" },
+    "name": { "str_sp": "Hub 01 turnout vambraces (pair)" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  These ones include Nomex sleeves to protect your arms from extreme heat.",
     "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "nomex", "portion": 4 } ],
     "proportional": { "weight": 1.365 }
@@ -791,7 +798,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
-    "name": { "str": "pair of Hub 01 ballistic vambraces", "str_pl": "pairs of Hub 01 ballistic vambraces" },
+    "name": { "str_sp": "Hub 01 ballistic vambraces (pair)" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  These ones include aramid arm sleeves that do a great job of slowing down bullets and preventing them from shredding your arms.",
     "material": [
       { "type": "plastic", "portion": 2 },
@@ -806,7 +813,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
-    "name": { "str": "pair of Hub 01 soldier vambraces", "str_pl": "pairs of Hub 01 soldier vambraces" },
+    "name": { "str_sp": "Hub 01 soldier vambraces (pair)" },
     "description": "3D printed arm guards, sporting a professional finish and stellar ergonomics.  With thick bullet-resistant arm sleeves, flexible but extremely tough thermoplastic plates, and special attention given to areas reflexively used to protect the face from attacks, it provides first-rate protection against all the horrors that the apocalypse has brought to bear.",
     "material": [
       { "type": "thermo_resin", "portion": 2 },
@@ -822,7 +829,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
-    "name": { "str": "pair of Hub 01 prototype greaves", "str_pl": "pairs of Hub 01 prototype greaves" },
+    "name": { "str_sp": "Hub 01 prototype greaves (pair)" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Two straps on each plate can be tightened or loosened to fit different leg sizes.  Despite the rough finish, it doesn't impede your movement, and fits comfortably against your body.",
     "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ]
   },
@@ -832,7 +839,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
-    "name": { "str": "pair of Hub 01 kinetic greaves", "str_pl": "pairs of Hub 01 kinetic greaves" },
+    "name": { "str_sp": "Hub 01 kinetic greaves (pair)" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Thick padding and rubber lining provide excellent protection from blunt trauma.",
     "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "rubber", "portion": 4 } ],
     "proportional": { "weight": 1.576 }
@@ -843,7 +850,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
-    "name": { "str": "pair of Hub 01 turnout greaves", "str_pl": "pairs of Hub 01 turnout greaves" },
+    "name": { "str_sp": "Hub 01 turnout greaves (pair)" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Heat-resistant leg sleeves and a breathable design provide adequate protection from extreme heat without sacrificing your mobility or core protection.",
     "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "nomex", "portion": 4 } ],
     "proportional": { "weight": 1.365 }
@@ -854,7 +861,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
-    "name": { "str": "pair of Hub 01 ballistic greaves", "str_pl": "pairs of Hub 01 ballistic greaves" },
+    "name": { "str_sp": "Hub 01 ballistic greaves (pair)" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  This model features leggings made of durable aramid and a reinforced plate design; combined, they do a good job of mitigating damage from small-arms fire.",
     "material": [
       { "type": "plastic", "portion": 2 },
@@ -869,7 +876,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
-    "name": { "str": "pair of Hub 01 soldier greaves", "str_pl": "pairs of Hub 01 soldier greaves" },
+    "name": { "str_sp": "Hub 01 soldier greaves (pair)" },
     "description": "3D printed leg guards, sporting a professional finish and stellar ergonomics.  Layered UHMW thermoplastic plates and bullet-resistant aramid padding combine to keep your lower leg bones protected and unbroken, even when knee-deep in the dead.",
     "material": [
       { "type": "thermo_resin", "portion": 2 },
@@ -941,5 +948,89 @@
     ],
     "extend": { "flags": [ "STURDY" ] },
     "proportional": { "weight": 1.5 }
+  },
+  {
+    "id": "hub_meteorology_pack",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Hub 01 hazardous meteorology pack" },
+    "description": "A 3D printed pack frame for the true frontier explorer.  While this resembles a standard military or hiking pack frame, this one appears to be made entirely of lightweight plastics and artificial fabrics.  This cumbersome contraption eschews the modular nature of standard frame packs in favor of ergonomic, pre-fabricated attachment points.  The back of the frame is a thin, solid piece with a slot labeled \"SOLAR PANEL\".  The base of the frame has two custom-fit slots labeled \"UPS\" and \"WORKSTATION\".  Hanging from the bottom are two wide loops labeled \"TENT\" and \"ROLLMAT\".  The frame itself has several large clips, each labeled with \"HEW SYSTEM\" in small text.  The pack is secured by shoulder straps - the left shoulder strap proudly displays the Hub 01 logo, while the right strap has \"HE\" sewn in bright white letters.",
+    "weight": "1200 g",
+    "volume": "4500 ml",
+    "longest_side": "70 cm",
+    "price": "400 USD",
+    "price_postapoc": "30 USD",
+    "material": [ { "type": "thermo_resin", "portion": 2 }, { "type": "plastic", "portion": 2 }, { "type": "nylon", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "folding_solar_panel" ],
+        "moves": 300,
+        "max_contains_volume": "7500 ml",
+        "max_contains_weight": "5800 g",
+        "max_item_length": "54 cm",
+        "description": "Secured in a slot labeled \"SOLAR PANEL.\""
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "mobile_weather_station", "xedra_mobile_weather_station", "robofac_mobile_weather_station" ],
+        "max_contains_volume": "90000 ml",
+        "max_contains_weight": "6300 g",
+        "max_item_length": "61 cm",
+        "moves": 300,
+        "description": "Attached to points labeled \"HEW SYSTEM.\""
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "laptop" ],
+        "max_contains_volume": "710 ml",
+        "max_contains_weight": "1330 g",
+        "max_item_length": "323 mm",
+        "moves": 300,
+        "description": "Secured in a slot labeled \"WORKSTATION.\""
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "UPS_off", "UPS_OFF", "UPS_ON" ],
+        "max_contains_volume": "3100 ml",
+        "max_contains_weight": "1400 g",
+        "max_item_length": "15 cm",
+        "moves": 300,
+        "description": "Secured in a slot labeled \"UPS.\""
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "tent_kit" ],
+        "moves": 300,
+        "max_contains_volume": "2600 ml",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "91 cm",
+        "extra_encumbrance": 1,
+        "description": "Secured under compression straps labeled \"TENT.\"",
+        "ripoff": 5,
+        "transparent": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "rollmat" ],
+        "moves": 300,
+        "max_contains_volume": "1100 ml",
+        "max_contains_weight": "300 g",
+        "max_item_length": "11 cm",
+        "extra_encumbrance": 1,
+        "description": "Secured under compression straps labeled \"ROLLMAT.\"",
+        "ripoff": 5,
+        "transparent": true
+      }
+    ],
+    "warmth": 8,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "WATERPROOF" ],
+    "armor": [
+      { "encumbrance": [ 10, 30 ], "coverage": 95, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
   }
 ]

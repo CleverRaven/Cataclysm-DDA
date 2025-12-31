@@ -735,7 +735,15 @@
     "material": [ "steel", "ceramic" ],
     "symbol": ",",
     "color": "cyan",
-    "use_action": { "type": "effect_on_conditions", "menu_text": "Activate", "effect_on_conditions": [ "yrax_trifacet_activation" ] },
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_yrax_trifacet",
+      "difficulty": -1,
+      "hostile_msg": "The hostile trifacet violently unfolds just clear of your hand!",
+      "place_randomly": true,
+      "moves": 1,
+      "is_pet": false
+    },
     "flags": [ "SINGLE_USE" ]
   },
   {
@@ -752,7 +760,15 @@
     "volume": "119 L",
     "weight": "221 kg",
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "SINGLE_USE" ],
-    "use_action": { "type": "effect_on_conditions", "menu_text": "Activate", "effect_on_conditions": [ "yrax_triakis_activation" ] }
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_yrax_triakis",
+      "difficulty": -1,
+      "hostile_msg": "The hostile triakis violently unfolds just clear of your hand!",
+      "place_randomly": true,
+      "moves": 1,
+      "is_pet": false
+    }
   },
   {
     "id": "bot_golden_monolith",
@@ -770,9 +786,13 @@
     "color": "yellow",
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "SINGLE_USE" ],
     "use_action": {
-      "type": "effect_on_conditions",
-      "menu_text": "Activate",
-      "effect_on_conditions": [ "yrax_golden_monolith_activation" ]
+      "type": "place_monster",
+      "monster_id": "mon_golden_monolith",
+      "difficulty": -1,
+      "hostile_msg": "You notice a brief lull in the ambient noise around you, but its otherwise impossible to know if you allowed something to happen.",
+      "place_randomly": true,
+      "moves": 1,
+      "is_pet": false
     }
   },
   {
@@ -795,7 +815,15 @@
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "ALLOWS_BODY_BLOCK", "SHEATH_KNIFE", "SINGLE_USE" ],
-    "use_action": { "type": "effect_on_conditions", "menu_text": "Activate", "effect_on_conditions": [ "yrax_delta_activation" ] }
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_yrax_delta",
+      "difficulty": -1,
+      "hostile_msg": "The hostile delta starts flying just as you release it!",
+      "place_randomly": true,
+      "moves": 1,
+      "is_pet": false
+    }
   },
   {
     "id": "bot_lab_security_drone_GR",

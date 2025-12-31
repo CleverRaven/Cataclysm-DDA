@@ -150,6 +150,24 @@ Savescumming is not a normal part of the game, and there is no intention of ever
 
 ### Player abilities
 
+#### Stat training after game start: Yes, but quite limited
+
+If we allowed every stat to be increased during gameplay by doing [arbitrary timed activity] then a large portion of players would be convinced that they MUST do that on every character. Instead of just... starting with a reasonable amount of stat. And then they optimize fun out of the game, for themselves.
+
+We really do not want to encourage people picking lower starting stats with the idea that they will endlessly grind all of their characters up to some arbitrary cap. There is nothing exciting or interesting about pressing the exercise button and watching the bar spin.
+
+The absolute \#1 concern here is making sure that any implementation is not some hellish grind that looks even remotely attractive. Currently the game assumes you are starting in near-peak physical condition. It specifically and purposefully avoids this meaningless grind by simply letting you have the stats in the first place.
+
+Strength: Maybe +1 above starting stat. **Would decay and require upkeep.** The upkeep must be automated in some way. Not everyone can become a 14-strength olympic weightlifter no matter how much time or effort they put into the task.
+
+Dexterity: Again, probably +1 above starting stat with decay.
+
+Perception: No real way to train this
+
+Intelligence: Absolutely no way to train this.
+
+Note that decay would be able to take the character below their starting stat as well. Hence, there greatly needs to be some form of automation so it does not require significant player input.
+
 #### Dying and coming back as an NPC from your faction: Yes, with caveats
 
 The technical implementation for this was added to the game between the release of 0.F "Frank" and 0.G "Gaiman". As of this writing, swapping to any follower is freely available on death of the player character. There are also vanilla options to swap the player character on a cooldown.

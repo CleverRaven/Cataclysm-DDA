@@ -82,10 +82,10 @@
         "N": { "item": "hospital_lab", "chance": 40 },
         "d": { "item": "dissection", "chance": 30 },
         "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
-        "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
+        "v": { "item": "SUS_office_desk", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
           { "item": "harddrugs", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "drugs_rare", "chance": 70, "repeat": [ 1, 2 ] }
@@ -101,13 +101,7 @@
           { "item": "prepared_teas", "chance": 30, "repeat": [ 1, 2 ] }
         ]
       },
-      "computers": {
-        "6": {
-          "name": "Centrifuge",
-          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
-          "failures": [ { "action": "destroy_blood" } ]
-        }
-      },
+      "computers": { "6": {  } },
       "monster": {
         "^": { "monster": "mon_civilian_icu", "chance": 10 },
         "ւ": { "monster": "mon_civilian_icu", "chance": 10 },
@@ -190,10 +184,10 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
-        "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
+        "v": { "item": "SUS_office_desk", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
           { "item": "harddrugs", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "drugs_rare", "chance": 70, "repeat": [ 1, 2 ] }
@@ -218,13 +212,7 @@
         ]
       },
       "nested": { "=": { "chunks": [ [ "null", 70 ], [ "pile_bodybag_corpses", 30 ] ] } },
-      "computers": {
-        "6": {
-          "name": "Centrifuge",
-          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
-          "failures": [ { "action": "destroy_blood" } ]
-        }
-      },
+      "computers": { "6": {  } },
       "monster": {
         "^": { "monster": "mon_civilian_icu", "chance": 10 },
         "ւ": { "monster": "mon_civilian_icu", "chance": 10 },
@@ -315,10 +303,10 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
-        "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
+        "v": { "item": "SUS_office_desk", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
           { "item": "harddrugs", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "drugs_rare", "chance": 70, "repeat": [ 1, 2 ] }
@@ -422,10 +410,10 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
-        "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
+        "v": { "item": "SUS_office_desk", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
           { "item": "harddrugs", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "drugs_rare", "chance": 70, "repeat": [ 1, 2 ] }
@@ -531,10 +519,10 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
-        "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
+        "v": { "item": "SUS_office_desk", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
           { "item": "harddrugs", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "drugs_rare", "chance": 70, "repeat": [ 1, 2 ] }
@@ -652,10 +640,10 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
-        "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
+        "v": { "item": "SUS_office_desk", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
           { "item": "harddrugs", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "drugs_rare", "chance": 70, "repeat": [ 1, 2 ] }
@@ -766,7 +754,7 @@
         "C": { "item": "SUS_office_filing_cabinet", "chance": 20, "repeat": [ 1, 2 ] },
         "7": { "item": "bed", "chance": 20, "repeat": [ 1, 2 ] },
         "V": { "item": "textbooks", "chance": 20, "repeat": [ 1, 2 ] },
-        "v": { "item": "office", "chance": 20, "repeat": [ 1, 2 ] },
+        "v": { "item": "SUS_office_desk", "chance": 20, "repeat": [ 1, 2 ] },
         "x": { "item": "dining", "chance": 20, "repeat": [ 1, 2 ] },
         "F": [
           { "item": "restaur_kitchen", "chance": 20, "repeat": [ 1, 2 ] },
@@ -774,7 +762,7 @@
           { "item": "SUS_pantry", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "groce_condiment", "chance": 20, "repeat": [ 1, 2 ] }
         ],
-        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
         "K": [
           { "item": "doctors_books", "chance": 100, "repeat": [ 1, 2 ] },
           { "item": "lab_bookshelves", "chance": 40, "repeat": [ 1, 2 ] }

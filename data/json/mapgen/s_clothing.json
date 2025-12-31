@@ -350,9 +350,9 @@
         { "item": "hatstore_accessories", "x": 12, "y": [ 10, 13 ], "chance": 70, "repeat": [ 1, 8 ] },
         { "item": "SUS_fridge_breakroom", "x": 14, "y": 16, "chance": 30 },
         { "item": "livingroom", "x": 14, "y": 17, "chance": 30 },
-        { "item": "office", "x": [ 4, 5 ], "y": 15, "chance": 50 },
+        { "item": "SUS_office_desk", "x": [ 4, 5 ], "y": 15, "chance": 80 },
         { "item": "cleaning", "x": 18, "y": 15, "chance": 50 },
-        { "item": "SUS_trash_trashcan", "x": 16, "y": 17, "chance": 75 },
+        { "item": "SUS_trash_trashcan_public", "x": 16, "y": 17, "chance": 75 },
         { "item": "cash_register_random", "x": 9, "y": [ 4, 5 ], "chance": 100 },
         { "item": "cash_register_random", "x": 13, "y": [ 6, 8 ], "chance": 100 }
       ]

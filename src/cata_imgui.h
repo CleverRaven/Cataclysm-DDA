@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_map>
 
+#include "color.h"
 #include "font_loader.h"
 
 class nc_color;
@@ -99,7 +100,7 @@ class client
 void point_to_imvec2( point *src, ImVec2 *dest );
 void imvec2_to_point( ImVec2 *src, point *dest );
 
-ImVec4 imvec4_from_color( nc_color &color );
+ImVec4 imvec4_from_color( const nc_color &color );
 
 void set_scroll( scroll &s );
 
@@ -169,4 +170,25 @@ void EndRightAlign();
 // This loads the settings from `config/imgui_style.json` and - optionally - falls back to base colors
 // for elements not explicitly specified.
 void init_colors();
+
+/**
+ * Print out key(s) and description for a keybinding
+ * e.g. "[/] Filter"
+ * @param ctxt input context
+ * @param action action name, e.g. "FILTER", "QUIT"
+ * @param description action description, e.g. "Do thing", "Whatever else"
+ * @param active whether the action should be highlighted
+ * @param max_limit no more than this many keys will be printed
+ * @param default_color the color to use for non-highlighted actions
+ */
+void TextKeybinding( const input_context &ctxt,
+                     const char *action, const char *description, bool active,
+                     int max_limit = 0, const nc_color &default_color = c_light_gray );
+
+/**
+ * Print out a list separator, ", " in English
+ * The previous and next outputs will appear on the same line.
+ */
+void TextListSeparator( const nc_color &color = c_light_gray );
+
 } // namespace cataimgui

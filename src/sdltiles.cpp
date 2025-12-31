@@ -51,6 +51,7 @@
 #include "game_constants.h"
 #include "game_ui.h"
 #include "hash_utils.h"
+#include "horde_entity.h"
 #include "input.h"
 #include "json.h"
 #include "line.h"
@@ -595,13 +596,11 @@ void clear_window_area( const catacurses::window &win_ )
 static std::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow(
             const inclusive_cuboid<tripoint_abs_omt> &overmap_area, const tripoint_abs_omt &center )
 {
-    if( get_avatar().get_active_mission() == nullptr ) {
-        return std::nullopt;
-    }
-    if( !get_avatar().get_active_mission()->has_target() ) {
-        return std::nullopt;
-    }
     const tripoint_abs_omt mission_target = get_avatar().get_active_mission_target();
+
+    if( mission_target == tripoint_abs_omt::invalid ) {
+        return std::nullopt;
+    }
 
     std::string mission_arrow_variant;
     if( overmap_area.contains( mission_target ) ) {
@@ -884,52 +883,80 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
             if( vision != om_vision_level::unseen ) {
                 if( draw_overlays && uistate.overmap_debug_mongroup ) {
-                    const std::vector<mongroup *> mgroups = overmap_buffer.monsters_at( omp );
-                    if( !mgroups.empty() ) {
-                        auto mgroup_iter = mgroups.begin();
-                        std::advance( mgroup_iter, rng( 0, mgroups.size() - 1 ) );
-                        draw_from_id_string( ( *mgroup_iter )->type->defaultMonster.str(),
-                                             omp, 0, 0, lit_level::LIT, false );
+                    std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at(
+                                omp );
+                    if( !hordes.empty() ) {
+                        draw_from_id_string( "mon_zombie", omp, 0, 0, lit_level::LIT, false );
                     }
                 }
-                const int horde_size = overmap_buffer.get_horde_size( omp );
-                if( showhordes && los && horde_size >= HORDE_VISIBILITY_SIZE ) {
-                    // a little bit of hardcoded fallbacks for hordes
-                    if( find_tile_with_season( id ) ) {
-                        // NOLINTNEXTLINE(cata-translate-string-literal)
-                        draw_from_id_string( string_format( "overmap_horde_%d", horde_size < 10 ? horde_size : 10 ),
-                                             omp, 0, 0, lit_level::LIT, false );
-                    } else {
-                        switch( horde_size ) {
-                            case HORDE_VISIBILITY_SIZE:
-                                draw_from_id_string( "mon_zombie", omp, 0, 0, lit_level::LIT,
-                                                     false );
-                                break;
-                            case HORDE_VISIBILITY_SIZE + 1:
-                                draw_from_id_string( "mon_zombie_tough", omp, 0, 0,
-                                                     lit_level::LIT, false );
-                                break;
-                            case HORDE_VISIBILITY_SIZE + 2:
-                                draw_from_id_string( "mon_zombie_brute", omp, 0, 0,
-                                                     lit_level::LIT, false );
-                                break;
-                            case HORDE_VISIBILITY_SIZE + 3:
-                                draw_from_id_string( "mon_zombie_hulk", omp, 0, 0,
-                                                     lit_level::LIT, false );
-                                break;
-                            case HORDE_VISIBILITY_SIZE + 4:
-                                draw_from_id_string( "mon_zombie_necro", omp, 0, 0,
-                                                     lit_level::LIT, false );
-                                break;
-                            default:
-                                draw_from_id_string( "mon_zombie_master", omp, 0, 0,
-                                                     lit_level::LIT, false );
-                                break;
+                if( showhordes && los ) {
+                    const int horde_size = overmap_buffer.get_horde_size( omp );
+                    if( horde_size >= HORDE_VISIBILITY_SIZE ) {
+                        // Scale down the range of horde population, which can be 1-576 to a range of 1-10
+                        // These thresholds are generated with pow( sprite_size, 2.4 ).
+                        int sprite_size = 1;
+                        if( horde_size < 5 ) {
+                            sprite_size = 1;
+                        } else if( horde_size < 13 ) {
+                            sprite_size = 2;
+                        } else if( horde_size < 27 ) {
+                            sprite_size = 3;
+                        } else if( horde_size < 47 ) {
+                            sprite_size = 4;
+                        } else if( horde_size < 73 ) {
+                            sprite_size = 5;
+                        } else if( horde_size < 106 ) {
+                            sprite_size = 6;
+                        } else if( horde_size < 147 ) {
+                            sprite_size = 7;
+                        } else if( horde_size < 195 ) {
+                            sprite_size = 8;
+                        } else if( horde_size < 251 ) {
+                            sprite_size = 9;
+                        } else {
+                            sprite_size = 10;
+                        }
+
+                        if( find_tile_with_season( id ) ) {
+                            // NOLINTNEXTLINE(cata-translate-string-literal)
+                            draw_from_id_string( string_format( "overmap_horde_%d", sprite_size ),
+                                                 omp, 0, 0, lit_level::LIT, false );
+                        } else {
+                            // a little bit of hardcoded fallbacks for hordes for
+                            // tilesets that don't have overmap_horde_X sprites defined.
+                            switch( sprite_size ) {
+                                case 1:
+                                    draw_from_id_string( "mon_zombie", omp, 0, 0, lit_level::LIT,
+                                                         false );
+                                    break;
+                                case 2:
+                                    draw_from_id_string( "mon_zombie_tough", omp, 0, 0,
+                                                         lit_level::LIT, false );
+                                    break;
+                                case 3:
+                                    draw_from_id_string( "mon_zombie_brute", omp, 0, 0,
+                                                         lit_level::LIT, false );
+                                    break;
+                                case 4:
+                                    draw_from_id_string( "mon_zombie_hulk", omp, 0, 0,
+                                                         lit_level::LIT, false );
+                                    break;
+                                case 5:
+                                    draw_from_id_string( "mon_zombie_necro", omp, 0, 0,
+                                                         lit_level::LIT, false );
+                                    break;
+                                case 6:
+                                case 7:
+                                case 8:
+                                case 9:
+                                case 10:
+                                    draw_from_id_string( "mon_zombie_master", omp, 0, 0,
+                                                         lit_level::LIT, false );
+                            };
                         }
                     }
                 }
             }
-
             if( ( uistate.place_terrain || uistate.place_special ) &&
                 overmap_ui::is_generated_omt( omp.xy() ) ) {
                 // Highlight areas that already have been generated
@@ -1002,8 +1029,9 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     // draw nearby seen npcs
     for( const shared_ptr_fast<npc> &guy : npcs_near_player ) {
         const tripoint_abs_omt &guy_loc = guy->pos_abs_omt();
-        if( guy_loc.z() == center_pos.z() && ( has_debug_vision ||
-                                               overmap_buffer.seen_more_than( guy_loc, om_vision_level::details ) ) ) {
+        if( guy_loc.z() == center_pos.z() &&
+            ( has_debug_vision || overmap_buffer.seen_more_than( guy_loc, om_vision_level::details ) ) &&
+            !guy->guaranteed_hostile() ) {
             draw_entity_with_overlays( *guy, global_omt_to_draw_position( guy_loc ),
                                        lit_level::LIT,
                                        height_3d );
@@ -1086,12 +1114,22 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             const tripoint_abs_omt camp_center = project_to<coords::omt>( camp.abs_sm_pos );
             if( overmap_buffer.seen_more_than( camp_center, om_vision_level::outlines ) &&
                 overmap_area.contains( camp_center ) ) {
-                label_bg( camp.abs_sm_pos, camp.camp->name );
+                label_bg( camp.abs_sm_pos, camp.camp->camp_name() );
             }
         }
     }
 
     std::vector<std::pair<nc_color, std::string>> notes_window_text;
+
+    if( fast_traveling ) {
+        // We hijack this to avoid repeating code just for this simple notice. Notes will still display normally
+        notes_window_text.emplace_back( c_yellow, _( "FAST TRAVELING" ) );
+    }
+
+    if( viewing_weather ) {
+        // We hijack this to avoid repeating code just for this simple notice. Notes will still display normally
+        notes_window_text.emplace_back( c_yellow, _( "WEATHER MODE" ) );
+    }
 
     if( uistate.overmap_show_map_notes ) {
         const std::string &note_text = overmap_buffer.note( center_pos );
@@ -1111,7 +1149,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( has_debug_vision ||
         overmap_buffer.seen_more_than( center_pos, om_vision_level::details ) ) {
         for( const auto &npc : npcs_near_player ) {
-            if( !npc->marked_for_death && npc->pos_abs_omt() == center_pos ) {
+            if( !npc->marked_for_death && npc->pos_abs_omt() == center_pos && !npc->guaranteed_hostile() ) {
                 notes_window_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
             }
         }
@@ -1135,7 +1173,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     }
 
 
-    if( !notes_window_text.empty() && !fast_traveling ) {
+    if( !notes_window_text.empty() ) {
         constexpr int padding = 2;
 
         const auto draw_note_text = [&]( const point & draw_pos, const std::string & name,
@@ -3586,6 +3624,42 @@ int projected_window_height()
     return get_option<int>( "TERMINAL_Y" ) * fontheight;
 }
 
+// Measures scaling factor for high-dpi displays
+static std::pair<float, float> get_display_scale( int display_index )
+{
+#if SDL_VERSION_ATLEAST(2,26,0)
+    // NOLINTNEXTLINE(cata-combine-locals-into-point)
+    int x = SDL_WINDOWPOS_CENTERED_DISPLAY( display_index );
+    // NOLINTNEXTLINE(cata-combine-locals-into-point)
+    int y = SDL_WINDOWPOS_CENTERED_DISPLAY( display_index );
+
+    SDL_Window *w = SDL_CreateWindow(
+                        "probe",
+                        x, y,
+                        16, 16,
+                        SDL_WINDOW_HIDDEN | SDL_WINDOW_ALLOW_HIGHDPI
+                    );
+    if( !w ) {
+        return std::make_pair( 1.0f, 1.0f );
+    }
+
+    int lw = 0;
+    int lh = 0;
+    SDL_GetWindowSize( w, &lw, &lh );
+    int pw;
+    int ph;
+    SDL_GetWindowSizeInPixels( w, &pw, &ph );
+    SDL_DestroyWindow( w );
+
+    float scale_w = lw ? static_cast<float>( pw ) / static_cast<float>( lw ) : 1.0f;
+    float scale_h = lh ? static_cast<float>( ph ) / static_cast<float>( lh ) : 1.0f;
+    return std::make_pair( scale_w, scale_h );
+#else
+    ( void )display_index; // avoid unused parameter lint
+    return std::make_pair( 1.0f, 1.0f );
+#endif
+}
+
 static void init_term_size_and_scaling_factor()
 {
     scaling_factor = 1;
@@ -3620,7 +3694,11 @@ static void init_term_size_and_scaling_factor()
                                                      SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED
                                                    ) );
 
+#if SDL_VERSION_ATLEAST(2,26,0)
+                SDL_GetWindowSizeInPixels( test_window.get(), &max_width, &max_height );
+#else
                 SDL_GetWindowSize( test_window.get(), &max_width, &max_height );
+#endif
 
                 // If the video subsystem isn't reset the test window messes things up later
                 test_window.reset();
@@ -3629,8 +3707,9 @@ static void init_term_size_and_scaling_factor()
 
             } else {
                 // For fullscreen or window borderless maximum size is the display size
-                max_width = current_display.w;
-                max_height = current_display.h;
+                auto [ dpi_scale_w, dpi_scale_h ] = get_display_scale( current_display_id );
+                max_width = dpi_scale_w * current_display.w;
+                max_height = dpi_scale_h * current_display.h;
             }
         } else {
             dbg( D_WARNING ) << "Failed to get current Display Mode, assuming infinite display size.";
@@ -4060,22 +4139,60 @@ std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses:
     const window_dimensions dim = get_window_dimensions( capture_win );
 
     const point &win_min = dim.window_pos_pixel;
-    const point &win_size = dim.window_size_pixel;
+    point win_size = dim.window_size_pixel;
+    point logical_coordinate = coordinate;
+    const int scaling_factor = get_scaling_factor();
+
+    // convert window size and coordinate to logical if UI is scaled
+    if( scaling_factor > 1 ) {
+        logical_coordinate.x /= scaling_factor;
+        logical_coordinate.y /= scaling_factor;
+
+        const bool is_terrain_or_overmap = ( use_tiles && g && capture_win == g->w_terrain ) ||
+                                           ( use_tiles && use_tiles_overmap && g && capture_win == g->w_overmap );
+        if( !is_terrain_or_overmap ) {
+            win_size.x /= scaling_factor;
+            win_size.y /= scaling_factor;
+        }
+    }
+
     const point win_max = win_min + win_size;
 
     // Translate mouse coordinates to map coordinates based on tile size
     // Check if click is within bounds of the window we care about
     const half_open_rectangle<point> win_bounds( win_min, win_max );
-    if( !win_bounds.contains( coordinate ) ) {
+    if( !win_bounds.contains( logical_coordinate ) ) {
         return std::nullopt;
     }
 
-    const point screen_pos = coordinate - win_min;
+    const point screen_pos = logical_coordinate - win_min;
+
     const bool use_isometric = g->w_overmap &&
                                capture_win == g->w_overmap ? false : g->is_tileset_isometric();
 
+    // convert tile size to logical if UI is scaled
+    point logical_tile_size;
+    if( scaling_factor > 1 ) {
+        const bool is_terrain = use_tiles && g && capture_win == g->w_terrain;
+        const bool is_overmap = use_tiles && use_tiles_overmap && g && capture_win == g->w_overmap;
+
+        if( is_terrain ) {
+            logical_tile_size.x = tilecontext->get_tile_width();
+            logical_tile_size.y = tilecontext->get_tile_height();
+        } else if( is_overmap ) {
+            logical_tile_size.x = overmap_tilecontext->get_tile_width();
+            logical_tile_size.y = overmap_tilecontext->get_tile_height();
+        } else {
+            logical_tile_size = dim.scaled_font_size;
+            logical_tile_size.x /= scaling_factor;
+            logical_tile_size.y /= scaling_factor;
+        }
+    } else {
+        logical_tile_size = dim.scaled_font_size;
+    }
+
     const point_bub_ms p = cata_tiles::screen_to_player(
-                               screen_pos, dim.scaled_font_size, win_size,
+                               screen_pos, logical_tile_size, win_size,
                                point_bub_ms( offset ), use_isometric );
 
     return tripoint_bub_ms( p, get_map().get_abs_sub().z() );

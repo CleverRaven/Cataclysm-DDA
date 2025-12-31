@@ -174,7 +174,7 @@
     "energy_drain": "20 kJ",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "ammo_effects": [ "LASER", "ROBOT_DAZZLE" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS", "OVERHEATS" ],
     "valid_mod_locations": [
       [ "grip", 1 ],
       [ "rail", 1 ],

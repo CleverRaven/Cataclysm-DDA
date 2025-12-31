@@ -34,6 +34,7 @@
       "-": "t_wall_wood",
       "#": "t_concrete_wall",
       ".": "t_thconc_floor",
+      "Ł": "t_thconc_floor",
       "'": "t_floor",
       "T": "t_floor",
       "C": "t_floor",
@@ -109,6 +110,7 @@
       "Ő": "f_pallet_cement"
     },
     "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
+    "vehicles": { "Ł": { "vehicle": "hand_truck", "chance": 75 } },
     "toilets": { "t": {  } },
     "nested": { "M": { "chunks": [ "tent_5x5_N" ] }, "{": { "chunks": [ "tent_5x5_S" ] } }
   },
@@ -160,9 +162,9 @@
         " W.XX.XX.XX......|1...1?2...2?............iwiR# ",
         " #...............|1...1?2...2?............iwiR# ",
         " #.XX.XX.XX......|1...1?2...2?............iiii# ",
-        " W.XX.XX.XX......|^...........................# ",
-        " #...............%............................# ",
-        " #.XX.XX.XX......|^...........................# ",
+        " W.XX.XX.XX......|^..........................Ł# ",
+        " #...............%...........................Ł# ",
+        " #.XX.XX.XX......|^........ŁŁ.................# ",
         " #.XX.XX.XX......|###....######....||||^.....^# ",
         " W...............|....................||+|||+|# ",
         " #...............|....................|iis|sii# ",
@@ -203,7 +205,7 @@
         { "group": "cash_register_random", "x": 34, "y": [ 46, 47 ] }
       ],
       "items": {
-        "d": { "item": "office", "chance": 45, "repeat": [ 1, 2 ] },
+        "d": { "item": "SUS_office_desk", "chance": 45, "repeat": [ 1, 2 ] },
         "D": { "item": "SUS_trash_dumpster", "chance": 40 },
         "Q": { "item": "bed", "chance": 65, "repeat": [ 1, 2 ] },
         "1": { "item": "paint", "chance": 80, "repeat": [ 1, 8 ] },
@@ -233,6 +235,7 @@
           { "item": "hardware_clothing", "chance": 55, "repeat": [ 1, 8 ] }
         ]
       },
+      "vehicles": { "Ł": { "vehicle": "hand_truck", "chance": 75 } },
       "vendingmachines": { "V": { "item_group": "vending_drink_home_impr", "lootable": true } },
       "place_monster": [
         { "group": "GROUP_CIVILIAN", "x": [ 24, 45 ], "y": [ 2, 23 ], "repeat": [ 1, 3 ] },

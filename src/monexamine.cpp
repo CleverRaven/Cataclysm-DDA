@@ -105,24 +105,26 @@ void bandage_animal( monster &z )
     }
     item_location wieldede_item = get_player_character().get_wielded_item();
     if( !wieldede_item ) {
-        add_msg( _( "I need to have in hand something to stop the bleeding of %s" ), z.name() );
+        add_msg( _( "You need to wield something to stop the %s's bleeding." ), z.name() );
         return;
     }
     const use_function *usage = wieldede_item.get_item()->type->get_use( "heal" );
     if( usage == nullptr ) {
-        add_msg( _( "I'm not going to stop %s bleeding with this %s " ), z.name(),
-                 wieldede_item.get_item()->display_name() );
+        //~ %1$s - item name, %2$s - animal name
+        add_msg( _( "This %1$s won't help you stop the %2$s's bleeding." ),
+                 wieldede_item.get_item()->display_name(), z.name() );
         return;
     }
     const heal_actor *actor = dynamic_cast<const heal_actor *>( usage->get_actor_ptr() );
     if( actor->bleed ) {
         z.remove_effect( effect_bleed );
         wieldede_item.remove_item();
-        add_msg( _( "The bleeding of %s stopped" ), z.name() );
+        add_msg( _( "You stop the %s's bleeding." ), z.name() );
 
     } else {
-        add_msg( _( "I'm not going to stop %s bleeding with this %s " ), z.name(),
-                 wieldede_item.get_item()->display_name() );
+        //~ %1$s - item name, %2$s - animal name
+        add_msg( _( "This %1$s won't help you stop the %2$s's bleeding." ),
+                 wieldede_item.get_item()->display_name(), z.name() );
     }
 }
 
@@ -204,7 +206,7 @@ void attach_bag_to( monster &z )
     std::string pet_name = z.get_name();
 
     auto filter = []( const item & it ) {
-        return it.is_armor() && it.get_total_capacity() > 0_ml && !it.has_flag( flag_INTEGRATED );
+        return it.is_armor() && it.get_volume_capacity() > 0_ml && !it.has_flag( flag_INTEGRATED );
     };
 
     avatar &player_character = get_avatar();
@@ -281,7 +283,7 @@ bool give_items_to( monster &z )
 
     item &storage = *z.storage_item;
     units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
-    units::volume max_volume = storage.get_total_capacity() - z.get_carried_volume();
+    units::volume max_volume = storage.get_volume_capacity() - z.get_carried_volume();
     units::length max_length = storage.max_containable_length();
     avatar &player_character = get_avatar();
     drop_locations items = game_menus::inv::multidrop( player_character );
@@ -539,7 +541,7 @@ void milk_source( monster &source_mon )
         switch( liquid_target.dest_opt ) {
             case LD_ITEM:
                 target_volume = liquid_target.item_loc.get_item()->max_containable_volume() -
-                                liquid_target.item_loc.get_item()->total_contained_volume();
+                                liquid_target.item_loc.get_item()->get_contents_volume();
 
                 if( target_volume < milk.volume() ) {
                     const item single_unit( milked_item, calendar::turn, 1 );
@@ -572,9 +574,6 @@ void milk_source( monster &source_mon )
         add_msg( _( "You milk the %s." ), source_mon.get_name() );
     } else {
         add_msg( _( "The %s has no more milk." ), source_mon.get_name() );
-        if( !source_mon.has_eaten_enough() ) {
-            add_msg( _( "It might not be getting enough to eat." ) );
-        }
     }
 }
 
@@ -688,8 +687,7 @@ bool monexamine::pet_menu( monster &z )
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
     if( z.has_flag( mon_flag_EATS ) ) {
-        amenu.text = string_format( _( "What to do with your %s?\n" "Fullness: %i%%" ), pet_name,
-                                    z.get_stomach_fullness_percent() );
+        amenu.text = string_format( _( "What to do with your %s?\n" ), pet_name );
     }
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push the %s" ), pet_name );
@@ -1012,8 +1010,7 @@ bool monexamine::mfriend_menu( monster &z )
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
     if( z.has_flag( mon_flag_EATS ) ) {
-        amenu.text = string_format( _( "What to do with your %s?\n" "Fullness: %i%%" ), pet_name,
-                                    z.get_stomach_fullness_percent() );
+        amenu.text = string_format( _( "What to do with your %s?\n" ), pet_name );
     }
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );

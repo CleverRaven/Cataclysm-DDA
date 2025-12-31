@@ -13,7 +13,7 @@
     "name": { "str": "Wildshape Cloak: Fish", "str_pl": "Wildshape Cloaks: Fish" },
     "description": "A magical cloak that shimmers like fresh water under a warm sun.  It can be worn to morph your body to a form that is excellent for swimming, but ill-suited for combat.  You should probably stand in water before you put it on.",
     "looks_like": "cloak_leather",
-    "weight": "2060 g",
+    "weight": "1525 g",
     "volume": "3050 ml",
     "price": "1 kUSD",
     "symbol": "w",
@@ -40,10 +40,10 @@
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
           { "case": 1, "effect": [  ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "4" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ] },
-          { "case": 5, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "10" ] } ] }
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 2" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 4" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 6" ] } ] },
+          { "case": 5, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 10" ] } ] }
         ]
       }
     ]
@@ -59,10 +59,10 @@
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
           { "case": 1, "effect": [  ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "4" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "6" ] } ] },
-          { "case": 5, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "10" ] } ] }
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 2" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 4" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 6" ] } ] },
+          { "case": 5, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 10" ] } ] }
         ]
       }
     ]
@@ -81,7 +81,7 @@
     "name": "Wildshape Cloak: Bear",
     "description": "A magical cloak that smells of the forest.  It can be worn to morph your body to a form that is strong and resilient in melee combat.  However, you feel as if you would lose a part of yourself.",
     "looks_like": "cloak_leather",
-    "weight": "2060 g",
+    "weight": "1525 g",
     "volume": "3050 ml",
     "price": "2 kUSD",
     "symbol": "w",
@@ -107,10 +107,10 @@
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
-          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "12" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "6" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 1.5" ] } ] },
           { "case": 5, "effect": [  ] }
         ]
       }
@@ -126,10 +126,10 @@
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
-          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "12" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 1.5" ] } ] },
           { "case": 5, "effect": [  ] }
         ]
       }
@@ -149,7 +149,7 @@
     "name": "Wildshape Cloak: Deer",
     "description": "A magical cloak that feels soft to the touch.  It can be worn to morph your body to a form well-suited to escaping difficult situations.  However, it is not suited for combat.",
     "looks_like": "cloak_leather",
-    "weight": "2060 g",
+    "weight": "1525 g",
     "volume": "3050 ml",
     "price": "1 kUSD 500 USD",
     "symbol": "w",
@@ -175,11 +175,11 @@
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
-          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "4" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 4" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 2" ] } ] },
           { "case": 3, "effect": [  ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] } ] },
-          { "case": 5, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "3" ] } ] }
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 1.5" ] } ] },
+          { "case": 5, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 3" ] } ] }
         ]
       }
     ]
@@ -194,11 +194,11 @@
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
-          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "4" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 4" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 2" ] } ] },
           { "case": 3, "effect": [  ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] } ] },
-          { "case": 5, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "3" ] } ] }
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 1.5" ] } ] },
+          { "case": 5, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 3" ] } ] }
         ]
       }
     ]

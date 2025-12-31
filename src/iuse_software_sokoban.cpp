@@ -17,6 +17,7 @@
 #include "path_info.h"
 #include "point.h"
 #include "translations.h"
+#include "ui_helpers.h"
 #include "ui_manager.h"
 
 sokoban_game::sokoban_game() = default;
@@ -227,11 +228,7 @@ int sokoban_game::start_game()
     catacurses::window w_sokoban;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ) {
-        const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                             TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
-        w_sokoban = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                        iOffset );
-        ui.position_from_window( w_sokoban );
+        ui_helpers::full_screen_window( ui, &w_sokoban );
     } );
     ui.mark_resize();
 

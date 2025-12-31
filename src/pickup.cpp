@@ -33,6 +33,7 @@
 #include "mapdata.h"
 #include "math_parser_diag_value.h"
 #include "messages.h"
+#include "overmapbuffer.h"
 #include "options.h"
 #include "player_activity.h"
 #include "point.h"
@@ -108,19 +109,22 @@ static pickup_answer handle_problematic_pickup( const item &it, const std::strin
     return static_cast<pickup_answer>( choice );
 }
 
-bool Pickup::query_thief()
+bool Pickup::query_thief( const item &it )
 {
     Character &u = get_player_character();
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
                             : input_context::allow_all_keys;
+    const std::string stealing_prompt = string_format(
+                                            _( "Picking up %s will be considered stealing from %s, continue?" ), it.display_name(),
+                                            it.get_owner_name() );
     std::string answer = query_popup()
                          .preferred_keyboard_mode( keyboard_mode::keycode )
                          .allow_cancel( false )
                          .context( "YES_NO_ALWAYS_NEVER" )
                          .message( "%s", force_uc && !is_keycode_mode_supported()
-                                   ? _( "Picking up this item will be considered stealing, continue?  (Case sensitive)" )
-                                   : _( "Picking up this item will be considered stealing, continue?" ) )
+                                   ? stealing_prompt + _( "  (Case sensitive)" )
+                                   : stealing_prompt )
                          .option( "YES", allow_key ) // yes, steal all items in this location that is selected
                          .option( "NO", allow_key ) // no, pick up only what is free
                          .option( "ALWAYS", allow_key ) // Yes, steal all items and stop asking me this question
@@ -182,6 +186,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
                          Pickup::pick_info &info )
 {
     Character &player_character = get_player_character();
+    const map &here = get_map();
     bool picked_up = false;
     bool crushed = false;
     Pickup::pick_info pre_info( info );
@@ -196,10 +201,16 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
     //new item (copy)
     item newit = it;
 
+    // Clear activity_var if it differs from the picker's name
+    if( it.has_var( "activity_var" ) && it.get_var( "activity_var", "" ) != player_character.name ) {
+        it.erase_var( "activity_var" );
+        newit.erase_var( "activity_var" );
+    }
+
     if( !newit.is_owned_by( player_character, true ) ) {
         // Has the player given input on if stealing is ok?
         if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
-            Pickup::query_thief();
+            Pickup::query_thief( newit );
         }
         if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
             return true; // Since we are honest, return no problem before picking up
@@ -217,6 +228,12 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
         if( newit.charges > quantity ) {
             newit.charges = quantity;
         }
+    }
+
+    if( ( info.max_volume != -1_ml && newit.volume() + info.picked_up_volume > info.max_volume ) ||
+        ( info.max_mass != -1_gram && newit.weight() + info.picked_up_mass > info.max_mass ) ) {
+        stash_successful = false;
+        return false;
     }
 
     bool did_prompt = false;
@@ -315,13 +332,18 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
     if( picked_up ) {
         info.set_src( loc );
         info.total_bulk_volume += loc->volume( false, false, quantity );
+        int distance = square_dist( player_character.pos_bub(), loc.pos_bub( here ) );
+        info.picked_up_volume += newit.volume();
+        info.picked_up_mass += newit.weight();
         if( !is_bulk_load( pre_info, info ) ) {
             // Cost to take an item from a container or map
-            player_character.mod_moves( -loc.obtain_cost( player_character, quantity ) );
+            player_character.mod_moves( -( loc.obtain_cost( player_character,
+                                           quantity ) + ( distance * info.extra_moves_per_distance ) ) );
         } else {
             // Pure cost to handling item excluding overhead.
-            player_character.mod_moves( -std::max( player_character.item_handling_cost( *loc, true, 0, quantity,
-                                                   true ), 1 ) );
+            player_character.mod_moves( ( -std::max( player_character.item_handling_cost( *loc, true, 0,
+                                          quantity,
+                                          true ), 1 ) + ( distance * info.extra_moves_per_distance ) ) );
         }
         contents_change_handler handler;
         handler.unseal_pocket_containing( loc );
@@ -336,6 +358,12 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
         }
         player_character.flag_encumbrance();
         player_character.invalidate_weight_carried_cache();
+
+        // Remove DROPPED_FAVORITES autonote if exists.
+        const tripoint_abs_omt note_pos = player_character.pos_abs_omt();
+        if( overmap_buffer.note( note_pos ) == newit.display_name() ) {
+            overmap_buffer.delete_note( note_pos );
+        }
     }
 
     return picked_up || !did_prompt;
@@ -444,8 +472,14 @@ void Pickup::autopickup( const tripoint_bub_ms &p )
     quantities.reserve( selected_items.size() );
     for( drop_location selected : selected_items ) {
         item *it = selected.first.get_item();
-        target_items.push_back( selected.first );
-        quantities.push_back( it->count_by_charges() ? it->charges : 0 );
+        if( player.can_pickWeight_partial( *it, false ) &&
+            player.can_stash_partial( *it, false ) ) {
+            target_items.push_back( selected.first );
+            quantities.push_back( it->count_by_charges() ? it->charges : 0 );
+        }
+    }
+    if( target_items.empty() ) {
+        return;
     }
     pickup_activity_actor actor( target_items, quantities, player.pos_bub(), true );
     player.assign_activity( actor );
@@ -478,6 +512,11 @@ void Pickup::pick_info::serialize( JsonOut &jsout ) const
     jsout.member( "src_pos", src_pos );
     jsout.member( "src_container", src_container );
     jsout.member( "dst", dst );
+    jsout.member( "extra_moves_per_distance", extra_moves_per_distance );
+    jsout.member( "picked_up_volume", picked_up_volume );
+    jsout.member( "max_volume", max_volume );
+    jsout.member( "picked_up_mass", picked_up_mass );
+    jsout.member( "max_mass", max_mass );
     jsout.end_object();
 }
 
@@ -490,6 +529,11 @@ void Pickup::pick_info::deserialize( const JsonObject &jsobj )
     jsobj.read( "src_pos", src_pos );
     jsobj.read( "src_container", src_container );
     jsobj.read( "dst", dst );
+    jsobj.read( "extra_moves_per_distance", extra_moves_per_distance );
+    jsobj.read( "picked_up_volume", picked_up_volume );
+    jsobj.read( "max_volume", max_volume );
+    jsobj.read( "picked_up_mass", picked_up_mass );
+    jsobj.read( "max_mass", max_mass );
 }
 
 void Pickup::pick_info::set_src( const item_location &src_ )

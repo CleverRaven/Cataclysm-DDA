@@ -14,7 +14,7 @@
     "material": [ "rdx" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": [ "C4" ],
+    "use_action": { "target": "c4armed", "set_timer": true, "menu_text": "Activate", "type": "transform" },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -34,7 +34,7 @@
     "use_action": { "type": "message", "message": "You've already set the %s's timer, you might want to get away from it." },
     "countdown_action": { "type": "explosion", "explosion": { "power": 2000 } },
     "countdown_interval": "6 seconds",
-    "flags": [ "NPC_THROW_NOW" ]
+    "flags": [ "NPC_THROW_NOW", "SPAWN_ACTIVE" ]
   },
   {
     "id": "dynamite",
@@ -58,7 +58,6 @@
       "target": "dynamite_act",
       "msg": "You light the dynamite.",
       "target_timer": "20 seconds",
-      "active": true,
       "need_fire": 1,
       "menu_text": "Light fuse",
       "type": "transform"
@@ -76,7 +75,7 @@
     "symbol": "*",
     "color": "red",
     "use_action": { "type": "message", "message": "You've already lit the %s, try throwing it instead.", "name": "Light fuse" },
-    "flags": [ "TRADER_AVOID", "BOMB" ],
+    "flags": [ "TRADER_AVOID", "BOMB", "SPAWN_ACTIVE" ],
     "countdown_action": { "type": "explosion", "explosion": { "power": 938 } }
   },
   {
@@ -118,7 +117,7 @@
     "symbol": "*",
     "color": "red",
     "use_action": { "type": "message", "message": "You've already lit the %s, try throwing it instead.", "name": "Pull pin" },
-    "flags": [ "TRADER_AVOID", "BOMB" ],
+    "flags": [ "TRADER_AVOID", "BOMB", "SPAWN_ACTIVE" ],
     "countdown_action": { "type": "explosion", "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 0.5 } } }
   },
   {
@@ -174,7 +173,7 @@
       "emp_blast_radius": 10,
       "explosion": { "power": 600, "shrapnel": { "casing_mass": 3214, "fragment_mass": 0.5 } }
     },
-    "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 12 }
   },
   {
@@ -190,7 +189,15 @@
     "material": [ "paper" ],
     "symbol": ";",
     "color": "red",
-    "use_action": [ "FIRECRACKER" ]
+    "use_action": {
+      "type": "transform",
+      "need_fire_msg": "You need a source of fire!",
+      "target": "firecracker_act",
+      "target_timer": "2 seconds",
+      "msg": "You light the firecracker.",
+      "need_fire": 1,
+      "menu_text": "Light up"
+    }
   },
   {
     "id": "firecracker_act",
@@ -207,7 +214,7 @@
     "color": "red",
     "tick_action": [ { "type": "sound", "sound_message": "ssss…", "sound_volume": 0, "sound_id": "misc", "sound_variant": "lit_fuse" } ],
     "countdown_action": { "type": "sound", "sound_message": "Bang!", "sound_volume": 20, "sound_id": "explosion", "sound_variant": "small" },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "firecracker_pack",
@@ -222,7 +229,15 @@
     "material": [ "paper" ],
     "symbol": "*",
     "color": "red",
-    "use_action": [ "FIRECRACKER_PACK" ]
+    "use_action": {
+      "type": "transform",
+      "need_fire_msg": "You need a source of fire!",
+      "target": "firecracker_pack_act",
+      "target_timer": "27 seconds",
+      "msg": "You light the pack of firecrackers.",
+      "need_fire": 1,
+      "menu_text": "Light up"
+    }
   },
   {
     "id": "firecracker_pack_act",
@@ -238,17 +253,19 @@
     "symbol": "*",
     "color": "red",
     "tick_action": [ "FIRECRACKER_PACK_ACT" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "flashbang",
+    "//": "Based on the M84 stun grenade",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "flashbang" },
-    "description": "A military police-style flashbang.  Use this item to pull the pin and start the fuse.  You will then have five seconds before it detonates with intense light and sound, blinding, deafening, and disorienting anyone nearby.",
-    "weight": "236 g",
-    "volume": "270 ml",
+    "description": "A military police-style flashbang.  Use this item to pull the pin and start the fuse.  You will then have two seconds before it detonates with intense light and sound, blinding, deafening, and disorienting anyone nearby.",
+    "weight": "425 g",
+    "volume": "207 ml",
+    "longest_side": "141 mm",
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
@@ -259,11 +276,11 @@
       "need_wielding": true,
       "target": "flashbang_act",
       "msg": "You pull the pin on the flashbang.",
-      "target_timer": "5 seconds",
+      "target_timer": "2 seconds",
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "CYLINDER_GRENADE" ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -277,7 +294,7 @@
     "price_postapoc": "0 cent",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "do_flashbang": true },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "fungicidalbomb",
@@ -347,7 +364,7 @@
       "menu_text": "Arm",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "CYLINDER_GRENADE" ]
   },
   {
     "id": "gasbomb_makeshift_act",
@@ -373,11 +390,12 @@
       "fields_min_intensity": 1,
       "fields_max_intensity": 3
     },
-    "flags": [ "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 6 }
   },
   {
     "id": "grenade",
+    "//": "Based off of the M67 grenade",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
@@ -385,6 +403,7 @@
     "description": "A military-grade fragmentation hand grenade.  Use this item to pull the pin and start the fuse.  You will then have five seconds before it explodes; throwing it would be a good idea.",
     "weight": "397 g",
     "volume": "540 ml",
+    "longest_side": "110 mm",
     "price": "15 USD",
     "price_postapoc": "10 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
@@ -420,7 +439,7 @@
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.02 } } },
     "countdown_interval": "5 seconds",
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -475,7 +494,7 @@
       "fields_max_intensity": 10,
       "emp_blast_radius": 4
     },
-    "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -501,7 +520,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE", "GRENADE" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE", "GRENADE", "CYLINDER_GRENADE" ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -521,17 +540,19 @@
     "color": "light_red",
     "revert_to": "canister_empty",
     "countdown_action": "GRENADE_INC_ACT",
-    "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 1 }
   },
   {
     "id": "gasbomb",
     "looks_like": "smokebomb",
+    "//": "Based on the M73A riot grenade",
     "type": "ITEM",
     "category": "weapons",
     "name": { "str": "tear gas grenade" },
-    "weight": "1058 g",
-    "volume": "270 ml",
+    "weight": "431 g",
+    "volume": "459 ml",
+    "longest_side": "158 mm",
     "material": [ "steel" ],
     "symbol": "*",
     "color": "dark_gray",
@@ -546,7 +567,7 @@
       "target_timer": "50 seconds",
       "target": "gasbomb_act"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "CYLINDER_GRENADE" ]
   },
   {
     "id": "gasbomb_act",
@@ -556,9 +577,10 @@
     "name": { "str": "armed tear gas grenade" },
     "price_postapoc": "0 cent",
     "description": "This tear gas grenade has had its pin removed and is (or will shortly be) expelling highly noxious gas.",
+    "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
     "emits": [ "emit_tear_gas_stream" ],
     "revert_to": "canister_empty",
-    "flags": [ "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "insecticidalbomb",
@@ -691,7 +713,7 @@
       "fields_max_intensity": 3,
       "explosion": { "power": 9000000 }
     },
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "molotov",
@@ -713,13 +735,12 @@
       "need_wielding": true,
       "target": "molotov_lit",
       "msg": "You light the Molotov cocktail!",
-      "active": true,
-      "moves": 75,
+      "moves": 250,
       "need_fire": 1,
       "menu_text": "Light rag",
       "type": "transform"
     },
-    "flags": [ "NPC_ACTIVATE", "NO_REPAIR" ],
+    "flags": [ "NPC_ACTIVATE", "NO_REPAIR", "CYLINDER_GRENADE" ],
     "melee_damage": { "bash": 5 }
   },
   {
@@ -739,7 +760,8 @@
     "symbol": "*",
     "color": "light_gray",
     "tick_action": [ "MOLOTOV_LIT" ],
-    "flags": [ "LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH" ],
+    "light": 15,
+    "flags": [ "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH", "DESTROY_ON_CHARGE_USE", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 5 }
   },
   {
@@ -786,19 +808,27 @@
     "color": "yellow",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "draw_explosion_radius": 4, "draw_explosion_color": "cyan", "scrambler_blast_radius": 4 },
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 2 }
   },
   {
     "id": "smokebomb",
+    "//": "Based on AN-M8 grenade",
     "copy-from": "gasbomb",
     "type": "ITEM",
-    "name": { "str": "smoke bomb" },
-    "description": "A canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and start the fuse, turning it into an active smoke bomb.  Five seconds after you do that, it will begin to expel a thick black smoke.  This smoke will slow those who enter it, as well as obscuring vision and scent.",
+    "name": { "str": "smoke grenade" },
+    "description": "A canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and start the fuse, turning it into an active smoke bomb.  Five seconds after you do that, it will begin to expel a thick white smoke.  This smoke will obscure vision and scent, and choke out those who enter it.",
+    "weight": "680 g",
     "price": "18 USD",
-    "price_postapoc": "0 cent",
-    "weight": "569 g",
-    "use_action": { "need_wielding": true, "type": "transform", "target_timer": "100 seconds", "target": "smokebomb_act" }
+    "price_postapoc": "1 USD",
+    "use_action": {
+      "need_wielding": true,
+      "menu_text": "Pull pin",
+      "msg": "You pull the pin on the %s.",
+      "type": "transform",
+      "target_timer": "100 seconds",
+      "target": "smokebomb_act"
+    }
   },
   {
     "id": "smokebomb_act",
@@ -808,7 +838,8 @@
     "description": "This smoke bomb has had its pin removed and is (or will shortly be) expelling thick smoke.",
     "emits": [ "emit_smoke_stream" ],
     "revert_to": "canister_empty",
-    "flags": [ "TRADER_AVOID" ]
+    "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "tool_rocket_candy",
@@ -858,7 +889,7 @@
       "fields_max_intensity": 3,
       "explosion": { "power": 1 }
     },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -898,7 +929,7 @@
     "price": "0 cent",
     "use_action": { "type": "message", "message": "You've already lit the %s's fuse, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 460, "shrapnel": { "casing_mass": 200, "fragment_mass": 0.4 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "military_explosive_grenade",
@@ -925,7 +956,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE", "CYLINDER_GRENADE" ]
   },
   {
     "id": "military_explosive_grenade_act",
@@ -937,7 +968,7 @@
     "price": "0 cent",
     "use_action": { "type": "message", "message": "You've already lit the %s's fuse, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 920, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.4 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "military_explosive_pipebomb",
@@ -965,7 +996,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE", "CYLINDER_GRENADE" ],
     "melee_damage": { "bash": 4 }
   },
   {
@@ -980,7 +1011,7 @@
     "color": "light_gray",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 920, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "military_explosive_bomb",
@@ -1021,7 +1052,7 @@
       "type": "explosion",
       "explosion": { "power": 6970, "shrapnel": { "casing_mass": 3000, "fragment_mass": 0.5, "drop": "scrap", "recovery": 20 } }
     },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "military_explosive_half_barrel_bomb",
@@ -1042,7 +1073,7 @@
     "explosion": { "power": 100000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
     "use_action": {
       "target": "military_explosive_half_barrel_bomb_act",
-      "msg": "You activate the fuze on the barrel bomb.  Clear the area!",
+      "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
       "target_timer": "100 seconds",
       "menu_text": "Activate fuze",
       "type": "transform"
@@ -1069,7 +1100,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 100000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 100000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 20 }
   },
   {
@@ -1090,7 +1121,7 @@
     "explosion": { "power": 200000, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } },
     "use_action": {
       "target": "military_explosive_full_barrel_bomb_act",
-      "msg": "You activate the fuze on the barrel bomb.  Clear the area!",
+      "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
       "target_timer": "100 seconds",
       "menu_text": "Activate fuze",
       "type": "transform"
@@ -1116,7 +1147,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 200000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 200000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 20 }
   },
   {
@@ -1156,7 +1187,7 @@
     "price": "0 cent",
     "use_action": { "type": "message", "message": "You've already lit the %s's fuse, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 150, "shrapnel": { "casing_mass": 200, "fragment_mass": 0.4 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "homemade_grenade",
@@ -1181,7 +1212,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE", "CYLINDER_GRENADE" ]
   },
   {
     "id": "homemade_grenade_act",
@@ -1193,7 +1224,7 @@
     "price": "0 cent",
     "use_action": { "type": "message", "message": "You've already lit the %s's fuse, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.4 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "pipebomb",
@@ -1223,7 +1254,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE", "CYLINDER_GRENADE" ],
     "melee_damage": { "bash": 3 }
   },
   {
@@ -1246,7 +1277,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 300, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 300, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 3 }
   },
   {
@@ -1294,7 +1325,7 @@
       "type": "explosion",
       "explosion": { "power": 2320, "shrapnel": { "casing_mass": 3000, "fragment_mass": 0.5, "drop": "scrap", "recovery": 20 } }
     },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "homemade_demolition_charge",
@@ -1342,7 +1373,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 2590 },
     "countdown_action": { "type": "explosion", "explosion": { "power": 2590 } },
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 4 }
   },
   {
@@ -1393,7 +1424,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 34400, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 34400, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 20 }
   },
   {
@@ -1444,7 +1475,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 69200, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 69200, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 20 }
   },
   {

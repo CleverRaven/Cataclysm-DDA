@@ -123,7 +123,7 @@
     "type": "item_group",
     "id": "NC_ROBOFAC_INTERCOM_trade_envirosuit",
     "subtype": "collection",
-    "entries": [ { "item": "robofac_enviro_suit", "count": 1, "prob": 25 } ]
+    "entries": [ { "item": "robofac_enviro_suit", "count": 1, "prob": 100 } ]
   },
   {
     "id": "robofac_blacklist",
@@ -202,8 +202,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_npc_intercom_trade" } ] } },
-            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" },
-            { "not": { "compare_string": [ "yes", { "u_val": "u_informed_robofac_of_exodii" } ] } }
+            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" }
           ]
         }
       },
@@ -224,6 +223,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "u_give_robofac_exodii_info" } ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" } },
             { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_npc_intercom_trade" } ] } }
           ]
         }
@@ -333,6 +333,28 @@
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA"
+      },
+      {
+        "text": "I have some HEW recordings.",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] },
+            {
+              "or": [
+                { "u_has_items": { "item": "HEW_printout_data_portal_storm", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_vitrified", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_exodii", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_lixa", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_highlands", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_labyrinth", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_physics_lab", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_amigara", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_radiosphere", "count": 1 } }
+              ]
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA"
       },
       {
         "text": "I have found more of those golden robots, can you make anything of them yet?",
@@ -591,7 +613,7 @@
   {
     "id": "TALK_ROBOFAC_WHO_SENT_YOU",
     "type": "talk_topic",
-    "dynamic_line": "We are listening…\n\nYou detect a slight elevation in their voice, with a start you realize they are nervous.",
+    "dynamic_line": "&\"We are listening…\"\n\nYou detect a slight elevation in their voice, with a start you realize they are nervous.",
     "responses": [
       {
         "text": "Actually I was just joking.  Our meeting is indeed a fortunate accident but now that I have your attention would you be interested in trading in some goods?",
@@ -1069,8 +1091,8 @@
     "id": "TALK_ROBOFAC_INTERCOM_ASK_INTERVAL",
     "type": "talk_topic",
     "dynamic_line": [
-      "We have no other disposable equipment right now.  You'll have to come back in <interval>.",
-      "No. Come back in <interval>."
+      "We have no other disposable equipment right now.  You'll have to come back after <restock_time_point>.",
+      "No. Come back after <restock_time_point>."
     ],
     "responses": [ { "text": "Right…", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   }

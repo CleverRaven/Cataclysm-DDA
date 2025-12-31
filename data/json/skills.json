@@ -71,7 +71,7 @@
       { "level": 9, "description": "You may know how to do simple surgeries." }
     ],
     "level_descriptions_practice": [
-      { "level": 0, "description": "You might be able to put a bandaid on a minor cut without passing out." },
+      { "level": 0, "description": "You might be able to put a Band-Aid on a minor cut without passing out." },
       { "level": 1, "description": "You can do basic first-aid techniques without panicking too much." },
       { "level": 3, "description": "You're used to using a first-aid kit." },
       { "level": 5, "description": "Dealing with injuries is becoming routine for you." },
@@ -137,6 +137,7 @@
     "name": { "str": "vehicles" },
     "description": "Your skill in operating and steering a vehicle in motion, from cars and boats to helicopters and hot air balloons.  A higher level allows greater control over vehicles at higher speeds, and reduces the penalty of shooting while driving.",
     "display_category": "display_interaction",
+    "consumes_focus": false,
     "level_descriptions_theory": [
       { "level": 0, "description": "You know what a car looks like." },
       { "level": 1, "description": "You know the basics of driving a car." },
@@ -207,7 +208,7 @@
       { "level": 3, "description": "You can craft a variety of useful stuff without much issue." },
       {
         "level": 5,
-        "description": "You can easily craft useful, if junky weapons and armor, but nothing too complex."
+        "description": "You can easily craft useful, if junky, weapons and armor, but nothing too complex."
       },
       { "level": 7, "description": "You can craft even complex objects without fail." },
       {

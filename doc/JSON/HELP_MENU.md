@@ -11,7 +11,7 @@ Each category is made up of a json object which for mods can be placed anywhere 
 | `"type"`     | (required) must be `"help"`                                                                                                                                                                                                                                                                           |
 | `"order"`    | (required) integer, where this category should appear in the list relative to others from the same source, with 0 being first. Must be unique per source (Every mod can start from 0). Each mods categories are appended to the end of the list per their load order.                                 |
 | `"name"`     | (required) string, name of the category, can use [color tags](/doc/user-guides/COLOR.md#color-tags)                                                                                                                                                                                                                  |
-| `"messages"` | (required) array of strings, each string respresents a new line seperated paragraph containing information for this category, can use [color tags](/doc/user-guides/COLOR.md#color-tags) and [keybind tags](#keybind-tags). Seperated mainly for ease of editing the json as `\n` lets you add newlines within strings |
+| `"messages"` | (required) array of strings, each string respresents a new line seperated paragraph containing information for this category, can use [color tags](/doc/user-guides/COLOR.md#color-tags) and [keybind tags](#keybind-tags). Separated mainly for ease of editing the json as `\n` lets you add newlines within strings |
 
 ### Keybind tags
 

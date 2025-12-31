@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <functional>
+#include <initializer_list>
 #include <iterator>
 #include <memory>
 #include <ostream>
@@ -13,6 +14,7 @@
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "basecamp.h"
 #include "bodypart.h"
 #include "catacharset.h"
@@ -119,18 +121,12 @@ static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing
 
 static const itype_id itype_molotov( "molotov" );
 
-static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
-static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
-static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
 
 static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_human( "human" );
 static const mfaction_str_id monfaction_player( "player" );
-
-static const morale_type morale_killed_innocent( "morale_killed_innocent" );
-static const morale_type morale_killer_has_killed( "morale_killer_has_killed" );
 
 static const npc_class_id NC_ARSONIST( "NC_ARSONIST" );
 static const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
@@ -165,11 +161,8 @@ static const skill_id skill_unarmed( "unarmed" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
-static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_NO_BASH( "NO_BASH" );
-static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
-static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
 static void starting_clothes( npc &who, const npc_class_id &type, bool male );
@@ -263,7 +256,7 @@ npc::npc()
     patience = 0;
     attitude = NPCATT_NULL;
 
-    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, true, false, true,
+    *path_settings = pathfinding_settings( {}, 1000, 1000, 10, true, true, true, true, false, true,
                                            get_size() );
     for( direction threat_dir : npc_threat_dir ) {
         ai_cache.threat_map[ threat_dir ] = 0.0f;
@@ -309,6 +302,11 @@ npc::npc( npc && ) noexcept( map_is_noexcept ) = default;
 npc &npc::operator=( npc && ) noexcept( list_is_noexcept ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
+
+std::map<npc_template_id, npc_template> &npc_template::get_npc_templates()
+{
+    return npc_templates;
+}
 
 void npc_template::load( const JsonObject &jsobj, std::string_view src )
 {
@@ -379,6 +377,12 @@ void npc_template::load( const JsonObject &jsobj, std::string_view src )
     }
     if( jsobj.has_string( "talk_friend_guard" ) ) {
         guy.chatbin.talk_friend_guard = jsobj.get_string( "talk_friend_guard" );
+    }
+    if( jsobj.has_string( "talk_mission_inquire" ) ) {
+        guy.chatbin.talk_mission_inquire = jsobj.get_string( "talk_mission_inquire" );
+    }
+    if( jsobj.has_string( "talk_mission_describe_urgent" ) ) {
+        guy.chatbin.talk_mission_describe_urgent = jsobj.get_string( "talk_mission_describe_urgent" );
     }
     jsobj.read( "<acknowledged>", tem.snippets.snip_acknowledged );
     jsobj.read( "<camp_food_thanks>", tem.snippets.snip_camp_food_thanks );
@@ -560,6 +564,8 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     chatbin.talk_stranger_friendly = tguy.chatbin.talk_stranger_friendly;
     chatbin.talk_stranger_neutral = tguy.chatbin.talk_stranger_neutral;
     chatbin.talk_friend_guard = tguy.chatbin.talk_friend_guard;
+    chatbin.talk_mission_inquire = tguy.chatbin.talk_mission_inquire;
+    chatbin.talk_mission_describe_urgent = tguy.chatbin.talk_mission_describe_urgent;
 
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
@@ -915,7 +921,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         }
         if( who.can_wear( it ).success() ) {
             it.on_wear( who );
-            who.worn.wear_item( who, it, false, false );
+            who.worn.wear_item( who, it, false, false, true, true );
             it.set_owner( who );
         }
     }
@@ -1517,6 +1523,41 @@ void npc::stow_item( item &it )
     }
 }
 
+static void choose_best_MA_style( npc *you )
+{
+    // Evaluate either the weapon we have, or fake weapon(fists)
+    item_location wpn_location = you->get_wielded_item();
+    const item &weapon = wpn_location ? *wpn_location : null_item_reference();
+    double best_wpn_value = you->evaluate_weapon( weapon );
+
+    // And then see if switching style will improve our evaluation
+    const pimpl<character_martial_arts> &MA_data = you->martial_arts_data;
+    const matype_id starting_style = MA_data->selected_style();
+    matype_id best_style = starting_style;
+    for( const matype_id &style : MA_data->get_known_styles( false ) ) {
+        MA_data->clear_all_effects( *you );
+        MA_data->set_style( style );
+        MA_data->ma_static_effects( *you );
+        // We need to reset weapon_value before each comparison or else it will return the same stale value
+        you->cached_info.erase( "weapon_value" );
+        const double compared_wpn_value = you->evaluate_weapon( weapon );
+        if( compared_wpn_value > best_wpn_value ) {
+            best_wpn_value = compared_wpn_value;
+            best_style = style;
+        }
+    }
+
+    MA_data->clear_all_effects( *you );
+    MA_data->set_style( best_style );
+    MA_data->ma_static_effects( *you );
+
+    if( starting_style != best_style ) {
+        //~Position 1: Character's name. Position 2: Formal name of a martial arts style (e.g. "Karate")
+        add_msg_if_player_sees( *you, m_info, _( "%1$s switches to using %2$s!" ),
+                                you->disp_name(), MA_data->selected_style_name( *you ) );
+    }
+}
+
 bool npc::wield( item &it )
 {
     // dont unwield if you already wield the item
@@ -1531,11 +1572,12 @@ bool npc::wield( item &it )
         return false;
     }
     if( get_wielded_item() ) {
-        add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),
+        // add_msg_if_player_sees does no internal npc name replacement
+        add_msg_if_player_sees( *this, m_info, replace_with_npc_name( _( "<npcname> wields a %s." ) ),
                                 get_wielded_item()->tname() );
     }
 
-
+    choose_best_MA_style( this );
     invalidate_range_cache();
     return true;
 }
@@ -1546,10 +1588,12 @@ bool npc::wield( item_location loc, bool remove_old )
         return false;
     }
     if( get_wielded_item() ) {
-        add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),
+        // add_msg_if_player_sees does no internal npc name replacement
+        add_msg_if_player_sees( *this, m_info, replace_with_npc_name( _( "<npcname> wields a %s." ) ),
                                 get_wielded_item()->tname() );
     }
 
+    choose_best_MA_style( this );
     invalidate_range_cache();
     return true;
 }
@@ -1622,7 +1666,7 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
         } else {
             npc_values.fear += 6;
         }
-    } else if( you.weapon_value( *weapon ) > 20 ) {
+    } else if( you.evaluate_weapon( *weapon ) > 20 ) {
         npc_values.fear += 2;
     }
 
@@ -1809,9 +1853,8 @@ void npc::on_attacked( const Creature &attacker )
 {
     map &here = get_map();
 
-    if( is_hallucination() ) {
-        die( &here, nullptr );
-    }
+    hallucination_die( &here, nullptr );
+
     if( attacker.is_avatar() && !is_enemy() && !is_dead() && !guaranteed_hostile() ) {
         make_angry();
         hit_by_player = true;
@@ -1852,7 +1895,7 @@ void npc::decide_needs()
     }
 
     const item &weap = weapon ? *weapon : null_item_reference();
-    needrank[need_weapon] = weapon_value( weap );
+    needrank[need_weapon] = evaluate_weapon( weap );
     needrank[need_food] = 15 - get_hunger();
     needrank[need_drink] = 15 - get_thirst();
     cache_visit_items_with( "is_food", &item::is_food, [&]( const item & it ) {
@@ -2003,6 +2046,7 @@ ret_val<void> npc::wants_to_sell( const item_location &it, int at_price ) const
 
 bool npc::wants_to_buy( const item &it ) const
 {
+
     return wants_to_buy( it, value( it ) ).success();
 }
 
@@ -2016,11 +2060,12 @@ ret_val<void> npc::wants_to_buy( const item &it, int at_price ) const
         return ret_val<void>::make_success();
     }
 
+
     if( it.has_flag( flag_TRADER_AVOID ) || it.has_var( VAR_TRADE_IGNORE ) ) {
         return ret_val<void>::make_failure( _( "Will never buy this" ) );
     }
 
-    if( !is_shopkeeper() && has_trait( trait_SQUEAMISH ) && it.is_filthy() ) {
+    if( it.is_filthy() ) {
         return ret_val<void>::make_failure( _( "Will not buy filthy items" ) );
     }
 
@@ -2178,6 +2223,11 @@ void npc::shop_restock()
     distribute_items_to_npc_zones( ret, *this );
 }
 
+time_point npc::restock_time() const
+{
+    return restock + myclass->get_shop_restock_interval();
+}
+
 std::string npc::get_restock_interval() const
 {
     time_duration const restock_remaining =
@@ -2231,8 +2281,8 @@ double npc::value( const item &it, double market_price ) const
     float ret = 1;
     if( it.is_maybe_melee_weapon() || it.is_gun() ) {
         // todo: remove when weapon_value takes an item_location
-        double wield_val = weapon ? weapon_value( *weapon ) : weapon_value( null_item_reference() );
-        double weapon_val = weapon_value( it ) - wield_val;
+        double wield_val = weapon ? evaluate_weapon( *weapon ) : evaluate_weapon( null_item_reference() );
+        double weapon_val = evaluate_weapon( it ) - wield_val;
 
         if( weapon_val > 0 ) {
             ret += weapon_val * 0.0002;
@@ -2497,21 +2547,6 @@ bool npc::is_leader() const
     return attitude == NPCATT_LEAD;
 }
 
-bool npc::within_boundaries_of_camp() const
-{
-    const point_abs_omt p( pos_abs_omt().xy() );
-    for( int x2 = -3; x2 < 3; x2++ ) {
-        for( int y2 = -3; y2 < 3; y2++ ) {
-            const point_abs_omt nearby = p + point( x2, y2 );
-            std::optional<basecamp *> bcp = overmap_buffer.find_camp( nearby );
-            if( bcp ) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
 bool npc::is_enemy() const
 {
     return attitude == NPCATT_KILL || attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP;
@@ -2653,11 +2688,11 @@ void npc::npc_dismount()
     mod_moves( -get_speed() );
 }
 
-int npc::smash_ability() const
+std::map<damage_type_id, int> npc::smash_ability() const
 {
     if( is_hallucination() || ( is_player_ally() && !rules.has_flag( ally_rule::allow_bash ) ) ) {
         // Not allowed to bash
-        return 0;
+        return {};
     }
 
     return Character::smash_ability();
@@ -2966,7 +3001,7 @@ void npc::die( map *here, Creature *nkiller )
         if( eoc->type == eoc_type::NPC_DEATH ) {
             eoc->activate( d );
         } else {
-            debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an npc death.", eoc.c_str() );
+            debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an NPC death.", eoc.c_str() );
         }
     }
     get_event_bus().send<event_type::character_dies>( getID() );
@@ -3026,50 +3061,7 @@ void npc::die( map *here, Creature *nkiller )
     }
     Character &player_character = get_player_character();
     if( killer == &player_character ) {
-        if( player_character.has_trait( trait_PACIFIST ) ) {
-            add_msg( _( "A cold shock of guilt washes over you." ) );
-            player_character.add_morale( morale_killer_has_killed, -15, 0, 1_days, 1_hours );
-        }
-        if( hit_by_player ) {
-            int morale_effect = -90;
-            // Just because you like eating people doesn't mean you love killing innocents
-            if( player_character.has_flag( json_flag_CANNIBAL ) && morale_effect < 0 ) {
-                morale_effect = std::min( 0, morale_effect + 50 );
-            } // Pacifists double dip on penalties if they kill an innocent
-            if( player_character.has_trait( trait_PACIFIST ) ) {
-                morale_effect -= 15;
-            }
-            if( player_character.has_flag( json_flag_PSYCHOPATH ) ||
-                player_character.has_flag( json_flag_SAPIOVORE ) ) {
-                morale_effect = 0;
-            } // Killer has the psychopath flag, so we're at +5 total. Whee!
-            if( player_character.has_trait( trait_KILLER ) ) {
-                morale_effect += 5;
-            } // only god can juge me
-            if( player_character.has_flag( json_flag_SPIRITUAL ) &&
-                ( !player_character.has_flag( json_flag_PSYCHOPATH ) ||
-                  ( player_character.has_flag( json_flag_PSYCHOPATH ) &&
-                    player_character.has_trait( trait_KILLER ) ) ) &&
-                !player_character.has_flag( json_flag_SAPIOVORE ) ) {
-                if( morale_effect < 0 ) {
-                    add_msg( _( "You feel ashamed of your actions." ) );
-                    morale_effect -= 10;
-                } // skulls for the skull throne
-                if( morale_effect > 0 ) {
-                    add_msg( _( "You feel a sense of righteous purpose." ) );
-                    morale_effect += 5;
-                }
-            }
-            if( morale_effect == 0 ) {
-                // No morale effect
-            } else if( morale_effect <= -50 ) {
-                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 2_days, 3_hours );
-            } else if( morale_effect > -50 && morale_effect < 0 ) {
-                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 1_days, 1_hours );
-            } else {
-                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 3_hours, 7_minutes );
-            }
-        }
+        player_character.apply_murder_penalties( this );
     }
 
     if( spawn_corpse ) {
@@ -3333,7 +3325,7 @@ void npc::on_load( map *here )
 bool npc::query_yn( const std::string &msg ) const
 {
     add_msg_debug( debugmode::DF_NPC,
-                   "%s declines this query_yn because they are a npc (automatic, always declines).\n %s",
+                   "%s declines this query_yn because they are an NPC (automatic, always declines).\n %s",
                    disp_name(), msg );
     // NPCs don't like queries - most of them are in the form of "Do you want to get hurt?".
     return false;
@@ -3466,9 +3458,9 @@ const pathfinding_settings &npc::get_pathfinding_settings() const
 
 const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
 {
-    path_settings->bash_strength = no_bashing ? 0 : smash_ability();
+    path_settings->bash_strength = !no_bashing ? smash_ability() : std::map<damage_type_id, int>();
     if( has_trait( trait_NO_BASH ) ) {
-        path_settings->bash_strength = 0;
+        path_settings->bash_strength = {};
     }
     // TODO: Extract climb skill
     const int climb = std::min( 20, get_dex() );
@@ -3502,8 +3494,13 @@ std::function<bool( const tripoint_bub_ms & )> npc::get_path_avoid() const
             return true;
         }
         if( rules.has_flag( ally_rule::hold_the_line ) &&
+            rl_dist( p, get_avatar().pos_bub() ) == 1 &&
             ( here.close_door( p, true, true ) ||
-              here.move_cost( p ) > 2 ) ) {
+              ( here.move_cost( p ) > 2  &&
+                // Ignore if target location is on same vehicle as the avatar occupies
+                !( here.veh_at( p ).has_value() && here.veh_at( get_avatar().pos_abs() ) &&
+                   here.veh_at( p ).value().vehicle().pos_abs() == here.veh_at(
+                       get_avatar().pos_abs() ).value().vehicle().pos_abs() ) ) ) ) {
             return true;
         }
         if( sees_dangerous_field( p ) ) {

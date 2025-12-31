@@ -50,8 +50,18 @@ jobs:
       - run: |
           gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --notes-file notes.txt --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}" --target "$(git log -1 --format='%H')"
 
+  compose-tilesets:
+    uses: ./.github/workflows/compose-tilesets.yml
+  build-translations:
+    uses: ./.github/workflows/build-translations.yml
+    secrets:
+      TX_TOKEN: ${{ secrets.TX_TOKEN }}
+
   builds:
-    needs: release
+    needs:
+      - release
+      - compose-tilesets
+      - build-translations
     strategy:
       fail-fast: false
       matrix:
@@ -60,21 +70,20 @@ jobs:
             artifact: windows-with-graphics-x64
             arch: x64
             os: windows-2022
-            mxe: none
             ext: zip
             content: application/zip
+            tiles: 1
             sound: 0
           - name: Windows Tiles Sounds x64 MSVC
             artifact: windows-with-graphics-and-sounds-x64
             arch: x64
             os: windows-2022
-            mxe: none
             ext: zip
             content: application/zip
+            tiles: 1
             sound: 1
           - name: Linux Tiles x64
             os: ubuntu-22.04
-            mxe: none
             android: none
             libbacktrace: 1
             tiles: 1
@@ -84,7 +93,6 @@ jobs:
             content: application/gzip
           - name: Linux Tiles Sounds x64
             os: ubuntu-22.04
-            mxe: none
             android: none
             libbacktrace: 1
             tiles: 1
@@ -94,7 +102,6 @@ jobs:
             content: application/gzip
           - name: Linux Curses x64
             os: ubuntu-22.04
-            mxe: none
             android: none
             libbacktrace: 1
             tiles: 0
@@ -103,16 +110,14 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: macOS Curses Universal Binary (x64 and arm64)
-            os: macos-13
-            mxe: none
+            os: macos-15
             tiles: 0
             sound: 0
             artifact: osx-terminal-only-universal
             ext: dmg
             content: application/x-apple-diskimage
           - name: macOS Tiles Universal Binary (x64 and arm64)
-            os: macos-13
-            mxe: none
+            os: macos-15
             tiles: 1
             sound: 0
             artifact: osx-with-graphics-universal
@@ -120,33 +125,26 @@ jobs:
             content: application/x-apple-diskimage
           - name: Android x64
             os: ubuntu-latest
-            mxe: none
+            tiles: 1
             android: arm64
             artifact: android-x64
             ext: apk
             content: application/apk
           - name: Android x32
             os: ubuntu-latest
-            mxe: none
+            tiles: 1
             android: arm32
             artifact: android-x32
             ext: apk
             content: application/apk 
-          - name: Android Bundle
-            os: ubuntu-latest
-            mxe: none
-            android: bundle
-            artifact: android-bundle
-            ext: aab
-            content: application/aap
-          - name: WebAssembly Bundle
-            os: ubuntu-latest
-            mxe: none
-            artifact: wasm
-            ext: zip
-            content: application/zip
-            sound: 0
-            wasm: true
+          #- name: WebAssembly Bundle
+          #  os: ubuntu-latest
+          #  artifact: wasm
+          #  ext: zip
+          #  content: application/zip
+          #  tiles: 1
+          #  sound: 0
+          #  wasm: true
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     permissions: write-all
@@ -161,12 +159,17 @@ jobs:
         run: |
           git clone --depth=1 --shallow-submodules --recurse-submodules https://github.com/Fris0uman/CDDA-Soundpacks '${{ github.workspace }}/CDDA-Soundpacks'
           mv '${{ github.workspace }}/CDDA-Soundpacks/sound/CC-Sounds' '${{ github.workspace }}/data/sound'
-      - name: Install dependencies (windows msvc) (0/4)
-        if: runner.os == 'Windows'
-        uses: lukka/get-cmake@latest
+      - name: Fetch tileset artifact into build
+        if: matrix.tiles == 1
+        uses: actions/download-artifact@v4
         with:
-          # 4.0.0 has issues compiling old packages in vcpkg
-          cmakeVersion: 3.31.6
+          pattern: tileset-*
+          path: gfx
+          merge-multiple: true
+      - name: Fetch translations artifact into build
+        uses: actions/download-artifact@v4
+        with:
+          name: translations
       - name: Install dependencies (windows msvc) (1/4)
         if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v2
@@ -176,7 +179,7 @@ jobs:
         id: runvcpkg
         with:
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-          vcpkgGitCommitId: '3b57fb2e1ff55613db14d2aaf0a30529289c7050'
+          vcpkgGitCommitId: '1b6e030cf096faf4f82d7b7025de8b2abee3e3df'
       - name: Install dependencies (windows msvc) (3/4)
         if: runner.os == 'Windows'
         run: |
@@ -189,22 +192,8 @@ jobs:
           install: >-
             gettext
             make
-      - name: Install dependencies (windows mxe)
-        if: matrix.mxe != 'none'
-        run: |
-          sudo apt install gettext
-      - name: Install MXE
-        if: matrix.mxe != 'none'
-        run: |
-          curl -L -o mxe-${{ matrix.mxe }}.tar.xz https://github.com/BrettDong/MXE-GCC/releases/download/mxe-sdl-2-0-20/mxe-${{ matrix.mxe }}.tar.xz
-          curl -L -o mxe-${{ matrix.mxe }}.tar.xz.sha256 https://github.com/BrettDong/MXE-GCC/releases/download/mxe-sdl-2-0-20/mxe-${{ matrix.mxe }}.tar.xz.sha256
-          shasum -a 256 -c ./mxe-${{ matrix.mxe }}.tar.xz.sha256
-          sudo tar xJf mxe-${{ matrix.mxe }}.tar.xz -C /opt
-          curl -L -o SDL2-devel-2.26.2-mingw.tar.gz https://github.com/libsdl-org/SDL/releases/download/release-2.26.2/SDL2-devel-2.26.2-mingw.tar.gz
-          shasum -a 256 -c ./build-scripts/SDL2-devel-2.26.2-mingw.tar.gz.sha256
-          sudo tar -xzf SDL2-devel-2.26.2-mingw.tar.gz -C /opt/mxe/usr/${{ matrix.mxe }}-w64-mingw32.static.gcc12 --strip-components=2 SDL2-2.26.2/${{ matrix.mxe }}-w64-mingw32
       - name: Install dependencies (Linux)
-        if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' && !matrix.wasm
+        if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm
         run: |
           sudo apt-get update
           sudo apt-get install libsdl2-dev
@@ -233,7 +222,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel dylibbundler
-          pip3 install dmgbuild biplist
+          pip3 install --break-system-packages dmgbuild biplist
       - name: install macports (mac)
         if: runner.os == 'macOS' && matrix.tiles == 1
         uses: melusina-org/setup-macports@v1
@@ -266,23 +255,16 @@ jobs:
           cp LICENSE ${{ github.workspace }}/LICENSE-libbacktrace.txt
           sudo make install
       - name: Build CDDA (linux)
-        if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' && !matrix.wasm
+        if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm
         run: |
-          make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 LIBBACKTRACE=${{ matrix.libbacktrace }} PCH=0 bindist
-          mv cataclysmdda-0.I.tar.gz cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
+          make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 LIBBACKTRACE=${{ matrix.libbacktrace }} WARN_STALE_DATA=1 PCH=0 bindist
+          mv cataclysmdda-0.J.tar.gz cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
       - name: Build CDDA (WebAssembly)
         if: matrix.wasm && success()
         run: |
           ./build-scripts/build-emscripten.sh
           ./build-scripts/prepare-web.sh
           (cd build && zip ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} *)
-      - name: Build CDDA (windows mxe)
-        if: matrix.mxe != 'none'
-        env:
-          PLATFORM: /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc12-
-        run: |
-          make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 LIBBACKTRACE=${{ matrix.libbacktrace }} PCH=0 bindist
-          mv cataclysmdda-0.I.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
       - name: Build CDDA (windows msvc)
         if: runner.os == 'Windows'
         env:
@@ -291,27 +273,27 @@ jobs:
           CDDA_RELEASE_BUILD: 1
           VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
         run: |
-          msbuild -m -p:Configuration=Release -p:Platform=${{ matrix.arch }} "-target:Cataclysm-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features\Cataclysm-vcpkg-static.sln
+          msbuild -m -p:Configuration=Release -p:Platform=${{ matrix.arch }} "-target:Cataclysm-vcpkg-static;JsonFormatter-vcpkg-static;zzip" msvc-full-features\Cataclysm-vcpkg-static.sln
           .\build-scripts\windist.ps1
-          mv cataclysmdda-0.I.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
+          mv cataclysmdda-0.J.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
       - name: Build CDDA (osx)
         if: runner.os == 'macOS'
         run: |
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 FRAMEWORK=1 UNIVERSAL_BINARY=1 dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 FRAMEWORK=1 UNIVERSAL_BINARY=1 WARN_STALE_DATA=1 dmgdist
           mv Cataclysm.dmg cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
       - name: Set up JDK 8 (android)
-        if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
+        if: runner.os == 'Linux' && matrix.android != 'none'
         uses: actions/setup-java@v4
         with:
           java-version: '11'
           distribution: 'adopt'   
       - name: Setup Build and Dependencies (android)
-        if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
+        if: runner.os == 'Linux' && matrix.android != 'none'
         run: |
           sudo apt-get update
           sudo apt-get install gettext          
       - name: Build CDDA (android)
-        if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
+        if: runner.os == 'Linux' && matrix.android != 'none'
         working-directory: ./android
         run: |
           echo "${{ secrets.KEYSTORE }}" > release.keystore.asc   
@@ -328,10 +310,6 @@ jobs:
           then
                ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease
                mv ./app/build/outputs/apk/experimental/release/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk 
-          elif [ ${{ matrix.android }} = bundle ]
-          then
-               ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
-               mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
           fi
       - run: |
           gh release upload cdda-experimental-${{ needs.release.outputs.timestamp }} cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}

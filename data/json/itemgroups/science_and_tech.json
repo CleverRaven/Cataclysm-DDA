@@ -31,6 +31,7 @@
       [ "thermometer", 3 ],
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
+      { "item": "mobile_weather_station", "prob": 1, "charges": [ 0, 1000 ] },
       { "item": "electrohack", "prob": 3, "charges": [ 0, 100 ] },
       [ "RAM", 22 ],
       [ "screwdriver", 40 ],
@@ -77,7 +78,7 @@
       [ "EMPbomb", 2 ],
       [ "flux_comp_gen", 3 ],
       [ "portal", 2 ],
-      [ "bot_manhack", 1 ],
+      [ "bot_grenade_hack", 1 ],
       { "item": "UPS_OFF", "prob": 8, "charges": [ 0, 1000 ] },
       { "item": "tazer", "prob": 3, "charges": [ 0, 500 ] },
       { "item": "plasma", "prob": 8, "charges": [ 1, 25 ] },
@@ -162,7 +163,8 @@
       { "item": "chem_baking_soda", "prob": 5, "charges": [ 1, -1 ] },
       { "item": "chem_calcium_chloride", "prob": 5 },
       [ "panacea", 8 ],
-      { "group": "superglue", "prob": 30 },
+      { "group": "glue_weak_domestic", "prob": 15 },
+      { "group": "glue_strong_domestic", "prob": 15 },
       [ "bottle_glass", 10 ],
       [ "syringe", 8 ],
       [ "adrenaline_injector", 4 ],
@@ -315,6 +317,7 @@
         ]
       },
       { "item": "iv_mutagen", "prob": 100, "count": 1 },
+      { "item": "mutagen_chelator", "prob": 80, "count": [ 1, 2 ] },
       { "item": "syringe", "prob": 100, "count": 2 },
       { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
       { "item": "lab_file_mutagen_guide", "prob": 100 },
@@ -328,6 +331,7 @@
     "subtype": "collection",
     "items": [
       { "item": "iv_mutagen", "prob": 100, "count": 5 },
+      { "item": "mutagen_chelator", "prob": 100, "count": 3 },
       { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
       { "item": "lab_file_mutagen_guide", "prob": 100 },
       { "item": "lab_file_mutation_testing", "prob": 100 }
@@ -371,6 +375,7 @@
         ]
       },
       { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
+      { "item": "mutagen_chelator", "prob": 80, "count": [ 1, 2 ] },
       { "item": "lab_file_mutagen_guide", "prob": 100 },
       { "item": "lab_file_mutation_testing", "prob": 100 }
     ]
@@ -410,6 +415,7 @@
           { "item": "mutagen_crustacean", "count": [ 7, 11 ], "prob": 2 }
         ]
       },
+      { "item": "mutagen_chelator", "prob": 50, "count": 1 },
       { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
       { "item": "lab_file_mutagen_guide", "prob": 100 },
       { "item": "lab_file_mutation_testing", "prob": 100 }
@@ -478,8 +484,7 @@
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
       [ "boots_rubber", 20 ],
       [ "recipe_medicalmut", 2 ],
-      [ "canister_goo", 8 ],
-      [ "canister_goo", 8 ],
+      [ "canister_goo", 16 ],
       [ "recipe_labchem", 2 ],
       [ "recipe_creepy", 2 ],
       [ "recipe_animal", 1 ],
@@ -577,6 +582,7 @@
       { "item": "methed_alcohol", "prob": 4, "charges": [ 250, -1 ] },
       [ "bag_body_bag", 10 ],
       [ "microscope", 10 ],
+      { "item": "microscope_slide", "prob": 10, "count": [ 0, 20 ] },
       [ "microscope_dissecting", 15 ],
       [ "beaker", 5 ],
       [ "gradcylinder", 5 ],
@@ -632,5 +638,11 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_glass",
     "entries": [ { "item": "chem_citric_acid", "container-item": "null", "count": [ 100, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "any_centrifuge",
+    "subtype": "distribution",
+    "items": [ [ "microcentrifuge", 1 ], [ "centrifuge", 1 ] ]
   }
 ]

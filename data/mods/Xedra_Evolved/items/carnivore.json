@@ -54,7 +54,7 @@
     "parasites": 0,
     "fun": -10,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "underhill_essence", 15 ] ],
-    "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
+    "flags": [ "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
   },
   {
@@ -66,7 +66,7 @@
     "name": { "str": "scrap of fae meat", "str_pl": "scraps of fae meat" },
     "description": "This is a tiny scrap of edible meat from a fae beast.  It's not much, but it'll do in a pinch.",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
-    "delete": { "flags": [ "SMOKABLE" ] },
+    "smoking_result": "null",
     "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "underhill_essence", 2 ] ]
   },
   {
@@ -94,7 +94,7 @@
     "spoils_in": "1 day",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "name": { "str_sp": "cooked meat" },
+    "name": { "str_sp": "cooked fae meat" },
     "description": "This is a chunk of freshly cooked fae meat.  It's filling and nutritious, but unseasoned and a bit bland.",
     "price": "7 USD 50 cent",
     "price_postapoc": "1 USD",
@@ -132,7 +132,7 @@
     "price_postapoc": "2 USD",
     "quench": -1,
     "fun": 5,
-    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
+    "flags": [ "EATEN_HOT", "SMOKED" ],
     "smoking_result": "dry_meat"
   },
   {
@@ -212,5 +212,17 @@
     "name": { "str_sp": "vampire blood" },
     "description": "Blood extracted from a vampire.  Drinking it feels like a bad idea but there might be other ways to use it.",
     "material": "vampire_blood"
+  },
+  {
+    "type": "ITEM",
+    "id": "corpse_headless_bloodless",
+    "copy-from": "corpse_painful",
+    "name": { "str": "corpse" },
+    "volume": "80 L",
+    "weight": "50 kg",
+    "description": "A dead body with its head missing.  Considering what must have been required to remove the head, there is a surprising lack of blood.",
+    "looks_like": "corpse_generic_human",
+    "material": [ "hflesh" ],
+    "extend": { "flags": [ "PULPED" ] }
   }
 ]

@@ -181,7 +181,6 @@
     "name": { "str": "Oneiric Hammer" },
     "description": "The platonic embodiment of a blacksmiths hammer.  This hammer is necessary to forge or repair items made of forged dreamstuff.",
     "weight": "1337 g",
-    "to_hit": -1,
     "color": "brown",
     "symbol": "/",
     "material": [ "dreamstuff" ],
@@ -246,7 +245,12 @@
     ],
     "max_worn": 1,
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_r" ] } ],
-    "use_action": { "type": "effect_on_conditions", "description": "Jump.", "effect_on_conditions": [ "EOC_WINCH_TELEPORT" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "description": "Jump.",
+      "effect_on_conditions": [ "EOC_WINCH_TELEPORT" ]
+    }
   },
   {
     "id": "magic_light",
@@ -261,7 +265,8 @@
     "price": "1 cent",
     "symbol": ",",
     "color": "light_green",
-    "flags": [ "LIGHT_300", "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
+    "light": 300,
+    "flags": [ "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "covers": [ "head" ] } ],
     "melee_damage": { "bash": 8 }
   },
@@ -307,6 +312,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "melee_damage": { "cut": 6 },
     "techniques": [ "PRECISE", "WIDE", "SWEEP" ],
+    "light": 15,
     "flags": [
       "REACH_ATTACK",
       "REACH3",
@@ -317,11 +323,11 @@
       "NO_REPAIR",
       "NO_SALVAGE",
       "FIRESTARTER",
-      "LIGHT_15",
       "FLAMING",
       "FIRE"
     ],
-    "passive_effects": [ { "id": "SALAMANDER_SUMMON_WHIP" } ]
+    "passive_effects": [ { "id": "SALAMANDER_SUMMON_WHIP" } ],
+    "weapon_category": [ "WHIPS" ]
   },
   {
     "id": "undine_waters_map",
@@ -334,7 +340,6 @@
     "flags": [ "PAPER_SHAPED" ],
     "price": "10 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -1,
     "material": [ "elemental_water" ],
     "symbol": ";",
     "color": "blue",
@@ -362,7 +367,6 @@
     "longest_side": "550 mm",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "material": [ "veggy", "wood" ],
     "symbol": "o",
     "color": "green",
@@ -575,7 +579,6 @@
     "longest_side": "298 mm",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "material": [ "blood" ],
     "symbol": "O",
     "color": "red",

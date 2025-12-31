@@ -114,6 +114,44 @@
         "moves": 350,
         "description": "rear channel pocket."
       }
+    ],
+    "variants": [
+      {
+        "id": "generic",
+        "name": { "str": "synleather jacket" },
+        "description": "",
+        "color": "dark_gray",
+        "weight": 50,
+        "append": true
+      },
+      {
+        "id": "fur",
+        "name": { "str": "fur trimmed jacket" },
+        "description": "A cream colored jacket with a large fur collar.  Salus IV is too cold for this to function as anything more than a fashion statement.",
+        "color": "dark_gray",
+        "weight": 50
+      },
+      {
+        "id": "uica_surplus",
+        "name": { "str": "surplus jacket" },
+        "description": "A drab orange military jacket sold off as surplus after the end of the Reclamation.  UICA never issued these, they went into the trash directly from the factory.",
+        "color": "dark_gray",
+        "weight": 50
+      },
+      {
+        "id": "transparent",
+        "name": { "str": "transparent jacket" },
+        "description": "A jacket made from transparent plastic.  Not good for hiding in.",
+        "color": "dark_gray",
+        "weight": 20
+      },
+      {
+        "id": "old",
+        "name": { "str": "ancient jacket" },
+        "description": "Its so old and worn down that you think it might be made from actual leather.",
+        "color": "dark_gray",
+        "weight": 5
+      }
     ]
   },
   {

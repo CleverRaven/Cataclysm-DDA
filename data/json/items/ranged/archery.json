@@ -275,7 +275,6 @@
       "target": "arrow_flamming",
       "target_timer": "20 seconds",
       "msg": "You light the arrow.",
-      "active": true,
       "need_fire": 1,
       "menu_text": "Light arrow",
       "type": "transform"
@@ -293,8 +292,9 @@
     "color": "brown",
     "revert_to": "arrow_field_point_fletched",
     "recovery_chance": 97,
+    "use_action": { "target": "flamable_arrow", "menu_text": "Extinguish arrow", "type": "transform" },
     "effects": [ "IGNITE" ],
-    "extend": { "flags": [ "TRADER_AVOID" ] }
+    "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "selfbow",

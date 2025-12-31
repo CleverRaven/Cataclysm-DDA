@@ -1,0 +1,186 @@
+[
+  {
+    "id": "afs_precog_danger_sense",
+    "type": "SPELL",
+    "name": "[Ψ]Premonition (C)",
+    "description": "You can sense nearby movement and sometimes gain an advance warning of dangerous events.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "AFS_PRECOG",
+    "magic_type": "aftershock_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_PRECOG_DANGER_SENSE_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( ( u_spell_level('afs_precog_danger_sense') * 30300) + 117400) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_spell_level('afs_precog_danger_sense') * 100200) + 223200) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_premonition') > -1 ? 0 : max( (2250 - ( (u_spell_level('afs_precog_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 85)), 850)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_premonition') > -1 ? 10 : max( (85 - (u_spell_level('afs_precog_danger_sense') * 7) ), 25)"
+      ]
+    }
+  },
+  {
+    "id": "afs_precog_damage_foresee",
+    "type": "SPELL",
+    "name": "[Ψ]Forewarned (C)",
+    "description": "By taking a moment to peer through possible futures, you can determine if any harm may come to you in the near future and therefore avoid it.  This requires a moment in trance to sift through the visions.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "AFS_PRECOG",
+    "magic_type": "aftershock_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_afs_precog_damage_foresee",
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( ( u_spell_level('afs_precog_damage_foresee') * 3000) + 30000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_spell_level('afs_precog_damage_foresee') * 5500) + 60000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "base_energy_cost": 5000,
+    "base_casting_time": 6000,
+    "final_casting_time": 3000,
+    "casting_time_increment": -100
+  },
+  {
+    "id": "afs_precog_ranged_enhance",
+    "type": "SPELL",
+    "name": "[Ψ]Marksman's Eye (C)",
+    "description": "By predicting your opponent's position and the conditions affecting your weapon, you can increase the effective range and accuracy of your ranged attacks.  The shifting futures and focus required will slow your movem and reduce your chance to avoid any close-combat attacks, however.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  You may only have <color_red>one</color> of Marksman's Eye, Prescient Evasion, and Martial Trance active at once.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "AFS_PRECOG",
+    "magic_type": "aftershock_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_PRECOG_RANGED_ENHANCE_INITIATE",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_spell_level('afs_precog_ranged_enhance') * 800) + 21000) * scaling_factor(u_val('intelligence') )" ] },
+    "max_duration": {
+      "math": [ "( (u_spell_level('afs_precog_ranged_enhance') * 2500) + 64000) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_ranged_enhance') > -1 ? 0 : max((4500 - (u_spell_level('afs_precog_ranged_enhance') * 135)), 2250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_ranged_enhance') > -1 ? 10 : max((200 -(u_spell_level('afs_precog_ranged_enhance') * 6)), 125)"
+      ]
+    }
+  },
+  {
+    "id": "afs_precog_craft_bonus",
+    "type": "SPELL",
+    "name": "[Ψ]Intuitive Artisan (C)",
+    "description": "Opening yourself up to the immediate future, you can see the best option to take when crafting or working on a task.  However, due to the intensity of the visions you will be <color_red>blind</color> to the outside world while crafting anything.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "AFS_PRECOG",
+    "magic_type": "aftershock_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_PRECOG_CRAFT_BONUS_INITIATE",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_spell_level('afs_precog_craft_bonus') * 25000) + 121500) * scaling_factor(u_val('intelligence') )" ] },
+    "max_duration": { "math": [ "( (u_spell_level('afs_precog_craft_bonus') * 60000) + 270000) * scaling_factor(u_val('intelligence') )" ] },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_craft_bonus') > -1 ? 0 : max((6500 - (u_spell_level('afs_precog_craft_bonus') * 145)), 3250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_craft_bonus') > -1 ? 10 : max((500 -(u_spell_level('afs_precog_craft_bonus') * 3)), 300)"
+      ]
+    }
+  },
+  {
+    "id": "afs_precog_dodge_bonus",
+    "type": "SPELL",
+    "name": "[Ψ]Prescient Evasion (C)",
+    "description": "By gazing into the near future, you can be wherever your enemies are not attacking.  You can even \"dodge\" bullets or lasers by simply not being in the line of fire.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  You may only have <color_red>one</color> of Marksman's Eye, Prescient Evasion, and Martial Trance active at once.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "AFS_PRECOG",
+    "magic_type": "aftershock_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_PRECOG_DODGE_BONUS_INITIATE",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_spell_level('afs_precog_dodge_bonus') * 900) + 12000) * scaling_factor(u_val('intelligence') )" ] },
+    "max_duration": { "math": [ "( (u_spell_level('afs_precog_dodge_bonus') * 1700) + 45000) * scaling_factor(u_val('intelligence') )" ] },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_dodge_bonus') > -1 ? 0 : max((5500 - (u_spell_level('afs_precog_dodge_bonus') * 145)), 2750)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_dodge_bonus') > -1 ? 10 : max((150 -(u_spell_level('afs_precog_dodge_bonus') * 9)), 70)"
+      ]
+    }
+  },
+  {
+    "id": "afs_precog_melee_enhance",
+    "type": "SPELL",
+    "name": "[Ψ]Martial Trance (C)",
+    "description": "By opening yourself up to possible futures, you can predict your opponent's movements, striking at the place where they will be and avoiding their attacks before they happen.  Focusing on the shifting futures will narrow your vision to only the nearby melee, however.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  You may only have <color_red>one</color> of Marksman's Eye, Prescient Evasion, and Martial Trance active at once.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "AFS_PRECOG",
+    "magic_type": "aftershock_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_PRECOG_MELEE_ENHANCE_INITIATE",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_spell_level('afs_precog_melee_enhance') * 900) + 24000) * scaling_factor(u_val('intelligence') )" ] },
+    "max_duration": { "math": [ "( (u_spell_level('afs_precog_melee_enhance') * 2800) + 69000) * scaling_factor(u_val('intelligence') )" ] },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_melee_enhance') > -1 ? 0 : max((3500 - (u_spell_level('afs_precog_melee_enhance') * 135)), 1750)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_melee_enhance') > -1 ? 10 : max((200 -(u_spell_level('afs_precog_melee_enhance') * 6)), 125)"
+      ]
+    }
+  }
+]

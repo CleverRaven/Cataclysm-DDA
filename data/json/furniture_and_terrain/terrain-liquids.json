@@ -106,7 +106,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "CURRENT", "SHALLOW_WATER" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -123,7 +123,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "CURRENT", "INDOORS", "SHALLOW_WATER" ],
     "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -138,7 +138,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "CURRENT", "EMPTY_SPACE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -155,7 +155,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "CURRENT", "INDOORS", "EMPTY_SPACE" ],
     "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -436,7 +436,7 @@
     "looks_like": "t_concrete",
     "color": "white",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "MINEABLE" ],
     "bash": {
       "ter_set": "t_lake_bed",
       "str_min": 50,
@@ -459,7 +459,7 @@
     "looks_like": "t_pavement_y",
     "color": "yellow",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "MINEABLE" ],
     "bash": {
       "ter_set": "t_lake_bed",
       "str_min": 50,
@@ -484,7 +484,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water_murky" },
+    "liquid_source": { "id": "water_murky", "min_temp": 70 },
     "examine_action": "water_source"
   },
   {

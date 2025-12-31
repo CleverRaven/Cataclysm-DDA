@@ -58,6 +58,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
+#include "item_transformation.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -494,7 +495,8 @@ float npc::evaluate_monster( const monster &target, int dist ) const
     float speed = target.speed_rating();
     float scaled_distance = std::max( 1.0f, dist * dist / ( speed * 250.0f ) );
     float hp_percent = static_cast<float>( target.get_hp() ) / target.get_hp_max();
-    float diff = std::max( static_cast<float>( target.type->difficulty ), NPC_DANGER_VERY_LOW );
+    float diff = std::max( static_cast<float>( target.type->get_total_difficulty() ),
+                           NPC_DANGER_VERY_LOW );
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "<color_yellow>evaluate_monster </color><color_dark_gray>%s thinks %s threat level is <color_light_gray>%1.2f</color><color_dark_gray> before considering situation.  Speed rating: %1.2f; dist: %i; scaled_distance: %1.0f; HP: %1.0f%%</color>",
                    name, target.type->nname(), diff, speed, dist, scaled_distance, hp_percent * 100 );
@@ -512,13 +514,13 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
     bool candidate_gun = candidate.get_wielded_item() && candidate.get_wielded_item()->is_gun();
     const item &candidate_weap = candidate.get_wielded_item() ? *candidate.get_wielded_item() :
                                  null_item_reference();
-    double candidate_weap_val = candidate.weapon_value( candidate_weap );
+    double candidate_weap_val = candidate.evaluate_weapon( candidate_weap );
     float candidate_health =  candidate.hp_percentage() / 100.0f;
     float armour = estimate_armour( candidate );
     float speed = std::max( 0.25f, candidate.get_speed() / 100.0f );
     bool is_fleeing = candidate.has_effect( effect_npc_run_away );
     int perception_inverted = std::max( ( 20 - get_per() ), 0 );
-    if( has_effect( effect_bleed ) ) {
+    if( candidate.has_effect( effect_bleed ) ) {
         int bleed_intensity = 0;
         for( const bodypart_id &bp : candidate.get_all_body_parts() ) {
             const effect &bleediness = candidate.get_effect( effect_bleed, bp );
@@ -623,6 +625,7 @@ float npc::evaluate_self( bool my_gun )
     float armour = estimate_armour( dynamic_cast<const Character &>( *this ) );
     float speed = std::max( 0.5f, get_speed() / 100.0f );
     if( my_gun ) {
+        // Your speed is less important if you can shoot people.  Pew pew.
         speed = std::max( speed, 0.75f );
     }
     if( has_effect( effect_bleed ) ) {
@@ -641,22 +644,29 @@ float npc::evaluate_self( bool my_gun )
         }
     }
 
+    float personality_factor = ( personality.bravery + personality.aggression ) / 10.0f;
 
     threat += get_dodge();
     threat += armour;
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "<color_light_green>evaluate_self </color><color_light_gray>%s assesses own defense value as %1.2f.</color>",
                    name, threat );
+    mem_combat.my_defence_assess = threat * mem_combat.my_health;
 
     threat += my_weap_val;
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "<color_light_gray>%s assesses own weapon value as %1.2f.",
                    name, my_weap_val );
 
-    threat += static_cast<float>( personality.bravery + personality.aggression );
+    if( personality_factor > 0 ) {
+        threat *= 1 + personality_factor;
+    } else {
+        threat /= 1 + abs( personality_factor );
+    }
+
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "<color_light_gray>%s updates own threat by %i based on personality.",
-                   name, personality.bravery + personality.aggression );
+                   "<color_light_gray>%s updates own threat to %1.2f based on personality factor %i.",
+                   name, threat, ( personality.bravery + personality.aggression ) / 10 );
 
     threat *= speed;
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
@@ -746,11 +756,16 @@ void npc::assess_danger()
     // Radius we can attack without moving
     int max_range = *confident_range_cache;
     // Radius in which enemy threats are multiplied to avoid surrounding
-    int preferred_medium_range = std::max( max_range, 8 );
-    preferred_medium_range = std::min( preferred_medium_range, 15 );
+    int preferred_medium_range = 6;
     // Radius in which enemy threats are hugely multiplied to encourage repositioning
-    int preferred_close_range = std::max( max_range, 1 );
-    preferred_close_range = std::min( preferred_close_range, preferred_medium_range / 2 );
+    int preferred_close_range = 3;
+    if( npc_ranged ) {
+        // ranged NPCs will always be a little more squirrely about crowds
+        preferred_medium_range = std::max( max_range, 8 );
+        preferred_medium_range = std::min( preferred_medium_range, 15 );
+        preferred_close_range = std::max( max_range, 3 );
+        preferred_close_range = std::min( preferred_close_range, preferred_medium_range / 2 );
+    }
 
     Character &player_character = get_player_character();
     bool sees_player = sees( here, player_character.pos_bub( here ) );
@@ -885,22 +900,37 @@ void npc::assess_danger()
             continue;
         }
 
+        // Create a tally of how many worthwhile hostiles are in the area,
+        // ignoring them if your defense is much higher than their total threat.
+
         if( is_enemy() || !critter.friendly ) {
             mem_combat.assess_enemy += critter_threat;
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos_bub() );
             }
-            if( dist < preferred_medium_range ) {
+            if( preferred_close_range < dist && dist <= preferred_medium_range &&
+                critter_threat > mem_combat.my_defence_assess / 5.0f ) {
                 hostile_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                               "<color_light_gray>%s added %s to nearby hostile count.  Total: %i</color>", name,
-                               critter.type->nname(), hostile_count );
+                               "<color_light_gray>%s added %s to midrange hostile count.  Threat %1.1f > %1.1f.  Total: %i</color>",
+                               name,
+                               critter.type->nname(), critter_threat, mem_combat.my_defence_assess / 5.0f, hostile_count );
             }
-            if( dist <= preferred_close_range ) {
+            if( 1 < dist && dist <= preferred_close_range &&
+                critter_threat > mem_combat.my_defence_assess / 7.0f ) {
+                hostile_count += 1;
                 mem_combat.swarm_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                               "<color_light_gray>%s added %s to swarm count.  Total: %i</color>",
-                               name, critter.type->nname(), mem_combat.swarm_count );
+                               "<color_light_gray>%s added %s to swarm count.  Threat %1.1f > %1.1f.  Total: %i</color>",
+                               name, critter.type->nname(), critter_threat, mem_combat.my_defence_assess / 7.0f,
+                               mem_combat.swarm_count );
+            } else if( dist <= 1 && critter_threat > mem_combat.my_defence_assess / 10.0f ) {
+                hostile_count += 1;
+                mem_combat.swarm_count += 1;
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                               "<color_light_gray>%s added %s to urgent swarm count.  Threat %1.1f > %1.1f.  Total: %i</color>",
+                               name, critter.type->nname(), critter_threat, mem_combat.my_defence_assess / 10.0f,
+                               mem_combat.swarm_count );
             }
         }
         if( must_retreat || no_fighting ) {
@@ -1054,15 +1084,19 @@ void npc::assess_danger()
                            "<color_light_gray>%s identified player as a </color><color_green>friend</color><color_light_gray> of threat level %1.2f (ily babe)",
                            name, player_diff );
             if( dist <= 3 ) {
-                player_diff = player_diff * ( 4 - dist ) / 2;
-                mem_combat.swarm_count /= ( 4 - dist );
+                mem_combat.turns_next_to_leader += 1;
+                player_diff = ( player_diff + op_of_u.trust ) * ( 4 - dist ) / std::max(
+                                  5 - mem_combat.turns_next_to_leader, 2 );
+                if( mem_combat.turns_next_to_leader >= dist ) {
+                    mem_combat.swarm_count = std::max( mem_combat.swarm_count - ( 4 - dist ), 0 );
+                }
                 mem_combat.assess_ally += player_diff;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                               "<color_green>Player is %i tiles from %s.</color><color_light_gray>  Adding </color><color_light_green>%1.2f to ally strength</color><color_light_gray> and bolstering morale.</color>",
-                               dist, name,
+                               "<color_green>Player is %i tiles from %s for %i turns.</color><color_light_gray>  Adding </color><color_light_green>%1.2f to ally strength</color><color_light_gray> and bolstering morale.</color>",
+                               dist, name, mem_combat.turns_next_to_leader,
                                player_diff );
-                // don't try to fall back with your ranged weapon if you're in formation with the player.
-                if( mem_combat.panic > 0 && one_in( dist ) ) {
+                // don't try to fall back with your ranged weapon if you're in formation with the player for a while.
+                if( mem_combat.turns_next_to_leader > mem_combat.panic && mem_combat.panic > 0 && one_in( dist ) ) {
                     mem_combat.panic -= 1;
                 }
                 friendly_count += 4 - dist; // when close to the player, weight enemy groups less.
@@ -1071,6 +1105,7 @@ void npc::assess_danger()
                                "<color_light_gray>%s sees friendly player,</color> <color_light_green>adding %1.2f</color><color_light_gray> to ally strength.</color>",
                                name, player_diff * 0.5f );
                 mem_combat.assess_ally += player_diff * 0.5f;
+                mem_combat.turns_next_to_leader = 0;
             }
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
@@ -1196,7 +1231,8 @@ void npc::act_on_danger_assessment()
                 }
             }
         } else if( failed_reposition ||
-                   ( mem_combat.assess_ally < mem_combat.assess_enemy * mem_combat.swarm_count ) ) {
+                   ( mem_combat.assess_ally / 3.0f + mem_combat.my_defence_assess < mem_combat.assess_enemy *
+                     mem_combat.swarm_count ) ) {
             add_msg_debug( debugmode::DF_NPC_COMBATAI,
                            "<color_light_gray>%s considers </color>repositioning<color_light_gray> from swarming enemies.</color>",
                            name );
@@ -1283,7 +1319,7 @@ void npc::regen_ai_cache()
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
     item &weapon = get_wielded_item() ? *get_wielded_item() : null_item_reference();
-    ai_cache.my_weapon_value = weapon_value( weapon );
+    ai_cache.my_weapon_value = evaluate_weapon( weapon );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
     mem_combat.formation_distance = -1;
 
@@ -1674,7 +1710,27 @@ void npc::execute_action( npc_action action )
             // Find a nice spot to sleep
             tripoint_bub_ms best_spot = pos_bub();
             int best_sleepy = evaluate_sleep_spot( best_spot );
-            for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), MAX_VIEW_DISTANCE ) ) {
+
+            // first build a list of positions to search
+            std::vector<tripoint_bub_ms> search_positions;
+
+            if( is_walking_with() && player_character.in_vehicle && player_character.in_sleep_state() ) {
+                const optional_vpart_position player_part_pos = here.veh_at( player_character.pos_bub() );
+                if( player_part_pos ) {
+                    vehicle *player_vehicle = &player_part_pos->vehicle();
+                    for( const vpart_reference &part : player_vehicle->get_avail_parts( VPFLAG_BOARDABLE ) ) {
+                        search_positions.push_back( player_vehicle->bub_part_pos( here, part.part() ) );
+                    }
+                }
+            }
+
+            if( search_positions.empty() ) {
+                search_positions = closest_points_first( pos_bub(), MAX_VIEW_DISTANCE );
+            }
+
+
+            // then search through all positions to find the best sleep spot
+            for( const tripoint_bub_ms &p : search_positions ) {
                 if( !could_move_onto( p ) || !g->is_empty( p ) ) {
                     continue;
                 }
@@ -1688,6 +1744,7 @@ void npc::execute_action( npc_action action )
                     }
                 }
             }
+
             if( is_walking_with() ) {
                 complain_about( "napping", 30_minutes, chat_snippets().snip_warn_sleep.translated() );
             }
@@ -2387,7 +2444,7 @@ void outfit::activate_combat_items( npc &guy )
             // Due to how UPS works, there can be no charges_needed for UPS items.
             // Energy consumption is thus not checked at activation.
             // To prevent "flickering", this is a hard check for UPS charges > 0.
-            if( transform->target->has_flag( flag_USE_UPS ) && guy.available_ups() == 0_kJ ) {
+            if( transform->transform.target->has_flag( flag_USE_UPS ) && guy.available_ups() == 0_kJ ) {
                 continue;
             }
             if( transform->can_use( guy, candidate, tripoint_bub_ms::zero ).success() ) {
@@ -3136,7 +3193,7 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
             mod_moves( ( -get_speed() * 5 ) - ( rng( 0, climb ) * 20 ) );
             moved = true;
         }
-    } else if( !no_bashing && smash_ability() > 0 && here.is_bashable( p ) &&
+    } else if( !no_bashing && !smash_ability().empty() && here.is_bashable( p ) &&
                here.bash_rating( smash_ability(), p ) > 0 ) {
         mod_moves( -get_speed() * 0.8 );
         here.bash( p, smash_ability() );
@@ -3342,7 +3399,8 @@ bool npc::find_job_to_perform()
         }
         player_activity scan_act = player_activity( elem );
         if( elem == ACT_MOVE_LOOT ) {
-            assign_activity( elem );
+            assign_activity( zone_sort_activity_actor() );
+            return true;
         } else if( generic_multi_activity_handler( scan_act, *this->as_character(), true ) ) {
             assign_activity( elem );
             return true;
@@ -3385,11 +3443,14 @@ void npc::worker_downtime()
         if( !is_mounted() ) {
             for( const tripoint_bub_ms &elem : here.points_in_radius( pos_bub(), 30 ) ) {
                 if( here.has_flag_furn( ter_furn_flag::TFLAG_CAN_SIT, elem ) && !creatures.creature_at( elem ) &&
-                    could_move_onto( elem ) &&
-                    here.point_within_camp( here.get_abs( elem ) ) ) {
-                    // this one will do
-                    chair_pos = here.get_abs( elem );
-                    return;
+                    could_move_onto( elem ) && !!assigned_camp ) {
+                    std::optional<basecamp *> camp = overmap_buffer.find_camp( assigned_camp->xy() );
+                    if( !!camp && !!( *camp ) &&
+                        ( *camp )->point_within_camp( project_to<coords::omt>( here.get_abs( elem ) ) ) ) {
+                        // this one will do
+                        chair_pos = here.get_abs( elem );
+                        return;
+                    }
                 }
             }
         }
@@ -3564,7 +3625,7 @@ void npc::find_item()
     wanted_item = {};
     int best_value = minimum_item_value();
     // Not perfect, but has to mirror pickup code
-    units::volume volume_allowed = volume_capacity() - volume_carried();
+    units::volume volume_allowed = free_space();
     units::mass   weight_allowed = weight_capacity() - weight_carried();
     // For some reason range limiting by vision doesn't work properly
     const int range = 6;
@@ -3863,7 +3924,7 @@ bool npc::wants_take_that( const item &it )
 
     item &weap = get_wielded_item() ? *get_wielded_item() : null_item_reference();
     if( ( ( !whitelisting && value( it ) > min_value ) || item_whitelisted( it ) ) ||
-        weapon_value( it ) > weapon_value( weap ) ) {
+        evaluate_weapon( it ) > evaluate_weapon( weap ) ) {
         good = true;
     }
 
@@ -3907,14 +3968,7 @@ bool npc::would_take_that( const item &it, const tripoint_bub_ms &p )
             return false;
         }
         std::vector<npc *> followers;
-        for( const character_id &elem : g->get_follower_list() ) {
-            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
-            if( !npc_to_get ) {
-                continue;
-            }
-            npc *npc_to_add = npc_to_get.get();
-            followers.push_back( npc_to_add );
-        }
+        overmap_buffer.populate_followers_vec( followers );
         for( npc *&elem : followers ) {
             if( elem->sees( here, this->pos_bub( here ) ) || elem->sees( here,  p ) ) {
                 return false;
@@ -3974,7 +4028,7 @@ bool npc::find_corpse_to_pulp()
         {
             if( it.can_revive() ) {
                 const mtype &corpse = *it.get_corpse_mon();
-                if( g->can_pulp_corpse( *this, corpse ) ) {
+                if( !g->can_pulp_corpse( *this, corpse ) ) {
                     continue;
                 }
 
@@ -4099,46 +4153,20 @@ bool npc::do_player_activity()
     return moves != old_moves;
 }
 
-double npc::evaluate_weapon( item &maybe_weapon, bool can_use_gun, bool use_silent ) const
-{
-    // Needed because evaluation includes electricity via linked cables.
-    const map &here = get_map();
-
-    bool allowed = can_use_gun && maybe_weapon.is_gun() && ( !use_silent || maybe_weapon.is_silent() );
-    // According to unmodified evaluation score, NPCs almost always prioritize wielding guns if they have one.
-    // This is relatively reasonable, as players can issue commands to NPCs when we do not want them to use ranged weapons.
-    // Conversely, we cannot directly issue commands when we want NPCs to prioritize ranged weapons.
-    // Note that the scoring method here is different from the 'weapon_value' used elsewhere.
-    double val_gun = allowed ? gun_value( maybe_weapon, maybe_weapon.shots_remaining( here,
-                                          this ) ) : 0;
-    add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                   "%s %s valued at <color_light_cyan>%1.2f as a ranged weapon to wield</color>.",
-                   disp_name( true ), maybe_weapon.type->get_id().str(), val_gun );
-    double val_melee = melee_value( maybe_weapon );
-    add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                   "%s %s valued at <color_light_cyan>%1.2f as a melee weapon to wield</color>.", disp_name( true ),
-                   maybe_weapon.type->get_id().str(), val_melee );
-    double val = std::max( val_gun, val_melee );
-    return val;
-}
-
 item *npc::evaluate_best_weapon() const
 {
-    bool can_use_gun = !is_player_ally() || rules.has_flag( ally_rule::use_guns );
-    bool use_silent = is_player_ally() && rules.has_flag( ally_rule::use_silent );
-
     item_location weapon = get_wielded_item();
     item &weap = weapon ? *weapon : null_item_reference();
 
     // Check if there's something better to wield
     item *best = &weap;
-    double best_value = evaluate_weapon( weap, can_use_gun, use_silent );
+    double best_value = evaluate_weapon( weap );
 
     // To prevent changing to barely better stuff
-    best_value *= std::max<float>( 1.0f, ai_cache.danger_assessment / 10.0f );
+    best_value *= std::max<float>( 1.0f, std::min<float>( 2.0, ai_cache.danger_assessment / 10.0f ) );
 
     // Fists aren't checked below
-    double fist_value = evaluate_weapon( null_item_reference(), can_use_gun, use_silent );
+    double fist_value = evaluate_weapon( null_item_reference() );
 
     if( fist_value > best_value ) {
         best = &null_item_reference();
@@ -4146,7 +4174,7 @@ item *npc::evaluate_best_weapon() const
     }
 
     //Now check through the NPC's inventory for melee weapons, guns, or holstered items
-    visit_items( [this, can_use_gun, use_silent, &weap, &best_value, &best]( item * node, item * ) {
+    visit_items( [this, &weap, &best_value, &best]( item * node, item * ) {
         if( can_wield( *node ).success() ) {
             double weapon_value = 0.0;
             bool using_same_type_bionic_weapon = is_using_bionic_weapon()
@@ -4154,7 +4182,7 @@ item *npc::evaluate_best_weapon() const
                                                  && node->type->get_id() == weap.type->get_id();
 
             if( node->is_melee() || node->is_gun() ) {
-                weapon_value = evaluate_weapon( *node, can_use_gun, use_silent );
+                weapon_value = evaluate_weapon( *node );
                 if( weapon_value > best_value && !using_same_type_bionic_weapon ) {
                     best = const_cast<item *>( node );
                     best_value = weapon_value;
@@ -4173,10 +4201,6 @@ item *npc::evaluate_best_weapon() const
 
 bool npc::wield_better_weapon()
 {
-    // These are also assigned here so npc::evaluate_best_weapon() can be called by itself
-    bool can_use_gun = !is_player_ally() || rules.has_flag( ally_rule::use_guns );
-    bool use_silent = is_player_ally() && rules.has_flag( ally_rule::use_silent );
-
     item_location weapon = get_wielded_item();
     item &weap = weapon ? *weapon : null_item_reference();
     item *best = &weap;
@@ -4186,12 +4210,12 @@ bool npc::wield_better_weapon()
     if( best == better_weapon ) {
         add_msg_debug( debugmode::DF_NPC, "Wielded %s is best at %.1f, not switching",
                        best->type->get_id().str(),
-                       evaluate_weapon( *better_weapon, can_use_gun, use_silent ) );
+                       evaluate_weapon( *better_weapon ) );
         return false;
     }
 
     add_msg_debug( debugmode::DF_NPC, "Wielding %s at value %.1f", better_weapon->type->get_id().str(),
-                   evaluate_weapon( *better_weapon, can_use_gun, use_silent ) );
+                   evaluate_weapon( *better_weapon ) );
 
     // Always returns true, but future proof
     bool wield_success = wield( *better_weapon );

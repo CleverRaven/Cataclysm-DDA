@@ -24,6 +24,7 @@
       { "id": "horses", "text": "horses" },
       { "id": "kittens", "text": "kittens" },
       { "id": "mice", "text": "mice" },
+      { "id": "bunnies", "text": "bunnies" },
       { "id": "puppies", "text": "puppies" }
     ]
   },
@@ -51,7 +52,14 @@
       "I survived the apocalypse and all I got was this lousy T-shirt?",
       "Zombies don't care whether or not you believe",
       "Cthulhu for President: Why vote for the lesser evil",
-      "Cthulhu for President: This time the stars are right"
+      "Cthulhu for President: This time the stars are right",
+      "Live, Laugh, Loathe",
+      "I'm with Stupid ↑ ",
+      "Wanna hear about my hyperfixation?",
+      "Bumped into you?  Call 1-800 Hows My Walking",
+      "Habitual Foodplace™ Consumer",
+      "Have you tried turning it off and on again?",
+      "Super Into Mashed Potatoes"
     ]
   },
   {
@@ -71,7 +79,19 @@
       "a picture of a stylized castle with five spires.  Each spire has a purple-gray flame at the top.  At the bottom of the castle it says 'Menzoberranzan'",
       "a picture of a hooded child standing behind a lectern, his mouth open and his arms held high.  A pentagram has been carved into the lectern and stuffed animals are arranged in a semicircle facing the child.  On the left of the child are the words 'Let's Start A Cult', while below it reads 'Activities for Children'.",
       "a circle of stars.  Inside the circle is a blue and yellow skeleton with his arms raised and mouth open.  Above the skeleton are the words 'Make Eternia' and below him, 'Great Again'.",
-      "a drawing of a Nazgûl riding a black horse.  The drawing is in the style of old My Little Pony cartoons."
+      "a drawing of a Nazgûl riding a black horse.  The drawing is in the style of old My Little Pony cartoons.",
+      "a picture of a pixelated cleaning robot, wielding a cattle prod and wearing a little blue beret.  The big blue lettering above it reads: \"HAVE A SECURE DAY!\"",
+      "a picture of a stereotypical tourist, clad in obnoxious Hawaiian print and trudging through a torchlit dungeon.  In one hand, he holds a disposable camera, and in the other, the severed head of a gorgon.",
+      "a drawing of a banjo-playing frog, sitting on a wheel of cheese with a wedge taken out.  The text above it reads: \"The Lovers, The Dreamers, and Cheese!\"",
+      "a graphic of 3 colorful baboons standing on a cliff and howling at a crescent moon.  The top text reads: \"HATED BY BABOONS FOR QUESTIONING\", and the bottom text reads \"THE ORIGINS OF THE MOON\".",
+      "a picture of two cyborgs wearing red robes, pondering a toaster.",
+      "a simple graphic of the 'March of Progress' model of human evolution.  At the front of the line, the human is being choked by a robot.",
+      "a picture of a red-eyed gingerbread man, holding a candy cane to its mouth.  Stylized to look like smoke, the text above it reads \"Baked like a gingerbread man\".",
+      "a picture of two young women doing their nails, sitting on the back of a classic muscle car.  A human hand dangles limply from the trunk.  The tagline, \"Some girls just wanna have fun\", is written in blood-red cursive across the top.",
+      "a picture of an old man wearing a fez, wielding a high-powered sniper rifle.  It is drawn in the style of a popular cartoon.",
+      "a drawing of a zombie holding a sign.  The sign reads \"This is a sign you should contribute!\" You not entirely sure what they are referencing.",
+      "a picture of a corkboard, with red, yellow, and pink strings connecting various photographs.  Each photo shows someone of a different race, profession, and/or gender identity.  The strings spell out the acronym \"LCS\"",
+      "a picture of a dwarven mine, cutaway for viewing pleasure.  At the very bottom of the twisting tunnels filled with dwarves performing various tasks, there is a large lake of lava.  And just below that lake is a giant circus tent."
     ]
   },
   {
@@ -88,7 +108,10 @@
       "an AK-47 on the front.  It is held up by a clenched fist around its forestock, the fingers covered in crude looking tattoos.",
       "an interstellar bounty hunter on the front.  'My backpack's got jets'.",
       "the words 'THE DARKEST OF THE HILLSIDE THICKETS' with a picture of giant fantastical creatures dancing in a line.  Below the picture read the words 'Where the Great Old Ones Are'.",
-      "the words 'THE DARKEST OF THE HILLSIDE THICKETS' below a picture of a roofless green Dodge Charger with five robed men in it.  The driver is throwing back a drink from a goblet, the first passenger is chanting from a book, the other three passengers are firing various guns at a blue flying eye with tentacles and a snail shell.  Red letters read 'THE DUKES OF ALHAZRED'."
+      "the words 'THE DARKEST OF THE HILLSIDE THICKETS' below a picture of a roofless green Dodge Charger with five robed men in it.  The driver is throwing back a drink from a goblet, the first passenger is chanting from a book, the other three passengers are firing various guns at a blue flying eye with tentacles and a snail shell.  Red letters read 'THE DUKES OF ALHAZRED'.",
+      "a group of wizards with big gold chains on the front.  While one of them holds an arcane boombox, the others hold their wands sideways.",
+      "a frozen zombie in a futuristic exosuit on the front.  The back reads \"The Aftershock Tour\", along with a list of dates and places that no longer exist.",
+      "a tall woman with blue, knee-length hair on the front."
     ]
   },
   {
@@ -103,6 +126,26 @@
       "the Fedora logo on it, underneath it says \"Freedom.  Friends.  Features.  First.\"",
       "Red Hat's logo on it, underneath it says \"The World's Open Source Leader\"",
       "the Debian logo on it, underneath it says \"The Universal Operating System\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<catholic_saints>",
+    "text": [
+      "St. Michael the Archangel, patron saint of soldiers, police officers, and doctors, pray for us",
+      "St. Francis of Assisi, patron saint of animals, merchants, and ecology, pray for us",
+      "St. Catherine of Siena, patron saint of fire prevention, pray for us",
+      "St. Joseph, patron saint of fathers, carpenters, and immigrants, pray for us",
+      "St. Valentine, patron saint of love, young people, and happy marriages, pray for us",
+      "St. Christopher, patron saint of traveling, storms, and toothache, pray for us",
+      "St. Patrick, patron saint of Ireland, pray for us",
+      "St. Anthony, patron saint of finding lost things, pray for us",
+      "St. Rita, patron saint of lost causes and parenthood, pray for us",
+      "St. Mary, Mother of God, pray for us",
+      "St. Joan of Arc, patron saint of soldiers and France, pray for us",
+      "St. Pope John Paul II, pray for us",
+      "St. Genesius, patron saint of actors, liars, and thieves, pray for us",
+      "St. Genevieve, patron saint of disasters, fever, and Paris, pray for us"
     ]
   }
 ]

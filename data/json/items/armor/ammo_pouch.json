@@ -38,7 +38,6 @@
           "45colt": 60,
           "500": 60,
           "57": 60,
-          "46": 60,
           "762": 60,
           "545x39": 60,
           "223": 60,
@@ -141,7 +140,7 @@
     "variants": [
       {
         "id": "generic_chestrig",
-        "name": { "str": "chest rig" },
+        "//": "inherit name from item",
         "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches.",
         "weight": 30
       },
@@ -209,6 +208,8 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "chestrig",
     "name": { "str": "chest rig" },
+    "//": "delete chest rig variants",
+    "variants": [  ],
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -218,6 +219,8 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "chestrig",
     "name": { "str": "chest rig" },
+    "//": "delete chest rig variants",
+    "variants": [  ],
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -384,7 +387,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "quiver" },
     "description": "A leather quiver worn at the waist that can hold 20 arrows or bolts.  Use insert to store arrows or bolts.",
-    "weight": "260 g",
+    "weight": "320 g",
     "volume": "500 ml",
     "price": "65 USD",
     "price_postapoc": "10 USD",
@@ -495,7 +498,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "large quiver" },
-    "description": "A large leather quiver trimmed with metal, worn on the back, that can hold 60 arrows or bolts.  Historically used by horse archers, rather than foot archers, but neither of THEM had to fight zombies.  Use insert to store arrows or bolts.",
+    "description": "A large leather quiver, worn on the back, that can hold 60 arrows or bolts.  Historically used by horse archers, rather than foot archers, but neither of THEM had to fight zombies.  Use insert to store arrows or bolts.",
     "weight": "920 g",
     "volume": "1500 ml",
     "price": "88 USD",
@@ -867,7 +870,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "heavy_load_bearing_vest",
     "name": { "str": "breacher load bearing vest" },
-    "description": "This massive vest covered in MOLLE webbing is designed to attach a large number of pouches, holsters and other PALS compatible accessories.  This one has a single point sling wrapped around the shoulders using a system to keep your weapon extra secure, as well as a set of strong magnets attached to the torso and waist to hold a breaching shotgun.",
+    "description": "This massive vest covered in MOLLE webbing is designed to attach a large number of pouches, holsters and other PALS compatible accessories.  This one has a single point sling wrapped around the shoulders using a system to keep your weapon extra secure, as well as a set of strong magnets attached to the torso and waist to hold an extra medium-sized firearm - normally a short-barrel shotgun for breaching.",
     "use_action": [ { "type": "holster" }, { "type": "attach_molle", "size": 8 }, { "type": "detach_molle" } ],
     "weight": "2900 g",
     "armor": [
@@ -1188,6 +1191,45 @@
     ],
     "material_thickness": 0.5,
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_MEDIUM" ]
+  },
+  {
+    "id": "modular_papr_strap",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "looks_like": "holster",
+    "name": "modular PAPR strap",
+    "description": "A patch of velcro and MOLLE straps for attaching a modular PAPR blower to a compatible MOLLE unit.  It can also be strapped to the hip.",
+    "weight": "300 g",
+    "volume": "300 ml",
+    "price": "19 USD 95 cent",
+    "price_postapoc": "1 USD 90 cent",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "sided": true,
+    "armor": [
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": [ 3, 4 ],
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "molle_papr_blower_off", "molle_papr_blower_on" ],
+        "max_contains_volume": "4000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "description": "A MOLLE harness for a modular PAPR blower.",
+        "moves": 300,
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_LARGE" ]
   },
   {
     "id": "tactical_grenade_pouch",

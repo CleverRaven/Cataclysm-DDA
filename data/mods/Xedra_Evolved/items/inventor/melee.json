@@ -11,7 +11,7 @@
     "color": "dark_gray",
     "symbol": "/",
     "looks_like": "sledge",
-    "material": [ "steel" ],
+    "material": [ "hc_steel" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
     "flags": [ "SHEATH_SPEAR", "DURABLE_MELEE", "MUNDANE", "INVENTOR_CRAFTED" ],
     "weapon_category": [ "GREAT_HAMMERS" ],
@@ -41,7 +41,6 @@
     "use_action": {
       "target": "combatsaw_spear_on",
       "msg": "You turn on the chainsaw spear.",
-      "active": true,
       "type": "transform",
       "need_charges": 1,
       "need_charges_msg": "The chainsaw spear battery is dead."
@@ -79,8 +78,8 @@
     "melee_damage": { "bash": 8, "cut": 36 },
     "power_draw": "350 W",
     "revert_to": "combatsaw_spear_off",
-    "use_action": { "target": "combatsaw_spear_off", "msg": "You turn off the chainsaw spear.", "active": false, "type": "transform" },
-    "extend": { "flags": [ "MESSY" ] }
+    "use_action": { "target": "combatsaw_spear_off", "msg": "You turn off the chainsaw spear.", "type": "transform" },
+    "extend": { "flags": [ "MESSY", "SPAWN_ACTIVE" ] }
   },
   {
     "type": "ITEM",
@@ -98,7 +97,7 @@
       "target": "megachette",
       "msg": "With a quiet click, the megachette is unfolded."
     },
-    "to_hit": -1,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "neutral" },
     "techniques": [  ],
     "melee_damage": { "cut": 0, "bash": 3 }
   },
@@ -109,7 +108,7 @@
     "subtypes": [ "TOOL" ],
     "name": { "str": "megachette (extended)", "str_pl": "megachettes (extended)" },
     "description": "A completely flat, single-edged blade.  While very visually appealing, it is no less deadly.  It can be folded more times than makes sense.",
-    "replace_materials": { "mc_steel": "steel", "leather": "steel" },
+    "replace_materials": { "leather": "mc_steel" },
     "use_action": {
       "menu_text": "Fold",
       "type": "transform",
@@ -125,7 +124,7 @@
     "subtypes": [ "TOOL" ],
     "name": { "str": "binary sword" },
     "description": "A relatively heavy two-handed sword with \"100111100\" inscribed on the blade, perhaps to appear fancier than it truly is.  Still, it is a surprisingly good weapon.",
-    "replace_materials": { "qt_steel": "steel", "kevlar": "kevlar" },
+    "replace_materials": { "kevlar": "kevlar" },
     "relative": { "melee_damage": { "pure": 6 } }
   },
   {
@@ -146,7 +145,6 @@
     "use_action": {
       "target": "inventor_plasma_axe",
       "msg": "You turn on your \"Neon Angle\".",
-      "active": true,
       "type": "transform",
       "need_charges": 1,
       "need_charges_msg": "The \"Neon Angle\" battery is dead."
@@ -169,6 +167,7 @@
   {
     "id": "inventor_plasma_axe",
     "copy-from": "inventor_plasma_axe_off",
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "\"Neon Angle\" (on)", "str_pl": "\"Neon Angles\" (on)" },
@@ -176,11 +175,6 @@
     "melee_damage": { "bash": 8, "heat": 46 },
     "power_draw": "900 W",
     "revert_to": "inventor_plasma_axe_off",
-    "use_action": {
-      "target": "inventor_plasma_axe_off",
-      "msg": "You turn off your \"Neon Angle\".",
-      "active": false,
-      "type": "transform"
-    }
+    "use_action": { "target": "inventor_plasma_axe_off", "msg": "You turn off your \"Neon Angle\".", "type": "transform" }
   }
 ]

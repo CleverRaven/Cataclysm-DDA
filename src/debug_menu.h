@@ -24,6 +24,7 @@ enum class debug_menu_index : int {
     SHORT_TELEPORT,
     LONG_TELEPORT,
     SPAWN_NPC,
+    SPAWN_NPC_FOLLOWER,
     SPAWN_NAMED_NPC,
     SPAWN_OM_NPC,
     SPAWN_MON,
@@ -73,6 +74,7 @@ enum class debug_menu_index : int {
     ENABLE_ACHIEVEMENTS,
     SHOW_MSG,
     CRASH_GAME,
+    TEST_END_SCREEN,
     MAP_EXTRA,
     DISPLAY_NPC_PATH,
     DISPLAY_NPC_ATTACK,
@@ -109,6 +111,7 @@ enum class debug_menu_index : int {
     EXPORT_FOLLOWER,
     EXPORT_SELF,
     QUICK_SETUP,
+    QUICK_SETUP_FLAG_DIRTY,
     TOGGLE_SETUP_MUTATION,
     NORMALIZE_BODY_STAT,
     SIX_MILLION_DOLLAR_SURVIVOR,
@@ -116,6 +119,7 @@ enum class debug_menu_index : int {
     WRITE_CITY_LIST,
     TALK_TOPIC,
     IMGUI_DEMO,
+    VEHICLE_EFFECTS,
     last
 };
 
@@ -141,7 +145,7 @@ void wishproficiency( Character *you );
 
 void debug();
 
-void do_debug_quick_setup();
+void do_debug_quick_setup( bool flag_dirty = false );
 
 /* Splits a string by @param delimiter and push_back's the elements into _Container */
 template<typename Container>

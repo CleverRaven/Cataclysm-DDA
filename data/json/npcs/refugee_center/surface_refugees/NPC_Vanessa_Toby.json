@@ -295,7 +295,7 @@
       "effect": [
         { "u_add_var": "mission_flag_Vanessa_Mission1", "value": "yes" },
         { "npc_add_var": "mission_services_owed_haircut_1", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness += 2" ] }
       ]
     }
   }

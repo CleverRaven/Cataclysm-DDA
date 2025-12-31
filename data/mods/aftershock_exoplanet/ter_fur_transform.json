@@ -33,9 +33,35 @@
       {
         "result": "t_afs_security_door_frame",
         "valid_terrain": [ "t_afs_security_gate_closed" ],
-        "message": "The security gate recedes into the cieling.",
+        "message": "The security gate recedes into the ceiling.",
         "message_good": true
       }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "your_ship_stairs_up",
+    "terrain": [ { "result": "t_ship_stairs_down_retracted", "valid_terrain": [ "t_ship_stairs_down" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "your_ship_stairs_down",
+    "terrain": [ { "result": "t_ship_stairs_down", "valid_terrain": [ "t_ship_stairs_down_retracted" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "your_ship_ramp_up",
+    "terrain": [
+      { "result": "t_afs_ship_retracted_bay_ramp", "valid_terrain": [ "t_bay_rap_down" ] },
+      { "result": "t_afs_ship_retracted_bay_ramp_air", "valid_terrain": [ "t_open_air_bay" ] }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "your_ship_ramp_down",
+    "terrain": [
+      { "result": "t_bay_rap_down", "valid_terrain": [ "t_afs_ship_retracted_bay_ramp" ] },
+      { "result": "t_open_air_bay", "valid_terrain": [ "t_afs_ship_retracted_bay_ramp_air" ] }
     ]
   },
   {
@@ -56,7 +82,7 @@
       {
         "result": "f_security_panel_locked",
         "valid_furniture": [ "f_security_panel", "f_security_panel_10" ],
-        "message": "You trip the security failsafe and the panel fries it's own electronics."
+        "message": "You trip the security failsafe and the panel fries its own electronics."
       },
       {
         "result": "f_reinforced_displaycase_locked",

@@ -35,7 +35,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PSIONICS_KCAL_COST",
-    "effect": [ { "math": [ "u_calories()", "-=", "psionics_kcal_cost(u_latest_channeled_power_difficulty)" ] } ]
+    "effect": [ { "math": [ "u_calories() -= psionics_kcal_cost(u_latest_channeled_power_difficulty)" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -43,7 +43,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_BIOKINESIS" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('BIOKINETIC')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC') = 6" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -51,7 +51,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_CLAIRSENTIENCE" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('CLAIRSENTIENT')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT') = 6" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -59,7 +59,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_ELECTROKINESIS" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('ELECTROKINETIC')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC') = 6" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -67,7 +67,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_PHOTOKINESIS" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('PHOTOKINETIC')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC') = 6" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -75,7 +75,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_PYROKINESIS" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('PYROKINETIC')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC') = 6" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -83,7 +83,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEKINESIS" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('TELEKINETIC')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC') = 6" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -91,7 +91,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEPATHY" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('TELEPATH')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH') = 6" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -99,7 +99,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEPORTATION" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('TELEPORTER')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER') = 6" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -107,7 +107,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_VITAKINESIS" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('VITAKINETIC')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC') = 6" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -181,6 +181,30 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MOM_CASCADE_STONE_POWER_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_effect": "effect_mom_cascade_stone" },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('cost','flag_whitelist': 'PSIONIC') = -.9" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_CASCADE_STONE_CONSEQUENCES",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
+        { "u_has_effect": "effect_mom_cascade_stone" }
+      ]
+    },
+    "effect": [
+      { "if": { "math": [ "rand(1) >= 1" ] }, "then": { "math": [ "u_health() -= 1" ] } },
+      { "if": { "math": [ "rand(8) >= 7" ] }, "then": { "u_deal_damage": "biological", "amount": 1, "arpen": 999 } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_MOM_PSYCHIC_VAMPIRE_TELEPATHY",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
@@ -191,7 +215,7 @@
         { "or": [ { "compare_string": [ "telepathic_blast", { "context_val": "spell" } ] } ] }
       ]
     },
-    "effect": [ { "math": [ "u_val('focus')", "+=", "rand(2) + 1" ] } ]
+    "effect": [ { "math": [ "u_val('focus') += rand(2) + 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -218,18 +242,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" },
-    "effect": [
-      { "math": [ "u_spellcasting_adjustment('casting_time', 'flag_whitelist': 'PSIONIC') = 25" ] },
-      { "math": [ "u_spellcasting_adjustment('concentration', 'flag_whitelist': 'PSIONIC' ) = -1" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PSI_TORRENTIAL_CHANNELING",
-    "eoc_type": "EVENT",
-    "required_event": "opens_spellbook",
-    "condition": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('concentration', 'flag_whitelist': 'PSIONIC' ) = 0.75" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('casting_time', 'flag_whitelist': 'PSIONIC') = 4" ] } ]
   },
   {
     "type": "effect_on_condition",

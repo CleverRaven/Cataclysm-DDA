@@ -35,10 +35,7 @@
       [ [ "warptoken", 25 ] ],
       [ [ "blood", 10 ], [ "demihuman_blood", 10 ], [ "mutant_human_blood", 10 ], [ "fae_blood", 10 ] ],
       [ [ "vacutainer", 5 ] ],
-      [ [ "sinister_gown", 1 ] ],
       [ [ "sinister_cane", 1 ] ],
-      [ [ "sinister_dress", 1 ] ],
-      [ [ "sinister_dress_short", 1 ] ],
       [ [ "cloak_vampire_red", 1 ] ],
       [ [ "cloak_vampire", 1 ] ]
     ]
@@ -94,7 +91,7 @@
     "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Key of Vampiric Knowledge" },
-    "description": "This strange metaphysical artifact will allow you to spend your blood to obtain new blood gifts.\n\nAs per the previous vampiric amplificator, you have to decide to use the crafted item for its effect to apply.",
+    "description": "This strange metaphysical artifact will allow you to spend your blood to obtain new blood gifts and reshuffle your weaknesses.\n\nAs per the previous vampiric amplificator, you have to decide to use the crafted item for its effect to apply.",
     "volume": "250 ml",
     "weight": "150 g",
     "longest_side": "9 cm",

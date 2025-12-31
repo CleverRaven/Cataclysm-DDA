@@ -184,7 +184,7 @@
     "type": "trait_group",
     "id": "trait_group_PSYCHOPATH",
     "subtype": "distribution",
-    "traits": [ { "trait": "PSYCHOPATH" }, { "trait": "KILLER" }, { "trait": "PACIFIST" } ]
+    "traits": [ { "trait": "PSYCHOPATH" }, { "trait": "PACIFIST" } ]
   },
   {
     "type": "trait_group",

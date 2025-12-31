@@ -4,7 +4,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "group": "softdrinks_canned", "prob": 560 },
+      { "group": "soda_in_small_container", "prob": 560 },
       { "group": "zebra_pistol_cache", "prob": 60 },
       { "item": "file", "prob": 90 },
       { "group": "magazines", "prob": 365 },
@@ -69,9 +69,9 @@
       { "item": "umbrella", "prob": 5 },
       { "item": "teleumbrella", "prob": 2 },
       { "item": "mag_tailor", "prob": 5 },
-      { "item": "gum", "prob": 20, "count": [ 1, 10 ] },
-      { "item": "caff_gum", "prob": 7, "count": [ 1, 10 ] },
-      { "item": "nic_gum", "prob": 5, "count": [ 1, 10 ] },
+      { "group": "chewing_gum_used", "prob": 20 },
+      { "group": "chewing_gum_used_caff", "prob": 7 },
+      { "group": "chewing_gum_used_nic", "prob": 5 },
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
       { "item": "pocketwatch", "prob": 2 },
       { "item": "knitting_needles", "prob": 1 },
@@ -89,7 +89,7 @@
     "ammo": 75,
     "magazine": 100,
     "items": [
-      { "group": "softdrinks_canned", "prob": 370 },
+      { "group": "soda_in_small_container", "prob": 370 },
       { "group": "zebra_pistol_cache", "prob": 10 },
       [ "file", 90 ],
       { "group": "magazines", "prob": 130 },
@@ -131,9 +131,9 @@
       [ "software_electronics_reference", 2 ],
       [ "umbrella", 5 ],
       [ "teleumbrella", 2 ],
-      { "item": "gum", "prob": 10, "count": [ 1, 10 ] },
-      { "item": "caff_gum", "prob": 6, "count": [ 1, 10 ] },
-      { "item": "nic_gum", "prob": 4, "count": [ 1, 10 ] },
+      { "group": "chewing_gum_used", "prob": 10 },
+      { "group": "chewing_gum_used_caff", "prob": 4 },
+      { "group": "chewing_gum_used_nic", "prob": 2 },
       [ "fan", 10 ],
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
       [ "pocketwatch", 2 ],
@@ -150,6 +150,19 @@
     ]
   },
   {
+    "id": "deduction_books",
+    "type": "item_group",
+    "//": "Lies should only spawn by hand in specific mapgen, not randomly",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mag_deduction", "prob": 25 },
+      { "item": "mag_deduction_tabloid", "prob": 20 },
+      { "item": "book_teens_deduction", "prob": 15 },
+      { "item": "book_deduction_black_iron_prison", "prob": 10 },
+      { "item": "book_deduction_out_of_place", "prob": 5 }
+    ]
+  },
+  {
     "id": "kids_books",
     "type": "item_group",
     "subtype": "distribution",
@@ -163,6 +176,7 @@
     "copy-from": "homebooks",
     "extend": {
       "entries": [
+        { "item": "book_deduction_out_of_place", "prob": 1 },
         { "item": "manual_deduction", "prob": 1 },
         { "item": "mag_deduction", "prob": 10 },
         { "item": "mag_deduction_tabloid", "prob": 40 }
@@ -188,7 +202,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "copy-from": "religious_books",
-    "extend": { "entries": [ { "item": "book_deduction_black_iron_prison", "prob": 1 } ] }
+    "extend": {
+      "entries": [ { "item": "book_deduction_black_iron_prison", "prob": 1 }, { "item": "book_deduction_out_of_place", "prob": 1 } ]
+    }
   },
   {
     "type": "item_group",
@@ -204,6 +220,7 @@
     "//": "Itemgroup for lore snippet items in Xedra Offices and Labs.",
     "entries": [
       { "item": "report_march_lord", "prob": 10 },
+      { "item": "report_red_twilight_34", "prob": 10 },
       { "item": "border_patrol_files", "prob": 10 },
       { "item": "green_postit_field_agent", "prob": 40 },
       { "item": "agent_postit_gray", "prob": 50 },
@@ -244,15 +261,15 @@
   {
     "type": "item_group",
     "id": "bannerman_armor",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
-      { "item": "mt_chainmail_arms", "prob": 20 },
+      { "item": "mt_chainmail_arms", "prob": 50 },
       { "group": "banner_group", "prob": 20 },
-      { "item": "mt_chainmail_hood", "prob": 20 },
-      { "item": "mt_chainmail_hands", "prob": 20 },
-      { "item": "mt_chainmail_legs", "prob": 20 },
-      { "item": "mt_chainmail_vest", "prob": 20 },
-      { "item": "mt_chainmail_feet", "prob": 20 }
+      { "item": "mt_chainmail_hood", "prob": 50 },
+      { "item": "mt_chainmail_hands", "prob": 50 },
+      { "item": "mt_chainmail_legs", "prob": 50 },
+      { "item": "mt_chainmail_vest", "prob": 50 },
+      { "item": "mt_chainmail_feet", "prob": 50 }
     ]
   },
   {
@@ -480,6 +497,13 @@
     }
   },
   {
+    "id": "esoteric_books",
+    "type": "item_group",
+    "copy-from": "esoteric_books",
+    "subtype": "distribution",
+    "extend": { "entries": [ { "group": "hedge_magic_books", "prob": 1 } ] }
+  },
+  {
     "id": "hedge_magic_books",
     "type": "item_group",
     "subtype": "distribution",
@@ -537,5 +561,61 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "wrapper_wyld",
     "entries": [ { "item": "wyld_candy", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "portable_non_flashlight_light_sources",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "candle", "prob": 3, "charges": [ 5, 50 ] },
+      { "item": "gasoline_lantern", "prob": 5, "charges": [ 0, -1 ] },
+      { "item": "electric_lantern", "prob": 8, "charges": [ 0, 100 ] },
+      { "item": "oil_lamp", "prob": 5, "charges": [ 0, -1 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "nether_cabin_ritual_prep_clothes",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "robe", "prob": 10 },
+      { "item": "footrags_leather", "prob": 10 },
+      { "item": "robe_wizard", "prob": 5 },
+      { "item": "dress", "prob": 3, "variant": "white" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "nether_cabin_ritual_cult_meeting_room",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "soda_in_small_container", "prob": 60 },
+      { "item": "file", "prob": 190 },
+      { "item": "scrap_dreamdross", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "instant_coffee", "prob": 50 },
+      { "item": "strange_coffee", "prob": 10 },
+      { "item": "survnote", "prob": 1 },
+      { "group": "hedge_magic_books", "prob": 3 },
+      { "prob": 15, "sealed": false, "group": "wyld_candy_wrapper_wyld_20" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "nether_cabin_ritual_ingredients",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "hedge_magick_materials", "prob": 200 },
+      {
+        "item": "lotus_blossom",
+        "container-item": "null",
+        "entry-wrapper": "bag_zipper",
+        "count": [ 8, 14 ],
+        "prob": 30
+      },
+      { "item": "candle", "prob": 75, "charges": [ 10, -1 ] },
+      { "item": "corpse_yugg_jade_fragments", "prob": 15, "count": [ 1, 3 ] },
+      { "item": "blank_blood", "prob": 15, "container-item": "bottle_plastic" },
+      { "item": "kreck_loot_star_stone", "prob": 15 }
+    ]
   }
 ]

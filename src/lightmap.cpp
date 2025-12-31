@@ -81,7 +81,7 @@ void map::add_item_light_recursive( const tripoint_bub_ms &p, const item &it )
         }
     }
 
-    for( const item_pocket *pkt : it.get_all_contained_pockets() ) {
+    for( const item_pocket *pkt : it.get_container_pockets() ) {
         if( pkt->transparent() ) {
             for( const item *cont : pkt->all_items_top() ) {
                 add_item_light_recursive( p, *cont );
@@ -330,7 +330,11 @@ void map::build_sunlight_cache( int pzlev )
 
     // Iterate top to bottom because sunlight cache needs to construct in that order.
     for( int zlev = zlev_max; zlev >= zlev_min; zlev-- ) {
-
+        if( pzlev != get_avatar().posz() && zlev == get_avatar().posz() ) {
+            // Don't trash the lighting for the PC when this is called for someone else at a different
+            // Z level, as only the specified Z level is being rebuilt with light sources by the caller.
+            continue;
+        }
         level_cache &map_cache = get_cache( zlev );
         map_cache.natural_light_level_cache = g->natural_light_level( zlev );
         auto &lm = map_cache.lm;

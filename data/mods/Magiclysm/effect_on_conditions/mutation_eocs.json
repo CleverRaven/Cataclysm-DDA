@@ -41,36 +41,36 @@
       {
         "if": { "u_has_trait": "ELVEN_BUILD" },
         "then": [
-          { "math": [ "u_vitamin('mutagen_human')", "-=", "u_purifying_level" ] },
-          { "math": [ "u_vitamin('mutagen_species_elf')", "+=", "u_purifying_level" ] }
+          { "math": [ "u_vitamin('mutagen_human') -= u_purifying_level" ] },
+          { "math": [ "u_vitamin('mutagen_species_elf') += u_purifying_level" ] }
         ]
       },
       {
         "if": { "u_has_trait": "DWARVEN_BUILD" },
         "then": [
-          { "math": [ "u_vitamin('mutagen_human')", "-=", "u_purifying_level" ] },
-          { "math": [ "u_vitamin('mutagen_species_dwarf')", "+=", "u_purifying_level" ] }
+          { "math": [ "u_vitamin('mutagen_human') -= u_purifying_level" ] },
+          { "math": [ "u_vitamin('mutagen_species_dwarf') += u_purifying_level" ] }
         ]
       },
       {
         "if": { "u_has_trait": "GOBLIN_BUILD" },
         "then": [
-          { "math": [ "u_vitamin('mutagen_human')", "-=", "u_purifying_level" ] },
-          { "math": [ "u_vitamin('mutagen_species_goblin')", "+=", "u_purifying_level" ] }
+          { "math": [ "u_vitamin('mutagen_human') -= u_purifying_level" ] },
+          { "math": [ "u_vitamin('mutagen_species_goblin') += u_purifying_level" ] }
         ]
       },
       {
         "if": { "u_has_trait": "LIZARDFOLK_BUILD" },
         "then": [
-          { "math": [ "u_vitamin('mutagen_human')", "-=", "u_purifying_level" ] },
-          { "math": [ "u_vitamin('mutagen_species_lizardfolk')", "+=", "u_purifying_level" ] }
+          { "math": [ "u_vitamin('mutagen_human') -= u_purifying_level" ] },
+          { "math": [ "u_vitamin('mutagen_species_lizardfolk') += u_purifying_level" ] }
         ]
       },
       {
         "if": { "u_has_trait": "RAVENFOLK_BUILD" },
         "then": [
-          { "math": [ "u_vitamin('mutagen_human')", "-=", "u_purifying_level" ] },
-          { "math": [ "u_vitamin('mutagen_species_ravenfolk')", "+=", "u_purifying_level" ] }
+          { "math": [ "u_vitamin('mutagen_human') -= u_purifying_level" ] },
+          { "math": [ "u_vitamin('mutagen_species_ravenfolk') += u_purifying_level" ] }
         ]
       }
     ]
@@ -170,8 +170,8 @@
       {
         "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
-          "energy_amount": "2500",
-          "prep_time": "1",
+          "energy_amount": 2500,
+          "prep_time": 1,
           "spell_to_cast": "spell_ravenfolk_leap",
           "message_success": { "i18n": true, "str": "You launch yourself into a powerful wing-assisted leap." },
           "message_fail": { "i18n": true, "str": "You're too tired to leap." }
@@ -186,8 +186,8 @@
       {
         "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
-          "energy_amount": "0",
-          "prep_time": "0",
+          "energy_amount": 0,
+          "prep_time": 0,
           "spell_to_cast": "spell_ravenfolk_screech",
           "message_success": { "i18n": true, "str": "You let out a piercing cry!" },
           "message_fail": { "i18n": true, "str": "You change your mind about screeching." }

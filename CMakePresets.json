@@ -24,9 +24,6 @@
       "displayName": "Windows x64 MSVC",
       "description": "Target Windows (64-bit) with the Visual Studio development environment.",
       "generator": "Visual Studio 17 2022",
-      "environment": {
-        "VCPKG_ROOT": "C:/vcpkg"
-      },
       "cacheVariables": {
         "DYNAMIC_LINKING": "False",
         "CURSES": "True", "LOCALIZE": "True", "TILES": "False", "SOUND": "False", "TESTS": "True",
@@ -55,9 +52,6 @@
       "description": "Target Windows (64-bit) with the Visual Studio development environment.",
       "generator": "Visual Studio 17 2022",
       "inherits": "windows-tiles-sounds-x64",
-      "environment": {
-        "VCPKG_ROOT": "C:/vcpkg"
-      },
       "cacheVariables": {
         "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/${presetName}.cmake",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build-scripts/MSVC.cmake",

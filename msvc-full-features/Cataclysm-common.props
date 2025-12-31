@@ -14,6 +14,7 @@
     <_CDDA_RELEASE_BUILD>false</_CDDA_RELEASE_BUILD>
     <_CDDA_RELEASE_BUILD Condition="'$(CDDA_RELEASE_BUILD)'!=''">true</_CDDA_RELEASE_BUILD>
     <_CDDA_LLVM_BIN_PATH>$(VCInstallDir)Tools\Llvm\bin\</_CDDA_LLVM_BIN_PATH>
+    <_CDDA_LLVM_BIN_PATH Condition="'$(PreferredToolArchitecture)'=='x64'">$(VCInstallDir)Tools\Llvm\x64\bin\</_CDDA_LLVM_BIN_PATH>
     <_CDDA_LLVM_BIN_PATH Condition="'$(LLVMInstallDir)'!=''">$(LLVMInstallDir)\bin\</_CDDA_LLVM_BIN_PATH>
     <CDDA_LLVM_LIB_PATH Condition="'$(CDDA_LLVM_LIB_PATH)'==''">$(_CDDA_LLVM_BIN_PATH)</CDDA_LLVM_LIB_PATH>
     <CDDA_LLD_LINK_PATH Condition="'$(CDDA_LLD_LINK_PATH)'==''">$(_CDDA_LLVM_BIN_PATH)</CDDA_LLD_LINK_PATH>
@@ -116,14 +117,14 @@
         freetype$(VcpkgLibSuffix).lib;
         jpeg.lib;
         libpng16$(VcpkgLibSuffix).lib;
-        modplug.lib;
+        libwavpack.lib;
         mpg123.lib;
         ogg.lib;
         out123.lib;
         pdcurses.lib;
         SDL2_image-static$(VcpkgLibSuffix).lib;
         SDL2_mixer-static$(VcpkgLibSuffix).lib;
-        SDL2_ttf.lib;
+        SDL2_ttf$(VcpkgLibSuffix).lib;
         SDL2-static$(VcpkgLibSuffix).lib;
         syn123.lib;
         turbojpeg.lib;
