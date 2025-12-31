@@ -48,5 +48,95 @@
     "description": "A syringe that extends out into two tubes that snake up through the nostrils and down to the lungs in order to get the spores deep into their new home, where they can best spread through the body.",
     "price": "3 kUSD 500 USD",
     "difficulty": 0
+  },
+  {
+    "id": "xe_bio_data_shunt",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Data Shunt, basic" },
+    "description": "A compact bionic module designed for slotting in data cores that instantly teach you a proficiency or martial art.",
+    "price": "15 kUSD 500 USD",
+    "difficulty": 5
+  },
+  {
+    "id": "xe_bio_dataslot_knife_basic",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Knives" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "1 kUSD 500 USD",
+    "difficulty": 0
+  },
+  {
+    "id": "xe_bio_dataslot_knife_advanced",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Knives, advanced" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "4 kUSD 500 USD",
+    "difficulty": 0
+  },
+  {
+    "id": "xe_bio_dataslot_baton_basic",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Batons" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "1 kUSD 500 USD",
+    "difficulty": 0
+  },
+  {
+    "id": "xe_bio_dataslot_baton_advanced",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Batons, advanced" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "4 kUSD 500 USD",
+    "difficulty": 0
+  },
+  {
+    "id": "xe_bio_dataslot_med_swords_basic",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Medium Swords" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "1 kUSD 500 USD",
+    "difficulty": 0
+  },
+  {
+    "id": "xe_bio_dataslot_med_swords_advanced",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Medium Swords, advanced" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "4 kUSD 500 USD",
+    "difficulty": 0
+  },
+  {
+    "id": "xe_bio_dataslot_short_swords_basic",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Short Swords" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "1 kUSD 500 USD",
+    "difficulty": 0
+  },
+  {
+    "id": "xe_bio_dataslot_short_swords_advanced",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Short Swords, advanced" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "4 kUSD 500 USD",
+    "difficulty": 0
   }
 ]
