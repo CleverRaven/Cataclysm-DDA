@@ -1900,6 +1900,12 @@ class oxytorch_activity_actor : public activity_actor
         tripoint_bub_ms target;
         item_location tool;
 
+        void set_resume_values_internal( const activity_actor &other,
+                                         const Character &/*who*/ ) override {
+            const oxytorch_activity_actor &actor = static_cast<const oxytorch_activity_actor &>
+                                                   ( other );
+            tool = actor.tool;
+        }
         bool can_resume_with_internal( const activity_actor &other,
                                        const Character &/*who*/ ) const override {
             const oxytorch_activity_actor &actor = static_cast<const oxytorch_activity_actor &>

@@ -169,6 +169,12 @@ class player_activity
          */
         bool can_resume_with( const player_activity &other, const Character &who ) const;
 
+        /**
+         * Passes new activity_actor to the old one so it can update its parameter when
+         * activity is resumed with another one.
+         */
+        void set_resume_values( const player_activity &other, const Character &who ) ;
+
         bool is_interruptible() const;
         bool is_interruptible_with_kb() const;
         bool is_distraction_ignored( distraction_type ) const;
