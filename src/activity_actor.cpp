@@ -6100,6 +6100,7 @@ void reload_activity_actor::reload( player_activity &act, Character &who, int lo
             who.wield( target_loc );
             add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
                      reloadable_name );
+            target_loc = who.used_weapon();
             break;
         case 2:
         default:
@@ -6109,7 +6110,7 @@ void reload_activity_actor::reload( player_activity &act, Character &who, int lo
                                                   _( "The %s no longer fits in your inventory so you drop it instead." ),
                                                   reloadable_name );
             }
-            here.add_item_or_charges( loc.pos_bub( here ), reloadable );
+            target_loc = here.add_item_or_charges_ret_loc( loc.pos_bub( here ), reloadable );
             loc.remove_item();
             break;
     }
