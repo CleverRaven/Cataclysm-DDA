@@ -4,7 +4,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str": "30x200mm FSAP" },
-    "description": "Conventional anti-spacecraft kinetic penetration rounds, each containing a depleted uranium slug within a steel launch armature.  Its better to never be on the receiving end of one of these.",
+    "description": "Conventional anti-spacecraft kinetic penetration rounds, each containing a depleted uranium slug within a steel launch armature.  It's better to never be on the receiving end of one of these.",
     "weight": "2200 g",
     "longest_side": "20 cm",
     "volume": "1 L",
