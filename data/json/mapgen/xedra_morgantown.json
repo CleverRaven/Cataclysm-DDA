@@ -83,7 +83,7 @@
         "T                 T                                                     "
       ],
       "furniture": { "*": "f_barricade_road", "g": "f_grave_stone_old" },
-      "item": {"@": [ { "item": "corpse_generic_male" } ] },
+      "item": { "@": [ { "item": "corpse_generic_male" } ] },
       "items": { "@": { "item": "NC_XEDRA_FIELD_AGENT_MORGANTOWN_worn" } },
       "nested": { "$": { "chunks": [ "tent_b_5x5_S" ] } },
       "terrain": {
