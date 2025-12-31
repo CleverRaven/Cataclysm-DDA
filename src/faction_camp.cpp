@@ -791,7 +791,7 @@ void basecamp::add_available_recipes( mission_data &mission_key, mission_kind ki
     const mission_id miss_id = {kind, "DUMMY_RECIPE_REPLACED_IN_CAMP", {}, dir};
     std::string miss_desc = string_format( _( "Notes:\n"
                                            "This will open the regular crafting screen where you may select a recipe and batch size.\n\n"
-                                           "You will be prompted to select a NPC to perform the craft after selecting the recipe.\n\n"
+                                           "You will be prompted to select an NPC to perform the craft after selecting the recipe.\n\n"
                                            "Kcal cost will be shown last, you will be prompted to accept or back out." ) );
     mission_key.add_start( miss_id, _( "Crafting" ), miss_desc, true );
 }
@@ -3341,7 +3341,7 @@ void basecamp::start_crafting( const mission_id &miss_id )
     }
 
     uilist choose_crafter;
-    choose_crafter.title = _( "Choose a NPC to craft" );
+    choose_crafter.title = _( "Choose a companion to craft" );
     int i = 0;
     for( const npc_ptr &guy : assigned_npcs ) {
         if( guy.get() ) {

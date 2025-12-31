@@ -25,6 +25,7 @@
 #include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "bionics.h"
 #include "bodypart.h"
 #include "butchery.h"
 #include "butchery_requirements.h"
@@ -52,6 +53,7 @@
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
+#include "game_inventory.h"
 #include "gates.h"
 #include "gun_mode.h"
 #include "handle_liquid.h"
@@ -132,7 +134,6 @@ static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME( "ACT_CONSUME" );
-static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_DISABLE( "ACT_DISABLE" );
@@ -140,7 +141,6 @@ static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_DROP( "ACT_DROP" );
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
 static const activity_id ACT_E_FILE( "ACT_E_FILE" );
 static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
@@ -174,6 +174,7 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
+static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
@@ -198,6 +199,7 @@ static const activity_id ACT_UNLOAD_LOOT( "ACT_UNLOAD_LOOT" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_FOLD( "ACT_VEHICLE_FOLD" );
 static const activity_id ACT_VEHICLE_UNFOLD( "ACT_VEHICLE_UNFOLD" );
+static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_FOLLOWERS( "ACT_WAIT_FOLLOWERS" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
@@ -213,15 +215,21 @@ static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
 
 static const ammotype ammo_plutonium( "plutonium" );
 
+static const bionic_id bio_painkiller( "bio_painkiller" );
+
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_gliding( "gliding" );
+static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_under_operation( "under_operation" );
 static const efftype_id effect_worked_on( "worked_on" );
 
 static const faction_id faction_your_followers( "your_followers" );
@@ -263,6 +271,7 @@ static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 
@@ -421,7 +430,7 @@ bool aim_activity_actor::check_gun_ability_to_shoot( Character &who, item &it )
 
     if( it.has_fault_flag( "OVERHEATED_GUN" ) ) {
         who.add_msg_if_player( m_warning,
-                               _( "Your %s is too hot, and little screen signalizes the gun is inoperable." ), it.tname() );
+                               _( "Your %s status screen indicates the gun is venting." ), it.tname() );
         return false;
     }
 
@@ -1466,6 +1475,229 @@ std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( Js
     data.read( "racked_vehicle_pos", actor.racked_vehicle_pos );
     data.read( "racks", actor.racks );
 
+    return actor.clone();
+}
+
+void bionic_operation_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( operation_difficulty * 20_minutes );
+    act.moves_left = act.moves_total;
+}
+
+void bionic_operation_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    const map &here = get_map();
+    const bionic_id bid = installed_bionic;
+    const bool autodoc = operation_autodoc;
+    Character &player_character = get_player_character();
+    const tripoint_bub_ms &actor_pos = who.pos_bub( here );
+    const bool u_see = player_character.sees( here, actor_pos ) &&
+                       ( !player_character.has_effect( effect_narcosis ) ||
+                         player_character.has_bionic( bio_painkiller ) ||
+                         player_character.has_flag( json_flag_PAIN_IMMUNE ) );
+
+    const int difficulty = operation_difficulty;
+
+    const std::vector<bodypart_id> bps = get_occupied_bodyparts( bid );
+
+    const time_duration half_op_duration = difficulty * 10_minutes;
+    const time_duration message_freq = difficulty * 2_minutes;
+    time_duration time_left = time_duration::from_moves( act.moves_left );
+
+    if( autodoc && here.inbounds( who.pos_bub( here ) ) ) {
+        const std::list<tripoint_bub_ms> autodocs = here.find_furnitures_with_flag_in_radius(
+                    actor_pos, 1,
+                    ter_furn_flag::TFLAG_AUTODOC );
+
+        if( !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, actor_pos ) ||
+            autodocs.empty() ) {
+            who.remove_effect( effect_under_operation );
+            act.set_to_null();
+
+            if( u_see ) {
+                add_msg( m_bad, _( "The Autodoc suffers a catastrophic failure." ) );
+
+                who.add_msg_player_or_npc( m_bad,
+                                           _( "The Autodoc's failure damages you greatly." ),
+                                           _( "The Autodoc's failure damages <npcname> greatly." ) );
+            }
+            if( !bps.empty() ) {
+                for( const bodypart_id &bp : bps ) {
+                    who.add_effect( effect_bleed, 1_minutes * difficulty, bp, true, 1 );
+                    who.apply_damage( nullptr, bp, 20 * difficulty );
+
+                    if( u_see ) {
+                        who.add_msg_player_or_npc( m_bad, _( "Your %s is ripped open." ),
+                                                   _( "<npcname>'s %s is ripped open." ), body_part_name_accusative( bp ) );
+                    }
+
+                    if( bp == bodypart_id( "eyes" ) ) {
+                        who.add_effect( effect_blind, 1_hours );
+                    }
+                }
+            } else {
+                who.add_effect( effect_bleed, 1_minutes * difficulty, bodypart_str_id::NULL_ID(), true, 1 );
+                who.apply_damage( nullptr, bodypart_id( "torso" ), 20 * difficulty );
+            }
+        }
+    }
+
+    if( time_left > half_op_duration ) {
+        if( !bps.empty() ) {
+            for( const bodypart_id &bp : bps ) {
+                if( calendar::once_every( message_freq ) && u_see && autodoc ) {
+                    who.add_msg_player_or_npc( m_info,
+                                               _( "The Autodoc is meticulously cutting your %s open." ),
+                                               _( "The Autodoc is meticulously cutting <npcname>'s %s open." ),
+                                               body_part_name_accusative( bp ) );
+                }
+            }
+        } else {
+            if( calendar::once_every( message_freq ) && u_see ) {
+                who.add_msg_player_or_npc( m_info,
+                                           _( "The Autodoc is meticulously cutting you open." ),
+                                           _( "The Autodoc is meticulously cutting <npcname> open." ) );
+            }
+        }
+    } else if( time_left == half_op_duration ) {
+        if( !installing ) {
+            if( u_see && autodoc ) {
+                add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
+            }
+
+            if( std::optional<bionic *> bio = who.find_bionic_by_uid( uninstalled_bionic ) ) {
+                who.perform_uninstall( **bio, operation_difficulty, operation_success, operation_skill );
+            } else {
+                debugmsg( _( "Tried to uninstall bionic with UID %s, but you don't have this bionic installed." ),
+                          uninstalled_bionic );
+                who.remove_effect( effect_under_operation );
+                act.set_to_null();
+            }
+        } else {
+            if( u_see && autodoc ) {
+                add_msg( m_info, _( "The Autodoc attempts to carefully insert the bionic." ) );
+            }
+
+            if( bid.is_valid() ) {
+                const bionic_id upbid = bid->upgraded_bionic;
+                // TODO: Let the user pick bionic to upgrade if multiple candidates exist
+                bionic_uid upbio_uid = 0;
+                if( std::optional<bionic *> bio = who.find_bionic_by_type( upbid ) ) {
+                    upbio_uid = ( *bio )->get_uid();
+                }
+
+                who.perform_install( bid, upbio_uid, operation_difficulty, operation_success, operation_skill,
+                                     installer_name, bid->canceled_mutations, actor_pos );
+            } else {
+                debugmsg( _( "%s is no a valid bionic_id" ), bid.c_str() );
+                who.remove_effect( effect_under_operation );
+                act.set_to_null();
+            }
+        }
+    } else if( operation_success > 0 ) {
+        if( !bps.empty() ) {
+            for( const bodypart_id &bp : bps ) {
+                if( calendar::once_every( message_freq ) && u_see && autodoc ) {
+                    who.add_msg_player_or_npc( m_info,
+                                               _( "The Autodoc is stitching your %s back up." ),
+                                               _( "The Autodoc is stitching <npcname>'s %s back up." ),
+                                               body_part_name_accusative( bp ) );
+                }
+            }
+        } else {
+            if( calendar::once_every( message_freq ) && u_see && autodoc ) {
+                who.add_msg_player_or_npc( m_info,
+                                           _( "The Autodoc is stitching you back up." ),
+                                           _( "The Autodoc is stitching <npcname> back up." ) );
+            }
+        }
+    } else {
+        if( calendar::once_every( message_freq ) && u_see && autodoc ) {
+            who.add_msg_player_or_npc( m_bad,
+                                       _( "The Autodoc is moving erratically through the rest of its program, not actually stitching your wounds." ),
+                                       _( "The Autodoc is moving erratically through the rest of its program, not actually stitching <npcname>'s wounds." ) );
+        }
+    }
+
+    // Makes sure NPC is still under anesthesia
+    if( who.has_effect( effect_narcosis ) ) {
+        const time_duration remaining_time = who.get_effect_dur( effect_narcosis );
+        if( remaining_time < time_left ) {
+            const time_duration top_off_time = time_left - remaining_time;
+            who.add_effect( effect_narcosis, top_off_time );
+            who.add_effect( effect_sleep, top_off_time );
+        }
+    } else {
+        who.add_effect( effect_narcosis, time_left );
+        who.add_effect( effect_sleep, time_left );
+    }
+}
+
+void bionic_operation_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    const tripoint_bub_ms &actor_pos = who.pos_bub( here );
+    if( operation_autodoc ) {
+        if( operation_success > 0 ) {
+            add_msg( m_good,
+                     _( "The Autodoc returns to its resting position after successfully performing the operation." ) );
+            const std::list<tripoint_bub_ms> autodocs = here.find_furnitures_with_flag_in_radius(
+                        actor_pos, 1, ter_furn_flag::TFLAG_AUTODOC );
+            sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
+                           _( "a short upbeat jingle: \"Operation successful\"" ), true,
+                           "Autodoc",
+                           "success" );
+        } else {
+            add_msg( m_bad,
+                     _( "The Autodoc jerks back to its resting position after failing the operation." ) );
+            const std::list<tripoint_bub_ms> autodocs = here.find_furnitures_with_flag_in_radius(
+                        actor_pos, 1, ter_furn_flag::TFLAG_AUTODOC );
+            sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
+                           _( "a sad beeping noise: \"Operation failed\"" ), true,
+                           "Autodoc",
+                           "failure" );
+        }
+    } else {
+        if( operation_success > 0 ) {
+            add_msg( m_good,
+                     _( "The operation is a success." ) );
+        } else {
+            add_msg( m_bad,
+                     _( "The operation is a failure." ) );
+        }
+    }
+    who.remove_effect( effect_under_operation );
+    act.set_to_null();
+}
+
+void bionic_operation_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "operation_success", operation_success );
+    jsout.member( "operation_autodoc", operation_autodoc );
+    jsout.member( "operation_skill", operation_skill );
+    jsout.member( "operation_difficulty", operation_difficulty );
+    jsout.member( "installing", installing );
+    jsout.member( "installed_bionic", installed_bionic );
+    jsout.member( "installer_name", installer_name );
+    jsout.member( "uninstalled_bionic", uninstalled_bionic );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> bionic_operation_activity_actor::deserialize( JsonValue &jsin )
+{
+    bionic_operation_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "operation_success", actor.operation_success );
+    data.read( "operation_autodoc", actor.operation_autodoc );
+    data.read( "operation_skill", actor.operation_skill );
+    data.read( "operation_difficulty", actor.operation_difficulty );
+    data.read( "installing", actor.installing );
+    data.read( "installed_bionic", actor.installed_bionic );
+    data.read( "installer_name", actor.installer_name );
+    data.read( "uninstalled_bionic", actor.uninstalled_bionic );
     return actor.clone();
 }
 
@@ -3807,6 +4039,9 @@ void migration_cancel_activity_actor::do_turn( player_activity &act, Character &
     // Stop the activity
     act.set_to_null();
 
+    // Do activity-specific reversion
+    revert( act, who );
+
     // Ensure that neither avatars nor npcs end up in an invalid state
     if( who.is_npc() ) {
         npc &npc_who = dynamic_cast<npc &>( who );
@@ -3815,6 +4050,15 @@ void migration_cancel_activity_actor::do_turn( player_activity &act, Character &
         avatar &avatar_who = dynamic_cast<avatar &>( who );
         avatar_who.clear_destination();
         avatar_who.backlog.clear();
+    }
+}
+
+void migration_cancel_activity_actor::revert( player_activity &, Character &who )
+{
+    if( migrated_id == ACT_OPERATION ) {
+        who.remove_effect( effect_under_operation );
+        who.remove_effect( effect_narcosis );
+        who.remove_effect( effect_sleep );
     }
 }
 
@@ -3868,26 +4112,21 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
 {
     int moves = 0;
     Character &player_character = get_player_character();
+    //TODO: why use both `player_character` and `guy`?
+    auto player_will_eat = [this, &moves, &player_character, &guy]( const item & it ) {
+        ret_val<edible_rating> ret = player_character.will_eat( it, true );
+        if( !ret.success() ) {
+            canceled = true;
+            uistate.consume_uistate.clear();
+        } else {
+            moves = to_moves<int>( guy.get_consume_time( it ) );
+        }
+    };
+
     if( consume_location ) {
-        ret_val<edible_rating> ret = player_character.will_eat( *consume_location, true );
-        if( !ret.success() ) {
-            canceled = true;
-            consume_menu_selections = std::vector<int>();
-            consume_menu_selected_items.clear();
-            consume_menu_filter.clear();
-        } else {
-            moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
-        }
+        player_will_eat( *consume_location );
     } else if( !consume_item.is_null() ) {
-        ret_val<edible_rating> ret = player_character.will_eat( consume_item, true );
-        if( !ret.success() ) {
-            canceled = true;
-            consume_menu_selections = std::vector<int>();
-            consume_menu_selected_items.clear();
-            consume_menu_filter.clear();
-        } else {
-            moves = to_moves<int>( guy.get_consume_time( consume_item ) );
-        }
+        player_will_eat( consume_item );
     } else {
         debugmsg( "Item/location to be consumed should not be null." );
         canceled = true;
@@ -3904,13 +4143,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     // too late; we've already consumed).
     act.interruptable = false;
 
-    // Consuming an item may cause various effects, including cancelling our activity.
-    // Back up these values since this activity actor might be destroyed.
-    std::vector<int> temp_selections = consume_menu_selections;
-    const std::vector<item_location> temp_selected_items = consume_menu_selected_items;
-    const std::string temp_filter = consume_menu_filter;
     item_location consume_loc = consume_location;
-    activity_id new_act = type;
 
     avatar &player_character = get_avatar();
     if( !canceled ) {
@@ -3926,31 +4159,24 @@ void consume_activity_actor::finish( player_activity &act, Character & )
         }
     }
 
+    /*
+    At this point, this consume_activity_actor may have been cancelled
+    and a new activity (e.g. firstaid_activity_actor) assigned.
+    */
     if( act.id() == ACT_CONSUME ) {
+        // only set to null if there isn't a new activity
         act.set_to_null();
     }
 
     if( act.id() == ACT_FIRSTAID && consume_loc ) {
-        act.targets.clear();
-        act.targets.push_back( consume_loc );
+        uistate.consume_uistate.consume_menu_selected_items = { consume_loc };
     }
 
-    if( !temp_selections.empty() || !temp_selected_items.empty() || !temp_filter.empty() ) {
-        if( act.is_null() ) {
-            player_character.assign_activity( new_act );
-            player_character.activity.values = temp_selections;
-            player_character.activity.targets = temp_selected_items;
-            player_character.activity.str_values = { temp_filter, "true" };
-        } else {
-            // Warning: this can add a redundant menu activity to the backlog.
-            // It will prevent deleting the smart pointer of the selected item_location
-            // if the backlog is not sanitized.
-            player_activity eat_menu( new_act );
-            eat_menu.values = temp_selections;
-            eat_menu.targets = temp_selected_items;
-            eat_menu.str_values = { temp_filter, "true" };
-            player_character.backlog.push_back( eat_menu );
-        }
+    if( !avatar_action::eat_here( player_character ) && reprompt_consume_menu ) {
+        uistate.open_menu = []() {
+            avatar_action::eat_or_use( get_avatar(),
+                                       game_menus::inv::consume( uistate.consume_uistate.consume_menu_comestype ) );
+        };
     }
 }
 
@@ -3960,11 +4186,8 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "consume_location", consume_location );
     jsout.member( "consume_item", consume_item );
-    jsout.member( "consume_menu_selections", consume_menu_selections );
-    jsout.member( "consume_menu_selected_items", consume_menu_selected_items );
-    jsout.member( "consume_menu_filter", consume_menu_filter );
     jsout.member( "canceled", canceled );
-    jsout.member( "type", type );
+    jsout.member( "reprompt_consume_menu", reprompt_consume_menu );
 
     jsout.end_object();
 }
@@ -3978,11 +4201,19 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonValue &
 
     data.read( "consume_location", actor.consume_location );
     data.read( "consume_item", actor.consume_item );
-    data.read( "consume_menu_selections", actor.consume_menu_selections );
-    data.read( "consume_menu_selected_items", actor.consume_menu_selected_items );
-    data.read( "consume_menu_filter", actor.consume_menu_filter );
     data.read( "canceled", actor.canceled );
-    data.read( "type", actor.type );
+    if( data.has_member( "reprompt_consume_menu" ) ) {
+        data.read( "reprompt_consume_menu", actor.reprompt_consume_menu );
+    }
+    //Remove obsolete reads after 0.J
+    std::vector<int> obsolete_consume_menu_selections;
+    std::vector < item_location > obsolete_cconsume_menu_selected_items;
+    std::string obsolete_cconsume_menu_filter;
+    activity_id obsolete_type;
+    data.read( "consume_menu_selections", obsolete_consume_menu_selections );
+    data.read( "consume_menu_selected_items", obsolete_cconsume_menu_selected_items );
+    data.read( "consume_menu_filter", obsolete_cconsume_menu_filter );
+    data.read( "type", obsolete_type );
 
     return actor.clone();
 }
@@ -5729,6 +5960,8 @@ reload_activity_actor::reload_activity_actor( item::reload_option &&opt, int ext
     quantity = opt.qty();
     target_loc = std::move( opt.target );
     ammo_loc = std::move( opt.ammo );
+    seconds_per_round = opt.qty() ? std::min( 1, moves_total / quantity ) : 0;
+    ammo_id = ammo_loc->type->id;
 }
 
 bool reload_activity_actor::can_reload() const
@@ -5739,12 +5972,10 @@ bool reload_activity_actor::can_reload() const
     }
 
     if( !target_loc ) {
-        debugmsg( "reload target is null, failed to reload" );
         return false;
     }
 
     if( !ammo_loc ) {
-        debugmsg( "ammo target is null, failed to reload" );
         return false;
     }
 
@@ -5757,36 +5988,53 @@ void reload_activity_actor::start( player_activity &act, Character &/*who*/ )
     act.moves_left = moves_total;
 }
 
-void reload_activity_actor::make_reload_sound( Character &who, item &reloadable )
+void reload_activity_actor::reload_msg( Character &who, bool finished )
 {
-    if( reloadable.type->gun->reload_noise_volume > 0 ) {
-        sfx::play_variant_sound( "reload", reloadable.typeId().str(),
-                                 sfx::get_heard_volume( who.pos_bub() ) );
-        sounds::ambient_sound( who.pos_bub(), reloadable.type->gun->reload_noise_volume,
-                               sounds::sound_t::activity, reloadable.type->gun->reload_noise.translated() );
+    item &reloadable = *target_loc;
+    const std::string reloadable_name = reloadable.tname();
+
+    const int qty = finished ? quantity : already_loaded;
+    const std::string ammo_name = ammo_id->nname( qty );
+
+    const bool ammo_uses_speedloader = ammo_id->has_flag( flag_SPEEDLOADER );
+    const bool ammo_uses_speedloader_clip = ammo_id->has_flag( flag_SPEEDLOADER_CLIP );
+
+    if( reloadable.is_gun() ) {
+        if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader &&
+            !ammo_uses_speedloader_clip ) {
+
+            add_msg( m_neutral, _( "You insert %dx %s into the %s." ), qty, ammo_name, reloadable_name );
+        }
+        make_reload_sound( who, reloadable );
+    } else if( reloadable.is_watertight_container() ) {
+        add_msg( m_neutral, _( "You refill the %s." ), reloadable_name );
+    } else {
+        add_msg( m_neutral, _( "You reload the %1$s with %2$s." ), reloadable_name, ammo_name );
     }
 }
 
-void reload_activity_actor::finish( player_activity &act, Character &who )
+void reload_activity_actor::reload( player_activity &act, Character &who, int load_qty )
 {
-    map &here = get_map();
-
-    act.set_to_null();
-    if( !can_reload() ) {
+    if( load_qty == 0 ) {
         return;
     }
 
+    if( !can_reload() ) {
+        act.set_to_null();
+        return;
+    }
+
+    map &here = get_map();
+
     item &reloadable = *target_loc;
     item &ammo = *ammo_loc;
-    const std::string reloadable_name = reloadable.tname();
-    // cache check results because reloading deletes the ammo item
-    const std::string ammo_name = ammo.tname();
-    const bool ammo_is_filthy = ammo.is_filthy();
-    const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
-    const bool ammo_uses_speedloader_clip = ammo.has_flag( flag_SPEEDLOADER_CLIP );
 
-    if( !reloadable.reload( who, std::move( ammo_loc ), quantity ) ) {
-        add_msg( m_info, _( "Can't reload the %s." ), reloadable_name );
+    int qty = load_qty ? load_qty : quantity;
+
+    const std::string reloadable_name = reloadable.tname();
+    const bool ammo_is_filthy = ammo.is_filthy();
+
+    if( !reloadable.reload( who, ammo_loc, qty ) ) {
         return;
     }
 
@@ -5798,18 +6046,6 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
         add_msg( m_neutral, _( "You manage to loosen some debris and make your %s somewhat operational." ),
                  reloadable_name );
         reloadable.set_var( "dirt", ( reloadable.get_var( "dirt", 0 ) - rng( 790, 2750 ) ) );
-    }
-
-    if( reloadable.is_gun() ) {
-        if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader &&
-            !ammo_uses_speedloader_clip ) {
-            add_msg( m_neutral, _( "You insert %dx %s into the %s." ), quantity, ammo_name, reloadable_name );
-        }
-        make_reload_sound( who, reloadable );
-    } else if( reloadable.is_watertight_container() ) {
-        add_msg( m_neutral, _( "You refill the %s." ), reloadable_name );
-    } else {
-        add_msg( m_neutral, _( "You reload the %1$s with %2$s." ), reloadable_name, ammo_name );
     }
 
     who.recoil = MAX_RECOIL;
@@ -5863,12 +6099,43 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
             loc.remove_item();
             break;
     }
+
 }
 
-void reload_activity_actor::canceled( player_activity &act, Character &/*who*/ )
+void reload_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    if( seconds_per_round != 0
+        && already_loaded < quantity
+        && ( act.moves_left / 100 ) % seconds_per_round == 0 ) {
+        reload( act, who );
+        already_loaded++;
+    }
+}
+
+void reload_activity_actor::make_reload_sound( Character &who, item &reloadable )
+{
+    if( reloadable.type->gun->reload_noise_volume > 0 ) {
+        sfx::play_variant_sound( "reload", reloadable.typeId().str(),
+                                 sfx::get_heard_volume( who.pos_bub() ) );
+        sounds::ambient_sound( who.pos_bub(), reloadable.type->gun->reload_noise_volume,
+                               sounds::sound_t::activity, reloadable.type->gun->reload_noise.translated() );
+    }
+}
+
+void reload_activity_actor::finish( player_activity &act, Character &who )
+{
+    reload( act, who, quantity - already_loaded );
+    already_loaded += quantity - already_loaded;
+    reload_msg( who, true );
+    act.set_to_null();
+}
+
+void reload_activity_actor::canceled( player_activity &act, Character &who )
+{
+    who.recoil = MAX_RECOIL;
     act.moves_total = 0;
     act.moves_left = 0;
+    reload_msg( who );
 }
 
 void reload_activity_actor::serialize( JsonOut &jsout ) const
@@ -5879,6 +6146,8 @@ void reload_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "qty", quantity );
     jsout.member( "target_loc", target_loc );
     jsout.member( "ammo_loc", ammo_loc );
+    jsout.member( "seconds_per_round", seconds_per_round );
+    jsout.member( "already_loaded", already_loaded );
 
     jsout.end_object();
 }
@@ -5893,6 +6162,10 @@ std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonValue &j
     data.read( "qty", actor.quantity );
     data.read( "target_loc", actor.target_loc );
     data.read( "ammo_loc", actor.ammo_loc );
+    data.read( "seconds_per_round", actor.seconds_per_round );
+    data.read( "already_loaded", actor.already_loaded );
+    actor.ammo_id = actor.ammo_loc->type->id;
+
     return actor.clone();
 }
 
@@ -7837,21 +8110,11 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
     act.values.clear();
 
-    // Return to first eat or consume meds menu activity in the backlog.
-    for( player_activity &backlog_act : who.backlog ) {
-        if( backlog_act.id() == ACT_EAT_MENU ||
-            backlog_act.id() == ACT_CONSUME_MEDS_MENU ) {
-            backlog_act.auto_resume = true;
-            break;
-        }
-    }
-    // Clear the backlog of any activities that will not auto resume.
-    for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ) {
-        if( !iter->auto_resume ) {
-            iter = who.backlog.erase( iter );
-        } else {
-            ++iter;
-        }
+    if( who.is_avatar() ) {
+        uistate.open_menu = []() {
+            avatar_action::eat_or_use( get_avatar(),
+                                       game_menus::inv::consume( uistate.consume_uistate.consume_menu_comestype ) );
+        };
     }
 }
 
@@ -9364,13 +9627,75 @@ std::unique_ptr<activity_actor> portable_game_activity_actor::deserialize( JsonV
     return actor.clone();
 }
 
-// Repurposing the activity's index to convey the number of friends participating
 std::string generic_entertainment_activity_actor::get_name() const
 {
     if( entertain_players.size() > 1 ) {
         return "gaming with friends";
     }
     return "gaming";
+}
+
+void vibe_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( vibe_duration );
+    act.moves_left = act.moves_total;
+}
+
+void vibe_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    //Using a vibrator takes time (10 minutes), not speed
+    //Linear increase in morale during action with a small boost at end
+    //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
+    item &vibrator_item = *vibe_item;
+    Character *who_ptr = &who;
+
+    if( who.encumb( bodypart_id( "mouth" ) ) >= 30 ) {
+        act.moves_left = 0;
+        add_msg( m_bad, _( "You have trouble breathing, and stop." ) );
+    }
+
+    if( calendar::once_every( 1_minutes ) ) {
+        if( vibrator_item.ammo_remaining( who_ptr ) > 0 ) {
+            vibrator_item.ammo_consume( 1, who.pos_bub(), who_ptr );
+            who.add_morale( morale_feeling_good, 3, 40 );
+            if( vibrator_item.ammo_remaining( who_ptr ) == 0 ) {
+                add_msg( m_info, _( "The %s runs out of batteries." ), vibrator_item.tname() );
+            }
+        } else {
+            //twenty minutes to fill
+            who.add_morale( morale_feeling_good, 1, 40 );
+        }
+    }
+    // Dead Tired: different kind of relaxation needed
+    if( who.get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
+        act.moves_left = 0;
+        add_msg( m_info, _( "You're too tired to continue." ) );
+    }
+
+    // Vibrator requires that you be able to move around, stretch, etc, so doesn't play
+    // well with roots.  Sorry.  :-(
+}
+
+void vibe_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( m_good, _( "You feel much better." ) );
+    who.add_morale( morale_feeling_good, 10, 40 );
+    act.set_to_null();
+}
+
+void vibe_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "vibe_item", vibe_item );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> vibe_activity_actor::deserialize( JsonValue &jsin )
+{
+    vibe_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "vibe_item", actor.vibe_item );
+    return actor.clone();
 }
 
 void wash_activity_actor::start( player_activity &act, Character & )
@@ -10426,6 +10751,7 @@ deserialize_functions = {
     { ACT_MOVE_ITEMS, &move_items_activity_actor::deserialize },
     { ACT_MOVE_LOOT, &zone_sort_activity_actor::deserialize },
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
+    { ACT_OPERATION, &bionic_operation_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
     { ACT_PICKAXE, &pickaxe_activity_actor::deserialize },
     { ACT_PICKUP, &pickup_activity_actor::deserialize },
@@ -10449,6 +10775,7 @@ deserialize_functions = {
     { ACT_VEHICLE, &vehicle_activity_actor::deserialize },
     { ACT_VEHICLE_FOLD, &vehicle_folding_activity_actor::deserialize },
     { ACT_VEHICLE_UNFOLD, &vehicle_unfolding_activity_actor::deserialize },
+    { ACT_VIBE, &vibe_activity_actor::deserialize },
     { ACT_WAIT, &wait_activity_actor::deserialize },
     { ACT_WAIT_FOLLOWERS, &wait_followers_activity_actor::deserialize },
     { ACT_WAIT_NPC, &wait_npc_activity_actor::deserialize },

@@ -487,6 +487,48 @@ class bikerack_unracking_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+// the act of (un)installing a CBM into a subject through surgery (operation)
+// TODO: split into two separate actors for uninstall/install?
+class bionic_operation_activity_actor : public activity_actor
+{
+    public:
+        const activity_id &get_type() const override {
+            static const activity_id ACT_OPERATION( "ACT_OPERATION" );
+            return ACT_OPERATION;
+        }
+        //install
+        bionic_operation_activity_actor( bool installing, int operation_success, bool operation_autodoc,
+                                         int operation_skill, int operation_difficulty, bionic_id installed_bionic,
+                                         bionic_uid uninstalled_bionic, const std::string &installer_name = std::string() ) :
+            installing( installing ), operation_success( operation_success ),
+            operation_autodoc( operation_autodoc ), operation_skill( operation_skill ),
+            operation_difficulty( operation_difficulty ), installed_bionic( installed_bionic ),
+            uninstalled_bionic( uninstalled_bionic ), installer_name( installer_name ) {};
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<bionic_operation_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        explicit bionic_operation_activity_actor() = default;
+
+        bool installing;
+        // see Character::bionics_uninstall_failure
+        int operation_success;
+        bool operation_autodoc;
+        int operation_skill;
+        int operation_difficulty;
+        bionic_id installed_bionic;
+        bionic_uid uninstalled_bionic;
+        std::string installer_name;
+};
+
 class read_activity_actor : public activity_actor
 {
     public:
@@ -1015,6 +1057,7 @@ class migration_cancel_activity_actor : public activity_actor
 {
     public:
         migration_cancel_activity_actor() = default;
+        explicit migration_cancel_activity_actor( activity_id migrated_id ) : migrated_id( migrated_id ) {};
 
         const activity_id &get_type() const override {
             static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
@@ -1033,8 +1076,14 @@ class migration_cancel_activity_actor : public activity_actor
             return std::string();
         }
 
+        // some migrated activities need to revert behavior
+        // e.g. effects set by an activity
+        void revert( player_activity &, Character &who );
+
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        activity_id migrated_id = activity_id::NULL_ID();
 };
 
 class mine_activity_actor : public activity_actor
@@ -1134,11 +1183,10 @@ class consume_activity_actor : public activity_actor
     private:
         item_location consume_location;
         item consume_item;
-        std::vector<int> consume_menu_selections;
-        std::vector<item_location> consume_menu_selected_items;
-        std::string consume_menu_filter;
         bool canceled = false;
-        activity_id type;
+        // whether to show the consume menu after this activity finishes
+        bool reprompt_consume_menu = false;
+
         /**
          * @pre @p other is a consume_activity_actor
          */
@@ -1148,21 +1196,12 @@ class consume_activity_actor : public activity_actor
                    canceled == c_actor.canceled && &consume_item == &c_actor.consume_item;
         }
     public:
-        consume_activity_actor( const item_location &consume_location,
-                                std::vector<int> consume_menu_selections,
-                                const std::vector<item_location> &consume_menu_selected_items,
-                                const std::string &consume_menu_filter, activity_id type ) :
-            consume_location( consume_location ),
-            consume_menu_selections( std::move( consume_menu_selections ) ),
-            consume_menu_selected_items( consume_menu_selected_items ),
-            consume_menu_filter( consume_menu_filter ),
-            type( type ) {}
+        explicit consume_activity_actor( const item_location &consume_location,
+                                         bool reprompt_consume_menu = false ) :
+            consume_location( consume_location ), reprompt_consume_menu( reprompt_consume_menu ) {}
 
-        explicit consume_activity_actor( const item_location &consume_location ) :
-            consume_location( consume_location ) {}
-
-        explicit consume_activity_actor( const item &consume_item ) :
-            consume_item( consume_item ) {}
+        explicit consume_activity_actor( const item &consume_item, bool reprompt_consume_menu = false ) :
+            consume_item( consume_item ), reprompt_consume_menu( reprompt_consume_menu ) {}
 
         const activity_id &get_type() const override {
             static const activity_id ACT_CONSUME( "ACT_CONSUME" );
@@ -1555,9 +1594,12 @@ class reload_activity_actor : public activity_actor
         }
 
         void start( player_activity &/*act*/, Character &/*who*/ ) override;
-        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {}
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override;
         void finish( player_activity &act, Character &who ) override;
-        void canceled( player_activity &act, Character &/*who*/ ) override;
+        void canceled( player_activity &act, Character &who ) override;
+
+        void reload_msg( Character &who, bool finished = false );
+        void reload( player_activity &act, Character &who, int load_qty = 1 );
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<reload_activity_actor>( *this );
@@ -1570,6 +1612,10 @@ class reload_activity_actor : public activity_actor
         explicit reload_activity_actor() = default;
         int moves_total = 0;
         int quantity = 0;
+        int seconds_per_round = 0;
+        int already_loaded = 0;
+        // cache ammo because reloading deletes the location
+        itype_id ammo_id; // NOLINT(cata-serialize)
         item_location target_loc;
         item_location ammo_loc;
 
@@ -2335,6 +2381,36 @@ class tabletop_game_activity_actor : public generic_entertainment_activity_actor
 
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
+
+
+// self-pleasure
+class vibe_activity_actor : public activity_actor
+{
+    public:
+        const activity_id &get_type() const override {
+            static const activity_id ACT_VIBE( "ACT_VIBE" );
+            return ACT_VIBE;
+        }
+        //install
+        vibe_activity_actor() = default;
+        explicit vibe_activity_actor( time_duration vibe_duration, const item_location &vibe_item ) :
+            vibe_duration( vibe_duration ), vibe_item( vibe_item ) {};
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<vibe_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        time_duration vibe_duration; // NOLINT(cata-serialize)
+        item_location vibe_item;
+};
+
 
 class wash_activity_actor : public activity_actor
 {

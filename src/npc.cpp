@@ -3001,7 +3001,7 @@ void npc::die( map *here, Creature *nkiller )
         if( eoc->type == eoc_type::NPC_DEATH ) {
             eoc->activate( d );
         } else {
-            debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an npc death.", eoc.c_str() );
+            debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an NPC death.", eoc.c_str() );
         }
     }
     get_event_bus().send<event_type::character_dies>( getID() );
@@ -3325,7 +3325,7 @@ void npc::on_load( map *here )
 bool npc::query_yn( const std::string &msg ) const
 {
     add_msg_debug( debugmode::DF_NPC,
-                   "%s declines this query_yn because they are a npc (automatic, always declines).\n %s",
+                   "%s declines this query_yn because they are an NPC (automatic, always declines).\n %s",
                    disp_name(), msg );
     // NPCs don't like queries - most of them are in the form of "Do you want to get hurt?".
     return false;

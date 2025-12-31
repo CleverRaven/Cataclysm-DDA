@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <bitset>
 #include <cmath>
+#include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <iterator>
 #include <list>
@@ -28,6 +30,7 @@
 #include "display.h"
 #include "enums.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
@@ -41,6 +44,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "json.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
@@ -65,15 +69,11 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#include "uistate.h"
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vitamin.h"
-
-static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
-static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
@@ -144,7 +144,9 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
                                    const std::string &none_message,
                                    const std::string &hint = std::string(),
                                    item_location container = item_location(),
-                                   bool add_ebooks = false )
+                                   bool add_ebooks = false,
+                                   bool using_consume_menu = false
+                                 )
 {
     inventory_pick_selector inv_s( u, preset );
 
@@ -152,11 +154,7 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
     inv_s.set_hint( hint );
     inv_s.set_display_stats( false );
 
-    const std::vector<activity_id> consuming {
-        ACT_EAT_MENU,
-        ACT_CONSUME_FOOD_MENU,
-        ACT_CONSUME_DRINK_MENU,
-        ACT_CONSUME_MEDS_MENU };
+    const consume_menu_uistate &cm_uistate = uistate.consume_uistate;
 
     u.inv->restack( u );
 
@@ -171,21 +169,25 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         inv_s.add_nearby_items( radius, add_ebooks );
     }
 
-    if( u.has_activity( consuming ) ) {
-        if( !u.activity.str_values.empty() ) {
-            inv_s.set_filter( u.activity.str_values[0] );
+    //input from global consume menu UI state
+    if( using_consume_menu ) {
+        const std::string consume_menu_filter = cm_uistate.consume_menu_filter;
+        if( !consume_menu_filter.empty() ) {
+            inv_s.set_filter( consume_menu_filter );
         }
         // Set position after filter to keep cursor at the right position
+        const std::vector<item_location> &locs = cm_uistate.consume_menu_selected_items;
+        const std::vector<uint64_t> &selections = cm_uistate.consume_menu_selections;
         bool position_set = false;
-        if( !u.activity.targets.empty() ) {
-            bool const hidden = u.activity.values.size() >= 3 && static_cast<bool>( u.activity.values[2] );
-            position_set = inv_s.highlight_one_of( u.activity.targets, hidden );
+        if( !locs.empty() ) {
+            bool const hidden = cm_uistate.collated;
+            position_set = inv_s.highlight_one_of( locs, hidden );
             if( !position_set && hidden ) {
-                position_set = inv_s.highlight_one_of( u.activity.targets );
+                position_set = inv_s.highlight_one_of( locs );
             }
         }
-        if( !position_set && u.activity.values.size() >= 2 ) {
-            inv_s.highlight_position( std::make_pair( u.activity.values[0], u.activity.values[1] ) );
+        if( !position_set && selections.size() == 2 ) {
+            inv_s.highlight_position( { selections[0], selections[1] } );
         }
     }
 
@@ -199,19 +201,21 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
 
     item_location location = inv_s.execute();
 
-    if( u.has_activity( consuming ) ) {
+    //output to global consume menu UI state
+    if( using_consume_menu ) {
+
         inventory_entry const &e = inv_s.get_highlighted();
         bool const collated = e.is_collation_entry();
         u.activity.values.clear();
-        const auto init_pair = inv_s.get_highlighted_position();
-        u.activity.values.push_back( init_pair.first );
-        u.activity.values.push_back( init_pair.second );
-        u.activity.values.push_back( collated );
-        u.activity.str_values.clear();
-        u.activity.str_values.emplace_back( inv_s.get_filter() );
-        u.activity.targets = collated ? std::vector<item_location> { location, inv_s.get_collation_next() }
-                             :
-                             inv_s.get_highlighted().locations;
+        const std::pair<size_t, size_t> &init_pair = inv_s.get_highlighted_position();
+        consume_menu_uistate new_state{
+            { init_pair.first, init_pair.second },
+            collated ? std::vector<item_location> { location, inv_s.get_collation_next() }
+:
+            inv_s.get_highlighted().locations,
+            inv_s.get_filter(), collated, cm_uistate.consume_menu_comestype
+        };
+        uistate.consume_uistate = new_state;
     }
 
     return location;
@@ -476,6 +480,13 @@ item_location game::inv_map_splice( const item_filter &filter, const std::string
 {
     return inv_internal( u, inventory_filter_preset( convert_filter( filter ) ),
                          title, radius, none_message );
+}
+
+item_location game::inv_map_splice( const inventory_selector_preset &preset,
+                                    const std::string &title,
+                                    int radius, const std::string &none_message )
+{
+    return inv_internal( u, preset, title, radius, none_message );
 }
 
 item_location game::inv_map_splice( const item_location_filter &filter, const std::string &title,
@@ -1019,86 +1030,58 @@ static std::string get_consume_needs_hint( Character &you )
     return hint;
 }
 
-item_location game_menus::inv::consume( const item_location &loc )
-{
-    avatar &you = get_avatar();
-    static item_location container_location;
-    if( !you.has_activity( ACT_EAT_MENU ) ) {
-        you.assign_activity( ACT_EAT_MENU );
-        container_location = loc;
-    }
-    std::string none_message = you.activity.str_values.size() == 2 ?
-                               _( "You have nothing else to consume." ) : _( "You have nothing to consume." );
-    return inv_internal( you, comestible_inventory_preset( you ),
-                         _( "Consume item" ), 1,
-                         none_message,
-                         get_consume_needs_hint( you ),
-                         container_location );
-}
-
 class comestible_filtered_inventory_preset : public comestible_inventory_preset
 {
     public:
-        comestible_filtered_inventory_preset( const Character &you, bool( *predicate )( const item &it ) ) :
+        explicit comestible_filtered_inventory_preset( const Character &you,
+                const std::function<bool( const item &it )> &predicate ) :
             comestible_inventory_preset( you ), predicate( predicate ) {}
 
         bool is_shown( const item_location &loc ) const override {
             return comestible_inventory_preset::is_shown( loc ) &&
                    predicate( *loc );
         }
-
+        void set_predicate( const std::function<bool( const item &it )> &new_predicate ) {
+            predicate = new_predicate;
+        }
     private:
-        bool( *predicate )( const item &it );
+        std::function<bool( const item &it )> predicate;
 };
 
-item_location game_menus::inv::consume_food()
-{
-    avatar &you = get_avatar();
-    if( !you.has_activity( ACT_CONSUME_FOOD_MENU ) ) {
-        you.assign_activity( ACT_CONSUME_FOOD_MENU );
-    }
-    std::string none_message = you.activity.str_values.size() == 2 ?
-                               _( "You have nothing else to eat." ) : _( "You have nothing to eat." );
-    return inv_internal( you, comestible_filtered_inventory_preset( you, []( const item & it ) {
-        return ( it.is_comestible() && it.get_comestible()->comesttype == "FOOD" ) ||
-               it.has_flag( flag_USE_EAT_VERB );
-    } ),
-    _( "Consume food" ), 1,
-    none_message,
-    get_consume_needs_hint( you ) );
-}
 
-item_location game_menus::inv::consume_drink()
+item_location game_menus::inv::consume( const std::string &comestible_type_filter,
+                                        const item_location &loc )
 {
     avatar &you = get_avatar();
-    if( !you.has_activity( ACT_CONSUME_DRINK_MENU ) ) {
-        you.assign_activity( ACT_CONSUME_DRINK_MENU );
-    }
-    std::string none_message = you.activity.str_values.size() == 2 ?
-                               _( "You have nothing else to drink." ) : _( "You have nothing to drink." );
-    return inv_internal( you, comestible_filtered_inventory_preset( you, []( const item & it ) {
-        return it.is_comestible() && it.get_comestible()->comesttype == "DRINK" &&
-               !it.has_flag( flag_USE_EAT_VERB );
-    } ),
-    _( "Consume drink" ), 1,
-    none_message,
-    get_consume_needs_hint( you ) );
-}
+    comestible_filtered_inventory_preset preset( you, []( const item & ) {
+        return true;
+    } );
 
-item_location game_menus::inv::consume_meds()
-{
-    avatar &you = get_avatar();
-    if( !you.has_activity( ACT_CONSUME_MEDS_MENU ) ) {
-        you.assign_activity( ACT_CONSUME_MEDS_MENU );
+    uistate.consume_uistate.consume_menu_comestype = comestible_type_filter;
+    const std::string comestible_type = uistate.consume_uistate.consume_menu_comestype;
+    if( comestible_type == "FOOD" ) {
+        preset.set_predicate( []( const item & it ) {
+            return ( it.is_comestible() && it.get_comestible()->comesttype == "FOOD" ) ||
+                   it.has_flag( flag_USE_EAT_VERB );
+        } );
+    } else if( comestible_type == "DRINK" ) {
+        preset.set_predicate( []( const item & it ) {
+            return it.is_comestible() && it.get_comestible()->comesttype == "DRINK" &&
+                   !it.has_flag( flag_USE_EAT_VERB );
+        } );
+    } else if( comestible_type == "MED" ) {
+        preset.set_predicate( []( const item & it ) {
+            return it.is_medication() || it.is_medical_tool();
+        } );
     }
+
     std::string none_message = you.activity.str_values.size() == 2 ?
-                               _( "You have no more medication to consume." ) : _( "You have no medication to consume." );
-    return inv_internal( you, comestible_filtered_inventory_preset( you, []( const item & it ) {
-        return it.is_medication() || it.is_medical_tool();
-    } ),
-    _( "Consume medication" ), 1,
-    none_message,
-    get_consume_needs_hint( you ) );
+                               _( "You have nothing else to consume." ) : _( "You have nothing to consume." );
+    return inv_internal( you, preset,
+                         _( "Consume item" ), 1,
+                         none_message,
+                         get_consume_needs_hint( you ),
+                         loc, false, true );
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset
@@ -1107,6 +1090,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
         explicit activatable_inventory_preset() : pickup_inventory_preset( get_avatar() ),
             you( get_avatar() ) {
             _collate_entries = true;
+            _pk_type = { pocket_type::CONTAINER, pocket_type::MOD };
             if( get_option<bool>( "INV_USE_ACTION_NAMES" ) ) {
                 append_cell( [ this ]( const item_location & loc ) {
                     return string_format( "<color_light_green>%s</color>", get_action_name( *loc ) );
@@ -1115,7 +1099,8 @@ class activatable_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->type->has_use() || loc->has_relic_activation();
+            return !loc.is_invisible_installed_gunmod( )
+                   && ( loc->type->has_use() || loc->has_relic_activation() );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -3012,12 +2997,23 @@ item_location game_menus::inv::change_sprite( Character &you )
                          _( "You have nothing to wear." ) );
 }
 
+class unload_selector_preset : public inventory_selector_preset
+{
+    public:
+        explicit unload_selector_preset() : you( get_avatar() ) {
+            _pk_type = { pocket_type::CONTAINER, pocket_type::MOD };
+        }
+        bool is_shown( const item_location &location ) const override {
+            return !location.is_invisible_installed_gunmod( ) &&
+                   you.rate_action_unload( *location ) == hint_rating::good;
+        }
+    private:
+        const Character &you;
+};
+
 std::pair<item_location, bool> game_menus::inv::unload( Character &you )
 {
-
-    const inventory_filter_preset preset( [&you]( const item_location & location ) {
-        return you.rate_action_unload( *location ) == hint_rating::good;
-    } );
+    const unload_selector_preset preset;
     unload_selector inv_s( you, preset );
 
     inv_s.set_title( _( "Unload item" ) );
@@ -3080,6 +3076,7 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
             append_cell( [&you, &target]( const item_location & loc ) {
                 item::reload_option opt( &you, target, loc );
+                // propagate entry.chosen_count here somehow?
                 return std::to_string( opt.moves() );
             }, _( "MOVES" ) );
 
@@ -3214,4 +3211,24 @@ item::reload_option game_menus::inv::select_ammo( Character &you, const item_loc
     opt.qty( selected.second );
 
     return opt;
+}
+
+void consume_menu_uistate::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "consume_menu_selections", consume_menu_selections );
+    json.member( "consume_menu_selected_items", consume_menu_selected_items );
+    json.member( "consume_menu_filter", consume_menu_filter );
+    json.member( "collated", collated );
+    json.member( "consume_menu_comestype", consume_menu_comestype );
+    json.end_object();
+}
+
+void consume_menu_uistate::deserialize( const JsonObject &jo )
+{
+    jo.read( "consume_menu_selections", consume_menu_selections );
+    jo.read( "consume_menu_selected_items", consume_menu_selected_items );
+    jo.read( "consume_menu_filter", consume_menu_filter );
+    jo.read( "collated", collated );
+    jo.read( "consume_menu_comestype", consume_menu_comestype );
 }

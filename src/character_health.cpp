@@ -2857,6 +2857,11 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
 {
     const map &here = get_map();
 
+    // If we actually know the source, and the source is the player, flag the NPC as being unjustly attacked
+    if( is_npc() && source && source == &get_player_character() && !as_npc()->guaranteed_hostile() ) {
+        as_npc()->hit_by_player = true;
+    }
+
     if( has_trait( trait_ADRENALINE ) && !has_effect( effect_adrenaline ) &&
         ( get_part_hp_cur( body_part_head ) < 25 ||
           get_part_hp_cur( body_part_torso ) < 15 ) ) {

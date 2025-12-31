@@ -46,6 +46,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
+#include "effect_source.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -139,7 +140,6 @@ static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
-static const activity_id ACT_VIBE( "ACT_VIBE" );
 
 static const addiction_id addiction_marloss_b( "marloss_b" );
 static const addiction_id addiction_marloss_r( "marloss_r" );
@@ -252,6 +252,8 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
+
+static const faction_id faction_your_followers( "your_followers" );
 
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
 
@@ -3621,6 +3623,9 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub
 
     if( !p ) {
         // It was thrown or dropped, so burst into flames
+        // This bool is a bit nasty, once it's left the character's inventory we're really not sure who threw or dropped it!
+        // But items assign ownership on pickup by a character, so if the owner is your_followers then it stands to reason it must be the player.
+        const bool thrown_by_player_or_follower = it->get_owner() == faction_your_followers;
         map &here = get_map();
         // Because fields decay with a half-life, we need to know how long it takes for the field to decay and set the age to slightly before that.
         // the duration is also used for the effect's timer. It's hilariously lethal regardless.
@@ -3629,9 +3634,17 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub
         for( const tripoint_bub_ms &pt : here.points_in_radius( pos, 1, 0 ) ) {
             Creature *critter = get_creature_tracker().creature_at( pt, true );
             if( critter && one_in( 2 ) ) {
-                critter->add_effect( effect_onfire, target_duration );
+                if( thrown_by_player_or_follower ) {
+                    critter->add_effect( effect_source( &get_player_character() ), effect_onfire, target_duration );
+                } else {
+                    critter->add_effect( effect_onfire, target_duration );
+                }
             } else if( !here.get_field( pt, fd_fire ) && one_in( 2 ) ) {
-                here.add_field( pt, fd_fire, 1, base_age );
+                if( thrown_by_player_or_follower ) {
+                    here.add_field( pt, fd_fire, 1, base_age, true, effect_source( &get_player_character() ) );
+                } else {
+                    here.add_field( pt, fd_fire, 1, base_age );
+                }
             }
         }
         avatar &player = get_avatar();
@@ -4061,6 +4074,15 @@ std::optional<int> iuse::gasmask_activate( Character *p, item *it, const tripoin
         it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
     }
 
+    if( it->has_flag( flag_PAPR_MASK ) ) {
+        if( !p->has_item_with_flag( flag_PAPR_BLOWER ) ) {
+            p->add_msg_if_player( m_bad,
+                                  _( "You don't have an active PAPR blower unit so the %s fails to function." ), it->tname() );
+            it->set_var( "overwrite_env_resist", 0 );
+            it->active = false;
+        }
+    }
+
     return 0;
 }
 
@@ -4123,6 +4145,15 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint_bub_ms 
         it->set_var( "overwrite_env_resist", 0 );
         it->active = false;
     }
+
+    if( it->has_flag( flag_PAPR_MASK ) ) {
+        if( !p->has_item_with_flag( flag_PAPR_BLOWER ) ) {
+            p->add_msg_if_player( m_bad, _( "Your PAPR system stops working!" ) );
+            it->set_var( "overwrite_env_resist", 0 );
+            it->active = false;
+        }
+    }
+
     return 0;
 }
 
@@ -4394,7 +4425,6 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint_bub_ms & )
         return std::nullopt;
 
     } else {
-        int moves = to_moves<int>( 20_minutes );
         if( it->ammo_remaining( ) > 0 ) {
             p->add_msg_if_player( _( "You fire up your %s and start getting the tension out." ),
                                   it->tname() );
@@ -4402,8 +4432,7 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint_bub_ms & )
             p->add_msg_if_player( _( "You whip out your %s and start getting the tension out." ),
                                   it->tname() );
         }
-        p->assign_activity( ACT_VIBE, moves, -1, 0, "de-stressing" );
-        p->activity.targets.emplace_back( *p, it );
+        p->assign_activity( vibe_activity_actor( 20_minutes, item_location( *p, it ) ) );
     }
     return 1;
 }
@@ -9278,13 +9307,6 @@ ret_val<void> use_function::can_call( const Character &p, const item &it,
     } else if( it.is_broken() ) {
         return ret_val<void>::make_failure( _( "Your %s is broken and won't activate." ),
                                             it.tname() );
-    } else if( actor->type == "GUNMOD_ATTACH" &&
-               it.is_gunmod() && !p.has_item( it ) ) {
-        // this should just check if gunmod is in MOD pocket already
-        // but it requires item_location
-        // so check if character do not have item in CONTAINER pockets
-        return ret_val<void>::make_failure(
-                   _( "Your %s is already installed and needs to be detached first." ), it.tname() );
     }
     return actor->can_use( p, it, here, pos );
 }

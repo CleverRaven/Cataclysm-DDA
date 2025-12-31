@@ -1176,7 +1176,7 @@ std::string spell::message() const
         return alt_message.translated();
     }
     if( !type->message.empty() ) {
-        type->message.translated();
+        return type->message.translated();
     }
     return {};
 }

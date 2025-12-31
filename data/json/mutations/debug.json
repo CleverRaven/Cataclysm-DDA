@@ -277,6 +277,16 @@
   },
   {
     "type": "mutation",
+    "id": "MUT_DEBUG_FREE_DODGES",
+    "name": { "str": "Debug Free Dodges" },
+    "description": "You'll never get tired of testing dodges!",
+    "points": 99,
+    "debug": true,
+    "valid": false,
+    "enchantments": [ "ENCH_DEBUG_FREE_DODGES" ]
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_TAIL",
     "name": { "str": "Debug Tail" },
     "description": "Gain a tail bodypart.",

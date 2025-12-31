@@ -22,6 +22,7 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_pocket.h"
+#include "itype.h"
 #include "json.h"
 #include "line.h"
 #include "magic_enchantment.h"
@@ -37,6 +38,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
@@ -936,6 +938,19 @@ bool item_location::has_parent() const
 bool item_location::is_efile() const
 {
     return parent_item() && parent_item()->is_estorage();
+}
+
+bool item_location::is_invisible_installed_gunmod() const
+{
+    const item_location current_location = *this;
+    if( current_location->is_gunmod() ) {
+        item_location parent = parent_item();
+        const bool installed = parent && parent->is_gun();
+        if( installed && !current_location->type->gunmod->is_visible_when_installed ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 pocket_constraint item_location::get_pocket_constraints_recursive( const item_pocket *pocket ) const

@@ -260,7 +260,6 @@ endif
 
 ifneq (,$(findstring clang,$(COMPILER)))
   CLANG = $(COMPILER)
-  CXX_WARNINGS += -Wno-unknown-warning-option
 endif
 
 # Windows sets the OS environment variable so we can cheaply test for it.
@@ -274,7 +273,7 @@ ifneq (,$(findstring Windows_NT,$(OS)))
   endif
 else
   IS_WINDOWS_HOST = 0
-  OS = $(shell uname -o)
+  OS := $(shell uname -o)
 endif
 
 ifneq ($(findstring Darwin,$(OS)),)
@@ -382,10 +381,14 @@ ifneq ($(CLANG), 0)
   ifeq ($(CCACHE), 1)
     CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
     LD  = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
+    CC  = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(subst ++,,$(CLANGCMD))
   else
     CXX = $(CROSS)$(CLANGCMD)
     LD  = $(CROSS)$(CLANGCMD)
+    CC  = $(CROSS)$(subst ++,,$(CLANGCMD))
   endif
+  CXX_WARNINGS += -Wno-unknown-warning-option
+  WARNINGS += -Wno-unknown-warning-option
 else
   # Compiler version & target machine - used later for MXE ICE workaround
   ifdef CROSS
@@ -409,6 +412,8 @@ else
     CXX = $(CROSS)$(OS_COMPILER)
     LD  = $(CROSS)$(OS_LINKER)
   endif
+  CXX_WARNINGS += -Wno-unknown-warning
+  WARNINGS += -Wno-unknown-warning
 endif
 
 STRIP = $(CROSS)strip
@@ -530,9 +535,9 @@ ifeq ($(PCH), 1)
 
   ifeq ($(CLANG), 0)
     PCHFLAGS += -include pch/main-pch.hpp
-    PCH_P = $(PCH_H).gch
+    PCH_P = $(ODIR)/$(PCH_H).gch
   else
-    PCH_P = $(PCH_H).pch
+    PCH_P = $(ODIR)/$(PCH_H).pch
     PCHFLAGS += -include-pch $(PCH_P)
 
     # FIXME: dirty hack ahead
@@ -553,7 +558,7 @@ ifeq ($(PCH), 1)
   endif
 endif
 
-CPPFLAGS += -Isrc -isystem ${SRC_DIR}/third-party
+CPPFLAGS += -Isrc -isystem ${SRC_DIR}/third-party $(DEFINES)
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS)
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 DEFINES += -DZSTD_STATIC_LINKING_ONLY -DZSTD_DISABLE_ASM
@@ -611,11 +616,13 @@ endif
 ifeq ($(NATIVE), osx)
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=10.15
+  CFLAGS += -mmacosx-version-min=10.15
   LDFLAGS += -mmacosx-version-min=10.15 -framework CoreFoundation -Wl,-headerpad_max_install_names
   # doesn't use GNU ar
   THIN_AR=0
   ifeq ($(UNIVERSAL_BINARY), 1)
     CXXFLAGS += -arch x86_64 -arch arm64
+    CFLAGS += -arch x86_64 -arch arm64
     LDFLAGS += -arch x86_64 -arch arm64
   endif
   ifdef FRAMEWORK
@@ -960,12 +967,10 @@ ifeq ($(TARGETSYSTEM),CYGWIN)
 endif
 
 ifeq ($(MSYS2),1)
-  DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
-  CXXFLAGS += -DMSYS2
+  DEFINES += -DMSYS2 -D_GLIBCXX_USE_C99_MATH_TR1
 endif
 
-CFLAGS := $(CXXFLAGS)
-CFLAGS += $(C_STD)
+CFLAGS += $(C_STD) $(WARNINGS)
 CXXFLAGS += $(CXX_STD) $(CXX_WARNINGS)
 
 # Enumerations of all the source files and headers.
@@ -1102,7 +1107,7 @@ ifeq ($(RELEASE), 1)
 endif
 
 $(PCH_P): $(PCH_H)
-	-$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP -Wno-error -c $(PCH_H) -o $(PCH_P)
+	-$(COMPILE.cc) $(OUTPUT_OPTION) -MMD -MP -Wno-error $<
 
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(AR_FLAGS) $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
@@ -1130,27 +1135,27 @@ prefix:
          )
 
 # Unconditionally create the object dirs on every invocation.
-DIRS = $(sort $(dir $(OBJS)))
+DIRS = $(sort $(dir $(OBJS) $(PCH_P)))
 $(shell mkdir -p $(DIRS))
 
 $(ODIR)/%.inc: $(SRC_DIR)/%.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -Wno-error -H -E $< -o /dev/null 2> $@
+	$(COMPILE.cc) -o /dev/null -Wno-error -H -E $< 2> $@
 
 $(ODIR)/%.inc: $(SRC_DIR)/%.c
-	$(CXX) -x c $(CPPFLAGS) $(DEFINES) $(CFLAGS) -Wno-error -H -E $< -o /dev/null 2> $@
+	$(COMPILE.c) -o /dev/null -Wno-error -H -E $< 2> $@
 
 .PHONY: includes
 includes: $(OBJS:.o=.inc)
 	+make -C tests includes
 
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -w -MMD -MP -c $< -o $@
+	$(COMPILE.cc) $(OUTPUT_OPTION) -w -MMD -MP $<
 
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.c
-	$(CXX) -x c $(CPPFLAGS) $(DEFINES) $(CFLAGS) -w -MMD -MP -c $< -o $@
+	$(COMPILE.c) $(OUTPUT_OPTION) -x c $(CFLAGS) -w -MMD -MP $<
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(PCHFLAGS) -c $< -o $@
+	$(COMPILE.cc) $(OUTPUT_OPTION) $(PCHFLAGS) -MMD -MP $<
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
@@ -1178,12 +1183,12 @@ lang/mo_built.stamp: $(MO_DEPS)
 localization: lang/mo_built.stamp
 
 $(CHKJSON_BIN): $(CHKJSON_SOURCES)
-	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Isrc/chkjson -Isrc -isystem src/third-party $(CHKJSON_SOURCES) -o $(CHKJSON_BIN)
+	$(LINK.cc) $(OUTPUT_OPTION) $(TOOL_CXXFLAGS) -Isrc/chkjson -Isrc -isystem src/third-party $^
 
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
 
-clean: clean-tests clean-pch clean-lang
+clean: clean-tests clean-lang
 	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
@@ -1435,14 +1440,14 @@ style-all-json-parallel: $(JSON_FORMATTER_BIN)
 	find data -name "*.json" -print0 | xargs -0 -L 1 -P $$(nproc) $(JSON_FORMATTER_BIN)
 
 $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
-	$(CXX) $(CXXFLAGS) -MMD -MP $(TOOL_CXXFLAGS) -Itools/format -Isrc -isystem src/third-party \
-	  $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
+	$(LINK.cc) $(OUTPUT_OPTION) -MMD -MP $(TOOL_CXXFLAGS) -Itools/format -Isrc -isystem src/third-party $^
 
 $(BUILD_PREFIX)zstd.a: $(filter $(ODIR)/third-party/zstd/%.o,$(OBJS))
 	$(AR) rcs $(AR_FLAGS) $(BUILD_PREFIX)zstd.a $^
 
 $(ZZIP_BIN): $(ZZIP_SOURCES) $(BUILD_PREFIX)zstd.a
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(ZZIP_SOURCES) $(BUILD_PREFIX)zstd.a -isystem src/third-party -o $(ZZIP_BIN)
+  # Remove SDL libraries used by cataclysm
+	$(subst $(LDFLAGS),,$(LINK.cc)) $(OUTPUT_OPTION) -MMD -MP -isystem src/third-party $^
 
 python-check:
 	flake8
@@ -1456,15 +1461,15 @@ check: version $(BUILD_PREFIX)cataclysm.a $(LOCALIZE_TEST_DEPS)
 clean-tests:
 	$(MAKE) -C tests clean
 
-clean-pch:
-	rm -f pch/*pch.hpp.gch
-	rm -f pch/*pch.hpp.pch
-	rm -f pch/*pch.hpp.d
-	$(MAKE) -C tests clean-pch
-
 clean-lang:
 	$(MAKE) -C lang clean
 
-.PHONY: tests check ctags etags clean-tests clean-pch clean-lang install lint
+.PHONY: tests check ctags etags clean-tests clean-lang install lint
+
+compile_commands.txt:
+	@echo 'COMPILE.cc := $(COMPILE.cc)' > $@
+	@echo 'LINK.cc := $(LINK.cc)' >> $@
+	@echo 'COMPILE.c := $(COMPILE.c)' >> $@
+	@echo 'LINK.c := $(LINK.c)' >> $@
 
 -include ${OBJS:.o=.d}

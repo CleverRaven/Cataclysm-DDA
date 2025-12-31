@@ -16,12 +16,14 @@
       { "group": "wallets_science", "prob": 75 },
       { "item": "coat_lab", "damage": [ 1, 3 ] },
       { "item": "balthazar_radio", "prob": 10 },
+      { "item": "xedra_field_notes", "prob": 10 },
       { "group": "mutagenic_field_kit", "prob": 1, "damage": [ 1, 3 ] },
       { "group": "lab_pants", "damage": [ 1, 3 ] },
       { "group": "socks_unisex", "damage": [ 1, 3 ] },
       { "group": "lab_shoes", "damage": [ 1, 3 ] },
       { "group": "lab_torso", "damage": [ 1, 3 ] },
       { "group": "underwear", "damage": [ 1, 3 ] },
+      { "group": "papr_kit", "prob": 10 },
       { "item": "xedra_mobile_weather_station", "prob": 1, "charges": [ 0, 1000 ] }
     ]
   },

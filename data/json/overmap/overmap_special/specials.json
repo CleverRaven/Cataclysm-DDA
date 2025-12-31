@@ -373,7 +373,7 @@
     "locations": [ "forest_without_trail" ],
     "city_distance": [ 25, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 100, 100 ],
+    "occurrences": [ 20, 100 ],
     "priority": 1,
     "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE", "WILDERNESS", "SAFE_AT_WORLDGEN" ]
   },
@@ -3298,6 +3298,22 @@
     "city_distance": [ 5, 50 ],
     "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "xedra_church_rural",
+    "overmaps": [
+      { "point": [ 1, 0, 0 ], "overmap": "xedra_rural_church_parking_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "xedra_rural_church_north" },
+      { "point": [ 2, 0, -1 ], "overmap": "xedra_rural_church_basement_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "xedra_rural_church_steeple_north" },
+      { "point": [ 2, 0, 2 ], "overmap": "xedra_rural_church_steeple_roof_north" }
+    ],
+    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] } ],
+    "locations": [ "field" ],
+    "city_distance": [ 5, 50 ],
+    "occurrences": [ 20, 100 ],
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",

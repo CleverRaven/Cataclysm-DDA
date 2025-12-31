@@ -462,6 +462,7 @@
     "entries": [
       { "item": "e_tool", "prob": 60 },
       { "group": "gasmask_bag_full", "prob": 20 },
+      { "group": "military_papr_kit", "prob": 5 },
       { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
       { "item": "balthazar_radio", "prob": 1 },
       { "group": "infantry_knives", "prob": 80 }
@@ -474,6 +475,7 @@
     "entries": [
       { "item": "e_tool", "prob": 60 },
       { "group": "gasmask_bag_full", "prob": 20 },
+      { "group": "military_papr_kit", "prob": 5 },
       { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
       { "group": "infantry_knives", "prob": 100 }
     ]
@@ -562,7 +564,7 @@
         "distribution": [ { "group": "tac_helmet_nvg", "prob": 60 }, { "item": "tac_helmet", "prob": 40 } ],
         "prob": 100
       },
-      { "item": "mask_gas", "prob": 100 },
+      { "group": "molle_papr_kit", "prob": 90 },
       { "item": "gloves_tactical", "prob": 80 },
       { "group": "xedra_ballistic_vest_heavy_pristine", "prob": 100 },
       { "group": "clothing_tactical_leg", "prob": 80 },
@@ -582,6 +584,8 @@
       { "item": "officer_uniform", "prob": 20 },
       { "item": "flight_helmet", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "mil_flight_suit", "prob": 30 },
+      { "group": "military_papr_kit", "prob": 15 },
+      { "group": "molle_papr_kit", "prob": 15 },
       { "item": "combo_cover", "prob": 20 },
       { "item": "pants_army", "prob": 70 },
       { "item": "combat_shirt", "prob": 35 },
@@ -758,6 +762,7 @@
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "UPS_OFF", "prob": 8, "charges": [ 0, 1000 ] },
+      { "group": "papr_kit", "prob": 5 },
       { "item": "tacvest", "prob": 10 },
       { "group": "molle_backpacks_and_accessories", "prob": 15 },
       { "item": "legrig", "prob": 10 },
@@ -766,6 +771,7 @@
       { "group": "full_survival_kit", "prob": 3 },
       { "item": "tac_helmet", "prob": 5 },
       { "item": "tac_fullhelmet", "prob": 2 },
+      { "group": "molle_papr_kit", "prob": 5 },
       { "item": "cowboy_hat", "prob": 4 },
       { "item": "mask_bal", "prob": 1 },
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },

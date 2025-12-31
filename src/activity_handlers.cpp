@@ -17,8 +17,6 @@
 
 #include "activity_actor.h"
 #include "avatar.h"
-#include "avatar_action.h"
-#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -92,11 +90,7 @@
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
-static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
@@ -116,7 +110,6 @@ static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
-static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
@@ -133,22 +126,14 @@ static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
-static const activity_id ACT_VIBE( "ACT_VIBE" );
 
 static const ammotype ammo_battery( "battery" );
 
-static const bionic_id bio_painkiller( "bio_painkiller" );
-
 static const efftype_id effect_asocial_dissatisfied( "asocial_dissatisfied" );
-static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_controlled( "controlled" );
-static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_pet( "pet" );
-static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
 static const efftype_id effect_social_satisfied( "social_satisfied" );
-static const efftype_id effect_under_operation( "under_operation" );
 
 static const flag_id json_flag_IRREMOVABLE( "IRREMOVABLE" );
 static const flag_id json_flag_PSEUDO( "PSEUDO" );
@@ -172,12 +157,10 @@ static const itype_id itype_pseudo_magazine_mod( "pseudo_magazine_mod" );
 
 static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
 static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
-static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SOCIAL1( "SOCIAL1" );
 static const json_character_flag json_flag_SOCIAL2( "SOCIAL2" );
 
-static const morale_type morale_feeling_good( "morale_feeling_good" );
 static const morale_type morale_tree_communion( "morale_tree_communion" );
 
 static const skill_id skill_computer( "computer" );
@@ -193,7 +176,6 @@ const std::map< activity_id, std::function<void( player_activity *, Character * 
 activity_handlers::do_turn_functions = {
     { ACT_FILL_LIQUID, fill_liquid_do_turn },
     { ACT_START_FIRE, start_fire_do_turn },
-    { ACT_VIBE, vibe_do_turn },
     { ACT_HAND_CRANK, hand_crank_do_turn },
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
@@ -201,32 +183,26 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_MOP, multiple_mop_do_turn },
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
     { ACT_MULTIPLE_FARM, multiple_farm_do_turn },
+    { ACT_MULTIPLE_CHOP_PLANKS, multiple_chop_planks_do_turn },
+    { ACT_MULTIPLE_CRAFT, multiple_craft_do_turn },
+    { ACT_MULTIPLE_DIS, multiple_dis_do_turn },
+    { ACT_MULTIPLE_READ, multiple_read_do_turn },
+    { ACT_MULTIPLE_STUDY, multiple_study_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
-    { ACT_EAT_MENU, eat_menu_do_turn },
+    { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_VEHICLE_DECONSTRUCTION, vehicle_deconstruction_do_turn },
     { ACT_VEHICLE_REPAIR, vehicle_repair_do_turn },
     { ACT_MULTIPLE_CHOP_TREES, chop_trees_do_turn },
-    { ACT_CONSUME_FOOD_MENU, consume_food_menu_do_turn },
-    { ACT_CONSUME_DRINK_MENU, consume_drink_menu_do_turn },
-    { ACT_CONSUME_MEDS_MENU, consume_meds_menu_do_turn },
     { ACT_ARMOR_LAYERS, armor_layers_do_turn },
     { ACT_ATM, atm_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
     { ACT_DISMEMBER, dismember_do_turn },
-    { ACT_TIDY_UP, tidy_up_do_turn },
-    { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },
-    { ACT_MULTIPLE_CHOP_PLANKS, multiple_chop_planks_do_turn },
     { ACT_FERTILIZE_PLOT, fertilize_plot_do_turn },
-    { ACT_OPERATION, operation_do_turn },
     { ACT_ROBOT_CONTROL, robot_control_do_turn },
     { ACT_TREE_COMMUNION, tree_communion_do_turn },
     { ACT_STUDY_SPELL, study_spell_do_turn },
-    { ACT_MULTIPLE_CRAFT, multiple_craft_do_turn },
-    { ACT_MULTIPLE_DIS, multiple_dis_do_turn },
-    { ACT_MULTIPLE_READ, multiple_read_do_turn },
-    { ACT_MULTIPLE_STUDY, multiple_study_do_turn },
 };
 
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -240,13 +216,7 @@ activity_handlers::finish_functions = {
     { ACT_MEND_ITEM, mend_item_finish },
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
     { ACT_SOCIALIZE, socialize_finish },
-    { ACT_OPERATION, operation_finish },
-    { ACT_VIBE, vibe_finish },
     { ACT_ATM, atm_finish },
-    { ACT_EAT_MENU, eat_menu_finish },
-    { ACT_CONSUME_FOOD_MENU, eat_menu_finish },
-    { ACT_CONSUME_DRINK_MENU, eat_menu_finish },
-    { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
     { ACT_PULL_CREATURE, pull_creature_finish },
     { ACT_SPELLCASTING, spellcasting_finish },
@@ -755,40 +725,6 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, Character *you
         add_msg( m_info, _( "You're too exhausted to keep cranking." ) );
     }
 
-}
-
-void activity_handlers::vibe_do_turn( player_activity *act, Character *you )
-{
-    //Using a vibrator takes time (10 minutes), not speed
-    //Linear increase in morale during action with a small boost at end
-    //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
-    item &vibrator_item = *act->targets.front();
-
-    if( you->encumb( bodypart_id( "mouth" ) ) >= 30 ) {
-        act->moves_left = 0;
-        add_msg( m_bad, _( "You have trouble breathing, and stop." ) );
-    }
-
-    if( calendar::once_every( 1_minutes ) ) {
-        if( vibrator_item.ammo_remaining( you ) > 0 ) {
-            vibrator_item.ammo_consume( 1, you->pos_bub(), you );
-            you->add_morale( morale_feeling_good, 3, 40 );
-            if( vibrator_item.ammo_remaining( you ) == 0 ) {
-                add_msg( m_info, _( "The %s runs out of batteries." ), vibrator_item.tname() );
-            }
-        } else {
-            //twenty minutes to fill
-            you->add_morale( morale_feeling_good, 1, 40 );
-        }
-    }
-    // Dead Tired: different kind of relaxation needed
-    if( you->get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
-        act->moves_left = 0;
-        add_msg( m_info, _( "You're too tired to continue." ) );
-    }
-
-    // Vibrator requires that you be able to move around, stretch, etc, so doesn't play
-    // well with roots.  Sorry.  :-(
 }
 
 void activity_handlers::start_engines_finish( player_activity *act, Character *you )
@@ -1375,40 +1311,6 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
     act->targets[1].remove_item();
 }
 
-// This activity opens the menu (it's not meant to queue consumption of items)
-void activity_handlers::eat_menu_do_turn( player_activity *, Character *you )
-{
-    if( !you->is_avatar() ) {
-        debugmsg( "Character %s somehow opened the eat menu!  Cancelling their activity to prevent infinite loop",
-                  you->name );
-        you->cancel_activity();
-        return;
-    }
-
-    avatar &player_character = get_avatar();
-    avatar_action::eat_or_use( player_character, game_menus::inv::consume() );
-}
-
-void activity_handlers::consume_food_menu_do_turn( player_activity *, Character * )
-{
-    avatar &player_character = get_avatar();
-    item_location loc = game_menus::inv::consume_food();
-    avatar_action::eat( player_character, loc );
-}
-
-void activity_handlers::consume_drink_menu_do_turn( player_activity *, Character * )
-{
-    avatar &player_character = get_avatar();
-    item_location loc = game_menus::inv::consume_drink();
-    avatar_action::eat( player_character, loc );
-}
-
-void activity_handlers::consume_meds_menu_do_turn( player_activity *, Character * )
-{
-    avatar &player_character = get_avatar();
-    avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds() );
-}
-
 void activity_handlers::travel_do_turn( player_activity *act, Character *you )
 {
     if( !you->omt_path.empty() ) {
@@ -1529,209 +1431,6 @@ void activity_handlers::socialize_finish( player_activity *act, Character *you )
     act->set_to_null();
 }
 
-void activity_handlers::operation_do_turn( player_activity *act, Character *you )
-{
-    const map &here = get_map();
-
-    /**
-    - values[0]: Difficulty
-    - values[1]: success
-    - values[2]: bionic UID when uninstalling
-    - values[3]: pl_skill
-    - str_values[0]: install/uninstall
-    - str_values[1]: bionic_id when installing
-    - str_values[2]: installer_name
-    - str_values[3]: bool autodoc
-    */
-    enum operation_values_ids {
-        operation_type = 0,
-        cbm_id = 1,
-        installer_name = 2,
-        is_autodoc = 3
-    };
-    const bionic_id bid( act->str_values[cbm_id] );
-    const bool autodoc = act->str_values[is_autodoc] == "true";
-    Character &player_character = get_player_character();
-    const bool u_see = player_character.sees( here, you->pos_bub( here ) ) &&
-                       ( !player_character.has_effect( effect_narcosis ) ||
-                         player_character.has_bionic( bio_painkiller ) ||
-                         player_character.has_flag( json_flag_PAIN_IMMUNE ) );
-
-    const int difficulty = act->values.front();
-
-    const std::vector<bodypart_id> bps = get_occupied_bodyparts( bid );
-
-    const time_duration half_op_duration = difficulty * 10_minutes;
-    const time_duration message_freq = difficulty * 2_minutes;
-    time_duration time_left = time_duration::from_moves( act->moves_left );
-
-    if( autodoc && here.inbounds( you->pos_bub( here ) ) ) {
-        const std::list<tripoint_bub_ms> autodocs = here.find_furnitures_with_flag_in_radius(
-                    you->pos_bub(), 1,
-                    ter_furn_flag::TFLAG_AUTODOC );
-
-        if( !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, you->pos_bub() ) ||
-            autodocs.empty() ) {
-            you->remove_effect( effect_under_operation );
-            act->set_to_null();
-
-            if( u_see ) {
-                add_msg( m_bad, _( "The Autodoc suffers a catastrophic failure." ) );
-
-                you->add_msg_player_or_npc( m_bad,
-                                            _( "The Autodoc's failure damages you greatly." ),
-                                            _( "The Autodoc's failure damages <npcname> greatly." ) );
-            }
-            if( !bps.empty() ) {
-                for( const bodypart_id &bp : bps ) {
-                    you->add_effect( effect_bleed,  1_minutes * difficulty, bp, true, 1 );
-                    you->apply_damage( nullptr, bp, 20 * difficulty );
-
-                    if( u_see ) {
-                        you->add_msg_player_or_npc( m_bad, _( "Your %s is ripped open." ),
-                                                    _( "<npcname>'s %s is ripped open." ), body_part_name_accusative( bp ) );
-                    }
-
-                    if( bp == bodypart_id( "eyes" ) ) {
-                        you->add_effect( effect_blind, 1_hours );
-                    }
-                }
-            } else {
-                you->add_effect( effect_bleed,  1_minutes * difficulty, bodypart_str_id::NULL_ID(), true, 1 );
-                you->apply_damage( nullptr, bodypart_id( "torso" ), 20 * difficulty );
-            }
-        }
-    }
-
-    if( time_left > half_op_duration ) {
-        if( !bps.empty() ) {
-            for( const bodypart_id &bp : bps ) {
-                if( calendar::once_every( message_freq ) && u_see && autodoc ) {
-                    you->add_msg_player_or_npc( m_info,
-                                                _( "The Autodoc is meticulously cutting your %s open." ),
-                                                _( "The Autodoc is meticulously cutting <npcname>'s %s open." ),
-                                                body_part_name_accusative( bp ) );
-                }
-            }
-        } else {
-            if( calendar::once_every( message_freq ) && u_see ) {
-                you->add_msg_player_or_npc( m_info,
-                                            _( "The Autodoc is meticulously cutting you open." ),
-                                            _( "The Autodoc is meticulously cutting <npcname> open." ) );
-            }
-        }
-    } else if( time_left == half_op_duration ) {
-        if( act->str_values[operation_type] == "uninstall" ) {
-            if( u_see && autodoc ) {
-                add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
-            }
-
-            if( std::optional<bionic *> bio = you->find_bionic_by_uid( act->values[2] ) ) {
-                you->perform_uninstall( **bio, act->values[0], act->values[1], act->values[3] );
-            } else {
-                debugmsg( _( "Tried to uninstall bionic with UID %s, but you don't have this bionic installed." ),
-                          act->values[2] );
-                you->remove_effect( effect_under_operation );
-                act->set_to_null();
-            }
-        } else {
-            if( u_see && autodoc ) {
-                add_msg( m_info, _( "The Autodoc attempts to carefully insert the bionic." ) );
-            }
-
-            if( bid.is_valid() ) {
-                const bionic_id upbid = bid->upgraded_bionic;
-                // TODO: Let the user pick bionic to upgrade if multiple candidates exist
-                bionic_uid upbio_uid = 0;
-                if( std::optional<bionic *> bio = you->find_bionic_by_type( upbid ) ) {
-                    upbio_uid = ( *bio )->get_uid();
-                }
-
-                you->perform_install( bid, upbio_uid, act->values[0], act->values[1], act->values[3],
-                                      act->str_values[installer_name], bid->canceled_mutations, you->pos_bub() );
-            } else {
-                debugmsg( _( "%s is no a valid bionic_id" ), bid.c_str() );
-                you->remove_effect( effect_under_operation );
-                act->set_to_null();
-            }
-        }
-    } else if( act->values[1] > 0 ) {
-        if( !bps.empty() ) {
-            for( const bodypart_id &bp : bps ) {
-                if( calendar::once_every( message_freq ) && u_see && autodoc ) {
-                    you->add_msg_player_or_npc( m_info,
-                                                _( "The Autodoc is stitching your %s back up." ),
-                                                _( "The Autodoc is stitching <npcname>'s %s back up." ),
-                                                body_part_name_accusative( bp ) );
-                }
-            }
-        } else {
-            if( calendar::once_every( message_freq ) && u_see && autodoc ) {
-                you->add_msg_player_or_npc( m_info,
-                                            _( "The Autodoc is stitching you back up." ),
-                                            _( "The Autodoc is stitching <npcname> back up." ) );
-            }
-        }
-    } else {
-        if( calendar::once_every( message_freq ) && u_see && autodoc ) {
-            you->add_msg_player_or_npc( m_bad,
-                                        _( "The Autodoc is moving erratically through the rest of its program, not actually stitching your wounds." ),
-                                        _( "The Autodoc is moving erratically through the rest of its program, not actually stitching <npcname>'s wounds." ) );
-        }
-    }
-
-    // Makes sure NPC is still under anesthesia
-    if( you->has_effect( effect_narcosis ) ) {
-        const time_duration remaining_time = you->get_effect_dur( effect_narcosis );
-        if( remaining_time < time_left ) {
-            const time_duration top_off_time = time_left - remaining_time;
-            you->add_effect( effect_narcosis, top_off_time );
-            you->add_effect( effect_sleep, top_off_time );
-        }
-    } else {
-        you->add_effect( effect_narcosis, time_left );
-        you->add_effect( effect_sleep, time_left );
-    }
-}
-
-void activity_handlers::operation_finish( player_activity *act, Character *you )
-{
-    map &here = get_map();
-    if( act->str_values[3] == "true" ) {
-        if( act->values[1] > 0 ) {
-            add_msg( m_good,
-                     _( "The Autodoc returns to its resting position after successfully performing the operation." ) );
-            const std::list<tripoint_bub_ms> autodocs = here.find_furnitures_with_flag_in_radius(
-                        you->pos_bub(), 1,
-                        ter_furn_flag::TFLAG_AUTODOC );
-            sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
-                           _( "a short upbeat jingle: \"Operation successful\"" ), true,
-                           "Autodoc",
-                           "success" );
-        } else {
-            add_msg( m_bad,
-                     _( "The Autodoc jerks back to its resting position after failing the operation." ) );
-            const std::list<tripoint_bub_ms> autodocs = here.find_furnitures_with_flag_in_radius(
-                        you->pos_bub(), 1,
-                        ter_furn_flag::TFLAG_AUTODOC );
-            sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
-                           _( "a sad beeping noise: \"Operation failed\"" ), true,
-                           "Autodoc",
-                           "failure" );
-        }
-    } else {
-        if( act->values[1] > 0 ) {
-            add_msg( m_good,
-                     _( "The operation is a success." ) );
-        } else {
-            add_msg( m_bad,
-                     _( "The operation is a failure." ) );
-        }
-    }
-    you->remove_effect( effect_under_operation );
-    act->set_to_null();
-}
-
 void activity_handlers::tidy_up_do_turn( player_activity *act, Character *you )
 {
     generic_multi_activity_handler( *act, *you );
@@ -1812,24 +1511,12 @@ void activity_handlers::fetch_do_turn( player_activity *act, Character *you )
     generic_multi_activity_handler( *act, *you );
 }
 
-void activity_handlers::vibe_finish( player_activity *act, Character *you )
-{
-    you->add_msg_if_player( m_good, _( "You feel much better." ) );
-    you->add_morale( morale_feeling_good, 10, 40 );
-    act->set_to_null();
-}
-
 void activity_handlers::atm_finish( player_activity *act, Character * )
 {
     // ATM sets index to 0 to indicate it's finished.
     if( !act->index ) {
         act->set_to_null();
     }
-}
-
-void activity_handlers::eat_menu_finish( player_activity *, Character * )
-{
-    // Only exists to keep the eat activity alive between turns
 }
 
 template<typename fn>

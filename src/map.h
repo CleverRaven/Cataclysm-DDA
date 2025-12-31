@@ -698,9 +698,10 @@ class map
          * Iteratively tries Bresenham lines with different biases
          * until it finds a clear line or decides there isn't one.
          * returns the line found, which may be the straight line, but blocked.
+         * With empty_on_fail returns empty vector
          */
         std::vector<tripoint_bub_ms> find_clear_path( const tripoint_bub_ms &source,
-                const tripoint_bub_ms &destination ) const;
+                const tripoint_bub_ms &destination, bool empty_on_fail = false ) const;
 
         /**
          * Check whether the player can access the items located @p. Certain furniture/terrain
@@ -1549,7 +1550,8 @@ class map
          */
         bool add_field(
             const tripoint_bub_ms &p, const field_type_id &type_id, int intensity = INT_MAX,
-            const time_duration &age = 0_turns, bool hit_player = true );
+            const time_duration &age = 0_turns, bool hit_player = true,
+            effect_source source = effect_source() );
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
          */

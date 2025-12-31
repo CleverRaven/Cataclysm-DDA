@@ -13,6 +13,17 @@
     "color": "dark_gray"
   },
   {
+    "id": "afs_30x200mm_armature",
+    "copy-from": "afs_25_casing",
+    "type": "ITEM",
+    "name": { "str": "30x200mm armature" },
+    "description": "The empty and partially melted remnants of a 30x200mm railgun slug launch armature.",
+    "weight": "200 g",
+    "volume": "1000 ml",
+    "material": [ "lc_steel" ],
+    "color": "dark_gray"
+  },
+  {
     "id": "afs_5x50_hull",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
