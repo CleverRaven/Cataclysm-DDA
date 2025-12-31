@@ -551,6 +551,7 @@
     "color": "light_gray",
     "warmth": 10,
     "material_thickness": 2,
+    "flags": [ "OUTER" ],
     "environmental_protection": 6,
     "armor": [
       {
