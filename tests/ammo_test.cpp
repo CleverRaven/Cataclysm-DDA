@@ -354,3 +354,4 @@ TEST_CASE( "battery_energy_test", "[ammo][energy][item]" )
     }
 
 }
+
