@@ -37,7 +37,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "morgantown_1a", "morgantown_2a", "morgantown_3a", "morgantown_1b", "morgantown_2b", "morgantown_3b", "morgantown_1c", "morgantown_2c", "morgantown_3c" ],
+    "id": [
+      "morgantown_1a",
+      "morgantown_2a",
+      "morgantown_3a",
+      "morgantown_1b",
+      "morgantown_2b",
+      "morgantown_3b",
+      "morgantown_1c",
+      "morgantown_2c",
+      "morgantown_3c"
+    ],
     "vision_levels": "isolated_building",
     "name": "forested ruins",
     "sym": "f",
