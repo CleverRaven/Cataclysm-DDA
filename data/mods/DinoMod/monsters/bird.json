@@ -6,6 +6,24 @@
     "extend": { "families": [ "prof_wp_dino" ] }
   },
   {
+    "abstract": "mon_bird_flightless_base",
+    "copy-from": "mon_bird_flightless_base",
+    "type": "MONSTER",
+    "extend": { "families": [ "prof_wp_dino" ] }
+  },
+  {
+    "abstract": "mon_bird_flying_base",
+    "copy-from": "mon_bird_flying_base",
+    "type": "MONSTER",
+    "extend": { "families": [ "prof_wp_dino" ] }
+  },
+  {
+    "abstract": "mon_bird_water_base",
+    "copy-from": "mon_bird_water_base",
+    "type": "MONSTER",
+    "extend": { "families": [ "prof_wp_dino" ] }
+  },
+  {
     "abstract": "mon_generic_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick",
