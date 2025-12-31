@@ -47,7 +47,7 @@
       { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
       { "item": "afs_marsec_4", "charges": 14, "ammo-item": "afs_10mm_caseless_JHP" },
       { "item": "afs_10mm_caseless_JHP", "count": [ 1, 2 ] },
-      { "item": "shot_00", "count": 2 }
+      { "item": "afs_shot_00", "count": 2 }
     ]
   },
   {
@@ -58,7 +58,7 @@
       {
         "item": "afs_shotgun",
         "variant": "military",
-        "ammo-item": "shot_00",
+        "ammo-item": "afs_shot_00",
         "charges": 9,
         "contents-item": [ "shoulder_strap", "suppressor" ]
       }

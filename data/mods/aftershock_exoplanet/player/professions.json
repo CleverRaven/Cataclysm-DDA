@@ -449,7 +449,7 @@
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc2" },
           { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "holster" },
-          { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": [ "shoulder_strap" ] },
+          { "item": "ksg", "ammo-item": "afs_shot_00", "charges": 7, "contents-item": [ "shoulder_strap" ] },
           { "item": "baton", "container-item": "xlpolice_belt" }
         ]
       },

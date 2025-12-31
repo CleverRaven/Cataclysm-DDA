@@ -655,7 +655,7 @@
     "name": { "str_sp": "UICA Imaginifer MP" },
     "description": "A supposedly non-combat refit of Wraitheon's Imaginifer series, outfitted for crowd control and riot suppression.  This unit is outfitted with a beanbag shotgun and a taser and has been painted in the white and blue scheme of UICA's military police.",
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "starting_ammo": { "shot_beanbag": 400 },
+    "starting_ammo": { "afs_shot_beanbag": 400 },
     "special_attacks": [
       {
         "type": "gun",
@@ -665,7 +665,7 @@
         "cooldown": 2,
         "gun_type": "afs_shotgun",
         "condition": { "not": { "u_has_any_effect": [ "afs_weapon_disabled", "blind" ] } },
-        "ammo_type": "shot_beanbag",
+        "ammo_type": "afs_shot_beanbag",
         "fake_skills": [ [ "gun", 2 ], [ "shotgun", 2 ] ],
         "fake_dex": 9,
         "no_ammo_sound": "click click!",
