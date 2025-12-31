@@ -206,7 +206,13 @@
         "2": "f_null",
         "3": "f_null"
       },
-      "place_signs": [ { "signage": "The sign has the logo of the Morgantown Entry Forest Association and reads \"NO TRESPASSING\"", "x": 11, "y": 21 } ]
+      "place_signs": [
+        {
+          "signage": "The sign has the logo of the Morgantown Entry Forest Association and reads \"NO TRESPASSING\"",
+          "x": 11,
+          "y": 21
+        }
+      ]
     }
   },
   {
