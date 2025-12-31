@@ -343,7 +343,8 @@
     "type": "item_group",
     "//": "Anything a survivor looted or cobbled together to wear on their face",
     "items": [
-      [ "glasses_safety", 15 ],
+      [ "glasses_safety", 10 ],
+      [ "goggles_chem", 5 ],
       [ "goggles_swim", 5 ],
       [ "goggles_ski", 10 ],
       { "item": "mask_gas", "prob": 60, "charges": [ 0, 100 ] },

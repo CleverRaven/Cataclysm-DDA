@@ -496,6 +496,7 @@
         [ "mask_gas_xs", -1 ],
         [ "mask_gas_xl", -1 ],
         [ "mask_bunker", -1 ],
+        [ "goggles_chem", 1 ],
         [ "mask_survivor", 1 ],
         [ "mask_survivorxs", 1 ],
         [ "mask_survivorxl", 1 ],

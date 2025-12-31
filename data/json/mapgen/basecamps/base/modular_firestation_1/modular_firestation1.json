@@ -215,7 +215,7 @@
       "set": [ { "point": "furniture", "id": "f_clay_kiln", "x": 6, "y": 19 } ],
       "place_loot": [
         { "item": "glassblowing_book", "x": 8, "y": 21, "chance": 100 },
-        { "item": "glasses_safety", "x": 8, "y": 21, "chance": 100 },
+        { "item": "goggles_chem", "x": 8, "y": 21, "chance": 100 },
         { "item": "chemistry_set", "x": 8, "y": 21, "chance": 100 },
         { "item": "pipe", "x": 8, "y": 21, "chance": 100 }
       ]
