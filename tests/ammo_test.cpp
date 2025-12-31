@@ -1,6 +1,7 @@
 #include <set>
 #include <string>
 
+#include "ammo.h"
 #include "cata_catch.h"
 #include "coordinates.h"
 #include "damage.h"
