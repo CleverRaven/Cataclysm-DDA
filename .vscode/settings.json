@@ -86,8 +86,5 @@
     "astyle.astylerc": "${workspaceRoot}/.astylerc",
     "files.associations": {
         ".clang-tidy": "yaml",
-    },
-    "githubPullRequests.ignoredPullRequestBranches": [
-        "master"
-    ]
+    }
 }
