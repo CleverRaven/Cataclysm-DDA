@@ -235,7 +235,7 @@
     "responses": [
       {
         "text": "*Tell him.",
-        "effect": [ { "u_add_faction_trust": 5 }, { "math": [ "exodii_knows_hub01 = 1" ] } ],
+        "effect": [ { "u_add_faction_trust": 10 }, { "math": [ "exodii_knows_hub01 = 1" ] } ],
         "topic": "TALK_DONE"
       },
       { "text": "Maybe later, can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
