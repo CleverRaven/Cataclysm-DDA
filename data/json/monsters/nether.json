@@ -2412,9 +2412,9 @@
   {
     "id": "mon_dish_head",
     "type": "MONSTER",
-    "//": "A sightless, noseless horror that ",
+    "//": "A sightless, noseless horror that uses star-vampire attacks.  Very roughly based on 'real-life' melon heads.",
     "name": { "str": "dish-head" },
-    "description": "This creature would look almost like a small human, except for its proportions. Its emaciated, child-like body sits below a massive, bloated head.  In place of a face is a deep divot, almost like a satellite dish - surrounding it is a thin line of razor sharp, fang-like teeth.  When stopped, it stands eerily still.  When it moves, it takes several small measured steps at a time, rotating slowly as if to scan its surroundings as part of a practiced dance.",
+    "description": "This creature would look almost like a small human, except for its proportions.  Its emaciated body sits below a massive, bloated head.  In place of a face is a deep divot, almost like a satellite dish - surrounding it is a thin line of razor sharp, fang-like teeth.  When stopped, it stands eerily still.  When it moves, it takes several small measured steps at a time, rotating slowly to scan its surroundings, as if it were performing a practiced dance.",
     "default_faction": "nether_hate_humans",
     "bodytype": "blob",
     "species": [ "NETHER" ],

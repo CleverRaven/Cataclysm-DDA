@@ -617,7 +617,7 @@
   {
     "type": "ITEM",
     "id": "xedra_field_notes_used",
-    "name": "field notebook (used)",
+    "name": { "str": "field notebook (used)", "str_pl": "field notebooks (used)" },
     "category": "maps",
     "symbol": ",",
     "color": "white",
