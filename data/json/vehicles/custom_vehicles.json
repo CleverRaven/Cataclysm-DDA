@@ -307,7 +307,20 @@
       },
       { "x": 0, "y": 0, "parts": [ "xedra_genset" ] },
       { "x": 0, "y": 0, "parts": [ "alternator_motorbike" ] },
-      { "x": -1, "y": 0, "parts": [ "xlframe#vertical", { "part": "tank_small", "fuel": "gasoline" }, "engine_electric", "muffler", "wheel_mount_light", "box", "recharge_station", "wheel_motorbike_or#rear" ] }
+      {
+        "x": -1,
+        "y": 0,
+        "parts": [
+          "xlframe#vertical",
+          { "part": "tank_small", "fuel": "gasoline" },
+          "engine_electric",
+          "muffler",
+          "wheel_mount_light",
+          "box",
+          "recharge_station",
+          "wheel_motorbike_or#rear"
+        ]
+      }
     ]
   }
 ]
