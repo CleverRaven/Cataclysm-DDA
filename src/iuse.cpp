@@ -7404,13 +7404,21 @@ std::optional<int> iuse::remoteveh_tick( Character *p, item *it, const tripoint_
     vehicle *remote = g->remoteveh();
     bool stop = false;
     if( !it->ammo_sufficient( p ) ) {
-        p->add_msg_if_player( m_bad, _( "The remote control's battery goes dead." ) );
+        if( p != nullptr ) {
+            p->add_msg_if_player( m_bad, _( "The remote control's battery goes dead." ) );
+        }
         stop = true;
+
     } else if( remote == nullptr ) {
-        p->add_msg_if_player( _( "Lost contact with the vehicle." ) );
+        if( p != nullptr ) {
+            p->add_msg_if_player( _( "Lost contact with the vehicle." ) );
+        }
         stop = true;
+
     } else if( remote->fuel_left( here, itype_battery ) == 0 ) {
-        p->add_msg_if_player( m_bad, _( "The vehicle's battery died." ) );
+        if( p != nullptr ) {
+            p->add_msg_if_player( m_bad, _( "The vehicle's battery died." ) );
+        }
         stop = true;
     }
     if( stop ) {
