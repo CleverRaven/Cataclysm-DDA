@@ -2494,13 +2494,7 @@
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "flags": [
-      "HEARS",
-      "WARM",
-      "HAS_MIND",
-      "PLASTIC",
-      "NO_BREATHE"
-    ],
+    "flags": [ "HEARS", "WARM", "HAS_MIND", "PLASTIC", "NO_BREATHE" ],
     "armor": { "bash": 3, "electric": 3 }
   }
 ]
