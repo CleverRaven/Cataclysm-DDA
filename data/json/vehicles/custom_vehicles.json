@@ -291,5 +291,19 @@
       { "x": -3, "y": 0, "chance": 70, "item_groups": [ "dynamite_shipment" ] },
       { "x": -3, "y": 0, "chance": 70, "item_groups": [ "dynamite_shipment" ] }
     ]
+  },
+  {
+    "id": "xedra_silent_eagle",
+    "//": "This is used in part 2 of the XEDRA fieldstation quests.  Based on the very real DARPA SilentHawk.",
+    "type": "vehicle",
+    "name": "DARPA SilentEagle Motorbike",
+    "blueprint": [ "o#o" ],
+    "parts": [
+      { "x": 1, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_mount_light_steerable", "wheel_motorbike_or" ] },
+      { "x": 0, "y": 0, "parts": [ "xlframe#vertical", "saddle#motor", "controls", "storage_battery", "controls_electronic" ] },
+      { "x": 0, "y": 0, "parts": [ "xedra_genset" ] },
+      { "x": 0, "y": 0, "parts": [ "alternator_motorbike" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe#vertical", { "part": "tank_small", "fuel": "gasoline" }, "engine_electric", "muffler", "wheel_mount_light", "box", "recharge_station", "wheel_motorbike_or#rear" ] }
+    ]
   }
 ]

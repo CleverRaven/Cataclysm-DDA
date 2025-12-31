@@ -17,7 +17,7 @@
     "color": "light_red",
     "see_cost": "spaced_high"
   },
-  {
+    {
     "type": "overmap_terrain",
     "id": [ "xedra_rural_church_steeple_roof" ],
     "vision_levels": "roof_or_air",
@@ -34,5 +34,23 @@
     "name": "church basement",
     "sym": "B",
     "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "morgantown_1a", "morgantown_2a", "morgantown_3a", "morgantown_1b", "morgantown_2b", "morgantown_3b", "morgantown_1c", "morgantown_2c", "morgantown_3c" ],
+    "vision_levels": "isolated_building",
+    "name": "forested ruins",
+    "sym": "f",
+    "color": "dark_gray",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "morgantown_forest_fence_s", "morgantown_forest", "morgantown_forest_fence_corner", "morgantown_forest_fence_entry", "morgantown_forest_fence_entry_2" ],
+    "vision_levels": "isolated_building",
+    "name": "fenced-off forest",
+    "sym": "f",
+    "color": "green",
+    "see_cost": "high"
   }
 ]

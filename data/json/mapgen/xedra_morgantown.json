@@ -1,0 +1,383 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      [ "morgantown_1a", "morgantown_1b", "morgantown_1c" ],
+      [ "morgantown_2a", "morgantown_2b", "morgantown_2c" ],
+      [ "morgantown_3a", "morgantown_3b", "morgantown_3c" ]
+    ],
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "rows": [
+        "T                                              T                        ",
+        "     XXXXXXXXXXfffffffffffffffffff                                      ",
+        "     X........X                                                         ",
+        "       .......x                         T      MMMM    T    .......     ",
+        "       .......x            M                       ,,,,   ,, ......     ",
+        "     X.......      T           T                   , ,,,,,,,  .....     ",
+        "     XXxx    X                                    ,,,        T.....     ",
+        "             ,,,,,,,,,,,,,,,,,,,               M   ,,           XXXX   f",
+        "             ,,,,,,,,     ,,,,,,,     MMMM         ,,                   ",
+        "                               ,,, M               ,,                   ",
+        "        T                       ,,                 ,,                   ",
+        "              M                 ,,           T     ,,        M          ",
+        "                                ,,                 ,,                   ",
+        "                       T        ,,                 ,,              T   f",
+        "        XX                      ,,       M         ,,        M          ",
+        "    .....X         M            ,,                 ,,                   ",
+        "    .....X                     ,,,,                ,,         T         ",
+        "     .... ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,, ,,              ",
+        "          ,,,,  ,,,,,,,,,,,,,,,,,T ,,,,,,,,,,,,,,,,,,,,W,,              ",
+        "                               ,,,,                  ,,,,,              ",
+        "                M               ,,         T                            ",
+        "     T                       M  ,,                        T             ",
+        "           ..........           ,,                                      ",
+        "           ..........           ,,   M              M                   ",
+        "           ..........           ,,                                      ",
+        "      M    ..........           ,,                             M        ",
+        "           ..........    M      ,,        MMMM                          ",
+        "  MMMM                          ,,      ,,,      xxxxxXXXXX            f",
+        "                                ,,     ,, ,,,                          f",
+        "        T       M               T,   ,,,    ,,                MMMM      ",
+        "                       T        ,,  ,,,      ,,              T          ",
+        "                                ,, ,,     $   ,,,    M                  ",
+        "       M      MMMMM             ,,,,           ,,,                     f",
+        "                              M ,,                                     f",
+        "            T      M            ,,                                     f",
+        "                                ,,           M                   M      ",
+        "       T                        ,,                      T               ",
+        "                                ,,     MMMM                             ",
+        "         XXXXXXXXXXXXXXXXXXX    ,                M    M                 ",
+        "         X     X   X   X   X    ,,                                      ",
+        "         X  M  X   X   X   X    ,,        M             M               ",
+        "  T      X     X   X   X   X M  ,,            @                   M     ",
+        "         X                 X*   ,,                M      M              ",
+        "         X                  *   ,,              M    @                  ",
+        "         X  MMM             *   ,,  MM     M                            ",
+        "         X     XXXXXXXXXXXXX*   ,,                @  M                  ",
+        "     M   X        Á        X    ,,                      M      T        ",
+        "         X                 X    ,,          M                           ",
+        "         X   Á       Á     X    ,,                                      ",
+        "         X                 X    ,,   T                   M              ",
+        "         XXXXXXXXXXXXXXXXXXX    ,,      MMMM         .......            ",
+        "                M               ,,                  .......             ",
+        "                                 ,                 .......              ",
+        "          T                     ,,    M           .......       T       ",
+        "  MMMMM          M              ,,               M                      ",
+        "                          M     ,,                                      ",
+        "                                ,,                                      ",
+        "  ffffffff       ff             ,,fff              ff    ffffff,,,,,,,,f",
+        "                                                 M                      ",
+        "      g    g  g  g               M                                      ",
+        "                                        M           T            T      ",
+        "    g   M           g   MMM                                             ",
+        "                                                                        ",
+        "             g              M           T        M                      ",
+        "                    M                                       M           ",
+        "         g                    MMMM                                      ",
+        "                            T                 T               T         ",
+        "                 T                                                      ",
+        "                                 M                                      ",
+        "    M                                      T          T          T      ",
+        "                                                                        ",
+        "T                 T                                                     "
+      ],
+      "furniture": { "*": "f_barricade_road", "g": "f_grave_stone_old" },
+      "item": {"@": [ { "item": "corpse_generic_male" } ] },
+      "items": { "@": { "item": "NC_XEDRA_FIELD_AGENT_MORGANTOWN_worn" } },
+      "nested": { "$": { "chunks": [ "tent_b_5x5_S" ] } },
+      "terrain": {
+        " ": [ [ "t_grass_tall", 4 ], [ "t_grass_long", 2 ], [ "t_region_shrub_forest", 1 ], [ "t_region_groundcover", 1 ] ],
+        ",": "t_region_soil",
+        ".": "t_region_soil",
+        "X": "t_rock_wall",
+        "x": "t_rock_wall_half",
+        "f": "t_rock_wall_half",
+        "T": "t_tree_harvested",
+        "W": "t_covered_well"
+      },
+      "vehicles": { "Á": { "vehicle": "xedra_silent_eagle", "chance": 100, "rotation": 0 } },
+      "monster": {
+        "%": { "monster": "mon_turret_searchlight" },
+        "M": { "monster": "mon_dish_head" }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "morgantown_forest" ],
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "rows": [
+        "123123123123123123123123",
+        "231231231231231231231231",
+        "312312312312312312312312",
+        "123123123123123123123123",
+        "2312M12312312312312M1231",
+        "312312312312312312312312",
+        "12312312312M123123123123",
+        "231231231231231231231231",
+        "312312312312312312312312",
+        "123123123123123123123123",
+        "2312M12312312312312M1231",
+        "312312312312312312312312",
+        "12312312312M123123123123",
+        "231231231231231231231231",
+        "312312312312312312312312",
+        "123123123123123123123123",
+        "2312M12312312312312M1231",
+        "312312312312312312312312",
+        "123123123123123123123123",
+        "231231231231231231231231",
+        "312312312312312312312312",
+        "123123123123123123123123",
+        "231231231231231231231231",
+        "312312312312312312312312"
+      ],
+      "//": "3: reserve for furniture.",
+      "terrain": {
+        "1": [ [ "t_region_groundcover", 10 ], [ "t_region_shrub_forest", 50 ], [ "t_region_tree_forest", 50 ] ],
+        "2": [ [ "t_region_groundcover", 10 ], [ "t_region_shrub_forest", 50 ], [ "t_region_tree_forest", 50 ] ],
+        "3": "t_region_groundcover",
+        ",": [ [ "t_region_soil", 7 ], [ "t_region_shrub_forest", 1 ], [ "t_region_groundcover", 2 ] ],
+        "M": [ [ "t_region_soil", 7 ], [ "t_region_shrub_forest", 1 ], [ "t_region_groundcover", 2 ] ]
+      },
+      "furniture": {
+        "1": [
+          [ "f_null", 35000 ],
+          [ "f_region_plain", 100 ],
+          [ "f_boulder_small", 10 ],
+          [ "f_boulder_medium", 8 ],
+          [ "f_boulder_large", 2 ],
+          [ "f_region_flower", 1 ]
+        ],
+        "2": "f_null",
+        "3": "f_null"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "morgantown_forest_fence_s" ],
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "rows": [
+        "123123123123123123123123",
+        "231231231231231231231231",
+        "312312312312312312312312",
+        "12312M12312312312M123123",
+        "231231231231231231231231",
+        "312312312312312312312312",
+        "123123123123123123123123",
+        "231231231231231231231231",
+        "312312312312312312312312",
+        "12312M12312312312M123123",
+        "231231231231231231231231",
+        "312312312312312312312312",
+        "123123123123123123123123",
+        "231231231231231231231231",
+        "312312312312312312312312",
+        "12312M12312312312M123123",
+        "231231231231231231231231",
+        "312312312312312312312312",
+        "123123123123123123123123",
+        "231231231231231231231231",
+        "FFFFFFFFFFFFFFFFFFFFFFFF",
+        "ffffffffffffffffffffffff",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+      ],
+      "//": "3: reserve for furniture.",
+      "terrain": {
+        "1": [ [ "t_region_groundcover", 10 ], [ "t_region_shrub_forest", 50 ], [ "t_region_tree_forest", 50 ] ],
+        "2": [ [ "t_region_groundcover", 10 ], [ "t_region_shrub_forest", 50 ], [ "t_region_tree_forest", 50 ] ],
+        "3": "t_region_groundcover",
+        "F": "t_fence_barbed",
+        "f": "t_chainfence",
+        ",": [ [ "t_region_soil", 7 ], [ "t_region_shrub_forest", 1 ], [ "t_region_groundcover", 2 ] ],
+        "M": [ [ "t_region_soil", 7 ], [ "t_region_shrub_forest", 1 ], [ "t_region_groundcover", 2 ] ]
+      },
+      "furniture": {
+        "1": [
+          [ "f_null", 35000 ],
+          [ "f_region_plain", 100 ],
+          [ "f_boulder_small", 10 ],
+          [ "f_boulder_medium", 8 ],
+          [ "f_boulder_large", 2 ],
+          [ "f_region_flower", 1 ]
+        ],
+        "2": "f_null",
+        "3": "f_null"
+      },
+      "place_signs": [ { "signage": "The sign has the logo of the Morgantown Entry Forest Association and reads \"NO TRESPASSING\"", "x": 11, "y": 21 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "morgantown_forest_fence_entry" ],
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "rows": [
+        "12312312312312312M,,3123",
+        "23123123123123123,,,1231",
+        "3M23123M23123M231,,M2312",
+        "12312312312312312,,,3123",
+        "23123123123123123,M,1231",
+        "3123M23123M231231,,,2312",
+        "12312312312312312M,,3123",
+        "23123123123123123,,,1231",
+        "3M23123M23123M231,,M2312",
+        "12312312312312312,,,3123",
+        "23123123123123123,M,1231",
+        "3123M23123M231231,,,2312",
+        "12312312312312312M,,3123",
+        "23123123123123123,,,1231",
+        "3M23123M23123M231,,M2312",
+        "12312312312312312,,,3123",
+        "23123123123123123,M,1231",
+        "31231231231231231,,,2312",
+        "12312312312312312M,,3123",
+        "23123123123123123,,,1231",
+        "FFFFFFFFFFFFFFFf****fFFF",
+        "ffffffffffffffff,,,,ffff",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+      ],
+      "//": "3: reserve for furniture.",
+      "terrain": {
+        "1": [ [ "t_region_groundcover", 10 ], [ "t_region_shrub_forest", 50 ], [ "t_region_tree_forest", 50 ] ],
+        "2": [ [ "t_region_groundcover", 10 ], [ "t_region_shrub_forest", 50 ], [ "t_region_tree_forest", 50 ] ],
+        "3": "t_region_groundcover",
+        "F": "t_fence_barbed",
+        ",": [ [ "t_region_soil", 7 ], [ "t_region_shrub_forest", 1 ], [ "t_region_groundcover", 2 ] ],
+        "M": [ [ "t_region_soil", 7 ], [ "t_region_shrub_forest", 1 ], [ "t_region_groundcover", 2 ] ],
+        "*": "t_region_soil",
+        "f": "t_chainfence"
+      },
+      "furniture": {
+        "1": [
+          [ "f_null", 35000 ],
+          [ "f_region_plain", 100 ],
+          [ "f_boulder_small", 10 ],
+          [ "f_boulder_medium", 8 ],
+          [ "f_boulder_large", 2 ],
+          [ "f_region_flower", 1 ]
+        ],
+        "2": "f_null",
+        "3": "f_null",
+        "*": "f_barricade_road"
+      },
+      "place_signs": [ { "signage": "The sign has the logo of the Morgantown Entry Forest Association and reads \"NO TRESPASSING\"", "x": 11, "y": 21 } ],
+      "monster": { "M": { "monster": "mon_dish_head" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "morgantown_forest_fence_entry_2" ],
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "rows": [
+        "12312312312312312M,,3123",
+        "23123123123123123,,,1231",
+        "3M23123M23123M231,,M2312",
+        "12312312312312312,,,3123",
+        "23123123123123123,M,1231",
+        "3123M23123M231231,,,2312",
+        "12312312312312312M,,3123",
+        "23123123123123123,,,1231",
+        "3M23123M23123M231,,M2312",
+        "12312312312312312,,,3123",
+        "23123123123123123,M,1231",
+        "3123M23123M231231,,,2312",
+        "12312312312312312M,,3123",
+        "23123123123123123,,,1231",
+        "3M23123M23123M231,,M2312",
+        "12312312312312312,,,3123",
+        "23123123123123123,M,1231",
+        "31231231231231231,,,2312",
+        "12312312312312312M,,3123",
+        "23123123123123123,,,1231",
+        "3M23123M23123M231,,M2312",
+        "12312312312312312,,,3123",
+        "23123123123123123,M,1231",
+        "3123M23123M231231,,,2312"
+      ],
+      "//": "3: reserve for furniture.",
+      "terrain": {
+        "1": [ [ "t_region_groundcover", 10 ], [ "t_region_shrub_forest", 50 ], [ "t_region_tree_forest", 50 ] ],
+        "2": [ [ "t_region_groundcover", 10 ], [ "t_region_shrub_forest", 50 ], [ "t_region_tree_forest", 50 ] ],
+        "3": "t_region_groundcover",
+        ",": [ [ "t_region_soil", 7 ], [ "t_region_shrub_forest", 1 ], [ "t_region_groundcover", 2 ] ],
+        "M": [ [ "t_region_soil", 7 ], [ "t_region_shrub_forest", 1 ], [ "t_region_groundcover", 2 ] ]
+      },
+      "furniture": {
+        "1": [
+          [ "f_null", 35000 ],
+          [ "f_region_plain", 100 ],
+          [ "f_boulder_small", 10 ],
+          [ "f_boulder_medium", 8 ],
+          [ "f_boulder_large", 2 ],
+          [ "f_region_flower", 1 ]
+        ],
+        "2": "f_null",
+        "3": "f_null"
+      },
+      "monster": { "M": { "monster": "mon_dish_head" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "morgantown_forest_fence_corner" ],
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "rows": [
+        "12312312312312312312Ff,,",
+        "23123M23123123123123Ff,,",
+        "31231231231231231231Ff,,",
+        "12312312312312312312Ff,,",
+        "23123123123123123123Ff,,",
+        "31231231231231231231Ff,,",
+        "12312312312312312312Ff,,",
+        "23123M23123123123123Ff,,",
+        "31231231231231231231Ff,,",
+        "12312312312312312312Ff,,",
+        "23123123123123123123Ff,,",
+        "31231231231231231231Ff,,",
+        "12312312312312312312Ff,,",
+        "23123M23123123123123Ff,,",
+        "31231231231231231231Ff,,",
+        "12312312312312312312Ff,,",
+        "23123123123123123123Ff,,",
+        "31231231231231231231Ff,,",
+        "12312312312312312312Ff,,",
+        "23123123123123123123Ff,,",
+        "FFFFFFFFFFFFFFFFFFFFFf,,",
+        "ffffffffffffffffffffff,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+      ],
+      "//": "3: reserve for furniture.",
+      "terrain": {
+        "1": [ [ "t_region_groundcover", 10 ], [ "t_region_shrub_forest", 50 ], [ "t_region_tree_forest", 50 ] ],
+        "2": [ [ "t_region_groundcover", 10 ], [ "t_region_shrub_forest", 50 ], [ "t_region_tree_forest", 50 ] ],
+        "3": "t_region_groundcover",
+        "F": "t_fence_barbed",
+        "f": "t_chainfence",
+        ",": [ [ "t_region_soil", 7 ], [ "t_region_shrub_forest", 1 ], [ "t_region_groundcover", 2 ] ],
+        "M": [ [ "t_region_soil", 7 ], [ "t_region_shrub_forest", 1 ], [ "t_region_groundcover", 2 ] ]
+      },
+      "furniture": {
+        "1": [
+          [ "f_null", 35000 ],
+          [ "f_region_plain", 100 ],
+          [ "f_boulder_small", 10 ],
+          [ "f_boulder_medium", 8 ],
+          [ "f_boulder_large", 2 ],
+          [ "f_region_flower", 1 ]
+        ],
+        "2": "f_null",
+        "3": "f_null"
+      }
+    }
+  }
+]
