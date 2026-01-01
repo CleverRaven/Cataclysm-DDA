@@ -152,7 +152,7 @@
     "type": "effect_on_condition",
     "id": "bio_bloodreplenish",
     "condition": { "u_has_bionics": "bio_creeyncaggii" },
-    "effect": [ { "vitamins": [ { "vitamin": "blood", "rate": [ [ 4, 5 ] ], "absorb_mult": [ 0.9 ], "tick": [ "1 s" ] } ] } ]
+    "effect": [ { "math": [ "u_vitamin('blood') += ( 50 / 2000 )" ] } ]
   },
   {
     "type": "effect_on_condition",
