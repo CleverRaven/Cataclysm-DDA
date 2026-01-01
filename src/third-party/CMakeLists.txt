@@ -110,6 +110,7 @@ if (TILES)
         if (NOT DYNAMIC_LINKING)
             target_link_libraries(imgui PUBLIC
                 SDL2::SDL2-static
+                $<TARGET_NAME_IF_EXISTS:PkgConfig::Freetype>
             )
         else()
             target_link_libraries(imgui PUBLIC

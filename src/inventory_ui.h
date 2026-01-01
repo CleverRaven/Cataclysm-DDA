@@ -313,7 +313,7 @@ class inventory_selector_preset
         bool _indent_entries = true;
         bool _collate_entries = false;
 
-        std::vector<pocket_type> _pk_type = { pocket_type::CONTAINER, pocket_type::MOD };
+        std::vector<pocket_type> _pk_type = { pocket_type::CONTAINER };
 
     private:
         class cell_t
@@ -465,8 +465,6 @@ class inventory_column
         /** Returns next custom inventory letter. */
         int reassign_custom_invlets( const Character &p, int min_invlet, int max_invlet );
         int reassign_custom_invlets( int cur_idx, std::string_view pickup_chars );
-        // just assign an invlet manually
-        void assign_custom_invlet( int cur_idx, std::string_view pickup_chars );
         /** Reorder entries, repopulate titles, adjust to the new height. */
         virtual void prepare_paging( const std::string &filter = "" );
         /**
@@ -1041,8 +1039,6 @@ class ammo_inventory_selector : public inventory_selector
 
         drop_location execute();
         void set_all_entries_chosen_count();
-    protected:
-        void reassign_custom_invlets() override;
     private:
         void mod_chosen_count( inventory_entry &entry, int val );
         const item_location reload_loc;

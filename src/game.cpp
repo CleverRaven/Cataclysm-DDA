@@ -2270,7 +2270,10 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( !locThisItem.get_item()->is_container() ) {
                         avatar_action::eat( u, locThisItem );
                     } else {
-                        avatar_action::eat_or_use( u, game_menus::inv::consume( locThisItem ) );
+                        uistate.open_menu = [locThisItem = locThisItem]() {
+                            avatar_action::eat_or_use( get_avatar(),
+                                                       game_menus::inv::consume( std::string(), locThisItem ) );
+                        };
                     }
                     break;
                 case 'W': {
@@ -8096,12 +8099,27 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 }
 
+
+class reload_selector_preset : public inventory_selector_preset
+{
+    public:
+        explicit reload_selector_preset() : you( get_avatar() ) {
+            _pk_type = { pocket_type::CONTAINER, pocket_type::MOD };
+        }
+        bool is_shown( const item_location &location ) const override {
+            return !location.is_invisible_installed_gunmod( ) &&
+                   you.rate_action_reload( *location ) == hint_rating::good;
+        }
+    private:
+        const Character &you;
+};
+
 // Reload something.
 void game::reload_item()
 {
-    item_location item_loc = inv_map_splice( [&]( const item & it ) {
-        return u.rate_action_reload( it ) == hint_rating::good;
-    }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
+    const reload_selector_preset preset;
+    item_location item_loc = inv_map_splice( preset,
+                             _( "Reload item" ), 1, _( "You have nothing to reload." ) );
 
     if( !item_loc ) {
         add_msg( _( "Never mind." ) );
@@ -10759,6 +10777,7 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     if( undo_shift ) {
         travel_to_dimension( old_prefix, region_type, npc_travellers, veh );
     }
+    game::mon_info_update();
     return true;
 }
 

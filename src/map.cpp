@@ -167,11 +167,15 @@ static const itype_id itype_HEW_printout_data_highlands( "HEW_printout_data_high
 static const itype_id itype_HEW_printout_data_labyrinth( "HEW_printout_data_labyrinth" );
 static const itype_id itype_HEW_printout_data_lixa( "HEW_printout_data_lixa" );
 static const itype_id itype_HEW_printout_data_physics_lab( "HEW_printout_data_physics_lab" );
+static const itype_id itype_HEW_printout_data_portal_storm( "HEW_printout_data_portal_storm" );
+static const itype_id itype_HEW_printout_data_radiosphere( "HEW_printout_data_radiosphere" );
 static const itype_id itype_HEW_printout_data_strange_temple( "HEW_printout_data_strange_temple" );
 static const itype_id itype_HEW_printout_data_vitrified( "HEW_printout_data_vitrified" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_maple_sap( "maple_sap" );
+static const itype_id itype_mws_portal_storm_weather_data( "mws_portal_storm_weather_data" );
 static const itype_id itype_mws_weather_data( "mws_weather_data" );
+static const itype_id itype_mws_weather_data_incomplete( "mws_weather_data_incomplete" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_pipe( "pipe" );
 static const itype_id itype_rock( "rock" );
@@ -179,6 +183,7 @@ static const itype_id itype_scrap( "scrap" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_steel_chunk( "steel_chunk" );
 static const itype_id itype_wire( "wire" );
+
 
 static const json_character_flag json_flag_ONE_STORY_FALL( "ONE_STORY_FALL" );
 static const json_character_flag
@@ -5714,10 +5719,23 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
         for( item &n : cur_veh.get_items( vp ) ) {
             const time_duration cycle_time = 60_minutes;
             const time_duration time_left = cycle_time - n.age();
+            if( ( n.typeId() == itype_mws_weather_data_incomplete ) &&
+                ( current_weather( cur_veh.pos_abs() ).str() == "portal_storm" ) ) {
+                n.set_flag( flag_MWS_PORTAL_STORM_DATA );
+            }
             if( time_left <= 0_turns ) {
                 mws_finished = true;
                 vp.enabled = false;
-                cur_veh.remove_item( vp, &n );
+                if( n.typeId() == itype_mws_weather_data_incomplete ) {
+                    if( n.has_flag( flag_MWS_PORTAL_STORM_DATA ) ) {
+                        if( vpi.has_flag( VPFLAG_ADVANCED_MWS ) ) {
+                            cur_veh.add_item( here, vp, item( itype_HEW_printout_data_portal_storm, calendar::turn_zero ) );
+                        } else {
+                            cur_veh.add_item( here, vp, item( itype_mws_portal_storm_weather_data, calendar::turn_zero ) );
+                        }
+                    }
+                    cur_veh.remove_item( vp, &n );
+                }
             } else if( calendar::once_every( 15_minutes ) ) {
                 add_msg( _( "The instruments on the mobile weather station silently rotate." ) );
                 break;
@@ -5744,6 +5762,8 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                         "microlab_portal_security1", 10, false );
                 const tripoint_abs_omt closest_amigara = overmap_buffer.find_closest( veh_position,
                         "mine_amigara_finale_central", 10, false );
+                const tripoint_abs_omt closest_radiosphere = overmap_buffer.find_closest( veh_position,
+                        "radiosphere_radio_tower_top", 10, false );
                 if( trig_dist( veh_position, closest_vitrified_farm ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_vitrified, calendar::turn_zero ) );
                 }
@@ -5767,6 +5787,9 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 }
                 if( trig_dist( veh_position, closest_amigara ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_amigara, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_radiosphere ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_radiosphere, calendar::turn_zero ) );
                 }
             }
         }
@@ -7816,7 +7839,7 @@ int map::coverage( const tripoint_bub_ms &p ) const
 // This method tries a bunch of initial offsets for the line to try and find a clear one.
 // Basically it does, "Find a line from any point in the source that ends up in the target square".
 std::vector<tripoint_bub_ms> map::find_clear_path( const tripoint_bub_ms &source,
-        const tripoint_bub_ms &destination ) const
+        const tripoint_bub_ms &destination, bool empty_on_fail ) const
 {
     // TODO: Push this junk down into the Bresenham method, it's already doing it.
     const point d( destination.xy().raw() - source.xy().raw() );
@@ -7835,8 +7858,13 @@ std::vector<tripoint_bub_ms> map::find_clear_path( const tripoint_bub_ms &source
             return line_to( source, destination, candidate_offset, 0 );
         }
     }
-    // If we couldn't find a clear LoS, just return the ideal one.
-    return line_to( source, destination, ideal_start_offset, 0 );
+    // If we couldn't find a clear LoS, depending on empty_on_fail
+    // return either the ideal one or an empty vector.
+    if( empty_on_fail ) {
+        return std::vector<tripoint_bub_ms>();
+    } else {
+        return line_to( source, destination, ideal_start_offset, 0 );
+    }
 }
 
 std::vector<tripoint_bub_ms> map::reachable_flood_steps( const tripoint_bub_ms &f, int range,

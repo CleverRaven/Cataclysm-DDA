@@ -796,6 +796,7 @@
       [ "syringe", 4 ],
       [ "xacto", 4 ],
       { "group": "cotton_ball_bag_used", "prob": 4 },
+      { "group": "papr_kit", "prob": 5 },
       { "group": "cotton_ball_bag_full", "prob": 2 },
       { "group": "box_of_batteries_random", "prob": 25 },
       { "group": "ammo_heavy_batteries_full", "prob": 25 },

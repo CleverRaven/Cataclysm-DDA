@@ -58,7 +58,6 @@
 #include "uistate.h"
 #include "units.h"
 #include "units_utility.h"
-#include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
@@ -422,6 +421,8 @@ void uistatedata::serialize( JsonOut &json ) const
 
     json.member( "overmap_sidebar_uistate" );
     overmap_sidebar_state.serialize( json );
+    json.member( "consume_menu_uistate" );
+    consume_uistate.serialize( json );
 
     json.member( "input_history" );
     json.start_object();
@@ -470,6 +471,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_show_hordes", overmap_show_hordes );
     jo.read( "overmap_show_revealed_omts", overmap_show_revealed_omts );
     jo.read( "overmap_show_forest_trails", overmap_show_forest_trails );
+    jo.read( "consume_menu_uistate", consume_uistate );
     jo.read( "hidden_recipes", hidden_recipes );
     jo.read( "favorite_recipes", favorite_recipes );
     jo.read( "expanded_recipes", expanded_recipes );
@@ -708,15 +710,8 @@ inventory_selector_preset::inventory_selector_preset()
     } ) );
 }
 
-bool inventory_selector_preset::is_shown( const item_location &loc ) const
+bool inventory_selector_preset::is_shown( const item_location & ) const
 {
-    if( loc->is_gunmod() ) {
-        item_location parent = loc.parent_item();
-        const bool installed = parent && parent->is_gun();
-        if( installed && !loc->type->gunmod->is_visible_when_installed ) {
-            return false;
-        }
-    }
     return true;
 }
 
@@ -1641,18 +1636,6 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
     return res;
 }
 
-void inventory_column::assign_custom_invlet( int cur_idx, std::string_view pickup_chars )
-{
-    for( inventory_entry &elem : entries ) {
-        elem.custom_invlet =
-            static_cast<uint8_t>(
-                cur_idx < static_cast<int>( pickup_chars.size() ) ?
-                pickup_chars[cur_idx] : '\0'
-            );
-        cur_idx++;
-    }
-}
-
 int inventory_column::reassign_custom_invlets( const Character &p, int min_invlet, int max_invlet )
 {
     int cur_invlet = min_invlet;
@@ -1670,7 +1653,12 @@ int inventory_column::reassign_custom_invlets( int cur_idx, std::string_view pic
     for( inventory_entry &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.
         if( elem.is_selectable() && elem.any_item()->invlet <= '\0' ) {
-            assign_custom_invlet( cur_idx, pickup_chars );
+            elem.custom_invlet =
+                static_cast<uint8_t>(
+                    cur_idx < static_cast<int>( pickup_chars.size() ) ?
+                    pickup_chars[cur_idx] : '\0'
+                );
+            cur_idx++;
         }
     }
     return cur_idx;
@@ -3953,23 +3941,6 @@ void ammo_inventory_selector::set_all_entries_chosen_count()
                 }
             }
         }
-    }
-}
-
-void ammo_inventory_selector::reassign_custom_invlets()
-{
-    bool use_num_invlet = uistate.numpad_navigation ? false : true;
-    // funky bug: if you press any another allowed button (like `>` to show content), this invlet is lost and replaced with this button you just pressed!
-    const char last_key = inp_mngr.get_previously_pressed_key();
-    // 0 is eaten by some magic, then our last_key appear, then and later on are numbers if numpad_navigation is off
-    const std::string invlet_set = std::string( "0" )
-                                   + last_key
-                                   + ( use_num_invlet ? "123456789" : "" );
-    int i = 0;
-    for( inventory_column *elem : columns ) {
-        elem->prepare_paging();
-        elem->assign_custom_invlet( i, invlet_set );
-        ++i;
     }
 }
 

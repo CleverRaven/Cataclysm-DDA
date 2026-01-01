@@ -8,7 +8,11 @@
       "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_ACCEPTED",
-      "MISSION_ROBOFAC_INTERCOM_NRE_RECORDER_REPLACEMENT_Complete"
+      "MISSION_ROBOFAC_INTERCOM_NRE_RECORDER_REPLACEMENT_Complete",
+      "MISSION_ROBOFAC_INTERCOM_MWS_1_ACCEPTED",
+      "MISSION_ROBOFAC_INTERCOM_MWS_2_ACCEPTED",
+      "MISSION_ROBOFAC_INTERCOM_MWS_3_ACCEPTED",
+      "MISSION_ROBOFAC_INTERCOM_MWS_4_ACCEPTED"
     ],
     "type": "talk_topic",
     "dynamic_line": "What would you like to discuss?",
@@ -62,6 +66,33 @@
         "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_FAILED"
       },
       {
+        "text": "I have that portal storm recording for you.  [Hand over the datasheet.]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_1" }, { "u_has_item": "mws_portal_storm_weather_data" } ] },
+        "effect": [
+          { "u_consume_item": "mws_portal_storm_weather_data", "count": 1, "popup": true },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_1", "success": true }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_1_COMPLETE"
+      },
+      {
+        "text": "I've returned with the mobile weather station.  [Hand over the HEW unit.]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_2" }, { "u_has_item": "xedra_mobile_weather_station" } ] },
+        "effect": [
+          { "u_consume_item": "xedra_mobile_weather_station", "count": 1, "popup": true },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_2", "success": true }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_2_COMPLETE"
+      },
+      {
+        "text": "I've returned with a recording from the HEW station.  [Hand over the HEW datasheet.]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_3" }, { "u_has_item": "HEW_printout_data_portal_storm" } ] },
+        "effect": [
+          { "u_consume_item": "HEW_printout_data_portal_storm", "count": 1, "popup": true },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_3", "success": true }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_3_COMPLETE"
+      },
+      {
         "text": "[Contract: Return to sender]",
         "condition": {
           "and": [
@@ -110,6 +141,58 @@
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER"
+      },
+      {
+        "text": "[Contract: Weather Permitting]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_1" } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_1" } ] }
+            },
+            { "math": [ "u_portal_storm_recordings_sold >= 1" ] }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER"
+      },
+      {
+        "text": "[Contract: System Retrieval]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_2" } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_2" } ] }
+            },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_1" } ] }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_2_OFFER"
+      },
+      {
+        "text": "[Contract: Storm Chaser]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_3" } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_3" } ] }
+            },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_2" } ] }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_3_OFFER"
+      },
+      {
+        "text": "[Contract: True Weatherperson]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_4" } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] }
+            },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_3" } ] }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER"
       },
       {
         "text": "[Contract: Data Retrieval]",
@@ -899,6 +982,193 @@
     "dynamic_line": "Transferring the recorder now.\"  The intercom tray slides open, revealing a hefty, barebones device and a light battery to accompany it.  \"Please remember to exercise caution; the effects of portal storms on human physiology are poorly understood."
   },
   {
+    "id": [
+      "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER",
+      "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_MWS",
+      "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Reality_Bubble",
+      "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Replacement"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "Your field NRE recordings are of continued interest of us.  Since you have proved yourself capable, we would like to expand your assignment.  We are willing to provide you with a mobile weather station.  We'd like you to set it up and deploy it near the eye of one of these portal storms.  A standard recording takes 1 hour.  We realize the anomalies may not last that long, so as long as the portal storm passes over the unit while recording, we can make use of the data.  As payment we will let you keep the weather system and pay you our standard subcontracting rate.",
+    "responses": [
+      {
+        "text": "More science?  I'm in.",
+        "effect": [ { "assign_mission": "MISSION_ROBOFAC_INTERCOM_MWS_1" }, { "u_spawn_item": "mobile_weather_station", "count": 1 } ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_1_ACCEPTED"
+      },
+      { "text": "How does the weather station work?", "topic": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_MWS" },
+      {
+        "text": "Do I need to stay near the station while it records?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Reality_Bubble"
+      },
+      {
+        "text": "If I lose the station or break it, what should I do?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Replacement"
+      },
+      { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_MWS",
+    "type": "talk_topic",
+    "dynamic_line": "The station is a self-contained meteorology unit.  You will have to haul it to the location and construct it, but it's rather simple.  The assembly process takes the average person about twenty minutes.  After that, start the recording subroutine using the onboard computer.  After recording, remove the printed datasheet.  Again, simply set it up and start recording while a portal storm is around, and we'll be able to make use of the data."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Reality_Bubble",
+    "type": "talk_topic",
+    "dynamic_line": "You do not.  This is expensive technology in short supply, so you may wish to defend it from anomalous interference.  But the device can hypothetically be left and collected later."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Replacement",
+    "type": "talk_topic",
+    "dynamic_line": "While these are infinitely easier to construct than your NRE recorder, the components are still in short supply.  We will be able to issue replacements through our normal surplus trade, so you may have to wait for some time.  Be careful with it."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_1_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "Transferring the weather station now.\"  The intercom tray slides open and thunks, revealing a yellow, hard-plastic case with a sturdy handle.  \"As in your previous assignment, please remember to exercise caution during these storms, especially with the delicate equipment."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_1_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": "Fantastic.  Just a moment.\"  The intercom's tray slides shut.  There is a very long silence, and then it opens again, this time with your payment.  \"You have our thanks and your payment.  Unfortunately, this equipment seems to have malfunctioned in the storm.  We will need more sensitive equipment to proceed.  If you'd like another contract, we're prepared to make an offer.",
+    "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
+    "id": [
+      "MISSION_ROBOFAC_INTERCOM_MWS_2_OFFER",
+      "MISSION_ROBOFAC_INTERCOM_MWS_2_OFFER_ADVICE_MWS",
+      "MISSION_ROBOFAC_INTERCOM_MWS_2_OFFER_ADVICE_Dangers"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "Unsurprisingly, the consumer-grade weather station malfunctioned during the storm recording.  Nevertheless, you've proved yourself a capable contractor.  Therefore, we'd like you to retrieve more advanced recording equipment.  Some time ago we lost contact with a DARPA-affiliated limnological test station, and we have reason to believe they kept sensitive recording equipment on hand.  We'd like you to retrieve it - for your standard contracting fee, of course.",
+    "responses": [
+      {
+        "text": "Alright, I'll find the advanced weather recording equipment.",
+        "effect": [ { "assign_mission": "MISSION_ROBOFAC_INTERCOM_MWS_2" } ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_2_ACCEPTED"
+      },
+      { "text": "What does the equipment look like?", "topic": "MISSION_ROBOFAC_INTERCOM_MWS_2_OFFER_ADVICE_MWS" },
+      {
+        "text": "Based on our previous work together, I'm guessing there may be some resistance?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_2_OFFER_ADVICE_Dangers"
+      },
+      { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_2_OFFER_ADVICE_MWS",
+    "type": "talk_topic",
+    "dynamic_line": "The station is a self-contained meteorology unit like the one you've previously used.  The case is black, and will be marked as a \"Hazardous Environment\" unit.  It will have been kept behind a locked door, but this is likely non-functional without power.  The station is situated in a lake and was actively researching the effects of… weather… on the sediment, so there may be other access points."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_2_OFFER_ADVICE_Dangers",
+    "type": "talk_topic",
+    "dynamic_line": "The station is inactive and drone footage suggests it has been barricaded.  We do not know what or who is inside."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_2_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "Excellent.  Transferring the coordinates now."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_2_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": "Fantastic.  Please hand over the unit.\"  The intercom's tray slides open, you deposit the device, and it quickly closes.  There is a brief silence, and then it opens again, this time with your payment.  \"You have our thanks and your payment, once again.  Please let us know if you are interested in additional field work.",
+    "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
+    "id": [ "MISSION_ROBOFAC_INTERCOM_MWS_3_OFFER", "MISSION_ROBOFAC_INTERCOM_MWS_3_OFFER_ADVICE_HEW" ],
+    "type": "talk_topic",
+    "dynamic_line": "We've confirmed that the Hazardous Environment unit that you've recovered is in working condition.  We are willing to pay you a standard contracting fee to repeat your previous storm recordings.",
+    "responses": [
+      {
+        "text": "Alright, let's get a real recording this time.",
+        "effect": [
+          { "u_spawn_item": "xedra_mobile_weather_station", "count": 1 },
+          { "assign_mission": "MISSION_ROBOFAC_INTERCOM_MWS_3" }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_3_ACCEPTED"
+      },
+      { "text": "Anything different from last time?", "topic": "MISSION_ROBOFAC_INTERCOM_MWS_3_OFFER_ADVICE_HEW" },
+      { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_3_OFFER_ADVICE_HEW",
+    "type": "talk_topic",
+    "dynamic_line": "The station is a self-contained meteorology unit like the one you've previously used.  The case is black, and will be marked as a \"Hazardous Environment\" unit.  It will have been kept behind a locked door, but this is likely non-functional without power.  The station is situated in a lake and was actively researching the effects of… weather… on the sediment, so there may be other access points."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_3_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "Excellent.  See you soon."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_3_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": "Fantastic.\"  The intercom's tray slides open, you deposit the datasheet, and it quickly closes.  There is a brief silence, and then it opens again, this time with your payment.  \"You have our thanks and your payment, once again.  If you are interested in an open-ended contract as a research, we are prepared to offer you one.",
+    "responses": [ { "text": "Thank you.  I'll consider it.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
+    "id": [
+      "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER",
+      "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE",
+      "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE_FRAME",
+      "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE_NRE"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "We believe your HEW unit can produce scientifically useful recordings near many types of of anomalous, extra-dimensional activity - not just portal storms.  In fact, we now know that it is equipped with a small, and relatively simple DARPA AI program trained on extensive data collected before… recent events.  It is capable of producing reports for anomalies and relating them to previously studied laboratory phenomena - anomalies it can assign unique codes to, which we can then interpret using our supercomputers.  If you can bring us these reports, we will pay you for them.  We will also pay for more portal storm recordings.  To facilitate your work, we can offer you two things.  First, we are prepared to give you a custom-printed pack frame, which will allow you to carry your HEW station and some essential supplies.  Secondly, if you are willing to pay, we would be willing to put R&D time into integrating your NRE recorder with your HEW unit.",
+    "responses": [
+      {
+        "text": "Well, I guess you can call me the weatherperson.  I'm in.",
+        "effect": [
+          { "u_spawn_item": "hub_meteorology_pack", "count": 1 },
+          { "u_spawn_item": "folding_solar_panel", "count": 1 },
+          { "assign_mission": "MISSION_ROBOFAC_INTERCOM_MWS_4" }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_4_ACCEPTED"
+      },
+      {
+        "text": "What sorts of places should I be looking for?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE"
+      },
+      {
+        "text": "Tell me more about this custom frame.",
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE_FRAME"
+      },
+      { "text": "Tell me more about the HEW-NRE unit.", "topic": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE_NRE" },
+      { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "Anywhere there is portal activity, or where you think portal activity occurred in the recent past.  If you happen to find yourself transported to… exotic places… that would also be a good time to make recordings."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE_FRAME",
+    "type": "talk_topic",
+    "dynamic_line": "It is a 3D-printed pack frame, much like those used to move equipment for more… traditional field work.  We've designed an ergonomic frame to accommodate your HEW unit, a small tent, a rollmat, as well as waterproof compartments for essential electronics: one UPS, one folding solar panel, and one standard laptop.  It is cumbersome, and you won't be able to store anything in it other than the specific equipment, but it is lightweight and efficient.  We will provide only frame and some solar panels for field charging your HEW unit."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER_ADVICE_NRE",
+    "type": "talk_topic",
+    "dynamic_line": "We believe we can integrate the units, which may make it easier for you to make complex recordings on the move."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_4_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "Excellent.  We look forward to your progress.",
+    "speaker_effect": { "effect": [ { "u_add_var": "dialogue_intercom_u_hub_prototypes", "value": "yes" } ] }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_4_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": "The intercom's tray slides open and you deposit the report.  There is a brief silence, and then it opens with your payment.  \"You have our thanks and your payment.  If you're interested in an open contract, please let us know.",
+    "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
     "type": "mission_definition",
     "name": { "str": "Data Retrieval" },
@@ -1123,5 +1393,129 @@
       },
       { "text": "I'll have to give it some thought.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_1",
+    "type": "mission_definition",
+    "name": { "str": "Weather Permitting" },
+    "description": "Take the mobile weather station into a portal storm, assemble it, and start a recording.  After 1 hour the station will produce a datasheet to return to Hub 01.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "end": {
+      "effect": [
+        { "u_spawn_item": "RobofacCoin", "count": 4 },
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_mws_1", "value": "yes" },
+        { "math": [ "u_hub01_completed_missions++" ] }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_2",
+    "type": "mission_definition",
+    "name": { "str": "System Retrieval" },
+    "description": "Travel to the DARPA research station and find the mobile hazardous environment weather station.  Should I bring a swimsuit?",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "dls_small_surface",
+        "om_special": "limnological_station",
+        "reveal_radius": 2,
+        "random": true,
+        "search_range": 2000
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "RobofacCoin", "count": 8 },
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_mws_2", "value": "yes" },
+        { "math": [ "u_hub01_completed_missions++" ] }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_3",
+    "type": "mission_definition",
+    "name": { "str": "Storm Chaser" },
+    "description": "Take the mobile HEW station into a portal storm, assemble it, and start a recording.  After 1 hour the station will produce a datasheet to return to Hub 01.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "end": {
+      "effect": [
+        { "u_spawn_item": "RobofacCoin", "count": 8 },
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_mws_3", "value": "yes" },
+        { "math": [ "u_hub01_completed_missions++" ] }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_4",
+    "type": "mission_definition",
+    "name": { "str": "True Weatherperson" },
+    "description": "Record strange things for Hub 01.  They recommend scanning with the HEW system anywhere there is portal activity.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "end": {
+      "effect": [
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_mws_4", "value": "yes" },
+        { "math": [ "u_hub01_completed_missions++" ] }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
   }
 ]

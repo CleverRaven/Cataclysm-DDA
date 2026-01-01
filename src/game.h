@@ -75,6 +75,7 @@ class eoc_events;
 class event_bus;
 class faction_manager;
 class field_entry;
+class inventory_selector_preset;
 class item;
 class kill_tracker;
 class live_view;
@@ -764,6 +765,8 @@ class game
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( const item_filter &filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
+        item_location inv_map_splice( const inventory_selector_preset &preset, const std::string &title,
+                                      int radius = 0, const std::string &none_message = "" );
         item_location inv_map_splice( const item_location_filter &filter, const std::string &title,
                                       int radius = 0, const std::string &none_message = "" );
 

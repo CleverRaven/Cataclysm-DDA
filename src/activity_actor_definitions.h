@@ -1183,11 +1183,10 @@ class consume_activity_actor : public activity_actor
     private:
         item_location consume_location;
         item consume_item;
-        std::vector<int> consume_menu_selections;
-        std::vector<item_location> consume_menu_selected_items;
-        std::string consume_menu_filter;
         bool canceled = false;
-        activity_id type;
+        // whether to show the consume menu after this activity finishes
+        bool reprompt_consume_menu = false;
+
         /**
          * @pre @p other is a consume_activity_actor
          */
@@ -1197,21 +1196,12 @@ class consume_activity_actor : public activity_actor
                    canceled == c_actor.canceled && &consume_item == &c_actor.consume_item;
         }
     public:
-        consume_activity_actor( const item_location &consume_location,
-                                std::vector<int> consume_menu_selections,
-                                const std::vector<item_location> &consume_menu_selected_items,
-                                const std::string &consume_menu_filter, activity_id type ) :
-            consume_location( consume_location ),
-            consume_menu_selections( std::move( consume_menu_selections ) ),
-            consume_menu_selected_items( consume_menu_selected_items ),
-            consume_menu_filter( consume_menu_filter ),
-            type( type ) {}
+        explicit consume_activity_actor( const item_location &consume_location,
+                                         bool reprompt_consume_menu = false ) :
+            consume_location( consume_location ), reprompt_consume_menu( reprompt_consume_menu ) {}
 
-        explicit consume_activity_actor( const item_location &consume_location ) :
-            consume_location( consume_location ) {}
-
-        explicit consume_activity_actor( const item &consume_item ) :
-            consume_item( consume_item ) {}
+        explicit consume_activity_actor( const item &consume_item, bool reprompt_consume_menu = false ) :
+            consume_item( consume_item ), reprompt_consume_menu( reprompt_consume_menu ) {}
 
         const activity_id &get_type() const override {
             static const activity_id ACT_CONSUME( "ACT_CONSUME" );
@@ -1604,9 +1594,12 @@ class reload_activity_actor : public activity_actor
         }
 
         void start( player_activity &/*act*/, Character &/*who*/ ) override;
-        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {}
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override;
         void finish( player_activity &act, Character &who ) override;
-        void canceled( player_activity &act, Character &/*who*/ ) override;
+        void canceled( player_activity &act, Character &who ) override;
+
+        void reload_msg( Character &who, bool finished = false );
+        void reload( player_activity &act, Character &who, int load_qty = 1 );
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<reload_activity_actor>( *this );
@@ -1619,6 +1612,10 @@ class reload_activity_actor : public activity_actor
         explicit reload_activity_actor() = default;
         int moves_total = 0;
         int quantity = 0;
+        int seconds_per_round = 0;
+        int already_loaded = 0;
+        // cache ammo because reloading deletes the location
+        itype_id ammo_id; // NOLINT(cata-serialize)
         item_location target_loc;
         item_location ammo_loc;
 
@@ -1893,6 +1890,12 @@ class oxytorch_activity_actor : public activity_actor
         tripoint_bub_ms target;
         item_location tool;
 
+        void set_resume_values_internal( const activity_actor &other,
+                                         const Character &/*who*/ ) override {
+            const oxytorch_activity_actor &actor = static_cast<const oxytorch_activity_actor &>
+                                                   ( other );
+            tool = actor.tool;
+        }
         bool can_resume_with_internal( const activity_actor &other,
                                        const Character &/*who*/ ) const override {
             const oxytorch_activity_actor &actor = static_cast<const oxytorch_activity_actor &>

@@ -198,10 +198,6 @@ void armor_layers_do_turn( player_activity *act, Character *you );
 void atm_do_turn( player_activity *act, Character *you );
 void dismember_do_turn( player_activity *act, Character *you );
 void chop_trees_do_turn( player_activity *act, Character *you );
-void consume_drink_menu_do_turn( player_activity *act, Character *you );
-void consume_food_menu_do_turn( player_activity *act, Character *you );
-void consume_meds_menu_do_turn( player_activity *act, Character *you );
-void eat_menu_do_turn( player_activity *act, Character *you );
 void fertilize_plot_do_turn( player_activity *act, Character *you );
 void fetch_do_turn( player_activity *act, Character *you );
 void fill_liquid_do_turn( player_activity *act, Character *you );
@@ -234,7 +230,6 @@ do_turn_functions;
 
 /** activity_finish functions: */
 void atm_finish( player_activity *act, Character *you );
-void eat_menu_finish( player_activity *act, Character *you );
 void gunmod_add_finish( player_activity *act, Character *you );
 void heat_item_finish( player_activity *act, Character *you );
 void mend_item_finish( player_activity *act, Character *you );

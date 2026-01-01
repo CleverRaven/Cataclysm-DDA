@@ -1193,6 +1193,45 @@
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_MEDIUM" ]
   },
   {
+    "id": "modular_papr_strap",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "looks_like": "holster",
+    "name": "modular PAPR strap",
+    "description": "A patch of velcro and MOLLE straps for attaching a modular PAPR blower to a compatible MOLLE unit.  It can also be strapped to the hip.",
+    "weight": "300 g",
+    "volume": "300 ml",
+    "price": "19 USD 95 cent",
+    "price_postapoc": "1 USD 90 cent",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "sided": true,
+    "armor": [
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": [ 3, 4 ],
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "molle_papr_blower_off", "molle_papr_blower_on" ],
+        "max_contains_volume": "4000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "description": "A MOLLE harness for a modular PAPR blower.",
+        "moves": 300,
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_LARGE" ]
+  },
+  {
     "id": "tactical_grenade_pouch",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],

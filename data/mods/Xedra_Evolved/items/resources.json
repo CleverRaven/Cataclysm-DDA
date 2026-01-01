@@ -9,7 +9,6 @@
     "weight": "683 g",
     "volume": "250 ml",
     "price": "63 USD 99 cent",
-    "to_hit": -3,
     "material": [ "moon_tears" ],
     "symbol": "=",
     "color": "light_blue",
@@ -140,7 +139,6 @@
     "volume": "25 ml",
     "price": "20 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -4,
     "material": [ "dreamstuff" ],
     "symbol": ",",
     "color": "light_gray",
@@ -157,7 +155,6 @@
     "volume": "250 ml",
     "price": "63 USD 99 cent",
     "price_postapoc": "50 USD",
-    "to_hit": -3,
     "material": [ "forged_dreamstuff" ],
     "symbol": "=",
     "color": "light_blue",
@@ -231,8 +228,7 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "372 g",
     "volume": "465 ml",
-    "category": "spare_parts",
-    "to_hit": -1
+    "category": "spare_parts"
   },
   {
     "id": "sheet_gossamer",

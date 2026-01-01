@@ -80,7 +80,7 @@
       "Major blood loss?  Drink plenty, supplement iron, and rest to regenerate your red blood cells.",
       "Arterial bleeding from a gunshot?  A tourniquet can save you from death.",
       "No bandages nearby?  Empty your hands and let the time pass to apply pressure to the wound.",
-      "Tis but a scratch?  Minor bleeding does not require any dressing.  A Bandaid is sufficient enough.",
+      "Tis but a scratch?  Minor bleeding does not require any dressing.  A Band-Aid is sufficient enough.",
       "Zone activity manager can make your life easier.  Do more in one go.",
       "Want less micro-management?  Zone manager can change your game.",
       "Every sensei was once a student.  NPCs can teach you and vice versa.",
@@ -140,7 +140,6 @@
       "Feral humans are smarter than zombies.  They throw rocks and can even open doors.  Watch out!",
       "If you want something to stop existing, setting it on fire is a tried and true method.",
       "The higher up you are, the farther you can see on the overmap.",
-      "Reloading allows you to repeat the last keypress to pick the first item in the reloading list.  Paired with the 'Reload weapon' keybind, reloading shotguns can even bring some joy!",
       "Nobody wants to buy filthy underwear.  Wash your clothes to get a better price for them."
     ]
   }

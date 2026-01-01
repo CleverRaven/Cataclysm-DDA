@@ -253,8 +253,6 @@ static const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
-static const faction_id faction_your_followers( "your_followers" );
-
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
 
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
@@ -3621,11 +3619,30 @@ std::optional<int> iuse::grenade_inc_act( Character *p, item *, const tripoint_b
 std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub_ms &pos )
 {
 
+    // This string is stored on the molotov as an item var, to record who's responsible for the resulting fires.
+    // Once the molotov has been thrown/dropped, we no longer have a Character pointer at p. So this serves as a record.
+    const std::string credit_or_blame = "molotov_thrower";
+
     if( !p ) {
         // It was thrown or dropped, so burst into flames
-        // This bool is a bit nasty, once it's left the character's inventory we're really not sure who threw or dropped it!
-        // But items assign ownership on pickup by a character, so if the owner is your_followers then it stands to reason it must be the player.
-        const bool thrown_by_player_or_follower = it->get_owner() == faction_your_followers;
+        Character *thrower = nullptr;
+        if( it->has_var( credit_or_blame ) ) {
+            character_id guy_id = character_id( it->get_var( credit_or_blame, 0.0 ) );
+            // Check player
+            if( guy_id == get_player_character().getID() ) {
+                thrower = &get_player_character();
+            }
+            // Check active NPCs (loaded in bubble)
+            for( npc *guy : g->get_npcs_if( [guy_id]( const npc & guy ) {
+            return guy.getID() == guy_id;
+            } ) ) {
+                thrower = guy;
+            }
+            // Check inactive NPCs outside the bubble?!
+            if( !thrower ) {
+                thrower = g->find_npc( guy_id );
+            }
+        }
         map &here = get_map();
         // Because fields decay with a half-life, we need to know how long it takes for the field to decay and set the age to slightly before that.
         // the duration is also used for the effect's timer. It's hilariously lethal regardless.
@@ -3634,14 +3651,15 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub
         for( const tripoint_bub_ms &pt : here.points_in_radius( pos, 1, 0 ) ) {
             Creature *critter = get_creature_tracker().creature_at( pt, true );
             if( critter && one_in( 2 ) ) {
-                if( thrown_by_player_or_follower ) {
-                    critter->add_effect( effect_source( &get_player_character() ), effect_onfire, target_duration );
+                if( thrower ) {
+                    critter->add_effect( effect_source( thrower ), effect_onfire, target_duration,
+                                         critter->random_body_part( true ) );
                 } else {
-                    critter->add_effect( effect_onfire, target_duration );
+                    critter->add_effect( effect_onfire, target_duration, critter->random_body_part( true ) );
                 }
             } else if( !here.get_field( pt, fd_fire ) && one_in( 2 ) ) {
-                if( thrown_by_player_or_follower ) {
-                    here.add_field( pt, fd_fire, 1, base_age, true, effect_source( &get_player_character() ) );
+                if( thrower ) {
+                    here.add_field( pt, fd_fire, 1, base_age, true, effect_source( thrower ) );
                 } else {
                     here.add_field( pt, fd_fire, 1, base_age );
                 }
@@ -3652,6 +3670,12 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub
             player.fulfill_pyromania_sees( here, pos, _( "Fire…  Good…" ), false );
         }
         return 1;
+    }
+
+    // We're holding the molotov while it's burning. So we're now responsible for what this molotov does.
+    // Note: Requires the game to 'tick' once, meaning that the time to light it should always be longer than 1 second!
+    if( p ) {
+        it->set_var( credit_or_blame, p->getID().get_value() );
     }
 
     // 2% chance per turn of going out harmlessly.
@@ -4074,6 +4098,15 @@ std::optional<int> iuse::gasmask_activate( Character *p, item *it, const tripoin
         it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
     }
 
+    if( it->has_flag( flag_PAPR_MASK ) ) {
+        if( !p->has_item_with_flag( flag_PAPR_BLOWER ) ) {
+            p->add_msg_if_player( m_bad,
+                                  _( "You don't have an active PAPR blower unit so the %s fails to function." ), it->tname() );
+            it->set_var( "overwrite_env_resist", 0 );
+            it->active = false;
+        }
+    }
+
     return 0;
 }
 
@@ -4136,6 +4169,15 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint_bub_ms 
         it->set_var( "overwrite_env_resist", 0 );
         it->active = false;
     }
+
+    if( it->has_flag( flag_PAPR_MASK ) ) {
+        if( !p->has_item_with_flag( flag_PAPR_BLOWER ) ) {
+            p->add_msg_if_player( m_bad, _( "Your PAPR system stops working!" ) );
+            it->set_var( "overwrite_env_resist", 0 );
+            it->active = false;
+        }
+    }
+
     return 0;
 }
 
@@ -7386,13 +7428,21 @@ std::optional<int> iuse::remoteveh_tick( Character *p, item *it, const tripoint_
     vehicle *remote = g->remoteveh();
     bool stop = false;
     if( !it->ammo_sufficient( p ) ) {
-        p->add_msg_if_player( m_bad, _( "The remote control's battery goes dead." ) );
+        if( p != nullptr ) {
+            p->add_msg_if_player( m_bad, _( "The remote control's battery goes dead." ) );
+        }
         stop = true;
+
     } else if( remote == nullptr ) {
-        p->add_msg_if_player( _( "Lost contact with the vehicle." ) );
+        if( p != nullptr ) {
+            p->add_msg_if_player( _( "Lost contact with the vehicle." ) );
+        }
         stop = true;
+
     } else if( remote->fuel_left( here, itype_battery ) == 0 ) {
-        p->add_msg_if_player( m_bad, _( "The vehicle's battery died." ) );
+        if( p != nullptr ) {
+            p->add_msg_if_player( m_bad, _( "The vehicle's battery died." ) );
+        }
         stop = true;
     }
     if( stop ) {
@@ -9289,13 +9339,6 @@ ret_val<void> use_function::can_call( const Character &p, const item &it,
     } else if( it.is_broken() ) {
         return ret_val<void>::make_failure( _( "Your %s is broken and won't activate." ),
                                             it.tname() );
-    } else if( actor->type == "GUNMOD_ATTACH" &&
-               it.is_gunmod() && !p.has_item( it ) ) {
-        // this should just check if gunmod is in MOD pocket already
-        // but it requires item_location
-        // so check if character do not have item in CONTAINER pockets
-        return ret_val<void>::make_failure(
-                   _( "Your %s is already installed and needs to be detached first." ), it.tname() );
     }
     return actor->can_use( p, it, here, pos );
 }

@@ -343,7 +343,7 @@
     "id": "commercial_eggs",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "egg_chicken", 1 ] ]
+    "items": [ [ "egg_bird_unfert", 1 ] ]
   },
   {
     "id": "SUS_shelf_commercial_eggs",
