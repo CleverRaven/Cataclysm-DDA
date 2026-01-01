@@ -270,16 +270,11 @@
     "use_action": [
       { "type": "holster", "holster_prompt": "Store item", "holster_msg": "You put your %1$s in your %2$s" },
       {
-        "type": "holster",
-        "holster_prompt": "Store item",
-        "holster_msg": "You put your %1$s in your %2$s"
-      },
-      {
-      "menu_text": "Turn off",
-      "type": "transform",
-      "msg": "You turn the PAPR blower on the %s off.",
-      "target": "nomad_papr_blower_273diyua_off",
-      "ammo_scale": 0
+        "menu_text": "Turn off",
+        "type": "transform",
+        "msg": "You turn the PAPR blower on the %s off.",
+        "target": "nomad_papr_blower_273diyua_off",
+        "ammo_scale": 0
       }
     ],
     "power_draw": "4000 mW",
