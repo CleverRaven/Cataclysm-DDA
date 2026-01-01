@@ -207,7 +207,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "xedra_mobile_weather_station", "count": 1 } },
-            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_accepted_robofac_intercom_mws_4" } ] },
             { "math": [ "!has_var(u_dialogue_hub_rnd_u_project_ongoing)" ] },
             { "math": [ "!has_var(u_dialogue_hub_rnd_u_completed_mws)" ] }
           ]
