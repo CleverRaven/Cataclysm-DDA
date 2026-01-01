@@ -95,7 +95,12 @@
       },
       {
         "text": "I'm back.  I don't know what the hell that thing was, but it wasn't a cave.  [Hand over the alien \"atmospheric data.\"]",
-        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE" }, { "u_has_item": "mws_monster_corpse_weather_data" } ] },
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE" },
+            { "u_has_item": "mws_monster_corpse_weather_data" }
+          ]
+        },
         "effect": [
           { "u_consume_item": "mws_monster_corpse_weather_data", "count": 1, "popup": true },
           { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE", "success": true }
