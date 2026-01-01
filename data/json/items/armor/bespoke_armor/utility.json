@@ -225,11 +225,7 @@
         "moves": 20,
         "flag_restriction": [ "SHEATH_KNIFE" ]
       },
-      {
-        "ammo_restriction": { "273x110": 10 },
-        "moves": 25,
-        "volume_encumber_modifier": 0.3
-      }
+      { "ammo_restriction": { "273x110": 10 }, "moves": 25, "volume_encumber_modifier": 0.3 }
     ],
     "tool_ammo": [ "battery" ],
     "use_action": [
