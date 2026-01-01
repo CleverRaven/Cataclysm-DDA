@@ -68,9 +68,7 @@
     "id": "TALK_ROBOFAC_MERC_MONSTER_CORPSE_1_RECON",
     "type": "talk_topic",
     "dynamic_line": "Well… guess I don't have to tell you about the giant hunk of meat outside.  We've finished our subsurface scans, and if I didn't know any better, I'd say this thing is a giant piece of calamari.  Nasty shit.  I'd be shocked if it weren't for all the other strange shit going on out there these days.",
-    "responses": [
-      { "text": "Thanks.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Thanks.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_ROBOFAC_MERC_MONSTER_CORPSE_1_EQUIPMENT",
