@@ -102,7 +102,7 @@
     "id": "TALK_ROBOFAC_MERC_MONSTER_CORPSE_1_EQUIPMENT_ACCEPTED",
     "type": "talk_topic",
     "dynamic_line": "You didn't get that from me, yeah?",
-    "responses": [ { "text": "Thanks." }, "topic": "TALK_DONE"  ]
+    "responses": [ { "text": "Thanks.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "npc",
