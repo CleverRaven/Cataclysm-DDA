@@ -2848,6 +2848,7 @@
       "need_charges": 1,
       "need_charges_msg": "It seems like this device needs power."
     },
+    "charges_per_use": 1,
     "tool_ammo": "battery",
     "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "ARTIFACT_RESONANCE", "add": -750 } ] } ]
   },
@@ -2855,7 +2856,7 @@
     "id": "xedra_artifact_cleansuit_on",
     "copy-from": "xedra_artifact_cleansuit",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "S02a cleansuit (on)", "str_pl": "S02a cleansuits (on)" },
     "looks_like": "xedra_artifact_cleansuit",
     "description": "A hazardous materials handling suit with external wiring snaking the entire garment, connecting various points across the body.  A battery compartment marked with \"X.E.D.R.A PROTOTYPE S02a\" is attached to the back.  While the electronics give no indication of function, wearing it will still provide excellent protection against ambient radiation.  The cleansuit is faintly vibrating.",
@@ -2868,7 +2869,7 @@
       "msg": "The %s stops vibrating.",
       "target": "xedra_artifact_cleansuit"
     },
-    "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF", "RAD_RESIST", "OUTER", "ELECTRONIC", "TRADER_AVOID" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF", "RAD_RESIST", "OUTER", "ELECTRONIC", "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "entry_suit",
@@ -3300,6 +3301,193 @@
       "target": "robofac_enviro_suit"
     },
     "delete": { "flags": [ "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE" ] }
+  },
+  {
+    "id": "robofac_resonance_suit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str": "Hub 01 hazardous materials suit" },
+    "description": "A hefty environmental suit incorporating Kevlar-lined boots and gloves, worn by Hub personnel in their rare forays aboveground.  This one has a large battery pack and otherworldly electronics snaking the entire exterior, making it substantially more cumbersome to wear than its base model.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.  Active it to turn on.",
+    "weight": "4000 g",
+    "volume": "18 L",
+    "price": "1 kUSD 175 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "nomex", "kevlar", "hc_steel", "thermo_resin", "lycra", "vinyl" ],
+    "symbol": "[",
+    "looks_like": "hazmat_suit",
+    "color": "brown",
+    "//": "2mm Nomex across the entire suit with a waterproof silicone outer to provide hazmat properties. Hands and feet reinforced/shaped with other materials to provide full-body hazmat protection with minimal encumbrance.",
+    "armor": [
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          {
+            "type": "kevlar",
+            "covered_by_mat": 100,
+            "thickness": 2,
+            "//": "Back of hand from the wrist to the knuckles can be stiffer but still needs a little flexibility. This area can afford the most thickness on gloves."
+          },
+          {
+            "type": "thermo_resin",
+            "covered_by_mat": 30,
+            "thickness": 2,
+            "//": "Molded knuckle plates, spacious enough inside the gloves to flex your knuckles fine while providing extra knuckle protection because busting your knuckles sucks."
+          },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_r", "hand_back_l" ],
+        "coverage": 100,
+        "encumbrance": [ 16, 16 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_r", "hand_wrist_r", "hand_palm_l", "hand_wrist_l" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          {
+            "type": "kevlar",
+            "covered_by_mat": 25,
+            "thickness": 1,
+            "//": "A bit of Kevlar between the third and second knuckles, the part of the fingers where flexibility is least important."
+          },
+          {
+            "type": "lycra",
+            "covered_by_mat": 100,
+            "thickness": 1,
+            "//": "Fingers need to be the most flexible and tactile part of the hand. Lycra/nylon blend (as the lycra material is defined) will give both those qualities while sacrificing the least protection."
+          },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_r", "hand_fingers_l" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          {
+            "type": "thermo_resin",
+            "covered_by_mat": 85,
+            "thickness": 1,
+            "//": "The boots are reinforced with plastic plates throughout to protect against penetration."
+          },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 },
+          {
+            "type": "kevlar",
+            "covered_by_mat": 90,
+            "thickness": 1,
+            "//": "The Kevlar is 2mm thick over most of the boots, and 1mm thick for flexible joints."
+          },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_heel_l", "foot_ankle_r", "foot_heel_r" ],
+        "coverage": 100,
+        "encumbrance": [ 25, 25 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          {
+            "type": "hc_steel",
+            "covered_by_mat": 25,
+            "thickness": 1,
+            "//": "Steel shank for excellent arch support and to maintain boot shape for longevity."
+          },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_arch_l", "foot_arch_r" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1, "//": "Steel toes" },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_l", "foot_toes_r" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_l", "foot_sole_r" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
+        ],
+        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 14, 14 ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_battery_cell"
+      }
+    ],
+    "warmth": 40,
+    "environmental_protection": 20,
+    "use_action": {
+      "type": "transform",
+      "msg": "A tiny green LED on the chest of the %s lights up.",
+      "target": "robofac_resonance_suit_on",
+      "need_charges": 1,
+      "need_charges_msg": "It seems like this device needs power."
+    },
+    "tool_ammo": "battery",
+    "flags": [ "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY", "NO_REPAIR", "NANOFAB_REPAIR" ],
+    "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "ARTIFACT_RESONANCE", "add": -750 } ] } ]
+  },
+  {
+    "id": "robofac_resonance_suit_on",
+    "copy-from": "robofac_resonance_suit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL" ],
+    "name": { "str": "Hub 01 hazardous materials suit (on)", "str_pl": "Hub 01 hazardous materials suits (on)" },
+    "turns_per_charge": 100,
+    "revert_to": "robofac_resonance_suit",
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "The LED on the %s flicks off.",
+      "target": "robofac_resonance_suit"
+    },
+    "flags": [ "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY", "NO_REPAIR", "NANOFAB_REPAIR", "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "xedra_enviro_suit",
