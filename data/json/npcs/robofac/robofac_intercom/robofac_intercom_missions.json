@@ -1646,12 +1646,7 @@
     "difficulty": 5,
     "value": 0,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "corpse_surface",
-        "om_special": "nether_monster_corpse",
-        "reveal_radius": 2,
-        "random": false
-      },
+      "assign_mission_target": { "om_terrain": "corpse_surface", "om_special": "nether_monster_corpse", "reveal_radius": 2, "random": false },
       "update_mapgen": {
         "rows": [
           "                        ",
