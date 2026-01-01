@@ -50,8 +50,8 @@
 #include "value_ptr.h"
 #include "weather.h"
 
-static const ammotype ammo_test_9mm( "test_9mm" );
 static const ammotype ammo_45( "45" );
+static const ammotype ammo_test_9mm( "test_9mm" );
 
 static const item_group_id Item_spawn_data_wallet_duct_tape_full( "wallet_duct_tape_full" );
 static const item_group_id Item_spawn_data_wallet_full( "wallet_full" );
