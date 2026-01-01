@@ -132,9 +132,11 @@ class relic_procgen_data
         static const std::vector<relic_procgen_data> &get_all();
         static void load_relic_procgen_data( const JsonObject &jo, const std::string &src );
         static void finalize_all();
+        static void check_consistency();
         static void reset();
         void load( const JsonObject &jo, std::string_view = {} );
         void deserialize( const JsonObject &jobj );
+        void check() const;
 };
 
 enum class relic_has : int {
