@@ -95,7 +95,12 @@
       },
       {
         "text": "I'm back.  I don't know what the hell that thing was, but it wasn't a cave.  [Hand over the alien \"atmospheric data.\"]",
-        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE" }, { "u_has_item": "mws_monster_corpse_weather_data" } ] },
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE" },
+            { "u_has_item": "mws_monster_corpse_weather_data" }
+          ]
+        },
         "effect": [
           { "u_consume_item": "mws_monster_corpse_weather_data", "count": 1, "popup": true },
           { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE", "success": true }
@@ -1213,10 +1218,7 @@
         "text": "Any idea what I can expect?",
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_DANGERS"
       },
-      {
-        "text": "Field team?",
-        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_FIELD_TEAM"
-      },
+      { "text": "Field team?", "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_FIELD_TEAM" },
       {
         "text": "Do I need to scan at these exact coordinates?",
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_SCAN_LOCATION"
@@ -1580,9 +1582,7 @@
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
-    "start": {
-      "effect": { "u_add_var": "dialogue_intercom_accepted_robofac_intercom_mws_4", "value": "yes" }
-    },
+    "start": { "effect": { "u_add_var": "dialogue_intercom_accepted_robofac_intercom_mws_4", "value": "yes" } },
     "end": {
       "effect": [
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_mws_4", "value": "yes" },
@@ -1612,12 +1612,7 @@
     "difficulty": 5,
     "value": 0,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "corpse_bowels_mid",
-        "om_special": "nether_monster_corpse",
-        "reveal_radius": 1,
-        "random": false
-      }
+      "assign_mission_target": { "om_terrain": "corpse_bowels_mid", "om_special": "nether_monster_corpse", "reveal_radius": 1, "random": false }
     },
     "end": {
       "effect": [
@@ -1651,12 +1646,7 @@
     "difficulty": 5,
     "value": 0,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "corpse_surface",
-        "om_special": "nether_monster_corpse",
-        "reveal_radius": 2,
-        "random": false
-      },
+      "assign_mission_target": { "om_terrain": "corpse_surface", "om_special": "nether_monster_corpse", "reveal_radius": 2, "random": false },
       "update_mapgen": {
         "rows": [
           "                        ",
@@ -1704,11 +1694,7 @@
           "t": "f_tourist_table",
           "%": "f_sandbag_half"
         },
-        "item": {
-          "r": { "item": "radio" },
-          "l": { "item": "laptop" },
-          "t": { "item": "emf_detector" }
-        },
+        "item": { "r": { "item": "radio" }, "l": { "item": "laptop" }, "t": { "item": "emf_detector" } },
         "monster": { "R": { "monster": "mon_robofac_camspy" } },
         "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
         "place_npcs": [
