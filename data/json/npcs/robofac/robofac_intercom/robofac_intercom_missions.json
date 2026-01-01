@@ -1582,9 +1582,7 @@
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
-    "start": {
-      "effect": { "u_add_var": "dialogue_intercom_accepted_robofac_intercom_mws_4", "value": "yes" }
-    },
+    "start": { "effect": { "u_add_var": "dialogue_intercom_accepted_robofac_intercom_mws_4", "value": "yes" } },
     "end": {
       "effect": [
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_mws_4", "value": "yes" },
