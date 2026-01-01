@@ -110,6 +110,11 @@ void relic_procgen_data::finalize_all()
     relic_procgen_data_factory.finalize();
 }
 
+void relic_procgen_data::check_consistency()
+{
+    relic_procgen_data_factory.check();
+}
+
 relic::~relic() = default;
 
 // me when
@@ -241,6 +246,24 @@ void relic_procgen_data::load( const JsonObject &jo, std::string_view )
         charge.load( jo_inner );
 
         charge_values.add( charge, weight );
+    }
+}
+
+void relic_procgen_data::check() const
+{
+    const std::vector<spell_type> &spells = spell_type::get_all();
+    for( const weighted_int_list<enchantment_active> &l : {
+             passive_hit_you, passive_hit_me, active_procgen_values
+         } ) {
+        for( const std::pair<enchantment_active, int> &e : l ) {
+            auto it = std::find_if( spells.begin(), spells.end(), [&]( const auto & st ) {
+                return st.id == e.first.activated_spell;
+            } );
+            if( it == spells.end() ) {
+                debugmsg( "Invalid spell id %s in active_procgen_values for preset %s",
+                          e.first.activated_spell.str(), id.str() );
+            }
+        }
     }
 }
 
