@@ -275,7 +275,13 @@
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ], [ "hat_golf", 1 ] ],
       [ [ "hose", 4 ] ],
-      [ [ "helmet_motor", 1 ], [ "basic_papr_helmet", 1 ], [ "divemask_full_modular", 1 ], [ "face_shield_plastic", 2 ], [ "flight_helmet", 1 ] ],
+      [
+        [ "helmet_motor", 1 ],
+        [ "basic_papr_helmet", 1 ],
+        [ "divemask_full_modular", 1 ],
+        [ "face_shield_plastic", 2 ],
+        [ "flight_helmet", 1 ]
+      ],
       [ [ "leather", 8 ], [ "tanned_hide", 2 ], [ "sheet_leather", 2 ], [ "sheet_leather_patchwork", 2 ] ],
       [ [ "chunk_rubber", 16 ] ],
       [ [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
