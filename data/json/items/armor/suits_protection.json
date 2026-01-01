@@ -3309,7 +3309,7 @@
     "category": "armor",
     "name": { "str": "Hub 01 hazardous materials suit" },
     "description": "A hefty environmental suit incorporating Kevlar-lined boots and gloves, worn by Hub personnel in their rare forays aboveground.  This one has a large battery pack and otherworldly electronics snaking the entire exterior, making it substantially more cumbersome to wear than its base model.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.  Active it to turn on.",
-    "weight": "4000 g",
+    "weight": "5000 g",
     "volume": "18 L",
     "price": "1 kUSD 175 USD",
     "price_postapoc": "40 USD",
