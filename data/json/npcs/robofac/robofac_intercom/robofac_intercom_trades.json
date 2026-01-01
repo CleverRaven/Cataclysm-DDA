@@ -634,7 +634,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_STRANGE_TEMPLE",
     "type": "talk_topic",
-    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"This is a very curious recording because it's for the most part normal.  However, the instruments detected one extremely dense resonance point.  Whatever this structure is, it houses something of extra-dimensional origins.\"",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"This is a very curious recording.  For the most part it's normal.  However, the instruments detected one extremely dense resonance point.  Whatever this structure is, it houses something of extra-dimensional origins.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },

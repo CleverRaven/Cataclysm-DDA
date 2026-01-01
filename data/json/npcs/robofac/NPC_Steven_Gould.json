@@ -1,0 +1,124 @@
+[
+  {
+    "type": "npc",
+    "id": "robofac_merc_monster_corpse_1",
+    "name_unique": "Steven Gould",
+    "//": "Appears at the field station during the quest Invasive \"Meteorology:\" contact the field team.",
+    "name_suffix": "Hub Mercenary",
+    "class": "NC_ROBOFAC_MERC_MONSTER_CORPSE_1",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ROBOFAC_MERC_MONSTER_CORPSE_1",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ROBOFAC_MERC_MONSTER_CORPSE_1",
+    "name": { "str": "Hub Mercenary" },
+    "job_description": "Fighting for the all-mighty dollar.",
+    "common": false,
+    "traits": [
+      { "trait": "hair_medium", "variant": "black" },
+      { "trait": "natural_hair_color_black" },
+      { "trait": "eye_color", "variant": "brown" },
+      { "trait": "SKIN_PINK" }
+    ],
+    "bonus_str": 1,
+    "bonus_dex": 1,
+    "bonus_per": 1,
+    "bonus_int": 4,
+    "worn_override": "NC_ROBOFAC_MERC_MONSTER_CORPSE_1_worn",
+    "carry_override": "NC_ROBOFAC_MERC_MONSTER_CORPSE_1_carry"
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_MERC_MONSTER_CORPSE_1_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" },
+      { "item": "socks" },
+      { "item": "robofac_enviro_suit" },
+      { "group": "clothing_watch" },
+      { "item": "knife_combat", "container-item": "bootsheath" },
+      { "group": "robofac_helmet_merc" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_MERC_MONSTER_CORPSE_1_carry",
+    "subtype": "collection",
+    "items": [
+      { "item": "RobofacCoin", "count": [ 15, 18 ] },
+      { "group": "charged_smart_phone" }
+    ]
+  },
+  {
+    "id": [ "TALK_ROBOFAC_MERC_MONSTER_CORPSE_1" ],
+    "type": "talk_topic",
+    "dynamic_line": "Ah, the other contractor.  We've got things covered up here… but I guess you're going down into the \"thing.\"  If you've got coins, I've got a bit of spare equipment that might be useful.",
+    "responses": [
+      {
+        "text": "Any idea what's going on down there?",
+        "topic": "TALK_ROBOFAC_MERC_MONSTER_CORPSE_1_RECON"
+      },
+      {
+        "text": "What kind of equipment you looking to trade?",
+        "topic": "TALK_ROBOFAC_MERC_MONSTER_CORPSE_1_EQUIPMENT",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "bought_gear_monster_corpse_merc" } ] } }
+      },
+      { "text": "I'll see you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_MONSTER_CORPSE_1_RECON",
+    "type": "talk_topic",
+    "dynamic_line": "Well... guess I don't have to tell you about the giant hunk of meat outside.  We've finished our subsurface scans, and if I didn't know any better, I'd say this thing is a giant piece of calamari.  Nasty shit.  I'd be shocked if it weren't for all the other strange shit going on out there these days.",
+    "responses": [
+      { "text": "Thanks.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_MONSTER_CORPSE_1_EQUIPMENT",
+    "type": "talk_topic",
+    "dynamic_line": "I've got an extra recon helmet and a powered air purifying respirator system.  The light amplification on the helmet still works.  The PAPR is a scavenged military mask with an old commercial blower.  Package deal.  Don't ask where I got 'em.  Ten coins.",
+    "responses": [
+      { "text": "No, thanks.", "topic": "TALK_DONE" },
+      {
+        "text": "[10 HGC] You have a deal.",
+        "topic": "TALK_ROBOFAC_MERC_MONSTER_CORPSE_1_EQUIPMENT_ACCEPTED",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 10 } },
+        "effect": [
+          { "u_consume_item": "RobofacCoin", "count": 10, "popup": true },
+          { "u_spawn_item": "military_papr_mask" },
+          { "u_spawn_item": "basic_papr_belt_off" },
+          { "u_spawn_item": "robofac_head_rig" },
+          { "u_add_var": "bought_gear_monster_corpse_merc", "value": "yes" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_MONSTER_CORPSE_1_EQUIPMENT_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "You didn't get that from me, yeah?",
+    "responses": [ { "text": "Thanks." }, "topic": "TALK_DONE"  ]
+  },
+  {
+    "type": "npc",
+    "id": "robofac_merc_monster_corpse_2",
+    "//": "just a grunt",
+    "name_unique": "armed mercenary",
+    "class": "NC_ANCILLA_GRUNT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ROBOFAC_MERC_MONSTER_CORPSE_2",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_MONSTER_CORPSE_2",
+    "type": "talk_topic",
+    "dynamic_line": "I'm just paid to stand guard and watch the drones.  Talk to the boss in the pavilion if you need something.",
+    "responses": [ { "text": "Thanks.", "topic": "TALK_DONE" } ]
+  }
+]

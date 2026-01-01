@@ -5767,7 +5767,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 const tripoint_abs_omt closest_radiosphere = overmap_buffer.find_closest( veh_position,
                         "radiosphere_radio_tower_top", 10, false );
                 const tripoint_abs_omt closest_monster_corpse = overmap_buffer.find_closest( veh_position,
-                        "corpse_brain", 10, false );
+                        "corpse_bowels_mid", 10, false );
                 if( trig_dist( veh_position, closest_vitrified_farm ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_vitrified, calendar::turn_zero ) );
                 }

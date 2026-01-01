@@ -441,7 +441,7 @@
     "id": "HEW_printout_data_monster_corpse",
     "name": { "str": "HEW printout LKG1" },
     "category": "books",
-    "description": "A short paper report labeled with the mysterious title \"LKG1.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  ACTIVE SPACETIME DISTURBANCES.  ABNORMAL ORGANICS.\"",
+    "description": "A short paper report labeled with the mysterious title \"LKG1.\"  While most of the document is coded in a series of overlapping numbers and dots that you cannot understand, the paper also reads: \"ANOMALOUS CONDITIONS DETECTED.  ALIEN VOLATILE ORGANICS.\"",
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
