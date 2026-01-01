@@ -1218,10 +1218,7 @@
         "text": "Any idea what I can expect?",
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_DANGERS"
       },
-      {
-        "text": "Field team?",
-        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_FIELD_TEAM"
-      },
+      { "text": "Field team?", "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_FIELD_TEAM" },
       {
         "text": "Do I need to scan at these exact coordinates?",
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_SCAN_LOCATION"
