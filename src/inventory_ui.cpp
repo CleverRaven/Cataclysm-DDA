@@ -325,12 +325,12 @@ std::string enum_to_string<inventory_selector::uimode>( inventory_selector::uimo
 {
     switch( mode ) {
         case inventory_selector::uimode::hierarchy:
-            return "hierarchy";
+            return translate_marker_context( "inventory ui mode", "hierarchy" );
         case inventory_selector::uimode::last:
         case inventory_selector::uimode::categories:
             break;
     }
-    return "categories";
+    return translate_marker_context( "inventory ui mode", "categories" );
 }
 } // namespace io
 
@@ -3292,7 +3292,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
 
         right_print( w, getmaxy( w ) - border, border + 1, c_light_gray,
                      string_format( "< [%s] %s >", ctxt.get_desc( "VIEW_CATEGORY_MODE" ),
-                                    io::enum_to_string( _uimode ) ) );
+                                    _( io::enum_to_string( _uimode ) ) ) );
         const auto footer = get_footer( mode );
         if( !footer.first.empty() ) {
             const int string_width = utf8_width( footer.first );
