@@ -166,6 +166,7 @@ static const itype_id itype_HEW_printout_data_exodii( "HEW_printout_data_exodii"
 static const itype_id itype_HEW_printout_data_highlands( "HEW_printout_data_highlands" );
 static const itype_id itype_HEW_printout_data_labyrinth( "HEW_printout_data_labyrinth" );
 static const itype_id itype_HEW_printout_data_lixa( "HEW_printout_data_lixa" );
+static const itype_id itype_HEW_printout_data_monster_corpse( "HEW_printout_data_monster_corpse" );
 static const itype_id itype_HEW_printout_data_physics_lab( "HEW_printout_data_physics_lab" );
 static const itype_id itype_HEW_printout_data_portal_storm( "HEW_printout_data_portal_storm" );
 static const itype_id itype_HEW_printout_data_radiosphere( "HEW_printout_data_radiosphere" );
@@ -5764,6 +5765,8 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                         "mine_amigara_finale_central", 10, false );
                 const tripoint_abs_omt closest_radiosphere = overmap_buffer.find_closest( veh_position,
                         "radiosphere_radio_tower_top", 10, false );
+                const tripoint_abs_omt closest_monster_corpse = overmap_buffer.find_closest( veh_position,
+                        "corpse_brain", 10, false );
                 if( trig_dist( veh_position, closest_vitrified_farm ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_vitrified, calendar::turn_zero ) );
                 }
@@ -5790,6 +5793,9 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 }
                 if( trig_dist( veh_position, closest_radiosphere ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_radiosphere, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_monster_corpse ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_monster_corpse, calendar::turn_zero ) );
                 }
             }
         }

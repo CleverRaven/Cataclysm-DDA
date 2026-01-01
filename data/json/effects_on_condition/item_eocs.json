@@ -32,7 +32,9 @@
         { "u_near_om_location": "highlands", "range": 10 },
         { "u_near_om_location": "exodii_base_x0y0z0", "range": 10 },
         { "u_near_om_location": "microlab_portal_security1", "range": 10 },
-        { "u_near_om_location": "labyrinth_entrance", "range": 10 }
+        { "u_near_om_location": "labyrinth_entrance", "range": 10 },
+        { "u_near_om_location": "corpse_surface", "range": 10 },
+        { "u_near_om_location": "corpse_brain", "range": 10 }
       ]
     },
     "effect": {
