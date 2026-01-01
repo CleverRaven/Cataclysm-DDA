@@ -540,7 +540,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "chemical goggles" },
-    "description": "A pair of chemical splash goggles designed to protect your eyes from liquids, dust, and debris. Small vents help reduce fogging and improve breathability without compromising environmental protection.",
+    "description": "A pair of chemical splash goggles designed to protect your eyes from liquids, dust, and debris.  Small vents help reduce fogging and improve breathability without compromising environmental protection.",
     "weight": "354 g",
     "volume": "500 ml",
     "price": "10 USD",
