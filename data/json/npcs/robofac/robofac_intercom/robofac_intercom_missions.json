@@ -1694,11 +1694,7 @@
           "t": "f_tourist_table",
           "%": "f_sandbag_half"
         },
-        "item": {
-          "r": { "item": "radio" },
-          "l": { "item": "laptop" },
-          "t": { "item": "emf_detector" }
-        },
+        "item": { "r": { "item": "radio" }, "l": { "item": "laptop" }, "t": { "item": "emf_detector" } },
         "monster": { "R": { "monster": "mon_robofac_camspy" } },
         "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
         "place_npcs": [
