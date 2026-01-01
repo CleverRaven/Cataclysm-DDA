@@ -51,7 +51,7 @@
 #include "weather.h"
 
 static const ammotype ammo_test_9mm( "test_9mm" );
-static const ammotype ammo_test_45( "45" );
+static const ammotype ammo_45( "45" );
 
 static const item_group_id Item_spawn_data_wallet_duct_tape_full( "wallet_duct_tape_full" );
 static const item_group_id Item_spawn_data_wallet_full( "wallet_full" );
@@ -420,7 +420,7 @@ TEST_CASE( "max_container_volume", "[pocket][max_contains_volume]" )
         pocket_data data_ammo_box( pocket_type::CONTAINER );
 
         data_ammo_box.ammo_restriction.emplace( ammo_test_9mm, 200 );
-        data_ammo_box.ammo_restriction.emplace( ammo_test_45, 90 );
+        data_ammo_box.ammo_restriction.emplace( ammo_45, 90 );
         data_ammo_box.raw_volume_capacity = 1_ml;
 
         THEN( "volume_capacity uses the largest restricted ammo volume" ) {
@@ -432,7 +432,7 @@ TEST_CASE( "max_container_volume", "[pocket][max_contains_volume]" )
         pocket_data data_ammo_box( pocket_type::CONTAINER );
 
         data_ammo_box.ammo_restriction.emplace( ammo_test_9mm, 200 );
-        data_ammo_box.ammo_restriction.emplace( ammo_test_45, 150 );
+        data_ammo_box.ammo_restriction.emplace( ammo_45, 150 );
         data_ammo_box.raw_volume_capacity = 1_ml;
 
         THEN( "volume_capacity follows the most space-intensive ammo" ) {
@@ -536,7 +536,7 @@ TEST_CASE( "magazine_with_ammo_restriction", "[pocket][magazine][ammo_restrictio
         const int full_clip_qty_9mm = 10;
         const int full_clip_qty_45 = 6;
         data_mag.ammo_restriction.emplace( ammo_test_9mm, full_clip_qty_9mm );
-        data_mag.ammo_restriction.emplace( ammo_test_45, full_clip_qty_45 );
+        data_mag.ammo_restriction.emplace( ammo_45, full_clip_qty_45 );
         item_pocket pocket_mag( &data_mag );
 
         WHEN( "it does not already contain any ammo" ) {
