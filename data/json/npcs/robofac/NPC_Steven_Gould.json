@@ -48,10 +48,7 @@
     "type": "item_group",
     "id": "NC_ROBOFAC_MERC_MONSTER_CORPSE_1_carry",
     "subtype": "collection",
-    "items": [
-      { "item": "RobofacCoin", "count": [ 15, 18 ] },
-      { "group": "charged_smart_phone" }
-    ]
+    "items": [ { "item": "RobofacCoin", "count": [ 15, 18 ] }, { "group": "charged_smart_phone" } ]
   },
   {
     "id": [ "TALK_ROBOFAC_MERC_MONSTER_CORPSE_1" ],
