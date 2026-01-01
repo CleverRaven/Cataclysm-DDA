@@ -268,6 +268,7 @@
     ],
     "tool_ammo": [ "battery" ],
     "use_action": [
+      { "type": "holster", "holster_prompt": "Store item", "holster_msg": "You put your %1$s in your %2$s" },
       {
         "type": "holster",
         "holster_prompt": "Store item",
