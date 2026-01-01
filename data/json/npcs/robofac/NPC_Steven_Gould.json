@@ -55,10 +55,7 @@
     "type": "talk_topic",
     "dynamic_line": "Ah, the other contractor.  We've got things covered up here… but I guess you're going down into the \"thing.\"  If you've got coins, I've got a bit of spare equipment that might be useful.",
     "responses": [
-      {
-        "text": "Any idea what's going on down there?",
-        "topic": "TALK_ROBOFAC_MERC_MONSTER_CORPSE_1_RECON"
-      },
+      { "text": "Any idea what's going on down there?", "topic": "TALK_ROBOFAC_MERC_MONSTER_CORPSE_1_RECON" },
       {
         "text": "What kind of equipment you looking to trade?",
         "topic": "TALK_ROBOFAC_MERC_MONSTER_CORPSE_1_EQUIPMENT",
