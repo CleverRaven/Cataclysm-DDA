@@ -7,7 +7,7 @@
     "locations": [ "subterranean_empty", "land", "open_air" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, -1 ],
-    "occurrences": [ 1, 7 ],
+    "occurrences": [ 1, 5 ],
     "flags": [ "CLASSIC", "MAN_MADE", "FARM" ],
     "check_for_locations_area": [ { "type": [ "land" ], "from": [ -4, -2, 0 ], "to": [ 4, 22, 0 ] } ],
     "joins": [ "root_to_road", "road_to_house", "road_to_extra", "house_to_extension", "farm_to_farm" ],
