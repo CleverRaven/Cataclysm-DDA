@@ -3487,7 +3487,18 @@
       "msg": "The LED on the %s flicks off.",
       "target": "robofac_resonance_suit"
     },
-    "flags": [ "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY", "NO_REPAIR", "NANOFAB_REPAIR", "TRADER_AVOID", "SPAWN_ACTIVE" ]
+    "flags": [
+      "WATERPROOF",
+      "RAINPROOF",
+      "GAS_PROOF",
+      "RAD_PROOF",
+      "ELECTRIC_IMMUNE",
+      "STURDY",
+      "NO_REPAIR",
+      "NANOFAB_REPAIR",
+      "TRADER_AVOID",
+      "SPAWN_ACTIVE"
+    ]
   },
   {
     "id": "xedra_enviro_suit",
