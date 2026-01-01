@@ -269,6 +269,19 @@
   },
   {
     "type": "ITEM",
+    "id": "mws_monster_corpse_weather_data",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "alien \"atmospheric\" datasheet" },
+    "description": "A piece of paper covered in complex \"weather\" recordings from the inside of a giant, dead creature.",
+    "price": "0 cent",
+    "volume": "4 ml",
+    "weight": "1 g",
+    "material": [ "paper" ]
+  },
+  {
+    "type": "ITEM",
     "id": "HEW_weather_data",
     "name": { "str": "HEW datasheet" },
     "category": "books",

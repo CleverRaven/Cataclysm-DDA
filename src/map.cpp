@@ -174,6 +174,7 @@ static const itype_id itype_HEW_printout_data_strange_temple( "HEW_printout_data
 static const itype_id itype_HEW_printout_data_vitrified( "HEW_printout_data_vitrified" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_maple_sap( "maple_sap" );
+static const itype_id itype_mws_monster_corpse_weather_data( "mws_monster_corpse_weather_data" );
 static const itype_id itype_mws_portal_storm_weather_data( "mws_portal_storm_weather_data" );
 static const itype_id itype_mws_weather_data( "mws_weather_data" );
 static const itype_id itype_mws_weather_data_incomplete( "mws_weather_data_incomplete" );
@@ -5794,7 +5795,10 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 if( trig_dist( veh_position, closest_radiosphere ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_radiosphere, calendar::turn_zero ) );
                 }
-                if( trig_dist( veh_position, closest_monster_corpse ) <= 10 ) {
+                if( trig_dist( veh_position, closest_monster_corpse ) <= 1 ) {
+                    cur_veh.add_item( here, vp, item( itype_mws_monster_corpse_weather_data, calendar::turn_zero ) );
+                }
+                else if( trig_dist( veh_position, closest_monster_corpse ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_monster_corpse, calendar::turn_zero ) );
                 }
             }

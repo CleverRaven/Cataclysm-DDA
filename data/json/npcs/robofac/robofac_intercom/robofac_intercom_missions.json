@@ -12,7 +12,8 @@
       "MISSION_ROBOFAC_INTERCOM_MWS_1_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_MWS_2_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_MWS_3_ACCEPTED",
-      "MISSION_ROBOFAC_INTERCOM_MWS_4_ACCEPTED"
+      "MISSION_ROBOFAC_INTERCOM_MWS_4_ACCEPTED",
+      "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_ACCEPTED"
     ],
     "type": "talk_topic",
     "dynamic_line": "What would you like to discuss?",
@@ -91,6 +92,15 @@
           { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_3", "success": true }
         ],
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_3_COMPLETE"
+      },
+      {
+        "text": "I'm back.  I don't know what the hell that thing was, but it wasn't a cave.  [Hand over the alien \"atmospheric data.\"]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE" }, { "u_has_item": "mws_monster_corpse_weather_data" } ] },
+        "effect": [
+          { "u_consume_item": "mws_monster_corpse_weather_data", "count": 1, "popup": true },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE", "success": true }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_COMPLETE"
       },
       {
         "text": "[Contract: Return to sender]",
@@ -193,6 +203,19 @@
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER"
+      },
+      {
+        "text": "[Contract: Invasive \"Meteorolgoy\"]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE" } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_monster_corpse" } ] }
+            },
+            { "math": [ "HEW_monster_corpse_data_sold > 0" ] }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER"
       },
       {
         "text": "[Contract: Data Retrieval]",
@@ -1169,6 +1192,65 @@
     "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   },
   {
+    "id": [
+      "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER",
+      "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_DANGERS",
+      "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_FIELD_TEAM",
+      "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_SCAN_LOCATION"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "The recording you brought us suggests that there is some underground source of organic volatiles.  We've cross-referenced with our existing geographic data, and indeed, we think there is some sort of large... structure.  We'd like you and a field team to go to the source and measure atmospheric conditions using one of the mobile weather stations.",
+    "responses": [
+      {
+        "text": "Alright, so go underground, set up the station, make a recording.  I'm in.",
+        "effect": [
+          { "assign_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE" }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_ACCEPTED"
+      },
+      {
+        "text": "Any idea what I can expect?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_DANGERS"
+      },
+      {
+        "text": "Field team?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_FIELD_TEAM"
+      },
+      {
+        "text": "Do I need to scan at these exact coordinates?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_SCAN_LOCATION"
+      },
+      { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_DANGERS",
+    "type": "talk_topic",
+    "dynamic_line": "There appear to be lifeforms, alien and otherwise.  We don't know anything about them.  The field team should beat you there, so you may wish to speak to them.  It is likely very dark, so we are prepared to sell you a field-issue recon helmet in advance.  Ask after we talk if you're interested."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_FIELD_TEAM",
+    "type": "talk_topic",
+    "dynamic_line": "Yes, we've already contracted several others to perform surface recon.  It may be worth speaking with them to see if you can assist."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_SCAN_LOCATION",
+    "type": "talk_topic",
+    "dynamic_line": "Yes, this area is the source of the abnormal HEW recordings.  However, like other recordings, you don't need to be present for the full hour the recording runs - you can set up the station, leave, and come back later for the report."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "Excellent.  You'll meet the advanced team on the surface near your coordinates.  We expect the underground system to be quite dark, so we are prepared to sell you our field-issue recon helmet.  You may ask if interested.",
+    "speaker_effect": { "effect": [ { "u_add_var": "dialogue_intercom_u_hub_prototypes", "value": "yes" } ] }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": "The intercom's tray slides open and you deposit the report.  There is a brief silence, and then it opens with your payment.  \"You have our thanks and your payment.  It will take us some time for Research to digest this and the other field data, but perhaps we will have more contracts for you later.",
+    "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
     "type": "mission_definition",
     "name": { "str": "Data Retrieval" },
@@ -1501,6 +1583,35 @@
     "end": {
       "effect": [
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_mws_4", "value": "yes" },
+        { "math": [ "u_hub01_completed_missions++" ] }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE",
+    "type": "mission_definition",
+    "name": { "str": "Invasive \"Meteorolgoy\"" },
+    "description": "Go to the underground coordinates, set up a mobile weather station, and make a recording.  You may wish to rendezvous with the advanced field team, if you can find them.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "end": {
+      "effect": [
+        { "u_spawn_item": "RobofacCoin", "count": 8 },
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_mws_monster_corpse", "value": "yes" },
         { "math": [ "u_hub01_completed_missions++" ] }
       ]
     },
