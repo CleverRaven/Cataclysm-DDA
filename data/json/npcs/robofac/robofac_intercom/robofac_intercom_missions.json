@@ -1612,12 +1612,7 @@
     "difficulty": 5,
     "value": 0,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "corpse_bowels_mid",
-        "om_special": "nether_monster_corpse",
-        "reveal_radius": 1,
-        "random": false
-      }
+      "assign_mission_target": { "om_terrain": "corpse_bowels_mid", "om_special": "nether_monster_corpse", "reveal_radius": 1, "random": false }
     },
     "end": {
       "effect": [
