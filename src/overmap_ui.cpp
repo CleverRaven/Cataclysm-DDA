@@ -23,22 +23,9 @@
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_imgui.h"
-#include "cata_variant.h"
-#include "debug.h"
-#include "enum_conversions.h"
-#include "generic_factory.h"
-#include "horde_entity.h"
-#include "imgui/imgui.h"
-#include "input_enums.h"
-#include "json.h"
-#include "mapdata.h"
-#include "mapgen_parameter.h"
-#include "mapgendata.h"
-#include "mtype.h"
-#include "simple_pathfinding.h"
-#include "translation.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
+#include "cata_variant.h"
 #include "catacharset.h"
 #include "character.h"
 #include "city.h"
@@ -47,20 +34,32 @@
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "debug_menu.h"
 #include "display.h"
+#include "enum_conversions.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
+#include "generic_factory.h"
+#include "horde_entity.h"
+#include "horde_map.h"
+#include "imgui/imgui.h"
 #include "input_context.h"
+#include "input_enums.h"
+#include "json.h"
 #include "line.h"
 #include "localized_comparator.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
+#include "mapdata.h"
+#include "mapgen_parameter.h"
+#include "mapgendata.h"
 #include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
+#include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
 #include "options.h"
@@ -73,10 +72,12 @@
 #include "regional_settings.h"
 #include "rng.h"
 #include "sdltiles.h" // IWYU pragma: keep
+#include "simple_pathfinding.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "text.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -171,6 +172,7 @@ void overmap_sidebar::draw_controls()
     if( layers ) {
         draw_layer_info();
     }
+
     if( debug_mode || draw_data.debug_editor ) {
         bool &debug_info = om_sidebar_state.debug_header;
         ImGui::SetNextItemOpen( debug_info );
@@ -2526,6 +2528,15 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
         cur_ter = overmap_buffer.ter( omp );
     }
 
+    // TODO unify and encapsulate to a single check
+    const bool debug_horde = uistate.overmap_debug_mongroup ||
+                             player_character.has_trait( trait_DEBUG_CLAIRVOYANCE );
+    const bool can_see_horde = overmap_ui::get_and_assign_los( args.los, player_character, omp,
+                               opts.sight_points ) || debug_horde ;
+    const bool show_hordes = blink && opts.showhordes && can_see_horde;
+    const int horde_size = show_hordes ? overmap_buffer.get_horde_size( omp,
+                           horde_map_flavors::active ) : 0;
+
     if( blink && opts.show_pc && !opts.hilite_pc && omp == get_avatar().pos_abs_omt() ) {
         // Display player pos, should always be visible
         ret.second = player_character.symbol_color();
@@ -2592,14 +2603,10 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
         // Revealed map tiles
         ret.second = c_magenta;
         ret.first = "&";
-    } else if( blink && opts.showhordes &&
-               overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE &&
-               args.vision > om_vision_level::details &&
-               ( overmap_ui::get_and_assign_los( args.los, player_character, omp, opts.sight_points ) ||
-                 uistate.overmap_debug_mongroup || player_character.has_trait( trait_DEBUG_CLAIRVOYANCE ) ) ) {
+    } else if( horde_size >= HORDE_VISIBILITY_SIZE ) {
         // Display Hordes only when within player line-of-sight
         ret.second = c_green;
-        ret.first = overmap_buffer.get_horde_size( omp ) > 16 ? "Z" : "z";
+        ret.first = horde_size > 16 ? "Z" : "z";
     } else if( blink && overmap_buffer.has_vehicle( omp ) ) {
         ret.second = c_cyan;
         ret.first = overmap_buffer.get_vehicle_ter_sym( omp );

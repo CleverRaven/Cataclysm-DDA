@@ -1729,12 +1729,11 @@ horde_entity *overmap::entity_at( const tripoint_om_ms &p )
     return hordes.entity_at( p );
 }
 
-
 // This should really be const but I don't want to mess with it right now.
 std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> overmap::hordes_at(
-    const tripoint_om_omt &p )
+    const tripoint_om_omt &p, int filter )
 {
-    return hordes.entity_group_at( p );
+    return hordes.entity_group_at( p, filter );
 }
 
 /**
