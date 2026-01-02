@@ -1603,7 +1603,7 @@
     "type": "terrain",
     "id": "t_reinforced_glass_lab",
     "copy-from": "t_reinforced_glass",
-    "description": "A thicker pane of glass with thin metal wires embedded throughout, strengthening the structural properties.  Still weaker than other types of walls, and not made to support a roof either.  Not the type of glass to stop a bullet you realize.",
+    "description": "A thicker pane of glass with thin metal wires embedded throughout, strengthening the structural properties.  Still weaker than other types of walls, and not made to support a roof either.  Not the type of glass to stop a bullet, you realize.",
     "bash": {
       "str_min": 40,
       "str_max": 210,
