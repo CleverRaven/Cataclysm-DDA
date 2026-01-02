@@ -246,16 +246,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "default_magazine": "inventor_heavy_cell"
-      },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 7,
-        "charge_rate": "500 W"
       }
     ],
     "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ],
@@ -278,16 +269,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "default_magazine": "inventor_heavy_cell"
-      },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 10,
-        "charge_rate": "500 W"
       }
     ],
     "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ],
@@ -312,16 +294,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "default_magazine": "inventor_heavy_cell"
-      },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 10,
-        "charge_rate": "500 W"
       }
     ],
     "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ],

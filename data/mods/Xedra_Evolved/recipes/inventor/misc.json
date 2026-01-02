@@ -457,9 +457,8 @@
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_CONSUMABLES",
     "skill_used": "survival",
-    "time": "30 s",
-    "tools": [ [ [ "inventor_oxygen_jelly_machine", 40 ] ] ],
-    "components": [ [ [ "oxygen", 1 ] ] ]
+    "time": "2 m",
+    "tools": [ [ [ "inventor_oxygen_jelly_machine", 240 ] ] ]
   },
   {
     "type": "recipe",
@@ -468,9 +467,8 @@
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_CONSUMABLES",
     "skill_used": "survival",
-    "time": "30 s",
-    "tools": [ [ [ "inventor_oxygen_jelly_machine", 40 ] ] ],
-    "components": [ [ [ "oxygen", 1 ] ] ]
+    "time": "2 m",
+    "tools": [ [ [ "inventor_oxygen_jelly_machine", 240 ] ] ]
   },
   {
     "result": "inventor_gaming_rig",

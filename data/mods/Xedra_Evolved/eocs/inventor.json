@@ -541,7 +541,7 @@
     "required_event": "character_wakes_up",
     "condition": { "u_has_item": "inventor_gaming_rig_on" },
     "effect": [
-      { "math": [ "morale_game_inventor = (3 * u_skill('deduction')) + 1" ] },
+      { "math": [ "morale_game_inventor = (3 * u_skill('deduction')) + 3" ] },
       {
         "u_add_morale": "morale_game_inventor",
         "bonus": { "math": [ "morale_game_inventor" ] },

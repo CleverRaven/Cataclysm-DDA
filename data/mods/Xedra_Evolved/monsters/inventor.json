@@ -125,8 +125,8 @@
     "material": [ "steel" ],
     "symbol": "d",
     "melee_skill": 8,
-    "melee_dice": 3,
-    "melee_dice_sides": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
     "//": "A bear trap attached to something that writhes and pulls.  Should be hard to get the bot to stop grabbing without something breaking or tearing.  It does little damage with the rest of its body.",
     "//2": "Freeing yourself from an animated bear trap by pulling should be damaging, but that's not there yet.  Lower the grab strength when it's applied to this bot.",
     "grab_strength": 250,
@@ -134,14 +134,14 @@
     "special_attacks": [
       {
         "id": "bite_grab",
-        "cooldown": 2,
-        "accuracy": 3,
+        "cooldown": 5,
+        "accuracy": 5,
         "damage_max_instance": [
           { "damage_type": "cut", "amount": 18, "armor_multiplier": 0.5 },
           { "damage_type": "bash", "amount": 12, "armor_multiplier": 0.5 }
         ]
       },
-      { "id": "grab_drag", "cooldown": 1 }
+      { "id": "drag_followup", "cooldown": 1 }
     ],
     "extend": { "flags": [ "GRABS", "CANPLAY" ] }
   }
