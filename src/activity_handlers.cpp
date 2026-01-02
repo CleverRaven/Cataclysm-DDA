@@ -115,7 +115,6 @@ static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
-static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
@@ -149,9 +148,7 @@ static const furn_str_id furn_f_kiln_portable_empty( "f_kiln_portable_empty" );
 static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
 static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 
-static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
 static const itype_id itype_pseudo_magazine_mod( "pseudo_magazine_mod" );
 
@@ -210,7 +207,6 @@ activity_handlers::finish_functions = {
     { ACT_START_FIRE, start_fire_finish },
     { ACT_TRAIN, train_finish },
     { ACT_TRAIN_TEACHER, teach_finish },
-    { ACT_START_ENGINES, start_engines_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
@@ -725,86 +721,6 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, Character *you
         add_msg( m_info, _( "You're too exhausted to keep cranking." ) );
     }
 
-}
-
-void activity_handlers::start_engines_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-    // Find the vehicle by looking for a remote vehicle first, then at
-    // act->relative_placement away from avatar
-    vehicle *veh = g->remoteveh();
-    map &here = get_map();
-    if( !veh ) {
-        const tripoint_bub_ms pos = get_player_character().pos_bub() + act->relative_placement;
-        veh = veh_pointer_or_null( here.veh_at( pos ) );
-        if( !veh ) {
-            return;
-        }
-    }
-
-    int attempted = 0;
-    int non_muscle_attempted = 0;
-    int started = 0;
-    int non_muscle_started = 0;
-    int non_combustion_started = 0;
-    const bool take_control = act->values[0];
-
-    for( const int p : veh->engines ) {
-        vehicle_part &vp = veh->part( p );
-        if( veh->is_engine_on( vp ) ) {
-            attempted++;
-            if( !veh->is_engine_type( vp, itype_muscle ) &&
-                !veh->is_engine_type( vp, itype_animal ) ) {
-                non_muscle_attempted++;
-            }
-            if( veh->start_engine( here, vp ) ) {
-                started++;
-                if( !veh->is_engine_type( vp, itype_muscle ) &&
-                    !veh->is_engine_type( vp, itype_animal ) ) {
-                    non_muscle_started++;
-                } else {
-                    non_combustion_started++;
-                }
-            }
-        }
-    }
-
-    //Did any engines start?
-    veh->engine_on = started;
-    //init working engine noise
-    sfx::do_vehicle_engine_sfx();
-
-    if( attempted == 0 ) {
-        you->add_msg_if_player( m_info, _( "The %s doesn't have an engine!" ), veh->name );
-    } else if( non_muscle_attempted > 0 ) {
-        //Some non-muscle engines tried to start
-        if( non_muscle_attempted == non_muscle_started ) {
-            //All of the non-muscle engines started
-            add_msg_if_player_sees( you->pos_bub(), n_gettext( "The %s's engine starts up.",
-                                    "The %s's engines start up.", non_muscle_started ), veh->name );
-        } else if( non_muscle_started > 0 ) {
-            //Only some of the non-muscle engines started
-            add_msg_if_player_sees( you->pos_bub(), n_gettext( "One of the %s's engines start up.",
-                                    "Some of the %s's engines start up.", non_muscle_started ), veh->name );
-        } else if( non_combustion_started > 0 ) {
-            //Non-combustions "engines" started
-            you->add_msg_if_player( _( "The %s is ready for movement." ), veh->name );
-        } else {
-            //All of the non-muscle engines failed
-            if( you->is_avatar() ) {
-                add_msg( m_bad, n_gettext( "The %s's engine fails to start.",
-                                           "The %s's engines fail to start.", non_muscle_attempted ), veh->name );
-            } else {
-                add_msg_if_player_sees( you->pos_bub(), n_gettext( "The %s's engine fails to start.",
-                                        "The %s's engines fail to start.", non_muscle_attempted ), veh->name );
-            }
-        }
-    }
-
-    if( take_control && !veh->engine_on && !veh->velocity ) {
-        you->controlling_vehicle = false;
-        you->add_msg_if_player( _( "You let go of the controls." ) );
-    }
 }
 
 enum class repeat_type : int {

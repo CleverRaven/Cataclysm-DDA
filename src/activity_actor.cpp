@@ -189,6 +189,7 @@ static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
 static const activity_id ACT_SKIN( "ACT_SKIN" );
+static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 static const activity_id ACT_STASH( "ACT_STASH" );
 static const activity_id ACT_TENT_DECONSTRUCT( "ACT_TENT_DECONSTRUCT" );
 static const activity_id ACT_TENT_PLACE( "ACT_TENT_PLACE" );
@@ -255,12 +256,14 @@ static const item_group_id Item_spawn_data_forage_summer( "forage_summer" );
 static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
 
 static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_animal( "animal" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_efile_junk( "efile_junk" );
 static const itype_id itype_efile_photos( "efile_photos" );
 static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
+static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 static const itype_id
@@ -9392,6 +9395,111 @@ std::unique_ptr<activity_actor> vehicle_unfolding_activity_actor::deserialize( J
     return actor.clone();
 }
 
+void start_engines_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( initial_moves );
+    act.moves_left = act.moves_total;
+}
+
+void start_engines_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    // Find the vehicle by looking for a remote vehicle first, then at
+    // engine_position away from avatar
+    vehicle *veh = g->remoteveh();
+    map &here = get_map();
+    if( !veh ) {
+        const tripoint_bub_ms pos = get_player_character().pos_bub() + engine_position;
+        veh = veh_pointer_or_null( here.veh_at( pos ) );
+        if( !veh ) {
+            return;
+        }
+    }
+
+    int attempted = 0;
+    int non_muscle_attempted = 0;
+    int started = 0;
+    int non_muscle_started = 0;
+    int non_combustion_started = 0;
+
+    for( const int p : veh->engines ) {
+        vehicle_part &vp = veh->part( p );
+        if( veh->is_engine_on( vp ) ) {
+            attempted++;
+            if( !veh->is_engine_type( vp, itype_muscle ) &&
+                !veh->is_engine_type( vp, itype_animal ) ) {
+                non_muscle_attempted++;
+            }
+            if( veh->start_engine( here, vp ) ) {
+                started++;
+                if( !veh->is_engine_type( vp, itype_muscle ) &&
+                    !veh->is_engine_type( vp, itype_animal ) ) {
+                    non_muscle_started++;
+                } else {
+                    non_combustion_started++;
+                }
+            }
+        }
+    }
+
+    //Did any engines start?
+    veh->engine_on = started;
+    //init working engine noise
+    sfx::do_vehicle_engine_sfx();
+
+    const std::string veh_name = veh->name;
+    if( attempted == 0 ) {
+        who.add_msg_if_player( m_info, _( "The %s doesn't have an engine!" ), veh_name );
+    } else if( non_muscle_attempted > 0 ) {
+        const tripoint_bub_ms &character_position = who.pos_bub();
+
+        //Some non-muscle engines tried to start
+        if( non_muscle_attempted == non_muscle_started ) {
+            //All of the non-muscle engines started
+            add_msg_if_player_sees( character_position, n_gettext( "The %s's engine starts up.",
+                                    "The %s's engines start up.", non_muscle_started ), veh_name );
+        } else if( non_muscle_started > 0 ) {
+            //Only some of the non-muscle engines started
+            add_msg_if_player_sees( character_position, n_gettext( "One of the %s's engines start up.",
+                                    "Some of the %s's engines start up.", non_muscle_started ), veh_name );
+        } else if( non_combustion_started > 0 ) {
+            //Non-combustions "engines" started
+            who.add_msg_if_player( _( "The %s is ready for movement." ), veh_name );
+        } else {
+            //All of the non-muscle engines failed
+            if( who.is_avatar() ) {
+                add_msg( m_bad, n_gettext( "The %s's engine fails to start.",
+                                           "The %s's engines fail to start.", non_muscle_attempted ), veh_name );
+            } else {
+                add_msg_if_player_sees( character_position, n_gettext( "The %s's engine fails to start.",
+                                        "The %s's engines fail to start.", non_muscle_attempted ), veh_name );
+            }
+        }
+    }
+
+    if( take_control && !veh->engine_on && !veh->velocity ) {
+        who.controlling_vehicle = false;
+        who.add_msg_if_player( _( "You let go of the controls." ) );
+    }
+}
+
+void start_engines_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "engine_position", engine_position );
+    jsout.member( "take_control", take_control );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> start_engines_activity_actor::deserialize( JsonValue &jsin )
+{
+    start_engines_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "engine_position", actor.engine_position );
+    data.read( "take_control", actor.take_control );
+    return actor.clone();
+}
+
 int heat_activity_actor::get_available_heater( Character &p, item_location &loc ) const
 {
     const map &here = get_map();
@@ -10769,6 +10877,7 @@ deserialize_functions = {
     { ACT_SHAVE, &shave_activity_actor::deserialize },
     { ACT_SHEARING, &shearing_activity_actor::deserialize },
     { ACT_SKIN, &butchery_activity_actor::deserialize },
+    { ACT_START_ENGINES, &start_engines_activity_actor::deserialize },
     { ACT_STASH, &stash_activity_actor::deserialize },
     { ACT_TENT_DECONSTRUCT, &tent_deconstruct_activity_actor::deserialize },
     { ACT_TENT_PLACE, &tent_placement_activity_actor::deserialize },
