@@ -2743,7 +2743,7 @@
     "type": "mutation",
     "id": "RADIOGENIC",
     "name": { "str": "Radiogenic" },
-    "description": "Your system has adapted to radiation.  While irradiated, you will actually heal slowly, converting the radiation into hit points.",
+    "description": "Your system has somewhat adapted to radiation.  While irradiated, you will actually heal slowly, converting the radiation into hit points.  This doesn't stop you from getting radiation sickness.",
     "category": [ "SLIME", "MEDICAL" ],
     "points": 3,
     "vitamin_cost": 160
