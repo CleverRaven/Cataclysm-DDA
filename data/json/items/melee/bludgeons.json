@@ -703,7 +703,7 @@
     "weight": "4250 g",
     "color": "brown",
     "symbol": "/",
-    "material": [ "wood", "steel" ],
+    "material": [ "wood", "mc_steel" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "faults": [ { "fault_group": "handle_long" } ],
     "weapon_category": [ "GREAT_HAMMERS" ],
