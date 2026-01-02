@@ -2194,7 +2194,7 @@ item Character::find_firestarter_with_charges( const int quantity ) const
             const use_function *usef = it.type->get_use( "firestarter" );
             if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-                if( actor->can_use( *this->as_character(), it, tripoint_bub_ms::zero ).success() ) {
+                if( actor->can_use( *this->as_character(), it, &get_map(), tripoint_bub_ms::zero ).success() ) {
                     ret = it;
                     return true;
                 }
