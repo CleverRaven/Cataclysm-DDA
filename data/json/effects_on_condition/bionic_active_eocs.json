@@ -122,7 +122,7 @@
       },
       { "math": [ "u_val('pkill') = 0" ] },
       { "math": [ "u_val('stim') = 0" ] },
-      { "turn_cost": "1 s" }
+      { "turn_cost": { "math": [ "1" ] } }
     ]
   }
 ]

@@ -428,7 +428,7 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_activate",
             "variables": {
-              "turn_cost": "1 s",
+              "turn_cost": { "math": [ "0.8" ] },
               "transform_target": "trimmer_on",
               "success_message": { "i18n": true, "str": "With a roar, the hedge trimmer leaps to life!" },
               "volume": 15,
