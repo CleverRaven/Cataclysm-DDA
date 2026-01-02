@@ -885,14 +885,7 @@
       }
     ],
     "passive_mult_procgen_values": [
-      {
-        "weight": 100,
-        "min_value": -1,
-        "max_value": 2,
-        "type": "CARRY_WEIGHT",
-        "increment": 0.3,
-        "power_per_increment": 50
-      },
+      { "weight": 100, "min_value": -1, "max_value": 2, "type": "CARRY_WEIGHT", "increment": 0.3, "power_per_increment": 50 },
       {
         "weight": 100,
         "min_value": -0.6,
