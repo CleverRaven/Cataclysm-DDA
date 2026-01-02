@@ -1,12 +1,13 @@
 [
   {
+    "//": "It sure would be nice if we didn't have to copy this ENTIRE thing to override occurrences, but...",
     "type": "overmap_special",
     "id": "Farm Mutable",
     "subtype": "mutable",
     "locations": [ "subterranean_empty", "land", "open_air" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, -1 ],
-    "occurrences": [ 0, 2 ],
+    "occurrences": [ 1, 5 ],
     "flags": [ "CLASSIC", "MAN_MADE", "FARM" ],
     "check_for_locations_area": [ { "type": [ "land" ], "from": [ -4, -2, 0 ], "to": [ 4, 22, 0 ] } ],
     "joins": [ "root_to_road", "road_to_house", "road_to_extra", "house_to_extension", "farm_to_farm" ],
@@ -340,8 +341,7 @@
             { "overmap": "forest_thick", "pos": [ 4, 3, 0 ] },
             { "overmap": "forest_thick", "pos": [ 3, 3, 0 ] }
           ],
-          "weight": 1,
-          "max": 1
+          "weight": 1
         }
       ],
       [

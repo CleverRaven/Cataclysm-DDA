@@ -170,6 +170,9 @@ struct damage_instance {
     // calculates damage taking barrel length into consideration for the amount
     damage_instance di_considering_length( units::length barrel_length ) const;
 
+    // returns true if any of damage units contain barrel damage
+    bool has_damage_by_barrel() const;
+
     std::vector<damage_unit>::iterator begin();
     std::vector<damage_unit>::const_iterator begin() const;
     std::vector<damage_unit>::iterator end();

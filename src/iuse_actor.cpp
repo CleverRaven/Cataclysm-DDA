@@ -645,14 +645,6 @@ void sound_iuse::load( const JsonObject &obj, const std::string & )
 }
 
 std::optional<int> sound_iuse::use( Character *, item &,
-                                    const tripoint_bub_ms &pos ) const
-{
-    sounds::sound( pos, sound_volume, sounds::sound_t::alarm, sound_message.translated(), true,
-                   sound_id, sound_variant );
-    return 0;
-}
-
-std::optional<int> sound_iuse::use( Character *, item &,
                                     map *here, const tripoint_bub_ms &pos ) const
 {
     map &bubble_map = reality_bubble();
@@ -1642,35 +1634,6 @@ void salvage_actor::load( const JsonObject &obj, const std::string & )
 std::unique_ptr<iuse_actor> salvage_actor::clone() const
 {
     return std::make_unique<salvage_actor>( *this );
-}
-
-std::optional<int> salvage_actor::use( Character *p, item &cutter, const tripoint_bub_ms & ) const
-{
-    if( !p ) {
-        debugmsg( "%s called action salvage that requires character but no character is present",
-                  cutter.typeId().str() );
-        return std::nullopt;
-    }
-
-    item_location item_loc = game_menus::inv::salvage( *p, this );
-    if( !item_loc ) {
-        add_msg( _( "Never mind." ) );
-        return std::nullopt;
-    }
-
-    const item &to_cut = *item_loc;
-    if( !to_cut.is_owned_by( *p, true ) ) {
-        if( !query_yn( _( "Cutting the %s may anger the people who own it, continue?" ),
-                       to_cut.tname() ) ) {
-            return false;
-        } else {
-            if( to_cut.get_owner() ) {
-                g->on_witness_theft( to_cut );
-            }
-        }
-    }
-
-    return salvage_actor::try_to_cut_up( *p, cutter, item_loc );
 }
 
 std::optional<int> salvage_actor::use( Character *p, item &cutter, map *,

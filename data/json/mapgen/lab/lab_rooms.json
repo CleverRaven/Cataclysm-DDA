@@ -747,7 +747,7 @@
       ],
       "palettes": [ "lab_palette" ],
       "terrain": { ",": "t_floor_green" },
-      "mapping": { ",": { "item": [ { "item": "glasses_safety", "chance": 4 } ] } }
+      "mapping": { ",": { "item": [ { "item": "ar_glasses_advanced", "chance": 4 } ] } }
     }
   },
   {

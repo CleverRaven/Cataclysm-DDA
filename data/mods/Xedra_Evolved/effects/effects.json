@@ -4245,6 +4245,12 @@
   },
   {
     "type": "effect_type",
+    "id": "march_baron",
+    "name": [ "March Baron" ],
+    "//": "Used to target a slightly different winning screen upon exiting the mortal realms as a Lord in Boann's court."
+  },
+  {
+    "type": "effect_type",
     "id": "effect_oxygen_jelly_long",
     "name": [ "Long-release Oxyjelly" ],
     "desc": [ "The Oxyjelly you used is keeping you from drowning." ],

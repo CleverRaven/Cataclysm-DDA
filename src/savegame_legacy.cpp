@@ -26,7 +26,6 @@ static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
-static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 
@@ -231,7 +230,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         ACT_HOTWIRE_CAR,
         ACT_AIM,
         ACT_ATM,
-        ACT_START_ENGINES,
+        activity_id::NULL_ID(), // ACT_START_ENGINES is an actor now
         activity_id::NULL_ID(), // ACT_OXYTORCH is an actor now
         ACT_CRACKING,
         ACT_REPAIR_ITEM,

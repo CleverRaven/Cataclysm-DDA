@@ -238,7 +238,6 @@ void repair_item_finish( player_activity *act, Character *you );
 void robot_control_finish( player_activity *act, Character *you );
 void socialize_finish( player_activity *act, Character *you );
 void spellcasting_finish( player_activity *act, Character *you );
-void start_engines_finish( player_activity *act, Character *you );
 void start_fire_finish( player_activity *act, Character *you );
 void study_spell_finish( player_activity *act, Character *you );
 void teach_finish( player_activity *act, Character *you );

@@ -62,7 +62,6 @@
 
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
-static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 
 static const ammotype ammo_battery( "battery" );
 
@@ -844,9 +843,8 @@ void vehicle::start_engines( map &here, Character *driver, const bool take_contr
         driver->add_msg_if_player( _( "You take control of the %s." ), name );
     }
     if( !autodrive && driver ) {
-        driver->assign_activity( ACT_START_ENGINES, to_moves<int>( start_time ) );
-        driver->activity.relative_placement = starting_engine_position - driver->pos_bub();
-        driver->activity.values.push_back( take_control );
+        driver->assign_activity( start_engines_activity_actor( start_time,
+                                 starting_engine_position - driver->pos_bub(), take_control ) );
     }
     refresh( );
 }
