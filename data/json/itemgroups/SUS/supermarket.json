@@ -115,7 +115,7 @@
     "id": "commercial_canned_vegetables",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "can_beans", 1 ], [ "can_tomato", 1 ], [ "can_corn", 1 ] ]
+    "entries": [ { "prob": 1, "group": "corn_in_can" }, { "prob": 1, "group": "tomatoes_in_can" } ]
   },
   {
     "id": "SUS_shelf_commercial_canned_vegetables",
@@ -128,7 +128,7 @@
     "id": "commercial_canned_fruits",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "can_pineapple", 1 ], [ "apple_canned", 1 ] ]
+    "entries": [ { "prob": 1, "group": "pineapple_in_can" }, { "prob": 1, "group": "fruits_in_can" } ]
   },
   {
     "id": "SUS_shelf_commercial_canned_fruits",
@@ -141,18 +141,15 @@
     "id": "commercial_canned_meat",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [
-      [ "fish_canned", 1 ],
-      [ "lobster_canned", 1 ],
-      [ "can_spam", 1 ],
-      [ "can_sardine", 1 ],
-      [ "can_tuna", 1 ],
-      [ "can_spam", 1 ],
-      [ "can_salmon", 1 ],
-      [ "can_chicken", 1 ],
-      [ "can_spam", 1 ],
-      [ "can_clams", 1 ],
-      [ "meat_canned", 1 ]
+    "entries": [
+      { "prob": 1, "group": "fish_in_can" },
+      { "prob": 1, "group": "lobster_in_can" },
+      { "prob": 1, "group": "sardine_in_can" },
+      { "prob": 1, "group": "tuna_in_can" },
+      { "prob": 1, "group": "salmon_in_can" },
+      { "prob": 1, "group": "chicken_in_can" },
+      { "prob": 1, "group": "spam_in_can" },
+      { "prob": 1, "group": "clams_in_can" }
     ]
   },
   {
@@ -164,21 +161,15 @@
   },
   {
     "id": "commercial_canned_meals",
-    "//": "No canned meal in the game, placeholder copy from canned meat. TODO fix.",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [
-      [ "fish_canned", 1 ],
-      [ "lobster_canned", 1 ],
-      [ "can_spam", 1 ],
-      [ "can_sardine", 1 ],
-      [ "can_tuna", 1 ],
-      [ "can_spam", 1 ],
-      [ "can_salmon", 1 ],
-      [ "can_chicken", 1 ],
-      [ "can_spam", 1 ],
-      [ "can_clams", 1 ],
-      [ "meat_canned", 1 ]
+    "entries": [
+      { "prob": 1, "group": "pork_beans_in_can" },
+      { "prob": 1, "group": "beans_in_can" },
+      { "prob": 1, "group": "chowder_in_can" },
+      { "prob": 1, "group": "ravioli_in_can" },
+      { "prob": 1, "group": "cheese_in_can" },
+      { "prob": 1, "group": "chili_in_can" }
     ]
   },
   {
