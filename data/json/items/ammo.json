@@ -113,9 +113,10 @@
     "volume": "4 ml",
     "weight": "1 mg",
     "color": "red",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "FIRESTARTER" ],
     "material": [ "wood" ],
-    "ammo_type": "match"
+    "ammo_type": "match",
+    "use_action": { "type": "firestarter", "moves": 3000, "moves_slow": 8000 }
   },
   {
     "type": "ITEM",
