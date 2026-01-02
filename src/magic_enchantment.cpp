@@ -1054,7 +1054,7 @@ void enchant_cache::set_has( enchantment::has value )
     active_conditions.first = value;
 }
 
-void enchant_cache::add_value_add( enchant_vals::mod value, int add_value )
+void enchant_cache::add_value_add( enchant_vals::mod value, float add_value )
 {
     values_add[value] = add_value;
 }
