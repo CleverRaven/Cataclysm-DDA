@@ -165,7 +165,6 @@
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
         "u_roll_remainder": [
-          "bio_inventor_rad_boost",
           "bio_inventor_mana_kj_penalty_switch",
           "bio_inventor_calorie_storage",
           "bio_inventor_creative_fuel",
@@ -490,7 +489,6 @@
         { "not": { "u_has_trait": "INVENTOR" } },
         {
           "or": [
-            { "u_has_bionics": "bio_inventor_rad_boost" },
             { "u_has_bionics": "bio_inventor_mana_kj_penalty_switch" },
             { "u_has_bionics": "bio_inventor_calorie_storage" },
             { "u_has_bionics": "bio_inventor_creative_fuel" },
@@ -506,10 +504,6 @@
     "id": "EOC_INVENTOR_CBM_DEGRADATION_BREAKDOWN",
     "//": "Inserting the effect inside the recurrent EOC fails to grant the faulty bionics through an invalid beta talker error.",
     "effect": [
-      {
-        "if": { "u_has_bionics": "bio_inventor_rad_boost" },
-        "then": [ { "u_lose_bionic": "bio_inventor_rad_boost" }, { "u_add_bionic": "bio_radleak" } ]
-      },
       {
         "if": { "u_has_bionics": "bio_inventor_mana_kj_penalty_switch" },
         "then": [ { "u_lose_bionic": "bio_inventor_mana_kj_penalty_switch" }, { "u_add_bionic": "bio_power_weakness" } ]

@@ -1,18 +1,5 @@
 [
   {
-    "id": "bio_inventor_rad_boost",
-    "type": "bionic",
-    "name": { "str": "Hero Engine" },
-    "description": "Everyone knows that radiation gives superpowers, and this little marvel will grant you your very own superpowers as long as you keep it fueled with radioactive objects.  The more radiation you suffer from, the more potent the effects.  Gone are the days where superpowers were reserved for those born with it and those who exposed themselves to the entire greek alphabet!",
-    "occupied_bodyparts": [ [ "torso", 6 ] ],
-    "act_cost": "5 kJ",
-    "react_cost": "1 kJ",
-    "time": "1 s",
-    "activated_eocs": [ "EOC_bio_inventor_rad_boost_activated" ],
-    "deactivated_eocs": [ "EOC_bio_inventor_rad_boost_deactivated" ],
-    "flags": [ "BIONIC_TOGGLED" ]
-  },
-  {
     "id": "bio_inventor_mana_kj_penalty_switch",
     "type": "bionic",
     "name": { "str": "Cyberarcanic Interference Inverter" },

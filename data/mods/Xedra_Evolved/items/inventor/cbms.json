@@ -1,16 +1,5 @@
 [
   {
-    "id": "bio_inventor_rad_boost",
-    "copy-from": "bionic_general",
-    "type": "ITEM",
-    "subtypes": [ "BIONIC_ITEM" ],
-    "name": { "str": "Hero Engine" },
-    "description": "Everyone knows that radiation gives superpowers, and this little marvel will grant you your very own superpowers as long as you keep it fueled with radioactive objects.  The more radiation you suffer from, the more potent the effects.  Gone are the days where superpowers were reserved for those born with it and those who exposed themselves to the entire greek alphabet!",
-    "weight": "500 g",
-    "difficulty": 8,
-    "extend": { "flags": [ "INVENTOR_CRAFTED" ] }
-  },
-  {
     "id": "bio_inventor_mana_kj_penalty_switch",
     "copy-from": "bionic_general",
     "type": "ITEM",

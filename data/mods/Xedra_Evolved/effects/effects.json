@@ -4257,54 +4257,6 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_bio_inventor_rad_boost",
-    "name": [ "Engineered Hero" ],
-    "desc": [ "The Engine is granting you powers!  The more irradiated you are, the stronger the effects!" ],
-    "apply_message": "New powers awaken in you as the engine starts!",
-    "remove_message": "Your new powers vanish as the engine powers down.",
-    "rating": "mixed",
-    "//": "This uses the bat form flight enchant instead of making an identical version of a hidden effect.",
-    "//2": "The stats and speed boosts are here to cancel the penalties of radiation exposure.",
-    "enchantments": [
-      {
-        "condition": { "not": { "u_has_flag": "NO_RADIATION" } },
-        "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "u_val('rad') / 50" ] } } ],
-        "values": [
-          { "value": "SPEED", "add": { "math": [ "(u_val('rad') * 0.05)" ] } },
-          { "value": "STRENGTH", "add": { "math": [ "(u_val('rad') * 0.031)" ] } },
-          { "value": "DEXTERITY", "add": { "math": [ "(u_val('rad') * 0.022)" ] } },
-          { "value": "INTELLIGENCE", "add": { "math": [ "(u_val('rad') * 0.02)" ] } },
-          { "value": "PERCEPTION", "add": { "math": [ "(u_val('rad') * 0.02)" ] } },
-          { "value": "ARMOR_ALL", "add": { "math": [ "u_val('rad') / 50" ] } },
-          { "value": "STAMINA_REGEN_MOD", "add": { "math": [ "u_val('rad') / 50" ] } },
-          { "value": "PAIN_PENALTY_MOD_STR", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
-          { "value": "PAIN_PENALTY_MOD_DEX", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
-          { "value": "PAIN_PENALTY_MOD_INT", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
-          { "value": "PAIN_PENALTY_MOD_PER", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
-          { "value": "PAIN_PENALTY_MOD_SPEED", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
-          { "value": "KNOCKBACK_RESIST", "add": { "math": [ "( u_val('rad') * 0.1)" ] } }
-        ]
-      },
-      {
-        "condition": { "and": [ { "not": { "u_has_flag": "NO_RADIATION" } }, { "math": [ "u_val('rad') >= 250" ] } ] },
-        "ench_effects": [ { "effect": "effect_bio_inventor_rad_boost_immunities", "intensity": 1 } ]
-      },
-      {
-        "condition": { "and": [ { "not": { "u_has_flag": "NO_RADIATION" } }, { "math": [ "u_val('rad') >= 500" ] } ] },
-        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
-      }
-    ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_bio_inventor_rad_boost_immunities",
-    "//": "Hidden effect that prevents the player from being perma-downed by high radiation.  It's also part of the power suite.",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "removes_effects": [ "stunned", "dazed", "downed" ]
-  },
-  {
-    "type": "effect_type",
     "id": "effect_bio_inventor_calorie_storage",
     "name": [ "Orbiting Calories" ],
     "desc": [ "Your calories are stored through the most efficient storage ever conceived." ],
