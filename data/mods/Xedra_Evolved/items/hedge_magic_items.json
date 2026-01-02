@@ -422,7 +422,10 @@
       "effect_on_conditions": [
         {
           "id": "EOC_HEDGE_FOOR_OR_DRINK_MAGIC_SQUARE",
-          "effect": [ { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } }, { "run_eocs": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR" } ]
+          "effect": [
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
+            { "run_eocs": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR" }
+          ]
         }
       ]
     }
