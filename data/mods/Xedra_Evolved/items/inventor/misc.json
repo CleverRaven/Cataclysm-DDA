@@ -307,7 +307,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "copy-from": "inventor_gaming_rig",
-    "name": { "str": "Oneiromantic gaming rig (on)", "str_p": "Oneiromantic gaming rigs (on)" },
+    "name": { "str": "Oneiromantic gaming rig (on)", "str_pl": "Oneiromantic gaming rigs (on)" },
     "power_draw": "3 W",
     "revert_to": "inventor_gaming_rig",
     "extend": { "flags": [ "SPAWN_ACTIVE" ] },
