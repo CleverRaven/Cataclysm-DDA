@@ -15,7 +15,7 @@
       ]
     },
     "effect": [
-      { "turn_cost": 0.05 },
+      { "turn_cost": "0 s" },
       {
         "u_run_inv_eocs": "all",
         "search_data": [ { "wielded_only": true } ],

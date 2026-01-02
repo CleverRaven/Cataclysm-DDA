@@ -27,7 +27,7 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_activate",
             "variables": {
-              "turn_cost": 0.8,
+              "turn_cost": "1 s",
               "transform_target": "masonrysaw_on",
               "success_message": { "i18n": true, "str": "With a roar, the <npc_name> screams to life!" },
               "volume": 20,
