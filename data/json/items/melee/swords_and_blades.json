@@ -1694,7 +1694,7 @@
     "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 6, "cut": 28 }
   },
-   {
+  {
     "id": "khopesh",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
