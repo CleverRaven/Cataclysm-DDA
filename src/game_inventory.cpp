@@ -3217,7 +3217,6 @@ void consume_menu_uistate::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "consume_menu_selections", consume_menu_selections );
-    json.member( "consume_menu_selected_items", consume_menu_selected_items );
     json.member( "consume_menu_filter", consume_menu_filter );
     json.member( "collated", collated );
     json.member( "consume_menu_comestype", consume_menu_comestype );
@@ -3227,7 +3226,6 @@ void consume_menu_uistate::serialize( JsonOut &json ) const
 void consume_menu_uistate::deserialize( const JsonObject &jo )
 {
     jo.read( "consume_menu_selections", consume_menu_selections );
-    jo.read( "consume_menu_selected_items", consume_menu_selected_items );
     jo.read( "consume_menu_filter", consume_menu_filter );
     jo.read( "collated", collated );
     jo.read( "consume_menu_comestype", consume_menu_comestype );
