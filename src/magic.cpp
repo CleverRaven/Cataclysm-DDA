@@ -514,7 +514,7 @@ void spell_type::check_consistency()
                       sp_t.id.c_str() );
         }
 
-        if( sp_t.spell_class.is_valid() ) {
+        if( !sp_t.spell_class.is_valid() ) {
             debugmsg( R"(ERROR: %s has invalid spell class "%s"!)", sp_t.id.c_str(), sp_t.spell_class.c_str() );
         }
 
