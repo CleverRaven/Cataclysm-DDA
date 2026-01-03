@@ -115,7 +115,7 @@ struct overmap_sidebar_uistate {
 struct consume_menu_uistate {
     // values[0] = inventory selector selected column index,
     // values[1] = inventory selector selected index in column
-    std::vector<size_t> consume_menu_selections;
+    std::vector<uint64_t> consume_menu_selections;
     // targets[0...x] if collated, a pair of {0, 1}, otherwise all item_locations highlighted
     std::vector<item_location> consume_menu_selected_items; // NOLINT(cata-serialize)
     // str_values[0] = filter (the one you type in, not the new comestype filter)
