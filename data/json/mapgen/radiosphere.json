@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [ "radiosphere_radio_tower_top" ],
+    "id": [ "radiosphere_radio_tower_top", "radiosphere_radio_tower_top_leech" ],
     "vision_levels": "isolated_tower",
     "name": "radio tower",
     "sym": ".",
@@ -45,10 +45,38 @@
         "U": [ [ "t_radio_tower", 90 ], [ "t_radiosphere_radio_tower_liminal_light", 10 ] ],
         "a": "t_railing",
         ",": "t_metal_floor_no_roof",
-        "g": "t_grate",
-        "*": "t_glass_roof"
+        "g": "t_grate"
       },
-      "place_nested": [ { "chunks": [ [ "null", 99 ], [ "mx_radiosphere_radio_tower", 1 ] ], "x": 9, "y": 2 } ]
+      "place_nested": [
+        { "chunks": [ [ "null", 90 ], [ "radio_tower_leech", 9 ], [ "mx_radiosphere_radio_tower", 1 ] ], "x": 9, "y": 2 },
+        {
+          "chunks": [ [ "null", 90 ], [ "radio_tower_2x2_holdout", 10 ], [ "radio_tower_2x2_sniper", 5 ] ],
+          "x": 10,
+          "y": 5
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "radio_tower_leech",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        " x xx x ",
+        "xxxxxxxx",
+        " xxxxxx ",
+        "xxxBBxxx",
+        "xxxBBxxx",
+        " xxxxxx ",
+        "xxxxxxxx",
+        " x xx x "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "monster": {
+        "x": [ { "monster": "mon_leech_stalk", "chance": 20 }, { "monster": "mon_leech_pod_cluster", "chance": 10 } ],
+        "B": [ { "monster": "mon_leech_blossom", "chance": 80 } ]
+      }
     }
   },
   {
@@ -95,6 +123,8 @@
     "description": "The sheer fact you can stand on this dumbfounds you, but anything left behind on this plane will vanish.",
     "symbol": "~",
     "color": "cyan",
+    "trap": "tr_lava",
+    "light_emitted": 50,
     "move_cost": 4,
     "flags": [ "TRANSPARENT", "NO_SCENT", "DESTROY_ITEM" ]
   },
