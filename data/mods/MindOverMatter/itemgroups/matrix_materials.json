@@ -221,7 +221,21 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "dist_matrix_crystal_skyscraper_lab_group",
-    "items": [ [ "matrix_crystal_drained", 4 ], [ "matrix_crystal_clairsentience", 1 ], [ "matrix_crystal_telepathy", 1 ] ]
+    "entries": [
+      { "group": "clairsentient_matrix_crystals_group", "prob": 1 },
+      { "item": "matrix_crystal_drained", "prob": 4 },
+      { "item": "matrix_crystal_telepathy", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "dist_matrix_crystal_hospital_lab_group",
+    "entries": [
+      { "group": "biokinetic_matrix_crystals_group", "prob": 1 },
+      { "item": "matrix_crystal_drained", "prob": 4 },
+      { "item": "matrix_crystal_vitakinesis", "prob": 1 }
+    ]
   },
   {
     "type": "item_group",

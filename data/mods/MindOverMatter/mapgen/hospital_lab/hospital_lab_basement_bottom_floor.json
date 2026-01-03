@@ -141,7 +141,67 @@
         { "chunks": [ "phavian_hospital_lab_office_east_door4x4" ], "x": 1, "y": 30 },
         { "chunks": [ "phavian_hospital_lab_office_west_door4x4" ], "x": 91, "y": 14 },
         { "chunks": [ "phavian_hospital_lab_office_west_door4x4" ], "x": 91, "y": 19 },
-        { "chunks": [ "phavian_hospital_lab_office_west_door4x4" ], "x": 91, "y": 25 }
+        { "chunks": [ "phavian_hospital_lab_office_west_door4x4" ], "x": 91, "y": 25 },
+        { "chunks": [ "phavian_hospital_lab_rest_area_4x4_corner_se" ], "x": 9, "y": 14 }
+      ],
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 23 ], "y": [ 11, 12 ], "repeat": [ 1, 4 ], "chance": 70 },
+        {
+          "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
+          "x": [ 24, 47 ],
+          "y": [ 11, 12 ],
+          "repeat": [ 1, 4 ],
+          "chance": 70
+        },
+        {
+          "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
+          "x": [ 48, 71 ],
+          "y": [ 11, 12 ],
+          "repeat": [ 1, 4 ],
+          "chance": 70
+        },
+        {
+          "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
+          "x": [ 72, 95 ],
+          "y": [ 11, 12 ],
+          "repeat": [ 1, 4 ],
+          "chance": 70
+        },
+        {
+          "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
+          "x": [ 1, 23 ],
+          "y": [ 35, 36 ],
+          "repeat": [ 1, 4 ],
+          "chance": 70
+        },
+        {
+          "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
+          "x": [ 24, 47 ],
+          "y": [ 35, 36 ],
+          "repeat": [ 1, 4 ],
+          "chance": 70
+        },
+        {
+          "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
+          "x": [ 48, 71 ],
+          "y": [ 35, 36 ],
+          "repeat": [ 1, 4 ],
+          "chance": 70
+        },
+        {
+          "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
+          "x": [ 72, 95 ],
+          "y": [ 35, 36 ],
+          "repeat": [ 1, 4 ],
+          "chance": 70
+        },
+        {
+          "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
+          "x": [ 15, 22 ],
+          "y": [ 15, 23 ],
+          "repeat": [ 1, 4 ],
+          "chance": 70
+        }
       ]
     }
   }
