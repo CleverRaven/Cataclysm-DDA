@@ -17,6 +17,7 @@
 #include "cata_algo.h"
 #include "cata_compiler_support.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "crafting_gui.h"
 #include "debug.h"
 #include "display.h"
@@ -234,6 +235,7 @@ static Unit can_contain_filter( std::string_view hint, std::string_view txt, Uni
 
 std::vector<const recipe *> recipe_subset::search(
     std::string_view txt, const search_type key,
+    std::optional<std::reference_wrapper<const Character>> crafter,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
     auto predicate = [&]( const recipe * r ) {
@@ -308,6 +310,42 @@ std::vector<const recipe *> recipe_subset::search(
 
             case search_type::proficiency:
                 return lcmatch( r->recipe_proficiencies_string(), txt );
+
+            case search_type::book: {
+                if( !crafter.has_value() ) {
+                    debugmsg( "search_type::book requires a crafter to be provided, since it checks crafting group and crafters inventory" );
+                    return false;
+                }
+                const Character &crafter_ref = crafter->get();
+                const std::set<itype_id> books_with_recipe = crafter_ref.get_books_for_recipe(
+                            crafter_ref.crafting_inventory(), r );
+
+
+                std::vector<const Character *> knowing_helpers;
+                for( const Character *helper : crafter_ref.get_crafting_group() ) {
+                    if( crafter_ref.getID() != helper->getID() && helper->knows_recipe( r ) ) {
+                        knowing_helpers.push_back( helper );
+                    }
+                }
+
+                return std::any_of( books_with_recipe.begin(), books_with_recipe.end(),
+                [&txt]( const itype_id & book_id ) {
+
+                    return lcmatch( item::nname( book_id ), txt )
+                    || [&]() -> bool {
+                        const itype *book_item = item::find_type( book_id );
+                        return std::any_of( book_item->variants.begin(), book_item->variants.end(),
+                                            [&txt]( const itype_variant_data & book_variant_data )
+                        {
+                            return lcmatch( book_variant_data.alt_name.translated(), txt );
+                        } );
+                    }();
+                } ) ||
+                std::any_of( knowing_helpers.begin(), knowing_helpers.end(),
+                [&txt]( const Character * helper ) {
+                    return lcmatch( helper->is_avatar() ? _( "You" ) : helper->get_name(), txt );
+                } );
+            }
 
             case search_type::difficulty: {
                 std::string range_start;
@@ -459,6 +497,13 @@ std::vector<const recipe *> recipe_subset::search(
     return res;
 }
 
+std::vector<const recipe *> recipe_subset::search(
+    std::string_view txt, const search_type key,
+    const std::function<void( size_t, size_t )> &progress_callback ) const
+{
+    return search( txt, key, std::nullopt, progress_callback );
+}
+
 recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const recipe *> &recipes )
 {
     for( const recipe *elem : recipes ) {
@@ -471,6 +516,14 @@ recipe_subset recipe_subset::reduce(
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
     return recipe_subset( *this, search( txt, key, progress_callback ) );
+}
+
+recipe_subset recipe_subset::reduce(
+    std::string_view txt, const search_type key,
+    std::optional<std::reference_wrapper<const Character>> crafter,
+    const std::function<void( size_t, size_t )> &progress_callback ) const
+{
+    return recipe_subset( *this, search( txt, key, crafter, progress_callback ) );
 }
 recipe_subset recipe_subset::intersection( const recipe_subset &subset ) const
 {
