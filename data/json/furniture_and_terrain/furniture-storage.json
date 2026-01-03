@@ -1389,14 +1389,14 @@
     "type": "furniture",
     "id": "f_dumpster",
     "name": "dumpster",
-    "description": "A large metal dumpster that will likely not be getting picked up by the city's waste management any time soon.  Despite the unpleasant nature of climbing inside, it could make for a viable hiding spot.",
+    "description": "A large metal dumpster that will likely not be getting picked up by the city's waste management any time soon.  Despite the unpleasant nature of climbing inside, it could make for a viable hiding spot.  Also high enough to help you climb buildings.",
     "symbol": "{",
     "color": "green",
     "move_cost_mod": 3,
     "coverage": 70,
     "required_str": 16,
     "max_volume": "1500 L",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "NO_SIGHT", "FIRE_CONTAINER", "LIQUIDCONT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "NO_SIGHT", "FIRE_CONTAINER", "LIQUIDCONT", "CLIMBABLE" ],
     "deconstruct": {
       "items": [
         { "item": "frame", "count": [ 2, 3 ] },
