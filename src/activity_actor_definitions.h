@@ -3168,6 +3168,10 @@ class zone_sort_activity_actor : public zone_activity_actor
 
     private:
         std::vector<item_location> other_activity_items;
+        // Items we've picked up and are queued to drop at their sorted destination
+        std::vector<item_location> picked_up_stuff;
+        // Place(s) that the current stuff can be dropped off at.
+        std::vector<tripoint_abs_ms> dropoff_coords;
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H
