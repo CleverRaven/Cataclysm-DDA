@@ -18,6 +18,7 @@
 #include "cata_compiler_support.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_id.h"
 #include "crafting_gui.h"
 #include "debug.h"
 #include "display.h"

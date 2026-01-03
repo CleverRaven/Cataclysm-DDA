@@ -20,6 +20,7 @@
 class JsonArray;
 class JsonObject;
 class JsonOut;
+class Character;
 
 class recipe_dictionary
 {
