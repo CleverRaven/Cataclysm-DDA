@@ -2,13 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_perk_rage_against_the_unnatural_nether_list",
-    "condition": {
-      "math": [
-        "u_mon_species_nearby('NETHER'', 'radius': 1, 'attitude': 'both')",
-        ">",
-        "0"
-      ]
-    },
+    "condition": { "math": [ "u_mon_species_nearby('NETHER', 'radius': 1, 'attitude': 'both')", ">", "0" ] },
     "effect": [  ]
   },
   {

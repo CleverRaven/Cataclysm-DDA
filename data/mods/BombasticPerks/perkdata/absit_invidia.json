@@ -56,6 +56,7 @@
         "u_message": "You toss the salt over your shoulder and mutter under your breath the words that you remember from your childhood.",
         "type": "mixed"
       }
-    ]
+    ],
+    "false_effect": [ { "u_message": "You toss the salt over your shoulder.  Hey, any luck you can get, right?", "type": "mixed" } ]
   }
 ]
