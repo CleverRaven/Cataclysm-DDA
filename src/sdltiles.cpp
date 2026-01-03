@@ -890,7 +890,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                     }
                 }
                 if( showhordes && los ) {
-                    const int horde_size = overmap_buffer.get_horde_size( omp );
+                    const int horde_size = overmap_buffer.get_horde_size( omp, horde_map_flavors::active );
                     if( horde_size >= HORDE_VISIBILITY_SIZE ) {
                         // Scale down the range of horde population, which can be 1-576 to a range of 1-10
                         // These thresholds are generated with pow( sprite_size, 2.4 ).
