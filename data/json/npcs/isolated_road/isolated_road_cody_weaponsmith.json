@@ -131,6 +131,11 @@
         "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
       },
       {
+        "text": "[250 merch, 3 days] I need a shamshir.",
+        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "scimitar", "cost": 250, "wait": 3 } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
         "text": "[170 merch, 3 days] I need a wakizashi.",
         "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "wakizashi", "cost": 170, "wait": 3 } },
         "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"

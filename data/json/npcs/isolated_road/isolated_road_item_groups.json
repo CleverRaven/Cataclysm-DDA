@@ -92,8 +92,8 @@
       { "item": "knife_baselard", "prob": 2 },
       { "item": "knife_trench", "prob": 2 },
       { "item": "kriegsmesser", "prob": 1 },
-      { "item": "kris", "prob": 1 }
-      { "item": "kukri", "prob": 1 }
+      { "item": "kris", "prob": 1 },
+      { "item": "kukri", "prob": 1 },
       { "item": "longsword", "prob": 3 },
       { "item": "lucern_hammer", "prob": 2 },
       { "item": "mace", "prob": 3 },
