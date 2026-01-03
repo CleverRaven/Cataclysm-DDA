@@ -502,6 +502,9 @@ class firestarter_actor : public iuse_actor
          */
         bool need_sunlight = false;
 
+        /** Tool qualities needed, e.g. "fine bolt turning 1". **/
+        std::map<quality_id, int> qualities_needed;
+
         enum class start_type : int {
             NONE,
             FIRE,
