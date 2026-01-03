@@ -1,0 +1,40 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_mom_mycus_world_groundcover",
+    "copy-from": "t_region_pseudo",
+    "name": "pseudo terrain",
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
+  },
+  {
+    "type": "terrain",
+    "id": "t_mom_mycus_world_groundcover_forest",
+    "copy-from": "t_region_pseudo",
+    "name": "pseudo terrain",
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
+  },
+  {
+    "type": "terrain",
+    "id": "t_trunk_fungal",
+    "looks_like": "t_trunk",
+    "name": "fungal tree trunk",
+    "description": "A section of trunk from a fungal tree that has collapsed or fallen over due to being overcome with rot.  It looks like those pictures of smokers' lungs they showed you back in school.",
+    "symbol": "1",
+    "color": "brown",
+    "move_cost": 4,
+    "coverage": 45,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
+    }
+  }
+]

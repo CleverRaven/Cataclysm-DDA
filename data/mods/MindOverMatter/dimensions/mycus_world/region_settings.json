@@ -1,0 +1,127 @@
+[
+  {
+    "type": "region_settings",
+    "id": "mom_mycus_world",
+    "copy-from": "default",
+    "cities": null,
+    "highways": null,
+    "place_roads": false,
+    "forest_trails": null,
+    "place_specials": false,
+    "rivers": null,
+    "lakes": null,
+    "ocean": null,
+    "forests": "mom_mycus_world",
+    "terrain_furniture": "mom_mycus_world",
+    "default_oter": [
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "mom_mycus_world_default",
+      "solid_earth",
+      "empty_rock",
+      "empty_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock"
+    ],
+    "default_groundcover": [ [ "t_mom_mycus_world_groundcover", 1 ] ],
+    "feature_flag_settings": { "blacklist": [ "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII", "HIGHLANDS" ], "whitelist": [ "FUNGAL" ] }
+  },
+  {
+    "type": "region_settings_terrain_furniture",
+    "id": "mom_mycus_world",
+    "copy-from": "default",
+    "ter_furn": [ "mom_mycus_world_t_region_groundcover", "mom_mycus_world_t_region_groundcover_forest" ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "mom_mycus_world_t_region_groundcover",
+    "ter_id": "t_mom_mycus_world_groundcover",
+    "replace_with_terrain": [ [ "t_fungus_floor_out", 600 ], [ "t_fungus_mound", 1 ], [ "t_dirt", 20 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "mom_mycus_world_t_region_groundcover_forest",
+    "ter_id": "t_mom_mycus_world_groundcover_forest",
+    "replace_with_terrain": [ [ "t_fungus_floor_out", 300 ], [ "t_fungus_mound", 4 ], [ "t_shrub_fungal", 10 ], [ "t_dirt", 20 ] ]
+  },
+  {
+    "type": "region_settings_forest_mapgen",
+    "id": "mom_mycus_world",
+    "biomes": [ "biome_forest_mom_mycus_world" ]
+  },
+  {
+    "type": "region_settings_forest",
+    "id": "mom_mycus_world",
+    "copy-from": "default",
+    "noise_threshold_forest": 0.45,
+    "noise_threshold_forest_thick": 1,
+    "noise_threshold_swamp_adjacent_water": 1,
+    "noise_threshold_swamp_isolated": 1
+  },
+  {
+    "type": "forest_biome_mapgen",
+    "id": "biome_forest_mom_mycus_world",
+    "terrains": [ "forest" ],
+    "sparseness_adjacency_factor": 3,
+    "item_group": "forest",
+    "item_group_chance": 0,
+    "item_spawn_iterations": 1,
+    "groundcover": [ [ "t_mom_mycus_world_groundcover_forest", 1 ] ],
+    "components": [
+      "mom_mycus_world_trees_forest",
+      "mom_mycus_world_shrubs_and_flowers_forest",
+      "mom_mycus_world_clutter_forest",
+      "mom_mycus_world_water_forest"
+    ]
+  },
+  {
+    "type": "forest_biome_component",
+    "id": "mom_mycus_world_trees_forest",
+    "sequence": 0,
+    "chance": 12,
+    "types": [ [ "t_tree_fungal", 128 ], [ "t_tree_fungal_young", 32 ] ]
+  },
+  {
+    "type": "forest_biome_component",
+    "id": "mom_mycus_world_shrubs_and_flowers_forest",
+    "sequence": 1,
+    "chance": 10,
+    "types": [ [ "t_shrub_fungal", 120 ], [ "t_tree_fungal_young", 10 ] ]
+  },
+  {
+    "type": "forest_biome_component",
+    "id": "mom_mycus_world_clutter_forest",
+    "sequence": 2,
+    "chance": 80,
+    "types": [
+      [ "t_trunk_fungal", 128 ],
+      [ "t_dirtmound", 128 ],
+      [ "f_boulder_small", 128 ],
+      [ "f_rubble_rock", 32 ],
+      [ "f_boulder_medium", 8 ],
+      [ "f_boulder_large", 1 ],
+      [ "t_pit", 1 ],
+      [ "t_pit_shallow", 1 ]
+    ]
+  },
+  {
+    "type": "forest_biome_component",
+    "id": "mom_mycus_world_water_forest",
+    "sequence": 3,
+    "chance": 512,
+    "types": [ [ "t_puddle", 1 ] ]
+  }
+]

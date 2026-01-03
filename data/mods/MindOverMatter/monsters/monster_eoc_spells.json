@@ -544,11 +544,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_OUBLIETTE_MONSTER",
-    "condition": { 
-      "not": { 
-        "or": [ 
+    "condition": {
+      "not": {
+        "or": [
           { "u_has_flag": "TELESTOP" },
-          { "not": { "u_has_flag": "TELEPORT_IMMUNE" } },
+          { "u_has_flag": "TELEPORT_IMMUNE" },
           { "u_has_flag": "TELEPORT_LOCK" },
           { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" }
         ]
@@ -556,36 +556,29 @@
     },
     "effect": [
       { "math": [ "_damage_done = 50 + rand(100)" ] },
-      { "if": { 
-        "and": [ 
-          "u_is_character", {
-            "math": [
-              "_damage_done",
-              ">=",
-              "(u_hp('arm_l') + u_hp('arm_r') + u_hp('leg_l') + u_hp('leg_r') + u_hp('torso') + u_hp('head')) / 3"
-            ]
-          }
-        ]
-      },
-        "then": [ 
-          { "if": "u_is_avatar",
+      {
+        "if": {
+          "and": [
+            "u_is_character",
+            {
+              "math": [
+                "_damage_done",
+                ">=",
+                "(u_hp('arm_l') + u_hp('arm_r') + u_hp('leg_l') + u_hp('leg_r') + u_hp('torso') + u_hp('head')) / 3"
+              ]
+            }
+          ]
+        },
+        "then": [
+          {
+            "if": "u_is_avatar",
             "then": [ { "run_eocs": "EOC_MOM_OUBLIETTE_MONSTER_PICK_DIMENSION" } ],
             "else": [ { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": false } } ]
-          },
-        ]
-      },
-      { "if": { 
-        "and": [
-          "u_is_monster", 
-          {
-            "math": [
-              "_damage_done",
-              ">=",
-              "u_hp('ALL')"
-            ]
           }
         ]
       },
+      {
+        "if": { "and": [ "u_is_monster", { "math": [ "_damage_done", ">=", "u_hp('ALL')" ] } ] },
         "then": [ { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": false } } ]
       }
     ],
@@ -597,24 +590,10 @@
     "effect": [
       { "math": [ "_dimension_time = 3600 + rand(259200)" ] },
       {
-        "switch": { "math": [ "rand(1)" ] },
+        "switch": { "math": [ "rand(400)" ] },
         "cases": [
           {
             "case": 0,
-            "effect": [
-              {
-                "u_travel_to_dimension": "highlands",
-                "npc_travel_radius": 0,
-                "region_type": "highlands",
-                "npc_travel_filter": "none",
-                "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
-                "success_message": "Your surroundings warp and fold before reforming into a strange landscape."
-              },
-              { "run_eocs": "EOC_PORTAL_HIGHLANDS_RETURN", "time_in_future": { "math": [ "_dimension_time" ] } },
-            ]
-          },
-          {
-            "case": 1,
             "effect": [
               {
                 "u_travel_to_dimension": "mom_innawood",
@@ -624,11 +603,39 @@
                 "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
                 "success_message": "Your surroundings warp and fold before reforming into a strange landscape."
               },
-              { "run_eocs": "EOC_PORTAL_OUBLIETTE_RETURN", "time_in_future": { "math": [ "_dimension_time" ] } },
+              { "run_eocs": "EOC_PORTAL_OUBLIETTE_RETURN", "time_in_future": { "math": [ "_dimension_time" ] } }
+            ]
+          },
+          {
+            "case": 3,
+            "effect": [
+              {
+                "u_travel_to_dimension": "highlands",
+                "npc_travel_radius": 0,
+                "region_type": "highlands",
+                "npc_travel_filter": "none",
+                "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
+                "success_message": "Your surroundings warp and fold before reforming into a strange landscape."
+              },
+              { "run_eocs": "EOC_PORTAL_HIGHLANDS_RETURN", "time_in_future": { "math": [ "_dimension_time" ] } }
+            ]
+          },
+          {
+            "case": 4,
+            "effect": [
+              {
+                "u_travel_to_dimension": "mycus_world",
+                "npc_travel_radius": 0,
+                "region_type": "mom_mycus_world",
+                "npc_travel_filter": "none",
+                "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
+                "success_message": "Your surroundings warp and fold before reforming into a strange landscape."
+              },
+              { "run_eocs": "EOC_PORTAL_OUBLIETTE_RETURN", "time_in_future": { "math": [ "_dimension_time" ] } }
             ]
           }
         ]
-      }  
+      }
     ]
   },
   {

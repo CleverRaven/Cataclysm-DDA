@@ -1,8 +1,8 @@
 [
- {
+  {
     "type": "region_settings",
     "id": "mom_innawood",
-    "copy-from": "mom_innawood",
+    "copy-from": "default",
     "cities": null,
     "highways": null,
     "place_roads": false,
