@@ -2691,19 +2691,19 @@ std::optional<int> iuse::radio_tick( Character *, item *it, const tripoint_bub_m
         replace_city_tag( message, cityname );
         int static_chance = radio_static_chance( tref );
         add_msg_debug( debugmode::DF_RADIO, "Message: '%s' at %d%% noise", message, static_chance );
-        message = obscure_message( message, [&static_chance]()->int {
+        message = obscure_message( message, [&static_chance]() -> obscure_message_action {
             if( x_in_y( static_chance, 100 ) )
             {
                 // Gradually replace random characters with noise as distance increases
                 if( one_in( 3 ) && static_chance - rng( 0, 25 ) < 50 ) {
                     // Replace with random character
-                    return 0;
+                    return replace_character_randomly{};
                 }
                 // Replace with '#'
-                return '#';
+                return replace_character_with{'#'};
             }
             // Leave unchanged
-            return -1;
+            return do_not_replace_character{};
         } );
 
         std::vector<std::string> segments = foldstring( message, RADIO_PER_TURN );

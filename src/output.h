@@ -629,11 +629,11 @@ std::string trim( std::string_view s );
 // Removes trailing periods and exclamation marks.
 std::string trim_trailing_punctuations( std::string_view s );
 // Removes all punctuation except underscore.
-std::string remove_punctuations( const std::string &s );
+std::string remove_punctuations( std::string_view s );
 // Converts the string to upper case.
-std::string to_upper_case( const std::string &s );
+std::string to_upper_case( std::string_view s );
 // Converts the string to lower case.
-std::string to_lower_case( const std::string &s );
+std::string to_lower_case( std::string_view s );
 
 std::string rewrite_vsnprintf( const char *msg );
 
@@ -646,8 +646,8 @@ void replace_substring( std::string &input, const std::string &substring,
 
 std::string string_replace( std::string text, const std::string &before, const std::string &after );
 std::string replace_colors( std::string text );
-std::string uppercase_first_letter( const std::string &str );
-std::string lowercase_first_letter( const std::string &str );
+std::string uppercase_first_letter( std::string_view str );
+std::string lowercase_first_letter( std::string_view str );
 size_t shortcut_print( const catacurses::window &w, const point &p, nc_color text_color,
                        nc_color shortcut_color, const std::string &fmt );
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
