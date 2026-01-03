@@ -201,8 +201,8 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
 
     item_location location = inv_s.execute();
 
-    //output to global consume menu UI state
-    if( using_consume_menu ) {
+    // If something was chosen output to global consume menu UI state
+    if( using_consume_menu && location != item_location::nowhere ) {
 
         inventory_entry const &e = inv_s.get_highlighted();
         bool const collated = e.is_collation_entry();

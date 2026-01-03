@@ -4111,18 +4111,18 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonValue
     return actor.clone();
 }
 
-void consume_activity_actor::start( player_activity &act, Character &guy )
+void consume_activity_actor::start( player_activity &act, Character &who )
 {
     int moves = 0;
     Character &player_character = get_player_character();
-    //TODO: why use both `player_character` and `guy`?
-    auto player_will_eat = [this, &moves, &player_character, &guy]( const item & it ) {
+    //TODO: why use both `player_character` and `who`?
+    auto player_will_eat = [this, &moves, &player_character, &who]( const item & it ) {
         ret_val<edible_rating> ret = player_character.will_eat( it, true );
         if( !ret.success() ) {
-            canceled = true;
+            was_canceled = true;
             uistate.consume_uistate.clear();
         } else {
-            moves = to_moves<int>( guy.get_consume_time( it ) );
+            moves = to_moves<int>( who.get_consume_time( it ) );
         }
     };
 
@@ -4132,7 +4132,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
         player_will_eat( consume_item );
     } else {
         debugmsg( "Item/location to be consumed should not be null." );
-        canceled = true;
+        was_canceled = true;
     }
 
     act.moves_total = moves;
@@ -4149,7 +4149,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     item_location consume_loc = consume_location;
 
     avatar &player_character = get_avatar();
-    if( !canceled ) {
+    if( !was_canceled ) {
         if( consume_loc ) {
             player_character.consume( consume_loc, /*force=*/true );
         } else if( !consume_item.is_null() ) {
@@ -4177,9 +4177,21 @@ void consume_activity_actor::finish( player_activity &act, Character & )
 
     if( !avatar_action::eat_here( player_character ) && reprompt_consume_menu ) {
         uistate.open_menu = []() {
-            avatar_action::eat_or_use( get_avatar(),
-                                       game_menus::inv::consume( uistate.consume_uistate.consume_menu_comestype ) );
+            item_location consume_loc_next = game_menus::inv::consume(
+                                                 uistate.consume_uistate.consume_menu_comestype );
+            if( consume_loc_next != item_location::nowhere ) {
+                avatar_action::eat_or_use( get_avatar(), consume_loc_next );
+            } else {
+                uistate.consume_uistate.clear();
+            }
         };
+    }
+}
+
+void consume_activity_actor::canceled( player_activity &, Character &who )
+{
+    if( who.is_avatar() ) {
+        uistate.consume_uistate.clear();
     }
 }
 
@@ -4189,7 +4201,7 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "consume_location", consume_location );
     jsout.member( "consume_item", consume_item );
-    jsout.member( "canceled", canceled );
+    jsout.member( "was_canceled", was_canceled );
     jsout.member( "reprompt_consume_menu", reprompt_consume_menu );
 
     jsout.end_object();
@@ -4204,7 +4216,7 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonValue &
 
     data.read( "consume_location", actor.consume_location );
     data.read( "consume_item", actor.consume_item );
-    data.read( "canceled", actor.canceled );
+    data.read( "was_canceled", actor.was_canceled );
     if( data.has_member( "reprompt_consume_menu" ) ) {
         data.read( "reprompt_consume_menu", actor.reprompt_consume_menu );
     }
