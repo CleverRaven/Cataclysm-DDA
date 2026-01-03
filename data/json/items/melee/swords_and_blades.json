@@ -1695,7 +1695,7 @@
     "melee_damage": { "bash": 6, "cut": 28 }
   },
   {
-    "id": "khopesh",
+    "id": "bronze_khopesh",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
@@ -1732,7 +1732,7 @@
     "melee_damage": { "bash": 9, "cut": 27 }
   },
   {
-    "id": "khopesh_inferior",
+    "id": "bronze_khopesh_inferior",
     "looks_like": "khopesh",
     "copy-from": "khopesh",
     "type": "ITEM",
@@ -1743,7 +1743,7 @@
     "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
-    "id": "khopesh_fake",
+    "id": "bronze_khopesh_fake",
     "looks_like": "khopesh",
     "copy-from": "khopesh",
     "type": "ITEM",
@@ -1780,7 +1780,7 @@
     "melee_damage": { "bash": 9, "cut": 28 }
   },
   {
-    "id": "iron_khopesh",
+    "id": "khopesh",
     "copy-from": "mc_khopesh",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -1789,7 +1789,7 @@
     "replace_materials": { "mc_steel": "steel" }
   },
   {
-    "id": "iron_khopesh_inferior",
+    "id": "khopesh_inferior",
     "copy-from": "mc_khopesh",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -1800,7 +1800,7 @@
     "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
-    "id": "iron_khopesh_fake",
+    "id": "khopesh_fake",
     "copy-from": "mc_khopesh",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],

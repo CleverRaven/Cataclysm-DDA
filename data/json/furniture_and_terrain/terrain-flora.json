@@ -285,7 +285,7 @@
       "items": [
         { "item": "stick_long", "count": [ 2, 6 ] },
         { "item": "splinter", "count": [ 10, 20 ] },
-        { "item": "khopesh", "variant": "highlands_holy" },
+        { "item": "bronze_khopesh", "variant": "highlands_holy" },
         { "item": "highland_censer", "count": [ 6, 12 ] }
       ],
       "hit_field": [ "fd_dust", 2 ],

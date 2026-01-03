@@ -41,38 +41,13 @@
         "topic": "TALK_BLACKSMITH_WEAPONSMITH_PAYMENT"
       },
       {
-        "text": "[200 merch, 3 days] I need a mace.",
-        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "mace", "cost": 200, "wait": 3 } },
-        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
-      },
-      {
-        "text": "[200 merch, 3 days] I need a steelshod quarterstaff.",
-        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "steel_staff", "cost": 200, "wait": 3 } },
+        "text": "[200 merch, 3 days] I need an arming sword.",
+        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "arming_sword", "cost": 200, "wait": 3 } },
         "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
       },
       {
         "text": "[250 merch, 4 days] I need a battle axe.",
         "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "battleaxe", "cost": 250, "wait": 4 } },
-        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
-      },
-      {
-        "text": "[250 merch, 4 days] I need a longsword.",
-        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "longsword", "cost": 250, "wait": 4 } },
-        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
-      },
-      {
-        "text": "[250 merch, 4 days] I need a nodachi.",
-        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "nodachi", "cost": 250, "wait": 4 } },
-        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
-      },
-      {
-        "text": "[250 merch, 4 days] I need a zweihander.",
-        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "zweihander", "cost": 250, "wait": 4 } },
-        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
-      },
-      {
-        "text": "[200 merch, 3 days] I need an arming sword.",
-        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "arming_sword", "cost": 200, "wait": 3 } },
         "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
       },
       {
@@ -91,13 +66,38 @@
         "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
       },
       {
+        "text": "[250 merch, 4 days] I need an estoc.",
+        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "estoc", "cost": 250, "wait": 4 } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[200 merch, 3 days] I need a falx.",
+        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "falx", "cost": 200, "wait": 3 } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[200 merch, 3 days] I need a jian.",
+        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "khopesh", "cost": 200, "wait": 3 } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
         "text": "[200 merch, 3 days] I need a katana.",
         "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "katana", "cost": 200, "wait": 3 } },
         "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
       },
       {
-        "text": "[170 merch, 3 days] I need a wakizashi.",
-        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "wakizashi", "cost": 170, "wait": 3 } },
+        "text": "[170 merch, 3 days] I need a khopesh.",
+        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "khopesh", "cost": 170, "wait": 3 } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[70 merch, 2 days] I need a trench knife.",
+        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "knife_trench", "cost": 70, "wait": 2 } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[250 merch, 4 days] I need a kriegsmesser.",
+        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "kriegsmesser", "cost": 250, "wait": 4 } },
         "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
       },
       {
@@ -106,8 +106,23 @@
         "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
       },
       {
-        "text": "[250 merch, 4 days] I need an estoc.",
-        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "estoc", "cost": 250, "wait": 4 } },
+        "text": "[250 merch, 4 days] I need a longsword.",
+        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "longsword", "cost": 250, "wait": 4 } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[200 merch, 3 days] I need a mace.",
+        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "mace", "cost": 200, "wait": 3 } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[250 merch, 4 days] I need a nodachi.",
+        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "nodachi", "cost": 250, "wait": 4 } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[200 merch, 3 days] I need a steelshod quarterstaff.",
+        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "steel_staff", "cost": 200, "wait": 3 } },
         "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
       },
       {
@@ -116,8 +131,13 @@
         "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
       },
       {
-        "text": "[70 merch, 2 days] I need a trench knife.",
-        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "knife_trench", "cost": 70, "wait": 2 } },
+        "text": "[170 merch, 3 days] I need a wakizashi.",
+        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "wakizashi", "cost": 170, "wait": 3 } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[250 merch, 4 days] I need a zweihander.",
+        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "zweihander", "cost": 250, "wait": 4 } },
         "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
       }
     ]

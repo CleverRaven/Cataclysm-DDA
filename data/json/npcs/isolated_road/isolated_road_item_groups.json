@@ -86,9 +86,9 @@
       { "item": "glaive", "prob": 2 },
       { "item": "halberd", "prob": 4 },
       { "item": "i_staff", "prob": 2 },
-      { "item": "iron_khopesh", "prob": 1 }
-      { "item": "jian", "prob": 1 }
+      { "item": "jian", "prob": 1 },
       { "item": "katana", "prob": 1 },
+      { "item": "khopesh", "prob": 1 },
       { "item": "knife_baselard", "prob": 2 },
       { "item": "knife_trench", "prob": 2 },
       { "item": "kriegsmesser", "prob": 1 },
@@ -105,9 +105,9 @@
       { "item": "scimitar", "prob": 2 },
       { "item": "shillelagh_weighted", "prob": 1 },
       { "item": "spear_steel", "prob": 2 },
-      { "item": "wakizashi", "prob": 1 }
+      { "item": "wakizashi", "prob": 1 },
       { "item": "warhammer", "prob": 2 },
-      { "item": "zweihander", "prob": 2 },
+      { "item": "zweihander", "prob": 2 }
     ]
   },
   {

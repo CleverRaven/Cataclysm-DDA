@@ -155,7 +155,7 @@
       { "item": "machete", "prob": 16 },
       { "item": "survivor_machete_qt", "prob": 1 },
       { "item": "sword_xiphos", "prob": 1 },
-      { "item": "khopesh", "prob": 1 },
+      { "item": "bronze_khopesh", "prob": 1 },
       { "item": "dao", "prob": 1 },
       { "item": "sword_bronze", "prob": 4 },
       { "item": "butterfly_swords", "prob": 1 },
