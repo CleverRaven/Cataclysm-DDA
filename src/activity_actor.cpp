@@ -10383,9 +10383,19 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             thisitem_loc = you.try_add( copy_thisitem );
         }
         if( !thisitem_loc ) {
-            you.add_msg_if_player( _( "Not enough space to pick up %s during sorting." ),
-                                   copy_thisitem.tname() );
-            continue;
+            if( !dropoff_coords.empty() && !picked_up_stuff.empty() ) {
+                you.add_msg_if_player( m_info,
+                                       _( "Not enough space to pick up %s during sorting, moving to destination with %d current items." ),
+                                       copy_thisitem.tname(), picked_up_stuff.size() );
+                break; // Stop trying to pick stuff up
+            } else if( num_processed == 1 ) {  // This is the very first item to process
+                you.add_msg_if_player( m_bad, _( "Couldn't pick up any item during sorting, aborting." ) );
+                stage = LAST;
+                return;
+            } else {
+                debugmsg( "Unexpected condition encountered while sorting items at %d, %s.", num_processed,
+                          copy_thisitem.tname() );
+            }
         }
         // Pickup cost
         you.mod_moves( -you.item_handling_cost( copy_thisitem ) );
