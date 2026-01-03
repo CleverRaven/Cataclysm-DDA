@@ -95,7 +95,7 @@
   {
     "type": "climbing_aid",
     "id": "furn_CLIMBABLE",
-    "//": "eg: fences, downspouts",
+    "//": "eg: fences",
     "copy-from": "generic_improvised",
     "down": { "menu_text": "Climb down %s here.", "confirm_text": "Climb down %s?", "msg_after": "You climb down." },
     "condition": { "type": "ter_furn", "flag": "CLIMBABLE" }
