@@ -94,7 +94,7 @@ VARIANT_CHECK_PAIR_BLACKLIST = {
     ("ithaca37", "remington_1100"),
     ("browning_a5", "benelli_sa"),
     ("m1014", "remington_870_express"),
-    # one is semi-auto, another is pump-action, 
+    # one is semi-auto, another is pump-action,
     # but we do not represent the difference between two meaningfully,
     # except min_cycle_recoil, but this validator do not check it
 
