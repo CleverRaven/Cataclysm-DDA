@@ -8,9 +8,8 @@
     "default_faction": "bird_small_flying",
     "categories": [ "WILDLIFE" ],
     "species": [ "BIRD" ],
-    "volume": "600 ml",
-    "weight": "450 g",
-    "//": "~0.75g/ml density for most wild birds",
+    "volume": "150 ml",
+    "weight": "120 g",
     "hp": 1,
     "speed": 200,
     "material": [ "cotton" ],
@@ -20,6 +19,7 @@
     "morale": 5,
     "dodge": 4,
     "baby_flags": [ "SPRING", "SUMMER" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
     "flags": [
       "HEARS",
@@ -32,6 +32,7 @@
       "PET_WONT_FOLLOW",
       "SMALL_HIDER"
     ],
+    "biosignature": {  },
     "copy-from": "mon_bird_flying_base"
   }
 ]

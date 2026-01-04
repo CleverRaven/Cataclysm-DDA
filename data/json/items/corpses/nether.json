@@ -43,5 +43,19 @@
     "volume": "600 L",
     "weight": "900 kg",
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "broken_flailer_radiosphere",
+    "name": { "str": "torn flailer" },
+    "description": "torn up cloth flacsimile of a bird, you could tear it up even further for materials.",
+    "symbol": "v",
+    "color": "light_gray",
+    "category": "corpses",
+    "material": [ "cotton" ],
+    "price_postapoc": "0 USD",
+    "volume": "150 ml",
+    "weight": "120 g",
+    "flags": [ "TRADER_AVOID" ]
   }
 ]
