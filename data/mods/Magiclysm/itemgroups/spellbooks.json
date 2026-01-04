@@ -297,10 +297,10 @@
     "entries": [ { "item": "spell_scroll_bless", "prob": 25 }, { "item": "spell_scroll_technomancer_conjure_radio", "prob": 20 } ]
   },
   {
-    "id": "stormshaper_restricted_tier_0",
+    "id": "technomancer_restricted_tier_0",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "spell_scroll_taze", "prob": 25 }, { "item": "spell_scroll_x", "prob": 30 } ]
+    "entries": [ { "item": "spell_scroll_taze", "prob": 25 }, { "item": "spell_scroll_x-ray", "prob": 30 } ]
   },
   {
     "id": "technomancer_illegal_tier_0",
