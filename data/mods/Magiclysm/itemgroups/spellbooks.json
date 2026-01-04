@@ -61,6 +61,27 @@
     ]
   },
   {
+    "id": "biomancer_unrestricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_light_healing", "prob": 50 },
+      { "item": "spell_scroll_biomancer_cure_disease_minor", "prob": 40 }
+    ]
+  },
+  {
+    "id": "biomancer_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_biomancer_paralytic_dart", "prob": 40 } ]
+  },
+  {
+    "id": "biomancer_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_biomancer_visceral_projection", "prob": 40 } ]
+  },
+  {
     "id": "classless_spells_tier_0",
     "type": "item_group",
     "subtype": "distribution",
@@ -137,9 +158,7 @@
       [ "summon_scroll_smudged", 10 ],
       [ "spell_scroll_tornskin", 10 ],
       [ "spell_scroll_stormshaper_cloak_of_frog", 10 ],
-      [ "spell_scroll_light_healing", 50 ],
       [ "spell_scroll_bio_acidicspray", 35 ],
-      [ "spell_scroll_biomancer_cure_disease_minor", 40 ],
       [ "spell_scroll_create_atomic_light", 50 ],
       [ "spell_scroll_blinding_flash", 50 ],
       [ "spell_scroll_ethereal_grasp", 50 ],
@@ -179,8 +198,6 @@
       [ "spell_scroll_lightning_blast", 20 ],
       [ "spell_scroll_x-ray", 30 ],
       [ "spell_scroll_crystallize_mana", 20 ],
-      [ "spell_scroll_biomancer_paralytic_dart", 40 ],
-      [ "spell_scroll_biomancer_visceral_projection", 40 ],
       [ "spell_scroll_stormshaper_wall_of_fog", 35 ],
       [ "spell_scroll_shadow_field", 20 ],
       [ "spell_scroll_druid_anti_heat", 30 ]
