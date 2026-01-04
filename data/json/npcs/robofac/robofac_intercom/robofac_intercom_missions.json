@@ -1204,10 +1204,10 @@
       "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_SCAN_LOCATION"
     ],
     "type": "talk_topic",
-    "dynamic_line": "The recording you brought us suggests that there is some underground source of alien organic volatiles.  We've cross-referenced with our existing geographic data, and we think we've identified several underground structures that are the source of these organics.  We'd like you and a field team to go to the source and measure atmospheric conditions using one of the mobile weather stations.",
+    "dynamic_line": "The recording you brought us suggests that there is some underground source of alien organic volatiles.  We've cross-referenced with our existing geographic data, and we think we've identified several underground structures that may match the signatures you've brought us.  We'd like you and a field team to go to one of these and measure underground atmospheric conditions - with your HEW station, of course.",
     "responses": [
       {
-        "text": "Alright, so go underground, set up the station, make a recording.  I'm in.",
+        "text": "Alright, so go underground to specific coordinates, set up the HEW station, and make a recording.  I'm in.",
         "effect": [
           { "assign_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_FIELD_TEAM" },
           { "assign_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE" }
@@ -1220,7 +1220,7 @@
       },
       { "text": "Field team?", "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_FIELD_TEAM" },
       {
-        "text": "Do I need to scan at these exact coordinates?",
+        "text": "Do I need to scan at these EXACT coordinates?",
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_SCAN_LOCATION"
       },
       { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
@@ -1239,7 +1239,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_SCAN_LOCATION",
     "type": "talk_topic",
-    "dynamic_line": "Yes, ideally.  However, like other recordings, you don't need to be present for the full hour the recording runs - you can set up the station, leave, and come back later for the report."
+    "dynamic_line": "Yes, absolutely.  We think recordings from these exact coordinates will give us the most useful data on these volatile organics.  However, like other recordings, you don't need to be present for the full hour the recording runs - you can set up the station, leave, and come back later for the report."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_ACCEPTED",
@@ -1607,7 +1607,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE",
     "type": "mission_definition",
     "name": { "str": "Invasive \"Meteorology\"" },
-    "description": "Go to the underground coordinates, set up a mobile weather station, and make a recording.  You may wish to rendezvous with the advanced field team, if you can find them.",
+    "description": "Go to the <color_yellow>exact underground coordinates</color>, set up a HEW station, and make a recording.  Return the <color_yellow>alient \"atmospheric\" datasheet</color> to Hub 01.  You may wish to rendezvous with the advanced field team, if you can find them.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
@@ -1647,61 +1647,7 @@
     "value": 0,
     "start": {
       "assign_mission_target": { "om_terrain": "corpse_surface", "om_special": "nether_monster_corpse", "reveal_radius": 2, "random": false },
-      "update_mapgen": {
-        "rows": [
-          "                        ",
-          "                        ",
-          "                        ",
-          "   R                 R  ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          " %%%                    ",
-          " % %                    ",
-          " %%%                    ",
-          "WWWWW                   ",
-          "W..rW                   ",
-          "D.clW               R   ",
-          "W..tW                   ",
-          "WWWWW                   "
-        ],
-        "terrain": {
-          ".": "t_dirt",
-          "c": "t_dirt",
-          "r": "t_dirt",
-          "l": "t_dirt",
-          "t": "t_dirt",
-          "D": "t_dirt",
-          "W": "t_dirt",
-          "T": "t_dirt",
-          "%": "t_dirt"
-        },
-        "furniture": {
-          "W": "f_canvas_wall",
-          "D": "f_canvas_door_o",
-          "c": "f_camp_chair",
-          "r": "f_tourist_table",
-          "l": "f_tourist_table",
-          "t": "f_tourist_table",
-          "%": "f_sandbag_half"
-        },
-        "item": { "r": { "item": "radio" }, "l": { "item": "laptop" }, "t": { "item": "emf_detector" } },
-        "monster": { "R": { "monster": "mon_robofac_camspy" } },
-        "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-        "place_npcs": [
-          { "class": "robofac_merc_monster_corpse_1", "x": 2, "y": 21 },
-          { "class": "robofac_merc_monster_corpse_2", "x": 2, "y": 17 }
-        ]
-      }
+      "update_mapgen": { "place_nested": [ { "chunks": [ "robofac_monster_corpse_field_team" ], "x": 0, "y": 0 } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,

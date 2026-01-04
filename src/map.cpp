@@ -5795,7 +5795,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 if( trig_dist( veh_position, closest_radiosphere ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_radiosphere, calendar::turn_zero ) );
                 }
-                if( trig_dist( veh_position, closest_monster_corpse ) <= 1 ) {
+                if( trig_dist( veh_position, closest_monster_corpse ) < 1 ) {
                     cur_veh.add_item( here, vp, item( itype_mws_monster_corpse_weather_data, calendar::turn_zero ) );
                 } else if( trig_dist( veh_position, closest_monster_corpse ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_monster_corpse, calendar::turn_zero ) );
