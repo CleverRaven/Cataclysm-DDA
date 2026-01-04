@@ -93,6 +93,11 @@ VARIANT_CHECK_PAIR_BLACKLIST = {
     ("type99", "type99_sniper"),
     ("ithaca37", "remington_1100"),
     ("browning_a5", "benelli_sa"),
+    ("m1014", "remington_870_express"),
+    # one is semi-auto, another is pump-action, 
+    # but we do not represent the difference between two meaningfully,
+    # except min_cycle_recoil, but this validator do not check it
+
 }
 IDENTIFIER_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
@@ -227,9 +232,7 @@ TYPE_DESCRIPTORS = [
     "trenchgun",
 ]
 DUPE_CHECK_BLACKLIST = [
-    {"m1014", "remington_870_express"},
-    # one is semi-auto, another is pump-action, but we do not represent the difference between two meaningfully,
-    # except min_cycle_recoil, but this validator do not check it
+    # {"similar_gun1_id", "similar_gun2_id"},
 ]
 
 """
