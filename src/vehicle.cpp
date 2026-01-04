@@ -255,7 +255,12 @@ vehicle::vehicle( const vproto_id &proto_id )
     }
 }
 
-vehicle::~vehicle() = default;
+vehicle::~vehicle()
+{
+    if( destructor_callback ) {
+        destructor_callback( *this );
+    }
+}
 
 turret_cpu::~turret_cpu() = default;
 

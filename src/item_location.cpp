@@ -487,17 +487,50 @@ class item_location::impl::item_on_vehicle : public item_location::impl
     private:
         vehicle_cursor cur;
 
+        // These only have values when cur.veh is no longer valid
+        std::optional<tripoint_abs_ms> cached_pos_abs; // NOLINT(cata-serialize)
+        std::optional<bool> cached_is_target_vehicle_base; // NOLINT(cata-serialize)
+        std::optional<int> cached_index; // NOLINT(cata-serialize)
+
+        void set_callback() {
+            cur.veh.set_destructor_callback( [&]( const vehicle & v ) {
+                cached_pos_abs = v.abs_part_pos( cur.part );
+                cached_is_target_vehicle_base = target() == &v.part( cur.part ).base;
+                if( !*cached_is_target_vehicle_base ) {
+                    cached_index = find_index( cur, target() );
+                }
+            } );
+        }
+
+        bool is_target_vehicle_base() const {
+            if( cached_is_target_vehicle_base.has_value() ) {
+                return *cached_is_target_vehicle_base;
+            } else {
+                return target() == &cur.veh.part( cur.part ).base;
+            }
+        }
+
     public:
-        item_on_vehicle( const vehicle_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
-        item_on_vehicle( const vehicle_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
+        item_on_vehicle( const vehicle_cursor &cur, item *which ) : impl( which ), cur( cur ) {
+            set_callback();
+        }
+        item_on_vehicle( const vehicle_cursor &cur, int idx ) : impl( idx ), cur( cur ) {
+            set_callback();
+        }
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
             js.member( "type", "vehicle" );
+
+            // cur.veh could be null during serialization
             js.member( "position", pos_abs() );
             js.member( "part", cur.part );
-            if( target() != &cur.veh.part( cur.part ).base ) {
-                js.member( "idx", find_index( cur, target() ) );
+            if( !is_target_vehicle_base() ) {
+                if( cached_index.has_value() ) {
+                    js.member( "idx", *cached_index );
+                } else {
+                    js.member( "idx", find_index( cur, target() ) );
+                }
             }
             js.end_object();
         }
@@ -515,7 +548,11 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         tripoint_abs_ms pos_abs() const override {
-            return cur.veh.abs_part_pos( cur.part );
+            if( cached_pos_abs.has_value() ) {
+                return *cached_pos_abs;
+            } else {
+                return cur.veh.abs_part_pos( cur.part );
+            }
         }
 
         Character *carrier() const override {

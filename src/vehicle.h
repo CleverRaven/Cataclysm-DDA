@@ -2514,6 +2514,18 @@ class vehicle
         // Returns debug data to overlay on the screen, a vector of {map tile position
         // relative to vehicle pos, color and text}.
         std::vector<std::tuple<point_rel_ms, int, std::string>> get_debug_overlay_data() const;
+
+    private:
+        // Set by set_destructor_callback below. This is null when not set.
+        std::function<void( const vehicle & )> destructor_callback; // NOLINT(cata-serialize)
+
+    public:
+        // Sets a callback that will be called when this is destroyed. Currently only being used
+        // by item_location::impl::item_on_vehicle to check for validity of its vehicle reference.
+        template<typename Callback>
+        void set_destructor_callback( Callback &&cb ) {
+            destructor_callback = std::forward<Callback>( cb );
+        }
 };
 
 // For reference what each function is supposed to do, see their implementation in
