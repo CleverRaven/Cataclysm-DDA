@@ -667,8 +667,8 @@
         "title": "Adjust Return Obelisk Behavior",
         "keys": [ "1", "2", "3" ],
         "descriptions": [
-          "Set the behavior of the return obelisk.\nWith this option, everything in the room with you will return to your sky island.  Getting resources will generally not be a problem as long as you make it to the extraction point.",
-          "Set the behavior of the return obelisk.\nWith this option, if you have a warp vortex token with you, everything in the room with you will return to your sky island.  Otherwise, only what you are carrying on your person will return with you.  You may have to make difficult choices about what to bring back.",
+          "Set the behavior of the return obelisk.\nWith this option, everything in the room with you will return to your sky island.  Getting resources will generally not be a problem as long as you make it to the extraction point.NOTE: THIS OPTION CURRENTLY <color_red>DOES NOT WORK</color>",
+          "Set the behavior of the return obelisk.\nWith this option, if you have a warp vortex token with you, everything in the room with you will return to your sky island.  Otherwise, only what you are carrying on your person will return with you.  You may have to make difficult choices about what to bring back. NOTE: THE WARP VORTEX TOKEN CURRENTLY <color_red>DOES NOT WORK</color>",
           "Set the behavior of the return obelisk.\nWith this option, only what you are carrying on your person will return with you.  You will always have to make difficult choices about what to bring back."
         ]
       }
