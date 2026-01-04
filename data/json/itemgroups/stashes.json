@@ -596,14 +596,14 @@
     "subtype": "distribution",
     "//": "1L of calorie dense canned food, not things like tomatoes or pineapples",
     "entries": [
-      { "group": "can_beans_can_medium_2", "count": 2 },
-      { "group": "pork_beans_can_medium_2", "count": 2 },
-      { "group": "can_chicken_can_medium_2", "count": 2 },
-      { "group": "chili_can_medium_2", "count": 2 },
-      { "group": "ravioli_can_medium_2", "count": 2 },
-      { "group": "can_spam_can_medium_6", "count": 2 },
+      { "group": "beans_in_can", "count": 2 },
+      { "group": "pork_beans_in_can", "count": 2 },
+      { "group": "chicken_in_can", "count": 2 },
+      { "group": "chili_in_can", "count": 2 },
+      { "group": "ravioli_in_can", "count": 2 },
+      { "group": "spam_in_can", "count": 2 },
       { "item": "milk_evap", "count": 2 },
-      { "item": "can_tuna", "count": 4 }
+      { "group": "tuna_in_can", "count": 4 }
     ]
   },
   {

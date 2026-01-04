@@ -150,7 +150,7 @@
           { "item": "veggy_pickled_jar_glass_sealed_2", "chance": 40, "repeat": [ 1, 8 ] },
           { "item": "veggy_pickled_jar_3l_glass_sealed_12", "chance": 15, "repeat": [ 1, 4 ] },
           { "item": "sauerkraut_jar_glass_sealed_2", "chance": 40, "repeat": [ 1, 8 ] },
-          { "item": "apple_canned_jar_3l_glass_sealed_24", "chance": 15, "repeat": [ 1, 4 ] },
+          { "item": "fruits_in_3l_jar", "chance": 15, "repeat": [ 1, 4 ] },
           { "item": "fish_pickled_jar_glass_sealed_2", "chance": 40, "repeat": [ 1, 8 ] },
           { "item": "fish_pickled_jar_3l_glass_sealed_12", "chance": 15, "repeat": [ 1, 4 ] },
           { "item": "meat_pickled_jar_glass_sealed_2", "chance": 40, "repeat": [ 1, 8 ] },
