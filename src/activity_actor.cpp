@@ -158,6 +158,7 @@ static const activity_id ACT_GUNMOD_REMOVE( "ACT_GUNMOD_REMOVE" );
 static const activity_id ACT_HACKING( "ACT_HACKING" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
+static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
@@ -218,6 +219,7 @@ static const activity_id ACT_WORKOUT_HARD( "ACT_WORKOUT_HARD" );
 static const activity_id ACT_WORKOUT_LIGHT( "ACT_WORKOUT_LIGHT" );
 static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
 
+static const ammotype ammo_battery( "battery" );
 static const ammotype ammo_plutonium( "plutonium" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
@@ -261,6 +263,7 @@ static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
+static const itype_id itype_battery( "battery" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_efile_junk( "efile_junk" );
@@ -8236,6 +8239,52 @@ std::unique_ptr<activity_actor> churn_activity_actor::deserialize( JsonValue &js
     return actor.clone();
 }
 
+void hand_crank_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( initial_moves );
+    act.moves_left = act.moves_total;
+}
+
+void hand_crank_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    // Hand-crank chargers seem to range from 2 watt (very common easily verified)
+    // to 10 watt (suspicious claims from some manufacturers) sustained output.
+    // It takes 2.4 minutes to produce 1kj at just slightly under 7 watts (25 kj per hour)
+    // time-based instead of speed based because it's a sustained activity
+    item &hand_crank_item = *hand_crank_tool;
+
+    int time_to_crank = to_seconds<int>( 144_seconds );
+    // Modify for weariness
+    time_to_crank /= who.exertion_adjusted_move_multiplier( act.exertion_level() );
+    if( calendar::once_every( time_duration::from_seconds( time_to_crank ) ) ) {
+        if( hand_crank_item.ammo_capacity( ammo_battery ) > hand_crank_item.ammo_remaining() ) {
+            hand_crank_item.ammo_set( itype_battery, hand_crank_item.ammo_remaining() + 1 );
+        } else {
+            act.set_to_null();
+            add_msg( m_info, _( "You've charged the battery completely." ) );
+        }
+    }
+    if( who.get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
+        act.set_to_null();
+        add_msg( m_info, _( "You're too exhausted to keep cranking." ) );
+    }
+}
+
+void hand_crank_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "hand_crank_tool", hand_crank_tool );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> hand_crank_activity_actor::deserialize( JsonValue &jsin )
+{
+    hand_crank_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "hand_crank_tool", actor.hand_crank_tool );
+    return actor.clone();
+}
+
 void clear_rubble_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
@@ -11190,6 +11239,7 @@ deserialize_functions = {
     { ACT_HACKING, &hacking_activity_actor::deserialize },
     { ACT_HACKSAW, &hacksaw_activity_actor::deserialize },
     { ACT_HAIRCUT, &haircut_activity_actor::deserialize },
+    { ACT_HAND_CRANK, &hand_crank_activity_actor::deserialize },
     { ACT_HARVEST, &harvest_activity_actor::deserialize},
     { ACT_HEATING, &heat_activity_actor::deserialize },
     { ACT_HOTWIRE_CAR, &hotwire_car_activity_actor::deserialize },
