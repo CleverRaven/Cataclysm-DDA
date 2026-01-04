@@ -2457,8 +2457,8 @@ std::string read_activity_actor::get_progress_message( const player_activity & )
         you.get_skill_level_object( skill ).can_train() &&
         you.has_identified( book->typeId() ) ) {
         const SkillLevel &skill_level = you.get_skill_level_object( skill );
-        //~ skill_name current_skill_level -> next_skill_level (% to next level)
-        return string_format( pgettext( "reading progress", "%1$s %2$d -> %3$d (%4$d%%)" ),
+        //~ skill_name current_skill_level  (% of next level) -> next_skill_level
+        return string_format( pgettext( "reading progress", "%1$s %2$d (%4$d%%) -> %3$d" ),
                               skill.obj().name(),
                               skill_level.knowledgeLevel(),
                               skill_level.knowledgeLevel() + 1,
