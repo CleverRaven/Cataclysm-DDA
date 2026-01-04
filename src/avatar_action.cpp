@@ -1177,11 +1177,6 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
 
     loc.overflow( here );
 
-    if( loc->is_comestible() && loc->is_frozen_liquid() ) {
-        add_msg( _( "Try as you might, you can't consume frozen liquids." ) );
-        return;
-    }
-
     if( loc->wetness && loc->has_flag( flag_WATER_BREAK_ACTIVE ) ) {
         if( query_yn( _( "This item is still wet and it will break if you turn it on.  Proceed?" ) ) ) {
             loc->deactivate();

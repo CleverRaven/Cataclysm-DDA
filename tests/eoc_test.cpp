@@ -103,8 +103,6 @@ effect_on_condition_EOC_martial_art_test_2( "EOC_martial_art_test_2" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_addiction_check( "EOC_math_addiction_check" );
 static const effect_on_condition_id
-effect_on_condition_EOC_math_addiction_setup( "EOC_math_addiction_setup" );
-static const effect_on_condition_id
 effect_on_condition_EOC_math_armor( "EOC_math_armor" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_diag_assign( "EOC_math_diag_assign" );
@@ -194,6 +192,7 @@ static const itype_id itype_sword_wood( "sword_wood" );
 static const itype_id itype_test_eoc_armor_suit( "test_eoc_armor_suit" );
 static const itype_id itype_test_glock( "test_glock" );
 static const itype_id itype_test_knife_combat( "test_knife_combat" );
+static const itype_id itype_test_whiskey_caffenated( "test_whiskey_caffenated" );
 
 static const matype_id style_aikido( "style_aikido" );
 static const matype_id style_none( "style_none" );
@@ -517,16 +516,18 @@ TEST_CASE( "EOC_math_addiction", "[eoc][math_parser]" )
 {
     clear_avatar();
     clear_map();
+    avatar &a = get_avatar();
 
-    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    item test_whiskey( itype_test_whiskey_caffenated );
+
+    dialogue d( get_talker_for( a ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
     REQUIRE( !globvars.maybe_get_global_value( "key_add_intensity" ) );
     REQUIRE( !globvars.maybe_get_global_value( "key_add_turn" ) );
-    CHECK( effect_on_condition_EOC_math_addiction_setup->activate( d ) );
-    // Finish drinking
-    complete_activity( get_avatar() );
+
+    a.consume( test_whiskey );
 
     CHECK( effect_on_condition_EOC_math_addiction_check->activate( d ) );
 

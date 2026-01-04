@@ -186,7 +186,6 @@ static const efftype_id effect_dazed( "dazed" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_flushot( "flushot" );
 static const efftype_id effect_foodpoison( "foodpoison" );
@@ -380,7 +379,6 @@ static const ter_str_id ter_t_utility_light( "t_utility_light" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
-static const trait_id trait_ALCMET( "ALCMET" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_DHAMPIR_TRAIT( "DHAMPIR_TRAIT" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
@@ -519,50 +517,6 @@ std::optional<int> iuse::xanax( Character *p, item *it, const tripoint_bub_ms & 
     p->add_effect( effect_took_xanax, 90_minutes );
     p->add_effect( effect_took_xanax_visible, rng( 70_minutes, 110_minutes ) );
     return 1;
-}
-
-static constexpr time_duration alc_strength( const int strength, const time_duration &weak,
-        const time_duration &medium, const time_duration &strong )
-{
-    return strength == 0 ? weak : strength == 1 ? medium : strong;
-}
-
-static int alcohol( Character &p, const item &it, const int strength )
-{
-    // Weaker characters are cheap drunks
-    /** @EFFECT_STR_MAX reduces drunkenness duration */
-    time_duration duration = alc_strength( strength, 22_minutes, 34_minutes,
-                                           45_minutes ) - ( alc_strength( strength, 36_seconds, 1_minutes, 72_seconds ) * p.str_max );
-    if( p.has_trait( trait_ALCMET ) ) {
-        duration = alc_strength( strength, 6_minutes, 14_minutes, 18_minutes ) - ( alc_strength( strength,
-                   36_seconds, 1_minutes, 1_minutes ) * p.str_max );
-        // Metabolizing the booze improves the nutritional value;
-        // might not be healthy, and still causes Thirst problems, though
-        p.stomach.mod_nutr( -std::abs( it.get_comestible() ? it.type->comestible->stim : 0 ) );
-        // Metabolizing it cancels out the depressant
-        p.mod_stim( std::abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
-    } else if( p.has_trait( trait_TOLERANCE ) ) {
-        duration -= alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
-    } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
-        duration += alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
-    }
-    p.add_effect( effect_drunk, duration );
-    return 1;
-}
-
-std::optional<int> iuse::alcohol_weak( Character *p, item *it, const tripoint_bub_ms & )
-{
-    return alcohol( *p, *it, 0 );
-}
-
-std::optional<int> iuse::alcohol_medium( Character *p, item *it, const tripoint_bub_ms & )
-{
-    return alcohol( *p, *it, 1 );
-}
-
-std::optional<int> iuse::alcohol_strong( Character *p, item *it, const tripoint_bub_ms & )
-{
-    return alcohol( *p, *it, 2 );
 }
 
 /**
