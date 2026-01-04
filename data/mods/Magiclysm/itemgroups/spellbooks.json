@@ -79,7 +79,10 @@
     "id": "biomancer_illegal_tier_0",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "spell_scroll_biomancer_visceral_projection", "prob": 40 } ]
+    "entries": [
+      { "item": "spell_scroll_biomancer_visceral_projection", "prob": 40 },
+      { "item": "spell_scroll_bio_acidicspray", "prob": 35 }
+    ]
   },
   {
     "id": "classless_spells_tier_0",
@@ -92,6 +95,32 @@
     ]
   },
   {
+    "id": "classless_unrestricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_classless_watch_spell", "prob": 30 },
+      { "item": "spell_scroll_classless_clean_clothing_and_self", "prob": 75 },
+      { "item": "spell_scroll_classless_easy_sleep_spell", "prob": 45 },
+      { "item": "spell_scroll_classless_restore_crystal_mana", "prob": 35 },
+      { "item": "spell_scroll_blinding_flash", "prob": 50 },
+      { "item": "spell_scroll_create_atomic_light", "prob": 50 },
+      { "item": "spell_scroll_crystallize_mana", "prob": 20 }
+    ]
+  },
+  {
+    "id": "classless_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 50 } ]
+  },
+  {
+    "id": "classless_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_ethereal_grasp", "prob": 50 } ]
+  },
+  {
     "id": "druid_spells_tier_0",
     "type": "item_group",
     "subtype": "distribution",
@@ -100,6 +129,29 @@
       { "group": "druid_restricted_tier_0", "prob": 25 },
       { "group": "druid_illegal_tier_0", "prob": 1 }
     ]
+  },
+  {
+    "id": "druid_unrestricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_druid_traverse_the_wilds", "prob": 35 },
+      { "item": "spell_scroll_druid_anti_heat", "prob": 30 },
+      { "item": "spell_scroll_seed_of_growth", "prob": 30 },
+      { "item": "spell_scroll_summon_cats", "prob": 25 }
+    ]
+  },
+  {
+    "id": "druid_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_druid_woodshaft", "prob": 50 } ]
+  },
+  {
+    "id": "druid_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 50 } ]
   },
   {
     "id": "earthshaper_spells_tier_0",
@@ -112,6 +164,29 @@
     ]
   },
   {
+    "id": "earthshaper_unrestricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_earthshaper_turning_of_earth", "prob": 30 },
+      { "item": "spell_scroll_earthshaper_boulder", "prob": 35 },
+      { "item": "spell_scroll_earthshaper_remove_corpses", "prob": 20 },
+      { "item": "spell_scroll_stonefist", "prob": 20 }
+    ]
+  },
+  {
+    "id": "earthshaper_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_pertifying_touch", "prob": 25 }, { "item": "spell_scroll_eshaper_rockbolt", "prob": 40 } ]
+  },
+  {
+    "id": "earthshaper_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_eshaper_piercing_bolt", "prob": 40 }, { "item": "spell_scroll_reactive_armor", "prob": 25 } ]
+  },
+  {
     "id": "kelvinist_spells_tier_0",
     "type": "item_group",
     "subtype": "distribution",
@@ -120,6 +195,24 @@
       { "group": "kelvinist_restricted_tier_0", "prob": 25 },
       { "group": "kelvinist_illegal_tier_0", "prob": 1 }
     ]
+  },
+  {
+    "id": "kelvinist_unrestricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_kelvinist_heat_food", "prob": 30 }, { "item": "spell_scroll_create_lighter", "prob": 50 } ]
+  },
+  {
+    "id": "kelvinist_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_chilling_touch", "prob": 50 } ]
+  },
+  {
+    "id": "kelvinist_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_kelvinist_firebolt", "prob": 40 } ]
   },
   {
     "id": "magus_spells_tier_0",
@@ -132,6 +225,29 @@
     ]
   },
   {
+    "id": "magus_unrestricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_magus_light_target", "prob": 60 },
+      { "item": "spell_scroll_magus_stop_attack_shield", "prob": 50 },
+      { "item": "spell_scroll_magus_far_hand_pull", "prob": 50 },
+      { "item": "spell_scroll_shadow_field", "prob": 20 }
+    ]
+  },
+  {
+    "id": "magus_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_magic_missile", "prob": 50 } ]
+  },
+  {
+    "id": "magus_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 40 } ]
+  },
+  {
     "id": "stormshaper_spells_tier_0",
     "type": "item_group",
     "subtype": "distribution",
@@ -140,6 +256,29 @@
       { "group": "stormshaper_restricted_tier_0", "prob": 25 },
       { "group": "stormshaper_illegal_tier_0", "prob": 1 }
     ]
+  },
+  {
+    "id": "stormshaper_unrestricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_create_electric_lighter", "prob": 50 },
+      { "item": "spell_scroll_electric_arts", "prob": 50 },
+      { "item": "spell_scroll_stormshaper_wall_of_fog", "prob": 35 },
+      { "item": "spell_scroll_stormshaper_loud_voice_spell", "prob": 20 }
+    ]
+  },
+  {
+    "id": "stormshaper_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 40 } ]
+  },
+  {
+    "id": "stormshaper_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 40 } ]
   },
   {
     "id": "technomancer_spells_tier_0",
@@ -152,56 +291,22 @@
     ]
   },
   {
-    "id": "spell_scroll_tier_0",
+    "id": "technomancer_unrestricted_tier_0",
     "type": "item_group",
-    "items": [
-      [ "summon_scroll_smudged", 10 ],
-      [ "spell_scroll_tornskin", 10 ],
-      [ "spell_scroll_stormshaper_cloak_of_frog", 10 ],
-      [ "spell_scroll_bio_acidicspray", 35 ],
-      [ "spell_scroll_create_atomic_light", 50 ],
-      [ "spell_scroll_blinding_flash", 50 ],
-      [ "spell_scroll_ethereal_grasp", 50 ],
-      [ "spell_scroll_druid_woodshaft", 50 ],
-      [ "spell_scroll_seed_of_growth", 35 ],
-      [ "spell_scroll_summon_cats", 65 ],
-      [ "spell_scroll_stonefist", 20 ],
-      [ "spell_scroll_eshaper_piercing_bolt", 40 ],
-      [ "spell_scroll_eshaper_rockbolt", 50 ],
-      [ "spell_scroll_earthshaper_remove_corpses", 50 ],
-      [ "spell_scroll_reactive_armor", 25 ],
-      [ "spell_scroll_pertifying_touch", 25 ],
-      [ "spell_scroll_kelvinist_firebolt", 40 ],
-      [ "spell_scroll_kelvinist_heat_food", 30 ],
-      [ "spell_scroll_druid_traverse_the_wilds", 35 ],
-      [ "spell_scroll_earthshaper_boulder", 35 ],
-      [ "spell_scroll_earthshaper_turning_of_earth", 30 ],
-      [ "spell_scroll_create_electric_lighter", 50 ],
-      [ "spell_scroll_magus_light_target", 60 ],
-      [ "spell_scroll_magus_stop_attack_shield", 50 ],
-      [ "spell_scroll_magus_far_hand_pull", 70 ],
-      [ "spell_scroll_create_lighter", 50 ],
-      [ "spell_scroll_chilling_touch", 50 ],
-      [ "spell_scroll_magic_missile", 50 ],
-      [ "spell_scroll_classless_watch_spell", 30 ],
-      [ "spell_scroll_classless_clean_clothing_and_self", 75 ],
-      [ "spell_scroll_classless_easy_sleep_spell", 45 ],
-      [ "spell_scroll_classless_restore_crystal_mana", 35 ],
-      [ "spell_scroll_shocking_lash", 50 ],
-      [ "spell_scroll_electric_arts", 50 ],
-      [ "spell_scroll_bless", 25 ],
-      [ "spell_scroll_create_atomic_lamp", 25 ],
-      [ "spell_scroll_taze", 25 ],
-      [ "spell_scroll_technomancer_conjure_radio", 20 ],
-      [ "spell_scroll_stormshaper_loud_voice_spell", 20 ],
-      [ "spell_scroll_laze", 25 ],
-      [ "spell_scroll_lightning_blast", 20 ],
-      [ "spell_scroll_x-ray", 30 ],
-      [ "spell_scroll_crystallize_mana", 20 ],
-      [ "spell_scroll_stormshaper_wall_of_fog", 35 ],
-      [ "spell_scroll_shadow_field", 20 ],
-      [ "spell_scroll_druid_anti_heat", 30 ]
-    ]
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_bless", "prob": 25 }, { "item": "spell_scroll_technomancer_conjure_radio", "prob": 20 } ]
+  },
+  {
+    "id": "stormshaper_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_taze", "prob": 25 }, { "item": "spell_scroll_x", "prob": 30 } ]
+  },
+  {
+    "id": "technomancer_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_laze", "prob": 25 } ]
   },
   {
     "id": "spell_scroll_tier_1",
@@ -330,6 +435,7 @@
       [ "spell_scroll_magus_mana_bolt", 35 ],
       [ "spell_scroll_magus_mana_beam", 35 ],
       [ "spell_scroll_magus_escape", 50 ],
+      [ "spell_scroll_lightning_blast", 20 ],
       [ "spell_scroll_magus_push_nearby_enemies_back", 50 ],
       [ "spell_scroll_magus_slow", 40 ],
       [ "spell_scroll_magus_teleport_mark", 25 ],
@@ -413,38 +519,62 @@
   {
     "id": "spellbook_tier_0",
     "type": "item_group",
+    "subtype": "distribution",
     "//": "These are spellbooks that a beginner would have, or scrolls that would have this tier or one tier higher of spells.",
-    "items": [
-      [ "wizard_beginner", 30 ],
-      [ "techno_idiots", 30 ],
-      [ "novice_stormshaper_book", 30 ],
-      [ "book_lazy_magic", 30 ],
-      [ "camping_time_spellbook", 30 ],
-      [ "magic_history_tech_spellbook", 30 ],
-      [ "magic_healing_home_spellbook", 30 ],
-      [ "animist_summon_wisps_spellbook", 30 ],
-      [ "eshaper_spellbook_tool", 30 ],
-      [ "stormshaper_electric_immune_spellbook", 30 ],
-      [ "avoid_all_temperatures_spellbook", 30 ],
-      [ "summon_cats_spellbook", 30 ],
-      [ "freshen_up_spellbook", 30 ],
-      [ "post_apocalypse_guide_spellbook", 30 ],
-      [ "earthshaper_landscaping_spellbook", 30 ],
-      [ "crystallize_mana_economy_spellbook", 30 ],
-      [ "special_effects_spellbook", 30 ],
-      [ "magical_gardening_spellbook", 30 ],
-      [ "bypass_portals_spellbook", 30 ],
-      [ "sense_outsiders_spellbook", 30 ],
-      [ "windrunning_spellbook", 30 ],
-      [ "stone_powers_spellbook", 30 ],
-      [ "staying_clean_spellbook", 30 ],
-      [ "druid_healing_power_spellbook", 30 ],
-      [ "hologram_and_teleport_spellbook", 30 ],
-      [ "messed_up_spells_spellbook", 30 ],
-      [ "biomancy_fasting_spellbook", 30 ],
-      [ "anti_magic_dispel_spellbook", 30 ],
-      [ "easy_sleeping_spellbook", 30 ]
+    "entries": [
+      { "group": "spellbook_unrestricted_tier_0", "prob": 300 },
+      { "group": "spellbook_restricted_tier_0", "prob": 25 },
+      { "group": "spellbook_illegal_tier_0", "prob": 1 }
     ]
+  },
+  {
+    "id": "spellbook_unrestricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "wizard_beginner", "prob": 30 },
+      { "item": "novice_stormshaper_book", "prob": 30 },
+      { "item": "book_lazy_magic", "prob": 30 },
+      { "item": "camping_time_spellbook", "prob": 30 },
+      { "item": "magic_history_tech_spellbook", "prob": 30 },
+      { "item": "magic_healing_home_spellbook", "prob": 30 },
+      { "item": "eshaper_spellbook_tool", "prob": 30 },
+      { "item": "stormshaper_electric_immune_spellbook", "prob": 30 },
+      { "item": "avoid_all_temperatures_spellbook", "prob": 30 },
+      { "item": "summon_cats_spellbook", "prob": 30 },
+      { "item": "freshen_up_spellbook", "prob": 30 },
+      { "item": "post_apocalypse_guide_spellbook", "prob": 30 },
+      { "item": "earthshaper_landscaping_spellbook", "prob": 30 },
+      { "item": "crystallize_mana_economy_spellbook", "prob": 30 },
+      { "item": "magical_gardening_spellbook", "prob": 30 },
+      { "item": "sense_outsiders_spellbook", "prob": 30 },
+      { "item": "windrunning_spellbook", "prob": 30 },
+      { "item": "stone_powers_spellbook", "prob": 30 },
+      { "item": "staying_clean_spellbook", "prob": 30 },
+      { "item": "druid_healing_power_spellbook", "prob": 30 },
+      { "item": "biomancy_fasting_spellbook", "prob": 30 },
+      { "item": "anti_magic_dispel_spellbook", "prob": 30 },
+      { "item": "easy_sleeping_spellbook", "prob": 30 }
+    ]
+  },
+  {
+    "id": "spellbook_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "techno_idiots", "prob": 30 },
+      { "item": "animist_summon_wisps_spellbook", "prob": 30 },
+      { "item": "special_effects_spellbook", "prob": 30 },
+      { "item": "bypass_portals_spellbook", "prob": 30 },
+      { "item": "hologram_and_teleport_spellbook", "prob": 30 },
+      { "item": "messed_up_spells_spellbook", "prob": 30 }
+    ]
+  },
+  {
+    "id": "spellbook_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
   },
   {
     "id": "spellbook_tier_1",

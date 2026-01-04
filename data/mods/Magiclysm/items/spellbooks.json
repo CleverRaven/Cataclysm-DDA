@@ -62,7 +62,7 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "shocking_lash", "windrun" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "electric_arts", "windrun" ] }
   },
   {
     "id": "wizard_utility",
