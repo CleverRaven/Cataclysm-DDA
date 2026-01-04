@@ -48,7 +48,7 @@
     "type": "ITEM",
     "id": "broken_flailer_radiosphere",
     "name": { "str": "torn flailer" },
-    "description": "torn up cloth flacsimile of a bird, you could tear it up even further for materials.",
+    "description": "torn up cloth facsimile of a bird, you could tear it up even further for materials.",
     "symbol": "v",
     "color": "light_gray",
     "category": "corpses",
