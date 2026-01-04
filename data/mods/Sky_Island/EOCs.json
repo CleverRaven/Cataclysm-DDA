@@ -76,7 +76,8 @@
         "u_run_npc_eocs": [
           {
             "id": "EOC_initiate_randomport_npc_follower",
-            "condition": "u_following",
+            "//": "Since NPC teleporting is bugged, the condition here and below prevents this from running for NPCs",
+            "condition": { "and": [ "u_following", { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
             "effect": [
               {
                 "u_teleport": { "global_val": "OM_missionspot" },
@@ -114,7 +115,8 @@
         "u_run_npc_eocs": [
           {
             "id": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT_ADD_NPC_EFFECT_RETURN",
-            "condition": "u_following",
+            "//": "Since NPC teleporting is bugged, the condition here and below prevents this from running for NPCs",
+            "condition": { "and": [ "u_following", { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
             "effect": [ { "u_add_effect": "blind", "duration": 0 }, { "u_add_effect": "effect_sky_island_momentary_flight", "duration": 1 } ]
           }
         ],
@@ -137,7 +139,7 @@
         "u_run_npc_eocs": [
           {
             "id": "EOC_return_to_dimension_teleport_followers",
-            "condition": "u_following",
+            "condition": { "and": [ "u_following", { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
             "effect": [
               { "u_add_effect": "blind", "duration": 0 },
               { "u_add_effect": "effect_sky_island_momentary_flight", "duration": 1 },
@@ -159,7 +161,7 @@
         "u_run_npc_eocs": [
           {
             "id": "EOC_return_OM_teleport_followers",
-            "condition": "u_following",
+            "condition": { "and": [ "u_following", { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
             "effect": [
               { "u_teleport": { "global_val": "OM_HQ_origin_npc" }, "force": true },
               {
