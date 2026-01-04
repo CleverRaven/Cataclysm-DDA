@@ -227,7 +227,9 @@ TYPE_DESCRIPTORS = [
     "trenchgun",
 ]
 DUPE_CHECK_BLACKLIST = [
-    # {"similar_gun1_id", "similar_gun2_id"},
+    {"m1014", "remington_870_express"},
+    # one is semi-auto, another is pump-action, but we do not represent the difference between two meaningfully,
+    # except min_cycle_recoil, but this validator do not check it
 ]
 
 """
