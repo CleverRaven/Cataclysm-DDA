@@ -6,7 +6,7 @@
     "entries": [
       { "group": "animist_spells_tier_0", "prob": 1 },
       { "group": "biomancer_spells_tier_0", "prob": 1 },
-      { "group": "classless_spells_tier_0", "prob": 1 },
+      { "group": "classless_spells_tier_0", "prob": 2 },
       { "group": "druid_spells_tier_0", "prob": 1 },
       { "group": "earthshaper_spells_tier_0", "prob": 1 },
       { "group": "kelvinist_spells_tier_0", "prob": 1 },
@@ -65,7 +65,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "spell_scroll_light_healing", "prob": 50 },
+      { "item": "spell_scroll_light_healing", "prob": 35 },
       { "item": "spell_scroll_biomancer_cure_disease_minor", "prob": 40 }
     ]
   },
@@ -100,8 +100,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "spell_scroll_classless_watch_spell", "prob": 30 },
-      { "item": "spell_scroll_classless_clean_clothing_and_self", "prob": 75 },
-      { "item": "spell_scroll_classless_easy_sleep_spell", "prob": 45 },
+      { "item": "spell_scroll_classless_clean_clothing_and_self", "prob": 120 },
+      { "item": "spell_scroll_classless_easy_sleep_spell", "prob": 75 },
       { "item": "spell_scroll_classless_restore_crystal_mana", "prob": 35 },
       { "item": "spell_scroll_blinding_flash", "prob": 50 },
       { "item": "spell_scroll_create_atomic_light", "prob": 50 },
