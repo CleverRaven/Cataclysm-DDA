@@ -3,6 +3,13 @@ import re
 from .message import Message, messages, occurrences
 
 
+tag_pattern = re.compile(r'^<[a-zA-Z0-9_!?.-]*>$')
+
+
+def is_tag(text):
+    return tag_pattern.match(text)
+
+
 def append_comment(comments, new_comment):
     if not new_comment:
         return comments
@@ -55,7 +62,7 @@ def write_text(json, origin, context="", comment="", plural=False):
             else:
                 text_plural = f"{text}s"
 
-    if not text or "NO_I18N" in comments:
+    if not text or "NO_I18N" in comments or is_tag(text):
         return
 
     format_tag = None

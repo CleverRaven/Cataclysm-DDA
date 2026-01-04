@@ -208,6 +208,7 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_SWIMS,
        mon_flag_TEEP_IMMUNE,
        mon_flag_TRUESIGHT,
+       mon_flag_UNBREAKABLE_MORALE,
        mon_flag_VAMP_VIRUS,
        mon_flag_VENOM,
        mon_flag_WARM,
@@ -479,7 +480,6 @@ struct mtype {
 
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
-        int stomach_size = 0;         /** how many times this monster will eat */
 
         // how close the monster is willing to approach its target while under the MATT_FOLLOW attitude
         int tracking_distance = 8;

@@ -517,7 +517,7 @@
     "id": "mon_wasp_fungus",
     "type": "MONSTER",
     "name": { "str": "giant fungal wasp" },
-    "description": "A gigantic wasp worker, It's body now a host for a plethora of mushrooms and spores.  Her abdomen glows faintly with a blue light, each pulse bringing a new crack for fungal growths to escape from.  It's stinger seems to have a soul of it's own, reaching out towards anything that isn't infested like itself.",
+    "description": "A gigantic wasp worker, its body now a host for a plethora of mushrooms and spores.  Her abdomen glows faintly with a blue light, each pulse bringing a new crack for fungal growths to escape from.  Its stinger seems to have a soul of its own, reaching out towards anything that isn't infested like itself.",
     "default_faction": "fungus",
     "bodytype": "flying insect",
     "species": [ "FUNGUS" ],

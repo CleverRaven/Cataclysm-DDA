@@ -432,7 +432,7 @@
     "type": "furniture",
     "id": "f_GC",
     "name": "gas chromatographer",
-    "description": "This high-tech tool would, with electricity and an experienced user, be a very useful way to separate chemicals in a gaseous phase, based on their affinity, to a stationary phase in a tube.  At least, that's what the label says.",
+    "description": "This high-tech tool would, with electricity and an experienced user, be a very useful way to separate chemicals in a gaseous phase, based on their affinity, to a stationary phase in a tube.  At least that's what the label says.",
     "symbol": ":",
     "color": "blue_white",
     "move_cost_mod": -1,
@@ -912,26 +912,14 @@
     "id": "f_centrifuge",
     "name": "centrifuge",
     "looks_like": "f_machinery_electronic",
-    "description": "A centrifuge, a liquid separating device with an automated analyzer unit.  For some reason, this one has an attached battery pack.  It could be used to analyze a medical fluid sample, such as blood, if a test tube was placed in it.",
+    "description": "A centrifuge, a liquid separating device with an automated analyzer unit.",
     "symbol": "{",
     "color": "magenta",
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "PERMEABLE" ],
-    "deconstruct": {
-      "items": [
-        { "item": "circuit", "count": 4 },
-        { "item": "scrap", "count": 5 },
-        { "item": "motor_tiny", "count": 1 },
-        { "item": "spectrophotometer", "count": 1 },
-        { "item": "storage_battery", "count": 1 },
-        { "item": "betavoltaic", "count": [ 1, 4 ] },
-        { "item": "mc_steel_chunk", "count": 3 },
-        { "item": "sheet_metal", "count": 3 },
-        { "item": "cable", "charges": 5 }
-      ]
-    },
+    "flags": [ "TRANSPARENT", "PERMEABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "centrifuge" } ] },
     "bash": {
       "str_min": 3,
       "str_max": 45,

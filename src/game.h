@@ -75,6 +75,7 @@ class eoc_events;
 class event_bus;
 class faction_manager;
 class field_entry;
+class inventory_selector_preset;
 class item;
 class kill_tracker;
 class live_view;
@@ -435,11 +436,11 @@ class game
         /** Spawns a hallucination at a determined position of a given monster. */
         bool spawn_hallucination( const tripoint_bub_ms &p, const mtype_id &mt,
                                   std::optional<time_duration> lifespan );
-        /** Spawns a npc at a determined position. */
+        /** Spawns an NPC at a determined position. */
         bool spawn_npc( const tripoint_bub_ms &p, const string_id<npc_template> &npc_class,
                         std::string &unique_id,
                         std::vector<trait_id> &traits, std::optional<time_duration> lifespan );
-        /** Finds somewhere to spawn a monster or npc. */
+        /** Finds somewhere to spawn a monster or NPC. */
         bool find_nearby_spawn_point( const tripoint_bub_ms &target, const mtype_id &mt, int min_radius,
                                       int max_radius, tripoint_bub_ms &point, bool outdoor_only, bool indoor_only,
                                       bool open_air_allowed = false );
@@ -764,6 +765,8 @@ class game
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( const item_filter &filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
+        item_location inv_map_splice( const inventory_selector_preset &preset, const std::string &title,
+                                      int radius = 0, const std::string &none_message = "" );
         item_location inv_map_splice( const item_location_filter &filter, const std::string &title,
                                       int radius = 0, const std::string &none_message = "" );
 
@@ -918,6 +921,7 @@ class game
         //private save functions.
         // returns false if saving failed for whatever reason
         bool save_factions_missions_npcs();
+        bool save_external_options_record();
         bool save_dimension_data();
         bool load_dimension_data();
         void reset_npc_dispositions();
@@ -1185,6 +1189,8 @@ class game
 
         /** Used in main.cpp to determine what type of quit is being performed. */
         quit_status uquit; // NOLINT(cata-serialize)
+        /** Flags if the game is currently in an unsupported state and cannot be saved. */
+        bool save_is_dirty; // NOLINT(cata-serialize)
         /** True if the game has just started or loaded, else false. */
         bool new_game = false; // NOLINT(cata-serialize)
 
@@ -1268,7 +1274,7 @@ class game
         // remoteveh() cache
         time_point remoteveh_cache_time; // NOLINT(cata-serialize)
         vehicle *remoteveh_cache; // NOLINT(cata-serialize)
-        /** Has a NPC been spawned since last load? */
+        /** Has an NPC been spawned since last load? */
         bool npcs_dirty = false; // NOLINT(cata-serialize)
         /** Has anything died in this turn and needs to be cleaned up? */
         bool critter_died = false; // NOLINT(cata-serialize)

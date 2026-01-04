@@ -45,6 +45,12 @@
   },
   {
     "type": "enchantment",
+    "id": "ENCH_DEBUG_FREE_DODGES",
+    "condition": "ALWAYS",
+    "values": [ { "value": "FREE_DODGES", "add": 10 } ]
+  },
+  {
+    "type": "enchantment",
     "id": "SQUEAKY_ANKLES",
     "condition": "ALWAYS",
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 3 } ]

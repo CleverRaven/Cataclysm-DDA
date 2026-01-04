@@ -32,7 +32,7 @@
     "category": "artifacts",
     "looks_like": "philosophy_book",
     "name": { "str": "ancient codex", "str_pl": "ancient codices" },
-    "description": "Vellum pages bound in bark.  The strange symbols within seems to have been overwritten hundreds of times.",
+    "description": "Vellum pages bound in bark.  The strange symbols within seem to have been overwritten hundreds of times.",
     "symbol": "?",
     "color": "light_blue",
     "volume": "500 ml",
@@ -76,7 +76,7 @@
       },
       {
         "id": "faeries",
-        "name": { "str": "book of fairytales", "str_pl": "books of fairytales" },
+        "name": { "str": "book of fairy tales", "str_pl": "books of fairy tales" },
         "description": "Any glance given to this book is survived by the drone of flapping wings.",
         "weight": 300
       },

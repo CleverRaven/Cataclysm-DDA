@@ -146,7 +146,7 @@
   },
   {
     "type": "MIGRATION",
-    "id": "zuchetto",
+    "id": "zucchetto",
     "replace": "kippah"
   },
   {
@@ -227,12 +227,77 @@
   {
     "type": "MIGRATION",
     "id": "hk_mp5_10_semi",
-    "replace": "TDI_10"
+    "replace": "glock_40"
   },
   {
     "type": "MIGRATION",
     "id": "mp5_10_mag",
     "replace": "tdi_10mm_mag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "TDI_10",
+    "replace": "glock_40"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cp33",
+    "replace": "ruger_1022"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cp33_mag",
+    "replace": "ruger1022mag_55"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cp33_mag_50",
+    "replace": "ruger1022mag_55"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "p50",
+    "replace": "fn_ps90"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "M6_shotgun",
+    "replace": "u_shotgun"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "savage_111f",
+    "replace": "remington_700_308"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "shotgun_410",
+    "replace": "mossberg_500_410"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "winchester_1887",
+    "replace": "winchester_1897"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "remington_870_breacher",
+    "replace": "mossberg_590_shockwave"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bren2_762",
+    "replace": "aksemi"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bren2_762mag10",
+    "replace": "akmag10"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bren2_762mag30",
+    "replace": "akmag30"
   },
   {
     "type": "MIGRATION",
@@ -266,7 +331,47 @@
   },
   {
     "type": "MIGRATION",
+    "id": "weather_reader",
+    "replace": "geiger_off"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "survivor_machete",
+    "replace": "machete"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "toastem2",
+    "replace": "toastem"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "toastem3",
+    "replace": "toastem"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "toastem4",
+    "replace": "toastem"
+  },
+  {
+    "type": "MIGRATION",
     "id": "sewage",
     "replace": "water_sewage"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "brick_kiln",
+    "replace": "kiln"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mre_strawberry_cake",
+    "replace": "mre_chocolate_cake"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "washboard",
+    "replace": "wash_kit"
   }
 ]

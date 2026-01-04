@@ -2265,22 +2265,6 @@
     "components": [ [ [ "katana", 1 ], [ "wakizashi", 1 ] ], [ [ "spear_shaft", 1 ] ] ]
   },
   {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "survivor_machete",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "fabrication",
-    "difficulty": 6,
-    "skills_required": [ "melee", 5 ],
-    "time": "25 m",
-    "autolearn": true,
-    "using": [ [ "soldering_standard", 20 ], [ "glue_strong", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "machete", 1 ] ], [ [ "filament_durable", 20, "LIST" ] ], [ [ "leather", 2 ], [ "chunk_rubber", 1 ] ] ]
-  },
-  {
     "result": "survivor_machete_qt",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",

@@ -1363,7 +1363,7 @@
     "name": { "str_sp": "tonic water" },
     "weight": "250 g",
     "color": "light_cyan",
-    "container": "bottle_plastic_small",
+    "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 50,

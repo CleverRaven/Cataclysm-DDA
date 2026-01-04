@@ -16,6 +16,7 @@ class JsonOut;
 class const_talker;
 class item;
 class item_pocket;
+class pocket_constraint;
 class map;
 class map_cursor;
 class talker;
@@ -132,6 +133,12 @@ class item_location
         bool is_efile() const;
 
         /**
+        * Returns true if the item is a gunmod, is installed on a gun
+        * and allowed to be used directly from inventory
+        */
+        bool is_invisible_installed_gunmod() const;
+
+        /**
         * Returns available volume capacity where this item is located.
         */
         units::volume volume_capacity() const;
@@ -151,6 +158,11 @@ class item_location
         **/
         bool protected_from_liquids() const;
 
+        /**
+        * returns the pocket-related limitations (on volume_capacity, etc.) on this item due to ancestor pockets.
+        * @param pocket optional. begins with the limits of the given pocket, which must be in this location.
+        */
+        pocket_constraint get_pocket_constraints_recursive( const item_pocket *pocket = nullptr ) const;
         ret_val<void> parents_can_contain_recursive( item *it ) const;
         ret_val<int> max_charges_by_parent_recursive( const item &it ) const;
 

@@ -152,7 +152,6 @@
       { "item": "sword_metal_large", "prob": 4 },
       { "item": "knife_hunting", "prob": 16 },
       { "item": "machete", "prob": 16 },
-      { "item": "survivor_machete", "prob": 4 },
       { "item": "survivor_machete_qt", "prob": 1 },
       { "item": "sword_xiphos", "prob": 1 },
       { "item": "khopesh", "prob": 1 },

@@ -795,6 +795,25 @@ conditional_t::func f_has_item_category( const JsonObject &jo, std::string_view 
     };
 }
 
+conditional_t::func f_has_software( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    JsonObject has_software = jo.get_object( member );
+
+    str_or_var software_id = get_str_or_var( has_software.get_member( "item" ), "item", true );
+    dbl_or_var charges = get_dbl_or_var( has_software, "charges", false, 0.0 );
+    str_or_var device_id = get_str_or_var( has_software.get_member( "device" ), "device", false );
+
+    return [software_id, charges, device_id, is_npc]( const_dialogue const & d ) {
+        const_talker const *actor = d.const_actor( is_npc );
+        itype_id soft_id = itype_id( software_id.evaluate( d ) );
+        int min_charges = static_cast<int>( charges.evaluate( d ) );
+        itype_id dev_id = device_id.evaluate( d ).empty() ? itype_id::NULL_ID() : itype_id(
+                              device_id.evaluate( d ) );
+
+        return actor->has_software( soft_id, min_charges, dev_id );
+    };
+}
+
 conditional_t::func f_has_bionics( const JsonObject &jo, std::string_view member,
                                    bool is_npc )
 {
@@ -2049,6 +2068,18 @@ conditional_t::func f_using_martial_art( const JsonObject &jo, std::string_view 
     };
 }
 
+conditional_t::func f_is_rotten()
+{
+    return []( const_dialogue const & d ) {
+        item_location const *it = d.const_actor( true )->get_const_item();
+        if( it ) {
+            return ( *it )->get_relative_rot() > 1;
+        } else {
+            debugmsg( "beta talker must be Item" );
+            return false;
+        }
+    };
+}
 
 } // namespace
 } // namespace conditional_fun
@@ -2430,6 +2461,7 @@ parsers = {
     {"u_has_items", "npc_has_items", jarg::member, &conditional_fun::f_has_items },
     {"u_has_items_sum", "npc_has_items_sum", jarg::array, &conditional_fun::f_has_items_sum },
     {"u_has_item_category", "npc_has_item_category", jarg::member, &conditional_fun::f_has_item_category },
+    {"u_has_software", "npc_has_software", jarg::member, &conditional_fun::f_has_software },
     {"u_has_bionics", "npc_has_bionics", jarg::member, &conditional_fun::f_has_bionics },
     {"u_has_any_effect", "npc_has_any_effect", jarg::array, &conditional_fun::f_has_any_effect },
     {"u_has_effect", "npc_has_effect", jarg::member, &conditional_fun::f_has_effect },
@@ -2567,6 +2599,7 @@ parsers_simple = {
     {"u_is_sinking", "npc_is_sinking", &conditional_fun::f_is_sinking },
     {"u_is_on_rails", "npc_is_on_rails", &conditional_fun::f_is_on_rails },
     {"u_is_avatar_passenger", "npc_is_avatar_passenger", &conditional_fun::f_is_avatar_passenger },
+    {"is_rotten", &conditional_fun::f_is_rotten },
 };
 
 conditional_t::conditional_t( const JsonObject &jo )

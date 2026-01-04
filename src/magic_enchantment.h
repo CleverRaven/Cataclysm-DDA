@@ -73,6 +73,7 @@ enum class mod : int {
     DODGE_CHANCE,
     BONUS_DODGE,
     BONUS_BLOCK,
+    FREE_DODGES,
     MELEE_DAMAGE,
     MELEE_RANGE_MODIFIER,
     MELEE_TO_HIT,

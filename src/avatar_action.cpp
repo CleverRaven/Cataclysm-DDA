@@ -49,7 +49,6 @@
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player_activity.h"
 #include "popup.h"
 #include "point.h"
 #include "projectile.h"
@@ -250,13 +249,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         !you.has_effect( effect_psi_stunned ) && !is_riding && !you.has_effect( effect_incorporeal ) &&
         !m.impassable_field_at( dest_loc ) && !you.has_flag( json_flag_CANNOT_MOVE ) ) {
         if( weapon && weapon->has_flag( flag_DIG_TOOL ) ) {
-            if( weapon->type->can_use( "JACKHAMMER" ) &&
-                weapon->ammo_sufficient( &you ) ) {
-                you.invoke_item( &*weapon, "JACKHAMMER", dest_loc );
-                // don't move into the tile until done mining
-                you.defer_move( dest_loc );
-                return true;
-            } else if( weapon->type->can_use( "PICKAXE" ) ) {
+            if( weapon->type->can_use( "PICKAXE" ) ) {
                 you.invoke_item( &*weapon, "PICKAXE", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
@@ -979,20 +972,6 @@ bool avatar_action::eat_here( avatar &you )
 
 void avatar_action::eat( avatar &you, item_location &loc )
 {
-    std::string filter;
-    if( !you.activity.str_values.empty() ) {
-        filter = you.activity.str_values.back();
-    }
-    avatar_action::eat( you, loc, you.activity.values, you.activity.targets, filter,
-                        you.activity.id() );
-}
-
-void avatar_action::eat( avatar &you, item_location &loc,
-                         const std::vector<int> &consume_menu_selections,
-                         const std::vector<item_location> &consume_menu_selected_items,
-                         const std::string &consume_menu_filter,
-                         activity_id type )
-{
     map &here = get_map();
 
     if( !loc ) {
@@ -1001,8 +980,7 @@ void avatar_action::eat( avatar &you, item_location &loc,
         return;
     }
     loc.overflow( here );
-    you.assign_activity( consume_activity_actor( loc, consume_menu_selections,
-                         consume_menu_selected_items, consume_menu_filter, type ) );
+    you.assign_activity( consume_activity_actor( loc, true ) );
     you.last_item = item( *loc ).typeId();
 }
 

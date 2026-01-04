@@ -618,7 +618,7 @@
     "broken_color": "light_gray",
     "proportional": { "durability": 0.5 },
     "epower": "120 W",
-    "requirements": { "removal": { "time": "5 s" } },
+    "requirements": { "install": {  }, "removal": { "time": "5 s" } },
     "breaks_into": [ { "item": "folding_solar_panel", "damage": [ 5, 5 ] } ],
     "remove_as": "folding_solar_panel",
     "item": "folding_solar_panel_deployed"
@@ -644,7 +644,7 @@
     "description": "A small solar panel, mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel",
     "proportional": { "epower": 1.2 },
-    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
+    "requirements": { "install": {  }, "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
     "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
   },
   {
@@ -657,6 +657,7 @@
     "//": "4 times the panels, 1.2x matching the above appliance",
     "proportional": { "epower": 4.8 },
     "requirements": {
+      "install": {  },
       "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "electronics", 6 ] ],
@@ -1191,5 +1192,23 @@
       { "item": "wire_mesh", "count": [ 0, 1 ] },
       { "item": "metal_tank_little", "count": [ 0, 1 ] }
     ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_mobile_weather_station",
+    "copy-from": "veh_mobile_weather_station",
+    "extend": { "flags": [ "APPLIANCE" ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_xedra_mobile_weather_station",
+    "copy-from": "veh_xedra_mobile_weather_station",
+    "extend": { "flags": [ "APPLIANCE" ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_robofac_mobile_weather_station",
+    "copy-from": "veh_robofac_mobile_weather_station",
+    "extend": { "flags": [ "APPLIANCE" ] }
   }
 ]

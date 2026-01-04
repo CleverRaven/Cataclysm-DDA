@@ -72,7 +72,7 @@
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
-#include "sdltiles.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -161,20 +161,20 @@ void overmap_sidebar::draw_controls()
     ImGui::BeginChild( "Overmap Sidebar Scrolling Content", {0, 0}, 0, ImGuiWindowFlags_NoNav );
     bool &quickref = om_sidebar_state.quickref_header;
     ImGui::SetNextItemOpen( quickref );
-    quickref = ImGui::CollapsingHeader( "Quick Reference" );
+    quickref = ImGui::CollapsingHeader( _( "Quick Reference" ) );
     if( quickref ) {
         draw_quick_reference();
     };
     bool &layers = om_sidebar_state.layers_header;
     ImGui::SetNextItemOpen( layers );
-    layers = ImGui::CollapsingHeader( "Layers" );
+    layers = ImGui::CollapsingHeader( _( "Layers" ) );
     if( layers ) {
         draw_layer_info();
     }
     if( debug_mode || draw_data.debug_editor ) {
         bool &debug_info = om_sidebar_state.debug_header;
         ImGui::SetNextItemOpen( debug_info );
-        debug_info = ImGui::CollapsingHeader( "Debug" );
+        debug_info = ImGui::CollapsingHeader( _( "Debug" ) );
         if( debug_info ) {
             draw_debug();
         }
@@ -259,7 +259,7 @@ void overmap_sidebar::draw_tile_info()
             draw_sidebar_text( _( "# Weather unknown" ), c_dark_gray );
         }
     } else {
-        draw_sidebar_text( "Not viewing weather", c_dark_gray );
+        draw_sidebar_text( _( "Not viewing weather" ), c_dark_gray );
     }
 
     const std::string coords = display::overmap_position_text( cursor_pos );
@@ -420,7 +420,7 @@ void overmap_sidebar::draw_mission_info()
         if( current_mission != nullptr ) {
             mission_name = player_character.get_active_mission()->name();
 
-            draw_sidebar_text( _( "Current mission:" ), c_white );
+            draw_sidebar_text( _( "Current objective:" ), c_white );
         } else {
             mission_name = player_character.get_active_point_of_interest().text;
 
@@ -942,7 +942,7 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
     const int om_half_height = om_map_height / 2;
 
     avatar &player_character = get_avatar();
-    // Target of current mission
+    // Target of current objective
     const tripoint_abs_omt target = player_character.get_active_mission_target();
     const bool has_target = !target.is_invalid();
     oter_id ccur_ter = oter_str_id::NULL_ID();
@@ -2794,6 +2794,85 @@ std::optional<city> ui::omap::select_city( uilist &cities_menu,
         }
     }
     return ret_val;
+}
+
+void ui::omap::range_mark( const tripoint_abs_omt &origin, int range, bool add_notes,
+                           const std::string &message )
+{
+    std::vector<tripoint_abs_omt> note_pts;
+
+    if( trigdist ) {
+        note_pts.reserve( range * 7 ); // actual multiplier varies from 5.33 to 8, mostly 6 to 7
+        for( const tripoint_abs_omt &pos : points_on_radius_circ( origin, range ) ) {
+            note_pts.emplace_back( pos );
+        }
+    } else {
+        note_pts.reserve( range * 8 );
+        //North Limit
+        for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
+            note_pts.emplace_back( x, origin.y() - range, origin.z() );
+        }
+        //South
+        for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
+            note_pts.emplace_back( x, origin.y() + range, origin.z() );
+        }
+        //West
+        for( int y = origin.y() - range; y < origin.y() + range + 1; y++ ) {
+            note_pts.emplace_back( origin.x() - range, y, origin.z() );
+        }
+        //East
+        for( int y = origin.y() - range; y < origin.y() + range + 1; y++ ) {
+            note_pts.emplace_back( origin.x() + range, y, origin.z() );
+        }
+    }
+
+    for( tripoint_abs_omt &pt : note_pts ) {
+        if( add_notes ) {
+            if( !overmap_buffer.has_note( pt ) ) {
+                overmap_buffer.add_note( pt, message );
+            }
+        } else {
+            if( overmap_buffer.has_note( pt ) && overmap_buffer.note( pt ) == message ) {
+                overmap_buffer.delete_note( pt );
+            }
+        }
+    }
+}
+
+void ui::omap::line_mark( const tripoint_abs_omt &origin, const tripoint_abs_omt &dest,
+                          bool add_notes,
+                          const std::string &message )
+{
+    std::vector<tripoint_abs_omt> note_pts = line_to( origin, dest );
+
+    for( const tripoint_abs_omt &pt : note_pts ) {
+        if( add_notes ) {
+            if( !overmap_buffer.has_note( pt ) ) {
+                overmap_buffer.add_note( pt, message );
+            }
+        } else {
+            if( overmap_buffer.has_note( pt ) && overmap_buffer.note( pt ) == message ) {
+                overmap_buffer.delete_note( pt );
+            }
+        }
+    }
+}
+
+void ui::omap::path_mark(
+    const std::vector<tripoint_abs_omt> &note_pts, bool add_notes,
+    const std::string &message )
+{
+    for( const tripoint_abs_omt &pt : note_pts ) {
+        if( add_notes ) {
+            if( !overmap_buffer.has_note( pt ) ) {
+                overmap_buffer.add_note( pt, message );
+            }
+        } else {
+            if( overmap_buffer.has_note( pt ) && overmap_buffer.note( pt ) == message ) {
+                overmap_buffer.delete_note( pt );
+            }
+        }
+    }
 }
 
 void ui::omap::force_quit()

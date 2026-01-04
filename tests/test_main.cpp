@@ -340,7 +340,7 @@ int main( int argc, const char *argv[] )
                  | Opt( error_fmt, "human-readable|github-action" )
                  ["--error-format"]
                  ( "[CataclysmDDA] Format of error messages (default: human-readable)" )
-                 | Opt( check_plural_str, "none|certain|possbile" )
+                 | Opt( check_plural_str, "none|certain|possible" )
                  ["--check-plural"]
                  ( "[CataclysmDDA] (TBW)" )
                  | Opt( limit_debug_level, "number" )

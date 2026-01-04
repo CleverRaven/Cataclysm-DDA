@@ -2434,6 +2434,7 @@
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
+    "morale_modifier": [ -5, "2 hours" ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "thread", 1 ] ] ]
   },
@@ -4568,6 +4569,29 @@
       [ [ "power_supply", 4 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ]
+    ]
+  },
+  {
+    "result": "mobile_weather_station",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "electronics",
+    "time": "1 h 30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "cable", 8 ] ],
+      [ [ "pipe", 2 ] ],
+      [ [ "pipe_fittings", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "barometer", 1 ] ],
+      [ [ "hygrometer", 1 ] ],
+      [ [ "thermometer", 1 ] ]
     ]
   },
   {

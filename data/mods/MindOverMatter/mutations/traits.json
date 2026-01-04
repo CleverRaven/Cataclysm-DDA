@@ -212,9 +212,9 @@
   {
     "type": "mutation",
     "id": "PSYCHIC_KNACK",
-    "name": { "str": "Psychic Knacks", "//~": "NO_I18N" },
+    "name": { "str": "Psychic Knacks" },
     "points": 0,
-    "description": { "str": "The school trait for knacks.  It shouldn't be visible.", "//~": "NO_I18N" },
+    "description": "The school trait for knacks.  It shouldn't be visible.",
     "valid": false,
     "player_display": false,
     "starting_trait": false,
@@ -323,7 +323,7 @@
     "id": "PSI_EXTENDED_CHANNELING",
     "name": { "str": "Extended Channeling" },
     "points": 0,
-    "description": "You can take more time and care in channeling your powers.  It will take 25x as long to evoke them, but it will be much easier to activate them and you will be less likely to gain Nether Attunement while doing so.",
+    "description": "You can take more time and care in channeling your powers.  It will take 5x as long to evoke them, but it will be much easier to activate them and you will be less likely to gain Nether Attunement while doing so.",
     "active": true,
     "activated_is_setup": true,
     "valid": false,
@@ -334,9 +334,9 @@
   {
     "type": "mutation",
     "id": "PSI_EXTENDED_CHANNELING_active",
-    "name": { "str": "Extended Channeling Active", "//~": "NO_I18N" },
+    "name": { "str": "Extended Channeling Active" },
     "points": 0,
-    "description": { "str": "The active trait for Extended Channeling.  It's a bug if you can see it.", "//~": "NO_I18N" },
+    "description": "The active trait for Extended Channeling.  It's a bug if you can see it.",
     "valid": false,
     "player_display": false
   },
@@ -356,9 +356,9 @@
   {
     "type": "mutation",
     "id": "PSI_TORRENTIAL_CHANNELING_active",
-    "name": { "str": "Torrential Channeling Active", "//~": "NO_I18N" },
+    "name": { "str": "Torrential Channeling Active" },
     "points": 0,
-    "description": { "str": "The active trait for Torrential Channeling.  It's a bug if you can see it.", "//~": "NO_I18N" },
+    "description": "The active trait for Torrential Channeling.  It's a bug if you can see it.",
     "valid": false,
     "player_display": false
   }

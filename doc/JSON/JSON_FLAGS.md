@@ -88,7 +88,7 @@ When an item is crafted, it can inherit flags from the components that were used
 
 ## Ammo
 
-These are handled through [ammo types](../data/json/items/ammo_types.json).  You can tag a weapon with these to have it chamber existing ammo, or make your own ammo there.  The first column in this list is the tag's "id", the internal identifier DDA uses to track the tag, and the second is a brief description of the ammo tagged.  Use the id to search for ammo listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
+These are handled through [ammo types](/data/json/items/ammo_types.json).  You can tag a weapon with these to have it chamber existing ammo, or make your own ammo there.  The first column in this list is the tag's "id", the internal identifier DDA uses to track the tag, and the second is a brief description of the ammo tagged.  Use the id to search for ammo listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 
 - ```120mm``` 120mm HEAT
 - ```12mm``` 12mm
@@ -332,7 +332,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 ## Character
 
-Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these are hardcored, others can be edited and created via JSON.  The current trait/mutation list is at [mutations.json](../data/json/mutations/mutations.json).  For further information, see also [MUTATIONS.doc](#MUTATIONS.md#mutations).
+Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these are hardcored, others can be edited and created via JSON.  The current trait/mutation list is in [mutations/](/data/json/mutations/).  For further information, see also [MUTATIONS.doc](MUTATIONS.md#mutations).
 
 - ```ACIDBLOOD``` Drip acid from wounds instead of blood
 - ```ACID_IMMUNE``` You are immune to acid damage.
@@ -479,7 +479,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 
 ### Mutation Categories
 
-These branches are the valid `dreams` from [dreams.json](../data/json/dreams.json).
+These branches are the valid `dreams` from [dreams.json](/data/json/dreams.json).
 
 - ```MUTCAT_ALPHA``` "You feel... better.  Somehow."
 - ```MUTCAT_BEAST``` "Your heart races and you see blood for a moment."
@@ -991,6 +991,7 @@ These can be applied to guns or gunmods, adding different effects to the guns.
 - ```NEVER_JAMS``` Never malfunctions.  Unaffected by the `JAMMED_GUN` fault.
 - ```NO_DIRTYING``` Prevents the gun from receiving `fault_gun_dirt` fault.
 - ```NON_FOULING``` Gun does not become dirty or blackpowder fouled.
+- ```OVERHEATS``` Adds a description stating the gun overheats when fired continuously. Purely informational. Does not affect behavior.
 - ```JAMMED_GUN``` Stops burst fire.  Adds delay on next shot.
 - ```UNLUBRICATED``` Randomly causes screeching noise when firing and applies damage when that happens.
 
@@ -1166,7 +1167,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```GROUP_MORALE``` More courageous when near friends.
 - ```GUILT_ANIMAL``` Killing this monster(i.e. a hatchling or a kitten) causes guilt to the player and is counted for the kill thresholds of animals where player experiences progressively less morale penalty. WARNING: Do not use without 'death_guilt' death function or together with other guilt flags.
 - ```GUILT_CHILD``` Killing this monster(i.e. a zombie child or mutant child) causes guilt to the player and is counted for the kill thresholds of children where player experiences progressively less morale penalty. WARNING: Do not use without 'death_guilt' death function or together with other guilt flags.
-- ```GUILT_HUMAN``` Killing this monster(i.e. a panicked person or futile fighter) causes guilt to the player and is counted for the kill thresholds of non-NPC humans where player experiences progressively less morale penalty. WARNING: Do not use without 'death_guilt' death function or together with other guilt flags.
+- ```GUILT_HUMAN``` Killing this monster(i.e. a panicked person or futile fighter) counts as murdering an NPC. This is a special case, and does not require a death_function. (The effect is hardcoded)
 - ```GUILT_OTHERS``` Killing this monster(i.e. a blood sacrifice) causes guilt to the player and is counted for the kill thresholds of monsters that do not fit other categories where player experiences progressively less morale penalty. WARNING: Do not use without 'death_guilt' death function or together with other guilt flags.
 - ```HARDTOSHOOT``` It's one size smaller for ranged attacks, no less than the `TINY` flag.
 - ```HAS_MIND``` Is sapient and capable of reason (mi-go, triffids, cyborgs, etc.).  `HUMAN` assumes `HAS_MIND`.
@@ -1235,7 +1236,8 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```SUNDEATH``` Dies in full sunlight.
 - ```SWARMS``` Groups together and forms loose packs.
 - ```SWIMS``` (depricated in favor of [moveskills](MONSTERS.md#move_skills)) Treats water as 50 movement point terrain.
-- ```TRUESIGHT``` - The monster can see creatures normally even if they have the `CAMOUFLAGE`, `INVISIBLE` or `NIGHT_INVISIBILITY` flags
+- ```TRUESIGHT``` The monster can see creatures normally even if they have the `CAMOUFLAGE`, `INVISIBLE` or `NIGHT_INVISIBILITY` flags
+- ```UNREAKABLE_MORALE``` The monster will never run from combat once engaged
 - ```VAMP_VIRUS``` This monster can inflict the `vampire_virus` effect.  Used by Xedra Evolved mod.
 - ```VENOM``` Attack may poison the player.
 - ```WARM``` Warm blooded.
@@ -1266,6 +1268,7 @@ For more information about monster aggro, see [MONSTERS.md](MONSTERS.md#aggrocha
 - ```CLASSIC``` Only monsters we expect in a classic zombie movie.
 - ```NULL``` No category.
 - ```WILDLIFE``` Natural animals.
+- ```XE_CLASSIC``` Monsters that spawn in an XE/DDotD apocalyptic occult conspiracy scenario
 
 
 ### Death Functions
@@ -1489,8 +1492,8 @@ These are added programatically when the game is running, not by JSON.  These ar
 
 Techniques may be used by tools, armors, weapons and anything else that can be wielded.
 
-- See contents of [techniques.json](../data/json/techniques.json).
-- Techniques are also used with martial arts styles, see [martialarts.json](../data/json/martialarts.json).
+- See contents of [techniques.json](/data/json/techniques.json).
+- Techniques are also used with martial arts styles, see [martialarts.json](/data/json/martialarts.json).
 
 
 ## Tools
@@ -1555,8 +1558,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```EXTINGUISHER``` Put out fires.
 - ```FIRECRACKER_ACT``` The saddest Fourth of July.
 - ```FIRECRACKER_PACK_ACT``` Keep the change you filthy animal.
-- ```FIRECRACKER_PACK``` Light an entire packet of firecrackers.
-- ```FIRECRACKER``` Light a singular firecracker.
 - ```FLASHBANG``` Pull the pin on a flashbang.
 - ```GEIGER``` Detect local radiation levels.
 - ```GRANADE_ACT``` Assaults enemies with source code fixes?
@@ -1590,7 +1591,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```PLACE_RANDOMLY``` This is very much like the flag in the `manhack` iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead chooses randomly.
 - ```PORTABLE_GAME``` Play games.
 - ```PORTAL``` Create portal traps.
-- ```RADIO_OFF``` Turn the radio on.
 - ```RADIO_ON``` Turn the radio off.
 - ```RAG``` Stop the bleeding.
 - ```RESTAURANTMAP``` Learn of local eateries, and show roads.
@@ -1599,8 +1599,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```SEED``` Asks if you are sure that you want to eat the seed.  As it is better to plant seeds.
 - ```SEW``` Sew clothing.
 - ```SHELTER``` Put up a full-blown shelter.
-- ```SHOCKTONFA_OFF``` Turn the shocktonfa on.
-- ```SHOCKTONFA_ON``` Turn the shocktonfa off.
 - ```SIPHON``` Siphon liquids out of vehicle.
 - ```SMOKEBOMB_ACT``` This may be a good way to hide as a smoker.
 - ```SMOKEBOMB``` Pull the pin on a smoke bomb.

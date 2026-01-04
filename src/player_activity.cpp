@@ -10,7 +10,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
-#include "construction.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
@@ -22,7 +21,6 @@
 #include "item.h"
 #include "itype.h"
 #include "magic.h"
-#include "map.h"
 #include "messages.h"
 #include "rng.h"
 #include "skill.h"
@@ -41,15 +39,10 @@
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
-static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
-static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
@@ -151,10 +144,6 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
     if( type == ACT_AIM ||
         type == ACT_ARMOR_LAYERS ||
         type == ACT_ATM ||
-        type == ACT_CONSUME_DRINK_MENU ||
-        type == ACT_CONSUME_FOOD_MENU ||
-        type == ACT_CONSUME_MEDS_MENU ||
-        type == ACT_EAT_MENU ||
         type == ACT_INVOKE_ITEM
       ) {
         return std::nullopt;
@@ -190,19 +179,6 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
             const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
 
             extra_info = string_format( "%d%%", percentage );
-        }
-
-        if( type == ACT_BUILD ) {
-            map &here = get_map();
-
-            partial_con *pc =
-                here.partial_con_at( here.get_bub( u.activity.placement ) );
-            if( pc ) {
-                int counter = std::min( pc->counter, 10000000 );
-                const int percentage = counter / 100000;
-
-                extra_info = string_format( "%d%%", percentage );
-            }
         }
 
         if( type == ACT_SPELLCASTING ) {
@@ -471,6 +447,17 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
 
     return !auto_resume && index == other.index &&
            position == other.position && name == other.name && targets == other.targets;
+}
+
+void player_activity::set_resume_values( const player_activity &other, const Character &who )
+{
+    if( !can_resume_with( other, who ) ) {
+        return;
+    }
+
+    if( actor && other.actor ) {
+        actor->set_resume_values( *other.actor, who );
+    }
 }
 
 bool player_activity::is_interruptible() const

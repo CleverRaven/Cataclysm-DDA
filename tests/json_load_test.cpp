@@ -39,6 +39,14 @@ TEST_CASE( "damage_instance_load_does_not_extend", "[json][damage][load]" )
     CHECK( overwrite.type_damage( damage_heat ) == 0.f );
 }
 
+TEST_CASE( "item_name_inherited_from_copy_from", "[json][item][load]" )
+{
+    REQUIRE( itype_test_copyfrom_base.is_valid() );
+    REQUIRE( itype_test_copyfrom_overwrite.is_valid() );
+
+    CHECK( itype_test_copyfrom_overwrite->nname( 1 ) == "base" );
+}
+
 TEST_CASE( "monster_special_attack_cooldown_inheritance", "[json][monster][load]" )
 {
     REQUIRE( mon_test_base.is_valid() );

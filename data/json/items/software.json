@@ -5,7 +5,7 @@
     "type": "ITEM",
     "category": "software",
     "name": { "str_sp": "abstract software", "//~": "NO_I18N" },
-    "description": { "str": "Copy from this for any software", "//~": "NO_I18N" },
+    "description": { "str": "Copy from this for any software.", "//~": "NO_I18N" },
     "ememory_size": "1 KB"
   },
   {

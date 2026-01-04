@@ -450,6 +450,7 @@ game::game() :
     scent( *scent_ptr ),
     timed_events( *timed_event_manager_ptr ),
     uquit( QUIT_NO ),
+    save_is_dirty( false ),
     safe_mode( SAFE_MODE_ON ),
     u_shared_ptr( &u, null_deleter{} ),
     next_npc_id( 1 ),
@@ -1958,7 +1959,7 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
 
 static hint_rating rate_action_collapse( const item &it )
 {
-    for( const item_pocket *pocket : it.get_all_standard_pockets() ) {
+    for( const item_pocket *pocket : it.get_standard_pockets() ) {
         if( !pocket->settings.is_collapsed() ) {
             return hint_rating::good;
         }
@@ -1968,7 +1969,7 @@ static hint_rating rate_action_collapse( const item &it )
 
 static hint_rating rate_action_expand( const item &it )
 {
-    for( const item_pocket *pocket : it.get_all_standard_pockets() ) {
+    for( const item_pocket *pocket : it.get_standard_pockets() ) {
         if( pocket->settings.is_collapsed() ) {
             return hint_rating::good;
         }
@@ -2108,6 +2109,7 @@ int game::inventory_item_menu( item_location locThisItem,
         bool first_execution = true;
         static int lang_version = detail::get_current_language_version();
         catacurses::window w_info;
+        shared_ptr_fast<uilist_impl> ui_impl;
         do {
             //lang check here is needed to redraw the menu when using "Toggle language to English" option
             if( first_execution || lang_version != detail::get_current_language_version() ) {
@@ -2222,7 +2224,7 @@ int game::inventory_item_menu( item_location locThisItem,
             }
 
             const int prev_selected = action_menu.selected;
-            action_menu.query( true );
+            ui_impl = action_menu.query( false );
             if( action_menu.ret >= 0 ) {
                 cMenu = action_menu.ret; /* Remember: hotkey == retval, see addentry above. */
             } else if( action_menu.ret == UILIST_UNBOUND && action_menu.ret_act == "RIGHT" ) {
@@ -2268,7 +2270,10 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( !locThisItem.get_item()->is_container() ) {
                         avatar_action::eat( u, locThisItem );
                     } else {
-                        avatar_action::eat_or_use( u, game_menus::inv::consume( locThisItem ) );
+                        uistate.open_menu = [locThisItem = locThisItem]() {
+                            avatar_action::eat_or_use( get_avatar(),
+                                                       game_menus::inv::consume( std::string(), locThisItem ) );
+                        };
                     }
                     break;
                 case 'W': {
@@ -2384,7 +2389,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case '<':
                 case '>':
-                    for( item_pocket *pocket : oThisItem.get_all_standard_pockets() ) {
+                    for( item_pocket *pocket : oThisItem.get_standard_pockets() ) {
                         pocket->settings.set_collapse( cMenu == '>' );
                     }
                     break;
@@ -4982,12 +4987,7 @@ void game::save_cyborg( item *cyborg, const tripoint_bub_ms &couch_pos, Characte
 void game::exam_appliance( vehicle &veh, const point_rel_ms &c )
 {
     map &here = get_map();
-
-    player_activity act = veh_app_interact::run( here, veh, c );
-    if( act ) {
-        u.set_moves( 0 );
-        u.assign_activity( act );
-    }
+    veh_app_interact::run( here, veh, c );
 }
 
 void game::exam_vehicle( vehicle &veh, const point_rel_ms &c )
@@ -4998,11 +4998,7 @@ void game::exam_vehicle( vehicle &veh, const point_rel_ms &c )
         add_msg( m_info, _( "This is your %s" ), veh.name );
         return;
     }
-    player_activity act = veh_interact::run( here, veh, c );
-    if( act ) {
-        u.set_moves( 0 );
-        u.assign_activity( act );
-    }
+    veh_interact::run( here, veh, c );
 }
 
 void game::open_gate( const tripoint_bub_ms &p )
@@ -5138,11 +5134,10 @@ void game::control_vehicle()
             return;
         } else if( num_valid_controls > 1 ) {
             const std::optional<tripoint_bub_ms> temp = choose_adjacent( _( "Control vehicle where?" ) );
-            if( !vehicle_position ) {
+            if( !temp ) {
                 return;
-            } else {
-                vehicle_position.value() = temp.value();
             }
+            vehicle_position = temp.value();
             const optional_vpart_position vp = here.veh_at( *vehicle_position );
             if( vp ) {
                 vehicle_controls = vp.value().part_with_feature( "CONTROLS", true );
@@ -8104,12 +8099,27 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 }
 
+
+class reload_selector_preset : public inventory_selector_preset
+{
+    public:
+        explicit reload_selector_preset() : you( get_avatar() ) {
+            _pk_type = { pocket_type::CONTAINER, pocket_type::MOD };
+        }
+        bool is_shown( const item_location &location ) const override {
+            return !location.is_invisible_installed_gunmod( ) &&
+                   you.rate_action_reload( *location ) == hint_rating::good;
+        }
+    private:
+        const Character &you;
+};
+
 // Reload something.
 void game::reload_item()
 {
-    item_location item_loc = inv_map_splice( [&]( const item & it ) {
-        return u.rate_action_reload( it ) == hint_rating::good;
-    }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
+    const reload_selector_preset preset;
+    item_location item_loc = inv_map_splice( preset,
+                             _( "Reload item" ), 1, _( "You have nothing to reload." ) );
 
     if( !item_loc ) {
         add_msg( _( "Never mind." ) );
@@ -10553,7 +10563,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         if( crit->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             crit->use_mech_power( u.current_movement_mode()->mech_power_use() + 1_kJ );
         }
-    } else {
+    } else if( !u.in_vehicle ) {
         u.mod_moves( -move_cost );
         u.burn_energy_all( -move_cost );
     }
@@ -10767,6 +10777,7 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     if( undo_shift ) {
         travel_to_dimension( old_prefix, region_type, npc_travellers, veh );
     }
+    game::mon_info_update();
     return true;
 }
 

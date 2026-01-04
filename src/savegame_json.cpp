@@ -259,7 +259,7 @@ static tripoint_bub_ms read_legacy_creature_pos( const JsonObject &data )
 
 void item_contents::serialize( JsonOut &json ) const
 {
-    if( !contents.empty() || !get_all_ablative_pockets().empty() || !additional_pockets.empty() ) {
+    if( !contents.empty() || !get_ablative_pockets().empty() || !additional_pockets.empty() ) {
         json.start_object();
 
         json.member( "contents", contents );
@@ -408,7 +408,11 @@ void player_activity::deserialize( const JsonObject &data )
     std::set<std::string> obs_activities {
         "ACT_PICKUP_MENU", // Remove after 0.I
         "ACT_VIEW_RECIPE", // Remove after 0.I
-        "ACT_ADV_INVENTORY" // Remove after 0.I
+        "ACT_ADV_INVENTORY", // Remove after 0.I
+        "ACT_EAT_MENU", // Remove after 0.J
+        "ACT_CONSUME_FOOD_MENU", // Remove after 0.J
+        "ACT_CONSUME_DRINK_MENU", // Remove after 0.J
+        "ACT_CONSUME_MEDS_MENU" // Remove after 0.J
     };
     if( !data.read( "type", tmptype ) ) {
         // Then it's a legacy save.
@@ -431,8 +435,8 @@ void player_activity::deserialize( const JsonObject &data )
     // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
     // this may cause inconvenience but should avoid any lasting damage to npcs
     if( is_obsolete || ( has_actor && ( data.has_null( "actor" ) || !data.has_member( "actor" ) ) ) ) {
+        actor = std::make_unique<migration_cancel_activity_actor>( type );
         type = ACT_MIGRATION_CANCEL;
-        actor = std::make_unique<migration_cancel_activity_actor>();
     } else {
         data.read( "actor", actor );
     }
@@ -1127,6 +1131,7 @@ void Character::load( const JsonObject &data )
     data.read( "slow_rad", slow_rad );
     data.read( "scent", scent );
     data.read( "male", male );
+    data.read( "free_dodges_left", free_dodges_left );
     data.read( "cash", cash );
     data.read( "recoil", recoil );
     data.read( "book_chapters", book_chapters );
@@ -1493,6 +1498,8 @@ void Character::store( JsonOut &json ) const
     // gender
     json.member( "male", male );
 
+    // Some misc values that are character-specific
+    json.member( "free_dodges_left", free_dodges_left );
     json.member( "cash", cash );
     json.member( "recoil", recoil );
     json.member( "book_chapters", book_chapters );
@@ -3959,6 +3966,7 @@ void Creature::load( const JsonObject &jsin )
 
     jsin.read( "damage_over_time_map", damage_over_time_map );
 
+    // FIXME? dodges_left and blocks_left (members of Character, not Creature!) are not stored or read
     jsin.read( "blocks_left", num_blocks );
     jsin.read( "dodges_left", num_dodges );
     jsin.read( "num_blocks_bonus", num_blocks_bonus );
@@ -4997,6 +5005,7 @@ void submap::store( JsonOut &jsout ) const
                     jsout.write( cur.get_field_type().id() );
                     jsout.write( cur.get_field_intensity() );
                     jsout.write( cur.get_field_age() );
+                    cur.get_effect_source().serialize( jsout );
                 }
                 jsout.end_array();
             }
@@ -5258,18 +5267,20 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                     field_type_str_id ft = field_type_str_id( type_value.get_string() );
                     const int intensity = field_json.next_int();
                     const int age = field_json.next_int();
+                    effect_source source;
+                    if( version >= 39 ) {
+                        const JsonObject source_obj = field_json.next_object();
+                        source.deserialize( source_obj );
+                    }
                     if( auto it = field_migrations.find( ft ); it != field_migrations.end() ) {
                         ft = it->second;
                     }
                     if( !ft.is_valid() ) {
                         debugmsg( "invalid field_type_str_id '%s'", ft.c_str() );
                     } else if( ft != field_type_str_id::NULL_ID() &&
-                               m->fld[i][j].add_field( ft.id(), intensity, time_duration::from_turns( age ) ) ) {
+                               m->fld[i][j].add_field( ft.id(), intensity, time_duration::from_turns( age ), source ) ) {
                         field_count++;
                     }
-                } else { // Handle removed int enum method
-                    field_json.next_value(); // Skip intensity
-                    field_json.next_value(); // Skip age
                 }
             }
         }

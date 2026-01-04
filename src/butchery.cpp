@@ -143,6 +143,11 @@ std::string butcher_progress_var( const butcher_type action )
     return io::enum_to_string( action ) + "_progress";
 }
 
+std::string butcher_progress_time_var()
+{
+    return "butchery_progress_time";
+}
+
 // How much of `butcher_type` has already been completed, in range [0..1], 0=not started yet, 1=completed.
 // used for resuming previously started butchery
 double butcher_get_progress( const item &corpse_item, const butcher_type action )
@@ -652,14 +657,6 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                                    _( "You salvage what you can from the corpse, but it is badly damaged." ) );
         }
     }
-    if( corpse_item.has_flag( flag_UNDERFED ) ) {
-        monster_weight = std::round( 0.9 * monster_weight );
-        if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
-            action != butcher_type::DISSECT ) {
-            you.add_msg_if_player( m_bad,
-                                   _( "The corpse looks a little underweight…" ) );
-        }
-    }
     if( corpse_item.has_flag( flag_SKINNED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
     }
@@ -727,9 +724,6 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
         if( corpse_item.has_flag( flag_GIBBED ) && ( entry.type == harvest_drop_flesh ||
                 entry.type == harvest_drop_bone ) ) {
             roll /= 2;
-        }
-        if( corpse_item.has_flag( flag_UNDERFED ) && ( entry.type == harvest_drop_flesh ) ) {
-            roll /= 1.6;
         }
 
         if( ( corpse_item.has_flag( flag_SKINNED ) || corpse_item.has_flag( flag_QUARTERED ) ) &&
@@ -1074,6 +1068,7 @@ void destroy_the_carcass( const butchery_data &bd, Character &you )
     const field_type_id type_gib = corpse->gibType();
 
     corpse_item.erase_var( butcher_progress_var( action ) );
+    corpse_item.erase_var( butcher_progress_time_var() );
 
     if( action == butcher_type::QUARTER ) {
         butchery_quarter( &corpse_item, you );

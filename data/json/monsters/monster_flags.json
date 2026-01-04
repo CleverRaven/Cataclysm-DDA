@@ -405,6 +405,11 @@
     "//": "Monsters that can push vehicles out of their way"
   },
   {
+    "id": "UNBREAKABLE_MORALE",
+    "type": "monster_flag",
+    "//": "Monsters that will never run not matter how much damage they suffer"
+  },
+  {
     "id": "NIGHT_INVISIBILITY",
     "type": "monster_flag",
     "//": "Monsters that are invisible in poor light conditions"
@@ -631,8 +636,7 @@
   },
   {
     "id": "EATS",
-    "type": "monster_flag",
-    "//": "If this monster eats via EAT_CARRION or EAT_FOOD, it can fill its stomach. Requires a stomach_size in its json."
+    "type": "monster_flag"
   },
   {
     "id": "CORNERED_FIGHTER",
@@ -657,7 +661,7 @@
   {
     "id": "GUILT_HUMAN",
     "type": "monster_flag",
-    "//": "Warning: Do not use without death_guilt function. This helps count the non-npc human (e.g civilian/futile fighter) kills before player goes numb."
+    "//COMMENT": "Killing this monster counts as murdering an NPC. This is a special case, and does not require a death_function. (The effect is hardcoded)"
   },
   {
     "id": "GUILT_OTHERS",

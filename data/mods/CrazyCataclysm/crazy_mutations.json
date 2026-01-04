@@ -20,5 +20,18 @@
     "valid": false,
     "chargen_allow_npc": false,
     "cancels": [ "LUCKY" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TROGLO3",
+    "copy-from": "TROGLO3",
+    "name": { "str": "Gamer" }
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_TROGLOBITE",
+    "copy-from": "THRESH_TROGLOBITE",
+    "name": { "str": "Basement Dweller" },
+    "description": "It might not be your parents', but it's a home."
   }
 ]

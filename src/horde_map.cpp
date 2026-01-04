@@ -122,11 +122,14 @@ static bool is_alert( const mtype &type )
 std::unordered_map<tripoint_abs_ms, horde_entity>::iterator horde_map::spawn_entity(
     const tripoint_abs_ms &p, mtype_id id )
 {
+    std::unordered_map<tripoint_abs_ms, horde_entity>::iterator result;
+    if( id.is_null() || !id.is_valid() ) {
+        return result; // Bail out, blacklisted monster or something's wrong.
+    }
     std::unordered_map <tripoint_om_sm, std::unordered_map<tripoint_abs_ms, horde_entity>> &target_map =
                 id->has_flag( mon_flag_DORMANT ) ? dormant_monster_map :
                 is_alert( *id ) ? idle_monster_map :
                 immobile_monster_map;
-    std::unordered_map<tripoint_abs_ms, horde_entity>::iterator result;
     point_abs_om omp;
     tripoint_om_sm sm;
     std::tie( omp, sm ) = project_remain<coords::om>( project_to<coords::sm>( p ) );

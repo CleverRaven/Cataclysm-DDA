@@ -1,0 +1,38 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "xedra_rural_church", "xedra_rural_church_parking" ],
+    "vision_levels": "isolated_building",
+    "name": "barricaded rural church",
+    "sym": "C",
+    "color": "light_red",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "xedra_rural_church_steeple" ],
+    "vision_levels": "isolated_building",
+    "name": "rural church steeple",
+    "sym": "C",
+    "color": "light_red",
+    "see_cost": "spaced_high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "xedra_rural_church_steeple_roof" ],
+    "vision_levels": "roof_or_air",
+    "name": "rural church steeple roof",
+    "sym": "C",
+    "color": "light_red",
+    "see_cost": "none"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "xedra_rural_church_basement" ],
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "name": "church basement",
+    "sym": "B",
+    "color": "light_red"
+  }
+]

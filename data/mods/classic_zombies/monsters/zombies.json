@@ -3,6 +3,7 @@
     "id": "mon_zombie",
     "type": "MONSTER",
     "copy-from": "mon_zombie",
+    "delete": { "flags": [ "UNBREAKABLE_MORALE" ] },
     "extend": {
       "special_attacks": [
         {

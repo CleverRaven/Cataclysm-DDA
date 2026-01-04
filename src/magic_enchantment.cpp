@@ -99,6 +99,7 @@ namespace io
             case enchant_vals::mod::RANGED_DAMAGE: return "RANGED_DAMAGE";
 			case enchant_vals::mod::RANGED_ARMOR_PENETRATION: return "RANGED_ARMOR_PENETRATION";
             case enchant_vals::mod::DODGE_CHANCE: return "DODGE_CHANCE";
+            case enchant_vals::mod::FREE_DODGES: return "FREE_DODGES";
             case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
             case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
             case enchant_vals::mod::ATTACK_NOISE: return "ATTACK_NOISE";
@@ -422,6 +423,7 @@ bool enchantment::is_monster_relevant() const
         if( pair_values.first == enchant_vals::mod::ARMOR_ALL ||
             pair_values.first == enchant_vals::mod::REGEN_HP ||
             pair_values.first == enchant_vals::mod::VISION_RANGE ||
+            pair_values.first == enchant_vals::mod::RANGE_DODGE ||
             pair_values.first == enchant_vals::mod::SPEED ||
             pair_values.first == enchant_vals::mod::LUMINATION ||
             pair_values.first == enchant_vals::mod::TOTAL_WEIGHT ) {
@@ -435,6 +437,7 @@ bool enchantment::is_monster_relevant() const
         if( pair_values.first == enchant_vals::mod::ARMOR_ALL ||
             pair_values.first == enchant_vals::mod::REGEN_HP ||
             pair_values.first == enchant_vals::mod::VISION_RANGE ||
+            pair_values.first == enchant_vals::mod::RANGE_DODGE ||
             pair_values.first == enchant_vals::mod::SPEED ||
             pair_values.first == enchant_vals::mod::LUMINATION ||
             pair_values.first == enchant_vals::mod::TOTAL_WEIGHT ) {
@@ -1391,6 +1394,9 @@ void enchant_cache::activate_passive( Character &guy ) const
 
     guy.mod_num_blocks_bonus( modify_value( enchant_vals::mod::BONUS_BLOCK,
                                             guy.get_num_blocks_base() ) - guy.get_num_blocks_base() );
+
+    guy.mod_free_dodges( modify_value( enchant_vals::mod::FREE_DODGES,
+                                       guy.get_num_free_dodges() ) - guy.get_num_free_dodges() );
 
     if( emitter ) {
         get_map().emit_field( guy.pos_bub(), *emitter );

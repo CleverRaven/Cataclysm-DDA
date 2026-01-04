@@ -1680,7 +1680,7 @@
     "name": "Upgrade: Stability 5",
     "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Explorer's Ward from things helping to withstand harsh conditions.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will begin every expedition with the ability to withstand 13 pulses instead of the default 8, allowing you to stay out 62.5% longer before warpsickness takes over.",
     "goal": "MGOAL_FIND_ITEM",
-    "item": "upgradekey_stability4",
+    "item": "upgradekey_stability5",
     "count": 1,
     "difficulty": 0,
     "value": 0,
@@ -2186,7 +2186,7 @@
       [ [ "warptoken", 5 ] ],
       [ [ "carpentry_book", 1 ], [ "textbook_carpentry", 1 ] ],
       [ [ "hinge", 20 ] ],
-      [ [ "remington_870_breacher", 1 ], [ "shotgun_d", 3 ] ]
+      [ [ "mossberg_590_shockwave", 1 ], [ "shotgun_d", 3 ] ]
     ]
   },
   {
@@ -5292,7 +5292,7 @@
     "name": "Upgrade: Personal temperature adjustement",
     "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Climate Self-Injector from temperature-controlling devices and various parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Temperature cannot affect you while on the island.",
     "goal": "MGOAL_FIND_ITEM",
-    "item": "upgradekey_windblock",
+    "item": "upgradekey_temperature_control",
     "count": 1,
     "difficulty": 0,
     "value": 0,

@@ -340,6 +340,10 @@
           { "value": "DEXTERITY", "add": 2 },
           { "value": "WEIGHT", "multiply": -0.15 }
         ]
+      },
+      {
+        "condition": { "math": [ "u_effect_intensity('effect_vitamin_elven_wilderness') <= 3" ] },
+        "mutations": [ "DISIMMUNE" ]
       }
     ],
     "flags": [ "HERITAGE" ]
@@ -454,6 +458,53 @@
           ]
         },
         "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELVEN_NEED_FOR_WILDERNESS",
+    "name": { "str": "The Longing" },
+    "points": -4,
+    "description": "Elves are tied to the wilderness in a literal sense, and being away from the wilds too long makes them weak and frail.  Spending too long underground, indoors, or in the remnants of the cities will reduce your health stat; spending time in the wilderness will restore it.  Being indoors in magically-created natural buildings or in public parks can hold the Longing at bay, but it is no substitute for the wilderness.",
+    "purifiable": false,
+    "category": [ "SPECIES_ELF" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "math": [ "u_magiclysm_elf_is_in_wilderness == 1" ] },
+            {
+              "or": [
+                "u_is_outside",
+                {
+                  "and": [ { "not": "u_is_outside" }, { "test_eoc": "EOC_CONDITION_MAGICLYSM_ELF_WILDERNESS_EQUIVALENTS" } ]
+                }
+              ]
+            }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_elven_wilderness_bonus_gain_vitamin", "intensity": 1 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "math": [ "u_magiclysm_elf_is_in_wilderness == 0" ] },
+            {
+              "or": [ { "test_eoc": "EOC_CONDITION_MAGICLYSM_ELF_WILDERNESS_EQUIVALENTS" }, { "u_has_effect": "natures_commune" } ]
+            }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_elven_wilderness_bonus_steady_state", "intensity": 1 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "or": [ { "math": [ "u_magiclysm_elf_is_in_wilderness == 0" ] }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
+            { "not": { "test_eoc": "EOC_CONDITION_MAGICLYSM_ELF_WILDERNESS_EQUIVALENTS" } }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_elven_wilderness_bonus_lose_vitamin", "intensity": 1 } ]
       }
     ]
   },

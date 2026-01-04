@@ -27,6 +27,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_components.h"
+#include "item_contents.h"
 #include "item_group.h"
 #include "item_tname.h"
 #include "itype.h"
@@ -36,6 +37,7 @@
 #include "mapgen_parameter.h"
 #include "mapgendata.h"
 #include "math_defines.h"
+#include "npc.h"
 #include "output.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
@@ -51,8 +53,18 @@
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_hotplate( "hotplate" );
 
+static const morale_type morale_fun_craft( "morale_fun_craft" );
+static const morale_type morale_shitty_craft( "morale_shitty_craft" );
+
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 
+
+std::string recipe::get_description( const Character &crafter ) const
+{
+    std::string desc = description.translated();
+    parse_tags( desc, crafter, crafter );
+    return desc;
+}
 
 int recipe::get_difficulty( const Character &crafter ) const
 {
@@ -290,6 +302,8 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
             autolearn_requirements[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
         }
     }
+
+    optional( jo, was_loaded, "morale_modifier", morale_modifier, {0, 0_seconds} );
 
     // Mandatory: This recipe's exertion level
     mandatory( jo, was_loaded, "activity_level", exertion, activity_level_reader{} );
@@ -772,6 +786,19 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
     if( newit.is_magazine() && has_flag( flag_FULL_MAGAZINE ) ) {
         newit.ammo_set( newit.ammo_default(),
                         newit.ammo_capacity( item::find_type( newit.ammo_default() )->ammo->type ) );
+    }
+
+    // if the first component has compatible pockets, try to preserve the contents
+    if( used && !used->empty() ) {
+        const item_components::type_vector_pair &first_component_pair = *used->begin();
+
+        if( first_component_pair.second.size() == 1 ) {
+            const item &first_component = first_component_pair.second.front();
+
+            if( !first_component.get_contents().empty() ) {
+                newit.get_contents().combine( first_component.get_contents(), true );
+            }
+        }
     }
 
     int amount = charges ? *charges : newit.count();
@@ -1357,6 +1384,32 @@ std::function<bool( const item & )> recipe::get_component_filter(
                frozen_filter( component ) &&
                magazine_filter( component );
     };
+}
+
+void recipe::apply_all_morale_mods( Character &guy ) const
+{
+    apply_positive_morale_mods( guy );
+    apply_negative_morale_mods( guy );
+}
+
+void recipe::apply_negative_morale_mods( Character &guy ) const
+{
+    const int &morale_bonus = morale_modifier.first;
+    if( morale_bonus < 0 ) {
+        const time_duration &morale_timer = morale_modifier.second;
+        guy.add_morale( morale_shitty_craft, morale_bonus, morale_bonus * 100, morale_timer / 2,
+                        morale_timer );
+    }
+}
+
+void recipe::apply_positive_morale_mods( Character &guy ) const
+{
+    const int &morale_bonus = morale_modifier.first;
+    if( morale_bonus > 0 ) {
+        const time_duration &morale_timer = morale_modifier.second;
+        guy.add_morale( morale_fun_craft, morale_bonus, morale_bonus * 10, morale_timer / 2,
+                        morale_timer );
+    }
 }
 
 bool recipe::npc_can_craft( std::string & ) const

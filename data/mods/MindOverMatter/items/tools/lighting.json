@@ -20,7 +20,6 @@
       "type": "transform",
       "msg": "You turn the flashlight on.",
       "target": "pyrokinetic_flashlight_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The flashlight's batteries are dead."
     },
@@ -50,7 +49,7 @@
       "ammo_scale": 0
     },
     "light": 225,
-    "flags": [ "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "WATER_BREAK" ]
+    "flags": [ "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "WATER_BREAK", "SPAWN_ACTIVE" ]
   },
   {
     "id": "pyrokinetic_lamp",
@@ -69,7 +68,6 @@
     "use_action": {
       "type": "transform",
       "target": "pyrokinetic_lamp_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The lamp's batteries are dead.",
       "msg": "You open the lamp's cover.",
@@ -83,6 +81,7 @@
         "default_magazine": "light_battery_cell"
       }
     ],
+    "tool_ammo": [ "battery" ],
     "flags": [ "LEAK_DAM", "ALLOWS_REMOTE_USE", "WATER_BREAK_ACTIVE" ]
   },
   {
@@ -95,7 +94,7 @@
     "power_draw": "250 mW",
     "use_action": { "type": "transform", "target": "pyrokinetic_lamp", "msg": "You close the lamp's cover.", "menu_text": "Close cover" },
     "light": 150,
-    "flags": [ "LEAK_DAM", "ALLOWS_REMOTE_USE", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ]
+    "flags": [ "LEAK_DAM", "ALLOWS_REMOTE_USE", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ]
   },
   {
     "type": "ITEM",

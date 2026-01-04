@@ -1582,6 +1582,7 @@ dokie
 Dolichovespula
 dollkin
 dolm
+dolmas
 domestica
 Donatello
 donburi
@@ -2659,6 +2660,7 @@ hnefatafl
 Hobbes
 hobblebush
 hobbleberries
+hobbleberry
 hoc
 Hockomock
 hodag
@@ -3451,6 +3453,8 @@ Lilit
 lilypad
 Lima
 limbed
+limnology
+limnological
 Lincoln
 Linda
 Lindbergh
@@ -4174,11 +4178,13 @@ nanomesh
 nanoprinted
 nanoribbon
 nanoribbons
+nanos
 nanosaurus
 nanoskirt
 nanoskirts
 nanotech
 nanotubes
+nanotyrannus
 nanowire
 Nantucket
 nanuqsaurus
@@ -4609,6 +4615,8 @@ papalotl
 Papaver
 paperclipped
 papier
+PAPR
+PAPRs
 Papuan
 papyrifera
 parabellum
@@ -6280,6 +6288,7 @@ Thumper
 thunderball
 Thunderdome
 thunk
+thunks
 Thursday
 thyreophoran
 Tiamat

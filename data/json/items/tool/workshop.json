@@ -110,25 +110,6 @@
     "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
-    "id": "brick_kiln",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "brick kiln" },
-    "description": "A portable coal-or-charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
-    "weight": "9600 g",
-    "volume": "30 L",
-    "price": "250 USD",
-    "price_postapoc": "10 USD",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "dark_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 1000, "coal": 5000 } } ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 13 },
-    "tool_ammo": [ "charcoal", "coal" ]
-  },
-  {
     "id": "carding_paddles",
     "type": "ITEM",
     "category": "tools",
@@ -1881,7 +1862,7 @@
     "id": "exodii_kiln",
     "type": "ITEM",
     "name": { "str": "Exodii kiln" },
-    "description": "An electric kiln, powered by your electric grid.  A bit larger than a refridgerator, this Exodii-manufactured kiln is large enough to repair the sheets of ceramic they use for armor.  It is designed for firing sheets of the Exodii's ceramic, but you could use it to fire anything made of clay.  A large and power-hungry appliance.",
+    "description": "An electric kiln, powered by your electric grid.  A bit larger than a refrigerator, this Exodii-manufactured kiln is large enough to repair the sheets of ceramic they use for armor.  It is designed for firing sheets of the Exodii's ceramic, but you could use it to fire anything made of clay.  A large and power-hungry appliance.",
     "weight": "175 kg",
     "volume": "1000 L",
     "price": "5000 USD",
@@ -1934,5 +1915,15 @@
     "proportional": { "weight": 1.1 },
     "material": [ "bronze" ],
     "color": "yellow"
+  },
+  {
+    "id": "razor_blade_taped",
+    "copy-from": "razor_blade",
+    "looks_like": "razor_blade",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "taped razorblade" },
+    "description": "A double-edged razor blade with one side taped to allow its use as a basic tool.",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ], [ "FABRIC_CUT", 1 ] ]
   }
 ]

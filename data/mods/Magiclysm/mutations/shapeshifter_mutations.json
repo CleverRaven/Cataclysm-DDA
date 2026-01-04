@@ -16,12 +16,9 @@
   {
     "type": "mutation",
     "id": "DRUID_SHIFTER_BEAR_FORM_TRAITS",
-    "name": { "str": "Bear Form", "//~": "NO_I18N" },
+    "name": "Bear Form",
     "points": 98,
-    "description": {
-      "str": "You are a bear.  This provides the actual effects of bear form.  Should not be player-visible",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a bear.  This provides the actual effects of bear form.  Should not be player-visible",
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
@@ -82,12 +79,9 @@
   {
     "type": "mutation",
     "id": "DRUID_SHIFTER_COUGAR_FORM_TRAITS",
-    "name": { "str": "Cougar Form", "//~": "NO_I18N" },
+    "name": "Cougar Form",
     "points": 98,
-    "description": {
-      "str": "You are a cougar.  This provides the actual effects of cougar form.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a cougar.  This provides the actual effects of cougar form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -139,12 +133,9 @@
   {
     "type": "mutation",
     "id": "DRUID_SHIFTER_DEER_FORM_TRAITS",
-    "name": { "str": "Deer Form", "//~": "NO_I18N" },
+    "name": "Deer Form",
     "points": 98,
-    "description": {
-      "str": "You are a deer.  This provides the actual effects of deer form.  Should not be player-visible",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a deer.  This provides the actual effects of deer form.  Should not be player-visible",
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
@@ -180,12 +171,9 @@
   {
     "type": "mutation",
     "id": "DRUID_SHIFTER_FISH_FORM_TRAITS",
-    "name": { "str": "Fish Form", "//~": "NO_I18N" },
+    "name": "Fish Form",
     "points": 0,
-    "description": {
-      "str": "You are a fish.  This provides the actual effects of fish form.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a fish.  This provides the actual effects of fish form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -263,12 +251,9 @@
   {
     "type": "mutation",
     "id": "DRUID_SHIFTER_RAVEN_FORM_TRAITS",
-    "name": { "str": "Raven Form", "//~": "NO_I18N" },
+    "name": "Raven Form",
     "points": 0,
-    "description": {
-      "str": "You are a raven.  This provides the actual effects of raven form.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a raven.  This provides the actual effects of raven form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -454,5 +439,38 @@
     "ugliness": 2,
     "description": "You have a short, stubby goat tail.",
     "types": [ "TAIL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIOMANCER_NPC_WRETCH_POLYMORPH",
+    "name": { "str": "Fleshwarped Wretch" },
+    "points": 0,
+    "visibility": 30,
+    "ugliness": 30,
+    "description": "You have been transformed into a horrific pile of random parts.",
+    "valid": false,
+    "craft_skill_bonus": [ [ "electronics", -20 ], [ "tailor", -20 ], [ "mechanics", -20 ], [ "fabrication", -20 ] ],
+    "encumbrance_always": [
+      [ "arm_l", 50 ],
+      [ "arm_r", 50 ],
+      [ "leg_l", 50 ],
+      [ "leg_r", 50 ],
+      [ "mouth", 50 ],
+      [ "eyes", 50 ],
+      [ "torso", 50 ],
+      [ "head", 50 ]
+    ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SPEED", "multiply": -0.25 },
+          { "value": "DEXTERITY", "add": -6 },
+          { "value": "CARRY_WEIGHT", "multiply": -0.5 }
+        ],
+        "ench_effects": [ { "effect": "effect_biomancer_npc_wretch_polymorph", "intensity": 1 } ]
+      }
+    ],
+    "flags": [ "MUTE", "HYPEROPIC", "MYOPIC_SUPERNATURAL", "NO_SPELLCASTING", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
+    "override_look": { "id": "mon_baleful_polymorph_crawler", "tile_category": "monster" }
   }
 ]

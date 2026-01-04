@@ -118,13 +118,10 @@ static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
+static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
-static const activity_id ACT_WAIT( "ACT_WAIT" );
-static const activity_id ACT_WAIT_FOLLOWERS( "ACT_WAIT_FOLLOWERS" );
-static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
-static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -178,6 +175,7 @@ static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_MOPPING( "MOPPING" );
 static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
+static const zone_type_id zone_type_STUDY_ZONE( "STUDY_ZONE" );
 static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
@@ -1312,22 +1310,13 @@ static void wait()
         // Waiting
         activity_id actType;
         if( as_m.ret == 13 ) {
-            actType = ACT_WAIT_WEATHER;
+            player_character.assign_activity( wait_weather_activity_actor() );
         } else if( as_m.ret == 14 ) {
-            actType = ACT_WAIT_STAMINA;
-        } else if( as_m.ret == 15 ) {
-            actType = ACT_WAIT_FOLLOWERS;
-        } else {
-            actType = ACT_WAIT;
-        }
-
-        if( actType == ACT_WAIT_STAMINA ) {
             player_character.assign_activity( wait_stamina_activity_actor() );
-        } else if( actType == ACT_WAIT_FOLLOWERS ) {
+        } else if( as_m.ret == 15 ) {
             player_character.assign_activity( wait_followers_activity_actor() );
         } else {
-            player_activity new_act( actType, 100 * to_turns<int>( time_to_wait ), 0 );
-            player_character.assign_activity( new_act );
+            player_character.assign_activity( wait_activity_actor( time_to_wait ) );
         }
     }
 }
@@ -1496,6 +1485,7 @@ static void loot()
         MultiMining = 8192,
         MultiDis = 16384,
         MultiMopping = 32768,
+        MultiStudy = 131072,
         UnloadLoot = 65536
     };
 
@@ -1542,6 +1532,7 @@ static void loot()
     flags |= g->check_near_zone( zone_type_DISASSEMBLE,
                                  player_character.pos_bub() ) ? MultiDis : 0;
     flags |= g->check_near_zone( zone_type_MOPPING, player_character.pos_bub() ) ? MultiMopping : 0;
+    flags |= g->check_near_zone( zone_type_STUDY_ZONE, player_character.pos_bub() ) ? MultiStudy : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1617,6 +1608,10 @@ static void loot()
     }
     if( flags & MultiMopping ) {
         menu.addentry_desc( MultiMopping, true, 'p', _( "Mop area" ), _( "Mop clean the area." ) );
+    }
+    if( flags & MultiStudy ) {
+        menu.addentry_desc( MultiStudy, true, 's', _( "Study from books in study zones" ),
+                            wrap60( _( "Find and read books from study zones." ) ) );
     }
 
     menu.query();
@@ -1695,6 +1690,9 @@ static void loot()
             break;
         case MultiMopping:
             player_character.assign_activity( ACT_MULTIPLE_MOP );
+            break;
+        case MultiStudy:
+            player_character.assign_activity( ACT_MULTIPLE_STUDY );
             break;
         default:
             debugmsg( "Unsupported flag" );
@@ -2013,23 +2011,13 @@ void game::open_consume_item_menu()
     as_m.entries.emplace_back( 2, true, 'm', _( "Medication" ) );
     as_m.query();
 
-    avatar &player_character = get_avatar();
-    switch( as_m.ret ) {
-        case 0: {
-            item_location loc = game_menus::inv::consume_food();
-            avatar_action::eat( player_character, loc );
-            break;
-        }
-        case 1: {
-            item_location loc = game_menus::inv::consume_drink();
-            avatar_action::eat( player_character, loc );
-            break;
-        }
-        case 2:
-            avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds() );
-            break;
-        default:
-            break;
+    const int query_returned_index = as_m.ret;
+    if( query_returned_index >= 0 && query_returned_index < 3 ) {
+        const std::array<std::string, 3> comestype_strings = { "FOOD", "DRINK", "MED" };
+        const std::string &selected_comestype = comestype_strings[query_returned_index];
+        uistate.open_menu = [selected_comestype = selected_comestype]() {
+            avatar_action::eat_or_use( get_avatar(), game_menus::inv::consume( selected_comestype ) );
+        };
     }
 }
 
@@ -2054,15 +2042,6 @@ static void handle_debug_mode()
             entry.text_color = c_light_gray;
         }
     };
-
-    static bool first_time = true;
-    if( first_time ) {
-        first_time = false;
-        debugmode::enabled_filters.clear();
-        for( int i = 0; i < debugmode::DF_LAST; ++i ) {
-            debugmode::enabled_filters.emplace( static_cast<debugmode::debug_filter>( i ) );
-        }
-    }
 
     input_context ctxt( "DEFAULTMODE" );
     ctxt.register_action( "debug_mode" );
@@ -2252,6 +2231,8 @@ static const std::set<action_id> actions_disabled_in_incorporeal {
     ACTION_ADVANCEDINV,
     ACTION_PICKUP,
     ACTION_PICKUP_ALL,
+    ACTION_DROP,
+    ACTION_DIR_DROP,
     ACTION_GRAB,
     ACTION_HAUL,
     ACTION_HAUL_TOGGLE,
@@ -2277,6 +2258,7 @@ static std::map<action_id, std::string> get_actions_disabled_in_handless_tempora
         { ACTION_HAUL_TOGGLE,        _( "You can't haul things while shapeshifted." ) },
         { ACTION_BUTCHER,            _( "You can't butcher while shapeshifted." ) },
         { ACTION_DROP,               _( "You can't drop things while shapeshifted." ) },
+        { ACTION_DIR_DROP,           _( "You can't drop things while shapeshifted." ) },
         { ACTION_CRAFT,              _( "You can't craft while shapeshifted." ) },
         { ACTION_RECRAFT,            _( "You can't craft while shapeshifted." ) },
         { ACTION_LONGCRAFT,          _( "You can't craft while shapeshifted." ) },
@@ -2918,6 +2900,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 if( save() ) {
                     player_character.set_moves( 0 );
                     uquit = QUIT_SAVED;
+                } else if( save_is_dirty && query_yn( _( "Unable to save, quit anyway?" ) ) ) {
+                    // Game refused to save because of unsupported game state. But we don't want to trap them here, so at least let give them the option.
+                    player_character.set_moves( 0 );
+                    uquit = QUIT_NOSAVED;
                 }
             }
             break;
@@ -2928,6 +2914,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_QUICKLOAD:
             quickload();
+            g->save_is_dirty = true;
             return false;
 
         case ACTION_PL_INFO:

@@ -855,7 +855,7 @@
     "active_procgen_values": [
       { "weight": 100, "spell_id": "AO_FORCE_PULL", "base_power": 200 },
       { "weight": 100, "spell_id": "AO_TELEPORTITIS", "base_power": -500 },
-      { "weight": 100, "spell_id": "AO_TELEPORT", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_TELEPORT", "base_power": 500 },
       { "weight": 100, "spell_id": "AO_SLOW", "base_power": -150 },
       { "weight": 100, "spell_id": "AO_TIME_STOP", "base_power": 1000 },
       { "weight": 100, "spell_id": "AO_DARKNESS_EFFECT", "base_power": -50 },

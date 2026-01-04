@@ -262,6 +262,25 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "nanotyrannus",
+    "base_faction": "predator_dino",
+    "friendly": [ "nanotyrannus_juvenile", "nanotyrannus_hatchling" ],
+    "by_mood": [ "nanotyrannus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nanotyrannus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "nanotyrannus", "nanotyrannus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nanotyrannus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "nanotyrannus", "nanotyrannus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "appalachiosaurus",
     "base_faction": "predator_dino",
     "friendly": [ "appalachiosaurus_juvenile", "appalachiosaurus_hatchling" ],

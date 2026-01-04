@@ -8420,7 +8420,7 @@
     "name": "machetes",
     "description": "Recipes for making useful tools able to cut through both brush and zombie limbs.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "machete", "makeshift_machete", "survivor_machete", "survivor_machete_qt" ],
+    "nested_category_data": [ "machete", "makeshift_machete", "survivor_machete_qt" ],
     "difficulty": 1
   },
   {

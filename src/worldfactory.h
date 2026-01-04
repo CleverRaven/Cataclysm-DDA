@@ -9,6 +9,7 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <string_view>
 
 #include "cuboid_rectangle.h"
 #include "options.h"
@@ -19,6 +20,9 @@ enum class special_game_type;
 
 class JsonArray;
 class JsonObject;
+
+constexpr std::string_view zzip_overmap_directory = "overmaps";
+constexpr std::string_view zzip_suffix = ".zzip";
 
 namespace catacurses
 {

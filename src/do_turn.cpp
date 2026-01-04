@@ -80,6 +80,7 @@
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
 static const bionic_id bio_alarm( "bio_alarm" );
@@ -319,7 +320,6 @@ void monmove()
             }
             critter.try_biosignature();
             critter.try_reproduce();
-            critter.digest_food();
         }
         while( critter.get_moves() > 0 && !critter.is_dead() && !critter.has_effect( effect_ridden ) ) {
             critter.made_footstep = false;
@@ -374,7 +374,8 @@ void monmove()
         if( !guy.has_effect( effect_npc_suspend ) ) {
             guy.process_turn();
         }
-        while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.activity.id() == ACT_OPERATION ) &&
+        while( !guy.is_dead() && ( !guy.in_sleep_state() ||
+                                   guy.activity.id() == ACT_OPERATION || guy.activity.id() == ACT_MIGRATION_CANCEL ) &&
                guy.get_moves() > 0 && turns < 10 ) {
             const int moves = guy.get_moves();
             const bool has_destination = guy.has_destination_activity();

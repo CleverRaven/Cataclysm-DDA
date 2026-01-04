@@ -439,7 +439,6 @@
       "type": "transform",
       "msg": "You turn the wizard cane on.",
       "target": "wizard_cane_cheap_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The wizard cane's batteries are dead."
     },
@@ -493,7 +492,6 @@
       "type": "transform",
       "msg": "You turn the wizard cane on.",
       "target": "wizard_cane_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The wizard cane's batteries are dead."
     },
@@ -1858,7 +1856,17 @@
     "color": "dark_gray",
     "charges_per_use": 1,
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
-    "use_action": [ "SHOCKTONFA_OFF" ],
+    "use_action": [
+      "TAZER",
+      {
+        "target": "shocktonfa_on",
+        "msg": "You turn the light on.",
+        "menu_text": "Turn on light",
+        "need_charges": 1,
+        "need_charges_msg": "The batteries are dead.",
+        "type": "transform"
+      }
+    ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
     "weapon_category": [ "BATONS" ],
     "pocket_data": [
@@ -1882,9 +1890,19 @@
     "power_draw": "15 W",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "every", "balance": "good" },
     "revert_to": "shocktonfa_off",
-    "use_action": [ "SHOCKTONFA_ON" ],
+    "use_action": [
+      "TAZER",
+      {
+        "target": "shocktonfa_off",
+        "msg": "You turn off the light.",
+        "menu_text": "Turn off light",
+        "need_charges": 1,
+        "need_charges_msg": "The batteries are dead.",
+        "type": "transform"
+      }
+    ],
     "light": 450,
-    "flags": [ "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "flags": [ "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP", "SPAWN_ACTIVE" ],
     "weapon_category": [ "BATONS" ]
   },
   {

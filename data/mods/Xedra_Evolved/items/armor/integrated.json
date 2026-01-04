@@ -274,7 +274,6 @@
     "material": [ "mut_wood" ],
     "symbol": ",",
     "color": "green",
-    "to_hit": 1,
     "flags": [ "INTEGRATED", "SEMITANGIBLE", "ZERO_WEIGHT", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED" ],
     "armor": [
       {
@@ -512,7 +511,6 @@
     "category": "clothing",
     "name": { "str": "water pocket" },
     "description": "Your skin is capable of .",
-    "to_hit": -1,
     "material": [ "fae_flesh" ],
     "symbol": ")",
     "color": "blue",
@@ -947,6 +945,36 @@
     "passive_effects": [ { "id": "ench_primal_form_protection" } ]
   },
   {
+    "id": "integrated_vampire_rending_jaws",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "rending jaws" },
+    "description": "A mouth full of jagged teeth, ready to tip and tear.",
+    "weight": "50 g",
+    "volume": "100 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "bone" ],
+    "symbol": ",",
+    "color": "white",
+    "warmth": 5,
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
+    "//": "We can use the same techniques as werewolf bites to save time",
+    "techniques": [ "FANGS_BITE_SHAPESHIFTER", "FANGS_BITE_SHAPESHIFTER_CRIT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_lips" ],
+        "coverage": 100,
+        "encumbrance": 0
+      }
+    ],
+    "melee_damage": { "stab": 10 }
+  },
+  {
     "id": "integrated_brownie_fur",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -1017,6 +1045,23 @@
     "passive_effects": [ { "id": "ench_trow_stone_fists" } ]
   },
   {
+    "id": "integrated_skunk_tail",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "skunk tail" },
+    "description": "Thick black and white striped tail.",
+    "weight": "300 g",
+    "volume": "300 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "mut_fur" ],
+    "symbol": "x",
+    "color": "white",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
+    "use_action": [ "MACE" ]
+  },
+  {
     "id": "internal_mp3_fruit",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
@@ -1029,9 +1074,8 @@
         "menu_text": "Hear the song",
         "msg": "The fruit's melody fills your mind.",
         "type": "transform",
-        "active": true,
         "need_charges": 0,
-        "need_charges_msg": "Something is preventing this fruit from working.  Please report it on github."
+        "need_charges_msg": "Something is preventing this fruit from working.  Please report it on GitHub."
       }
     ],
     "charges_per_use": 0,
@@ -1045,7 +1089,7 @@
     "name": { "str": "The fruit's song" },
     "description": "The song contained in the fruit is now struck in your head until it goes away.  Fortunately this song is enjoyable, increasing your mood while it lasts.",
     "charges_per_use": 0,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "SPAWN_ACTIVE" ],
     "power_draw": "0 W",
     "revert_to": "corpse_ash",
     "tick_action": [ "MP3_ON" ]

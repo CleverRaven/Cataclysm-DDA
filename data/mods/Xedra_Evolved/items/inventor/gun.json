@@ -270,8 +270,6 @@
     "weight": "2560 g",
     "volume": "5896 ml",
     "longest_side": "1200 mm",
-    "melee_damage": { "bash": 8 },
-    "to_hit": -3,
     "symbol": "[",
     "color": "dark_gray",
     "charges_per_use": 1,
@@ -437,7 +435,6 @@
     "longest_side": "50 cm",
     "price": "1 kUSD 250 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -1,
     "melee_damage": { "bash": 12 },
     "material": [ "mc_steel", "plastic" ],
     "symbol": "(",
@@ -651,7 +648,6 @@
       "menu_text": "Activate",
       "msg": "You trigger the mechanism, and it starts to whistle!",
       "target_timer": "70 seconds",
-      "active": true,
       "type": "transform"
     }
   },
@@ -668,6 +664,7 @@
     "symbol": "*",
     "color": "blue",
     "tick_action": [ { "type": "sound", "sound_message": "whistle", "sound_volume": 35, "sound_variant": "bomb_ticking" } ],
+    "countdown_interval": "70 seconds",
     "countdown_action": {
       "type": "explosion",
       "fields_type": "fd_electricity",
@@ -676,7 +673,7 @@
       "fields_max_intensity": 10,
       "emp_blast_radius": 12
     },
-    "flags": [ "TRADER_AVOID", "BOMB", "INVENTOR_CRAFTED" ]
+    "flags": [ "TRADER_AVOID", "BOMB", "INVENTOR_CRAFTED", "SPAWN_ACTIVE" ]
   },
   {
     "id": "inventor_grenade_noise_fire",

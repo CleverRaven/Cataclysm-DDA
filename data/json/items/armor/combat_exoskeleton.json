@@ -165,7 +165,6 @@
       "type": "transform",
       "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v1.38…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
       "target": "combat_exoskeleton_heavy_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The exoskeleton batteries are empty."
     },
@@ -273,7 +272,6 @@
       "type": "transform",
       "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v2.86…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
       "target": "combat_exoskeleton_medium_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The exoskeleton batteries are empty."
     },
@@ -381,7 +379,6 @@
       "type": "transform",
       "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v3.51…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
       "target": "combat_exoskeleton_light_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The exoskeleton batteries are empty."
     },
