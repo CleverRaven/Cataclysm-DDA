@@ -2640,7 +2640,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Unload item",
+    "name": "Unload container into inventory (keep items)",
     "category": "DEFAULTMODE",
     "id": "unload",
     "bindings": [ { "input_method": "keyboard_char", "key": "U" }, { "input_method": "keyboard_code", "key": "u", "mod": [ "shift" ] } ]
@@ -2701,9 +2701,10 @@
   },
   {
     "type": "keybinding",
-    "name": "Unload container",
+    "name": "Unload container onto ground (drop items)",
     "category": "DEFAULTMODE",
-    "id": "unload_container"
+    "id": "unload_container",
+    "bindings": [ { "input_method": "keyboard_any", "key": "BACKSPACE" } ]
   },
   {
     "type": "keybinding",

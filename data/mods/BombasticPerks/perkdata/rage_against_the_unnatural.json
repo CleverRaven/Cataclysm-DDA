@@ -2,13 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_perk_rage_against_the_unnatural_nether_list",
-    "condition": {
-      "math": [
-        "u_monsters_nearby('mon_albino_penguin', 'mon_amigara_horror', 'mon_blank', 'mon_blood_sacrifice', 'mon_breather', 'mon_breather_hub', 'mon_shrapnel_swarm', 'mon_structural_spur', 'mon_void_spider', 'mon_void_spider_maw', 'mon_void_spider_limb', 'mon_void_spider_spiderling', 'mon_void_spider_spiderling_skewered', 'mon_darkman', 'mon_dog_thing', 'mon_flaming_eye', 'mon_flying_polyp', 'mon_star_vampire', 'mon_star_vampire_coiling', 'mon_unseen_hunter', 'mon_gozu', 'mon_gracke', 'mon_headless_dog_thing', 'mon_tindalos', 'mon_hound_tindalos', 'mon_hound_tindalos_afterimage', 'mon_human_snail', 'mon_hunting_horror', 'mon_kreck', 'mon_shadow', 'mon_shadow_snake', 'mon_shoggoth', 'mon_thing', 'mon_twisted_body', 'mon_yugg', 'mon_vortex', 'mon_shifting_mass', 'mon_impossible_shape', 'mon_absence', 'mon_giant_appendage', 'mon_flatlander', 'mon_memory', 'mon_swarm_structure', 'mon_twisting_blade', 'mon_archunk_weak', 'mon_archunk_medium', 'mon_archunk_strong', 'mon_pale_reflection', 'mon_twisted_reflection', 'mon_dark_reflection', 'mon_better_half', 'mon_XEDRA_officer', 'mon_XEDRA_soldier', 'mon_tainted_shadow', 'mon_hallucinator', 'mon_guilt', 'mon_sloth', 'mon_hanging_roper', 'mon_carrion_grub', 'mon_nether_spearfisher', 'mon_nether_leech', 'mon_nether_fish', 'mon_nether_unviable_butterfly', 'mon_nether_unviable_root', 'mon_nether_unviable_stomper', 'mon_nether_unviable_bug', 'mon_nether_unviable_chunk', 'radius': 1, 'attitude': 'both')",
-        ">",
-        "0"
-      ]
-    },
+    "condition": { "math": [ "u_mon_species_nearby('NETHER', 'radius': 1, 'attitude': 'both')", ">", "0" ] },
     "effect": [  ]
   },
   {
