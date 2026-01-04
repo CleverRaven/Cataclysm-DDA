@@ -228,9 +228,19 @@
     "extend": { "items": [ [ "mana_potion_lesser", 15 ] ] }
   },
   {
-    "id": "SUS_trash_floor",
+    "id": "SUS_trash_floor_light",
     "type": "item_group",
-    "copy-from": "SUS_trash_floor",
+    "copy-from": "SUS_trash_floor_lightr",
+    "extend": {
+      "items": [
+        { "group": "magiclysm_joke_scrolls", "prob": 1 }
+      ]
+    }
+  },
+  {
+    "id": "SUS_trash_floor_heavy",
+    "type": "item_group",
+    "copy-from": "SUS_trash_floor_heavy",
     "extend": {
       "items": [
         { "group": "magiclysm_joke_scrolls", "prob": 1 }
