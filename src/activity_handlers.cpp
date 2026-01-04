@@ -113,7 +113,6 @@ static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
-static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
@@ -192,8 +191,7 @@ activity_handlers::do_turn_functions = {
     { ACT_DISMEMBER, dismember_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },
     { ACT_FERTILIZE_PLOT, fertilize_plot_do_turn },
-    { ACT_TREE_COMMUNION, tree_communion_do_turn },
-    { ACT_STUDY_SPELL, study_spell_do_turn },
+    { ACT_TREE_COMMUNION, tree_communion_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -208,8 +206,7 @@ activity_handlers::finish_functions = {
     { ACT_SOCIALIZE, socialize_finish },
     { ACT_ATM, atm_finish },
     { ACT_PULL_CREATURE, pull_creature_finish },
-    { ACT_SPELLCASTING, spellcasting_finish },
-    { ACT_STUDY_SPELL, study_spell_finish },
+    { ACT_SPELLCASTING, spellcasting_finish }
 };
 
 static void assign_multi_activity( Character &you, const player_activity &act )
@@ -1720,68 +1717,5 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                     spell_being_cast.energy_cost( *you ), spell_being_cast.casting_time( *you ),
                     spell_being_cast.damage( *you ) );
         }
-    }
-}
-
-void activity_handlers::study_spell_do_turn( player_activity *act, Character *you )
-{
-    // Stop if there is not enough light to study
-    if( you->fine_detail_vision_mod() > 4 ) {
-        act->values[2] = -1;
-        act->moves_left = 0;
-        return;
-    }
-    // str_value 1 is "study" if we already know the spell, and want to study it more
-    if( act->get_str_value( 1 ) == "study" ) {
-        spell &studying = you->magic->get_spell( spell_id( act->name ) );
-        // If we are studying to gain a level, keep studying until level changes
-        if( act->get_str_value( 0 ) == "gain_level" ) {
-            if( studying.get_level() < act->get_value( 1 ) ) {
-                act->moves_left = 1000000;
-            } else {
-                act->moves_left = 0;
-            }
-        }
-        const int old_level = studying.get_level();
-        // Gain some experience from studying
-        const float base_xp_per_tick = studying.exp_modifier( *you ) / to_turns<float>( 6_seconds );
-
-        float xp_multiplier = 1.0f;
-        if( old_level >= 9 ) {
-            xp_multiplier = 0.25f; // halved at 3, halved again at 9 -> 0.5 * 0.5 = 0.25
-        } else if( old_level >= 3 ) {
-            xp_multiplier = 0.5f;
-        }
-
-        const int xp = roll_remainder( base_xp_per_tick * xp_multiplier );
-
-        act->values[0] += xp;
-        studying.gain_exp( *you, xp );
-        bool leveled_up = you->practice( studying.skill(), xp, studying.get_difficulty( *you ), true );
-        if( leveled_up &&
-            studying.get_difficulty( *you ) < static_cast<int>( you->get_skill_level( studying.skill() ) ) ) {
-            you->handle_skill_warning( studying.skill(),
-                                       true ); // show the skill warning on level up, since we suppress it in practice() above
-        }
-        // Notify player if the spell leveled up
-        if( studying.get_level() > old_level ) {
-            you->add_msg_if_player( m_good, _( "You gained a level in %s!" ), studying.name() );
-        }
-    }
-}
-
-void activity_handlers::study_spell_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-    const int total_exp_gained = act->get_value( 0 );
-
-    if( act->get_str_value( 1 ) == "study" ) {
-        you->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
-                                total_exp_gained );
-    } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {
-        you->magic->learn_spell( act->name, *you );
-    }
-    if( act->values[2] == -1 ) {
-        you->add_msg_if_player( m_bad, _( "It's too dark to read." ) );
     }
 }
