@@ -251,7 +251,7 @@
     "id": "magiclysm_joke_scrolls",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 80 }, { "item": "summon_scroll_smudged", "prob": 2 }, { "item": "spell_scroll_tornskin", "prob": 2 }, { "item": "spell_scroll_stormshaper_cloak_of_frog", "prob": 2 }, { "item": "spell_scroll_animist_magic_fissile", "prob": 2 }] }
+    "entries": [ { "item": "null", "prob": 16 }, { "item": "summon_scroll_smudged", "prob": 2 }, { "item": "spell_scroll_tornskin", "prob": 2 }, { "item": "spell_scroll_stormshaper_cloak_of_frog", "prob": 2 }, { "item": "spell_scroll_animist_magic_fissile", "prob": 2 }] }
   },
   {
     "id": "mon_zombie_soldier_death_drops",
