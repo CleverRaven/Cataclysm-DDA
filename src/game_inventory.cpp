@@ -1098,9 +1098,9 @@ class activatable_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return !loc.is_invisible_installed_gunmod() && ( loc->type->has_use() ||
-                    loc->has_relic_activation() ) && !loc->is_medical_tool() &&
-                   !loc->is_medication();
+            return !loc.is_invisible_installed_gunmod() &&  loc->is_craft() || ( ( loc->type->has_use() ||
+                    loc->has_relic_activation() ) &&
+                    ( !loc->is_comestible() || loc->type->can_use( "PETFOOD" ) ) );
         }
 
         std::string get_denial( const item_location &loc ) const override {
