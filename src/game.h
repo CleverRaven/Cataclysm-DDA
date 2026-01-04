@@ -782,6 +782,7 @@ class game
         void reenter_fullscreen();
         void zoom_in_overmap();
         void zoom_out_overmap();
+        void set_overmap_zoom( int level );
         void zoom_in();
         void zoom_out();
         void reset_zoom();
