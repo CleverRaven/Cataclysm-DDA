@@ -196,7 +196,6 @@
         ]
       },
       { "clear_dimension": "dimension_sky_island_mission" },
-      { "alter_timed_events": "return_portal_close" },
       { "math": [ "timeawayfromhome = 0 - bonuspulses" ] }
     ]
   },
