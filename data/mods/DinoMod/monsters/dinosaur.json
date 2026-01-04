@@ -1510,7 +1510,7 @@
     "reproduction": { "baby_type": { "baby_egg": "egg_apatosaurus" }, "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
-    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "BASHES", "DESTROYS", "WARM", "PUSH_MON", "CORNERED_FIGHTER", "EATS" ],
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "BASHES", "WARM", "PUSH_MON", "CORNERED_FIGHTER", "EATS" ],
     "harvest": "dino_sauropod",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
