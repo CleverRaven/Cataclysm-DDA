@@ -2174,6 +2174,28 @@ void options_manager::add_options_interface()
              1, 50, 1
            );
 
+        add( "DEFAULT_ZOOM_LEVEL", page_id, to_translation( "Default zoom level" ),
+             to_translation( "Larger values mean larger zoom out." ),
+        {
+            { 64, to_translation("0.25x") },
+            { 32, to_translation( "0.5x" ) },
+            { 16, to_translation( "1x" ) },
+            { 8, to_translation( "2x" ) },
+            { 4, to_translation( "4x" ) }
+        },
+        16, 16 );
+
+        add( "DEFAULT_OVERMAP_ZOOM_LEVEL", page_id, to_translation( "Default overmap zoom level" ),
+             to_translation( "Larger values mean larger zoom out." ),
+        {
+            { 64, to_translation("0.25x")},
+            { 32, to_translation("0.5x")},
+            { 16, to_translation( "1x" ) },
+            { 8, to_translation( "2x" ) },
+            { 4, to_translation( "4x" ) }
+        },
+        16, 16 );
+
         add( "FAST_SCROLL_OFFSET", page_id, to_translation( "Overmap fast scroll offset" ),
              to_translation( "With Fast Scroll option enabled, shift view on the overmap and while looking around by this many squares per keypress." ),
              1, 50, 5
