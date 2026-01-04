@@ -139,7 +139,6 @@
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
-static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 
 static const addiction_id addiction_marloss_b( "marloss_b" );
 static const addiction_id addiction_marloss_r( "marloss_r" );
@@ -5475,12 +5474,12 @@ std::optional<int> iuse::seed( Character *p, item *it, const tripoint_bub_ms & )
     return std::nullopt;
 }
 
-bool iuse::robotcontrol_can_target( Character *p, const monster &m )
+bool iuse::robotcontrol_can_target( Character &p, const monster &m )
 {
     return !m.is_dead()
            && m.type->in_species( species_ROBOT )
            && m.friendly == 0
-           && rl_dist( p->pos_bub(), m.pos_bub() ) <= 10;
+           && rl_dist( p.pos_bub(), m.pos_bub() ) <= 10;
 }
 
 std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bub_ms & )
@@ -5541,7 +5540,7 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bu
             std::vector< tripoint_bub_ms > locations;
             int entry_num = 0;
             for( const monster &candidate : g->all_monsters() ) {
-                if( robotcontrol_can_target( p, candidate ) ) {
+                if( robotcontrol_can_target( *p, candidate ) ) {
                     mons.push_back( g->shared_from( candidate ) );
                     pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
                     tripoint_bub_ms seen_loc;
@@ -5571,12 +5570,10 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bu
 
             /** @EFFECT_INT speeds up hacking preparation */
             /** @EFFECT_COMPUTER speeds up hacking preparation */
-            int move_cost = std::max( 100,
-                                      1000 - static_cast<int>( p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 ) );
-            player_activity act( ACT_ROBOT_CONTROL, move_cost );
-            act.monsters.emplace_back( z );
-
-            p->assign_activity( act );
+            const time_duration move_cost = time_duration::from_moves<int>( std::max( 100,
+                                            1000 - static_cast<int>( p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 ) ) );
+            const int monster_temp_id = get_creature_tracker().temporary_id( *z );
+            p->assign_activity( robot_control_activity_actor( move_cost, monster_temp_id ) );
 
             return 1;
         }
