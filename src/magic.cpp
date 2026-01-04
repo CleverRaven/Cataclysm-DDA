@@ -514,8 +514,7 @@ void spell_type::check_consistency()
                       sp_t.id.c_str() );
         }
 
-        // TODO: this may need to use trait_id::NULL_ID()?
-        if( !sp_t.spell_class.is_valid() && sp_t.spell_class.c_str() != "NONE" ) {
+        if( !sp_t.spell_class.is_valid() && sp_t.spell_class.str() != "NONE" ) {
             debugmsg( R"(ERROR: %s has invalid spell class "%s"!)", sp_t.id.c_str(), sp_t.spell_class.c_str() );
         }
 
