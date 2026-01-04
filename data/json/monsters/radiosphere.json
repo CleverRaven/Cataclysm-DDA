@@ -3,7 +3,7 @@
     "id": "mon_flailer_radiosphere",
     "type": "MONSTER",
     "name": { "str_sp": "flailer" },
-    "description": "A cloth facsimile of a bird, flailing around in the air. It seems deliberate with it's movement.",
+    "description": "A cloth facsimile of a bird, flailing around in the air.  It seems deliberate with it's movement.",
     "bodytype": "bird",
     "default_faction": "bird_small_flying",
     "categories": [ "WILDLIFE" ],
