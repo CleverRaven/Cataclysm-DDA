@@ -7,7 +7,7 @@
     "highways": null,
     "place_roads": false,
     "forest_trails": null,
-    "place_specials": false,
+    "place_specials": true,
     "rivers": null,
     "lakes": null,
     "ocean": null,
