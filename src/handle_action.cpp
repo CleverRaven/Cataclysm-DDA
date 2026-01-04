@@ -82,6 +82,9 @@
 #include "ranged.h"
 #include "rng.h"
 #include "safemode_ui.h"
+#if defined(TILES)
+#include "sdl_gamepad.h"
+#endif
 #include "sleep.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -588,14 +591,17 @@ static void pldrive( point_rel_ms d )
     pldrive( tripoint_rel_ms( d, 0 ) );
 }
 
-static void open()
+static void open( const std::optional<tripoint_bub_ms> &p = std::nullopt )
 {
     map &here = get_map();
 
     avatar &player_character = get_avatar();
-    const std::optional<tripoint_bub_ms> openp_ = choose_adjacent_highlight( here, _( "Open where?" ),
-            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
-            ACTION_OPEN, false );
+    std::optional<tripoint_bub_ms> openp_ = p;
+    if( !openp_ ) {
+        openp_ = choose_adjacent_highlight( here, _( "Open where?" ),
+                                            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
+                                            ACTION_OPEN, false );
+    }
 
     if( !openp_ ) {
         return;
@@ -675,14 +681,19 @@ static void open()
     }
 }
 
-static void close()
+static void close( const std::optional<tripoint_bub_ms> &p = std::nullopt )
 {
     map &here = get_map();
 
-    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_highlight(
-                here, _( "Close where?" ),
-                pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
-                ACTION_CLOSE, false ) ) {
+    std::optional<tripoint_bub_ms> pnt = p;
+    if( !pnt ) {
+        pnt = choose_adjacent_highlight(
+                  here, _( "Close where?" ),
+                  pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
+                  ACTION_CLOSE, false );
+    }
+
+    if( pnt ) {
         doors::close_door( here, get_player_character(), *pnt );
     }
 }
@@ -710,7 +721,7 @@ static void auto_features_warn()
 }
 
 // Establish or release a grab on a vehicle
-static void grab()
+static void grab( const std::optional<tripoint_bub_ms> &p = std::nullopt )
 {
     avatar &you = get_avatar();
     map &here = get_map();
@@ -726,7 +737,10 @@ static void grab()
         return;
     }
 
-    const std::optional<tripoint_bub_ms> grabp_ = choose_adjacent( _( "Grab where?" ) );
+    std::optional<tripoint_bub_ms> grabp_ = p;
+    if( !grabp_ ) {
+        grabp_ = choose_adjacent( _( "Grab where?" ) );
+    }
     if( !grabp_ ) {
         add_msg( _( "Never mind." ) );
         return;
@@ -932,11 +946,14 @@ static void haul_toggle()
     get_avatar().toggle_hauling();
 }
 
-static void smash()
+static void smash( const std::optional<tripoint_bub_ms> &p = std::nullopt )
 {
     const bool allow_floor_bash = debug_mode; // Should later become "true"
-    const std::optional<tripoint_bub_ms> smashp_ = choose_adjacent( _( "Smash where?" ),
-            allow_floor_bash );
+    std::optional<tripoint_bub_ms> smashp_ = p;
+    if( !smashp_ ) {
+        smashp_ = choose_adjacent( _( "Smash where?" ),
+                                   allow_floor_bash );
+    }
     if( !smashp_ ) {
         return;
     }
@@ -2537,7 +2554,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_OPEN:
-            open();
+            open( mouse_target );
             break;
 
         case ACTION_CLOSE:
@@ -2546,10 +2563,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 if( !mon->has_flag( mon_flag_RIDEABLE_MECH ) ) {
                     add_msg( m_info, _( "You can't close things while you're riding." ) );
                 }
-            } else if( mouse_target ) {
-                doors::close_door( here, player_character, *mouse_target );
             } else {
-                close();
+                close( mouse_target );
             }
             break;
 
@@ -2557,7 +2572,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( has_vehicle_control( player_character ) ) {
                 handbrake( here );
             } else {
-                smash();
+                smash( mouse_target );
             }
             break;
 
@@ -2589,7 +2604,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_GRAB:
-            grab();
+            grab( mouse_target );
             break;
 
         case ACTION_HAUL:
@@ -2601,15 +2616,19 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_BUTCHER:
-            butcher();
+            butcher( mouse_target );
             break;
 
         case ACTION_CHAT:
-            chat();
+            chat( mouse_target );
             break;
 
         case ACTION_PEEK:
-            peek();
+            if( mouse_target ) {
+                peek( *mouse_target );
+            } else {
+                peek();
+            }
             break;
 
         case ACTION_LIST_ITEMS:
@@ -2773,14 +2792,18 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_UNLOAD_CONTAINER:
             // You CAN drop things to your own tile while in the shell.
-            unload_container();
+            unload_container( mouse_target );
             break;
 
         case ACTION_DROP:
             drop_in_direction( player_character.pos_bub() );
             break;
-        case ACTION_DIR_DROP:
-            if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
+        case ACTION_DIR_DROP: {
+            std::optional<tripoint_bub_ms> pnt = mouse_target;
+            if( !pnt ) {
+                pnt = choose_adjacent( _( "Drop where?" ) );
+            }
+            if( pnt ) {
                 if( *pnt != player_character.pos_bub() && in_shell ) {
                     add_msg( m_info, _( "You can't drop things to another tile while you're in your shell." ) );
                 } else {
@@ -2788,6 +2811,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 }
             }
             break;
+        }
         case ACTION_BIONICS:
             player_character.power_bionics();
             break;
@@ -2841,7 +2865,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else if( player_character.has_trait( trait_WAYFARER ) ) {
                 add_msg( m_info, _( "You refuse to take control of this vehicle." ) );
             } else {
-                control_vehicle();
+                control_vehicle( mouse_target );
             }
             break;
 
@@ -3130,6 +3154,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             avatar_action::autoattack( player_character, here );
             break;
 
+        case ACTION_INTERACT:
+            // Handled above in handle_action()
+            break;
+
         default:
             break;
     }
@@ -3213,6 +3241,20 @@ bool game::handle_action()
             }
         }
 
+        if( gamepad::is_active() ) {
+            gamepad::direction dir = gamepad::get_left_stick_direction();
+            if( dir != gamepad::direction::NONE ) {
+                // List of actions that can use the directional cursor
+                if( act == ACTION_INTERACT || act == ACTION_SMASH || act == ACTION_GRAB ||
+                    act == ACTION_PEEK || act == ACTION_UNLOAD_CONTAINER || act == ACTION_DIR_DROP ||
+                    act == ACTION_EXAMINE || act == ACTION_EXAMINE_AND_PICKUP ||
+                    act == ACTION_PICKUP || act == ACTION_PICKUP_ALL || act == ACTION_CONTROL_VEHICLE ) {
+                    tripoint offset = gamepad::direction_to_offset( dir );
+                    mouse_target = player_character.pos_bub() + tripoint_rel_ms( offset.x, offset.y, 0 );
+                }
+            }
+        }
+
         if( act == ACTION_ACTIONMENU ) {
             if( uquit == QUIT_WATCH ) {
                 return false;
@@ -3229,6 +3271,16 @@ bool game::handle_action()
                 add_best_key_for_action_to_quick_shortcuts( act, ctxt.get_category(), false );
             }
 #endif
+        }
+
+        if( act == ACTION_INTERACT ) {
+            if( !mouse_target ) {
+                mouse_target = player_character.pos_bub();
+            }
+            act = handle_interact( here, *mouse_target );
+            if( act == ACTION_NULL ) {
+                return false;
+            }
         }
 
         if( act == ACTION_KEYBINDINGS ) {

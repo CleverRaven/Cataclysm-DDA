@@ -537,7 +537,7 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
 
 #endif
 
-void draw_gamepad_radial_menu();
+static void draw_gamepad_radial_menu();
 
 void refresh_display()
 {
@@ -2500,7 +2500,7 @@ void draw_virtual_joystick()
 #define M_PI 3.14159265358979323846
 #endif
 
-void draw_gamepad_radial_menu()
+static void draw_gamepad_radial_menu()
 {
     if( !gamepad::is_active() || !gamepad::is_alt_held() ) {
         return;
@@ -2529,7 +2529,8 @@ void draw_gamepad_radial_menu()
         return;
     }
 
-    int w, h;
+    int w;
+    int h;
     SDL_GetRendererOutputSize( renderer.get(), &w, &h );
 
     // Draw a semi-transparent black background over the whole screen
@@ -2537,8 +2538,7 @@ void draw_gamepad_radial_menu()
     geometry->rect( renderer, { 0, 0, w, h }, { 0, 0, 0, 150 } );
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
 
-    const int center_x = w / 2;
-    const int center_y = h / 2;
+    const point center( w / 2, h / 2 );
     const float radius = h * 0.8f / 2.0f;
 
     // Scale font relative to window height.
@@ -2570,8 +2570,8 @@ void draw_gamepad_radial_menu()
 
         // Angle in radians (0 is North, clockwise)
         float angle = i * ( 2.0f * M_PI / 8.0f );
-        float target_x = center_x + radius * std::sin( angle );
-        float target_y = center_y - radius * std::cos( angle );
+        float target_x = center.x + radius * std::sin( angle );
+        float target_y = center.y - radius * std::cos( angle );
 
         // Convert target screen coords back to scaled coords for font drawing
         int draw_x = static_cast<int>( target_x / text_scale );
@@ -2583,7 +2583,7 @@ void draw_gamepad_radial_menu()
         draw_x -= text_w / 2;
         draw_y -= text_h / 2;
 
-        bool is_selected = ( dir == selected_dir );
+        bool is_selected = dir == selected_dir;
 
         if( is_selected ) {
             // Draw selected item in yellow

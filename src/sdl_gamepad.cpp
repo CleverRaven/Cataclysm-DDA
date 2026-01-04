@@ -253,11 +253,11 @@ int direction_to_radial_joy( direction dir, int stick_idx )
 }
 
 // Calculate 8-way direction from raw axis values using angle
-static direction angle_to_direction( int x, int y )
+static direction angle_to_direction( const point &p )
 {
     // atan2 returns angle in radians, with 0 pointing right (East)
     // We want 0 to be North, so we use atan2(x, -y)
-    double angle = std::atan2( static_cast<double>( x ), static_cast<double>( -y ) );
+    double angle = std::atan2( static_cast<double>( p.x ), static_cast<double>( -p.y ) );
 
     // Convert to degrees (0-360, with 0 = North, clockwise)
     double degrees = angle * 180.0 / M_PI;
@@ -405,17 +405,17 @@ bool handle_axis_event( SDL_Event &event )
         int axis_idx = one_of_two( sticks_axis[i], axis );
         if( axis_idx >= 0 ) {
             // Get current values for both axes of this stick
-            int x_val = SDL_GameControllerGetAxis( controller,
-                                                   static_cast<SDL_GameControllerAxis>( sticks_axis[i][0] ) );
-            int y_val = SDL_GameControllerGetAxis( controller,
-                                                   static_cast<SDL_GameControllerAxis>( sticks_axis[i][1] ) );
+            const point val(
+                SDL_GameControllerGetAxis( controller,
+                                           static_cast<SDL_GameControllerAxis>( sticks_axis[i][0] ) ),
+                SDL_GameControllerGetAxis( controller,
+                                           static_cast<SDL_GameControllerAxis>( sticks_axis[i][1] ) ) );
 
             // Calculate magnitude (distance from center)
-            double magnitude = std::sqrt( static_cast<double>( x_val ) * x_val +
-                                          static_cast<double>( y_val ) * y_val );
+            double magnitude = std::sqrt( static_cast<double>( val.x ) * val.x +
+                                          static_cast<double>( val.y ) * val.y );
 
-            direction dir = ( magnitude > sticks_threshold ) ? angle_to_direction( x_val,
-                            y_val ) : direction::NONE;
+            direction dir = ( magnitude > sticks_threshold ) ? angle_to_direction( val ) : direction::NONE;
 
             task_t &stick_task = all_tasks[sticks_task_index + i];
             direction old_dir = ( i == 0 ) ? left_stick_dir : right_stick_dir;
@@ -743,21 +743,21 @@ tripoint direction_to_offset( direction dir )
 {
     switch( dir ) {
         case direction::N:
-            return tripoint( 0, -1, 0 );
+            return tripoint::north;
         case direction::NE:
-            return tripoint( 1, -1, 0 );
+            return tripoint::north_east;
         case direction::E:
-            return tripoint( 1, 0, 0 );
+            return tripoint::east;
         case direction::SE:
-            return tripoint( 1, 1, 0 );
+            return tripoint::south_east;
         case direction::S:
-            return tripoint( 0, 1, 0 );
+            return tripoint::south;
         case direction::SW:
-            return tripoint( -1, 1, 0 );
+            return tripoint::south_west;
         case direction::W:
-            return tripoint( -1, 0, 0 );
+            return tripoint::west;
         case direction::NW:
-            return tripoint( -1, -1, 0 );
+            return tripoint::north_west;
         case direction::NONE:
         default:
             return tripoint::zero;

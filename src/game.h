@@ -958,7 +958,8 @@ class game
         bool grabbed_move( const tripoint_rel_ms &dp, bool via_ramp );
         bool grabbed_veh_move( const tripoint_rel_ms &dp );
 
-        void control_vehicle(); // Use vehicle controls  '^'
+        void control_vehicle( const std::optional<tripoint_bub_ms> &p =
+                                  std::nullopt ); // Use vehicle controls  '^'
         // Examine nearby terrain 'e', with or without picking up items
         void examine( const tripoint_bub_ms &p, bool with_pickup = false );
         void examine( bool with_pickup = true );
@@ -969,10 +970,11 @@ class game
         // Pick up items from all nearby tiles
         void pickup_all();
 
-        void unload_container(); // Unload a container w/ direction  'd'
+        void unload_container( const std::optional<tripoint_bub_ms> &p =
+                                   std::nullopt ); // Unload a container w/ direction  'd'
         void drop_in_direction( const tripoint_bub_ms &pnt ); // Drop w/ direction  'D'
 
-        void butcher(); // Butcher a corpse  'B'
+        void butcher( const std::optional<tripoint_bub_ms> &p = std::nullopt ); // Butcher a corpse  'B'
 
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
@@ -1013,9 +1015,8 @@ class game
                                     std::vector<std::string> *harmful_stuff = nullptr ) const;
         // Pick up items from the given point
         void pickup( const tripoint_bub_ms &p );
+        void chat( const std::optional<tripoint_bub_ms> &p = std::nullopt ); // Talk to a nearby NPC  'C'
     private:
-
-        void chat(); // Talk to a nearby NPC  'C'
 
         // Internal methods to show "look around" info
         void print_fields_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
