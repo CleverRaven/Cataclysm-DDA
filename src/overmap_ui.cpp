@@ -2065,14 +2065,6 @@ static tripoint_abs_omt display()
     tripoint_abs_omt &select = data.select;
     input_context &ictxt = data.ictxt;
 
-    const int previous_zoom = g->get_zoom();
-    g->set_zoom( overmap_zoom_level );
-    on_out_of_scope reset_zoom( [&]() {
-        overmap_zoom_level = g->get_zoom();
-        g->set_zoom( previous_zoom );
-        g->mark_main_ui_adaptor_resize();
-    } );
-
     background_pane bg_pane;
 
     data.ui = std::make_shared<ui_adaptor>();
