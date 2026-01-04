@@ -19,9 +19,9 @@
         "          g gg g        ",
         "gggggggggggggggggggggggg",
         "          g,,,,g        ",
-        "ggggggggggg,RR,ggggggggg",
-        "ggggggggggg,RU,ggggggggg",
-        "          gv,,,g        ",
+        "ggggggggggg,UU,ggggggggg",
+        "ggggggggggg,UU,ggggggggg",
+        "          g,,,,g        ",
         "gggggggggggggggggggggggg",
         "          g gg g        ",
         "          g gg g        ",
@@ -41,42 +41,39 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": {
-        "R": "t_radio_tower",
-        "U": [ [ "t_radio_tower", 90 ], [ "t_radiosphere_radio_tower_liminal_light", 10 ] ],
+        "U": [ [ "t_radio_tower", 90 ], [ "t_radiosphere_radio_tower_liminal_light", 4 ] ],
         "a": "t_railing",
         ",": "t_metal_floor_no_roof",
         "g": "t_grate"
       },
+      "furniture": { "U": [ [ "f_null", 40 ], [ "f_cellphone_booster", 20 ], [ "f_small_satellite_dish", 20 ] ] },
       "place_nested": [
-        { "chunks": [ [ "null", 90 ], [ "radio_tower_leech", 9 ], [ "mx_radiosphere_radio_tower", 1 ] ], "x": 9, "y": 2 },
-        {
-          "chunks": [ [ "null", 90 ], [ "radio_tower_2x2_holdout", 10 ], [ "radio_tower_2x2_sniper", 5 ] ],
-          "x": 10,
-          "y": 5
-        }
+        { "chunks": [ [ "null", 180 ], [ "radio_tower_flailer", 15 ], [ "mx_radiosphere_radio_tower", 5 ] ], "x": 9, "y": 2 },
+        { "chunks": [ [ "null", 90 ], [ "radio_tower_2x2_holdout", 10 ] ], "x": 10, "y": 5 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "radio_tower_leech",
+    "nested_mapgen_id": "radio_tower_flailer",
     "object": {
       "mapgensize": [ 8, 8 ],
       "rows": [
         " x xx x ",
         "xxxxxxxx",
-        " xxxxxx ",
-        "xxxBBxxx",
-        "xxxBBxxx",
-        " xxxxxx ",
+        " xBBBBx ",
+        "xxB  Bxx",
+        "xxB  Bxx",
+        " xBBBBx ",
         "xxxxxxxx",
         " x xx x "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "monster": {
-        "x": [ { "monster": "mon_leech_stalk", "chance": 20 }, { "monster": "mon_leech_pod_cluster", "chance": 10 } ],
-        "B": [ { "monster": "mon_leech_blossom", "chance": 80 } ]
-      }
+        "x": [ { "monster": "mon_flailer_radiosphere", "chance": 2 } ],
+        "B": [ { "monster": "mon_flailer_radiosphere", "chance": 10 } ]
+      },
+      "item": { "B": [ { "item": "blanket", "chance": 50 } ] }
     }
   },
   {

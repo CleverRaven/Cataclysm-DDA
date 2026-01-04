@@ -1,0 +1,37 @@
+[
+  {
+    "id": "mon_flailer_radiosphere",
+    "type": "MONSTER",
+    "name": { "str_sp": "flailer" },
+    "description": "A cloth facsimilie of a bird, flailing around in the air. It seems deliberate with it's movement.",
+    "bodytype": "bird",
+    "default_faction": "bird_small_flying",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "BIRD" ],
+    "volume": "600 ml",
+    "weight": "450 g",
+    "//": "~0.75g/ml density for most wild birds",
+    "hp": 1,
+    "speed": 200,
+    "material": [ "cotton" ],
+    "symbol": "v",
+    "color": "white",
+    "aggression": -99,
+    "morale": 5,
+    "dodge": 4,
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
+    "flags": [
+      "HEARS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER",
+      "FLIES",
+      "SWARMS",
+      "CANPLAY",
+      "CAN_BE_CULLED",
+      "PET_WONT_FOLLOW",
+      "SMALL_HIDER"
+    ],
+    "copy-from": "mon_bird_flying_base"
+  }
+]
