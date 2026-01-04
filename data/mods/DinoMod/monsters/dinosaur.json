@@ -1494,7 +1494,13 @@
     "hp": 475,
     "zombify_into": "mon_zapatosaurus",
     "special_attacks": [
-      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      {
+        "type": "spell",
+        "spell_data": { "id": "sauropod_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
       [ "tailsmash_long_DinoMod", 30 ],
       [ "EAT_CROP", 40 ],
       [ "BROWSE", 60 ],
@@ -2975,5 +2981,26 @@
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ],
     "armor": { "bash": 4, "cut": 4, "bullet": 6 }
+  },
+  {
+    "id": "mon_sauropod_leg",
+    "type": "MONSTER",
+    "name": { "str": "sauropod leg" },
+    "description": "A huge fleshy appendage holding up a much larger dinosaur. Looks very heavy.",
+    "copy-from": "mon_apatosaurus",
+    "symbol": "(",
+    "hp": 200,
+    "proportional": { "dodge": 0.25, "speed": 1.2 },
+    "melee_dice": 6,
+    "melee_dice_sides": 15,
+    "melee_skill": 4,
+    "special_attacks": [ { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] } ],
+    "death_function": {
+      "corpse_type": "BROKEN",
+      "message": "The sauropod stumbles as one of its legs is badly hurt and collapses.",
+      "eoc": "EOC_SAUROPOD_HURT"
+    },
+    "weakpoint_sets": [ "wps_sauropod_leg" ],
+    "extend": { "flags": [ "DESTROYS" ] }
   }
 ]
