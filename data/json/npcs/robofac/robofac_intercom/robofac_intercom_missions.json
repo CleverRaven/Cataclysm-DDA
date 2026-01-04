@@ -1607,7 +1607,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE",
     "type": "mission_definition",
     "name": { "str": "Invasive \"Meteorology\"" },
-    "description": "Go to the <color_yellow>exact underground coordinates</color>, set up a HEW station, and make a recording.  Return the <color_yellow>alient \"atmospheric\" datasheet</color> to Hub 01.  You may wish to rendezvous with the advanced field team, if you can find them.",
+    "description": "Go to the <color_yellow>exact underground coordinates</color>, set up a HEW station, and make a recording.  Return the <color_yellow>alien \"atmospheric\" datasheet</color> to Hub 01.  You may wish to rendezvous with the advanced field team, if you can find them.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
