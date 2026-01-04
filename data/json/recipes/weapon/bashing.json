@@ -1151,7 +1151,7 @@
       { "proficiency": "prof_carving", "skill_penalty": 0 },
       { "proficiency": "prof_case_hardening", "skill_penalty": 0 }
     ],
-    "using": [ [ "blacksmithing_standard", 5 ], [ "lc_steel_standard", 2 ], [ "metal_punch", 1 ],  [ "carbon", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 5 ], [ "lc_steel_standard", 2 ], [ "metal_punch", 1 ], [ "carbon", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
