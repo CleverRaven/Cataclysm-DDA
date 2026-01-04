@@ -1440,7 +1440,7 @@
           { "item": "browning_a5", "prob": 100 },
           { "item": "benelli_tsa", "prob": 24 },
           { "item": "mossberg_930", "prob": 31 },
-          { "item": "m1014", "prob": 11 },
+          { "item": "benelli_m4", "prob": 11 },
           { "item": "tavor_12", "prob": 53 }
         ]
       }

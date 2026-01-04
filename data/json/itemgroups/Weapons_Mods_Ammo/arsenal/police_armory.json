@@ -1827,7 +1827,8 @@
       { "item": "remington_870_express", "prob": 35 },
       { "item": "mossberg_590", "prob": 23 },
       { "item": "mossberg_930", "prob": 8 },
-      { "item": "m1014", "prob": 2 },
+      { "item": "m1014", "prob": 1 },
+      { "item": "benelli_m4", "prob": 1 },
       { "item": "mossberg_590_shockwave", "prob": 2 }
     ]
   },

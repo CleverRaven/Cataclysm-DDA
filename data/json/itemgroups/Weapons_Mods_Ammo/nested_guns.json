@@ -2404,12 +2404,20 @@
     "entries": [ { "item": "tavor_12", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
   },
   {
+    "id": "nested_benelli_m4",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "benelli_m4", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
+  },
+  {
     "id": "nested_m1014",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "m1014", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
+    "entries": [ { "item": "m1014", "charges": [ 0, 7 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_benelli_m2",
