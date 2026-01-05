@@ -82,7 +82,6 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [
-        "phase_door",
         "create_lighter",
         "create_electric_lighter",
         "pain_split",
@@ -160,7 +159,7 @@
       "str": "The Paladin's Guide to Modern Spellcasting",
       "str_pl": "copies of The Paladin's Guide to Modern Spellcasting"
     },
-    "//": "2 technomancer, 1 animist spells",
+    "//": "1 technomancer, 1 animist spells",
     "description": "Despite the title, this seems to be written in Middle English.  A little obtuse, but you can make out most of the words well enough.",
     "weight": "830 g",
     "volume": "750 ml",
@@ -169,7 +168,7 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade", "spirit_armor" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade" ] }
   },
   {
     "id": "winter_grasp",
@@ -1309,9 +1308,12 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "category": "manuals",
-    "//": "6 Kelvinist spells",
-    "name": { "str": "Practical Pyromancy, Seventh Edition", "str_pl": "copies of Practical Pyromancy, Seventh Edition" },
-    "description": "The 2020 edition of the classic tome of fire magic, not containing any restricted battle magic but popular all the same.",
+    "//": "7 Kelvinist spells",
+    "name": {
+      "str": "Practical Pyromancy, Seventh Edition (Scholarly Edition)",
+      "str_pl": "copies of Practical Pyromancy, Seventh Edition (Scholarly Edition)"
+    },
+    "description": "The 2020 edition of the classic tome of fire magic.  This is the restricted version, also containing information about combat spells.",
     "weight": "537 g",
     "volume": "930 ml",
     "price": "90 USD",
@@ -1323,12 +1325,33 @@
       "type": "learn_spell",
       "spells": [
         "kelvinist_firebolt",
+        "spell_scroll_point_flare",
         "kelvinist_extinguish_fire_spell",
         "create_lighter",
         "kelvinist_heat_food",
         "kelvinist_anti_cold",
         "burning_hands"
       ]
+    }
+  },
+  {
+    "id": "basic_pyromancy_expurgated",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "//": "4 Kelvinist spells",
+    "name": { "str": "Practical Pyromancy, Seventh Edition", "str_pl": "copies of Practical Pyromancy, Seventh Edition" },
+    "description": "The 2020 edition of the classic tome of fire magic.  This is the expurgated version with all info about restricted battle magic removed.",
+    "weight": "537 g",
+    "volume": "930 ml",
+    "price": "90 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "red",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "kelvinist_extinguish_fire_spell", "create_lighter", "kelvinist_heat_food", "kelvinist_anti_cold" ]
     }
   },
   {
