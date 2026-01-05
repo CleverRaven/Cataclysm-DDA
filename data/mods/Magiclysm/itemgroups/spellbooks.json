@@ -516,9 +516,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "group": "kelvinist_unrestricted_tier_0", "prob": 300 },
-      { "group": "kelvinist_restricted_tier_0", "prob": 25 },
-      { "group": "kelvinist_illegal_tier_0", "prob": 1 }
+      { "group": "kelvinist_unrestricted_tier_1", "prob": 300 },
+      { "group": "kelvinist_restricted_tier_1", "prob": 25 },
+      { "group": "kelvinist_illegal_tier_1", "prob": 1 }
     ]
   },
   {
