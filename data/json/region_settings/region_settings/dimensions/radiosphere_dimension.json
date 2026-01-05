@@ -13,7 +13,7 @@
     "forest_composition": "no_forests",
     "map_extras": "no_map_extras",
     "terrain_furniture": "default",
-    "weather": "radiosphere_weather",
+    "weather": "reverberation_rainy_weather",
     "place_roads": false,
     "place_specials": false,
     "neighbor_connections": false,
@@ -52,7 +52,7 @@
   },
   {
     "type": "weather_generator",
-    "id": "radiosphere_weather",
+    "id": "reverberation_rainy_weather",
     "base_temperature": 4.5,
     "base_humidity": 70.0,
     "base_pressure": 800.0,
