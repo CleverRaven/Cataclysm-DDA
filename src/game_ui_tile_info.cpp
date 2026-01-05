@@ -9,6 +9,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -61,7 +62,7 @@ static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
 void game::print_all_tile_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                                const std::string &area_name, int column,
+                                const std::string_view area_name, int column,
                                 int &line,
                                 const int last_line,
                                 const visibility_variables &cache )
@@ -177,7 +178,7 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
 }
 
 void game::print_terrain_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                               const std::string &area_name, int column, int &line )
+                               const std::string_view area_name, int column, int &line )
 {
     map &here = get_map();
 
@@ -185,7 +186,7 @@ void game::print_terrain_info( const tripoint_bub_ms &lp, const catacurses::wind
 
     // Print OMT type and terrain type on first two lines
     // if can't fit in one line.
-    std::string tile = uppercase_first_letter( here.tername( lp ) );
+    const std::string tile = uppercase_first_letter( here.tername( lp ) );
     std::string area = uppercase_first_letter( area_name );
     if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
         area = e->string_id;

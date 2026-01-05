@@ -558,6 +558,8 @@
       [ "cestus", 1 ],
       [ "battleaxe", 1 ],
       [ "warhammer", 1 ],
+      [ "warhammer_fake", 10 ],
+      [ "warhammer_inferior", 20 ],
       [ "morningstar", 1 ],
       [ "bokken", 7 ],
       [ "broadsword_inferior", 20 ],

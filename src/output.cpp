@@ -1615,32 +1615,29 @@ std::string trim_trailing_punctuations( std::string_view s )
     } );
 }
 
-std::string remove_punctuations( const std::string &s )
+std::string remove_punctuations( const std::string_view s )
 {
-    std::wstring ws = utf8_to_wstr( s );
-    std::wstring result;
-    std::remove_copy_if( ws.begin(), ws.end(), std::back_inserter( result ),
-    []( wchar_t ch ) {
-        return std::iswpunct( ch ) && ch != '_';
+    std::u32string u32s = utf8_to_utf32( s );
+    std::u32string result;
+    std::remove_copy_if( u32s.begin(), u32s.end(), std::back_inserter( result ),
+    []( const char32_t ch ) {
+        return u32_ispunct( ch ) && ch != '_';
     } );
-    return wstr_to_utf8( result );
+    return utf32_to_utf8( result );
 }
 
-using char_t = std::string::value_type;
-std::string to_upper_case( const std::string &s )
+std::string to_upper_case( const std::string_view s )
 {
-    const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
-    std::wstring wstr = utf8_to_wstr( s );
-    f.toupper( wstr.data(), wstr.data() + wstr.size() );
-    return wstr_to_utf8( wstr );
+    std::u32string u32s = utf8_to_utf32( s );
+    std::transform( u32s.begin(), u32s.end(), u32s.begin(), u32_to_uppercase );
+    return utf32_to_utf8( u32s );
 }
 
-std::string to_lower_case( const std::string &s )
+std::string to_lower_case( const std::string_view s )
 {
-    const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
-    std::wstring wstr = utf8_to_wstr( s );
-    f.tolower( wstr.data(), wstr.data() + wstr.size() );
-    return wstr_to_utf8( wstr );
+    std::u32string u32s = utf8_to_utf32( s );
+    std::transform( u32s.begin(), u32s.end(), u32s.begin(), u32_to_lowercase );
+    return utf32_to_utf8( u32s );
 }
 
 // find the position of each non-printing tag in a string
@@ -2751,18 +2748,22 @@ void replace_substring( std::string &input, const std::string &substring,
     }
 }
 
-std::string uppercase_first_letter( const std::string &str )
+std::string uppercase_first_letter( const std::string_view str )
 {
-    std::wstring wstr = utf8_to_wstr( str );
-    wstr[0] = towupper( wstr[0] );
-    return wstr_to_utf8( wstr );
+    std::u32string u32s = utf8_to_utf32( str );
+    if( !u32s.empty() ) {
+        u32s[0] = u32_to_uppercase( u32s[0] );
+    }
+    return utf32_to_utf8( u32s );
 }
 
-std::string lowercase_first_letter( const std::string &str )
+std::string lowercase_first_letter( const std::string_view str )
 {
-    std::wstring wstr = utf8_to_wstr( str );
-    wstr[0] = towlower( wstr[0] );
-    return wstr_to_utf8( wstr );
+    std::u32string u32s = utf8_to_utf32( str );
+    if( !u32s.empty() ) {
+        u32s[0] = u32_to_lowercase( u32s[0] );
+    }
+    return utf32_to_utf8( u32s );
 }
 
 //remove prefix of a string, between c1 and c2, i.e., "<prefix>remove it"

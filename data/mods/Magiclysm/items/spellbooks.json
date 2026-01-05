@@ -36,7 +36,7 @@
     "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "A Beginner's Guide to Magic", "str_pl": "copies of A Beginner's Guide to Magic" },
-    "//": "2 Magus, 3 classless spell",
+    "//": "4 classless spell",
     "description": "You would describe this as more like a pamphlet than a spellbook, but it seems to have at least a few interesting spells you can use.",
     "weight": "585 g",
     "volume": "250 ml",
@@ -45,10 +45,7 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
-    "use_action": {
-      "type": "learn_spell",
-      "spells": [ "magic_missile", "phase_door", "create_atomic_light", "sound_bomb", "classless_watch_spell" ]
-    }
+    "use_action": { "type": "learn_spell", "spells": [ "create_atomic_light", "sound_bomb", "classless_watch_spell", "protection_aura" ] }
   },
   {
     "id": "novice_stormshaper_book",
@@ -65,7 +62,7 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "shocking_lash", "windrun" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "electric_arts", "windrun" ] }
   },
   {
     "id": "wizard_utility",

@@ -12,6 +12,13 @@
     "extend": { "items": [ [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ] ] }
   },
   {
+    "id": "esoteric_books",
+    "type": "item_group",
+    "copy-from": "esoteric_books",
+    "subtype": "distribution",
+    "extend": { "entries": [ { "group": "spellbook_tier_0", "prob": 8 }, { "group": "spellbook_tier_1", "prob": 2 } ] }
+  },
+  {
     "type": "item_group",
     "id": "SUS_book_nonf_soft",
     "copy-from": "SUS_book_nonf_soft",
