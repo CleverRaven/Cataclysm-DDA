@@ -12,6 +12,7 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -737,7 +738,7 @@ class game
 
         // Shared method to print "look around" info
         void print_all_tile_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                                  const std::string &area_name, int column,
+                                  std::string_view area_name, int column,
                                   int &line, int last_line, const visibility_variables &cache );
 
         void draw_look_around_cursor( const tripoint_bub_ms &lp, const visibility_variables &cache );
@@ -1024,8 +1025,7 @@ class game
         void print_fields_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                                 int &line );
         void print_terrain_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                                 const std::string &area_name, int column,
-                                 int &line );
+                                 std::string_view area_name, int column, int &line );
         void print_furniture_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                                    int &line );
         void print_trap_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,

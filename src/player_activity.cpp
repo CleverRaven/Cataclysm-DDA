@@ -157,8 +157,8 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
                 if( skill && u.get_knowledge_level( skill ) < reading->level &&
                     u.get_skill_level_object( skill ).can_train() && u.has_identified( book->typeId() ) ) {
                     const SkillLevel &skill_level = u.get_skill_level_object( skill );
-                    //~ skill_name current_skill_level -> next_skill_level (% to next level)
-                    extra_info = string_format( pgettext( "reading progress", "%s %d -> %d (%d%%)" ),
+                    //~ skill_name current_skill_level (% of next level) -> next_skill_level
+                    extra_info = string_format( pgettext( "reading progress", "%1s %2d (%4d%%) -> %3d" ),
                                                 skill.obj().name(),
                                                 skill_level.knowledgeLevel(),
                                                 skill_level.knowledgeLevel() + 1,

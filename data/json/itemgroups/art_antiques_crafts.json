@@ -91,6 +91,7 @@
       { "item": "zweihander_inferior", "prob": 20 },
       { "item": "battleaxe_inferior", "prob": 20 },
       { "item": "warhammer", "prob": 10 },
+      { "item": "warhammer_inferior", "prob": 15 },
       { "item": "halberd", "prob": 5 },
       { "item": "lucern_hammer", "prob": 3 },
       { "item": "lucern_hammerfake", "prob": 5 },

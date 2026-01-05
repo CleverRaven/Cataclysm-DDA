@@ -103,15 +103,7 @@
     "type": "effect_on_condition",
     "id": "EOC_create_extract",
     "//": "Actually creates the extract by first choosing a location, then assigning a mission there.  It will also clean up that spot later so the exit room doesn't remain for future expeditions.",
-    "effect": [
-      { "run_eocs": [ "EOC_Random_Loc_Extract" ] },
-      {
-        "revert_location": { "global_val": "OM_missionspot" },
-        "time_in_future": "infinite",
-        "key": "return_portal_close"
-      },
-      { "assign_mission": "MISSION_REACH_EXTRACT" }
-    ]
+    "effect": [ { "run_eocs": [ "EOC_Random_Loc_Extract" ] }, { "assign_mission": "MISSION_REACH_EXTRACT" } ]
   },
   {
     "type": "effect_on_condition",
@@ -137,11 +129,6 @@
     "//": "Actually creates a bonus mission by first choosing a location, then assigning a mission there.  It will also clean up that spot later so any map changes don't remain for future expeditions.",
     "effect": [
       { "run_eocs": [ "EOC_Random_Loc_Mission" ] },
-      {
-        "revert_location": { "global_val": "OM_missionspot" },
-        "time_in_future": "infinite",
-        "key": "return_portal_close"
-      },
       {
         "weighted_list_eocs": [
           [ "EOC_bonusmission_1", 45 ],

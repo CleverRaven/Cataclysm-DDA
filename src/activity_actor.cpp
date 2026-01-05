@@ -187,6 +187,7 @@ static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_REEL_CABLE( "ACT_REEL_CABLE" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
 static const activity_id ACT_SKIN( "ACT_SKIN" );
@@ -2456,8 +2457,8 @@ std::string read_activity_actor::get_progress_message( const player_activity & )
         you.get_skill_level_object( skill ).can_train() &&
         you.has_identified( book->typeId() ) ) {
         const SkillLevel &skill_level = you.get_skill_level_object( skill );
-        //~ skill_name current_skill_level -> next_skill_level (% to next level)
-        return string_format( pgettext( "reading progress", "%1$s %2$d -> %3$d (%4$d%%)" ),
+        //~ skill_name current_skill_level  (% of next level) -> next_skill_level
+        return string_format( pgettext( "reading progress", "%1$s %2$d (%4$d%%) -> %3$d" ),
                               skill.obj().name(),
                               skill_level.knowledgeLevel(),
                               skill_level.knowledgeLevel() + 1,
@@ -5532,6 +5533,111 @@ std::unique_ptr<activity_actor> disable_activity_actor::deserialize( JsonValue &
     data.read( "target", actor.target );
     data.read( "reprogram", actor.reprogram );
     data.read( "moves_total", actor.moves_total );
+
+    return actor.clone();
+}
+
+void robot_control_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( initial_moves );
+    act.moves_left = act.moves_total;
+}
+
+void robot_control_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( !controlled_monster_temp_id ) {
+        debugmsg( "No monster assigned in ACT_ROBOT_CONTROL" );
+        act.set_to_null();
+        return;
+    }
+    const shared_ptr_fast<monster> z = get_creature_tracker().from_temporary_id(
+                                           *controlled_monster_temp_id );
+
+    if( !z || !iuse::robotcontrol_can_target( who, *z ) ) {
+        who.add_msg_if_player( _( "Target lost.  IFF override failed." ) );
+        act.set_to_null();
+        return;
+    }
+
+    // TODO: Add some kind of chance of getting the target's attention
+}
+
+void robot_control_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+
+    if( !controlled_monster_temp_id ) {
+        debugmsg( "No monster assigned in ACT_ROBOT_CONTROL" );
+        return;
+    }
+
+    shared_ptr_fast<monster> z = get_creature_tracker().from_temporary_id(
+                                     *controlled_monster_temp_id );
+    controlled_monster_temp_id.reset();
+
+    if( !z || !iuse::robotcontrol_can_target( who, *z ) ) {
+        who.add_msg_if_player( _( "Target lost.  IFF override failed." ) );
+        return;
+    }
+
+    who.add_msg_if_player( _( "You unleash your override attack on the %s." ), z->name() );
+
+    /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
+    /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
+    const float computer_skill = who.get_skill_level( skill_computer );
+    const float randomized_skill = rng( 2, who.int_cur ) + computer_skill;
+    float success = computer_skill - 3 * z->type->get_total_difficulty() / randomized_skill;
+    if( z->has_flag( mon_flag_RIDEABLE_MECH ) ) {
+        success = randomized_skill - rng( 1, 11 );
+    }
+    // rideable mechs are not hostile, they have no AI, they do not resist control as much.
+    if( success >= 0 ) {
+        who.add_msg_if_player( _( "You successfully override the %s's IFF protocols!" ),
+                               z->name() );
+        z->friendly = -1;
+        if( z->has_flag( mon_flag_RIDEABLE_MECH ) ) {
+            z->add_effect( effect_pet, 1_turns, true );
+        }
+    } else if( success >= -2 ) {
+        //A near success
+        who.add_msg_if_player( _( "The %s short circuits as you attempt to reprogram it!" ), z->name() );
+        //damage it a little
+        z->apply_damage( &who, bodypart_id( "torso" ), rng( 1, 10 ) );
+        if( z->is_dead() ) {
+            who.practice( skill_computer, 10 );
+            // Do not do the other effects if the robot died
+            return;
+        }
+        if( one_in( 3 ) ) {
+            who.add_msg_if_player( _( "…and turns friendly!" ) );
+            //did the robot became friendly permanently?
+            if( one_in( 3 ) ) {
+                //it did
+                z->friendly = -1;
+            } else {
+                // it didn't
+                z->friendly = rng( 5, 40 );
+            }
+        }
+    } else {
+        who.add_msg_if_player( _( "…but the robot refuses to acknowledge you as an ally!" ) );
+    }
+    who.practice( skill_computer, 10 );
+}
+
+void robot_control_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "controlled_monster_temp_id", controlled_monster_temp_id );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> robot_control_activity_actor::deserialize( JsonValue &jsin )
+{
+    robot_control_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+    data.read( "controlled_monster_temp_id", actor.controlled_monster_temp_id );
 
     return actor.clone();
 }
@@ -10990,6 +11096,7 @@ deserialize_functions = {
     { ACT_READ, &read_activity_actor::deserialize },
     { ACT_REEL_CABLE, &reel_cable_activity_actor::deserialize },
     { ACT_RELOAD, &reload_activity_actor::deserialize },
+    { ACT_ROBOT_CONTROL, &robot_control_activity_actor::deserialize },
     { ACT_SHAVE, &shave_activity_actor::deserialize },
     { ACT_SHEARING, &shearing_activity_actor::deserialize },
     { ACT_SKIN, &butchery_activity_actor::deserialize },

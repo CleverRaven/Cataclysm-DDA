@@ -17,7 +17,6 @@
 
 #include "activity_actor.h"
 #include "avatar.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -58,7 +57,6 @@
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
-#include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
 #include "overmap.h"
@@ -112,7 +110,6 @@ static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
-static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
@@ -130,7 +127,6 @@ static const ammotype ammo_battery( "battery" );
 
 static const efftype_id effect_asocial_dissatisfied( "asocial_dissatisfied" );
 static const efftype_id effect_controlled( "controlled" );
-static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
 static const efftype_id effect_social_satisfied( "social_satisfied" );
 
@@ -160,7 +156,6 @@ static const json_character_flag json_flag_SOCIAL2( "SOCIAL2" );
 
 static const morale_type morale_tree_communion( "morale_tree_communion" );
 
-static const skill_id skill_computer( "computer" );
 static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
@@ -197,7 +192,6 @@ activity_handlers::do_turn_functions = {
     { ACT_DISMEMBER, dismember_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },
     { ACT_FERTILIZE_PLOT, fertilize_plot_do_turn },
-    { ACT_ROBOT_CONTROL, robot_control_do_turn },
     { ACT_TREE_COMMUNION, tree_communion_do_turn },
     { ACT_STUDY_SPELL, study_spell_do_turn },
 };
@@ -213,7 +207,6 @@ activity_handlers::finish_functions = {
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
     { ACT_SOCIALIZE, socialize_finish },
     { ACT_ATM, atm_finish },
-    { ACT_ROBOT_CONTROL, robot_control_finish },
     { ACT_PULL_CREATURE, pull_creature_finish },
     { ACT_SPELLCASTING, spellcasting_finish },
     { ACT_STUDY_SPELL, study_spell_finish },
@@ -1544,86 +1537,6 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
                                 reject_tile,
                                 fertilize,
                                 _( "You fertilized every plot you could." ) );
-}
-
-void activity_handlers::robot_control_do_turn( player_activity *act, Character *you )
-{
-    if( act->monsters.empty() ) {
-        debugmsg( "No monster assigned in ACT_ROBOT_CONTROL" );
-        act->set_to_null();
-        return;
-    }
-    const shared_ptr_fast<monster> z = act->monsters[0].lock();
-
-    if( !z || !iuse::robotcontrol_can_target( you, *z ) ) {
-        you->add_msg_if_player( _( "Target lost.  IFF override failed." ) );
-        act->set_to_null();
-        return;
-    }
-
-    // TODO: Add some kind of chance of getting the target's attention
-}
-
-void activity_handlers::robot_control_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-
-    if( act->monsters.empty() ) {
-        debugmsg( "No monster assigned in ACT_ROBOT_CONTROL" );
-        return;
-    }
-
-    shared_ptr_fast<monster> z = act->monsters[0].lock();
-    act->monsters.clear();
-
-    if( !z || !iuse::robotcontrol_can_target( you, *z ) ) {
-        you->add_msg_if_player( _( "Target lost.  IFF override failed." ) );
-        return;
-    }
-
-    you->add_msg_if_player( _( "You unleash your override attack on the %s." ), z->name() );
-
-    /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
-    /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
-    const float computer_skill = you->get_skill_level( skill_computer );
-    const float randomized_skill = rng( 2, you->int_cur ) + computer_skill;
-    float success = computer_skill - 3 * z->type->get_total_difficulty() / randomized_skill;
-    if( z->has_flag( mon_flag_RIDEABLE_MECH ) ) {
-        success = randomized_skill - rng( 1, 11 );
-    }
-    // rideable mechs are not hostile, they have no AI, they do not resist control as much.
-    if( success >= 0 ) {
-        you->add_msg_if_player( _( "You successfully override the %s's IFF protocols!" ),
-                                z->name() );
-        z->friendly = -1;
-        if( z->has_flag( mon_flag_RIDEABLE_MECH ) ) {
-            z->add_effect( effect_pet, 1_turns, true );
-        }
-    } else if( success >= -2 ) {
-        //A near success
-        you->add_msg_if_player( _( "The %s short circuits as you attempt to reprogram it!" ), z->name() );
-        //damage it a little
-        z->apply_damage( you, bodypart_id( "torso" ), rng( 1, 10 ) );
-        if( z->is_dead() ) {
-            you->practice( skill_computer, 10 );
-            // Do not do the other effects if the robot died
-            return;
-        }
-        if( one_in( 3 ) ) {
-            you->add_msg_if_player( _( "…and turns friendly!" ) );
-            //did the robot became friendly permanently?
-            if( one_in( 3 ) ) {
-                //it did
-                z->friendly = -1;
-            } else {
-                // it didn't
-                z->friendly = rng( 5, 40 );
-            }
-        }
-    } else {
-        you->add_msg_if_player( _( "…but the robot refuses to acknowledge you as an ally!" ) );
-    }
-    you->practice( skill_computer, 10 );
 }
 
 void activity_handlers::pull_creature_finish( player_activity *act, Character *you )

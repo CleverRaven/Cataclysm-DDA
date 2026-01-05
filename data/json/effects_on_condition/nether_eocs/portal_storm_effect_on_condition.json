@@ -692,7 +692,7 @@
           },
           {
             "u_location_variable": { "context_val": "nearest_floor" },
-            "terrain": "t_ladder_down",
+            "terrain": "t_grate",
             "target_max_radius": 60,
             "min_radius": 0,
             "max_radius": 0
