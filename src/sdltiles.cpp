@@ -2574,23 +2574,17 @@ static void draw_gamepad_radial_menu()
         float target_y = center.y - radius * std::cos( angle );
 
         // Convert target screen coords back to scaled coords for font drawing
-        int draw_x = static_cast<int>( target_x / text_scale );
-        int draw_y = static_cast<int>( target_y / text_scale );
-
-        // Center the text in scaled space
-        int text_w = font->width * utf8_width( label );
-        int text_h = font->height;
-        draw_x -= text_w / 2;
-        draw_y -= text_h / 2;
+        const point draw( static_cast<int>( target_x / text_scale ) - ( font->width * utf8_width( label ) / 2 ),
+                          static_cast<int>( target_y / text_scale ) - ( font->height / 2 ) );
 
         bool is_selected = dir == selected_dir;
 
         if( is_selected ) {
             // Draw selected item in yellow
-            font->OutputChar( renderer, geometry, label, point( draw_x, draw_y ),
+            font->OutputChar( renderer, geometry, label, draw,
                               11, 1.0f );
         } else {
-            font->OutputChar( renderer, geometry, label, point( draw_x, draw_y ),
+            font->OutputChar( renderer, geometry, label, draw,
                               15, 1.0f );
         }
     }

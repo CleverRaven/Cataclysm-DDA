@@ -1341,7 +1341,11 @@ bool input_context::is_event_type_enabled( const input_event_t type ) const
         case input_event_t::keyboard_code:
             return input_manager::actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keycode;
         case input_event_t::gamepad:
+#if defined(TILES)
             return gamepad::is_active();
+#else
+            return false;
+#endif
         case input_event_t::mouse:
             return true;
     }
