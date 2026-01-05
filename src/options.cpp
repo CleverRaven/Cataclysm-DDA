@@ -2175,9 +2175,8 @@ void options_manager::add_options_interface()
            );
 
         add( "DEFAULT_ZOOM_LEVEL", page_id, to_translation( "Default zoom level" ),
-             to_translation( "Larger values mean larger zoom out." ),
-        {
-            { 64, to_translation("0.25x") },
+        to_translation( "Larger values mean larger zoom out." ), {
+            { 64, to_translation( "0.25x" ) },
             { 32, to_translation( "0.5x" ) },
             { 16, to_translation( "1x" ) },
             { 8, to_translation( "2x" ) },
@@ -2186,10 +2185,9 @@ void options_manager::add_options_interface()
         16, 16 );
 
         add( "DEFAULT_OVERMAP_ZOOM_LEVEL", page_id, to_translation( "Default overmap zoom level" ),
-             to_translation( "Larger values mean larger zoom out." ),
-        {
-            { 64, to_translation("0.25x")},
-            { 32, to_translation("0.5x")},
+        to_translation( "Larger values mean larger zoom out." ), {
+            { 64, to_translation( "0.25x" )},
+            { 32, to_translation( "0.5x" )},
             { 16, to_translation( "1x" ) },
             { 8, to_translation( "2x" ) },
             { 4, to_translation( "4x" ) }

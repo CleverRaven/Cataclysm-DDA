@@ -713,8 +713,8 @@ void game::setup()
     unique_npcs.clear();
     get_weather().weather_override = WEATHER_NULL;
 
-    set_zoom(get_option<int>("DEFAULT_ZOOM_LEVEL"));
-    set_overmap_zoom(get_option<int>("DEFAULT_OVERMAP_ZOOM_LEVEL"));
+    set_zoom( get_option<int>( "DEFAULT_ZOOM_LEVEL" ) );
+    set_overmap_zoom( get_option<int>( "DEFAULT_OVERMAP_ZOOM_LEVEL" ) );
     // back to menu for save loading, new game etc
 }
 
@@ -6413,7 +6413,7 @@ void game::zoom_in_overmap()
 void game::reset_zoom()
 {
 #if defined(TILES)
-    tileset_zoom = get_option<int>("DEFAULT_ZOOM_LEVEL");
+    tileset_zoom = get_option<int>( "DEFAULT_ZOOM_LEVEL" );
     rescale_tileset( tileset_zoom );
 #endif // TILES
 }
@@ -6430,12 +6430,12 @@ void game::set_zoom( const int level )
 #endif // TILES
 }
 
-void game::set_overmap_zoom(const int level)
+void game::set_overmap_zoom( const int level )
 {
 #if defined(TILES)
-    if (overmap_tileset_zoom != level) {
+    if( overmap_tileset_zoom != level ) {
         overmap_tileset_zoom = level;
-        overmap_tilecontext->set_draw_scale(overmap_tileset_zoom);
+        overmap_tilecontext->set_draw_scale( overmap_tileset_zoom );
     }
 #endif // TILES
 }
