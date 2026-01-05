@@ -57,7 +57,7 @@
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
       [ [ "glasses_eye", 1 ], [ "glasses_bifocal", 1 ], [ "glasses_reading", 1 ] ],
-      [ [ "pipe", 1 ], [ "pipe_cpvc", 1 ] ],
+      [ [ "any_pipe", 1, "LIST" ] ],
       [ [ "wire", 5 ] ],
       [ [ "tinder", 5 ] ],
       [ [ "cordage_short", 1, "LIST" ] ]
