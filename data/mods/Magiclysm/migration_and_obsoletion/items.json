@@ -304,7 +304,8 @@
     "petfood": [ "WARG_FOOD" ]
   },
   {
-    "id": "spell_scroll_baleful_polymorph",
+    "id": [ "spell_scroll_baleful_polymorph", "spell_scroll_spirit_armor" ],
+    "//": "Remove after 0.J",
     "type": "MIGRATION",
     "replace": "manual_swimming"
   }

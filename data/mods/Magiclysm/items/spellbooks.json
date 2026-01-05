@@ -172,7 +172,7 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade", "spirit_armor" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade" ] }
   },
   {
     "id": "winter_grasp",
