@@ -4177,13 +4177,8 @@ void consume_activity_actor::finish( player_activity &act, Character & )
 
     if( !avatar_action::eat_here( player_character ) && reprompt_consume_menu ) {
         uistate.open_menu = []() {
-            item_location consume_loc_next = game_menus::inv::consume(
-                                                 uistate.consume_uistate.consume_menu_comestype );
-            if( consume_loc_next != item_location::nowhere ) {
-                avatar_action::eat_or_use( get_avatar(), consume_loc_next );
-            } else {
-                uistate.consume_uistate.clear();
-            }
+            avatar_action::eat_or_use( get_avatar(),
+                                       game_menus::inv::consume( uistate.consume_uistate.consume_menu_comestype ) );
         };
     }
 }

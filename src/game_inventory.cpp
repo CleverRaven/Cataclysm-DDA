@@ -1077,11 +1077,16 @@ item_location game_menus::inv::consume( const std::string &comestible_type_filte
 
     std::string none_message = you.activity.str_values.size() == 2 ?
                                _( "You have nothing else to consume." ) : _( "You have nothing to consume." );
-    return inv_internal( you, preset,
-                         _( "Consume item" ), 1,
-                         none_message,
-                         get_consume_needs_hint( you ),
-                         loc, false, true );
+
+    item_location returned_location = inv_internal( you, preset,
+                                      _( "Consume item" ), 1,
+                                      none_message,
+                                      get_consume_needs_hint( you ),
+                                      loc, false, true );
+    if( returned_location == item_location::nowhere ) {
+        uistate.consume_uistate.clear();
+    }
+    return returned_location;
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset
