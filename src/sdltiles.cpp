@@ -53,6 +53,7 @@
 #include "hash_utils.h"
 #include "horde_entity.h"
 #include "input.h"
+#include "input_context.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"

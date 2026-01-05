@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_UI_MANAGER_H
 #define CATA_SRC_UI_MANAGER_H
 
+#include <stddef.h>
 #include <functional>
 #include <memory>
 

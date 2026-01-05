@@ -15,12 +15,12 @@
 #include "city.h"
 #include "color.h"
 #include "coordinates.h"
-#include "input_context.h"
 #include "map_scale_constants.h"
 #include "point.h"
 #include "string_id.h"
 
 class ui_adaptor;
+class input_context;
 
 constexpr int RANDOM_CITY_ENTRY = INT_MIN;
 
