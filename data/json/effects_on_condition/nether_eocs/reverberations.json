@@ -69,7 +69,9 @@
       {
         "if": { "current_dimension": "radiosphere" },
         "then": [
-          { "u_message": "test" },
+          {
+            "u_message": "You feel a slight push in a direction you can't name, but soon it ceases. You have a feeling it'll happen again later."
+          },
           { "run_eocs": "EOC_PORTAL_RADIOSPHERE_RETURN", "time_in_future": [ "20 minutes", "2 hours" ] }
         ]
       }
@@ -152,7 +154,12 @@
     "false_effect": [
       {
         "if": { "current_dimension": "cabins" },
-        "then": [ { "run_eocs": "EOC_PORTAL_CABINS_RETURN", "time_in_future": [ "6 hours", "12 hours" ] } ]
+        "then": [
+          {
+            "u_message": "You feel a slight push in a direction you can't name, but soon it ceases. You have a feeling it'll happen again later."
+          },
+          { "run_eocs": "EOC_PORTAL_CABINS_RETURN", "time_in_future": [ "6 hours", "12 hours" ] }
+        ]
       }
     ]
   }
