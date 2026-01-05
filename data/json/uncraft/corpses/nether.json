@@ -11,8 +11,8 @@
     "result": "broken_flailer_radiosphere",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "1 m",
+    "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cotton_patchwork", 30 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 18 ] ] ]
   }
 ]
