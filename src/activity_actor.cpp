@@ -8131,6 +8131,13 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     }
 }
 
+void firstaid_activity_actor::canceled( player_activity &, Character &who )
+{
+    if( who.is_avatar() ) {
+        uistate.consume_uistate.clear();
+    }
+}
+
 void firstaid_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
