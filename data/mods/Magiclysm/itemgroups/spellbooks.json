@@ -431,21 +431,53 @@
     "entries": [ { "item": "null", "prob": 50 } ]
   },
   {
+    "id": "druid_spells_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "druid_unrestricted_tier_1", "prob": 300 },
+      { "group": "druid_restricted_tier_1", "prob": 25 },
+      { "group": "druid_illegal_tier_1", "prob": 1 }
+    ]
+  },
+  {
+    "id": "druid_unrestricted_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_druid_veggrasp", "prob": 35 },
+      { "item": "spell_scroll_druid_healing_herb", "prob": 35 },
+      { "item": "spell_scroll_druid_bandage", "prob": 30 },
+      { "item": "spell_scroll_druid_harvest_hunter", "prob": 40 },
+      { "item": "spell_scroll_druid_summon_brambles", "prob": 30 },
+      { "item": "spell_scroll_druid_disinfectant", "prob": 35 },
+      { "item": "spell_scroll_druid_water_walking", "prob": 30 },
+      { "item": "spell_scroll_druid_bearmantle", "prob": 25 },
+      { "item": "spell_scroll_druid_breathing_underwater", "prob": 30 },
+      { "item": "spell_scroll_druid_goodberry", "prob": 20 },
+      { "item": "spell_scroll_purification_seed", "prob": 20 }
+    ]
+  },
+  {
+    "id": "druid_restricted_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_druid_rootstrike", "prob": 40 },
+      { "item": "spell_scroll_druid_naturebow1", "prob": 40 },
+      { "item": "spell_scroll_druid_bramble_spear", "prob": 30 }
+    ]
+  },
+  {
+    "id": "druid_illegal_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 50 } ]
+  },
+  {
     "id": "spell_scroll_tier_1",
     "type": "item_group",
     "items": [
-      [ "spell_scroll_druid_veggrasp", 35 ],
-      [ "spell_scroll_druid_rootstrike", 40 ],
-      [ "spell_scroll_druid_healing_herb", 35 ],
-      [ "spell_scroll_druid_naturebow1", 20 ],
-      [ "spell_scroll_druid_bandage", 30 ],
-      [ "spell_scroll_druid_harvest_hunter", 40 ],
-      [ "spell_scroll_druid_bramble_spear", 30 ],
-      [ "spell_scroll_druid_summon_brambles", 20 ],
-      [ "spell_scroll_druid_disinfectant", 20 ],
-      [ "spell_scroll_druid_water_walking", 20 ],
-      [ "spell_scroll_druid_bearmantle", 25 ],
-      [ "spell_scroll_druid_goodberry", 20 ],
       [ "spell_scroll_seismic_stomp", 20 ],
       [ "spell_scroll_eshaper_shardspray", 25 ],
       [ "spell_scroll_eshaper_spawn_tools", 40 ],
@@ -476,14 +508,12 @@
       [ "spell_scroll_spirit_armor", 25 ],
       [ "spell_scroll_quantum_tunnel_lesser", 50 ],
       [ "spell_scroll_synaptic_stimulation", 20 ],
-      [ "spell_scroll_purification_seed", 40 ],
       [ "spell_scroll_move_earth", 40 ],
       [ "spell_scroll_earthshaper_fortitude_of_stone", 35 ],
       [ "spell_scroll_earthshaper_danger_sense", 45 ],
       [ "spell_scroll_earthshaper_stoneskin", 30 ],
       [ "spell_scroll_earthshaper_pillar", 35 ],
       [ "spell_scroll_earthshaper_harden_earth", 40 ],
-      [ "spell_scroll_druid_breathing_underwater", 30 ],
       [ "spell_scroll_repelling_arc", 30 ],
       [ "spell_scroll_knock", 35 ],
       [ "spell_scroll_technomancer_gain_electronics_computer_spell", 30 ],
