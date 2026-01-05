@@ -6433,6 +6433,8 @@ void game::set_overmap_zoom( const int level )
         uistate.overmap_tileset_zoom = level;
         overmap_tilecontext->set_draw_scale( uistate.overmap_tileset_zoom );
     }
+#else
+    static_cast<void>(level);
 #endif // TILES
 }
 
