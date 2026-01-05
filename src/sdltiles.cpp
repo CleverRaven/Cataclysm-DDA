@@ -2574,7 +2574,8 @@ static void draw_gamepad_radial_menu()
         float target_y = center.y - radius * std::cos( angle );
 
         // Convert target screen coords back to scaled coords for font drawing
-        const point draw( static_cast<int>( target_x / text_scale ) - ( font->width * utf8_width( label ) / 2 ),
+        const point draw( static_cast<int>( target_x / text_scale ) - ( font->width * utf8_width(
+                              label ) / 2 ),
                           static_cast<int>( target_y / text_scale ) - ( font->height / 2 ) );
 
         bool is_selected = dir == selected_dir;
