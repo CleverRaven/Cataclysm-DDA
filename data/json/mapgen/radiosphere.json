@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [ "radiosphere_radio_tower_top", "radiosphere_radio_tower_top_leech" ],
+    "id": [ "radiosphere_radio_tower_top" ],
     "vision_levels": "isolated_tower",
     "name": "radio tower",
     "sym": ".",
