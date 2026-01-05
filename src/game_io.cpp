@@ -476,8 +476,8 @@ bool game::load( const save_t &name )
                     // recalculate light level for correctly resuming crafting and disassembly
                     here.build_map_cache( here.get_abs_sub().z() );
 
-                    set_zoom( uistate.zoom_level );
-                    set_overmap_zoom( uistate.zoom_level_overmap );
+                    set_zoom( uistate.tileset_zoom );
+                    set_overmap_zoom( uistate.overmap_tileset_zoom );
                 }
             },
         }

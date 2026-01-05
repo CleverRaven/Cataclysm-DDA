@@ -14,7 +14,8 @@
 #include "json.h"
 #include "omdata.h"
 #include "type_id.h"
-#include "game.h"
+
+constexpr int DEFAULT_TILESET_ZOOM = 16;
 
 class item;
 
@@ -188,8 +189,8 @@ class uistatedata
         bool overmap_fast_travel = false;
         bool overmap_fast_scroll = false;
 
-        int zoom_level = DEFAULT_TILESET_ZOOM;
-        int zoom_level_overmap = DEFAULT_TILESET_ZOOM;
+        int tileset_zoom = DEFAULT_TILESET_ZOOM;
+        int overmap_tileset_zoom = DEFAULT_TILESET_ZOOM;
 
         overmap_sidebar_uistate overmap_sidebar_state;
 

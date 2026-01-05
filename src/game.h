@@ -36,8 +36,6 @@
 #include "units_fwd.h"
 #include "weather.h"
 
-constexpr int DEFAULT_TILESET_ZOOM = 16;
-
 // The reference to the one and only game instance.
 class game;
 
@@ -1288,10 +1286,6 @@ class game
 
         // Times the user has input an action
         int user_action_counter = 0; // NOLINT(cata-serialize)
-
-        /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
-        int tileset_zoom = 0; // NOLINT(cata-serialize)
-        int overmap_tileset_zoom = DEFAULT_TILESET_ZOOM; // NOLINT(cata-serialize)
 
         /** Seed for all the random numbers that should have consistent randomness (weather). */
         unsigned int seed = 0; // NOLINT(cata-serialize)

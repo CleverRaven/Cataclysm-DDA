@@ -456,7 +456,6 @@ game::game() :
     next_npc_id( 1 ),
     next_mission_id( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
-    tileset_zoom( DEFAULT_TILESET_ZOOM ),
     last_mouse_edge_scroll( std::chrono::steady_clock::now() )
 {
     current_map.set( &m );
@@ -2502,7 +2501,7 @@ std::pair<tripoint_rel_omt, tripoint_rel_omt> game::mouse_edge_scrolling( input_
 tripoint_rel_ms game::mouse_edge_scrolling_terrain( input_context &ctxt )
 {
     std::pair<tripoint_rel_ms, tripoint_rel_ms> ret = mouse_edge_scrolling( ctxt,
-            std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 ),
+            std::max( DEFAULT_TILESET_ZOOM / uistate.tileset_zoom, 1 ),
             last_mouse_edge_scroll_vector_terrain, g->is_tileset_isometric() );
     last_mouse_edge_scroll_vector_terrain = ret.second;
     last_mouse_edge_scroll_vector_overmap = tripoint_rel_omt::zero;
@@ -6025,7 +6024,7 @@ look_around_result game::look_around(
     is_looking = true;
     const tripoint_rel_ms prev_offset = u.view_offset;
 #if defined(TILES)
-    const int prev_tileset_zoom = tileset_zoom;
+    const int prev_tileset_zoom = uistate.tileset_zoom;
     while( is_moving_zone && square_dist( start_point, end_point ) > 256 / get_zoom() &&
            get_zoom() != 4 ) {
         zoom_out();
@@ -6362,71 +6361,65 @@ static constexpr int MAXIMUM_ZOOM_LEVEL = 4;
 void game::zoom_out()
 {
 #if defined(TILES)
-    if( tileset_zoom > MAXIMUM_ZOOM_LEVEL ) {
-        tileset_zoom = tileset_zoom / 2;
+    if( uistate.tileset_zoom > MAXIMUM_ZOOM_LEVEL ) {
+        uistate.tileset_zoom = uistate.tileset_zoom / 2;
     } else {
-        tileset_zoom = 64;
+        uistate.tileset_zoom = 64;
     }
-    uistate.zoom_level = tileset_zoom;
-    rescale_tileset( tileset_zoom );
+    rescale_tileset( uistate.tileset_zoom );
 #endif
 }
 
 void game::zoom_out_overmap()
 {
 #if defined(TILES)
-    if( overmap_tileset_zoom > MAXIMUM_ZOOM_LEVEL ) {
-        overmap_tileset_zoom /= 2;
+    if( uistate.overmap_tileset_zoom > MAXIMUM_ZOOM_LEVEL ) {
+        uistate.overmap_tileset_zoom /= 2;
     } else {
-        overmap_tileset_zoom = 64;
+        uistate.overmap_tileset_zoom = 64;
     }
-    uistate.zoom_level_overmap = overmap_tileset_zoom;
-    overmap_tilecontext->set_draw_scale( overmap_tileset_zoom );
+    overmap_tilecontext->set_draw_scale( uistate.overmap_tileset_zoom );
 #endif
 }
 
 void game::zoom_in()
 {
 #if defined(TILES)
-    if( tileset_zoom == 64 ) {
-        tileset_zoom = MAXIMUM_ZOOM_LEVEL;
+    if( uistate.tileset_zoom == 64 ) {
+        uistate.tileset_zoom = MAXIMUM_ZOOM_LEVEL;
     } else {
-        tileset_zoom = tileset_zoom * 2;
+        uistate.tileset_zoom = uistate.tileset_zoom * 2;
     }
-    uistate.zoom_level = tileset_zoom;
-    rescale_tileset( tileset_zoom );
+    rescale_tileset( uistate.tileset_zoom );
 #endif
 }
 
 void game::zoom_in_overmap()
 {
 #if defined(TILES)
-    if( overmap_tileset_zoom == 64 ) {
-        overmap_tileset_zoom = MAXIMUM_ZOOM_LEVEL;
+    if( uistate.overmap_tileset_zoom == 64 ) {
+        uistate.overmap_tileset_zoom = MAXIMUM_ZOOM_LEVEL;
     } else {
-        overmap_tileset_zoom *= 2;
+        uistate.overmap_tileset_zoom *= 2;
     }
-    uistate.zoom_level_overmap = overmap_tileset_zoom;
-    overmap_tilecontext->set_draw_scale( overmap_tileset_zoom );
+    overmap_tilecontext->set_draw_scale( uistate.overmap_tileset_zoom );
 #endif
 }
 
 void game::reset_zoom()
 {
 #if defined(TILES)
-    tileset_zoom = DEFAULT_TILESET_ZOOM;
-    uistate.zoom_level = tileset_zoom;
-    rescale_tileset( tileset_zoom );
+    uistate.tileset_zoom = DEFAULT_TILESET_ZOOM;
+    rescale_tileset( uistate.tileset_zoom );
 #endif // TILES
 }
 
 void game::set_zoom( const int level )
 {
 #if defined(TILES)
-    if( tileset_zoom != level ) {
-        tileset_zoom = level;
-        uistate.zoom_level = tileset_zoom;
-        rescale_tileset( tileset_zoom );
+    if( uistate.tileset_zoom != level ) {
+        uistate.tileset_zoom = level;
+        rescale_tileset( uistate.tileset_zoom );
     }
 #else
     static_cast<void>( level );
@@ -6436,10 +6429,9 @@ void game::set_zoom( const int level )
 void game::set_overmap_zoom(const int level)
 {
 #if defined(TILES)
-    if (overmap_tileset_zoom != level) {
-        overmap_tileset_zoom = level;
-        uistate.zoom_level_overmap = overmap_tileset_zoom;
-        overmap_tilecontext->set_draw_scale(overmap_tileset_zoom);
+    if ( uistate.overmap_tileset_zoom != level) {
+        uistate.overmap_tileset_zoom = level;
+        overmap_tilecontext->set_draw_scale( uistate.overmap_tileset_zoom );
     }
 #endif // TILES
 }
@@ -6447,7 +6439,7 @@ void game::set_overmap_zoom(const int level)
 int game::get_zoom() const
 {
 #if defined(TILES)
-    return tileset_zoom;
+    return uistate.tileset_zoom;
 #else
     return DEFAULT_TILESET_ZOOM;
 #endif
