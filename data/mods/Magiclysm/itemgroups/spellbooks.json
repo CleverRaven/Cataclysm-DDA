@@ -475,14 +475,45 @@
     "entries": [ { "item": "null", "prob": 50 } ]
   },
   {
+    "id": "earthshaper_spells_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "earthshaper_unrestricted_tier_1", "prob": 300 },
+      { "group": "earthshaper_restricted_tier_1", "prob": 25 },
+      { "group": "earthshaper_illegal_tier_1", "prob": 1 }
+    ]
+  },
+  {
+    "id": "earthshaper_unrestricted_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_eshaper_spawn_tools", "prob": 40 },
+      { "item": "spell_scroll_earthshaper_repair_metal_stone", "prob": 40 },
+      { "item": "spell_scroll_earthshaper_fortitude_of_stone", "prob": 35 },
+      { "item": "spell_scroll_earthshaper_danger_sense", "prob": 45 },
+      { "item": "spell_scroll_earthshaper_stoneskin", "prob": 30 },
+      { "item": "spell_scroll_earthshaper_pillar", "prob": 35 },
+      { "item": "spell_scroll_earthshaper_harden_earth", "prob": 30 }
+    ]
+  },
+  {
+    "id": "earthshaper_restricted_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_clairvoyance", "prob": 30 }, { "item": "spell_scroll_seismic_stomp", "prob": 20 } ]
+  },
+  {
+    "id": "earthshaper_illegal_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_eshaper_shardspray", "prob": 25 } ]
+  },
+  {
     "id": "spell_scroll_tier_1",
     "type": "item_group",
     "items": [
-      [ "spell_scroll_seismic_stomp", 20 ],
-      [ "spell_scroll_eshaper_shardspray", 25 ],
-      [ "spell_scroll_eshaper_spawn_tools", 40 ],
-      [ "spell_scroll_earthshaper_repair_metal_stone", 40 ],
-      [ "spell_scroll_clairvoyance", 30 ],
       [ "spell_scroll_point_flare", 50 ],
       [ "spell_scroll_ice_spike", 50 ],
       [ "spell_scroll_burning_hands", 50 ],
@@ -509,11 +540,6 @@
       [ "spell_scroll_quantum_tunnel_lesser", 50 ],
       [ "spell_scroll_synaptic_stimulation", 20 ],
       [ "spell_scroll_move_earth", 40 ],
-      [ "spell_scroll_earthshaper_fortitude_of_stone", 35 ],
-      [ "spell_scroll_earthshaper_danger_sense", 45 ],
-      [ "spell_scroll_earthshaper_stoneskin", 30 ],
-      [ "spell_scroll_earthshaper_pillar", 35 ],
-      [ "spell_scroll_earthshaper_harden_earth", 40 ],
       [ "spell_scroll_repelling_arc", 30 ],
       [ "spell_scroll_knock", 35 ],
       [ "spell_scroll_technomancer_gain_electronics_computer_spell", 30 ],
