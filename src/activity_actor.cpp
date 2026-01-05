@@ -4196,7 +4196,7 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "consume_location", consume_location );
     jsout.member( "consume_item", consume_item );
-    jsout.member( "was_canceled", was_canceled );
+    jsout.member( "canceled", was_canceled );
     jsout.member( "reprompt_consume_menu", reprompt_consume_menu );
 
     jsout.end_object();
@@ -4211,7 +4211,7 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonValue &
 
     data.read( "consume_location", actor.consume_location );
     data.read( "consume_item", actor.consume_item );
-    data.read( "was_canceled", actor.was_canceled );
+    data.read( "canceled", actor.was_canceled );
     if( data.has_member( "reprompt_consume_menu" ) ) {
         data.read( "reprompt_consume_menu", actor.reprompt_consume_menu );
     }
