@@ -159,7 +159,7 @@
       "str": "The Paladin's Guide to Modern Spellcasting",
       "str_pl": "copies of The Paladin's Guide to Modern Spellcasting"
     },
-    "//": "2 technomancer, 1 animist spells",
+    "//": "1 technomancer, 1 animist spells",
     "description": "Despite the title, this seems to be written in Middle English.  A little obtuse, but you can make out most of the words well enough.",
     "weight": "830 g",
     "volume": "750 ml",
@@ -168,7 +168,7 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade", "spirit_armor" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade" ] }
   },
   {
     "id": "winter_grasp",

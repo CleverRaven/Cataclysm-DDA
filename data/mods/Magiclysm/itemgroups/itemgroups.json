@@ -1404,7 +1404,6 @@
           { "item": "techno_fundamentals", "prob": 20 },
           { "item": "spell_scroll_quantum_tunnel_lesser", "prob": 50 },
           { "item": "spell_scroll_holy_blade", "prob": 50 },
-          { "item": "spell_scroll_spirit_armor", "prob": 50 },
           { "item": "spell_scroll_synaptic_stimulation", "prob": 50 },
           { "item": "spell_scroll_knock", "prob": 50 },
           { "item": "spell_scroll_technomancer_robot_shutdown", "prob": 50 },

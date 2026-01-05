@@ -573,7 +573,8 @@
       { "item": "spell_scroll_magus_spiderclimb", "prob": 40 },
       { "item": "spell_scroll_force_jar", "prob": 30 },
       { "item": "spell_scroll_shadow_field", "prob": 20 },
-      { "item": "spell_scroll_impactsling", "prob": 20 }
+      { "item": "spell_scroll_impactsling", "prob": 20 },
+      { "item": "spell_scroll_magus_mage_armor", "prob": 30 }
     ]
   },
   {
@@ -638,7 +639,6 @@
     "subtype": "distribution",
     "entries": [
       { "item": "spell_scroll_technomancer_welder", "prob": 35 },
-      { "item": "spell_scroll_spirit_armor", "prob": 30 },
       { "item": "spell_scroll_synaptic_stimulation", "prob": 35 },
       { "item": "spell_scroll_technomancer_gain_electronics_computer_spell", "prob": 35 },
       { "item": "spell_scroll_technomancer_far_sight", "prob": 25 },
