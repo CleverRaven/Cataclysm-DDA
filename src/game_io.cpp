@@ -475,6 +475,9 @@ bool game::load( const save_t &name )
                     effect_on_conditions::load_existing_character( u );
                     // recalculate light level for correctly resuming crafting and disassembly
                     here.build_map_cache( here.get_abs_sub().z() );
+
+                    set_zoom( uistate.zoom_level );
+                    set_overmap_zoom( uistate.zoom_level_overmap );
                 }
             },
         }
