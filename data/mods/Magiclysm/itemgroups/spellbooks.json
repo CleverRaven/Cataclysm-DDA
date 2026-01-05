@@ -109,16 +109,16 @@
     ]
   },
   {
-    "id": "classless_illegal_tier_0",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 50 } ]
-  },
-  {
     "id": "classless_restricted_tier_0",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [ { "item": "spell_scroll_ethereal_grasp", "prob": 50 } ]
+  },
+  {
+    "id": "classless_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 50 } ]
   },
   {
     "id": "druid_spells_tier_0",
@@ -398,12 +398,42 @@
     "entries": [ { "item": "spell_scroll_biomancer_carrion_feast", "prob": 15 } ]
   },
   {
+    "id": "classless_spells_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "classless_unrestricted_tier_1", "prob": 300 },
+      { "group": "classless_restricted_tier_1", "prob": 25 },
+      { "group": "classless_illegal_tier_1", "prob": 1 }
+    ]
+  },
+  {
+    "id": "classless_unrestricted_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_classless_dispel_magic", "prob": 45 },
+      { "item": "spell_scroll_sound_bomb", "prob": 35 },
+      { "item": "spell_scroll_protection_aura", "prob": 50 },
+      { "item": "spell_scroll_thought_shield", "prob": 35 }
+    ]
+  },
+  {
+    "id": "classless_restricted_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 50 } ]
+  },
+  {
+    "id": "classless_illegal_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 50 } ]
+  },
+  {
     "id": "spell_scroll_tier_1",
     "type": "item_group",
     "items": [
-      [ "spell_scroll_classless_dispel_magic", 45 ],
-      [ "spell_scroll_sound_bomb", 35 ],
-      [ "spell_scroll_protection_aura", 50 ],
       [ "spell_scroll_druid_veggrasp", 35 ],
       [ "spell_scroll_druid_rootstrike", 40 ],
       [ "spell_scroll_druid_healing_herb", 35 ],
@@ -447,7 +477,6 @@
       [ "spell_scroll_quantum_tunnel_lesser", 50 ],
       [ "spell_scroll_synaptic_stimulation", 20 ],
       [ "spell_scroll_purification_seed", 40 ],
-      [ "spell_scroll_crystallize_mana", 50 ],
       [ "spell_scroll_move_earth", 40 ],
       [ "spell_scroll_earthshaper_fortitude_of_stone", 35 ],
       [ "spell_scroll_earthshaper_danger_sense", 45 ],
@@ -462,7 +491,6 @@
       [ "spell_scroll_flamesword", 35 ],
       [ "spell_scroll_force_jar", 30 ],
       [ "spell_scroll_flamebreath", 30 ],
-      [ "spell_scroll_thought_shield", 35 ],
       [ "spell_scroll_technomancer_far_sight", 20 ],
       [ "spell_scroll_technomancer_pain_ignore", 30 ]
     ]
