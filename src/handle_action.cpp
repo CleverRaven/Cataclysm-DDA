@@ -3154,10 +3154,6 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             avatar_action::autoattack( player_character, here );
             break;
 
-        case ACTION_INTERACT:
-            // Handled above in handle_action()
-            break;
-
         default:
             break;
     }
