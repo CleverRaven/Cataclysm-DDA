@@ -1341,7 +1341,7 @@
     "category": "manuals",
     "//": "4 Kelvinist spells",
     "name": { "str": "Practical Pyromancy, Seventh Edition", "str_pl": "copies of Practical Pyromancy, Seventh Edition" },
-    "description": "The 2020 edition of the classic tome of fire magic.  This is the expurgated version will all info about restricted battle magic removed.",
+    "description": "The 2020 edition of the classic tome of fire magic.  This is the expurgated version with all info about restricted battle magic removed.",
     "weight": "537 g",
     "volume": "930 ml",
     "price": "90 USD",
