@@ -853,13 +853,13 @@
     "passive_effects": [ { "id": "ench_subzero_talons" } ]
   },
   {
-    "id": "armor_spirit",
+    "id": "item_armor_magus_mage_conjured_armor",
     "type": "ITEM",
     "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "copy-from": "armor_lc_lightplate",
-    "name": { "str_sp": "mage armor" },
-    "description": "A summoned magic armor.  It gets shinier and sturdier with each spell level and is affected by your intelligence.",
+    "name": { "str_sp": "force armor" },
+    "description": "A summoned suit of armor made of pure force.  It gets stronger and sturdier with each spell level and is affected by your intelligence, though its glow also increases.",
     "weight": "1 g",
     "material": [ "concentrated_mana" ],
     "warmth": 0,

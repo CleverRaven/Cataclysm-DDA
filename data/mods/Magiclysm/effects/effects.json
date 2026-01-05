@@ -2159,6 +2159,7 @@
       { "u_remove_item_with": "electric_lighter" },
       { "u_remove_item_with": "flask_ethereal_rebreather" },
       { "u_remove_item_with": "armor_spirit" },
+      { "u_remove_item_with": "item_armor_magus_mage_conjured_armor" },
       { "u_remove_item_with": "magic_lamp" },
       { "u_remove_item_with": "technomancer_summoned_radio" },
       { "u_remove_item_with": "technomancer_welder" },
