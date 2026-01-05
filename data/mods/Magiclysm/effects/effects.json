@@ -1506,6 +1506,19 @@
     "flags": [ "WATCH" ]
   },
   {
+    "id": "effect_classless_magic_light",
+    "type": "effect_type",
+    "name": [ "Orb of Light" ],
+    "desc": [ "A softly-glowing orb is floating nearby." ],
+    "apply_message": "",
+    "remove_message": "The orb of light winks out.",
+    "rating": "good",
+    "max_duration": 40000,
+    "enchantments": [
+      { "values": [ { "value": "LUMINATION", "add": { "math": [ "( u_spell_level('create_atomic_light') * 2) + 3" ] } } ] }
+    ]
+  },
+  {
     "id": "effect_classless_easy_sleep",
     "type": "effect_type",
     "name": [ "Peaceful Rest" ],
