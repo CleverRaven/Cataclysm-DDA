@@ -846,18 +846,41 @@
   {
     "id": "spellbook_tier_1",
     "type": "item_group",
-    "items": [
-      [ "wizard_utility", 50 ],
-      [ "priest_beginner", 30 ],
-      [ "priest_advanced", 50 ],
-      [ "prepper_spellbook", 30 ],
-      [ "techno_fundamentals", 50 ],
-      [ "basic_pyromancy", 50 ],
-      [ "stat_up_spellbook", 45 ],
-      [ "tome_of_wind", 45 ],
-      [ "tome_of_storms", 20 ],
-      [ "pirate_spellbook", 20 ]
+    "subtype": "distribution",
+    "entries": [
+      { "group": "spellbook_unrestricted_tier_1", "prob": 300 },
+      { "group": "spellbook_restricted_tier_1", "prob": 25 },
+      { "group": "spellbook_illegal_tier_1", "prob": 1 }
     ]
+  },
+  {
+    "id": "spellbook_unrestricted_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "wizard_utility", "prob": 30 },
+      { "item": "priest_beginner", "prob": 30 },
+      { "item": "basic_pyromancy_expurgated", "prob": 30 }
+    ]
+  },
+  {
+    "id": "spellbook_restricted_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "priest_advanced", "prob": 30 },
+      { "item": "prepper_spellbook", "prob": 30 },
+      { "item": "techno_fundamentals", "prob": 30 },
+      { "item": "basic_pyromancy", "prob": 30 },
+      { "item": "stat_up_spellbook", "prob": 30 },
+      { "item": "tome_of_wind", "prob": 30 }
+    ]
+  },
+  {
+    "id": "spellbook_illegal_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "tome_of_storms", "prob": 30 }, { "item": "pirate_spellbook", "prob": 20 } ]
   },
   {
     "id": "spellbook_tier_2",
