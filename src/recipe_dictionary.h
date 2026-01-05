@@ -178,9 +178,6 @@ class recipe_subset
         /** Find recipes matching query (left anchored partial matches are supported). Character is not necessarily needed in all searches */
         std::vector<const recipe *> search(
             std::string_view txt, search_type key = search_type::name,
-            const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
-        std::vector<const recipe *> search(
-            std::string_view txt, search_type key = search_type::name,
             std::optional<std::reference_wrapper<const Character>> crafter = std::nullopt,
             const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         /** Find recipes matching query and return a new recipe_subset */

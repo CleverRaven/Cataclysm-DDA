@@ -318,9 +318,18 @@ std::vector<const recipe *> recipe_subset::search(
                     return false;
                 }
                 const Character &crafter_ref = crafter->get();
-                const std::set<itype_id> books_with_recipe = crafter_ref.get_books_for_recipe(
-                            crafter_ref.crafting_inventory(), r );
+                const inventory &crafting_inventory = crafter_ref.crafting_inventory();
 
+                for( const auto &stack : crafting_inventory.const_slice() ) {
+                    const item &item = stack->front();
+
+                    for( const auto &recipe : item.get_available_recipes( crafter_ref ) ) {
+                        if( recipe.first == r && ( lcmatch( item.display_name(), txt ) ||
+                                                   lcmatch( item.nname( item.typeId() ), txt ) ) ) {
+                            return true;
+                        }
+                    }
+                }
 
                 std::vector<const Character *> knowing_helpers;
                 for( const Character *helper : crafter_ref.get_crafting_group() ) {
@@ -329,20 +338,7 @@ std::vector<const recipe *> recipe_subset::search(
                     }
                 }
 
-                return std::any_of( books_with_recipe.begin(), books_with_recipe.end(),
-                [&txt]( const itype_id & book_id ) {
-
-                    return lcmatch( item::nname( book_id ), txt )
-                    || [&]() -> bool {
-                        const itype *book_item = item::find_type( book_id );
-                        return std::any_of( book_item->variants.begin(), book_item->variants.end(),
-                                            [&txt]( const itype_variant_data & book_variant_data )
-                        {
-                            return lcmatch( book_variant_data.alt_name.translated(), txt );
-                        } );
-                    }();
-                } ) ||
-                std::any_of( knowing_helpers.begin(), knowing_helpers.end(),
+                return std::any_of( knowing_helpers.begin(), knowing_helpers.end(),
                 [&txt]( const Character * helper ) {
                     return lcmatch( helper->is_avatar() ? _( "You" ) : helper->get_name(), txt );
                 } );
@@ -498,13 +494,6 @@ std::vector<const recipe *> recipe_subset::search(
     return res;
 }
 
-std::vector<const recipe *> recipe_subset::search(
-    std::string_view txt, const search_type key,
-    const std::function<void( size_t, size_t )> &progress_callback ) const
-{
-    return search( txt, key, std::nullopt, progress_callback );
-}
-
 recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const recipe *> &recipes )
 {
     for( const recipe *elem : recipes ) {
@@ -516,7 +505,7 @@ recipe_subset recipe_subset::reduce(
     std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
-    return recipe_subset( *this, search( txt, key, progress_callback ) );
+    return recipe_subset( *this, search( txt, key, std::nullopt, progress_callback ) );
 }
 
 recipe_subset recipe_subset::reduce(
