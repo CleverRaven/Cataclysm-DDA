@@ -14,6 +14,7 @@
 #include "json.h"
 #include "omdata.h"
 #include "type_id.h"
+#include "game.h"
 
 class item;
 
@@ -186,6 +187,9 @@ class uistatedata
         bool overmap_debug_mongroup = false;
         bool overmap_fast_travel = false;
         bool overmap_fast_scroll = false;
+
+        int zoom_level = DEFAULT_TILESET_ZOOM;
+        int zoom_level_overmap = DEFAULT_TILESET_ZOOM;
 
         overmap_sidebar_uistate overmap_sidebar_state;
 
