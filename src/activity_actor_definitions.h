@@ -1208,7 +1208,7 @@ class consume_activity_actor : public activity_actor
             return ACT_CONSUME;
         }
 
-        void start( player_activity &act, Character &who ) override;
+        void start( player_activity &act, Character &guy ) override;
         void do_turn( player_activity &, Character & ) override {}
         void finish( player_activity &act, Character & ) override;
         void canceled( player_activity &, Character &who ) override;

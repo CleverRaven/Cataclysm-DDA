@@ -4111,18 +4111,18 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonValue
     return actor.clone();
 }
 
-void consume_activity_actor::start( player_activity &act, Character &who )
+void consume_activity_actor::start( player_activity &act, Character &guy )
 {
     int moves = 0;
     Character &player_character = get_player_character();
-    //TODO: why use both `player_character` and `who`?
-    auto player_will_eat = [this, &moves, &player_character, &who]( const item & it ) {
+    //TODO: why use both `player_character` and `guy`?
+    auto player_will_eat = [this, &moves, &player_character, &guy]( const item & it ) {
         ret_val<edible_rating> ret = player_character.will_eat( it, true );
         if( !ret.success() ) {
             was_canceled = true;
             uistate.consume_uistate.clear();
         } else {
-            moves = to_moves<int>( who.get_consume_time( it ) );
+            moves = to_moves<int>( guy.get_consume_time( it ) );
         }
     };
 
