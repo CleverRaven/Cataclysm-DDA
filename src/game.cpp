@@ -6367,6 +6367,7 @@ void game::zoom_out()
     } else {
         tileset_zoom = 64;
     }
+    uistate.zoom_level = tileset_zoom;
     rescale_tileset( tileset_zoom );
 #endif
 }
@@ -6379,6 +6380,7 @@ void game::zoom_out_overmap()
     } else {
         overmap_tileset_zoom = 64;
     }
+    uistate.zoom_level_overmap = overmap_tileset_zoom;
     overmap_tilecontext->set_draw_scale( overmap_tileset_zoom );
 #endif
 }
@@ -6391,6 +6393,7 @@ void game::zoom_in()
     } else {
         tileset_zoom = tileset_zoom * 2;
     }
+    uistate.zoom_level = tileset_zoom;
     rescale_tileset( tileset_zoom );
 #endif
 }
@@ -6403,6 +6406,7 @@ void game::zoom_in_overmap()
     } else {
         overmap_tileset_zoom *= 2;
     }
+    uistate.zoom_level_overmap = overmap_tileset_zoom;
     overmap_tilecontext->set_draw_scale( overmap_tileset_zoom );
 #endif
 }
@@ -6411,6 +6415,7 @@ void game::reset_zoom()
 {
 #if defined(TILES)
     tileset_zoom = DEFAULT_TILESET_ZOOM;
+    uistate.zoom_level = tileset_zoom;
     rescale_tileset( tileset_zoom );
 #endif // TILES
 }
@@ -6420,6 +6425,7 @@ void game::set_zoom( const int level )
 #if defined(TILES)
     if( tileset_zoom != level ) {
         tileset_zoom = level;
+        uistate.zoom_level = tileset_zoom;
         rescale_tileset( tileset_zoom );
     }
 #else
@@ -6432,6 +6438,7 @@ void game::set_overmap_zoom(const int level)
 #if defined(TILES)
     if (overmap_tileset_zoom != level) {
         overmap_tileset_zoom = level;
+        uistate.zoom_level_overmap = overmap_tileset_zoom;
         overmap_tilecontext->set_draw_scale(overmap_tileset_zoom);
     }
 #endif // TILES
