@@ -8220,13 +8220,7 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         return false;
     }
 
-    std::string msg_ignore = press_x( ACTION_IGNORE_ENEMY );
-    if( !msg_ignore.empty() ) {
-        std::wstring msg_ignore_wide = utf8_to_wstr( msg_ignore );
-        // Operate on a wide-char basis to prevent corrupted multi-byte string
-        msg_ignore_wide[0] = towlower( msg_ignore_wide[0] );
-        msg_ignore = wstr_to_utf8( msg_ignore_wide );
-    }
+    const std::string msg_ignore = lowercase_first_letter( press_x( ACTION_IGNORE_ENEMY ) );
 
     if( u.has_effect( effect_laserlocked ) ) {
         // Automatic and mandatory safemode.  Make BLOODY sure the player notices!
