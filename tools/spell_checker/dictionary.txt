@@ -1928,6 +1928,7 @@ Fabrique
 Fabritechnics
 Facebook
 facemasks
+facsimile
 facto
 faders
 fae
@@ -2052,6 +2053,8 @@ flatbread
 FlatCoin
 FlatCoins
 flatjaw
+flailer
+flailers
 flatlander
 flatlanders
 Flavio
