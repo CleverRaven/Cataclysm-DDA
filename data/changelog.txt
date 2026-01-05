@@ -174,6 +174,7 @@ Mobile weather stations and things to do with them
 Allow fields to track their sources (i.e. who started a fire)
 New Hub 01 quest-line for hazard meteorologists
 overthrow the reign of RELOAD_ONE, aka Reload everything one by one as part of activity
+Actual moving to your sorting destination! With a bag full of items!
 
 
 
@@ -395,6 +396,11 @@ Add Radiosphere dimension
 Rework the blood analysis quest
 A new nether-creature encounter with prototype XEDRA tech as a reward
 new 2-piece Powered Air Purifying Respirator (PAPR) system
+More PAPR equipment
+Make walking dead reference globally unique
+(finally) add Chem goggles
+Khopesh quality and material variants
+Give warhammers quality variants
 
 
 ## Interface:
@@ -528,6 +534,7 @@ Rework inventory capacity summary
 Show weapon category in item info
 Optimize pinyin search
 Move the lore snippets from the faction to the diary UI
+Bind unload onto ground key, rename keys for clarity
 
 
 ## Mods:
@@ -977,6 +984,17 @@ Add Mind Over Matter: Psychic Scream mod to the CDDA repository
 Martial Mastery: New defense oriented perkline.
 [Magiclysm] Shapeshifting and druid items
 Add an enchantment that modifies the 'free dodges' stat introduced for Martial Art styles
+[XE] Update the blood gift research EOC to include the new powers.
+Aftershock: Give cities more setting appropriate names.
+Aftershock: New AT railgun
+[DDotD] Increase the number of farms
+[DinoMod] bird bodies teach about dino weak points
+[XE] More non-weapon inventor recipes.
+[Bombastic Perks] Add the Safety Squint perk (plus a couple fixes)
+[DDotD] Blacklist foldable solar panels
+[Sky Island] Missions take place in alternate dimensions
+[Sky Island] Remove mission cleanup
+[Magiclysm] Esoteric Spellbooks
 
 
 
@@ -1095,6 +1113,11 @@ Add UNBREAKABLE_MORALE flag, apply it to zombies
 Murdering humans('monsters') is still murdering humans
 Fixes Cloud Formation and Pressure
 Getting hurt is bad for your long-term health
+Bombastic Perks Iron Arm has upper limit to bonus damage
+less trade value for military nvg attachments
+Change meadow `travel_cost_type` from field to forest
+Trust Gain With Exodii
+Add new pot types to veh_tools_part_abstract
 
 
 ## Bugfixes:
@@ -1507,6 +1530,16 @@ Properly load the region type of the dimension the game was last saved in
 Make pockets check volume of a single charge against min_item_volume
 fix a crash when opening the item comparison window
 Remove anvilmancy (the ability to teleport anvils above zombies)
+Fix tools not charging properly from cars outside reality bubble
+Fix loose gunmods appearing as installed
+Spell Messages
+Fix oxytorch and reload activity actor crashes
+Fix car offroad reverse speed not being restricted by weight
+Fix invalid spell in twisted_geometry
+Adjusted USP .45 pistol dispersion
+Change sledgehammers to medium carbon steel
+[MoM] Add `dist_matrix_tools` to the various `psi_lab` groups
+[Magiclysm] Fix elf longing EoC name
 
 
 ## Performance:
@@ -1707,6 +1740,10 @@ move ACT_VEHICLE handler to vehicle_activity_actor
 Add an effect for EoCs to be able to browse or unbrowse items
 move ACT_BUILD handler to build_construction_activity_actor
 Allow overriding in snippets definitions
+consume menu activity obsoletion
+move ACT_START_ENGINES to activity_actor
+Disentangle eat and activate for food
+move ACT_ROBOT_CONTROL to activity_actor
 
 
 ## Build:
