@@ -6427,6 +6427,16 @@ void game::set_zoom( const int level )
 #endif // TILES
 }
 
+void game::set_overmap_zoom(const int level)
+{
+#if defined(TILES)
+    if (overmap_tileset_zoom != level) {
+        overmap_tileset_zoom = level;
+        overmap_tilecontext->set_draw_scale(overmap_tileset_zoom);
+    }
+#endif // TILES
+}
+
 int game::get_zoom() const
 {
 #if defined(TILES)
