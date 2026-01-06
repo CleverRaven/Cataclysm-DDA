@@ -253,6 +253,24 @@
     }
   },
   {
+    "id": "magic_light",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "tools",
+    "name": "magic light",
+    "description": "A magical light source that will light up a small area.",
+    "weight": "1 g",
+    "material": [ "dreamstuff" ],
+    "volume": "250 ml",
+    "price": "1 cent",
+    "symbol": ",",
+    "color": "light_green",
+    "light": 300,
+    "flags": [ "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [ { "covers": [ "head" ] } ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
     "id": "water_pocket",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
