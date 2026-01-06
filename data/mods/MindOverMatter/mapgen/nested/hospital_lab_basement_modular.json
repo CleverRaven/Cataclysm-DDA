@@ -1208,6 +1208,41 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rows": [
+        "H.H.H",
+        "H.H.H",
+        "....H",
+        "sHHHs",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "furniture": { "H": "f_bench" },
+      "terrain": {
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "m": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
+      "items": {
+        "s": [
+          { "item": "newspaper_recent", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "book_mag_gen", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_se",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
         " ...H",
         " .s.H",
         " ...H",
@@ -1216,6 +1251,63 @@
       ],
       "palettes": [ "phavian_hospital_lab", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": {
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "m": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
+      "items": {
+        "s": [
+          { "item": "newspaper_recent", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "book_mag_gen", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_se",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "    H",
+        "    H",
+        "    H",
+        " SRRz",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "furniture": { "H": "f_bench" },
+      "items": { "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] } },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_sw",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "H.H.H",
+        "H.H.H",
+        "H....",
+        "sHHHs",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "furniture": { "H": "f_bench" },
       "terrain": {
         "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "m": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
@@ -1272,6 +1364,63 @@
   {
     "//": "Available space is 4x5",
     "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_sw",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "H    ",
+        "H    ",
+        "H    ",
+        "zRRS ",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "furniture": { "H": "f_bench" },
+      "items": { "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] } },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_ne",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "sHHHs",
+        "H....",
+        "H.H.H",
+        "H.H.H",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "furniture": { "H": "f_bench" },
+      "terrain": {
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "m": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
+      "items": {
+        "s": [
+          { "item": "newspaper_recent", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "book_mag_gen", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
     "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_ne",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1284,6 +1433,63 @@
       ],
       "palettes": [ "phavian_hospital_lab", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": {
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "m": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
+      "items": {
+        "s": [
+          { "item": "newspaper_recent", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "book_mag_gen", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_ne",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        " SRRz",
+        "    H",
+        "    H",
+        "    H",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "furniture": { "H": "f_bench" },
+      "items": { "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] } },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_nw",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "sHHHs",
+        "....H",
+        "H.H.H",
+        "H.H.H",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "furniture": { "H": "f_bench" },
       "terrain": {
         "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "m": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
@@ -1331,6 +1537,28 @@
           { "item": "book_mag_gen", "chance": 50, "repeat": [ 1, 2 ] }
         ]
       },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_nw",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "zRRS ",
+        "H    ",
+        "H    ",
+        "H    ",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "furniture": { "H": "f_bench" },
+      "items": { "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] } },
       "place_monster": [
         { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
         { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
