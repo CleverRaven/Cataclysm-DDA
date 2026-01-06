@@ -20,7 +20,6 @@
 #include "game.h"
 #include "item.h"
 #include "itype.h"
-#include "magic.h"
 #include "messages.h"
 #include "rng.h"
 #include "skill.h"
@@ -51,7 +50,6 @@ static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_READ( "ACT_READ" );
-static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
@@ -179,11 +177,6 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
             const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
 
             extra_info = string_format( "%d%%", percentage );
-        }
-
-        if( type == ACT_SPELLCASTING ) {
-            const std::string spell_name = spell_id( name )->name.translated();
-            extra_info = string_format( "%s …", spell_name );
         }
     }
 
