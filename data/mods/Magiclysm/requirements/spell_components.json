@@ -62,8 +62,8 @@
   {
     "id": "spell_components_impactsling",
     "type": "requirement",
-    "//": "Sling for the Impact Sling spell",
-    "components": [ [ [ "sling", 1 ] ] ]
+    "//": "Feathers and mercury for the Impact Sling spell",
+    "components": [ [ [ "feather", 5 ], [ "down_feather", 5 ] ], [ [ "mercury", 3 ] ] ]
   },
   {
     "id": "spell_components_haste",
