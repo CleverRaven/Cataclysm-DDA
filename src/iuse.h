@@ -32,9 +32,6 @@ namespace iuse
 {
 
 // FOOD AND DRUGS (ADMINISTRATION)
-std::optional<int> alcohol_medium( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> alcohol_strong( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> alcohol_weak( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> antibiotic( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> anticonvulsant( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> antifungal( Character *, item *, const tripoint_bub_ms & );
@@ -225,7 +222,7 @@ std::optional<int> purify_water( Character *p, item *purifier, item_location &wa
 int towel_common( Character *, item *, bool );
 
 // Helper for validating a potential target of robot control
-bool robotcontrol_can_target( Character *, const monster & );
+bool robotcontrol_can_target( Character &, const monster & );
 
 // Helper for handling pesky wannabe-artists
 std::optional<int> handle_ground_graffiti( Character &p, item *it, const std::string &prefix,

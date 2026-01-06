@@ -2,8 +2,8 @@
   {
     "id": "bless",
     "type": "SPELL",
-    "name": { "str": "Bless" },
-    "description": "A blessing that gives you energy and boosts your abilities.",
+    "name": { "str": "Paragon" },
+    "description": "Technomancy is the magic of human potential, and this spell increases your potential just a bit across a broad range of categories.",
     "valid_targets": [ "self", "ally" ],
     "flags": [ "ENHANCEMENT_SPELL", "VERBAL", "SOMATIC", "NO_LEGS", "NO_PROJECTILE" ],
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],

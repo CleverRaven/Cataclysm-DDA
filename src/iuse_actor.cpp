@@ -5,7 +5,6 @@
 #include <array>
 #include <cmath>
 #include <cstddef>
-#include <cwctype>
 #include <functional>
 #include <iterator>
 #include <limits>
@@ -21,7 +20,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_imgui.h"
-#include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
 #include "clothing_mod.h"
@@ -2011,10 +2009,8 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
     }
 
     if( material_restricted && !cut.made_of_any( material_whitelist ) ) {
-        std::wstring lower_verb = utf8_to_wstr( verb.translated() );
-        std::transform( lower_verb.begin(), lower_verb.end(), lower_verb.begin(), towlower );
         add_msg( m_info, _( "You can't %1$s %2$s because of the material it is made of." ),
-                 wstr_to_utf8( lower_verb ), cut.display_name() );
+                 to_lower_case( verb.translated() ), cut.display_name() );
         return false;
     }
 
