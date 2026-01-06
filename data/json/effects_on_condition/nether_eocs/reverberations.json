@@ -1,0 +1,186 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_RADIOSPHERE",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_add_effect": "blind", "duration": 0 },
+      {
+        "u_travel_to_dimension": "radiosphere",
+        "npc_travel_radius": 0,
+        "region_type": "radiosphere",
+        "npc_travel_filter": "none",
+        "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
+        "success_message": "Your surroundings warp and fold before reforming into a dark industrial area."
+      },
+      {
+        "u_location_variable": { "context_val": "nearest_floor" },
+        "terrain": "t_grate",
+        "target_max_radius": 60,
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      { "u_teleport": { "context_val": "nearest_floor" } },
+      { "custom_light_level": 10, "length": "9999 days", "key": "radiosphere_lights_off" },
+      { "u_message": "Darkness envelops you.", "popup": true, "popup_w_interrupt_query": true },
+      { "run_eocs": "EOC_PORTAL_RADIOSPHERE_RETURN", "time_in_future": [ "20 minutes", "2 hours" ] },
+      { "run_eocs": "EOC_RADIOSPHERE_DEACTIVATE_DARKNESS" },
+      { "math": [ "u_ire -= 5" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_RADIOSPHERE_RETURN",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        { "not": "u_driving" },
+        { "current_dimension": "radiosphere" }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "blind", "duration": 0 },
+      {
+        "u_travel_to_dimension": "",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "Nothing seems to change.",
+        "success_message": "Your surroundings warp and fold into the recesses of the world you know."
+      },
+      {
+        "u_location_variable": { "context_val": "nearest_radio_tower_floor" },
+        "target_params": { "om_terrain": "radio_tower_top", "z": 6 },
+        "terrain": "t_ladder_down",
+        "target_max_radius": 60,
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      { "u_location_variable": { "context_val": "ground" }, "z_override": true, "z_adjust": 0 },
+      {
+        "if": { "math": [ "has_var(_nearest_radio_tower_floor)" ] },
+        "then": { "u_teleport": { "context_val": "nearest_radio_tower_floor" }, "fail_message": "", "success_message": "" },
+        "else": { "u_teleport": { "context_val": "ground" }, "fail_message": "", "success_message": "" }
+      },
+      { "clear_dimension": "radiosphere" },
+      { "u_message": "You're back.", "popup": true, "popup_w_interrupt_query": true },
+      { "run_eocs": "EOC_RADIOSPHERE_DEACTIVATE_DARKNESS" }
+    ],
+    "false_effect": [
+      {
+        "if": { "current_dimension": "radiosphere" },
+        "then": [
+          {
+            "u_message": "You feel a slight push in a direction you can't name, but soon it ceases.  You have a feeling it'll happen again later."
+          },
+          { "run_eocs": "EOC_PORTAL_RADIOSPHERE_RETURN", "time_in_future": [ "20 minutes", "2 hours" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RADIOSPHERE_DEACTIVATE_DARKNESS",
+    "//": "bring the light back.",
+    "global": true,
+    "recurrence": "30 seconds",
+    "condition": { "not": { "current_dimension": "radiosphere" } },
+    "deactivate_condition": { "not": { "current_dimension": "radiosphere" } },
+    "effect": [ { "alter_timed_events": "radiosphere_lights_off" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_CABINS",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_add_effect": "blind", "duration": 0 },
+      {
+        "u_travel_to_dimension": "cabins",
+        "npc_travel_radius": 0,
+        "region_type": "cabins",
+        "npc_travel_filter": "none"
+      },
+      {
+        "u_location_variable": { "context_val": "nearest_floor" },
+        "target_params": { "om_terrain": "cabin_roof_3", "z": 1 },
+        "terrain": "t_tar_flat_roof",
+        "target_max_radius": 60,
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      { "u_teleport": { "context_val": "nearest_floor" } },
+      { "u_message": "Your surroundings change.", "popup": true, "popup_w_interrupt_query": true },
+      { "run_eocs": "EOC_PORTAL_CABINS_RETURN", "time_in_future": [ "6 hours", "12 hours" ] },
+      { "run_eocs": [ "EOC_CABIN_DAY_CYCLE_OR_KILL_CYCLE" ] },
+      { "math": [ "u_ire -= 5" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_CABINS_RETURN",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        { "not": "u_driving" },
+        { "current_dimension": "cabins" }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "blind", "duration": 0 },
+      {
+        "u_travel_to_dimension": "",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "Nothing seems to change.",
+        "success_message": "Your surroundings warp and fold into the recesses of the world you know."
+      },
+      {
+        "u_location_variable": { "context_val": "nearest_cabin_roof_floor" },
+        "target_params": { "om_terrain": "cabin_roof_3", "z": 1, "om_terrain_match_type": "PREFIX" },
+        "terrain": "t_tar_flat_roof",
+        "target_max_radius": 60,
+        "min_radius": 0,
+        "max_radius": 0,
+        "z_override": true,
+        "z_adjust": 1
+      },
+      { "u_location_variable": { "context_val": "ground" }, "z_override": true, "z_adjust": 0 },
+      {
+        "if": { "math": [ "has_var(_nearest_cabin_roof_floor)" ] },
+        "then": { "u_teleport": { "context_val": "nearest_cabin_roof_floor" }, "fail_message": "", "success_message": "" },
+        "else": { "u_teleport": { "context_val": "ground" }, "fail_message": "", "success_message": "" }
+      },
+      { "alter_timed_events": "cabin_daylight_cycle" },
+      { "clear_dimension": "cabins" },
+      { "u_message": "You're back.", "popup": true, "popup_w_interrupt_query": true }
+    ],
+    "false_effect": [
+      {
+        "if": { "current_dimension": "cabins" },
+        "then": [
+          {
+            "u_message": "You feel a slight push in a direction you can't name, but soon it ceases.  You have a feeling it'll happen again later."
+          },
+          { "run_eocs": "EOC_PORTAL_CABINS_RETURN", "time_in_future": [ "6 hours", "12 hours" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CABIN_DAY_CYCLE_OR_KILL_CYCLE",
+    "//": "hacky way of a shorter day cycle.",
+    "global": true,
+    "condition": { "current_dimension": "cabins" },
+    "effect": [
+      { "math": [ "_cabin_light_amount = clamp( 160*sin(time('now')/3600),0,125)" ] },
+      { "alter_timed_events": "cabin_daylight_cycle" },
+      {
+        "custom_light_level": { "context_val": "cabin_light_amount" },
+        "length": "6 minutes",
+        "key": "cabin_daylight_cycle"
+      },
+      { "run_eocs": [ "EOC_CABIN_DAY_CYCLE_OR_KILL_CYCLE" ], "time_in_future": "5 minutes" }
+    ],
+    "false_effect": [ { "alter_timed_events": "cabin_daylight_cycle" } ]
+  }
+]
