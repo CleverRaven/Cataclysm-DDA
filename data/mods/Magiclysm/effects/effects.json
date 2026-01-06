@@ -1770,7 +1770,9 @@
           },
           {
             "value": "RANGED_DAMAGE",
-            "multiply": { "math": [ "(u_spell_level('magus_summon_impact_sling') + u_spell_level('magus_summon_impact_sling_plus') ) * 0.05" ] }
+            "multiply": {
+              "math": [ "(u_spell_level('magus_summon_impact_sling') + u_spell_level('magus_summon_impact_sling_plus') ) * 0.075" ]
+            }
           },
           {
             "value": "RANGED_ARMOR_PENETRATION",
