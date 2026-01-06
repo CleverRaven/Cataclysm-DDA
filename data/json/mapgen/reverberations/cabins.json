@@ -12,6 +12,17 @@
     "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
+    "type": "overmap_terrain",
+    "id": [ "cabin_roof_3_reverberation" ],
+    "vision_levels": "roof_or_air",
+    "travel_cost_type": "roof",
+    "name": "cabin roof",
+    "sym": "C",
+    "color": "i_green",
+    "see_cost": "none",
+    "extras": "build"
+  },
+  {
     "om_terrain": "cabin_3_reverberation",
     "type": "mapgen",
     "object": {
@@ -47,6 +58,41 @@
       "furniture": {
         "8": [ [ "f_null", 410 ], [ "f_black_eyed_susan", 10 ], [ "f_bluebell", 50 ], [ "f_lily", 30 ], [ "f_flower_tulip", 30 ] ]
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "cabin_roof_3_reverberation",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          -----------   ",
+        "          -.........-   ",
+        "          -.........-   ",
+        "          -.........-   ",
+        "          -~........-   ",
+        "          -.........-   ",
+        "          -.........-   ",
+        "          -.........-   ",
+        "          5.........-   ",
+        "          -----------   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" }
     }
   },
   {
@@ -133,7 +179,6 @@
         "                        ",
         "                        "
       ],
-      "place_graffiti": [ { "text": "Barracks", "x": 10, "y": 23 } ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_tar_flat_roof" },
       "graffiti": { "O": { "text": "IT HAPPENED HERE" } }
