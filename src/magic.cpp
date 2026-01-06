@@ -2577,15 +2577,15 @@ void known_magic::evaluate_opens_spellbook_data()
     }
 }
 
-int known_magic::time_to_learn_spell( const Character &guy, const std::string &str ) const
+time_duration known_magic::time_to_learn_spell( const Character &guy, const std::string &str ) const
 {
     return time_to_learn_spell( guy, spell_id( str ) );
 }
 
-int known_magic::time_to_learn_spell( const Character &guy, const spell_id &sp ) const
+time_duration known_magic::time_to_learn_spell( const Character &guy, const spell_id &sp ) const
 {
     const_dialogue d( get_const_talker_for( guy ), nullptr );
-    const int base_time = to_moves<int>( 30_minutes );
+    const time_duration base_time = 30_minutes;
     const double int_modifier = ( guy.get_int() - 8.0 ) / 8.0;
     const double skill_modifier = guy.get_skill_level( sp->skill ) / 10.0;
     return base_time * ( 1.0 + sp->difficulty.evaluate( d ) / ( 1.0 + int_modifier + skill_modifier ) );

@@ -104,7 +104,6 @@ static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
-static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 
 static const damage_type_id damage_acid( "acid" );
 static const damage_type_id damage_bash( "bash" );
@@ -2602,42 +2601,38 @@ std::optional<int> learn_spell_actor::use( Character *p, item &, map *,
     if( action < 0 ) {
         return std::nullopt;
     }
-    const bool knows_spell = p->magic->knows_spell( spells[action] );
-    player_activity study_spell( ACT_STUDY_SPELL,
-                                 p->magic->time_to_learn_spell( *p, spells[action] ) );
-    study_spell.str_values = {
-        "", // reserved for "until you gain a spell level" option [0]
-        "learn"
-    }; // [1]
-    study_spell.values = { 0, 0, 0 };
-    if( knows_spell ) {
-        study_spell.str_values[1] = "study";
-        const int study_time = uilist( _( "Spend how long studying?" ), {
-            { to_moves<int>( 30_minutes ), true, -1, _( "30 minutes" ) },
-            { to_moves<int>( 1_hours ), true, -1, _( "1 hour" ) },
-            { to_moves<int>( 2_hours ), true, -1, _( "2 hours" ) },
-            { to_moves<int>( 4_hours ), true, -1, _( "4 hours" ) },
-            { to_moves<int>( 8_hours ), true, -1, _( "8 hours" ) },
-            { 10100, true, -1, _( "Until you gain a spell level" ) }
-        } );
-        if( study_time <= 0 ) {
+    const spell_id selected_spell( spells[action] );
+
+    if( p->magic->knows_spell( selected_spell ) ) {
+        const std::array<time_duration, 5> ui_times =
+        { 30_minutes, 1_hours, 2_hours, 4_hours, 8_hours };
+        const std::vector<std::string> ui_entries = {
+            to_string( ui_times[0] ),
+            to_string( ui_times[1] ),
+            to_string( ui_times[2] ),
+            to_string( ui_times[3] ),
+            to_string( ui_times[4] ),
+            _( "Until you gain a spell level" )
+        };
+        const int ui_index = uilist( _( "Spend how long studying?" ), ui_entries );
+        if( ui_index < 0 ) {
             return std::nullopt;
         }
-        study_spell.moves_total = study_time;
-        spell &studying = p->magic->get_spell( spell_id( spells[action] ) );
+        if( ui_index == 5 ) {
+            p->assign_activity( study_spell_activity_actor( selected_spell,
+                                p->magic->get_spell( selected_spell ).get_level() + 1 ) );
+            return 0;
+        }
+        time_duration study_time = ui_times[ui_index];
+        spell &studying = p->magic->get_spell( selected_spell );
         if( studying.get_difficulty( *p ) < static_cast<int>( p->get_skill_level( studying.skill() ) ) ) {
             p->handle_skill_warning( studying.skill(),
                                      true ); // show the skill warning on start reading, since we don't show it during
         }
+        p->assign_activity( study_spell_activity_actor( selected_spell, study_time ) );
+        return 0;
     }
-    study_spell.moves_left = study_spell.moves_total;
-    if( study_spell.moves_total == 10100 ) {
-        study_spell.str_values[0] = "gain_level";
-        study_spell.values[0] = 0; // reserved for xp
-        study_spell.values[1] = p->magic->get_spell( spell_id( spells[action] ) ).get_level() + 1;
-    }
-    study_spell.name = spells[action];
-    p->assign_activity( study_spell );
+    p->assign_activity( study_spell_activity_actor( selected_spell ) );
     return 0;
 }
 
