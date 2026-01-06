@@ -663,24 +663,65 @@
   {
     "id": "spell_scroll_tier_2",
     "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "animist_spells_tier_2", "prob": 1 },
+      { "group": "biomancer_spells_tier_2", "prob": 1 },
+      { "group": "classless_spells_tier_2", "prob": 2 },
+      { "group": "druid_spells_tier_2", "prob": 1 },
+      { "group": "earthshaper_spells_tier_2", "prob": 1 },
+      { "group": "kelvinist_spells_tier_2", "prob": 1 },
+      { "group": "magus_spells_tier_2", "prob": 1 },
+      { "group": "stormshaper_spells_tier_2", "prob": 1 },
+      { "group": "technomancer_spells_tier_2", "prob": 1 }
+    ]
+  },
+  {
+    "id": "animist_spells_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "animist_unrestricted_tier_2", "prob": 300 },
+      { "group": "animist_restricted_tier_2", "prob": 25 },
+      { "group": "animist_illegal_tier_2", "prob": 1 }
+    ]
+  },
+  {
+    "id": "animist_unrestricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_animist_see_invisibility", "prob": 15 } ]
+  },
+  {
+    "id": "animist_restricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_smite", "prob": 40 }, { "item": "spell_scroll_dominate", "prob": 50 } ]
+  },
+  {
+    "id": "animist_illegal_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_devour", "prob": 25 },
+      { "item": "spell_scroll_convert", "prob": 40 },
+      { "item": "spell_scroll_summon_undead_swarm", "prob": 35 },
+      { "item": "spell_scroll_life_detonation", "prob": 35 }
+    ]
+  },
+  {
+    "id": "spell_scroll_tier_2",
+    "type": "item_group",
     "items": [
-      [ "spell_scroll_devour", 25 ],
-      [ "spell_scroll_recover_mana", 25 ],
       [ "spell_scroll_recover_pain", 25 ],
       [ "spell_scroll_recover_sleepiness", 25 ],
       [ "spell_scroll_recover_stamina", 25 ],
       [ "spell_scroll_recover_bionic_power", 25 ],
-      [ "spell_scroll_summon_undead_swarm", 35 ],
-      [ "spell_scroll_convert", 50 ],
-      [ "spell_scroll_smite", 40 ],
-      [ "spell_scroll_dominate", 50 ],
-      [ "spell_scroll_life_detonation", 50 ],
       [ "spell_scroll_summon_floating_disk", 25 ],
       [ "spell_scroll_biomancer_lashing_tentacles", 50 ],
       [ "spell_scroll_vicious_tentacle", 40 ],
       [ "spell_scroll_bio_bonespear", 20 ],
       [ "spell_scroll_megablast", 10 ],
-      [ "spell_scroll_animist_see_invisibility", 15 ],
       [ "spell_scroll_biomancer_baleful_polymorph", 20 ],
       [ "spell_scroll_eshaper_shardstorm", 50 ],
       [ "spell_scroll_eshaper_impalement", 45 ],
