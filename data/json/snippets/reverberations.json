@@ -1,6 +1,7 @@
 [
   {
     "type": "ITEM",
+    "name": "hastily-scribbled note",
     "id": "survnote_cabin_reverberation_hint",
     "copy-from": "survnote",
     "snippet_category": "cabin_reverberation_hint"
