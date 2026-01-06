@@ -80,23 +80,6 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "magic_light",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "category": "tools",
-    "name": "magic light",
-    "description": "A small magical light that you can read by.",
-    "weight": "0 kg",
-    "volume": "0 L",
-    "price": "0 cent",
-    "symbol": ",",
-    "color": "light_green",
-    "material": [ "magical_material" ],
-    "light": 8,
-    "flags": [ "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "covers": [ "head" ] } ]
-  },
-  {
     "id": "shield_ice",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
