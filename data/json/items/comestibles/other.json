@@ -1408,11 +1408,11 @@
     "quench": 1,
     "fun": -10,
     "//0": "DW 0.2g protein 0.04 fat 0.04 carb... 0.2*4+0.04*4+0.04*9 = 1.326kcal",
-    "calories": 1.3,
+    "calories": 1,
     "parasites": 20,
     "flags": [ "FREEZERBURN", "RAW", "NO_AUTO_CONSUME", "BIRD", "NUTRIENT_OVERRIDE" ],
     "//1": "1 earthworm has such a small amount of vitamins, i'm not sure it's possible to model them.",
-    "vitamins": [ [ "calcium", 0.3 ], [ "iron", 0.8 ], [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -1425,7 +1425,7 @@
     "volume": "20 ml",
     "quench": 10,
     "fun": -20,
-    "calories": 13.2,
+    "calories": 13,
     "parasites": 10,
     "vitamins": [ [ "calcium", 3 ], [ "iron", 8 ] ]
   },

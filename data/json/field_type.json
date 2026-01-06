@@ -1518,7 +1518,7 @@
     "id": "fd_fog",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "mist", "sym": "~", "dangerous": false, "transparent": false, "translucency": 5, "concentration": 0.5 },
+      { "name": "mist", "sym": "~", "dangerous": false, "transparent": false, "translucency": 5, "concentration": 1 },
       { "name": "fog", "translucency": 3 },
       { "name": "dense fog", "translucency": 1 }
     ],
@@ -1589,7 +1589,7 @@
         "color": "light_green",
         "transparent": false,
         "translucency": 8,
-        "concentration": 1.5,
+        "concentration": 1,
         "effects": [
           {
             "effect_id": "hallucinogenic_acid_light",

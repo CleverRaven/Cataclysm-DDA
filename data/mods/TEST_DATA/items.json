@@ -5543,7 +5543,7 @@
             "effect": {
               "run_eocs": "EOC_toolweapon_activate",
               "variables": {
-                "turn_cost": 0.8,
+                "turn_cost": { "math": [ "0.8" ] },
                 "transform_target": "carver_on",
                 "success_message": { "i18n": true, "str": "The electric carver's serrated blades start buzzing!" },
                 "volume": 20,
