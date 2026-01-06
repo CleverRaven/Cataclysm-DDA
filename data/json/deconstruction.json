@@ -236,8 +236,8 @@
     "//": "Cuts a segment of concrete wall out very neatly, and then breaks it apart for disposal.",
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
-    "time": "120 m",
-    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "time": "240 m",
+    "using": [ [ "concrete_wall_removal_standard", 1 ], [ "metal_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 20, 44 ] } ],
     "pre_terrain": "t_concrete_wall",
     "post_terrain": "t_thconc_floor"
@@ -250,7 +250,7 @@
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "using": [ [ "concrete_wall_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 20, 44 ] } ],
     "pre_terrain": "t_sconc_wall",
     "post_terrain": "t_thconc_floor"
@@ -263,7 +263,7 @@
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "using": [ [ "concrete_wall_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 20, 44 ] } ],
     "pre_terrain": "t_embrasure_sconc",
     "post_terrain": "t_thconc_floor"
@@ -275,8 +275,8 @@
     "//": "Cuts a segment of half complete concrete wall out very neatly, and then breaks it apart for disposal.",
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
-    "time": "50 m",
-    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "time": "120 m",
+    "using": [ [ "concrete_wall_removal_standard", 1 ], [ "metal_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 15, 30 ] } ],
     "pre_terrain": "t_sconc_wall_halfway",
     "post_terrain": "t_thconc_floor"
@@ -288,8 +288,8 @@
     "//": "Cuts a segment of half complete reinforced concrete wall out very neatly, and then breaks it apart for disposal.",
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
-    "time": "50 m",
-    "using": [ [ "concrete_removal_standard", 1 ], [ "metal_removal_standard", 1 ] ],
+    "time": "240 m",
+    "using": [ [ "concrete_wall_removal_standard", 1 ], [ "metal_removal_standard", 1 ] ],
     "byproducts": [
       { "item": "rock", "count": [ 8, 15 ] },
       { "item": "rebar", "count": [ 6, 12 ] },
@@ -305,8 +305,8 @@
     "//": "Cuts a segment of reinforced concrete wall out very neatly, and then breaks it apart for disposal.",
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
-    "time": "120 m",
-    "using": [ [ "concrete_removal_standard", 1 ], [ "metal_removal_standard", 1 ] ],
+    "time": "480 m",
+    "using": [ [ "concrete_wall_removal_standard", 1 ], [ "metal_removal_standard", 1 ] ],
     "byproducts": [
       { "item": "rock", "count": [ 15, 30 ] },
       { "item": "rebar", "count": [ 6, 12 ] },
@@ -322,8 +322,8 @@
     "//": "Cuts a segment of reinforced concrete wall (with an embrasure) out very neatly, and then breaks it apart for disposal.",
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
-    "time": "120 m",
-    "using": [ [ "concrete_removal_standard", 1 ], [ "metal_removal_standard", 1 ] ],
+    "time": "480 m",
+    "using": [ [ "concrete_wall_removal_standard", 1 ], [ "metal_removal_standard", 1 ] ],
     "byproducts": [
       { "item": "rock", "count": [ 15, 30 ] },
       { "item": "rebar", "count": [ 6, 12 ] },
@@ -431,7 +431,7 @@
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
     "time": "120 m",
-    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "using": [ [ "concrete_wall_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 15, 20 ] }, { "item": "pebble", "count": [ 20, 30 ] } ],
     "pre_terrain": "t_rock_wall",
     "post_terrain": "t_dirt"
@@ -444,7 +444,7 @@
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
     "time": "120 m",
-    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "using": [ [ "concrete_wall_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 15, 20 ] }, { "item": "pebble", "count": [ 20, 30 ] } ],
     "pre_terrain": "t_embrasure_rock",
     "post_terrain": "t_dirt"
@@ -456,8 +456,8 @@
     "//": "Cuts out a segment of half complete stone wall, and then breaks it apart for disposal.",
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
-    "time": "120 m",
-    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "time": "60 m",
+    "using": [ [ "concrete_wall_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 6, 10 ] }, { "item": "pebble", "count": [ 20, 30 ] } ],
     "pre_terrain": "t_rock_wall_half",
     "post_terrain": "t_dirt"
@@ -494,7 +494,7 @@
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "using": [ [ "concrete_wall_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 4, 8 ] }, { "item": "brick", "count": [ 4, 12 ] } ],
     "pre_terrain": "t_brick_wall",
     "post_terrain": "t_thconc_floor"
@@ -507,7 +507,7 @@
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "using": [ [ "concrete_wall_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 4, 8 ] }, { "item": "brick", "count": [ 4, 12 ] } ],
     "pre_terrain": "t_embrasure_brick",
     "post_terrain": "t_thconc_floor"
@@ -519,8 +519,8 @@
     "//": "Cuts a segment of half complete brick wall out very neatly, and then breaks it apart for disposal.",
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
-    "time": "120 m",
-    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "time": "60 m",
+    "using": [ [ "concrete_wall_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 4, 8 ] }, { "item": "brick", "count": [ 4, 8 ] } ],
     "pre_terrain": "t_brick_wall_halfway",
     "post_terrain": "t_thconc_floor"
@@ -533,7 +533,7 @@
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "using": [ [ "concrete_wall_removal_standard", 1 ] ],
     "byproducts": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 4, 12 ] } ],
     "pre_terrain": "t_adobe_brick_wall",
     "post_terrain": "t_thconc_floor"
@@ -546,7 +546,7 @@
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "using": [ [ "concrete_wall_removal_standard", 1 ] ],
     "byproducts": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 4, 8 ] } ],
     "pre_terrain": "t_adobe_brick_wall_halfway",
     "post_terrain": "t_thconc_floor"
@@ -559,7 +559,7 @@
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "using": [ [ "concrete_wall_removal_standard", 1 ] ],
     "byproducts": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 4, 12 ] } ],
     "pre_terrain": "t_embrasure_adobe_brick",
     "post_terrain": "t_thconc_floor"
@@ -936,8 +936,8 @@
     "//": "Variant 1: foundation",
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
-    "time": "40 m",
-    "using": [ [ "concrete_removal_standard", 1 ], [ "metal_removal_standard", 1 ] ],
+    "time": "60 m",
+    "using": [ [ "concrete_wall_removal_standard", 1 ], [ "metal_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rebar", "count": [ 8, 16 ] }, { "item": "rock", "count": [ 5, 10 ] } ],
     "pre_terrain": "t_column_halfway",
     "post_terrain": "t_thconc_floor"
@@ -949,8 +949,8 @@
     "//": "Variant 2: Finished column",
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
-    "time": "70 m",
-    "using": [ [ "concrete_removal_standard", 1 ], [ "metal_removal_standard", 1 ] ],
+    "time": "120 m",
+    "using": [ [ "concrete_wall_removal_standard", 1 ], [ "metal_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rebar", "count": [ 8, 16 ] }, { "item": "rock", "count": [ 15, 30 ] } ],
     "pre_terrain": "t_column",
     "post_terrain": "t_thconc_floor"

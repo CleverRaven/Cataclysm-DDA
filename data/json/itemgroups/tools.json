@@ -940,9 +940,11 @@
       { "item": "corded_powerdrill", "prob": 30 },
       { "item": "circsaw_off", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "angle_grinder", "prob": 20, "charges": [ 0, 500 ] },
+      { "item": "corded_demolition_hammer", "prob": 20 },
       { "item": "grinder_cutoff_disc", "prob": 10 },
       { "item": "grinder_metal_grinding_disc", "prob": 10 },
       { "item": "masonrysaw_off", "prob": 50, "charges": [ 0, 450 ] },
+      { "item": "heavy_masonrysaw_off", "prob": 50, "charges": [ 0, 450 ] },
       { "item": "electric_masonrysaw_off", "prob": 50, "charges": [ 0, 495 ] }
     ]
   },
