@@ -74,6 +74,7 @@
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
+#include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "vehicle.h"
@@ -647,6 +648,50 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         return false;
     }
 
+    if( is_avatar() && get_player_character().oxygen <= 5 && uistate.distraction_oxygen && !get_player_character().activity.is_distraction_ignored(distraction_type::oxygen)) {
+        const std::string& action = query_popup()
+                                    .context("CANCEL_ACTIVITY_OR_IGNORE_QUERY")
+                                    .message( "%s", "<color_light_red>You are suffocating !"
+                                              "Are you sure you want to continue attacking?</color>" )
+                                    .option( "YES" )
+                                    .option( "NO" )
+                                    .option( "IGNORE" )
+                                    .query()
+                                    .action;
+
+
+        if(action == "NO") {
+            return false;
+        }
+        if(action == "IGNORE") {
+            get_player_character().activity.ignore_distraction(distraction_type::oxygen);
+            for (player_activity& activity : get_player_character().backlog) {
+                activity.ignore_distraction(distraction_type::oxygen);
+            }
+        }
+    }    
+        
+    if( is_avatar() && move_cost > 300 && calendar::turn > melee_warning_turn ) {
+        const std::string &action = query_popup()
+                                    .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
+                                    .message( _( "<color_light_red>Attacking with your %1$s will take a long time.  "
+                                              "Are you sure you want to continue?</color>" ),
+                                              cur_weap.display_name() )
+                                    .option( "YES" )
+                                    .option( "NO" )
+                                    .option( "IGNORE" )
+                                    .query()
+                                    .action;
+
+        if( action == "NO" ) {
+            return false;
+        }
+        if( action == "IGNORE" ) {
+            if( melee_warning_turn == calendar::turn_zero || melee_warning_turn <= calendar::turn ) {
+                melee_warning_turn = calendar::turn + 50_turns;
+            }
+        }
+    }
     if( is_avatar() && move_cost > 300 && calendar::turn > melee_warning_turn ) {
         const std::string &action = query_popup()
                                     .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
