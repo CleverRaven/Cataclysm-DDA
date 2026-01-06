@@ -1492,5 +1492,18 @@
       "type": "learn_spell",
       "spells": [ "stormshaper_cloak_of_fog", "storm_shipwrecker", "air_bubble", "technomancer_far_sight" ]
     }
+  },
+    {
+    "id": "necronomicon",
+    "copy-from":  "necronomicon",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "grimoire" },
+    "//": "5 Animist spells, 2 Biomancer spell",
+    "price": "45000 USD",
+    "price_postapoc": "1000 USD",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "animist_see_invisibility", "rupture", "dominate", "animist_sense_outsiders", "biomancer_baleful_polymorph", "biomancer_carrion_feast", "animist_do_psionic_damage_to_head" ]
   }
 ]
