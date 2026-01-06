@@ -2660,10 +2660,10 @@ void handle_finger_input( uint32_t ticks )
                 } else if( std::abs( delta_y ) < delta_x * 2.0f ) {
                     if( delta_y < 0 ) {
                         // swipe up-right
-                        last_input = input_event( JOY_UP_RIGHT, input_event_t::gamepad );
+                        last_input = input_event( JOY_LS_UP_RIGHT, input_event_t::gamepad );
                     } else {
                         // swipe down-right
-                        last_input = input_event( JOY_DOWN_RIGHT, input_event_t::gamepad );
+                        last_input = input_event( JOY_LS_DOWN_RIGHT, input_event_t::gamepad );
                     }
                 } else {
                     if( delta_y < 0 ) {
@@ -2681,11 +2681,11 @@ void handle_finger_input( uint32_t ticks )
                 } else if( std::abs( delta_y ) < -delta_x * 2.0f ) {
                     if( delta_y < 0 ) {
                         // swipe up-left
-                        last_input = input_event( JOY_UP_LEFT, input_event_t::gamepad );
+                        last_input = input_event( JOY_LS_UP_LEFT, input_event_t::gamepad );
 
                     } else {
                         // swipe down-left
-                        last_input = input_event( JOY_DOWN_LEFT, input_event_t::gamepad );
+                        last_input = input_event( JOY_LS_DOWN_LEFT, input_event_t::gamepad );
                     }
                 } else {
                     if( delta_y < 0 ) {
