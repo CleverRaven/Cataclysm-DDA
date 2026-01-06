@@ -1105,11 +1105,11 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_spirit_armor",
-    "//": "Technomancer spell",
-    "name": { "str": "Scroll of Spiritual Armor", "str_pl": "Scrolls of Spiritual Armor" },
-    "description": "Evil will not make it through your defenses if your faith is strong enough!",
-    "use_action": { "type": "learn_spell", "spells": [ "spirit_armor" ] }
+    "id": "spell_scroll_magus_mage_conjured_armor",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Force Armor", "str_pl": "Scrolls of Force Armor" },
+    "description": "Conjure a suit of magical armor made of pure force, when you need armor in a hurry.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_mage_conjured_armor" ] }
   },
   {
     "type": "ITEM",

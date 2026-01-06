@@ -573,7 +573,8 @@
       { "item": "spell_scroll_magus_spiderclimb", "prob": 40 },
       { "item": "spell_scroll_force_jar", "prob": 30 },
       { "item": "spell_scroll_shadow_field", "prob": 20 },
-      { "item": "spell_scroll_impactsling", "prob": 20 }
+      { "item": "spell_scroll_impactsling", "prob": 20 },
+      { "item": "spell_scroll_magus_mage_conjured_armor", "prob": 20 }
     ]
   },
   {
