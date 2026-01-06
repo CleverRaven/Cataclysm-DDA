@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
 #include "construction.h"
@@ -482,6 +483,19 @@ void game::print_debug_info( const tripoint_bub_ms &lp, const catacurses::window
                    lp.to_string_writable() );
         mvwprintz( w_look, point( column, ++line ), c_white, "tripoint_abs_ms: %s",
                    here.get_abs( lp ).to_string_writable() );
+
+        for( const std::pair<const field_type_id, field_entry> &fd : here.field_at( lp ) ) {
+            mvwprintz( w_look, point( column, ++line ), c_white, "field: " );
+            mvwprintz( w_look, point( column + utf8_width( "field: " ), line ), c_yellow, "%s",
+                       fd.first.id().c_str() );
+            mvwprintz( w_look, point( column, ++line ), c_white, "age: %s (%s seconds)",
+                       to_string( fd.second.get_field_age() ), to_seconds<int>( fd.second.get_field_age() ) );
+            mvwprintz( w_look, point( column, ++line ), c_white, "intensity: %s",
+                       fd.second.get_field_intensity() );
+            mvwprintz( w_look, point( column, ++line ), c_white, "causer: %s",
+                       fd.second.get_causer() == nullptr ? "none" : fd.second.get_causer()->disp_name() );
+            mvwprintz( w_look, point( column, ++line ), c_white, "\n" );
+        }
     }
 }
 
