@@ -514,6 +514,28 @@ void spell_type::check_consistency()
                       sp_t.id.c_str() );
         }
 
+        if( !sp_t.spell_class.is_valid() && sp_t.spell_class.str() != "NONE" ) {
+            debugmsg( R"(ERROR: %s has invalid spell class "%s"!)", sp_t.id.c_str(), sp_t.spell_class.c_str() );
+        }
+
+        if( !sp_t.targeted_monster_ids.empty() ) {
+            for( const auto &targeted_monster : sp_t.targeted_monster_ids ) {
+                if( !targeted_monster.is_valid() ) {
+                    debugmsg( R"(ERROR: %s target monster with invalid id "%s"!)", sp_t.id.c_str(),
+                              targeted_monster.str() );
+                }
+            }
+        }
+
+        if( !sp_t.targeted_species_ids.empty() ) {
+            for( const auto &targeted_species : sp_t.targeted_species_ids ) {
+                if( !targeted_species.is_valid() ) {
+                    debugmsg( R"(ERROR: %s target species with invalid id "%s"!)", sp_t.id.c_str(),
+                              targeted_species.str() );
+                }
+            }
+        }
+
         if( sp_t.exp_for_level_formula_id.has_value() &&
             sp_t.exp_for_level_formula_id.value()->num_params != 1 ) {
             debugmsg( "ERROR: %s exp_for_level_formula_id has params that != 1!", sp_t.id.c_str() );
@@ -2555,15 +2577,15 @@ void known_magic::evaluate_opens_spellbook_data()
     }
 }
 
-int known_magic::time_to_learn_spell( const Character &guy, const std::string &str ) const
+time_duration known_magic::time_to_learn_spell( const Character &guy, const std::string &str ) const
 {
     return time_to_learn_spell( guy, spell_id( str ) );
 }
 
-int known_magic::time_to_learn_spell( const Character &guy, const spell_id &sp ) const
+time_duration known_magic::time_to_learn_spell( const Character &guy, const spell_id &sp ) const
 {
     const_dialogue d( get_const_talker_for( guy ), nullptr );
-    const int base_time = to_moves<int>( 30_minutes );
+    const time_duration base_time = 30_minutes;
     const double int_modifier = ( guy.get_int() - 8.0 ) / 8.0;
     const double skill_modifier = guy.get_skill_level( sp->skill ) / 10.0;
     return base_time * ( 1.0 + sp->difficulty.evaluate( d ) / ( 1.0 + int_modifier + skill_modifier ) );

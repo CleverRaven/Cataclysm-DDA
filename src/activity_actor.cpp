@@ -69,6 +69,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "json.h"
+#include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -193,6 +194,7 @@ static const activity_id ACT_SHEARING( "ACT_SHEARING" );
 static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 static const activity_id ACT_STASH( "ACT_STASH" );
+static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_TENT_DECONSTRUCT( "ACT_TENT_DECONSTRUCT" );
 static const activity_id ACT_TENT_PLACE( "ACT_TENT_PLACE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
@@ -2501,6 +2503,111 @@ std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+void study_spell_activity_actor::start( player_activity &act, Character &who )
+{
+    if( learning ) {
+        initial_moves = who.magic->time_to_learn_spell( who, selected_spell );
+    }
+    if( until_level_gained ) {
+        initial_moves = calendar::INDEFINITELY_LONG_DURATION;
+    }
+    act.moves_total = to_moves<int>( initial_moves );
+    act.moves_left = act.moves_total;
+}
+
+void study_spell_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    // Stop if there is not enough light to study
+    if( who.fine_detail_vision_mod() > 4 ) {
+        cancelled = true;
+        act.moves_left = 0;
+        return;
+    }
+    // "study" if we already know the spell, and want to study it more
+    if( !learning ) {
+        spell &studying = who.magic->get_spell( selected_spell );
+        // If we are studying to gain a level, keep studying until level changes
+        if( until_level_gained ) {
+            if( studying.get_level() < next_spell_level ) {
+                act.moves_left = calendar::INDEFINITELY_LONG;
+            } else {
+                act.moves_left = 0;
+                return;
+            }
+        }
+        const int old_level = studying.get_level();
+        // Gain some experience from studying
+        const float base_xp_per_tick = studying.exp_modifier( who ) / to_turns<float>( 6_seconds );
+
+        float xp_multiplier = 1.0f;
+        if( old_level >= 9 ) {
+            xp_multiplier = 0.25f; // halved at 3, halved again at 9 -> 0.5 * 0.5 = 0.25
+        } else if( old_level >= 3 ) {
+            xp_multiplier = 0.5f;
+        }
+
+        const int xp = roll_remainder( base_xp_per_tick * xp_multiplier );
+
+        xp_gained += xp;
+        studying.gain_exp( who, xp );
+        bool leveled_up = who.practice( studying.skill(), xp, studying.get_difficulty( who ), true );
+        if( leveled_up &&
+            studying.get_difficulty( who ) < static_cast<int>( who.get_skill_level( studying.skill() ) ) ) {
+            who.handle_skill_warning( studying.skill(),
+                                      true ); // show the skill warning on level up, since we suppress it in practice() above
+        }
+        // Notify player if the spell leveled up
+        if( studying.get_level() > old_level ) {
+            who.add_msg_if_player( m_good, _( "You gained a level in %s!" ), studying.name() );
+        }
+    }
+}
+
+void study_spell_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    const int total_exp_gained = xp_gained;
+
+    if( !learning ) {
+        who.add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
+                               total_exp_gained );
+    } else if( learning && !cancelled ) {
+        who.magic->learn_spell( selected_spell, who );
+    }
+    if( cancelled ) {
+        who.add_msg_if_player( m_bad, _( "It's too dark to read." ) );
+    }
+}
+
+void study_spell_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "initial_moves", initial_moves );
+    jsout.member( "selected_spell", selected_spell );
+    jsout.member( "next_spell_level", next_spell_level );
+    jsout.member( "learning", learning );
+    jsout.member( "until_level_gained", until_level_gained );
+    jsout.member( "xp_gained", xp_gained );
+    jsout.member( "cancelled", cancelled );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> study_spell_activity_actor::deserialize( JsonValue &jsin )
+{
+    study_spell_activity_actor actor;
+    JsonObject data = jsin.get_object();
+
+    data.read( "initial_moves", actor.initial_moves );
+    data.read( "selected_spell", actor.selected_spell );
+    data.read( "next_spell_level", actor.next_spell_level );
+    data.read( "learning", actor.learning );
+    data.read( "until_level_gained", actor.until_level_gained );
+    data.read( "xp_gained", actor.xp_gained );
+    data.read( "cancelled", actor.cancelled );
+
+    return actor.clone();
+}
+
 void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 {
     map &here = get_map();
@@ -4121,7 +4228,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     auto player_will_eat = [this, &moves, &player_character, &guy]( const item & it ) {
         ret_val<edible_rating> ret = player_character.will_eat( it, true );
         if( !ret.success() ) {
-            canceled = true;
+            was_canceled = true;
             uistate.consume_uistate.clear();
         } else {
             moves = to_moves<int>( guy.get_consume_time( it ) );
@@ -4134,7 +4241,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
         player_will_eat( consume_item );
     } else {
         debugmsg( "Item/location to be consumed should not be null." );
-        canceled = true;
+        was_canceled = true;
     }
 
     act.moves_total = moves;
@@ -4151,7 +4258,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     item_location consume_loc = consume_location;
 
     avatar &player_character = get_avatar();
-    if( !canceled ) {
+    if( !was_canceled ) {
         if( consume_loc ) {
             player_character.consume( consume_loc, /*force=*/true );
         } else if( !consume_item.is_null() ) {
@@ -4185,13 +4292,20 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     }
 }
 
+void consume_activity_actor::canceled( player_activity &, Character &who )
+{
+    if( who.is_avatar() ) {
+        uistate.consume_uistate.clear();
+    }
+}
+
 void consume_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
     jsout.member( "consume_location", consume_location );
     jsout.member( "consume_item", consume_item );
-    jsout.member( "canceled", canceled );
+    jsout.member( "canceled", was_canceled );
     jsout.member( "reprompt_consume_menu", reprompt_consume_menu );
 
     jsout.end_object();
@@ -4206,7 +4320,7 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonValue &
 
     data.read( "consume_location", actor.consume_location );
     data.read( "consume_item", actor.consume_item );
-    data.read( "canceled", actor.canceled );
+    data.read( "canceled", actor.was_canceled );
     if( data.has_member( "reprompt_consume_menu" ) ) {
         data.read( "reprompt_consume_menu", actor.reprompt_consume_menu );
     }
@@ -8231,6 +8345,13 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     }
 }
 
+void firstaid_activity_actor::canceled( player_activity &, Character &who )
+{
+    if( who.is_avatar() ) {
+        uistate.consume_uistate.clear();
+    }
+}
+
 void firstaid_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -11102,6 +11223,7 @@ deserialize_functions = {
     { ACT_SKIN, &butchery_activity_actor::deserialize },
     { ACT_START_ENGINES, &start_engines_activity_actor::deserialize },
     { ACT_STASH, &stash_activity_actor::deserialize },
+    { ACT_STUDY_SPELL, &study_spell_activity_actor::deserialize },
     { ACT_TENT_DECONSTRUCT, &tent_deconstruct_activity_actor::deserialize },
     { ACT_TENT_PLACE, &tent_placement_activity_actor::deserialize },
     { ACT_TRY_SLEEP, &try_sleep_activity_actor::deserialize },

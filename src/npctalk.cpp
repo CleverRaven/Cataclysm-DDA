@@ -611,8 +611,8 @@ time_duration calc_spell_training_time( const Character &, const Character &stud
     if( student.magic->knows_spell( id ) ) {
         return 1_hours;
     } else {
-        const int time_int = student.magic->time_to_learn_spell( student, id ) / 50;
-        return time_duration::from_seconds( clamp( time_int, 7200, 21600 ) );
+        const int learn_moves = to_moves<int>( student.magic->time_to_learn_spell( student, id ) ) / 50;
+        return time_duration::from_seconds( clamp( learn_moves, 7200, 21600 ) );
     }
 }
 

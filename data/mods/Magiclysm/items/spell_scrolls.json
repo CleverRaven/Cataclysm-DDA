@@ -1117,8 +1117,8 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_create_atomic_lamp",
     "//": "Technomancer spell",
-    "name": { "str": "Scroll of Lamp", "str_pl": "Scrolls of Lamp" },
-    "description": "Creates a magical lamp.",
+    "name": { "str": "Scroll of Enchanted Lamp", "str_pl": "Scrolls of Enchanted Lamp" },
+    "description": "Enchant a bit of stone or metal to give it an unwavering glow.",
     "use_action": { "type": "learn_spell", "spells": [ "create_atomic_lamp" ] }
   },
   {
