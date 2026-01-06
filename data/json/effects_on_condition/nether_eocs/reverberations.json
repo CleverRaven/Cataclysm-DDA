@@ -110,6 +110,7 @@
       { "u_teleport": { "context_val": "nearest_floor" } },
       { "u_message": "Your surroundings change.", "popup": true, "popup_w_interrupt_query": true },
       { "run_eocs": "EOC_PORTAL_CABINS_RETURN", "time_in_future": [ "6 hours", "12 hours" ] },
+      { "run_eocs": [ "EOC_CABIN_DAY_CYCLE_OR_KILL_CYCLE" ] },
       { "math": [ "u_ire -= 5" ] }
     ]
   },
@@ -148,6 +149,7 @@
         "then": { "u_teleport": { "context_val": "nearest_cabin_roof_floor" }, "fail_message": "", "success_message": "" },
         "else": { "u_teleport": { "context_val": "ground" }, "fail_message": "", "success_message": "" }
       },
+      { "alter_timed_events": "cabin_daylight_cycle" },
       { "clear_dimension": "cabins" },
       { "u_message": "You're back.", "popup": true, "popup_w_interrupt_query": true }
     ],
@@ -162,5 +164,23 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CABIN_DAY_CYCLE_OR_KILL_CYCLE",
+    "//": "hacky way of a shorter day cycle.",
+    "global": true,
+    "condition": { "current_dimension": "cabins" },
+    "effect": [
+      { "math": [ "_cabin_light_amount = clamp( 160*sin(time('now')/3600),0,125)" ] },
+      { "alter_timed_events": "cabin_daylight_cycle" },
+      {
+        "custom_light_level": { "context_val": "cabin_light_amount" },
+        "length": "6 minutes",
+        "key": "cabin_daylight_cycle"
+      },
+      { "run_eocs": [ "EOC_CABIN_DAY_CYCLE_OR_KILL_CYCLE" ], "time_in_future": "5 minutes" }
+    ],
+    "false_effect": [ { "alter_timed_events": "cabin_daylight_cycle" } ]
   }
 ]
