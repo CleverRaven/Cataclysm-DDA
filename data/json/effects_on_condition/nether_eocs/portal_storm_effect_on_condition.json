@@ -634,7 +634,10 @@
         "if": { "or": [ { "u_at_om_location": "radio_tower_top" }, { "u_at_om_location": "wasp_tower_top" } ] },
         "then": { "run_eocs": "EOC_PORTAL_RADIOSPHERE" }
       },
-      { "if": { "u_at_om_location": "cabin_roof_3" }, "then": { "run_eocs": "EOC_PORTAL_CABINS" } }
+      {
+        "if": { "or": [ { "u_at_om_location": "cabin_roof_3" }, { "u_at_om_location": "cabin_roof_3_reverberation_hint" } ] },
+        "then": { "run_eocs": "EOC_PORTAL_CABINS" }
+      }
     ]
   },
   {

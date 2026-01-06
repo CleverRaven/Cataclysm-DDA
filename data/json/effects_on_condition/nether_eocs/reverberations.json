@@ -134,7 +134,7 @@
       },
       {
         "u_location_variable": { "context_val": "nearest_cabin_roof_floor" },
-        "target_params": { "om_terrain": "cabin_roof_3", "z": 1 },
+        "target_params": { "om_terrain": "cabin_roof_3", "z": 1, "om_terrain_match_type": "PREFIX" },
         "terrain": "t_tar_flat_roof",
         "target_max_radius": 60,
         "min_radius": 0,
