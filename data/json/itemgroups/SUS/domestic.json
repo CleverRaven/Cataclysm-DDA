@@ -575,15 +575,9 @@
       { "distribution": [ { "item": "coffeemaker", "prob": 90 } ], "prob": 75 },
       {
         "distribution": [
-          { "item": "coffee_raw", "prob": 30 },
-          { "item": "instant_coffee", "prob": 40, "count": [ 1, 5 ] },
-          {
-            "item": "coffee_raw",
-            "prob": 30,
-            "count": [ 1, 200 ],
-            "container-item": "null",
-            "entry-wrapper": "can_food_big"
-          }
+          { "prob": 30, "item": "coffee_raw" },
+          { "prob": 40, "item": "instant_coffee", "count": [ 1, 5 ] },
+          { "prob": 30, "group": "coffee_raw_can_food_big_240" }
         ],
         "prob": 80
       },

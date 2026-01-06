@@ -203,10 +203,9 @@
     "time": "30 m",
     "autolearn": true,
     "contained": true,
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "roasted_coffee_bean", 1 ] ], [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ] ] ],
-    "charges": 20
+    "components": [ [ [ "roasted_coffee_bean", 1 ] ], [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ] ] ]
   },
   {
     "type": "recipe",

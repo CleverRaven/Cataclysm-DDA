@@ -2763,6 +2763,36 @@ class disable_activity_actor : public activity_actor
         bool reprogram;
 };
 
+class robot_control_activity_actor : public activity_actor
+{
+    public:
+
+        robot_control_activity_actor( time_duration initial_moves, int controlled_monster_temp_id ) :
+            initial_moves( initial_moves ), controlled_monster_temp_id( controlled_monster_temp_id ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
+            return ACT_ROBOT_CONTROL;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<robot_control_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        robot_control_activity_actor() = default;
+        time_duration initial_moves; // NOLINT(cata-serialize)
+        // obtained through creature_tracker::temporary_id()
+        std::optional<int> controlled_monster_temp_id;
+};
+
 class firstaid_activity_actor : public activity_actor
 {
     public:
