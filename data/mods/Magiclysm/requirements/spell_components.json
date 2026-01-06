@@ -342,5 +342,32 @@
     "type": "requirement",
     "//": "Silver for the Seeing the Unseen spell",
     "components": [ [ [ "silver_small", 5 ] ] ]
+  },
+  {
+    "id": "spell_components_create_atomic_lamp",
+    "type": "requirement",
+    "//": "Stone or metal for the for the Enchanted Lamp spell",
+    "components": [
+      [
+        [ "rock", 1 ],
+        [ "rock_flaking", 1 ],
+        [ "sharp_rock", 1 ],
+        [ "lead", 1 ],
+        [ "platinum_small", 1 ],
+        [ "copper", 1 ],
+        [ "gold_small", 1 ],
+        [ "silver_small", 1 ],
+        [ "scrap_cast_iron", 1 ],
+        [ "chunk_cast_iron", 1 ],
+        [ "steel_chunk", 1 ],
+        [ "budget_steel_chunk", 1 ],
+        [ "chunk_cast_iron", 1 ],
+        [ "lc_steel_chunk", 1 ],
+        [ "mc_steel_chunk", 1 ],
+        [ "hc_steel_chunk", 1 ],
+        [ "ch_steel_chunk", 1 ],
+        [ "qt_steel_chunk", 1 ]
+      ]
+    ]
   }
 ]
