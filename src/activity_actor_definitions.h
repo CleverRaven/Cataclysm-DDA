@@ -1231,7 +1231,7 @@ class consume_activity_actor : public activity_actor
     private:
         item_location consume_location;
         item consume_item;
-        bool canceled = false;
+        bool was_canceled = false;
         // whether to show the consume menu after this activity finishes
         bool reprompt_consume_menu = false;
 
@@ -1241,7 +1241,7 @@ class consume_activity_actor : public activity_actor
         bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
             const consume_activity_actor &c_actor = static_cast<const consume_activity_actor &>( other );
             return consume_location == c_actor.consume_location &&
-                   canceled == c_actor.canceled && &consume_item == &c_actor.consume_item;
+                   was_canceled == c_actor.was_canceled && &consume_item == &c_actor.consume_item;
         }
     public:
         explicit consume_activity_actor( const item_location &consume_location,
@@ -1259,6 +1259,7 @@ class consume_activity_actor : public activity_actor
         void start( player_activity &act, Character &guy ) override;
         void do_turn( player_activity &, Character & ) override {}
         void finish( player_activity &act, Character & ) override;
+        void canceled( player_activity &, Character &who ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<consume_activity_actor>( *this );
@@ -2856,6 +2857,7 @@ class firstaid_activity_actor : public activity_actor
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &, Character & ) override {};
         void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &, Character &who ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<firstaid_activity_actor>( *this );
