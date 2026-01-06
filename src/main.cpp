@@ -83,12 +83,15 @@ class ui_adaptor;
 #   endif
 #endif
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
+#include <SDL_system.h>
 #include <SDL_filesystem.h>
 #include <SDL_keyboard.h>
-#include <SDL_system.h>
-#include <android/log.h>
 #include <unistd.h>
+#endif
+
+#if defined(__ANDROID__)
+#include <android/log.h>
 
 // Taken from: https://codelab.wordpress.com/2014/11/03/how-to-use-standard-output-streams-for-logging-in-android-apps/
 // Force Android standard output to adb logcat output
@@ -622,7 +625,7 @@ int APIENTRY WinMain( _In_ HINSTANCE /* hInstance */, _In_opt_ HINSTANCE /* hPre
 {
     int argc = __argc;
     char **argv = __argv;
-#elif defined(__ANDROID__)
+#elif defined(__ANDROID__) || defined(__IPHONEOS__)
 extern "C" int SDL_main( int argc, char **argv ) {
 #else
 int main( int argc, const char *argv[] )
@@ -666,23 +669,20 @@ int main( int argc, const char *argv[] )
     std::string external_storage_path( SDL_AndroidGetExternalStoragePath() );
 
     PATH_INFO::init_base_path( external_storage_path );
-#else
-    // Set default file paths
-#if defined(PREFIX)
+#elif defined(PREFIX)
     PATH_INFO::init_base_path( std::string( PREFIX ) );
 #else
     PATH_INFO::init_base_path( "" );
 #endif
-#endif
 
 #if defined(__ANDROID__)
     PATH_INFO::init_user_dir( external_storage_path );
-#else
-#   if defined(USE_HOME_DIR) || defined(USE_XDG_DIR) || defined(EMSCRIPTEN)
+#elif defined(__IPHONEOS__)
+    PATH_INFO::init_user_dir( std::string( getenv( "HOME" ) ) + "/Documents/" );
+#elif defined(USE_HOME_DIR) || defined(USE_XDG_DIR) || defined(EMSCRIPTEN)
     PATH_INFO::init_user_dir( "" );
-#   else
+#else
     PATH_INFO::init_user_dir( "." );
-#   endif
 #endif
     PATH_INFO::set_standard_filenames();
 
@@ -870,3 +870,17 @@ int main( int argc, const char *argv[] )
     exit_handler( -999 );
     return 0;
 }
+
+#if defined(__IPHONEOS__)
+#ifndef SDL_MAIN_HANDLED
+#include <SDL_main.h>
+#ifdef main
+#undef main
+#endif
+
+int main( int argc, char *argv[] )
+{
+    return SDL_UIKitRunApp( argc, argv, SDL_main );
+}
+#endif /* !SDL_MAIN_HANDLED */
+#endif

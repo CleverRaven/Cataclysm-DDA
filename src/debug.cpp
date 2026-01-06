@@ -1597,7 +1597,7 @@ std::string game_info::operating_system()
 #if TARGET_IPHONE_SIMULATOR == 1
     /* iOS in Xcode simulator */
     return "iOS Simulator";
-#elif TARGET_OS_IPHONE == 1
+#elif TARGET_OS_IPHONE == 1 || defined(__IPHONEOS__)
     /* iOS on iPhone, iPad, etc. */
     return "iOS";
 #elif TARGET_OS_MAC == 1

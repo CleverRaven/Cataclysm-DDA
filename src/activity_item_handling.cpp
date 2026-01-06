@@ -4602,6 +4602,7 @@ bool try_fuel_fire( player_activity &act, Character &you, const bool starting_fi
         }
     }
     return true;
+
 }
 
 void activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now(
