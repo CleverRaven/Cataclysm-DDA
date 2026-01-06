@@ -1747,6 +1747,43 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_magus_impact_sling_buff",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": 86400,
+    "show_in_info": true,
+    "remove_message": "The energy vanishes from your sling.",
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "u_has_wielded_with_skill": "throw" },
+            { "u_has_wielded_with_flag": "PRIMITIVE_RANGED_WEAPON" },
+            { "or": [ { "u_has_wielded_with_ammotype": "pebble" }, { "u_has_wielded_with_ammotype": "rock" } ] }
+          ]
+        },
+        "values": [
+          {
+            "value": "RANGE",
+            "multiply": { "math": [ "(u_spell_level('magus_summon_impact_sling') + u_spell_level('magus_summon_impact_sling_plus') ) * 0.05" ] }
+          },
+          {
+            "value": "RANGED_DAMAGE",
+            "multiply": { "math": [ "(u_spell_level('magus_summon_impact_sling') + u_spell_level('magus_summon_impact_sling_plus') ) * 0.05" ] }
+          },
+          {
+            "value": "RANGED_ARMOR_PENETRATION",
+            "add": {
+              "math": [ "( (u_spell_level('magus_summon_impact_sling') + u_spell_level('magus_summon_impact_sling_plus') ) * 0.25) + 4" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_magus_cannot_move_attack_or_damage_target",
     "name": [ "Adamantine Gaol" ],
     "desc": [ "You are totally immobile and invulnerable." ],
