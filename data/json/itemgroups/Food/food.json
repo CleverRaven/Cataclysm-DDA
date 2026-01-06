@@ -1219,7 +1219,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "can_food_big",
-    "entries": [ { "item": "coffee_raw", "container-item": "null", "count": 240 } ]
+    "entries": [ { "item": "coffee_raw", "container-item": "null", "count": 66 } ]
   },
   {
     "type": "item_group",
