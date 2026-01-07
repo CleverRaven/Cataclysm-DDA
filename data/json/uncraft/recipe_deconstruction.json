@@ -7636,6 +7636,22 @@
     "components": [ [ [ "yarn", 40 ] ] ]
   },
   {
+    "result": "xlsocks_wool",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "yarn", 40 ] ] ]
+  },
+  {
+    "result": "xssocks_wool",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "yarn", 15 ] ] ]
+  },
+  {
     "result": "bottle_metal",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",

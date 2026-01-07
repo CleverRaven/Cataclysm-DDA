@@ -2903,7 +2903,7 @@
     "color": "blue",
     "warmth": 30,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "NO_SALVAGE" ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
