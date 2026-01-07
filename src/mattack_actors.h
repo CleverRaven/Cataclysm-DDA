@@ -82,7 +82,7 @@ class mon_spellcasting_actor : public mattack_actor
 
 class mon_eoc_actor : public mattack_actor
 {
-    public:        
+    public:
         int range = 1;
         bool allow_no_target = false;
         std::vector<effect_on_condition_id> eoc;

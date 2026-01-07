@@ -286,7 +286,7 @@ void mon_eoc_actor::load_internal( const JsonObject &obj, const std::string & )
 
     optional( obj, was_loaded, "range", range, 1 );
     optional( obj, was_loaded, "eoc", eoc );
-        allow_no_target = obj.get_bool( "allow_no_target", false );
+    allow_no_target = obj.get_bool( "allow_no_target", false );
 
     if( obj.has_member( "condition" ) ) {
         read_condition( obj, "condition", condition, false );
@@ -295,7 +295,7 @@ void mon_eoc_actor::load_internal( const JsonObject &obj, const std::string & )
 
 }
 
-bool mon_eoc_actor::call( monster &mon ) const 
+bool mon_eoc_actor::call( monster &mon ) const
 {
     map &here = get_map();
     Creature *target = ( allow_no_target ) ? nullptr : mon.attack_target();
@@ -310,7 +310,6 @@ bool mon_eoc_actor::call( monster &mon ) const
         // Unless we don't need one
         return false;
     }
-    
     if( has_condition ) {
         dialogue d( get_talker_for( &mon ),
                     allow_no_target ? nullptr : get_talker_for( target ) );
@@ -330,7 +329,7 @@ bool mon_eoc_actor::call( monster &mon ) const
     {
         for( const effect_on_condition_id &eoc : eoc ) {
             dialogue d( get_talker_for( mon ),
-            allow_no_target ? nullptr : get_talker_for( target ) );
+                        allow_no_target ? nullptr : get_talker_for( target ) );
             eoc->activate( d );
         }
         return true;
