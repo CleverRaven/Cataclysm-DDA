@@ -394,7 +394,7 @@
     "category": "manuals",
     "name": { "str": "The Utility of Mana as an Energy Source", "str_pl": "copies of The Utility of Mana as an Energy Source" },
     "description": "This book details spells that use your mana to recover various physiological effects.",
-    "//": "1 classless, 1 technomancer, 2 animist, 1 druid, 1 earthshaper spell",
+    "//": "1 classless, 1 technomancer, 1 animist, 1 druid, 1 earthshaper spell",
     "weight": "728 g",
     "volume": "3 L",
     "price": "50 USD",
@@ -411,8 +411,7 @@
         "recover_pain",
         "recover_sleepiness",
         "recover_stamina",
-        "druid_healing",
-        "convert"
+        "druid_healing"
       ]
     }
   },
