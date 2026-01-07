@@ -20,5 +20,18 @@
       "hit_field": [ "fd_dust", 2 ],
       "destroyed_field": [ "fd_splinters", 1 ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_puddle_mycus",
+    "name": "recess",
+    "description": "A shallow pit in the ground.  The surface is covered in a thin coating of mycus spores.",
+    "looks_like": "t_dirt",
+    "symbol": "~",
+    "color": "light_blue",
+    "move_cost": 3,
+    "liquid_source": { "id": "water_mycus", "count": [ 40, 240 ] },
+    "flags": [ "TRANSPARENT", "LIQUIDCONT" ],
+    "examine_action": "finite_water_source"
   }
 ]

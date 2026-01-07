@@ -80,30 +80,25 @@
     "item_group_chance": 0,
     "item_spawn_iterations": 1,
     "groundcover": [ [ "t_region_groundcover_forest", 1 ] ],
-    "components": [
-      "mom_mycus_world_trees_forest",
-      "mom_mycus_world_shrubs_and_flowers_forest",
-      "mom_mycus_world_clutter_forest",
-      "mom_mycus_world_water_forest"
-    ]
+    "components": [ "trees_forest", "shrubs_and_flowers_forest", "clutter_forest", "water_forest" ]
   },
   {
     "type": "forest_biome_component",
-    "id": "mom_mycus_world_trees_forest",
+    "id": "trees_forest",
     "sequence": 0,
     "chance": 12,
     "types": [ [ "t_tree_fungal", 128 ], [ "t_tree_fungal_young", 32 ] ]
   },
   {
     "type": "forest_biome_component",
-    "id": "mom_mycus_world_shrubs_and_flowers_forest",
+    "id": "shrubs_and_flowers_forest",
     "sequence": 1,
     "chance": 10,
     "types": [ [ "t_shrub_fungal", 120 ], [ "t_tree_fungal_young", 10 ] ]
   },
   {
     "type": "forest_biome_component",
-    "id": "mom_mycus_world_clutter_forest",
+    "id": "clutter_forest",
     "sequence": 2,
     "chance": 80,
     "types": [
@@ -119,9 +114,9 @@
   },
   {
     "type": "forest_biome_component",
-    "id": "mom_mycus_world_water_forest",
+    "id": "water_forest",
     "sequence": 3,
     "chance": 512,
-    "types": [ [ "t_puddle", 1 ] ]
+    "types": [ [ "t_puddle", 1 ], [ "t_puddle_mycus", 10 ] ]
   }
 ]
