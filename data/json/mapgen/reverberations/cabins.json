@@ -1,28 +1,5 @@
 [
   {
-    "type": "overmap_terrain",
-    "id": [ "cabin_3_reverberation" ],
-    "name": "cabin",
-    "sym": "C",
-    "color": "i_green",
-    "vision_levels": "isolated_building",
-    "travel_cost_type": "structure",
-    "see_cost": "high",
-    "mondensity": 0,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "cabin_roof_3_reverberation" ],
-    "vision_levels": "roof_or_air",
-    "travel_cost_type": "roof",
-    "name": "cabin roof",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": "none",
-    "extras": "build"
-  },
-  {
     "om_terrain": "cabin_3_reverberation",
     "type": "mapgen",
     "object": {
