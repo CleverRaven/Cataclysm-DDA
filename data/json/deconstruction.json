@@ -880,7 +880,7 @@
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "10 m",
-    "using": [ [ "metal_removal_standard", 1 ] ],
+    "using": [ [ "metal_removal_high_standard", 1 ] ],
     "byproducts": "metal_door_deconstruction_results",
     "pre_terrain": "t_door_metal_locked",
     "post_terrain": "t_mdoor_frame"

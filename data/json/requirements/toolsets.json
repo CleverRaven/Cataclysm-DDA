@@ -459,9 +459,31 @@
   {
     "id": "metal_removal_standard",
     "type": "requirement",
-    "//": "Tools for removing metal / rebar",
-    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 1 }, { "id": "PRY", "level": 3 } ],
-    "tools": [ [ [ "angle_grinder", 200 ], [ "oxy_torch", 20 ] ] ]
+    "//": "Tools for removing metal bars / rebar / etc",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "tools": [
+      [
+        [ "hacksaw", -1],
+        [ "small_repairkit", -1 ],
+        [ "large_repairkit", -1 ],
+        [ "angle_grinder", 200 ],
+        [ "reciprocating_saw", 200 ],
+        [ "exodii_prybar", 200 ]
+      ]
+    ]
+  },
+  {
+    "id": "metal_removal_high_standard",
+    "type": "requirement",
+    "//": "Tools for removing things like locked metal doors, which won't have easy to access points to place a manual saw",
+    "qualities": [ { "id": "SAW_M", "level": 3 } ],
+    "tools": [
+      [
+        [ "angle_grinder", 200 ],
+        [ "reciprocating_saw", 200 ],
+        [ "exodii_prybar", 200 ]
+      ]
+    ]
   },
   {
     "id": "cement_removal",
