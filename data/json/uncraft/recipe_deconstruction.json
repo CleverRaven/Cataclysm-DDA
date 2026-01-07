@@ -7633,7 +7633,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-    "components": [ [ [ "yarn", 20 ] ] ]
+    "components": [ [ [ "yarn", 40 ] ] ]
   },
   {
     "result": "xlsocks_wool",
@@ -7641,7 +7641,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "yarn", 40 ] ] ]
+    "components": [ [ [ "yarn", 80 ] ] ]
   },
   {
     "result": "xssocks_wool",
@@ -7649,7 +7649,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "yarn", 15 ] ] ]
+    "components": [ [ [ "yarn", 30 ] ] ]
   },
   {
     "result": "bottle_metal",
