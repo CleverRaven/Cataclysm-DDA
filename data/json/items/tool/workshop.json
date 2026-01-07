@@ -657,7 +657,7 @@
     "description": "A construction tool for breaking horizontal surfaces.  This model runs on gasoline.",
     "weight": "24 kg",
     "volume": "13330 ml",
-    "longest_side": "92 cm",
+    "longest_side": "81 cm",
     "price": "400 USD",
     "price_postapoc": "10 USD",
     "to_hit": { "grip": "none", "length": "long", "surface": "point", "balance": "clumsy" },
