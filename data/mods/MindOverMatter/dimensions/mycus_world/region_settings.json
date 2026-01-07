@@ -36,7 +36,7 @@
       "deep_rock",
       "deep_rock"
     ],
-    "default_groundcover": [ [ "t_mom_mycus_world_groundcover", 1 ] ],
+    "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "feature_flag_settings": { "blacklist": [ "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII", "HIGHLANDS" ], "whitelist": [ "FUNGAL" ] }
   },
   {
@@ -48,13 +48,13 @@
   {
     "type": "region_terrain_furniture",
     "id": "mom_mycus_world_t_region_groundcover",
-    "ter_id": "t_mom_mycus_world_groundcover",
+    "ter_id": "t_region_groundcover",
     "replace_with_terrain": [ [ "t_fungus_floor_out", 600 ], [ "t_fungus_mound", 1 ], [ "t_dirt", 20 ] ]
   },
   {
     "type": "region_terrain_furniture",
     "id": "mom_mycus_world_t_region_groundcover_forest",
-    "ter_id": "t_mom_mycus_world_groundcover_forest",
+    "ter_id": "t_region_groundcover_forest",
     "replace_with_terrain": [ [ "t_fungus_floor_out", 300 ], [ "t_fungus_mound", 4 ], [ "t_shrub_fungal", 10 ], [ "t_dirt", 20 ] ]
   },
   {
@@ -79,7 +79,7 @@
     "item_group": "forest",
     "item_group_chance": 0,
     "item_spawn_iterations": 1,
-    "groundcover": [ [ "t_mom_mycus_world_groundcover_forest", 1 ] ],
+    "groundcover": [ [ "t_region_groundcover_forest", 1 ] ],
     "components": [
       "mom_mycus_world_trees_forest",
       "mom_mycus_world_shrubs_and_flowers_forest",

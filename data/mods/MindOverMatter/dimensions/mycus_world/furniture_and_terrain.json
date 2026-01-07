@@ -1,22 +1,6 @@
 [
   {
     "type": "terrain",
-    "id": "t_mom_mycus_world_groundcover",
-    "copy-from": "t_region_pseudo",
-    "name": "pseudo terrain",
-    "description": "This should never actually show up, it should have been replaced with regional terrain.",
-    "move_cost": 1
-  },
-  {
-    "type": "terrain",
-    "id": "t_mom_mycus_world_groundcover_forest",
-    "copy-from": "t_region_pseudo",
-    "name": "pseudo terrain",
-    "description": "This should never actually show up, it should have been replaced with regional terrain.",
-    "move_cost": 1
-  },
-  {
-    "type": "terrain",
     "id": "t_trunk_fungal",
     "looks_like": "t_trunk",
     "name": "fungal tree trunk",
