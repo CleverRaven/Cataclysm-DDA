@@ -2088,6 +2088,134 @@
     ]
   },
   {
+    "id": "military_poncho",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "dark_gray",
+    "name": { "str": "military poncho" },
+    "description": "A standard issue, lightweight nylon poncho with a hood.  It has a cinch cord around the hood and grommets to attach a liner, or to use it as a standard tarp.  It folds into a very compact form when not in use.",
+    "price": "50 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "nylon" ],
+    "weight": "450 g",
+    "volume": "2300 ml",
+    "flags": [ "RAINPROOF", "HOOD", "OVERSIZE", "BELTED" ],
+    "environmental_protection": 2,
+    "material_thickness": 0.4,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "4000 ml",
+        "max_contains_weight": "900 g",
+        "moves": 200,
+        "description": "Grommets for a poncho liner.",
+        "item_restriction": [
+          "military_poncho_liner",
+          "robofac_poncho_liner"
+        ]
+      }
+    ]
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100 },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
+        "coverage": 100
+      },
+      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 },
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "military_poncho_heavy",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "dark_gray",
+    "name": { "str": "heavy military poncho" },
+    "description": "A standard issue, heavy nylon poncho with a hood.  It has a cinch cord around the hood and grommets to attach a liner, or to use it as a standard tarp.  It folds into a very compact form when not in use.",
+    "price": "50 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "nylon" ],
+    "weight": "1100 g",
+    "volume": "3800 ml",
+    "flags": [ "RAINPROOF", "HOOD", "OVERSIZE", "BELTED" ],
+    "environmental_protection": 4,
+    "material_thickness": 0.8,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "4000 ml",
+        "max_contains_weight": "900 g",
+        "moves": 200,
+        "description": "Grommets for a poncho liner.",
+        "item_restriction": [
+          "military_poncho_liner",
+          "robofac_poncho_liner"
+        ]
+      }
+    ]
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100 },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
+        "coverage": 100
+      },
+      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 },
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "military_poncho_liner",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "dark_gray",
+    "name": { "str": "military poncho liner" },
+    "description": "Often called a \"woobie\" by soldiers, this sleeping bag-like poncho liner can be attached under a poncho or used as a blanket.  It folds into a very compact form when not in use.",
+    "price": "50 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "nylon" ],
+    "weight": "900 g",
+    "volume": "4000 ml",
+    "encumbrance": 10
+    "warmth": 50,
+    "flags": [ "OVERSIZE", "BELTED" ],
+    "environmental_protection": 4,
+    "material_thickness": 6,
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100 },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
+        "coverage": 100
+      },
+      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 },
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
     "id": "coat_straw",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
