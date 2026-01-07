@@ -463,7 +463,7 @@
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "tools": [
       [
-        [ "hacksaw", -1],
+        [ "hacksaw", -1 ],
         [ "small_repairkit", -1 ],
         [ "large_repairkit", -1 ],
         [ "angle_grinder", 200 ],
@@ -477,13 +477,7 @@
     "type": "requirement",
     "//": "Tools for removing things like locked metal doors, which won't have easy to access points to place a manual saw",
     "qualities": [ { "id": "SAW_M", "level": 3 } ],
-    "tools": [
-      [
-        [ "angle_grinder", 200 ],
-        [ "reciprocating_saw", 200 ],
-        [ "exodii_prybar", 200 ]
-      ]
-    ]
+    "tools": [ [ [ "angle_grinder", 200 ], [ "reciprocating_saw", 200 ], [ "exodii_prybar", 200 ] ] ]
   },
   {
     "id": "cement_removal",
