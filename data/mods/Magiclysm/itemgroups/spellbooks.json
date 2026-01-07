@@ -884,46 +884,133 @@
     ]
   },
   {
-    "id": "spell_scroll_tier_2",
+    "id": "magus_spells_tier_2",
     "type": "item_group",
-    "items": [
-      [ "spell_scroll_recover_bionic_power", 25 ],
-      [ "spell_scroll_summon_floating_disk", 25 ],
-      [ "spell_scroll_invisibility", 40 ],
-      [ "spell_scroll_gravity_well", 35 ],
-      [ "spell_scroll_magus_ranged_increase", 35 ],
-      [ "spell_scroll_magus_mana_bolt", 35 ],
-      [ "spell_scroll_magus_mana_beam", 35 ],
-      [ "spell_scroll_magus_escape", 50 ],
-      [ "spell_scroll_lightning_blast", 20 ],
-      [ "spell_scroll_magus_push_nearby_enemies_back", 50 ],
-      [ "spell_scroll_magus_slow", 40 ],
-      [ "spell_scroll_magus_teleport_mark", 25 ],
-      [ "spell_scroll_cats_grace", 50 ],
-      [ "spell_scroll_eagles_sight", 50 ],
-      [ "spell_scroll_ogres_strength", 50 ],
-      [ "spell_scroll_foxs_cunning", 50 ],
-      [ "spell_scroll_stormfist", 25 ],
-      [ "spell_scroll_stormshaper_heart_of_hurricane", 30 ],
-      [ "spell_scroll_storm_hammer", 35 ],
-      [ "spell_scroll_animated_blade", 35 ],
-      [ "spell_scroll_mirror_image", 15 ],
-      [ "spell_scroll_holographic_transposition", 15 ],
-      [ "spell_scroll_technomancer_conjure_ups", 20 ],
-      [ "spell_scroll_technomancer_robot_shutdown", 25 ],
-      [ "spell_scroll_technomancer_recharge_vehicle", 15 ],
-      [ "spell_scroll_technomancer_create_ups_connection", 25 ],
-      [ "spell_scroll_stormshaper_ionization", 40 ],
-      [ "spell_scroll_storm_superconductor", 40 ],
-      [ "spell_scroll_shocking_dash", 40 ],
-      [ "spell_scroll_toxtricity", 40 ],
-      [ "spell_scroll_electric_waves", 40 ],
-      [ "spell_scroll_summon_teravolt", 40 ],
-      [ "spell_scroll_storm_shipwrecker", 40 ],
-      [ "spell_scroll_explosive_decompression", 40 ],
-      [ "spell_scroll_improved_knock", 35 ],
-      [ "spell_scroll_knifeshot", 35 ]
+    "subtype": "distribution",
+    "entries": [
+      { "group": "spell_scroll_gravity_well", "prob": 300 },
+      { "group": "magus_restricted_tier_2", "prob": 25 },
+      { "group": "magus_illegal_tier_2", "prob": 1 }
     ]
+  },
+  {
+    "id": "magus_unrestricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_magus_ranged_increase", "prob": 35 },
+      { "item": "spell_scroll_magus_push_nearby_enemies_back", "prob": 50 },
+      { "item": "spell_scroll_magus_slow", "prob": 40 },
+      { "item": "spell_scroll_cats_grace", "prob": 35 },
+      { "item": "spell_scroll_eagles_sight", "prob": 35 },
+      { "item": "spell_scroll_ogres_strength", "prob": 35 },
+      { "item": "spell_scroll_foxs_cunning", "prob": 35 },
+      { "item": "spell_scroll_cats_grace", "prob": 35 },
+      { "item": "spell_scroll_magus_teleport_mark", "prob": 25 }
+    ]
+  },
+  {
+    "id": "magus_restricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_magus_mana_bolt", "prob": 50 },
+      { "item": "spell_scroll_magus_mana_beam", "prob": 50 },
+      { "item": "spell_scroll_magus_escape", "prob": 35 }
+    ]
+  },
+  {
+    "id": "magus_illegal_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 40 } ]
+  },
+  {
+    "id": "stormshaper_spells_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "stormshaper_unrestricted_tier_2", "prob": 300 },
+      { "group": "stormshaper_restricted_tier_2", "prob": 25 },
+      { "group": "stormshaper_illegal_tier_2", "prob": 1 }
+    ]
+  },
+  {
+    "id": "stormshaper_unrestricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_stormfist", "prob": 35 },
+      { "item": "spell_scroll_stormshaper_heart_of_hurricane", "prob": 30 },
+      { "item": "spell_scroll_air_bubble", "prob": 35 },
+      { "item": "spell_scroll_electric_eye", "prob": 35 },
+      { "item": "spell_scroll_repelling_arc", "prob": 30 }
+    ]
+  },
+  {
+    "id": "stormshaper_restricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_storm_hammer", "prob": 35 },
+      { "item": "spell_scroll_shocking_dash", "prob": 40 },
+      { "items": "spell_scroll_electric_waves", "prob": 40 }
+    ]
+  },
+  {
+    "id": "stormshaper_illegal_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_lightning_blast", "prob": 50 },
+      { "item": "spell_scroll_stormshaper_ionization", "prob": 40 },
+      { "item": "spell_scroll_storm_superconductor", "prob": 40 },
+      { "item": "spell_scroll_summon_teravolt", "prob": 40 },
+      { "item": "spell_scroll_storm_shipwrecker", "prob": 30 },
+      { "item": "spell_scroll_explosive_decompression", "prob": 30 },
+      { "item": "spell_scroll_toxtricity", "prob": 40 }
+    ]
+  },
+  {
+    "id": "technomancer_spells_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "technomancer_unrestricted_tier_2", "prob": 300 },
+      { "group": "technomancer_restricted_tier_2", "prob": 25 },
+      { "group": "technomancer_illegal_tier_2", "prob": 1 }
+    ]
+  },
+  {
+    "id": "technomancer_unrestricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_recover_bionic_power", "prob": 25 },
+      { "item": "spell_scroll_summon_floating_disk", "prob": 35 },
+      { "item": "spell_scroll_mirror_image", "prob": 15 },
+      { "item": "spell_scroll_technomancer_recharge_vehicle", "prob": 25 },
+      { "item": "spell_scroll_technomancer_create_ups_connection", "prob": 20 },
+      { "item": "spell_scroll_technomancer_conjure_ups", "prob": 30 }
+    ]
+  },
+  {
+    "id": "technomancer_restricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spell_scroll_invisibility", "prob": 40 },
+      { "item": "spell_scroll_holographic_transposition", "prob": 20 },
+      { "item": "spell_scroll_improved_knock", "prob": 30 },
+      { "item": "spell_scroll_technomancer_robot_shutdown", "prob": 25 },
+      { "item": "spell_scroll_knifeshot", "prob": 30 }
+    ]
+  },
+  {
+    "id": "technomancer_illegal_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "spell_scroll_animated_blade", "prob": 25 } ]
   },
   {
     "id": "spell_scroll_tier_3",
@@ -1068,22 +1155,47 @@
   {
     "id": "spellbook_tier_2",
     "type": "item_group",
-    "items": [
-      [ "winter_grasp", 60 ],
-      [ "tome_of_storms", 60 ],
-      [ "biomancer_spellbook", 60 ],
-      [ "druid_spellbook", 60 ],
-      [ "pyro", 60 ],
-      [ "techno_electrical_work", 50 ],
-      [ "farmer_spellbook", 40 ],
-      [ "eshaper_spellbook", 60 ],
-      [ "eshaper_spellbook_melee", 30 ],
-      [ "techno_em", 60 ],
-      [ "bioelectricity", 60 ],
-      [ "animist_spirits", 60 ],
-      [ "wizard_advanced", 60 ],
-      [ "stat_up_spellbook", 45 ],
-      [ "magic_movement_book", 30 ]
+    "subtype": "distribution",
+    "entries": [
+      { "group": "spellbook_unrestricted_tier_2", "prob": 300 },
+      { "group": "spellbook_restricted_tier_2", "prob": 25 },
+      { "group": "spellbook_illegal_tier_2", "prob": 1 }
+    ]
+  },
+  {
+    "id": "spellbook_unrestricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "druid_spellbook", "prob": 30 },
+      { "item": "techno_electrical_work", "prob": 25 },
+      { "item": "farmer_spellbook", "prob": 25 }
+    ]
+  },
+  {
+    "id": "spellbook_restricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "biomancer_spellbook", "prob": 30 },
+      { "item": "eshaper_spellbook_melee", "prob": 20 },
+      { "item": "animist_spirits", "prob": 30 },
+      { "item": "wizard_advanced", "prob": 20 },
+      { "item": "stat_up_spellbook", "prob": 25 },
+      { "item": "magic_movement_book", "prob": 20 }
+    ]
+  },
+  {
+    "id": "spellbook_illegal_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "winter_grasp", "prob": 30 },
+      { "item": "tome_of_storms", "prob": 30 },
+      { "item": "pyro", "prob": 30 },
+      { "item": "eshaper_spellbook", "prob": 30 },
+      { "item": "techno_em", "prob": 30 },
+      { "item": "bioelectricity", "prob": 30 }
     ]
   },
   {
