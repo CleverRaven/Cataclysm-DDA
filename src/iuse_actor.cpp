@@ -1383,6 +1383,7 @@ void firestarter_actor::load( const JsonObject &obj, const std::string & )
     optional( obj, false, "moves", moves_cost_fast, 100 );
     optional( obj, false, "moves_slow", moves_cost_slow, 1000 );
     optional( obj, false, "need_sunlight", need_sunlight, false );
+    optional( obj, false, "qualities_needed", qualities_needed );
 }
 
 std::unique_ptr<iuse_actor> firestarter_actor::clone() const
@@ -1531,6 +1532,30 @@ ret_val<void> firestarter_actor::can_use( const Character &p, const item &it,
     if( need_sunlight && light_mod( here, p.pos_bub( *here ) ) <= 0.0f ) {
         return ret_val<void>::make_failure( _( "You need direct sunlight to light a fire with this." ) );
     }
+
+    if( qualities_needed.empty() ) {
+        return ret_val<void>::make_success();
+    }
+
+    std::map<quality_id, int> unmet_reqs;
+    inventory inv;
+    inv.form_from_map( p.pos_bub( *here ), 1, &p, true, true );
+    for( const auto &quality : qualities_needed ) {
+        if( !p.has_quality( quality.first, quality.second ) &&
+            !inv.has_quality( quality.first, quality.second ) ) {
+            unmet_reqs.insert( quality );
+        }
+    }
+    if( unmet_reqs.empty() ) {
+        return ret_val<void>::make_success();
+    }
+    std::string unmet_reqs_string = enumerate_as_string( unmet_reqs.begin(), unmet_reqs.end(),
+    [&]( const std::pair<quality_id, int> &unmet_req ) {
+        return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
+    } );
+    return ret_val<void>::make_failure( n_gettext( "You need a tool with %s.",
+                                        "You need tools with %s.",
+                                        unmet_reqs.size() ), unmet_reqs_string );
 
     return ret_val<void>::make_success();
 }

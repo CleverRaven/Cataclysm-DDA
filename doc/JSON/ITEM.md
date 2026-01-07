@@ -1333,7 +1333,8 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "type": "firestarter",  // Start a fire, like with a lighter.
   "moves": 15,            // Number of moves it takes to start the fire. This is reduced by survival skill
   "moves_slow": 1500,     // Number of moves it takes to start a fire on something that is difficult to ignite. This is reduced by survival skill
-  "need_sunlight": true   // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses
+  "need_sunlight": true,   // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses,
+  "qualities_needed": { "WRENCH_FINE": 1 } // Tool qualities needed, e.g. "fine bolt turning 1"
 },
 "use_action": {
   "type": "unpack",                 // Unpack this item
