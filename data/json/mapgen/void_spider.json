@@ -64,6 +64,7 @@
     "entries": [
       { "item": "longrifle_flintlock", "variant": "leadworks_longrifle_flintlock", "prob": 10 },
       { "item": "helmet_kettle", "variant": "morion", "prob": 10 },
+      { "item": "golden_hat", "prob": 10 },
       { "item": "towel", "prob": 10 },
       { "item": "tattered_garment", "prob": 10 },
       {
@@ -86,83 +87,6 @@
       { "item": "bead_bracelet", "prob": 10 },
       { "item": "cape_sci_fi", "prob": 10 }
     ]
-  },
-  {
-    "type": "mapgen",
-    "om_terrain": [ "void_spider_lair_entrance" ],
-    "object": {
-      "fill_ter": "t_rock_floor_no_roof",
-      "rows": [
-        "#   X   X      X   X   #",
-        "#  -x---x-    -x---x-  #",
-        "#   X   X      X   X   #",
-        "#   X   X      X   X   #",
-        "#  -x---x-    -x---x-  #",
-        "#   X   X      X   X   #",
-        "#   X   X      X   X   #",
-        "#  -x---x-    -x---x-  #",
-        "#   X   X      X   X   #",
-        "#   X   X      X   X   #",
-        "## -x---x-    -x---x-  #",
-        "### X   X      X   X   #",
-        "### X   X      X   X  ##",
-        "#####---x-    ##---x-###",
-        "#####   X  #####   X ###",
-        "######,,X ##############",
-        "#####---x,##############",
-        "###|X,,,X,|#############",
-        "||||X,,,X,||############",
-        "|||,,,,,,,,|||##########",
-        "|||,,,,,X,,,,||#########",
-        "||,,X ,,X,,,,,|#########",
-        "|,,-x---,,,,,,|||#######",
-        "|,,,X,,,,,,,,,,,|#######"
-      ],
-      "palettes": [ "subway_underground" ],
-      "terrain": { "#": "t_rock", "|": "t_nether_basalt", ",": "t_nether_glass_floor" },
-      "place_fields": [ { "field": "fd_void_web", "x": [ 0, 16 ], "y": [ 18, 23 ], "intensity": 1, "repeat": [ 12, 24 ] } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "void_spider_lair_entrance_shift",
-    "object": { "place_nested": [ { "chunks": [ "void_spider_lair_entrance_shift" ], "x": 0, "y": 0 } ] }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "void_spider_lair_entrance_shift",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "## -x---x-    -x---x-  #",
-        "### X   X      X   X   #",
-        "### X   X      X   X  ##",
-        "#####---x-    ##---x-###",
-        "#####   X  #####   X ###",
-        "######,,X ##############",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "##BBBBBBBBBB############",
-        "BBB||||||||BBB##########",
-        "B|||,   , ||BBB#########",
-        "B||,,,,,,,,|||BB########",
-        "B||     ,    ||B########",
-        "B|  ,,  ,    ,|BBB######",
-        "B| ,,,,,      |||B######",
-        "B|  ,           |BBBBBBB"
-      ],
-      "palettes": [ "subway_underground" ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "#": "t_rock", "|": "t_nether_basalt", ",": "t_nether_glass_floor", "B": "t_nether_glass_wall" }
-    }
   },
   {
     "type": "mapgen",
@@ -222,6 +146,20 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "void_spider_webs",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "W ",
+        " W"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "fields": { "W": { "field": "fd_void_web", "intensity": 2, "age": 1 } },
+      "traps": { "W": "tr_void_spider_entry" }
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "void_spider_lair_eggs",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -258,36 +196,36 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "void_spider_lair_a1", "void_spider_lair_a2" ] ],
+    "om_terrain": [ "void_spider_lair" ],
     "object": {
       "fill_ter": "t_nether_glass_floor",
       "rows": [
-        "BBBBBBBBBBBBBBBBBBBBBBBBB|              ||BBBBBB",
-        "B####|||||||||||||||#####|||             |||###B",
-        "B##|||           ||||#####|        ||||   |||##B",
-        "B##|     |||||      |||###||     |||##|     |||B",
-        "B##||    ||##||||     ||||||     |####||      |B",
-        "B###|     ||####|||     ||       |||###||     |B",
-        "B###||     ||||||                  |####|||   |B",
-        "B####||    |                |||    |######||  |B",
-        "B#####|||                 |||#|||  ||#####||  |B",
-        "B#######|                ||#####|   |||##||   |B",
-        "B#######||                |#####||    |#|||   |B",
-        "B########|               ||######|    ||     ||B",
-        "B########|              ||#######|          ||#B",
-        "B#######||          |||||#######||          |##B",
-        "B####|||           ||########||||          ||##B",
-        "B####|           ||##########|           ||####B",
-        "B##|||    ||||  ||#########|||          ||#####B",
-        "B#||     ||##||  |########||          ||||#####B",
-        "B#|     ||####|  ||###|||||           |########B",
-        "B#||   ||#####|   |||||            ||||########B",
-        "B###| ||######||             |||||||###########B",
-        "B####|||########||    |||||||||################B",
-        "B###############||||||#########################B",
-        "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+        "|||      ||||||......|||",
+        "||        ||||  ....  ||",
+        "|          ||    ..    |",
+        ".    ||          ||    .",
+        "..  ||||        ||||  ..",
+        "...||||||      ||||||...",
+        "...||||||      ||||||...",
+        "..  ||||        ||||  ..",
+        ".    ||          ||    .",
+        "|    ..    ||          |",
+        "||  ....  ||||        ||",
+        "|||......||||||      |||",
+        "|||......||||||      |||",
+        "||  ....  ||||        ||",
+        "|    ..    ||          |",
+        "     ||          ||     ",
+        "    ||||        ||||    ",
+        "   ||||||      ||||||   ",
+        "   ||||||      ||||||   ",
+        "    ||||        ||||    ",
+        "     ||          ||     ",
+        "|          ||    ..    |",
+        "||        ||||  ....  ||",
+        "|||      ||||||......|||"
       ],
-      "terrain": { "#": "t_nether_basalt", "|": "t_nether_basalt", "B": "t_nether_glass_wall" },
+      "terrain": { ".": "t_nether_glass_floor_basalt", "|": "t_nether_basalt" },
       "place_fields": [
         { "field": "fd_void_web", "x": [ 0, 23 ], "y": [ 0, 23 ], "intensity": [ 2, 3 ], "repeat": [ 140, 184 ] },
         { "field": "fd_void_web", "x": [ 24, 47 ], "y": [ 0, 23 ], "intensity": [ 2, 3 ], "repeat": [ 140, 184 ] }
