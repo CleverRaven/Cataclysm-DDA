@@ -1,11 +1,11 @@
 #include "iuse_actor.h"
 
-#include <imgui/imgui.h>
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
 #include <functional>
+#include <imgui/imgui.h>
 #include <iterator>
 #include <limits>
 #include <list>
@@ -77,6 +77,7 @@
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "projectile.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -228,6 +229,7 @@ void iuse_transform::load( const JsonObject &obj, const std::string & )
     optional( obj, false, "sound_volume", sound_volume );
 
     optional( obj, false, "moves", moves, numeric_bound_reader<int> { 0 }, 0 );
+    optional( obj, false, "chance", chance, numeric_bound_reader<int> { 0, 100 }, 100 );
 
     optional( obj, false, "set_timer", set_timer, false );
 
@@ -258,6 +260,10 @@ void iuse_transform::load( const JsonObject &obj, const std::string & )
 std::optional<int> iuse_transform::use( Character *p, item &it, map *,
                                         const tripoint_bub_ms &pos ) const
 {
+    if( !x_in_y( chance, 100 ) ) {
+        return 0;
+    }
+
     int scale = 1;
     auto iter = it.type->ammo_scale.find( type );
     if( iter != it.type->ammo_scale.end() ) {
@@ -694,6 +700,7 @@ static std::vector<tripoint_bub_ms> points_for_gas_cloud( map *here, const tripo
 
 void explosion_iuse::load( const JsonObject &obj, const std::string & )
 {
+    optional( obj, false, "effects", ammo_effects, auto_flags_reader<ammo_effect_str_id> {} );
     optional( obj, false, "explosion", explosion );
     optional( obj, false, "draw_explosion_radius", draw_explosion_radius, -1 );
     optional( obj, false, "draw_explosion_color", draw_explosion_color, nc_color_reader{}, c_white );
@@ -714,21 +721,25 @@ void explosion_iuse::load( const JsonObject &obj, const std::string & )
 std::optional<int> explosion_iuse::use( Character *p, item &it, map *here,
                                         const tripoint_bub_ms &pos ) const
 {
-    if( explosion.power >= 0.0f ) {
-        Character *source = p;
-        if( it.has_var( "last_act_by_char_id" ) ) {
-            character_id thrower( it.get_var( "last_act_by_char_id", 0 ) );
-            if( thrower == get_player_character().getID() ) {
-                source = &get_player_character();
-            } else {
-                source = g->find_npc( thrower );
-            }
+    Character *source = p;
+    if( it.has_var( "last_act_by_char_id" ) ) {
+        character_id thrower( it.get_var( "last_act_by_char_id", 0 ) );
+        if( thrower == get_player_character().getID() ) {
+            source = &get_player_character();
+        } else {
+            source = g->find_npc( thrower );
         }
+    }
+
+    if( explosion.power >= 0.0f ) {
         explosion_handler::explosion( source, here, pos, explosion );
     }
 
+    apply_ammo_effects( source, pos, ammo_effects, 0 );
+
     map &bubble_map = reality_bubble();
 
+    // todo: potentially move all this custom explosion stuff to json ammo_effects?
     if( draw_explosion_radius >= 0 && bubble_map.inbounds( here->get_abs( pos ) ) ) {
         explosion_handler::draw_explosion( bubble_map.get_bub( here->get_abs( pos ) ),
                                            draw_explosion_radius, draw_explosion_color );
@@ -741,7 +752,7 @@ std::optional<int> explosion_iuse::use( Character *p, item &it, map *here,
         std::vector<tripoint_bub_ms> gas_sources = points_for_gas_cloud( here, pos, fields_radius );
         for( tripoint_bub_ms &gas_source : gas_sources ) {
             const int field_intensity = rng( fields_min_intensity, fields_max_intensity );
-            here->add_field( gas_source, fields_type, field_intensity, 1_turns );
+            here->add_field( gas_source, fields_type, field_intensity, 1_turns, true, effect_source( source ) );
         }
     }
     if( scrambler_blast_radius >= 0 ) {
