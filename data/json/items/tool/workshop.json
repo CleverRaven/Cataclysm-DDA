@@ -355,7 +355,7 @@
   },
   {
     "id": "elec_jackhammer",
-    "//": "Based on the Hilti TE 3000-AVR TE-H heavy-duty electric jackhammer " 
+    "//": "Based on the Hilti TE 3000-AVR TE-H heavy-duty electric jackhammer",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "electric jackhammer" },
@@ -650,7 +650,7 @@
   },
   {
     "id": "jackhammer",
-    "//": "based on the US Hammer Gas-Powered GB-60."
+    "//": "based on the US Hammer Gas-Powered GB-60",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "jackhammer" },
