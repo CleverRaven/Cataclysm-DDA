@@ -2747,7 +2747,7 @@
   {
     "id": "jade_nagamaki",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "copy-from": "qt_katana",
     "name": { "str_sp": "jade nagamaki" },
     "description": "A master smith painstakingly flaked its flowing blade from meteoric sea-green stone.  The hilt's cordage is speckled by gold flakes from the tumultuous waters where the blade was whet, and the chosen tsuba depicts an all-devouring snake.",
@@ -2759,6 +2759,7 @@
     "flags": [ "SPEAR", "REACH_ATTACK", "UNBREAKABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_1", "WIDE", "SPIN" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
+    "passive_effects": [ { "has": "WIELD", "values": [ { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": -0.67 } ] } ],
     "melee_damage": { "bash": 10, "cut": 32 }
   },
   {
