@@ -1022,7 +1022,6 @@ void Character::disp_medical()
             avatar *a = this->as_avatar();
             if( a ) {
                 avatar_action::use_item( *a );
-                break;
             } else {
                 popup( _( "Applying not implemented for NPCs." ) );
             }
