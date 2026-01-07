@@ -7633,7 +7633,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-    "components": [ [ [ "yarn", 40 ] ] ]
+    "components": [ [ [ "yarn", 20 ] ] ]
   },
   {
     "result": "xlsocks_wool",
