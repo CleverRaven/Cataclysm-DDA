@@ -136,7 +136,6 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 
@@ -4352,15 +4351,11 @@ std::optional<int> iuse::hand_crank( Character *p, item *it, const tripoint_bub_
                                   _( "You try to use your %s, but the handle detached, so you reattach it." ), it->tname() );
             return std::nullopt;
         }
-
-        // 1600 minutes. It shouldn't ever run this long, but it's an upper bound.
-        // expectation is it runs until the player is too tired.
-        int moves = to_moves<int>( 1600_minutes );
         if( it->ammo_capacity( ammo_battery ) > it->ammo_remaining( ) ) {
             p->add_msg_if_player( _( "You start cranking the %s to charge its %s." ), it->tname(),
                                   it->magazine_current()->tname() );
-            p->assign_activity( ACT_HAND_CRANK, moves, -1, 0, "hand-cranking" );
-            p->activity.targets.emplace_back( *p, it );
+            // 1 day is an upper bound; expectation is it runs until the player is too tired.
+            p->assign_activity( hand_crank_activity_actor( 1_days, item_location( *p, it ) ) );
         } else {
             p->add_msg_if_player( _( "You could use the %s to charge its %s, but it's already charged." ),
                                   it->tname(), magazine->tname() );

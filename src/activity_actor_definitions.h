@@ -2752,6 +2752,38 @@ class churn_activity_actor : public activity_actor
         item_location tool;
 };
 
+class hand_crank_activity_actor : public activity_actor
+{
+    public:
+        hand_crank_activity_actor() = default;
+        hand_crank_activity_actor( time_duration initial_moves, const item_location &hand_crank_tool ) :
+            initial_moves( initial_moves ), hand_crank_tool( hand_crank_tool ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
+            return ACT_HAND_CRANK;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        std::string get_progress_message( const player_activity & ) const override {
+            return std::string();
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<hand_crank_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        time_duration initial_moves; // NOLINT(cata-serialize)
+        item_location hand_crank_tool;
+};
+
 class clear_rubble_activity_actor : public activity_actor
 {
     public:

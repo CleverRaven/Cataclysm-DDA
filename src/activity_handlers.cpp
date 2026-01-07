@@ -93,7 +93,6 @@ static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
-static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
@@ -167,7 +166,6 @@ const std::map< activity_id, std::function<void( player_activity *, Character * 
 activity_handlers::do_turn_functions = {
     { ACT_FILL_LIQUID, fill_liquid_do_turn },
     { ACT_START_FIRE, start_fire_do_turn },
-    { ACT_HAND_CRANK, hand_crank_do_turn },
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
     { ACT_MULTIPLE_MINE, multiple_mine_do_turn },
@@ -685,32 +683,6 @@ void activity_handlers::train_finish( player_activity *act, Character *you )
     }
 
     act->set_to_null();
-}
-
-void activity_handlers::hand_crank_do_turn( player_activity *act, Character *you )
-{
-    // Hand-crank chargers seem to range from 2 watt (very common easily verified)
-    // to 10 watt (suspicious claims from some manufacturers) sustained output.
-    // It takes 2.4 minutes to produce 1kj at just slightly under 7 watts (25 kj per hour)
-    // time-based instead of speed based because it's a sustained activity
-    item &hand_crank_item = *act->targets.front();
-
-    int time_to_crank = to_seconds<int>( 144_seconds );
-    // Modify for weariness
-    time_to_crank /= you->exertion_adjusted_move_multiplier( act->exertion_level() );
-    if( calendar::once_every( time_duration::from_seconds( time_to_crank ) ) ) {
-        if( hand_crank_item.ammo_capacity( ammo_battery ) > hand_crank_item.ammo_remaining( ) ) {
-            hand_crank_item.ammo_set( itype_battery, hand_crank_item.ammo_remaining( ) + 1 );
-        } else {
-            act->moves_left = 0;
-            add_msg( m_info, _( "You've charged the battery completely." ) );
-        }
-    }
-    if( you->get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
-        act->moves_left = 0;
-        add_msg( m_info, _( "You're too exhausted to keep cranking." ) );
-    }
-
 }
 
 enum class repeat_type : int {
