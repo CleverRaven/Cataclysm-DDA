@@ -163,7 +163,7 @@
       { "item": "dry_beans", "count": -1, "prob": 20 },
       { "item": "dry_lentils", "count": -1, "prob": 20 },
       { "item": "cookies", "count": -1, "prob": 25 },
-      { "prob": 40, "group": "bread_bag_plastic_14" }
+      { "prob": 40, "group": "bread_in_bag" }
     ]
   },
   {
@@ -1271,7 +1271,7 @@
       { "item": "strawberries", "prob": 5, "custom-flags": [ "IRRADIATED" ] },
       [ "chocolate", 20 ],
       [ "waffleiron", 60 ],
-      { "prob": 30, "group": "bread_bag_plastic_14" },
+      { "prob": 30, "group": "bread_in_bag" },
       [ "peanutbutter", 20 ],
       [ "pot", 80 ]
     ]
@@ -1936,7 +1936,7 @@
     "items": [
       [ "oj", 35 ],
       [ "cooked_pumpkin", 25 ],
-      { "prob": 10, "group": "bread_bag_plastic_14" },
+      { "prob": 10, "group": "bread_in_bag" },
       [ "fruit_waffles", 5 ],
       [ "grahmcrackers", 5 ]
     ]

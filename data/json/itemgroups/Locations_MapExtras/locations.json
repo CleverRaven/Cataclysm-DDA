@@ -2799,7 +2799,7 @@
       [ "still", 20 ],
       [ "thermometer", 20 ],
       [ "brew_moonshine", 5 ],
-      { "prob": 35, "group": "cornbread_bag_plastic_6" },
+      { "prob": 35, "group": "cornbread_in_bag" },
       { "prob": 25, "group": "yeast_bag_plastic" },
       { "prob": 20, "group": "sugar_various" },
       [ "chem_ethanol", 5 ]

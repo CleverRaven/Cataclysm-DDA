@@ -2103,7 +2103,7 @@
     "category": "container",
     "name": { "str": "egg carton" },
     "looks_like": "box_small",
-    "description": "A cardboard container with 12 individual cavities for storing eggs.",
+    "description": "A cardboard container with individual cavities for storing eggs.",
     "ascii_picture": "carton_egg",
     "weight": "28 g",
     "volume": "620 ml",
@@ -2119,6 +2119,23 @@
         "rigid": true,
         "max_contains_volume": "600 ml",
         "max_contains_weight": "1 kg",
+        "max_item_length": "45 mm"
+      }
+    ]
+  },
+  {
+    "id": "carton_egg_6",
+    "copy-from": "carton_egg",
+    "proportional": { "longest_side": 0.5, "volume": 0.5, "weight": 0.5 },
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small egg carton" },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "500 g",
         "max_item_length": "45 mm"
       }
     ]

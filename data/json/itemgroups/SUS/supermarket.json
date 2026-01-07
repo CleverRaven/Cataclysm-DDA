@@ -180,17 +180,11 @@
     "entries": [ { "group": "commercial_canned_meals", "count": [ 1, 60 ] } ]
   },
   {
-    "id": "commercial_coffee",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [ [ "coffee_raw", 1 ], [ "coffee_raw_kentucky", 1 ], [ "instant_coffee", 1 ] ]
-  },
-  {
     "id": "SUS_shelf_commercial_coffee",
     "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "group": "commercial_coffee", "count": [ 1, 60 ] } ]
+    "entries": [ { "group": "raw_coffee_in_container_full", "count": [ 1, 60 ] } ]
   },
   {
     "id": "commercial_tea",
@@ -331,17 +325,11 @@
     "entries": [ { "group": "milk_in_container_full", "count": [ 0, 60 ] } ]
   },
   {
-    "id": "commercial_eggs",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [ [ "egg_bird_unfert", 1 ] ]
-  },
-  {
     "id": "SUS_shelf_commercial_eggs",
     "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "group": "commercial_eggs", "count": [ 1, 60 ] } ]
+    "entries": [ { "group": "eggs_in_carton_full", "count": [ 1, 60 ] } ]
   },
   {
     "id": "commercial_deli",
@@ -575,24 +563,11 @@
     "entries": [ { "group": "commercial_candy", "count": [ 1, 60 ] } ]
   },
   {
-    "id": "commercial_pet_food",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      [ "dogfood", 1 ],
-      [ "dogfood_raw", 1 ],
-      [ "dogfood_dry", 1 ],
-      [ "catfood", 1 ],
-      [ "catfood_raw", 1 ],
-      [ "catfood_dry", 1 ]
-    ]
-  },
-  {
-    "id": "SUS_shelf_commercial_pet_food",
+    "id": "SUS_shelf_commercial_pet_food_in_container",
     "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "group": "commercial_pet_food", "count": [ 1, 60 ] } ]
+    "entries": [ { "group": "pet_food_in_container_full", "count": [ 1, 60 ] } ]
   },
   {
     "id": "commercial_pet_accessories",
@@ -776,7 +751,7 @@
     "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "group": "drugs_pharmacy", "count": [ 1, 60 ] } ]
+    "entries": [ { "group": "vitamin_shop", "count": [ 1, 60 ] } ]
   },
   {
     "id": "commercial_shower_supplies",
@@ -924,7 +899,12 @@
     "id": "commercial_bread_specialty",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "bread_garlic", 1 ], [ "frybread", 1 ], [ "cornbread", 1 ], [ "flatbread", 1 ] ]
+    "entries": [
+      { "prob": 1, "group": "garlic_bread_in_bag_full" },
+      { "prob": 1, "group": "frybread_in_bag_full" },
+      { "prob": 1, "group": "cornbread_in_bag_full" },
+      { "prob": 1, "group": "flatbread_in_bag_full" }
+    ]
   },
   {
     "id": "SUS_shelf_commercial_bread_specialty",
@@ -944,7 +924,7 @@
     "id": "commercial_bread",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "bread", 1 ], [ "brown_bread", 1 ], [ "sourdough_bread", 1 ] ]
+    "items": [ { "prob": 1, "group": "bread_in_bag_full" }, { "prob": 1, "group": "bread_in_bag_full" } ]
   },
   {
     "id": "SUS_shelf_commercial_bread",
@@ -1041,7 +1021,7 @@
       { "group": "SUS_shelf_commercial_nuts_crackers", "prob": 1 },
       { "group": "SUS_shelf_commercial_chocolate", "prob": 1 },
       { "group": "SUS_shelf_commercial_candy", "prob": 1 },
-      { "group": "SUS_shelf_commercial_pet_food", "prob": 1 },
+      { "group": "SUS_shelf_commercial_pet_food_in_container", "prob": 1 },
       { "group": "SUS_shelf_commercial_pet_accessories", "prob": 1 },
       { "group": "SUS_shelf_commercial_baby_accessories_food", "prob": 1 },
       { "group": "SUS_shelf_commercial_baby_hygiene", "prob": 1 },
