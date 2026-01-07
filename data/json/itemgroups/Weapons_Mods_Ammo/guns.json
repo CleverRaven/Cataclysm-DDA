@@ -380,7 +380,8 @@
       { "group": "nested_remington_870_express", "prob": 50 },
       { "group": "nested_mossberg_590_shockwave", "prob": 20 },
       { "group": "nested_mossberg_590", "prob": 50 },
-      { "group": "nested_m1014", "prob": 100 }
+      { "group": "nested_m1014", "prob": 50 },
+      { "group": "nested_benelli_m4", "prob": 50 }
     ]
   },
   {
@@ -555,7 +556,7 @@
       { "item": "benelli_tsa", "charges": [ 0, 6 ], "contents-item": "shoulder_strap", "prob": 4 },
       { "item": "mossberg_590", "charges": [ 0, 9 ], "contents-item": "shoulder_strap", "prob": 1 },
       { "item": "mossberg_930", "charges": [ 0, 8 ], "contents-item": "shoulder_strap", "prob": 7 },
-      { "item": "m1014", "charges": [ 0, 5 ], "contents-item": "shoulder_strap", "prob": 2 },
+      { "item": "benelli_m4", "charges": [ 0, 5 ], "contents-item": "shoulder_strap", "prob": 2 },
       { "item": "remington_870_express", "charges": [ 0, 7 ], "contents-item": "shoulder_strap", "prob": 7 },
       { "item": "remington_700", "charges": [ 0, 4 ], "contents-item": "shoulder_strap", "prob": 2 },
       { "item": "M24", "charges": [ 0, 5 ], "contents-item": "shoulder_strap", "prob": 10 }
@@ -597,7 +598,7 @@
       { "item": "benelli_tsa", "charges": 6, "contents-item": "shoulder_strap", "prob": 2 },
       { "item": "mossberg_590", "charges": 9, "contents-item": "shoulder_strap", "prob": 1 },
       { "item": "mossberg_930", "charges": 8, "contents-item": "shoulder_strap", "prob": 5 },
-      { "item": "m1014", "charges": 5, "contents-item": "shoulder_strap", "prob": 1 },
+      { "item": "benelli_m4", "charges": 5, "contents-item": "shoulder_strap", "prob": 1 },
       { "item": "remington_870_express", "charges": 7, "contents-item": "shoulder_strap", "prob": 3 }
     ]
   },
@@ -779,7 +780,13 @@
       },
       {
         "collection": [
-          { "item": "m1014", "charges": [ 0, 5 ], "contents-item": "shoulder_strap", "damage": [ 0, 3 ], "dirt": [ 0, 7050 ] },
+          {
+            "item": "benelli_m4",
+            "charges": [ 0, 5 ],
+            "contents-item": "shoulder_strap",
+            "damage": [ 0, 3 ],
+            "dirt": [ 0, 7050 ]
+          },
           { "group": "field_shotgun" }
         ],
         "prob": 1
@@ -1127,7 +1134,20 @@
       },
       {
         "collection": [
-          { "item": "m1014", "charges": [ 0, 5 ], "contents-item": "shoulder_strap", "damage": [ 0, 3 ], "dirt": [ 0, 7050 ] },
+          {
+            "item": "benelli_m4",
+            "charges": [ 0, 5 ],
+            "contents-item": "shoulder_strap",
+            "damage": [ 0, 3 ],
+            "dirt": [ 0, 7050 ]
+          },
+          { "group": "field_shotgun" }
+        ],
+        "prob": 1
+      },
+      {
+        "collection": [
+          { "item": "m1014", "charges": [ 0, 7 ], "contents-item": "shoulder_strap", "damage": [ 0, 3 ], "dirt": [ 0, 7050 ] },
           { "group": "field_shotgun" }
         ],
         "prob": 1
