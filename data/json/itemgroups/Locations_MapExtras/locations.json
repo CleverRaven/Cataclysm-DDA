@@ -2652,6 +2652,9 @@
       { "item": "gloves_tactical", "prob": 10 },
       { "group": "military_ballistic_vest", "prob": 10 },
       { "group": "clothing_tactical_leg", "prob": 5 },
+      { "item": "military_poncho", "prob": 40 },
+      { "item": "military_poncho_heavy", "prob": 40 },
+      { "item": "military_poncho_liner", "prob": 40 },
       {
         "distribution": [
           { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },

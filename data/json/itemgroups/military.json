@@ -461,6 +461,9 @@
     "subtype": "collection",
     "entries": [
       { "item": "e_tool", "prob": 60 },
+      { "item": "military_poncho", "prob": 40 },
+      { "item": "military_poncho_heavy", "prob": 40 },
+      { "item": "military_poncho_liner", "prob": 40 },
       { "group": "gasmask_bag_full", "prob": 20 },
       { "group": "military_papr_kit", "prob": 5 },
       { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
@@ -474,6 +477,9 @@
     "subtype": "collection",
     "entries": [
       { "item": "e_tool", "prob": 60 },
+      { "item": "military_poncho", "prob": 40 },
+      { "item": "military_poncho_heavy", "prob": 40 },
+      { "item": "military_poncho_liner", "prob": 40 },
       { "group": "gasmask_bag_full", "prob": 20 },
       { "group": "military_papr_kit", "prob": 5 },
       { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
@@ -581,6 +587,9 @@
     "subtype": "distribution",
     "entries": [
       { "item": "jumpsuit", "variant": "green", "prob": 40 },
+      { "item": "military_poncho", "prob": 40 },
+      { "item": "military_poncho_heavy", "prob": 40 },
+      { "item": "military_poncho_liner", "prob": 40 },
       { "item": "officer_uniform", "prob": 20 },
       { "item": "flight_helmet", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "mil_flight_suit", "prob": 30 },
@@ -642,6 +651,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "blanket", "prob": 70 },
+      { "item": "military_poncho_liner", "prob": 20 },
       { "item": "pillow", "prob": 70 },
       { "item": "sheet", "prob": 70 },
       { "item": "mag_porn", "prob": 40 },
@@ -745,6 +755,9 @@
       { "item": "boots_combat", "prob": 10 },
       { "item": "gloves_tactical", "prob": 10 },
       { "item": "jumpsuit", "variant": "green", "prob": 20 },
+      { "item": "military_poncho", "prob": 20 },
+      { "item": "military_poncho_heavy", "prob": 20 },
+      { "item": "military_poncho_liner", "prob": 20 },
       { "item": "kevlar", "prob": 10 },
       { "item": "officer_uniform", "prob": 5 },
       { "item": "combo_cover", "prob": 5 },
