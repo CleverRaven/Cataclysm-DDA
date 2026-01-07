@@ -335,7 +335,7 @@
           { "item": "wood_panel", "prob": 300, "count": [ 15, 40 ] },
           { "item": "log", "prob": 200, "count": [ 5, 10 ] },
           { "item": "stick_long", "prob": 100, "count": [ 10, 20 ] },
-          { "group": "nail_box_part", "prob": 10, "count": [ 2, 9 ] },
+          { "group": "nail_box_part", "prob": 80, "count": [ 2, 6 ] },
           { "item": "stick", "prob": 50, "count": [ 5, 10 ] }
         ],
         "prob": 100
@@ -365,7 +365,7 @@
           { "item": "wood_panel", "prob": 30, "count": [ 2, 3 ] },
           { "item": "stick_long", "prob": 30, "count": [ 5, 10 ] },
           { "item": "stick", "prob": 50, "count": [ 1, 7 ] },
-          { "group": "nail_box_part", "prob": 00, "count": [ 1, 5 ] }
+          { "group": "nail_box_part", "prob": 100, "count": [ 1, 5 ] }
         ],
         "prob": 100
       },
