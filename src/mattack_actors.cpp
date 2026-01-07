@@ -276,6 +276,67 @@ bool leap_actor::call( monster &z ) const
     return true;
 }
 
+std::unique_ptr<mattack_actor> mon_eoc_actor::clone() const
+{
+    return std::make_unique<mon_eoc_actor>( *this );
+}
+
+void mon_eoc_actor::load_internal( const JsonObject &obj, const std::string & )
+{
+
+    optional( obj, was_loaded, "range", range, 1 );
+    optional( obj, was_loaded, "eoc", eoc );
+        allow_no_target = obj.get_bool( "allow_no_target", false );
+
+    if( obj.has_member( "condition" ) ) {
+        read_condition( obj, "condition", condition, false );
+        has_condition = true;
+    }
+
+}
+
+bool mon_eoc_actor::call( monster &mon ) const 
+{
+    map &here = get_map();
+    Creature *target = ( allow_no_target ) ? nullptr : mon.attack_target();
+
+    if( !mon.can_act() ) {
+        return false;
+    }
+
+
+    if( !mon.attack_target() && !allow_no_target ) {
+        // this is an attack. there is no reason to attack if there isn't a real target.
+        // Unless we don't need one
+        return false;
+    }
+    
+    if( has_condition ) {
+        dialogue d( get_talker_for( &mon ),
+                    allow_no_target ? nullptr : get_talker_for( target ) );
+        if( !condition( d ) ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Attack conditionals failed" );
+            return false;
+        }
+    }
+
+    if( range > 1 && !allow_no_target ) {
+        if( !mon.sees( here, *target ) ||
+            rl_dist( mon.pos_bub(), target->pos_bub() ) > range ) {
+            return false;
+        }
+    }
+
+    {
+        for( const effect_on_condition_id &eoc : eoc ) {
+            dialogue d( get_talker_for( mon ),
+            allow_no_target ? nullptr : get_talker_for( target ) );
+            eoc->activate( d );
+        }
+        return true;
+    }
+}
+
 std::unique_ptr<mattack_actor> mon_spellcasting_actor::clone() const
 {
     return std::make_unique<mon_spellcasting_actor>( *this );
