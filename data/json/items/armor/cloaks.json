@@ -2120,7 +2120,7 @@
     "armor": [
       { "encumbrance": 2, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100 },
       {
-        "encumbrance": 2, 
+        "encumbrance": 2,
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
         "coverage": 100
