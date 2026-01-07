@@ -590,7 +590,7 @@
     "effect": [
       { "math": [ "_dimension_time = 3600 + rand(259200)" ] },
       {
-        "switch": { "math": [ "rand(400)" ] },
+        "switch": { "math": [ "rand(4)" ] },
         "cases": [
           {
             "case": 0,

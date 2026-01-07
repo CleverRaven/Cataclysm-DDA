@@ -49,13 +49,19 @@
     "type": "region_terrain_furniture",
     "id": "mom_mycus_world_t_region_groundcover",
     "ter_id": "t_region_groundcover",
-    "replace_with_terrain": [ [ "t_fungus_floor_out", 600 ], [ "t_fungus_mound", 1 ], [ "t_dirt", 20 ] ]
+    "replace_with_terrain": [ [ "t_fungus_floor_out", 600 ], [ "t_fungus", 150 ], [ "t_fungus_mound", 1 ], [ "t_dirt", 20 ] ]
   },
   {
     "type": "region_terrain_furniture",
     "id": "mom_mycus_world_t_region_groundcover_forest",
     "ter_id": "t_region_groundcover_forest",
-    "replace_with_terrain": [ [ "t_fungus_floor_out", 300 ], [ "t_fungus_mound", 4 ], [ "t_shrub_fungal", 10 ], [ "t_dirt", 20 ] ]
+    "replace_with_terrain": [
+      [ "t_fungus_floor_out", 300 ],
+      [ "t_fungus", 150 ],
+      [ "t_fungus_mound", 4 ],
+      [ "t_shrub_fungal", 10 ],
+      [ "t_dirt", 20 ]
+    ]
   },
   {
     "type": "region_settings_forest_mapgen",
@@ -94,7 +100,7 @@
     "id": "shrubs_and_flowers_forest",
     "sequence": 1,
     "chance": 10,
-    "types": [ [ "t_shrub_fungal", 120 ], [ "t_tree_fungal_young", 10 ] ]
+    "types": [ [ "t_shrub_fungal", 120 ], [ "t_tree_fungal_young", 10 ], [ "t_marloss", 1 ] ]
   },
   {
     "type": "forest_biome_component",
