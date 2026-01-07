@@ -222,10 +222,7 @@
         "max_contains_weight": "900 g",
         "moves": 200,
         "description": "Grommets for a poncho liner.",
-        "item_restriction": [
-          "military_poncho_liner",
-          "robofac_poncho_liner"
-        ]
+        "item_restriction": [ "military_poncho_liner", "robofac_poncho_liner" ]
       }
     ],
     "use_action": {
