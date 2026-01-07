@@ -2053,7 +2053,7 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .on_submit( [this] { display_effects(); } );
     }
 
-    if( is_locked && controls_here ) {
+    if( ( is_locked || has_security_working( *here ) ) && controls_here ) {
         if( player_inside ) {
             menu.add( _( "Hotwire" ) )
             .enable( get_player_character().crafting_inventory().has_quality( qual_SCREW ) )
