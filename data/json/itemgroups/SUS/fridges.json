@@ -42,7 +42,7 @@
       { "prob": 80, "group": "butter_wrapper_32" },
       { "item": "pudding", "prob": 30 },
       { "item": "gelatin_dessert_processed", "prob": 20 },
-      { "prob": 85, "group": "egg_bird_unfert_carton_egg_1_12" },
+      { "prob": 85, "group": "eggs_in_carton" },
       { "prob": 25, "group": "bacon_bag_plastic_2" },
       {
         "distribution": [ { "item": "lunchmeat", "prob": 60 }, { "item": "bologna", "prob": 40 }, { "item": "tofu", "prob": 30 } ],
@@ -436,7 +436,7 @@
       { "item": "pudding", "prob": 20 },
       { "item": "gelatin_dessert_processed", "prob": 10 },
       { "item": "egg_bird_unfert", "prob": 20, "count": [ 1, 12 ] },
-      { "prob": 20, "group": "egg_bird_unfert_carton_egg_1_12" },
+      { "prob": 20, "group": "eggs_in_carton" },
       { "prob": 25, "group": "bacon_bag_plastic_2" },
       {
         "distribution": [ { "item": "lunchmeat", "prob": 60 }, { "item": "bologna", "prob": 40 }, { "item": "tofu", "prob": 30 } ],
