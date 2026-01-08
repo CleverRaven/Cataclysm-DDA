@@ -319,7 +319,6 @@
     "type": "item_group",
     "id": "cheese_hard_wrapper_8",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "wrapper",
     "entries": [ { "item": "cheese_hard", "container-item": "null", "count": 8 } ]
   }
