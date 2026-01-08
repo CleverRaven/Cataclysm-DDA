@@ -669,6 +669,9 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     double weight_percent = std::clamp<double>( chi_squared_roll( time_influence ) / 5.0,
                             0.2, 5.0 );
     set_stored_kcal( weight_percent * get_healthy_kcal() );
+    if( !needs_food() ) {
+        set_stored_kcal( get_healthy_kcal() );
+    }
     starting_weapon( myclass );
     starting_clothes( *this, myclass, male );
     starting_inv( *this, myclass );
