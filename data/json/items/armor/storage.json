@@ -807,6 +807,91 @@
     "melee_damage": { "bash": 5 }
   },
   {
+    "id": "laptop_hard_case",
+    "type": "ITEM",
+    "//": "Based on Pelican 1495 Protector Laptop Case",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "laptop hard case" },
+    "description": "A rugged hardcase for a laptop, frequently used by military, scientists, and others working in the field.  This model is waterproof and lined with impact-resistant foam.  The shoulder strap is current cinched up so it can be carried by hand.  Activate it to extend the shoulder strap.",
+    "weight": "3800 g",
+    "volume": "29740 ml",
+    "longest_side": "55 cm",
+    "price": "240 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "plastic_shopping_bag",
+    "color": "light_gray",
+    "sided": true,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "fire_protection": true,
+        "max_contains_volume": "16 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "48 cm",
+        "moves": 200
+      }
+    ],
+    "material_thickness": 6,
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "STURDY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 8 },
+    "use_action": {
+      "type": "transform",
+      "msg": "You extend the shoulder strap.",
+      "menu_text": "Extend shoulder strap",
+      "target": "laptop_hard_case_shoulder",
+      "moves": 120
+    }
+  },
+  {
+    "id": "laptop_hard_case_shoulder",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "laptop hard case" },
+    "copy-from": "laptop_hard_case",
+    "description": "A rugged hardcase for a laptop, frequently used by military, scientists, and others working in the field.  This model is waterproof and lined with impact-resistant foam.  The shoulder strap is extended to be worn on the side.  Activate it to wear it on your back.",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 4,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 40,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ],
+    "use_action": { "type": "transform", "msg": "You move the bag to your back.", "menu_text": "Switch to back", "target": "laptop_hard_case_back", "moves": 120 }
+  },
+  {
+    "id": "laptop_hard_case_back",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "laptop hard case" },
+    "copy-from": "laptop_hard_case",
+    "description": "A rugged hardcase for a laptop, frequently used by military, scientists, and others working in the field.  This model is waterproof and lined with impact-resistant foam.  The shoulder strap is extended to be worn on the back.  Activate it cinch the strap and carry it by the handle.",
+    "armor": [
+      {
+        "encumbrance": 4,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 60,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You cinch up the shoulder strap.",
+      "menu_text": "Cinch the shoulder strap",
+      "target": "laptop_hard_case",
+      "moves": 120
+    }
+  },
+  {
     "id": "case_violin",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
