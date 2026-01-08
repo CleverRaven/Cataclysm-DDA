@@ -7967,7 +7967,6 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
         p->add_msg_if_player( m_neutral,
                               _( "Irradiance: %.1f." ), sun_irrad );
     }
-    
     return 1; //TODO check
 }
 
