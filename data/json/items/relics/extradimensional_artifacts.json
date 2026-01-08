@@ -3,10 +3,12 @@
     "type": "ITEM",
     "id": "mp3_reverberation",
     "category": "artifacts",
+    "subtypes": [ "TOOL" ],
     "copy-from": "mp3",
     "color": "light_red",
     "name": { "str": "red mp3 player (off)", "str_pl": "red mp3 players (off)" },
-    "description": "A light-red mp3 player, you feel the text on the screen says \"TRAVEL//JOURNEY\".  Under that, \"Let's go on an adventure!\"\n There is no text on the device.",
+    "initial_charges": 21,
+    "description": "A light-red mp3 player, you feel the text on the screen says \"TRAVEL//JOURNEY\".  Under that, \"Let's go on an adventure!\"\nThe screen is dark, it's powered off.",
     "use_action": [
       {
         "type": "mp3",
@@ -22,10 +24,11 @@
     "type": "ITEM",
     "id": "mp3_on_reverberation",
     "category": "artifacts",
+    "subtypes": [ "TOOL" ],
     "copy-from": "mp3_on",
     "color": "light_red",
     "name": { "str": "red mp3 player (on)", "str_pl": "red mp3 players (on)" },
-    "description": "A light-red mp3 player, you feel the text on the screen says \"TRAVEL//JOURNEY\".  Under that, \"Let's go on an adventure!\"\nThere is no text on the device.\n The device is powered on.",
+    "description": "A light-red mp3 player, you feel the text on the screen says \"TRAVEL//JOURNEY\".  Under that, \"Let's go on an adventure!\"\nThe screen is blank, it's powered on.",
     "use_action": [
       { "type": "mp3", "transform": "mp3_reverberation", "message": "Its music goes quiet.", "activate": false },
       { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" }
