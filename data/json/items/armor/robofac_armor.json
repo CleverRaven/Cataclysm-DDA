@@ -1068,7 +1068,7 @@
     "material": [ "plastic", "aluminum" ],
     "weight": "50 g",
     "volume": "200 ml",
-    "warmth": 50,
+    "warmth": 10,
     "flags": [ "OVERSIZE", "BELTED" ],
     "environmental_protection": 4,
     "material_thickness": 0.01,
