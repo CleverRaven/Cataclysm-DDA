@@ -7961,7 +7961,6 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
         std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }
-    
     if( it->typeId() == itype_mws_advanced_weather_sensor_array ) {
         p->add_msg_if_player( m_neutral, _( "Ambient radiation: %d mSv/h." ),
                           here.get_radiation( p->pos_bub() ) );
