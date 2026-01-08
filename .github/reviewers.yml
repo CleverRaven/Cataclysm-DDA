@@ -31,6 +31,8 @@ files:
     - Light-Wave
   'data/mods/MA/**':
     - ZhilkinSerg
+  'data/mods/Sky_Island/**':
+    - gettingusedto
   'data/mods/Tamable_Wildlife/**':
     - Termineitor244
   'data/mods/Limb_WIP/**':
