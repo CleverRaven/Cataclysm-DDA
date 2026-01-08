@@ -7940,7 +7940,9 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
         }
     }
 
-    if( ( it->typeId() == itype_weather_reader ) || ( it->typeId() == itype_mws_weather_sensor_array ) || ( it->typeId() == itype_mws_advanced_weather_sensor_array ) ) {
+    if( ( it->typeId() == itype_weather_reader ) ||
+        ( it->typeId() == itype_mws_weather_sensor_array ) ||
+        ( it->typeId() == itype_mws_advanced_weather_sensor_array ) ) {
         int vehwindspeed = 0;
         if( optional_vpart_position vp = here.veh_at( p->pos_bub() ) ) {
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
