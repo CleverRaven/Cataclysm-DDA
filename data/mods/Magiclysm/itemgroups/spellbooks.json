@@ -1012,7 +1012,7 @@
     "subtype": "distribution",
     "entries": [ { "item": "spell_scroll_animated_blade", "prob": 25 } ]
   },
-    {
+  {
     "id": "spell_scroll_tier_3",
     "type": "item_group",
     "subtype": "distribution",
@@ -1042,9 +1042,7 @@
     "id": "animist_unrestricted_tier_3",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "null", "prob": 15 }
-    ]
+    "entries": [ { "item": "null", "prob": 15 } ]
   },
   {
     "id": "animist_restricted_tier_3",
@@ -1053,16 +1051,14 @@
     "entries": [
       { "item": "spell_scroll_animist_mass_hiding_aoe", "prob": 40 },
       { "item": "spell_scroll_animist_spirit_walking", "prob": 25 },
-      { "item": "spell_scroll_banishment_lesser", "prob": 15
+      { "item": "spell_scroll_banishment_lesser", "prob": 15 }
     ]
   },
   {
     "id": "animist_illegal_tier_3",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "spell_scroll_rupture", "prob": 25 }
-    ]
+    "entries": [ { "item": "spell_scroll_rupture", "prob": 25 } ]
   },
   {
     "id": "biomancer_spells_tier_3",
@@ -1078,9 +1074,7 @@
     "id": "biomancer_unrestricted_tier_3",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "spell_scroll_biomancer_hyper_regeneration", "prob": 50 }
-    ]
+    "entries": [ { "item": "spell_scroll_biomancer_hyper_regeneration", "prob": 50 } ]
   },
   {
     "id": "biomancer_restricted_tier_3",
@@ -1108,10 +1102,7 @@
     "id": "classless_unrestricted_tier_3",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "spell_scroll_classless_disjunction", "prob": 45 },
-      { "item": "spell_scroll_obfuscated_body", "prob": 25 }
-    ]
+    "entries": [ { "item": "spell_scroll_classless_disjunction", "prob": 45 }, { "item": "spell_scroll_obfuscated_body", "prob": 25 } ]
   },
   {
     "id": "classless_restricted_tier_3",
@@ -1125,7 +1116,7 @@
     "subtype": "distribution",
     "entries": [ { "item": "null", "prob": 20 } ]
   },
-    {
+  {
     "id": "druid_spells_tier_3",
     "type": "item_group",
     "subtype": "distribution",
@@ -1151,9 +1142,7 @@
     "id": "druid_restricted_tier_3",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "spell_scroll_druid_turn_tree_into_treant", "prob": 30 }
-    ]
+    "entries": [ { "item": "spell_scroll_druid_turn_tree_into_treant", "prob": 30 } ]
   },
   {
     "id": "druid_illegal_tier_3",
@@ -1211,28 +1200,21 @@
     "id": "kelvinist_unrestricted_tier_3",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "spell_scroll_freezing_touch", "prob": 40 }
-    ]
+    "entries": [ { "item": "spell_scroll_freezing_touch", "prob": 40 } ]
   },
   {
     "id": "kelvinist_restricted_tier_3",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "spell_scroll_kelvinist_no_emotion_spell", "prob": 50 },
-      { "item": "spell_scroll_nova_flare", "prob": 35 }
-    ]
+    "entries": [ { "item": "spell_scroll_kelvinist_no_emotion_spell", "prob": 50 }, { "item": "spell_scroll_nova_flare", "prob": 35 } ]
   },
   {
     "id": "kelvinist_illegal_tier_3",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "spell_scroll_kelvinist_set_everyone_on_fire", "prob": 50 }
-    ]
+    "entries": [ { "item": "spell_scroll_kelvinist_set_everyone_on_fire", "prob": 50 } ]
   },
-   {
+  {
     "id": "magus_spells_tier_3",
     "type": "item_group",
     "subtype": "distribution",
@@ -1257,10 +1239,7 @@
     "id": "magus_restricted_tier_3",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "spell_scroll_magus_word_of_recall", "prob": 50 },
-      { "item": "spell_scroll_focused_bolt", "prob": 30 }
-    ]
+    "entries": [ { "item": "spell_scroll_magus_word_of_recall", "prob": 50 }, { "item": "spell_scroll_focused_bolt", "prob": 30 } ]
   },
   {
     "id": "magus_illegal_tier_3",
@@ -1282,26 +1261,19 @@
     "id": "stormshaper_unrestricted_tier_3",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "null", "prob": 35 }
-    ]
+    "entries": [ { "item": "null", "prob": 35 } ]
   },
   {
     "id": "stormshaper_restricted_tier_3",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "null", "prob": 35 }
-    ]
+    "entries": [ { "item": "null", "prob": 35 } ]
   },
   {
     "id": "stormshaper_illegal_tier_3",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "lightning_storm_scroll", "prob": 50 },
-      { "item": "spell_scroll_vacuum_decompression", "prob": 30 }
-    ]
+    "entries": [ { "item": "lightning_storm_scroll", "prob": 50 }, { "item": "spell_scroll_vacuum_decompression", "prob": 30 } ]
   },
   {
     "id": "technomancer_spells_tier_3",
@@ -1317,17 +1289,13 @@
     "id": "technomancer_unrestricted_tier_3",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "spell_scroll_summon_magic_motorcycle", "prob": 25 }
-    ]
+    "entries": [ { "item": "spell_scroll_summon_magic_motorcycle", "prob": 25 } ]
   },
   {
     "id": "technomancer_restricted_tier_3",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "bio_sneeze_beam", "prob": 40 }
-    ]
+    "entries": [ { "item": "bio_sneeze_beam", "prob": 40 } ]
   },
   {
     "id": "technomancer_illegal_tier_3",
@@ -1494,9 +1462,7 @@
     "id": "spellbook_unrestricted_tier_3",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "recovery_spellbook", "prob": 30 }
-    ]
+    "entries": [ { "item": "recovery_spellbook", "prob": 30 } ]
   },
   {
     "id": "spellbook_restricted_tier_3",
@@ -1517,7 +1483,8 @@
     "entries": [
       { "item": "animist_shadows", "prob": 30 },
       { "item": "forbidden_tome", "prob": 25 },
-      { "item": "tome_electric", "prob": 25 }
+      { "item": "tome_electric", "prob": 25 },
+      { "item": "necronomicon", "prob": 15 }
     ]
   },
   {
