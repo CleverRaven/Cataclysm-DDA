@@ -1536,16 +1536,20 @@
   },
   {
     "type": "item_group",
-    "id": "breakfast_cereal_in_box_full",
+    "id": "breakfast_cereal_in_box",
     "subtype": "distribution",
     "container-item": "box_small",
     "entries": [
-      { "item": "cereal", "count": [ 1, 4 ] },
-      { "item": "cereal2", "count": [ 1, 4 ] },
-      { "item": "cereal3", "count": [ 1, 4 ] },
-      { "item": "cereal_fp1", "count": [ 1, 4 ] },
-      { "item": "cereal_fp2", "count": [ 1, 4 ] },
-      { "item": "cereal_fp4", "count": [ 1, 4 ] }
+      { "prob": 10, "item": "cereal", "count": [ 1, 4 ] },
+      { "prob": 10, "item": "cereal2", "count": [ 1, 4 ] },
+      { "prob": 10, "item": "cereal3", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "snicker", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "brantastic", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "honey", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "fructose", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "foodios", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp2", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp4", "count": [ 1, 4 ] }
     ]
   },
   {
@@ -1554,12 +1558,16 @@
     "subtype": "distribution",
     "container-item": "box_small",
     "entries": [
-      { "item": "cereal", "count": 4 },
-      { "item": "cereal2", "count": 4 },
-      { "item": "cereal3", "count": 4 },
-      { "item": "cereal_fp1", "count": 4 },
-      { "item": "cereal_fp2", "count": 4 },
-      { "item": "cereal_fp4", "count": 4 }
+      { "prob": 10, "item": "cereal", "count": 4 },
+      { "prob": 10, "item": "cereal2", "count": 4 },
+      { "prob": 10, "item": "cereal3", "count": 4 },
+      { "prob": 1, "item": "cereal_fp1", "variant": "snicker", "count": 4 },
+      { "prob": 1, "item": "cereal_fp1", "variant": "brantastic", "count": 4 },
+      { "prob": 1, "item": "cereal_fp1", "variant": "honey", "count": 4 },
+      { "prob": 1, "item": "cereal_fp1", "variant": "fructose", "count": 4 },
+      { "prob": 1, "item": "cereal_fp1", "variant": "foodios", "count": 4 },
+      { "prob": 1, "item": "cereal_fp2", "count": 4 },
+      { "prob": 1, "item": "cereal_fp4", "count": 4 }
     ]
   },
   {

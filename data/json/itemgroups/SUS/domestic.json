@@ -653,8 +653,8 @@
       { "item": "marshmallow_fluff", "charges": [ 1, -1 ], "prob": 80 },
       { "item": "syrup", "charges": [ 1, -1 ], "prob": 50 },
       { "item": "oatmeal", "entry-wrapper": "box_small", "container-item": "null", "count": [ 2, 16 ], "prob": 80 },
-      { "group": "box_cereal_any_opened" },
-      { "group": "box_cereal_any_opened", "prob": 75 },
+      { "group": "breakfast_cereal_in_box" },
+      { "group": "breakfast_cereal_in_box", "prob": 75 },
       {
         "distribution": [
           {

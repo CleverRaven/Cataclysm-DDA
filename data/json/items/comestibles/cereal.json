@@ -93,7 +93,8 @@
     "name": { "str_sp": "Carpenter Crunch cereal" },
     "description": "This is Foodplace brand \"Carpenter Crunch\" cereal with the iconic \"Breakfast Beaver\" mascot on the box.  It tastes kind of like nails.",
     "fun": -1,
-    "spoils_in": "540 days"
+    "spoils_in": "540 days",
+    "variants": [  ]
   },
   {
     "id": "cereal_fp4",
@@ -104,6 +105,7 @@
     "description": "Foodplace brand \"Sugar Chomps\" cereal.  \"Chocolate Frosted Crunchy Sugar Chomps: 8 essential vitamins packed into that rich, fudgy taste!\"",
     "addiction_potential": 10,
     "stim": 20,
-    "spoils_in": "540 days"
+    "spoils_in": "540 days",
+    "variants": [  ]
   }
 ]
