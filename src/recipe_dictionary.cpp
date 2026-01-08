@@ -27,6 +27,7 @@
 #include "flexbuffer_json.h"
 #include "init.h"
 #include "input.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
