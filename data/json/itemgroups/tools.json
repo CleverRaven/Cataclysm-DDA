@@ -1004,7 +1004,6 @@
     "type": "item_group",
     "id": "pur_tablets_bottle_plastic_small_50",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "pur_tablets", "count": 50 } ]
   },
@@ -1012,7 +1011,6 @@
     "type": "item_group",
     "id": "pur_tablets_bottle_plastic_small_0_50",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "pur_tablets", "count": [ 0, 50 ] } ]
   },
@@ -1020,7 +1018,6 @@
     "type": "item_group",
     "id": "bottle_otc_painkiller_10",
     "subtype": "distribution",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_painkiller",
     "entries": [
       { "item": "aspirin", "container-item": "null", "count": 10 },
@@ -1032,7 +1029,6 @@
     "type": "item_group",
     "id": "bottle_otc_painkiller_0_10",
     "subtype": "distribution",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_painkiller",
     "entries": [
       { "item": "aspirin", "container-item": "null", "count": [ 0, 10 ] },
@@ -1044,7 +1040,6 @@
     "type": "item_group",
     "id": "quikclot_bag_plastic_5",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "quikclot", "container-item": "null", "count": 5 } ]
   },
@@ -1052,7 +1047,6 @@
     "type": "item_group",
     "id": "pur_tablets_bottle_plastic_small_0_9",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "pur_tablets", "count": [ 0, 9 ] } ]
   },
@@ -1060,7 +1054,6 @@
     "type": "item_group",
     "id": "quikclot_bag_plastic_0_5",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "quikclot", "container-item": "null", "count": [ 0, 5 ] } ]
   },
@@ -1068,7 +1061,6 @@
     "type": "item_group",
     "id": "pur_tablets_bottle_plastic_small_75_100",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "pur_tablets", "count": [ 75, 100 ] } ]
   },

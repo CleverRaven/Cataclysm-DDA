@@ -970,7 +970,6 @@
     "type": "item_group",
     "id": "chem_peptone_broth_bottle_plastic_small_1_inf",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "chem_peptone_broth", "container-item": "null", "count": [ 1, -1 ] } ]
   },
@@ -978,7 +977,6 @@
     "type": "item_group",
     "id": "chem_agar_bottle_plastic_small_1_inf",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "chem_agar", "container-item": "null", "count": [ 1, -1 ] } ]
   },
@@ -986,7 +984,6 @@
     "type": "item_group",
     "id": "chem_acrylamide_bottle_glass_1_inf",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_glass",
     "entries": [ { "item": "chem_acrylamide", "container-item": "null", "count": [ 1, -1 ] } ]
   },

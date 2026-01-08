@@ -2122,7 +2122,6 @@
     "type": "item_group",
     "id": "egg_bird_unfert_carton_egg_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "carton_egg",
     "entries": [ { "item": "egg_bird_unfert", "count": 10 } ]
   },
@@ -2130,7 +2129,6 @@
     "type": "item_group",
     "id": "antifungal_bottle_plastic_pill_prescription_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "antifungal", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -2138,7 +2136,6 @@
     "type": "item_group",
     "id": "cattlefodder_bag_canvas_50",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_canvas",
     "entries": [ { "item": "cattlefodder", "count": 50 } ]
   },
@@ -2146,7 +2143,6 @@
     "type": "item_group",
     "id": "birdfood_bag_canvas_60",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_canvas",
     "entries": [ { "item": "birdfood", "count": 60 } ]
   },

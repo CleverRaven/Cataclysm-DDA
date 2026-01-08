@@ -295,7 +295,6 @@
     "type": "item_group",
     "id": "caffeine_bottle_plastic_pill_supplement_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_supplement",
     "entries": [ { "item": "caffeine", "container-item": "null", "count": 10 } ]
   }
