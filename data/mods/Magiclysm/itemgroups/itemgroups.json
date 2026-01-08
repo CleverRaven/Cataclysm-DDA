@@ -75,6 +75,7 @@
     "extend": {
       "items": [
         { "group": "spellbook_loot_1", "prob": 3 },
+        { "item": "spellbook_restricted_loot_1", "prob": 2 },
         { "group": "magic_recipe_basic", "prob": 3 },
         { "group": "magic_recipe_advanced", "prob": 1 },
         { "group": "dragon_books", "prob": 3 },
@@ -98,6 +99,7 @@
         { "group": "dragon_books", "prob": 5 },
         { "item": "alchemy_mana_processing", "prob": 5 },
         { "group": "spellcraft_books", "prob": 4 },
+        { "item": "spellbook_restricted_loot_0", "prob": 1 },
         { "item": "alchemy_illegal", "prob": 1 },
         { "item": "alchemy_master", "prob": 1 }
       ]
@@ -109,10 +111,11 @@
     "copy-from": "exotic_books",
     "extend": {
       "items": [
-        { "group": "spellbook_loot_1", "prob": 3 },
-        { "group": "dragon_books", "prob": 2 },
-        { "group": "spellcraft_books", "prob": 1 },
+        { "group": "spellbook_loot_1", "prob": 5 },
+        { "group": "dragon_books", "prob": 3 },
+        { "group": "spellcraft_books", "prob": 2 },
         { "item": "alchemy_illegal", "prob": 1 },
+        { "item": "spellbook_restricted_loot_1", "prob": 1 },
         { "item": "alchemy_master", "prob": 1 }
       ]
     }
@@ -337,7 +340,16 @@
       { "group": "magic_recipe_basic", "prob": 50 },
       { "group": "magic_recipe_advanced", "prob": 20 },
       { "group": "spellcraft_books", "prob": 40 },
-      { "item": "alchemy_master", "prob": 12 }
+      { "item": "alchemy_master", "prob": 12 },
+      {
+        "distribution": [
+          { "group": "spellbook_restricted_tier_1", "prob": 60 },
+          { "group": "spell_scroll_restricted_tier_0", "prob": 80 },
+          { "group": "spell_scroll_restricted_tier_1", "prob": 60 },
+          { "group": "spell_scroll_restricted_tier_2", "prob": 30 }
+        ],
+        "prob": 1
+      }
     ]
   },
   {
@@ -606,7 +618,13 @@
   {
     "type": "item_group",
     "id": "magic_CBM",
-    "items": [ [ "bio_fuel_cell_blood", 10 ] ]
+    "items": [
+      { "item": "bio_fuel_cell_blood", "prob": 10 },
+      { "item": "bio_sneeze_beam", "prob": 5 },
+      { "item": "bio_see_wizards_eyes", "prob": 10 },
+      { "item": "bio_mana_to_bionic_power", "prob": 10 },
+      { "item": "bio_ley_energy_blaster", "prob": 5 }
+    ]
   },
   {
     "type": "item_group",
@@ -2034,5 +2052,14 @@
     "id": "sometimes_bird_litter",
     "subtype": "distribution",
     "entries": [ { "item": "null", "prob": 3 }, { "item": "feces_bird", "prob": 1, "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cop_evidence",
+    "copy-from": "cop_evidence",
+    "subtype": "distribution",
+    "extend": {
+      "entries": [ { "group": "spellbook_restricted_loot_0", "prob": 4 }, { "group": "spellbook_restricted_loot_1", "prob": 1 } ]
+    }
   }
 ]
