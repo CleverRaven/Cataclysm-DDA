@@ -85,7 +85,7 @@
     "id": "void_spider_gore_repeat",
     "name": { "str": "Gore Heap - gore", "//~": "NO_I18N" },
     "description": { "str": "A single bit of gore from the heap.", "//~": "NO_I18N" },
-    "valid_targets": [ "hostile", "ground", "self", "ally" ],
+    "valid_targets": [ "ground" ],
     "effect": "attack",
     "shape": "blast",
     "message": "",
@@ -161,8 +161,8 @@
     "effect": "ter_transform",
     "effect_str": "cavern_emptiness",
     "shape": "blast",
-    "min_aoe": 5,
-    "max_aoe": 5
+    "min_aoe": 12,
+    "max_aoe": 12
   },
   {
     "type": "ter_furn_transform",
@@ -260,6 +260,7 @@
             "condition": { "and": [ { "math": [ "u_hp('ALL') < 350" ] }, { "math": [ "u_void_spider_nest_disturbed != 1" ] } ] },
             "effect": [
               { "math": [ "u_hp('ALL') += 150" ] },
+              { "u_lose_effect": "maimed_armor" },
               { "u_make_sound": "the spider mimic an anguished scream", "volume": 60, "type": "speech" },
               { "run_eocs": [ "EOC_VOID_SPIDER_DISTURBED_NEST" ] },
               { "npc_location_variable": { "context_val": "disturbed_loc" }, "min_radius": 40, "max_radius": 50 },
@@ -352,6 +353,10 @@
         "max_radius": 12,
         "lifespan": [ "5 seconds", "25 seconds" ]
       },
+      { "u_location_variable": { "global_val": "void_spider_eggs" } },
+      { "u_location_variable": { "global_val": "void_spider_corpses" } },
+      { "location_variable_adjust": { "global_val": "void_spider_eggs" }, "overmap_tile": true, "x_adjust": 1 },
+      { "location_variable_adjust": { "global_val": "void_spider_corpses" }, "overmap_tile": true, "y_adjust": 1 },
       {
         "run_eocs": [
           {
@@ -368,7 +373,11 @@
             "id": "EOC_VOID_SPIDER_SPAWN_EGGS",
             "condition": { "and": [ { "one_in_chance": 3 }, { "math": [ "void_spider_nest_eggs_spawned != 1" ] } ] },
             "effect": [
-              { "mapgen_update": "void_spider_lair_eggs", "om_terrain": "void_spider_lair" },
+              {
+                "mapgen_update": "void_spider_lair_eggs",
+                "om_terrain": "void_spider_lair",
+                "target_var": { "global_val": "void_spider_eggs" }
+              },
               { "math": [ "void_spider_nest_eggs_spawned = 1" ] }
             ]
           },
@@ -376,7 +385,11 @@
             "id": "EOC_VOID_SPIDER_SPAWN_CORPSES",
             "condition": { "and": [ { "one_in_chance": 6 }, { "math": [ "void_spider_nest_corpses_spawned != 1" ] } ] },
             "effect": [
-              { "mapgen_update": "void_spider_lair_corpses", "om_terrain": "void_spider_lair" },
+              {
+                "mapgen_update": "void_spider_lair_corpses",
+                "om_terrain": "void_spider_lair",
+                "target_var": { "global_val": "void_spider_corpses" }
+              },
               { "math": [ "void_spider_nest_corpses_spawned = 1" ] }
             ]
           }

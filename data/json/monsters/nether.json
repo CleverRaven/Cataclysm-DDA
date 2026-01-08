@@ -247,8 +247,8 @@
     "melee_dice": 4,
     "melee_dice_sides": 4,
     "melee_skill": 8,
-    "path_settings": { "avoid_traps": true, "avoid_sharp": true, "max_dist": 50 },
-    "special_attacks": [ { "id": "void_spider_control", "cooldown": 1 } ],
+    "vision_night": 40,
+    "special_attacks": [ { "id": "void_spider_control", "cooldown": 2 } ],
     "dodge": 8,
     "armor": { "bash": 1000, "cut": 1000, "bullet": 1000, "electric": 30, "stab": 1000, "acid": 100 },
     "families": [ "prof_wp_netherium_abomination" ],
@@ -270,7 +270,6 @@
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
       "ARTHROPOD_BLOOD",
-      "PATH_AVOID_DANGER",
       "HARDTOSHOOT"
     ]
   },
