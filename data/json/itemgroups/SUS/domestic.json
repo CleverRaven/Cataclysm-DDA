@@ -530,7 +530,7 @@
       { "item": "garlic", "prob": 66, "count": [ 1, 3 ] },
       { "item": "onion", "prob": 66, "count": [ 1, 3 ] },
       { "item": "potato", "prob": 30, "count": [ 2, 12 ] },
-      { "group": "pet_food", "prob": 50 }
+      { "group": "pet_food_in_container", "prob": 50 }
     ]
   },
   {
@@ -575,15 +575,9 @@
       { "distribution": [ { "item": "coffeemaker", "prob": 90 } ], "prob": 75 },
       {
         "distribution": [
-          { "item": "coffee_raw", "prob": 30 },
-          { "item": "instant_coffee", "prob": 40, "count": [ 1, 5 ] },
-          {
-            "item": "coffee_raw",
-            "prob": 30,
-            "count": [ 1, 200 ],
-            "container-item": "null",
-            "entry-wrapper": "can_food_big"
-          }
+          { "prob": 30, "item": "coffee_raw" },
+          { "prob": 40, "item": "instant_coffee", "count": [ 1, 5 ] },
+          { "prob": 30, "group": "raw_coffee_in_container" }
         ],
         "prob": 80
       },
@@ -647,16 +641,7 @@
         "collection": [
           { "item": "toaster" },
           {
-            "distribution": [
-              { "item": "bread", "count": [ 2, 14 ], "prob": 70, "container-item": "null", "entry-wrapper": "bag_plastic" },
-              {
-                "item": "sourdough_bread",
-                "count": [ 2, 12 ],
-                "prob": 30,
-                "container-item": "null",
-                "entry-wrapper": "bag_plastic"
-              }
-            ],
+            "distribution": [ { "group": "bread_in_bag", "prob": 70 }, { "group": "sourdough_bread_in_bag", "prob": 30 } ],
             "prob": 80
           },
           { "item": "toastem", "count": [ 1, 8 ], "prob": 60, "container-item": "null", "entry-wrapper": "box_small" }

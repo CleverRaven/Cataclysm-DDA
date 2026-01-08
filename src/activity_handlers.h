@@ -194,7 +194,6 @@ void generic_game_turn_handler( player_activity *act, Character *you, int morale
                                 int morale_max_bonus );
 
 /** activity_do_turn functions: */
-void adv_inventory_do_turn( player_activity *act, Character *you );
 void armor_layers_do_turn( player_activity *act, Character *you );
 void atm_do_turn( player_activity *act, Character *you );
 void dismember_do_turn( player_activity *act, Character *you );
@@ -203,7 +202,6 @@ void fertilize_plot_do_turn( player_activity *act, Character *you );
 void fetch_do_turn( player_activity *act, Character *you );
 void fill_liquid_do_turn( player_activity *act, Character *you );
 void find_mount_do_turn( player_activity *act, Character *you );
-void hand_crank_do_turn( player_activity *act, Character *you );
 void multiple_butcher_do_turn( player_activity *act, Character *you );
 void multiple_chop_planks_do_turn( player_activity *act, Character *you );
 void multiple_construction_do_turn( player_activity *act, Character *you );
@@ -217,7 +215,6 @@ void multiple_mine_do_turn( player_activity *act, Character *you );
 void multiple_mop_do_turn( player_activity *act, Character *you );
 void repair_item_do_turn( player_activity *act, Character *you );
 void start_fire_do_turn( player_activity *act, Character *you );
-void study_spell_do_turn( player_activity *act, Character *you );
 void tidy_up_do_turn( player_activity *act, Character *you );
 void travel_do_turn( player_activity *act, Character *you );
 void tree_communion_do_turn( player_activity *act, Character *you );
@@ -230,7 +227,6 @@ do_turn_functions;
 
 /** activity_finish functions: */
 void atm_finish( player_activity *act, Character *you );
-void gunmod_add_finish( player_activity *act, Character *you );
 void heat_item_finish( player_activity *act, Character *you );
 void mend_item_finish( player_activity *act, Character *you );
 void pull_creature_finish( player_activity *act, Character *you );
@@ -238,7 +234,6 @@ void repair_item_finish( player_activity *act, Character *you );
 void socialize_finish( player_activity *act, Character *you );
 void spellcasting_finish( player_activity *act, Character *you );
 void start_fire_finish( player_activity *act, Character *you );
-void study_spell_finish( player_activity *act, Character *you );
 void teach_finish( player_activity *act, Character *you );
 void toolmod_add_finish( player_activity *act, Character *you );
 void train_finish( player_activity *act, Character *you );

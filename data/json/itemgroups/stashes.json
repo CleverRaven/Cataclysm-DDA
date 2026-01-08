@@ -380,7 +380,7 @@
       { "group": "canned_staples_1l" },
       { "group": "dry_lentils_bag_plastic_full", "count": 2 },
       { "group": "dry_rice_bag_plastic_full", "count": 2 },
-      { "group": "flatbread_bag_plastic_full", "count": 2 },
+      { "group": "flatbread_in_bag_full", "count": 2 },
       { "item": "peanutbutter", "count": 2 },
       { "item": "jam_fruit", "count": 2 },
       { "item": "protein_bar_evac", "count": 6 }
@@ -442,7 +442,7 @@
     "//": "an item that wouldn't be super useful to the player, recreational items and such.",
     "entries": [
       { "item": "towel", "count": 1, "prob": 50 },
-      { "group": "pet_food", "count": [ 1, 2 ], "prob": 20 },
+      { "group": "pet_food_in_container", "count": [ 1, 2 ], "prob": 20 },
       { "group": "SUS_book", "prob": 50 },
       { "group": "games", "prob": 20 },
       { "group": "bugout_memento", "prob": 50 },

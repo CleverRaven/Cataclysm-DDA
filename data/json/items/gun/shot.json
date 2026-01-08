@@ -253,19 +253,19 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 } } ]
   },
   {
-    "id": "m1014",
+    "id": "benelli_m4",
     "//": "Based on https://www.benelliusa.com/shotguns/m1014-shotguns",
     "copy-from": "gun_base_shotgun_semi",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "5-round auto-loading combat shotgun" },
+    "name": { "str": "5-round auto-loading shotgun" },
     "description": "A semi-automatic smooth-bore shotgun, this weapon features respectable ergonomics and room for 5 shotshells within its tubular magazine.  Suitable both for competition shooting and offensive combat roles, this firearm is faster to shoot than a traditional pump-action model, with the caveat that it's harder to maintain than its manually operated siblings as it relies on an internal gas system to cycle rounds rather than the user's own physical input.",
     "variant_type": "gun",
     "variants": [
       {
-        "id": "m1014",
-        "name": { "str": "M1014 shotgun" },
-        "description": "Benelli's first gas-operated shotgun, featuring dual pistons for enhanced reliability with various loads and a collapsible buttstock that reduces length by almost 8 inches.  Adopted in 1999 as the M1014 Joint Service Combat Shotgun, the Benelli M4 is one of the finest combat shotguns available."
+        "id": "m4",
+        "name": { "str": "Benelli M4" },
+        "description": "Benelli's first gas-operated shotgun, featuring dual pistons for enhanced reliability with various loads.  This is a civilian version, with fixed stock and a smaller tubular magazine."
       }
     ],
     "ascii_picture": "mossberg930sxp",
@@ -291,6 +291,24 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
+  },
+  {
+    "id": "m1014",
+    "copy-from": "benelli_m4",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "7-round auto-loading combat shotgun" },
+    "description": "A semi-automatic smooth-bore shotgun, this weapon features respectable ergonomics and room for 7 shotshells within its tubular magazine.  Suitable both for competition shooting and offensive combat roles, this firearm is faster to shoot than a traditional pump-action model, with the caveat that it's harder to maintain than its manually operated siblings as it relies on an internal gas system to cycle rounds rather than the user's own physical input.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m1014",
+        "name": { "str": "M1014 shotgun" },
+        "description": "Benelli's first gas-operated shotgun, featuring dual pistons for enhanced reliability with various loads and a collapsible buttstock that reduces length by almost 8 inches.  Adopted in 1999 as the M1014 Joint Service Combat Shotgun, it is one of the finest combat shotguns available."
+      }
+    ],
+    "clip_size": 7,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 7 } } ]
   },
   {
     "id": "pipe_double_shotgun",

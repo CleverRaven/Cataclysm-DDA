@@ -784,10 +784,10 @@
       { "item": "sauce_red", "prob": 20 },
       { "item": "gelatin_dessert_powder", "prob": 20 },
       { "item": "sauce_pesto", "prob": 15 },
-      { "prob": 14, "group": "bread_bag_plastic_14" },
-      { "prob": 7, "group": "bread_garlic_bag_plastic_14" },
-      { "prob": 7, "group": "cornbread_bag_plastic_6" },
-      { "prob": 7, "group": "flatbread_bag_plastic_6" },
+      { "prob": 14, "group": "bread_in_bag" },
+      { "prob": 7, "group": "garlic_bread_in_bag" },
+      { "prob": 7, "group": "cornbread_in_bag" },
+      { "prob": 7, "group": "flatbread_in_bag" },
       { "prob": 20, "item": "crackers", "count": [ 1, -1 ] },
       { "prob": 20, "item": "grahmcrackers", "count": [ 2, -1 ] },
       { "prob": 15, "group": "oyster_crackers_plastic_bag_vac_8" },
@@ -1961,35 +1961,75 @@
   },
   {
     "type": "item_group",
-    "id": "bread_bag_plastic_14",
+    "id": "sourdough_bread_in_bag",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "bread", "container-item": "null", "count": 14 } ]
+    "entries": [ { "item": "sourdough_bread", "entry-wrapper": "bag_plastic", "count": [ 1, 14 ] } ]
   },
   {
     "type": "item_group",
-    "id": "bread_garlic_bag_plastic_14",
+    "id": "sourdough_bread_in_bag_full",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "bread_garlic", "container-item": "null", "count": 14 } ]
+    "entries": [ { "item": "sourdough_bread", "entry-wrapper": "bag_plastic", "count": 14 } ]
   },
   {
     "type": "item_group",
-    "id": "cornbread_bag_plastic_6",
+    "id": "bread_in_bag",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "cornbread", "container-item": "null", "count": 6 } ]
+    "entries": [ { "item": "bread", "entry-wrapper": "bag_plastic", "count": [ 1, 14 ] } ]
   },
   {
     "type": "item_group",
-    "id": "flatbread_bag_plastic_6",
+    "id": "bread_in_bag_full",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "flatbread", "container-item": "null", "count": 6 } ]
+    "entries": [ { "item": "bread", "entry-wrapper": "bag_plastic", "count": 14 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_bread_in_bag",
+    "subtype": "collection",
+    "entries": [ { "item": "bread_garlic", "entry-wrapper": "bag_plastic_small", "count": [ 1, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_bread_in_bag_full",
+    "subtype": "collection",
+    "entries": [ { "item": "bread_garlic", "entry-wrapper": "bag_plastic_small", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "frybread_in_bag",
+    "subtype": "collection",
+    "entries": [ { "item": "frybread", "entry-wrapper": "bag_plastic_small", "count": [ 1, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "frybread_in_bag_full",
+    "subtype": "collection",
+    "entries": [ { "item": "frybread", "entry-wrapper": "bag_plastic_small", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cornbread_in_bag",
+    "subtype": "collection",
+    "entries": [ { "item": "cornbread", "entry-wrapper": "bag_plastic_small", "count": [ 1, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cornbread_in_bag_full",
+    "subtype": "collection",
+    "entries": [ { "item": "cornbread", "entry-wrapper": "bag_plastic_small", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flatbread_in_bag",
+    "subtype": "collection",
+    "entries": [ { "item": "flatbread", "entry-wrapper": "bag_plastic_small", "count": [ 1, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flatbread_in_bag_full",
+    "subtype": "collection",
+    "entries": [ { "item": "flatbread", "entry-wrapper": "bag_plastic_small", "count": 8 } ]
   },
   {
     "type": "item_group",
@@ -2124,11 +2164,21 @@
   },
   {
     "type": "item_group",
-    "id": "egg_bird_unfert_carton_egg_1_12",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "carton_egg",
-    "entries": [ { "item": "egg_bird_unfert", "count": [ 1, 12 ] } ]
+    "id": "eggs_in_carton",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "egg_bird_unfert", "container-item": "carton_egg", "count": [ 1, 12 ] },
+      { "item": "egg_bird_unfert", "container-item": "carton_egg_6", "count": [ 1, 6 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "eggs_in_carton_full",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "egg_bird_unfert", "container-item": "carton_egg", "count": 12 },
+      { "item": "egg_bird_unfert", "container-item": "carton_egg_6", "count": 6 }
+    ]
   },
   {
     "type": "item_group",

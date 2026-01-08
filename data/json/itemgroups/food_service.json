@@ -551,7 +551,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "knife_huge", "variant": "knife_butcher", "prob": 30 },
-      { "prob": 50, "group": "bread_bag_plastic_14" },
+      { "prob": 50, "group": "bread_in_bag" },
       { "prob": 50, "group": "seasoning_salt_bulk" },
       { "prob": 50, "group": "seasoning_italian_bulk" },
       { "prob": 30, "group": "chicken_in_can" },
@@ -613,12 +613,12 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "prob": 65, "group": "bread_bag_plastic_14" },
-      { "prob": 20, "group": "bread_garlic_bag_plastic_14" },
-      { "prob": 50, "group": "brown_bread_bag_plastic_10" },
+      { "prob": 65, "group": "bread_in_bag" },
+      { "prob": 20, "group": "garlic_bread_in_bag" },
+      { "prob": 50, "group": "brown_bread_in_bag" },
       { "item": "cake2", "prob": 10, "count": 12 },
       { "item": "cake3", "prob": 10, "count": 12 },
-      { "prob": 35, "group": "cornbread_bag_plastic_6" },
+      { "prob": 35, "group": "cornbread_in_bag" },
       { "prob": 50, "group": "brioche_box_small_6" },
       { "item": "hardtack", "prob": 30, "count": 2 },
       { "item": "jihelucake", "prob": 10, "count": 12 },
@@ -927,7 +927,7 @@
       [ "lobster_platter", 10 ],
       [ "fish_fried", 10 ],
       [ "fish_sandwich", 10 ],
-      { "prob": 10, "group": "cornbread_bag_plastic_6" }
+      { "prob": 10, "group": "cornbread_in_bag" }
     ]
   },
   {
@@ -1029,10 +1029,10 @@
     "items": [
       [ "vinegar", 20 ],
       { "prob": 5, "item": "jam_fruit", "container-item": "jar_3l_glass_sealed" },
-      { "prob": 17, "group": "bread_bag_plastic_14" },
+      { "prob": 17, "group": "bread_in_bag" },
       { "item": "confit_meat", "prob": 14 },
       [ "meat", 20 ],
-      { "prob": 7, "group": "cornbread_bag_plastic_6" },
+      { "prob": 7, "group": "cornbread_in_bag" },
       [ "biscuit", 8 ],
       { "prob": 15, "group": "seasoning_salt_bulk" },
       { "prob": 15, "group": "seasoning_italian_bulk" },
@@ -1068,9 +1068,9 @@
     "items": [
       [ "vinegar", 20 ],
       [ "mayonnaise", 20 ],
-      { "prob": 17, "group": "bread_bag_plastic_14" },
+      { "prob": 17, "group": "bread_in_bag" },
       [ "fish", 20 ],
-      { "prob": 7, "group": "cornbread_bag_plastic_6" },
+      { "prob": 7, "group": "cornbread_in_bag" },
       [ "biscuit", 8 ],
       { "prob": 15, "group": "seasoning_salt_bulk" },
       { "prob": 15, "group": "seasoning_italian_bulk" },
@@ -1477,7 +1477,7 @@
       { "prob": 20, "count": [ 1, 3 ], "group": "beans_in_can" },
       { "prob": 60, "count": [ 1, 3 ], "group": "dry_beans_bag_plastic_full" },
       { "item": "dry_mushroom", "prob": 40, "count": [ 1, 3 ] },
-      { "prob": 20, "count": [ 3, 9 ], "group": "flatbread_bag_plastic_full" },
+      { "prob": 20, "count": [ 3, 9 ], "group": "flatbread_in_bag_full" },
       { "prob": 60, "count": [ 1, 3 ], "group": "dry_rice_bag_plastic_full" },
       { "group": "SUS_spice_collection", "prob": 70 },
       { "group": "big_canned_food", "prob": 20, "count": [ 1, 2 ] },
@@ -2389,11 +2389,15 @@
   },
   {
     "type": "item_group",
-    "id": "brown_bread_bag_plastic_10",
+    "id": "brown_bread_in_bag",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "brown_bread", "container-item": "null", "count": 10 } ]
+    "entries": [ { "item": "brown_bread", "entry-wrapper": "bag_plastic", "count": [ 0, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "brown_bread_in_bag_full",
+    "subtype": "collection",
+    "entries": [ { "item": "brown_bread", "entry-wrapper": "bag_plastic", "count": 10 } ]
   },
   {
     "type": "item_group",
@@ -2795,13 +2799,6 @@
     "subtype": "collection",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "dry_beans", "container-item": "null", "count": 12 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "flatbread_bag_plastic_full",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "flatbread", "container-item": "null", "count": 8 } ]
   },
   {
     "type": "item_group",

@@ -64,15 +64,147 @@
     ]
   },
   {
-    "id": "pet_food",
+    "id": "dog_food_six_pack_box",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_medium",
+    "items": [ { "prob": 1, "item": "dogfood", "container-item": "can_medium", "count": [ 1, 6 ] } ]
+  },
+  {
+    "id": "dog_food_six_pack_box_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_medium",
+    "items": [ { "prob": 1, "item": "dogfood", "container-item": "can_medium", "count": 6 } ]
+  },
+  {
+    "id": "dog_food_six_pack_bag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "bag_plastic",
+    "items": [ { "prob": 1, "item": "dogfood", "container-item": "can_medium", "count": [ 1, 6 ] } ]
+  },
+  {
+    "id": "dog_food_six_pack_bag_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "bag_plastic",
+    "items": [ { "prob": 1, "item": "dogfood", "container-item": "can_medium", "count": 6 } ]
+  },
+  {
+    "id": "dog_food_six_pack",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "prob": 1, "group": "dog_food_six_pack_box" }, { "prob": 1, "group": "dog_food_six_pack_bag" } ]
+  },
+  {
+    "id": "dog_food_six_pack_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "prob": 1, "group": "dog_food_six_pack_box_full" }, { "prob": 1, "group": "dog_food_six_pack_bag_full" } ]
+  },
+  {
+    "id": "dog_food_in_container",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "birdfood", "prob": 10, "container-item": "bag_plastic", "count": -1 },
-      { "item": "dogfood", "prob": 30, "container-item": "can_medium" },
-      { "item": "catfood", "prob": 30, "container-item": "can_food" },
-      { "prob": 10, "item": "dogfood_dry", "count": -1 },
-      { "prob": 10, "item": "catfood_dry", "count": -1 }
+      { "prob": 1, "group": "dog_food_six_pack" },
+      { "prob": 1, "item": "dogfood_dry", "count": [ 1, 100 ], "entry-wrapper": "bag_garbage" },
+      { "prob": 1, "item": "dogfood_dry", "count": [ 1, 50 ], "entry-wrapper": "bag_garbage" },
+      { "prob": 1, "item": "dogfood_dry", "count": [ 1, 20 ], "entry-wrapper": "bag_plastic" }
+    ]
+  },
+  {
+    "id": "dog_food_in_container_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 1, "group": "dog_food_six_pack_full" },
+      { "prob": 1, "item": "dogfood_dry", "count": 100, "entry-wrapper": "bag_garbage" },
+      { "prob": 1, "item": "dogfood_dry", "count": 50, "entry-wrapper": "bag_garbage" },
+      { "prob": 1, "item": "dogfood_dry", "count": 20, "entry-wrapper": "bag_plastic" }
+    ]
+  },
+  {
+    "id": "cat_food_six_pack_box",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_medium",
+    "items": [ { "prob": 1, "item": "catfood", "container-item": "can_medium", "count": [ 1, 6 ] } ]
+  },
+  {
+    "id": "cat_food_six_pack_box_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_medium",
+    "items": [ { "prob": 1, "item": "catfood", "container-item": "can_medium", "count": 6 } ]
+  },
+  {
+    "id": "cat_food_six_pack_bag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "bag_plastic",
+    "items": [ { "prob": 1, "item": "catfood", "container-item": "can_food", "count": [ 1, 6 ] } ]
+  },
+  {
+    "id": "cat_food_six_pack_bag_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "bag_plastic",
+    "items": [ { "prob": 1, "item": "catfood", "container-item": "can_food", "count": 6 } ]
+  },
+  {
+    "id": "cat_food_six_pack",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "prob": 1, "group": "cat_food_six_pack_box" }, { "prob": 1, "group": "cat_food_six_pack_bag" } ]
+  },
+  {
+    "id": "cat_food_six_pack_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "prob": 1, "group": "cat_food_six_pack_box_full" }, { "prob": 1, "group": "cat_food_six_pack_bag_full" } ]
+  },
+  {
+    "id": "cat_food_in_container",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 1, "group": "cat_food_six_pack" },
+      { "prob": 1, "item": "catfood_dry", "count": [ 1, 100 ], "entry-wrapper": "bag_garbage" },
+      { "prob": 1, "item": "catfood_dry", "count": [ 1, 50 ], "entry-wrapper": "bag_garbage" },
+      { "prob": 1, "item": "catfood_dry", "count": [ 1, 20 ], "entry-wrapper": "bag_plastic" }
+    ]
+  },
+  {
+    "id": "cat_food_in_container_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 1, "group": "cat_food_six_pack_full" },
+      { "prob": 1, "item": "catfood_dry", "count": 100, "entry-wrapper": "bag_garbage" },
+      { "prob": 1, "item": "catfood_dry", "count": 50, "entry-wrapper": "bag_garbage" },
+      { "prob": 1, "item": "catfood_dry", "count": 20, "entry-wrapper": "bag_plastic" }
+    ]
+  },
+  {
+    "id": "pet_food_in_container",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 1, "item": "birdfood", "container-item": "bag_plastic", "count": -1 },
+      { "prob": 4, "group": "dog_food_in_container" },
+      { "prob": 4, "group": "cat_food_in_container" }
+    ]
+  },
+  {
+    "id": "pet_food_in_container_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 1, "item": "birdfood", "container-item": "bag_plastic", "count": -1 },
+      { "prob": 4, "group": "dog_food_in_container_full" },
+      { "prob": 4, "group": "cat_food_in_container_full" }
     ]
   },
   {
@@ -307,7 +439,7 @@
       { "prob": 3, "group": "can_pineapple_can_food_big_12" },
       { "prob": 3, "group": "can_corn_can_food_big_6" },
       { "item": "sauce_red", "prob": 3, "charges": 48, "container-item": "can_food_big" },
-      { "prob": 6, "group": "coffee_raw_can_food_big_240" }
+      { "prob": 6, "group": "raw_coffee_in_container" }
     ]
   },
   {
@@ -319,10 +451,10 @@
       { "prob": 25, "group": "ravioli_in_can" },
       { "item": "sauce_red", "prob": 20 },
       { "item": "sauce_pesto", "prob": 15 },
-      { "prob": 14, "group": "bread_bag_plastic_14" },
+      { "prob": 14, "group": "bread_in_bag" },
       { "prob": 14, "group": "bread_wheat_free_bag_plastic_14" },
-      { "prob": 7, "group": "cornbread_bag_plastic_6" },
-      { "prob": 7, "group": "flatbread_bag_plastic_6" },
+      { "prob": 7, "group": "cornbread_in_bag" },
+      { "prob": 7, "group": "flatbread_in_bag" },
       { "prob": 20, "item": "crackers", "count": -1 },
       { "prob": 15, "group": "oyster_crackers_plastic_bag_vac_8" },
       { "prob": 20, "item": "grahmcrackers", "count": -1 },
@@ -808,7 +940,7 @@
       { "item": "corn", "prob": 10, "custom-flags": [ "IRRADIATED" ] },
       { "prob": 20, "group": "bacon_bag_plastic_2" },
       { "item": "potato_baked", "prob": 15 },
-      { "prob": 40, "group": "bread_bag_plastic_14" },
+      { "prob": 40, "group": "bread_in_bag" },
       { "prob": 40, "group": "bread_wheat_free_bag_plastic_14" },
       { "group": "ketchup_sealed_rng", "prob": 70 },
       { "group": "mustard_sealed_rng", "prob": 75 },
@@ -1214,12 +1346,54 @@
     "entries": [ { "item": "can_corn", "container-item": "null", "count": 6 } ]
   },
   {
+    "id": "raw_coffee",
     "type": "item_group",
-    "id": "coffee_raw_can_food_big_240",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "can_food_big",
-    "entries": [ { "item": "coffee_raw", "container-item": "null", "count": 240 } ]
+    "subtype": "distribution",
+    "items": [ [ "coffee_raw", 1 ], [ "coffee_raw_kentucky", 1 ], [ "instant_coffee", 1 ], [ "roasted_coffee_bean", 1 ] ]
+  },
+  {
+    "id": "raw_coffee_in_container",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "distribution": [
+          { "prob": 1, "group": "raw_coffee", "count": [ 1, 13 ], "entry-wrapper": "can_medium" },
+          { "prob": 1, "group": "raw_coffee", "count": [ 1, 13 ], "entry-wrapper": "bottle_glass_seasoning" },
+          { "prob": 1, "group": "raw_coffee", "count": [ 1, 13 ], "entry-wrapper": "bag_plastic_small" }
+        ],
+        "prob": 1
+      },
+      {
+        "distribution": [
+          { "prob": 1, "group": "raw_coffee", "count": [ 1, 66 ], "entry-wrapper": "can_food_big" },
+          { "prob": 1, "group": "raw_coffee", "count": [ 1, 66 ], "entry-wrapper": "bag_plastic" }
+        ],
+        "prob": 1
+      }
+    ]
+  },
+  {
+    "id": "raw_coffee_in_container_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "distribution": [
+          { "prob": 1, "group": "raw_coffee", "count": 13, "entry-wrapper": "can_medium" },
+          { "prob": 1, "group": "raw_coffee", "count": 13, "entry-wrapper": "bottle_glass_seasoning" },
+          { "prob": 1, "group": "raw_coffee", "count": 13, "entry-wrapper": "bag_plastic_small" }
+        ],
+        "prob": 1
+      },
+      {
+        "distribution": [
+          { "prob": 1, "group": "raw_coffee", "count": 66, "entry-wrapper": "can_food_big" },
+          { "prob": 1, "group": "raw_coffee", "count": 66, "entry-wrapper": "bag_plastic" }
+        ],
+        "prob": 1
+      }
+    ]
   },
   {
     "type": "item_group",

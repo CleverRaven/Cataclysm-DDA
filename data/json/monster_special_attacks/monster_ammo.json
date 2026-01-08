@@ -43,25 +43,25 @@
     "id": "BILE_BOMB",
     "type": "ammo_effect",
     "//": "Leaves a pool of bile on detonation",
-    "aoe": { "field_type": "fd_bile", "intensity_min": 3, "intensity_max": 3 }
+    "aoe": [ { "field_type": "fd_bile", "intensity_min": 3, "intensity_max": 3 } ]
   },
   {
     "id": "BILE_JET",
     "type": "ammo_effect",
     "//": "Creates a trail of bile",
-    "trail": { "field_type": "fd_bile", "intensity_min": 1, "intensity_max": 2, "chance": 75 }
+    "trail": [ { "field_type": "fd_bile", "intensity_min": 1, "intensity_max": 2, "chance": 75 } ]
   },
   {
     "id": "BILE_JET_ADV",
     "type": "ammo_effect",
     "//": "Creates a trail of advanced bile",
-    "trail": { "field_type": "fd_bile_adv", "intensity_min": 1, "intensity_max": 2, "chance": 75 }
+    "trail": [ { "field_type": "fd_bile_adv", "intensity_min": 1, "intensity_max": 2, "chance": 75 } ]
   },
   {
     "id": "BILE_BOMB_ADV",
     "type": "ammo_effect",
     "//": "Leaves a pool of advanced bile on detonation",
-    "aoe": { "field_type": "fd_bile_adv", "intensity_min": 3, "intensity_max": 3 }
+    "aoe": [ { "field_type": "fd_bile_adv", "intensity_min": 3, "intensity_max": 3 } ]
   },
   {
     "id": "BILE_GLOW",

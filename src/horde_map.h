@@ -3,6 +3,7 @@
 #define CATA_SRC_HORDE_MAP_H
 
 #include <iterator>
+#include <optional>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -63,10 +64,11 @@ class horde_map
         std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> entity_group_at(
             const tripoint_om_sm &p, int filter = horde_map_flavors::active | horde_map_flavors::idle |
                     horde_map_flavors::dormant | horde_map_flavors::immobile );
-        std::unordered_map<tripoint_abs_ms, horde_entity>::iterator
+        std::optional<std::unordered_map<tripoint_abs_ms, horde_entity>::iterator>
         spawn_entity( const tripoint_abs_ms &p, mtype_id id );
-        std::unordered_map<tripoint_abs_ms, horde_entity>::iterator spawn_entity( const tripoint_abs_ms &p,
-                const monster &mon );
+        std::optional<std::unordered_map<tripoint_abs_ms, horde_entity>::iterator> spawn_entity(
+            const tripoint_abs_ms &p,
+            const monster &mon );
         void signal_entities( const tripoint_abs_ms &origin, int volume );
         void insert( node_type &&node );
         void clear();

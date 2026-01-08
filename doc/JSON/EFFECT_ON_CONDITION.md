@@ -5445,7 +5445,7 @@ Subtract this many turns from the alpha talker's moves.
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
-| "turn_cost" | **mandatory** | number, duration, [variable object](#variable-object) or value between two | how long the action takes (can be specified in number of turns (as decimal), or as a duration) |
+| "turn_cost" | **mandatory** | number, duration, [variable object](#variable-object) or value between two | how long the action takes as a duration |
 
 ##### Examples
 
@@ -5453,14 +5453,6 @@ Subtract this many turns from the alpha talker's moves.
 {
   "effect": [
     { "turn_cost": "1 sec" }
-  ]
-}
-```
-
-```jsonc
-{
-  "effect": [
-    { "turn_cost": 0.6 }
   ]
 }
 ```

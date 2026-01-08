@@ -366,7 +366,7 @@
     "category": "manuals",
     "name": { "str": "The Book of Trees", "str_pl": "copies of The Book of Trees" },
     "//": "5 Druid spells",
-    "description": "A bark covered book.",
+    "description": "A bark covered book, though the pages inside are modern typed ones.  Contains several druid spells.",
     "weight": "355 g",
     "volume": "500 ml",
     "price": "50 USD",
@@ -376,15 +376,7 @@
     "color": "green",
     "use_action": {
       "type": "learn_spell",
-      "spells": [
-        "druid_woodshaft",
-        "druid_veggrasp",
-        "druid_rootstrike",
-        "druid_naturebow1",
-        "druid_natures_commune",
-        "druid_healing_herb",
-        "druid_healing"
-      ]
+      "spells": [ "druid_veggrasp", "druid_summon_brambles", "seed_of_growth", "druid_natures_commune", "druid_healing_herb" ]
     }
   },
   {
@@ -449,7 +441,7 @@
     "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Tome of The Battle Mage", "str_pl": "copies of The Tome of The Battle Mage" },
-    "//": "4 Magus spells",
+    "//": "5 Magus spells",
     "description": "Your standard wizardy looking spellbook, filled with Magus combat spells.  You sure lucked out!",
     "weight": "434 g",
     "volume": "750 ml",
@@ -460,7 +452,7 @@
     "color": "light_gray",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast", "magus_summon_impact_sling" ]
+      "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast", "magus_summon_impact_sling", "magus_mage_conjured_armor" ]
     }
   },
   {

@@ -4654,6 +4654,7 @@ void map::crush( const tripoint_bub_ms &p )
         vp->vehicle().damage( *this, vp->part_index(), rng( 100, 1000 ), damage_bash, false );
     }
 }
+
 double map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_items )
 {
     if( !inbounds( p ) ) {
@@ -4758,10 +4759,11 @@ double map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_it
     }
     dam = std::max( 0.0f, dam );
 
-    for( const ammo_effect &ae : ammo_effects::get_all() ) {
-        if( ammo_effects.count( ae.id ) > 0 ) {
-            if( x_in_y( ae.trail_chance, 100 ) ) {
-                add_field( p, ae.trail_field_type, rng( ae.trail_intensity_min, ae.trail_intensity_max ) );
+    // apply trail from ammo effect
+    for( const ammo_effect_str_id &ae_str : proj.proj_effects ) {
+        for( const trail_field_effect &trail : ae_str.obj().trail_field_types ) {
+            if( !trail.field_type.is_null() && x_in_y( trail.chance, 100 ) ) {
+                add_field( p, trail.field_type, rng( trail.intensity_min, trail.intensity_max ) );
             }
         }
     }
@@ -10771,6 +10773,21 @@ std::list<Creature *> map::get_creatures_in_radius( const tripoint_bub_ms &cente
     creature_tracker &creatures = get_creature_tracker();
     std::list<Creature *> creature_list;
     for( const tripoint_bub_ms &loc : points_in_radius( center, radius, radiusz ) ) {
+        Creature *tmp_critter = creatures.creature_at( loc );
+        if( tmp_critter != nullptr ) {
+            creature_list.push_back( tmp_critter );
+        }
+
+    }
+    return creature_list;
+}
+
+std::list<Creature *> map::get_creatures_in_radius_circ( const tripoint_bub_ms &center,
+        size_t radius, size_t radiusz ) const
+{
+    creature_tracker &creatures = get_creature_tracker();
+    std::list<Creature *> creature_list;
+    for( const tripoint_bub_ms &loc : points_in_radius_circ( center, radius, radiusz ) ) {
         Creature *tmp_critter = creatures.creature_at( loc );
         if( tmp_critter != nullptr ) {
             creature_list.push_back( tmp_critter );
