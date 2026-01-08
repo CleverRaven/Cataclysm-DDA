@@ -1182,7 +1182,6 @@
       { "item": "eshaper_spellbook_melee", "prob": 20 },
       { "item": "animist_spirits", "prob": 30 },
       { "item": "wizard_advanced", "prob": 20 },
-      { "item": "stat_up_spellbook", "prob": 25 },
       { "item": "magic_movement_book", "prob": 20 }
     ]
   },
@@ -1192,7 +1191,6 @@
     "subtype": "distribution",
     "entries": [
       { "item": "winter_grasp", "prob": 30 },
-      { "item": "tome_of_storms", "prob": 30 },
       { "item": "pyro", "prob": 30 },
       { "item": "eshaper_spellbook", "prob": 30 },
       { "item": "techno_em", "prob": 30 },
@@ -1282,6 +1280,24 @@
     ]
   },
   {
+    "id": "animist_spellbooks_unrestricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
+  },
+  {
+    "id": "animist_spellbooks_restricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "animist_spirits", "prob": 30 } ]
+  },
+  {
+    "id": "animist_spellbooks_illegal_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
+  },
+  {
     "id": "animist_spellbooks_tier_3",
     "type": "item_group",
     "subtype": "distribution",
@@ -1358,6 +1374,18 @@
     ]
   },
   {
+    "id": "biomancer_spellbooks_unrestricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "priest_beginner", "prob": 30 } ]
+  },
+  {
+    "id": "biomancer_spellbooks_restricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "biomancer_spellbook", "prob": 30 } ]
+  },
+  {
     "id": "biomancer_spellbooks_tier_3",
     "type": "item_group",
     "subtype": "distribution",
@@ -1423,6 +1451,12 @@
     "entries": [ { "item": "wizard_utility", "prob": 30 } ]
   },
   {
+    "id": "classless_spellbooks_restricted_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
+  },
+  {
     "id": "classless_spellbooks_illegal_tier_1",
     "type": "item_group",
     "subtype": "distribution",
@@ -1437,6 +1471,24 @@
       { "group": "classless_spellbooks_restricted_tier_2", "prob": 25 },
       { "group": "classless_spellbooks_illegal_tier_2", "prob": 1 }
     ]
+  },
+  {
+    "id": "classless_spellbooks_unrestricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
+  },
+  {
+    "id": "classless_spellbooks_restricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "wizard_advanced", "prob": 30 } ]
+  },
+  {
+    "id": "classless_spellbooks_illegal_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
   },
   {
     "id": "classless_spellbooks_tier_3",
@@ -1521,6 +1573,12 @@
     ]
   },
   {
+    "id": "druid_spellbooks_unrestricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "druid_spellbook", "prob": 30 }, { "item": "farmer_spellbook", "prob": 25 } ]
+  },
+  {
     "id": "druid_spellbooks_tier_3",
     "type": "item_group",
     "subtype": "distribution",
@@ -1602,6 +1660,24 @@
     ]
   },
   {
+    "id": "earthshaper_spellbooks_unrestricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "farmer_spellbook", "prob": 30 } ]
+  },
+  {
+    "id": "earthshaper_spellbooks_restricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
+  },
+  {
+    "id": "earthshaper_spellbooks_illegal_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "eshaper_spellbook", "prob": 30 } ]
+  },
+  {
     "id": "earthshaper_spellbooks_tier_3",
     "type": "item_group",
     "subtype": "distribution",
@@ -1678,6 +1754,24 @@
     ]
   },
   {
+    "id": "kelvinist_spellbooks_unrestricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
+  },
+  {
+    "id": "kelvinist_spellbooks_restricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
+  },
+  {
+    "id": "kelvinist_spellbooks_illegal_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "winter_grasp", "prob": 30 }, { "item": "pyro", "prob": 30 } ]
+  },
+  {
     "id": "kelvinist_spellbooks_tier_3",
     "type": "item_group",
     "subtype": "distribution",
@@ -1752,6 +1846,24 @@
       { "group": "magus_spellbooks_restricted_tier_2", "prob": 25 },
       { "group": "magus_spellbooks_illegal_tier_2", "prob": 1 }
     ]
+  },
+  {
+    "id": "magus_spellbooks_unrestricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "staying_clean_spellbook", "prob": 30 } ]
+  },
+  {
+    "id": "magus_spellbooks_restricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "magic_movement_book", "prob": 30 } ]
+  },
+  {
+    "id": "magus_spellbooks_illegal_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
   },
   {
     "id": "magus_spellbooks_tier_3",
@@ -1834,6 +1946,24 @@
     ]
   },
   {
+    "id": "stormshaper_spellbooks_unrestricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "techno_electrical_work", "prob": 30 } ]
+  },
+  {
+    "id": "stormshaper_spellbooks_restricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "techno_electrical_work", "prob": 30 } ]
+  },
+  {
+    "id": "stormshaper_spellbooks_illegal_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "bioelectricity", "prob": 30 } ]
+  },
+  {
     "id": "stormshaper_spellbooks_tier_3",
     "type": "item_group",
     "subtype": "distribution",
@@ -1912,6 +2042,24 @@
       { "group": "technomancer_spellbooks_restricted_tier_2", "prob": 25 },
       { "group": "technomancer_spellbooks_illegal_tier_2", "prob": 1 }
     ]
+  },
+  {
+    "id": "technomancer_spellbooks_unrestricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "techno_electrical_work", "prob": 30 } ]
+  },
+  {
+    "id": "technomancer_spellbooks_restricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
+  },
+  {
+    "id": "technomancer_spellbooks_illegal_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "techno_em", "prob": 30 } ]
   },
   {
     "id": "technomancer_spellbooks_tier_3",
