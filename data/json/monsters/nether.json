@@ -481,7 +481,7 @@
     "dodge": 1,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "harvest": "zombie_leather",
-    "special_attacks": [ [ "scratch", 15 ] ],
+    "special_attacks": [ { "id": "scratch", "cooldown": 15 } ],
     "death_drops": "default_zombie_death_drops",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "POISON", "REVIVES", "FILTHY" ]
   },
