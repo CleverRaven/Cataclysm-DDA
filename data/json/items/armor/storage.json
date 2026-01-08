@@ -812,7 +812,7 @@
     "//": "Based on Pelican 1495 Protector Laptop Case",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "laptop hard case" },
-    "description": "A rugged hardcase for a laptop, frequently used by military, scientists, and others working in the field.  This model is waterproof and lined with impact-resistant foam.  The shoulder strap is current cinched up so it can be carried by hand.  Activate it to extend the shoulder strap.",
+    "description": "A rugged hard case for a laptop, frequently used by military, scientists, and others working in the field.  This model is waterproof and lined with impact-resistant foam.  The shoulder strap is current cinched up so it can be carried by hand.  Activate it to extend the shoulder strap.",
     "weight": "3800 g",
     "volume": "29740 ml",
     "longest_side": "55 cm",
@@ -854,7 +854,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "laptop hard case" },
     "copy-from": "laptop_hard_case",
-    "description": "A rugged hardcase for a laptop, frequently used by military, scientists, and others working in the field.  This model is waterproof and lined with impact-resistant foam.  The shoulder strap is extended to be worn on the side.  Activate it to wear it on your back.",
+    "description": "A rugged hard case for a laptop, frequently used by military, scientists, and others working in the field.  This model is waterproof and lined with impact-resistant foam.  The shoulder strap is extended to be worn on the side.  Activate it to wear it on your back.",
     "sided": true,
     "armor": [
       {
@@ -879,7 +879,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "laptop hard case" },
     "copy-from": "laptop_hard_case",
-    "description": "A rugged hardcase for a laptop, frequently used by military, scientists, and others working in the field.  This model is waterproof and lined with impact-resistant foam.  The shoulder strap is extended to be worn on the back.  Activate it cinch the strap and carry it by the handle.",
+    "description": "A rugged hard case for a laptop, frequently used by military, scientists, and others working in the field.  This model is waterproof and lined with impact-resistant foam.  The shoulder strap is extended to be worn on the back.  Activate it cinch the strap and carry it by the handle.",
     "armor": [
       {
         "encumbrance": 4,
