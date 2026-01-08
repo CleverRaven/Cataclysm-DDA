@@ -7897,7 +7897,7 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
     }
 
     if( it->typeId() == itype_weather_reader ) {
-        p->add_msg_if_player( m_neutral, _( "The system desplays a snapshot of atmospheric data:" ),
+        p->add_msg_if_player( m_neutral, _( "The system displays a snapshot of atmospheric data:" ),
                               it->tname() );
     }
     if( it->has_flag( flag_THERMOMETER ) ) {
