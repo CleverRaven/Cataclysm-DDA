@@ -7963,7 +7963,7 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
     }
     if( it->typeId() == itype_mws_advanced_weather_sensor_array ) {
         p->add_msg_if_player( m_neutral, _( "Ambient radiation: %d mSv/h." ),
-                          here.get_radiation( p->pos_bub() ) );
+                              here.get_radiation( p->pos_bub() ) );
         p->add_msg_if_player( m_neutral,
                               _( "Irradiance: %.1f." ), sun_irrad );
     }
