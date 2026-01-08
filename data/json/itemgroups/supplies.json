@@ -178,6 +178,7 @@
     "id": "nail_box_part",
     "type": "item_group",
     "container-item": "box_small",
+    "on_overflow": "spill",
     "items": [ { "item": "nail", "charges": [ 300, 600 ] } ]
   },
   {
