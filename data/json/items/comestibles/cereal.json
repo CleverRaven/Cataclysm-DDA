@@ -17,7 +17,7 @@
     "spoils_in": "90 days",
     "flags": [ "EDIBLE_FROZEN", "USE_EAT_VERB" ],
     "quench": -2,
-    "fun": 8,
+    "fun": 10,
     "calories": 354,
     "vitamins": [ [ "iron", 47 ], [ "junk_allergen", 1 ] ]
   },
