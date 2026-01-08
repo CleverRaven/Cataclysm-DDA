@@ -325,7 +325,7 @@ std::vector<const recipe *> recipe_subset::search(
 
                     for( const auto &recipe : item.get_available_recipes( crafter_ref ) ) {
                         if( recipe.first == r && ( lcmatch( item.display_name(), txt ) ||
-                                                   lcmatch( item.nname( item.typeId() ), txt ) ) ) {
+                                                   lcmatch( item::nname( item.typeId() ), txt ) ) ) {
                             return true;
                         }
                     }
@@ -509,8 +509,7 @@ recipe_subset recipe_subset::reduce(
 }
 
 recipe_subset recipe_subset::reduce(
-    std::string_view txt, const search_type key,
-    std::optional<std::reference_wrapper<const Character>> crafter,
+    std::string_view txt, const Character &crafter, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
     return recipe_subset( *this, search( txt, key, crafter, progress_callback ) );

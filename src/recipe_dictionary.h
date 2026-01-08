@@ -185,8 +185,7 @@ class recipe_subset
             std::string_view txt, search_type key = search_type::name,
             const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         recipe_subset reduce(
-            std::string_view txt, search_type key = search_type::name,
-            std::optional<std::reference_wrapper<const Character>> crafter = std::nullopt,
+            std::string_view txt, const Character &crafter, search_type key = search_type::name,
             const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         /** Set intersection between recipe_subsets */
         recipe_subset intersection( const recipe_subset &subset ) const;

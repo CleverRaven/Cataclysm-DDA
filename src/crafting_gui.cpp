@@ -1040,8 +1040,8 @@ static recipe_subset filter_recipes( const recipe_subset &available_recipes,
                     break;
 
                 case 'b':
-                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                       recipe_subset::search_type::book, std::cref( crafter ), progress_callback );
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ), crafter,
+                                       recipe_subset::search_type::book, progress_callback );
                     break;
 
                 case 'l':
