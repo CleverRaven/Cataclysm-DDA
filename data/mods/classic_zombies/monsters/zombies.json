@@ -86,7 +86,7 @@
     "copy-from": "mon_zombie",
     "name": { "str": "zombie" },
     "looks_like": "mon_zombie",
-    "description": "A human body, skin a sickly grayish color, moving with a slow shuffling motion.  Unlike the other zombies, there is a faint spark in its eyes, and it occasionally warily looks at its surroundings.",
+    "description": "A human body, skin a sickly grayish color, moving with a slow shuffling motion.  It occasionally looks at its surroundings with more focus than its peers; could it be remembering something?",
     "upgrades": false,
     "categories": [ "CLASSIC" ],
     "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
