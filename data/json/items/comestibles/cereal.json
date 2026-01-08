@@ -23,7 +23,7 @@
   },
   {
     "id": "cereal2",
-    "copy-from": "cereal_tpl",
+    "copy-from": "cereal",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "whole-grain cereal" },
@@ -34,7 +34,7 @@
   },
   {
     "id": "cereal3",
-    "copy-from": "cereal_tpl",
+    "copy-from": "cereal",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "corn flakes" },
@@ -87,7 +87,7 @@
   },
   {
     "id": "cereal_fp2",
-    "copy-from": "cereal_fpsugar_tpl",
+    "copy-from": "cereal_fp1",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "Carpenter Crunch cereal" },
@@ -97,7 +97,7 @@
   },
   {
     "id": "cereal_fp4",
-    "copy-from": "cereal_fpsugar_tpl",
+    "copy-from": "cereal_fp1",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "Sugar Chomps cereal" },
