@@ -349,13 +349,14 @@
     "id": "EOC_CONDITION_MOM_BANNED_EFFECTS_TO_PRACTICE_CONCENTRATION",
     "condition": {
       "or": [
-        { "math": [ "u_vitamin('BAC') > 2500" ] },
+        { "math": [ "u_vitamin('BAC') > 1000" ] },
         { "u_has_effect": "winded" },
         { "u_has_effect": "weed_high" },
         { "u_has_effect": "high" },
         { "u_has_effect": "datura" },
         { "u_has_effect": "hallu" },
         { "u_has_effect": "nausea" },
+        { "u_has_effect": "meth" },
         { "u_has_effect": "onfire", "bodypart": "head" },
         { "u_has_effect": "onfire", "bodypart": "torso" },
         { "u_has_effect": "onfire", "bodypart": "arm_r" },
