@@ -7887,7 +7887,6 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
 
     /* Possibly used twice. Worth spending the time to precalculate. */
     const units::temperature player_local_temp = weather.get_temperature( p->pos_bub() );
-    
     const float sun_irrad = sun_irradiance( calendar::turn );
 
     if( !it->activation_success() ) {
