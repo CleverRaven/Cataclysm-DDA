@@ -2654,6 +2654,64 @@
     "entries": [ { "item": "null", "prob": 30 } ]
   },
   {
+    "id": "druid_restricted_loot",
+    "type": "item_group",
+    "items": [
+      {
+        "distribution": [
+          {
+            "distribution": [ { "group": "druid_restricted_tier_0", "prob": 10 }, { "group": "druid_spellbooks_restricted_tier_0", "prob": 1 } ],
+            "prob": 10
+          },
+          {
+            "distribution": [ { "group": "druid_illegal_tier_0", "prob": 10 }, { "group": "druid_spellbooks_illegal_tier_0", "prob": 1 } ],
+            "prob": 1
+          }
+        ],
+        "prob": 80
+      },
+      {
+        "distribution": [
+          {
+            "distribution": [ { "group": "druid_restricted_tier_1", "prob": 10 }, { "group": "druid_spellbooks_restricted_tier_1", "prob": 1 } ],
+            "prob": 10
+          },
+          {
+            "distribution": [ { "group": "druid_illegal_tier_1", "prob": 10 }, { "group": "druid_spellbooks_illegal_tier_1", "prob": 1 } ],
+            "prob": 1
+          }
+        ],
+        "prob": 55
+      },
+      {
+        "distribution": [
+          {
+            "distribution": [ { "group": "druid_restricted_tier_2", "prob": 10 }, { "group": "druid_spellbooks_restricted_tier_2", "prob": 1 } ],
+            "prob": 10
+          },
+          {
+            "distribution": [ { "group": "druid_illegal_tier_2", "prob": 10 }, { "group": "druid_spellbooks_illegal_tier_2", "prob": 1 } ],
+            "prob": 1
+          }
+        ],
+        "prob": 25
+      },
+      {
+        "distribution": [
+          {
+            "distribution": [ { "group": "druid_restricted_tier_3", "prob": 10 }, { "group": "druid_spellbooks_restricted_tier_3", "prob": 1 } ],
+            "prob": 10
+          },
+          {
+            "distribution": [ { "group": "druid_illegal_tier_3", "prob": 10 }, { "group": "druid_spellbooks_illegal_tier_3", "prob": 1 } ],
+            "prob": 1
+          }
+        ],
+        "prob": 5
+      }
+    ]
+  },
+  {
     "id": "spellbook_loot_0",
     "type": "item_group",
     "//": "the difference between tiers and loot are that loot should be easy to",
