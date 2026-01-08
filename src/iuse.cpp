@@ -7915,7 +7915,6 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
             p->add_msg_if_player(
                 m_neutral, _( "Temperature: %s." ), temperature_str );
         }
-            
     }
     if( it->has_flag( flag_HYGROMETER ) ) {
         if( it->typeId() == itype_hygrometer ) {
