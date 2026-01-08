@@ -1257,7 +1257,7 @@
         "distribution": [
           { "group": "animist_spells_tier_2", "prob": 100 },
           { "group": "animist_spellbooks_tier_2", "prob": 5 },
-          { "item": "animist_dolls", "prob": 5 }
+          { "group": "animist_dolls", "prob": 5 }
         ],
         "prob": 25
       },
@@ -1416,6 +1416,16 @@
       { "item": "druid_shapeshifting_learn_book_cougar", "prob": 1 },
       { "item": "druid_shapeshifting_learn_book_deer", "prob": 1 },
       { "item": "druid_shapeshifting_learn_book_raven", "prob": 1 }
+    ]
+  },
+  {
+    "id": "animist_dolls",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "animist_doll_skeleton", "prob": 10 },
+      { "item": "animist_doll_zombie", "prob": 20 },
+      { "item": "animist_doll_decayed_pouncer", "prob": 3 }
     ]
   },
   {

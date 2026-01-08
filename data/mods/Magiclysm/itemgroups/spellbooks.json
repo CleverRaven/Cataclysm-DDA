@@ -1917,6 +1917,12 @@
     "entries": [ { "item": "druid_spellbook", "prob": 30 }, { "item": "farmer_spellbook", "prob": 25 } ]
   },
   {
+    "id": "druid_spellbooks_restricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
+  },
+  {
     "id": "druid_spellbooks_illegal_tier_2",
     "type": "item_group",
     "subtype": "distribution",
