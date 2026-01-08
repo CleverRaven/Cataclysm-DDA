@@ -464,7 +464,7 @@
     "description": "A former cultist of some sinister order, now a walking corpse.  Strange scars on their body indicate that they must have participated in unspeakable rites before, or after, their demise.",
     "default_faction": "cult",
     "bodytype": "human",
-    "species": [ "ZOMBIE" ],
+    "species": [ "ZOMBIE", "HUMAN" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 80,
@@ -483,7 +483,7 @@
     "harvest": "zombie_leather",
     "special_attacks": [ { "id": "scratch", "cooldown": 15 } ],
     "death_drops": "default_zombie_death_drops",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "POISON", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "NO_BREATHE", "POISON", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_dog_thing",
