@@ -559,14 +559,6 @@
     "auto_needs": true
   },
   {
-    "id": "ACT_ARMOR_LAYERS",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "fiddling with your clothes",
-    "based_on": "neither",
-    "can_resume": false
-  },
-  {
     "id": "ACT_START_FIRE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
