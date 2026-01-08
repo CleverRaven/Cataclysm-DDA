@@ -308,6 +308,7 @@
               { "u_near_om_location": "cabin_3_reverberation_hint", "range": 2 },
               { "u_near_om_location": "radio_tower", "range": 2 },
               { "u_near_om_location": "radio_tower_1", "range": 2 },
+              { "u_near_om_location": "radio_tower_reverberation_mp3", "range": 2 },
               { "u_at_om_location": "radio_tower_even" },
               { "u_at_om_location": "radio_tower_odd" }
             ]
@@ -319,7 +320,8 @@
                 { "u_near_om_location": "cabin_3", "range": 8 },
                 { "u_near_om_location": "cabin_3_reverberation_hint", "range": 8 },
                 { "u_near_om_location": "radio_tower", "range": 8 },
-                { "u_near_om_location": "radio_tower_1", "range": 8 }
+                { "u_near_om_location": "radio_tower_1", "range": 8 },
+                { "u_near_om_location": "radio_tower_reverberation_mp3", "range": 8 }
               ]
             },
             "then": { "u_message": "Its song is energetic, joyful." },
