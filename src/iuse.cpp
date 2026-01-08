@@ -287,6 +287,8 @@ static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_molotov( "molotov" );
 static const itype_id itype_multi_cooker( "multi_cooker" );
 static const itype_id itype_multi_cooker_filled( "multi_cooker_filled" );
+static const itype_id itype_mws_advanced_weather_sensor_array( "mws_advanced_weather_sensor_array" );
+static const itype_id itype_mws_weather_sensor_array( "mws_weather_sensor_array" );
 static const itype_id itype_nicotine_liquid( "nicotine_liquid" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pot( "pot" );
@@ -302,6 +304,7 @@ static const itype_id itype_spiral_stone( "spiral_stone" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_syringe( "syringe" );
+static const itype_id itype_thermometer( "thermometer" );
 static const itype_id itype_tongs( "tongs" );
 static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_towel( "towel" );
@@ -7884,6 +7887,8 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
 
     /* Possibly used twice. Worth spending the time to precalculate. */
     const units::temperature player_local_temp = weather.get_temperature( p->pos_bub() );
+    
+    const float sun_irrad = sun_irradiance( calendar::turn );
 
     if( !it->activation_success() ) {
         p->add_msg_if_player( m_bad, _( "The %s doesn't seem to work.  Try again." ),
@@ -7892,7 +7897,7 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
     }
 
     if( it->typeId() == itype_weather_reader ) {
-        p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
+        p->add_msg_if_player( m_neutral, _( "The system desplays a snapshot of atmospheric data:" ),
                               it->tname() );
     }
     if( it->has_flag( flag_THERMOMETER ) ) {
@@ -7903,8 +7908,14 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
         } else {
             temperature_str = print_temperature( player_local_temp );
         }
-        p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
-                              temperature_str );
+        if( it->typeId() == itype_thermometer ) {
+            p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
+                                  temperature_str );
+        } else {
+            p->add_msg_if_player(
+                m_neutral, _( "Temperature: %s." ), temperature_str );
+        }
+            
     }
     if( it->has_flag( flag_HYGROMETER ) ) {
         if( it->typeId() == itype_hygrometer ) {
@@ -7930,7 +7941,7 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
         }
     }
 
-    if( it->typeId() == itype_weather_reader ) {
+    if( ( it->typeId() == itype_weather_reader ) || ( it->typeId() == itype_mws_weather_sensor_array ) || ( it->typeId() == itype_mws_advanced_weather_sensor_array ) ) {
         int vehwindspeed = 0;
         if( optional_vpart_position vp = here.veh_at( p->pos_bub() ) ) {
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
@@ -7949,7 +7960,14 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
         std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }
-
+    
+    if( it->typeId() == itype_mws_advanced_weather_sensor_array ) {
+        p->add_msg_if_player( m_neutral, _( "Ambient radiation: %d mSv/h" ),
+                          here.get_radiation( p->pos_bub() ) );
+        p->add_msg_if_player( m_neutral,
+                              _( "Irradiance: %.1f." ), sun_irrad );
+    }
+    
     return 1; //TODO check
 }
 
