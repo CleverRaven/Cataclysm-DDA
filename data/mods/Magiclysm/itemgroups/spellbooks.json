@@ -1229,11 +1229,19 @@
     "id": "animist_spellbooks_unrestricted_tier_0",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "animist_spellbooks_unrestricted_tier_1", "prob": 300 },
-      { "group": "animist_spellbooks_restricted_tier_1", "prob": 25 },
-      { "group": "animist_spellbooks_illegal_tier_1", "prob": 1 }
-    ]
+    "entries": [ { "item": "sense_outsiders_spellbook", "prob": 30 } ]
+  },
+  {
+    "id": "animist_spellbooks_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "animist_summon_wisps_spellbook", "prob": 30 } ]
+  },
+  {
+    "id": "animist_spellbooks_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
   },
   {
     "id": "animist_spellbooks_tier_1",
@@ -1279,7 +1287,19 @@
     "id": "biomancer_spellbooks_unrestricted_tier_0",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "magic_healing_home_spellbook", "prob": 30 } ]
+    "entries": [ { "item": "magic_healing_home_spellbook", "prob": 30 }, { "item": "biomancy_fasting_spellbook", "prob": 30 } ]
+  },
+  {
+    "id": "biomancer_spellbooks_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
+  },
+  {
+    "id": "biomancer_spellbooks_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
   },
   {
     "id": "biomancer_spellbooks_tier_1",
@@ -1329,8 +1349,26 @@
       { "item": "wizard_beginner", "prob": 30 },
       { "item": "book_lazy_magic", "prob": 30 },
       { "item": "camping_time_spellbook", "prob": 30 },
-      { "item": "magic_history_tech_spellbook", "prob": 30 }
+      { "item": "magic_history_tech_spellbook", "prob": 30 },
+      { "item": "freshen_up_spellbook", "prob": 30 },
+      { "item": "post_apocalypse_guide_spellbook", "prob": 30 },
+      { "item": "crystallize_mana_economy_spellbook", "prob": 30 },
+      { "item": "staying_clean_spellbook", "prob": 30 },
+      { "item": "anti_magic_dispel_spellbook", "prob": 30 },
+      { "item": "easy_sleeping_spellbook", "prob": 30 }
     ]
+  },
+  {
+    "id": "classless_spellbooks_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "special_effects_spellbook", "prob": 30 }, { "item": "messed_up_spells_spellbook", "prob": 30 } ]
+  },
+  {
+    "id": "classless_spellbooks_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
   },
   {
     "id": "classless_spellbooks_tier_1",
@@ -1376,7 +1414,25 @@
     "id": "druid_spellbooks_unrestricted_tier_0",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "camping_time_spellbook", "prob": 30 }, { "item": "magic_healing_home_spellbook", "prob": 30 } ]
+    "entries": [
+      { "item": "camping_time_spellbook", "prob": 30 },
+      { "item": "magic_healing_home_spellbook", "prob": 30 },
+      { "item": "summon_cats_spellbook", "prob": 30 },
+      { "item": "magical_gardening_spellbook", "prob": 30 },
+      { "item": "druid_healing_power_spellbook", "prob": 30 }
+    ]
+  },
+  {
+    "id": "druid_spellbooks_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "messed_up_spells_spellbook", "prob": 30 } ]
+  },
+  {
+    "id": "druid_spellbooks_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
   },
   {
     "id": "druid_spellbooks_tier_1",
@@ -1422,7 +1478,24 @@
     "id": "earthshaper_spellbooks_unrestricted_tier_0",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "eshaper_spellbook_tool", "prob": 30 } ]
+    "entries": [
+      { "item": "eshaper_spellbook_tool", "prob": 30 },
+      { "item": "earthshaper_landscaping_spellbook", "prob": 30 },
+      { "item": "magical_gardening_spellbook", "prob": 30 },
+      { "item": "stone_powers_spellbook", "prob": 30 }
+    ]
+  },
+  {
+    "id": "earthshaper_spellbooks_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
+  },
+  {
+    "id": "earthshaper_spellbooks_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
   },
   {
     "id": "earthshaper_spellbooks_tier_1",
@@ -1471,6 +1544,18 @@
     "entries": [ { "item": "avoid_all_temperatures_spellbook", "prob": 30 } ]
   },
   {
+    "id": "kelvinist_spellbooks_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
+  },
+  {
+    "id": "kelvinist_spellbooks_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
+  },
+  {
     "id": "kelvinist_spellbooks_tier_1",
     "type": "item_group",
     "subtype": "distribution",
@@ -1509,6 +1594,24 @@
       { "group": "magus_spellbooks_restricted_tier_0", "prob": 25 },
       { "group": "magus_spellbooks_illegal_tier_0", "prob": 1 }
     ]
+  },
+  {
+    "id": "magus_spellbooks_unrestricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "staying_clean_spellbook", "prob": 30 } ]
+  },
+  {
+    "id": "magus_spellbooks_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
+  },
+  {
+    "id": "magus_spellbooks_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
   },
   {
     "id": "magus_spellbooks_tier_1",
@@ -1554,7 +1657,23 @@
     "id": "stormshaper_spellbooks_unrestricted_tier_0",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "novice_stormshaper_book", "prob": 30 }, { "item": "stormshaper_electric_immune_spellbook", "prob": 30 } ]
+    "entries": [
+      { "item": "novice_stormshaper_book", "prob": 30 },
+      { "item": "stormshaper_electric_immune_spellbook", "prob": 30 },
+      { "item": "windrunning_spellbook", "prob": 30 }
+    ]
+  },
+  {
+    "id": "stormshaper_spellbooks_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
+  },
+  {
+    "id": "stormshaper_spellbooks_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
   },
   {
     "id": "stormshaper_spellbooks_tier_1",
@@ -1601,6 +1720,22 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [ { "item": "magic_history_tech_spellbook", "prob": 30 } ]
+  },
+  {
+    "id": "technomancer_spellbooks_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "techno_idiots", "prob": 30 },
+      { "item": "bypass_portals_spellbook", "prob": 30 },
+      { "item": "hologram_and_teleport_spellbook", "prob": 30 }
+    ]
+  },
+  {
+    "id": "technomancer_spellbooks_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 } ]
   },
   {
     "id": "technomancer_spellbooks_tier_1",
