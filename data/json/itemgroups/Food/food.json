@@ -1346,10 +1346,48 @@
     "entries": [ { "item": "can_corn", "container-item": "null", "count": 6 } ]
   },
   {
-    "id": "raw_coffee",
+    "id": "raw_coffee_small",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "coffee_raw", 1 ], [ "coffee_raw_kentucky", 1 ], [ "instant_coffee", 1 ], [ "roasted_coffee_bean", 1 ] ]
+    "entries": [
+      { "item": "coffee_raw", "count": [ 1, 13 ] },
+      { "item": "coffee_raw_kentucky", "count": [ 1, 13 ] },
+      { "item": "instant_coffee", "count": [ 1, 13 ] },
+      { "item": "roasted_coffee_bean", "count": [ 1, 13 ] }
+    ]
+  },
+  {
+    "id": "raw_coffee_small_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "coffee_raw", "count": 13 },
+      { "item": "coffee_raw_kentucky", "count": 13 },
+      { "item": "instant_coffee", "count": 13 },
+      { "item": "roasted_coffee_bean", "count": 13 }
+    ]
+  },
+  {
+    "id": "raw_coffee_big",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "coffee_raw", "count": [ 1, 66 ] },
+      { "item": "coffee_raw_kentucky", "count": [ 1, 66 ] },
+      { "item": "instant_coffee", "count": [ 1, 66 ] },
+      { "item": "roasted_coffee_bean", "count": [ 1, 66 ] }
+    ]
+  },
+  {
+    "id": "raw_coffee_big_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "coffee_raw", "count": 66 },
+      { "item": "coffee_raw_kentucky", "count": 66 },
+      { "item": "instant_coffee", "count": 66 },
+      { "item": "roasted_coffee_bean", "count": 66 }
+    ]
   },
   {
     "id": "raw_coffee_in_container",
@@ -1358,18 +1396,16 @@
     "entries": [
       {
         "distribution": [
-          { "prob": 1, "group": "raw_coffee", "count": [ 1, 13 ], "entry-wrapper": "can_medium" },
-          { "prob": 1, "group": "raw_coffee", "count": [ 1, 13 ], "entry-wrapper": "bottle_glass_seasoning" },
-          { "prob": 1, "group": "raw_coffee", "count": [ 1, 13 ], "entry-wrapper": "bag_plastic_small" }
-        ],
-        "prob": 1
+          { "group": "raw_coffee_small", "entry-wrapper": "can_medium" },
+          { "group": "raw_coffee_small", "entry-wrapper": "bottle_glass_seasoning" },
+          { "group": "raw_coffee_small", "entry-wrapper": "bag_plastic_small" }
+        ]
       },
       {
         "distribution": [
-          { "prob": 1, "group": "raw_coffee", "count": [ 1, 66 ], "entry-wrapper": "can_food_big" },
-          { "prob": 1, "group": "raw_coffee", "count": [ 1, 66 ], "entry-wrapper": "bag_plastic" }
-        ],
-        "prob": 1
+          { "group": "raw_coffee_big", "entry-wrapper": "can_food_big" },
+          { "group": "raw_coffee_big", "entry-wrapper": "bag_plastic" }
+        ]
       }
     ]
   },
@@ -1380,18 +1416,16 @@
     "entries": [
       {
         "distribution": [
-          { "prob": 1, "group": "raw_coffee", "count": 13, "entry-wrapper": "can_medium" },
-          { "prob": 1, "group": "raw_coffee", "count": 13, "entry-wrapper": "bottle_glass_seasoning" },
-          { "prob": 1, "group": "raw_coffee", "count": 13, "entry-wrapper": "bag_plastic_small" }
-        ],
-        "prob": 1
+          { "group": "raw_coffee_small_full", "entry-wrapper": "can_medium" },
+          { "group": "raw_coffee_small_full", "entry-wrapper": "bottle_glass_seasoning" },
+          { "group": "raw_coffee_small_full", "entry-wrapper": "bag_plastic_small" }
+        ]
       },
       {
         "distribution": [
-          { "prob": 1, "group": "raw_coffee", "count": 66, "entry-wrapper": "can_food_big" },
-          { "prob": 1, "group": "raw_coffee", "count": 66, "entry-wrapper": "bag_plastic" }
-        ],
-        "prob": 1
+          { "group": "raw_coffee_big_full", "entry-wrapper": "can_food_big" },
+          { "group": "raw_coffee_big_full", "entry-wrapper": "bag_plastic" }
+        ]
       }
     ]
   },
