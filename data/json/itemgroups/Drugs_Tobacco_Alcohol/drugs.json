@@ -430,7 +430,6 @@
     "type": "item_group",
     "id": "tramadol_bottle_plastic_pill_prescription_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "tramadol", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -566,7 +565,6 @@
     "type": "item_group",
     "id": "weed_jar_3l_glass_sealed_10_420",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "jar_3l_glass_sealed",
     "entries": [ { "item": "weed", "count": [ 10, 420 ] } ]
   },
@@ -574,7 +572,6 @@
     "type": "item_group",
     "id": "hi_q_shatter_jar_glass_sealed_5_140",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "jar_glass_sealed",
     "entries": [ { "item": "hi_q_shatter", "count": [ 5, 140 ] } ]
   },
@@ -582,7 +579,6 @@
     "type": "item_group",
     "id": "hi_q_wax_jar_glass_sealed_5_140",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "jar_glass_sealed",
     "entries": [ { "item": "hi_q_wax", "count": [ 5, 140 ] } ]
   },
@@ -590,7 +586,6 @@
     "type": "item_group",
     "id": "calcium_tablet_bottle_plastic_pill_supplement_1_20",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_supplement",
     "entries": [ { "item": "calcium_tablet", "container-item": "null", "count": [ 1, 20 ] } ]
   },
@@ -620,7 +615,6 @@
     "type": "item_group",
     "id": "caffeine_bottle_plastic_pill_supplement_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_supplement",
     "entries": [ { "item": "caffeine", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -635,7 +629,6 @@
     "type": "item_group",
     "id": "homeopathic_pills_bottle_plastic_pill_supplement_1_20",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_supplement",
     "entries": [ { "item": "homeopathic_pills", "container-item": "null", "count": [ 1, 20 ] } ]
   },
@@ -643,7 +636,6 @@
     "type": "item_group",
     "id": "thorazine_bottle_plastic_pill_prescription_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "thorazine", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -651,7 +643,6 @@
     "type": "item_group",
     "id": "prozac_bottle_plastic_pill_prescription_1_15",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "prozac", "container-item": "null", "count": [ 1, 15 ] } ]
   },
@@ -659,7 +650,6 @@
     "type": "item_group",
     "id": "strong_antibiotic_bottle_plastic_pill_prescription_1_5",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "strong_antibiotic", "container-item": "null", "count": [ 1, 5 ] } ]
   },
@@ -813,7 +803,6 @@
     "type": "item_group",
     "id": "codeine_bottle_plastic_pill_painkiller_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_painkiller",
     "entries": [ { "item": "codeine", "container-item": "null", "count": 10 } ]
   },
@@ -821,7 +810,6 @@
     "type": "item_group",
     "id": "oxycodone_bottle_plastic_pill_prescription_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "oxycodone", "container-item": "null", "count": 10 } ]
   },
@@ -829,7 +817,6 @@
     "type": "item_group",
     "id": "meth_bag_zipper_6",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_zipper",
     "entries": [ { "item": "meth", "container-item": "null", "count": 6 } ]
   },

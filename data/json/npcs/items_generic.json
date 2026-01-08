@@ -1139,7 +1139,6 @@
     "type": "item_group",
     "id": "pur_tablets_bottle_plastic_small_50",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "pur_tablets", "count": 50 } ]
   }

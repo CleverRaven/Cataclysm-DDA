@@ -4703,7 +4703,6 @@
     "type": "item_group",
     "id": "antifungal_bottle_plastic_pill_prescription_0_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "antifungal", "container-item": "null", "count": [ 0, 10 ] } ]
   },
@@ -4711,7 +4710,6 @@
     "type": "item_group",
     "id": "antiparasitic_bottle_plastic_pill_prescription_0_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "antiparasitic", "container-item": "null", "count": [ 0, 10 ] } ]
   },
@@ -4719,7 +4717,6 @@
     "type": "item_group",
     "id": "diazepam_bottle_plastic_pill_prescription_0_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "diazepam", "container-item": "null", "count": [ 0, 10 ] } ]
   }

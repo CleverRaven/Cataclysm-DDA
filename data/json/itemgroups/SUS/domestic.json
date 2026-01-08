@@ -1221,7 +1221,6 @@
     "type": "item_group",
     "id": "adderall_bottle_plastic_pill_prescription_1",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "adderall", "container-item": "null" } ]
   },
@@ -1229,7 +1228,6 @@
     "type": "item_group",
     "id": "weak_antibiotic_bottle_plastic_pill_prescription_1",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "weak_antibiotic", "container-item": "null" } ]
   },
@@ -1285,7 +1283,6 @@
     "type": "item_group",
     "id": "garlic_powder_bag_plastic",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 100 ] } ]
   },
@@ -1293,7 +1290,6 @@
     "type": "item_group",
     "id": "garlic_powder_bag_paper",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 25, 500 ] } ]
   },
@@ -1301,7 +1297,6 @@
     "type": "item_group",
     "id": "tums_bottle_plastic_small_1_20",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "tums", "container-item": "null", "count": [ 1, 20 ] } ]
   }

@@ -704,6 +704,7 @@
     "condition": {
       "and": [
         { "not": { "u_has_proficiency": "prof_concentration_basic" } },
+        { "not": { "test_eoc": "EOC_CONDITION_MOM_BANNED_EFFECTS_TO_PRACTICE_CONCENTRATION" } },
         { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }
       ]
     },
@@ -716,6 +717,7 @@
           "condition": {
             "and": [
               { "not": { "u_has_proficiency": "prof_concentration_intermediate" } },
+              { "not": { "test_eoc": "EOC_CONDITION_MOM_BANNED_EFFECTS_TO_PRACTICE_CONCENTRATION" } },
               { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }
             ]
           },
@@ -727,6 +729,7 @@
                 "condition": {
                   "and": [
                     { "not": { "u_has_proficiency": "prof_concentration_master" } },
+                    { "not": { "test_eoc": "EOC_CONDITION_MOM_BANNED_EFFECTS_TO_PRACTICE_CONCENTRATION" } },
                     { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }
                   ]
                 },

@@ -641,7 +641,6 @@
     "type": "item_group",
     "id": "slime_scrap_flask_glass_1",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "flask_glass",
     "entries": [ { "item": "slime_scrap" } ]
   }

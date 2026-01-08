@@ -659,7 +659,6 @@
     "type": "item_group",
     "id": "pills_sleep_bottle_plastic_pill_prescription_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "pills_sleep", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -667,7 +666,6 @@
     "type": "item_group",
     "id": "oxycodone_bottle_plastic_pill_prescription_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "oxycodone", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -675,7 +673,6 @@
     "type": "item_group",
     "id": "xanax_bottle_plastic_pill_prescription_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "xanax", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -683,7 +680,6 @@
     "type": "item_group",
     "id": "tobacco_bag_plastic_1_20",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "tobacco", "container-item": "null", "count": [ 1, 20 ] } ]
   },
@@ -691,7 +687,6 @@
     "type": "item_group",
     "id": "crack_bag_zipper_1_4",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_zipper",
     "entries": [ { "item": "crack", "container-item": "null", "count": [ 1, 4 ] } ]
   },
@@ -699,7 +694,6 @@
     "type": "item_group",
     "id": "antifungal_bottle_plastic_pill_prescription_1_5",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "antifungal", "container-item": "null", "count": [ 1, 5 ] } ]
   },
@@ -707,7 +701,6 @@
     "type": "item_group",
     "id": "homeopathic_pills_bottle_plastic_pill_supplement_20",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_supplement",
     "entries": [ { "item": "homeopathic_pills", "container-item": "null", "count": 20 } ]
   },
@@ -715,7 +708,6 @@
     "type": "item_group",
     "id": "cookies_box_snack_1_4",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "box_snack",
     "entries": [ { "item": "cookies", "container-item": "null", "count": [ 1, 4 ] } ]
   }
