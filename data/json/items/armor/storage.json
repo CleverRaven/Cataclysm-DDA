@@ -865,7 +865,13 @@
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       }
     ],
-    "use_action": { "type": "transform", "msg": "You move the bag to your back.", "menu_text": "Switch to back", "target": "laptop_hard_case_back", "moves": 120 }
+    "use_action": {
+      "type": "transform",
+      "msg": "You move the bag to your back.",
+      "menu_text": "Switch to back",
+      "target": "laptop_hard_case_back",
+      "moves": 120
+    }
   },
   {
     "id": "laptop_hard_case_back",
