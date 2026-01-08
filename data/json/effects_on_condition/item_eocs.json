@@ -313,7 +313,7 @@
               { "u_at_om_location": "radio_tower_odd" }
             ]
           },
-          "then": { "u_message": "Its song is indescribable, almost there. " },
+          "then": { "u_message": "Its song is indescribable." },
           "else": {
             "if": {
               "or": [
