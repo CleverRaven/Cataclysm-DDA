@@ -97,11 +97,10 @@
       "nested": {
         " ": {
           "chunks": [
-            [ "spider_webs_nostick", 100 ],
-            [ "wasp_gibs", 100 ],
-            [ "void_spider_webs", 1 ],
-            [ "damaged_door_nested_no_junk", 300 ],
-            [ "destroyed_door_nested_no_junk", 300 ]
+            [ "spider_webs_nostick", 1 ],
+            [ "wasp_gibs", 1 ],
+            [ "damaged_door_nested_no_junk", 3 ],
+            [ "destroyed_door_nested_no_junk", 3 ]
           ]
         }
       }
