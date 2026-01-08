@@ -606,7 +606,13 @@
   {
     "type": "item_group",
     "id": "magic_CBM",
-    "items": [ [ "bio_fuel_cell_blood", 10 ] ]
+    "items": [
+      { "item": "bio_fuel_cell_blood", "prob": 25 },
+      { "item": "bio_mana_to_bionic_power", "prob": 25 },
+      { "item": "bio_see_wizards_eyes", "prob": 25 },
+      { "item": "bio_ley_energy_blaster", "prob": 10 },
+      { "item": "bio_sneeze_beam", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
@@ -1174,35 +1180,20 @@
     "subtype": "collection",
     "items": [
       {
-        "distribution": [
-          { "item": "spell_scroll_stormshaper_wall_of_fog", "prob": 50 },
-          { "item": "spell_scroll_lightning_blast", "prob": 50 },
-          { "item": "spell_scroll_stormshaper_cloak_of_fog", "prob": 50 },
-          { "item": "spell_scroll_stormshaper_cloak_of_frog", "prob": 25 },
-          { "item": "spell_scroll_stormshaper_loud_voice_spell", "prob": 50 }
-        ],
-        "prob": 45
+        "distribution": [ { "group": "stormshaper_spells_tier_0", "prob": 100 }, { "group": "stormshaper_spellbooks_tier_0", "prob": 5 } ],
+        "prob": 80
       },
       {
-        "distribution": [
-          { "item": "spell_scroll_jolt", "prob": 50 },
-          { "item": "spell_scroll_lightning_bolt", "prob": 50 },
-          { "item": "spell_scroll_windstrike", "prob": 50 },
-          { "item": "spell_scroll_windrun", "prob": 50 },
-          { "item": "spell_scroll_repelling_arc", "prob": 50 },
-          { "item": "spell_scroll_stormshaper_heart_of_hurricane", "prob": 50 }
-        ],
-        "prob": 40
+        "distribution": [ { "group": "stormshaper_spells_tier_1", "prob": 100 }, { "group": "stormshaper_spellbooks_tier_1", "prob": 5 } ],
+        "prob": 55
       },
       {
-        "distribution": [
-          { "item": "tome_of_storms", "prob": 5 },
-          { "item": "spell_scroll_storm_hammer", "prob": 50 },
-          { "item": "spell_scroll_stormfist", "prob": 35 },
-          { "item": "spell_scroll_stormshaper_ionization", "prob": 50 },
-          { "item": "lightning_storm_scroll", "prob": 10 }
-        ],
-        "prob": 10
+        "distribution": [ { "group": "stormshaper_spells_tier_2", "prob": 100 }, { "group": "stormshaper_spellbooks_tier_2", "prob": 5 } ],
+        "prob": 25
+      },
+      {
+        "distribution": [ { "group": "stormshaper_spells_tier_3", "prob": 50 }, { "group": "stormshaper_spellbooks_tier_3", "prob": 5 } ],
+        "prob": 5
       }
     ]
   },
@@ -1231,53 +1222,19 @@
     "subtype": "collection",
     "items": [
       {
-        "distribution": [
-          { "item": "wizard_beginner", "prob": 30 },
-          { "item": "wizard_utility", "prob": 20 },
-          { "item": "spell_scroll_magic_missile", "prob": 70 },
-          { "item": "spell_scroll_phase_door", "prob": 50 },
-          { "item": "spell_scroll_shadow_field", "prob": 40 },
-          { "item": "spell_scroll_magus_slowfall", "prob": 50 },
-          { "item": "spell_scroll_magus_spiderclimb", "prob": 40 },
-          { "item": "spell_scroll_magus_light_target", "prob": 50 },
-          { "item": "spell_scroll_magus_stop_attack_shield", "prob": 50 },
-          { "item": "spell_scroll_magus_far_hand_pull", "prob": 60 }
-        ],
-        "prob": 45
+        "distribution": [ { "group": "magus_spells_tier_0", "prob": 100 }, { "group": "magus_spellbooks_tier_0", "prob": 5 } ],
+        "prob": 80
       },
       {
-        "distribution": [
-          { "item": "wizard_advanced", "prob": 20 },
-          { "item": "spell_scroll_magus_mana_bolt", "prob": 50 },
-          { "item": "spell_scroll_magus_mana_beam", "prob": 50 },
-          { "item": "spell_scroll_magus_escape", "prob": 50 },
-          { "item": "spell_scroll_magus_silence", "prob": 35 },
-          { "item": "spell_scroll_cats_grace", "prob": 50 },
-          { "item": "spell_scroll_eagles_sight", "prob": 50 },
-          { "item": "spell_scroll_ogres_strength", "prob": 50 },
-          { "item": "spell_scroll_foxs_cunning", "prob": 50 },
-          { "item": "spell_scroll_magus_ranged_increase", "prob": 50 },
-          { "item": "spell_scroll_magus_push_nearby_enemies_back", "prob": 30 }
-        ],
-        "prob": 35
+        "distribution": [ { "group": "magus_spells_tier_1", "prob": 100 }, { "group": "magus_spellbooks_tier_1", "prob": 5 } ],
+        "prob": 55
       },
       {
-        "distribution": [
-          { "item": "magus_spellbook_move", "prob": 25 },
-          { "item": "magus_spellbook", "prob": 25 },
-          { "item": "spell_scroll_magus_mana_blast", "prob": 50 },
-          { "item": "spell_scroll_magus_haste", "prob": 50 },
-          { "item": "spell_scroll_magus_diamond_imbuement", "prob": 30 },
-          { "item": "spell_scroll_magus_slow", "prob": 50 },
-          { "item": "spell_scroll_magus_permanent_light", "prob": 30 }
-        ],
-        "prob": 10
+        "distribution": [ { "group": "magus_spells_tier_2", "prob": 100 }, { "group": "magus_spellbooks_tier_2", "prob": 5 } ],
+        "prob": 25
       },
       {
-        "distribution": [
-          { "item": "spell_scroll_magus_cannot_move_attack_or_damage_target", "prob": 10 },
-          { "item": "recovery_spellbook", "prob": 10 }
-        ],
+        "distribution": [ { "group": "magus_spells_tier_3", "prob": 50 }, { "group": "magus_spellbooks_tier_3", "prob": 5 } ],
         "prob": 5
       }
     ]
@@ -1289,57 +1246,31 @@
     "subtype": "collection",
     "items": [
       {
-        "distribution": [
-          { "item": "spell_scroll_smite", "prob": 50 },
-          { "item": "spell_scroll_animist_sense_outsiders", "prob": 30 },
-          { "item": "spell_scroll_summon_undead", "prob": 50 },
-          { "item": "spell_scroll_necrotic_gaze", "prob": 50 },
-          { "item": "spell_scroll_summon_wisps", "prob": 50 },
-          { "item": "spell_scroll_animist_summon_watcher", "prob": 50 },
-          { "item": "spell_scroll_animist_detect_wizards", "prob": 40 }
-        ],
-        "prob": 45
+        "distribution": [ { "group": "animist_spells_tier_0", "prob": 100 }, { "group": "animist_spellbooks_tier_0", "prob": 5 } ],
+        "prob": 80
+      },
+      {
+        "distribution": [ { "group": "animist_spells_tier_1", "prob": 100 }, { "group": "animist_spellbooks_tier_1", "prob": 5 } ],
+        "prob": 55
       },
       {
         "distribution": [
-          { "item": "priest_advanced", "prob": 10 },
-          { "item": "spell_scroll_summon_undead", "prob": 50 },
-          { "item": "spell_scroll_animist_vocalize", "prob": 35 },
-          { "item": "spell_scroll_animist_luck_bone", "prob": 30 },
-          { "item": "spell_scroll_animist_add_evasion_spell", "prob": 40 },
-          { "item": "spell_scroll_animist_see_invisibility", "prob": 40 },
-          { "item": "spell_scroll_animist_do_psionic_damage_to_head", "prob": 30 }
+          { "group": "animist_spells_tier_2", "prob": 100 },
+          { "group": "animist_spellbooks_tier_2", "prob": 5 },
+          { "item": "animist_dolls", "prob": 5 }
         ],
-        "prob": 35
+        "prob": 25
       },
       {
         "distribution": [
-          { "item": "recovery_spellbook", "prob": 5 },
-          { "item": "winter_grasp", "prob": 10 },
-          { "item": "spell_scroll_recover_mana", "prob": 50 },
-          { "item": "spell_scroll_summon_undead_swarm", "prob": 50 },
-          { "item": "spell_scroll_recover_pain", "prob": 50 },
-          { "item": "spell_scroll_animist_spirit_walking", "prob": 40 },
-          { "item": "spell_scroll_animist_mass_hiding_aoe", "prob": 30 },
-          { "item": "spell_scroll_animist_slow_food_rotting_spell", "prob": 50 }
+          { "group": "animist_spells_tier_3", "prob": 100 },
+          { "group": "animist_spellbooks_tier_3", "prob": 5 },
+          {
+            "distribution": [ { "item": "bleed_staff_minor", "prob": 5 }, { "item": "grim_reaper_scythe", "prob": 10, "charges": [ 1, 3 ] } ],
+            "prob": 5
+          }
         ],
-        "prob": 10
-      },
-      {
-        "distribution": [
-          { "item": "golemcore", "prob": 20 },
-          { "item": "animist_doll_skeleton", "prob": 10 },
-          { "item": "animist_doll_zombie", "prob": 20 },
-          { "item": "animist_doll_decayed_pouncer", "prob": 3 }
-        ],
-        "prob": 20
-      },
-      {
-        "distribution": [
-          { "item": "bleed_staff_minor", "prob": 90, "charges": [ 1, 5 ] },
-          { "item": "grim_reaper_scythe", "prob": 10, "charges": [ 1, 3 ] }
-        ],
-        "prob": 10
+        "prob": 5
       }
     ]
   },
@@ -1350,44 +1281,20 @@
     "subtype": "collection",
     "items": [
       {
-        "distribution": [
-          { "item": "spell_scroll_create_lighter", "prob": 50 },
-          { "item": "spell_scroll_chilling_touch", "prob": 50 },
-          { "item": "spell_scroll_kelvinist_anti_cold", "prob": 40 },
-          { "item": "spell_scroll_kelvinist_anti_heat", "prob": 40 },
-          { "item": "spell_scroll_kelvinist_persuasion_spell", "prob": 30 },
-          { "item": "spell_scroll_kelvinist_firebolt", "prob": 50 },
-          { "item": "spell_scroll_kelvinist_heat_food", "prob": 40 }
-        ],
-        "prob": 45
+        "distribution": [ { "group": "kelvinist_spells_tier_0", "prob": 100 }, { "group": "kelvinist_spellbooks_tier_0", "prob": 5 } ],
+        "prob": 80
       },
       {
-        "distribution": [
-          { "item": "wizard_utility", "prob": 10 },
-          { "item": "spell_scroll_point_flare", "prob": 50 },
-          { "item": "spell_scroll_ice_spike", "prob": 50 },
-          { "item": "spell_scroll_burning_hands", "prob": 50 },
-          { "item": "spell_scroll_frost_spray", "prob": 50 },
-          { "item": "spell_scroll_glide_ice", "prob": 50 },
-          { "item": "spell_scroll_ice_shield", "prob": 50 },
-          { "item": "spell_scroll_frost_armor", "prob": 50 },
-          { "item": "spell_scroll_kelvinist_extinguish_fire_spell", "prob": 50 },
-          { "item": "spell_scroll_kelvinist_summon_freezer_spell", "prob": 35 }
-        ],
-        "prob": 35
+        "distribution": [ { "group": "kelvinist_spells_tier_1", "prob": 100 }, { "group": "kelvinist_spellbooks_tier_1", "prob": 5 } ],
+        "prob": 55
       },
       {
-        "distribution": [
-          { "item": "wizard_advanced", "prob": 5 },
-          { "item": "pyro", "prob": 5 },
-          { "item": "spell_scroll_fireball", "prob": 10 },
-          { "item": "spell_scroll_nova_flare", "prob": 50 },
-          { "item": "spell_scroll_cone_cold", "prob": 50 },
-          { "item": "spell_scroll_hoary_blast", "prob": 50 },
-          { "item": "spell_scroll_kelvinist_no_emotion_spell", "prob": 20 },
-          { "item": "spell_scroll_kelvinist_set_everyone_on_fire", "prob": 2 }
-        ],
-        "prob": 10
+        "distribution": [ { "group": "kelvinist_spells_tier_2", "prob": 100 }, { "group": "kelvinist_spellbooks_tier_2", "prob": 5 } ],
+        "prob": 25
+      },
+      {
+        "distribution": [ { "group": "kelvinist_spells_tier_3", "prob": 100 }, { "group": "kelvinist_spellbooks_tier_3", "prob": 5 } ],
+        "prob": 5
       }
     ]
   },
@@ -1398,47 +1305,20 @@
     "subtype": "collection",
     "items": [
       {
-        "distribution": [
-          { "item": "priest_beginner", "prob": 20 },
-          { "item": "techno_idiots", "prob": 20 },
-          { "item": "spell_scroll_x-ray", "prob": 50 },
-          { "item": "spell_scroll_bless", "prob": 50 },
-          { "item": "spell_scroll_create_atomic_lamp", "prob": 50 },
-          { "item": "spell_scroll_taze", "prob": 50 },
-          { "item": "spell_scroll_laze", "prob": 50 },
-          { "item": "spell_scroll_technomancer_conjure_radio", "prob": 40 },
-          { "item": "spell_scroll_technomancer_gain_electronics_computer_spell", "prob": 40 }
-        ],
-        "prob": 45
+        "distribution": [ { "group": "technomancer_spells_tier_0", "prob": 100 }, { "group": "technomancer_spellbooks_tier_0", "prob": 5 } ],
+        "prob": 80
       },
       {
-        "distribution": [
-          { "item": "priest_advanced", "prob": 20 },
-          { "item": "techno_fundamentals", "prob": 20 },
-          { "item": "spell_scroll_quantum_tunnel_lesser", "prob": 50 },
-          { "item": "spell_scroll_holy_blade", "prob": 50 },
-          { "item": "spell_scroll_synaptic_stimulation", "prob": 50 },
-          { "item": "spell_scroll_knock", "prob": 50 },
-          { "item": "spell_scroll_technomancer_robot_shutdown", "prob": 50 },
-          { "item": "spell_scroll_technomancer_conjure_ups", "prob": 25 },
-          { "item": "spell_scroll_technomancer_welder", "prob": 35 },
-          { "item": "spell_scroll_technomancer_recharge_vehicle", "prob": 20 },
-          { "item": "spell_scroll_technomancer_create_ups_connection", "prob": 25 }
-        ],
-        "prob": 35
+        "distribution": [ { "group": "technomancer_spells_tier_1", "prob": 100 }, { "group": "technomancer_spellbooks_tier_1", "prob": 5 } ],
+        "prob": 55
       },
       {
-        "distribution": [
-          { "item": "techno_em", "prob": 5 },
-          { "item": "recovery_spellbook", "prob": 5 },
-          { "item": "spell_scroll_holographic_transposition", "prob": 10 },
-          { "item": "spell_scroll_recover_bionic_power", "prob": 50 },
-          { "item": "spell_scroll_animated_blade", "prob": 50 },
-          { "item": "spell_scroll_mirror_image", "prob": 50 },
-          { "item": "spell_scroll_improved_knock", "prob": 50 },
-          { "item": "spell_scroll_invisibility", "prob": 30 }
-        ],
-        "prob": 10
+        "distribution": [ { "group": "technomancer_spells_tier_2", "prob": 100 }, { "group": "technomancer_spellbooks_tier_2", "prob": 5 } ],
+        "prob": 25
+      },
+      {
+        "distribution": [ { "group": "technomancer_spells_tier_3", "prob": 100 }, { "group": "technomancer_spellbooks_tier_3", "prob": 5 } ],
+        "prob": 5
       },
       { "group": "magic_CBM", "prob": 2 }
     ]
@@ -1450,42 +1330,24 @@
     "subtype": "collection",
     "items": [
       {
-        "distribution": [
-          { "item": "spell_scroll_stonefist", "prob": 50 },
-          { "item": "spell_scroll_eshaper_piercing_bolt", "prob": 50 },
-          { "item": "spell_scroll_eshaper_rockbolt", "prob": 50 },
-          { "item": "spell_scroll_earthshaper_danger_sense", "prob": 50 },
-          { "item": "spell_scroll_earthshaper_fortitude_of_stone", "prob": 50 },
-          { "item": "spell_scroll_earthshaper_turning_of_earth", "prob": 50 },
-          { "item": "spell_scroll_earthshaper_repair_metal_stone", "prob": 25 },
-          { "item": "spell_scroll_earthshaper_remove_corpses", "prob": 35 }
-        ],
-        "prob": 45
+        "distribution": [ { "group": "earthshaper_spells_tier_0", "prob": 100 }, { "group": "earthshaper_spellbooks_tier_0", "prob": 5 } ],
+        "prob": 80
+      },
+      {
+        "distribution": [ { "group": "earthshaper_spells_tier_1", "prob": 100 }, { "group": "earthshaper_spellbooks_tier_1", "prob": 5 } ],
+        "prob": 55
+      },
+      {
+        "distribution": [ { "group": "earthshaper_spells_tier_2", "prob": 100 }, { "group": "earthshaper_spellbooks_tier_2", "prob": 5 } ],
+        "prob": 25
       },
       {
         "distribution": [
-          { "item": "spell_scroll_seismic_stomp", "prob": 50 },
-          { "item": "spell_scroll_clairvoyance", "prob": 50 },
-          { "item": "spell_scroll_eshaper_shardspray", "prob": 50 },
-          { "item": "spell_scroll_earthshaper_stoneskin", "prob": 50 },
-          { "item": "spell_scroll_earthshaper_pillar", "prob": 50 },
-          { "item": "spell_scroll_earthshaper_harden_earth", "prob": 50 }
+          { "group": "earthshaper_spells_tier_3", "prob": 100 },
+          { "group": "earthshaper_spellbooks_tier_3", "prob": 5 },
+          { "item": "golemcore", "prob": 10 }
         ],
-        "prob": 35
-      },
-      {
-        "distribution": [
-          { "item": "golemcore", "prob": 10 },
-          { "item": "recovery_spellbook", "prob": 5 },
-          { "item": "eshaper_spellbook", "prob": 10 },
-          { "item": "spell_scroll_recover_stamina", "prob": 50 },
-          { "item": "spell_scroll_eshaper_shardstorm", "prob": 50 },
-          { "item": "spell_scroll_earthshaper_reveal_world_map", "prob": 25 },
-          { "item": "spell_scroll_earthshaper_granite_aegis", "prob": 20 },
-          { "item": "spell_scroll_earthshaper_sleep_in_earth", "prob": 20 },
-          { "item": "spell_scroll_earthshaper_diggable_teleport", "prob": 30 }
-        ],
-        "prob": 10
+        "prob": 5
       }
     ]
   },
@@ -1496,46 +1358,20 @@
     "subtype": "collection",
     "items": [
       {
-        "distribution": [
-          { "item": "spell_scroll_light_healing", "prob": 50 },
-          { "item": "spell_scroll_bio_acidicspray", "prob": 50 },
-          { "item": "spell_scroll_biomancer_paralytic_dart", "prob": 50 },
-          { "item": "spell_scroll_biomancer_visceral_projection", "prob": 50 },
-          { "item": "spell_scroll_biomancer_swim_frog", "prob": 35 },
-          { "item": "spell_scroll_biomancer_cure_disease_minor", "prob": 50 },
-          { "item": "spell_scroll_biomancer_eat_tons_of_food", "prob": 30 },
-          { "item": "spell_scroll_biomancer_pull_items_from_distance", "prob": 30 }
-        ],
-        "prob": 45
+        "distribution": [ { "group": "biomancer_spells_tier_0", "prob": 100 }, { "group": "biomancer_spellbooks_tier_0", "prob": 5 } ],
+        "prob": 80
       },
       {
-        "distribution": [
-          { "item": "wizard_utility", "prob": 20 },
-          { "item": "priest_beginner", "prob": 30 },
-          { "item": "spell_scroll_biomancer_slow_bleeding", "prob": 40 },
-          { "item": "spell_scroll_biomancer_scalpel_fingers", "prob": 30 },
-          { "item": "spell_scroll_pain_split", "prob": 50 },
-          { "item": "spell_scroll_bio_grotesque", "prob": 50 },
-          { "item": "spell_scroll_biomancer_coagulant_weave", "prob": 50 },
-          { "item": "spell_scroll_bio_fleshpouch", "prob": 50 },
-          { "item": "spell_scroll_biomancer_lashing_tentacles", "prob": 30 },
-          { "item": "spell_scroll_biomancer_carrion_feast", "prob": 25 },
-          { "item": "spell_scroll_biomancer_caustic_blood", "prob": 20 },
-          { "item": "spell_scroll_biomancer_get_more_blood", "prob": 25 }
-        ],
-        "prob": 35
+        "distribution": [ { "group": "biomancer_spells_tier_1", "prob": 100 }, { "group": "biomancer_spellbooks_tier_1", "prob": 5 } ],
+        "prob": 55
       },
       {
-        "distribution": [
-          { "item": "wizard_advanced", "prob": 10 },
-          { "item": "biomancer_spellbook", "prob": 10 },
-          { "item": "spell_scroll_biomancer_baleful_polymorph", "prob": 35 },
-          { "item": "spell_scroll_biomancer_giant_growth", "prob": 30 },
-          { "item": "spell_scroll_vicious_tentacle", "prob": 50 },
-          { "item": "spell_scroll_bio_bonespear", "prob": 50 },
-          { "item": "spell_scroll_biomancer_hyper_regeneration", "prob": 10 }
-        ],
-        "prob": 10
+        "distribution": [ { "group": "biomancer_spells_tier_2", "prob": 100 }, { "group": "biomancer_spellbooks_tier_2", "prob": 5 } ],
+        "prob": 25
+      },
+      {
+        "distribution": [ { "group": "biomancer_spells_tier_3", "prob": 100 }, { "group": "biomancer_spellbooks_tier_3", "prob": 5 } ],
+        "prob": 5
       }
     ]
   },
@@ -1546,59 +1382,26 @@
     "subtype": "collection",
     "items": [
       {
-        "distribution": [
-          { "item": "spell_scroll_druid_woodshaft", "prob": 30 },
-          { "item": "summon_scroll_smudged", "prob": 2 },
-          { "item": "spell_scroll_tornskin", "prob": 2 },
-          { "item": "spell_scroll_summon_cats", "prob": 50 },
-          { "item": "spell_scroll_seed_of_growth", "prob": 15 },
-          { "item": "spell_scroll_druid_anti_heat", "prob": 40 },
-          { "item": "spell_scroll_druid_harvest_hunter", "prob": 30 },
-          { "item": "spell_scroll_druid_bramble_spear", "prob": 30 },
-          { "item": "spell_scroll_druid_breathing_underwater", "prob": 30 },
-          { "item": "spell_scroll_druid_water_walking", "prob": 30 },
-          { "item": "spell_scroll_druid_traverse_the_wilds", "prob": 40 }
-        ],
-        "prob": 45
+        "distribution": [ { "group": "druid_spells_tier_0", "prob": 100 }, { "group": "druid_spellbooks_tier_0", "prob": 5 } ],
+        "prob": 80
+      },
+      {
+        "distribution": [ { "group": "druid_spells_tier_1", "prob": 100 }, { "group": "druid_spellbooks_tier_1", "prob": 5 } ],
+        "prob": 55
       },
       {
         "distribution": [
-          { "item": "druid_spellbook", "prob": 20 },
-          { "item": "rune_druid_nature_staff", "prob": 25 },
-          { "item": "spell_scroll_druid_veggrasp", "prob": 100 },
-          { "item": "spell_scroll_druid_naturebow1", "prob": 100 },
-          { "item": "spell_scroll_druid_whisper_leaves", "prob": 100 },
-          { "item": "spell_scroll_druid_rootstrike", "prob": 100 },
-          { "item": "spell_scroll_druid_bandage", "prob": 100 },
-          { "item": "spell_scroll_druid_disinfectant", "prob": 50 },
-          { "item": "spell_scroll_purification_seed", "prob": 100 },
-          { "item": "spell_scroll_druid_bearmantle", "prob": 75 },
-          { "item": "spell_scroll_druid_summon_tanglevine", "prob": 50 },
-          { "item": "spell_scroll_druid_summon_brambles", "prob": 60 },
-          { "item": "spell_scroll_druid_wood_living_tree_spell", "prob": 80 },
-          { "item": "spell_scroll_druid_goodberry", "prob": 85 }
+          { "group": "druid_spells_tier_2", "prob": 100 },
+          { "group": "druid_spellbooks_tier_2", "prob": 5 },
+          { "group": "items_of_elvenkind", "prob": 5 }
         ],
-        "prob": 35
+        "prob": 25
       },
       {
         "distribution": [
-          { "item": "recovery_spellbook", "prob": 10 },
-          { "item": "plant_spellbook", "prob": 10 },
-          { "group": "items_of_elvenkind", "prob": 5 },
-          { "item": "spell_scroll_recover_sleepiness", "prob": 100 },
-          { "item": "spell_scroll_druid_thornskin", "prob": 100 },
-          { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
-          { "item": "spell_scroll_druidic_healing", "prob": 100 },
-          { "item": "spell_scroll_druid_beguile_savage_beast", "prob": 75 },
-          { "item": "spell_scroll_druid_create_temporary_spring", "prob": 75 }
-        ],
-        "prob": 10
-      },
-      {
-        "distribution": [
-          { "group": "druid_shapeshifting_learn_books", "prob": 5 },
-          { "item": "spell_scroll_druid_renew_forest_spell", "prob": 50 },
-          { "item": "spell_scroll_druid_turn_tree_into_treant", "prob": 25 }
+          { "group": "druid_spells_tier_3", "prob": 100 },
+          { "group": "druid_spellbooks_tier_3", "prob": 5 },
+          { "group": "druid_shapeshifting_learn_books", "prob": 5 }
         ],
         "prob": 5
       }
