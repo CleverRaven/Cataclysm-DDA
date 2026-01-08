@@ -1459,37 +1459,24 @@
         "prob": 15
       },
       {
-        "distribution": [
-          { "item": "wizard_beginner", "prob": 20 },
-          { "item": "spell_scroll_create_atomic_light", "prob": 50 },
-          { "item": "spell_scroll_ethereal_grasp", "prob": 50 },
-          { "item": "spell_scroll_crystallize_mana", "prob": 50 },
-          { "item": "spell_scroll_blinding_flash", "prob": 50 },
-          { "item": "spell_scroll_classless_restore_crystal_mana", "prob": 40 },
-          { "item": "spell_scroll_classless_clean_clothing_and_self", "prob": 50 },
-          { "item": "spell_scroll_classless_easy_sleep_spell", "prob": 50 }
-        ],
-        "prob": 50
+        "distribution": [ { "group": "classless_spells_tier_0", "prob": 100 }, { "group": "classless_spellbooks_tier_0", "prob": 5 } ],
+        "prob": 80
+      },
+      {
+        "distribution": [ { "group": "classless_spells_tier_1", "prob": 100 }, { "group": "classless_spellbooks_tier_1", "prob": 5 } ],
+        "prob": 55
+      },
+      {
+        "distribution": [ { "group": "classless_spells_tier_2", "prob": 100 }, { "group": "classless_spellbooks_tier_2", "prob": 5 } ],
+        "prob": 25
       },
       {
         "distribution": [
-          { "item": "wizard_utility", "prob": 10 },
-          { "item": "spell_scroll_protection_aura", "prob": 50 },
-          { "item": "spell_scroll_dark_sight", "prob": 30 },
-          { "item": "spell_scroll_megablast", "prob": 30 },
-          { "item": "spell_scroll_classless_dispel_magic", "prob": 30 }
+          { "group": "classless_spells_tier_3", "prob": 100 },
+          { "group": "classless_spellbooks_tier_3", "prob": 5 },
+          { "item": "golemcore", "prob": 10 }
         ],
-        "prob": 40
-      },
-      {
-        "distribution": [
-          { "item": "golemcore", "prob": 3 },
-          { "item": "light_manipulation_spellbook", "prob": 5 },
-          { "item": "translocate_spellbook", "prob": 2 },
-          { "item": "spell_scroll_obfuscated_body", "prob": 50 },
-          { "item": "spell_scroll_classless_disjunction", "prob": 20 }
-        ],
-        "prob": 10
+        "prob": 5
       },
       {
         "distribution": [ { "group": "enchanted_rings_common", "prob": 30 }, { "group": "enchanted_rings_uncommon", "prob": 10 } ],
