@@ -1571,7 +1571,7 @@
       { "item": "survnote", "prob": 10 },
       { "item": "family_photo", "prob": 10 },
       { "item": "tazer", "prob": 5 },
-      { "item": "laptop_hard_case", "prob": 5 },
+      { "item": "laptop_hard_case", "prob": 5 }
     ]
   },
   {
