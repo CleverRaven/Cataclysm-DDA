@@ -585,6 +585,54 @@ class read_activity_actor : public activity_actor
                                        const Character & ) const override;
 };
 
+class study_spell_activity_actor : public activity_actor
+{
+    public:
+        //learn
+        explicit study_spell_activity_actor( spell_id selected_spell ) :
+            selected_spell( selected_spell ), learning( true )
+        {};
+        //study for duration
+        explicit study_spell_activity_actor(
+            spell_id selected_spell, time_duration initial_moves ) :
+            selected_spell( selected_spell ), initial_moves( initial_moves ), learning( false )
+        {};
+        //study until next level
+        explicit study_spell_activity_actor(
+            spell_id selected_spell, int next_spell_level ) :
+            selected_spell( selected_spell ), learning( false ), next_spell_level( next_spell_level ),
+            until_level_gained( true )
+        {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
+            return ACT_STUDY_SPELL;
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<study_spell_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        study_spell_activity_actor() = default;
+        spell_id selected_spell;
+        time_duration initial_moves;
+        // false = learn, true = study
+        bool learning;
+
+        int next_spell_level = 0;
+        bool until_level_gained = false;
+        int xp_gained = 0;
+        bool cancelled = false;
+};
+
 class move_items_activity_actor : public activity_actor
 {
     private:
@@ -1183,7 +1231,7 @@ class consume_activity_actor : public activity_actor
     private:
         item_location consume_location;
         item consume_item;
-        bool canceled = false;
+        bool was_canceled = false;
         // whether to show the consume menu after this activity finishes
         bool reprompt_consume_menu = false;
 
@@ -1193,7 +1241,7 @@ class consume_activity_actor : public activity_actor
         bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
             const consume_activity_actor &c_actor = static_cast<const consume_activity_actor &>( other );
             return consume_location == c_actor.consume_location &&
-                   canceled == c_actor.canceled && &consume_item == &c_actor.consume_item;
+                   was_canceled == c_actor.was_canceled && &consume_item == &c_actor.consume_item;
         }
     public:
         explicit consume_activity_actor( const item_location &consume_location,
@@ -1211,6 +1259,7 @@ class consume_activity_actor : public activity_actor
         void start( player_activity &act, Character &guy ) override;
         void do_turn( player_activity &, Character & ) override {}
         void finish( player_activity &act, Character & ) override;
+        void canceled( player_activity &, Character &who ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<consume_activity_actor>( *this );
@@ -2703,6 +2752,38 @@ class churn_activity_actor : public activity_actor
         item_location tool;
 };
 
+class hand_crank_activity_actor : public activity_actor
+{
+    public:
+        hand_crank_activity_actor() = default;
+        hand_crank_activity_actor( time_duration initial_moves, const item_location &hand_crank_tool ) :
+            initial_moves( initial_moves ), hand_crank_tool( hand_crank_tool ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
+            return ACT_HAND_CRANK;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        std::string get_progress_message( const player_activity & ) const override {
+            return std::string();
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<hand_crank_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        time_duration initial_moves; // NOLINT(cata-serialize)
+        item_location hand_crank_tool;
+};
+
 class clear_rubble_activity_actor : public activity_actor
 {
     public:
@@ -2808,6 +2889,7 @@ class firstaid_activity_actor : public activity_actor
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &, Character & ) override {};
         void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &, Character &who ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<firstaid_activity_actor>( *this );

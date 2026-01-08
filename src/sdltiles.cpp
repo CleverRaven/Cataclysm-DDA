@@ -53,6 +53,7 @@
 #include "hash_utils.h"
 #include "horde_entity.h"
 #include "input.h"
+#include "input_context.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
@@ -537,6 +538,8 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
 
 #endif
 
+static void draw_gamepad_radial_menu();
+
 void refresh_display()
 {
     needupdate = false;
@@ -565,6 +568,7 @@ void refresh_display()
     }
     draw_virtual_joystick();
 #endif
+    draw_gamepad_radial_menu();
     SDL_RenderPresent( renderer.get() );
     SetRenderTarget( renderer, display_buffer );
 }
@@ -2491,7 +2495,107 @@ void draw_virtual_joystick()
     RenderCopy( renderer, touch_joystick, NULL, &dstrect );
 
 }
+#endif
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
+static void draw_gamepad_radial_menu()
+{
+    if( !gamepad::is_active() || !gamepad::is_alt_held() ) {
+        return;
+    }
+
+    int stick_idx = -1;
+    gamepad::direction selected_dir = gamepad::direction::NONE;
+    if( gamepad::is_radial_left_open() ) {
+        stick_idx = 0;
+        selected_dir = gamepad::get_radial_left_direction();
+    } else if( gamepad::is_radial_right_open() ) {
+        stick_idx = 1;
+        selected_dir = gamepad::get_radial_right_direction();
+    }
+
+    if( stick_idx == -1 ) {
+        return;
+    }
+
+    if( input_context::input_context_stack.empty() ) {
+        return;
+    }
+
+    input_context *ctxt = input_context::input_context_stack.back();
+    if( !ctxt ) {
+        return;
+    }
+
+    int w;
+    int h;
+    SDL_GetRendererOutputSize( renderer.get(), &w, &h );
+
+    // Draw a semi-transparent black background over the whole screen
+    SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
+    geometry->rect( renderer, { 0, 0, w, h }, { 0, 0, 0, 150 } );
+    SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
+
+    const point center( w / 2, h / 2 );
+    const float radius = h * 0.8f / 2.0f;
+
+    // Scale font relative to window height.
+    // Base scale 1.0 at 720p, for labels to be legible.
+    float text_scale = static_cast<float>( h ) / 720.0f * 1.0f;
+    SDL_RenderSetScale( renderer.get(), text_scale, text_scale );
+
+    static const std::vector<gamepad::direction> directions = {
+        gamepad::direction::N, gamepad::direction::NE, gamepad::direction::E,
+        gamepad::direction::SE, gamepad::direction::S, gamepad::direction::SW,
+        gamepad::direction::W, gamepad::direction::NW
+    };
+
+    for( size_t i = 0; i < directions.size(); ++i ) {
+        gamepad::direction dir = directions[i];
+        int joy_code = gamepad::direction_to_radial_joy( dir, stick_idx );
+        input_event event( joy_code, input_event_t::gamepad );
+        const std::string &action = ctxt->input_to_action( event );
+
+        std::string label;
+        if( action == "ERROR" ) {
+            label = "None";
+        } else {
+            label = ctxt->get_action_name( action );
+            if( label.empty() ) {
+                label = "None";
+            }
+        }
+
+        // Angle in radians (0 is North, clockwise)
+        float angle = i * ( 2.0f * M_PI / 8.0f );
+        float target_x = center.x + radius * std::sin( angle );
+        float target_y = center.y - radius * std::cos( angle );
+
+        // Convert target screen coords back to scaled coords for font drawing
+        const point draw( static_cast<int>( target_x / text_scale ) - ( font->width * utf8_width(
+                              label ) / 2 ),
+                          static_cast<int>( target_y / text_scale ) - ( font->height / 2 ) );
+
+        bool is_selected = dir == selected_dir;
+
+        if( is_selected ) {
+            // Draw selected item in yellow
+            font->OutputChar( renderer, geometry, label, draw,
+                              11, 1.0f );
+        } else {
+            font->OutputChar( renderer, geometry, label, draw,
+                              15, 1.0f );
+        }
+    }
+
+    // Restore scale
+    SDL_RenderSetScale( renderer.get(), 1.0f, 1.0f );
+}
+
+#if defined(__ANDROID__)
 void update_finger_repeat_delay()
 {
     float delta_x = finger_curr_x - finger_down_x;
@@ -2556,10 +2660,10 @@ void handle_finger_input( uint32_t ticks )
                 } else if( std::abs( delta_y ) < delta_x * 2.0f ) {
                     if( delta_y < 0 ) {
                         // swipe up-right
-                        last_input = input_event( JOY_RIGHTUP, input_event_t::gamepad );
+                        last_input = input_event( JOY_LS_UP_RIGHT, input_event_t::gamepad );
                     } else {
                         // swipe down-right
-                        last_input = input_event( JOY_RIGHTDOWN, input_event_t::gamepad );
+                        last_input = input_event( JOY_LS_DOWN_RIGHT, input_event_t::gamepad );
                     }
                 } else {
                     if( delta_y < 0 ) {
@@ -2577,11 +2681,11 @@ void handle_finger_input( uint32_t ticks )
                 } else if( std::abs( delta_y ) < -delta_x * 2.0f ) {
                     if( delta_y < 0 ) {
                         // swipe up-left
-                        last_input = input_event( JOY_LEFTUP, input_event_t::gamepad );
+                        last_input = input_event( JOY_LS_UP_LEFT, input_event_t::gamepad );
 
                     } else {
                         // swipe down-left
-                        last_input = input_event( JOY_LEFTDOWN, input_event_t::gamepad );
+                        last_input = input_event( JOY_LS_DOWN_LEFT, input_event_t::gamepad );
                     }
                 } else {
                     if( delta_y < 0 ) {
@@ -3251,7 +3355,15 @@ static void CheckMessages()
                 gamepad::handle_button_event( ev );
                 break;
             case SDL_CONTROLLERAXISMOTION:
-                gamepad::handle_axis_event( ev );
+                if( gamepad::handle_axis_event( ev ) ) {
+                    // Direction indicator changed, need to redraw
+                    needupdate = true;
+                    ui_manager::redraw_invalidated();
+                }
+                break;
+            case SDL_CONTROLLERDEVICEADDED:
+            case SDL_CONTROLLERDEVICEREMOVED:
+                gamepad::handle_device_event( ev );
                 break;
             case SDL_GAMEPAD_SCHEDULER:
                 gamepad::handle_scheduler_event( ev );

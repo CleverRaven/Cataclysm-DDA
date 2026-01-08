@@ -108,7 +108,7 @@ class relic_procgen_data
     private:
 
         weighted_int_list<relic_charge_template> charge_values;
-        weighted_int_list<enchantment_value_passive<int>> passive_add_procgen_values;
+        weighted_int_list<enchantment_value_passive<float>> passive_add_procgen_values;
         weighted_int_list<enchantment_value_passive<float>> passive_mult_procgen_values;
         weighted_int_list<enchantment_active> passive_hit_you;
         weighted_int_list<enchantment_active> passive_hit_me;

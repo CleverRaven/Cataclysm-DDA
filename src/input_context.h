@@ -8,7 +8,7 @@
 #include <string_view>
 #include <vector>
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(TILES)
 #include <list>
 #endif
 
@@ -41,15 +41,17 @@ class input_context
 {
         friend class keybindings_ui;
     public:
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(TILES)
         // Whatever's on top is our current input context.
         static std::list<input_context *> input_context_stack;
 #endif
 
         input_context() : registered_any_input( false ), category( "default" ),
             coordinate_input_received( false ), handling_coordinate_input( false ) {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(TILES)
             input_context_stack.push_back( this );
+#endif
+#if defined(__ANDROID__)
             allow_text_entry = false;
 #endif
             register_action( "toggle_language_to_en" );
@@ -61,18 +63,22 @@ class input_context
             : registered_any_input( false ), category( category ),
               coordinate_input_received( false ), handling_coordinate_input( false ),
               preferred_keyboard_mode( preferred_keyboard_mode ) {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(TILES)
             input_context_stack.push_back( this );
+#endif
+#if defined(__ANDROID__)
             allow_text_entry = false;
 #endif
             register_action( "toggle_language_to_en" );
         }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(TILES)
         virtual ~input_context() {
             input_context_stack.remove( this );
         }
+#endif
 
+#if defined(__ANDROID__)
         // HACK: hack to allow creating manual keybindings for getch() instances, uilists etc. that don't use an input_context outside of the Android version
         struct manual_key {
             manual_key( int _key, const std::string &_text ) : key( _key ), text( _text ) {}

@@ -69,6 +69,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "json.h"
+#include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -157,6 +158,7 @@ static const activity_id ACT_GUNMOD_REMOVE( "ACT_GUNMOD_REMOVE" );
 static const activity_id ACT_HACKING( "ACT_HACKING" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
+static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
@@ -193,6 +195,7 @@ static const activity_id ACT_SHEARING( "ACT_SHEARING" );
 static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 static const activity_id ACT_STASH( "ACT_STASH" );
+static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_TENT_DECONSTRUCT( "ACT_TENT_DECONSTRUCT" );
 static const activity_id ACT_TENT_PLACE( "ACT_TENT_PLACE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
@@ -216,6 +219,7 @@ static const activity_id ACT_WORKOUT_HARD( "ACT_WORKOUT_HARD" );
 static const activity_id ACT_WORKOUT_LIGHT( "ACT_WORKOUT_LIGHT" );
 static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
 
+static const ammotype ammo_battery( "battery" );
 static const ammotype ammo_plutonium( "plutonium" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
@@ -259,6 +263,7 @@ static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
+static const itype_id itype_battery( "battery" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_efile_junk( "efile_junk" );
@@ -2501,6 +2506,111 @@ std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+void study_spell_activity_actor::start( player_activity &act, Character &who )
+{
+    if( learning ) {
+        initial_moves = who.magic->time_to_learn_spell( who, selected_spell );
+    }
+    if( until_level_gained ) {
+        initial_moves = calendar::INDEFINITELY_LONG_DURATION;
+    }
+    act.moves_total = to_moves<int>( initial_moves );
+    act.moves_left = act.moves_total;
+}
+
+void study_spell_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    // Stop if there is not enough light to study
+    if( who.fine_detail_vision_mod() > 4 ) {
+        cancelled = true;
+        act.moves_left = 0;
+        return;
+    }
+    // "study" if we already know the spell, and want to study it more
+    if( !learning ) {
+        spell &studying = who.magic->get_spell( selected_spell );
+        // If we are studying to gain a level, keep studying until level changes
+        if( until_level_gained ) {
+            if( studying.get_level() < next_spell_level ) {
+                act.moves_left = calendar::INDEFINITELY_LONG;
+            } else {
+                act.moves_left = 0;
+                return;
+            }
+        }
+        const int old_level = studying.get_level();
+        // Gain some experience from studying
+        const float base_xp_per_tick = studying.exp_modifier( who ) / to_turns<float>( 6_seconds );
+
+        float xp_multiplier = 1.0f;
+        if( old_level >= 9 ) {
+            xp_multiplier = 0.25f; // halved at 3, halved again at 9 -> 0.5 * 0.5 = 0.25
+        } else if( old_level >= 3 ) {
+            xp_multiplier = 0.5f;
+        }
+
+        const int xp = roll_remainder( base_xp_per_tick * xp_multiplier );
+
+        xp_gained += xp;
+        studying.gain_exp( who, xp );
+        bool leveled_up = who.practice( studying.skill(), xp, studying.get_difficulty( who ), true );
+        if( leveled_up &&
+            studying.get_difficulty( who ) < static_cast<int>( who.get_skill_level( studying.skill() ) ) ) {
+            who.handle_skill_warning( studying.skill(),
+                                      true ); // show the skill warning on level up, since we suppress it in practice() above
+        }
+        // Notify player if the spell leveled up
+        if( studying.get_level() > old_level ) {
+            who.add_msg_if_player( m_good, _( "You gained a level in %s!" ), studying.name() );
+        }
+    }
+}
+
+void study_spell_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    const int total_exp_gained = xp_gained;
+
+    if( !learning ) {
+        who.add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
+                               total_exp_gained );
+    } else if( learning && !cancelled ) {
+        who.magic->learn_spell( selected_spell, who );
+    }
+    if( cancelled ) {
+        who.add_msg_if_player( m_bad, _( "It's too dark to read." ) );
+    }
+}
+
+void study_spell_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "initial_moves", initial_moves );
+    jsout.member( "selected_spell", selected_spell );
+    jsout.member( "next_spell_level", next_spell_level );
+    jsout.member( "learning", learning );
+    jsout.member( "until_level_gained", until_level_gained );
+    jsout.member( "xp_gained", xp_gained );
+    jsout.member( "cancelled", cancelled );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> study_spell_activity_actor::deserialize( JsonValue &jsin )
+{
+    study_spell_activity_actor actor;
+    JsonObject data = jsin.get_object();
+
+    data.read( "initial_moves", actor.initial_moves );
+    data.read( "selected_spell", actor.selected_spell );
+    data.read( "next_spell_level", actor.next_spell_level );
+    data.read( "learning", actor.learning );
+    data.read( "until_level_gained", actor.until_level_gained );
+    data.read( "xp_gained", actor.xp_gained );
+    data.read( "cancelled", actor.cancelled );
+
+    return actor.clone();
+}
+
 void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 {
     map &here = get_map();
@@ -4121,7 +4231,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     auto player_will_eat = [this, &moves, &player_character, &guy]( const item & it ) {
         ret_val<edible_rating> ret = player_character.will_eat( it, true );
         if( !ret.success() ) {
-            canceled = true;
+            was_canceled = true;
             uistate.consume_uistate.clear();
         } else {
             moves = to_moves<int>( guy.get_consume_time( it ) );
@@ -4134,7 +4244,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
         player_will_eat( consume_item );
     } else {
         debugmsg( "Item/location to be consumed should not be null." );
-        canceled = true;
+        was_canceled = true;
     }
 
     act.moves_total = moves;
@@ -4151,7 +4261,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     item_location consume_loc = consume_location;
 
     avatar &player_character = get_avatar();
-    if( !canceled ) {
+    if( !was_canceled ) {
         if( consume_loc ) {
             player_character.consume( consume_loc, /*force=*/true );
         } else if( !consume_item.is_null() ) {
@@ -4185,13 +4295,20 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     }
 }
 
+void consume_activity_actor::canceled( player_activity &, Character &who )
+{
+    if( who.is_avatar() ) {
+        uistate.consume_uistate.clear();
+    }
+}
+
 void consume_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
     jsout.member( "consume_location", consume_location );
     jsout.member( "consume_item", consume_item );
-    jsout.member( "canceled", canceled );
+    jsout.member( "canceled", was_canceled );
     jsout.member( "reprompt_consume_menu", reprompt_consume_menu );
 
     jsout.end_object();
@@ -4206,7 +4323,7 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonValue &
 
     data.read( "consume_location", actor.consume_location );
     data.read( "consume_item", actor.consume_item );
-    data.read( "canceled", actor.canceled );
+    data.read( "canceled", actor.was_canceled );
     if( data.has_member( "reprompt_consume_menu" ) ) {
         data.read( "reprompt_consume_menu", actor.reprompt_consume_menu );
     }
@@ -8122,6 +8239,52 @@ std::unique_ptr<activity_actor> churn_activity_actor::deserialize( JsonValue &js
     return actor.clone();
 }
 
+void hand_crank_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( initial_moves );
+    act.moves_left = act.moves_total;
+}
+
+void hand_crank_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    // Hand-crank chargers seem to range from 2 watt (very common easily verified)
+    // to 10 watt (suspicious claims from some manufacturers) sustained output.
+    // It takes 2.4 minutes to produce 1kj at just slightly under 7 watts (25 kj per hour)
+    // time-based instead of speed based because it's a sustained activity
+    item &hand_crank_item = *hand_crank_tool;
+
+    int time_to_crank = to_seconds<int>( 144_seconds );
+    // Modify for weariness
+    time_to_crank /= who.exertion_adjusted_move_multiplier( act.exertion_level() );
+    if( calendar::once_every( time_duration::from_seconds( time_to_crank ) ) ) {
+        if( hand_crank_item.ammo_capacity( ammo_battery ) > hand_crank_item.ammo_remaining() ) {
+            hand_crank_item.ammo_set( itype_battery, hand_crank_item.ammo_remaining() + 1 );
+        } else {
+            act.set_to_null();
+            add_msg( m_info, _( "You've charged the battery completely." ) );
+        }
+    }
+    if( who.get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
+        act.set_to_null();
+        add_msg( m_info, _( "You're too exhausted to keep cranking." ) );
+    }
+}
+
+void hand_crank_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "hand_crank_tool", hand_crank_tool );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> hand_crank_activity_actor::deserialize( JsonValue &jsin )
+{
+    hand_crank_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "hand_crank_tool", actor.hand_crank_tool );
+    return actor.clone();
+}
+
 void clear_rubble_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
@@ -8228,6 +8391,13 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
             avatar_action::eat_or_use( get_avatar(),
                                        game_menus::inv::consume( uistate.consume_uistate.consume_menu_comestype ) );
         };
+    }
+}
+
+void firstaid_activity_actor::canceled( player_activity &, Character &who )
+{
+    if( who.is_avatar() ) {
+        uistate.consume_uistate.clear();
     }
 }
 
@@ -11069,6 +11239,7 @@ deserialize_functions = {
     { ACT_HACKING, &hacking_activity_actor::deserialize },
     { ACT_HACKSAW, &hacksaw_activity_actor::deserialize },
     { ACT_HAIRCUT, &haircut_activity_actor::deserialize },
+    { ACT_HAND_CRANK, &hand_crank_activity_actor::deserialize },
     { ACT_HARVEST, &harvest_activity_actor::deserialize},
     { ACT_HEATING, &heat_activity_actor::deserialize },
     { ACT_HOTWIRE_CAR, &hotwire_car_activity_actor::deserialize },
@@ -11102,6 +11273,7 @@ deserialize_functions = {
     { ACT_SKIN, &butchery_activity_actor::deserialize },
     { ACT_START_ENGINES, &start_engines_activity_actor::deserialize },
     { ACT_STASH, &stash_activity_actor::deserialize },
+    { ACT_STUDY_SPELL, &study_spell_activity_actor::deserialize },
     { ACT_TENT_DECONSTRUCT, &tent_deconstruct_activity_actor::deserialize },
     { ACT_TENT_PLACE, &tent_placement_activity_actor::deserialize },
     { ACT_TRY_SLEEP, &try_sleep_activity_actor::deserialize },

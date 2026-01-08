@@ -520,6 +520,7 @@ class item : public visitable
                             bool debug ) const;
         void ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                         bool debug ) const;
+        std::string print_compatible_mags_or_flags() const;
         void gun_info( const item *mod, std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                        bool debug ) const;
         void gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
