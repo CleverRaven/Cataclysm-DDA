@@ -54,8 +54,6 @@
 #include "point.h"
 #include "rng.h"
 #include "simple_pathfinding.h"
-#include "text_snippets.h"
-#include "translation.h"
 #include "translations.h"
 #include "uilist.h"
 #include "viewer.h"
@@ -72,7 +70,6 @@ static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
-static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
@@ -92,14 +89,12 @@ static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_socialized_recently( "socialized_recently" );
 
 static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );
 
 static const mission_type_id mission_MISSION_REACH_SAFETY( "MISSION_REACH_SAFETY" );
 
-static const morale_type morale_chat( "morale_chat" );
 static const morale_type morale_haircut( "morale_haircut" );
 static const morale_type morale_shave( "morale_shave" );
 
@@ -818,39 +813,7 @@ void talk_function::buy_shave( npc &p )
 void talk_function::morale_chat_activity( npc &p )
 {
     Character &player_character = get_player_character();
-    const int moves = to_moves<int>( 10_minutes );
-    player_character.assign_activity( ACT_SOCIALIZE, moves );
-    player_character.activity.str_values.push_back( p.get_name() );
-    if( one_in( 3 ) ) {
-        p.say( SNIPPET.random_from_category( "npc_socialize" ).value_or( translation() ).translated() );
-    }
-    add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
-    // 50% chance of increasing 1 npc opinion value each social chat after 6hr
-    if( !p.has_effect( effect_socialized_recently ) && p.opinion_values_raised <= 10 ) {
-        int value_change = 0;
-        switch( rng( 1, 3 ) ) {
-            case 1:
-                value_change = rng( 0, 1 );
-                p.op_of_u.trust += value_change;
-                break;
-            case 2:
-                value_change = rng( 0, 1 );
-                p.op_of_u.value += value_change;
-                break;
-            case 3:
-                if( p.op_of_u.anger > 0 ) {
-                    value_change = rng( -1, 0 );
-                    p.op_of_u.anger += value_change;
-                }
-                break;
-        }
-        // we need to check for any non-zero value, e.g. anger change might be negative
-        if( value_change != 0 ) {
-            p.opinion_values_raised++;
-        }
-        p.add_effect( effect_socialized_recently, 6_hours );
-    }
-    player_character.add_morale( morale_chat, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
+    player_character.assign_activity( socialize_activity_actor( 10_minutes, p.getID() ) );
 }
 
 /*
