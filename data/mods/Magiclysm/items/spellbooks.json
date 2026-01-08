@@ -833,6 +833,35 @@
     }
   },
   {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "id": "plant_spellbook_expurgated",
+    "name": {
+      "ctxt": "spellbook",
+      "str": "The Elven Path (popular edition)",
+      "str_pl": "copies of The Elven Path (popular edition)"
+    },
+    "//": "7 Druid spells",
+    "description": "Written by the elven archdruid Tylindel Melithilarahd over 500 years ago, this weighty tome was considered *the* most important book of the Harmonist druidic movement up until just before the Cataclysm.  Archdruid Melithilarahd's death in 2016 ended his overt patronage of his own works, allowing other writers to attempt to make their mark, especially younger elves who did not have such a strident anti-modern attitude.  In addition to all the philosophical essays about the importance of living in harmony with nature and allowing plants to grow where they will are several plant-based druidic spells.  This particular copy has the restricted spells present in the original excised.",
+    "price": "150 USD",
+    "material": [ "paper", "cardboard" ],
+    "symbol": "?",
+    "looks_like": "cookbook",
+    "color": "green",
+    "weight": "2041 g",
+    "volume": "1500 ml",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "druid_whisper_leaves",
+        "druid_summon_brambles",
+        "druid_renew_forest_spell",
+        "druid_wood_living_tree_spell",
+        "druidic_regrowth"
+      ]
+    }
+  },
+  {
     "id": "book_lazy_magic",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
