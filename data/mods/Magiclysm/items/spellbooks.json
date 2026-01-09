@@ -452,7 +452,14 @@
     "color": "light_gray",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast", "magus_summon_impact_sling", "magus_mage_conjured_armor" ]
+      "spells": [
+        "magus_mana_beam",
+        "magus_mana_bolt",
+        "magus_mana_blast",
+        "magus_summon_impact_sling",
+        "magus_mage_conjured_armor",
+        "magus_mage_conjured_blade"
+      ]
     }
   },
   {
