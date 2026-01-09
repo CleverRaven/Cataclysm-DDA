@@ -1054,7 +1054,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Recording_Length",
     "type": "talk_topic",
-    "dynamic_line": "You do need to have the storm, in some capacity, be active near the unit while it is recording.  But, we do not expect you to record from the eye of the storm, or for the full hour.  As long as you capture some data it will suffice."
+    "dynamic_line": "You do need to have the storm, in some capacity, be active near the unit while it is recording.  But, we do not expect you to record from the eye of the storm, nor does the storm need to be active for the full hour.  As long as you capture some data it will suffice.  We caution you not to shut off the device early - allow it to finish the 1 hour recording subroutine so that it prints useable data."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Replacement",
@@ -1492,7 +1492,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_1",
     "type": "mission_definition",
     "name": { "str": "Weather Permitting" },
-    "description": "Assemble it and <color_yellow>start a recording on a mobile weather station</color> during an <color_yellow>early</color>, <color_yellow>distant</color>, or <color_yellow>close portal storm</color>.  After 1 hour the station will print some sort of <color_yellow>strange weather datasheet</color> to return to Hub 01.",
+    "description": "Assemble and <color_yellow>activate the 1-hour recording subroutine</color> on a <color_yellow>a mobile weather station</color> during an <color_yellow>early</color>, <color_yellow>distant</color>, or <color_yellow>close portal storm</color>.  After 1 hour the station will print some sort of <color_yellow>strange weather datasheet</color> to return to Hub 01.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,

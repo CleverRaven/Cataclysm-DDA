@@ -615,11 +615,11 @@
           ]
         },
         "effect": [
-          { "u_consume_item": "HEW_printout_data_cabin_reverb", "count": 1, "popup": true },
-          { "math": [ "HEW_cabin_dimension_reverb_data_sold++" ] },
+          { "u_consume_item": "HEW_printout_data_cabin_reverb_dimension", "count": 1, "popup": true },
+          { "math": [ "HEW_cabin_reverb_dimension_data_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 20 }
         ],
-        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_CABIN_REVERB"
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_CABIN_REVERB_DIMENSION"
       },
       {
         "text": "[Deposit datasheet ESFX.]",
@@ -634,7 +634,7 @@
           { "math": [ "HEW_barricaded_church_data_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 20 }
         ],
-        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_CABIN_BARRICADED_CHURCH"
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_BARRICADED_CHURCH"
       },
       {
         "text": "[Deposit datasheet 01Z90.]",
@@ -649,7 +649,7 @@
           { "math": [ "HEW_morgantown_data_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 20 }
         ],
-        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_CABIN_MORGANTOWN"
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_MORGANTOWN"
       },
       { "text": "That would be all.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
@@ -786,7 +786,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_CABIN_REVERB",
     "type": "talk_topic",
-    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"The recordings performed unexpected loops in its subroutines, resulting in a multitude of errors, but the report otherwise seems normal.  We do not know the source of these problems.  Are you certain your machine is working?  In any case, we will forward this to Research.\"",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"The recordings performed unexpected loops in its subroutines, resulting in a multitude of errors, but the report otherwise seems normal.  We note that these loops only occur when scanning the roof of a structure in the scan-zone.  In any case, we will forward this to Research, but perhaps you should investigate that roofs.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
@@ -806,7 +806,7 @@
     }
   },
   {
-    "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_CABIN_MORGANTOWN",
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_MORGANTOWN",
     "type": "talk_topic",
     "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"This report shows signs of what we might call \"portal storm scarring.\"  Preliminarily we expect this may be a site of significant activity during the initial portal storms, but we have forwarded it to Research for further study.\"",
     "speaker_effect": {
