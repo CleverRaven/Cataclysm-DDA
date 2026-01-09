@@ -1,0 +1,73 @@
+[
+  {
+    "id": "AG_shuttle_mission",
+    "type": "mission_definition",
+    "name": { "str": "Shuttle salvage" },
+    "//": "This mission is assigned and completed using dialogue and EOCs. As such, we don't have any goal, which would make it auto-complete under certain circumstances.",
+    "goal": "MGOAL_GO_TO",
+    "description": "You bought the coordinates of a crashed shuttle containing valuable cargo.  Its up to you to find it and salvage it now.",
+    "difficulty": 1,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "afs_crashed_cargo_shuttle_wraitheon",
+        "cant_see": true,
+        "reveal_radius": 9,
+        "random": true,
+        "search_range": 2000,
+        "z": 0
+      }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "//": "All dialogue about this mission is handled through talk_topics, so we don't use any of these strings.",
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": [ "AG_shuttle_1", "AG_shuttle_hint" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_mission": "AG_shuttle_mission",
+      "yes": "Not in the mood for a talk, sorry.",
+      "no": {
+        "gendered_line": "&You join the surveyor at the bar.  They are nursing a drink and looking at a datapad.  \"Well wouln't you know, I just happen to have the coordinates of a crashed shuttle that might be worth salvaging.  Should be full of military cargo, I believe.  Can sell you its location for 1,500 USD.  What do you say?\"",
+        "relevant_genders": [ "npc" ]
+      }
+    },
+    "responses": [
+      {
+        "text": "[2,500 USD] Offer to buy the the location of this shuttle.",
+        "condition": { "not": { "u_has_mission": "AG_shuttle_mission" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "What's the catch here, why not just salvage it yourself?",
+        "condition": { "not": { "u_has_mission": "AG_shuttle_mission" } },
+        "topic": "AG_shuttle_hint"
+      },
+      {
+        "truefalsetext": {
+          "condition": { "not": { "u_has_mission": "AG_shuttle_mission" } },
+          "true": "Not for me, thanks.",
+          "false": "Maybe some other day."
+        },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "AG_shuttle_hint",
+    "type": "talk_topic",
+    "dynamic_line": "Well I don't really like the cold, you know?  Oh also, the shuttle has an automated defense crew on it, but that just means its cargo must be worth something, right?"
+  }
+]

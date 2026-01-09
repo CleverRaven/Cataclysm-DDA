@@ -38,7 +38,7 @@
   {
     "type": "overmap_terrain",
     "id": "augustmoon_bar",
-    "name": "Artificial Feel",
+    "name": "Artificial Reef",
     "sym": "-",
     "color": "red",
     "see_cost": "high",

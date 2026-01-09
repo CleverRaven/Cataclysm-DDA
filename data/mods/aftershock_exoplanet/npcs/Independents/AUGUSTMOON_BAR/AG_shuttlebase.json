@@ -1,0 +1,64 @@
+[
+  {
+    "id": "AG_drop_mission",
+    "type": "mission_definition",
+    "name": { "str": "Surface Survey" },
+    "//": "This mission is assigned and completed using dialogue and EOCs. As such, we don't have any goal, which would make it auto-complete under certain circumstances.",
+    "goal": "MGOAL_NULL",
+    "description": "Deliver the air-gapped slate to the shuttle base dead drop.",
+    "difficulty": 1,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "afs_tunnel_nesw",
+        "om_terrain_match_type": "EXACT",
+        "reveal_radius": 2,
+        "random": true,
+        "z": -1,
+        "search_range": 1800
+      }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "//": "All dialogue about this mission is handled through talk_topics, so we don't use any of these strings.",
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": [ "AG_drop_1", "AG_drop_2" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_mission": "AG_drop_mission",
+      "yes": "Not in the mood for a talk, sorry.",
+      "no": {
+        "gendered_line": "You approach the shady spacer's table, and you carefully asses each other through brief conversation.  At last they make you an offer, \"I do have a task even you should manage.  See this pad right here, I need it delivered to a dead drop planetside.  The pay is 1.5k and I can give you the coordinates right now.  What do you say?\"",
+        "relevant_genders": [ "npc" ]
+      }
+    },
+    "responses": [
+      { "condition": { "not": { "u_has_mission": "AG_drop_mission" } }, "text": "Alright, I'm in." },
+      {
+        "truefalsetext": {
+          "condition": { "not": { "u_has_mission": "AG_drop_mission" } },
+          "true": "Not for me, thanks.",
+          "false": "Maybe some other day."
+        },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "AG_drop_2",
+    "type": "talk_topic",
+    "dynamic_line": "No its all done clean, you drop it, get paid, and never hear anything about it again."
+  }
+]

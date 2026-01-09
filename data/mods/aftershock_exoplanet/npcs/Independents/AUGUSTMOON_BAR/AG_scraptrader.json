@@ -1,0 +1,45 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_AG_SCRAPTRADER",
+    "name": { "str": "Scrap trader" },
+    "job_description": "A spacer who trades in scrap and salvage.",
+    "common": false,
+    "traits": [ [ "TRADER_INVENTORY", 100 ], { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "NC_INDEPENDENT_CREW_worn",
+    "weapon_override": "EMPTY_GROUP",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } }
+    ],
+    "shopkeeper_price_rules": [ { "group": "afs_any_scrapgroup", "premium": 3.5 } ]
+  },
+  {
+    "id": [ "AG_SCRAPTRADER_VOSTOK_1" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "afs_spacer_lore(1) >= 10" ],
+      "yes": "&You notice that the spacer's ragged clothing is actually an old Forge Fleet Vostok flight suit.  They call out to you as you approach, \"You look like you know your way planetside, if you are carrying any valuable scrap, I can get you a good price for it, far better than these corp vendors will.\"  You could probably do more than swap scrap if you knew how to gain their trust.",
+      "no": "An old spacer sits in the corner, their ragged clothing and unkempt hair a testament to their years of hard living.  They call out to you as you approach, \"You look like you know your way planetside, if you are carrying any valuable scrap, I can get you a good price for it, far better than these corp vendors will.\""
+    },
+    "responses": [
+      { "text": "Might have a thing or two to sell.", "topic": "TALK_DONE", "effect": "start_trade" },
+      { "text": "I don't have anything to sell, actually.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "AG_SCRAPTRADER" ],
+    "type": "talk_topic",
+    "dynamic_line": "An independent trader sits in the corner, swapping scrap and salvage for small bundles of chits.  <mypronouns> invites you over as you approach.",
+    "responses": [
+      { "text": "Might have some scrap to sell.", "topic": "TALK_DONE", "effect": "start_trade" },
+      { "text": "I don't have anything to sell, actually.", "topic": "TALK_DONE" }
+    ]
+  }
+]

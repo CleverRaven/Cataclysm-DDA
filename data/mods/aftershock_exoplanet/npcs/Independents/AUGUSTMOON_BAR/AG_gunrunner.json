@@ -1,0 +1,71 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_AG_GUNRUNNER",
+    "name": { "str": "Gun smuggler" },
+    "job_description": "A weapon's smuggler.",
+    "common": false,
+    "traits": [ [ "TRADER_INVENTORY", 100 ], { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "NC_INDEPENDENT_CREW_worn",
+    "carry_override": "NC_AG_GUNRUNNER",
+    "weapon_override": "EMPTY_GROUP",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } }
+    ],
+    "shopkeeper_price_rules": [ { "group": "NC_AG_GUNRUNNER", "markup": 3.5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "AG_GUNRUNNER_STOCK",
+    "subtype": "collection",
+    "entries": [
+      { "group": "afs_any_ballistic_m_gun", "prob": 100, "count": [ 3, 6 ] },
+      { "group": "afs_any_ballistic_h_gun", "prob": 50, "count": [ 1, 4 ] },
+      { "group": "afs_any_hand_grenade", "count": [ 4, 8 ] },
+      { "group": "afs_any_mine", "count": [ 2, 3 ] }
+    ]
+  },
+  {
+    "id": [ "AG_GUNRUNNER_1" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "afs_underworld_check(1) >= 100" ],
+      "yes": "&You find the gun runner intently assessing the swirling smoke of a stale cigarette.  <mypronoun> barely acknowledges your approach.  \"Let's cut it short, I have come upon an excess supply of weaponry and let's say that it would be expedient for it to disappear.\"\n\n<mypronoun> hands you an inventory list, loosely annotated in a piece of graph paper.\n\n\"No harm in looking right?",
+      "no": "A lone spacer sits at the bar, intently assessing the swirling smoke of a stale cigarette.  You saw <mypossesivepronoun> covertly exchange a weapon with the bartender earlier.  Maybe you could buy something too?"
+    },
+    "responses": [
+      {
+        "text": "Sure, lets see what you offer.",
+        "condition": { "math": [ "afs_underworld_check(1) >= 100" ] },
+        "topic": "TALK_DONE",
+        "effect": "start_trade"
+      },
+      {
+        "text": "I'm an outlaw!  I need to… buy guns?",
+        "condition": { "math": [ "afs_underworld_check(1) < 100" ] },
+        "topic": "AG_GUNRUNNER_naive"
+      },
+      {
+        "truefalsetext": {
+          "condition": { "math": [ "afs_underworld_check(1) >= 100" ] },
+          "true": "Not for me, thanks.",
+          "false": "I uhh… haven't seen anything. See you around"
+        },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": [ "AG_GUNRUNNER_naive" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The gun runner stares at you for a moment, then bursts out laughing.  <mypronoun> coughs and wipes. \"You are a funny one, I'll give you that.  But no, get lost.\"",
+    "responses": [ { "text": "Laugh awkwardly and leave", "topic": "TALK_DONE" } ]
+  }
+]
