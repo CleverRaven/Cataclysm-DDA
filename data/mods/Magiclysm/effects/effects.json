@@ -243,6 +243,7 @@
     "remove_message": "Your energy fades.",
     "rating": "good",
     "max_duration": 1200,
+    "removes_effects": [ "effect_technomancer_arete" ],
     "enchantments": [
       {
         "values": [
@@ -919,6 +920,29 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_technomancer_arete",
+    "name": [ "Arete" ],
+    "desc": [ "You are at the apex of possibility." ],
+    "apply_message": "",
+    "remove_message": "Your heightened capabilities fade away.",
+    "rating": "good",
+    "max_duration": 72000,
+    "removes_effects": [ "bless" ],
+    "enchantments": [ { "mutations": [ "STR_ALPHA", "DEX_ALPHA", "PER_ALPHA", "INT_ALPHA" ] } ],
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 1.1 },
+      { "limb_score": "block", "modifier": 1.1 },
+      { "limb_score": "vision", "modifier": 1.1 },
+      { "limb_score": "reaction", "modifier": 1.1 },
+      { "limb_score": "move_speed", "modifier": 1.1 },
+      { "limb_score": "balance", "modifier": 1.1 },
+      { "limb_score": "footing", "modifier": 1.1 },
+      { "limb_score": "swim", "modifier": 1.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "id": "eshaper_crystal_wrap",

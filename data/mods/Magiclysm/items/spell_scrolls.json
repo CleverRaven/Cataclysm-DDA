@@ -2488,5 +2488,15 @@
     "name": { "str": "Scroll of Monstrous Grasp", "str_pl": "Scrolls of Monstrous Grasp" },
     "description": "Extend a tentacle to grab an item and drag it back to you.  Disgusting but practical.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_pull_items_from_distance" ] }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_arete_buff_spell",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Arete", "str_pl": "Scrolls of Arete" },
+    "description": "Become the best you that it's possible to be.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_arete_buff_spell" ] }
   }
 ]
