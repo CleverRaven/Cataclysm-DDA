@@ -102,7 +102,6 @@
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
-static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 
 static const damage_type_id damage_acid( "acid" );
@@ -2720,26 +2719,10 @@ std::optional<int> cast_spell_actor::use( Character *p, item &it, map * /*here*/
         return 0;
     }
 
-    player_activity cast_spell( ACT_SPELLCASTING, casting.casting_time( *p ) );
-    // [0] this is used as a spell level override for items casting spells
-    cast_spell.values.emplace_back( spell_level );
-    if( no_fail ) {
-        // [1] if this value is 1, the spell never fails
-        cast_spell.values.emplace_back( 1 );
-    } else {
-        // [1]
-        cast_spell.values.emplace_back( 0 );
-    }
-    cast_spell.name = casting.id().c_str();
-    if( it.has_flag( flag_USE_PLAYER_ENERGY ) ) {
-        // [2] this value overrides the mana cost if set to 0
-        cast_spell.values.emplace_back( 1 );
-    } else {
-        // [2]
-        cast_spell.values.emplace_back( 0 );
-    }
-    p->assign_activity( cast_spell );
-    p->activity.targets.emplace_back( *p, &it );
+    p->assign_activity( spellcasting_activity_actor(
+                            time_duration::from_moves<int>( casting.casting_time( *p ) ),
+                            casting.id(), std::nullopt, spell_level,
+                            no_fail, it.has_flag( flag_USE_PLAYER_ENERGY ), item_location( *p, &it ) ) );
     // Actual handling of charges_to_use is in activity_handlers::spellcasting_finish
     return 0;
 }

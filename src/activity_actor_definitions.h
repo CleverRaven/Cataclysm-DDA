@@ -633,6 +633,52 @@ class study_spell_activity_actor : public activity_actor
         bool cancelled = false;
 };
 
+class spellcasting_activity_actor : public activity_actor
+{
+    public:
+        explicit spellcasting_activity_actor( time_duration initial_moves, spell_id spell_selected,
+                                              std::optional<tripoint_abs_ms> spell_target = std::nullopt,
+                                              std::optional<int> fake_spell_level = std::nullopt,
+                                              bool always_succeeds = false, bool mana_cost_override = false,
+                                              const item_location &spell_item_casting = item_location::nowhere ) :
+            initial_moves( initial_moves ), spell_selected( spell_selected ), spell_target( spell_target ),
+            fake_spell_level( fake_spell_level ), always_succeeds( always_succeeds ),
+            mana_cost_override( mana_cost_override ), spell_item_casting( spell_item_casting )
+        {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
+            return ACT_SPELLCASTING;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::string get_progress_message( const player_activity & ) const override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<spellcasting_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        spellcasting_activity_actor() = default;
+        time_duration initial_moves;
+        spell_id spell_selected;
+        // if not provided, spell prompts to select target
+        std::optional<tripoint_abs_ms> spell_target;
+        // if provided, constructs a standalone `spell_selected` with this given level
+        // for items/bionics
+        std::optional<int> fake_spell_level;
+        bool always_succeeds; // if true, the spell never fails
+        bool mana_cost_override; // if true, spell does not consume mana
+        // for handling cleanup of item passed from cast_spell_actor::use()
+        item_location spell_item_casting;
+};
+
 class move_items_activity_actor : public activity_actor
 {
     private:
