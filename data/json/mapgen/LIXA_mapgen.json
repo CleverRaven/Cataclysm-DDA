@@ -574,8 +574,8 @@
         "#": [
           { "item": "LIXA_lab_postit", "chance": 3, "repeat": 1 },
           { "item": "LIXA_lab_file", "chance": 7, "repeat": 2 },
-          { "item": "software_math", "chance": 3, "repeat": 1 },
-          { "item": "software_electronics_reference", "chance": 4, "repeat": 2 }
+          { "item": "usb_drive", "contents-item": "software_math", "prob": 5 },
+          { "item": "usb_drive", "contents-item": "software_electronics_reference", "prob": 7 }
         ],
         "q": [ { "item": "adderall", "amount": [ 2, 5 ] } ],
         "E": [ { "item": "television", "amount": 1 } ],
