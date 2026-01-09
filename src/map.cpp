@@ -5730,7 +5730,10 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             const time_duration cycle_time = 60_minutes;
             const time_duration time_left = cycle_time - n.age();
             if( ( n.typeId() == itype_mws_weather_data_incomplete ) &&
-                ( ( current_weather( cur_veh.pos_abs() ).str() == "portal_storm" ) || ( current_weather( cur_veh.pos_abs() ).str() == "early_portal_storm" ) || ( current_weather( cur_veh.pos_abs() ).str() == "distant_portal_storm" ) || ( current_weather( cur_veh.pos_abs() ).str() == "close_portal_storm" ) ) ) {
+                ( ( current_weather( cur_veh.pos_abs() ).str() == "portal_storm" ) ||
+                  ( current_weather( cur_veh.pos_abs() ).str() == "early_portal_storm" ) ||
+                  ( current_weather( cur_veh.pos_abs() ).str() == "distant_portal_storm" ) ||
+                  ( current_weather( cur_veh.pos_abs() ).str() == "close_portal_storm" ) ) ) {
                 n.set_flag( flag_MWS_PORTAL_STORM_DATA );
             }
             if( time_left <= 0_turns ) {
