@@ -269,5 +269,11 @@
       ]
     ],
     "components": [ [ [ "paper", 3 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_extinguish_fire_spell",
+    "type": "requirement",
+    "tools": [ [ [ "spellbook_hedge_book_of_raziel", -1 ] ] ],
+    "components": [ [ [ "ash", 25 ] ] ]
   }
 ]

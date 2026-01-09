@@ -994,6 +994,6 @@
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Sefer Raziel HaMalakh", "//~": "NO_I18N" },
     "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
-    "use_action": { "type": "learn_spell", "spells": [ "hedge_luck_spell" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_luck_spell", "hedge_extinguish_fire_spell" ] }
   }
 ]

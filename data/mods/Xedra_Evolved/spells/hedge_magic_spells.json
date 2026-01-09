@@ -280,7 +280,7 @@
   {
     "id": "hedge_luck_spell",
     "type": "SPELL",
-    "name": "The Coin of Gad",
+    "name": "To Spin the Coin of Gad",
     "description": "With a candle, a penny, and paper, this will create a short lived luck charm upon oneself.",
     "message": "You write the words upon the paper, place the penny on the ground, place the paper upon the penny, light the candle then the paper and firmly place the candle in the ashes on top of the penny, let the candle burn down melting all over the penny.  You will find your steps slightly lucky for the several hours to potentially a full day.",
     "flags": [ "VERBAL", "SOMATIC", "NO_FAIL", "RANDOM_DURATION" ],
@@ -707,5 +707,44 @@
     "min_damage": 1,
     "max_damage": 1,
     "base_casting_time": 4320000
+  },
+  {
+    "id": "hedge_extinguish_fire_spell",
+    "type": "SPELL",
+    "name": "To Don the Mantle of the Malakhim",
+    "description": "Angels are creatures of fire, and they must cloak themselves in air and flesh to hide their pure flame when they descend they descend to the sublunary world.  This charm does the same, extinguishing nearby fires and protecting you from heat and smoke while active.",
+    "message": "You place the ash upon your tongue and, holding tightly to the Sefer Raziel HaMalakh, recite the words of the charm.",
+    "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
+    "magic_type": "xe_hedge_magick",
+    "valid_targets": [ "ground" ],
+    "difficulty": 1,
+    "spell_class": "HEDGE_MAGIC",
+    "skill": "survival",
+    "effect": "ter_transform",
+    "effect_str": "ter_hedge_extinguish_fire_spell",
+    "shape": "blast",
+    "components": "spell_components_hedge_extinguish_fire_spell",
+    "extra_effects": [ { "id": "hedge_extinguish_fire_spell_self_resistance", "hit_self": true } ],
+    "max_level": 1,
+    "min_aoe": 8,
+    "max_aoe": 8,
+    "base_casting_time": 3000
+  },
+  {
+    "id": "hedge_extinguish_fire_spell_self_resistance",
+    "type": "SPELL",
+    "name": { "str": "To Don the Mantle of the Malakhim", "//~": "NO_I18N" },
+    "description": { "str": "The self-buff that makes you immune to fire and smoke.  It's a bug if you can see it.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "NO_FAIL" ],
+    "magic_type": "xe_hedge_magick",
+    "valid_targets": [ "ground" ],
+    "difficulty": 1,
+    "spell_class": "HEDGE_MAGIC",
+    "skill": "survival",
+    "effect": "attack",
+    "effect_str": "effect_hedge_extinguish_fire_spell_self_resistance",
+    "shape": "blast",
+    "min_duration": 90000,
+    "max_duration": 360000
   }
 ]

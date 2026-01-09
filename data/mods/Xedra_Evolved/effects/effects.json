@@ -2517,6 +2517,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_hedge_extinguish_fire_spell_self_resistance",
+    "name": [ "Mantle of the Malakhim" ],
+    "desc": [ "You are protected from heat and smoke." ],
+    "removes_effects": [ "blisters", "smoke_eyes", "smoke_lungs" ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ] } ],
+    "flags": [ "HEATPROOF" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_hedge_walk_on_water",
     "name": [ "Walk Across the Flowing Waters" ],
     "desc": [ "The waters are bearing you up." ],
