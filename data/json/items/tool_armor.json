@@ -2738,11 +2738,7 @@
           "id": "EOC_papr_blower_running__basic",
           "effect": {
             "run_eocs": "EOC_papr_blower_running",
-            "variables": {
-              "sound_chance": 50,
-              "sound_message": { "i18n": true, "str": "The PAPR blower fan hums." },
-              "volume": 12
-            }
+            "variables": { "sound_chance": 50, "sound_message": { "i18n": true, "str": "The PAPR blower fan hums." }, "volume": 12 }
           }
         }
       ]
