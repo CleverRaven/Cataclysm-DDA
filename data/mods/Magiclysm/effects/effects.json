@@ -931,7 +931,25 @@
     "rating": "good",
     "max_duration": 72000,
     "removes_effects": [ "bless" ],
-    "enchantments": [ { "mutations": [ "STR_ALPHA", "DEX_ALPHA", "PER_ALPHA", "INT_ALPHA" ] } ],
+    "enchantments": [
+      { "mutations": [ "STR_ALPHA", "DEX_ALPHA", "PER_ALPHA", "INT_ALPHA" ] },
+      {
+        "condition": { "math": [ "(u_val('strength_base') + u_val('strength_bonus') ) >= 16" ] },
+        "values": [ { "value": "STRENGTH", "add": 2 } ]
+      },
+      {
+        "condition": { "math": [ "( u_val('dexterity_base') + u_val('dexterity_bonus') ) >= 16" ] },
+        "values": [ { "value": "DEXTERITY", "add": 2 } ]
+      },
+      {
+        "condition": { "math": [ "(u_val('intelligence_base') + u_val('intelligence_bonus') ) >= 16" ] },
+        "values": [ { "value": "INTELLIGENCE", "add": 2 } ]
+      },
+      {
+        "condition": { "math": [ "(u_val('perception_base') + u_val('perception_bonus') ) >= 16" ] },
+        "values": [ { "value": "PERCEPTION", "add": 2 } ]
+      }
+    ],
     "limb_score_mods": [
       { "limb_score": "manip", "modifier": 1.1 },
       { "limb_score": "block", "modifier": 1.1 },
