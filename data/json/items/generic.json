@@ -931,7 +931,7 @@
     "type": "ITEM",
     "id": "nano_fabricator_encryption_code",
     "copy-from": "usb_drive_nano",
-    "name": { "str_sp": "laboratory shipping records" },
+    "name": { "str_sp": "nano-fabricator licensing USB" },
     "description": "Some type of advanced data storage device, filled with credentials and licenses to operate the nano-fabricator.",
     "price": "100 USD",
     "price_postapoc": "0 cent"
