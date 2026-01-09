@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": [ "outcrop" ],
-    "weight": 50,
+    "weight": 33,
     "object": {
       "rotation": [ 0, 3 ],
       "predecessor_mapgen": "forest_thick",
@@ -33,7 +33,84 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "cave_surface_palette", "innawood_ore_vein" ]
+      "palettes": [ "cave_surface_palette", "innawood_ore_vein" ],
+      "terrain": { "O": "t_region_groundcover" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "outcrop" ],
+    "weight": 33,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "predecessor_mapgen": "forest_thick",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           %%%%%%       ",
+        "       %%%%%||||%%      ",
+        "      O%|||....||%      ",
+        "     OO%%%%++..||%      ",
+        "     OOOOO+++..||%      ",
+        "     OO%%%%++..||%%%    ",
+        "      O%|||....||||%    ",
+        "       %%%%%%||||%%%    ",
+        "            %%%%%%      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "cave_surface_palette", "innawood_ore_vein" ],
+      "terrain": { "O": "t_region_groundcover" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "outcrop" ],
+    "weight": 33,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "predecessor_mapgen": "forest_thick",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "            %%%         ",
+        "           %%|%         ",
+        "           %||%         ",
+        "        %%%%..%%%       ",
+        "        %|.+++.|%       ",
+        "        %%%+++%%%       ",
+        "         OOOOOOOO       ",
+        "       %%%%+++%%%%      ",
+        "       %|..+++.||%      ",
+        "       %%||....|%%      ",
+        "        %%%%||%%%       ",
+        "           %%%%         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "cave_surface_palette", "innawood_ore_vein" ],
+      "terrain": { "O": "t_region_groundcover" }
     }
   }
 ]
