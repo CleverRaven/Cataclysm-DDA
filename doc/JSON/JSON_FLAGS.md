@@ -1578,7 +1578,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```MATCHBOMB``` Light the matchbomb.
 - ```MILITARYMAP``` Learn of local military installations, and show roads.
 - ```MININUKE``` Set the timer and run.  Or hit with a hammer (not really).
-- ```MOLOTOV_LIT``` Throw it, but don't drop it.
 - ```MOLOTOV``` Light the Molotov cocktail.
 - ```MOP``` Mop up the mess.
 - ```NOISE_EMITTER_OFF``` Turn the noise emitter on.

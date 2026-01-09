@@ -5592,5 +5592,28 @@
     "volume": "1500 ml",
     "material_thickness": 1,
     "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ]
+  },
+  {
+    "id": "test_napalm",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str_sp": "test napalm" },
+    "description": "Carbon copy of napalm to use in tests.",
+    "category": "fuel",
+    "weight": "900 mg",
+    "volume": "200ml",
+    "price": "80 USD",
+    "price_postapoc": "10 USD",
+    "count": 250,
+    "stack_size": 200,
+    "phase": "liquid",
+    "container": "pressurized_tank",
+    "material": [ "hydrocarbons" ],
+    "symbol": "=",
+    "color": "light_red",
+    "ammo_type": "test_liquid",
+    "damage": { "damage_type": "heat", "amount": 15, "armor_penetration": 30 },
+    "range": 6,
+    "effects": [ "FLAME", "STREAM_BIG", "IGNITE", "NEVER_MISFIRES" ]
   }
 ]

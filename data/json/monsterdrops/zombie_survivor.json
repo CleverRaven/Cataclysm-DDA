@@ -218,6 +218,7 @@
     "items": [
       [ "gasbomb_makeshift", 30 ],
       [ "molotov", 100 ],
+      [ "gelled_molotov", 5 ],
       [ "pipebomb", 30 ],
       [ "small_homemade_grenade", 30 ],
       [ "40x46mm_hornets_nest_22lr", 5 ],
