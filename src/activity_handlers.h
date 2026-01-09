@@ -232,7 +232,6 @@ void mend_item_finish( player_activity *act, Character *you );
 void pull_creature_finish( player_activity *act, Character *you );
 void repair_item_finish( player_activity *act, Character *you );
 void socialize_finish( player_activity *act, Character *you );
-void spellcasting_finish( player_activity *act, Character *you );
 void start_fire_finish( player_activity *act, Character *you );
 void teach_finish( player_activity *act, Character *you );
 void toolmod_add_finish( player_activity *act, Character *you );

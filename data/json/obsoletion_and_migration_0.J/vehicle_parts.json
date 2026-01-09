@@ -1,33 +1,12 @@
 [
   {
-    "id": "atomic_lamp",
-    "type": "vehicle_part",
-    "name": { "str": "atomic lamp" },
-    "item": "electric_lantern",
-    "location": "on_ceiling",
-    "categories": [ "lighting" ],
-    "color": "light_blue",
-    "durability": 20,
-    "description": "A bright light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates several squares inside the vehicle.",
-    "bonus": 30,
-    "folded_volume": "1 L",
-    "breaks_into": [ { "item": "scrap", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 5 ] ] }
-    },
-    "flags": [ "ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE" ],
-    "variants": [ { "symbols": "*", "symbols_broken": "*" } ]
+    "type": "vehicle_part_migration",
+    "from": "atomic_lamp",
+    "to": "aisle_lights"
   },
   {
-    "id": "atomic_light",
-    "copy-from": "atomic_lamp",
-    "type": "vehicle_part",
-    "name": { "str": "atomic nightlight" },
-    "item": "electric_lantern",
-    "description": "A very dim light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates a single square inside the vehicle that isn't suitable for crafting.",
-    "bonus": 5,
-    "folded_volume": "500 ml"
+    "type": "vehicle_part_migration",
+    "from": "atomic_light",
+    "to": "aisle_lights"
   }
 ]

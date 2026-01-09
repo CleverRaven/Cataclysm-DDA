@@ -722,7 +722,6 @@
     "type": "item_group",
     "id": "bottle_otc_painkiller_1_20",
     "subtype": "distribution",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_painkiller",
     "entries": [
       { "item": "aspirin", "container-item": "null", "count": [ 1, 20 ] },
@@ -734,7 +733,6 @@
     "type": "item_group",
     "id": "protein_powder_bottle_plastic_small_1_9",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "protein_powder", "container-item": "null", "count": [ 1, 9 ] } ]
   },
@@ -742,7 +740,6 @@
     "type": "item_group",
     "id": "quikclot_bag_plastic_1_6",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "quikclot", "container-item": "null", "count": [ 1, 6 ] } ]
   },
@@ -750,7 +747,6 @@
     "type": "item_group",
     "id": "bfipowder_bottle_plastic_small_1_4",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "bfipowder", "container-item": "null", "count": [ 1, 4 ] } ]
   },
@@ -758,7 +754,6 @@
     "type": "item_group",
     "id": "pur_tablets_bottle_plastic_small_1_50",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "pur_tablets", "count": [ 1, 50 ] } ]
   }

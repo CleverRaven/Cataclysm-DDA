@@ -541,11 +541,6 @@
   },
   {
     "type": "item_action",
-    "id": "MOLOTOV_LIT",
-    "name": { "str": "Light up" }
-  },
-  {
-    "type": "item_action",
     "id": "MOP",
     "name": { "str": "Mop" }
   },

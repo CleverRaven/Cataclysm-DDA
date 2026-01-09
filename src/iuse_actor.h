@@ -67,6 +67,11 @@ class iuse_transform : public iuse_actor
         /** subtracted from @ref Creature::moves when transformation is successful */
         int moves = 0;
 
+        /** x in 100 chance for this use action to be activated
+        intended to be used with tick action specifically
+        */
+        int chance = 100;
+
         /** Asks you to set a timer for a countdown */
         bool set_timer = false;
 
@@ -195,6 +200,9 @@ class sound_iuse : public iuse_actor
 class explosion_iuse : public iuse_actor
 {
     public:
+        // list of ammo effects this iuse applies
+        std::set<ammo_effect_str_id> ammo_effects;
+
         // Structure describing the explosion + shrapnel
         // Ignored if its power field is < 0
         explosion_data explosion;

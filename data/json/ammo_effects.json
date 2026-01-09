@@ -221,6 +221,26 @@
     "explosion": { "power": 360, "distance_factor": 0.8, "fire": true }
   },
   {
+    "id": "MOLOTOV",
+    "type": "ammo_effect",
+    "//": "Main damage is not from fire on the ground, but from fire sticking to enemies",
+    "aoe": [
+      { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "size": 1, "chance": 50 },
+      { "field_type": "fd_smoke", "intensity_min": 1, "intensity_max": 1, "size": 1, "chance": 25 }
+    ],
+    "aoe_effects": [ { "effect": "onfire", "duration": "1 m", "intensity_min": 1, "chance": 50 } ]
+  },
+  {
+    "id": "GELLED_MOLOTOV",
+    "type": "ammo_effect",
+    "//": "Fire is not stronger, but much stickier",
+    "aoe": [
+      { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "size": 1, "chance": 60 },
+      { "field_type": "fd_smoke", "intensity_min": 1, "intensity_max": 2, "size": 1, "chance": 70 }
+    ],
+    "aoe_effects": [ { "effect": "onfire", "duration": "1 m", "intensity_min": 2, "chance": 80 } ]
+  },
+  {
     "id": "ACIDBOMB",
     "type": "ammo_effect",
     "//": "Leaves a pool of acid on detonation",

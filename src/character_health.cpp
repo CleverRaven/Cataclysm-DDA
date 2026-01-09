@@ -836,6 +836,9 @@ int Character::get_stored_kcal() const
 
 int Character::kcal_speed_penalty() const
 {
+    if( !needs_food() ) {
+        return 0;
+    }
     static const std::vector<std::pair<float, float>> starv_thresholds = { {
             std::make_pair( 0.0f, -90.0f ),
             std::make_pair( character_weight_category::emaciated, -50.f ),

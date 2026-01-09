@@ -1870,7 +1870,7 @@
     "id": "gun_lock",
     "name": { "str": "gun cable lock" },
     "//": "Stats from a 10/22 lock I had laying about.  If the length or volume seems weird, the cable doesn't fold all the way so it's an odd shape.",
-    "description": "A set with a key and a small lock, resembling a padlock if the shackle was replaced by a steel cable.  This design allows the cable to fit into the chamber of a firearm and lock, preventing the firearm from functioning.  An import part of gun safety, it is required by law to be sold with any firearm.",
+    "description": "A set with a key and a small lock, resembling a padlock if the shackle was replaced by a steel cable.  This design allows the cable to fit into the chamber of a firearm and lock, preventing the firearm from functioning.  An important part of gun safety, it is required by law to be sold with any firearm.",
     "weight": "83 g",
     "volume": "53 ml",
     "longest_side": "9 cm",
