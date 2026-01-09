@@ -558,7 +558,6 @@
     "type": "item_group",
     "id": "wyld_candy_wrapper_wyld_20",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "wrapper_wyld",
     "entries": [ { "item": "wyld_candy", "container-item": "null", "count": 20 } ]
   },

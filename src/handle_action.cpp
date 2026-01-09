@@ -76,7 +76,6 @@
 #include "overmap_ui.h"
 #include "panels.h"
 #include "pathfinding.h"
-#include "player_activity.h"
 #include "point.h"
 #include "popup.h"
 #include "ranged.h"
@@ -122,7 +121,6 @@ static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
-static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
@@ -1970,39 +1968,18 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
         return false;
     }
 
-    player_activity spell_act( ACT_SPELLCASTING, sp.casting_time( *this ) );
-    // [0] this is used as a spell level override for items casting spells
+    std::optional<int> fake_spell_level;
     if( fake_spell ) {
-        spell_act.values.emplace_back( sp.get_level() );
-    } else {
-        spell_act.values.emplace_back( -1 );
+        fake_spell_level = sp.get_level();
     }
-    // [1] if this value is 1, the spell never fails
-    spell_act.values.emplace_back( 0 );
-    // [2] this value overrides the mana cost if set to 0
-    spell_act.values.emplace_back( 1 );
-    spell_act.name = sp.id().c_str();
-    if( magic->casting_ignore ) {
-        const std::vector<distraction_type> ignored_distractions = {
-            distraction_type::noise,
-            distraction_type::pain,
-            distraction_type::attacked,
-            distraction_type::hostile_spotted_near,
-            distraction_type::hostile_spotted_far,
-            distraction_type::talked_to,
-            distraction_type::asthma,
-            distraction_type::motion_alarm,
-            distraction_type::weather_change,
-            distraction_type::mutation
-        };
-        for( const distraction_type ignored : ignored_distractions ) {
-            spell_act.ignore_distraction( ignored );
-        }
-    }
+    std::optional<tripoint_abs_ms> abs_target;
     if( target ) {
-        spell_act.coords.emplace_back( get_map().get_abs( *target ) );
+        abs_target = get_map().get_abs( *target );
     }
-    assign_activity( spell_act );
+
+    assign_activity( spellcasting_activity_actor(
+                         time_duration::from_moves<int>( sp.casting_time( *this ) ),
+                         sp.id(), abs_target, fake_spell_level ) );
     return true;
 }
 

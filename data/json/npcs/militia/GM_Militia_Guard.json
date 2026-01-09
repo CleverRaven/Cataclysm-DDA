@@ -4,7 +4,7 @@
     "id": "MILITIA_GUARD1",
     "//": "A member of the Gray Moose Lodge, trying to safe in their isolated location",
     "class": "MILITIA_GUARD1",
-    "attitude": 7,
+    "attitude": 0,
     "name_suffix": "Militia Guard",
     "mission": 8,
     "chat": "TALK_MILITIA_Guard1",

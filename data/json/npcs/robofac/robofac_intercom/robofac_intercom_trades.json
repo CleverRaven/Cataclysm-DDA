@@ -425,7 +425,8 @@
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_LABYRINTH",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_PHYSICS_LAB",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_AMIGARA",
-      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_RADIOSPHERE"
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_RADIOSPHERE",
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_MONSTER_CORPSE"
     ],
     "type": "talk_topic",
     "dynamic_line": "Excellent; please deposit the printouts in the intercom's tray.",
@@ -551,7 +552,7 @@
         },
         "effect": [
           { "u_consume_item": "HEW_printout_data_amigara", "count": 1, "popup": true },
-          { "math": [ "HEW_amigara_lab_data_sold++" ] },
+          { "math": [ "HEW_amigara_data_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 20 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_AMIGARA"
@@ -566,10 +567,25 @@
         },
         "effect": [
           { "u_consume_item": "HEW_printout_data_radiosphere", "count": 1, "popup": true },
-          { "math": [ "HEW_radiosphere_lab_data_sold++" ] },
+          { "math": [ "HEW_radiosphere_data_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 20 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_RADIOSPHERE"
+      },
+      {
+        "text": "[Deposit datasheet LKG1.]",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "HEW_printout_data_monster_corpse", "count": 1 } },
+            { "math": [ "HEW_monster_corpse_data_sold < 1" ] }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "HEW_printout_data_monster_corpse", "count": 1, "popup": true },
+          { "math": [ "HEW_monster_corpse_data_sold++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 20 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_MONSTER_CORPSE"
       },
       { "text": "That would be all.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
@@ -618,7 +634,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_STRANGE_TEMPLE",
     "type": "talk_topic",
-    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"This is a very curious recording because it's for the most part normal.  However, the instruments detected one extremely dense resonance point.  Whatever this structure is, it houses something of extra-dimensional origins.\"",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"This is a very curious recording.  For the most part it's normal.  However, the instruments detected one extremely dense resonance point.  Whatever this structure is, it houses something of extra-dimensional origins.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
@@ -685,6 +701,17 @@
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_RADIOSPHERE",
     "type": "talk_topic",
     "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"Incredible - these are clearly non-Earth conditions!  What is strange is that there are a substantial number of man-made radio waves, but they all appear to be the same very high frequency radio waveform.  We will study these further.\"",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
+        { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_4", "success": true }
+      ]
+    }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_MONSTER_CORPSE",
+    "type": "talk_topic",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"Curiously, this report indicates that there are alien volatile organic compounds in the area you recorded in, and hints that they have an underground origin.  We may be interested in contracting you for further investigation.  Ask of you are interested.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },

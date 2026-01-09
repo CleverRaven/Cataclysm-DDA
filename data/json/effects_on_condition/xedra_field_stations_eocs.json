@@ -1,0 +1,35 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_FIELD_NOTES_PICK_QUEST",
+    "condition": {
+      "or": [
+        { "u_has_mission": "MISSION_XEDRA_FIELD_STATION_2" },
+        { "compare_string": [ "yes", { "u_val": "completed_xedra_field_station_2" } ] }
+      ]
+    },
+    "effect": { "u_message": "You study the notebook, but don't find anything interesting or new.", "popup": true },
+    "false_effect": {
+      "if": {
+        "or": [
+          { "u_has_mission": "MISSION_XEDRA_FIELD_STATION_1" },
+          { "compare_string": [ "yes", { "u_val": "completed_xedra_field_station_1" } ] }
+        ]
+      },
+      "then": [
+        {
+          "u_message": "You study the notebook.  Slipped into the back is a delivery confirmation sheet with \"CLASSIFIED\" stamped on the top.  You mark down the address.",
+          "popup": true
+        },
+        { "assign_mission": "MISSION_XEDRA_FIELD_STATION_2" }
+      ],
+      "else": [
+        {
+          "u_message": "You study the notebook.  The most recent entry has an address underlined several times, with a note: \"S02a deployed for anomaly collection.\"  You mark down the address.",
+          "popup": true
+        },
+        { "assign_mission": "MISSION_XEDRA_FIELD_STATION_1" }
+      ]
+    }
+  }
+]
