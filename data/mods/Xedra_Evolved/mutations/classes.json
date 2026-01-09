@@ -72,7 +72,6 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "hedge_luck_spell", 0 ] ],
     "flags": [ "ATTUNEMENT" ]
   },
   {
