@@ -797,7 +797,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_CABIN_REVERB_DIMENSION",
     "type": "talk_topic",
-    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"Astounding!  These conditions are clearly Earth-like, but the recordings performed unexpected loops in its subroutines.  The topographical scan shows what appear to be delibate patterns in the placement of whatever structures you may have encountered.  We suspect that this may be a location where spacetime is slipping in various directions.  We will forward this to Research and alert you if we need more scans.\"",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"Astounding!  These conditions are clearly Earth-like, but the recordings performed unexpected loops in its subroutines.  The topographical scan shows what appear to be deliberate patterns in the placement of whatever structures you may have encountered.  We suspect that this may be a location where spacetime is slipping in various directions.  We will forward this to Research and alert you if we need more scans.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
