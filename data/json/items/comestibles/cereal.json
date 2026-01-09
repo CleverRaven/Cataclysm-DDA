@@ -113,7 +113,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
-    "name": { "str_sp": "sugary cereal with milk" },
+    "name": { "str_sp": "cereal with milk" },
     "description": "Sugary breakfast cereal.  It takes you back to your childhood.  Tastes a lot better with milk.",
     "color": "yellow",
     "symbol": "%",
@@ -130,99 +130,17 @@
     "fun": 15,
     "charges": 1,
     "phase": "liquid",
-    "vitamins": [ [ "iron", 47 ], [ "junk_allergen", 1 ], [ "vitC", 4 ], [ "calcium", 25 ], [ "milk_allergen", 1 ] ]
-  },
-  {
-    "id": "cereal2_milk",
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "comestible_type": "FOOD",
-    "name": { "str_sp": "whole-grain cereal with milk" },
-    "description": "Whole-grain wheat cereal.  It's surprisingly good, and for your heart too, allegedly.  Now complete with baby cow food.",
-    "copy-from": "cereal_milk",
-    "material": [ "wheat" ],
-    "spoils_in": "1 days",
-    "calories": 576,
-    "vitamins": [ [ "iron", 172 ], [ "wheat_allergen", 1 ], [ "vitC", 4 ], [ "calcium", 25 ], [ "milk_allergen", 1 ] ]
-  },
-  {
-    "id": "cereal3_milk",
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "comestible_type": "FOOD",
-    "name": { "str_sp": "corn flakes with milk" },
-    "description": "Plain cornflake cereal.  They're not that good, but better now with milk.",
-    "copy-from": "cereal_milk",
-    "material": [ "dried_vegetable" ],
-    "spoils_in": "1 days",
-    "calories": 534,
-    "vitamins": [ [ "iron", 172 ], [ "vitC", 4 ], [ "calcium", 25 ], [ "milk_allergen", 1 ] ]
-  },
-  {
-    "id": "cereal_fp1_milk",
-    "copy-from": "cereal_milk",
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "name": { "str_sp": "Foodplace cereal with milk", "//~": "NO_I18N" },
-    "description": {
-      "str": "A generic box of Foodplace brand sugary cereal, you shouldn't see this.  Now complete w/ debug milk",
-      "//~": "NO_I18N"
-    },
-    "material": [ "foodplace_foodstuff" ],
-    "healthy": -1,
-    "addiction_potential": 5,
-    "addiction_type": "caffeine",
-    "sleepiness_mod": 25,
-    "stim": 10,
-    "variants": [
-      {
-        "id": "snicker_milk",
-        "name": { "str_sp": "Snicker-Snacks cereal with milk" },
-        "description": "Foodplace brand Snicker-Snack cereal, with milk.  Each tiny \"Snicker-Snack\" has now lost their human food form."
-      },
-      {
-        "id": "brantastic_milk",
-        "name": { "str_sp": "Brantastic cereal with milk" },
-        "description": "Foodplace brand \"Brantastic\" cereal.  An essential part of a complete Bran breakfast, & really taste Brantastic with milk."
-      },
-      {
-        "id": "honey_milk",
-        "name": { "str_sp": "Honey Pellet cereal with milk" },
-        "description": "Foodplace brand \"Amorphous Honey Pellet\" cereal.  The box promises \"Inconceivable sustenance in tiny morsels of yellow honey.\"  That sustenance is even better with milk."
-      },
-      {
-        "id": "fructose_milk",
-        "name": { "str_sp": "Fructose Flakes cereal with milk" },
-        "description": "Foodplace brand Fructose Flakes cereal.  Fortified with energy enriched FoodSyrup™ that supports life most efficiently.  All of it has soaked into the milk."
-      },
-      {
-        "id": "foodios_milk",
-        "name": { "str_sp": "Foodios cereal with milk" },
-        "description": "Foodplace brand \"Foodios\" cereal.  Foodios™ are Foodalicious™, more so with milk!"
-      }
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "cereal", "name": { "str_sp": "sugary %s" } },
+      { "type": "COMPONENT_ID", "condition": "cereal2", "name": { "str_sp": "whole-grain %s" } },
+      { "type": "COMPONENT_ID", "condition": "cereal3", "name": { "str_sp": "corn flakes %s" } },
+      { "type": "COMPONENT_ID", "condition": "snicker", "name": { "str_sp": "Snicker-Snacks %s" } },
+      { "type": "COMPONENT_ID", "condition": "brantastic", "name": { "str_sp": "Brantastic %s" } },
+      { "type": "COMPONENT_ID", "condition": "honey", "name": { "str_sp": "Hoeny Pellet %s" } },
+      { "type": "COMPONENT_ID", "condition": "fructose", "name": { "str_sp": "Fructose Flakes %s" } },
+      { "type": "COMPONENT_ID", "condition": "foodios", "name": { "str_sp": "Foodios %s" } },
+      { "type": "COMPONENT_ID", "condition": "cereal_fp2", "name": { "str_sp": "Carpenter Crunch %s" } },
+      { "type": "COMPONENT_ID", "condition": "cereal_fp4", "name": { "str_sp": "Shugar Chomps %s" } }
     ]
-  },
-  {
-    "id": "cereal_fp2_milk",
-    "copy-from": "cereal_fp1_milk",
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "name": { "str_sp": "Carpenter Crunch cereal with milk" },
-    "description": "This is Foodplace brand \"Carpenter Crunch\" cereal with the iconic \"Breakfast Beaver\" mascot on the box.  It tastes kind of like nails & sap water.",
-    "fun": 5,
-    "spoils_in": "540 days",
-    "variants": [  ]
-  },
-  {
-    "id": "cereal_fp4_milk",
-    "copy-from": "cereal_fp1_milk",
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "name": { "str_sp": "Sugar Chomps cereal" },
-    "description": "Foodplace brand \"Sugar Chomps\" cereal.  \"Chocolate Frosted Crunchy Sugar Chomps: 8 essential vitamins packed into that rich, fudgy taste!\"  Now complete with milk!",
-    "addiction_potential": 10,
-    "stim": 20,
-    "spoils_in": "540 days",
-    "variants": [  ]
   }
 ]
