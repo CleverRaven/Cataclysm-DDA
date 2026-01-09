@@ -900,7 +900,7 @@
                 "search_data": [ { "id": "spellbook_hedge_book_of_raziel" } ],
                 "true_eocs": [
                   {
-                    "id": "EOC_HEDGE_RESEARCH_ABRAMELIN_THE_MAGE_WRITE_VALUES_2",
+                    "id": "EOC_HEDGE_RESEARCH_BOOK_OF_RAZIEL_WRITE_VALUES_2",
                     "effect": [ { "math": [ "n_already_failed_research = 1" ] } ]
                   }
                 ]
