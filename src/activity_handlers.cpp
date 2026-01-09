@@ -6,7 +6,6 @@
 #include <iterator>
 #include <memory>
 #include <optional>
-#include <queue>
 #include <set>
 #include <stdexcept>
 #include <string>
@@ -47,7 +46,6 @@
 #include "iuse_actor.h"
 #include "magic.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "math_parser_diag_value.h"
@@ -55,10 +53,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
-#include "omdata.h"
-#include "overmap.h"
 #include "overmap_ui.h"
-#include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -70,7 +65,6 @@
 #include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
@@ -109,16 +103,12 @@ static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
-static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
 static const ammotype ammo_battery( "battery" );
 
-static const efftype_id effect_asocial_dissatisfied( "asocial_dissatisfied" );
 static const efftype_id effect_controlled( "controlled" );
-static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
-static const efftype_id effect_social_satisfied( "social_satisfied" );
 
 static const flag_id json_flag_IRREMOVABLE( "IRREMOVABLE" );
 static const flag_id json_flag_PSEUDO( "PSEUDO" );
@@ -138,16 +128,7 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
 static const itype_id itype_pseudo_magazine_mod( "pseudo_magazine_mod" );
 
-static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
-static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
-static const json_character_flag json_flag_SOCIAL1( "SOCIAL1" );
-static const json_character_flag json_flag_SOCIAL2( "SOCIAL2" );
-
-static const morale_type morale_tree_communion( "morale_tree_communion" );
-
 static const skill_id skill_survival( "survival" );
-
-static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 
@@ -178,8 +159,7 @@ activity_handlers::do_turn_functions = {
     { ACT_TRAVELLING, travel_do_turn },
     { ACT_DISMEMBER, dismember_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },
-    { ACT_FERTILIZE_PLOT, fertilize_plot_do_turn },
-    { ACT_TREE_COMMUNION, tree_communion_do_turn }
+    { ACT_FERTILIZE_PLOT, fertilize_plot_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -1491,76 +1471,5 @@ void activity_handlers::pull_creature_finish( player_activity *act, Character *y
     } else {
         you->longpull( act->name, get_map().get_bub( act->placement ) );
     }
-    act->set_to_null();
-}
-
-void activity_handlers::tree_communion_do_turn( player_activity *act, Character *you )
-{
-    // There's an initial rooting process.
-    if( act->values.front() > 0 ) {
-        act->values.front() -= 1;
-        if( act->values.front() == 0 ) {
-            if( you->has_trait( trait_id( trait_SPIRITUAL ) ) ) {
-                you->add_msg_if_player( m_good, _( "The ancient tree spirits answer your call." ) );
-            } else {
-                you->add_msg_if_player( m_good, _( "Your communion with the trees has begun." ) );
-            }
-        }
-        return;
-    }
-    // Information is received every minute.
-    if( !calendar::once_every( 1_minutes ) ) {
-        return;
-    }
-    // Breadth-first search forest tiles until one reveals new overmap tiles.
-    std::queue<tripoint_abs_omt> q;
-    std::unordered_set<tripoint_abs_omt> seen;
-    tripoint_abs_omt loc = you->pos_abs_omt();
-    q.push( loc );
-    seen.insert( loc );
-    const std::function<bool( const oter_id & )> filter = []( const oter_id & ter ) {
-        // FIXME: this is terrible and should be a property instead of a name check...
-        return ter.obj().is_wooded() || ter.obj().get_name( om_vision_level::full ) == _( "field" );
-    };
-    while( !q.empty() ) {
-        tripoint_abs_omt tpt = q.front();
-        if( overmap_buffer.reveal( tpt, 3, filter ) ) {
-            if( you->has_trait( trait_SPIRITUAL ) ) {
-                you->add_morale( morale_tree_communion, 2, 30, 8_hours, 6_hours );
-            } else {
-                you->add_morale( morale_tree_communion, 1, 15, 2_hours, 1_hours );
-            }
-            if( one_in( 128 ) ) {
-                if( one_in( 256 ) ) {
-                    if( you->has_effect( effect_social_dissatisfied ) ) {
-                        you->remove_effect( effect_social_dissatisfied );
-                    }
-                    if( ( you->has_flag( json_flag_SOCIAL1 ) || you->has_flag( json_flag_SOCIAL2 ) ) &&
-                        !you->has_effect( effect_social_satisfied ) ) {
-                        you->add_effect( effect_social_satisfied, 3_hours, false, 1 );
-                    }
-                    if( ( you->has_flag( json_flag_ASOCIAL1 ) || you->has_flag( json_flag_ASOCIAL2 ) ) &&
-                        !you->has_effect( effect_asocial_dissatisfied ) ) {
-                        you->add_effect( effect_asocial_dissatisfied, 3_hours, false, 1 );
-                    }
-                }
-                you->add_msg_if_player( "%s", SNIPPET.random_from_category( "tree_communion" ).value_or(
-                                            translation() ) );
-            }
-            return;
-        }
-        for( const tripoint_abs_omt &neighbor : points_in_radius( tpt, 1 ) ) {
-            if( seen.find( neighbor ) != seen.end() ) {
-                continue;
-            }
-            seen.insert( neighbor );
-            if( !overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
-                continue;
-            }
-            q.push( neighbor );
-        }
-        q.pop();
-    }
-    you->add_msg_if_player( m_info, _( "The trees have shown you what they will." ) );
     act->set_to_null();
 }

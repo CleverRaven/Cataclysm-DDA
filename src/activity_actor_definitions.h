@@ -2047,6 +2047,35 @@ class meditate_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue & );
 };
 
+// become one with the trees, providing mapping, socialization, and morale benefits
+// this activity continues indefinitely or until all forest tiles are mapped
+class tree_communion_activity_actor : public activity_actor
+{
+    public:
+        explicit tree_communion_activity_actor( int root_stage_turns ) : root_stage_turns(
+                root_stage_turns ) {};
+        const activity_id &get_type() const override {
+            static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
+            return ACT_TREE_COMMUNION;
+        }
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<tree_communion_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        tree_communion_activity_actor() = default;
+        // how many turns remain in the preliminary "root" stage
+        // once the "root" stage is finished, communion begins
+        int root_stage_turns;
+};
+
 class play_with_pet_activity_actor : public activity_actor
 {
     private:

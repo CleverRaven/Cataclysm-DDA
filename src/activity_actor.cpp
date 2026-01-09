@@ -12,6 +12,7 @@
 #include <list>
 #include <map>
 #include <optional>
+#include <queue>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -87,8 +88,11 @@
 #include "mtype.h"
 #include "npc.h"
 #include "npc_opinion.h"
+#include "omdata.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "overmap_ui.h"
 #include "pickup.h"
 #include "pimpl.h"
@@ -206,6 +210,7 @@ static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_TENT_DECONSTRUCT( "ACT_TENT_DECONSTRUCT" );
 static const activity_id ACT_TENT_PLACE( "ACT_TENT_PLACE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
+static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_UNLOAD( "ACT_UNLOAD" );
 static const activity_id ACT_UNLOAD_LOOT( "ACT_UNLOAD_LOOT" );
@@ -231,6 +236,7 @@ static const ammotype ammo_plutonium( "plutonium" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
+static const efftype_id effect_asocial_dissatisfied( "asocial_dissatisfied" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_docile( "docile" );
@@ -242,6 +248,8 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
+static const efftype_id effect_social_satisfied( "social_satisfied" );
 static const efftype_id effect_socialized_recently( "socialized_recently" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_under_operation( "under_operation" );
@@ -289,10 +297,14 @@ static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 
+static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
+static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
+static const json_character_flag json_flag_SOCIAL1( "SOCIAL1" );
+static const json_character_flag json_flag_SOCIAL2( "SOCIAL2" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
@@ -303,6 +315,7 @@ static const morale_type morale_game( "morale_game" );
 static const morale_type morale_haircut( "morale_haircut" );
 static const morale_type morale_play_with_pet( "morale_play_with_pet" );
 static const morale_type morale_shave( "morale_shave" );
+static const morale_type morale_tree_communion( "morale_tree_communion" );
 
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
@@ -347,6 +360,7 @@ static const ter_str_id ter_t_trunk( "t_trunk" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 static const vpart_id vpart_ap_wall_wiring( "ap_wall_wiring" );
@@ -7513,6 +7527,92 @@ std::unique_ptr<activity_actor> meditate_activity_actor::deserialize( JsonValue 
     return meditate_activity_actor().clone();
 }
 
+void tree_communion_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    // There's an initial rooting process.
+    if( root_stage_turns > 0 ) {
+        root_stage_turns--;
+        if( root_stage_turns == 0 ) {
+            if( who.has_trait( trait_id( trait_SPIRITUAL ) ) ) {
+                who.add_msg_if_player( m_good, _( "The ancient tree spirits answer your call." ) );
+            } else {
+                who.add_msg_if_player( m_good, _( "Your communion with the trees has begun." ) );
+            }
+        }
+        return;
+    }
+    // Information is received every minute.
+    if( !calendar::once_every( 1_minutes ) ) {
+        return;
+    }
+    // Breadth-first search forest tiles until one reveals new overmap tiles.
+    std::queue<tripoint_abs_omt> q;
+    std::unordered_set<tripoint_abs_omt> seen;
+    tripoint_abs_omt loc = who.pos_abs_omt();
+    q.push( loc );
+    seen.insert( loc );
+    const std::function<bool( const oter_id & )> filter = []( const oter_id & ter ) {
+        // FIXME: this is terrible and should be a property instead of a name check...
+        return ter.obj().is_wooded() || ter.obj().get_name( om_vision_level::full ) == _( "field" );
+    };
+    while( !q.empty() ) {
+        tripoint_abs_omt tpt = q.front();
+        if( overmap_buffer.reveal( tpt, 3, filter ) ) {
+            if( who.has_trait( trait_SPIRITUAL ) ) {
+                who.add_morale( morale_tree_communion, 2, 30, 8_hours, 6_hours );
+            } else {
+                who.add_morale( morale_tree_communion, 1, 15, 2_hours, 1_hours );
+            }
+            if( one_in( 128 ) ) {
+                if( one_in( 256 ) ) {
+                    if( who.has_effect( effect_social_dissatisfied ) ) {
+                        who.remove_effect( effect_social_dissatisfied );
+                    }
+                    if( ( who.has_flag( json_flag_SOCIAL1 ) || who.has_flag( json_flag_SOCIAL2 ) ) &&
+                        !who.has_effect( effect_social_satisfied ) ) {
+                        who.add_effect( effect_social_satisfied, 3_hours, false, 1 );
+                    }
+                    if( ( who.has_flag( json_flag_ASOCIAL1 ) || who.has_flag( json_flag_ASOCIAL2 ) ) &&
+                        !who.has_effect( effect_asocial_dissatisfied ) ) {
+                        who.add_effect( effect_asocial_dissatisfied, 3_hours, false, 1 );
+                    }
+                }
+                who.add_msg_if_player( "%s", SNIPPET.random_from_category( "tree_communion" ).value_or(
+                                           translation() ) );
+            }
+            return;
+        }
+        for( const tripoint_abs_omt &neighbor : points_in_radius( tpt, 1 ) ) {
+            if( seen.find( neighbor ) != seen.end() ) {
+                continue;
+            }
+            seen.insert( neighbor );
+            if( !overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
+                continue;
+            }
+            q.push( neighbor );
+        }
+        q.pop();
+    }
+    who.add_msg_if_player( m_info, _( "The trees have shown you what they will." ) );
+    act.set_to_null();
+}
+
+void tree_communion_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "root_stage_turns", root_stage_turns );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> tree_communion_activity_actor::deserialize( JsonValue &jsin )
+{
+    tree_communion_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "root_stage_turns", actor.root_stage_turns );
+    return actor.clone();
+}
+
 void play_with_pet_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = rng( 50, 125 ) * 100;
@@ -11522,6 +11622,7 @@ deserialize_functions = {
     { ACT_STUDY_SPELL, &study_spell_activity_actor::deserialize },
     { ACT_TENT_DECONSTRUCT, &tent_deconstruct_activity_actor::deserialize },
     { ACT_TENT_PLACE, &tent_placement_activity_actor::deserialize },
+    { ACT_TREE_COMMUNION, &tree_communion_activity_actor::deserialize },
     { ACT_TRY_SLEEP, &try_sleep_activity_actor::deserialize },
     { ACT_UNLOAD, &unload_activity_actor::deserialize },
     { ACT_UNLOAD_LOOT, &unload_loot_activity_actor::deserialize },

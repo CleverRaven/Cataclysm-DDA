@@ -216,7 +216,6 @@ void repair_item_do_turn( player_activity *act, Character *you );
 void start_fire_do_turn( player_activity *act, Character *you );
 void tidy_up_do_turn( player_activity *act, Character *you );
 void travel_do_turn( player_activity *act, Character *you );
-void tree_communion_do_turn( player_activity *act, Character *you );
 void vehicle_deconstruction_do_turn( player_activity *act, Character *you );
 void vehicle_repair_do_turn( player_activity *act, Character *you );
 
