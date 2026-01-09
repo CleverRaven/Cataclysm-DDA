@@ -1245,7 +1245,7 @@
             }
           },
           {
-            "value": "BONUS_DODGE",
+            "value": "FREE_DODGES",
             "add": {
               "math": [
                 "1 + min( ( ( ( u_spell_level('clair_dodge_power') * 0.2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 4)"
