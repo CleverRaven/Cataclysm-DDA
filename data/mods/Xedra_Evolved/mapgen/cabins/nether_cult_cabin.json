@@ -457,6 +457,24 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "cabin_nether_cult_basement_2x2_bathroom_overlay",
+    "//": "An overlay with an undead cultist.",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "  ",
+        "  "
+      ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 6 ] },
+        { "field": "fd_gibs_flesh", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 4 ] }
+      ],
+      "place_monster": [ { "monster": "mon_dementia", "x": 1, "y": 0, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_nether_cult_basement_2x2_bathroom_overlay",
     "//": "An overlay with a zombie.",
     "weight": 500,
     "object": {
