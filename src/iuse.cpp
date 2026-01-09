@@ -46,7 +46,6 @@
 #include "damage.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
-#include "effect_source.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -284,9 +283,11 @@ static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
-static const itype_id itype_molotov( "molotov" );
 static const itype_id itype_multi_cooker( "multi_cooker" );
 static const itype_id itype_multi_cooker_filled( "multi_cooker_filled" );
+static const itype_id
+itype_mws_advanced_weather_sensor_array( "mws_advanced_weather_sensor_array" );
+static const itype_id itype_mws_weather_sensor_array( "mws_weather_sensor_array" );
 static const itype_id itype_nicotine_liquid( "nicotine_liquid" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pot( "pot" );
@@ -302,6 +303,7 @@ static const itype_id itype_spiral_stone( "spiral_stone" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_syringe( "syringe" );
+static const itype_id itype_thermometer( "thermometer" );
 static const itype_id itype_tongs( "tongs" );
 static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_towel( "towel" );
@@ -3564,80 +3566,6 @@ std::optional<int> iuse::grenade_inc_act( Character *p, item *, const tripoint_b
     avatar &player = get_avatar();
     if( player.has_unfulfilled_pyromania() ) {
         player.fulfill_pyromania_sees( here, pos, _( "Fire…  Good…" ), false );
-    }
-    return 0;
-}
-
-std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub_ms &pos )
-{
-
-    // This string is stored on the molotov as an item var, to record who's responsible for the resulting fires.
-    // Once the molotov has been thrown/dropped, we no longer have a Character pointer at p. So this serves as a record.
-    const std::string credit_or_blame = "molotov_thrower";
-
-    if( !p ) {
-        // It was thrown or dropped, so burst into flames
-        Character *thrower = nullptr;
-        if( it->has_var( credit_or_blame ) ) {
-            character_id guy_id = character_id( it->get_var( credit_or_blame, 0.0 ) );
-            // Check player
-            if( guy_id == get_player_character().getID() ) {
-                thrower = &get_player_character();
-            }
-            // Check active NPCs (loaded in bubble)
-            for( npc *guy : g->get_npcs_if( [guy_id]( const npc & guy ) {
-            return guy.getID() == guy_id;
-            } ) ) {
-                thrower = guy;
-            }
-            // Check inactive NPCs outside the bubble?!
-            if( !thrower ) {
-                thrower = g->find_npc( guy_id );
-            }
-        }
-        map &here = get_map();
-        // Because fields decay with a half-life, we need to know how long it takes for the field to decay and set the age to slightly before that.
-        // the duration is also used for the effect's timer. It's hilariously lethal regardless.
-        const time_duration target_duration = 1_minutes;
-        const time_duration base_age = ( fd_fire->half_life / 2 ) - target_duration;
-        for( const tripoint_bub_ms &pt : here.points_in_radius( pos, 1, 0 ) ) {
-            Creature *critter = get_creature_tracker().creature_at( pt, true );
-            if( critter && one_in( 2 ) ) {
-                if( thrower ) {
-                    critter->add_effect( effect_source( thrower ), effect_onfire, target_duration,
-                                         critter->random_body_part( true ) );
-                } else {
-                    critter->add_effect( effect_onfire, target_duration, critter->random_body_part( true ) );
-                }
-            } else if( !here.get_field( pt, fd_fire ) && one_in( 2 ) ) {
-                if( thrower ) {
-                    here.add_field( pt, fd_fire, 1, base_age, true, effect_source( thrower ) );
-                } else {
-                    here.add_field( pt, fd_fire, 1, base_age );
-                }
-            }
-        }
-        avatar &player = get_avatar();
-        if( player.has_unfulfilled_pyromania() ) {
-            player.fulfill_pyromania_sees( here, pos, _( "Fire…  Good…" ), false );
-        }
-        return 1;
-    }
-
-    // We're holding the molotov while it's burning. So we're now responsible for what this molotov does.
-    // Note: Requires the game to 'tick' once, meaning that the time to light it should always be longer than 1 second!
-    if( p ) {
-        it->set_var( credit_or_blame, p->getID().get_value() );
-    }
-
-    // 2% chance per turn of going out harmlessly.
-    // This is necessary to prevent a player from lighting a ton of molotovs and stuffing them in their backpack until pulling them out 6 weeks later.
-    // Note that moves are deducted (time is spent) when lighting the molotov, and each turn that passes before the player acts again can possibly succeed at this chance.
-    // That results in the player spending the time to light a molotov, but effectively wasting their time spent. So the chance of that happening should be very low.
-    // With the current (as of this writing) time to light a molotov being 2.5 seconds, this is a ~4% chance for a lit molotov to need to be lit a second time.
-    if( one_in( 50 ) ) {
-        p->add_msg_if_player( _( "Your lit Molotov goes out." ) );
-        it->convert( itype_molotov, p ).active = false;
     }
     return 0;
 }
@@ -7884,6 +7812,7 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
 
     /* Possibly used twice. Worth spending the time to precalculate. */
     const units::temperature player_local_temp = weather.get_temperature( p->pos_bub() );
+    const float sun_irrad = sun_irradiance( calendar::turn );
 
     if( !it->activation_success() ) {
         p->add_msg_if_player( m_bad, _( "The %s doesn't seem to work.  Try again." ),
@@ -7892,7 +7821,7 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
     }
 
     if( it->typeId() == itype_weather_reader ) {
-        p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
+        p->add_msg_if_player( m_neutral, _( "The system displays a snapshot of atmospheric data:" ),
                               it->tname() );
     }
     if( it->has_flag( flag_THERMOMETER ) ) {
@@ -7903,8 +7832,13 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
         } else {
             temperature_str = print_temperature( player_local_temp );
         }
-        p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
-                              temperature_str );
+        if( it->typeId() == itype_thermometer ) {
+            p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
+                                  temperature_str );
+        } else {
+            p->add_msg_if_player(
+                m_neutral, _( "Temperature: %s." ), temperature_str );
+        }
     }
     if( it->has_flag( flag_HYGROMETER ) ) {
         if( it->typeId() == itype_hygrometer ) {
@@ -7930,7 +7864,9 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
         }
     }
 
-    if( it->typeId() == itype_weather_reader ) {
+    if( ( it->typeId() == itype_weather_reader ) ||
+        ( it->typeId() == itype_mws_weather_sensor_array ) ||
+        ( it->typeId() == itype_mws_advanced_weather_sensor_array ) ) {
         int vehwindspeed = 0;
         if( optional_vpart_position vp = here.veh_at( p->pos_bub() ) ) {
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
@@ -7949,7 +7885,12 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
         std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }
-
+    if( it->typeId() == itype_mws_advanced_weather_sensor_array ) {
+        p->add_msg_if_player( m_neutral, _( "Ambient radiation: %d mSv/h." ),
+                              here.get_radiation( p->pos_bub() ) );
+        p->add_msg_if_player( m_neutral,
+                              _( "Irradiance: %.1f." ), sun_irrad );
+    }
     return 1; //TODO check
 }
 

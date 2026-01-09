@@ -17,6 +17,8 @@
 #include "cata_algo.h"
 #include "cata_compiler_support.h"
 #include "cata_utility.h"
+#include "character.h"
+#include "character_id.h"
 #include "crafting_gui.h"
 #include "debug.h"
 #include "display.h"
@@ -25,6 +27,7 @@
 #include "flexbuffer_json.h"
 #include "init.h"
 #include "input.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
@@ -234,6 +237,7 @@ static Unit can_contain_filter( std::string_view hint, std::string_view txt, Uni
 
 std::vector<const recipe *> recipe_subset::search(
     std::string_view txt, const search_type key,
+    std::optional<std::reference_wrapper<const Character>> crafter,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
     auto predicate = [&]( const recipe * r ) {
@@ -308,6 +312,38 @@ std::vector<const recipe *> recipe_subset::search(
 
             case search_type::proficiency:
                 return lcmatch( r->recipe_proficiencies_string(), txt );
+
+            case search_type::book: {
+                if( !crafter.has_value() ) {
+                    debugmsg( "search_type::book requires a crafter to be provided, since it checks crafting group and crafters inventory" );
+                    return false;
+                }
+                const Character &crafter_ref = crafter->get();
+                const inventory &crafting_inventory = crafter_ref.crafting_inventory();
+
+                for( const auto &stack : crafting_inventory.const_slice() ) {
+                    const item &item = stack->front();
+
+                    for( const auto &recipe : item.get_available_recipes( crafter_ref ) ) {
+                        if( recipe.first == r && ( lcmatch( item.display_name(), txt ) ||
+                                                   lcmatch( item::nname( item.typeId() ), txt ) ) ) {
+                            return true;
+                        }
+                    }
+                }
+
+                std::vector<const Character *> knowing_helpers;
+                for( const Character *helper : crafter_ref.get_crafting_group() ) {
+                    if( crafter_ref.getID() != helper->getID() && helper->knows_recipe( r ) ) {
+                        knowing_helpers.push_back( helper );
+                    }
+                }
+
+                return std::any_of( knowing_helpers.begin(), knowing_helpers.end(),
+                [&txt]( const Character * helper ) {
+                    return lcmatch( helper->is_avatar() ? _( "You" ) : helper->get_name(), txt );
+                } );
+            }
 
             case search_type::difficulty: {
                 std::string range_start;
@@ -470,7 +506,14 @@ recipe_subset recipe_subset::reduce(
     std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
-    return recipe_subset( *this, search( txt, key, progress_callback ) );
+    return recipe_subset( *this, search( txt, key, std::nullopt, progress_callback ) );
+}
+
+recipe_subset recipe_subset::reduce(
+    std::string_view txt, const Character &crafter, const search_type key,
+    const std::function<void( size_t, size_t )> &progress_callback ) const
+{
+    return recipe_subset( *this, search( txt, key, crafter, progress_callback ) );
 }
 recipe_subset recipe_subset::intersection( const recipe_subset &subset ) const
 {

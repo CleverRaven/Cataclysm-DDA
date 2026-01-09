@@ -653,21 +653,12 @@
     ]
   },
   {
-    "id": "groce_cereal",
+    "id": "cereal_in_container_full",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
       { "prob": 50, "group": "oatmeal_box_1lb" },
-      { "prob": 25, "group": "box_cereal" },
-      { "prob": 55, "group": "box_cereal2" },
-      { "prob": 55, "group": "box_cereal3" },
-      { "prob": 50, "item": "cereal_fp1", "count": -1 },
-      { "prob": 50, "item": "cereal_fp2", "count": -1 },
-      { "prob": 50, "item": "cereal_fp3", "count": -1 },
-      { "prob": 25, "item": "cereal_fp4", "count": -1 },
-      { "prob": 25, "item": "cereal_fp5", "count": -1 },
-      { "prob": 25, "item": "cereal_fp6", "count": -1 },
-      { "prob": 25, "item": "cereal_fp7", "count": -1 },
+      { "prob": 400, "group": "breakfast_cereal_in_box_full" },
       { "prob": 100, "group": "toastem_box_small_8" }
     ]
   },
@@ -1545,24 +1536,39 @@
   },
   {
     "type": "item_group",
-    "id": "box_cereal",
-    "subtype": "collection",
+    "id": "breakfast_cereal_in_box",
+    "subtype": "distribution",
     "container-item": "box_small",
-    "entries": [ { "item": "cereal", "container-item": "null", "count": -1 } ]
+    "entries": [
+      { "prob": 30, "item": "cereal", "count": [ 1, 4 ] },
+      { "prob": 30, "item": "cereal2", "count": [ 1, 4 ] },
+      { "prob": 30, "item": "cereal3", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "snicker", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "brantastic", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "honey", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "fructose", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "foodios", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp2", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp4", "count": [ 1, 4 ] }
+    ]
   },
   {
     "type": "item_group",
-    "id": "box_cereal2",
-    "subtype": "collection",
+    "id": "breakfast_cereal_in_box_full",
+    "subtype": "distribution",
     "container-item": "box_small",
-    "entries": [ { "item": "cereal2", "container-item": "null", "count": -1 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "box_cereal3",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "cereal3", "container-item": "null", "count": -1 } ]
+    "entries": [
+      { "prob": 30, "item": "cereal", "count": 4 },
+      { "prob": 30, "item": "cereal2", "count": 4 },
+      { "prob": 30, "item": "cereal3", "count": 4 },
+      { "prob": 1, "item": "cereal_fp1", "variant": "snicker", "count": 4 },
+      { "prob": 1, "item": "cereal_fp1", "variant": "brantastic", "count": 4 },
+      { "prob": 1, "item": "cereal_fp1", "variant": "honey", "count": 4 },
+      { "prob": 1, "item": "cereal_fp1", "variant": "fructose", "count": 4 },
+      { "prob": 1, "item": "cereal_fp1", "variant": "foodios", "count": 4 },
+      { "prob": 1, "item": "cereal_fp2", "count": 4 },
+      { "prob": 1, "item": "cereal_fp4", "count": 4 }
+    ]
   },
   {
     "type": "item_group",
