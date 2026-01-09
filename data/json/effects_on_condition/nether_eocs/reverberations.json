@@ -49,7 +49,7 @@
       },
       {
         "u_location_variable": { "context_val": "nearest_radio_tower_floor" },
-        "target_params": { "om_terrain": "radio_tower_top", "z": 6 },
+        "target_params": { "om_terrain": "radio_tower_top", "z": 6, "min_distance": 50, "search_range": 250, "random": true },
         "terrain": "t_ladder_down",
         "target_max_radius": 60,
         "min_radius": 0,
@@ -135,7 +135,14 @@
       },
       {
         "u_location_variable": { "context_val": "nearest_cabin_roof_floor" },
-        "target_params": { "om_terrain": "cabin_roof_3", "z": 1, "om_terrain_match_type": "PREFIX" },
+        "target_params": {
+          "om_terrain": "cabin_roof_3",
+          "z": 1,
+          "om_terrain_match_type": "PREFIX",
+          "min_distance": 50,
+          "search_range": 250,
+          "random": true
+        },
         "terrain": "t_tar_flat_roof",
         "target_max_radius": 60,
         "min_radius": 0,
