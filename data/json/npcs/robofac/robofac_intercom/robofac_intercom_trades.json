@@ -698,7 +698,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_STRANGE_TEMPLE",
     "type": "talk_topic",
-    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"This is a very curious recording.  For the most part it's normal.  However, the instruments detected one extremely dense \"resonance\" point.  Whatever this structure is, it houses something of extra-dimensional origins.\"",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"This is a very curious recording.  For the most part it's normal.  However, the instruments detected a point where anomalous converge - whatever this structure is, it houses something of extra-dimensional origins.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
@@ -720,7 +720,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_HIGHLANDS",
     "type": "talk_topic",
-    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"Astounding!  Incredible!  You've clearly recorded these in a non-Earth environment.  While the atmosphere is similar to ours, the humidity is substantially higher, and the pressure makes it more prone to violent storms.  The report also identified several isolated and concentrated \"resonance\" sources, indicating there are extra-dimensional objects located in the area you scanned.  Interestingly, there are no signs of artificial communication such as radio waves.  This place is clearly not housing any advanced intelligent life.\"",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"Astounding!  Incredible!  You've clearly recorded these in a non-Earth environment.  While the atmosphere is similar to ours, the humidity is substantially higher, and the pressure makes it more prone to violent storms.  The report also identified several concentrated anomalies, indicating there are extra-dimensional objects located in the area you scanned.  Interestingly, there are no signs of artificial communication such as radio waves.  This place is clearly not housing any advanced intelligent life.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
@@ -808,7 +808,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_MORGANTOWN",
     "type": "talk_topic",
-    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"This report shows signs of what we might call \"portal storm scarring.\"  Preliminarily we expect this may be a site of significant activity during the initial portal storms, but we have forwarded it to Research for further study.\"",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"This report shows signs of what we might call 'portal storm scarring.'  Preliminarily we expect this may be a site of significant activity during the initial portal storms, but we have forwarded it to Research for further study.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
@@ -819,7 +819,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_BARRICADED_CHURCH",
     "type": "talk_topic",
-    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"This report shows signs of what we might call \"portal storm scarring.\"  We also noted some lingering anomalies in what we call \"resonance,\" suggesting extradimensional materials may have been, or are, present.  Preliminarily we suspect this may be a site of significant activity during the initial portal storms.  We have forwarded it to Research for further study.\"",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"This report shows signs of what we might call 'portal storm scarring.'  We also noted some other features suggesting extradimensional materials may have been, or are, present.  Preliminarily we suspect this may be a site of significant activity during the initial portal storms.  We have forwarded it to Research for further study.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
