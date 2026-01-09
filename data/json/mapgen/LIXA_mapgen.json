@@ -571,10 +571,7 @@
           { "item": "LIXA_generic_file", "chance": 80, "repeat": [ 4, 8 ] },
           { "item": "LIXA_lab_file", "chance": 50, "repeat": 2 }
         ],
-        "#": [
-          { "item": "LIXA_lab_postit", "chance": 3, "repeat": 1 },
-          { "item": "LIXA_lab_file", "chance": 7, "repeat": 2 }
-        ],
+        "#": [ { "item": "LIXA_lab_postit", "chance": 3, "repeat": 1 }, { "item": "LIXA_lab_file", "chance": 7, "repeat": 2 } ],
         "q": [ { "item": "adderall", "amount": [ 2, 5 ] } ],
         "E": [ { "item": "television", "amount": 1 } ],
         "R": [ { "item": "rm13_armor", "amount": 1 }, { "item": "id_LIXA_mil", "amount": 1 } ],
