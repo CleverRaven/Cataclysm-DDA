@@ -1870,13 +1870,13 @@
     "id": "classless_spellbooks_restricted_tier_0",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "special_effects_spellbook", "prob": 30 }, { "item": "messed_up_spells_spellbook", "prob": 30 } ]
+    "entries": [ { "item": "special_effects_spellbook", "prob": 30 } ]
   },
   {
     "id": "classless_spellbooks_illegal_tier_0",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 30 } ]
+    "entries": [ { "item": "messed_up_spells_spellbook", "prob": 30 } ]
   },
   {
     "id": "classless_spellbooks_tier_1",
@@ -1988,13 +1988,13 @@
     "id": "druid_spellbooks_restricted_tier_0",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "messed_up_spells_spellbook", "prob": 30 } ]
+    "entries": [ { "item": "null", "prob": 30 } ]
   },
   {
     "id": "druid_spellbooks_illegal_tier_0",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 30 } ]
+    "entries": [ { "item": "messed_up_spells_spellbook", "prob": 30 } ]
   },
   {
     "id": "druid_spellbooks_tier_1",
