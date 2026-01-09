@@ -26,7 +26,8 @@
       "items": [
         { "item": "book_nonf_magic_origin_of_species", "prob": 1 },
         { "item": "book_nonf_empty_social_history_no_magic", "prob": 3 },
-        { "item": "book_nonf_history_antimagic_restraints", "prob": 1 }
+        { "item": "book_nonf_history_antimagic_restraints", "prob": 1 },
+        { "item": "messed_up_spells_lorebook", "prob": 2 }
       ]
     }
   },
