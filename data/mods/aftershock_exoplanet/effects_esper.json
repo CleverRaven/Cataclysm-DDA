@@ -330,7 +330,7 @@
               "math": [ "(0.1 + ( u_spell_level('afs_precog_ranged_enhance') * 0.05 ) * scaling_factor(u_val('intelligence') ) )" ]
             }
           },
-          { "value": "BONUS_DODGE", "add": 1 }
+          { "value": "FREE_DODGES", "add": 1 }
         ]
       },
       {
