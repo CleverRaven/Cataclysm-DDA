@@ -38,7 +38,8 @@
         { "u_near_om_location": "xedra_rural_church", "range": 10 },
         { "u_near_om_location": "morgantown_2b", "range": 10 },
         { "u_near_om_location": "cabin_3_reverberation", "range": 10 },
-        { "u_near_om_location": "cabin_3_reverberation_hint", "range": 10 }
+        { "u_near_om_location": "cabin_3_reverberation_hint", "range": 10 },
+        { "u_near_om_location": "radiosphere_radio_tower_top", "range": 10 }
       ]
     },
     "effect": {
