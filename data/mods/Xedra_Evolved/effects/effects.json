@@ -2491,7 +2491,7 @@
     "name": [ "Step of Gad" ],
     "desc": [ "Your foot seems to keep finding just the right place to step." ],
     "rating": "good",
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 0.5 } ] } ]
+    "enchantments": [ { "values": [ { "value": "FREE_DODGES", "add": 1 } ] } ]
   },
   {
     "type": "effect_type",
