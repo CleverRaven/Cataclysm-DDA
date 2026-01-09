@@ -1,0 +1,39 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "outcrop" ],
+    "weight": 50,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "predecessor_mapgen": "forest_thick",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        %%%%%%%%%       ",
+        "       %%|||||..%%O     ",
+        "       %||||..+++%OO    ",
+        "       %||||..+++%OO    ",
+        "       %||||..+++%OO    ",
+        "       %||||..+++%OO    ",
+        "       %%||||..|%%OO    ",
+        "        %%%%%%%%%O      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "cave_surface_palette", "innawood_ore_vein" ]
+    }
+  }
+]
