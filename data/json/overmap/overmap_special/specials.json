@@ -3968,6 +3968,24 @@
   },
   {
     "type": "overmap_special",
+    "id": "subway_interchange_ramp",
+    "overmaps": [
+      { "point": [ 0, 0, -2 ], "overmap": "microlab_sub_connector_north" },
+      { "point": [ 0, 1, -2 ], "overmap": "sub_ramp_above_north" },
+      { "point": [ 0, 1, -3 ], "overmap": "sub_ramp_below_north" },
+      { "point": [ 0, 2, -3 ], "overmap": "sub_ramp_above_north" },
+      { "point": [ 0, 2, -4 ], "overmap": "sub_ramp_below_north" },
+      { "point": [ 0, 3, -4 ], "overmap": "subway_ns" },
+      { "point": [ 0, 4, -4 ], "overmap": "microlab_sub_connector_south" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 1, -1 ],
+    "occurrences": [ 10, 100 ],
+    "rotate": false,
+    "flags": [ "OVERMAP_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "ws_survivor_bunker_place",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "ws_survivor_bunker_f0_north" },

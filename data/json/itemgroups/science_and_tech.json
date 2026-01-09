@@ -19,6 +19,7 @@
       { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
       { "item": "chem_ethanol", "prob": 10, "charges": [ 250, -1 ] },
       [ "cleansuit", 5 ],
+      [ "laptop_hard_case_back", 20 ],
       { "group": "papr_kit", "prob": 5 },
       { "group": "used_laptops", "prob": 10, "contents-group": "efiles_science" },
       { "group": "used_eink_tablet_pcs", "prob": 20, "contents-group": "efiles_science" },

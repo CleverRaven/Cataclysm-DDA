@@ -662,6 +662,6 @@
     "m2c": 25,
     "energy_consumption": "100000 W",
     "description": "A spartan, prototype engine-generator made to burn all fuels.",
-    "noise_factor": 0.1
+    "noise_factor": 1
   }
 ]
