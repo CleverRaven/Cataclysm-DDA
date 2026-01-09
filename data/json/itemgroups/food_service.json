@@ -1834,16 +1834,16 @@
     "id": "flour_various",
     "subtype": "distribution",
     "entries": [
-      { "prob": 2, "group": "flour_bottle_plastic" },
-      { "prob": 2, "group": "flour_bottle_glass" },
-      { "prob": 3, "group": "flour_bag_plastic" },
-      { "prob": 5, "group": "flour_bag_paper" },
+      { "prob": 6, "group": "flour_bottle_plastic" },
+      { "prob": 6, "group": "flour_bottle_glass" },
+      { "prob": 12, "group": "flour_bag_plastic" },
+      { "prob": 6, "group": "flour_bag_paper" },
       { "prob": 1, "group": "flour_wheat_free_bottle_plastic" },
       { "prob": 1, "group": "flour_wheat_free_bottle_glass" },
       { "prob": 2, "group": "flour_wheat_free_bag_plastic" },
       { "prob": 2, "group": "flour_wheat_free_bag_paper" },
       { "prob": 3, "group": "bread_flour_bag_plastic" },
-      { "prob": 5, "group": "bread_flour_bag_paper" }
+      { "prob": 3, "group": "bread_flour_bag_paper" }
     ]
   },
   {
@@ -1851,8 +1851,8 @@
     "id": "flour_various_full",
     "subtype": "distribution",
     "entries": [
-      { "prob": 2, "group": "flour_bag_plastic_full" },
-      { "prob": 3, "group": "flour_bag_paper_full" },
+      { "prob": 6, "group": "flour_bag_plastic_full" },
+      { "prob": 9, "group": "flour_bag_paper_full" },
       { "prob": 1, "group": "flour_wheat_free_bag_plastic_full" },
       { "prob": 2, "group": "flour_wheat_free_bag_paper_full" },
       { "prob": 2, "group": "bread_flour_bag_plastic_full" },

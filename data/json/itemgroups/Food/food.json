@@ -372,7 +372,7 @@
       { "item": "soup_dumplings", "prob": 15 },
       { "item": "curry_veggy", "prob": 15 },
       { "item": "curry_meat", "prob": 15 },
-      { "prob": 60, "group": "flour_various" },
+      { "prob": 80, "group": "flour_various" },
       { "prob": 20, "group": "milk_powder_various" },
       { "prob": 20, "group": "cocoa_powder_various" },
       { "prob": 20, "group": "milk_cocoa_powder_various" },
