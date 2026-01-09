@@ -40,7 +40,7 @@
       "u_has_mission": "AG_shuttle_mission",
       "yes": "Not in the mood for a talk, sorry.",
       "no": {
-        "gendered_line": "&You join the surveyor at the bar.  They are nursing a drink and looking at a datapad.  \"Well wouln't you know, I just happen to have the coordinates of a crashed shuttle that might be worth salvaging.  Should be full of military cargo, I believe.  Can sell you its location for 1,500 USD.  What do you say?\"",
+        "gendered_line": "&You join the surveyor at the bar.  They are nursing a drink and looking at a banged-up screen pad.  \"Well wouln't you know, I just happen to have the coordinates of a crashed shuttle that might be worth salvaging.  Should be full of military cargo, I believe.  Can sell you its location for 2,500.  What do you say?\"",
         "relevant_genders": [ "npc" ]
       }
     },
@@ -48,7 +48,7 @@
       {
         "text": "[2,500 USD] Offer to buy the the location of this shuttle.",
         "condition": { "not": { "u_has_mission": "AG_shuttle_mission" } },
-        "topic": "TALK_DONE"
+        "topic": "AG_shuttle_bought_loc"
       },
       {
         "text": "What's the catch here, why not just salvage it yourself?",
@@ -69,5 +69,11 @@
     "id": "AG_shuttle_hint",
     "type": "talk_topic",
     "dynamic_line": "Well I don't really like the cold, you know?  Oh also, the shuttle has an automated defense crew on it, but that just means its cargo must be worth something, right?"
+  },
+  {
+    "id": "AG_shuttle_bought_loc",
+    "type": "talk_topic",
+    "dynamic_line": "&\"Excellent!  Here are the coordinates.\"  The surveyor slides you the location data on a small data slate.  \"Good luck out there.\"",
+    "responses": [ { "text": "Thanks, I'll be careful.", "topic": "TALK_DONE", "effect": { "assign_mission": "AG_shuttle_mission" } } ]
   }
 ]

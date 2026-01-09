@@ -1,0 +1,24 @@
+[
+  {
+    "id": "AG_uica_crew_leave",
+    "type": "talk_topic",
+    "dynamic_line": "&you notice a group of crewmen from the 'Firelight' huddled in a corner, trying to enjoy leave in a more \"local\" establishment.",
+    "responses": [
+      { "text": "Approach the crew.", "topic": "AG_uica_crew_1" },
+      { "text": "You dont even to be seen close to those dogs.", "topic": "TALK_DONE" },
+      { "text": "Leave them be.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "AG_uica_crew_1",
+    "type": "talk_topic",
+    "dynamic_line": "&You buy and share a round with the crew, they warm up to you quickly.  You figure that now's the time to get some info out of them, if want to.",
+    "responses": [
+      { "text": "", "topic": "AG_uica_crew_2" },
+      { "text": "Any chance you guys are looking for extra hands?", "topic": "AG_uica_crew_hire" },
+      { "text": "Throw in a word in and there, make it known you are looking for contraband to buy.", "topic": "AG_uica_crew_contraband" },
+      { "text": "Get them into a brawl.", "topic": "TALK_DONE" }
+      { "text": "Just keep the rounds coming.", "topic": "TALK_DONE" }
+    ]
+  }
+]

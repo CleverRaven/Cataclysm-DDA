@@ -56,7 +56,7 @@
         "truefalsetext": {
           "condition": { "math": [ "afs_underworld_check(1) >= 100" ] },
           "true": "Not for me, thanks.",
-          "false": "I uhh… haven't seen anything. See you around"
+          "false": "I uhh… haven't seen anything.  See you around"
         },
         "topic": "TALK_DONE"
       }
