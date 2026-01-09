@@ -5812,7 +5812,8 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_amigara, calendar::turn_zero ) );
                 }
                 if( trig_dist( veh_position, closest_barricaded_church ) <= 10 ) {
-                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_barricaded_church, calendar::turn_zero ) );
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_barricaded_church,
+                                                      calendar::turn_zero ) );
                 }
                 if( trig_dist( veh_position, closest_morgantown ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_morgantown, calendar::turn_zero ) );
