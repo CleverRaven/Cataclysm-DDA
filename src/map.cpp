@@ -162,7 +162,8 @@ static const item_group_id Item_spawn_data_default_zombie_clothes( "default_zomb
 static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie_items" );
 
 static const itype_id itype_HEW_printout_data_amigara( "HEW_printout_data_amigara" );
-static const itype_id itype_HEW_printout_data_barricaded_church( "HEW_printout_data_barricaded_church" );
+static const itype_id
+itype_HEW_printout_data_barricaded_church( "HEW_printout_data_barricaded_church" );
 static const itype_id itype_HEW_printout_data_cabin_reverb( "HEW_printout_data_cabin_reverb" );
 static const itype_id itype_HEW_printout_data_cabin_reverb_dimension( "HEW_printout_data_cabin_reverb_dimension" );
 static const itype_id itype_HEW_printout_data_exodii( "HEW_printout_data_exodii" );
