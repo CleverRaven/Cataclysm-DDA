@@ -136,11 +136,11 @@
       { "type": "COMPONENT_ID", "condition": "cereal3", "name": { "str_sp": "corn flakes %s" } },
       { "type": "COMPONENT_ID", "condition": "snicker", "name": { "str_sp": "Snicker-Snacks %s" } },
       { "type": "COMPONENT_ID", "condition": "brantastic", "name": { "str_sp": "Brantastic %s" } },
-      { "type": "COMPONENT_ID", "condition": "honey", "name": { "str_sp": "Hoeny Pellet %s" } },
+      { "type": "COMPONENT_ID", "condition": "honey", "name": { "str_sp": "Honey Pellet %s" } },
       { "type": "COMPONENT_ID", "condition": "fructose", "name": { "str_sp": "Fructose Flakes %s" } },
       { "type": "COMPONENT_ID", "condition": "foodios", "name": { "str_sp": "Foodios %s" } },
       { "type": "COMPONENT_ID", "condition": "cereal_fp2", "name": { "str_sp": "Carpenter Crunch %s" } },
-      { "type": "COMPONENT_ID", "condition": "cereal_fp4", "name": { "str_sp": "Shugar Chomps %s" } }
+      { "type": "COMPONENT_ID", "condition": "cereal_fp4", "name": { "str_sp": "Sugar Chomps %s" } }
     ]
   }
 ]
