@@ -1346,47 +1346,43 @@
     "entries": [ { "item": "can_corn", "container-item": "null", "count": 6 } ]
   },
   {
-    "id": "raw_coffee_small",
+    "id": "ground_coffee_small",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
       { "item": "coffee_raw", "count": [ 1, 30 ] },
       { "item": "coffee_raw_kentucky", "count": [ 1, 30 ] },
-      { "item": "instant_coffee", "count": [ 1, 50 ] },
-      { "item": "roasted_coffee_bean", "container-item": "null", "count": [ 1, 30 ] }
+      { "item": "roasted_coffee_bean", "count": [ 1, 30 ] }
     ]
   },
   {
-    "id": "raw_coffee_small_full",
+    "id": "ground_coffee_small_full",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
       { "item": "coffee_raw", "count": 30 },
       { "item": "coffee_raw_kentucky", "count": 30 },
-      { "item": "instant_coffee", "count": 50 },
-      { "item": "roasted_coffee_bean", "container-item": "null", "count": 30 }
+      { "item": "roasted_coffee_bean", "count": 30 }
     ]
   },
   {
-    "id": "raw_coffee_big",
+    "id": "ground_coffee_big",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
       { "item": "coffee_raw", "count": [ 1, 60 ] },
       { "item": "coffee_raw_kentucky", "count": [ 1, 60 ] },
-      { "item": "instant_coffee", "count": [ 1, 100 ] },
-      { "item": "roasted_coffee_bean", "container-item": "null", "count": [ 1, 60 ] }
+      { "item": "roasted_coffee_bean", "count": [ 1, 60 ] }
     ]
   },
   {
-    "id": "raw_coffee_big_full",
+    "id": "ground_coffee_big_full",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
       { "item": "coffee_raw", "count": 60 },
       { "item": "coffee_raw_kentucky", "count": 60 },
-      { "item": "instant_coffee", "count": 100 },
-      { "item": "roasted_coffee_bean", "container-item": "null", "count": 60 }
+      { "item": "roasted_coffee_bean", "count": 60 }
     ]
   },
   {
@@ -1396,15 +1392,20 @@
     "entries": [
       {
         "distribution": [
-          { "group": "raw_coffee_small", "entry-wrapper": "can_medium" },
-          { "group": "raw_coffee_small", "entry-wrapper": "bottle_glass_seasoning" },
-          { "group": "raw_coffee_small", "entry-wrapper": "bag_plastic_small" }
+          { "item": "instant_coffee", "count": [ 1, 40 ], "entry-wrapper": "bottle_glass_seasoning" },
+          { "item": "instant_coffee", "count": [ 1, 40 ], "entry-wrapper": "can_medium" }
         ]
       },
       {
         "distribution": [
-          { "group": "raw_coffee_big", "entry-wrapper": "can_food_big" },
-          { "group": "raw_coffee_big", "entry-wrapper": "bag_plastic" }
+          { "group": "ground_coffee_small", "entry-wrapper": "can_food_big" },
+          { "group": "ground_coffee_small", "entry-wrapper": "bag_plastic" }
+        ]
+      },
+      {
+        "distribution": [
+          { "group": "ground_coffee_big", "entry-wrapper": "can_food_big" },
+          { "group": "ground_coffee_big", "entry-wrapper": "bag_plastic" }
         ]
       }
     ]
@@ -1416,15 +1417,20 @@
     "entries": [
       {
         "distribution": [
-          { "group": "raw_coffee_small_full", "entry-wrapper": "can_medium" },
-          { "group": "raw_coffee_small_full", "entry-wrapper": "bottle_glass_seasoning" },
-          { "group": "raw_coffee_small_full", "entry-wrapper": "bag_plastic_small" }
+          { "item": "instant_coffee", "count": 40, "entry-wrapper": "bottle_glass_seasoning" },
+          { "item": "instant_coffee", "count": 40, "entry-wrapper": "can_medium" }
         ]
       },
       {
         "distribution": [
-          { "group": "raw_coffee_big_full", "entry-wrapper": "can_food_big" },
-          { "group": "raw_coffee_big_full", "entry-wrapper": "bag_plastic" }
+          { "group": "ground_coffee_small_full", "entry-wrapper": "can_food_big" },
+          { "group": "ground_coffee_small_full", "entry-wrapper": "bag_plastic" }
+        ]
+      },
+      {
+        "distribution": [
+          { "group": "ground_coffee_big_full", "entry-wrapper": "can_food_big" },
+          { "group": "ground_coffee_big_full", "entry-wrapper": "bag_plastic" }
         ]
       }
     ]
