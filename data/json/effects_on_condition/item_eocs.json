@@ -150,6 +150,28 @@
     "effect": [ { "u_message": "Your <npc_name> goes quiet." }, { "transform_item": { "context_val": "transform_target" } } ]
   },
   {
+    "id": "EOC_papr_blower_running",
+    "type": "effect_on_condition",
+    "effect": {
+      "if": { "one_in_chance": { "context_val": "sound_chance" } },
+      "then": [
+        { "message": { "context_val": "sound_message" }, "sound": true },
+        {
+          "npc_make_sound": { "context_val": "sound_message" },
+          "type": "activity",
+          "volume": { "context_val": "volume" },
+          "ambient": true
+        }
+      ],
+      "else": {
+        "npc_make_sound": { "context_val": "sound_message" },
+        "type": "activity",
+        "volume": { "context_val": "volume" },
+        "ambient": true
+      }
+    }
+  },
+  {
     "type": "effect_on_condition",
     "id": "barber_hair",
     "effect": { "open_dialogue": { "topic": "TALK_CUT_YOUR_HAIR" } }

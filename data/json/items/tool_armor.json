@@ -2731,7 +2731,22 @@
       "target": "basic_papr_belt_off",
       "ammo_scale": 0
     },
-    "tick_action": [ { "type": "sound", "sound_volume": 12, "sound_id": "misc" } ],
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_papr_blower_running__basic",
+          "effect": {
+            "run_eocs": "EOC_papr_blower_running",
+            "variables": {
+              "sound_chance": 50,
+              "sound_message": { "i18n": true, "str": "The PAPR blower fan hums." },
+              "volume": 12
+            }
+          }
+        }
+      ]
+    },
     "tool_ammo": [ "battery" ],
     "flags": [ "BELTED", "OVERSIZE", "ELECTRONIC", "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE", "PAPR_BLOWER" ],
     "armor": [
@@ -2820,7 +2835,22 @@
       "target": "military_papr_blower_off",
       "ammo_scale": 0
     },
-    "tick_action": [ { "type": "sound", "sound_volume": 12, "sound_id": "misc" } ],
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_papr_blower_running__military",
+          "effect": {
+            "run_eocs": "EOC_papr_blower_running",
+            "variables": {
+              "sound_chance": 50,
+              "sound_message": { "i18n": true, "str": "The PAPR blower fan hums." },
+              "volume": 12
+            }
+          }
+        }
+      ]
+    },
     "tool_ammo": [ "battery" ],
     "flags": [ "BELTED", "OVERSIZE", "ELECTRONIC", "TRADER_AVOID", "SPAWN_ACTIVE", "PAPR_BLOWER" ],
     "armor": [
@@ -2909,7 +2939,22 @@
       "target": "molle_papr_blower_off",
       "ammo_scale": 0
     },
-    "tick_action": [ { "type": "sound", "sound_volume": 8, "sound_id": "misc" } ],
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_papr_blower_running__molle",
+          "effect": {
+            "run_eocs": "EOC_papr_blower_running",
+            "variables": {
+              "sound_chance": 50,
+              "sound_message": { "i18n": true, "str": "The PAPR blower fan hums." },
+              "volume": 8
+            }
+          }
+        }
+      ]
+    },
     "tool_ammo": [ "battery" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ELECTRONIC", "TRADER_AVOID", "SPAWN_ACTIVE", "PAPR_BLOWER" ],
     "armor": [
