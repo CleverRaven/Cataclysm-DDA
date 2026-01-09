@@ -3546,7 +3546,6 @@
     "type": "item_group",
     "id": "laundry",
     "items": [
-      [ "basket_laundry", 30 ],
       [ "jeans", 90 ],
       [ "jeans_ripped", 10 ],
       [ "jeans_skinny", 20 ],

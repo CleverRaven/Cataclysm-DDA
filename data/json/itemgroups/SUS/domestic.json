@@ -778,6 +778,16 @@
     ]
   },
   {
+    "id": "SUS_laundry_basket",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a laundry basket.",
+    "subtype": "collection",
+    "container-item": "basket_laundry",
+    "on_overflow": "discard",
+    "entries": [ { "group": "laundry", "count": [ 0, 3 ] }, { "group": "laundry", "count": [ 4, 12 ], "custom-flags": [ "FILTHY" ] } ]
+  },
+  {
     "id": "SUS_bathroom_sink",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
