@@ -1134,7 +1134,7 @@ void editmap::edit_feature()
     shared_ptr_fast<uilist_impl> ui_impl;
     do {
         const T_id override( emenu.selected );
-        if( override ) {
+        if( override && emenu.selected != -1 ) {
             draw_target_override = [override]( const tripoint_bub_ms & p ) {
                 draw_override( p, override );
             };
@@ -1259,7 +1259,7 @@ void editmap::edit_fld()
     blink = true;
     do {
         const field_type_id override( fmenu.selected );
-        if( override ) {
+        if( override && fmenu.selected != -1 ) {
             draw_target_override = [override]( const tripoint_bub_ms & p ) {
                 g->draw_field_override( p, override );
             };
