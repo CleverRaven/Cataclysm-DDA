@@ -105,7 +105,6 @@ static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
-static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
@@ -195,7 +194,6 @@ activity_handlers::finish_functions = {
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
-    { ACT_SOCIALIZE, socialize_finish },
     { ACT_ATM, atm_finish },
     { ACT_PULL_CREATURE, pull_creature_finish }
 };
@@ -1294,12 +1292,6 @@ void activity_handlers::find_mount_do_turn( player_activity *act, Character *you
             you->set_destination( route, player_activity( ACT_FIND_MOUNT ) );
         }
     }
-}
-
-void activity_handlers::socialize_finish( player_activity *act, Character *you )
-{
-    you->add_msg_if_player( _( "%s finishes chatting with you." ), act->str_values[0] );
-    act->set_to_null();
 }
 
 void activity_handlers::tidy_up_do_turn( player_activity *act, Character *you )
