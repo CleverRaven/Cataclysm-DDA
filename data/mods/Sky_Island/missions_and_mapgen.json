@@ -1061,7 +1061,13 @@
         "           "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "D": [ "t_door_c" ], "-": [ "t_wall_r_glow" ], ".": [ "t_carpet_red" ], "X": [ "t_carpet_red" ], "x": [ "t_carpet_red" ] },
+      "terrain": {
+        "D": [ "t_door_c" ],
+        "-": [ "t_wall_r_glow" ],
+        ".": [ "t_carpet_red" ],
+        "X": [ "t_carpet_red" ],
+        "x": [ "t_carpet_red" ]
+      },
       "furniture": { "X": [ "f_returnportal" ], "D": [ "f_null" ], ".": [ "f_null" ], "x": [ "f_null" ] }
     }
   },
