@@ -628,15 +628,8 @@
       { "u_location_variable": { "context_val": "loc" } },
       {
         "if": { "map_terrain_with_flag": "SHALLOW_WATER", "loc": { "context_val": "loc" } },
-        "then": { "run_eocs": "EOC_PORTAL_HIGHLANDS" }
-      },
-      {
-        "if": { "or": [ { "u_at_om_location": "radio_tower_top" }, { "u_at_om_location": "wasp_tower_top" } ] },
-        "then": { "run_eocs": "EOC_PORTAL_RADIOSPHERE" }
-      },
-      {
-        "if": { "or": [ { "u_at_om_location": "cabin_roof_3" }, { "u_at_om_location": "cabin_roof_3_reverberation_hint" } ] },
-        "then": { "run_eocs": "EOC_PORTAL_CABINS" }
+        "then": { "run_eocs": "EOC_PORTAL_HIGHLANDS" },
+        "else": { "run_eocs": [ "EOC_REVERBERATION_ENTER" ] }
       }
     ]
   },
