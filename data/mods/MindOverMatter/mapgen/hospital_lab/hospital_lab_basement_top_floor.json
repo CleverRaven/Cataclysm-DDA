@@ -32,22 +32,22 @@
         "#>  #                                                                                      #   #",
         "#>  +    £                                                                            £    +   #",
         "######                                                                                    ######",
-        "#    #        ##+###+#################################################++##########        #    #",
-        "#    #        #  L#  L#                                    #BṚBṚBṚBṚB#  #BB    BB#        #    #",
-        "#    Đ        # ||# ||#                                    #BṚBṚBṚBṚB#  #ṚṚŁ  ŁṚṚ#        Đ    #",
-        "#    #        # +T# +T#                                    #         +  #BB    BB#        #    #",
-        "######   ###### ||# ||#                                    #ŁŁŁŁŁ   h#  #ṚṚŁ  ŁṚṚ######   ######",
-        "#    #   #    # +T# +T#                         ######################  +      BB#T| T#   #    #",
-        "#    #   #    # ||# ||#                         #ppp³³³³³³³#BṚBṚBṚBṚB#  #ṚṚŁ  ŁṚṚ#+|+|#   #    #",
-        "#    Đ   #    # +T# +T#                         #p        ³#BṚBṚBṚBṚB#  #BB    BB#    #   Đ    #",
-        "#    #   #    # ||# ||#                         #p ³³³³³³ ³#         +  ##########   L#   #    #",
-        "######   #    # +T# +T#                         #p        ³#ŁŁŁŁŁ   h#           +   L#   ######",
-        "######   ############################################ɔ#################################   ######",
-        "#    #   #    #                                z#     PPPPP#IIIIIIII#                 #   #    #",
-        "#    #   #    #üh hüüh hüüh hüüh hüüh hüüh hü#  ¢         ¢#I      I#                 #   #    #",
-        "#    Đ   #    #üh hüüh hüüh hüüh hüüh hüüh hü#  ¢  ¢L  L¢ M#G G  G G#                 #   Đ    #",
-        "#    #   #    #üh hüüh hüüh hüüh hüüh hüüh hü#  ¢  ¢¢  ¢¢ M#G G  G G#                 #   #    #",
-        "######   ######üh hüüh hüüh hüüh hüüh hüüh hü#  ¢  ¢¢  ¢¢ M#G G  G G#            ######   ######",
+        "#    #        ##+###+#######**###########**###########################++##########        #    #",
+        "#    #        #  L#  L#wwCCC  zwwww#wwCCC  zwwww#          #BṚBṚBṚBṚB#  #BB    BB#        #    #",
+        "#    Đ        # ||# ||#wh      h hw#wh      h hw#          #BṚBṚBṚBṚB#  #ṚṚŁ  ŁṚṚ#        Đ    #",
+        "#    #        # +T# +T#w         ||#w         ||#          #         +  #BB    BB#        #    #",
+        "######   ###### ||# ||#Uh  hww   hw#Uh   hww  hw#          #ŁŁŁŁŁ   h#  #ṚṚŁ  ŁṚṚ######   ######",
+        "#    #   #    # +T# +T#||   wUh   w#||   wwUh  w######################  +      BB#T| T#   #    #",
+        "#    #   #    # ||# ||#wh   ww   hU#wh   ww   hU#ppp³³³³³³³#BṚBṚBṚBṚB#  #ṚṚŁ  ŁṚṚ#+|+|#   #    #",
+        "#    Đ   #    # +T# +T#U    h     w#U    h     w#p        ³#BṚBṚBṚBṚB#  #BB    BB#    #   Đ    #",
+        "#    #   #    # ||# ||#wh |h  h| hw#wh |h  h| hw#p ³³³³³³ ³#         +  ##########    #   #    #",
+        "######   #    # +T# +T#www|Uwww|www#www|Uwww|www#p        ³#ŁŁŁŁŁ   h#           +  LL#   ######",
+        "######   ############################################ɔ############################| ||#   ######",
+        "#    #   #    #                                z#     PPPPP#IIIIIIII#           #|| ||#   #    #",
+        "#    #   #    #üh hüüh hüüh hüüh hüüh hüüh hü#  ¢         ¢#I      I#           #Wj jW#   #    #",
+        "#    Đ   #    #üh hüüh hüüh hüüh hüüh hüüh hü#  ¢  ¢L  L¢ M#G G  G G#           #|| ||#   Đ    #",
+        "#    #   #    #üh hüüh hüüh hüüh hüüh hüüh hü#  ¢  ¢¢  ¢¢ M#G G  G G#           #Wj jW#   #    #",
+        "######   ######üh hüüh hüüh hüüh hüüh hüüh hü#  ¢  ¢¢  ¢¢ M#G G  G G#           #######   ######",
         "#    #        #üh hüüh hüüh hüüh hüüh hüüh hü#  ¢  ¢L  L¢ M#i G  G i#            #        #    #",
         "#    #        #üh hüüh hüüh hüüh hüüh hüüh hü#  #  ¢¢  ¢¢ M#i G  G i#            #        #    #",
         "#    Đ        #                                z#z        ¢#ii    ii#            #        ɔ    #",
@@ -93,6 +93,11 @@
           { "item": "baked_goods", "chance": 40 },
           { "item": "SUS_fridge", "chance": 90, "repeat": [ 1, 2 ] }
         ],
+        "w": [
+          { "item": "SUS_office_desk", "chance": 40 },
+          { "item": "lab_files_psi", "chance": 5 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 2 }
+        ],
         "³": [
           { "item": "restaur_kitchen", "chance": 20, "repeat": [ 1, 3 ] },
           { "item": "groce_bread", "chance": 30, "repeat": [ 1, 2 ] },
@@ -135,10 +140,12 @@
         { "chunks": [ "phavian_hospital_lab_office_west_door4x4" ], "x": 91, "y": 14 },
         { "chunks": [ "phavian_hospital_lab_office_west_door4x4" ], "x": 91, "y": 19 },
         { "chunks": [ "phavian_hospital_lab_office_west_door4x4" ], "x": 91, "y": 25 },
+        { "chunks": [ "phavian_hospital_lab_storage_room_west_door4x4" ], "x": 91, "y": 30 },
         { "chunks": [ "phavian_hospital_lab_rest_area_4x4_corner_se" ], "x": 9, "y": 14 },
         { "chunks": [ "phavian_hospital_lab_rest_area_4x4_corner_sw" ], "x": 82, "y": 14 },
         { "chunks": [ "phavian_hospital_lab_rest_area_4x4_corner_ne" ], "x": 9, "y": 30 },
-        { "chunks": [ "phavian_hospital_lab_rest_area_4x4_corner_nw" ], "x": 82, "y": 30 }
+        { "chunks": [ "phavian_hospital_lab_rest_area_4x4_corner_nw" ], "x": 82, "y": 30 },
+        { "chunks": [ "phavian_hospital_lab_security_area_12x12" ], "x": 25, "y": 1 }
       ],
       "place_monster": [
         { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 23 ], "y": [ 11, 12 ], "repeat": [ 1, 4 ], "chance": 70 },
@@ -245,6 +252,13 @@
           "x": [ 48, 58 ],
           "y": [ 25, 32 ],
           "repeat": [ 1, 5 ],
+          "chance": 70
+        },
+        {
+          "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
+          "x": [ 24, 47 ],
+          "y": [ 15, 23 ],
+          "repeat": [ 3, 9 ],
           "chance": 70
         }
       ]
