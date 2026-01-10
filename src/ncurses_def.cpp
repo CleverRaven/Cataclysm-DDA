@@ -1,4 +1,6 @@
 #if !(defined(TILES))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 
 // input.h must be include *before* the ncurses header. The latter has some macro
 // defines that clash with the constants defined in input.h (e.g. KEY_UP).
@@ -330,6 +332,7 @@ void catacurses::resizeterm()
         catacurses::doupdate();
     }
 }
+
 // init_interface is defined in another cpp file, depending on build type:
 // wincurse.cpp for Windows builds without SDL and sdltiles.cpp for SDL builds.
 void catacurses::init_interface()
@@ -628,4 +631,5 @@ void set_title( const std::string & )
     // curses does not seem to have a portable way of setting the window title.
 }
 
+#pragma GCC diagnostic pop
 #endif

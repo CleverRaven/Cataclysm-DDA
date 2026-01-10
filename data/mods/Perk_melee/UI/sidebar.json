@@ -54,7 +54,7 @@
     "label": "Combat Style",
     "label_align": "right",
     "text_align": "right",
-    "widgets": [ "martial_mastery_title", "style_stats" ]
+    "widgets": [ "martial_mastery_title", "style_stats", "poise" ]
   },
   {
     "id": "martial_mastery_title",
@@ -70,6 +70,7 @@
     "style": "layout",
     "arrange": "minimum_columns",
     "label": "SHIELD",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
     "widgets": [ "tempo", "momentum", "insight" ]
   },
   {
@@ -233,6 +234,45 @@
         "text": "  Insight  ",
         "color": "black",
         "condition": { "and": [ { "math": [ "u_effect_intensity('perk_insight') == 0" ] }, { "u_has_flag": "MELEE_PERK_INSIGHT" } ] }
+      }
+    ]
+  },
+  {
+    "id": "poise",
+    "type": "widget",
+    "style": "text",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "label": "Stance",
+    "clauses": [
+      {
+        "id": "poise_4",
+        "text": "▇▇▇ ▇▇▇ ▇▇▇ ▇▇▇",
+        "color": "light_green",
+        "condition": { "math": [ "u_poise == 4" ] }
+      },
+      {
+        "id": "poise_3",
+        "text": "▇▇▇ ▇▇▇ ▇▇▇    ",
+        "color": "light_cyan",
+        "condition": { "math": [ "u_poise == 3" ] }
+      },
+      {
+        "id": "poise_2",
+        "text": "▇▇▇ ▇▇▇            ",
+        "color": "cyan",
+        "condition": { "math": [ "u_poise == 2" ] }
+      },
+      {
+        "id": "poise_1",
+        "text": "▇▇▇                ",
+        "color": "white",
+        "condition": { "math": [ "u_poise == 1" ] }
+      },
+      {
+        "id": "poise_0",
+        "text": "    !BROKEN!    ",
+        "color": "red",
+        "condition": { "and": [ { "math": [ "u_poise == 0" ] }, { "u_has_flag": "MELEE_PERK_POISE" } ] }
       }
     ]
   }

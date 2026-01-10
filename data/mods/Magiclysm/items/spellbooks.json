@@ -36,7 +36,7 @@
     "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "A Beginner's Guide to Magic", "str_pl": "copies of A Beginner's Guide to Magic" },
-    "//": "2 Magus, 3 classless spell",
+    "//": "4 classless spell",
     "description": "You would describe this as more like a pamphlet than a spellbook, but it seems to have at least a few interesting spells you can use.",
     "weight": "585 g",
     "volume": "250 ml",
@@ -45,10 +45,7 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
-    "use_action": {
-      "type": "learn_spell",
-      "spells": [ "magic_missile", "phase_door", "create_atomic_light", "sound_bomb", "classless_watch_spell" ]
-    }
+    "use_action": { "type": "learn_spell", "spells": [ "create_atomic_light", "sound_bomb", "classless_watch_spell", "protection_aura" ] }
   },
   {
     "id": "novice_stormshaper_book",
@@ -65,7 +62,7 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "shocking_lash", "windrun" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "electric_arts", "windrun" ] }
   },
   {
     "id": "wizard_utility",
@@ -85,7 +82,6 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [
-        "phase_door",
         "create_lighter",
         "create_electric_lighter",
         "pain_split",
@@ -163,7 +159,7 @@
       "str": "The Paladin's Guide to Modern Spellcasting",
       "str_pl": "copies of The Paladin's Guide to Modern Spellcasting"
     },
-    "//": "2 technomancer, 1 animist spells",
+    "//": "1 technomancer, 1 animist spells",
     "description": "Despite the title, this seems to be written in Middle English.  A little obtuse, but you can make out most of the words well enough.",
     "weight": "830 g",
     "volume": "750 ml",
@@ -172,7 +168,7 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade", "spirit_armor" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade" ] }
   },
   {
     "id": "winter_grasp",
@@ -370,7 +366,7 @@
     "category": "manuals",
     "name": { "str": "The Book of Trees", "str_pl": "copies of The Book of Trees" },
     "//": "5 Druid spells",
-    "description": "A bark covered book.",
+    "description": "A bark covered book, though the pages inside are modern typed ones.  Contains several druid spells.",
     "weight": "355 g",
     "volume": "500 ml",
     "price": "50 USD",
@@ -380,15 +376,7 @@
     "color": "green",
     "use_action": {
       "type": "learn_spell",
-      "spells": [
-        "druid_woodshaft",
-        "druid_veggrasp",
-        "druid_rootstrike",
-        "druid_naturebow1",
-        "druid_natures_commune",
-        "druid_healing_herb",
-        "druid_healing"
-      ]
+      "spells": [ "druid_veggrasp", "druid_summon_brambles", "seed_of_growth", "druid_natures_commune", "druid_healing_herb" ]
     }
   },
   {
@@ -398,7 +386,7 @@
     "category": "manuals",
     "name": { "str": "The Utility of Mana as an Energy Source", "str_pl": "copies of The Utility of Mana as an Energy Source" },
     "description": "This book details spells that use your mana to recover various physiological effects.",
-    "//": "1 classless, 1 technomancer, 2 animist, 1 druid, 1 earthshaper spell",
+    "//": "1 classless, 1 technomancer, 1 animist, 1 druid, 1 earthshaper spell",
     "weight": "728 g",
     "volume": "3 L",
     "price": "50 USD",
@@ -415,8 +403,7 @@
         "recover_pain",
         "recover_sleepiness",
         "recover_stamina",
-        "druid_healing",
-        "convert"
+        "druid_healing"
       ]
     }
   },
@@ -454,7 +441,7 @@
     "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Tome of The Battle Mage", "str_pl": "copies of The Tome of The Battle Mage" },
-    "//": "4 Magus spells",
+    "//": "5 Magus spells",
     "description": "Your standard wizardy looking spellbook, filled with Magus combat spells.  You sure lucked out!",
     "weight": "434 g",
     "volume": "750 ml",
@@ -465,7 +452,7 @@
     "color": "light_gray",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast", "magus_summon_impact_sling" ]
+      "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast", "magus_summon_impact_sling", "magus_mage_conjured_armor" ]
     }
   },
   {
@@ -1312,9 +1299,12 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "category": "manuals",
-    "//": "6 Kelvinist spells",
-    "name": { "str": "Practical Pyromancy, Seventh Edition", "str_pl": "copies of Practical Pyromancy, Seventh Edition" },
-    "description": "The 2020 edition of the classic tome of fire magic, not containing any restricted battle magic but popular all the same.",
+    "//": "7 Kelvinist spells",
+    "name": {
+      "str": "Practical Pyromancy, Seventh Edition (Scholarly Edition)",
+      "str_pl": "copies of Practical Pyromancy, Seventh Edition (Scholarly Edition)"
+    },
+    "description": "The 2020 edition of the classic tome of fire magic.  This is the restricted version, also containing information about combat spells.",
     "weight": "537 g",
     "volume": "930 ml",
     "price": "90 USD",
@@ -1326,12 +1316,33 @@
       "type": "learn_spell",
       "spells": [
         "kelvinist_firebolt",
+        "spell_scroll_point_flare",
         "kelvinist_extinguish_fire_spell",
         "create_lighter",
         "kelvinist_heat_food",
         "kelvinist_anti_cold",
         "burning_hands"
       ]
+    }
+  },
+  {
+    "id": "basic_pyromancy_expurgated",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "//": "4 Kelvinist spells",
+    "name": { "str": "Practical Pyromancy, Seventh Edition", "str_pl": "copies of Practical Pyromancy, Seventh Edition" },
+    "description": "The 2020 edition of the classic tome of fire magic.  This is the expurgated version with all info about restricted battle magic removed.",
+    "weight": "537 g",
+    "volume": "930 ml",
+    "price": "90 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "red",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "kelvinist_extinguish_fire_spell", "create_lighter", "kelvinist_heat_food", "kelvinist_anti_cold" ]
     }
   },
   {

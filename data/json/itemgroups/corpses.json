@@ -505,7 +505,6 @@
     "type": "item_group",
     "id": "adderall_bottle_plastic_pill_prescription_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "adderall", "container-item": "null", "count": 10 } ]
   }

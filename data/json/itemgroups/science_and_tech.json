@@ -19,6 +19,8 @@
       { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
       { "item": "chem_ethanol", "prob": 10, "charges": [ 250, -1 ] },
       [ "cleansuit", 5 ],
+      [ "laptop_hard_case_back", 20 ],
+      { "group": "papr_kit", "prob": 5 },
       { "group": "used_laptops", "prob": 10, "contents-group": "efiles_science" },
       { "group": "used_eink_tablet_pcs", "prob": 20, "contents-group": "efiles_science" },
       { "group": "used_memory_cards", "prob": 50, "contents-group": "efiles_science" },
@@ -31,6 +33,7 @@
       [ "thermometer", 3 ],
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
+      { "item": "mobile_weather_station", "prob": 1, "charges": [ 0, 1000 ] },
       { "item": "electrohack", "prob": 3, "charges": [ 0, 100 ] },
       [ "RAM", 22 ],
       [ "screwdriver", 40 ],
@@ -458,7 +461,8 @@
       [ "jumpsuit", 20 ],
       [ "mask_dust", 65 ],
       [ "wrapped_rad_badge", 15 ],
-      [ "glasses_safety", 40 ],
+      [ "glasses_safety", 5 ],
+      [ "goggles_chem", 35 ],
       [ "goggles_welding", 70 ],
       [ "textbook_atomic_lab", 7 ],
       [ "recipe_lab_elec", 15 ],
@@ -479,7 +483,8 @@
       [ "gloves_rubber", 20 ],
       [ "apron_plastic", 20 ],
       { "item": "mask_filter", "prob": 30, "charges": [ 0, 100 ] },
-      [ "glasses_safety", 40 ],
+      [ "goggles_chem", 35 ],
+      [ "glasses_safety", 5 ],
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
       [ "boots_rubber", 20 ],
       [ "recipe_medicalmut", 2 ],
@@ -595,7 +600,6 @@
     "type": "item_group",
     "id": "adderall_bottle_plastic_pill_prescription_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "adderall", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -610,7 +614,6 @@
     "type": "item_group",
     "id": "antiparasitic_bottle_plastic_pill_prescription_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "antiparasitic", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -618,7 +621,6 @@
     "type": "item_group",
     "id": "diazepam_bottle_plastic_pill_prescription_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "diazepam", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -626,7 +628,6 @@
     "type": "item_group",
     "id": "chem_sulphur_bottle_plastic_small_100_inf",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "chem_sulphur", "container-item": "null", "charges": [ 100, 1500 ] } ]
   },
@@ -634,8 +635,13 @@
     "type": "item_group",
     "id": "chem_citric_acid_bottle_glass_100_inf",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_glass",
     "entries": [ { "item": "chem_citric_acid", "container-item": "null", "count": [ 100, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "any_centrifuge",
+    "subtype": "distribution",
+    "items": [ [ "microcentrifuge", 1 ], [ "centrifuge", 1 ] ]
   }
 ]

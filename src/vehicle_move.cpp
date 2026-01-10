@@ -528,7 +528,12 @@ void vehicle::thrust( map &here, int thd, int z )
     //so 1000 = 100% and 453 = 45.3%
     int load;
     if( accel != 0 ) {
-        int effective_cruise = std::min( cruise_velocity, max_vel );
+        int effective_cruise;
+        if( cruise_velocity > 0 ) {
+            effective_cruise = std::min( cruise_velocity, max_vel );
+        } else {
+            effective_cruise = std::max( cruise_velocity, -max_vel );
+        }
         if( thd > 0 ) {
             vel_inc = std::min( vel_inc, effective_cruise - velocity );
         } else {
@@ -2008,7 +2013,7 @@ vehicle *vehicle::act_on_map( map &here )
     bool can_use_rails = this->can_use_rails( here );
     if( one_in( 10 ) ) {
         bool controlled = false;
-        // It can even be a NPC, but must be at the controls
+        // It can even be an NPC, but must be at the controls
         for( int boarded : boarded_parts() ) {
             if( part_with_feature( boarded, VPFLAG_CONTROLS, true ) >= 0 ) {
                 controlled = true;

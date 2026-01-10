@@ -647,7 +647,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         return false;
     }
 
-    if( is_avatar() && move_cost > 1000 && calendar::turn > melee_warning_turn ) {
+    if( is_avatar() && move_cost > 300 && calendar::turn > melee_warning_turn ) {
         const std::string &action = query_popup()
                                     .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
                                     .message( _( "<color_light_red>Attacking with your %1$s will take a long time.  "

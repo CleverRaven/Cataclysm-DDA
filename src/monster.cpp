@@ -157,6 +157,7 @@ static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
 static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
+static const flag_id json_flag_PRESERVE_SPAWN_LOC( "PRESERVE_SPAWN_LOC" );
 
 static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_milk( "milk" );
@@ -1212,6 +1213,17 @@ std::vector<std::string> monster::extended_description() const
                                              to_turn<int>( lifespan_end.value() - current_time ) ) );
         } else {
             tmp.emplace_back( "Lifespan end time: n/a <color_yellow>(indefinite)</color>" );
+        }
+
+        const std::vector<std::reference_wrapper<const effect>> all_effects = get_effects();
+        if( !all_effects.empty() ) {
+            tmp.emplace_back( "Applied effects:" );
+            for( const effect &eff : all_effects ) {
+                const std::string is_permanent = eff.is_permanent() ? "(permanent)" : "";
+                tmp.emplace_back( string_format( "%s (%s) %s", eff.get_id().c_str(),
+                                                 to_string_writable( eff.get_duration() ).c_str(),
+                                                 is_permanent.c_str() ) );
+            }
         }
     }
 
@@ -3059,6 +3071,11 @@ void monster::die( map *here, Creature *nkiller )
         }
     }
 
+    // This is special-cased "death guilt" for human "monsters". They apply full murder penalties, it's quite a bit different to kill a living human than to re-kill the corpse of a child.
+    if( type->has_flag( mon_flag_GUILT_HUMAN ) && get_killer() == &get_player_character() ) {
+        get_player_character().apply_murder_penalties( this );
+    }
+
     if( type->mdeath_effect.eoc.has_value() ) {
         //Not a hallucination, go process the death effects.
         if( type->mdeath_effect.eoc.value().is_valid() ) {
@@ -3294,6 +3311,25 @@ void monster::drop_items_on_death( map *here, item *corpse )
             }
         }
     }
+
+    // Check if item has PRESERVE_SPAWN_LOC and set it if necessary
+    // This probably needs to be encapsulated in some generic function
+    for( item &it : new_items ) {
+        if( it.has_flag( json_flag_PRESERVE_SPAWN_LOC ) &&
+            !it.has_var( "spawn_location" ) ) {
+            it.set_var( "spawn_location", pos_abs().to_string_writable() );
+        }
+
+        // since efiles are not in standard pocket, check it separately
+        if( it.has_pocket_type( pocket_type::E_FILE_STORAGE ) ) {
+            for( item *it_software : it.all_items_top( pocket_type::E_FILE_STORAGE ) ) {
+                if( it_software->has_flag( json_flag_PRESERVE_SPAWN_LOC ) &&
+                    !it_software->has_var( "spawn_location" ) ) {
+                    it_software->set_var( "spawn_location", pos_abs().to_string_writable() );
+                }
+            }
+        }
+    };
 }
 
 void monster::spawn_dissectables_on_death( item *corpse ) const
@@ -3500,6 +3536,10 @@ void monster::process_effects()
             anger += 5;
             anger = std::min( anger, type->agro );
         }
+    }
+
+    if( has_flag( mon_flag_UNBREAKABLE_MORALE ) ) {
+        morale += 100;
     }
 
     if( has_flag( mon_flag_CORNERED_FIGHTER ) ) {

@@ -1110,7 +1110,7 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Blood-Fueled Magic" },
-    "description": "Your exhaust some of the blood in your veins to recover some of your spent mana.",
+    "description": "Blood has power, and you can draw on that power to fuel magick.",
     "spells_learned": [ [ "vampire_magic_for_blood_spell", 1 ] ]
   },
   {
@@ -1189,6 +1189,35 @@
       },
       { "condition": { "u_has_trait": "DHAMPIR_TRAIT" }, "values": [ { "value": "MAX_HP", "multiply": 0.15 } ] }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_RENDING_TEETH",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Rending Jaws" },
+    "description": "You can turn the rest of your teeth into jagged fangs, allowing to you bite and inflict serious injuries in combat.\n\n<color_light_red>Initial Blood Cost:</color> 200 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 100 ml",
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "Your jaw extends and your teeth grow long and jagged.",
+    "activated_eocs": [ "EOC_VAMPIRE_RENDING_TEETH_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRE_RENDING_TEETH_deactivate" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_RENDING_TEETH_active",
+    "name": { "str": "Rending Jaws Extended", "//~": "NO_I18N" },
+    "points": 0,
+    "visibility": 3,
+    "ugliness": 2,
+    "description": { "str": "Your jaws are extended and full of sharp teeth.", "//~": "NO_I18N" },
+    "//": "Does not have the TEETH type to avoid oddness with vampire fangs",
+    "cost": 0,
+    "player_display": false,
+    "valid": false,
+    "integrated_armor": [ "integrated_vampire_rending_jaws" ]
   },
   {
     "type": "mutation",
@@ -1312,6 +1341,17 @@
     "description": "Your undead body is now much more dead than alive.  It prevents mundane illnesses and parasites from affecting you, while granting you a total immunity against radiation.  In addition, your scent is now something most mundane creatures cannot understand.",
     "scent_type": "sc_vampire",
     "flags": [ "PARAIMMUNE", "NO_DISEASE", "NO_RADIATION", "INFECTION_IMMUNE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_SUMMON_SHADOWS",
+    "name": { "str": "The Shadows that Crawl" },
+    "points": 5,
+    "description": "Your control over darkness has progressed to the point that you can animate patches of it as living shadows to attack your enemies.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "vampire_summon_shadows", 1 ] ]
   },
   {
     "type": "mutation",
@@ -1612,7 +1652,7 @@
           {
             "id": "mentor_vanish",
             "hit_self": true,
-            "message": "You're not supposed to see this.  Open a bug report on Github about having the Mentor's Peace trait.",
+            "message": "You're not supposed to see this.  Open a bug report on GitHub about having the Mentor's Peace trait.",
             "npc_message": "%1$s vanishes in a fine mist."
           }
         ]

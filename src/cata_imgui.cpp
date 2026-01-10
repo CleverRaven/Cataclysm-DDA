@@ -21,7 +21,10 @@ static ImGuiKey cata_key_to_imgui( int cata_key );
 
 #ifdef TUI
 #include "wcwidth.h"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 #include <curses.h>
+#pragma GCC diagnostic pop
 #include <imtui/imtui-impl-ncurses.h>
 #include <imtui/imtui-impl-text.h>
 
@@ -156,6 +159,8 @@ void cataimgui::client::set_alloced_pair_count( short count )
     ImTui_ImplNcurses_SetAllocedPairCount( count );
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 void cataimgui::client::process_input( void *input )
 {
     if( !any_window_shown() ) {
@@ -203,6 +208,7 @@ void cataimgui::client::process_input( void *input )
         }
     }
 }
+#pragma GCC diagnostic pop
 
 void cataimgui::load_colors()
 {

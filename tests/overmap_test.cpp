@@ -20,6 +20,7 @@
 #include "common_types.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "game.h"
 #include "global_vars.h"
@@ -35,6 +36,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_location.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -54,6 +56,84 @@ static const oter_str_id oter_cabin_west( "cabin_west" );
 
 static const overmap_special_id overmap_special_Cabin( "Cabin" );
 static const overmap_special_id overmap_special_Lab( "Lab" );
+
+static std::vector<oter_flags> all_oter_flags()
+{
+    const int max_flag = static_cast<int>( oter_flags::num_oter_flags );
+    std::vector<oter_flags> flags;
+    flags.reserve( max_flag );
+    for( int i = 0; i < max_flag; ++i ) {
+        flags.emplace_back( static_cast<oter_flags>( i ) );
+    }
+    return flags;
+}
+
+static std::vector<std::string> location_flag_strings()
+{
+    std::unordered_set<std::string> unique_flags;
+    for( const overmap_location &loc : overmap_locations::get_all() ) {
+        for( const std::string &flag : loc.get_flags() ) {
+            unique_flags.insert( flag );
+        }
+    }
+    std::vector<std::string> result( unique_flags.begin(), unique_flags.end() );
+    std::sort( result.begin(), result.end() );
+    return result;
+}
+
+static bool any_terrain_with_flag( const oter_flags flag )
+{
+    for( const oter_t &ter : overmap_terrains::get_all() ) {
+        if( ter.has_flag( flag ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+TEST_CASE( "oter_flags_string_round_trip", "[overmap][flags]" )
+{
+    const auto &flag_map = io::get_enum_lookup_map<oter_flags>();
+    const std::vector<oter_flags> flags = all_oter_flags();
+
+    CHECK( flag_map.size() == flags.size() );
+
+    std::unordered_set<std::string> seen_strings;
+    for( const oter_flags flag : flags ) {
+        const std::string flag_string = io::enum_to_string( flag );
+        CAPTURE( flag_string );
+        CHECK_FALSE( flag_string.empty() );
+        CHECK( flag_map.count( flag_string ) == 1 );
+        CHECK( io::string_to_enum<oter_flags>( flag_string ) == flag );
+        CHECK( seen_strings.emplace( flag_string ).second );
+    }
+}
+
+TEST_CASE( "overmap_location_flags_are_valid", "[overmap][flags]" )
+{
+    const std::vector<std::string> flags = location_flag_strings();
+
+    for( const std::string &flag : flags ) {
+        CAPTURE( flag );
+        CHECK( io::enum_is_valid<oter_flags>( flag ) );
+        CHECK( io::string_to_enum_optional<oter_flags>( flag ).has_value() );
+    }
+}
+
+TEST_CASE( "overmap_location_flags_match_terrain_flags", "[overmap][flags]" )
+{
+    const std::vector<std::string> flags = location_flag_strings();
+    const auto &flag_map = io::get_enum_lookup_map<oter_flags>();
+
+    for( const std::string &flag : flags ) {
+        const auto iter = flag_map.find( flag );
+        if( iter == flag_map.end() ) {
+            continue;
+        }
+        CAPTURE( flag );
+        CHECK( any_terrain_with_flag( iter->second ) );
+    }
+}
 
 TEST_CASE( "set_and_get_overmap_scents", "[overmap]" )
 {

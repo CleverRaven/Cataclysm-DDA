@@ -101,13 +101,7 @@
           { "item": "prepared_teas", "chance": 30, "repeat": [ 1, 2 ] }
         ]
       },
-      "computers": {
-        "6": {
-          "name": "Centrifuge",
-          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
-          "failures": [ { "action": "destroy_blood" } ]
-        }
-      },
+      "computers": { "6": {  } },
       "monster": {
         "^": { "monster": "mon_civilian_icu", "chance": 10 },
         "ւ": { "monster": "mon_civilian_icu", "chance": 10 },
@@ -218,13 +212,7 @@
         ]
       },
       "nested": { "=": { "chunks": [ [ "null", 70 ], [ "pile_bodybag_corpses", 30 ] ] } },
-      "computers": {
-        "6": {
-          "name": "Centrifuge",
-          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
-          "failures": [ { "action": "destroy_blood" } ]
-        }
-      },
+      "computers": { "6": {  } },
       "monster": {
         "^": { "monster": "mon_civilian_icu", "chance": 10 },
         "ւ": { "monster": "mon_civilian_icu", "chance": 10 },

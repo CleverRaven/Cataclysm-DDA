@@ -252,24 +252,27 @@ ammo_effects define what effect the projectile, that you shoot, would have. List
 {
   "id": "AE_NULL",           // id of an effect
   "type": "ammo_effect",     // define it is an ammo effect
-  "aoe": {                   // this field would be spawned at the tile projectile hit
-    "field_type": "fd_fog",  // field, that would be spawned around the center of projectile; default "fd_null"
-    "intensity_min": 1,      // min intensity of the field; default 0
-    "intensity_max": 3,      // max intensity of the field; default 0
-    "radius": 5,             // radius of a field to spawn; default 1
-    "radius_z": 1,           // radius across z-level; default 0
-    "chance": 100,           // probability to spawn 1 unit of field, from 0 to 100; default 100
-    "size": 0,               // seems to be the threshold, where autoturret stops shooting the weapon to prevent friendly fire;; default 0
-    "check_passable": false, // if false, projectile is able to penetrate impassable terrains, if penetration is defined (like walls and windows); if true, projectile can't penetrate even the sheet of glass; default false
-    "check_sees": false,     // if false, field can be spawned behind the opaque wall (for example, behind the concrete wall); if true, it can't; default false
-    "check_sees_radius": 0   // if "check_sees" is true, and this value is smaller than "radius", this value is used as radius instead. The purpose nor reasoning is unknown, probably some legacy of mininuke, so just don't use it; default 0
-  },
-  "trail": {                 // this field would be spawned across whole projectile path
+  "trigger_chance": 20,      // chance to run this specific ammo effect; default 100
+  "aoe": [ 
+    {                          // this field would be spawned at the tile projectile hit
+      "field_type": "fd_fog",  // field, that would be spawned around the center of projectile; default "fd_null"
+      "intensity_min": 1,      // min intensity of the field; default 0
+      "intensity_max": 3,      // max intensity of the field; default 0
+      "radius": 5,             // radius of a field to spawn; default 1
+      "radius_z": 1,           // radius across z-level; default 0
+      "chance": 100,           // probability to spawn 1 unit of field, from 0 to 100; default 100
+      "size": 0,               // seems to be the threshold, where autoturret stops shooting the weapon to prevent friendly fire;; default 0
+      "check_passable": false, // if false, projectile is able to penetrate impassable terrains, if penetration is defined (like walls and windows); if true, projectile can't penetrate even the sheet of glass; default   false
+    }
+  ],
+  "trail": [ 
+    {                        // this field would be spawned across whole projectile path
     "field_type": "fd_fog",  // field, that would be spawned; defautl "fd_null"
     "intensity_min": 1,      // min intensity of the field; default 0
     "intensity_max": 3,      // max intensity of the field; default 0
     "chance": 100            // probability to spawn 1 unit of field, from 0 to 100; default 100
-  },
+    }
+  ],
   "explosion": {             // explosion, that will happen at the tile that projectile hit
     "power": 0,              // mandatory; power of the explosion, in grams of tnt; pipebomb is about 300, grenade (without shrapnel) is 240
     "distance_factor": 0.8,  // how fast the explosion decay, closer to 1 mean lesser "power" loss per tile, 0.8 means 20% of power loss per tile; default 0.75, value should be bigger than 0, but lesser than 1
@@ -281,7 +284,7 @@ ammo_effects define what effect the projectile, that you shoot, would have. List
       "drop": "null"         // Which item to drop at landing point
     }
   },
-  "on_hit_effects": [        // This effects will be applied if body part is hit
+  "on_hit_effects": [        // These effects will be applied if body part is hit
     {
       "effect": "bile_stink",// id of an effect, mandatory
       "duration": "5 m",     // duration, mandatory
@@ -289,12 +292,24 @@ ammo_effects define what effect the projectile, that you shoot, would have. List
       "need_touch_skin": true// if true, and projectile is liquid, the target need to be soaked through for effect to be applied
     }
   ],
-  "do_flashbang": false,     // Creates a one tile radius EMP explosion at the hit location; default false
-  "do_emp_blast": false,     // Creates a hardcoded flashbang explosion; default false
+    "aoe_effects": [          // These effects will be applied on all monsters in area
+    {
+      "effect": "bile_stink", // id of an effect, mandatory
+      "duration": "5 m",      // duration, mandatory
+      "intensity_min": 1,     // min intensity of the field; default 1
+      "intensity_max": 3,     // max intensity of the field; default intensity_min
+      "radius": 5,            // radius of a field to spawn; default 1
+      "chance": 100,          // probability to apply the field on each separate creature in area, from 1 to 100; default 100
+    } 
+  ],
+  "do_flashbang": false,     // Creates a hardcoded flashbang explosion; default false
+  "do_emp_blast": false,     // Creates a one tile radius EMP explosion at the hit location; default false
   "foamcrete_build": false,  // Creates foamcrete fields and walls on the hit location, used in aftershock; default false
   "eoc": [ "EOC_CAUSE_PAIN", "EOC_CAUSE_VOMIT" ], // Runs EoC when hit the target. See EFFECT_ON_CONDITION.md#typical-alpha-and-beta-talkers-by-cases for more information
-  "spell_data": { "id": "bear_trap" }, // Spell, that would be casted when projectile hits an enemy
-  "spell_data": { "id": "release_the_deltas", "hit_self": true, "min_level": 10 }, // another example
+  "spell_data": [ 
+    { "id": "bear_trap" },   // Spell, that would be casted when projectile hits an enemy
+    { "id": "release_the_deltas", "hit_self": true, "min_level": 10 } // another example
+  ],
   "always_cast_spell ": false // if spell_data is used, and this is true, spell would be casted even if projectile did not deal any damage. Default false.
 }
 ```
@@ -1195,7 +1210,8 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "container": "jar",                       // Container holding the target item
   "sealed": true,                           // Whether the transformed container is sealed; true by default
   "menu_text": "Lower visor",               // (optional) Text displayed in the activation screen. Defaults to "Turn on"
-  "moves": 500                              // Moves required to transform the item in excess of a normal action
+  "moves": 500,                             // Moves required to transform the item in excess of a normal action
+  "chance": 20                              // x in 100 chance to actually activate the item. Intended to be used in pair with tick_action
 },
 "use_action": {
   "type": "explosion",               // An item that explodes when it runs out of charges
@@ -1211,7 +1227,8 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "fields_min_intensity": 3,         // Minimum intensity of field generated by the explosion
   "fields_max_intensity": 3,         // Maximum intensity of field generated by the explosion
   "emp_blast_radius": 4,             // The radius of EMP blast created by the explosion
-  "scrambler_blast_radius": 4        // The radius of scrambler blast created by the explosion
+  "scrambler_blast_radius": 4,       // The radius of scrambler blast created by the explosion
+  "effects": [ "MOLOTOV" ]           // List of ammo effects that would be applied when item is activated. TODO replace most of fields above with this
 },
 "use_action": {
   "type": "change_scent",              // Change the scent type of the user
@@ -1318,7 +1335,8 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "type": "firestarter",  // Start a fire, like with a lighter.
   "moves": 15,            // Number of moves it takes to start the fire. This is reduced by survival skill
   "moves_slow": 1500,     // Number of moves it takes to start a fire on something that is difficult to ignite. This is reduced by survival skill
-  "need_sunlight": true   // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses
+  "need_sunlight": true,   // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses,
+  "qualities_needed": { "WRENCH_FINE": 1 } // Tool qualities needed, e.g. "fine bolt turning 1"
 },
 "use_action": {
   "type": "unpack",                 // Unpack this item

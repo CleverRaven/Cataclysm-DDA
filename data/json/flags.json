@@ -88,6 +88,18 @@
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
   },
   {
+    "id": "ALCOHOL",
+    "type": "json_flag"
+  },
+  {
+    "id": "ALCOHOL_STRONG",
+    "type": "json_flag"
+  },
+  {
+    "id": "ALCOHOL_WEAK",
+    "type": "json_flag"
+  },
+  {
     "id": "ALLOWS_TAIL",
     "type": "json_flag"
   },
@@ -2522,6 +2534,16 @@
     "restriction": "Item must be able to clip into place within a gas mask that has a single, panoramic eyepiece."
   },
   {
+    "id": "PAPR_MASK",
+    "type": "json_flag",
+    "info": "This item functions as a powered air purifying respirator."
+  },
+  {
+    "id": "PAPR_BLOWER",
+    "type": "json_flag",
+    "info": "This item functions as a powered air purifying respirator blower."
+  },
+  {
     "id": "REBREATHER_CART",
     "type": "json_flag",
     "info": "A filter for a rebreather.",
@@ -2896,5 +2918,11 @@
     "type": "json_flag",
     "//": "Terrain / Furniture flag used in Construction pre_flags field",
     "name": "Wired Wall"
+  },
+  {
+    "id": "MWS_PORTAL_STORM_DATA",
+    "type": "json_flag",
+    "name": "Odd recordings",
+    "info": "This ongoing report has a series of odd recordings, as if the instruments malfunctioned."
   }
 ]

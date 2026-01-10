@@ -140,7 +140,8 @@
           "VAMPIRE_EARTH_SLUMBER",
           "VAMPIRE_CARDIO_BONUS",
           "VAMPIRE_MOTION_ALARM",
-          "VAMPIRE_BONUS_HP"
+          "VAMPIRE_BONUS_HP",
+          "VAMPIRE_RENDING_TEETH"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ],
@@ -163,7 +164,8 @@
           "VAMPIRE_NO_ILLNESS",
           "VAMPIRE_BAT_FORM",
           "VAMPIRE_WOLF_FORM",
-          "VAMPIRE_MIST_FORM"
+          "VAMPIRE_MIST_FORM",
+          "VAMPIRE_SUMMON_SHADOWS"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ],

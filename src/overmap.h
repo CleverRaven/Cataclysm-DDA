@@ -536,7 +536,8 @@ class overmap
         void spawn_mongroup( const tripoint_om_sm &p, const mongroup_id &type, int count );
         horde_entity *entity_at( const tripoint_om_ms &p );
         std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes_at(
-            const tripoint_om_omt &p );
+            const tripoint_om_omt &p, int filter );
+
         /**
          * Getter for overmap scents.
          * @returns a reference to a scent_trace from the requested location.

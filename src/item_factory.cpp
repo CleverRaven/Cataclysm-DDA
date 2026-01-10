@@ -1763,9 +1763,6 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        std::optional<int> use( Character *p, item &it, const tripoint_bub_ms &pos ) const override {
-            return cpp_function( p, &it, pos );
-        }
         std::optional<int> use( Character *p, item &it, map */*here*/,
                                 const tripoint_bub_ms &pos ) const override {
             // TODO: Change cpp_function to be map aware.
@@ -1926,9 +1923,6 @@ void Item_factory::init()
     add_iuse( "ACIDBOMB_ACT", &iuse::acidbomb_act );
     add_iuse( "ADRENALINE_INJECTOR", &iuse::adrenaline_injector );
     add_iuse( "AFS_TRANSLOCATOR", &iuse::afs_translocator );
-    add_iuse( "ALCOHOL", &iuse::alcohol_medium );
-    add_iuse( "ALCOHOL_STRONG", &iuse::alcohol_strong );
-    add_iuse( "ALCOHOL_WEAK", &iuse::alcohol_weak );
     add_iuse( "ANTIBIOTIC", &iuse::antibiotic );
     add_iuse( "ANTICONVULSANT", &iuse::anticonvulsant );
     add_iuse( "ANTIFUNGAL", &iuse::antifungal );
@@ -2021,7 +2015,6 @@ void Item_factory::init()
     add_iuse( "MEDITATE", &iuse::meditate );
     add_iuse( "METH", &iuse::meth );
     add_iuse( "MININUKE", &iuse::mininuke );
-    add_iuse( "MOLOTOV_LIT", &iuse::molotov_lit );
     add_iuse( "MOP", &iuse::mop );
     add_iuse( "MP3_ON", &iuse::mp3_on );
     add_iuse( "MULTICOOKER", &iuse::multicooker );

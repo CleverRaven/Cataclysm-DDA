@@ -1824,7 +1824,6 @@
     "name": { "str_sp": "caffenated whiskey" },
     "weight": "36 g",
     "color": "brown",
-    "use_action": [ "ALCOHOL" ],
     "stim": -12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -1840,7 +1839,7 @@
     "price_postapoc": "2 USD 50 cent",
     "material": [ "alcohol" ],
     "volume": "250 ml",
-    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME", "ALCOHOL" ],
     "freezing_point": -30,
     "phase": "liquid",
     "charges": 7,
@@ -2938,7 +2937,6 @@
     "weight": "36 g",
     "color": "light_red",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL_WEAK" ],
     "stim": -4,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -2954,7 +2952,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "ALCOHOL_WEAK" ],
     "fun": -5,
     "freezing_point": -7
   },
@@ -5545,7 +5543,7 @@
             "effect": {
               "run_eocs": "EOC_toolweapon_activate",
               "variables": {
-                "turn_cost": 0.8,
+                "turn_cost": { "math": [ "0.8" ] },
                 "transform_target": "carver_on",
                 "success_message": { "i18n": true, "str": "The electric carver's serrated blades start buzzing!" },
                 "volume": 20,
@@ -5594,5 +5592,28 @@
     "volume": "1500 ml",
     "material_thickness": 1,
     "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ]
+  },
+  {
+    "id": "test_napalm",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str_sp": "test napalm" },
+    "description": "Carbon copy of napalm to use in tests.",
+    "category": "fuel",
+    "weight": "900 mg",
+    "volume": "200ml",
+    "price": "80 USD",
+    "price_postapoc": "10 USD",
+    "count": 250,
+    "stack_size": 200,
+    "phase": "liquid",
+    "container": "pressurized_tank",
+    "material": [ "hydrocarbons" ],
+    "symbol": "=",
+    "color": "light_red",
+    "ammo_type": "test_liquid",
+    "damage": { "damage_type": "heat", "amount": 15, "armor_penetration": 30 },
+    "range": 6,
+    "effects": [ "FLAME", "STREAM_BIG", "IGNITE", "NEVER_MISFIRES" ]
   }
 ]

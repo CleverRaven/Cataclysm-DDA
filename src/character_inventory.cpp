@@ -1562,7 +1562,7 @@ std::string Character::weapname_simple() const
         gun_mode current_mode = weapon.gun_current_mode();
         const bool no_mode = !current_mode.target;
         tname::segment_bitset segs( tname::default_tname );
-        segs.set( tname::segments::TAGS, false );
+        segs.reset( tname::segments::TAGS );
         std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname( 1, segs );
         return gun_name;
 
@@ -2194,7 +2194,7 @@ item Character::find_firestarter_with_charges( const int quantity ) const
             const use_function *usef = it.type->get_use( "firestarter" );
             if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-                if( actor->can_use( *this->as_character(), it, tripoint_bub_ms::zero ).success() ) {
+                if( actor->can_use( *this->as_character(), it, &get_map(), tripoint_bub_ms::zero ).success() ) {
                     ret = it;
                     return true;
                 }

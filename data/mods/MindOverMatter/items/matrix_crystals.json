@@ -237,6 +237,20 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "id": "matrix_crystal_pyrokinesis_artifact",
+    "name": { "str_sp": "strange crystal, red" },
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing red light in its depths.  Holding it, you feel hot.",
+    "color": "red",
+    "symbol": "+",
+    "volume": "10 ml",
+    "weight": "150 g",
+    "longest_side": "21 mm",
+    "looks_like": "matrix_crystal_pyrokinesis",
+    "flags": [ "MATRIX_CRYSTAL_PYROKINESIS", "RELIC_PINK" ]
+  },
+  {
+    "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_telekinesis",
     "name": { "str_sp": "strange crystal, yellow" },

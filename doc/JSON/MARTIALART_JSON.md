@@ -97,6 +97,7 @@ These are defined in JSON as `martial_art`, which sets rules for usage and appli
     "max_stacks": 8,                     // Maximum number of stacks on the buff. Buff bonuses are multiplied by current buff intensity
     "bonus_blocks": 1,                   // Extra blocks per turn
     "bonus_dodges": 1,                   // Extra dodges per turn
+    "free_dodges": 1,                    // Dodges per turn that won't consume stamina. Can be higher than actual amount of dodges, but won't add more dodges.
     "flat_bonuses": [  ],                // Flat bonuses, see Bonuses below
     "mult_bonuses": [  ],                // Multiplicative bonuses, see Bonuses below
   }

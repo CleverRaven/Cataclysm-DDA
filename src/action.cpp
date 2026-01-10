@@ -372,6 +372,8 @@ std::string action_ident( action_id act )
             return "toggle_prevent_occlusion";
         case ACTION_ACTIONMENU:
             return "action_menu";
+        case ACTION_INTERACT:
+            return "interact";
         case ACTION_ITEMACTION:
             return "item_action_menu";
         case ACTION_SELECT:
@@ -731,11 +733,60 @@ bool can_interact_at( action_id action, map &here, const tripoint_bub_ms &p )
             return can_examine_at( here, p, true );
         case ACTION_PICKUP:
             return can_pickup_at( here, p );
+        case ACTION_SMASH:
+            return here.is_bashable( p );
+        case ACTION_CHAT: {
+            Creature *c = get_creature_tracker().creature_at( p );
+            return c != nullptr && !c->is_avatar() && get_avatar().sees( here, p );
+        }
         default:
             return false;
     }
+}
 
-    return can_interact_at( action, here, p );
+action_id handle_interact( map &here, const tripoint_bub_ms &pos )
+{
+    const input_context ctxt = get_default_mode_input_context();
+
+    std::vector<action_id> valid_actions;
+    static const std::vector<action_id> check_actions = {
+        ACTION_EXAMINE,
+        ACTION_PICKUP,
+        ACTION_OPEN,
+        ACTION_CLOSE,
+        ACTION_BUTCHER,
+        ACTION_CHAT,
+        ACTION_MOVE_UP,
+        ACTION_MOVE_DOWN
+    };
+
+    for( action_id act : check_actions ) {
+        if( can_interact_at( act, here, pos ) ) {
+            valid_actions.push_back( act );
+        }
+    }
+
+    if( valid_actions.empty() ) {
+        return ACTION_NULL;
+    }
+
+    if( valid_actions.size() == 1 ) {
+        return valid_actions.front();
+    }
+
+    uilist tmenu;
+    tmenu.settext( _( "Actions for this tile" ) );
+    for( action_id act : valid_actions ) {
+        tmenu.addentry( act, true, hotkey_for_action( act, 1 ),
+                        ctxt.get_action_name( action_ident( act ) ) );
+    }
+
+    tmenu.query();
+    if( tmenu.ret < 0 ) {
+        return ACTION_NULL;
+    }
+
+    return static_cast<action_id>( tmenu.ret );
 }
 
 action_id handle_action_menu( map &here )

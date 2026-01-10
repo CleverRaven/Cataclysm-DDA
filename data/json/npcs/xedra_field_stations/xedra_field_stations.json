@@ -1,0 +1,40 @@
+[
+  {
+    "id": "MISSION_XEDRA_FIELD_STATION_1",
+    "type": "mission_definition",
+    "name": { "str": "Go to the address from the notebook" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 1,
+    "value": 0,
+    "destination": "xedra_rural_church_parking",
+    "start": {
+      "assign_mission_target": {
+        "om_special": "xedra_church_rural",
+        "om_terrain": "xedra_rural_church_parking",
+        "reveal_radius": 2,
+        "random": true,
+        "search_range": 800
+      }
+    },
+    "end": { "effect": [ { "u_add_var": "completed_xedra_field_station_1", "value": "yes" } ] }
+  },
+  {
+    "id": "MISSION_XEDRA_FIELD_STATION_2",
+    "type": "mission_definition",
+    "name": { "str": "Go to the address from the notebook" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 1,
+    "value": 0,
+    "destination": "morgantown_forest_fence_entry",
+    "start": {
+      "assign_mission_target": {
+        "om_special": "xedra_morgantown",
+        "om_terrain": "morgantown_forest_fence_entry",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 4000
+      }
+    },
+    "end": { "effect": [ { "u_add_var": "completed_xedra_field_station_2", "value": "yes" } ] }
+  }
+]

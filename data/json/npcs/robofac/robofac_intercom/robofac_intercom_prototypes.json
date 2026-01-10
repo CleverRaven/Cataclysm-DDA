@@ -64,6 +64,9 @@
     "id": [
       "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1_STARTED",
       "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2_STARTED",
+      "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_PT_1_STARTED",
+      "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_PT_2_STARTED",
+      "TALK_ROBOFAC_INTERCOM_HEW_UPGRADE_STARTED",
       "TALK_ROBOFAC_INTERCOM_ARMOR_STARTED",
       "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU",
       "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED_LONG",
@@ -140,6 +143,16 @@
         "topic": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2"
       },
       {
+        "text": "I would like you to make the hazardous materials prototype.",
+        "condition": {
+          "and": [
+            { "math": [ "has_var(u_dialogue_hub_rnd_u_completed_resonance_suit_pt_1)" ] },
+            { "math": [ "!has_var(u_dialogue_hub_rnd_u_project_ongoing)" ] }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_PT_2"
+      },
+      {
         "text": "My phase immersion suit has taken a serious beating.  Could someone repair it for me?",
         "condition": {
           "and": [
@@ -170,12 +183,23 @@
         "topic": "TALK_ROBOFAC_INTERCOM_EXOSKELETON_REPAIR"
       },
       {
+        "text": "My hazardous materials suit has taken a damage.  Could someone repair it for me?",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "robofac_resonance_suit", "count": 1 } },
+            { "math": [ "!has_var(u_dialogue_hub_rnd_u_project_ongoing)" ] }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_REPAIR"
+      },
+      {
         "text": "How are my armor repairs coming?",
         "condition": {
           "or": [
             { "compare_string": [ "combat_exoskeleton_light_salvaged", { "u_val": "dialogue_hub_rnd_u_current_project" } ] },
             { "compare_string": [ "phase_immersion_suit", { "u_val": "dialogue_hub_rnd_u_current_project" } ] },
-            { "compare_string": [ "rm13_armor", { "u_val": "dialogue_hub_rnd_u_current_project" } ] }
+            { "compare_string": [ "rm13_armor", { "u_val": "dialogue_hub_rnd_u_current_project" } ] },
+            { "compare_string": [ "resonance_suit", { "u_val": "dialogue_hub_rnd_u_current_project" } ] }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_REPAIR"
@@ -200,6 +224,44 @@
         "text": "Any progress on the Hub anchor?",
         "condition": { "compare_string": [ "anchor_pt_2", { "u_val": "dialogue_hub_rnd_u_current_project" } ] },
         "topic": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2_COMPLETE"
+      },
+      {
+        "text": "I've found this odd XEDRA cleansuit.  I'm curious what you all can make of it.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "xedra_artifact_cleansuit", "count": 1 } },
+            { "math": [ "!has_var(u_dialogue_hub_rnd_u_project_ongoing)" ] },
+            { "math": [ "!has_var(u_dialogue_hub_rnd_u_completed_resonance_suit_pt_1)" ] }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_PT_1"
+      },
+      {
+        "text": "Any progress on the cleansuit?",
+        "condition": { "compare_string": [ "resonance_suit_pt_1", { "u_val": "dialogue_hub_rnd_u_current_project" } ] },
+        "topic": "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_PT_1_COMPLETE"
+      },
+      {
+        "text": "Any progress on the new prototype environment suit?",
+        "condition": { "compare_string": [ "resonance_suit_pt_2", { "u_val": "dialogue_hub_rnd_u_current_project" } ] },
+        "topic": "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_PT_2_COMPLETE"
+      },
+      {
+        "text": "You mentioned you could improve my HEW system.  Can you tell me more?",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "xedra_mobile_weather_station", "count": 1 } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_accepted_robofac_intercom_mws_4" } ] },
+            { "math": [ "!has_var(u_dialogue_hub_rnd_u_project_ongoing)" ] },
+            { "math": [ "!has_var(u_dialogue_hub_rnd_u_completed_mws)" ] }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_HEW_UPGRADE"
+      },
+      {
+        "text": "Any progress on the HEW-NRE system?",
+        "condition": { "compare_string": [ "hew_upgrade", { "u_val": "dialogue_hub_rnd_u_current_project" } ] },
+        "topic": "TALK_ROBOFAC_INTERCOM_HEW_UPGRADE_COMPLETE"
       },
       {
         "text": "I've found a rifle chambered for a caliber I don't recognize.  Do you think you could make an HWP adapter for it?",
@@ -510,6 +572,10 @@
               { "u_spawn_item": "combat_exoskeleton_light" }
             ]
           },
+          {
+            "if": { "compare_string": [ "resonance_suit", { "u_val": "dialogue_hub_rnd_u_current_project" } ] },
+            "then": { "u_spawn_item": "robofac_resonance_suit" }
+          },
           { "u_lose_var": "dialogue_hub_rnd_u_current_project" },
           { "u_lose_var": "dialogue_hub_rnd_u_project_ongoing" },
           { "u_lose_var": "timer_hub_rnd_u_waiting_on_hub" }
@@ -662,6 +728,27 @@
     ]
   },
   {
+    "id": "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_REPAIR",
+    "type": "talk_topic",
+    "dynamic_line": "Yes, that is within our capabilities.  For ten coins, repairs and adjustments can be completed by tomorrow.  Please note that if you have made any modifications to the armor, it will be reverted to factory standard as part of the repairs.",
+    "responses": [
+      {
+        "text": "[10 HGC] Alright.",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 10 } },
+        "effect": [
+          { "u_consume_item": "RobofacCoin", "count": 10, "popup": true },
+          { "u_consume_item": "robofac_resonance_suit", "count": 1, "popup": true },
+          { "u_add_faction_trust": 1 },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now') + time('14 day')" ] },
+          { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
+          { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "resonance_suit" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED_SHORT"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" }
+    ]
+  },
+  {
     "id": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED_SHORT",
     "type": "talk_topic",
     "dynamic_line": "We will begin work shortly.  Report back in two weeks for pickup."
@@ -785,6 +872,174 @@
     "id": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2_STARTED",
     "type": "talk_topic",
     "dynamic_line": "The combination should be a fairly simple matter.  Return in two days to pick up the finished product."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_PT_1",
+    "type": "talk_topic",
+    "dynamic_line": "Interesting.  If you could provide us the item, we could direct research on it for a standard work week for a fee of two HGC; after that, we will let you know if any progress has been made and return the item as-is.  Please remove any batteries or other attachments before providing it.",
+    "responses": [
+      {
+        "text": "[2 HGC, anchor] See you in five days.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
+            { "u_has_items": { "item": "xedra_artifact_cleansuit", "count": 1 } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "RobofacCoin", "count": 2, "popup": true },
+          { "u_consume_item": "xedra_artifact_cleansuit", "count": 1, "popup": true },
+          { "u_add_faction_trust": 1 },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now')" ] },
+          { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
+          { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "resonance_suit_pt_1" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_PT_1_STARTED"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_PT_1_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub) >= time('5 d')" ],
+      "yes": "We've made some notable progress.  The electronics seem to protect from extradimensional phenomena - specifically, from the accumulation of what we refer to as extradimensional resonance, which comes from contact with extradimensional materials.  The protection is modest, and the power drain substantial, but it is sufficient for moving limited hazardous materials about.  We believe we can integrate it into our standard environment suit, but the prototype will be more cumbersome, have no storage, and will be more rigid, thus losing the ability to unzip and wear about the waist, which we hear our contractors tend to enjoy on hot days.  Further, the electronics are sensitive, and only we will be able to repair them.  But I suppose that's the price one pays for extradimensional protections.  Let us know if you are interested in testing out such a prototype.",
+      "no": "Work is still ongoing.  These things can take time."
+    },
+    "responses": [
+      {
+        "text": "Interesting.",
+        "condition": { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub) >= time('5 d')" ] },
+        "effect": [
+          { "u_lose_var": "dialogue_hub_rnd_u_current_project" },
+          { "u_lose_var": "dialogue_hub_rnd_u_project_ongoing" },
+          { "u_lose_var": "timer_hub_rnd_u_waiting_on_hub" },
+          { "u_add_var": "dialogue_hub_rnd_u_completed_resonance_suit_pt_1", "value": "yes" },
+          { "u_spawn_item": "xedra_artifact_cleansuit" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_PT_2",
+    "type": "talk_topic",
+    "dynamic_line": "Very well; we will need one coin for materials costs, as well as the anchor itself and the environment suit you wish to combine it with.  As usual, I encourage you to remove everything from the pockets before handing them over for processing.  We'll need one day for construction and one day to verify efficacy.",
+    "responses": [
+      {
+        "text": "[1 HGC, cleansuit, environment suit] I'll see you in two days.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
+            { "u_has_items": { "item": "xedra_artifact_cleansuit", "count": 1 } },
+            { "u_has_items": { "item": "robofac_enviro_suit", "count": 1 } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "RobofacCoin", "count": 1, "popup": true },
+          { "u_consume_item": "xedra_artifact_cleansuit", "count": 1, "popup": true },
+          { "u_consume_item": "robofac_enviro_suit", "count": 1, "popup": true },
+          { "u_add_faction_trust": 1 },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now')" ] },
+          { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
+          { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "resonance_suit_pt_2" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_PT_2_STARTED"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_PT_2_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub) >= time('2 d')" ],
+      "yes": "The prototype hazardous materials suit is complete.  Thank you as always for your contributions to our research and technology.",
+      "no": "Work is still ongoing.  These things can take time."
+    },
+    "responses": [
+      {
+        "text": "Thanks.",
+        "condition": { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub) >= time('2 d')" ] },
+        "effect": [
+          { "u_lose_var": "dialogue_hub_rnd_u_current_project" },
+          { "u_lose_var": "dialogue_hub_rnd_u_project_ongoing" },
+          { "u_lose_var": "timer_hub_rnd_u_waiting_on_hub" },
+          { "u_spawn_item": "robofac_resonance_suit" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_PT_1_STARTED",
+    "type": "talk_topic",
+    "dynamic_line": "Research will begin within the next few hours."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_PT_2_STARTED",
+    "type": "talk_topic",
+    "dynamic_line": "Return in two days to pick up the finished product."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_HEW_UPGRADE",
+    "//": "creating better mobile weather station",
+    "type": "talk_topic",
+    "dynamic_line": "Yes.  For the cost of three HGC we can begin R&D to incorporate your NRE recorder.  You'll need to provide the HEW and your NRE recorder.  R&D will take one working week.",
+    "responses": [
+      {
+        "text": "[3 HGC, HEW, NRE] See you in five days.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 3 } },
+            { "u_has_items": { "item": "xedra_mobile_weather_station", "count": 1 } },
+            { "u_has_items": { "item": "nre_recorder", "count": 1 } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "RobofacCoin", "count": 3, "popup": true },
+          { "u_consume_item": "xedra_mobile_weather_station", "count": 1, "popup": true },
+          { "u_consume_item": "nre_recorder", "count": 1, "popup": true },
+          { "u_add_faction_trust": 1 },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now')" ] },
+          { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
+          { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "hew_upgrade" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_HEW_UPGRADE_STARTED"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_HEW_UPGRADE_STARTED",
+    "type": "talk_topic",
+    "dynamic_line": "Lovely.  Research will begin within the next few hours."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_HEW_UPGRADE_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub) >= time('5 d')" ],
+      "yes": "The NRE has been integrated into the HEW.",
+      "no": "Work is still ongoing."
+    },
+    "responses": [
+      {
+        "text": "Thanks.",
+        "condition": { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub) >= time('5 d')" ] },
+        "effect": [
+          { "u_lose_var": "dialogue_hub_rnd_u_current_project" },
+          { "u_lose_var": "dialogue_hub_rnd_u_project_ongoing" },
+          { "u_lose_var": "timer_hub_rnd_u_waiting_on_hub" },
+          { "u_spawn_item": "robofac_mobile_weather_station" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" }
+    ]
   },
   {
     "id": [ "TALK_ROBOFAC_INTERCOM_HWP_EXODII", "TALK_ROBOFAC_INTERCOM_HWP_EXODII_1", "TALK_ROBOFAC_INTERCOM_HWP_EXODII_2" ],

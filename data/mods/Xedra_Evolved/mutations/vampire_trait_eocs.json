@@ -535,7 +535,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_ADD_ONE_WEAKNESS_FAIL",
-    "effect": [ { "u_message": "The EOC failed to give you a weakness.  Please report this on Github.", "popup": true } ]
+    "effect": [ { "u_message": "The EOC failed to give you a weakness.  Please report this on GitHub.", "popup": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -766,7 +766,7 @@
             "id": "EOC_EYEGLEAM_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.25" ] } },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 100" ] },
               { "u_add_effect": "eyegleam", "duration": "PERMANENT" },
               { "u_message": "Your eyes gleam red momentarily as they drink in all available light.", "type": "good" },
@@ -886,7 +886,7 @@
             "id": "EOC_VAMPIRIC_STRENGTH_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.25" ] } },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 150" ] },
               { "u_add_effect": "effect_vampiric_strength", "duration": "PERMANENT" },
               {
@@ -981,7 +981,7 @@
             "id": "EOC_VAMPIRIC_RESILIENCE_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.25" ] } },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 150" ] },
               { "u_add_effect": "effect_vampiric_resilience", "duration": "PERMANENT" },
               {
@@ -1117,7 +1117,7 @@
             "id": "EOC_COAGULANTWEAVE_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.75" ] } },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 500" ] },
               { "u_add_effect": "blood_weave", "duration": "PERMANENT" },
               { "u_lose_effect": "bleed", "target_part": "ALL" },
@@ -1278,7 +1278,7 @@
             "id": "EOC_VAMPIRIC_DODGE_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.75" ] } },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 250" ] },
               { "u_add_effect": "effect_vampiric_dodge", "duration": "PERMANENT" },
               {
@@ -1373,7 +1373,7 @@
             "id": "EOC_VAMPIRIC_STEALTH_BONUS_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.75" ] } },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 100" ] },
               { "u_add_effect": "effect_vampiric_stealth_bonus", "duration": "PERMANENT" },
               {
@@ -1526,7 +1526,7 @@
             "id": "EOC_VAMPIRE_BEAST_CLAWS_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.75" ] } },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 125" ] },
               { "u_add_trait": "VAMPIRE_BEAST_CLAWS_active" },
               {
@@ -1786,6 +1786,98 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_RENDING_TEETH_activated",
+    "condition": { "not": { "u_has_trait": "VAMPIRE_RENDING_TEETH_active" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_RENDING_TEETH_activated_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.75" ] } },
+              { "math": [ "u_vitamin('human_blood_vitamin') -= 200" ] },
+              { "u_add_trait": "VAMPIRE_RENDING_TEETH_active" },
+              {
+                "run_eocs": [ "EOC_VAMPIRE_RENDING_TEETH_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (800 + (vampire_total_tier_one_traits_plus_potency() * 60) + (vampire_total_tier_two_traits() * 100) + (vampire_total_tier_three_traits() * 150) + (vampire_total_tier_four_traits_plus_potence() * 225) + (vampire_total_tier_five_traits_plus_cauldron() * 300))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to activate your rending jaws.", "type": "bad" },
+              { "run_eocs": "EOC_VAMPIRE_RENDING_TEETH_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_RENDING_TEETH_deactivate",
+            "condition": { "u_has_trait": "VAMPIRE_RENDING_TEETH_active" },
+            "effect": [
+              { "u_message": "Your teeth and jaw recede back to a normal human size.", "type": "neutral" },
+              { "u_lose_trait": "VAMPIRE_RENDING_TEETH_active" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_RENDING_TEETH_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "EOC_VAMPIRE_RENDING_TEETH" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_RENDING_TEETH_maintenance",
+    "condition": { "u_has_trait": "EOC_VAMPIRE_RENDING_TEETH_active" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_RENDING_TEETH_maintenance_2",
+            "condition": {
+              "and": [
+                { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+                { "not": { "u_has_any_effect": [ "sleep", "narcosis", "effect_vampire_torpor" ] } }
+              ]
+            },
+            "effect": [
+              { "math": [ "u_vitamin('human_blood_vitamin') -= 100" ] },
+              { "u_message": "You feel a momentary warmth as you maintain your rending jaws.", "type": "mixed" },
+              {
+                "run_eocs": [ "EOC_VAMPIRE_RENDING_TEETH_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (800 + (vampire_total_tier_one_traits_plus_potency() * 60) + (vampire_total_tier_two_traits() * 100) + (vampire_total_tier_three_traits() * 150) + (vampire_total_tier_four_traits_plus_potence() * 225) + (vampire_total_tier_five_traits_plus_cauldron() * 300))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              {
+                "if": { "math": [ "u_vitamin('human_blood_vitamin') < -500" ] },
+                "then": { "u_message": "You don't have enough blood to maintain your rending jaws.", "type": "bad" }
+              },
+              { "u_lose_trait": "VAMPIRE_RENDING_TEETH_active" },
+              { "u_deactivate_trait": "VAMPIRE_RENDING_TEETH" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_TORPOR_activated",
     "effect": [
       { "math": [ "u_val('sleepiness') = 0" ] },
@@ -1867,7 +1959,7 @@
               { "run_eocs": "EOC_VAMPIRE_CANCEL_WOLF_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_MIST_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_SHADOW_FORM" },
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.5" ] } },
               {
                 "if": { "u_has_trait": "VAMPIRE_FORM_UPGRADE" },
                 "then": { "math": [ "u_vitamin('human_blood_vitamin') -= 300" ] },
@@ -1938,7 +2030,7 @@
               { "run_eocs": "EOC_VAMPIRE_CANCEL_BAT_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_MIST_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_SHADOW_FORM" },
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.5" ] } },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               {
                 "if": { "u_has_trait": "VAMPIRE_FORM_UPGRADE" },
@@ -1995,7 +2087,7 @@
               { "run_eocs": "EOC_VAMPIRE_CANCEL_BAT_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_WOLF_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_SHADOW_FORM" },
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.5" ] } },
               {
                 "if": { "u_has_trait": "VAMPIRE_FORM_UPGRADE" },
                 "then": { "math": [ "u_vitamin('human_blood_vitamin') -= 300" ] },
@@ -2182,7 +2274,7 @@
               { "run_eocs": "EOC_VAMPIRE_CANCEL_BAT_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_WOLF_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_MIST_FORM" },
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.5" ] } },
               {
                 "if": { "u_has_trait": "VAMPIRE_FORM_UPGRADE" },
                 "then": { "math": [ "u_vitamin('human_blood_vitamin') -= 400" ] },
@@ -2364,7 +2456,7 @@
             "id": "EOC_BLIND_THE_SUN_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 0" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.25 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.25" ] } },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 1000" ] },
               { "u_add_effect": "vampire_blind_the_sun", "duration": "PERMANENT" },
               {
@@ -2773,7 +2865,7 @@
     "id": "EOC_VAMPIRE_INVISIBLE_IN_DARK",
     "condition": { "not": { "and": [ "is_day", "u_is_outside", { "not": { "is_weather": "blotted_sun" } } ] } },
     "effect": [
-      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
+      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.25" ] } },
       { "math": [ "u_vitamin('human_blood_vitamin') -= 300" ] },
       {
         "u_add_effect": "effect_vampire_invisible_in_dark",
@@ -2871,11 +2963,13 @@
           "VAMPIRE_CARDIO_BONUS",
           "VAMPIRE_MOTION_ALARM",
           "VAMPIRE_BONUS_HP",
+          "VAMPIRE_RENDING_TEETH",
           "TRUE_VAMPIRE_POWER",
           "VAMPIRE_TORPOR",
           "VAMPIRE_DOMINATE",
           "VAMPIRE_NO_BREATHE",
           "VAMPIRE_NO_ILLNESS",
+          "VAMPIRE_SUMMON_SHADOWS",
           "VAMPIRE_BAT_FORM",
           "VAMPIRE_WOLF_FORM",
           "VAMPIRE_MIST_FORM",
@@ -3001,7 +3095,7 @@
     ],
     "false_effect": [
       {
-        "u_message": "You're not a mentor, so you're not supposed to see this.  Please open a Github bug report.",
+        "u_message": "You're not a mentor, so you're not supposed to see this.  Please open a GitHub bug report.",
         "type": "popup"
       }
     ]

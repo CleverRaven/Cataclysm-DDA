@@ -3,7 +3,7 @@
     "type": "region_settings_river",
     "id": "default",
     "copy-from": "default",
-    "river_scale": 1.65
+    "river_scale": 1
   },
   {
     "type": "region_settings_ocean",

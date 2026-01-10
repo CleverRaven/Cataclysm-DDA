@@ -12,6 +12,13 @@
     "extend": { "items": [ [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ] ] }
   },
   {
+    "id": "esoteric_books",
+    "type": "item_group",
+    "copy-from": "esoteric_books",
+    "subtype": "distribution",
+    "extend": { "entries": [ { "group": "spellbook_tier_0", "prob": 8 }, { "group": "spellbook_tier_1", "prob": 2 } ] }
+  },
+  {
     "type": "item_group",
     "id": "SUS_book_nonf_soft",
     "copy-from": "SUS_book_nonf_soft",
@@ -228,17 +235,30 @@
     "extend": { "items": [ [ "mana_potion_lesser", 15 ] ] }
   },
   {
-    "id": "SUS_trash_floor",
+    "id": "SUS_trash_floor_light",
     "type": "item_group",
-    "copy-from": "SUS_trash_floor",
-    "extend": {
-      "items": [
-        [ "summon_scroll_smudged", 5 ],
-        [ "spell_scroll_tornskin", 5 ],
-        [ "spell_scroll_stormshaper_cloak_of_frog", 5 ],
-        [ "spell_scroll_animist_magic_fissile", 5 ]
-      ]
-    }
+    "copy-from": "SUS_trash_floor_light",
+    "subtype": "collection",
+    "extend": { "items": [ { "group": "magiclysm_joke_scrolls", "prob": 1 } ] }
+  },
+  {
+    "id": "SUS_trash_floor_heavy",
+    "type": "item_group",
+    "copy-from": "SUS_trash_floor_heavy",
+    "subtype": "collection",
+    "extend": { "items": [ { "group": "magiclysm_joke_scrolls", "prob": 1 } ] }
+  },
+  {
+    "id": "magiclysm_joke_scrolls",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 16 },
+      { "item": "summon_scroll_smudged", "prob": 2 },
+      { "item": "spell_scroll_tornskin", "prob": 2 },
+      { "item": "spell_scroll_stormshaper_cloak_of_frog", "prob": 2 },
+      { "item": "spell_scroll_animist_magic_fissile", "prob": 2 }
+    ]
   },
   {
     "id": "mon_zombie_soldier_death_drops",
@@ -1397,7 +1417,6 @@
           { "item": "techno_fundamentals", "prob": 20 },
           { "item": "spell_scroll_quantum_tunnel_lesser", "prob": 50 },
           { "item": "spell_scroll_holy_blade", "prob": 50 },
-          { "item": "spell_scroll_spirit_armor", "prob": 50 },
           { "item": "spell_scroll_synaptic_stimulation", "prob": 50 },
           { "item": "spell_scroll_knock", "prob": 50 },
           { "item": "spell_scroll_technomancer_robot_shutdown", "prob": 50 },
@@ -1545,6 +1564,7 @@
       {
         "distribution": [
           { "item": "druid_spellbook", "prob": 20 },
+          { "item": "rune_druid_nature_staff", "prob": 25 },
           { "item": "spell_scroll_druid_veggrasp", "prob": 100 },
           { "item": "spell_scroll_druid_naturebow1", "prob": 100 },
           { "item": "spell_scroll_druid_whisper_leaves", "prob": 100 },
@@ -1576,11 +1596,23 @@
       },
       {
         "distribution": [
+          { "group": "druid_shapeshifting_learn_books", "prob": 5 },
           { "item": "spell_scroll_druid_renew_forest_spell", "prob": 50 },
           { "item": "spell_scroll_druid_turn_tree_into_treant", "prob": 25 }
         ],
         "prob": 5
       }
+    ]
+  },
+  {
+    "id": "druid_shapeshifting_learn_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "druid_shapeshifting_learn_book_bear", "prob": 1 },
+      { "item": "druid_shapeshifting_learn_book_cougar", "prob": 1 },
+      { "item": "druid_shapeshifting_learn_book_deer", "prob": 1 },
+      { "item": "druid_shapeshifting_learn_book_raven", "prob": 1 }
     ]
   },
   {

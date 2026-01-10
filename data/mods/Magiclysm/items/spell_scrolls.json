@@ -1087,8 +1087,8 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_bless",
     "//": "Technomancer spell",
-    "name": { "str": "Scroll of Bless", "str_pl": "Scrolls of Bless" },
-    "description": "A spell of blessing that gives you energy and boosts your abilities.",
+    "name": { "str": "Scroll of Paragon", "str_pl": "Scrolls of Paragon" },
+    "description": "A spell that improves your abilities across a broad spectrum.",
     "use_action": { "type": "learn_spell", "spells": [ "bless" ] }
   },
   {
@@ -1105,11 +1105,11 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_spirit_armor",
-    "//": "Technomancer spell",
-    "name": { "str": "Scroll of Spiritual Armor", "str_pl": "Scrolls of Spiritual Armor" },
-    "description": "Evil will not make it through your defenses if your faith is strong enough!",
-    "use_action": { "type": "learn_spell", "spells": [ "spirit_armor" ] }
+    "id": "spell_scroll_magus_mage_conjured_armor",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Force Armor", "str_pl": "Scrolls of Force Armor" },
+    "description": "Conjure a suit of magical armor made of pure force, when you need armor in a hurry.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_mage_conjured_armor" ] }
   },
   {
     "type": "ITEM",
@@ -1117,8 +1117,8 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_create_atomic_lamp",
     "//": "Technomancer spell",
-    "name": { "str": "Scroll of Lamp", "str_pl": "Scrolls of Lamp" },
-    "description": "Creates a magical lamp.",
+    "name": { "str": "Scroll of Enchanted Lamp", "str_pl": "Scrolls of Enchanted Lamp" },
+    "description": "Enchant a bit of stone or metal to give it an unwavering glow.",
     "use_action": { "type": "learn_spell", "spells": [ "create_atomic_lamp" ] }
   },
   {

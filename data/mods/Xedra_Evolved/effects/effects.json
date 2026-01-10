@@ -644,6 +644,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_weird_equipment",
+    "//": "Hidden, but provides effect for when a mad inventor has gadgets in inventory.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_dhampir_empowered_blood_indicator",
     "name": [ "Empowered Blood" ],
     "desc": [ "Your blood hums with power, allowing you to access more of your vampiric abilities." ]
@@ -4235,5 +4242,75 @@
     "id": "effect_xe_werewolf_summon_shadow_pack_limiter",
     "name": [ "Summoned the Shadow Pack" ],
     "desc": [ "You called on the aid of ancestral werewolves and must wait before seeking their aid again." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "march_baron",
+    "name": [ "March Baron" ],
+    "//": "Used to target a slightly different winning screen upon exiting the mortal realms as a Lord in Boann's court."
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_oxygen_jelly_long",
+    "name": [ "Long-release Oxyjelly" ],
+    "desc": [ "The Oxyjelly you used is keeping you from drowning." ],
+    "remove_message": "Your Oxyjelly has ran out.",
+    "decay_messages": [ [ "Your Oxyjelly is running out.", "bad" ] ],
+    "max_duration": "2 h",
+    "max_intensity": 120,
+    "int_dur_factor": "1 m",
+    "flags": [ "GILLS", "EYE_MEMBRANE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bio_inventor_calorie_storage",
+    "name": [ "Orbiting Calories" ],
+    "desc": [ "Your calories are stored through the most efficient storage ever conceived." ],
+    "remove_message": "Your orbiting calories dissipate as the bionic powers down.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_burned_books",
+    "name": [
+      "Informed by your Buddy",
+      "Fiercely Informed by your Buddy",
+      "Over-Informed by your Buddy",
+      "Saturated memory",
+      "Expanded-Expended Memory",
+      "Engorged Memory",
+      "Simulated Smarts",
+      "Overflowing with Information",
+      "False Knower",
+      "The Burner and the Buddy"
+    ],
+    "desc": [
+      "Slightly obstructive strands of information wander through your mind.  You might find a use for some of them.",
+      "You know more things, despite your impression of learning more slowly than before.",
+      "No matter what book you burn, your buddy rewards you with fleeting, false knowledge.",
+      "New knowledge is harder to acquire, but you hold much more of it.",
+      "With each new book burned, your mind both expands and tightens.",
+      "Like an overstuffed room, your memory is filled enough that it has little room for new things.",
+      "The amount of trivia you know will hopefully counterbalance your impaired ability to gain knowledge.",
+      "You know so many things now, a shame you struggle to learn more without your buddy helping you.",
+      "You struggle to remember what you did minutes ago, but you hold more knowledge in your head than an entire library holds in its books.",
+      "No new knowledge can enter your mind, but this is no matter for your buddy keeps it filled to the brim with information."
+    ],
+    "apply_message": "Incendiary information fills your mind!",
+    "remove_message": "The false knowledge fully exits your mind.",
+    "decay_messages": [
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "You know less things than before, but you find it easier to learn.", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "You forgot many things, but you regained your ability to learn.", "mixed" ]
+    ],
+    "max_intensity": 10,
+    "rating": "mixed"
   }
 ]

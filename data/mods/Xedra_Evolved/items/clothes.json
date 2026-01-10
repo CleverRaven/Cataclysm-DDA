@@ -477,7 +477,6 @@
     "volume": "3 L",
     "price": "107 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "veggy" ],
     "symbol": "[",
     "looks_like": "cloak",

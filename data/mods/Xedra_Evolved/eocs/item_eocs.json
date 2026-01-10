@@ -59,5 +59,13 @@
     "type": "effect_on_condition",
     "id": "EOC_DAGWOOD",
     "effect": [ { "u_cast_spell": { "id": "cosmic_dagwood_regeneration" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRINK_THIRSTTROUNCER",
+    "eoc_type": "EVENT",
+    "required_event": "character_consumes_item",
+    "condition": { "compare_string": [ "water_thirsttrouncer", { "context_val": "itype" } ] },
+    "effect": [ { "u_add_effect": "xe_hydrating_gout", "duration": { "math": [ "8400 + rand(8400)" ] } } ]
   }
 ]

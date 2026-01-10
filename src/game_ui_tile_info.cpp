@@ -9,10 +9,12 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
 #include "construction.h"
@@ -61,7 +63,7 @@ static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
 void game::print_all_tile_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                                const std::string &area_name, int column,
+                                const std::string_view area_name, int column,
                                 int &line,
                                 const int last_line,
                                 const visibility_variables &cache )
@@ -177,7 +179,7 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
 }
 
 void game::print_terrain_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                               const std::string &area_name, int column, int &line )
+                               const std::string_view area_name, int column, int &line )
 {
     map &here = get_map();
 
@@ -185,7 +187,7 @@ void game::print_terrain_info( const tripoint_bub_ms &lp, const catacurses::wind
 
     // Print OMT type and terrain type on first two lines
     // if can't fit in one line.
-    std::string tile = uppercase_first_letter( here.tername( lp ) );
+    const std::string tile = uppercase_first_letter( here.tername( lp ) );
     std::string area = uppercase_first_letter( area_name );
     if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
         area = e->string_id;
@@ -482,6 +484,19 @@ void game::print_debug_info( const tripoint_bub_ms &lp, const catacurses::window
                    lp.to_string_writable() );
         mvwprintz( w_look, point( column, ++line ), c_white, "tripoint_abs_ms: %s",
                    here.get_abs( lp ).to_string_writable() );
+
+        for( const std::pair<const field_type_id, field_entry> &fd : here.field_at( lp ) ) {
+            mvwprintz( w_look, point( column, ++line ), c_white, "field: " );
+            mvwprintz( w_look, point( column + utf8_width( "field: " ), line ), c_yellow, "%s",
+                       fd.first.id().c_str() );
+            mvwprintz( w_look, point( column, ++line ), c_white, "age: %s (%s seconds)",
+                       to_string( fd.second.get_field_age() ), to_seconds<int>( fd.second.get_field_age() ) );
+            mvwprintz( w_look, point( column, ++line ), c_white, "intensity: %s",
+                       fd.second.get_field_intensity() );
+            mvwprintz( w_look, point( column, ++line ), c_white, "causer: %s",
+                       fd.second.get_causer() == nullptr ? "none" : fd.second.get_causer()->disp_name() );
+            mvwprintz( w_look, point( column, ++line ), c_white, "\n" );
+        }
     }
 }
 

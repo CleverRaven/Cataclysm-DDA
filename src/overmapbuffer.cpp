@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <filesystem>
 #include <iterator>
 #include <limits>
 #include <map>
@@ -51,6 +52,7 @@
 #include "text.h"
 #include "translations.h"
 #include "vehicle.h"
+#include "worldfactory.h"
 
 static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
 static const oter_type_str_id oter_type_bridgehead_ramp( "bridgehead_ramp" );
@@ -340,8 +342,23 @@ overmap *overmapbuffer::get_existing( const point_abs_om &p )
         // checked in a previous call of this function).
         return nullptr;
     }
-    assure_dir_exist( PATH_INFO::current_dimension_save_path() );
-    if( file_exist( terrain_filename( p ) ) ) {
+
+    cata_path path;
+
+    const std::string terfilename = overmapbuffer::terrain_filename( p );
+    const std::filesystem::path terfilename_path = std::filesystem::u8path( terfilename );
+
+    if( world_generator->active_world->has_compression_enabled() ) {
+        assure_dir_exist( PATH_INFO::current_dimension_save_path() / zzip_overmap_directory );
+        path = PATH_INFO::current_dimension_save_path() / zzip_overmap_directory / terfilename_path
+               +
+               zzip_suffix;
+    } else {
+        assure_dir_exist( PATH_INFO::current_dimension_save_path() );
+        path = PATH_INFO::current_dimension_save_path() / terfilename_path;
+    }
+
+    if( file_exist( path ) ) {
         // File exists, load it normally (the get function
         // indirectly call overmap::open to do so).
         return &get( p );
@@ -495,11 +512,11 @@ bool overmapbuffer::has_horde( const tripoint_abs_omt &p )
     return false;
 }
 
-int overmapbuffer::get_horde_size( const tripoint_abs_omt &p )
+int overmapbuffer::get_horde_size( const tripoint_abs_omt &p, int filter )
 {
     int horde_size = 0;
     std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at(
-                p );
+                p, filter );
     for( std::unordered_map<tripoint_abs_ms, horde_entity> *horde_group : hordes ) {
         horde_size += horde_group->size();
     }
@@ -2118,15 +2135,14 @@ horde_entity *overmapbuffer::entity_at( const tripoint_abs_ms &p )
 }
 
 std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> overmapbuffer::hordes_at(
-    const tripoint_abs_omt &p )
+    const tripoint_abs_omt &p, int filter )
 {
     point_abs_om omp;
     tripoint_om_omt omt;
     std::tie( omp, omt ) = project_remain<coords::om>( p );
     overmap &om = get( omp );
-    return om.hordes_at( omt );
+    return om.hordes_at( omt, filter );
 }
-
 
 horde_entity &overmapbuffer::spawn_monster( const tripoint_abs_ms &p, mtype_id id )
 {
@@ -2274,7 +2290,7 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
         specials.push_back( &special );
         overmap_special_batch batch( om->pos(), specials );
 
-        // Filter the sectors to those which are in in range of our center point, so
+        // Filter the sectors to those which are in range of our center point, so
         // that we don't end up creating specials in areas that are outside of our radius,
         // since the whole point is to create a special that is within the parameters.
         std::vector<point_om_omt> sector_points_in_range;

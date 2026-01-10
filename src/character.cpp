@@ -6,7 +6,6 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
-#include <cwctype>
 #include <functional>
 #include <memory>
 #include <numeric>
@@ -111,10 +110,6 @@
 #include "weather.h"
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
-static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
-static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
@@ -407,10 +402,15 @@ void Character::queue_effects( const std::vector<effect_on_condition_id> &effect
 void Character::queue_effect( const std::string &name, const time_duration &delay,
                               const time_duration &effect_duration )
 {
+#pragma GCC diagnostic push
+#ifndef __clang__
+# pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#endif
     global_variables::impl_t ctx = {
         { "effect", diag_value{ name } },
         { "duration", diag_value{ to_turns<int>( effect_duration ) } }
     };
+#pragma GCC diagnostic pop
 
     effect_on_conditions::queue_effect_on_condition( delay, effect_on_condition_add_effect, *this,
             ctx );
@@ -534,9 +534,9 @@ Character &Character::operator=( Character && ) noexcept( list_is_noexcept ) = d
 void Character::setID( character_id i, bool force )
 {
     if( id.is_valid() && !force ) {
-        debugmsg( "tried to set id of a npc/player, but has already a id: %d", id.get_value() );
+        debugmsg( "tried to set id of an npc/player, but has already a id: %d", id.get_value() );
     } else if( !i.is_valid() && !force ) {
-        debugmsg( "tried to set invalid id of a npc/player: %d", i.get_value() );
+        debugmsg( "tried to set invalid id of an npc/player: %d", i.get_value() );
     } else {
         id = i;
     }
@@ -1065,6 +1065,11 @@ double Character::aim_per_move( const item &gun, double recoil,
     return std::min( aim_speed, recoil - limit );
 }
 
+void Character::mod_free_dodges( int added )
+{
+    num_free_dodges += added;
+}
+
 int Character::get_dodges_left() const
 {
     return dodges_left;
@@ -1078,6 +1083,21 @@ void Character::set_dodges_left( int dodges )
 void Character::mod_dodges_left( int mod )
 {
     dodges_left += mod;
+}
+
+int Character::get_free_dodges_left() const
+{
+    return free_dodges_left;
+}
+
+void Character::set_free_dodges_left( int dodges )
+{
+    free_dodges_left = dodges;
+}
+
+void Character::mod_free_dodges_left( int mod )
+{
+    free_dodges_left += mod;
 }
 
 void Character::consume_dodge_attempts()
@@ -1763,11 +1783,19 @@ void Character::on_try_dodge()
     // Each attempt consumes an available dodge
     consume_dodge_attempts();
 
-    const int base_burn_rate = get_option<int>( player_base_stamina_burn_rate );
-    const float dodge_skill_modifier = ( 20.0f - get_skill_level( skill_dodge ) ) / 20.0f;
-    burn_energy_legs( - std::floor( static_cast<float>( base_burn_rate ) * 6.0f *
-                                    dodge_skill_modifier ) );
-    set_activity_level( EXTRA_EXERCISE );
+    add_msg_debug( debugmode::DF_MELEE,
+                   "Dodging with %d total dodges, %d total free dodges, %d free dodges left",
+                   get_num_dodges(), get_num_free_dodges(), get_free_dodges_left() );
+
+    if( get_free_dodges_left() > 0 ) {
+        mod_free_dodges_left( -1 );
+    } else {
+        const int base_burn_rate = get_option<int>( player_base_stamina_burn_rate );
+        const float dodge_skill_modifier = ( 20.0f - get_skill_level( skill_dodge ) ) / 20.0f;
+        burn_energy_legs( - std::floor( static_cast<float>( base_burn_rate ) * 6.0f *
+                                        dodge_skill_modifier ) );
+        set_activity_level( EXTRA_EXERCISE );
+    }
 }
 
 void Character::on_dodge( Creature *source, float difficulty, float training_level )
@@ -2192,9 +2220,11 @@ void Character::process_turn()
     if( in_sleep_state() ) {
         blocks_left = 0;
         set_dodges_left( 0 );
+        set_free_dodges_left( 0 );
     } else if( moves > 0 ) {
         blocks_left = get_num_blocks();
         set_dodges_left( get_num_dodges() );
+        set_free_dodges_left( get_num_free_dodges() );
     }
 
     // auto-learning. This is here because skill-increases happens all over the place:
@@ -3122,6 +3152,9 @@ void Character::calc_bmi_encumb( std::map<bodypart_id, encumbrance_data> &vals )
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         int penalty = std::floor( elem.second.get_bmi_encumbrance_scalar() * std::max( 0.0f,
                                   get_bmi_fat() - static_cast<float>( elem.second.get_bmi_encumbrance_threshold() ) ) );
+        if( !needs_food() ) {
+            penalty = 0;
+        }
         vals[elem.first.id()].encumbrance += penalty;
     }
 }
@@ -4347,16 +4380,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
-    if( actually_used->is_comestible() ) {
-        const bool ret = consume_effects( *used );
-        const int consumed = used->activation_consume( charges_used.value(), pt, this );
-        if( consumed == 0 ) {
-            // Nothing was consumed from within the item. "Eat" the item itself away.
-            i_rem( actually_used );
-        }
-        return ret;
-    }
-
     actually_used->activation_consume( charges_used.value(), pt, this );
 
     if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ) {
@@ -4488,9 +4511,7 @@ void Character::shout( std::string msg, bool order )
     constexpr int minimum_noise = 2;
 
     if( noise <= base ) {
-        std::wstring wstr( utf8_to_wstr( msg ) );
-        std::transform( wstr.begin(), wstr.end(), wstr.begin(), towlower );
-        msg = wstr_to_utf8( wstr );
+        msg = to_lower_case( msg );
     }
 
     // Screaming underwater is not good for oxygen and harder to do overall
@@ -5127,6 +5148,7 @@ void Character::assign_activity( const player_activity &act )
         add_msg_if_player( _( "You resume your task." ) );
         activity = backlog.front();
         backlog.pop_front();
+        activity.set_resume_values( act, *this );
     } else {
         if( activity ) {
             backlog.push_front( activity );
@@ -5294,10 +5316,6 @@ bool Character::can_use_floor_warmth() const
            has_activity( ACT_TRY_SLEEP ) ||
            has_activity( ACT_OPERATION ) ||
            has_activity( ACT_TREE_COMMUNION ) ||
-           has_activity( ACT_EAT_MENU ) ||
-           has_activity( ACT_CONSUME_FOOD_MENU ) ||
-           has_activity( ACT_CONSUME_DRINK_MENU ) ||
-           has_activity( ACT_CONSUME_MEDS_MENU ) ||
            has_activity( ACT_STUDY_SPELL );
 }
 
@@ -6154,7 +6172,7 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
     return g->get_creatures_if( [this, range, melee, &here]( const Creature & critter ) -> bool {
         //the call to map.sees is to make sure that even if we can see it through walls
         //via a mutation or cbm we only attack targets with a line of sight
-        bool can_see = ( ( sees( here, critter ) || sees_with_specials( critter ) ) && here.sees( pos_bub( here ), critter.pos_bub( here ), 100 ) );
+        bool can_see = ( ( sees( here, critter ) || sees_with_specials( critter ) ) && !here.find_clear_path( pos_bub( here ), critter.pos_bub( here ), true ).empty( ) );
         if( can_see && melee )  //handles the case where we can see something with glass in the way for melee attacks
         {
             std::vector<tripoint_bub_ms> path = here.find_clear_path( pos_bub( here ),

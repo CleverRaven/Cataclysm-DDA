@@ -1192,5 +1192,23 @@
       { "item": "wire_mesh", "count": [ 0, 1 ] },
       { "item": "metal_tank_little", "count": [ 0, 1 ] }
     ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_mobile_weather_station",
+    "copy-from": "veh_mobile_weather_station",
+    "extend": { "flags": [ "APPLIANCE" ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_xedra_mobile_weather_station",
+    "copy-from": "veh_xedra_mobile_weather_station",
+    "extend": { "flags": [ "APPLIANCE" ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_robofac_mobile_weather_station",
+    "copy-from": "veh_robofac_mobile_weather_station",
+    "extend": { "flags": [ "APPLIANCE" ] }
   }
 ]

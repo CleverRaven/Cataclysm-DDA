@@ -50,6 +50,7 @@
 #include "value_ptr.h"
 #include "weather.h"
 
+static const ammotype ammo_45( "45" );
 static const ammotype ammo_test_9mm( "test_9mm" );
 
 static const item_group_id Item_spawn_data_wallet_duct_tape_full( "wallet_duct_tape_full" );
@@ -388,8 +389,6 @@ TEST_CASE( "max_item_volume", "[pocket][max_item_volume]" )
 //
 TEST_CASE( "max_container_volume", "[pocket][max_contains_volume]" )
 {
-    // TODO: Add tests for having multiple ammo types in the ammo_restriction
-
     WHEN( "pocket has no ammo_restriction" ) {
         pocket_data data_box( pocket_type::CONTAINER );
         // Just a normal 1-liter box
@@ -414,6 +413,30 @@ TEST_CASE( "max_container_volume", "[pocket][max_contains_volume]" )
 
         THEN( "volume_capacity is based on the pocket's ammo type" ) {
             CHECK( data_ammo_box.volume_capacity() == 1_liter );
+        }
+    }
+
+    WHEN( "pocket has multiple ammo_restrictions" ) {
+        pocket_data data_ammo_box( pocket_type::CONTAINER );
+
+        data_ammo_box.ammo_restriction.emplace( ammo_test_9mm, 200 );
+        data_ammo_box.ammo_restriction.emplace( ammo_45, 90 );
+        data_ammo_box.raw_volume_capacity = 1_ml;
+
+        THEN( "volume_capacity uses the largest restricted ammo volume" ) {
+            CHECK( data_ammo_box.volume_capacity() == 1_liter );
+        }
+    }
+
+    WHEN( "pocket has multiple ammo_restrictions with a larger alternate ammo type" ) {
+        pocket_data data_ammo_box( pocket_type::CONTAINER );
+
+        data_ammo_box.ammo_restriction.emplace( ammo_test_9mm, 200 );
+        data_ammo_box.ammo_restriction.emplace( ammo_45, 150 );
+        data_ammo_box.raw_volume_capacity = 1_ml;
+
+        THEN( "volume_capacity follows the most space-intensive ammo" ) {
+            CHECK( data_ammo_box.volume_capacity() == 1250_ml );
         }
     }
 }
@@ -441,8 +464,6 @@ TEST_CASE( "magazine_with_ammo_restriction", "[pocket][magazine][ammo_restrictio
     data_mag.min_item_volume = 0_liter;
     data_mag.max_item_length = 0_meter;
     data_mag.max_contains_weight = 0_gram;
-
-    // TODO: Add tests for multiple ammo types in the same clip
 
     GIVEN( "magazine has 9mm ammo_restriction" ) {
         // Magazine ammo_restriction may be a single { ammotype, count } or a list of ammotypes and
@@ -510,6 +531,73 @@ TEST_CASE( "magazine_with_ammo_restriction", "[pocket][magazine][ammo_restrictio
             }
         }
     }
+
+    GIVEN( "magazine has multiple ammo_restrictions" ) {
+        const int full_clip_qty_9mm = 10;
+        const int full_clip_qty_45 = 6;
+        data_mag.ammo_restriction.emplace( ammo_test_9mm, full_clip_qty_9mm );
+        data_mag.ammo_restriction.emplace( ammo_45, full_clip_qty_45 );
+        item_pocket pocket_mag( &data_mag );
+
+        WHEN( "it does not already contain any ammo" ) {
+            REQUIRE( pocket_mag.empty() );
+
+            THEN( "it can contain a full clip of any allowed ammo type" ) {
+                const item ammo_9mm( itype_test_9mm_ammo, calendar::turn_zero, full_clip_qty_9mm );
+                const item ammo_45( itype_test_45_ammo, calendar::turn_zero, full_clip_qty_45 );
+                expect_can_contain( pocket_mag, ammo_9mm );
+                expect_can_contain( pocket_mag, ammo_45 );
+            }
+
+            THEN( "it cannot exceed any allowed ammo restriction" ) {
+                item ammo_9mm_over( itype_test_9mm_ammo, calendar::turn_zero, full_clip_qty_9mm + 1 );
+                item ammo_45_over( itype_test_45_ammo, calendar::turn_zero, full_clip_qty_45 + 1 );
+                expect_cannot_contain( pocket_mag, ammo_9mm_over,
+                                       "tried to put too many charges of ammo in item",
+                                       item_pocket::contain_code::ERR_NO_SPACE );
+                expect_cannot_contain( pocket_mag, ammo_45_over,
+                                       "tried to put too many charges of ammo in item",
+                                       item_pocket::contain_code::ERR_NO_SPACE );
+            }
+        }
+
+        WHEN( "it is partly full of 9mm ammo" ) {
+            const int half_clip_qty_9mm = full_clip_qty_9mm / 2;
+            item ammo_9mm_half_clip( itype_test_9mm_ammo, calendar::turn_zero, half_clip_qty_9mm );
+            expect_can_insert( pocket_mag, ammo_9mm_half_clip );
+
+            THEN( "it can contain more of the same ammo" ) {
+                item ammo_9mm_refill( itype_test_9mm_ammo, calendar::turn_zero,
+                                      full_clip_qty_9mm - half_clip_qty_9mm );
+                expect_can_contain( pocket_mag, ammo_9mm_refill );
+            }
+
+            THEN( "it cannot contain ammo of another allowed type" ) {
+                item ammo_45( itype_test_45_ammo, calendar::turn_zero, 1 );
+                expect_cannot_contain( pocket_mag, ammo_45, "can't mix different ammo",
+                                       item_pocket::contain_code::ERR_NO_SPACE );
+            }
+        }
+
+        WHEN( "it is partly full of .45 ammo" ) {
+            const int half_clip_qty_45 = full_clip_qty_45 / 2;
+            item ammo_45_half_clip( itype_test_45_ammo, calendar::turn_zero, half_clip_qty_45 );
+            expect_can_insert( pocket_mag, ammo_45_half_clip );
+
+            THEN( "it can contain more of the same ammo" ) {
+                item ammo_45_refill( itype_test_45_ammo, calendar::turn_zero,
+                                     full_clip_qty_45 - half_clip_qty_45 );
+                expect_can_contain( pocket_mag, ammo_45_refill );
+            }
+
+            THEN( "it cannot contain ammo of another allowed type" ) {
+                item ammo_9mm( itype_test_9mm_ammo, calendar::turn_zero, 1 );
+                expect_cannot_contain( pocket_mag, ammo_9mm, "can't mix different ammo",
+                                       item_pocket::contain_code::ERR_NO_SPACE );
+            }
+        }
+    }
+
 }
 
 // Flag restriction
@@ -2993,3 +3081,4 @@ TEST_CASE( "unload_from_spillable_container", "[item][pocket]" )
         }
     }
 }
+

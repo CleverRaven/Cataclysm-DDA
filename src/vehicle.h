@@ -260,6 +260,7 @@ class turret_cpu
 struct vehicle_part {
         friend vehicle;
         friend class veh_interact;
+        friend class vehicle_activity_actor;
         friend class vehicle_cursor;
         friend class vehicle_stack;
         friend item_location;
@@ -2210,6 +2211,7 @@ class vehicle
         void use_autoclave( map &here, int p );
         void use_washing_machine( map &here, int p );
         void use_dishwasher( map &here, int p );
+        void use_mws( map &here, int p );
         void use_monster_capture( int part, map *here, const tripoint_bub_ms &pos );
         void use_tiedown_furniture( int part, map *here, const tripoint_bub_ms & );
         void use_harness( int part, map *here, const tripoint_bub_ms &pos );
