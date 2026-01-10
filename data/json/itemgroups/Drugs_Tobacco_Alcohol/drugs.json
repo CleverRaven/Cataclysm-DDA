@@ -233,6 +233,7 @@
       [ "denat_alcohol", 60 ],
       [ "methed_alcohol", 40 ],
       [ "thermometer", 50 ],
+      [ "pressure_cooker", 15 ],
       [ "flu_shot", 50 ],
       [ "disinfectant", 35 ]
     ]

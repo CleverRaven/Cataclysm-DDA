@@ -1996,6 +1996,7 @@
       [ "survnote", 1 ],
       [ "magnifying_glass", 2 ],
       [ "thermometer", 3 ],
+      [ "pressure_cooker", 3 ],
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
       [ "sextant", 2 ],
