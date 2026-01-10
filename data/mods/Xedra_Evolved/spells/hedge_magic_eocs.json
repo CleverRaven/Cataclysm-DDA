@@ -725,5 +725,76 @@
         "else": [ { "u_spawn_item": "wine_noir", "container": "bottle_glass", "count": 3, "suppress_message": true } ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_CHICKEN_SACRIFICE_MAKE_RAIN",
+    "condition": { "math": [ "weather('temperature') > from_fahrenheit( 31 )" ] },
+    "effect": [ { "run_eocs": "EOC_HEDGE_CHICKEN_SACRIFICE_MAKE_RAIN_CASTER", "alpha_talker": "npc" } ],
+    "false_effect": [
+      {
+        "u_message": "With a quick cut, you slice the chicken's throat and, as you gut it and fill the corpse with the herbs, honey, and milk, you recite the names of the angels seven times.  Despite the sacrifice, nothing happens. The temperature must be above freezing to call the rains.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_CHICKEN_SACRIFICE_MAKE_RAIN_CASTER",
+    "//": "This is to swap talkers",
+    "effect": [
+      { "u_lose_effect": "effect_controlling_weather" },
+      {
+        "u_message": "With a quick cut, you slice the chicken's throat and, as you gut it and fill the corpse with the herbs, honey, and milk, you recite the names of the angels seven times.",
+        "type": "good"
+      },
+      { "math": [ "u_weather_change_limit = 3" ] },
+      { "math": [ "u_weather_stage_up_lower_bound = 120" ] },
+      { "math": [ "u_weather_stage_up_upper_bound = 480" ] },
+      { "u_add_effect": "effect_controlling_weather_rains", "duration": "6 hours" },
+      { "u_add_effect": "effect_controlling_weather", "duration": { "math": [ "rng(1800, 10800)" ] } },
+      {
+        "run_eocs": "EOC_WEATHER_CONTROL_INITIATE",
+        "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_PREVENT_WILD_ANIMAL_ATTACKS",
+    "condition": "has_alpha",
+    "effect": [
+      { "math": [ "u_val('morale') -= 50" ] },
+      { "math": [ "u_val('anger') -= 50" ] },
+      { "u_add_effect": "effect_hedge_prevent_wild_animal_attacks", "duration": { "math": [ "rng(300, 900)" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_PREVENT_WILD_ANIMAL_ATTACKS_EXPLOIT_PREVENTER",
+    "eoc_type": "EVENT",
+    "required_event": "monster_takes_damage",
+    "condition": { "u_has_effect": "effect_hedge_prevent_wild_animal_attacks" },
+    "effect": [ { "math": [ "u_val('anger') += 100" ] }, { "u_lose_effect": "effect_hedge_prevent_wild_animal_attacks" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_WEARING_RAZIEL_PROTECTIVE_AMULET",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_effect": "effect_hedge_magic_kamea_of_protection" },
+    "effect": [
+      {
+        "if": { "x_in_y_chance": { "x": 1, "y": 100 } },
+        "then": [
+          { "u_consume_item": "item_hedge_raziel_amulet_protection" },
+          {
+            "u_spawn_item": "item_hedge_raziel_amulet_protection_done",
+            "suppress_message": true,
+            "force_equip": true
+          }
+        ]
+      }
+    ]
   }
 ]

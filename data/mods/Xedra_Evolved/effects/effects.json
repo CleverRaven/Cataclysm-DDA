@@ -2487,11 +2487,27 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_hedge_magic_kamea_of_protection",
+    "//": "Empty to hide effect, used a tracker if you're wearing a kamea of protection",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_hedge_magic_luck_spell",
     "name": [ "Step of Gad" ],
     "desc": [ "Your foot seems to keep finding just the right place to step." ],
     "rating": "good",
-    "enchantments": [ { "values": [ { "value": "FREE_DODGES", "add": 1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 1 }, { "value": "FREE_DODGES", "add": 1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_prevent_wild_animal_attacks",
+    "//": "This prevents you from attacking, if you are an animal.  An EoC removes it if the animal is attacked",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "bad",
+    "flags": [ "CANNOT_ATTACK" ]
   },
   {
     "type": "effect_type",
