@@ -10,7 +10,6 @@
 #include "type_id.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
-static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BURROW( "ACT_BURROW" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
@@ -228,7 +227,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         ACT_FILL_LIQUID,
         ACT_HOTWIRE_CAR,
         ACT_AIM,
-        ACT_ATM,
+        activity_id::NULL_ID(), // ACT_ATM is an actor now
         activity_id::NULL_ID(), // ACT_START_ENGINES is an actor now
         activity_id::NULL_ID(), // ACT_OXYTORCH is an actor now
         ACT_CRACKING,

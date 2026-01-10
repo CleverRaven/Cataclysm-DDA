@@ -75,7 +75,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
@@ -154,7 +153,6 @@ activity_handlers::do_turn_functions = {
     { ACT_VEHICLE_DECONSTRUCTION, vehicle_deconstruction_do_turn },
     { ACT_VEHICLE_REPAIR, vehicle_repair_do_turn },
     { ACT_MULTIPLE_CHOP_TREES, chop_trees_do_turn },
-    { ACT_ATM, atm_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
     { ACT_DISMEMBER, dismember_do_turn },
@@ -171,7 +169,6 @@ activity_handlers::finish_functions = {
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
-    { ACT_ATM, atm_finish },
     { ACT_PULL_CREATURE, pull_creature_finish }
 };
 
@@ -1196,11 +1193,6 @@ void activity_handlers::travel_do_turn( player_activity *act, Character *you )
     act->set_to_null();
 }
 
-void activity_handlers::atm_do_turn( player_activity *, Character *you )
-{
-    iexamine::atm( *you, you->pos_bub() );
-}
-
 void activity_handlers::repair_item_do_turn( player_activity *act, Character *you )
 {
     // Moves are decremented based on a combination of speed and good vision (not in the dark, farsighted, etc)
@@ -1343,14 +1335,6 @@ void activity_handlers::multiple_farm_do_turn( player_activity *act, Character *
 void activity_handlers::fetch_do_turn( player_activity *act, Character *you )
 {
     generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::atm_finish( player_activity *act, Character * )
-{
-    // ATM sets index to 0 to indicate it's finished.
-    if( !act->index ) {
-        act->set_to_null();
-    }
 }
 
 template<typename fn>

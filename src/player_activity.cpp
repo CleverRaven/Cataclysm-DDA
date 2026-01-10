@@ -36,7 +36,6 @@
 #include "weather.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
-static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
@@ -139,7 +138,6 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
     }
 
     if( type == ACT_AIM ||
-        type == ACT_ATM ||
         type == ACT_INVOKE_ITEM
       ) {
         return std::nullopt;
