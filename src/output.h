@@ -17,6 +17,7 @@
 #include <type_traits>
 #include <utility>
 #include <vector>
+#include <memory>
 
 #include "cata_assert.h"
 #include "catacharset.h"
@@ -549,25 +550,23 @@ struct item_info_data {
     private:
         std::string sItemName;
         std::string sTypeName;
-        std::vector<iteminfo> vItemDisplay;
         std::vector<iteminfo> vItemCompare;
         int selected = 0;
 
     public:
-
         item_info_data() = default;
 
         item_info_data( const std::string &sItemName, const std::string &sTypeName,
-                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare )
+                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare, itype_id item_type_id = itype_id::NULL_ID() )
             : sItemName( sItemName ), sTypeName( sTypeName ),
-              vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ) {}
+              vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ), item_type_id ( item_type_id ) {}
 
         item_info_data( const std::string &sItemName, const std::string &sTypeName,
-                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
-                        int &ptr_selected )
-            : sItemName( sItemName ), sTypeName( sTypeName ),
+        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
+        int &ptr_selected, itype_id item_type_id = itype_id::NULL_ID() )
+                    : sItemName( sItemName ), sTypeName( sTypeName ),
               vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
-              ptr_selected( &ptr_selected ) {}
+              ptr_selected( &ptr_selected ), item_type_id ( item_type_id ) {}
 
         const std::string &get_item_name() const {
             return sItemName;
@@ -582,6 +581,9 @@ struct item_info_data {
             return vItemCompare;
         }
 
+        itype_id item_type_id;
+        std::function<void()> on_data_changed;
+        mutable std::vector<iteminfo> vItemDisplay;
         int *ptr_selected = &selected;
         bool without_getch = false;
         bool without_border = false;

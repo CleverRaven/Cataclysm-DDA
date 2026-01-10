@@ -4979,6 +4979,14 @@
       { "input_method": "mouse", "key": "MOUSE_LEFT" }
     ]
   },
+    {
+    "type": "keybinding",
+    "id": "TOGGLE_RECIPE_DISPLAY_EXTENDED",
+    "name": "Toggle extended recipe display mode",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": ">" }
+    ]
+  },
   {
     "type": "keybinding",
     "id": "CHANGE_PROFESSION_NAME",

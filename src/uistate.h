@@ -218,6 +218,7 @@ class uistatedata
         // V Menu Stuff
         list_item_sort_mode list_item_sort = list_item_sort_mode::DISTANCE;
         std::set<itype_id> read_items;
+        std::set<itype_id> expanded_recipe_displays;
 
         // These three aren't serialized because deserialize can extract them
         // from the history

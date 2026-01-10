@@ -8,6 +8,7 @@
 #include "input_enums.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "uistate.h"
 
 
 iteminfo_window::iteminfo_window( item_info_data &info, point pos, int width, int height,
@@ -26,6 +27,7 @@ iteminfo_window::iteminfo_window( item_info_data &info, point pos, int width, in
             ctxt.register_action( "DOWN" );
         }
     }
+        ctxt.register_action("TOGGLE_RECIPE_DISPLAY_EXTENDED");
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
@@ -84,6 +86,18 @@ void iteminfo_window::execute()
             s = cataimgui::scroll::begin;
         } else if( data.handle_scrolling && action == "END" ) {
             s = cataimgui::scroll::end;
+        } else if(action == "TOGGLE_RECIPE_DISPLAY_EXTENDED") {
+            if(data.item_type_id != itype_id::NULL_ID()) {
+                if (uistate.expanded_recipe_displays.find(data.item_type_id) != uistate.expanded_recipe_displays.end()) {
+                    uistate.expanded_recipe_displays.erase(data.item_type_id);
+                } else {
+                uistate.expanded_recipe_displays.insert(data.item_type_id);
+                }
+
+                if (data.on_data_changed) {
+                    data.on_data_changed();
+                }
+            }
         } else if( action == "CONFIRM" || action == "QUIT" ||
                    ( data.any_input && action == "ANY_INPUT" && !ctxt.get_raw_input().sequence.empty() ) ) {
             break;

@@ -2092,7 +2092,7 @@ class exosuit_interact
             item_pocket *pkt = suit->get_container_pockets()[cur_pocket];
             pkt->general_info( suitinfo, cur_pocket, true );
             pkt->contents_info( suitinfo, cur_pocket, true );
-            item_info_data data( suit->tname(), suit->type_name(), suitinfo, dummy, scroll_pos );
+            item_info_data data( suit->tname(), suit->type_name(), suitinfo, dummy, scroll_pos,suit->typeId() );
             data.without_getch = true;
             data.without_border = true;
             data.scrollbar_left = false;
