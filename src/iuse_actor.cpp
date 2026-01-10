@@ -642,6 +642,7 @@ void sound_iuse::load( const JsonObject &obj, const std::string & )
     optional( obj, false, "name", name );
     optional( obj, false, "sound_message", sound_message );
     optional( obj, false, "sound_volume", sound_volume, 0 );
+    optional( obj, false, "sound_type", sound_type, enum_flags_reader<sounds::sound_t> { "alarm" } );
     optional( obj, false, "sound_id", sound_id, "misc" );
     optional( obj, false, "sound_variant", sound_variant, "default" );
 }
@@ -652,7 +653,7 @@ std::optional<int> sound_iuse::use( Character *, item &,
     map &bubble_map = reality_bubble();
 
     if( bubble_map.inbounds( here->get_abs( pos ) ) ) {
-        sounds::sound( bubble_map.get_bub( here->get_abs( pos ) ), sound_volume, sounds::sound_t::alarm,
+        sounds::sound( bubble_map.get_bub( here->get_abs( pos ) ), sound_volume, sound_type,
                        sound_message.translated(), true,
                        sound_id, sound_variant );
     }

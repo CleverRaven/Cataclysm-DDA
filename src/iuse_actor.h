@@ -33,6 +33,10 @@ struct furn_t;
 
 enum class link_state : int;
 enum class ot_match_type : int;
+namespace sounds
+{
+enum class sound_t : int;
+} // namespace sounds
 
 /**
  * Transform an item into a specific type.
@@ -181,6 +185,7 @@ class sound_iuse : public iuse_actor
 
         translation sound_message;
 
+        sounds::sound_t sound_type;
         int sound_volume = 0;
         std::string sound_id;
         std::string sound_variant;
