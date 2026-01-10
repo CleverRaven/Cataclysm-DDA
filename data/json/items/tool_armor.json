@@ -2731,6 +2731,14 @@
       "target": "basic_papr_belt_off",
       "ammo_scale": 0
     },
+    "tick_action": {
+      "type": "sound",
+      "sound_type": "movement",
+      "sound_message": "whooooo…",
+      "sound_id": "humming",
+      "sound_variant": "machinery",
+      "sound_volume": 12
+    },
     "tool_ammo": [ "battery" ],
     "flags": [ "BELTED", "OVERSIZE", "ELECTRONIC", "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE", "PAPR_BLOWER" ],
     "armor": [
@@ -2819,6 +2827,14 @@
       "target": "military_papr_blower_off",
       "ammo_scale": 0
     },
+    "tick_action": {
+      "type": "sound",
+      "sound_type": "movement",
+      "sound_message": "whooooo…",
+      "sound_id": "humming",
+      "sound_variant": "machinery",
+      "sound_volume": 12
+    },
     "tool_ammo": [ "battery" ],
     "flags": [ "BELTED", "OVERSIZE", "ELECTRONIC", "TRADER_AVOID", "SPAWN_ACTIVE", "PAPR_BLOWER" ],
     "armor": [
@@ -2906,6 +2922,14 @@
       "msg": "You turn the %s off.",
       "target": "molle_papr_blower_off",
       "ammo_scale": 0
+    },
+    "tick_action": {
+      "type": "sound",
+      "sound_type": "movement",
+      "sound_message": "whooooo…",
+      "sound_id": "humming",
+      "sound_variant": "machinery",
+      "sound_volume": 8
     },
     "tool_ammo": [ "battery" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ELECTRONIC", "TRADER_AVOID", "SPAWN_ACTIVE", "PAPR_BLOWER" ],
