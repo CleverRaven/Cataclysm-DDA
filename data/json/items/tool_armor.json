@@ -2682,7 +2682,7 @@
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
-      "msg": "You activate your %s.",
+      "msg": "You activate your %s and the fan starts to audibly whoosh.",
       "target": "basic_papr_belt_on",
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
@@ -2706,7 +2706,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "PAPR blower (on)", "str_pl": "PAPR blowers (on)" },
-    "description": "A blower unit for a powered air purifying respirator system.  It has been attached to a basic rubber and plastic belt.  If paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.",
+    "description": "A blower unit for a powered air purifying respirator system.  It has been attached to a basic rubber and plastic belt.  If paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.  The fan is audibly blowing.",
     "weight": "918 g",
     "volume": "1000 ml",
     "material": [ "rubber", "plastic" ],
@@ -2778,7 +2778,7 @@
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
-      "msg": "You activate your %s.",
+      "msg": "You activate your %s and the fan starts to audibly whoosh.",
       "target": "military_papr_blower_on",
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
@@ -2802,7 +2802,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "military PAPR blower (on)", "str_pl": "military PAPR blowers (on)" },
-    "description": "A sturdy blower unit for a powered air purifying respirator system.  Its large triangular body is designed to be worn on the back.  When active and paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.",
+    "description": "A sturdy blower unit for a powered air purifying respirator system.  Its large triangular body is designed to be worn on the back.  When active and paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.  The fan is audibly blowing.",
     "weight": "653 g",
     "volume": "3589 ml",
     "material": [ "rubber", "plastic" ],
@@ -2874,7 +2874,7 @@
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
-      "msg": "You activate your %s.",
+      "msg": "You activate your %s and the fan starts to audibly whoosh.",
       "target": "molle_papr_blower_on",
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
@@ -2898,7 +2898,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "modular PAPR blower (on)", "str_pl": "modular PAPR blowers (on)" },
-    "description": "A blower unit for a powered air purifying respirator system, built from a flexible silicon and butyl rubber blend.  Its components are arranged linearly in a narrow strip close to the body and is outfitted with straps to wear it about the waist.  If paired with the appropriate straps, it can also attached to any compatible MOLLE system.  When active and paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.",
+    "description": "A blower unit for a powered air purifying respirator system, built from a flexible silicon and butyl rubber blend.  Its components are arranged linearly in a narrow strip close to the body and is outfitted with straps to wear it about the waist.  If paired with the appropriate straps, it can also attached to any compatible MOLLE system.  When active and paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.  The fan is quietly blowing.",
     "weight": "920 g",
     "volume": "3000 ml",
     "material": [ "butyl_rubber", "plastic" ],
