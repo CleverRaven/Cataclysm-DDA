@@ -26,6 +26,7 @@
 #include "coords_fwd.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue_helpers.h"
 #include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -141,6 +142,8 @@ static item_blacklist_t item_blacklist;
 
 std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
 std::set<std::string> Item_factory::repair_actions = {};
+
+using diag_value_or_var = value_or_var<diag_value, eoc_math, string_mutator<translation>>;
 
 static void migrate_mag_from_pockets( itype &def )
 {
@@ -4656,11 +4659,23 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj,
         use_modifier = true;
     }
 
-    if( obj.has_object( "faults" ) ) {
-        JsonObject jo = obj.get_object( "faults" );
-        int chance = jo.get_int( "chance", 100 );
-        for( std::string ids : jo.get_array( "id" ) ) {
-            modifier.faults.emplace_back( fault_id( ids ), chance );
+    if( obj.has_array( "faults" ) ) {
+        for( const JsonObject jo : obj.get_object( "faults" ) ) {
+            int chance = jo.get_int( "chance", 100 );
+            for( std::string ids : jo.get_array( "id" ) ) {
+                modifier.faults.emplace_back( fault_id( ids ), chance );
+            }
+        }
+        use_modifier = true;
+    }
+
+    if( obj.has_array( "variables" ) ) {
+        for( const JsonObject jo : obj.get_array( "variables" ) ) {
+            for( const JsonMember &jv : jo ) {
+                diag_value dv;
+                mandatory( jo, false, jv.name(), dv );
+                modifier.item_vars.insert( { jv.name(), dv } );
+            }
         }
         use_modifier = true;
     }
