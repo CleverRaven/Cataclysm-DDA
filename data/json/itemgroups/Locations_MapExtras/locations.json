@@ -2128,6 +2128,7 @@
       { "item": "gradcylinder", "prob": 5 },
       { "item": "petri_dish", "prob": 5 },
       { "item": "rack_test_tube", "prob": 5 },
+      { "item": "pressure_cooker", "prob": 5 },
       { "item": "stand_ring", "prob": 5 },
       { "item": "stand_ring_clamps", "prob": 5 },
       { "item": "ether", "prob": 5, "charges": [ 100, -1 ] },
