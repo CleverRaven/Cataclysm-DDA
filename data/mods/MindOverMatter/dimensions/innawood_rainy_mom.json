@@ -14,7 +14,7 @@
     "id": "mom_innawood_rainy",
     "copy-from": "default",
     "base_temperature": 8.5,
-    "base_humidity": 75.0,
+    "base_humidity": 80.0,
     "base_pressure": 999,
     "base_wind": 4.4
   }
