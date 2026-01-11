@@ -1252,6 +1252,14 @@
                 "1 + min( ( ( ( u_spell_level('clair_dodge_power') * 0.2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 4)"
               ]
             }
+          },
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [
+                "1 + min( ( ( ( u_spell_level('clair_dodge_power') * 0.2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 4)"
+              ]
+            }
           }
         ]
       }
