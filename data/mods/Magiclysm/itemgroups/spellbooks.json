@@ -1304,6 +1304,106 @@
     "entries": [ { "item": "null", "prob": 25 } ]
   },
   {
+    "id": "spell_scroll_restricted_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "animist_restricted_tier_0", "prob": 10 },
+      { "group": "animist_illegal_tier_0", "prob": 1 },
+      { "group": "biomancer_restricted_tier_0", "prob": 10 },
+      { "group": "biomancer_illegal_tier_0", "prob": 1 },
+      { "group": "classless_restricted_tier_0", "prob": 20 },
+      { "group": "classless_illegal_tier_0", "prob": 2 },
+      { "group": "druid_restricted_tier_0", "prob": 10 },
+      { "group": "druid_illegal_tier_0", "prob": 1 },
+      { "group": "earthshaper_restricted_tier_0", "prob": 10 },
+      { "group": "earthshaper_illegal_tier_0", "prob": 1 },
+      { "group": "kelvinist_restricted_tier_0", "prob": 10 },
+      { "group": "kelvinist_illegal_tier_0", "prob": 1 },
+      { "group": "magus_restricted_tier_0", "prob": 10 },
+      { "group": "magus_illegal_tier_0", "prob": 1 },
+      { "group": "stormshaper_restricted_tier_0", "prob": 10 },
+      { "group": "stormshaper_illegal_tier_0", "prob": 1 },
+      { "group": "technomancer_restricted_tier_0", "prob": 10 },
+      { "group": "technomancer_illegal_tier_0", "prob": 1 }
+    ]
+  },
+  {
+    "id": "spell_scroll_restricted_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "animist_restricted_tier_1", "prob": 10 },
+      { "group": "animist_illegal_tier_1", "prob": 1 },
+      { "group": "biomancer_restricted_tier_1", "prob": 10 },
+      { "group": "biomancer_illegal_tier_1", "prob": 1 },
+      { "group": "classless_restricted_tier_1", "prob": 20 },
+      { "group": "classless_illegal_tier_1", "prob": 2 },
+      { "group": "druid_restricted_tier_1", "prob": 10 },
+      { "group": "druid_illegal_tier_1", "prob": 1 },
+      { "group": "earthshaper_restricted_tier_1", "prob": 10 },
+      { "group": "earthshaper_illegal_tier_1", "prob": 1 },
+      { "group": "kelvinist_restricted_tier_1", "prob": 10 },
+      { "group": "kelvinist_illegal_tier_1", "prob": 1 },
+      { "group": "magus_restricted_tier_1", "prob": 10 },
+      { "group": "magus_illegal_tier_1", "prob": 1 },
+      { "group": "stormshaper_restricted_tier_1", "prob": 10 },
+      { "group": "stormshaper_illegal_tier_1", "prob": 1 },
+      { "group": "technomancer_restricted_tier_1", "prob": 10 },
+      { "group": "technomancer_illegal_tier_1", "prob": 1 }
+    ]
+  },
+  {
+    "id": "spell_scroll_restricted_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "animist_restricted_tier_2", "prob": 10 },
+      { "group": "animist_illegal_tier_2", "prob": 1 },
+      { "group": "biomancer_restricted_tier_2", "prob": 10 },
+      { "group": "biomancer_illegal_tier_2", "prob": 1 },
+      { "group": "classless_restricted_tier_2", "prob": 20 },
+      { "group": "classless_illegal_tier_2", "prob": 2 },
+      { "group": "druid_restricted_tier_2", "prob": 10 },
+      { "group": "druid_illegal_tier_2", "prob": 1 },
+      { "group": "earthshaper_restricted_tier_2", "prob": 10 },
+      { "group": "earthshaper_illegal_tier_2", "prob": 1 },
+      { "group": "kelvinist_restricted_tier_2", "prob": 10 },
+      { "group": "kelvinist_illegal_tier_2", "prob": 1 },
+      { "group": "magus_restricted_tier_2", "prob": 10 },
+      { "group": "magus_illegal_tier_2", "prob": 1 },
+      { "group": "stormshaper_restricted_tier_2", "prob": 10 },
+      { "group": "stormshaper_illegal_tier_2", "prob": 1 },
+      { "group": "technomancer_restricted_tier_2", "prob": 10 },
+      { "group": "technomancer_illegal_tier_2", "prob": 1 }
+    ]
+  },
+  {
+    "id": "spell_scroll_restricted_tier_3",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "animist_restricted_tier_3", "prob": 10 },
+      { "group": "animist_illegal_tier_3", "prob": 1 },
+      { "group": "biomancer_restricted_tier_3", "prob": 10 },
+      { "group": "biomancer_illegal_tier_3", "prob": 1 },
+      { "group": "classless_restricted_tier_3", "prob": 20 },
+      { "group": "classless_illegal_tier_3", "prob": 2 },
+      { "group": "druid_restricted_tier_3", "prob": 10 },
+      { "group": "druid_illegal_tier_3", "prob": 1 },
+      { "group": "earthshaper_restricted_tier_3", "prob": 10 },
+      { "group": "earthshaper_illegal_tier_3", "prob": 1 },
+      { "group": "kelvinist_restricted_tier_3", "prob": 10 },
+      { "group": "kelvinist_illegal_tier_3", "prob": 1 },
+      { "group": "magus_restricted_tier_3", "prob": 10 },
+      { "group": "magus_illegal_tier_3", "prob": 1 },
+      { "group": "stormshaper_restricted_tier_3", "prob": 10 },
+      { "group": "stormshaper_illegal_tier_3", "prob": 1 },
+      { "group": "technomancer_restricted_tier_3", "prob": 10 },
+      { "group": "technomancer_illegal_tier_3", "prob": 1 }
+    ]
+  },
+  {
     "id": "spellbook_tier_0",
     "type": "item_group",
     "subtype": "distribution",
@@ -1484,6 +1584,30 @@
       { "item": "tome_electric", "prob": 25 },
       { "item": "necronomicon", "prob": 15 }
     ]
+  },
+  {
+    "id": "spellbook_restricted_illegal_tier_0",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "spellbook_restricted_tier_0", "prob": 10 }, { "group": "spellbook_illegal_tier_0", "prob": 1 } ]
+  },
+  {
+    "id": "spellbook_restricted_illegal_tier_1",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "spellbook_restricted_tier_1", "prob": 10 }, { "group": "spellbook_illegal_tier_1", "prob": 1 } ]
+  },
+  {
+    "id": "spellbook_restricted_illegal_tier_2",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "spellbook_restricted_tier_2", "prob": 10 }, { "group": "spellbook_illegal_tier_2", "prob": 1 } ]
+  },
+  {
+    "id": "spellbook_restricted_illegal_tier_3",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "spellbook_restricted_tier_3", "prob": 10 }, { "group": "spellbook_illegal_tier_3", "prob": 1 } ]
   },
   {
     "//": "For dividing up books, place a book in a school if the spellbook is of substantial interest to that school.  This involves a bit of judgement--a spellbook that has 5 animist spells and 1 druid spells shouldn't be in the druid list, but a spellbook that has 3 animist spells and 3 druid spells should be in both lists. Books with a completely even split of multiple schools (1 animist, 1 druid, 1 kelvinist, 1 magus, etc) should be in classless only",
@@ -1745,13 +1869,13 @@
     "id": "classless_spellbooks_restricted_tier_0",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "special_effects_spellbook", "prob": 30 }, { "item": "messed_up_spells_spellbook", "prob": 30 } ]
+    "entries": [ { "item": "special_effects_spellbook", "prob": 30 } ]
   },
   {
     "id": "classless_spellbooks_illegal_tier_0",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 30 } ]
+    "entries": [ { "item": "messed_up_spells_spellbook", "prob": 30 } ]
   },
   {
     "id": "classless_spellbooks_tier_1",
@@ -1863,13 +1987,13 @@
     "id": "druid_spellbooks_restricted_tier_0",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "messed_up_spells_spellbook", "prob": 30 } ]
+    "entries": [ { "item": "null", "prob": 30 } ]
   },
   {
     "id": "druid_spellbooks_illegal_tier_0",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 30 } ]
+    "entries": [ { "item": "messed_up_spells_spellbook", "prob": 30 } ]
   },
   {
     "id": "druid_spellbooks_tier_1",
@@ -2529,6 +2653,64 @@
     "entries": [ { "item": "null", "prob": 30 } ]
   },
   {
+    "id": "druid_restricted_loot",
+    "type": "item_group",
+    "items": [
+      {
+        "distribution": [
+          {
+            "distribution": [ { "group": "druid_restricted_tier_0", "prob": 10 }, { "group": "druid_spellbooks_restricted_tier_0", "prob": 1 } ],
+            "prob": 10
+          },
+          {
+            "distribution": [ { "group": "druid_illegal_tier_0", "prob": 10 }, { "group": "druid_spellbooks_illegal_tier_0", "prob": 1 } ],
+            "prob": 1
+          }
+        ],
+        "prob": 80
+      },
+      {
+        "distribution": [
+          {
+            "distribution": [ { "group": "druid_restricted_tier_1", "prob": 10 }, { "group": "druid_spellbooks_restricted_tier_1", "prob": 1 } ],
+            "prob": 10
+          },
+          {
+            "distribution": [ { "group": "druid_illegal_tier_1", "prob": 10 }, { "group": "druid_spellbooks_illegal_tier_1", "prob": 1 } ],
+            "prob": 1
+          }
+        ],
+        "prob": 55
+      },
+      {
+        "distribution": [
+          {
+            "distribution": [ { "group": "druid_restricted_tier_2", "prob": 10 }, { "group": "druid_spellbooks_restricted_tier_2", "prob": 1 } ],
+            "prob": 10
+          },
+          {
+            "distribution": [ { "group": "druid_illegal_tier_2", "prob": 10 }, { "group": "druid_spellbooks_illegal_tier_2", "prob": 1 } ],
+            "prob": 1
+          }
+        ],
+        "prob": 25
+      },
+      {
+        "distribution": [
+          {
+            "distribution": [ { "group": "druid_restricted_tier_3", "prob": 10 }, { "group": "druid_spellbooks_restricted_tier_3", "prob": 1 } ],
+            "prob": 10
+          },
+          {
+            "distribution": [ { "group": "druid_illegal_tier_3", "prob": 10 }, { "group": "druid_spellbooks_illegal_tier_3", "prob": 1 } ],
+            "prob": 1
+          }
+        ],
+        "prob": 5
+      }
+    ]
+  },
+  {
     "id": "spellbook_loot_0",
     "type": "item_group",
     "//": "the difference between tiers and loot are that loot should be easy to",
@@ -2541,6 +2723,19 @@
       { "group": "spellbook_tier_3", "prob": 1 },
       { "group": "spell_scroll_tier_0", "prob": 300 },
       { "group": "spell_scroll_tier_1", "prob": 100 }
+    ]
+  },
+  {
+    "id": "spellbook_restricted_loot_0",
+    "type": "item_group",
+    "//": "like spellbook loot, but for restricted or illegal spells",
+    "items": [
+      { "group": "spellbook_restricted_illegal_tier_0", "prob": 60 },
+      { "group": "spellbook_restricted_illegal_tier_1", "prob": 30 },
+      { "group": "spellbook_restricted_illegal_tier_2", "prob": 9 },
+      { "group": "spellbook_restricted_illegal_tier_3", "prob": 1 },
+      { "group": "spell_scroll_restricted_tier_0", "prob": 300 },
+      { "group": "spell_scroll_restricted_tier_1", "prob": 100 }
     ]
   },
   {
@@ -2557,6 +2752,18 @@
     ]
   },
   {
+    "id": "spellbook_restricted_loot_1",
+    "type": "item_group",
+    "items": [
+      { "group": "spellbook_restricted_illegal_tier_0", "prob": 30 },
+      { "group": "spellbook_restricted_illegal_tier_1", "prob": 50 },
+      { "group": "spellbook_restricted_illegal_tier_2", "prob": 18 },
+      { "group": "spellbook_restricted_illegal_tier_3", "prob": 2 },
+      { "group": "spell_scroll_restricted_tier_1", "prob": 300 },
+      { "group": "spell_scroll_restricted_tier_2", "prob": 100 }
+    ]
+  },
+  {
     "id": "spellbook_loot_2",
     "type": "item_group",
     "items": [
@@ -2567,6 +2774,18 @@
       { "group": "spellbook_mana_upgrades", "prob": 8 },
       { "group": "spell_scroll_tier_2", "prob": 300 },
       { "group": "spell_scroll_tier_3", "prob": 100 }
+    ]
+  },
+  {
+    "id": "spellbook_restricted_loot_2",
+    "type": "item_group",
+    "items": [
+      { "group": "spellbook_restricted_illegal_tier_0", "prob": 5 },
+      { "group": "spellbook_restricted_illegal_tier_1", "prob": 30 },
+      { "group": "spellbook_restricted_illegal_tier_2", "prob": 50 },
+      { "group": "spellbook_restricted_illegal_tier_3", "prob": 15 },
+      { "group": "spell_scroll_restricted_tier_2", "prob": 300 },
+      { "group": "spell_scroll_restricted_tier_3", "prob": 100 }
     ]
   },
   {
