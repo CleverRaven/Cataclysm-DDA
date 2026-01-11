@@ -1454,15 +1454,14 @@
       { "item": "animist_summon_wisps_spellbook", "prob": 30 },
       { "item": "special_effects_spellbook", "prob": 30 },
       { "item": "bypass_portals_spellbook", "prob": 30 },
-      { "item": "hologram_and_teleport_spellbook", "prob": 30 },
-      { "item": "messed_up_spells_spellbook", "prob": 30 }
+      { "item": "hologram_and_teleport_spellbook", "prob": 30 }
     ]
   },
   {
     "id": "spellbook_illegal_tier_0",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 30 } ]
+    "entries": [ { "item": "messed_up_spells_spellbook", "prob": 30 } ]
   },
   {
     "id": "spellbook_tier_1",

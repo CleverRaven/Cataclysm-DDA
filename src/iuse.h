@@ -139,7 +139,6 @@ std::optional<int> mace( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> manage_exosuit( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> melatonin_tablet( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> mininuke( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> molotov_lit( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> mop( Character *, item *it, const tripoint_bub_ms & );
 std::optional<int> mp3( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> mp3_on( Character *p, item *it, const tripoint_bub_ms & );

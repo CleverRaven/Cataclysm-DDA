@@ -4,7 +4,7 @@
     "id": "old_guard_red",
     "name_unique": "Red",
     "class": "NC_SOLDIER",
-    "attitude": 7,
+    "attitude": 0,
     "mission": 3,
     "chat": "TALK_OLD_GUARD_RED",
     "faction": "old_guard",

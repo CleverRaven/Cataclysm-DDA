@@ -666,6 +666,7 @@
       { "item": "radio", "prob": 25, "charges": [ 0, 15 ] },
       [ "power_supply", 25 ],
       [ "processor", 25 ],
+      [ "laptop_hard_case", 10 ],
       { "item": "mp3", "prob": 20, "charges": [ 0, 15 ] },
       { "group": "used_laptops", "prob": 20, "contents-group": "efiles_scrap" },
       { "item": "hotplate", "prob": 20 },
@@ -1254,6 +1255,7 @@
       [ "hat_hard", 50 ],
       { "item": "wearable_light", "prob": 15, "charges": [ 0, 100 ] },
       [ "ear_plugs", 50 ],
+      [ "laptop_hard_case", 20 ],
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "group": "used_laptops", "prob": 20, "contents-group": "SUS_efiles_sewage" },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
@@ -1524,6 +1526,7 @@
       { "item": "claw_bar", "prob": 3 },
       { "item": "crowbar", "prob": 18 },
       { "item": "tazer", "prob": 3, "charges": [ 0, 500 ] },
+      { "item": "laptop_hard_case", "prob": 2 },
       { "group": "charged_laptop", "contents-item": "software_hacking", "prob": 10 },
       { "group": "charged_laptop", "contents-group": "efiles_contraband", "prob": 20 },
       { "item": "spray_can", "prob": 50, "charges": [ 0, 10 ] },
@@ -1567,7 +1570,8 @@
       { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "nylon_holster", "prob": 6 },
       { "item": "survnote", "prob": 10 },
       { "item": "family_photo", "prob": 10 },
-      { "item": "tazer", "prob": 5 }
+      { "item": "tazer", "prob": 5 },
+      { "item": "laptop_hard_case", "prob": 5 }
     ]
   },
   {
@@ -1829,6 +1833,7 @@
       [ "hat_hard", 50 ],
       [ "ear_plugs", 50 ],
       [ "textbook_carpentry", 6 ],
+      { "item": "laptop_hard_case", "prob": 5 },
       [ "mag_mechanics", 25 ],
       [ "decoy_elfa", 8 ],
       { "item": "extinguisher", "prob": 20, "charges": 100 },
@@ -2643,6 +2648,7 @@
         "prob": 50
       },
       { "item": "elbow_pads", "prob": 10 },
+      { "item": "laptop_hard_case", "prob": 2 },
       { "item": "pants_army", "prob": 75 },
       { "group": "loaded_webbing_belt", "prob": 50 },
       { "item": "knee_pads", "prob": 10 },
@@ -2652,6 +2658,9 @@
       { "item": "gloves_tactical", "prob": 10 },
       { "group": "military_ballistic_vest", "prob": 10 },
       { "group": "clothing_tactical_leg", "prob": 5 },
+      { "item": "military_poncho", "prob": 40 },
+      { "item": "military_poncho_heavy", "prob": 40 },
+      { "item": "military_poncho_liner", "prob": 40 },
       {
         "distribution": [
           { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },

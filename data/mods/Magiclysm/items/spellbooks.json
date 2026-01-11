@@ -833,6 +833,35 @@
     }
   },
   {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "id": "plant_spellbook_expurgated",
+    "name": {
+      "ctxt": "spellbook",
+      "str": "The Elven Path (popular edition)",
+      "str_pl": "copies of The Elven Path (popular edition)"
+    },
+    "//": "7 Druid spells",
+    "description": "Written by the elven archdruid Tylindel Melithilarahd over 500 years ago, this weighty tome was considered *the* most important book of the Harmonist druidic movement up until just before the Cataclysm.  Archdruid Melithilarahd's death in 2016 ended his overt patronage of his own works, allowing other writers to attempt to make their mark, especially younger elves who did not have such a strident anti-modern attitude.  In addition to all the philosophical essays about the importance of living in harmony with nature and allowing plants to grow where they will are several plant-based druidic spells.  This particular copy has the restricted spells present in the original excised.",
+    "price": "150 USD",
+    "material": [ "paper", "cardboard" ],
+    "symbol": "?",
+    "looks_like": "cookbook",
+    "color": "green",
+    "weight": "2041 g",
+    "volume": "1500 ml",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "druid_whisper_leaves",
+        "druid_summon_brambles",
+        "druid_renew_forest_spell",
+        "druid_wood_living_tree_spell",
+        "druidic_regrowth"
+      ]
+    }
+  },
+  {
     "id": "book_lazy_magic",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
@@ -1230,7 +1259,7 @@
     "category": "manuals",
     "name": { "str": "Magical Mishaps: When Spells Go Wrong", "str_pl": "copies of Magical Mishaps: When Spells Go Wrong" },
     "//": "2 druid spells, 1 stormshaper spell, 1 animist spell, all spells the pun ones",
-    "description": "A series of stories of the various ways magic can go wrong if the wrong ingredients, words, or gestures are used.  A lot of the stories are merely funny, like the magus who in trying to alter the Sorcerer's Hand spell caused music to follow her everywhere she went, but there's the occasional real tragedy mixed in as a cautionary tale.",
+    "description": "A series of stories of the various ways magic can go wrong if the wrong ingredients, words, or gestures are used.  A lot of the stories are merely funny, like the magus who in trying to alter the Sorcerer's Hand spell caused music to follow her everywhere she went, but there's the occasional real tragedy mixed in as a cautionary tale.  This version of the book contains the actual formulae for the spells.",
     "weight": "483 g",
     "volume": "825 ml",
     "price": "50 USD",

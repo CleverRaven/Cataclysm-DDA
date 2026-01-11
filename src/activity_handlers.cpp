@@ -29,8 +29,6 @@
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
-#include "dialogue.h"
-#include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -72,9 +70,7 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
-#include "sounds.h"
 #include "string_formatter.h"
-#include "talker.h"
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
@@ -109,8 +105,6 @@ static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
-static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
-static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
@@ -148,7 +142,6 @@ static const itype_id itype_pseudo_magazine_mod( "pseudo_magazine_mod" );
 
 static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
 static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
-static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SOCIAL1( "SOCIAL1" );
 static const json_character_flag json_flag_SOCIAL2( "SOCIAL2" );
 
@@ -201,10 +194,8 @@ activity_handlers::finish_functions = {
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
-    { ACT_SOCIALIZE, socialize_finish },
     { ACT_ATM, atm_finish },
-    { ACT_PULL_CREATURE, pull_creature_finish },
-    { ACT_SPELLCASTING, spellcasting_finish }
+    { ACT_PULL_CREATURE, pull_creature_finish }
 };
 
 static void assign_multi_activity( Character &you, const player_activity &act )
@@ -1303,12 +1294,6 @@ void activity_handlers::find_mount_do_turn( player_activity *act, Character *you
     }
 }
 
-void activity_handlers::socialize_finish( player_activity *act, Character *you )
-{
-    you->add_msg_if_player( _( "%s finishes chatting with you." ), act->str_values[0] );
-    act->set_to_null();
-}
-
 void activity_handlers::tidy_up_do_turn( player_activity *act, Character *you )
 {
     generic_multi_activity_handler( *act, *you );
@@ -1587,107 +1572,4 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
     }
     you->add_msg_if_player( m_info, _( "The trees have shown you what they will." ) );
     act->set_to_null();
-}
-
-void activity_handlers::spellcasting_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-    const int level_override = act->get_value( 0 );
-    spell_id sp( act->name );
-
-    // if level is -1 then we know it's a player spell, otherwise we build it from the ground up
-    spell temp_spell( sp );
-    spell &spell_being_cast = ( level_override == -1 ) ? you->magic->get_spell( sp ) : temp_spell;
-
-    // if level != 1 then we need to set the spell's level
-    if( level_override != -1 ) {
-        spell_being_cast.set_level( *you, level_override );
-    }
-
-    // choose target for spell before continuing
-    const std::optional<tripoint_bub_ms> target = act->coords.empty() ? spell_being_cast.select_target(
-                you ) : get_map().get_bub( act->coords.front() );
-    if( target ) {
-        // npcs check for target viability
-        if( !you->is_npc() || spell_being_cast.is_valid_target( *you, *target ) ) {
-            // no turning back now. it's all said and done.
-            bool success = act->get_value( 1 ) == 1 ||
-                           rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *you );
-            int exp_gained = spell_being_cast.casting_exp( *you );
-            if( !success ) {
-                you->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
-                                        _( "You lose your concentration!" ) );
-                if( !spell_being_cast.is_max_level( *you ) && level_override == -1 ) {
-                    // still get some experience for trying
-                    exp_gained *= spell_being_cast.get_failure_exp_percent( *you );
-                    spell_being_cast.gain_exp( *you, exp_gained );
-                }
-                if( act->get_value( 2 ) != 0 ) {
-                    spell_being_cast.consume_spell_cost( *you, false );
-                }
-                dialogue d( get_talker_for( you ), nullptr );
-                std::vector<effect_on_condition_id> failure_eocs = spell_being_cast.get_failure_eoc_ids();
-                for( effect_on_condition_id failure_eoc : failure_eocs ) {
-                    failure_eoc->activate( d );
-                }
-                get_event_bus().send<event_type::spellcasting_finish>( you->getID(), false, sp,
-                        spell_being_cast.spell_class(), spell_being_cast.get_difficulty( *you ),
-                        spell_being_cast.energy_cost( *you ), spell_being_cast.casting_time( *you ),
-                        spell_being_cast.damage( *you ) );
-                return;
-            }
-
-            if( spell_being_cast.has_flag( spell_flag::VERBAL ) && !you->has_flag( json_flag_SILENT_SPELL ) ) {
-                sounds::sound( you->pos_bub(), you->get_shout_volume() / 2, sounds::sound_t::speech,
-                               _( "cast a spell" ),
-                               false );
-            }
-
-            you->add_msg_if_player( spell_being_cast.message(), spell_being_cast.name() );
-
-            // this is here now so that the spell first consume its components then casts its effects, necessary to cast
-            // spells with the components in hand.
-            spell_being_cast.use_components( *you );
-
-            if( act->get_value( 2 ) != 0 ) {
-                spell_being_cast.consume_spell_cost( *you, true );
-            }
-
-            if( !act->targets.empty() ) {
-                item *it = act->targets.front().get_item();
-                if( it != nullptr && it->has_flag( flag_SINGLE_USE ) ) {
-                    you->i_rem( it );
-                    act->targets.erase( act->targets.end() - 1 );
-                } else if( it && !it->has_flag( flag_USE_PLAYER_ENERGY ) ) {
-                    you->consume_charges( *it, it->type->charges_to_use() );
-                }
-            }
-
-            spell_being_cast.cast_all_effects( *you, *target );
-
-            if( level_override == -1 ) {
-                if( !spell_being_cast.is_max_level( *you ) ) {
-                    // reap the reward
-                    int old_level = spell_being_cast.get_level();
-                    if( old_level == 0 ) {
-                        spell_being_cast.gain_level( *you );
-                        you->add_msg_if_player( m_good,
-                                                _( "Something about how this spell works just clicked!  You gained a level!" ) );
-                    } else {
-                        spell_being_cast.gain_exp( *you, exp_gained );
-                    }
-                    if( spell_being_cast.get_level() != old_level ) {
-                        // Level 0-1 message is printed above - notify player when leveling up further
-                        if( old_level > 0 ) {
-                            you->add_msg_if_player( m_good, _( "You gained a level in %s!" ), spell_being_cast.name() );
-                        }
-                    }
-                }
-            }
-            get_event_bus().send<event_type::spellcasting_finish>( you->getID(), true, sp,
-                    spell_being_cast.spell_class(), spell_being_cast.get_difficulty( *you ),
-                    spell_being_cast.energy_cost( *you ), spell_being_cast.casting_time( *you ),
-                    spell_being_cast.damage( *you ) );
-        }
-    }
 }

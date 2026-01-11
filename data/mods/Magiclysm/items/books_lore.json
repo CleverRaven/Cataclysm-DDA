@@ -134,5 +134,20 @@
     "description": "This annual publication covers the latest advances in bionic technomancy, the implantation of metal into flesh.  There are some pretty promising new developments in here that will now never see the light of day.",
     "symbol": "?",
     "color": "pink"
+  },
+  {
+    "id": "messed_up_spells_lorebook",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "name": { "str": "Magical Mishaps: When Spells Go Wrong", "str_pl": "copies of Magical Mishaps: When Spells Go Wrong" },
+    "description": "A series of stories of the various ways magic can go wrong if the wrong ingredients, words, or gestures are used.  A lot of the stories are merely funny, like the magus who in trying to alter the Sorcerer's Hand spell caused music to follow her everywhere she went, but there's the occasional real tragedy mixed in as a cautionary tale.",
+    "weight": "483 g",
+    "volume": "825 ml",
+    "price": "50 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "green"
   }
 ]

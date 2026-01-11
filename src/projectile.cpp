@@ -156,8 +156,9 @@ void apply_ammo_effects( Creature *source, const tripoint_bub_ms &p,
     map &here = get_map();
     Character &player_character = get_player_character();
 
-    for( const ammo_effect &ae : ammo_effects::get_all() ) {
-        if( x_in_y( ae.trigger_chance, 100 ) ) {
+    for( const ammo_effect_str_id &ae_str : effects ) {
+        ammo_effect ae = ae_str.obj();
+        if( !x_in_y( ae.trigger_chance, 100 ) ) {
             continue;
         }
         if( effects.count( ae.id ) > 0 ) {

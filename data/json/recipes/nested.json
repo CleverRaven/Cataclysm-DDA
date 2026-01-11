@@ -4135,7 +4135,16 @@
     "name": "flamethrower fuels",
     "description": "Recipes related to creating flammable liquids suitable for loading into a flamethrower.",
     "skill_used": "chemistry",
-    "nested_category_data": [ "napalm", "gelled_gasoline", "flamethrower_fuel" ],
+    "nested_category_data": [
+      "napalm",
+      "flamethrower_fuel",
+      "gelled_gasoline_from_lye_and_rosin",
+      "gelled_gasoline_from_lye_alcohol_tallow",
+      "gelled_gasoline_from_lye_alcohol_tallow_substitute",
+      "gelled_gasoline_from_alcohol_soap",
+      "gelled_gasoline_from_wax",
+      "gelled_gasoline_from_blood"
+    ],
     "difficulty": 2
   },
   {

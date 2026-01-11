@@ -1039,6 +1039,11 @@ static recipe_subset filter_recipes( const recipe_subset &available_recipes,
                                        recipe_subset::search_type::proficiency, progress_callback );
                     break;
 
+                case 'b':
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ), crafter,
+                                       recipe_subset::search_type::book, progress_callback );
+                    break;
+
                 case 'l':
                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
                                        recipe_subset::search_type::difficulty, progress_callback );
@@ -1068,7 +1073,9 @@ static recipe_subset filter_recipes( const recipe_subset &available_recipes,
             filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 1 ),
                                recipe_subset::search_type::exclude_name, progress_callback );
         } else {
-            filtered_recipes = filtered_recipes.reduce( qry_filter_str );
+            filtered_recipes = filtered_recipes.reduce( qry_filter_str,
+                               recipe_subset::search_type::name,
+                               std::function<void( size_t, size_t )> {} );
         }
 
         qry_begin = qry_end + 1;
@@ -1096,6 +1103,7 @@ static const std::vector<SearchPrefix> prefixes = {
     { 't', to_translation( "soldering iron" ), to_translation( "<color_cyan>tool</color> required to craft" ) },
     { 'm', to_translation( "yes" ), to_translation( "recipe <color_cyan>memorized</color> (or not)" ) },
     { 'P', to_translation( "Blacksmithing" ), to_translation( "<color_cyan>proficiency</color> used to craft" ) },
+    { 'b', to_translation( "chemistry textbook" ), to_translation( "<color_cyan>source</color> of the recipe" ) },
     { 'l', to_translation( "5" ), to_translation( "<color_cyan>difficulty</color> of the recipe as a number or range" ) },
     { 'r', to_translation( "buttermilk" ), to_translation( "recipe's (<color_cyan>by</color>)<color_cyan>products</color>" ) },
     { 'L', to_translation( "122 cm" ), to_translation( "result can contain item of <color_cyan>length</color>" ) },
