@@ -76,7 +76,7 @@
     "extend": {
       "items": [
         { "group": "spellbook_loot_1", "prob": 3 },
-        { "item": "spellbook_restricted_loot_1", "prob": 2 },
+        { "group": "spellbook_restricted_loot_1", "prob": 2 },
         { "group": "magic_recipe_basic", "prob": 3 },
         { "group": "magic_recipe_advanced", "prob": 1 },
         { "group": "dragon_books", "prob": 3 },
@@ -100,7 +100,7 @@
         { "group": "dragon_books", "prob": 5 },
         { "item": "alchemy_mana_processing", "prob": 5 },
         { "group": "spellcraft_books", "prob": 4 },
-        { "item": "spellbook_restricted_loot_0", "prob": 1 },
+        { "group": "spellbook_restricted_loot_0", "prob": 1 },
         { "item": "alchemy_illegal", "prob": 1 },
         { "item": "alchemy_master", "prob": 1 }
       ]
@@ -116,7 +116,7 @@
         { "group": "dragon_books", "prob": 3 },
         { "group": "spellcraft_books", "prob": 2 },
         { "item": "alchemy_illegal", "prob": 1 },
-        { "item": "spellbook_restricted_loot_1", "prob": 1 },
+        { "group": "spellbook_restricted_loot_1", "prob": 1 },
         { "item": "alchemy_master", "prob": 1 }
       ]
     }
@@ -344,7 +344,7 @@
       { "item": "alchemy_master", "prob": 12 },
       {
         "distribution": [
-          { "group": "spellbook_restricted_tier_1", "prob": 60 },
+          { "group": "spellbook_restricted_loot_1", "prob": 60 },
           { "group": "spell_scroll_restricted_tier_0", "prob": 80 },
           { "group": "spell_scroll_restricted_tier_1", "prob": 60 },
           { "group": "spell_scroll_restricted_tier_2", "prob": 30 }

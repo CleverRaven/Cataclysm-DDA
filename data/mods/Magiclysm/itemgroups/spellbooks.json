@@ -1586,25 +1586,25 @@
     ]
   },
   {
-    "id": "spellbook_restricted_tier_0",
+    "id": "spellbook_restricted_illegal_tier_0",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [ { "group": "spellbook_restricted_tier_0", "prob": 10 }, { "group": "spellbook_illegal_tier_0", "prob": 1 } ]
   },
   {
-    "id": "spellbook_restricted_tier_1",
+    "id": "spellbook_restricted_illegal_tier_1",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [ { "group": "spellbook_restricted_tier_1", "prob": 10 }, { "group": "spellbook_illegal_tier_1", "prob": 1 } ]
   },
   {
-    "id": "spellbook_restricted_tier_2",
+    "id": "spellbook_restricted_illegal_tier_2",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [ { "group": "spellbook_restricted_tier_2", "prob": 10 }, { "group": "spellbook_illegal_tier_2", "prob": 1 } ]
   },
   {
-    "id": "spellbook_restricted_tier_3",
+    "id": "spellbook_restricted_illegal_tier_3",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [ { "group": "spellbook_restricted_tier_3", "prob": 10 }, { "group": "spellbook_illegal_tier_3", "prob": 1 } ]
@@ -2730,10 +2730,10 @@
     "type": "item_group",
     "//": "like spellbook loot, but for restricted or illegal spells",
     "items": [
-      { "group": "spellbook_restricted_tier_0", "prob": 60 },
-      { "group": "spellbook_restricted_tier_1", "prob": 30 },
-      { "group": "spellbook_restricted_tier_2", "prob": 9 },
-      { "group": "spellbook_restricted_tier_3", "prob": 1 },
+      { "group": "spellbook_restricted_illegal_tier_0", "prob": 60 },
+      { "group": "spellbook_restricted_illegal_tier_1", "prob": 30 },
+      { "group": "spellbook_restricted_illegal_tier_2", "prob": 9 },
+      { "group": "spellbook_restricted_illegal_tier_3", "prob": 1 },
       { "group": "spell_scroll_restricted_tier_0", "prob": 300 },
       { "group": "spell_scroll_restricted_tier_1", "prob": 100 }
     ]
@@ -2755,10 +2755,10 @@
     "id": "spellbook_restricted_loot_1",
     "type": "item_group",
     "items": [
-      { "group": "spellbook_restricted_tier_0", "prob": 30 },
-      { "group": "spellbook_restricted_tier_1", "prob": 50 },
-      { "group": "spellbook_restricted_tier_2", "prob": 18 },
-      { "group": "spellbook_restricted_tier_3", "prob": 2 },
+      { "group": "spellbook_restricted_illegal_tier_0", "prob": 30 },
+      { "group": "spellbook_restricted_illegal_tier_1", "prob": 50 },
+      { "group": "spellbook_restricted_illegal_tier_2", "prob": 18 },
+      { "group": "spellbook_restricted_illegal_tier_3", "prob": 2 },
       { "group": "spell_scroll_restricted_tier_1", "prob": 300 },
       { "group": "spell_scroll_restricted_tier_2", "prob": 100 }
     ]
@@ -2780,10 +2780,10 @@
     "id": "spellbook_restricted_loot_2",
     "type": "item_group",
     "items": [
-      { "group": "spellbook_restricted_tier_0", "prob": 5 },
-      { "group": "spellbook_restricted_tier_1", "prob": 30 },
-      { "group": "spellbook_restricted_tier_2", "prob": 50 },
-      { "group": "spellbook_restricted_tier_3", "prob": 15 },
+      { "group": "spellbook_restricted_illegal_tier_0", "prob": 5 },
+      { "group": "spellbook_restricted_illegal_tier_1", "prob": 30 },
+      { "group": "spellbook_restricted_illegal_tier_2", "prob": 50 },
+      { "group": "spellbook_restricted_illegal_tier_3", "prob": 15 },
       { "group": "spell_scroll_restricted_tier_2", "prob": 300 },
       { "group": "spell_scroll_restricted_tier_3", "prob": 100 }
     ]
