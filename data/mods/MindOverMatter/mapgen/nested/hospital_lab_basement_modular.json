@@ -1810,7 +1810,8 @@
           { "item": "prison_armor", "chance": 30 },
           { "item": "security_torso", "chance": 20 },
           { "item": "security_pants", "chance": 20 },
-          { "item": "security_shoes", "chance": 20 }
+          { "item": "security_shoes", "chance": 20 },
+          { "item": "phavian_lab_security", "chance": 20 }
         ]
       },
       "place_monster": [
