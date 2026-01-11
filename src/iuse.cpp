@@ -8339,10 +8339,21 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
             units::mass not_frozen_weight = 0_gram;
             for( const auto &pair : locs ) {
                 used_volume +=  pair.first->volume( false, true, pair.second );
-                if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
-                    frozen_weight +=  pair.first->weight( false, false ) * pair.second ;
+                units::mass item_weight;
+                if( pair.first->count_by_charges() ) {
+                    const int charges_in_item = pair.first->charges;
+                    if( charges_in_item > 0 ) {
+                        item_weight = pair.first->weight( false, false ) / charges_in_item * pair.second;
+                    } else {
+                        item_weight = 0_gram;
+                    }
                 } else {
-                    not_frozen_weight +=  pair.first->weight( false, false ) * pair.second;
+                    item_weight = pair.first->weight( false, false ) * pair.second;
+                }
+                if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
+                    frozen_weight += item_weight;
+                } else {
+                    not_frozen_weight += item_weight;
                 }
             }
             heating_requirements required = heating_requirements_for_weight( frozen_weight, not_frozen_weight,
@@ -8386,10 +8397,21 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     }
     for( const auto &pair : to_heat ) {
         used_volume +=  pair.first->volume( false, true, pair.second );
-        if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
-            frozen_weight +=  pair.first->weight( false, false ) * pair.second ;
+        units::mass item_weight;
+        if( pair.first->count_by_charges() ) {
+            const int charges_in_item = pair.first->charges;
+            if( charges_in_item > 0 ) {
+                item_weight = pair.first->weight( false, false ) / charges_in_item * pair.second;
+            } else {
+                item_weight = 0_gram;
+            }
         } else {
-            not_frozen_weight +=  pair.first->weight( false, false ) * pair.second;
+            item_weight = pair.first->weight( false, false ) * pair.second;
+        }
+        if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
+            frozen_weight += item_weight;
+        } else {
+            not_frozen_weight += item_weight;
         }
     }
     heating_requirements required = heating_requirements_for_weight( frozen_weight, not_frozen_weight,
