@@ -454,5 +454,16 @@
     "sym": "M",
     "color": "brown",
     "see_cost": "full_high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "container_yard_inland_base_1", "container_yard_inland_base_2", "container_yard_inland_base_3" ],
+    "name": "inland container depot",
+    "sym": "I",
+    "color": "light_blue",
+    "vision_levels": "industrial_building",
+    "see_cost": "high",
+    "extras": "build",
+    "mondensity": 2
   }
 ]

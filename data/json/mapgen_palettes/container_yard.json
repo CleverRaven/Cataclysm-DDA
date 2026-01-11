@@ -1,0 +1,41 @@
+[
+  {
+    "type": "palette",
+    "id": "shipping_container_palette",
+    "terrain": {
+      ".": "t_metal_floor",
+      "+": "t_door_metal_c",
+      "$": "t_metal_floor"
+    }
+  },
+  {
+    "type": "palette",
+    "id": "parametrized_shipping_container_wall_palette",
+    "parameters": {
+      "exterior_wall_type": {
+        "type": "ter_str_id",
+        "scope": "nest",
+        "default": {
+          "distribution": [
+            [ "t_wall_metal_shipping_container_black", 1 ],
+            [ "t_wall_metal_shipping_container_white", 1 ],
+            [ "t_wall_metal_shipping_container_red", 4 ],
+            [ "t_wall_metal_shipping_container_light_red", 4 ],
+            [ "t_wall_metal_shipping_container_green", 4 ],
+            [ "t_wall_metal_shipping_container_light_green", 4 ],
+            [ "t_wall_metal_shipping_container_blue", 4 ],
+            [ "t_wall_metal_shipping_container_light_blue", 4 ],
+            [ "t_wall_metal_shipping_container_cyan", 2 ],
+            [ "t_wall_metal_shipping_container_light_cyan", 2 ],
+            [ "t_wall_metal_shipping_container_magenta", 2 ],
+            [ "t_wall_metal_shipping_container_brown", 4 ],
+            [ "t_wall_metal_shipping_container_pink", 1 ],
+            [ "t_wall_metal_shipping_container_yellow", 4 ]
+          ]
+        }
+      }
+    },
+    "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
+    "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } }
+  }
+]
