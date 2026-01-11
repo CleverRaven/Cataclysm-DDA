@@ -8,7 +8,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [ "BONUS_DREAMER" ],
+    "enchantments": [ "BONUS_DREAMER", "DREAMER_NO_REGEN" ],
     "cancels": [ "EATER" ],
     "moncams": [
       [ "mon_shifter", 100 ],
