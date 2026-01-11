@@ -8348,11 +8348,11 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
             heating_requirements required = heating_requirements_for_weight( frozen_weight, not_frozen_weight,
                                             used_volume );
             // Apply batch heating time reduction based on how full the container is
-            // For every 10% of container capacity utilized, 5% time is saved, with a maximum time savings of 40%.
+            // For every 5% of container capacity utilized, 2.5% time is saved, with a maximum time savings of 40%.
             // Because 80% is container's most efficient thermal conductivity.
             if( available_volume > 0_ml && used_volume > 0_ml ) {
-                const float per_tenth_reduction = 0.05f;
-                int filled_tenths = std::min( 10, static_cast<int>( std::floor( 10.0 *
+                const float per_tenth_reduction = 0.025f;
+                int filled_tenths = std::min( 5, static_cast<int>( std::floor( 5.0 *
                                               units::to_milliliter( used_volume ) /
                                               units::to_milliliter( available_volume ) + 1e-6 ) ) );
                 const float reduction = std::min( 0.4f, per_tenth_reduction * filled_tenths );
@@ -8389,7 +8389,7 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
         inv_s.add_nearby_items( PICKUP_RANGE );
         inv_s.set_title( _( "Heat menu" ) );
         inv_s.set_hint(
-            _( "For every 10%% of container capacity utilized, 5%% time is saved, with a maximum time savings of 40%%." ) );
+            _( "For every 5 percent of container capacity utilized, 2.5 percent time is saved, with a maximum time savings of 40 percent." ) );
         if( inv_s.empty() ) {
             popup( std::string( _( "You have nothing to heat." ) ), PF_GET_KEY );
             return false;
@@ -8410,8 +8410,8 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     heating_requirements required = heating_requirements_for_weight( frozen_weight, not_frozen_weight,
                                     used_volume );
     if( available_volume > 0_ml && used_volume > 0_ml ) {
-        const float per_tenth_reduction = 0.05f;
-        int filled_tenths = std::min( 10, static_cast<int>( std::floor( 10.0 *
+        const float per_tenth_reduction = 0.025f;
+        int filled_tenths = std::min( 5, static_cast<int>( std::floor( 5.0 *
                                       units::to_milliliter( used_volume ) /
                                       units::to_milliliter( available_volume ) + 1e-6 ) ) );
         const float reduction = std::min( 0.4f, per_tenth_reduction * filled_tenths );
