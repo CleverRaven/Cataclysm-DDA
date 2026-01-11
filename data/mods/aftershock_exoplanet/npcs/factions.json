@@ -14,62 +14,19 @@
     "fac_food_supply": [ [ 0, { "calories": 270000000, "vitamins": { "iron": 8640, "calcium": 8640, "vitC": 8640 } } ] ],
     "wealth": 75000,
     "relations": {
-      "free_merchants": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
+      "your_followers": { "share public goods": true, "knows your voice": true },
+      "tskbem_vostok": {
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
         "lets you in": true,
-        "defends your space": false,
+        "defends your space": true,
         "knows your voice": true
       },
-      "old_guard": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false,
-        "knows your voice": false
-      },
-      "tacoma_commune": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false
-      },
-      "lobby_beggars": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false
-      },
-      "no_faction": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": false
-      },
-      "wasteland_scavengers": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": true
-      },
-      "hells_raiders": { "kill on sight": true },
       "UICA": { "kill on sight": true },
       "wraitheon": { "kill on sight": true },
-      "marloss": { "kill on sight": true }
+      "mercurial": { "kill on sight": true },
+      "whately_family": { "kill on sight": true }
     },
     "description": "A multitude of frontier homesteading groups brought together by their use of the PrepNet communication protocols.  Spread out onto the edges of the frontier, enthusiastically squatting and building tiny kingdoms often consisting of just a couple families or like-minded individuals.  Their mutual aid societies are wildly varied in their laws; influenced by the people who set them up, but they all share in a distrust for those that wish to impose restrictions upon new colonization efforts."
   },
@@ -98,88 +55,30 @@
     "wealth": 75000,
     "relations": {
       "your_followers": { "share public goods": true, "lets you in": true, "knows your voice": true },
-      "free_merchants": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false,
-        "knows your voice": true
-      },
-      "old_guard": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false,
-        "knows your voice": false
-      },
-      "tacoma_commune": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false
-      },
-      "lobby_beggars": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false
-      },
-      "no_faction": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": false
-      },
-      "wasteland_scavengers": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": true
-      },
+      "no_faction": { "share public goods": true, "lets you in": true, "knows your voice": true },
       "wraitheon": {
-        "kill on sight": false,
         "watch your back": true,
-        "share my stuff": false,
         "guard your stuff": true,
         "lets you in": true,
         "defends your space": true,
         "knows your voice": true
       },
       "mercurial": {
-        "kill on sight": false,
         "watch your back": true,
-        "share my stuff": false,
         "guard your stuff": true,
         "lets you in": true,
         "defends your space": true,
         "knows your voice": true
       },
       "independents": {
-        "kill on sight": false,
         "watch your back": true,
         "share my stuff": true,
         "guard your stuff": true,
-        "lets you in": false,
-        "defends your space": false,
+        "defends your space": true,
         "knows your voice": true
       },
-      "hells_raiders": { "kill on sight": true },
-      "Prepnet_Phyle": { "kill on sight": true },
-      "marloss": { "kill on sight": true }
+      "tskbem_vostok": { "kill on sight": true },
+      "Prepnet_Phyle": { "kill on sight": true }
     },
     "description": "A loose confederation and military alliance composed by Solar Corporations, Governments, and other politically relevant organizations united by their desire to restore Earth's dominion over the Orion Arm.  Due to the disinterest of the Salus Charter owners and the recent rediscovery of the system, UICA administers Salus IV using a combination of military and civilian law designed to maximize wealth extraction, with the bulk of their forces concentrated within Port Augustmoon.\n\nCorruption and nepotism are rampant across UICA's frontier administrations, management is generally more interested in lining their own pockets than in any sort of solar revanchist rhetoric."
   },
@@ -198,76 +97,11 @@
     "fac_food_supply": [ [ 0, { "calories": 0, "vitamins": {  } } ] ],
     "wealth": 75000,
     "relations": {
-      "free_merchants": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false,
-        "knows your voice": true
-      },
-      "old_guard": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false,
-        "knows your voice": false
-      },
-      "tacoma_commune": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false
-      },
-      "lobby_beggars": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false
-      },
-      "no_faction": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": false
-      },
-      "wasteland_scavengers": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": true
-      },
-      "UICA": {
-        "kill on sight": false,
-        "watch your back": true,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": true
-      },
-      "mercurial": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": true
-      }
+      "UICA": { "knows your voice": true },
+      "mercurial": { "knows your voice": true },
+      "independents": { "knows your voice": true },
+      "tskbem_vostok": { "kill on sight": true },
+      "Prepnet_Phyle": { "kill on sight": true }
     },
     "description": "A massive, multi-system corporation with major investments across artificial intelligence, shipbuilding, military cybernetics and applied robotics.  Among the oldest of the Solar Corporations, it is a major player in the Orion Arm, and a key military supplier of UICA's military hardware.  It is best known for its normally secretive and highly advanced research and archaeology division."
   },
@@ -285,81 +119,35 @@
     "fac_food_supply": [ [ 0, { "calories": 62500000000000, "vitamins": { "iron": 2000000000, "calcium": 2000000000, "vitC": 2000000000 } } ] ],
     "wealth": 62500000000000,
     "relations": {
-      "free_merchants": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false,
-        "knows your voice": true
-      },
-      "old_guard": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false,
-        "knows your voice": false
-      },
-      "tacoma_commune": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false
-      },
-      "lobby_beggars": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false
-      },
-      "no_faction": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": false
-      },
-      "wasteland_scavengers": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": true
-      },
-      "wraitheon": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": true
-      },
-      "UICA": {
-        "kill on sight": false,
-        "watch your back": true,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": true
-      },
-      "hells_raiders": { "kill on sight": true },
-      "Prepnet_Phyle": { "kill on sight": true },
-      "marloss": { "kill on sight": true }
+      "UICA": { "knows your voice": true },
+      "mercurial": { "knows your voice": true },
+      "independents": { "knows your voice": true },
+      "tskbem_vostok": { "kill on sight": true },
+      "Prepnet_Phyle": { "kill on sight": true }
     },
     "description": "A massive, multi-system corporation specializing in genetic engineering, terraforming, and biotechnology.  Before the discontinuity, it heavily invested in extrasolar colonization and the study of alien life.  Theoretically it holds the planetary colonization charter for Salus IV, per UICA's constitional treaty, but the corporation's interests currently lie elsewhere."
+  },
+  {
+    "type": "faction",
+    "id": "tskbem_vostok",
+    "name": "TsKBEM Vostok",
+    "mon_faction": "tskbem_vostok",
+    "description": "Most consider forge fleets relics of Earth's mythical past, from a time when interstellar travel was the stuff of hopeful dreams and grand ambition.  That TsKBEM Vostok still exists at all is a testament to the dedication of its crews and the strength of their mission, and to the fact that it is a mobile military-industrial complex: a self-sufficient war machine that builds, maintains, and fights with its own hardware.  Anyone with a real grudge against UICA is likely to find an ally in Vostok, although not a particularly reliable one.",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 100,
+    "power": 100,
+    "currency": "money",
+    "fac_food_supply": [ [ 0, { "calories": 62500000000000, "vitamins": { "iron": 2000000000, "calcium": 2000000000, "vitC": 2000000000 } } ] ],
+    "wealth": 62500000000000,
+    "relations": {
+      "Prepnet_Phyle": { "knows your voice": true },
+      "UICA": { "kill on sight": true },
+      "wraitheon": { "kill on sight": true },
+      "mercurial": { "kill on sight": true },
+      "independents": { "knows your voice": true }
+    }
   },
   {
     "type": "faction",
@@ -383,94 +171,17 @@
     "fac_food_supply": [ [ 0, { "calories": 62500000000000, "vitamins": { "iron": 2000000000, "calcium": 2000000000, "vitC": 2000000000 } } ] ],
     "wealth": 62500000000000,
     "relations": {
-      "free_merchants": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false,
-        "knows your voice": true
-      },
-      "old_guard": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false,
-        "knows your voice": false
-      },
-      "tacoma_commune": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false
-      },
-      "lobby_beggars": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false
-      },
-      "no_faction": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": false
-      },
-      "wasteland_scavengers": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": true
-      },
-      "UICA": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false,
-        "knows your voice": true
-      },
-      "mercurial": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": true
-      },
-      "wraitheon": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": true
-      },
-      "hells_raiders": { "kill on sight": true },
-      "marloss": { "kill on sight": true }
+      "your_followers": { "share public goods": true, "knows your voice": true },
+      "UICA": { "knows your voice": true },
+      "mercurial": { "knows your voice": true },
+      "wraitheon": { "knows your voice": true }
     },
     "description": "A loose group of salvors, mercenaries and frontiersmen working as free agents or in representation of interest groups too small or remote to have official presence in the system.  Equally likely to cooperate among themselves as they are to fight each other."
   },
   {
     "type": "faction",
     "id": "whately_family",
-    "name": "Whately Family",
+    "name": "Whately Clan",
     "mon_faction": "whately",
     "likes_u": 0,
     "respects_u": 0,
@@ -480,62 +191,7 @@
     "//": "Doesn't actually have *spawned* NPCs, so no camp or food supply is necessary.",
     "fac_food_supply": [ [ 0, { "calories": 0, "vitamins": {  } } ] ],
     "wealth": 7500,
-    "relations": {
-      "free_merchants": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false,
-        "knows your voice": true
-      },
-      "old_guard": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": false
-      },
-      "tacoma_commune": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false
-      },
-      "lobby_beggars": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false
-      },
-      "no_faction": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": false
-      },
-      "wasteland_scavengers": {
-        "kill on sight": false,
-        "watch your back": true,
-        "share my stuff": false,
-        "guard your stuff": true,
-        "lets you in": false,
-        "defends your space": false,
-        "knows your voice": true
-      },
-      "hells_raiders": { "kill on sight": true },
-      "marloss": { "kill on sight": true }
-    },
-    "description": "The Whately's are an old New England family of eccentrics.  Eccentrics being the kind words used about them."
+    "relations": { "UICA": { "knows your voice": true } },
+    "description": "The owners of Mercurial Genomics.  Its dangerous to know them personally, let alone cross them."
   }
 ]
