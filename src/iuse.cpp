@@ -8347,6 +8347,20 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
             }
             heating_requirements required = heating_requirements_for_weight( frozen_weight, not_frozen_weight,
                                             used_volume );
+            // Apply batch heating time reduction based on how full the container is
+            // For every 10% of container capacity utilized, 5% time is saved, with a maximum time savings of 40%.
+            // Because 80% is container's most efficient thermal conductivity.
+            if( available_volume > 0_ml && used_volume > 0_ml ) {
+                const float per_tenth_reduction = 0.05f;
+                int filled_tenths = std::min( 10, static_cast<int>( std::floor( 10.0 *
+                                              units::to_milliliter( used_volume ) /
+                                              units::to_milliliter( available_volume ) + 1e-6 ) ) );
+                const float reduction = std::min( 0.4f, per_tenth_reduction * filled_tenths );
+                if( reduction > 0.0f ) {
+                    const float batch_multiplier = 1.0f - reduction;
+                    required.time = std::max( 1, static_cast<int>( required.time * batch_multiplier ) );
+                }
+            }
             const std::string time = colorize( to_string( time_duration::from_moves( required.time ), true ),
                                                c_light_gray );
             auto to_string = []( int val ) -> std::string {
@@ -8374,7 +8388,8 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
         inv_s.add_character_items( *p );
         inv_s.add_nearby_items( PICKUP_RANGE );
         inv_s.set_title( _( "Heat menu" ) );
-        inv_s.set_hint( _( "To heat x items, type a number before selecting." ) );
+        inv_s.set_hint(
+            _( "For every 10%% of container capacity utilized, 5%% time is saved, with a maximum time savings of 40%%." ) );
         if( inv_s.empty() ) {
             popup( std::string( _( "You have nothing to heat." ) ), PF_GET_KEY );
             return false;
@@ -8394,6 +8409,17 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     }
     heating_requirements required = heating_requirements_for_weight( frozen_weight, not_frozen_weight,
                                     used_volume );
+    if( available_volume > 0_ml && used_volume > 0_ml ) {
+        const float per_tenth_reduction = 0.05f;
+        int filled_tenths = std::min( 10, static_cast<int>( std::floor( 10.0 *
+                                      units::to_milliliter( used_volume ) /
+                                      units::to_milliliter( available_volume ) + 1e-6 ) ) );
+        const float reduction = std::min( 0.4f, per_tenth_reduction * filled_tenths );
+        if( reduction > 0.0f ) {
+            const float batch_multiplier = 1.0f - reduction;
+            required.time = std::max( 1, static_cast<int>( required.time * batch_multiplier ) );
+        }
+    }
     if( multiple ? used_volume > available_volume : false ) {
         p->add_msg_if_player( _( "You need more space to contain these items." ) );
         return false;
