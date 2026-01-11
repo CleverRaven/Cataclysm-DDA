@@ -177,7 +177,8 @@ class wish_mutate_callback: public uilist_callback
         }
 
         float desired_extra_space_right( ) override {
-            return 40 * ImGui::CalcTextSize( "X" ).x;
+            return std::min( ImGui::GetMainViewport()->Size.x / 2.0f,
+                             std::max( TERMX / 2, TERMX - 50 ) * ImGui::CalcTextSize( "X" ).x );
         }
 
         void refresh( uilist *menu ) override {
@@ -680,7 +681,8 @@ class wish_monster_callback: public uilist_callback
         }
 
         float desired_extra_space_right( ) override {
-            return 30 * ImGui::CalcTextSize( "X" ).x;
+            return std::min( ImGui::GetMainViewport()->Size.x / 2.0f,
+                             std::max( TERMX / 2, TERMX - 50 ) * ImGui::CalcTextSize( "X" ).x );
         }
 
         void refresh( uilist *menu ) override {
