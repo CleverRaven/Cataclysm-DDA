@@ -37,7 +37,7 @@ jobs:
           echo "No TX_TOKEN secret set in this repo, not pulling translations from Transifex"
           exit 1
           fi
-          tx pull -a --force
+          tx pull -a --force -w 2
 
       - name: Discard invalid translations
         run: ./lang/discard_invalid_po.sh
