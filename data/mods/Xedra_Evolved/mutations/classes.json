@@ -43,7 +43,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-     "points": 0,
+    "points": 0,
     "transform": { "target": "DREAMER_NO_REGEN", "msg_transform": "Your passions subside.", "active": false, "moves": 10 },
     "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": { "math": [ "abs(u_val('morale') ) /41" ] } } ] } ],
     "triggers": [ [ { "condition": { "and": [ { "math": [ "u_val('morale') > -35" ] }, { "math": [ "u_val('morale') < 35" ] } ] } } ] ]
