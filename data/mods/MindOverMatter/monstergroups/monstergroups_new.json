@@ -149,7 +149,7 @@
   },
   {
     "type": "monstergroup",
-    "id": "GROUP_LAB_SECURITY",
+    "id": "GROUP_LAB_SECURITY_PHAVIAN",
     "default": "mon_zombie_labsecurity",
     "monsters": [
       { "monster": "mon_feral_labsecurity_9mm", "weight": 250, "cost_multiplier": 8 },
