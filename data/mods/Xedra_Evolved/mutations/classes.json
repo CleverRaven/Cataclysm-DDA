@@ -24,6 +24,52 @@
   },
   {
     "type": "mutation",
+    "id": "DREAMER_NO_REGEN",
+    "name": { "str": "Calm or Bored" },
+    "description": "Your mood is stable and stilled.  Your ability to regenerate mana is nonexistent.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "transform": { "target": "DREAMER_YES_REGEN", "msg_transform": "Your passions fill you.", "active": false },
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": -1 } ],
+    "triggers": [
+      [
+        {
+          "condition": {
+            "or": [
+              { "math": [ "u_val('morale') < -34" ] },
+              { "math": [ "u_val('morale') > 34" ] }
+            ]
+          }
+        }
+      ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "DREAMER_YES_REGEN",
+    "name": { "str": "Passionate" },
+    "description": "You can feel your emotions filling your reservoirs of magickal energy.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "transform": { "target": "DREAMER_NO_REGEN", "msg_transform": "Your passions subside.", "active": false, "moves": 10 },
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": { "math": [ "abs(u_val('morale') ) /41" ] } } ],
+    "triggers": [
+      [
+        {
+          "condition": {
+              "and":  [
+              { "math": [ "u_val('morale') > -35" ] },
+              { "math": [ "u_val('morale') < 35" ] }
+        ]
+          }
+        }
+      ]
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "EATER",
     "name": "Eater of Dreams",
     "points": 0,
