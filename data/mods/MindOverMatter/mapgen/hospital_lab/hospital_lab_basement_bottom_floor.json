@@ -126,6 +126,7 @@
         { "chunks": [ "phavian_hospital_lab_office_west_door4x4" ], "x": 91, "y": 14 },
         { "chunks": [ "phavian_hospital_lab_office_west_door4x4" ], "x": 91, "y": 19 },
         { "chunks": [ "phavian_hospital_lab_office_west_door4x4" ], "x": 91, "y": 25 },
+        { "chunks": [ "phavian_hospital_lab_office_west_door4x4" ], "x": 91, "y": 30 },
         { "chunks": [ "phavian_hospital_lab_rest_area_4x4_corner_se" ], "x": 9, "y": 14 },
         { "chunks": [ "phavian_hospital_lab_rest_area_4x4_corner_sw" ], "x": 82, "y": 14 },
         { "chunks": [ "phavian_hospital_lab_rest_area_4x4_corner_ne" ], "x": 9, "y": 30 },
@@ -195,7 +196,7 @@
           "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
           "x": [ 24, 46 ],
           "y": [ 15, 22 ],
-          "repeat": [ 3, 9 ],
+          "repeat": [ 4, 9 ],
           "chance": 70
         }
       ]

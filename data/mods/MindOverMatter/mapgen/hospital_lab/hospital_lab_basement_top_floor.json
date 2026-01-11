@@ -153,53 +153,54 @@
           "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
           "x": [ 24, 47 ],
           "y": [ 11, 12 ],
-          "repeat": [ 1, 4 ],
+          "repeat": [ 2, 4 ],
           "chance": 70
         },
         {
           "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
           "x": [ 48, 71 ],
           "y": [ 11, 12 ],
-          "repeat": [ 1, 4 ],
+          "repeat": [ 2, 4 ],
           "chance": 70
         },
         {
           "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
           "x": [ 72, 95 ],
           "y": [ 11, 12 ],
-          "repeat": [ 1, 4 ],
+          "repeat": [ 2, 4 ],
           "chance": 70
         },
         {
           "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
           "x": [ 1, 23 ],
           "y": [ 35, 36 ],
-          "repeat": [ 1, 4 ],
+          "repeat": [ 2, 4 ],
           "chance": 70
         },
         {
           "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
           "x": [ 24, 47 ],
           "y": [ 35, 36 ],
-          "repeat": [ 1, 4 ],
+          "repeat": [ 2, 4 ],
           "chance": 70
         },
         {
           "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
           "x": [ 48, 71 ],
           "y": [ 35, 36 ],
-          "repeat": [ 1, 4 ],
+          "repeat": [ 2, 4 ],
           "chance": 70
         },
         {
           "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
           "x": [ 72, 95 ],
           "y": [ 35, 36 ],
-          "repeat": [ 1, 4 ],
+          "repeat": [ 2, 4 ],
           "chance": 70
         },
         {
           "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
+          "//": "Left side bathroom",
           "x": [ 15, 22 ],
           "y": [ 15, 23 ],
           "repeat": [ 1, 4 ],
@@ -235,20 +236,23 @@
         },
         {
           "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
+          "//": "Cafeteria",
           "x": [ 15, 23 ],
           "y": [ 25, 32 ],
-          "repeat": [ 1, 4 ],
+          "repeat": [ 2, 6 ],
           "chance": 70
         },
         {
           "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
+          "//": "Cafeteria",
           "x": [ 24, 47 ],
           "y": [ 25, 32 ],
-          "repeat": [ 2, 8 ],
+          "repeat": [ 4, 8 ],
           "chance": 85
         },
         {
           "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
+          "//": "Kitchen",
           "x": [ 48, 58 ],
           "y": [ 25, 32 ],
           "repeat": [ 1, 5 ],
@@ -256,9 +260,10 @@
         },
         {
           "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB",
+          "//": "Middle office rooms",
           "x": [ 24, 47 ],
           "y": [ 15, 23 ],
-          "repeat": [ 3, 9 ],
+          "repeat": [ 4, 9 ],
           "chance": 70
         }
       ]
