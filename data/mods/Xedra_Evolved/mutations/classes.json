@@ -31,7 +31,7 @@
     "purifiable": false,
     "valid": false,
     "transform": { "target": "DREAMER_YES_REGEN", "msg_transform": "Your passions fill you.", "active": false },
-    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": -1 } ],
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": -1 } ] } ],
     "triggers": [
       [
         {
@@ -54,7 +54,7 @@
     "purifiable": false,
     "valid": false,
     "transform": { "target": "DREAMER_NO_REGEN", "msg_transform": "Your passions subside.", "active": false, "moves": 10 },
-    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": { "math": [ "abs(u_val('morale') ) /41" ] } } ],
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": { "math": [ "abs(u_val('morale') ) /41" ] } } ] } ],
     "triggers": [
       [
         {
