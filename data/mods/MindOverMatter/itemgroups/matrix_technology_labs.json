@@ -293,7 +293,8 @@
     "items": [
       { "item": "grenade_anti_psi", "prob": 50 },
       { "item": "grenade_anti_psi", "prob": 5, "count": [ 2, 3 ] },
-      { "item": "dist_shield_belts", "prob": 10 }
+      { "item": "dist_shield_belts", "prob": 10 },
+      { "item": "tazer", "prob": 25, "charges": [ 0, 500 ] }
     ]
   }
 ]
