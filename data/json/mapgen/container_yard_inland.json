@@ -27,6 +27,79 @@
         "                        ",
         "                        ",
         "                        ",
+        "          v             ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "containers_empty", 5 ],
+            [ "containers_food_full", 10 ],
+            [ "containers_foodplace_full", 1 ],
+            [ "containers_electronics_full", 10 ],
+            [ "containers_appliances_full", 10 ],
+            [ "containers_fridge_full", 10 ],
+            [ "containers_freezer_full", 10 ],
+            [ "containers_washerdryer_full", 10 ],
+            [ "containers_antiques_full", 5 ],
+            [ "containers_books_full", 10 ],
+            [ "containers_science_full", 10 ],
+            [ "containers_chem_lab_full", 1 ],
+            [ "containers_surgery_full", 1 ],
+            [ "containers_gift_shop_full", 10 ],
+            [ "containers_art_all_full", 5 ],
+            [ "containers_antique_rare_full", 1 ],
+            [ "containers_otc_pharmacy_full", 10 ],
+            [ "containers_pharmacy_full", 5 ],
+            [ "containers_weed_full", 1 ],
+            [ "containers_meth_full", 1 ],
+            [ "containers_sunscreen_full", 10 ],
+            [ "containers_cigar_full", 1 ],
+            [ "containers_cigs_full", 10 ],
+            [ "containers_banknotes_full", 1 ],
+            [ "containers_illegal_AK_full", 1 ],
+            [ "containers_cockroach", 1 ],
+            [ "containers_slime", 1 ],
+            [ "containers_concrete_full", 10 ],
+            [ "containers_brick_full", 10 ],
+            [ "containers_wheel_full", 10 ],
+            [ "containers_spare_parts_full", 10 ]
+          ]
+        }
+      },
+      "vehicles": { "v": { "vehicle": "forklift_vehicles", "chance": 20, "rotation": 1 } },
+      "place_monsters": [ { "monster": "GROUP_CIVILIAN", "x": [ 10, 14 ], "y": [ 22, 23 ], "chance": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "container_yard_inland_base_1a" ] ],
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "1   1   1   1   1   1   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "1   1   1   1   1   1   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
         "                        ",
         "                        "
       ],
@@ -34,30 +107,109 @@
       "nested": {
         "1": {
           "chunks": [
-            [ "containers_empty", 10 ],
-            [ "containers_food_full", 20 ],
+            [ "containers_empty", 5 ],
+            [ "containers_food_full", 10 ],
             [ "containers_foodplace_full", 1 ],
-            [ "containers_electronics_full", 20 ],
-            [ "containers_appliances_full", 20 ],
-            [ "containers_fridge_full", 20 ],
-            [ "containers_freezer_full", 20 ],
-            [ "containers_washerdryer_full", 20 ],
-            [ "containers_antiques_full", 10 ],
-            [ "containers_books_full", 20 ],
+            [ "containers_electronics_full", 10 ],
+            [ "containers_appliances_full", 10 ],
+            [ "containers_fridge_full", 10 ],
+            [ "containers_freezer_full", 10 ],
+            [ "containers_washerdryer_full", 10 ],
+            [ "containers_antiques_full", 5 ],
+            [ "containers_books_full", 10 ],
             [ "containers_science_full", 10 ],
             [ "containers_chem_lab_full", 1 ],
             [ "containers_surgery_full", 1 ],
-            [ "containers_gift_shop_full", 20 ],
-            [ "containers_art_all_full", 10 ],
+            [ "containers_gift_shop_full", 10 ],
+            [ "containers_art_all_full", 5 ],
             [ "containers_antique_rare_full", 1 ],
-            [ "containers_otc_pharmacy_full", 20 ],
-            [ "containers_pharmacy_full", 10 ],
+            [ "containers_otc_pharmacy_full", 10 ],
+            [ "containers_pharmacy_full", 5 ],
             [ "containers_weed_full", 1 ],
             [ "containers_meth_full", 1 ],
             [ "containers_sunscreen_full", 10 ],
-            [ "containers_cigar_full", 10 ],
+            [ "containers_cigar_full", 1 ],
             [ "containers_cigs_full", 10 ],
-            [ "containers_banknotes_full", 1 ]
+            [ "containers_banknotes_full", 1 ],
+            [ "containers_illegal_AK_full", 1 ],
+            [ "containers_cockroach", 1 ],
+            [ "containers_slime", 1 ],
+            [ "containers_concrete_full", 10 ],
+            [ "containers_brick_full", 10 ],
+            [ "containers_wheel_full", 10 ],
+            [ "containers_spare_parts_full", 10 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "container_yard_inland_base_1b" ] ],
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "1   1   1   1   1   1   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "1   1   1   1   1   1   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "containers_empty", 5 ],
+            [ "containers_food_full", 10 ],
+            [ "containers_foodplace_full", 1 ],
+            [ "containers_electronics_full", 10 ],
+            [ "containers_appliances_full", 10 ],
+            [ "containers_fridge_full", 10 ],
+            [ "containers_freezer_full", 10 ],
+            [ "containers_washerdryer_full", 10 ],
+            [ "containers_antiques_full", 5 ],
+            [ "containers_books_full", 10 ],
+            [ "containers_science_full", 10 ],
+            [ "containers_chem_lab_full", 1 ],
+            [ "containers_surgery_full", 1 ],
+            [ "containers_gift_shop_full", 10 ],
+            [ "containers_art_all_full", 5 ],
+            [ "containers_antique_rare_full", 1 ],
+            [ "containers_otc_pharmacy_full", 10 ],
+            [ "containers_pharmacy_full", 5 ],
+            [ "containers_weed_full", 1 ],
+            [ "containers_meth_full", 1 ],
+            [ "containers_sunscreen_full", 10 ],
+            [ "containers_cigar_full", 1 ],
+            [ "containers_cigs_full", 10 ],
+            [ "containers_banknotes_full", 1 ],
+            [ "containers_illegal_AK_full", 1 ],
+            [ "containers_cockroach", 1 ],
+            [ "containers_slime", 1 ],
+            [ "containers_concrete_full", 10 ],
+            [ "containers_brick_full", 10 ],
+            [ "containers_wheel_full", 10 ],
+            [ "containers_spare_parts_full", 10 ],
+            [ "containers_roof", 250 ]
           ]
         }
       }
@@ -69,7 +221,8 @@
     "object": {
       "fill_ter": "t_pavement",
       "rows": [
-        "1       1   1   1   1   ",
+        "1   1   1   1   1       ",
+        "                    1   ",
         "                        ",
         "                        ",
         "                        ",
@@ -78,10 +231,9 @@
         "                        ",
         "                        ",
         "                        ",
-        "                        ",
-        "1   1   1   1       1   ",
-        "                        ",
-        "                        ",
+        "1       1   1           ",
+        "    1           1       ",
+        "                    1   ",
         "                        ",
         "                        ",
         "                        ",
@@ -98,29 +250,37 @@
       "nested": {
         "1": {
           "chunks": [
-            [ "containers_food_full", 20 ],
+            [ "containers_empty", 5 ],
+            [ "containers_food_full", 10 ],
             [ "containers_foodplace_full", 1 ],
-            [ "containers_electronics_full", 20 ],
-            [ "containers_appliances_full", 20 ],
-            [ "containers_fridge_full", 20 ],
-            [ "containers_freezer_full", 20 ],
-            [ "containers_washerdryer_full", 20 ],
-            [ "containers_antiques_full", 10 ],
-            [ "containers_books_full", 20 ],
+            [ "containers_electronics_full", 10 ],
+            [ "containers_appliances_full", 10 ],
+            [ "containers_fridge_full", 10 ],
+            [ "containers_freezer_full", 10 ],
+            [ "containers_washerdryer_full", 10 ],
+            [ "containers_antiques_full", 5 ],
+            [ "containers_books_full", 10 ],
             [ "containers_science_full", 10 ],
             [ "containers_chem_lab_full", 1 ],
             [ "containers_surgery_full", 1 ],
-            [ "containers_gift_shop_full", 20 ],
-            [ "containers_art_all_full", 10 ],
+            [ "containers_gift_shop_full", 10 ],
+            [ "containers_art_all_full", 5 ],
             [ "containers_antique_rare_full", 1 ],
-            [ "containers_otc_pharmacy_full", 20 ],
-            [ "containers_pharmacy_full", 10 ],
+            [ "containers_otc_pharmacy_full", 10 ],
+            [ "containers_pharmacy_full", 5 ],
             [ "containers_weed_full", 1 ],
             [ "containers_meth_full", 1 ],
             [ "containers_sunscreen_full", 10 ],
-            [ "containers_cigar_full", 10 ],
+            [ "containers_cigar_full", 1 ],
             [ "containers_cigs_full", 10 ],
-            [ "containers_banknotes_full", 1 ]
+            [ "containers_banknotes_full", 1 ],
+            [ "containers_illegal_AK_full", 1 ],
+            [ "containers_cockroach", 1 ],
+            [ "containers_slime", 1 ],
+            [ "containers_concrete_full", 10 ],
+            [ "containers_brick_full", 10 ],
+            [ "containers_wheel_full", 10 ],
+            [ "containers_spare_parts_full", 10 ]
           ]
         }
       }
@@ -161,33 +321,536 @@
       "nested": {
         "1": {
           "chunks": [
-            [ "containers_food_full", 20 ],
+            [ "containers_empty", 5 ],
+            [ "containers_food_full", 10 ],
             [ "containers_foodplace_full", 1 ],
-            [ "containers_electronics_full", 20 ],
-            [ "containers_appliances_full", 20 ],
-            [ "containers_fridge_full", 20 ],
-            [ "containers_freezer_full", 20 ],
-            [ "containers_washerdryer_full", 20 ],
-            [ "containers_antiques_full", 10 ],
-            [ "containers_books_full", 20 ],
+            [ "containers_electronics_full", 10 ],
+            [ "containers_appliances_full", 10 ],
+            [ "containers_fridge_full", 10 ],
+            [ "containers_freezer_full", 10 ],
+            [ "containers_washerdryer_full", 10 ],
+            [ "containers_antiques_full", 5 ],
+            [ "containers_books_full", 10 ],
             [ "containers_science_full", 10 ],
             [ "containers_chem_lab_full", 1 ],
             [ "containers_surgery_full", 1 ],
-            [ "containers_gift_shop_full", 20 ],
-            [ "containers_art_all_full", 10 ],
+            [ "containers_gift_shop_full", 10 ],
+            [ "containers_art_all_full", 5 ],
             [ "containers_antique_rare_full", 1 ],
-            [ "containers_otc_pharmacy_full", 20 ],
-            [ "containers_pharmacy_full", 10 ],
+            [ "containers_otc_pharmacy_full", 10 ],
+            [ "containers_pharmacy_full", 5 ],
             [ "containers_weed_full", 1 ],
             [ "containers_meth_full", 1 ],
             [ "containers_sunscreen_full", 10 ],
-            [ "containers_cigar_full", 10 ],
+            [ "containers_cigar_full", 1 ],
             [ "containers_cigs_full", 10 ],
             [ "containers_banknotes_full", 1 ],
-            [ "null", 10 ]
+            [ "containers_illegal_AK_full", 1 ],
+            [ "containers_cockroach", 1 ],
+            [ "containers_slime", 1 ],
+            [ "containers_concrete_full", 10 ],
+            [ "containers_brick_full", 10 ],
+            [ "containers_wheel_full", 10 ],
+            [ "containers_spare_parts_full", 10 ],
+            [ "null", 100 ]
+          ]
+        }
+      },
+      "place_monsters": [ { "monster": "GROUP_CIVILIAN", "x": [ 10, 14 ], "y": [ 22, 23 ], "chance": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "container_yard_inland_base_4" ] ],
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        "1   1   1   1   1       ",
+        "                    1   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "1       1   1           ",
+        "    1           1       ",
+        "                    1   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "containers_empty", 5 ],
+            [ "containers_food_full", 10 ],
+            [ "containers_foodplace_full", 1 ],
+            [ "containers_electronics_full", 10 ],
+            [ "containers_appliances_full", 10 ],
+            [ "containers_fridge_full", 10 ],
+            [ "containers_freezer_full", 10 ],
+            [ "containers_washerdryer_full", 10 ],
+            [ "containers_antiques_full", 5 ],
+            [ "containers_books_full", 10 ],
+            [ "containers_science_full", 10 ],
+            [ "containers_chem_lab_full", 1 ],
+            [ "containers_surgery_full", 1 ],
+            [ "containers_gift_shop_full", 10 ],
+            [ "containers_art_all_full", 5 ],
+            [ "containers_antique_rare_full", 1 ],
+            [ "containers_otc_pharmacy_full", 10 ],
+            [ "containers_pharmacy_full", 5 ],
+            [ "containers_weed_full", 1 ],
+            [ "containers_meth_full", 1 ],
+            [ "containers_sunscreen_full", 10 ],
+            [ "containers_cigar_full", 1 ],
+            [ "containers_cigs_full", 10 ],
+            [ "containers_banknotes_full", 1 ],
+            [ "containers_illegal_AK_full", 1 ],
+            [ "containers_cockroach", 1 ],
+            [ "containers_slime", 1 ],
+            [ "containers_concrete_full", 10 ],
+            [ "containers_brick_full", 10 ],
+            [ "containers_wheel_full", 10 ],
+            [ "containers_spare_parts_full", 10 ],
+            [ "null", 200 ]
           ]
         }
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "container_yard_inland_base_5" ] ],
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "1   1   1   1   1   1   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "1   1   1   1   1   1   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "containers_empty", 5 ],
+            [ "containers_food_full", 10 ],
+            [ "containers_foodplace_full", 1 ],
+            [ "containers_electronics_full", 10 ],
+            [ "containers_appliances_full", 10 ],
+            [ "containers_fridge_full", 10 ],
+            [ "containers_freezer_full", 10 ],
+            [ "containers_washerdryer_full", 10 ],
+            [ "containers_antiques_full", 5 ],
+            [ "containers_books_full", 10 ],
+            [ "containers_science_full", 10 ],
+            [ "containers_chem_lab_full", 1 ],
+            [ "containers_surgery_full", 1 ],
+            [ "containers_gift_shop_full", 10 ],
+            [ "containers_art_all_full", 5 ],
+            [ "containers_antique_rare_full", 1 ],
+            [ "containers_otc_pharmacy_full", 10 ],
+            [ "containers_pharmacy_full", 5 ],
+            [ "containers_weed_full", 1 ],
+            [ "containers_meth_full", 1 ],
+            [ "containers_sunscreen_full", 10 ],
+            [ "containers_cigar_full", 1 ],
+            [ "containers_cigs_full", 10 ],
+            [ "containers_banknotes_full", 1 ],
+            [ "containers_illegal_AK_full", 1 ],
+            [ "containers_cockroach", 1 ],
+            [ "containers_slime", 1 ],
+            [ "containers_concrete_full", 10 ],
+            [ "containers_brick_full", 10 ],
+            [ "containers_wheel_full", 10 ],
+            [ "containers_spare_parts_full", 10 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "container_yard_inland_base_5a" ] ],
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "1   1   1   1   1   1   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "1   1   1   1   1   1   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "containers_empty", 5 ],
+            [ "containers_food_full", 10 ],
+            [ "containers_foodplace_full", 1 ],
+            [ "containers_electronics_full", 10 ],
+            [ "containers_appliances_full", 10 ],
+            [ "containers_fridge_full", 10 ],
+            [ "containers_freezer_full", 10 ],
+            [ "containers_washerdryer_full", 10 ],
+            [ "containers_antiques_full", 5 ],
+            [ "containers_books_full", 10 ],
+            [ "containers_science_full", 10 ],
+            [ "containers_chem_lab_full", 1 ],
+            [ "containers_surgery_full", 1 ],
+            [ "containers_gift_shop_full", 10 ],
+            [ "containers_art_all_full", 5 ],
+            [ "containers_antique_rare_full", 1 ],
+            [ "containers_otc_pharmacy_full", 10 ],
+            [ "containers_pharmacy_full", 5 ],
+            [ "containers_weed_full", 1 ],
+            [ "containers_meth_full", 1 ],
+            [ "containers_sunscreen_full", 10 ],
+            [ "containers_cigar_full", 1 ],
+            [ "containers_cigs_full", 10 ],
+            [ "containers_banknotes_full", 1 ],
+            [ "containers_illegal_AK_full", 1 ],
+            [ "containers_cockroach", 1 ],
+            [ "containers_slime", 1 ],
+            [ "containers_concrete_full", 10 ],
+            [ "containers_brick_full", 10 ],
+            [ "containers_wheel_full", 10 ],
+            [ "containers_spare_parts_full", 10 ],
+            [ "containers_roof", 200 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "container_yard_inland_base_6" ] ],
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "1   1   1   1   1   1   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "1   1   1   1   1   1   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "containers_empty", 5 ],
+            [ "containers_food_full", 10 ],
+            [ "containers_foodplace_full", 1 ],
+            [ "containers_electronics_full", 10 ],
+            [ "containers_appliances_full", 10 ],
+            [ "containers_fridge_full", 10 ],
+            [ "containers_freezer_full", 10 ],
+            [ "containers_washerdryer_full", 10 ],
+            [ "containers_antiques_full", 5 ],
+            [ "containers_books_full", 10 ],
+            [ "containers_science_full", 10 ],
+            [ "containers_chem_lab_full", 1 ],
+            [ "containers_surgery_full", 1 ],
+            [ "containers_gift_shop_full", 10 ],
+            [ "containers_art_all_full", 5 ],
+            [ "containers_antique_rare_full", 1 ],
+            [ "containers_otc_pharmacy_full", 10 ],
+            [ "containers_pharmacy_full", 5 ],
+            [ "containers_weed_full", 1 ],
+            [ "containers_meth_full", 1 ],
+            [ "containers_sunscreen_full", 10 ],
+            [ "containers_cigar_full", 1 ],
+            [ "containers_cigs_full", 10 ],
+            [ "containers_banknotes_full", 1 ],
+            [ "containers_illegal_AK_full", 1 ],
+            [ "containers_cockroach", 1 ],
+            [ "containers_slime", 1 ],
+            [ "containers_concrete_full", 10 ],
+            [ "containers_brick_full", 10 ],
+            [ "containers_wheel_full", 10 ],
+            [ "containers_spare_parts_full", 10 ],
+            [ "null", 200 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "container_yard_inland_fence_corner" ] ],
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,ffffffffffffff",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "f": "t_chainfence", ",": "t_region_groundcover" },
+      "place_monsters": [ { "monster": "GROUP_CIVILIAN", "x": [ 10, 12 ], "y": [ 10, 12 ], "chance": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "container_yard_inland_fence_entry" ] ],
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        ",,,,,,,,,,f         1   ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f 1           ",
+        "fffffffffff             ",
+        "  1                     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      1                 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " v                      ",
+        "                        ",
+        "                        ",
+        "fffffffffff     v       ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "f": "t_chainfence", ",": "t_region_groundcover" },
+      "place_monsters": [ { "monster": "GROUP_CIVILIAN", "x": [ 10, 12 ], "y": [ 10, 13 ], "chance": 1 } ],
+      "vehicles": { "v": { "vehicle": "forklift_vehicles", "chance": 60, "rotation": 0 } },
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "containers_empty", 5 ],
+            [ "containers_food_full", 10 ],
+            [ "containers_foodplace_full", 1 ],
+            [ "containers_electronics_full", 10 ],
+            [ "containers_appliances_full", 10 ],
+            [ "containers_fridge_full", 10 ],
+            [ "containers_freezer_full", 10 ],
+            [ "containers_washerdryer_full", 10 ],
+            [ "containers_antiques_full", 5 ],
+            [ "containers_books_full", 10 ],
+            [ "containers_science_full", 10 ],
+            [ "containers_chem_lab_full", 1 ],
+            [ "containers_surgery_full", 1 ],
+            [ "containers_gift_shop_full", 10 ],
+            [ "containers_art_all_full", 5 ],
+            [ "containers_antique_rare_full", 1 ],
+            [ "containers_otc_pharmacy_full", 10 ],
+            [ "containers_pharmacy_full", 5 ],
+            [ "containers_weed_full", 1 ],
+            [ "containers_meth_full", 1 ],
+            [ "containers_sunscreen_full", 10 ],
+            [ "containers_cigar_full", 1 ],
+            [ "containers_cigs_full", 10 ],
+            [ "containers_banknotes_full", 1 ],
+            [ "containers_illegal_AK_full", 1 ],
+            [ "containers_cockroach", 1 ],
+            [ "containers_slime", 1 ],
+            [ "containers_concrete_full", 10 ],
+            [ "containers_brick_full", 10 ],
+            [ "containers_wheel_full", 10 ],
+            [ "containers_spare_parts_full", 10 ],
+            [ "null", 200 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "container_yard_inland_fence" ] ],
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        ",,,,,,,,,,f1            ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f1            ",
+        ",,,,,,,,,,f     v       ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             ",
+        ",,,,,,,,,,f             "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "f": "t_chainfence", ",": "t_region_groundcover" },
+      "place_monsters": [ { "monster": "GROUP_CIVILIAN", "x": [ 10, 12 ], "y": [ 4, 9 ], "chance": 1 } ],
+      "vehicles": { "v": { "vehicle": "forklift_vehicles", "chance": 5, "rotation": 3 } },
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "containers_empty", 5 ],
+            [ "containers_food_full", 10 ],
+            [ "containers_foodplace_full", 1 ],
+            [ "containers_electronics_full", 10 ],
+            [ "containers_appliances_full", 10 ],
+            [ "containers_fridge_full", 10 ],
+            [ "containers_freezer_full", 10 ],
+            [ "containers_washerdryer_full", 10 ],
+            [ "containers_antiques_full", 5 ],
+            [ "containers_books_full", 10 ],
+            [ "containers_science_full", 10 ],
+            [ "containers_chem_lab_full", 1 ],
+            [ "containers_surgery_full", 1 ],
+            [ "containers_gift_shop_full", 10 ],
+            [ "containers_art_all_full", 5 ],
+            [ "containers_antique_rare_full", 1 ],
+            [ "containers_otc_pharmacy_full", 10 ],
+            [ "containers_pharmacy_full", 5 ],
+            [ "containers_weed_full", 1 ],
+            [ "containers_meth_full", 1 ],
+            [ "containers_sunscreen_full", 10 ],
+            [ "containers_cigar_full", 1 ],
+            [ "containers_cigs_full", 10 ],
+            [ "containers_banknotes_full", 1 ],
+            [ "containers_illegal_AK_full", 1 ],
+            [ "containers_cockroach", 1 ],
+            [ "containers_slime", 1 ],
+            [ "containers_concrete_full", 10 ],
+            [ "containers_brick_full", 10 ],
+            [ "containers_wheel_full", 10 ],
+            [ "containers_spare_parts_full", 10 ],
+            [ "null", 300 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "containers_roof",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "....      ",
+        "....      ",
+        "....      ",
+        "....      ",
+        "....      ",
+        "....      ",
+        "....      ",
+        "....      ",
+        "....      ",
+        "....      "
+      ],
+      "palettes": [ "shipping_container_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -210,7 +873,8 @@
       "palettes": [ "shipping_container_palette", "parametrized_shipping_container_wall_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
-      "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } }
+      "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ]
     }
   },
   {
@@ -234,12 +898,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "cannedfood", "chance": 95, "repeat": [ 10, 20 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "cannedfood", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
@@ -263,12 +924,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "place_loot": [
-        { "item": "foodplace_food", "x": [ 1, 2 ], "y": [ 1, 8 ], "chance": 75, "repeat": [ 10, 100 ] }
-      ]
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "place_loot": [ { "item": "foodplace_food", "x": [ 1, 2 ], "y": [ 1, 8 ], "chance": 75, "repeat": [ 10, 100 ] } ]
     }
   },
   {
@@ -292,12 +950,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "consumer_electronics", "chance": 95, "repeat": [ 10, 20 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "consumer_electronics", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
@@ -321,6 +976,7 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
       "furniture": {
         "$": [
           [ "f_null", 5 ],
@@ -383,6 +1039,7 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
       "furniture": {
         "$": [
           [ "f_fridge", 1 ],
@@ -415,6 +1072,7 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
       "furniture": {
         "$": [
           [ "f_minifreezer", 1 ],
@@ -447,12 +1105,8 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [
-          [ "f_washer", 5 ],
-          [ "f_dryer", 5 ]
-        ]
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_washer", 5 ], [ "f_dryer", 5 ] ] }
     }
   },
   {
@@ -476,12 +1130,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "antique", "chance": 95, "repeat": [ 1, 5 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "antique", "chance": 95, "repeat": [ 1, 5 ] } }
     }
   },
   {
@@ -505,12 +1156,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "homebooks", "chance": 95, "repeat": [ 10, 20 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "homebooks", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
@@ -534,12 +1182,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "science", "chance": 95, "repeat": [ 10, 20 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "science", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
@@ -563,12 +1208,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "chem_lab", "chance": 95, "repeat": [ 10, 20 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "chem_lab", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
@@ -592,12 +1234,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "surgery", "chance": 95, "repeat": [ 10, 20 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "surgery", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
@@ -621,12 +1260,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "gift_shop", "chance": 95, "repeat": [ 10, 20 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "gift_shop", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
@@ -650,12 +1286,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "art_all", "chance": 95, "repeat": [ 10, 20 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "art_all", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
@@ -679,12 +1312,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "antique_rare", "chance": 95, "repeat": [ 1, 2 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "antique_rare", "chance": 95, "repeat": [ 1, 2 ] } }
     }
   },
   {
@@ -708,12 +1338,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "drugs_heal_simple", "chance": 95, "repeat": [ 10, 20 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "drugs_heal_simple", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
@@ -737,12 +1364,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "drugs_pharmacy", "chance": 95, "repeat": [ 10, 20 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "drugs_pharmacy", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
@@ -766,12 +1390,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "jar_weed", "chance": 95, "repeat": [ 10, 20 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "jar_weed", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
@@ -795,12 +1416,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "meth_bag_zipper_6", "chance": 95, "repeat": [ 10, 20 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "meth_bag_zipper_6", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
@@ -824,12 +1442,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "sunscreen_bottle", "chance": 95, "repeat": [ 30, 60 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "sunscreen_bottle", "chance": 95, "repeat": [ 30, 60 ] } }
     }
   },
   {
@@ -853,12 +1468,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "cigarettes_new", "chance": 95, "repeat": [ 10, 20 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "cigarettes_new", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
@@ -882,12 +1494,9 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "cigar_box_unopened", "chance": 95, "repeat": [ 10, 20 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "cigar_box_unopened", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
@@ -911,12 +1520,189 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
       "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
-      "furniture": {
-        "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ]
-      },
-      "items": {
-        "$": { "item": "banknotes", "chance": 95, "repeat": [ 50, 100 ] }
-      }
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "banknotes", "chance": 95, "repeat": [ 50, 100 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "containers_illegal_AK_full",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "####      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#++#      "
+      ],
+      "palettes": [ "shipping_container_palette", "parametrized_shipping_container_wall_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
+      "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "place_loot": [ { "item": "ak47", "x": [ 1, 2 ], "y": [ 1, 8 ], "chance": 50, "repeat": [ 1, 20 ] } ],
+      "items": { "$": { "item": "magazines_akm", "chance": 95, "repeat": [ 1, 20 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "containers_cockroach",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "####      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#++#      "
+      ],
+      "palettes": [ "shipping_container_palette", "parametrized_shipping_container_wall_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
+      "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": "f_cardboard_box" },
+      "place_loot": [ { "item": "feces_roach", "x": [ 1, 2 ], "y": [ 1, 8 ], "chance": 50, "repeat": [ 0, 10 ] } ],
+      "monster": { "M": { "monster": "mon_giant_cockroach" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "containers_slime",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "####      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#++#      "
+      ],
+      "palettes": [ "shipping_container_palette", "parametrized_shipping_container_wall_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
+      "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "monster": { "M": { "monster": "mon_blob" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "containers_concrete_full",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "####      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#++#      "
+      ],
+      "palettes": [ "shipping_container_palette", "parametrized_shipping_container_wall_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
+      "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "items": { "$": { "item": "concrete_bag", "chance": 95, "repeat": [ 5, 20 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "containers_brick_full",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "####      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#++#      "
+      ],
+      "palettes": [ "shipping_container_palette", "parametrized_shipping_container_wall_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
+      "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "place_loot": [ { "item": "brick", "x": [ 1, 2 ], "y": [ 1, 8 ], "chance": 95, "repeat": [ 200, 600 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "containers_wheel_full",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "####      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#++#      "
+      ],
+      "palettes": [ "shipping_container_palette", "parametrized_shipping_container_wall_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
+      "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "items": { "$": { "item": "wheels", "chance": 95, "repeat": [ 1, 10 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "containers_spare_parts_full",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "####      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#$$#      ",
+        "#++#      "
+      ],
+      "palettes": [ "shipping_container_palette", "parametrized_shipping_container_wall_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
+      "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } },
+      "place_nested": [ { "chunks": [ "containers_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "above": "open_air" } } ],
+      "furniture": { "$": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { "$": { "item": "supplies_spares_vehicle", "chance": 95, "repeat": [ 1, 20 ] } }
     }
   }
 ]

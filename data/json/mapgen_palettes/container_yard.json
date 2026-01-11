@@ -2,11 +2,7 @@
   {
     "type": "palette",
     "id": "shipping_container_palette",
-    "terrain": {
-      ".": "t_metal_floor",
-      "+": "t_door_metal_c",
-      "$": "t_metal_floor"
-    }
+    "terrain": { ".": "t_metal_floor", "$": "t_metal_floor" }
   },
   {
     "type": "palette",
@@ -33,9 +29,17 @@
             [ "t_wall_metal_shipping_container_yellow", 4 ]
           ]
         }
+      },
+      "exterior_door_type": {
+        "type": "ter_str_id",
+        "scope": "nest",
+        "default": { "distribution": [ [ "t_door_metal_c", 4 ], [ "t_door_metal_locked", 1 ] ] }
       }
     },
-    "terrain": { "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" } },
+    "terrain": {
+      "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" },
+      "+": { "param": "exterior_door_type", "fallback": "t_door_metal_c" }
+    },
     "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } }
   }
 ]

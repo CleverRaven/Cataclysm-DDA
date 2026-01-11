@@ -1018,7 +1018,7 @@
     "id": "t_wall_metal_shipping_container",
     "copy-from": "t_abstract_wall_metal",
     "name": "shipping container wall",
-    "description": "A shipping container wall made thick corrugated weathering steel.",
+    "description": "A shipping container made of corrugated weathering steel.",
     "symbol": "#",
     "color": "light_gray",
     "bash": {

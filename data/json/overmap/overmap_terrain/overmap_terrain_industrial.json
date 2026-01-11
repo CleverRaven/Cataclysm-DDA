@@ -457,12 +457,25 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "container_yard_inland_base_1", "container_yard_inland_base_2", "container_yard_inland_base_3" ],
+    "id": [
+      "container_yard_inland_base_1",
+      "container_yard_inland_base_1a",
+      "container_yard_inland_base_1b",
+      "container_yard_inland_base_2",
+      "container_yard_inland_base_3",
+      "container_yard_inland_base_4",
+      "container_yard_inland_base_5",
+      "container_yard_inland_base_5a",
+      "container_yard_inland_base_6",
+      "container_yard_inland_fence",
+      "container_yard_inland_fence_entry",
+      "container_yard_inland_fence_corner"
+    ],
     "name": "inland container depot",
-    "sym": "I",
+    "sym": "#",
     "color": "light_blue",
     "vision_levels": "industrial_building",
-    "see_cost": "high",
+    "see_cost": "medium",
     "extras": "build",
     "mondensity": 2
   }
