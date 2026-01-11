@@ -538,8 +538,7 @@
         "prob": 8
       },
       {
-        "item": "modular_m27_assault_rifle",
-        "variant": "modular_h&k416a5",
+        "group": "h&k416a5_any",
         "ammo-item": "556_mk318",
         "charges": [ 0, 30 ],
         "contents-item": "shoulder_strap",
@@ -586,8 +585,7 @@
         "prob": 8
       },
       {
-        "item": "modular_m27_assault_rifle",
-        "variant": "modular_h&k416a5",
+        "group": "h&k416a5_any",
         "ammo-item": "556_mk318",
         "charges": 30,
         "contents-item": "shoulder_strap",
@@ -696,8 +694,7 @@
       {
         "collection": [
           {
-            "item": "modular_m27_assault_rifle",
-            "variant": "modular_h&k416a5",
+            "group": "h&k416a5_any",
             "ammo-item": "556_mk318",
             "charges": [ 0, 30 ],
             "contents-item": "shoulder_strap",
@@ -1030,8 +1027,7 @@
       {
         "collection": [
           {
-            "item": "modular_m27_assault_rifle",
-            "variant": "modular_h&k416a5",
+            "group": "h&k416a5_any",
             "ammo-item": "556_mk318",
             "charges": [ 0, 30 ],
             "contents-item": "shoulder_strap",
