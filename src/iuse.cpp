@@ -8339,7 +8339,7 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
             units::mass not_frozen_weight = 0_gram;
             for( const auto &pair : locs ) {
                 used_volume +=  pair.first->volume( false, true, pair.second );
-                units::mass item_weight;
+                units::mass item_weight = 0_gram;
                 if( pair.first->count_by_charges() ) {
                     const int charges_in_item = pair.first->charges;
                     if( charges_in_item > 0 ) {
@@ -8397,7 +8397,7 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     }
     for( const auto &pair : to_heat ) {
         used_volume +=  pair.first->volume( false, true, pair.second );
-        units::mass item_weight;
+        units::mass item_weight = 0_gram;
         if( pair.first->count_by_charges() ) {
             const int charges_in_item = pair.first->charges;
             if( charges_in_item > 0 ) {
