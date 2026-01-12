@@ -1173,29 +1173,5 @@
     "type": "effect_on_condition",
     "id": "EOC_WARPED_POND_CREATION_SE",
     "effect": [ { "mapgen_update": "mx_skyisland_pond", "om_terrain": "sky_island_core", "offset_x": 1, "offset_y": 1 } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_innawood_bonus_exp_warpshards",
-    "//": "Gives bonus exp to help with Sorcerer and Bombasticperks due to there being few monsters in Innawood",
-    "condition": { "mod_is_loaded": "innawood" },
-    "effect": [
-      { "math": [ "u_bonus_exp += 25" ] },
-      { "run_eocs": "EOC_on_kill_check_exp", "condition": { "mod_is_loaded": "bombastic_perks" } },
-      { "run_eocs": "EOC_perk_ma_kill_check_exp", "condition": { "mod_is_loaded": "perk_melee_system" } },
-      { "run_eocs": "EOC_on_kill_check_exp_sorcerer", "condition": { "mod_is_loaded": "sorcerer" } }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_innawood_bonus_exp_material_tokens",
-    "//": "Gives bonus exp to help with Sorcerer and Bombasticperks due to there being few monsters in Innawood",
-    "condition": { "mod_is_loaded": "innawood" },
-    "effect": [
-      { "math": [ "u_bonus_exp += ( owed_material_tokens * 2 ) / 5" ] },
-      { "run_eocs": "EOC_on_kill_check_exp", "condition": { "mod_is_loaded": "bombastic_perks" } },
-      { "run_eocs": "EOC_perk_ma_kill_check_exp", "condition": { "mod_is_loaded": "perk_melee_system" } },
-      { "run_eocs": "EOC_on_kill_check_exp_sorcerer", "condition": { "mod_is_loaded": "sorcerer" } }
-    ]
   }
 ]
