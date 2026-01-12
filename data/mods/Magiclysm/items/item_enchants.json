@@ -5,7 +5,7 @@
     "has": "WIELD",
     "condition": "ALWAYS",
     "name": { "str": "Force blade" },
-    "description": "The damage done and light emitted by this sword increase with intelligence.",
+    "description": "The damage done and light emitted by this sword increase with intelligence and spell level.",
     "melee_damage_bonus": [
       {
         "type": "light",
