@@ -1,6 +1,3 @@
----
-applyTo: "**"
----
 # Language Model Compliance Stress Test
 
 ## Instructions
