@@ -1095,7 +1095,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_force_blade",
+    "id": "spell_scroll_magus_mage_conjured_blade",
     "//": "Magus spell",
     "name": { "str": "Scroll of Force Blade", "str_pl": "Scrolls of Force Blade" },
     "description": "Conjure up a sword made of force, sharper than any physical blade.",
