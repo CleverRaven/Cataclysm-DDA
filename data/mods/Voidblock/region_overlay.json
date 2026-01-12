@@ -1,38 +1,35 @@
 [
   {
-    "type": "region_overlay",
-    "id": "default_voidblock",
-    "apply_to_tags": [ "all" ],
-    "forest_composition": "default_voidblock"
-  },
-  {
     "type": "region_settings_forest_mapgen",
-    "id": "default_voidblock",
-    "biomes": [ "biome_forest_thick_default_voidblock", "biome_forest_default_voidblock", "biome_forest_water_default_voidblock" ]
+    "id": "default",
+    "copy-from": "default",
+    "extend": { "biomes": [ "biome_forest_thick_default", "biome_forest_default", "biome_forest_water_default" ] }
   },
   {
     "type": "forest_biome_mapgen",
-    "id": "biome_forest_thick_default_voidblock",
-    "overlay_id": "biome_forest_thick_default",
-    "terrains": [
-      "sky_island_edge",
-      "sky_island_corner",
-      "sky_island_fake_forest",
-      "sky_island_corner_NW",
-      "sky_island_edge_N",
-      "sky_island_corner_NE"
-    ]
+    "id": "biome_forest_thick_default",
+    "copy-from": "biome_forest_thick_default",
+    "extend": {
+      "terrains": [
+        "sky_island_edge",
+        "sky_island_corner",
+        "sky_island_fake_forest",
+        "sky_island_corner_NW",
+        "sky_island_edge_N",
+        "sky_island_corner_NE"
+      ]
+    }
   },
   {
     "type": "forest_biome_mapgen",
-    "id": "biome_forest_default_voidblock",
-    "overlay_id": "biome_forest_default",
-    "terrains": [ "sky_island_core_voidblock", "sky_island_edge_E", "sky_island_edge_W" ]
+    "id": "biome_forest_default",
+    "copy-from": "biome_forest_default",
+    "extend": { "terrains": [ "sky_island_core_voidblock", "sky_island_edge_E", "sky_island_edge_W" ] }
   },
   {
     "type": "forest_biome_mapgen",
-    "id": "biome_forest_water_default_voidblock",
-    "overlay_id": "biome_forest_water_default",
-    "terrains": [ "sky_island_corner_SE", "sky_island_edge_S", "sky_island_corner_SW" ]
+    "id": "biome_forest_water_default",
+    "copy-from": "biome_forest_water_default",
+    "extend": { "terrains": [ "sky_island_corner_SE", "sky_island_edge_S", "sky_island_corner_SW" ] }
   }
 ]
