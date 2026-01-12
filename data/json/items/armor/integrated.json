@@ -1780,7 +1780,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "hooves" },
+    "name": { "str_sp": "hooves" },
     "description": "You have hooves on the ends of your feet rather than toes.  They allow powerful kicking attacks, but prevent wearing footwear.",
     "weight": "250 g",
     "volume": "500 ml",
@@ -1790,7 +1790,14 @@
     "symbol": "b",
     "color": "brown",
     "warmth": 2,
-    "techniques": [ "HOOVES_KICK", "HOOVES_KICK_NATURAL", "HOOVES_KICK_CRIT" ],
+    "techniques": [
+      "HOOVES_KICK",
+      "HOOVES_KICK_AGAINST_LARGE",
+      "HOOVES_KICK_NATURAL",
+      "HOOVES_KICK_NATURAL_AGAINST_LARGE",
+      "HOOVES_KICK_CRIT",
+      "HOOVES_KICK_CRIT_AGAINST_LARGE"
+    ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
