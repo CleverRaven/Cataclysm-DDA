@@ -1,40 +1,17 @@
 [
   {
-    "id": "starterkit_items",
-    "type": "item_group",
-    "//": "What you'll find in your starter kit.",
-    "subtype": "collection",
-    "entries": [
-      { "item": "sharp_rock", "count": 1 },
-      { "item": "stick_long", "count": 3 }
-    ]
-  },
-  {
-    "id": "si_trash_heap",
-    "type": "item_group",
-    "//": "What you'll find in your starter kit.",
-    "subtype": "collection",
-    "entries": [ { "group": "trash_forest", "count": [ 80, 100 ] } ]
-  },
-  {
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "id": "forge_invitation",
     "symbol": ",",
     "color": "white",
     "looks_like": "flyer",
-    "name": {
-      "str": "forge of wonders invitation"
-    },
+    "name": { "str": "forge of wonders invitation" },
     "description": "Good for one (1) visit to the forge of wonders.  Used at the island's obelisk.",
     "price": "5 USD",
     "price_postapoc": "5 USD",
-    "material": [
-      "paper"
-    ],
-    "flags": [
-      "PAPER_SHAPED"
-    ],
+    "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
   }

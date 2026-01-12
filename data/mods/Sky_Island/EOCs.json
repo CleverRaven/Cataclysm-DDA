@@ -560,7 +560,7 @@
       { "math": [ "raidstotal = 0" ] },
       { "math": [ "raidswon = 0" ] },
       { "math": [ "raidslost = 0" ] },
-      { "math": [ "islandrank = 0" ] },
+      { "run_eocs": "EOC_set_starting_islandrank" },
       { "math": [ "missionswon = 0" ] },
       { "math": [ "slaughterswon = 0" ] },
       { "math": [ "hardmissions = 0" ] },
@@ -586,6 +586,12 @@
       { "math": [ "skyisland_build_base = 0" ] },
       { "math": [ "skyisland_build_bigroom = 0" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_set_starting_islandrank",
+    "//": "Makes it easier for voidblock to overwrite starting island rank",
+    "effect": { "math": [ "islandrank = 0" ] }
   },
   {
     "type": "effect_on_condition",

@@ -502,7 +502,6 @@
       ],
       "terrain": { " ": "t_warprock", ".": "t_fake_air", "U": "t_warprock" },
       "furniture": { "Y": "f_exitportal", "Z": "f_islandstatue" },
-      "items": { "Y": [ { "item": "si_trash_heap", "chance": 100 } ], "Z": [ { "item": "starterkit_items", "chance": 100 } ] },
       "place_item": [  ]
     }
   },

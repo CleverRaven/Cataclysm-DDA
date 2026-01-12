@@ -1,32 +1,10 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_award_material_tokens",
-    "//": "If you got home via an exit portal, award material tokens based on raid length.",
-    "//1": "Modified for Voidblock to also award exp",
-    "condition": { "math": [ "gettokens == 1" ] },
-    "effect": [
-      { "math": [ "gettokens = 0" ] },
-      { "math": [ "owed_material_tokens = lengthofthisraid * 75 + 50" ] },
-      {
-        "u_message": "You've returned home safely using a designated exit point.  You have earned <global_val:owed_material_tokens> material tokens for your success.",
-        "popup": true
-      },
-      {
-        "u_spawn_item": "warptoken_material",
-        "count": { "global_val": "owed_material_tokens", "default": 50 }
-      },
-      { "math": [ "u_val('exp') += owed_material_tokens" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_deathconfirmed",
     "//": "Dying on the island is now permanent if you have not completed the first quest.",
     "condition": { "not": { "u_has_trait": "awayfromhome" } },
-    "effect": [
-      { "run_eocs": "EOC_death_on_island" }
-    ],
+    "effect": [ { "run_eocs": "EOC_death_on_island" } ],
     "false_effect": [
       "u_prevent_death",
       { "u_add_effect": "incorporeal", "duration": 1 },
@@ -44,8 +22,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_death_on_island",
-    "//": "Dying on the island is now permanent if you have not completed the first quest, so that you can't cheat cold and dehydration issues away by dying.",
-    "condition": { "math": [ "sky_water_quest_done >= 1" ] },
+    "//": "Dying on the island is now permanent if you have not completed the first quest, so that you can't cheat cold and dehydration issues away early game by dying.",
+    "condition": { "math": [ "islandrank >= 0" ] },
     "effect": [
       "u_prevent_death",
       { "u_add_effect": "downed", "duration": 1 },
@@ -70,7 +48,7 @@
     "required_event": "game_start",
     "effect": [
       { "math": [ "sky_water_quest_done = 0" ] },
-      { "run_eocs":  "EOC_voidblock_time_passed", "time_in_future": "48 hours"  },
+      { "run_eocs": "EOC_voidblock_time_passed", "time_in_future": "48 hours" },
       { "assign_mission": "SKYISLAND_UPGRADE_raidlength0" }
     ]
   },
@@ -79,53 +57,16 @@
     "id": "EOC_voidblock_time_passed",
     "effect": [
       { "math": [ "islandrank  += 1" ] },
-        {
-          "u_message": "By surviving 48 hours, you have shown the island that you have some promise.  Once you have also made 6 units of clean water, you can go on expeditions.",
-          "type": "mixed"
-        }
+      {
+        "u_message": "By surviving 48 hours, you have shown the island that you have some promise.  Once you have also made 6 units of clean water, you can go on expeditions.",
+        "type": "mixed"
+      }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "scenario_warp_begins",
-    "//": "Changed to set islandrank to -2",
-    "effect": [
-      {
-        "u_message": "Welcome to Sky Islands.\n\nSpeak to the Heart of the Island to get your bearings, accept missions, manage upgrades, change your difficulty settings, and more.\nYou will need to survive 48 hours and create 6 units of clean water before you can go on missions.",
-        "popup": true
-      },
-      { "u_location_variable": { "global_val": "OM_HQ_origin" } },
-      { "run_eocs": "EOC_difficulty_DEFAULTS" },
-      { "math": [ "currentpulselength = sicknessintervals" ] },
-      { "math": [ "timeawayfromhome = 0" ] },
-      { "math": [ "raidstotal = 0" ] },
-      { "math": [ "raidswon = 0" ] },
-      { "math": [ "raidslost = 0" ] },
-      { "math": [ "islandrank = -2" ] },
-      { "math": [ "missionswon = 0" ] },
-      { "math": [ "slaughterswon = 0" ] },
-      { "math": [ "hardmissions = 0" ] },
-      { "math": [ "hardermissions = 0" ] },
-      { "math": [ "hardestmissions = 0" ] },
-      { "math": [ "scoutingdistancetargets = 0" ] },
-      { "math": [ "scoutingdistancelanding = 0" ] },
-      { "math": [ "missiondistancemax = 30" ] },
-      { "math": [ "missiondistancemin = 5" ] },
-      { "math": [ "exfildistancemax = 35" ] },
-      { "math": [ "exfildistancemin = 10" ] },
-      { "math": [ "invistime = 60" ] },
-      { "math": [ "bonusexits = 0" ] },
-      { "math": [ "versionupdate = 1" ] },
-      { "math": [ "slaughterunlocked = 0" ] },
-      { "math": [ "bonusmissions = 0" ] },
-      { "math": [ "bonuspulses = 0" ] },
-      { "math": [ "longerraids = 0" ] },
-      { "math": [ "basementsunlocked = 0" ] },
-      { "math": [ "roofsunlocked = 0" ] },
-      { "math": [ "labsunlocked = 0" ] },
-      { "math": [ "goingtolabs = 0" ] },
-      { "math": [ "skyisland_build_base = 0" ] },
-      { "math": [ "skyisland_build_bigroom = 0" ] }
-    ]
+    "id": "EOC_set_starting_islandrank",
+    "//": "Makes it easier for voidblock to overwrite starting island rank",
+    "effect": { "math": [ "islandrank = -2" ] }
   }
 ]

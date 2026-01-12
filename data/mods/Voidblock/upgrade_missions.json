@@ -1,11 +1,5 @@
 [
   {
-    "type": "effect_on_condition",
-    "id": "EOC_grant_pond_recipe",
-    "condition": { "not": { "mod_is_loaded": "voidblock" } },
-    "effect": [ { "u_learn_recipe": "sky_island_warped_pond" } ]
-  },
-  {
     "id": "SKYISLAND_UPGRADE_raidlength0",
     "type": "mission_definition",
     "name": "Unlock: Quick Expeditions",
@@ -22,83 +16,6 @@
         { "math": [ "islandrank  += 1" ] },
         {
           "u_message": "The island takes notice in your ability to source clean water.  Once 48 hours have passed, you can go on expeditions.",
-          "type": "mixed"
-        }
-      ]
-    }
-  },
-  {
-    "id": "SKYISLAND_UPGRADE_rankup1",
-    "type": "mission_definition",
-    "name": "Island Rank Up 1",
-    "description": "Completing this mission ascends you to a new rank.\n\nCraft the Proof of Determination from experimental materials and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reach Rank 1.  Some upgrades and unlocks will not be available until you have ranked up.  You will also instantly learn several new warp-related crafting recipes.",
-    "goal": "MGOAL_FIND_ITEM",
-    "item": "upgradekey_rankup1",
-    "count": 1,
-    "difficulty": 0,
-    "value": 0,
-    "has_generic_rewards": false,
-    "start": {
-      "effect": [
-        { "u_learn_recipe": "upgradekey_rankup1" },
-        {
-          "u_message": "You are ready to ascend to a higher tier of strength and ability.  Complete this trial and prove yourself, and you will discover new powers for yourself and the island.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reach Rank 1.  Some upgrades and unlocks will not be available until you have ranked up.  You will also instantly learn several new warp-related crafting recipes.",
-          "popup": true
-        }
-      ]
-    },
-    "end": {
-      "effect": [
-        { "math": [ "islandrank = 2" ] },
-        { "u_forget_recipe": "upgradekey_rankup1" },
-        { "u_learn_recipe": "warp_carrier" },
-        { "u_learn_recipe": "recipe_craft_random_artifact" },
-        { "u_learn_recipe": "warp_vortex_token" },
-        { "u_learn_recipe": "warp_healing_salve" },
-        { "u_learn_recipe": "warphaulbag" },
-        { "run_eocs": [ "EOC_grant_pond_recipe" ] },
-        {
-          "u_message": "You have proved your ability to survive to the island, to the warpstream, and to yourself.\nMore unlockable upgrades will be available as you progress, and you may experience exits and targets in new locations.",
-          "type": "mixed"
-        },
-        {
-          "u_message": "Your mind expands.  You have learned to craft:\nMaterialize random artifact\nVortex token\nWarped hauler's harness\nWarped animal carrier",
-          "type": "mixed"
-        }
-      ]
-    }
-  },
-  {
-    "id": "SKYISLAND_UPGRADE_rankup2",
-    "type": "mission_definition",
-    "name": "Island Rank Up 2",
-    "description": "Completing this mission ascends you to a new rank.\n\nCraft the Proof of Determination from experimental materials and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reach Rank 2.  Some upgrades and unlocks will not be available until you have ranked up.  You will also instantly learn several new warp-related crafting recipes.",
-    "goal": "MGOAL_FIND_ITEM",
-    "item": "upgradekey_rankup2",
-    "count": 1,
-    "difficulty": 0,
-    "value": 0,
-    "has_generic_rewards": false,
-    "start": {
-      "effect": [
-        { "u_learn_recipe": "upgradekey_rankup2" },
-        {
-          "u_message": "You are ready to ascend to a higher tier of strength and ability.  Complete this trial and prove yourself, and you will discover new powers for yourself and the island.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reach Rank 2.  Some upgrades and unlocks will not be available until you have ranked up.  You will also instantly learn several new warp-related crafting recipes.",
-          "popup": true
-        }
-      ]
-    },
-    "end": {
-      "effect": [
-        { "math": [ "islandrank = 4" ] },
-        { "u_forget_recipe": "upgradekey_rankup2" },
-        { "u_learn_recipe": "warphome" },
-        {
-          "u_message": "That you are still here, fighting on, makes your determination clear.  This new existence is strange and unpredictable, but you can adapt.  It's how you made it this far, and you're not about to stop now.\nMore unlockable upgrades will be available as you progress, and you may experience exits and targets in new locations.",
-          "type": "mixed"
-        },
-        {
-          "u_message": "Your mind expands.  You have learned to craft:\nHomeward mote\nAutodoc copyplate\n",
           "type": "mixed"
         }
       ]

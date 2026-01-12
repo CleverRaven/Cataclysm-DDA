@@ -20,21 +20,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_raidbegin_short",
-    "//": "Changed to require a quest done first",
-    "condition": { "math": [ "islandrank >= 0" ] },
-    "effect": [
-      { "math": [ "lengthofthisraid = 0" ] },
-      { "math": [ "currentpulselength = sicknessintervals" ] },
-      { "math": [ "missiondistancemax = 30" ] },
-      { "math": [ "missiondistancemin = 5" ] },
-      { "math": [ "exfildistancemax = 35" ] },
-      { "math": [ "exfildistancemin = 5" ] },
-      { "run_eocs": [ "EOC_warp_choose_locale" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_warp_choose_locale",
     "effect": [
       {
@@ -42,10 +27,7 @@
         "names": [ "Target: Field", "Cancel" ],
         "keys": [ "1", "2" ],
         "title": "Select a Starting Location",
-        "descriptions": [
-          "Arrive in a barren field.",
-          "Stay on the island for now."
-        ]
+        "descriptions": [ "Arrive in a barren field.", "Stay on the island for now." ]
       }
     ]
   },
@@ -81,11 +63,7 @@
         "min_radius": 2,
         "max_radius": 10
       },
-      {
-        "u_add_effect": "warpcloak",
-        "intensity": 1,
-        "duration": { "global_val": "invistime", "default": "3 s" }
-      },
+      { "u_add_effect": "warpcloak", "intensity": 1, "duration": { "global_val": "invistime", "default": "3 s" } },
       {
         "u_run_npc_eocs": [
           {
@@ -123,11 +101,7 @@
     "//": "A variant of EOC_safely_landed that deals with landing in the forge of wonders",
     "condition": { "not": { "u_near_om_location": "sky_island_core", "range": 4 } },
     "effect": [
-      {
-        "u_add_effect": "warpcloak",
-        "intensity": 1,
-        "duration": { "global_val": "invistime", "default": "60 s" }
-      },
+      { "u_add_effect": "warpcloak", "intensity": 1, "duration": { "global_val": "invistime", "default": "60 s" } },
       {
         "u_message": "You're still materializing and not fully visible yet.  In about <global_val:invistime> seconds, the world will be able to see you, so if you were warped into danger, now's your chance to get to cover.",
         "popup": false
