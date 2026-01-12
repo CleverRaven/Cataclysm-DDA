@@ -132,15 +132,15 @@
     "phase": "liquid",
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "cereal", "name": { "str_sp": "sugary cereal with milk" } },
-      { "type": "COMPONENT_ID", "condition": "cereal2", "name": { "str_sp": "whole-grain ceral with milk" } },
-      { "type": "COMPONENT_ID", "condition": "cereal3", "name": { "str_sp": "corn flakes ceral with milk" } },
-      { "type": "COMPONENT_ID", "condition": "snicker", "name": { "str_sp": "Snicker-Snacks ceral with milk" } },
-      { "type": "COMPONENT_ID", "condition": "brantastic", "name": { "str_sp": "Brantastic ceral with milk" } },
-      { "type": "COMPONENT_ID", "condition": "honey", "name": { "str_sp": "Honey Pellet ceral with milk" } },
-      { "type": "COMPONENT_ID", "condition": "fructose", "name": { "str_sp": "Fructose Flakes ceral with milk" } },
-      { "type": "COMPONENT_ID", "condition": "foodios", "name": { "str_sp": "Foodios ceral with milk" } },
-      { "type": "COMPONENT_ID", "condition": "cereal_fp2", "name": { "str_sp": "Carpenter Crunch ceral with milk" } },
-      { "type": "COMPONENT_ID", "condition": "cereal_fp4", "name": { "str_sp": "Sugar Chomps ceral with milk" } }
+      { "type": "COMPONENT_ID", "condition": "cereal2", "name": { "str_sp": "whole-grain cereal with milk" } },
+      { "type": "COMPONENT_ID", "condition": "cereal3", "name": { "str_sp": "corn flakes cereal with milk" } },
+      { "type": "COMPONENT_ID", "condition": "snicker", "name": { "str_sp": "Snicker-Snacks cereal with milk" } },
+      { "type": "COMPONENT_ID", "condition": "brantastic", "name": { "str_sp": "Brantastic cereal with milk" } },
+      { "type": "COMPONENT_ID", "condition": "honey", "name": { "str_sp": "Honey Pellet cereal with milk" } },
+      { "type": "COMPONENT_ID", "condition": "fructose", "name": { "str_sp": "Fructose Flakes cereal with milk" } },
+      { "type": "COMPONENT_ID", "condition": "foodios", "name": { "str_sp": "Foodios cereal with milk" } },
+      { "type": "COMPONENT_ID", "condition": "cereal_fp2", "name": { "str_sp": "Carpenter Crunch cereal with milk" } },
+      { "type": "COMPONENT_ID", "condition": "cereal_fp4", "name": { "str_sp": "Sugar Chomps cereal with milk" } }
     ]
   }
 ]
