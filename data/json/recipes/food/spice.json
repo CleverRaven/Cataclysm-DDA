@@ -155,7 +155,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "byproducts": [ [ "juice_pulp", 3 ] ],
+    "byproducts": [ [ "juice_pulp", 1 ] ],
     "result": "crystallizing_sugar_active",
     "id_suffix": "from_sweets",
     "category": "CC_FOOD",
@@ -165,6 +165,43 @@
     "time": "1 h 45 m",
     "charges": 10,
     "//": [ "The recipe is using cooking skill and no more chemistry here!" ],
+    "proficiencies": [ { "proficiency": "prof_knife_skills" } ],
+    "batch_time_factors": [ 20, 1 ],
+    "book_learn": { "cookbook_foodfashions": { "skill_level": 5, "recipe_name": "Improvised Fruit Sugar" } },
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "CUT", "level": 2 },
+      { "id": "BOIL", "level": 2 },
+      { "id": "STRAIN", "level": 2 }
+    ],
+    "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ], [ [ "screw_press", -1 ] ] ],
+    "components": [
+      [
+        [ "sweet_fruit_like", 2, "LIST" ],
+        [ "coconut_flesh", 2 ],
+        [ "corn_kernels", 3 ],
+        [ "rehydrated_corn_kernels", 3 ],
+        [ "honeydew", 3 ],
+        [ "honeycomb", 1 ],
+        [ "can_corn", 3 ],
+        [ "juice", 3 ]
+      ],
+      [ [ "water_clean", 2 ], [ "water", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "byproducts": [ [ "juice_pulp", 3 ] ],
+    "result": "crystallizing_sugar_active",
+    "id_suffix": "from_sweets_expert",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 8,
+    "time": "1 h 45 m",
+    "charges": 10,
+    "//": [ "if higher skill, more pulp" ],
     "proficiencies": [ { "proficiency": "prof_knife_skills" } ],
     "batch_time_factors": [ 20, 1 ],
     "book_learn": { "cookbook_foodfashions": { "skill_level": 5, "recipe_name": "Improvised Fruit Sugar" } },
