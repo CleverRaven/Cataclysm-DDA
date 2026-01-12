@@ -751,7 +751,7 @@
     "id": "hedge_chicken_sacrifice_make_rain",
     "type": "SPELL",
     "name": "To Open the Doors of the Firmament",
-    "description": "The waters above are locked away behind the Firmanent, but with proper supplication to the angels who control those doors you can convince them to open them just a moment and cause a rainstorm.  This charm requires that you sacrifice a chicken to enact it.",
+    "description": "The waters above are locked away behind the Firmament, but with proper supplication to the angels who control those doors you can convince them to open them just a moment and cause a rainstorm.  This charm requires that you sacrifice a chicken to enact it.",
     "message": "",
     "flags": [ "VERBAL", "NO_HANDS", "NO_FAIL" ],
     "magic_type": "xe_hedge_magick",
