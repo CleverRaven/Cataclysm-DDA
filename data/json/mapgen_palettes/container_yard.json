@@ -1,13 +1,48 @@
 [
   {
     "type": "palette",
-    "id": "shipping_container_palette",
-    "terrain": { ".": "t_metal_floor", "$": "t_metal_floor" }
-  },
-  {
-    "type": "palette",
-    "id": "parametrized_shipping_container_wall_palette",
+    "id": "shipping_container_nest_palette",
     "parameters": {
+      "contents_palette": {
+        "type": "palette_id",
+        "scope": "nest",
+        "//": "null_palette represents an empty shipping container",
+        "default": {
+          "distribution": [
+            [ "null_palette", 5 ],
+            [ "shipping_container_food_palette", 10 ],
+            [ "shipping_container_foodplace_palette", 1 ],
+            [ "shipping_container_electronics_palette", 10 ],
+            [ "shipping_container_appliances_palette", 10 ],
+            [ "shipping_container_fridge_palette", 10 ],
+            [ "shipping_container_freezer_palette", 10 ],
+            [ "shipping_container_washerdryer_palette", 10 ],
+            [ "shipping_container_antiques_palette", 5 ],
+            [ "shipping_container_books_palette", 10 ],
+            [ "shipping_container_science_palette", 10 ],
+            [ "shipping_container_chem_lab_palette", 1 ],
+            [ "shipping_container_surgery_palette", 1 ],
+            [ "shipping_container_gift_shop_palette", 10 ],
+            [ "shipping_container_art_all_palette", 5 ],
+            [ "shipping_container_antique_rare_palette", 1 ],
+            [ "shipping_container_otc_pharmacy_palette", 10 ],
+            [ "shipping_container_pharmacy_palette", 5 ],
+            [ "shipping_container_weed_palette", 1 ],
+            [ "shipping_container_meth_palette", 1 ],
+            [ "shipping_container_sunscreen_palette", 10 ],
+            [ "shipping_container_cigar_palette", 1 ],
+            [ "shipping_container_cigs_palette", 10 ],
+            [ "shipping_container_banknotes_palette", 1 ],
+            [ "shipping_container_illegal_AK_palette", 1 ],
+            [ "shipping_container_cockroach_palette", 1 ],
+            [ "shipping_container_slime_palette", 1 ],
+            [ "shipping_container_concrete_palette", 10 ],
+            [ "shipping_container_brick_palette", 10 ],
+            [ "shipping_container_wheel_palette", 10 ],
+            [ "shipping_container_spare_parts_palette", 10 ]
+          ]
+        }
+      },
       "exterior_wall_type": {
         "type": "ter_str_id",
         "scope": "nest",
@@ -36,10 +71,240 @@
         "default": { "distribution": [ [ "t_door_metal_c", 4 ], [ "t_door_metal_locked", 1 ] ] }
       }
     },
+    "palettes": [ { "param": "contents_palette", "fallback": "null_palette" } ],
     "terrain": {
+      ".": "t_metal_floor",
+      "_": "t_metal_floor",
       "#": { "param": "exterior_wall_type", "fallback": "t_wall_metal_shipping_container" },
       "+": { "param": "exterior_door_type", "fallback": "t_door_metal_c" }
     },
     "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 98 ] ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_food_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "cannedfood", "chance": 95, "repeat": [ 10, 20 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_foodplace_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "item": { ".": { "item": "foodplace_food", "chance": 75, "amount": [ 0, 6 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_electronics_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "consumer_electronics", "chance": 95, "repeat": [ 10, 20 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_appliances_palette",
+    "furniture": {
+      ".": [
+        [ "f_null", 5 ],
+        [ "f_dishwasher", 5 ],
+        [ "f_home_furnace", 5 ],
+        [ "f_washer", 5 ],
+        [ "f_oven", 5 ],
+        [ "f_dryer", 5 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_fridge", 1 ],
+        [ "f_glass_fridge", 1 ],
+        [ "f_glass_fridge_double", 1 ],
+        [ "f_heavy_duty_fridge", 1 ],
+        [ "f_display_fridge", 1 ],
+        [ "f_minifreezer", 1 ],
+        [ "f_freezer", 1 ],
+        [ "f_heavy_duty_freezer", 1 ],
+        [ "f_glass_freezer", 1 ],
+        [ "f_display_freezer", 1 ],
+        [ "f_exercise", 1 ],
+        [ "f_ball_mach", 5 ],
+        [ "f_arcade_machine", 5 ],
+        [ "f_pinball_machine", 5 ],
+        [ "f_ergometer", 1 ],
+        [ "f_ergometer_mechanical", 1 ],
+        [ "f_treadmill", 1 ],
+        [ "f_treadmill_mechanical", 1 ],
+        [ "f_piano", 5 ],
+        [ "f_speaker_cabinet", 5 ],
+        [ "f_training_dummy_light", 1 ],
+        [ "f_training_dummy_heavy", 1 ],
+        [ "f_archery_target_box", 1 ],
+        [ "f_archery_target_bale", 1 ],
+        [ "f_toilet", 5 ],
+        [ "f_water_heater", 1 ],
+        [ "f_water_heater_family", 1 ],
+        [ "f_water_purifier", 1 ]
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_fridge_palette",
+    "furniture": {
+      ".": [
+        [ "f_fridge", 1 ],
+        [ "f_glass_fridge", 1 ],
+        [ "f_glass_fridge_double", 1 ],
+        [ "f_heavy_duty_fridge", 1 ],
+        [ "f_display_fridge", 1 ]
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_freezer_palette",
+    "furniture": {
+      ".": [
+        [ "f_minifreezer", 1 ],
+        [ "f_freezer", 1 ],
+        [ "f_heavy_duty_freezer", 1 ],
+        [ "f_glass_freezer", 1 ],
+        [ "f_display_freezer", 1 ]
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_washerdryer_palette",
+    "furniture": { ".": [ [ "f_washer", 5 ], [ "f_dryer", 5 ] ] }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_antiques_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "antique", "chance": 95, "repeat": [ 1, 5 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_books_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "homebooks", "chance": 95, "repeat": [ 10, 20 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_science_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "science", "chance": 95, "repeat": [ 10, 20 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_chem_lab_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "chem_lab", "chance": 95, "repeat": [ 10, 20 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_surgery_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "surgery", "chance": 95, "repeat": [ 10, 20 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_gift_shop_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "gift_shop", "chance": 95, "repeat": [ 10, 20 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_art_all_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "art_all", "chance": 95, "repeat": [ 10, 20 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_antique_rare_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "antique_rare", "chance": 95, "repeat": [ 1, 2 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_otc_pharmacy_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "drugs_heal_simple", "chance": 95, "repeat": [ 10, 20 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_pharmacy_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "drugs_pharmacy", "chance": 95, "repeat": [ 10, 20 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_weed_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "jar_weed", "chance": 95, "repeat": [ 10, 20 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_meth_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "meth_bag_zipper_6", "chance": 95, "repeat": [ 10, 20 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_sunscreen_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "sunscreen_bottle", "chance": 95, "repeat": [ 30, 60 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_cigar_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "cigarettes_new", "chance": 95, "repeat": [ 10, 20 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_cigs_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "cigar_box_unopened", "chance": 95, "repeat": [ 10, 20 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_banknotes_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "banknotes", "chance": 95, "repeat": [ 50, 100 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_illegal_AK_palette",
+    "item": { ".": { "item": "ak47", "chance": 30, "amount": [ 1, 2 ] } },
+    "items": { ".": { "item": "magazines_akm", "chance": 95, "repeat": [ 1, 20 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_cockroach_palette",
+    "furniture": { ".": "f_cardboard_box" },
+    "item": { ".": { "item": "feces_roach", "chance": 20, "amount": [ 1, 2 ] } },
+    "monsters": { ".": { "monster": "GROUP_ROACH", "chance": 6, "density": 0.0001 } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_slime_palette",
+    "monsters": { ".": { "monster": "GROUP_SLIME", "chance": 4, "density": 0.0001 } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_concrete_palette",
+    "items": { ".": { "item": "concrete_bag", "chance": 95, "repeat": [ 5, 20 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_brick_palette",
+    "item": { ".": { "item": "brick", "chance": 95, "amount": [ 12, 38 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_wheel_palette",
+    "items": { ".": { "item": "wheels", "chance": 95, "repeat": [ 1, 10 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "shipping_container_spare_parts_palette",
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "items": { ".": { "item": "supplies_spares_vehicle", "chance": 95, "repeat": [ 1, 20 ] } }
   }
 ]
