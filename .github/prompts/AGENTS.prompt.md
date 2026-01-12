@@ -1,5 +1,5 @@
 ---
-applyTo: "**"
+agent: agent
 ---
 # Language Model Compliance Stress Test
 
