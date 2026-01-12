@@ -1380,7 +1380,7 @@ void npc::move()
         set_attitude( NPCATT_NULL );
     }
     regen_ai_cache();
-    // NPCs under operation should just stay still
+    // NPCs under operation or casting spells should just stay still
     if( activity.id() == ACT_OPERATION || activity.id() == ACT_SPELLCASTING ) {
         execute_action( npc_player_activity );
         return;

@@ -43,6 +43,8 @@
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
@@ -84,6 +86,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "npc_opinion.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
@@ -102,6 +105,8 @@
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "talker.h"
+#include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
@@ -193,6 +198,8 @@ static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
 static const activity_id ACT_SKIN( "ACT_SKIN" );
+static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
+static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 static const activity_id ACT_STASH( "ACT_STASH" );
 static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
@@ -235,6 +242,7 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_socialized_recently( "socialized_recently" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_under_operation( "under_operation" );
 static const efftype_id effect_worked_on( "worked_on" );
@@ -284,10 +292,12 @@ static const itype_id itype_water_clean( "water_clean" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
+static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const morale_type morale_book( "morale_book" );
+static const morale_type morale_chat( "morale_chat" );
 static const morale_type morale_feeling_good( "morale_feeling_good" );
 static const morale_type morale_game( "morale_game" );
 static const morale_type morale_haircut( "morale_haircut" );
@@ -2607,6 +2617,168 @@ std::unique_ptr<activity_actor> study_spell_activity_actor::deserialize( JsonVal
     data.read( "until_level_gained", actor.until_level_gained );
     data.read( "xp_gained", actor.xp_gained );
     data.read( "cancelled", actor.cancelled );
+
+    return actor.clone();
+}
+
+void spellcasting_activity_actor::start( player_activity &act, Character &who )
+{
+    act.moves_total = to_moves<int>( initial_moves );
+    act.moves_left = act.moves_total;
+
+    if( who.magic->casting_ignore ) {
+        const std::vector<distraction_type> ignored_distractions = {
+            distraction_type::noise,
+            distraction_type::pain,
+            distraction_type::attacked,
+            distraction_type::hostile_spotted_near,
+            distraction_type::hostile_spotted_far,
+            distraction_type::talked_to,
+            distraction_type::asthma,
+            distraction_type::motion_alarm,
+            distraction_type::weather_change,
+            distraction_type::mutation
+        };
+        for( const distraction_type ignored : ignored_distractions ) {
+            act.ignore_distraction( ignored );
+        }
+    }
+}
+
+void spellcasting_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    const int mana_override = mana_cost_override;
+    const spell_id sp = spell_selected;
+    bool is_fake_spell = !!fake_spell_level;
+
+    // bionic spells are built from the ground up
+    spell temp_spell( sp );
+    spell &spell_being_cast = !is_fake_spell ? who.magic->get_spell( sp ) : temp_spell;
+
+    // we need to set the bionic spell's level
+    if( is_fake_spell ) {
+        spell_being_cast.set_level( who, *fake_spell_level );
+    }
+
+    // choose target for spell before continuing
+    const std::optional<tripoint_bub_ms> target = !spell_target ? spell_being_cast.select_target(
+                &who ) : get_map().get_bub( *spell_target );
+    if( target ) {
+        // npcs check for target viability
+        if( !who.is_npc() || spell_being_cast.is_valid_target( who, *target ) ) {
+            // no turning back now. it's all said and done.
+            bool success = always_succeeds ||
+                           rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( who );
+            int exp_gained = spell_being_cast.casting_exp( who );
+            if( !success ) {
+                who.add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
+                                       _( "You lose your concentration!" ) );
+                if( !spell_being_cast.is_max_level( who ) && !is_fake_spell ) {
+                    // still get some experience for trying
+                    exp_gained *= spell_being_cast.get_failure_exp_percent( who );
+                    spell_being_cast.gain_exp( who, exp_gained );
+                }
+                if( !mana_override ) {
+                    spell_being_cast.consume_spell_cost( who, false );
+                }
+                dialogue character_talker( get_talker_for( who ), nullptr );
+                std::vector<effect_on_condition_id> failure_eocs = spell_being_cast.get_failure_eoc_ids();
+                for( effect_on_condition_id failure_eoc : failure_eocs ) {
+                    failure_eoc->activate( character_talker );
+                }
+                get_event_bus().send<event_type::spellcasting_finish>( who.getID(), false, sp,
+                        spell_being_cast.spell_class(), spell_being_cast.get_difficulty( who ),
+                        spell_being_cast.energy_cost( who ), spell_being_cast.casting_time( who ),
+                        spell_being_cast.damage( who ) );
+                return;
+            }
+
+            if( spell_being_cast.has_flag( spell_flag::VERBAL ) && !who.has_flag( json_flag_SILENT_SPELL ) ) {
+                sounds::sound( who.pos_bub(), who.get_shout_volume() / 2, sounds::sound_t::speech,
+                               _( "cast a spell" ),
+                               false );
+            }
+
+            who.add_msg_if_player( spell_being_cast.message(), spell_being_cast.name() );
+
+            // this is here now so that the spell first consume its components then casts its effects, necessary to cast
+            // spells with the components in hand.
+            spell_being_cast.use_components( who );
+
+            if( !mana_override ) {
+                spell_being_cast.consume_spell_cost( who, true );
+            }
+
+            if( spell_item_casting ) {
+                item *it = spell_item_casting.get_item();
+                if( it != nullptr && it->has_flag( flag_SINGLE_USE ) ) {
+                    who.i_rem( it );
+                    spell_item_casting = item_location::nowhere;
+                } else if( it && !it->has_flag( flag_USE_PLAYER_ENERGY ) ) {
+                    who.consume_charges( *it, it->type->charges_to_use() );
+                }
+            }
+
+            spell_being_cast.cast_all_effects( who, *target );
+
+            if( !is_fake_spell ) {
+                if( !spell_being_cast.is_max_level( who ) ) {
+                    // reap the reward
+                    int old_level = spell_being_cast.get_level();
+                    if( old_level == 0 ) {
+                        spell_being_cast.gain_level( who );
+                        who.add_msg_if_player( m_good,
+                                               _( "Something about how this spell works just clicked!  You gained a level!" ) );
+                    } else {
+                        spell_being_cast.gain_exp( who, exp_gained );
+                    }
+                    if( spell_being_cast.get_level() != old_level ) {
+                        // Level 0-1 message is printed above - notify player when leveling up further
+                        if( old_level > 0 ) {
+                            who.add_msg_if_player( m_good, _( "You gained a level in %s!" ), spell_being_cast.name() );
+                        }
+                    }
+                }
+            }
+            get_event_bus().send<event_type::spellcasting_finish>( who.getID(), true, sp,
+                    spell_being_cast.spell_class(), spell_being_cast.get_difficulty( who ),
+                    spell_being_cast.energy_cost( who ), spell_being_cast.casting_time( who ),
+                    spell_being_cast.damage( who ) );
+        }
+    }
+}
+
+std::string spellcasting_activity_actor::get_progress_message( const player_activity & ) const
+{
+    return spell_selected->name.translated();
+}
+
+void spellcasting_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "initial_moves", initial_moves );
+    jsout.member( "spell_selected", spell_selected );
+    jsout.member( "fake_spell_level", fake_spell_level );
+    jsout.member( "always_succeeds", always_succeeds );
+    jsout.member( "mana_cost_override", mana_cost_override );
+    jsout.member( "spell_target", spell_target );
+    jsout.member( "spell_item_casting", spell_item_casting );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> spellcasting_activity_actor::deserialize( JsonValue &jsin )
+{
+    spellcasting_activity_actor actor;
+    JsonObject data = jsin.get_object();
+
+    data.read( "initial_moves", actor.initial_moves );
+    data.read( "spell_selected", actor.spell_selected );
+    data.read( "fake_spell_level", actor.fake_spell_level );
+    data.read( "always_succeeds", actor.always_succeeds );
+    data.read( "mana_cost_override", actor.mana_cost_override );
+    data.read( "spell_target", actor.spell_target );
+    data.read( "spell_item_casting", actor.spell_item_casting );
 
     return actor.clone();
 }
@@ -9913,6 +10085,72 @@ std::unique_ptr<activity_actor> heat_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+void socialize_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( initial_moves );
+    act.moves_left = act.moves_total;
+}
+
+void socialize_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( who.is_avatar() ) {
+        npc *valid_socialize_partner = g->critter_by_id<npc>( socialize_partner );
+        if( valid_socialize_partner ) {
+            if( one_in( 3 ) ) {
+                valid_socialize_partner->say( SNIPPET.random_from_category( "npc_socialize" ).value_or(
+                                                  translation() ).translated() );
+            }
+            add_msg( m_good, _( "That was a pleasant conversation with %s." ),
+                     valid_socialize_partner->disp_name() );
+            // 50% chance of increasing 1 npc opinion value each social chat after 6hr
+            if( !valid_socialize_partner->has_effect( effect_socialized_recently ) &&
+                valid_socialize_partner->opinion_values_raised <= 10 ) {
+                int value_change = 0;
+                switch( rng( 1, 3 ) ) {
+                    case 1:
+                        value_change = rng( 0, 1 );
+                        valid_socialize_partner->op_of_u.trust += value_change;
+                        break;
+                    case 2:
+                        value_change = rng( 0, 1 );
+                        valid_socialize_partner->op_of_u.value += value_change;
+                        break;
+                    case 3:
+                        if( valid_socialize_partner->op_of_u.anger > 0 ) {
+                            value_change = rng( -1, 0 );
+                            valid_socialize_partner->op_of_u.anger += value_change;
+                        }
+                        break;
+                }
+                // we need to check for any non-zero value, e.g. anger change might be negative
+                if( value_change != 0 ) {
+                    valid_socialize_partner->opinion_values_raised++;
+                }
+                valid_socialize_partner->add_effect( effect_socialized_recently, 6_hours );
+            }
+            who.add_msg_if_player( _( "%s finishes chatting with you." ),
+                                   valid_socialize_partner->disp_name() );
+        }
+        who.add_morale( morale_chat, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
+    }
+    act.set_to_null();
+}
+
+void socialize_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "socialize_partner", socialize_partner );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> socialize_activity_actor::deserialize( JsonValue &jsin )
+{
+    socialize_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "socialize_partner", actor.socialize_partner );
+    return actor.clone();
+}
+
 void generic_entertainment_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( entertain_duration );
@@ -11271,6 +11509,8 @@ deserialize_functions = {
     { ACT_SHAVE, &shave_activity_actor::deserialize },
     { ACT_SHEARING, &shearing_activity_actor::deserialize },
     { ACT_SKIN, &butchery_activity_actor::deserialize },
+    { ACT_SOCIALIZE, &socialize_activity_actor::deserialize },
+    { ACT_SPELLCASTING, &spellcasting_activity_actor::deserialize },
     { ACT_START_ENGINES, &start_engines_activity_actor::deserialize },
     { ACT_STASH, &stash_activity_actor::deserialize },
     { ACT_STUDY_SPELL, &study_spell_activity_actor::deserialize },

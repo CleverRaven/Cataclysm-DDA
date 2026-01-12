@@ -35,7 +35,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include <cuchar>
 #include <cwchar>
 #include <cwctype>
 #include <deque>

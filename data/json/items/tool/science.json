@@ -676,6 +676,26 @@
     "tool_ammo": [ "battery" ]
   },
   {
+    "id": "mws_advanced_weather_sensor_array",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "ambient weather sensor array" },
+    "description": "Represents the hardware and software for displaying the weather in a HEW system.  You should not see this item in game.",
+    "weight": "4000 g",
+    "volume": "80000 ml",
+    "longest_side": "55 cm",
+    "price": "400 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": "[",
+    "looks_like": "briefcase",
+    "color": "yellow",
+    "charges_per_use": 1,
+    "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER", "ELECTRONIC" ],
+    "use_action": [ "WEATHER_TOOL" ],
+    "tool_ammo": [ "battery" ]
+  },
+  {
     "id": "mws_HE_sensor_array",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],

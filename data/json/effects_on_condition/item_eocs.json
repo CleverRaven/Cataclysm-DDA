@@ -34,7 +34,12 @@
         { "u_near_om_location": "microlab_portal_security1", "range": 10 },
         { "u_near_om_location": "labyrinth_entrance", "range": 10 },
         { "u_near_om_location": "corpse_surface", "range": 10 },
-        { "u_near_om_location": "corpse_brain", "range": 10 }
+        { "u_near_om_location": "corpse_brain", "range": 10 },
+        { "u_near_om_location": "xedra_rural_church", "range": 10 },
+        { "u_near_om_location": "morgantown_2b", "range": 10 },
+        { "u_near_om_location": "cabin_3_reverberation", "range": 10 },
+        { "u_near_om_location": "cabin_3_reverberation_hint", "range": 10 },
+        { "u_near_om_location": "radiosphere_radio_tower_top", "range": 10 }
       ]
     },
     "effect": {
@@ -269,5 +274,68 @@
     "type": "effect_on_condition",
     "id": "EOC_selector_cancel",
     "effect": { "u_message": "You changed your mind." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MP3_REVERBERATION",
+    "effect": [
+      {
+        "if": { "math": [ "has_var(u_mp3_reverberation_timer)" ] },
+        "then": {
+          "if": { "math": [ "u_mp3_reverberation_timer < 0" ] },
+          "then": [ { "run_eocs": [ "EOC_MP3_REVERBERATION_LOCATOR" ] }, { "math": [ "u_mp3_reverberation_timer = rand(20)+20" ] } ],
+          "else": [ { "math": [ "u_mp3_reverberation_timer -= 1" ] } ]
+        },
+        "else": { "math": [ "u_mp3_reverberation_timer = rand(20)+20" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MP3_REVERBERATION_LOCATOR",
+    "effect": [
+      {
+        "if": {
+          "or": [
+            { "u_at_om_location": "cabin_roof_3" },
+            { "u_at_om_location": "cabin_roof_3_reverberation_hint" },
+            { "u_at_om_location": "radio_tower_top" },
+            { "u_at_om_location": "wasp_tower_top" }
+          ]
+        },
+        "then": [
+          { "u_message": "Its song drowns out the world.", "popup": true, "popup_w_interrupt_query": true },
+          { "transform_item": "mp3_reverberation", "active": false },
+          { "run_eocs": [ "EOC_REVERBERATION_ENTER" ], "time_in_future": "2 seconds" }
+        ],
+        "else": {
+          "if": {
+            "or": [
+              { "u_near_om_location": "cabin_3", "range": 2 },
+              { "u_near_om_location": "cabin_3_reverberation_hint", "range": 2 },
+              { "u_near_om_location": "radio_tower", "range": 2 },
+              { "u_near_om_location": "radio_tower_1", "range": 2 },
+              { "u_near_om_location": "radio_tower_reverberation_mp3", "range": 2 },
+              { "u_at_om_location": "radio_tower_even" },
+              { "u_at_om_location": "radio_tower_odd" }
+            ]
+          },
+          "then": { "u_message": "Its song is indescribable." },
+          "else": {
+            "if": {
+              "or": [
+                { "u_near_om_location": "cabin_3", "range": 8 },
+                { "u_near_om_location": "cabin_3_reverberation_hint", "range": 8 },
+                { "u_near_om_location": "radio_tower", "range": 8 },
+                { "u_near_om_location": "radio_tower_1", "range": 8 },
+                { "u_near_om_location": "radio_tower_reverberation_mp3", "range": 8 }
+              ]
+            },
+            "then": { "u_message": "Its song is energetic, joyful." },
+            "else": { "u_message": "Its song is quiet, reserved." }
+          }
+        }
+      }
+    ]
   }
 ]

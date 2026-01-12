@@ -551,7 +551,8 @@
       "radio_tower_odd",
       "radio_tower_top",
       "radio_tower_1",
-      "radio_tower_roof_1"
+      "radio_tower_roof_1",
+      "radio_tower_reverberation_mp3"
     ],
     "vision_levels": "isolated_tower",
     "travel_cost_type": "structure",
