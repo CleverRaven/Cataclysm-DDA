@@ -124,7 +124,7 @@
     "volume": "250 ml",
     "material": [ "junk" ],
     "spoils_in": "1 days",
-    "flags": [ "USE_EAT_VERB", "EAT_COLD" ],
+    "flags": [ "USE_EAT_VERB", "EATEN_COLD" ],
     "quench": 68,
     "calories": 486,
     "fun": 15,
