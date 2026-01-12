@@ -733,7 +733,7 @@
     "effect": [ "u_die", { "run_eocs": "EOC_HEDGE_CHICKEN_SACRIFICE_MAKE_RAIN_CASTER", "alpha_talker": "npc" } ],
     "false_effect": [
       {
-        "u_message": "With a quick cut, you slice the chicken's throat and, as you gut it and fill the corpse with the herbs, honey, and milk, you recite the names of the angels seven times.  Despite the sacrifice, nothing happens. The temperature must be above freezing to call the rains.",
+        "u_message": "With a quick cut, you slice the chicken's throat and, as you gut it and fill the corpse with the herbs, honey, and milk, you recite the names of the angels seven times.  Despite the sacrifice, nothing happens.  The temperature must be above freezing to call the rains.",
         "type": "bad"
       }
     ]
