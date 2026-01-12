@@ -585,6 +585,21 @@
   },
   {
     "type": "mutation",
+    "id": "perk_running_in_heels",
+    "name": { "str": "Running in Heels" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You have mastered the ways of the 90s action heroine.  Heels only encumber you as much as normal shoes.",
+    "enchantments": [
+      {
+        "condition": { "u_has_worn_with_flag": "HIGH_HEELS" },
+        "encumbrance_modifier": [ { "part": "foot_l", "multiply": -0.95 }, { "part": "foot_r", "multiply": -0.95 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_early_to_rise",
     "name": { "str": "Early to Rise" },
     "points": 0,
