@@ -1,0 +1,32 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "voidblock_raise_yellow",
+    "terrain": [ { "result": [ "t_strconc_wall_y" ], "valid_terrain": [ "t_floor_yellow" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "voidblock_raise_cyan",
+    "terrain": [ { "result": [ "t_strconc_wall_cyan" ], "valid_terrain": [ "t_floor_cyan" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "voidblock_raise_purple",
+    "terrain": [ { "result": [ "t_strconc_wall_p" ], "valid_terrain": [ "t_floor_purple" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "voidblock_lower_yellow",
+    "terrain": [ { "result": [ "t_floor_yellow" ], "valid_terrain": [ "t_strconc_wall_y" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "voidblock_lower_cyan",
+    "terrain": [ { "result": [ "t_floor_cyan" ], "valid_terrain": [ "t_strconc_wall_cyan" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "voidblock_lower_purple",
+    "terrain": [ { "result": [ "t_floor_purple" ], "valid_terrain": [ "t_strconc_wall_p" ] } ]
+  }
+]

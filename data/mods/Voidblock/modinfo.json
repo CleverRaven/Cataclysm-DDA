@@ -1,0 +1,13 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "voidblock",
+    "name": "Voidblock",
+    "authors": [ "Lightwave" ],
+    "description": "A remix of Sky Island with Innawood added.  Less focus on expeditions and more focus on exploring and surviving on the island.  Be aware that 'PLAY NOW' will NOT work, you MUST make a custom character.",
+    "category": "total_conversion",
+    "dependencies": [ "dda", "innawood", "skyisland", "magiclysm" ],
+    "loading_images": [ "innavoid.png" ],
+    "version": "1.0"
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_CLIMATE_CONTROL_SURFACE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": { "and": [ { "u_has_trait": "mut_skyisland_temperature_adaptation" }, { "u_at_om_location": "sky_island_core_voidblock" } ] },
+    "effect": [ { "run_eocs": "EOC_SKY_ISLAND_CLIMATE_RESET" } ]
+  }
+]

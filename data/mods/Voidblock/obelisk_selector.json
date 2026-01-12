@@ -1,0 +1,152 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_warp_statue",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_raidbegin_short", "EOC_raidbegin_medium", "EOC_raidbegin_long", "EOC_Forge_Warp", "EOC_raidcancel" ],
+        "names": [ "Quick Expedition", "Large Expedition", "Extended Expedition", "Visit the Forge of Wonders", "Cancel" ],
+        "keys": [ "1", "2", "3", "4", "5" ],
+        "title": "Select Expedition Length",
+        "descriptions": [
+          "A simple, brief expedition at the normal time limit.  Missions and exits will be close together.  A good chance to quickly gather supplies and experience.",
+          "A longer expedition that offers twice the time.  Missions and exits will be scattered over a wider area.  You will have more opportunity to dig deeper into surrounding points of interest, but also need more time to travel.  Missions offer extra warp shards as rewards.",
+          "A very long expedition that triples the time limit.  Missions and exits will be very far away.  You will have time for extended activities, but a good deal of your time will be spent trying to reach objectives over potentially dangerous terrain.  Missions offer even more warp shards as rewards.",
+          "Visit the forge of wonders, where you could do some shopping.  Costs an invitation per visit.",
+          "Stay on the island for now."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raidbegin_short",
+    "//": "Changed to require a quest done first",
+    "condition": { "math": [ "islandrank >= 0" ] },
+    "effect": [
+      { "math": [ "lengthofthisraid = 0" ] },
+      { "math": [ "currentpulselength = sicknessintervals" ] },
+      { "math": [ "missiondistancemax = 30" ] },
+      { "math": [ "missiondistancemin = 5" ] },
+      { "math": [ "exfildistancemax = 35" ] },
+      { "math": [ "exfildistancemin = 5" ] },
+      { "run_eocs": [ "EOC_warp_choose_locale" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_warp_choose_locale",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_Field_Loc_Warp", "EOC_raidcancel" ],
+        "names": [ "Target: Field", "Cancel" ],
+        "keys": [ "1", "2" ],
+        "title": "Select a Starting Location",
+        "descriptions": [
+          "Arrive in a barren field.",
+          "Stay on the island for now."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Forge_Warp",
+    "condition": { "and": [ { "u_has_items": { "item": "forge_invitation", "count": 1 } }, { "math": [ "islandrank >= 0" ] } ] },
+    "effect": [
+      { "math": [ "lengthofthisraid = 0" ] },
+      { "math": [ "currentpulselength = sicknessintervals" ] },
+      { "math": [ "missiondistancemax = 30" ] },
+      { "math": [ "missiondistancemin = 5" ] },
+      { "math": [ "exfildistancemax = 35" ] },
+      { "math": [ "exfildistancemin = 5" ] },
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "forge_x2y2z1",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
+          "min_distance": 5,
+          "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
+          "z": 4,
+          "random": true
+        },
+        "terrain": "t_magiconc_floor",
+        "target_max_radius": 20
+      },
+      { "u_location_variable": { "global_val": "OM_HQ_origin" } },
+      {
+        "u_location_variable": { "global_val": "OM_HQ_origin_npc" },
+        "passable_only": true,
+        "min_radius": 2,
+        "max_radius": 10
+      },
+      {
+        "u_add_effect": "warpcloak",
+        "intensity": 1,
+        "duration": { "global_val": "invistime", "default": "3 s" }
+      },
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_initiate_randomport_npc_follower",
+            "condition": "u_following",
+            "effect": [
+              {
+                "u_teleport": { "global_val": "OM_missionspot" },
+                "fail_message": "It seems some of your followers couldn't teleport with you.",
+                "force": true
+              },
+              {
+                "location_variable_adjust": { "global_val": "OM_missionspot" },
+                "//": "Adjust by 1 or 2 in either direction",
+                "x_adjust": { "math": [ "((-1) ^ rand(1)) * (rand(1) + 1)" ] },
+                "y_adjust": { "math": [ "((-1) ^ rand(1)) * (rand(1) + 1)" ] }
+              }
+            ]
+          }
+        ],
+        "npc_range": 10,
+        "local": true
+      },
+      {
+        "u_teleport": { "global_val": "OM_missionspot" },
+        "fail_message": "It seems the portal couldn't find a valid location.",
+        "force": true
+      },
+      { "run_eocs": [ "EOC_safely_landed_forge" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_safely_landed_forge",
+    "//": "A variant of EOC_safely_landed that deals with landing in the forge of wonders",
+    "condition": { "not": { "u_near_om_location": "sky_island_core", "range": 4 } },
+    "effect": [
+      {
+        "u_add_effect": "warpcloak",
+        "intensity": 1,
+        "duration": { "global_val": "invistime", "default": "60 s" }
+      },
+      {
+        "u_message": "You're still materializing and not fully visible yet.  In about <global_val:invistime> seconds, the world will be able to see you, so if you were warped into danger, now's your chance to get to cover.",
+        "popup": false
+      },
+      {
+        "u_message": "You've arrived!\nPress a key when ready.  Use the gate in the center when you are done to return to your island.",
+        "popup": true
+      },
+      { "u_add_trait": "awayfromhome" },
+      { "math": [ "timeawayfromhome = 0 - bonuspulses" ] },
+      { "u_add_effect": "warpsickness", "intensity": 6, "duration": "PERMANENT" },
+      { "run_eocs": [ "EOC_SKY_ISLAND_CLIMATE_RESET" ] },
+      { "u_consume_item": "forge_invitation", "count": 1 }
+    ],
+    "false_effect": [
+      {
+        "u_message": "Something went wrong.  The game could not find a suitable teleport location.  Please try using the obelisk again.",
+        "popup": true
+      }
+    ]
+  }
+]

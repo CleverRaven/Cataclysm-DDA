@@ -1,0 +1,110 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_voidblock_button_yellow",
+    "condition": {
+      "and": [
+        { "not": { "compare_string": [ { "u_val": "voidblock_recent_button" }, "white" ] } },
+        { "not": { "compare_string": [ { "u_val": "voidblock_recent_button" }, "yellow" ] } },
+        { "u_query": "This button looks pressable.  Press it?", "default": true }
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_voidblock_raise_walls" ] },
+      { "u_transform_radius": 20, "ter_furn_transform": "voidblock_lower_yellow" },
+      { "u_add_var": "voidblock_recent_button", "value": "yellow" },
+      { "u_message": "You hear the sound of grinding stones." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_voidblock_button_cyan",
+    "condition": {
+      "and": [
+        { "not": { "compare_string": [ { "u_val": "voidblock_recent_button" }, "white" ] } },
+        { "not": { "compare_string": [ { "u_val": "voidblock_recent_button" }, "cyan" ] } },
+        { "u_query": "This button looks pressable.  Press it?", "default": true }
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_voidblock_raise_walls" ] },
+      { "u_transform_radius": 20, "ter_furn_transform": "voidblock_lower_cyan" },
+      { "u_add_var": "voidblock_recent_button", "value": "cyan" },
+      { "u_message": "You hear the sound of grinding stones." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_voidblock_button_purple",
+    "condition": {
+      "and": [
+        { "not": { "compare_string": [ { "u_val": "voidblock_recent_button" }, "white" ] } },
+        { "not": { "compare_string": [ { "u_val": "voidblock_recent_button" }, "purple" ] } },
+        { "u_query": "This button looks pressable.  Press it?", "default": true }
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_voidblock_raise_walls" ] },
+      { "u_transform_radius": 20, "ter_furn_transform": "voidblock_lower_purple" },
+      { "u_add_var": "voidblock_recent_button", "value": "purple" },
+      { "u_message": "You hear the sound of grinding stones." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_voidblock_button_black",
+    "condition": { "u_query": "This button looks pressable.  Press it?", "default": true },
+    "effect": [
+      { "u_transform_radius": 20, "ter_furn_transform": "voidblock_raise_yellow" },
+      { "u_transform_radius": 20, "ter_furn_transform": "voidblock_raise_cyan" },
+      { "u_transform_radius": 20, "ter_furn_transform": "voidblock_raise_purple" },
+      { "u_add_var": "voidblock_recent_button", "value": "" },
+      { "u_add_var": "voidblock_old_button", "value": "" },
+      { "u_message": "You hear the sound of grinding stones." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_voidblock_button_white",
+    "condition": {
+      "and": [
+        { "not": { "compare_string": [ { "u_val": "voidblock_recent_button" }, "white" ] } },
+        { "u_query": "This button looks pressable.  Press it?", "default": true }
+      ]
+    },
+    "effect": [
+      { "u_transform_radius": 20, "ter_furn_transform": "voidblock_lower_yellow" },
+      { "u_transform_radius": 20, "ter_furn_transform": "voidblock_lower_cyan" },
+      { "u_transform_radius": 20, "ter_furn_transform": "voidblock_lower_purple" },
+      { "u_add_var": "voidblock_recent_button", "value": "white" },
+      { "u_add_var": "voidblock_old_button", "value": "white" },
+      { "u_message": "You hear the sound of grinding stones." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_voidblock_raise_walls",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_voidblock_raise_yellow_check",
+            "condition": { "compare_string": [ { "u_val": "voidblock_old_button" }, "yellow" ] },
+            "effect": { "u_transform_radius": 20, "ter_furn_transform": "voidblock_raise_yellow" }
+          },
+          {
+            "id": "EOC_voidblock_raise_cyan_check",
+            "condition": { "compare_string": [ { "u_val": "voidblock_old_button" }, "cyan" ] },
+            "effect": { "u_transform_radius": 20, "ter_furn_transform": "voidblock_raise_cyan" }
+          },
+          {
+            "id": "EOC_voidblock_raise_purple_check",
+            "condition": { "compare_string": [ { "u_val": "voidblock_old_button" }, "purple" ] },
+            "effect": { "u_transform_radius": 20, "ter_furn_transform": "voidblock_raise_purple" }
+          }
+        ]
+      },
+      { "copy_var": { "u_val": "voidblock_recent_button" }, "target_var": { "u_val": "voidblock_old_button" } }
+    ]
+  }
+]
