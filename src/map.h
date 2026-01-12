@@ -1906,6 +1906,8 @@ class map
         void on_unload( const tripoint_rel_sm &loc );
         void copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from );
         void draw_map( mapgendata &dat );
+        // Apply historical temperature-based ice conversion to a single submap (load or generation)
+        void apply_historical_ice_to_submap( const tripoint_abs_sm &p_sm );
 
         void draw_lab( mapgendata &dat );
 

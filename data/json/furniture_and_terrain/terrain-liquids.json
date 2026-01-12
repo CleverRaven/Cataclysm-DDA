@@ -10,7 +10,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "SHALLOW_WATER" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -42,7 +42,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "NO_FLOOR_WATER", "EMPTY_SPACE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {

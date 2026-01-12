@@ -1,0 +1,46 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_ice_sh_thin",
+    "name": "thin ice",
+    "description": "A thin layer of ice covering shallow water.  It may not support much weight.",
+    "symbol": "~",
+    "looks_like": "t_water_sh",
+    "color": "light_cyan",
+    "move_cost": 4,
+    "flags": [ "ICE_SHALLOW", "THIN_ICE", "TRANSPARENT", "FLAT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_ice_sh_thick",
+    "name": "thick ice",
+    "description": "A solid sheet of thick ice covering shallow water.  It should support weight.",
+    "symbol": "~",
+    "looks_like": "t_water_sh",
+    "color": "cyan",
+    "move_cost": 2,
+    "flags": [ "ICE_SHALLOW", "THICK_ICE", "TRANSPARENT", "FLAT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_ice_dp_thin",
+    "name": "thin ice",
+    "description": "A thin layer of ice covering deep water.  It may break under weight.",
+    "symbol": "~",
+    "looks_like": "t_water_dp",
+    "color": "light_cyan",
+    "move_cost": 4,
+    "flags": [ "ICE_DEEP", "THIN_ICE", "TRANSPARENT", "FLAT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_ice_dp_thick",
+    "name": "thick ice",
+    "description": "A thick sheet of ice covering deep water.  It should support weight, but danger remains below.",
+    "symbol": "~",
+    "looks_like": "t_water_dp",
+    "color": "cyan",
+    "move_cost": 2,
+    "flags": [ "ICE_DEEP", "THICK_ICE", "TRANSPARENT", "FLAT" ]
+  }
+]
