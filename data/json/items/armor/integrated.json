@@ -1774,5 +1774,32 @@
       }
     ],
     "melee_damage": { "stab": 15 }
+  },
+  {
+    "id": "integrated_hooves",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "hooves" },
+    "description": "You have hooves on the ends of your feet rather than toes.  They allow powerful kicking attacks, but prevent wearing footwear.",
+    "weight": "250 g",
+    "volume": "500 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "chitin" ],
+    "symbol": "b",
+    "color": "brown",
+    "warmth": 2,
+    "techniques": [ "HOOVES_KICK", "HOOVES_KICK_CRIT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_sole_r", "foot_sole_l" ],
+        "coverage": 100,
+        "encumbrance": 1
+      }
+    ]
   }
 ]
