@@ -8344,8 +8344,6 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
                     const int charges_in_item = pair.first->charges;
                     if( charges_in_item > 0 ) {
                         item_weight = pair.first->weight( false, false ) / charges_in_item * pair.second;
-                    } else {
-                        item_weight = 0_gram;
                     }
                 } else {
                     item_weight = pair.first->weight( false, false ) * pair.second;
@@ -8402,8 +8400,6 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
             const int charges_in_item = pair.first->charges;
             if( charges_in_item > 0 ) {
                 item_weight = pair.first->weight( false, false ) / charges_in_item * pair.second;
-            } else {
-                item_weight = 0_gram;
             }
         } else {
             item_weight = pair.first->weight( false, false ) * pair.second;
