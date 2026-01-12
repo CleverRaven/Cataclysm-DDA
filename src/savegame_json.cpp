@@ -413,7 +413,8 @@ void player_activity::deserialize( const JsonObject &data )
         "ACT_CONSUME_FOOD_MENU", // Remove after 0.J
         "ACT_CONSUME_DRINK_MENU", // Remove after 0.J
         "ACT_CONSUME_MEDS_MENU", // Remove after 0.J
-        "ACT_ARMOR_LAYERS" // Remove after 0.J
+        "ACT_ARMOR_LAYERS", // Remove after 0.J
+        "ACT_TRAIN_TEACHER" // Remove after 0.J
     };
     if( !data.read( "type", tmptype ) ) {
         // Then it's a legacy save.
