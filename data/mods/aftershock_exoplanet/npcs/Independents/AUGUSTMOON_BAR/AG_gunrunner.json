@@ -11,7 +11,7 @@
     "bonus_int": { "rng": [ -2, 0 ] },
     "bonus_per": { "rng": [ 0, 2 ] },
     "worn_override": "NC_INDEPENDENT_CREW_worn",
-    "carry_override": "NC_AG_GUNRUNNER",
+    "carry_override": "AG_GUNRUNNER_STOCK",
     "weapon_override": "EMPTY_GROUP",
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
@@ -19,7 +19,7 @@
       { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } }
     ],
-    "shopkeeper_price_rules": [ { "group": "NC_AG_GUNRUNNER", "markup": 3.5 } ]
+    "shopkeeper_price_rules": [ { "group": "AG_GUNRUNNER_STOCK", "markup": 3.5 } ]
   },
   {
     "type": "item_group",

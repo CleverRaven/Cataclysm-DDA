@@ -53,7 +53,6 @@
         "text": "What if I could get you that kind of skill?",
         "topic": "AG_scraptrader_VOSTOK_3"
       },
-      { "" },
       { "text": "Thanks for the info.", "topic": "TALK_DONE" }
     ]
   },
@@ -62,7 +61,7 @@
     "type": "talk_topic",
     "dynamic_line": "The spacer raises an eyebrow at you, \"Now that's interesting.  If you could get me some serious computer skills, I know just the place where you stand a chance of pulling it off.\" <mypronouns> flips a bit of scrap in <mypronouns> hand thoughtfully.  \"Old stratoscomm point down there on the surface, UICA set it up but it goes unchecked most of the time...  Careful work and you might be able to rig up a link without anyone noticing.  Mess it up and the Firelight will blast you back into orbit for sure.  Now either trade some scrap or get to work on that.\"",
     "responses": [
-      { "text": "I'll see what I can do.", "topic": "TALK_DONE", "effect": "u_add_effect EOC_AG_SCRAPTRADER_VOSTOK" },
+      { "text": "I'll see what I can do.", "topic": "TALK_DONE", "effect": "" },
       { "text": "I'll see what I can do.  Not for free, though.", "topic": "AG_scraptrader_vostok_payment" }
     ]
   },
@@ -73,6 +72,6 @@
       "yes": "The spacer nods, \"Fair enough, 10k if you come through.  Sound good?\"",
       "no": "The spacer frowns, \"I put a good word in Vostok for you, you land me a comms link.  I figure we are more than even then.\""
     },
-    "responses": [ { "text": "Deal.", "topic": "TALK_DONE", "effect": "u_add_effect EOC_AG_SCRAPTRADER_VOSTOK_PAYMENT" } ]
+    "responses": [ { "text": "Deal.", "topic": "TALK_DONE", "effect": "" } ]
   }
 ]

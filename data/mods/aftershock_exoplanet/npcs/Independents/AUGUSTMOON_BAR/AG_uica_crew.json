@@ -13,12 +13,47 @@
     "id": "AG_uica_crew_1",
     "type": "talk_topic",
     "dynamic_line": "&You buy and share a round with the crew, they warm up to you quickly.  You figure that now's the time to get some info out of them, if want to.",
+    "speaker_effect": [ "REMOVECASH-wip" ],
     "responses": [
       { "text": "", "topic": "AG_uica_crew_2" },
-      { "text": "Any chance you guys are looking for extra hands?", "topic": "AG_uica_crew_hire" },
-      { "text": "Throw in a word in and there, make it known you are looking for contraband to buy.", "topic": "AG_uica_crew_contraband" },
-      { "text": "Get them into a brawl.", "topic": "TALK_DONE" }
+      { "text": "Any of you seen interesting things from the ground scope?", "topic": "AG_uica_salvage_hints" },
+      {
+        "text": "Throw in a word in and there, make it known you are looking for contraband to buy.",
+        "topic": "AG_uica_crew_contraband"
+      },
       { "text": "Just keep the rounds coming.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "AG_uica_crew_contraband",
+    "type": "talk_topic",
+    "dynamic_line": "&A subtle insinuation here and there makes it clear you are looking to buy gear off the books.  Soon enough a younger crewman invites you to a more secluded booth.  \"Keir Albior, manages supply for the surface's shuttles, mate of mine from Metroplex 12.  I'll put in a good word for you, should score you a deal on some gear.",
+    "responses": [ { "text": "Thanks, I appreciate it.", "topic": "TALK_DONE", "effect": { "math": [ "u_single_trade_keir = 1" ] } } ]
+  },
+  {
+    "id": "AG_uica_crew_contraband_fail",
+    "type": "talk_topic",
+    "dynamic_line": "&Thankfully your insinuations pass as simple drunken banter, but the crew seems to have clammed up after that.  Best not push your luck.",
+    "responses": [ { "text": "Alright see you all around.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "AG_uica_salvage_hints",
+    "type": "talk_topic",
+    "dynamic_line": "Well now sensors lead kept me staring at a bunch of old junk last shift, but its gonna cost you a pair of rounds at least. What d'you say?",
+    "responses": [
+      { "condition": { "u_has_amount": { "item": "money", "amount": 200 } }, "text": "[200 USD] Some rounds it is." },
+      { "text": "Eh you all just want to spin me for some cash, I know how this works.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "AG_uica_salvage_hints_success",
+    "type": "talk_topic",
+    "dynamic_line": "Alright then, let me see...  got some big industrial sites here and here.  Old mining crawlers here too ...and an old AI scheduler station over here.  Ground Ops is really interested in that one, probably still has some functioning hardware inside.  Good luck down there.\"",
+    "responses": [ { "text": "Thanks for the tip.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "AG_uica_salvage_hints_fail",
+    "topic": "TALK_DONE",
+    "dynamic_line": "&You soon realize these guys don't know anything but salvor tall tales and shallow gossip."
   }
 ]

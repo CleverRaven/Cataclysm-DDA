@@ -18,6 +18,7 @@
         "z": 0
       }
     },
+    "end": { "effect": [ { "math": [ "u_completed_shuttle_mission = 1" ] } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -37,7 +38,7 @@
     "id": [ "AG_shuttle_1", "AG_shuttle_hint" ],
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_mission": "AG_shuttle_mission",
+      "or": [ { "u_has_mission": "AG_shuttle_mission" }, { "math": [ "u_completed_shuttle_mission == 1" ] } ],
       "yes": "Not in the mood for a talk, sorry.",
       "no": {
         "gendered_line": "&You join the surveyor at the bar.  They are nursing a drink and looking at a banged-up screen pad.  \"Well wouln't you know, I just happen to have the coordinates of a crashed shuttle that might be worth salvaging.  Should be full of military cargo, I believe.  Can sell you its location for 2,500.  What do you say?\"",
