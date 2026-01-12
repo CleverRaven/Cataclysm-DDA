@@ -290,7 +290,11 @@
     "id": "spell_components_hedge_raziel_amulet_protection",
     "type": "requirement",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
-    "tools": [ [ [ "worthy_wine", 3, "LIST" ] ], [ [ "eggs_bird", 1, "LIST" ] ] ],
-    "components": [ [ [ "apple", 1 ], [ "lemon", 1 ] ], [ [ "copper_necklace", 1 ] ] ]
+    "components": [
+      [ [ "worthy_wine", 3, "LIST" ] ],
+      [ [ "eggs_bird", 1, "LIST" ] ],
+      [ [ "apple", 1 ], [ "lemon", 1 ] ],
+      [ [ "copper_necklace", 1 ] ]
+    ]
   }
 ]
