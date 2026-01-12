@@ -306,6 +306,7 @@ static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
+static const trait_id trait_CANNOT_GAIN_PSIONICS( "CANNOT_GAIN_PSIONICS" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_ESPER_ADVANCEMENT_OKAY( "ESPER_ADVANCEMENT_OKAY" );
 static const trait_id trait_ESPER_STARTER_ADVANCEMENT_OKAY( "ESPER_STARTER_ADVANCEMENT_OKAY" );
@@ -569,6 +570,9 @@ void iexamine::genemill( Character &you, const tripoint_bub_ms & )
     if( you.has_permanent_trait( trait_ESPER_STARTER_ADVANCEMENT_OKAY ) ) {
         you.remove_mutation( trait_ESPER_STARTER_ADVANCEMENT_OKAY );
     }
+
+    // Add a trait to prevent later esper enkindling
+    you.set_mutation( trait_CANNOT_GAIN_PSIONICS );
 
     //Handle Thesholds changing/removal.
     auto highest_id = std::max_element( you.mutation_category_level.begin(),
