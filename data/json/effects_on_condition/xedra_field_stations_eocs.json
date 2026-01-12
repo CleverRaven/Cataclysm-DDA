@@ -21,5 +21,31 @@
       ],
       "else": { "u_message": "You study the notebook, but don't find anything interesting or new.", "popup": true }
     }
-  }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_barricaded_church_nearby",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": {
+      "and": [
+        { "or": [ { "u_near_om_location": "xedra_rural_church_parking" }, { "u_near_om_location": "xedra_rural_church" } ] },
+        { "not": { "compare_string": [ "yes", { "u_val": "knows_xedra_field_station_1" } ] } }
+      ]
+    },
+    "effect": { "u_add_var": "knows_xedra_field_station_1", "value": "yes" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_morgantown_nearby",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": {
+      "and": [
+        { "or": [ { "u_near_om_location": "morgantown_forest_fence_s" }, { "u_near_om_location": "morgantown_forest_fence_corner" }, { "u_near_om_location": "morgantown_forest_fence_entry" } ] },
+        { "not": { "compare_string": [ "yes", { "u_val": "knows_xedra_field_station_2" } ] } }
+      ]
+    },
+    "effect": { "u_add_var": "knows_xedra_field_station_2", "value": "yes" }
+  },
 ]
