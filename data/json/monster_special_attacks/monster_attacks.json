@@ -814,7 +814,7 @@
     "id": "hulk_wide_swing",
     "accuracy": 8,
     "cooldown": 15,
-    "move_cost": 150,
+    "move_cost": 250,
     "hitsize_min": 12,
     "damage_max_instance": [ { "damage_type": "bash", "amount": 35, "armor_penetration": 10 } ],
     "dodgeable": true,
