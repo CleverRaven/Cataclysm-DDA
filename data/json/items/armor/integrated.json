@@ -1790,7 +1790,7 @@
     "symbol": "b",
     "color": "brown",
     "warmth": 2,
-    "techniques": [ "HOOVES_KICK", "HOOVES_KICK_CRIT" ],
+    "techniques": [ "HOOVES_KICK", "HOOVES_KICK_NATURAL", "HOOVES_KICK_CRIT" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {

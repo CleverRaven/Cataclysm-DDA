@@ -228,10 +228,39 @@
     "melee_allowed": true,
     "messages": [ "You kick %s with your hooves", "<npcname> kicks %s with their hooves" ],
     "unarmed_allowed": true,
-    "weighting": 3,
+    "weighting": -4,
     "reach_ok": false,
-    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole" ],
-    "condition": { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] },
+    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "tech_effects": [ { "id": "downed", "chance": 50, "duration": 2, "on_damage": true, "message": "%s is knocked to the ground!" } ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "HOOVES_KICK_NATURAL",
+    "name": "Hoof Kick",
+    "melee_allowed": true,
+    "messages": [ "You kick %s with your hooves", "<npcname> kicks %s with their hooves" ],
+    "unarmed_allowed": true,
+    "weighting": 0,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "natural_stance" },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
     "tech_effects": [ { "id": "downed", "chance": 50, "duration": 2, "on_damage": true, "message": "%s is knocked to the ground!" } ],
     "flat_bonuses": [
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
@@ -249,7 +278,7 @@
     "unarmed_allowed": true,
     "reach_ok": false,
     "crit_tec": true,
-    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole" ],
+    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
     "tech_effects": [ { "id": "downed", "chance": 100, "duration": 2, "on_damage": true, "message": "%s is knocked to the ground!" } ],
     "flat_bonuses": [
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
