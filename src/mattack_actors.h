@@ -145,6 +145,7 @@ class melee_actor : public mattack_actor
         int hitsize_min = -1;
         int hitsize_max = -1;
         bool attack_upper = true;
+        bool attack_all = false;
         grab grab_data;
         bool is_grab = false;
 

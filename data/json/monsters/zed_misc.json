@@ -420,7 +420,13 @@
     "vision_night": 4,
     "harvest": "zombie_hulk",
     "grab_strength": 50,
-    "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid" }, { "id": "smash", "throw_strength": 96 } ],
+    "special_attacks": [
+      { "id": "grab" },
+      { "id": "scratch_humanoid" },
+      { "id": "bite_humanoid" },
+      { "id": "smash", "throw_strength": 96 },
+      { "id": "hulk_smash" }
+    ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "burn_into": "mon_zombie_fiend",
     "fungalize_into": "mon_zombie_hulk_dusted",
