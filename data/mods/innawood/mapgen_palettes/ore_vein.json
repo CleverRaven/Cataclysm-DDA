@@ -24,36 +24,43 @@
   {
     "type": "palette",
     "id": "innawood_ore_vein_coal",
-    "terrain": { "+": "t_rock_coal", ".": [ [ "t_rock_coal", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
+    "terrain": { "+": "t_rock_coal", ".": [ [ "t_rock_coal", 2 ], [ "t_rock", 1 ] ] },
+    "items": { "O": { "item": "outcrop_coal", "chance": 55 } }
   },
   {
     "type": "palette",
     "id": "innawood_ore_vein_salt",
-    "terrain": { "+": "t_rock_halite", ".": [ [ "t_rock_halite", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
+    "terrain": { "+": "t_rock_halite", ".": [ [ "t_rock_halite", 2 ], [ "t_rock", 1 ] ] },
+    "items": { "O": { "item": "outcrop_hallite", "chance": 55 } }
   },
   {
     "type": "palette",
     "id": "innawood_ore_vein_brimstone",
-    "terrain": { "+": "t_rock_brimstone", ".": [ [ "t_rock_brimstone", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
+    "terrain": { "+": "t_rock_brimstone", ".": [ [ "t_rock_brimstone", 2 ], [ "t_rock", 1 ] ] },
+    "items": { "O": { "item": "outcrop_brimstone", "chance": 55 } }
   },
   {
     "type": "palette",
     "id": "innawood_ore_vein_copper",
-    "terrain": { "+": "t_rock_copper", ".": [ [ "t_rock_copper", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
+    "terrain": { "+": "t_rock_copper", ".": [ [ "t_rock_copper", 2 ], [ "t_rock", 1 ] ] },
+    "items": { "O": { "item": "outcrop_copper", "chance": 55 } }
   },
   {
     "type": "palette",
     "id": "innawood_ore_vein_cassiterite",
-    "terrain": { "+": "t_rock_cassiterite", ".": [ [ "t_rock_cassiterite", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
+    "terrain": { "+": "t_rock_cassiterite", ".": [ [ "t_rock_cassiterite", 2 ], [ "t_rock", 1 ] ] },
+    "items": { "O": { "item": "outcrop_cassiterite", "chance": 55 } }
   },
   {
     "type": "palette",
     "id": "innawood_ore_vein_iron_galena",
-    "terrain": { "+": "t_rock_galena", ".": [ [ "t_rock_galena", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
+    "terrain": { "+": "t_rock_galena", ".": [ [ "t_rock_galena", 2 ], [ "t_rock", 1 ] ] },
+    "items": { "O": { "item": "outcrop_galena", "chance": 55 } }
   },
   {
     "type": "palette",
     "id": "innawood_ore_vein_iron_hematite",
-    "terrain": { "+": "t_rock_hematite", ".": [ [ "t_rock_hematite", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
+    "terrain": { "+": "t_rock_hematite", ".": [ [ "t_rock_hematite", 2 ], [ "t_rock", 1 ] ] },
+    "items": { "O": { "item": "outcrop_hematite", "chance": 55 } }
   }
 ]
