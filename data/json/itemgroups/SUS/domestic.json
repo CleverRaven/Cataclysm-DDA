@@ -785,7 +785,7 @@
     "subtype": "collection",
     "container-item": "basket_laundry",
     "on_overflow": "discard",
-    "entries": [ { "group": "laundry", "count": [ 4, 10 ] }, { "group": "laundry", "count": [ 1, 3 ], "custom-flags": [ "FILTHY" ] } ]
+    "entries": [ { "group": "laundry", "count": [ 5, 15 ] } ]
   },
   {
     "id": "SUS_bathroom_sink",
