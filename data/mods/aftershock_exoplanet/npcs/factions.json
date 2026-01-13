@@ -192,6 +192,6 @@
     "fac_food_supply": [ [ 0, { "calories": 0, "vitamins": {  } } ] ],
     "wealth": 7500,
     "relations": { "UICA": { "knows your voice": true } },
-    "description": "The owners of Mercurial Genomics.  Its dangerous to know them personally, let alone cross them."
+    "description": "The owners of Mercurial Genomics.  Its dangerous to know them personally, let alone cross them.  Their presence on Salus IV despite their stated disinterest in the planet via Mercurial Genomics is an anomaly."
   }
 ]
