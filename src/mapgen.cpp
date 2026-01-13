@@ -6270,7 +6270,7 @@ void map::draw_map( mapgendata &dat )
                         sum += wgen.get_weather_temperature( abs_p, t, seed );
                     }
                     const units::temperature avg = sum / 10.0;
-                    if( avg <= 273.15_K ) {
+                    if( avg <= 268.15_K ) {
                         const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p );
                         const bool thick = avg <= 263.15_K; // -10C
                         if( shallow ) {
@@ -6296,13 +6296,13 @@ void map::draw_map( mapgendata &dat )
                     const units::temperature avg = sum / 10.0;
                     const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_ICE_SHALLOW, p );
                     const bool thick = has_flag_ter( ter_furn_flag::TFLAG_THICK_ICE, p );
-                    if( thick && avg > 263.15_K ) { // -10C: thick ice melts to thin ice
+                    if( thick && avg > 263.15_K ) { // -10C
                         if( shallow ) {
                             ter_set( p, ter_t_ice_sh_thin );
                         } else {
                             ter_set( p, ter_t_ice_dp_thin );
                         }
-                    } else if( !thick && avg > 273.15_K ) { // 0C: thin ice melts to water
+                    } else if( !thick && avg > 268.15_K ) { // -5C
                         if( shallow ) {
                             ter_set( p, ter_t_water_sh );
                         } else {
@@ -6347,7 +6347,7 @@ void map::apply_historical_ice_to_submap( const tripoint_abs_sm &p_sm )
                     sum += wgen.get_weather_temperature( abs_p, t, seed );
                 }
                 const units::temperature avg = sum / 10.0;
-                if( avg <= 273.15_K ) {
+                if( avg <= 268.15_K ) {
                     const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p );
                     const bool thick = avg <= 263.15_K; // -10C
                     if( shallow ) {
@@ -6373,13 +6373,13 @@ void map::apply_historical_ice_to_submap( const tripoint_abs_sm &p_sm )
                 const units::temperature avg = sum / 10.0;
                 const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_ICE_SHALLOW, p );
                 const bool thick = has_flag_ter( ter_furn_flag::TFLAG_THICK_ICE, p );
-                if( thick && avg > 268.15_K ) { // -5C: thick ice melts to thin ice
+                if( thick && avg > 263.15_K ) { // -10C
                     if( shallow ) {
                         ter_set( p, ter_t_ice_sh_thin );
                     } else {
                         ter_set( p, ter_t_ice_dp_thin );
                     }
-                } else if( !thick && avg > 273.15_K ) { // 0C: thin ice melts to water
+                } else if( !thick && avg > 268.15_K ) { // -5C
                     if( shallow ) {
                         ter_set( p, ter_t_water_sh );
                     } else {
