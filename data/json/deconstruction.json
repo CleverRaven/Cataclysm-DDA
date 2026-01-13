@@ -970,6 +970,19 @@
   },
   {
     "type": "construction",
+    "id": "constr_remove_reinforced_glass_lab",
+    "group": "remove_glass_wall",
+    "//": "Removes a reinforced lab glass wall",
+    "category": "DECONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "10 m",
+    "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
+    "byproducts": [ { "item": "reinforced_glass_sheet", "count": [ 1, 1 ] } ],
+    "pre_terrain": "t_reinforced_glass_lab",
+    "post_terrain": "t_m_frame"
+  },
+  {
+    "type": "construction",
     "id": "constr_remove_glass_wall",
     "group": "remove_glass_wall",
     "//": "Removes a glass wall",
