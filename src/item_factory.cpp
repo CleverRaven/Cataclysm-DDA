@@ -4660,9 +4660,9 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj,
     }
 
     if( obj.has_array( "faults" ) ) {
-        for( const JsonObject jo : obj.get_object( "faults" ) ) {
+        for( const JsonObject &jo : obj.get_object( "faults" ) ) {
             int chance = jo.get_int( "chance", 100 );
-            for( std::string ids : jo.get_array( "id" ) ) {
+            for( const std::string &ids : jo.get_array( "id" ) ) {
                 modifier.faults.emplace_back( fault_id( ids ), chance );
             }
         }
@@ -4670,7 +4670,7 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj,
     }
 
     if( obj.has_array( "variables" ) ) {
-        for( const JsonObject jo : obj.get_array( "variables" ) ) {
+        for( const JsonObject &jo : obj.get_array( "variables" ) ) {
             for( const JsonMember &jv : jo ) {
                 diag_value dv;
                 mandatory( jo, false, jv.name(), dv );
