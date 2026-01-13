@@ -83,7 +83,7 @@
   {
     "type": "palette",
     "id": "shipping_container_food_palette",
-    "furniture": { ".": [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
     "items": { ".": { "item": "cannedfood", "chance": 95, "repeat": [ 10, 20 ] } }
   },
   {

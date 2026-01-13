@@ -32,7 +32,8 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "nested": { "1": { "chunks": [ "shipping_container" ] } },
-      "vehicles": { "v": { "vehicle": "forklift_vehicles", "chance": 20, "rotation": 1 } }
+      "vehicles": { "v": { "vehicle": "forklift_vehicles", "chance": 20, "rotation": 1 } },
+      "furniture": { " ": [ [ "f_null", 199 ], [ "f_rubble", 1 ] ] }
     }
   },
   {
@@ -137,7 +138,8 @@
         "                        "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "nested": { "1": { "chunks": [ "shipping_container" ] } }
+      "nested": { "1": { "chunks": [ "shipping_container" ] } },
+      "furniture": { " ": [ [ "f_null", 199 ], [ "f_rubble", 1 ] ] }
     }
   },
   {
@@ -172,7 +174,8 @@
         "                        "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "nested": { "1": { "chunks": [ [ "shipping_container", 3 ], [ "null", 1 ] ] } }
+      "nested": { "1": { "chunks": [ [ "shipping_container", 3 ], [ "null", 1 ] ] } },
+      "furniture": { " ": [ [ "f_null", 199 ], [ "f_rubble", 1 ] ] }
     }
   },
   {
@@ -207,7 +210,8 @@
         "                        "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "nested": { "1": { "chunks": [ [ "shipping_container", 3 ], [ "null", 2 ] ] } }
+      "nested": { "1": { "chunks": [ [ "shipping_container", 3 ], [ "null", 2 ] ] } },
+      "furniture": { " ": [ [ "f_null", 199 ], [ "f_rubble", 1 ] ] }
     }
   },
   {
@@ -242,7 +246,8 @@
         "                        "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "nested": { "1": { "chunks": [ "shipping_container" ] } }
+      "nested": { "1": { "chunks": [ "shipping_container" ] } },
+      "furniture": { " ": [ [ "f_null", 199 ], [ "f_rubble", 1 ] ] }
     }
   },
   {
@@ -312,7 +317,8 @@
         "                        "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "nested": { "1": { "chunks": [ [ "shipping_container", 3 ], [ "null", 2 ] ] } }
+      "nested": { "1": { "chunks": [ [ "shipping_container", 3 ], [ "null", 2 ] ] } },
+      "furniture": { " ": [ [ "f_null", 199 ], [ "f_rubble", 1 ] ] }
     }
   },
   {
@@ -347,7 +353,8 @@
         ",,,,,,,,,,f             "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "terrain": { "f": "t_chainfence", ",": "t_region_groundcover" }
+      "terrain": { "f": "t_chainfence", ",": "t_region_groundcover" },
+      "furniture": { " ": [ [ "f_null", 199 ], [ "f_rubble", 1 ] ] }
     }
   },
   {
@@ -577,7 +584,8 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "f": "t_chainfence", ",": "t_region_groundcover" },
       "nested": { "1": { "chunks": [ [ "shipping_container", 3 ], [ "null", 2 ] ] } },
-      "vehicles": { "v": { "vehicle": "semi_truck", "chance": 50, "rotation": 0 } }
+      "vehicles": { "v": { "vehicle": "semi_truck", "chance": 50, "rotation": 0 } },
+      "furniture": { " ": [ [ "f_null", 199 ], [ "f_rubble", 1 ] ] }
     }
   },
   {
@@ -614,7 +622,8 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "f": "t_chainfence", ",": "t_region_groundcover" },
       "vehicles": { "v": { "vehicle": "forklift_vehicles", "chance": 5, "rotation": 3 } },
-      "nested": { "1": { "chunks": [ "shipping_container", "null" ] } }
+      "nested": { "1": { "chunks": [ "shipping_container", "null" ] } },
+      "furniture": { " ": [ [ "f_null", 199 ], [ "f_rubble", 1 ] ] }
     }
   },
   {
@@ -651,7 +660,8 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "f": "t_chainfence", ",": "t_region_groundcover" },
       "vehicles": { "v": { "vehicle": "forklift_vehicles", "chance": 5, "rotation": 3 } },
-      "nested": { "1": { "chunks": [ "shipping_container", "null" ] } }
+      "nested": { "1": { "chunks": [ "shipping_container", "null" ] } },
+      "furniture": { " ": [ [ "f_null", 199 ], [ "f_rubble", 1 ] ] }
     }
   },
   {
