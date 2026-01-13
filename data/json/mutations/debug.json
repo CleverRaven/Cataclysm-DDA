@@ -344,9 +344,9 @@
           { "part": "arm_r", "multiply": -1 },
           { "part": "hand_l", "multiply": -1 },
           { "part": "hand_r", "multiply": -1 },
-          { "part": "leg_r", "multiply": -1 }
-          { "part": "leg_l", "multiply": -1 }
-          { "part": "foot_r", "multiply": -1 }
+          { "part": "leg_r", "multiply": -1 },
+          { "part": "leg_l", "multiply": -1 },
+          { "part": "foot_r", "multiply": -1 },
           { "part": "foot_l", "multiply": -1 }
         ]
       }
