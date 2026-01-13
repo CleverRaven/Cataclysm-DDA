@@ -1,0 +1,52 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "AG_wraitheon_captain_intro",
+    "dynamic_line": {
+      "concatenate": [
+        "A private booth has been set aside for Wraitheon charter captain and her retinue.  It's clear they are used to a certain level of comfort that is not met locally.",
+        {
+          "u_has_trait": "wraitheon_scion",
+          "yes": "You recognize her near instantly, Rene Gliese, a low rank explorer and an absolute pain.  Its clear from her expression that she thinks very similar things about you.",
+          "no": "They have just dismissed a band of enforcers, quite rudely too.  If there's a chance for you to land some sort of deal, its probably now."
+        }
+      ]
+    },
+    "responses": [
+      {
+        "condition": { "u_has_trait": "wraitheon_scion" },
+        "text": "Dont dare look me that way worm.  You'll greet me properly and then we will talk business.  Now.",
+        "topic": "AG_wraitheon_captain_scion_who?"
+      },
+      {
+        "condition": { "u_has_trait": "wraitheon_scion" },
+        "text": "Gliese, how \"charming\" to see you here, out of all places.  I'm surprised really, do you pick trash for leisure or are you ",
+        "topic": "AG_wraitheon_captain_rivalry"
+      },
+      {  },
+      {
+        "condition": { "not": { "u_has_trait": "wraitheon_scion" } },
+        "text": "Approach the captain and her retinue, see if you can strike a deal.",
+        "topic": "AG_wraitheon_captain_deal"
+      },
+      {
+        "truefalsetext": {
+          "condition": { "u_has_trait": "wraitheon_scion" },
+          "true": "This isn't worth your time.",
+          "false": "Maybe some other time."
+        },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "AG_wraitheon_captain_scion_who?",
+    "dynamic_line": {
+      "u_is_male": true,
+      "yes": "My lord, so good to see you again.  I... I had no idea you would be here.  Forgive my earlier tone, I was taken aback.  How may I be of service to you today?",
+      "no": "My lady, it's an honor to see you again.  I... I had no idea you would be here.  Forgive my earlier tone, I was taken aback.  How may I be of service to you today?"
+    },
+    "responses": [  ]
+  }
+]
