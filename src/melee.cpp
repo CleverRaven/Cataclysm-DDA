@@ -647,24 +647,47 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         return false;
     }
 
-    if( is_avatar() && move_cost > 300 && calendar::turn > melee_warning_turn ) {
-        const std::string &action = query_popup()
-                                    .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
-                                    .message( _( "<color_light_red>Attacking with your %1$s will take a long time.  "
-                                              "Are you sure you want to continue?</color>" ),
-                                              cur_weap.display_name() )
-                                    .option( "YES" )
-                                    .option( "NO" )
-                                    .option( "IGNORE" )
-                                    .query()
-                                    .action;
+    if( is_avatar() ) {
+        if( move_cost > 300 && calendar::turn > melee_warning_turn ) {
+            const std::string &action = query_popup()
+                                        .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
+                                        .message( _( "<color_light_red>Attacking with your %1$s will take a long time.  "
+                                                  "Are you sure you want to continue?</color>" ),
+                                                  cur_weap.display_name() )
+                                        .option( "YES" )
+                                        .option( "NO" )
+                                        .option( "IGNORE" )
+                                        .query()
+                                        .action;
 
-        if( action == "NO" ) {
-            return false;
-        }
-        if( action == "IGNORE" ) {
-            if( melee_warning_turn == calendar::turn_zero || melee_warning_turn <= calendar::turn ) {
-                melee_warning_turn = calendar::turn + 50_turns;
+            if( action == "NO" ) {
+                return false;
+            }
+            if( action == "IGNORE" ) {
+                if( melee_warning_turn == calendar::turn_zero || melee_warning_turn <= calendar::turn ) {
+                    melee_warning_turn = calendar::turn + 50_turns;
+                }
+            }
+        } else if( cur_weap.is_gun() && !cur_weap.is_melee( damage_stab ) &&
+                   calendar::turn > melee_warning_turn ) {
+            const std::string &action = query_popup()
+                                        .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
+                                        .message( _( "<color_light_red>Your %1$s is not well suited for melee and may get damaged.  "
+                                                  "Are you sure you want to continue?</color>" ),
+                                                  cur_weap.display_name() )
+                                        .option( "YES" )
+                                        .option( "NO" )
+                                        .option( "IGNORE" )
+                                        .query()
+                                        .action;
+
+            if( action == "NO" ) {
+                return false;
+            }
+            if( action == "IGNORE" ) {
+                if( melee_warning_turn == calendar::turn_zero || melee_warning_turn <= calendar::turn ) {
+                    melee_warning_turn = calendar::turn + 50_turns;
+                }
             }
         }
     }
