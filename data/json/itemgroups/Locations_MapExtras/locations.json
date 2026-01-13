@@ -2463,7 +2463,7 @@
       { "prob": 75, "group": "calcium_tablet_bottle_plastic_pill_supplement_1_20" },
       { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
       { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
-      { "item": "dayquil", "prob": 70, "charges": [ 1, 5 ] },
+      { "group": "nondrowsy_cough_syrup_in_bottle", "prob": 70 },
       [ "screwdriver", 40 ],
       [ "screwdriver_set", 10 ],
       { "group": "duct_tape_roll_part", "prob": 10 },

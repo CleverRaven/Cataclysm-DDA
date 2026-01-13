@@ -967,7 +967,6 @@
     "symbol": "~",
     "color": "yellow",
     "phase": "liquid",
-    "container": "bottle_plastic_small",
     "use_action": [ "FLUMED" ],
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ]
   },
@@ -1514,7 +1513,6 @@
     "symbol": "~",
     "color": "blue",
     "phase": "liquid",
-    "container": "bottle_plastic_small",
     "stim": -7,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "addiction_potential": 20,
