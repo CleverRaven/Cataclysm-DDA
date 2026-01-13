@@ -8,35 +8,5 @@
     "copy-from": "heels",
     "type": "ITEM",
     "extend": { "flags": [ "HIGH_HEELS" ] }
-  },
-  {
-    "id": "heels_stiletto",
-    "copy-from": "heels",
-    "type": "ITEM",
-    "extend": { "flags": [ "HIGH_HEELS" ] }
-  },
-  {
-    "id": "heels_wedge",
-    "copy-from": "heels",
-    "type": "ITEM",
-    "extend": { "flags": [ "HIGH_HEELS" ] }
-  },
-  {
-    "id": "heels_block",
-    "copy-from": "heels",
-    "type": "ITEM",
-    "extend": { "flags": [ "HIGH_HEELS" ] }
-  },
-  {
-    "id": "heels_platform",
-    "copy-from": "heels",
-    "type": "ITEM",
-    "extend": { "flags": [ "HIGH_HEELS" ] }
-  },
-  {
-    "id": "heels_flag",
-    "copy-from": "heels",
-    "type": "ITEM",
-    "extend": { "flags": [ "HIGH_HEELS" ] }
   }
 ]

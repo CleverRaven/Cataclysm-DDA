@@ -594,7 +594,7 @@
     "enchantments": [
       {
         "condition": { "u_has_worn_with_flag": "HIGH_HEELS" },
-        "encumbrance_modifier": [ { "part": "foot_l", "multiply": -0.95 }, { "part": "foot_r", "multiply": -0.95 } ]
+        "encumbrance_modifier": [ { "part": "foot_l", "add": -35 }, { "part": "foot_r", "add": -35 } ]
       }
     ]
   },
