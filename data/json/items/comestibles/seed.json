@@ -1736,7 +1736,6 @@
     "weight": "15 g",
     "primary_material": "dried_vegetable",
     "material": [ "veggy" ],
-    "container": "bag_plastic_small",
     "calories": 78,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ],
     "addiction_type": "caffeine",
@@ -1750,7 +1749,6 @@
     "id": "roasted_coffee_bean",
     "copy-from": "coffee_bean",
     "category": "other",
-    "container": "bag_plastic_small",
     "name": { "str_sp": "roasted coffee beans" },
     "description": "Some roasted coffee beans, can be ground into powder.",
     "extend": { "flags": [ "RAW" ] }

@@ -2428,6 +2428,36 @@ class start_engines_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+// strictly for the avatar talking to an npc
+// TODO: support for NPCs talking to each other
+class socialize_activity_actor : public activity_actor
+{
+    public:
+        explicit socialize_activity_actor( time_duration initial_moves, character_id socialize_partner ) :
+            initial_moves( initial_moves ), socialize_partner( socialize_partner ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
+            return ACT_SOCIALIZE;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<socialize_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        time_duration initial_moves; // NOLINT(cata-serialize)
+        character_id socialize_partner;
+
+        explicit socialize_activity_actor() = default;
+};
+
 // Any entertainment action involving an item for a duration with one or more people
 class generic_entertainment_activity_actor : public activity_actor
 {

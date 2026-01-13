@@ -1059,6 +1059,25 @@
   },
   {
     "type": "overmap_special",
+    "id": "Radio_Tower_Reverberation_mp3",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "radio_tower_reverberation_mp3_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "radio_tower_odd_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "radio_tower_even_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "radio_tower_odd_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "radio_tower_even_north" },
+      { "point": [ 0, 0, 5 ], "overmap": "radio_tower_odd_north" },
+      { "point": [ 0, 0, 6 ], "overmap": "radio_tower_top_north" },
+      { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, 20 ],
+    "occurrences": [ 20, 100 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Wind Turbine",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "wind_turbine_ground_north" },
