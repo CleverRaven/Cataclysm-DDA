@@ -2487,6 +2487,14 @@
   },
   {
     "type": "effect_type",
+    "id": "forgetful_mind",
+    "//": "Empty to hide effect",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "taint", "tindrift", "rat", "evil", "fearparalyze" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_hedge_magic_luck_spell",
     "name": [ "Step of Gad" ],
     "desc": [ "Your foot seems to keep finding just the right place to step." ],
