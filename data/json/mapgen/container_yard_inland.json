@@ -502,11 +502,7 @@
         "L": "t_thconc_floor",
         "l": "t_thconc_floor"
       },
-      "furniture": {
-        "L": "f_locker",
-        "l": "f_rack",
-        "c": "f_counter"
-      },
+      "furniture": { "L": "f_locker", "l": "f_rack", "c": "f_counter" },
       "items": {
         "L": { "item": "clothing_work_set", "chance": 80 },
         "l": { "item": "mechanics", "chance": 80, "repeat": [ 1, 10 ] },
