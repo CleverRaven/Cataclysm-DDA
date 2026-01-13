@@ -32,8 +32,7 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "nested": { "1": { "chunks": [ "shipping_container" ] } },
-      "vehicles": { "v": { "vehicle": "forklift_vehicles", "chance": 20, "rotation": 1 } },
-      "place_monsters": [ { "monster": "GROUP_CIVILIAN", "x": [ 10, 14 ], "y": [ 22, 23 ], "chance": 1 } ]
+      "vehicles": { "v": { "vehicle": "forklift_vehicles", "chance": 20, "rotation": 1 } }
     }
   },
   {
@@ -173,8 +172,7 @@
         "                        "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "nested": { "1": { "chunks": [ [ "shipping_container", 3 ], [ "null", 1 ] ] } },
-      "place_monsters": [ { "monster": "GROUP_CIVILIAN", "x": [ 10, 14 ], "y": [ 22, 23 ], "chance": 1 } ]
+      "nested": { "1": { "chunks": [ [ "shipping_container", 3 ], [ "null", 1 ] ] } }
     }
   },
   {
@@ -349,8 +347,200 @@
         ",,,,,,,,,,f             "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "terrain": { "f": "t_chainfence", ",": "t_region_groundcover" },
-      "place_monsters": [ { "monster": "GROUP_CIVILIAN", "x": [ 10, 12 ], "y": [ 10, 12 ], "chance": 1 } ]
+      "terrain": { "f": "t_chainfence", ",": "t_region_groundcover" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "container_yard_inland_fence_corner_office" ] ],
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        "ffffffffffffffffffffffff",
+        "f                       ",
+        "f  ==================== ",
+        "f A=-c------CCr----d-$= ",
+        "f  =ddd------------dc-= ",
+        "f  =--------w-t-------= ",
+        "f  ====D=============== ",
+        "f                       ",
+        "f              v        ",
+        "f                       ",
+        "f                       ",
+        "f                       ",
+        "f                       ",
+        "f                       "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": {
+        "f": "t_chainfence",
+        ",": "t_region_groundcover",
+        "=": "t_wall_metal_corrugated",
+        "D": "t_door_c",
+        "-": "t_floor",
+        "c": "t_floor",
+        "d": "t_floor",
+        "C": "t_floor",
+        "&": "t_floor",
+        "r": "t_floor",
+        "$": "t_floor",
+        "w": "t_water_dispenser"
+      },
+      "furniture": {
+        "A": "f_air_conditioner",
+        "d": "f_desk",
+        "$": "f_filing_cabinet",
+        "c": "f_chair",
+        "C": "f_table",
+        "&": "f_table",
+        "r": "f_minifridge",
+        "t": "f_trashcan"
+      },
+      "items": {
+        "$": { "item": "SUS_office_filing_cabinet" },
+        "d": { "item": "SUS_office_desk" },
+        "r": { "item": "SUS_fridge_partial_empty" },
+        "C": { "item": "SUS_coffee_cupboard" },
+        "t": { "item": "SUS_trash_trashcan" }
+      },
+      "vehicles": { "v": { "vehicle": "pickup", "chance": 50, "rotation": 270 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "container_yard_inland_fence_corner_office_roof" ] ],
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   ____________________ ",
+        "   ____________________ ",
+        "   ____________________ ",
+        "   ____________________ ",
+        "   ____________________ ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "_": "t_metal_floor" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "container_yard_inland_fence_corner_garage" ] ],
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        "f                       ",
+        "f                       ",
+        "f                       ",
+        "f                       ",
+        "f  w                    ",
+        "f ==DDDDDDDD=====d====  ",
+        "f =w--------LLLLL---c=  ",
+        "f =----v------------c=  ",
+        "f =-----------------c=  ",
+        "f =------------------=  ",
+        "f =----------llllllll=  ",
+        "f ====================  ",
+        "f                       ",
+        "ffffffffffffffffffffffff",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": {
+        "f": "t_chainfence",
+        ",": "t_region_groundcover",
+        "=": "t_wall_metal_corrugated",
+        "d": "t_door_c",
+        "D": "t_door_metal_locked",
+        "w": "t_gates_mech_control",
+        "-": "t_thconc_floor",
+        "v": "t_thconc_floor",
+        "L": "t_thconc_floor",
+        "l": "t_thconc_floor"
+      },
+      "furniture": {
+        "L": "f_locker",
+        "l": "f_rack",
+        "c": "f_counter"
+      },
+      "items": {
+        "L": { "item": "clothing_work_set", "chance": 80 },
+        "l": { "item": "mechanics", "chance": 80, "repeat": [ 1, 10 ] },
+        "c": { "item": "mechanics", "chance": 80, "repeat": [ 1, 6 ] }
+      },
+      "vehicles": { "v": { "vehicle": "forklift_vehicles", "chance": 90, "rotation": 90 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "container_yard_inland_fence_corner_garage_roof" ] ],
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " ______________________ ",
+        " ______________________ ",
+        " ______________________ ",
+        " ______________________ ",
+        " ______________________ ",
+        " ______________________ ",
+        " ______________________ ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "_": "t_metal_floor" }
     }
   },
   {
@@ -359,36 +549,35 @@
     "object": {
       "fill_ter": "t_pavement",
       "rows": [
-        ",,,,,,,,,,f         1   ",
-        ",,,,,,,,,,f             ",
-        ",,,,,,,,,,f 1           ",
-        "fffffffffff             ",
-        "  1                     ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "      1                 ",
+        "f                       ",
+        "f                       ",
+        "f                       ",
+        "f              v        ",
         "                        ",
         "                        ",
         "                        ",
         "                        ",
         "                        ",
         "                        ",
-        " v                      ",
         "                        ",
         "                        ",
-        "fffffffffff     v       ",
-        ",,,,,,,,,,f             ",
-        ",,,,,,,,,,f             ",
-        ",,,,,,,,,,f             "
+        "     1                  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "f                       ",
+        "f                       ",
+        "f                       ",
+        "f                       "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "f": "t_chainfence", ",": "t_region_groundcover" },
-      "place_monsters": [ { "monster": "GROUP_CIVILIAN", "x": [ 10, 12 ], "y": [ 10, 13 ], "chance": 1 } ],
-      "vehicles": { "v": { "vehicle": "forklift_vehicles", "chance": 60, "rotation": 0 } },
-      "nested": { "1": { "chunks": [ [ "shipping_container", 3 ], [ "null", 2 ] ] } }
+      "nested": { "1": { "chunks": [ [ "shipping_container", 3 ], [ "null", 2 ] ] } },
+      "vehicles": { "v": { "vehicle": "semi_truck", "chance": 50, "rotation": 0 } }
     }
   },
   {
@@ -424,7 +613,43 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "f": "t_chainfence", ",": "t_region_groundcover" },
-      "place_monsters": [ { "monster": "GROUP_CIVILIAN", "x": [ 10, 12 ], "y": [ 4, 9 ], "chance": 1 } ],
+      "vehicles": { "v": { "vehicle": "forklift_vehicles", "chance": 5, "rotation": 3 } },
+      "nested": { "1": { "chunks": [ "shipping_container", "null" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "container_yard_inland_fence_front" ] ],
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        "f                       ",
+        "f                       ",
+        "f                       ",
+        "f                       ",
+        "f       v               ",
+        "f                       ",
+        "f                       ",
+        "f               v       ",
+        "f                       ",
+        "f         1             ",
+        "f                       ",
+        "f                       ",
+        "f                       ",
+        "f                       ",
+        "f                       ",
+        "f                       ",
+        "f                       ",
+        "f     v                 ",
+        "f                       ",
+        "f                  v    ",
+        "f                       ",
+        "f                       ",
+        "f                       ",
+        "f                       "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "f": "t_chainfence", ",": "t_region_groundcover" },
       "vehicles": { "v": { "vehicle": "forklift_vehicles", "chance": 5, "rotation": 3 } },
       "nested": { "1": { "chunks": [ "shipping_container", "null" ] } }
     }

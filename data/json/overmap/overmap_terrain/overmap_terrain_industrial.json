@@ -459,17 +459,17 @@
     "type": "overmap_terrain",
     "id": [
       "container_yard_inland_base_1",
-      "container_yard_inland_base_1a",
-      "container_yard_inland_base_1b",
       "container_yard_inland_base_2",
       "container_yard_inland_base_3",
       "container_yard_inland_base_4",
       "container_yard_inland_base_5",
-      "container_yard_inland_base_5a",
       "container_yard_inland_base_6",
       "container_yard_inland_fence",
+      "container_yard_inland_fence_front",
       "container_yard_inland_fence_entry",
-      "container_yard_inland_fence_corner"
+      "container_yard_inland_fence_corner",
+      "container_yard_inland_fence_corner_office",
+      "container_yard_inland_fence_corner_garage"
     ],
     "name": "inland container depot",
     "sym": "#",
@@ -477,6 +477,22 @@
     "vision_levels": "industrial_building",
     "see_cost": "medium",
     "extras": "build",
-    "mondensity": 2
+    "spawns": { "group": "GROUP_CIVILIAN", "population": [ 1, 2 ], "chance": 75 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "container_yard_inland_base_1a",
+      "container_yard_inland_base_1b",
+      "container_yard_inland_base_5a",
+      "container_yard_inland_fence_corner_office_roof",
+      "container_yard_inland_fence_corner_garage_roof"
+    ],
+    "name": "inland container depot",
+    "sym": "#",
+    "color": "light_blue",
+    "vision_levels": "industrial_building",
+    "see_cost": "medium",
+    "extras": "build"
   }
 ]

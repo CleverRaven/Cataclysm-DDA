@@ -83,14 +83,14 @@
   {
     "type": "palette",
     "id": "shipping_container_food_palette",
-    "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+    "furniture": { ".": [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
     "items": { ".": { "item": "cannedfood", "chance": 95, "repeat": [ 10, 20 ] } }
   },
   {
     "type": "palette",
     "id": "shipping_container_foodplace_palette",
     "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
-    "item": { ".": { "item": "foodplace_food", "chance": 75, "amount": [ 0, 6 ] } }
+    "item": { ".": { "item": "foodplace_food", "chance": 95, "amount": [ 10, 20 ] } }
   },
   {
     "type": "palette",
@@ -254,25 +254,26 @@
     "type": "palette",
     "id": "shipping_container_cigar_palette",
     "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
-    "items": { ".": { "item": "cigarettes_new", "chance": 95, "repeat": [ 10, 20 ] } }
+    "items": { ".": { "item": "cigar_box_unopened", "chance": 95, "repeat": [ 30, 50 ] } }
   },
   {
     "type": "palette",
     "id": "shipping_container_cigs_palette",
     "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
-    "items": { ".": { "item": "cigar_box_unopened", "chance": 95, "repeat": [ 10, 20 ] } }
+    "items": { ".": { "item": "cig_box_cigarette_20", "chance": 95, "repeat": [ 100, 200 ] } }
   },
   {
     "type": "palette",
     "id": "shipping_container_banknotes_palette",
     "furniture": { ".": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
-    "items": { ".": { "item": "banknotes", "chance": 95, "repeat": [ 50, 100 ] } }
+    "items": { ".": { "item": "banknotes", "chance": 95, "repeat": [ 200, 1000 ] } }
   },
   {
     "type": "palette",
     "id": "shipping_container_illegal_AK_palette",
-    "item": { ".": { "item": "ak47", "chance": 30, "amount": [ 1, 2 ] } },
-    "items": { ".": { "item": "magazines_akm", "chance": 95, "repeat": [ 1, 20 ] } }
+    "furniture": { ".": [ [ "f_crate_c", 95 ], [ "f_cardboard_box", 5 ] ] },
+    "item": { ".": { "item": "ak47", "chance": 70, "amount": [ 1, 2 ] } },
+    "items": { ".": { "item": "magazines_akm", "chance": 95, "repeat": [ 5, 20 ] } }
   },
   {
     "type": "palette",
@@ -289,17 +290,18 @@
   {
     "type": "palette",
     "id": "shipping_container_concrete_palette",
+    "furniture": { ".": "f_pallet_belted" },
     "items": { ".": { "item": "concrete_bag", "chance": 95, "repeat": [ 5, 20 ] } }
   },
   {
     "type": "palette",
     "id": "shipping_container_brick_palette",
-    "item": { ".": { "item": "brick", "chance": 95, "amount": [ 12, 38 ] } }
+    "furniture": { ".": [ "f_pallet_brick", 95 ] }
   },
   {
     "type": "palette",
     "id": "shipping_container_wheel_palette",
-    "items": { ".": { "item": "wheels", "chance": 95, "repeat": [ 1, 10 ] } }
+    "items": { ".": { "item": "wheels_no_wood", "chance": 95, "repeat": [ 1, 10 ] } }
   },
   {
     "type": "palette",
