@@ -6272,7 +6272,7 @@ void map::draw_map( mapgendata &dat )
                     const units::temperature avg = sum / 10.0;
                     if( avg <= 273.15_K ) {
                         const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p );
-                        const bool thick = avg <= 268.15_K; // -5C
+                        const bool thick = avg <= 263.15_K; // -10C
                         if( shallow ) {
                             ter_set( p, thick ? ter_t_ice_sh_thick : ter_t_ice_sh_thin );
                         } else {
@@ -6296,7 +6296,7 @@ void map::draw_map( mapgendata &dat )
                     const units::temperature avg = sum / 10.0;
                     const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_ICE_SHALLOW, p );
                     const bool thick = has_flag_ter( ter_furn_flag::TFLAG_THICK_ICE, p );
-                    if( thick && avg > 270.65_K ) { // -2.5C: thick ice melts to thin ice
+                    if( thick && avg > 263.15_K ) { // -10C: thick ice melts to thin ice
                         if( shallow ) {
                             ter_set( p, ter_t_ice_sh_thin );
                         } else {
@@ -6349,7 +6349,7 @@ void map::apply_historical_ice_to_submap( const tripoint_abs_sm &p_sm )
                 const units::temperature avg = sum / 10.0;
                 if( avg <= 273.15_K ) {
                     const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p );
-                    const bool thick = avg <= 268.15_K; // -5C
+                    const bool thick = avg <= 263.15_K; // -10C
                     if( shallow ) {
                         ter_set( p, thick ? ter_t_ice_sh_thick : ter_t_ice_sh_thin );
                     } else {
@@ -6373,7 +6373,7 @@ void map::apply_historical_ice_to_submap( const tripoint_abs_sm &p_sm )
                 const units::temperature avg = sum / 10.0;
                 const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_ICE_SHALLOW, p );
                 const bool thick = has_flag_ter( ter_furn_flag::TFLAG_THICK_ICE, p );
-                if( thick && avg > 270.65_K ) { // -2.5C: thick ice melts to thin ice
+                if( thick && avg > 268.15_K ) { // -5C: thick ice melts to thin ice
                     if( shallow ) {
                         ter_set( p, ter_t_ice_sh_thin );
                     } else {
