@@ -1798,7 +1798,7 @@
       "HOOVES_KICK_CRIT",
       "HOOVES_KICK_CRIT_AGAINST_LARGE"
     ],
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PROVIDES_TECHNIQUES" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "WATER_FRIENDLY", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2.5 } ],
@@ -1806,6 +1806,37 @@
         "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_sole_r", "foot_sole_l" ],
         "coverage": 100,
         "encumbrance": 1
+      }
+    ]
+  },
+  {
+    "id": "integrated_toe_talons",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "talons" },
+    "description": "Your toes have become talons.  They make for wicked natural daggers.  Unfortunately, they get in the way of everything including shoes.",
+    "weight": "100 g",
+    "volume": "350 ml",
+    "//": "No butcher or fine cut because it's your feet", 
+    "qualities": [ [ "CUT", 2 ] ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "chitin" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "techniques": [
+      "TOE_TALONS_KICK",,
+      "TOE_TALONS_KICK_CRIT"
+    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES"],
+    "armor": [
+      {
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_l", "foot_toes_r" ],
+        "coverage": 10,
+        "encumbrance": 7
       }
     ]
   }
