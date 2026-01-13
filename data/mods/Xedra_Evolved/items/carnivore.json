@@ -224,5 +224,27 @@
     "looks_like": "corpse_generic_human",
     "material": [ "hflesh" ],
     "extend": { "flags": [ "PULPED" ] }
+  },
+  {
+    "type": "ITEM",
+    "id": "sevenoclock_eye",
+    "symbol": "*",
+    "color": "dark_blue",
+    "name": { "str": "Eyes of the 19th Hour" },
+    "description": "A cloudy eye, with deep dark blue pupil.  Looking at it makes you yawn.",
+    "price": "2 kUSD",
+    "price_postapoc": "10 USD",
+    "material": [ "demihuman_flesh" ],
+    "weight": "70 g",
+    "volume": "250 ml"
+  },
+  {
+    "id": "hunters_organ",
+    "copy-from": "offal",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "name": { "str_sp": "hunter's organ" },
+    "description": "Looking similar to intestines, these sparking entrails came from the Mongolian Death Worm.  This is how it brought the lightning.",
+    "price_postapoc": "25 cent"
   }
 ]

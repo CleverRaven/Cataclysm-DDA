@@ -139,5 +139,9 @@
   {
     "type": "mutation_type",
     "id": "HERITAGE"
+  },
+  {
+    "type": "mutation_type",
+    "id": "EMISSIONS"
   }
 ]

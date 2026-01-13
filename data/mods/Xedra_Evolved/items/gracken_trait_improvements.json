@@ -288,5 +288,49 @@
     "condition": { "not": { "u_has_trait": "SHADE_LONG_LEGS" } },
     "effect": [ { "u_message": "You exchanged your previous arms for this." }, { "u_add_trait": "SHADE_LONG_LEGS" } ],
     "false_effect": [ { "u_message": "You are already have long legs.", "type": "neutral" } ]
+  },
+  {
+    "id": "gracken_sevenoclock_eye",
+    "copy-from": "gracken_improvement_general",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str_sp": "Gracken Seven O'clock Eyes" },
+    "looks_like": "offal",
+    "description": "An organ that allows a mature Gracken to convert their eyes into a mystical tool powered by an Earth cryptid.",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "description": "You graft this organ onto your body replacing whatever was there before.",
+      "effect_on_conditions": [ "sevenoclock_eye" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "sevenoclock_eye",
+    "condition": { "not": { "u_has_trait": "SHADE_SEVENOCLOCK_EYE" } },
+    "effect": [ { "u_message": "You exchanged your previous eyes for this." }, { "u_add_trait": "SHADE_SEVENOCLOCK_EYE" } ],
+    "false_effect": [ { "u_message": "You are already have Seven O'clock Eyes.", "type": "neutral" } ]
+  },
+  {
+    "id": "gracken_hunters_organ",
+    "copy-from": "gracken_improvement_general",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str_sp": "Gracken Hunter's Organ" },
+    "looks_like": "offal",
+    "description": "An organ that allows a mature Gracken to emit lightning like a legendary Earth cryptid.",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "description": "You graft this organ onto your body replacing whatever was there before.",
+      "effect_on_conditions": [ "hunters_organ" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "hunters_organ",
+    "condition": { "not": { "u_has_trait": "SHADE_HUNTERS_ORGAN" } },
+    "effect": [ { "u_message": "You exchanged your previous eyes for this." }, { "u_add_trait": "SHADE_HUNTERS_ORGAN" } ],
+    "false_effect": [ { "u_message": "You already have a Hunter's Organ.", "type": "neutral" } ]
   }
 ]
