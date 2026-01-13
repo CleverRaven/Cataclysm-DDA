@@ -324,5 +324,15 @@
     "debug": true,
     "valid": false,
     "enchantments": [ "ENCH_DEBUG_WEIGHT_MODIFIER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_NO_ENCUMBRANCE",
+    "name": { "str": "Debug No Encumbrance Weight" },
+    "description": "Wear 20 shirts.  It's the end of the world, you can do what you want.",
+    "points": 99,
+    "debug": true,
+    "valid": false,
+    "enchantments": [ "ENCH_DEBUG_NO_ENCUMBRANCE" ]
   }
 ]
