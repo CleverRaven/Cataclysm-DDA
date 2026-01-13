@@ -4660,7 +4660,7 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj,
     }
 
     if( obj.has_array( "faults" ) ) {
-        for( const JsonObject &jo : obj.get_object( "faults" ) ) {
+        for( const JsonObject &jo : obj.get_array( "faults" ) ) {
             int chance = jo.get_int( "chance", 100 );
             for( const std::string &ids : jo.get_array( "id" ) ) {
                 modifier.faults.emplace_back( fault_id( ids ), chance );
