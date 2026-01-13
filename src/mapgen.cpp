@@ -6243,60 +6243,71 @@ void map::draw_map( mapgendata &dat )
     // combined with the absolute coordinate to make it deterministic per-location.
 
     const weather_generator &wgen = get_weather().get_cur_weather_gen();
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            const tripoint_bub_ms p( i, j, abs_sub.z() );
-            if( has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p ) ||
-                has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
-                const tripoint_abs_ms abs_p = get_abs( p );
-                // Random noise 1103515245u
-                unsigned seed = static_cast<unsigned>( g->get_seed() ) ^
-                                static_cast<unsigned>( abs_p.x() * 1103515245u + abs_p.y() );
-                units::temperature sum = 0_K;
-                for( int d = 0; d < 10; d++ ) {
-                    time_point base_date = calendar::turn - ( d + 1 ) * 1_days;
-                    const time_duration time_of_day = ( base_date - calendar::turn_zero ) % 1_days;
-                    const time_point t = base_date - time_of_day + 8_hours;
-                    sum += wgen.get_weather_temperature( abs_p, t, seed );
+    // Only freeze water at surface level (z >= 0)
+    if( abs_sub.z() >= 0 ) {
+        for( int i = 0; i < SEEX * 2; i++ ) {
+            for( int j = 0; j < SEEY * 2; j++ ) {
+                if( abs_sub.z() < 0 ) {
+                    continue; // Skip freezing for water below surface
                 }
-                const units::temperature avg = sum / 10.0;
-                if( avg <= 273.15_K ) {
-                    const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p );
-                    const bool thick = avg <= 268.15_K; // -5C
-                    if( shallow ) {
-                        ter_set( p, thick ? ter_t_ice_sh_thick : ter_t_ice_sh_thin );
-                    } else {
-                        ter_set( p, thick ? ter_t_ice_dp_thick : ter_t_ice_dp_thin );
+                const tripoint_bub_ms p( i, j, abs_sub.z() );
+                if( has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p ) ||
+                    has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
+
+                    // Check if water is flowing - flowing water doesn't freeze
+                    if( has_flag_ter( ter_furn_flag::TFLAG_CURRENT, p ) ) {
+                        continue; // Skip freezing for flowing water
                     }
-                }
-            } else if( has_flag_ter( ter_furn_flag::TFLAG_ICE_SHALLOW, p ) ||
-                       has_flag_ter( ter_furn_flag::TFLAG_ICE_DEEP, p ) ) {
-                // Melt ice back to water when temperature rises above 0C
-                // Thick ice melts to thin ice first, then thin ice melts to water
-                const tripoint_abs_ms abs_p = get_abs( p );
-                unsigned seed = static_cast<unsigned>( g->get_seed() ) ^
-                                static_cast<unsigned>( abs_p.x() * 1103515245u + abs_p.y() );
-                units::temperature sum = 0_K;
-                for( int d = 0; d < 10; d++ ) {
-                    time_point base_date = calendar::turn - ( d + 1 ) * 1_days;
-                    const time_duration time_of_day = ( base_date - calendar::turn_zero ) % 1_days;
-                    const time_point t = base_date - time_of_day + 8_hours;
-                    sum += wgen.get_weather_temperature( abs_p, t, seed );
-                }
-                const units::temperature avg = sum / 10.0;
-                const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_ICE_SHALLOW, p );
-                const bool thick = has_flag_ter( ter_furn_flag::TFLAG_THICK_ICE, p );
-                if( thick && avg > 270.65_K ) { // -2.5C: thick ice melts to thin ice
-                    if( shallow ) {
-                        ter_set( p, ter_t_ice_sh_thin );
-                    } else {
-                        ter_set( p, ter_t_ice_dp_thin );
+                    const tripoint_abs_ms abs_p = get_abs( p );
+                    // Random noise 1103515245u
+                    unsigned seed = static_cast<unsigned>( g->get_seed() ) ^
+                                    static_cast<unsigned>( abs_p.x() * 1103515245u + abs_p.y() );
+                    units::temperature sum = 0_K;
+                    for( int d = 0; d < 10; d++ ) {
+                        time_point base_date = calendar::turn - ( d + 1 ) * 1_days;
+                        const time_duration time_of_day = ( base_date - calendar::turn_zero ) % 1_days;
+                        const time_point t = base_date - time_of_day + 8_hours;
+                        sum += wgen.get_weather_temperature( abs_p, t, seed );
                     }
-                } else if( !thick && avg > 273.15_K ) { // 0C: thin ice melts to water
-                    if( shallow ) {
-                        ter_set( p, ter_t_water_sh );
-                    } else {
-                        ter_set( p, ter_t_water_dp );
+                    const units::temperature avg = sum / 10.0;
+                    if( avg <= 273.15_K ) {
+                        const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p );
+                        const bool thick = avg <= 268.15_K; // -5C
+                        if( shallow ) {
+                            ter_set( p, thick ? ter_t_ice_sh_thick : ter_t_ice_sh_thin );
+                        } else {
+                            ter_set( p, thick ? ter_t_ice_dp_thick : ter_t_ice_dp_thin );
+                        }
+                    }
+                } else if( has_flag_ter( ter_furn_flag::TFLAG_ICE_SHALLOW, p ) ||
+                           has_flag_ter( ter_furn_flag::TFLAG_ICE_DEEP, p ) ) {
+                    // Melt ice back to water when temperature rises above 0C
+                    // Thick ice melts to thin ice first, then thin ice melts to water
+                    const tripoint_abs_ms abs_p = get_abs( p );
+                    unsigned seed = static_cast<unsigned>( g->get_seed() ) ^
+                                    static_cast<unsigned>( abs_p.x() * 1103515245u + abs_p.y() );
+                    units::temperature sum = 0_K;
+                    for( int d = 0; d < 10; d++ ) {
+                        time_point base_date = calendar::turn - ( d + 1 ) * 1_days;
+                        const time_duration time_of_day = ( base_date - calendar::turn_zero ) % 1_days;
+                        const time_point t = base_date - time_of_day + 8_hours;
+                        sum += wgen.get_weather_temperature( abs_p, t, seed );
+                    }
+                    const units::temperature avg = sum / 10.0;
+                    const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_ICE_SHALLOW, p );
+                    const bool thick = has_flag_ter( ter_furn_flag::TFLAG_THICK_ICE, p );
+                    if( thick && avg > 270.65_K ) { // -2.5C: thick ice melts to thin ice
+                        if( shallow ) {
+                            ter_set( p, ter_t_ice_sh_thin );
+                        } else {
+                            ter_set( p, ter_t_ice_dp_thin );
+                        }
+                    } else if( !thick && avg > 273.15_K ) { // 0C: thin ice melts to water
+                        if( shallow ) {
+                            ter_set( p, ter_t_water_sh );
+                        } else {
+                            ter_set( p, ter_t_water_dp );
+                        }
                     }
                 }
             }
@@ -6308,16 +6319,22 @@ void map::draw_map( mapgendata &dat )
 
 void map::apply_historical_ice_to_submap( const tripoint_abs_sm &p_sm )
 {
+    if( abs_sub.z() < 0 ) {
+        return;
+    }
     // Save previous abs_sub and restore on exit
     const tripoint_abs_sm prev_abs_sub = abs_sub;
     set_abs_sub( p_sm );
-
     const weather_generator &wgen = get_weather().get_cur_weather_gen();
     for( int i = 0; i < SEEX; i++ ) {
         for( int j = 0; j < SEEY; j++ ) {
             const tripoint_bub_ms p( i, j, abs_sub.z() );
             if( has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p ) ||
                 has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
+                // Check if water is flowing - flowing water doesn't freeze
+                if( has_flag_ter( ter_furn_flag::TFLAG_CURRENT, p ) ) {
+                    continue; // Skip freezing for flowing water
+                }
                 const tripoint_abs_ms abs_p = get_abs( p );
                 // Random noise 1103515245u
                 unsigned seed = static_cast<unsigned>( g->get_seed() ) ^
