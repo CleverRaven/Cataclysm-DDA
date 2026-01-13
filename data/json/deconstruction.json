@@ -979,7 +979,7 @@
     "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
     "byproducts": [ { "item": "reinforced_glass_sheet", "count": [ 1, 1 ] } ],
     "pre_terrain": "t_reinforced_glass_lab",
-    "post_terrain": "t_m_frame"
+    "post_terrain": "t_strconc_floor"
   },
   {
     "type": "construction",
