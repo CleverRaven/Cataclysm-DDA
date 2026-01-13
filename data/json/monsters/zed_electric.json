@@ -16,7 +16,13 @@
     "vision_night": 3,
     "luminance": 16,
     "harvest": "zombie_humanoid_electric",
-    "special_attacks": [ [ "PARROT", 8 ], { "id": "smash", "throw_strength": 36, "cooldown": 30 } ],
+    "special_attacks": [
+      [ "PARROT", 8 ],
+      { "id": "grab", "cooldown": 2 },
+      { "id": "bite_humanoid", "cooldown": 5 },
+      { "id": "scratch_humanoid" }
+      { "id": "smash", "throw_strength": 36, "cooldown": 30 }
+    ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "upgrades": false,
     "extend": { "flags": [ "ELECTRIC" ] }
@@ -37,7 +43,83 @@
     "bleed_rate": 50,
     "luminance": 8,
     "harvest": "zombie_humanoid_electric",
-    "special_attacks": [ [ "PARROT", 8 ] ],
+    "special_attacks": [
+      [ "PARROT", 8 ],
+      { "id": "grab", "cooldown": 2 },
+      { "id": "bite_humanoid", "cooldown": 5 },
+      { "id": "scratch_humanoid" }, "attack_all": true,
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "mon_shocker_chargeup",
+        "accuracy": 8,
+        "cooldown": 8,
+        "move_cost": 100,
+        "range": 5,
+        "dodgeable": false,
+        "blockable": false,
+        "effects_require_dmg": false,
+        "self_effects_always": [ { "id": "effect_shocker_zombie_charge_up", "duration": 12 } ],
+        "hit_dmg_u": "With a crackling sound, %1$s begins glowing brighter!",
+        "hit_dmg_npc": "With a crackling sound, %1$s begins glowing brighter!",
+        "miss_msg_u": "With a crackling sound, %1$s begins glowing brighter!",
+        "miss_msg_npc": "With a crackling sound, %1$s begins glowing brighter!",
+        "no_dmg_msg_u": "With a crackling sound, %1$s begins glowing brighter!",
+        "no_dmg_msg_npc": "With a crackling sound, %1$s begins glowing brighter!"
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "mon_shocker_chargeup_attack",
+        "cooldown": 1,
+        "move_cost": 150,
+        "damage_max_instance": [ { "damage_type": "electric", "amount": 40 } ],
+        "dodgeable": true,
+        "blockable": true,
+        "attack_all": true,
+        "condition": { 
+          "and": [
+            { "math": [ "u_effect_intensity('effect_shocker_zombie_charge_up') >= 4" },
+            { "not": { "u_has_flag": "GRAB_FILTER" } },
+            { "not": { "u_has_effect": "maimed_arm" } }
+          ]
+        },
+        "//": "We need a second effect to cancel out the charge-up",
+        "self_effects_onhit": [ { "id": "effect_shocker_zombie_charge_up_removal", "duration": 12 } ],
+        "hit_dmg_u": "%1$s touches your %2$s and unleashes a massive burst of electricity!",
+        "hit_dmg_npc": "%1$s touches <npcname>'s %2$s and unleashes a massive burst of electricity!",
+        "miss_msg_u": "%1$s tries to touch you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s touches your %2$s and unleashes a massive burst of electricity, but you are unaffected.",
+        "no_dmg_msg_npc": "%1$s touches <npcname>'s %2$s and unleashes a massive burst of electricity, but they are unaffected."
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "mon_shocker_chargeup_attack_grab",
+        "cooldown": 1,
+        "move_cost": 150,
+        "damage_max_instance": [ { "damage_type": "electric", "amount": 40 } ],
+        "//": "If the shocker is grabbing you, it doesn't need to try to touch you to zap you",
+        "dodgeable": false,
+        "blockable": false,
+        "attack_all": true,
+        "condition": { 
+          "and": [
+            { "math": [ "u_effect_intensity('effect_shocker_zombie_charge_up') >= 4" },
+            { "u_has_flag": "GRAB_FILTER" },
+            { "not": { "u_has_effect": "maimed_arm" } }
+          ]
+        },
+        "self_effects_onhit": [ { "id": "effect_shocker_zombie_charge_up_removal", "duration": 12 } ],
+        "hit_dmg_u": "%1$s touches your %2$s and unleashes a massive burst of electricity!",
+        "hit_dmg_npc": "%1$s touches <npcname>'s %2$s and unleashes a massive burst of electricity!",
+        "miss_msg_u": "%1$s tries to touch you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s touches your %2$s and unleashes a massive burst of electricity, but you are unaffected.",
+        "no_dmg_msg_npc": "%1$s touches <npcname>'s %2$s and unleashes a massive burst of electricity, but they are unaffected."
+      }
+    ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "upgrades": { "half_life": 168, "into_group": "GROUP_ZOMBIE_ELECTRIC_UPGRADE" },
     "extend": { "flags": [ "ELECTRIC" ] }
