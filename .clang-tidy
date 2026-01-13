@@ -34,6 +34,7 @@ Checks: [
     -clang-analyzer-core.DivideZero,
     -clang-analyzer-core.NonNullParamChecker,
     -clang-analyzer-core.UndefinedBinaryOperatorResult,
+    -clang-analyzer-cplusplus.InnerPointer,
     -clang-analyzer-cplusplus.NewDelete,
     # We often use enums as bitsets and do things like `enum::A | enum::B`
     # which is explicitly unsupported by this check, and it is officially recommended to disable

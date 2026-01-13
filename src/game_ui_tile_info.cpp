@@ -194,7 +194,7 @@ void game::print_terrain_info( const tripoint_bub_ms &lp, const catacurses::wind
     }
     mvwprintz( w_look, point( column, line++ ), c_yellow, area );
     mvwprintz( w_look, point( column, line++ ), c_white, tile );
-    std::string desc = string_format( here.ter( lp ).obj().description );
+    std::string desc = string_format( here.ter( lp ).obj().description.translated() );
     std::vector<std::string> lines = foldstring( desc, max_width );
     int numlines = lines.size();
     wattron( w_look, c_light_gray );
@@ -288,7 +288,7 @@ void game::print_furniture_info( const tripoint_bub_ms &lp, const catacurses::wi
 
     // Print each line of furniture description in gray
     const furn_id &f = here.furn( lp );
-    desc = string_format( f.obj().description );
+    desc = string_format( f.obj().description.translated() );
     std::vector<std::string> lines = foldstring( desc, max_width );
     int numlines = lines.size();
     wattron( w_look, c_light_gray );

@@ -403,7 +403,7 @@ std::string input_context::get_desc(
 {
     if( action_descriptor == "ANY_INPUT" ) {
         //~ keybinding description for anykey
-        return string_format( separate_fmt, pgettext( "keybinding", "any" ), text );
+        return string_format( separate_fmt.translated(), pgettext( "keybinding", "any" ), text );
     }
 
     const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
@@ -419,7 +419,7 @@ std::string input_context::get_desc(
                     const std::string key = utf32_to_utf8( ch );
                     const int pos = ci_find_substr( text, key );
                     if( pos >= 0 ) {
-                        return string_format( inline_fmt, text.substr( 0, pos ),
+                        return string_format( inline_fmt.translated(), text.substr( 0, pos ),
                                               key, text.substr( pos + key.size() ) );
                     }
                 }
@@ -429,9 +429,10 @@ std::string input_context::get_desc(
 
     if( na ) {
         //~ keybinding description for unbound or non-applicable keys
-        return string_format( separate_fmt, pgettext( "keybinding", "n/a" ), text );
+        return string_format( separate_fmt.translated(), pgettext( "keybinding", "n/a" ), text );
     } else {
-        return string_format( separate_fmt, get_desc( action_descriptor, 1, evt_filter ), text );
+        return string_format( separate_fmt.translated(), get_desc( action_descriptor, 1, evt_filter ),
+                              text );
     }
 }
 
