@@ -490,6 +490,18 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         item_on_vehicle( const vehicle_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
 
         void serialize( JsonOut &js ) const override {
+            const std::vector<wrapped_vehicle> &vehicles = get_map().get_vehicles();
+            const auto same_veh = [this]( const wrapped_vehicle & wv ) {
+                return wv.v == &cur.veh;
+            };
+            if( std::find_if( vehicles.begin(), vehicles.end(), same_veh ) == vehicles.end() ) {
+                debugmsg( "Could not find vehicle for item_location on vehicle" );
+                // This is intended as a temporary patch, but if you're reading this you know how it goes sometimes.
+                // Serialize exactly like an item_location::nowhere just in case this sticks around long enough for that to change...
+                item_location dummy = item_location::nowhere;
+                dummy.serialize( js );
+                return;
+            }
             js.start_object();
             js.member( "type", "vehicle" );
             js.member( "position", pos_abs() );
