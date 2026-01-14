@@ -99,11 +99,11 @@ static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
 static const ter_str_id ter_t_floor_green( "t_floor_green" );
 static const ter_str_id ter_t_floor_red( "t_floor_red" );
 static const ter_str_id ter_t_pit( "t_pit" );
-static const ter_str_id ter_t_water_sh( "t_water_sh" );
-static const ter_str_id ter_t_water_dp( "t_water_dp" );
 static const ter_str_id ter_t_rock_blue( "t_rock_blue" );
 static const ter_str_id ter_t_rock_green( "t_rock_green" );
 static const ter_str_id ter_t_rock_red( "t_rock_red" );
+static const ter_str_id ter_t_water_dp( "t_water_dp" );
+static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const trait_id trait_INFRESIST( "INFRESIST" );
 
