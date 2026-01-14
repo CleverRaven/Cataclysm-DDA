@@ -10,7 +10,7 @@
     "move_cost": 4,
     "trap": "tr_thin_ice",
     "examine_action": "thin_ice",
-    "bash": { "str_min": 0, "str_max": 0, "sound": "crack!", "ter_set": "t_water_sh" },
+    "bash": { "str_min": 3, "str_max": 6, "sound": "crack!", "ter_set": "t_water_sh" },
     "flags": [ "ICE_SHALLOW", "THIN_ICE", "TRANSPARENT", "FLAT" ]
   },
   {
@@ -22,6 +22,7 @@
     "looks_like": "t_water_sh",
     "color": "cyan",
     "move_cost": 2,
+    "bash": { "str_min": 80, "str_max": 180, "sound": "crack!", "ter_set": "t_water_sh" },
     "flags": [ "ICE_SHALLOW", "THICK_ICE", "TRANSPARENT", "FLAT" ]
   },
   {
@@ -35,7 +36,7 @@
     "move_cost": 4,
     "trap": "tr_thin_ice",
     "examine_action": "thin_ice",
-    "bash": { "str_min": 0, "str_max": 0, "sound": "crack!", "ter_set": "t_water_dp" },
+    "bash": { "str_min": 3, "str_max": 6, "sound": "crack!", "ter_set": "t_water_dp" },
     "flags": [ "ICE_DEEP", "THIN_ICE", "TRANSPARENT", "FLAT" ]
   },
   {
@@ -47,6 +48,7 @@
     "looks_like": "t_water_dp",
     "color": "cyan",
     "move_cost": 2,
+    "bash": { "str_min": 80, "str_max": 180, "sound": "crack!", "ter_set": "t_water_dp" },
     "flags": [ "ICE_DEEP", "THICK_ICE", "TRANSPARENT", "FLAT" ]
   }
 ]
