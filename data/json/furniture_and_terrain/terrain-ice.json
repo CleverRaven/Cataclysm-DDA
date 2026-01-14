@@ -8,6 +8,8 @@
     "looks_like": "t_water_sh",
     "color": "light_cyan",
     "move_cost": 4,
+    "trap": "tr_thin_ice",
+    "examine_action": "thin_ice",
     "flags": [ "ICE_SHALLOW", "THIN_ICE", "TRANSPARENT", "FLAT" ]
   },
   {
@@ -30,6 +32,8 @@
     "looks_like": "t_water_dp",
     "color": "light_cyan",
     "move_cost": 4,
+    "trap": "tr_thin_ice",
+    "examine_action": "thin_ice",
     "flags": [ "ICE_DEEP", "THIN_ICE", "TRANSPARENT", "FLAT" ]
   },
   {
