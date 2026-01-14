@@ -601,7 +601,8 @@
               "if": {
                 "and": [
                   { "compare_string": [ "yes", { "u_val": "knows_xedra_field_station_1" } ] },
-                  { "compare_string": [ "yes", { "u_val": "knows_xedra_field_station_2" } ] }
+                  { "compare_string": [ "yes", { "u_val": "knows_xedra_field_station_2" } ] },
+                  { "compare_string": [ "yes", { "u_val": "knows_xedra_field_station_3" } ] }
                 ]
               },
               "then": { "u_message": "You study the notebook, but don't find anything interesting or new.", "popup": true },

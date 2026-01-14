@@ -156,7 +156,8 @@
         { "item": "ground_solar_panel", "x": 6, "y": 22, "repeat": 6 },
         { "group": "twoliter_water_batch", "x": 8, "y": 22, "repeat": 10 },
         { "group": "tools_workshop", "x": 9, "y": 20 },
-        { "item": "stepladder", "x": 8, "y": 16 }
+        { "item": "stepladder", "x": 8, "y": 16 },
+        { "item": "xedra_shack_checklist", "x": 6, "y": 19 }
       ],
       "vehicles": { "v": { "vehicle": "wood_rowboat_double", "chance": 100, "rotation": 90 } }
     }
@@ -201,6 +202,7 @@
         "w": "t_floor",
         "c": "t_floor",
         "f": "t_floor",
+        "%": "t_floor",
         "v": "t_ladder_down",
         "<": "t_ladder_up",
         ",": "t_metal_roof_red",
