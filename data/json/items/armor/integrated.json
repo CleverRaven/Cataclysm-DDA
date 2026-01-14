@@ -1826,7 +1826,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "TOE_TALONS_KICK", "TOE_TALONS_KICK_NATURAL", "TOE_TALONS_KICK_CRIT" ],
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES",  "SKINTIGHT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES", "SKINTIGHT" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2 } ],
@@ -1852,7 +1852,7 @@
     "symbol": "V",
     "color": "dark_gray",
     "techniques": [ "CURLED_HORNS_BASH", "CURLED_HORNS_BASH_NATURAL", "CURLED_HORNS_BASH_CRIT" ],
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUE" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
         "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3 } ],
