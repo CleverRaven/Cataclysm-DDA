@@ -10,6 +10,7 @@
     "move_cost": 4,
     "trap": "tr_thin_ice",
     "examine_action": "thin_ice",
+    "bash": { "str_min": 0, "str_max": 0, "sound": "crack!", "ter_set": "t_water_sh" },
     "flags": [ "ICE_SHALLOW", "THIN_ICE", "TRANSPARENT", "FLAT" ]
   },
   {
@@ -34,6 +35,7 @@
     "move_cost": 4,
     "trap": "tr_thin_ice",
     "examine_action": "thin_ice",
+    "bash": { "str_min": 0, "str_max": 0, "sound": "crack!", "ter_set": "t_water_dp" },
     "flags": [ "ICE_DEEP", "THIN_ICE", "TRANSPARENT", "FLAT" ]
   },
   {
