@@ -669,6 +669,7 @@
     "id": "coconut",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
     "name": { "str": "coconut" },
     "description": "A tropical fruit with a hard, hairy shell and a hollow inside full of liquid and edible flesh.  If you want to eat it, you'll have to find something heavy to crack open the shell and something sharp to remove the 'meat'.",
     "symbol": "%",
