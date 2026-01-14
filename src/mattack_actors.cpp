@@ -918,7 +918,7 @@ bool melee_actor::call( monster &z ) const
     // Damage instance calculation
     damage_instance damage = damage_max_instance;
     double multiplier = rng_float( min_mul, max_mul );
-    add_msg_debug( debugmode::DF_MATTACK, "Damage multiplier %. 1f (range %. 1f - %.1f)", multiplier,
+    add_msg_debug( debugmode::DF_MATTACK, "Damage multiplier %.1f (range %.1f - %.1f)", multiplier,
                    min_mul, max_mul );
     damage.mult_damage( multiplier );
 
