@@ -128,7 +128,11 @@
     "id": "commercial_canned_fruits",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "prob": 1, "group": "pineapple_in_can" }, { "prob": 1, "group": "fruits_in_can" } ]
+    "entries": [
+      { "prob": 1, "group": "pineapple_in_can" },
+      { "prob": 1, "group": "coconut_milk_in_can" },
+      { "prob": 1, "group": "fruits_in_can" }
+    ]
   },
   {
     "id": "SUS_shelf_commercial_canned_fruits",

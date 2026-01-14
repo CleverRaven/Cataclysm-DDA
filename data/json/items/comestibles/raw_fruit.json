@@ -666,24 +666,21 @@
     "vitamins": [ [ "vitC", "78900 μg" ], [ "iron", "500 μg" ], [ "calcium", "21500 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
+    "id": "coconut",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "id": "coconut",
     "name": { "str": "coconut" },
-    "weight": "680 g",
-    "color": "brown",
-    "spoils_in": "360 days",
-    "comestible_type": "INVALID",
-    "symbol": "%",
-    "quench": 10,
-    "calories": 1940,
     "description": "A tropical fruit with a hard, hairy shell and a hollow inside full of liquid and edible flesh.  If you want to eat it, you'll have to find something heavy to crack open the shell and something sharp to remove the 'meat'.",
+    "symbol": "%",
+    "color": "brown",
     "price": "1 USD",
     "price_postapoc": "1 USD",
-    "material": [ "fruit" ],
+    "weight": "680 g",
     "volume": "1850 ml",
-    "vitamins": [ [ "vitC", "16200 μg" ], [ "iron", "8300 μg" ], [ "calcium", "102400 μg" ], [ "fruit_allergen", 1 ] ],
-    "melee_damage": { "bash": 2 }
+    "material": [ "fruit" ],
+    "spoils_in": "360 days",
+    "melee_damage": { "bash": 2 },
+    "flags": [ "INEDIBLE" ]
   },
   {
     "type": "ITEM",

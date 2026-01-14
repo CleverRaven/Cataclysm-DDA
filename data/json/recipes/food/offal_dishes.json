@@ -195,7 +195,7 @@
         [ "milk_standard_raw", 1, "LIST" ],
         [ "lf_milk_standard", 1, "LIST" ],
         [ "con_milk", 1 ],
-        [ "can_coconut", 1 ]
+        [ "can_coconut", 2 ]
       ],
       [ [ "batter", 4, "LIST" ] ],
       [ [ "salt", 1 ] ],
@@ -359,7 +359,7 @@
         [ "milk_standard_raw", 1, "LIST" ],
         [ "lf_milk_standard", 1, "LIST" ],
         [ "con_milk", 1 ],
-        [ "can_coconut", 1 ]
+        [ "can_coconut", 2 ]
       ]
     ]
   },

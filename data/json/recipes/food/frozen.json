@@ -17,7 +17,7 @@
         [ "lf_milk_standard", 1, "LIST" ],
         [ "milk_powder", 1 ],
         [ "con_milk", 1 ],
-        [ "can_coconut", 1 ]
+        [ "can_coconut", 2 ]
       ],
       [
         [ "chocolate", 1 ],
@@ -170,7 +170,7 @@
         [ "sweet_juice", 1, "LIST" ],
         [ "soda_pop", 1, "LIST" ],
         [ "soda_pop_diet", 1, "LIST" ],
-        [ "can_coconut", 1 ],
+        [ "can_coconut", 2 ],
         [ "chai_tea", 1 ],
         [ "chamomile_tea", 1 ],
         [ "choc_drink", 1 ],
@@ -222,7 +222,7 @@
       [
         [ "sweet_juice", 1, "LIST" ],
         [ "soda_pop_diet", 1, "LIST" ],
-        [ "can_coconut", 1 ],
+        [ "can_coconut", 2 ],
         [ "chai_tea", 1 ],
         [ "chamomile_tea", 1 ],
         [ "choc_drink", 1 ],
