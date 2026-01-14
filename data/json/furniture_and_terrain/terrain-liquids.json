@@ -200,7 +200,7 @@
     "color": "blue",
     "move_cost": 8,
     "liquid_source": { "id": "salt_water", "min_temp": 2.2 },
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "EMPTY_SPACE" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "NO_FLOOR_WATER", "EMPTY_SPACE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
     "examine_action": "water_source"
