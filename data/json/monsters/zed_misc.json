@@ -427,7 +427,7 @@
       { "id": "scratch_humanoid" },
       { "id": "bite_humanoid" },
       { "id": "smash", "throw_strength": 96 },
-      { "id": "hulk_smash" },
+      { "id": "hulk_lift_and_smash" },
       { "id": "hulk_wide_swing" }
     ],
     "death_drops": "mon_zombie_hulk_death_drops",

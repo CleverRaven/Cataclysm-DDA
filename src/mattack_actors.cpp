@@ -787,15 +787,15 @@ bool melee_actor::call( monster &z ) const
     }
 
     // Pick body part
-    bodypart_str_id bp_hit = body_parts. empty() ?
+    bodypart_str_id bp_hit = body_parts.empty() ?
                              target->select_body_part( hitsize_min, hitsize_max, attack_upper, hitspread ).id() :
                              *body_parts.pick();
 
     bodypart_id bp_id = bodypart_id( bp_hit );
     game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
 
-    add_msg_debug( debugmode:: DF_MATTACK, "Accuracy %d, hitspread %d, dodgeable %s", acc, hitspread,
-                   dodgeable ?  "true" : "false" );
+    add_msg_debug( debugmode::DF_MATTACK, "Accuracy %d, hitspread %d, dodgeable %s", acc, hitspread,
+                   dodgeable ? "true" : "false" );
 
     if( z.has_flag( mon_flag_HIT_AND_RUN ) ) {
         z.add_effect( effect_run, 4_turns );
@@ -828,13 +828,13 @@ bool melee_actor::call( monster &z ) const
     if( is_grab ) {
         int eff_grab_strength = grab_data.grab_strength == -1 ? z.get_grab_strength() :
                                 grab_data.grab_strength;
-        add_msg_debug( debugmode:: DF_MATTACK,
+        add_msg_debug( debugmode::DF_MATTACK,
                        "Grab attack targeting bp %s, grab strength %d, pull chance %d", bp_id->name,
                        eff_grab_strength, grab_data.pull_chance );
 
         // If we care iterate through grabs one by one, fail if we can't break one
         if( target->has_effect_with_flag( json_flag_GRAB ) && grab_data.exclusive_grab ) {
-            add_msg_debug( debugmode:: DF_MATTACK, "Exclusive grab, begin filtering" );
+            add_msg_debug( debugmode::DF_MATTACK, "Exclusive grab, begin filtering" );
             map &here = get_map();
             const tripoint_range<tripoint_bub_ms> &surrounding = here.points_in_radius( target->pos_bub(), 1,
                     0 );
@@ -846,7 +846,7 @@ bool melee_actor::call( monster &z ) const
                 for( const tripoint_bub_ms loc : surrounding ) {
                     monster *mon = creatures.creature_at<monster>( loc );
                     if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) && mon->attack_target() == target ) {
-                        if( target->is_monster() || ( ! target->is_monster() &&
+                        if( target->is_monster() || ( !target->is_monster() &&
                                                       mon->is_grabbing( eff.get_bp().id() ) ) ) {
                             grabber = mon;
                             break;
@@ -855,12 +855,12 @@ bool melee_actor::call( monster &z ) const
                 }
                 // Ignore our own grab
                 if( grabber == &z ) {
-                    add_msg_debug( debugmode:: DF_MATTACK, "Grabber %s is the attacker, continue grab filtering",
+                    add_msg_debug( debugmode::DF_MATTACK, "Grabber %s is the attacker, continue grab filtering",
                                    grabber->name() );
                     continue;
                 }
                 // Roll to remove anybody else's grab on our target
-                if( ! x_in_y( eff_grab_strength / 2.0f, eff. get_intensity() ) ) {
+                if( !x_in_y( eff_grab_strength / 2.0f, eff.get_intensity() ) ) {
                     target->add_msg_player_or_npc( msg_type,
                                                    _( "%1s tries to drag you, but something holds you in place!" ),
                                                    _( "%1s tries to drag <npcname>, but something holds them in place!" ),
@@ -884,7 +884,7 @@ bool melee_actor::call( monster &z ) const
         if( target->has_effect_with_flag( json_flag_GRAB, bp_id ) &&
             grab_data.grab_effect != effect_null ) {
             // Iterate through eligable targets to look for a non-grabbed one, fail if none are found
-            add_msg_debug( debugmode:: DF_MATTACK, "Target bodypart %s already grabbed",
+            add_msg_debug( debugmode::DF_MATTACK, "Target bodypart %s already grabbed",
                            bp_id->name );
             for( const bodypart_id bp : target->get_all_eligable_parts( hitsize_min, hitsize_max,
                     attack_upper ) ) {
@@ -893,9 +893,9 @@ bool melee_actor::call( monster &z ) const
                                    bp->name );
                     continue;
                 } else {
-                    bp_hit = bp. id();
+                    bp_hit = bp.id();
                     bp_id = bp;
-                    add_msg_debug( debugmode:: DF_MATTACK, "Retargeted to ungrabbed %s",
+                    add_msg_debug( debugmode::DF_MATTACK, "Retargeted to ungrabbed %s",
                                    bp->name );
                 }
             }
@@ -918,7 +918,7 @@ bool melee_actor::call( monster &z ) const
     // Damage instance calculation
     damage_instance damage = damage_max_instance;
     double multiplier = rng_float( min_mul, max_mul );
-    add_msg_debug( debugmode:: DF_MATTACK, "Damage multiplier %. 1f (range %. 1f - %.1f)", multiplier,
+    add_msg_debug( debugmode::DF_MATTACK, "Damage multiplier %. 1f (range %. 1f - %.1f)", multiplier,
                    min_mul, max_mul );
     damage.mult_damage( multiplier );
 
@@ -939,12 +939,12 @@ bool melee_actor::call( monster &z ) const
         if( x_in_y( eff.chance, 100 ) ) {
             z.add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first, eff.duration.second ) ),
                           eff.permanent,
-                          rng( eff.intensity.first, eff. intensity.second ) );
+                          rng( eff.intensity.first, eff.intensity.second ) );
             target->add_msg_if_player( msg_type, eff.message, mon_name );
         }
     }
     int damage_total = dealt_damage.total_damage();
-    add_msg_debug( debugmode:: DF_MATTACK, "%s's melee_attack did %d damage", z.name(), damage_total );
+    add_msg_debug( debugmode::DF_MATTACK, "%s's melee_attack did %d damage", z.name(), damage_total );
     if( damage_total > 0 ) {
         on_damage( z, *target, dealt_damage );
     } else {
@@ -952,9 +952,9 @@ bool melee_actor::call( monster &z ) const
                                  sfx::get_heard_angle( z.pos_bub() ) );
         target->add_msg_player_or_npc( msg_type, no_dmg_msg_u,
                                        get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? no_dmg_msg_npc : translation(),
-                                       mon_name, body_part_name_accusative( grabbed_bp_id. value_or( bp_id ) ) );
-        if( ! effects_require_dmg ) {
-            for( const mon_effect_data &eff :  effects ) {
+                                       mon_name, body_part_name_accusative( grabbed_bp_id.value_or( bp_id ) ) );
+        if( !effects_require_dmg ) {
+            for( const mon_effect_data &eff : effects ) {
                 if( x_in_y( eff.chance, 100 ) ) {
                     const bodypart_id affected_bp = eff.affect_hit_bp ? bp_id : eff.bp.id();
                     if( !( effects_require_organic && affected_bp->has_flag( json_flag_BIONIC_LIMB ) ) ) {
