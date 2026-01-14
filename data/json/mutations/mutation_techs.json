@@ -358,5 +358,103 @@
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
+  },
+  {
+    "type": "technique",
+    "id": "TOE_TALONS_KICK",
+    "name": "Toe Talons Kick",
+    "melee_allowed": true,
+    "messages": [ "You kick %s with your taloned feet", "<npcname> kicks %s with their taloned feet" ],
+    "unarmed_allowed": true,
+    "weighting": -3,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "tech_effects": [
+      {
+        "id": "bleed",
+        "chance": 35,
+        "duration": 60,
+        "on_damage": true,
+        "message": "Your kick opens up bleeding gashes on %s!"
+      }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TOE_TALONS_KICK_NATURAL",
+    "name": "Toe Talons Kick",
+    "melee_allowed": true,
+    "messages": [ "You kick %s with your taloned feet", "<npcname> kicks %s with their taloned feet" ],
+    "unarmed_allowed": true,
+    "weighting": -1,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "natural_stance" },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "tech_effects": [
+      {
+        "id": "bleed",
+        "chance": 35,
+        "duration": 60,
+        "on_damage": true,
+        "message": "Your kick opens up bleeding gashes on %s!"
+      }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TOE_TALONS_KICK_CRIT",
+    "name": "Critical Toe Talon Kick",
+    "melee_allowed": true,
+    "messages": [
+      "You deliver a wicked kick to %s with your taloned feet",
+      "<npcname> delivers a wicked kick to %s with your taloned feet"
+    ],
+    "unarmed_allowed": true,
+    "reach_ok": false,
+    "crit_tec": true,
+    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "tech_effects": [
+      {
+        "id": "bleed",
+        "chance": 70,
+        "duration": 60,
+        "on_damage": true,
+        "message": "Your kick opens up bleeding gashes on %s!"
+      }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.24 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
   }
 ]

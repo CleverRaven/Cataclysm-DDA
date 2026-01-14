@@ -442,12 +442,7 @@
     "destroys_gear": true,
     "allowed_items": [ "ALLOWS_TALONS" ],
     "restricts_gear": [ "foot_toes_l", "foot_toes_r" ],
-    "attacks": {
-      "attack_text_u": "You slash %s with one of your talons!",
-      "attack_text_npc": "%1$s slashes %2$s with one of their talons!",
-      "chance": 20,
-      "strength_damage": { "damage_type": "cut", "amount": 4 }
-    }
+    "integrated_armor": [ "integrated_toe_talons" ]
   },
   {
     "type": "mutation",
