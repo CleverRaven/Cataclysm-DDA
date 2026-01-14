@@ -86,6 +86,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "npc_opinion.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
@@ -105,6 +106,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "talker.h"
+#include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
@@ -196,6 +198,7 @@ static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
 static const activity_id ACT_SKIN( "ACT_SKIN" );
+static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 static const activity_id ACT_STASH( "ACT_STASH" );
@@ -239,6 +242,7 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_socialized_recently( "socialized_recently" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_under_operation( "under_operation" );
 static const efftype_id effect_worked_on( "worked_on" );
@@ -293,6 +297,7 @@ static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const morale_type morale_book( "morale_book" );
+static const morale_type morale_chat( "morale_chat" );
 static const morale_type morale_feeling_good( "morale_feeling_good" );
 static const morale_type morale_game( "morale_game" );
 static const morale_type morale_haircut( "morale_haircut" );
@@ -10080,6 +10085,72 @@ std::unique_ptr<activity_actor> heat_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+void socialize_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( initial_moves );
+    act.moves_left = act.moves_total;
+}
+
+void socialize_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( who.is_avatar() ) {
+        npc *valid_socialize_partner = g->critter_by_id<npc>( socialize_partner );
+        if( valid_socialize_partner ) {
+            if( one_in( 3 ) ) {
+                valid_socialize_partner->say( SNIPPET.random_from_category( "npc_socialize" ).value_or(
+                                                  translation() ).translated() );
+            }
+            add_msg( m_good, _( "That was a pleasant conversation with %s." ),
+                     valid_socialize_partner->disp_name() );
+            // 50% chance of increasing 1 npc opinion value each social chat after 6hr
+            if( !valid_socialize_partner->has_effect( effect_socialized_recently ) &&
+                valid_socialize_partner->opinion_values_raised <= 10 ) {
+                int value_change = 0;
+                switch( rng( 1, 3 ) ) {
+                    case 1:
+                        value_change = rng( 0, 1 );
+                        valid_socialize_partner->op_of_u.trust += value_change;
+                        break;
+                    case 2:
+                        value_change = rng( 0, 1 );
+                        valid_socialize_partner->op_of_u.value += value_change;
+                        break;
+                    case 3:
+                        if( valid_socialize_partner->op_of_u.anger > 0 ) {
+                            value_change = rng( -1, 0 );
+                            valid_socialize_partner->op_of_u.anger += value_change;
+                        }
+                        break;
+                }
+                // we need to check for any non-zero value, e.g. anger change might be negative
+                if( value_change != 0 ) {
+                    valid_socialize_partner->opinion_values_raised++;
+                }
+                valid_socialize_partner->add_effect( effect_socialized_recently, 6_hours );
+            }
+            who.add_msg_if_player( _( "%s finishes chatting with you." ),
+                                   valid_socialize_partner->disp_name() );
+        }
+        who.add_morale( morale_chat, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
+    }
+    act.set_to_null();
+}
+
+void socialize_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "socialize_partner", socialize_partner );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> socialize_activity_actor::deserialize( JsonValue &jsin )
+{
+    socialize_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "socialize_partner", actor.socialize_partner );
+    return actor.clone();
+}
+
 void generic_entertainment_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( entertain_duration );
@@ -10786,9 +10857,15 @@ void butchery_activity_actor::do_turn( player_activity &act, Character &you )
     if( this_bd->progress >= this_bd->time_to_butcher ) {
         const butchery_data bd_copy = *this_bd;
         bd.pop_back();
+        // prevent activity from stopping if there are more corpses to process
+        if( !bd.empty() ) {
+            act.moves_left = 1;
+        }
         // this corpse is done
         destroy_the_carcass( bd_copy, you );
-        // WARNING: destroy_the_carcass might spill acid, which gives the player the option to cancel this activity. If so, then `this` might be invalidated, along with all `butchery_data` elements. So here we need to be sure to not use either of those after this call.
+        // WARNING: destroy_the_carcass might spill acid, which gives the player the option to cancel this activity.
+        // If so, then `this` might be invalidated, along with all `butchery_data` elements.
+        // So here we need to be sure to not use either of those after this call.
     } else {
         this_bd->progress += 1_seconds;
         // Uses max(1, ..) to prevent it going all the way to zero, which would stop the activity by the general `activity_actor` handling.
@@ -11438,6 +11515,7 @@ deserialize_functions = {
     { ACT_SHAVE, &shave_activity_actor::deserialize },
     { ACT_SHEARING, &shearing_activity_actor::deserialize },
     { ACT_SKIN, &butchery_activity_actor::deserialize },
+    { ACT_SOCIALIZE, &socialize_activity_actor::deserialize },
     { ACT_SPELLCASTING, &spellcasting_activity_actor::deserialize },
     { ACT_START_ENGINES, &start_engines_activity_actor::deserialize },
     { ACT_STASH, &stash_activity_actor::deserialize },

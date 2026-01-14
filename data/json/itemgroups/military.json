@@ -5,20 +5,8 @@
     "subtype": "distribution",
     "entries": [
       { "group": "modular_m4a1", "prob": 88, "charges": [ 0, 30 ], "contents-group": "issued_carbine_mods" },
-      {
-        "item": "modular_m27_assault_rifle",
-        "variant": "modular_m27iar",
-        "prob": 10,
-        "charges": [ 0, 30 ],
-        "contents-group": "issued_carbine_mods"
-      },
-      {
-        "item": "modular_m27_assault_rifle",
-        "variant": "modular_m38dmr",
-        "contents-group": "m38dmr_mods",
-        "prob": 1,
-        "charges": [ 0, 30 ]
-      },
+      { "group": "m27iar", "prob": 10, "charges": [ 0, 30 ] },
+      { "group": "m38dmr", "prob": 1, "charges": [ 0, 30 ] },
       { "item": "modular_m16a4", "prob": 2, "charges": [ 0, 30 ], "contents-group": "issued_slings" }
     ]
   },

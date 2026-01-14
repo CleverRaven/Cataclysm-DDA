@@ -10,7 +10,6 @@
 #include "type_id.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
-static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BURROW( "ACT_BURROW" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
@@ -223,7 +222,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         ACT_PICKUP,
         ACT_MOVE_ITEMS,
         activity_id::NULL_ID(), // ACT_ADV_INVENTORY is uistate.open_menu now
-        ACT_ARMOR_LAYERS,
+        activity_id::NULL_ID(), // ACT_ARMOR_LAYERS is uistate.open_menu now
         ACT_START_FIRE,
         ACT_OPEN_GATE,
         ACT_FILL_LIQUID,

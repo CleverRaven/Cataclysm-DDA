@@ -2,7 +2,7 @@
   {
     "id": "vampire_blood_levels",
     "type": "widget",
-    "label": "Blood levels",
+    "label": "Blood",
     "style": "text",
     "flags": [ "W_DISABLED_WHEN_EMPTY" ],
     "clauses": [
@@ -187,7 +187,7 @@
     "id": "vampire_blood_levels_numbers",
     "type": "widget",
     "style": "text",
-    "label": "Blood counter",
+    "label": "Blood",
     "flags": [ "W_DISABLED_WHEN_EMPTY" ],
     "clauses": [
       {
@@ -240,7 +240,7 @@
   {
     "id": "vampire_blood_levels_graph",
     "type": "widget",
-    "label": "Blood graph",
+    "label": "Blood",
     "var": "custom",
     "flags": [ "W_DISABLED_WHEN_EMPTY" ],
     "//": "Distillate the Inner Blood ensures that the UI won't show the negatively high levels.",

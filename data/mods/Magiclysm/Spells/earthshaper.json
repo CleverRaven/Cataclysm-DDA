@@ -272,6 +272,8 @@
     "magic_type": "magiclysm_channeling_magic",
     "difficulty": 4,
     "field_id": "fd_clairvoyant",
+    "min_duration": 100,
+    "max_duration": 100,
     "min_field_intensity": 1,
     "max_field_intensity": 1
   },

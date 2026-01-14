@@ -257,8 +257,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "bfipowder_bottle_plastic_5_60", "prob": 100 },
-      { "item": "dayquil", "count": [ 1, 30 ], "container-item": "bottle_plastic", "prob": 50 },
-      { "item": "nyquil", "count": [ 1, 30 ], "container-item": "bottle_plastic", "prob": 50 },
+      { "group": "any_cough_syrup_in_bottle", "prob": 100 },
       { "item": "flu_shot", "count": [ 1, 10 ], "container-item": "null", "prob": 50 }
     ]
   },
@@ -344,8 +343,7 @@
       { "prob": 15, "group": "antihistamine_bottle_plastic_pill_supplement_1_30" },
       { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
       { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
-      { "item": "dayquil", "prob": 70, "charges": [ 1, 5 ] },
-      { "item": "nyquil", "prob": 70, "charges": [ 1, 5 ] },
+      { "group": "any_cough_syrup_in_bottle", "prob": 140 },
       { "group": "alcohol_wipes_box_used", "prob": 75 },
       { "group": "alcohol_wipes_box_full", "prob": 10 },
       { "item": "disinfectant", "prob": 35, "charges": [ 1, 10 ] },
@@ -410,7 +408,7 @@
           }
         ]
       },
-      { "item": "dayquil", "count": [ 0, 2 ], "charges": [ 1, 5 ] },
+      { "group": "nondrowsy_cough_syrup_in_bottle", "count": [ 0, 2 ] },
       { "item": "red_phosphorous", "prob": 40, "count": [ 0, 1 ] },
       { "item": "iodine_crystal", "prob": 40, "count": [ 0, 1 ] },
       { "count": [ 0, 2 ], "group": "meth_bag_zipper_1_6" }
@@ -420,7 +418,7 @@
     "type": "item_group",
     "id": "meth_ingredients",
     "items": [
-      { "item": "dayquil", "prob": 2, "charges": [ 1, 5 ] },
+      { "group": "nondrowsy_cough_syrup_in_bottle", "prob": 2 },
       { "item": "red_phosphorous", "prob": 25, "charges": [ 1, 20 ] },
       { "item": "iodine_crystal", "prob": 10, "charges": [ 1, 10 ] },
       [ "energy_drink", 2 ],
@@ -850,5 +848,32 @@
     "id": "sunscreen_bottle",
     "subtype": "distribution",
     "entries": [ { "item": "sunscreen", "container-item": "bottle_plastic_small" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "nondrowsy_cough_syrup_in_bottle",
+    "subtype": "distribution",
+    "entries": [ { "item": "dayquil", "container-item": "bottle_plastic_small", "charges": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "nondrowsy_cough_syrup_in_bottle_full",
+    "subtype": "distribution",
+    "entries": [ { "item": "dayquil", "container-item": "bottle_plastic_small" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "any_cough_syrup_in_bottle",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "nyquil", "container-item": "bottle_plastic_small", "charges": [ 1, -1 ] },
+      { "group": "nondrowsy_cough_syrup_in_bottle" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "any_cough_syrup_in_bottle_full",
+    "subtype": "distribution",
+    "entries": [ { "item": "nyquil", "container-item": "bottle_plastic_small" }, { "group": "nondrowsy_cough_syrup_in_bottle_full" } ]
   }
 ]
