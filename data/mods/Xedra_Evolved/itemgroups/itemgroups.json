@@ -516,7 +516,8 @@
       { "item": "spellbook_hedge_psychic_defense", "prob": 3 },
       { "item": "spellbook_hedge_snare_changelings", "prob": 1 },
       { "item": "spellbook_hedge_bathhouse_midnight", "prob": 1 },
-      { "item": "spellbook_hedge_abramelin_the_mage", "prob": 1 }
+      { "item": "spellbook_hedge_abramelin_the_mage", "prob": 1 },
+      { "item": "spellbook_hedge_book_of_raziel", "prob": 1 }
     ]
   },
   {
