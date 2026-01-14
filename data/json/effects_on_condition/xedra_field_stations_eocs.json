@@ -52,7 +52,13 @@
     "required_event": "avatar_enters_omt",
     "condition": {
       "and": [
-        { "or": [ { "u_near_om_location": "morgantown_forest_fence_s" }, { "u_near_om_location": "morgantown_forest_fence_corner" }, { "u_near_om_location": "morgantown_forest_fence_entry" } ] },
+        {
+          "or": [
+            { "u_near_om_location": "morgantown_forest_fence_s" },
+            { "u_near_om_location": "morgantown_forest_fence_corner" },
+            { "u_near_om_location": "morgantown_forest_fence_entry" }
+          ]
+        },
         { "not": { "compare_string": [ "yes", { "u_val": "knows_xedra_field_station_2" } ] } }
       ]
     },

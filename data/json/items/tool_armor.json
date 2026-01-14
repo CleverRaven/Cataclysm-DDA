@@ -2674,7 +2674,11 @@
     "warmth": 30,
     "armor": [
       {
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4 }, { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.01 }, { "type": "cotton", "covered_by_mat": 100, "thickness": 1 }  ],
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.01 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1 }
+        ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead" ],
         "coverage": 100,

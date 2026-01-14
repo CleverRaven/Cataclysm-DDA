@@ -220,10 +220,7 @@
         "1": "f_air_conditioner",
         "%": "f_machinery_electronic"
       },
-      "place_loot": [
-        { "item": "radio", "x": 13, "y": 18 },
-        { "item": "binoculars", "x": 12, "y": 18 }
-      ]
+      "place_loot": [ { "item": "radio", "x": 13, "y": 18 }, { "item": "binoculars", "x": 12, "y": 18 } ]
     }
   },
   {
@@ -266,12 +263,7 @@
         "c": "t_metal_roof_red",
         ">": "t_ladder_down"
       },
-      "furniture": {
-        "a": "f_TV_antenna",
-        "s": "f_small_satellite_dish",
-        "c": "f_cellphone_booster",
-        "o": "f_vent_pipe"
-      }
+      "furniture": { "a": "f_TV_antenna", "s": "f_small_satellite_dish", "c": "f_cellphone_booster", "o": "f_vent_pipe" }
     }
   }
 ]
