@@ -3,7 +3,7 @@
     "id": "bless",
     "type": "SPELL",
     "name": { "str": "Paragon" },
-    "description": "Technomancy is the magic of human potential, and this spell increases your potential just a bit across a broad range of categories.",
+    "description": "Technomancy is the magic of human potential, and this spell increases your potential, and that of any nearby allies, just a bit across a broad range of categories.",
     "valid_targets": [ "self", "ally" ],
     "flags": [ "ENHANCEMENT_SPELL", "VERBAL", "SOMATIC", "NO_LEGS", "NO_PROJECTILE" ],
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
@@ -1002,5 +1002,26 @@
     "min_duration": 1000,
     "max_duration": 2500,
     "duration_increment": 100
+  },
+  {
+    "id": "technomancer_arete_buff_spell",
+    "type": "SPELL",
+    "name": { "str": "Arete" },
+    "description": "The pinnacle of technomantic improvement, this spell vastly improves your potential across every avenue.",
+    "valid_targets": [ "self" ],
+    "flags": [ "ENHANCEMENT_SPELL", "VERBAL", "SOMATIC", "NO_LEGS", "NO_PROJECTILE" ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
+    "effect": "attack",
+    "effect_str": "effect_technomancer_arete",
+    "shape": "blast",
+    "magic_type": "magiclysm_enhancement_magic",
+    "spell_class": "TECHNOMANCER",
+    "difficulty": 12,
+    "max_level": 20,
+    "min_duration": 360000,
+    "max_duration": 1800000,
+    "duration_increment": 90000,
+    "base_casting_time": 350,
+    "base_energy_cost": 800
   }
 ]

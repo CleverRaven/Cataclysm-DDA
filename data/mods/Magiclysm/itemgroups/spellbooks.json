@@ -1289,7 +1289,10 @@
     "id": "technomancer_unrestricted_tier_3",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "spell_scroll_summon_magic_motorcycle", "prob": 25 } ]
+    "entries": [
+      { "item": "spell_scroll_summon_magic_motorcycle", "prob": 25 },
+      { "item": "spell_scroll_technomancer_arete_buff_spell", "prob": 30 }
+    ]
   },
   {
     "id": "technomancer_restricted_tier_3",
