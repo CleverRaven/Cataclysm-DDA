@@ -223,6 +223,10 @@ static const ter_str_id ter_t_floor_burnt( "t_floor_burnt" );
 static const ter_str_id ter_t_fungus_floor_in( "t_fungus_floor_in" );
 static const ter_str_id ter_t_fungus_wall( "t_fungus_wall" );
 static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_ice_dp_thick( "t_ice_dp_thick" );
+static const ter_str_id ter_t_ice_dp_thin( "t_ice_dp_thin" );
+static const ter_str_id ter_t_ice_sh_thick( "t_ice_sh_thick" );
+static const ter_str_id ter_t_ice_sh_thin( "t_ice_sh_thin" );
 static const ter_str_id ter_t_marloss( "t_marloss" );
 static const ter_str_id ter_t_metal_floor( "t_metal_floor" );
 static const ter_str_id ter_t_radio_tower( "t_radio_tower" );
@@ -241,12 +245,8 @@ static const ter_str_id ter_t_thconc_floor_olight( "t_thconc_floor_olight" );
 static const ter_str_id ter_t_vat( "t_vat" );
 static const ter_str_id ter_t_wall_burnt( "t_wall_burnt" );
 static const ter_str_id ter_t_wall_prefab_metal( "t_wall_prefab_metal" );
-static const ter_str_id ter_t_water_sh( "t_water_sh" );
 static const ter_str_id ter_t_water_dp( "t_water_dp" );
-static const ter_str_id ter_t_ice_sh_thin( "t_ice_sh_thin" );
-static const ter_str_id ter_t_ice_sh_thick( "t_ice_sh_thick" );
-static const ter_str_id ter_t_ice_dp_thin( "t_ice_dp_thin" );
-static const ter_str_id ter_t_ice_dp_thick( "t_ice_dp_thick" );
+static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
