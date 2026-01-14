@@ -188,6 +188,7 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 |						      | targeted with a chance proportional to the value.
 | `condition`                 | Object, dialog conditions enabling the attack - see `NPCs.md` for the potential conditions - note that `u` refers to the monster, `npc` to the attack target, and for `x_has_flag` conditions targeting monsters only take effect flags into consideration, not monster flags.
 | `attack_upper`		      | Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls (provided the bodypart is not explicitly targeted).
+| `attack_all`                | Boolean, default false.  If true damage is divided among all available limbs.  Can be combined with limb restricting fields like `attack_upper`.
 | `range`       		      | Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
 | `grab`                      | Boolean, default false. Denotes this attack as a grabbing one. See `grabs` for further information
 | `grab_data`                 | Array, grab data of the attack. Read only if `grab: true`, see `grabs` for the possible variables.
