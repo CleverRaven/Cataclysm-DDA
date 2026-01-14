@@ -750,7 +750,6 @@
       [ "jar_3l_glass_sealed", 5 ],
       [ "magnifying_glass", 5 ],
       [ "thermometer", 5 ],
-      [ "pressure_cooker", 5 ],
       { "item": "geiger_off", "prob": 3, "charges": [ 0, 100 ] },
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
