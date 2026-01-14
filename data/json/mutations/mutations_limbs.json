@@ -48,12 +48,7 @@
     "visibility": 8,
     "ugliness": 2,
     "restricts_gear": [ "head_crown" ],
-    "attacks": {
-      "attack_text_u": "You headbutt %s with your curled horns!",
-      "attack_text_npc": "%1$s headbutts %2$s with their curled horns!",
-      "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 14 }
-    }
+    "integrated_armor": [ "integrated_horns_curled" ]
   },
   {
     "type": "mutation",
