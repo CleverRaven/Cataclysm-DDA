@@ -731,12 +731,12 @@ bool melee_actor::call( monster &z ) const
     z.mod_moves( -move_cost );
 
     const std::string mon_name = get_player_character().sees( here, z.pos_bub( here ) ) ?
-                                 z. disp_name( false, true ) : _( "Something" );
+                                 z.disp_name( false, true ) : _( "Something" );
 
     // Add always-applied self effects
-    for( const mon_effect_data &eff :  self_effects_always ) {
+    for( const mon_effect_data &eff : self_effects_always ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            z.add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first, eff.duration. second ) ),
+            z.add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first, eff.duration.second ) ),
                           eff.permanent,
                           rng( eff.intensity.first, eff.intensity.second ) );
             target->add_msg_if_player( m_mixed, eff.message, mon_name );
@@ -955,8 +955,8 @@ bool melee_actor::call( monster &z ) const
                                        mon_name, body_part_name_accusative( grabbed_bp_id. value_or( bp_id ) ) );
         if( ! effects_require_dmg ) {
             for( const mon_effect_data &eff :  effects ) {
-                if( x_in_y( eff. chance, 100 ) ) {
-                    const bodypart_id affected_bp = eff.affect_hit_bp ?  bp_id : eff.bp. id();
+                if( x_in_y( eff.chance, 100 ) ) {
+                    const bodypart_id affected_bp = eff.affect_hit_bp ? bp_id : eff.bp.id();
                     if( !( effects_require_organic && affected_bp->has_flag( json_flag_BIONIC_LIMB ) ) ) {
                         target->add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
                                             eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
@@ -978,9 +978,9 @@ bool melee_actor::call( monster &z ) const
             // when you break out of a grab you have a chance to lose some things from your pockets
             // that are hanging off your character
             if( target->is_avatar() ) {
-                std::vector<item_pocket *> pd = target->as_character()->worn. grab_drop_pockets();
+                std::vector<item_pocket *> pd = target->as_character()->worn.grab_drop_pockets();
                 // if we have items that can be pulled off
-                if( ! pd.empty() ) {
+                if( !pd.empty() ) {
                     // choose an item to be ripped off
                     int index = rng( 0, pd.size() - 1 );
                     // the chance the monster knocks an item off
@@ -1004,7 +1004,7 @@ bool melee_actor::call( monster &z ) const
     //run EoCs
     for( const effect_on_condition_id &eoc : eoc ) {
         dialogue d( get_talker_for( z ), get_talker_for( target ) );
-        write_var_value( var_type:: context, "damage", &d, damage_total );
+        write_var_value( var_type::context, "damage", &d, damage_total );
         eoc->activate( d );
     }
 
