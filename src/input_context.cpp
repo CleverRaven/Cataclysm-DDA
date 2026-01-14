@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <exception>
 #include <iterator>
+#include <list>
 #include <memory>
 #include <optional>
 #include <set>
@@ -155,8 +156,40 @@ const std::string &input_context::input_to_action( const input_event &inp ) cons
     return CATA_ERROR;
 }
 
+input_context *input_context_stack_impl::reap()
+{
+    input_context *ret = nullptr;
+    while( !stack.empty() ) {
+        std::shared_ptr<input_context_handle> handle = stack.back().lock();
+        if( handle ) {
+            ret = handle->cxtx;
+            break;
+        }
+        stack.pop_back();
+    }
+    return ret;
+}
+
+input_context *input_context_stack_impl::back()
+{
+    return reap();
+}
+
+void input_context_stack_impl::pop()
+{
+    if( reap() ) {
+        stack.pop_back();
+    }
+}
+
+void input_context_stack_impl::push( std::shared_ptr<input_context_handle> const &context )
+{
+    reap();
+    stack.push_back( context );
+}
+
 #if defined(__ANDROID__) || defined(TILES)
-std::list<input_context *> input_context::input_context_stack;
+input_context_stack_impl input_context::input_context_stack;
 #endif
 
 #if defined(__ANDROID__)

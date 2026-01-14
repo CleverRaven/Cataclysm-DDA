@@ -10857,9 +10857,15 @@ void butchery_activity_actor::do_turn( player_activity &act, Character &you )
     if( this_bd->progress >= this_bd->time_to_butcher ) {
         const butchery_data bd_copy = *this_bd;
         bd.pop_back();
+        // prevent activity from stopping if there are more corpses to process
+        if( !bd.empty() ) {
+            act.moves_left = 1;
+        }
         // this corpse is done
         destroy_the_carcass( bd_copy, you );
-        // WARNING: destroy_the_carcass might spill acid, which gives the player the option to cancel this activity. If so, then `this` might be invalidated, along with all `butchery_data` elements. So here we need to be sure to not use either of those after this call.
+        // WARNING: destroy_the_carcass might spill acid, which gives the player the option to cancel this activity.
+        // If so, then `this` might be invalidated, along with all `butchery_data` elements.
+        // So here we need to be sure to not use either of those after this call.
     } else {
         this_bd->progress += 1_seconds;
         // Uses max(1, ..) to prevent it going all the way to zero, which would stop the activity by the general `activity_actor` handling.

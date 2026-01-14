@@ -284,7 +284,7 @@
       [ "pills_sleep", 5 ],
       { "prob": 3, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_30" },
       { "prob": 5, "group": "antihistamine_bottle_plastic_pill_supplement_1_30" },
-      { "item": "nyquil", "prob": 5, "charges": [ 1, 5 ] },
+      { "group": "any_cough_syrup_in_bottle", "prob": 5 },
       { "group": "mansion_guns", "prob": 3 },
       { "group": "harddrugs_residential", "prob": 1 },
       { "group": "wallets", "prob": 10 },

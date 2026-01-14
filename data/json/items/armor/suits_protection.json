@@ -3478,6 +3478,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR", "TOOL" ],
     "name": { "str": "Hub 01 hazardous materials suit (on)", "str_pl": "Hub 01 hazardous materials suits (on)" },
+    "description": "A hefty environmental suit incorporating Kevlar-lined boots and gloves, worn by Hub personnel in their rare forays aboveground.  This one has a large battery pack and otherworldly electronics snaking the entire exterior, making it substantially more cumbersome to wear than its base model.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.  A tiny green LED on the chest is illuminated.",
     "turns_per_charge": 100,
     "revert_to": "robofac_resonance_suit",
     "use_action": {

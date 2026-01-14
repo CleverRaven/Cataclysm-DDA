@@ -1034,14 +1034,25 @@ std::string item::print_compatible_mags_or_flags() const
     if( !mag_compatible.empty() ) {
         std::set<std::string> compat;
         std::string mag_names;
+
+        // if variants are on…
         if( get_option<bool>( "SHOW_GUN_VARIANTS" ) ) {
             for( const itype_id &i : mag_compatible ) {
-                for( const std::string &variant_name : i->all_variant_names() ) {
-                    compat.insert( variant_name );
+                const std::set<std::string> all_variant_names = i->all_variant_names();
+                // and magazine actually has variants…
+                if( !all_variant_names.empty() ) {
+                    for( const std::string &variant_name : all_variant_names ) {
+                        // print variant names
+                        compat.insert( variant_name );
+                    }
+                } else {
+                    // otherwise print the name of the magazine itself
+                    compat.insert( item::nname( i ) );
                 }
             }
             mag_names = enumerate_as_string( compat );
         } else {
+            // print just item names if variants are turned off
             const std::vector<itype_id> compat_sorted = sorted_lex( mag_compatible );
             mag_names = enumerate_as_string( compat_sorted,
             []( const itype_id & id ) {
