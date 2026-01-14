@@ -385,7 +385,7 @@
       }
     ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "cutting", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
@@ -418,7 +418,7 @@
       }
     ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "cutting", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
@@ -448,11 +448,11 @@
       }
     ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "cutting", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 4.4 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.24 },
       { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
-      { "stat": "arpen", "type": "cutting", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "unarmed", "scale": 1 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
