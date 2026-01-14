@@ -6155,11 +6155,9 @@ look_around_result game::look_around(
             creature_tracker &creatures = get_creature_tracker();
             monster *const mon = creatures.creature_at<monster>( lp, true );
             if( mon ) {
-                string_input_popup popup;
-                popup
-                .title( _( "Nickname:" ) )
-                .width( 85 )
-                .edit( mon->nickname );
+                string_input_popup_imgui popup( 50, mon->nickname );
+                popup.set_label( _( "Nickname:" ) );
+                mon->nickname = popup.query();
             }
         } else if( action == "CENTER" ) {
             center = u.pos_bub();

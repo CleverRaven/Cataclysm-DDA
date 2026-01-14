@@ -47,6 +47,7 @@
 #include "harvest.h"
 #include "input_context.h"
 #include "input_enums.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_components.h"
@@ -79,7 +80,6 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "talker.h"  // IWYU pragma: keep
 #include "tileray.h"
 #include "timed_event.h"
@@ -5264,10 +5264,10 @@ void iexamine::sign( Character &you, const tripoint_bub_ms &examp )
                                         _( "Add a message to the sign?" );
             std::string ignore_message = _( "You leave the sign alone." );
             if( query_yn( query_message ) ) {
-                std::string signage = string_input_popup()
-                                      .title( _( "Write what?" ) )
-                                      .identifier( "signage" )
-                                      .query_string();
+                string_input_popup_imgui write_popup( 50 );
+                write_popup.set_label( _( "Write what?" ) );
+                write_popup.set_identifier( "signage" );
+                std::string signage = write_popup.query();
                 if( signage.empty() ) {
                     you.add_msg_if_player( m_neutral, ignore_message );
                 } else {

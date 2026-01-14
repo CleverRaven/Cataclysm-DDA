@@ -63,6 +63,7 @@
 #include "iexamine.h"
 #include "input_context.h"
 #include "input_enums.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -112,7 +113,6 @@
 #include "speech.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "teleport.h"
 #include "text_snippets.h"
 #include "translation.h"
@@ -4915,13 +4915,12 @@ std::optional<int> iuse::spray_can( Character *p, item *it, const tripoint_bub_m
 std::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
         map *here, const tripoint_bub_ms &where )
 {
-    string_input_popup popup;
-    std::string message = popup
-                          .description( prefix + " " + _( "(To delete, clear the text and confirm)" ) )
-                          .text( here->has_graffiti_at( where ) ? here->graffiti_at( where ) : std::string() )
-                          .identifier( "graffiti" )
-                          .query_string();
-    if( popup.canceled() ) {
+    string_input_popup_imgui popup( 50,
+                                    here->has_graffiti_at( where ) ? here->graffiti_at( where ) : std::string() );
+    popup.set_description( prefix + " " + _( "(To delete, clear the text and confirm)" ) );
+    popup.set_identifier( "graffiti" );
+    std::string message = popup.query();
+    if( popup.cancelled() ) {
         return std::nullopt;
     }
 
