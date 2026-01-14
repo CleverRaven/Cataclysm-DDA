@@ -324,5 +324,32 @@
     "debug": true,
     "valid": false,
     "enchantments": [ "ENCH_DEBUG_WEIGHT_MODIFIER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_NO_ENCUMBRANCE",
+    "name": { "str": "Debug No Encumbrance" },
+    "description": "Wear 20 shirts.  It's the end of the world, you can do what you want.",
+    "points": 99,
+    "debug": true,
+    "valid": false,
+    "enchantments": [
+      {
+        "encumbrance_modifier": [
+          { "part": "head", "multiply": -1 },
+          { "part": "torso", "multiply": -1 },
+          { "part": "mouth", "multiply": -1 },
+          { "part": "eyes", "multiply": -1 },
+          { "part": "arm_l", "multiply": -1 },
+          { "part": "arm_r", "multiply": -1 },
+          { "part": "hand_l", "multiply": -1 },
+          { "part": "hand_r", "multiply": -1 },
+          { "part": "leg_r", "multiply": -1 },
+          { "part": "leg_l", "multiply": -1 },
+          { "part": "foot_r", "multiply": -1 },
+          { "part": "foot_l", "multiply": -1 }
+        ]
+      }
+    ]
   }
 ]
