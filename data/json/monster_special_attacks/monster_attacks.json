@@ -672,7 +672,7 @@
     "miss_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> dodges!",
     "no_dmg_msg_u": "%1$s pulls its arm back and swings wide, but you withstand the blow!",
     "no_dmg_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> withstands the blow!"
-  }
+  },
   {
     "type": "monster_attack",
     "attack_type": "melee",
