@@ -23,11 +23,12 @@
   {
     "type": "terrain",
     "id": "t_nether_glass_floor_basalt",
-    "name": "black glass",
-    "description": "An endless expanse of black glass.  It perfectly reflects the darkness around it.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 2,
+    "name": "basalt floor",
+    "looks_like": "t_rock_floor",
+    "description": "Flat hexagonal stone plates tile perfectly across the ground, each an exact copy of the next.",
+    "symbol": ".",
+    "color": "dark_gray",
+    "move_cost": 1,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
   },
   {
@@ -46,7 +47,7 @@
     "type": "terrain",
     "id": "t_nether_basalt",
     "name": "perfect basalt wall",
-    "description": "Hexagonal columns of basalt spring from the dark floor.  Each a perfect copy of the next.",
+    "description": "Hexagonal columns of basalt spring from the dark floor, each an exact copy of the next.",
     "symbol": "#",
     "color": "dark_gray",
     "move_cost": 0,

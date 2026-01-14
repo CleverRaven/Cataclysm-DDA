@@ -16,6 +16,10 @@
   },
   {
     "type": "overmap_special_migration",
+    "id": "void_spider_lair"
+  },
+  {
+    "type": "overmap_special_migration",
     "id": "house_05ab",
     "new_id": "house_05"
   },

@@ -566,5 +566,10 @@
       "outpost_cross_roof_east": "outpost_roof_east",
       "outpost_cross_roof_west": "outpost_roof_west"
     }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.I",
+    "oter_ids": { "void_spider_lair_entrance": "deep_rock", "void_spider_lair_a1": "deep_rock", "void_spider_lair_a2": "deep_rock" }
   }
 ]

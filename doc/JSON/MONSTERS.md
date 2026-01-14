@@ -531,7 +531,7 @@ How the monster behaves on death.
     "corpse_type": "NORMAL", // can be: BROKEN, NO_CORPSE, NORMAL (default)
     "message": "The %s dies!", // substitute %s for the monster's name.
     "effect": { "id": "death_boomer", "hit_self": true }, // the spell that gets called when the monster dies.  follows the syntax of fake_spell.
-    "eoc": "debug_eoc_message",  // eoc that would be run when monster dies. Alpha talker is monster, beta talker is player (always).
+    "eoc": "debug_eoc_message",  // eoc that would be run when monster dies. Alpha talker is the killer (if it exists), beta talker is the monster. Check for "has_alpha" if you plan to use it.
 }
 ```
 
