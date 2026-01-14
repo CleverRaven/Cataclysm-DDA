@@ -69,7 +69,7 @@
       "rows": [
         "                        ",
         "                dddddddd",
-        "                dd=====d",
+        "              v dd=====d",
         "                dd=123=d",
         "                dd=;;;=d",
         "                dd=;;4=d",
@@ -79,17 +79,17 @@
         "                dd      ",
         "                dd      ",
         "                dd      ",
-        "   __________           ",
-        "   _,,,,,,,,O           ",
-        "   _,,,,,,,,O           ",
-        "   __________           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
         "                        ",
         "    #####o#####         ",
-        "    #.c.-s-.-.#         ",
+        "   6#1c.-s-.-.#         ",
         "##o##ct...C..f#         ",
         "#.bb#^........o         ",
-        "o...#........l#         ",
-        "#Ts.+....&...A#         ",
+        "o..p#........l#         ",
+        "#Ts.+.ppp&...A#         ",
         "#######o###+###         "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
@@ -118,14 +118,17 @@
         "4": "t_metal_floor",
         "5": "t_metal_floor",
         "d": "t_dock",
-        "o": "t_window_taped"
+        "o": "t_window_taped",
+        "_": "t_wall_metal_shipping_container_light_red",
+        "p": "t_floor"
       },
       "furniture": {
-        "1": "f_locker",
+        "1": "f_air_filter",
         "2": "f_locker",
         "3": "f_locker",
-        "4": "f_utility_shelf",
-        "5": "f_utility_shelf",
+        "4": "f_workbench",
+        "5": "f_workbench",
+        "6": "f_air_conditioner",
         "-": "f_counter",
         "s": "f_sink",
         "c": "f_chair",
@@ -136,7 +139,8 @@
         "A": "f_armchair",
         "&": "f_woodstove",
         "b": "f_bathtub",
-        "T": "f_toilet"
+        "T": "f_toilet",
+        "p": "f_pallet_belted_open"
       },
       "place_loot": [
         { "item": "xedra_enviro_suit", "x": 20, "y": 3 },
@@ -148,8 +152,124 @@
         { "item": "soldering_iron", "x": 21, "y": 5 },
         { "item": "tailors_kit", "x": 21, "y": 6 },
         { "item": "oven", "x": 10, "y": 19 },
-        { "item": "chest_freezer", "x": 13, "y": 19 }
+        { "item": "chest_freezer", "x": 13, "y": 19 },
+        { "item": "ground_solar_panel", "x": 6, "y": 22, "repeat": 6 },
+        { "group": "twoliter_water_batch", "x": 8, "y": 22, "repeat": 10 },
+        { "group": "tools_workshop", "x": 9, "y": 20 },
+        { "item": "stepladder", "x": 8, "y": 16 }
+      ],
+      "vehicles": { "v": { "vehicle": "wood_rowboat_double", "chance": 100, "rotation": 90 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "xedra_fishing_shack_1" ],
+    "object": {
+      "predecessor_mapgen": "open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                  ;;;;; ",
+        "                  ;1;;; ",
+        "                  ;;;;; ",
+        "                  ;;;;; ",
+        "                  ;;;;; ",
+        "                  ;;;;; ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    #ooooooooo#         ",
+        "    #bb.f.wwww#         ",
+        ",,,,+.......c%#         ",
+        ",,,<#v--------#         ",
+        ",,,,#_________#         ",
+        ",,,,#_________#         ",
+        ",,,,###########         "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "#": "t_wall_wood",
+        "_": "t_open_air",
+        ".": "t_floor",
+        "b": "t_floor",
+        "w": "t_floor",
+        "c": "t_floor",
+        "f": "t_floor",
+        "v": "t_ladder_down",
+        "<": "t_ladder_up",
+        ",": "t_metal_roof_red",
+        ";": "t_metal_roof",
+        "1": "t_metal_roof",
+        "o": "t_window_domestic",
+        "+": "t_door_c",
+        "-": "t_railing"
+      },
+      "furniture": {
+        "b": "f_bed",
+        "f": "f_foot_locker",
+        "w": "f_workbench",
+        "c": "f_chair",
+        "1": "f_air_conditioner",
+        "%": "f_machinery_electronic"
+      },
+      "place_loot": [
+        { "item": "radio", "x": 13, "y": 18 },
+        { "item": "binoculars", "x": 12, "y": 18 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "xedra_fishing_shack_2" ],
+    "object": {
+      "predecessor_mapgen": "open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    ,,,,,,,,,,,         ",
+        "    ,,,,,,,a,s,         ",
+        "    ,,,,,,,,c,,         ",
+        "   >,,,,,,,,,,,         ",
+        "    ,,,,,,,,,,,         ",
+        "    ,,,,,,,,,,,         ",
+        "    ,,,,,o,,,,,         "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ",": "t_metal_roof_red",
+        "o": "t_metal_roof_red",
+        "a": "t_metal_roof_red",
+        "s": "t_metal_roof_red",
+        "c": "t_metal_roof_red",
+        ">": "t_ladder_down"
+      },
+      "furniture": {
+        "a": "f_TV_antenna",
+        "s": "f_small_satellite_dish",
+        "c": "f_cellphone_booster",
+        "o": "f_vent_pipe"
+      }
     }
   }
 ]

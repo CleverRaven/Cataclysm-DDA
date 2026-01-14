@@ -3405,11 +3405,17 @@
   {
     "type": "overmap_special",
     "id": "xedra_fishing_shack",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "xedra_fishing_shack_0_north" } ],
-    "locations": [ "lake_shore" ],
-    "city_distance": [ 5, 50 ],
+    "overmaps": [
+      { "point": [ 0, -1, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
+      { "point": [ 0, 0, 0 ], "overmap": "xedra_fishing_shack_0_north", "locations": [ "lake_shore" ] },
+      { "point": [ 0, 0, 1 ], "overmap": "xedra_fishing_shack_1_north", "locations": [ "open_air" ] },
+      { "point": [ 0, 0, 2 ], "overmap": "xedra_fishing_shack_2_north", "locations": [ "open_air" ] },
+      { "point": [ 1, 0, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] },
+      { "point": [ -1, 0, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] }
+    ],
+    "city_distance": [ 20, -1 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE" ]
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE", "LAKE" ]
   },
   {
     "type": "overmap_special",

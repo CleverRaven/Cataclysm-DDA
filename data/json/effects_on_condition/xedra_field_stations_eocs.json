@@ -47,5 +47,18 @@
       ]
     },
     "effect": { "u_add_var": "knows_xedra_field_station_2", "value": "yes" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_fishing_shack_nearby",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": {
+      "and": [
+        { "u_near_om_location": "xedra_fishing_shack_0" },
+        { "not": { "compare_string": [ "yes", { "u_val": "knows_xedra_field_station_3" } ] } }
+      ]
+    },
+    "effect": { "u_add_var": "knows_xedra_field_station_3", "value": "yes" }
   }
 ]
