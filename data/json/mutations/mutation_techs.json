@@ -364,7 +364,7 @@
     "id": "TOE_TALONS_KICK",
     "name": "Toe Talons Kick",
     "melee_allowed": true,
-    "messages": [ "You kick %s with your taloned feet", "<npcname> kicks %s with thrit taloned feet" ],
+    "messages": [ "You kick %s with your taloned feet", "<npcname> kicks %s with their taloned feet" ],
     "unarmed_allowed": true,
     "weighting": -3,
     "reach_ok": false,
