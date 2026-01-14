@@ -1301,6 +1301,8 @@ void Character::load( const JsonObject &data )
     data.read( "last_target", tmptar );
     data.read( "last_target_type", tmptartyp );
     data.read( "last_target_pos", last_target_pos );
+    data.read( "last_magic_target_pos", last_magic_target_pos );
+
     data.read( "ammo_location", ammo_location );
     // Fixes savefile with invalid last_target_pos.
     if( last_target_pos && *last_target_pos == tripoint_abs_ms::min ) {
@@ -1526,6 +1528,8 @@ void Character::store( JsonOut &json ) const
     } else {
         json.member( "last_target_pos", last_target_pos );
     }
+
+    json.member( "last_magic_target_pos", last_magic_target_pos );
 
     json.member( "destination_point", destination_point );
 

@@ -2002,6 +2002,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     // these fire even if the attack is blocked (you still got hit)
     martial_arts_data->ma_ongethit_effects( *this );
 
+    magic->break_channeling( *this );
+
     if( blocks_left < 1 ) {
         return false;
     }

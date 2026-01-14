@@ -3337,6 +3337,10 @@ bool game::handle_action()
     if( act != ACTION_TIMEOUT ) {
         player_character.mod_moves( -current_turn.moves_elapsed() );
     }
+    if( act != ACTION_PAUSE ) {
+        player_character.magic->break_channeling( player_character );
+    }
+
     gamemode->post_action( act );
 
     player_character.movecounter = ( !player_character.is_dead_state() ? ( before_action_moves -
