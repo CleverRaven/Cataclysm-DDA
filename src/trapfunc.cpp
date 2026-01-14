@@ -25,6 +25,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
+#include "mapdata.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "messages.h"

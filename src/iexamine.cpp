@@ -1957,8 +1957,6 @@ void iexamine::pit_covered( Character &you, const tripoint_bub_ms &examp )
 void iexamine::thin_ice( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
-    const ter_id ter_here = here.ter( examp );
-
     const trap &tr = here.tr_at( examp );
     if( !you.knows_trap( examp ) ) {
         you.add_msg_if_player( m_warning, _( "The ice looks thin and won't support your weight." ) );
