@@ -323,6 +323,7 @@ class Creature : public viewer
         }
         virtual void gravity_check();
         virtual void gravity_check( map *here );
+        void maybe_break_fragile_underfoot( Creature &cr, const tripoint_bub_ms &p );
         void setpos( map &here, const tripoint_bub_ms &p, bool check_gravity = true );
         void setpos( const tripoint_abs_ms &p, bool check_gravity = true );
 
@@ -608,7 +609,14 @@ class Creature : public viewer
         virtual float fall_damage_mod() const = 0;
         /** Deals falling/collision damage with terrain/creature at pos */
         virtual int impact( int force, const tripoint_bub_ms &pos ) = 0;
-
+        // Used by maybe_break_fragile_underfoot;
+        virtual float fragile_terrain_weight_modifier() const {
+            return 1.0;
+        }
+        //virtual check for if creature flies
+        virtual bool flies() const {
+            return false;
+        }
         /**
          * This function checks the creatures @ref is_dead_state and (if true) calls @ref die.
          * You can either call this function after hitting this creature, or let the game

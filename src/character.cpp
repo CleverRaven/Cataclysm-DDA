@@ -2004,6 +2004,11 @@ move_mode_id Character::current_movement_mode() const
     return move_mode;
 }
 
+float Character::fragile_terrain_weight_modifier() const
+{
+    return move_mode->get_bash_weight_modifier();
+}
+
 bool Character::movement_mode_is( const move_mode_id &mode ) const
 {
     return move_mode == mode;
@@ -7712,7 +7717,18 @@ int Character::impact( const int force, const tripoint_bub_ms &p )
 
 bool Character::can_fly()
 {
-    if( !move_effects( false ) || has_effect( effect_stunned ) ) {
+    if( !move_effects( false ) ) {
+        return false;
+    }
+    if( flies() ) {
+        return true;
+    }
+    return false;
+}
+
+bool Character::flies() const
+{
+    if( has_effect( effect_stunned ) ) {
         return false;
     }
     // GLIDE is for artifacts or things like jetpacks that don't care if you're tired or hurt.

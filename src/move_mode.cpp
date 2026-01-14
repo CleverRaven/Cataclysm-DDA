@@ -75,6 +75,8 @@ void move_mode::load( const JsonObject &jo, std::string_view/*src*/ )
     optional( jo, was_loaded, "move_speed_multiplier", _move_speed_mult, 1.0 );
     optional( jo, was_loaded, "mech_power_use", _mech_power_use, 2 );
     optional( jo, was_loaded, "swim_speed_mod", _swim_speed_mod, 0 );
+    optional( jo, was_loaded, "bash_weight_modifier", _bash_weight_modifier,
+              numeric_bound_reader( 0.0f ), 1.0 );
 
     optional( jo, was_loaded, "stop_hauling", _stop_hauling );
 }
@@ -189,6 +191,11 @@ units::energy move_mode::mech_power_use() const
 int move_mode::swim_speed_mod() const
 {
     return _swim_speed_mod;
+}
+
+float move_mode::get_bash_weight_modifier() const
+{
+    return _bash_weight_modifier;
 }
 
 nc_color move_mode::panel_color() const

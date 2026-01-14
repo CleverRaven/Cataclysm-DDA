@@ -15,6 +15,7 @@
 #include "cata_utility.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "npc.h"
 #include "damage.h"
 #include "debug.h"
 #include "game.h"
@@ -23,9 +24,11 @@
 #include "map_scale_constants.h"
 #include "mapdata.h"
 #include "maptile_fwd.h"
+#include "monster.h"
 #include "point.h"
 #include "submap.h"
 #include "trap.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -674,4 +677,69 @@ bool pathfinding_target::contains( const tripoint_bub_ms &p ) const
         return center == p;
     }
     return square_dist( center, p ) <= r;
+}
+
+bool should_avoid_fragile_tile( const Creature *who, const map &m, const tripoint_bub_ms &p )
+{
+    if( !who ) {
+        return false;
+    }
+
+    //early break if not fragile for some reason
+    if( !m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FRAGILE, p ) ) {
+        return false;
+    }
+    const bool is_seethrough = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_TRANSPARENT_FLOOR, p );
+    const bool is_pit_with_board = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_OPEN_PIT, p );
+    const bool is_player_pitfall = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_PLAYER_MADE, p );
+
+    //  if transparent floor or player made or board pit
+    if( !( is_seethrough || is_pit_with_board || is_player_pitfall ) ) {
+        return false;
+    }
+
+    //NPCs and smart monsters avoid transparent
+    bool smart = false;
+    //friendly npcs and monsters avoid our pit traps
+    bool ally = false;
+
+    if( who->is_npc() ) {
+        smart = true;
+
+        const npc *g = dynamic_cast<const npc *>( who );
+        if( g && g->is_player_ally() ) {
+            ally = true;
+        }
+
+    } else if( who->is_monster() ) {
+        const monster *mon = static_cast<const monster *>( who );
+        if( mon->has_mind() ) {
+            smart = true;
+        }
+        if( mon->attitude_raw_string( mon->attitude_to( get_player_character() ) ) == "friendly" ) {
+            ally = true;
+        }
+    }
+
+    // if they cant see they will step on it
+    if( !who->sees( m, p ) ) {
+        return false;
+    }
+
+    if( ( is_seethrough || is_pit_with_board ) && smart ) {
+        // smart creatures can tell if they will break the seethrough floor or board
+        const int effective_bash = who->get_weight() / 10_kilogram;
+        const int bash_min = m.bash_resistance( p );
+
+        // will creature break?
+        if( effective_bash > bash_min ) {
+            return true;
+        }
+    }
+    // allied creatures don't fall through our traps
+    // avoids player frustration when using them for defense
+    if( ally && is_player_pitfall ) {
+        return true;
+    }
+    return false;
 }

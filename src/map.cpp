@@ -4316,7 +4316,12 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
 
         set_to_air = roof_of_below_tile; //do not add the roof for the tile below if it was already removed
         furn_set( p, furn_str_id::NULL_ID() );
-        if( repair_missing_ground && ter_below.has_flag( "NATURAL_UNDERGROUND" ) ) {
+
+        //respect recommended terrain setting by bash results!
+        if( ter_bash.ter_set != ter_str_id( "t_null" ) ) {
+            ter_set( p, ter_bash.ter_set );
+        } //else resort to repairing natural terrain
+        else if( repair_missing_ground && ter_below.has_flag( "NATURAL_UNDERGROUND" ) ) {
             ter_set( p, ter_below.roof );
         } else {
             ter_set( p, ter_t_open_air );

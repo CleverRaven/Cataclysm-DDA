@@ -44,6 +44,7 @@
 #include "item_pocket.h"
 #include "memory_fast.h"
 #include "monster.h"
+#include "move_mode.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
@@ -1073,6 +1074,8 @@ class Character : public Creature, public visitable
         /** Check against the character's current movement mode */
         bool movement_mode_is( const move_mode_id &mode ) const;
         move_mode_id current_movement_mode() const;
+
+        float fragile_terrain_weight_modifier() const override;
 
         bool is_running() const;
         bool is_walking() const;
@@ -2734,6 +2737,7 @@ class Character : public Creature, public visitable
         int impact( int force, const tripoint_bub_ms &pos ) override;
         /** Checks to see if the character is able to use their wings properly */
         bool can_fly();
+        bool flies() const override;
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint_bub_ms &to ) override;
 

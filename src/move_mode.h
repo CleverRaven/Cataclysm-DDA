@@ -58,9 +58,11 @@ class move_mode
         float _move_speed_mult = 0.0f;
         float _sound_multiplier = 0.0f;
         float _stamina_multiplier = 0.0f;
+        float _bash_weight_modifier = 1.0f;
 
         int _mech_power_use = 0;
         int _swim_speed_mod = 0;
+
 
         nc_color _panel_color;
         nc_color _symbol_color;
@@ -92,6 +94,7 @@ class move_mode
 
         units::energy mech_power_use() const;
         int swim_speed_mod() const;
+        float get_bash_weight_modifier() const;
 
         nc_color panel_color() const;
         nc_color symbol_color() const;

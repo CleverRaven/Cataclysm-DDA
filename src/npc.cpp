@@ -3516,6 +3516,9 @@ std::function<bool( const tripoint_bub_ms & )> npc::get_path_avoid() const
         if( here.is_open_air( p ) ) {
             return true;
         }
+        if( should_avoid_fragile_tile( this, here, p ) ) {
+            return true;
+        }
         if( rules.has_flag( ally_rule::hold_the_line ) &&
             rl_dist( p, get_avatar().pos_bub() ) == 1 &&
             ( here.close_door( p, true, true ) ||
@@ -3532,6 +3535,7 @@ std::function<bool( const tripoint_bub_ms & )> npc::get_path_avoid() const
         return false;
     };
 }
+
 
 mfaction_id npc::get_monster_faction() const
 {
