@@ -6,14 +6,12 @@
     "type": "ITEM",
     "weight": "250 g",
     "volume": "150 ml",
-    "charges": 1,
     "price": "100 kUSD",
     "price_postapoc": "100 kUSD",
     "symbol": "!",
     "material": [ { "type": "alien_liquid", "portion": 1 } ],
-    "phase": "liquid",
-    "container": "test_tube",
     "color": "blue",
+    "flags": [ "SINGLE_USE" ],
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
@@ -23,6 +21,7 @@
     }
   },
   {
+    "type": "ITEM",
     "id": "afs_espertech_gain_esper_powers_geist",
     "copy-from": "afs_espertech_gain_esper_powers",
     "name": { "str_sp": "enkindling tincture" },
@@ -35,6 +34,7 @@
     }
   },
   {
+    "type": "ITEM",
     "id": "afs_espertech_gain_esper_powers_spark",
     "copy-from": "afs_espertech_gain_esper_powers",
     "name": { "str_sp": "enkindling tincture" },
@@ -47,6 +47,7 @@
     }
   },
   {
+    "type": "ITEM",
     "id": "afs_espertech_gain_esper_powers_sybil",
     "copy-from": "afs_espertech_gain_esper_powers",
     "name": { "str_sp": "enkindling tincture" },
@@ -59,6 +60,7 @@
     }
   },
   {
+    "type": "ITEM",
     "id": "afs_espertech_gain_esper_powers_whisper",
     "copy-from": "afs_espertech_gain_esper_powers",
     "name": { "str_sp": "enkindling tincture" },
