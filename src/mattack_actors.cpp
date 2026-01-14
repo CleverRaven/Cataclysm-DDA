@@ -783,7 +783,7 @@ bool melee_actor::call( monster &z ) const
             on_damage( z, *target, total_dealt_damage );
         }
 
-        attack_all_damage_total = total_damage;
+        damage_total = total_damage;
     }
 
     // Pick body part
