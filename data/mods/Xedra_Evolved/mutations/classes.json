@@ -4,11 +4,11 @@
     "id": "DREAMER",
     "name": "Dreamer",
     "points": 0,
-    "description": "Dreamers are people who are able to tap into the power of dreams and nearby dimensions and create fantastical effects as a result.  They can even pull some of this dream material into our world to build other things with it.  Sometimes they hear outside voices that offer help and presents, and with enough power, dreamers can pull them right from beyond.  Their power scales with their natural perception and intellect.",
+    "description": "Dreamers are people who are able to tap into the power of dreams and nearby dimensions and create fantastical effects as a result.  They can even pull some of this dream material into our world to build other things with it.  Sometimes they hear outside voices that offer help and presents, and with enough power, dreamers can pull them right from beyond.  Their mana regen is controlled by their emotions, strong moods positive or negative are needed for them to refill their mana pool.  Their power scales with their natural perception and intellect.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [ "BONUS_DREAMER" ],
+    "enchantments": [ "BONUS_DREAMER", "DREAMER_NO_REGEN" ],
     "cancels": [ "EATER" ],
     "moncams": [
       [ "mon_shifter", 100 ],
@@ -21,6 +21,32 @@
     "//": "1 vit each 18 minutes, 80 per day, 12,5 days to full",
     "spells_learned": [ [ "create_dream_dross", 0 ], [ "dreamer_artifact", 0 ], [ "return_critters", 0 ] ],
     "flags": [ "ATTUNEMENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DREAMER_NO_REGEN",
+    "name": { "str": "Calm or Bored" },
+    "description": "Your mood is stable and stilled.  Your ability to regenerate mana is nonexistent.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "points": 0,
+    "transform": { "target": "DREAMER_YES_REGEN", "msg_transform": "Your passions fill you.", "active": false },
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": -1 } ] } ],
+    "triggers": [ [ { "condition": { "or": [ { "math": [ "u_val('morale') < -34" ] }, { "math": [ "u_val('morale') > 34" ] } ] } } ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "DREAMER_YES_REGEN",
+    "name": { "str": "Passionate" },
+    "description": "You can feel your emotions filling your reservoirs of magickal energy.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "points": 0,
+    "transform": { "target": "DREAMER_NO_REGEN", "msg_transform": "Your passions subside.", "active": false, "moves": 10 },
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": { "math": [ "abs(u_val('morale') ) /41" ] } } ] } ],
+    "triggers": [ [ { "condition": { "and": [ { "math": [ "u_val('morale') > -35" ] }, { "math": [ "u_val('morale') < 35" ] } ] } } ] ]
   },
   {
     "type": "mutation",
@@ -72,7 +98,6 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "hedge_luck_spell", 0 ] ],
     "flags": [ "ATTUNEMENT" ]
   },
   {

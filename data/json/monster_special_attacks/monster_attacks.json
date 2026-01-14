@@ -828,5 +828,24 @@
     "miss_msg_npc": "%1$s tries to pulls <npcname>'s %2$s in its orifice but misses.",
     "no_dmg_msg_u": "%1$s pulls your %2$s in its orifice and starts crushing it, but can't penetrate your armor.",
     "no_dmg_msg_npc": "%1$s pulls <npcname>'s %2$s in its orifice and starts crushing it, but can't penetrate their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "hulk_wide_swing",
+    "accuracy": 8,
+    "cooldown": 15,
+    "move_cost": 250,
+    "hitsize_min": 12,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 35, "armor_penetration": 10 } ],
+    "dodgeable": true,
+    "blockable": false,
+    "effects": [ { "id": "downed", "chance": 95, "duration": [ 1, 2 ] } ],
+    "hit_dmg_u": "%1$s pulls its arm back and swings wide, smashing into your %2$s!",
+    "hit_dmg_npc": "%1$s pulls its arm back and swings wide, smashing into <npcname>'s %2$s!",
+    "miss_msg_u": "%1$s pulls its arm back and swings wide, but you dodge!",
+    "miss_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> dodges!",
+    "no_dmg_msg_u": "%1$s pulls its arm back and swings wide, but you withstand the blow!",
+    "no_dmg_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> withstands the blow!"
   }
 ]

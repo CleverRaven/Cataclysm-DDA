@@ -1008,13 +1008,7 @@
     "flags": [ "TOUGH_FEET" ],
     "destroys_gear": true,
     "restricts_gear": [ "foot_sole_l", "foot_sole_r" ],
-    "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
-    "attacks": {
-      "attack_text_u": "You kick %s with your hooves!",
-      "attack_text_npc": "%1$s kicks %2$s with their hooves!",
-      "chance": 15,
-      "strength_damage": { "damage_type": "bash", "amount": 3 }
-    },
+    "integrated_armor": [ "integrated_hooves" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ]
   },
   {
