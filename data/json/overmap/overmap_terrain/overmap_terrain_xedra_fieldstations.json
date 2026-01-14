@@ -68,5 +68,14 @@
     "sym": "f",
     "color": "green",
     "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "xedra_fishing_shack_0" ],
+    "name": "lakeside house",
+    "vision_levels": "isolated_building",
+    "sym": "C",
+    "color": "i_green",
+    "see_cost": "high"
   }
 ]

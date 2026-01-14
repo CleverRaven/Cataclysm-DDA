@@ -1542,5 +1542,24 @@
         "volume_encumber_modifier": 0
       }
     ]
+  },
+  {
+    "id": "lead_plate_xedra_mark",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "lead plate" },
+    "description": "An lead plate like those found in most medical x-ray protection vests, affixed to a steel backing plate.  This is clearly intended to be inserted into the pocket of a protective vest, and can't be worn on its own.",
+    "weight": "12587 g",
+    "volume": "1110 ml",
+    "longest_side": "46 cm",
+    "price": "400 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "lead", "qt_steel" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 1,
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
+    "armor": [ { "encumbrance": 6, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ] } ]
   }
 ]
