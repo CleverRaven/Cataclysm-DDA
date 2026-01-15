@@ -1,0 +1,396 @@
+[
+  {
+    "type": "npc",
+    "id": "chief_meteorologist_pat",
+    "name_unique": "Pat",
+    "//": "Appears on the Hub service.",
+    "name_suffix": "Hub Mercenary",
+    "class": "NPC_ROBOFAC_MERC_PAT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ROBOFAC_MERC_PAT",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "type": "npc_class",
+    "id": "NPC_ROBOFAC_MERC_PAT",
+    "name": { "str": "Hub Mercenary" },
+    "job_description": "Fighting for the all-mighty dollar.",
+    "common": false,
+    "worn_override": "NPC_ROBOFAC_MERC_PAT_worn",
+    "carry_override": "NPC_ROBOFAC_MERC_PAT_carry"
+  },
+  {
+    "type": "item_group",
+    "id": "NPC_ROBOFAC_MERC_PAT_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "boxer_shorts" },
+      { "item": "tshirt" },
+      { "item": "bat_ball" },
+      { "item": "jacket_evac" },
+      { "item": "socks" },
+      { "item": "robofac_enviro_suit_casual" },
+      { "item": "smart_watch_adv" },
+      { "item": "ar_glasses_basic" },
+      { "item": "colt_python", "container-item": "XL_holster" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NPC_ROBOFAC_MERC_PAT_carry",
+    "subtype": "collection",
+    "items": [ { "item": "RobofacCoin", "count": [ 15, 18 ] }, { "group": "charged_smart_phone" } ]
+  },
+  {
+    "id": [ "TALK_ROBOFAC_MERC_PAT" ],
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Hi.",
+      "How's it goin'?",
+      "Yo.",
+      "Whatsup?",
+      "They nod their head in greeting."
+    ],
+    "responses": [
+      {
+        "text": "Hi.  I'm <u_name>.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_GREETING_1",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_met" } ] } }
+      },
+      {
+        "text": "No luck finding smokes, yet.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_NO",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_PAT_1" },
+            { "not": { "u_has_items": { "item": "cig", "count": 2 } } }
+          ]
+        }
+      },
+      {
+        "text": "I found smokes!",
+        "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_YES",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_PAT_1" },
+            { "u_has_items": { "item": "cig", "count": 2 } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "cig", "count": 2, "popup": true },
+          { "u_add_var": "robofac_pat_friends", "value": "yes" },
+          { "finish_mission": "MISSION_ROBOFAC_PAT_1", "success": true }
+        ]
+      },
+      {
+        "text": "Anything I could do for you in the field?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_1",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_friends" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_partners" } ] } },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_2" } }
+          ]
+        }
+      },
+      {
+        "text": "I found those electronics you asked for.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_1_COMPLETE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_PAT_2" },
+            { "u_has_items": { "item": "eink_tablet_pc", "count": 2 } },
+            { "u_has_items": { "item": "ar_glasses_advanced", "count": 2 } },
+            { "u_has_items": { "item": "two_way_radio", "count": 2 } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "eink_tablet_pc", "count": 2, "popup": true },
+          { "u_consume_item": "ar_glasses_advanced", "count": 2, "popup": true },
+          { "u_consume_item": "two_way_radio", "count": 2, "popup": true },
+          { "u_add_var": "robofac_pat_partners", "value": "yes" },
+          { "finish_mission": "MISSION_ROBOFAC_PAT_2", "success": true }
+        ]
+      },
+      {
+        "text": "It's been two days.  That gear ready?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_GEAR",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] } },
+            { "compare_string": [ "yes", { "u_val": "robofac_waiting_on_pat" } ] },
+            { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('2 d')" ] }
+          ]
+        },
+        "effect": [
+          { "u_add_var": "robofac_pat_gave_gear", "value": "yes" },
+          { "math": [ "robofac_timer_waiting_on_pat = time('now')" ] },
+          { "u_spawn_item": "ar_glasses_advanced_pat" }
+        ]
+      },
+      {
+        "text": "These glasses are a bit clunky.  Think we can improve them at all?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_IMPROVE_GEAR_NO",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "not": { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('14 d')" ] } }
+          ]
+        }
+      },
+      {
+        "text": "Let's talk about one of our jobs.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_partners" } ] }
+      },
+      {
+        "text": "Just came by to chat.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_MORALE_CHAT",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_friends" } ] }
+      },
+      { "text": "I'll see you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_GREETING_1",
+    "type": "talk_topic",
+    "dynamic_line": "Hey, I'm Pat. Hope ya weren't plannin' on usin' this office.  The bosses don't seem ta give a damn, so I'm callin' dibs.",
+    "responses": [ { "text": "What do you do for our… employer?", "topic": "TALK_ROBOFAC_MERC_PAT_GREETING_2" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_GREETING_2",
+    "type": "talk_topic",
+    "dynamic_line": "I kinda stumbled inta this place aftah everythin' went down, an' they started tossin' me odd jobs in exchange for some old weathah data I had lyin' around.  Used ta be a meteorologist — the computah kind, not the TV kind.  Now they got me takin' recordin's of those portal storms, but if I'm bein' straight with ya, I ain't really built for fieldwork.  Honestly, I'm shocked I'm still breathin'.",
+    "responses": [ { "text": "They've contracted me to do the same.", "topic": "TALK_ROBOFAC_MERC_PAT_GREETING_3" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_GREETING_3",
+    "type": "talk_topic",
+    "dynamic_line": "No kiddin'? Well, hey — good ta meet ya. Swing by once in a while, yeah?  You're a helluva lot friendlier than most a the assholes I've run inta round heah… not that theah's been a ton, but still.",
+    "responses": [ { "text": "Nice to meet you.  See you around.", "topic": "TALK_ROBOFAC_MERC_PAT_GREETING_4" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_GREETING_4",
+    "type": "talk_topic",
+    "dynamic_line": "Hey, before ya take off… if ya happen ta run inta any smokes out theah, maybe bring 'em by, yeah?  Don't mattah what kind.  I got a little rum tucked away we can split, call it a trade.",
+    "speaker_effect": { "effect": [ { "u_add_var": "robofac_pat_met", "value": "yes" } ] },
+    "responses": [
+      {
+        "text": "Absolutely.  I'll come back when I find some cigarettes.",
+        "topic": "TALK_DONE",
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_1" }
+      },
+      {
+        "text": "I'll think about it.  See you around.",
+        "topic": "TALK_DONE",
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_1" }
+      },
+      {
+        "text": "I don't smoke, but I'll keep an eye out.  See you around.",
+        "topic": "TALK_DONE",
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_1" }
+      },
+      {
+        "text": "I don't drink, but I'll keep an eye out.  See you around.",
+        "topic": "TALK_DONE",
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_1" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_SMOKES_NO",
+    "type": "talk_topic",
+    "dynamic_line": "No worries.  Good ta see you're still kickin', anyway.",
+    "responses": [ { "text": "See you around.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_SMOKES_YES",
+    "type": "talk_topic",
+    "dynamic_line": "They smile and produce a very small bottle of rum and a red plastic lighter. \"Wicked.  It ain't much and it ain't good, and I ain't got glasses, but it's what I got.  Have a seat?\"",
+    "responses": [
+      { "text": "Enjoy.  I have to go.", "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_LEAVE_EARLY" },
+      { "text": "Absolutely.", "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_MAKE_FRIENDS_1" },
+      { "text": "No smokes for me, but I'll take a drink.", "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_MAKE_FRIENDS_1" },
+      { "text": "No drink for me, but I'll take a smoke.", "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_MAKE_FRIENDS_1" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_SMOKES_LEAVE_EARLY",
+    "type": "talk_topic",
+    "dynamic_line": "You're a bit of a mystery, but yeah, alright, let's wrap this up. Far as I'm concerned, you're a friend a mine now, whether ya' like it or not. Swing by sometime, maybe we can shoot the shit or work on somethin' togethah.",
+    "responses": [ { "text": "See you around.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_SMOKES_MAKE_FRIENDS_1",
+    "type": "talk_topic",
+    "dynamic_line": "You and Pat sit together for a long while, the room filled with smoke.  You learn that they're a bit of a weather nerd, and they like drinking, smoking, and baseball.  The topic inevitably turns to the cataclysm and how the first few days went for you both.",
+    "responses": [
+      { "text": "[You enjoy the companionship and think this person could be a friend]", "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_MAKE_FRIENDS_2" },
+      { "text": "[You enjoy the companionship but think making friends is futile]", "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_LEAVE_EARLY" },
+      { "text": "[You're uncomfortable with this situation and try to end things early]", "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_LEAVE_EARLY" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_SMOKES_MAKE_FRIENDS_2",
+    "type": "talk_topic",
+    "dynamic_line": "After a few somber moments the conversation turns to baseball, which Pat seems passionate about and seems to miss.  A few minutes later Pat starts to clean up.  \"THAT was the most fun I've had in a while.  Good to make'a friend.  I'll clean up, yeah?  Swing by  again sometime, maybe we can shoot the shit or work on somethin' togethah.\"",
+    "speaker_effect": { "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ] },
+    "responses": [ { "text": "See you around, Pat.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_1_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": "Great.  I already have a wicked prototype and some software, but I think it'll still take a bit.  Come back heah in two days?",
+    "responses": [
+      {
+        "text": "Sure, see you in two days.",
+        "effect": [
+          { "math": [ "robofac_timer_waiting_on_pat = time('now')" ] },
+          { "u_add_var": "robofac_waiting_on_pat", "value": "yes" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "What's on your mind?",
+    "responses": [
+      {
+        "text": "Our employer wants me to take some NRE device into a portal storm.  Any advice?",
+        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1" }
+      },
+      { "text": "That's all.  See you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "That theah was one of the first jobs they had me do.  I'm not keen to do it again.  I say see if you can find one of these storms, and stay as close to the edge as ya' can, and once that thing beeps, get outta'theah.",
+    "responses": [
+      {
+        "text": "Thanks.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_MORALE_CHAT",
+    "dynamic_line": [
+      "You wouldn't believe the data I pulled last night.  Storms like these used ta be theoretical.  Lemme tell ya'…",
+      "Tell me ya haven't seen the LAST Sox game.  Found it recorded on a scrap tablet.  Asolute heartbreak, even now.  So in the ninth…",
+      "So, we callin' these things zombies?  I dunno…",
+      "I been starin' at busted terminals all mornin'.  Funny how the end a the world didn't fix bad UI.  I wrote this program once…",
+      "Kinda weird, right?  Apocalypse an' I'm still doin' weathah modeling like it matters.  Look at this latest one…",
+      "You drink rum before noon now, or we still pretendin' it's a bad habit?  Ya' know, I had this rum once…",
+      "Portal storms ain't random, by the way.  Anyone tells ya that's full a shit.  Listen…",
+      "You wouldn't believe the asshole came through here earlier…",
+      "So, uh… you trust these folks, or we just survivin' near 'em?  I got ideas…",
+      "Found a radio that almost works — feels like a miracle these days.  I've been scannin' the waves, and…",
+      "So I been thinkin' about somethin' I saw out theah today…",
+      "This might sound stupid, but it reminds me a little a how things used ta be…",
+      "I had this theory once, back before everythin' went ta hell…",
+      "I was thinkin' about the Sox, an' now I'm in a wicked bad mood…",
+      "This reminds me of a bar back home…",
+      "So what's your favorite cocktail?",
+      "Whicked gear you got theah.  Tell me where ya' found it?",
+      "I been rationin' smokes, but yeah, this feels like a good exception…",
+      "Yeah, sure.  Can I run somethin' by ya?  Nothin' serious…"
+    ],
+    "speaker_effect": { "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ] },
+    "responses": [ { "text": "[Have a chat then say goodbye]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_1",
+    "type": "talk_topic",
+    "dynamic_line": "Actually, yeah, I been thinkin' about this a lot. I'm probably bettah suited stayin' heah, an' you're bettah out in the field. I'm wonderin' if maybe we team up.  Partners.  Whaddaya think?",
+    "responses": [
+      { "text": "Sure, I like it.  What do you have in mind?", "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2" },
+      { "text": "Let me think about this.  We'll talk again later, maybe.  See you later, Pat.", "topic": "TALK_DONE" },
+      { "text": "I work alone.  I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2",
+    "type": "talk_topic",
+    "dynamic_line": "Pat taps their glasses - you see that they're basic AR glasses, and can barely make out the HUD displayed on them.  \"See these?  Handy, yeah.  Cheap model, though.  I'm thinkin' if you can find us a couple'a the advanced models, a couple'a tablet PCs, and a couple'a two-way radios, we could set up a controller-operator thing, you know, like in the movies.  With internet and cell service down, it won't be easy, and we can't share video, but I think I could set up a LoRa system for audio and pictures here at the station - long range radio, yeah?  Wicked.  Anyway, you do the field work, you keep the rewards, and I'll provide you with info - all the while, I'll use the contraption I'm gonna make to collect data I can sell to our employeres.  Win-Win.",
+    "responses": [
+      {
+        "text": "I like it.  2 advanced AR glasses, 2 E-ink tablet PCs, and 2 two-way radios, coming right up.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_3",
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_2" }
+      },
+      { "text": "On second though, let's talk about this later.  I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_3",
+    "type": "talk_topic",
+    "dynamic_line": "Pat laughs, nods, and offers a handshake.  \"See ya around?\"",
+    "responses": [
+      { "text": "[Return the handshake]  See you around.", "topic": "TALK_DONE" },
+      { "text": "[Offer a fistbump]  See you around.", "topic": "TALK_DONE" },
+      { "text": "[Go for the shake and pull away last minute]  Hah, psych!  See you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_GEAR",
+    "type": "talk_topic",
+    "dynamic_line": "Check this shit out, eh?  So ya' wear the glasses like normal, but I've made a leg-strap for the other bits.  The tablet heah is useless for ya', we just need it for extra processin' powah to run the long range radiowave emitter and receiver.  The pictures you send'll be shit, but it should work, long as you aren't stupid enough to drive off to Texas or some shit.  Ya' stick that earbud in ya' ear, and we should be able to chat.  You check in with me and catalogue your journeys, yeah, and I'll do what I can do give you some wicked fuckin' good advice and info.  Let's call this a test run, yeah?  Let's see what works and what don', and then we can improve things.",
+    "responses": [ { "text": "Sounds great.  Guess we'll talk soon.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_IMPROVE_GEAR_NO",
+    "type": "talk_topic",
+    "dynamic_line": "We've only just made'em, come on.  Try it out for a couple weeks, then we can talk.",
+    "responses": [ { "text": "Yeah, alright.  See you around.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_1",
+    "type": "mission_definition",
+    "name": { "str": "Find smokes for Pat" },
+    "description": "I met a fellow Hub mercenary named Pat.  They asked me to keep an eye out for two cigarettes - normal kind.  If I find them, I should take the cigs back to Pat.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_2",
+    "type": "mission_definition",
+    "name": { "str": "Find gear for Pat" },
+    "description": "Pat and I seem to be getting along well, and they want to set us up as partners.  Find <color_yellow>2 advanced AR glasses</color>, <color_yellow>2 two-way radios</color>, and <color_yellow>2 e-ink tablet PCs</color> for Pat.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  }
+]

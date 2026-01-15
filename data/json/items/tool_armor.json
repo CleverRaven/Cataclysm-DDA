@@ -1227,6 +1227,69 @@
     "tool_ammo": "battery"
   },
   {
+    "id": "ar_glasses_advanced_pat",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "name": { "str_sp": "custom LoRa AR glasses" },
+    "description": "An expensive model of augmented reality glasses, with adaptive light correction and some gadgets, designed to be compatible with corrective glasses.  An augmented reality overlay allows the user to zoom their view, and it displays handy information about local topology.  These have been modified by your friend Pat to function on long-distance radio waves (LoRa).  A battery pack, a stripped down tablet PC running a custom operating system, and a two-way radio have been combined onto a hip-strapped unit.  Activate it to contact Pat.",
+    "weight": "400 g",
+    "volume": "750 ml",
+    "price": "3 kUSD",
+    "price_postapoc": "4 USD",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "glasses_safety",
+    "color": "white",
+    "charges_per_use": 1,
+    "use_action": [ "CAMERA", "PORTABLE_GAME", "EBOOKSAVE", "E_FILE_DEVICE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0,
+        "ememory_max": "1 TB"
+      }
+    ],
+    "armor": [
+      { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ] },
+      {
+        "coverage": 15,
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 5,
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ],
+        "layers": [ "BELTED" ]
+      }
+    ],
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [
+      "ZOOM",
+      "WATCH",
+      "ALARMCLOCK",
+      "OUTER",
+      "FRAGILE",
+      "SUN_GLASSES",
+      "THERMOMETER",
+      "WATER_BREAK",
+      "PADDED",
+      "ELECTRONIC",
+      "CAN_USE_IN_DARK",
+      "TWO_WAY_RADIO",
+      "TRADER_AVOID"
+    ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "tool_ammo": "battery"
+  },
+  {
     "id": "helmet_eod",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
