@@ -50,5 +50,16 @@
     "move_cost": 2,
     "bash": { "str_min": 80, "str_max": 180, "sound": "crack!", "ter_set": "t_water_dp" },
     "flags": [ "THICK_ICE", "TRANSPARENT", "FLAT", "PHASE_BACK" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_pseudo_phase",
+    "name": "pseudo phase",
+    "description": "Placeholder terrain representing the original tile for PHASE_BACK behavior.",
+    "symbol": ".",
+    "looks_like": "t_dirt",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ]
   }
 ]

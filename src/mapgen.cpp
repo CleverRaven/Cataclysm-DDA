@@ -229,6 +229,7 @@ static const ter_str_id ter_t_ice_sh_thick( "t_ice_sh_thick" );
 static const ter_str_id ter_t_ice_sh_thin( "t_ice_sh_thin" );
 static const ter_str_id ter_t_marloss( "t_marloss" );
 static const ter_str_id ter_t_metal_floor( "t_metal_floor" );
+static const ter_str_id ter_t_pseudo_phase( "t_pseudo_phase" );
 static const ter_str_id ter_t_radio_tower( "t_radio_tower" );
 static const ter_str_id ter_t_reinforced_door_glass_c( "t_reinforced_door_glass_c" );
 static const ter_str_id ter_t_reinforced_glass( "t_reinforced_glass" );
@@ -6249,12 +6250,12 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
     auto apply_phase_thresholds = [&]( const ter_t & tt, const ter_str_id & base_id ) -> ter_str_id {
         if( tt.phase_targets.empty() || tt.phase_temps.empty() )
         {
-            return ter_str_id::NULL_ID();
+            return ter_t_pseudo_phase;
         }
         if( tt.phase_targets.size() != tt.phase_temps.size() )
         {
             debugmsg( "ter %s: phase_targets and phase_temps length mismatch", base_id.str() );
-            return ter_str_id::NULL_ID();
+            return ter_t_pseudo_phase;
         }
         const size_t n = tt.phase_targets.size();
         std::vector<std::pair<units::temperature, ter_str_id>> pairs;
@@ -6262,8 +6263,8 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
         for( size_t i = 0; i < n; ++i )
         {
             ter_str_id target = tt.phase_targets[i];
-            if( target == ter_str_id::NULL_ID() ) {
-                // NULL_ID used as shorthand for "self"; replace with base terrain id.
+            if( target == ter_t_pseudo_phase ) {
+                // pseudo_phase used as shorthand for "self"; replace with base terrain id.
                 target = base_id;
             }
             pairs.emplace_back( tt.phase_temps[i], target );
@@ -6278,8 +6279,19 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
                 return pr.second;
             }
         }
-        return ter_str_id::NULL_ID();
+        return ter_t_pseudo_phase;
     };
+
+    // No original recorded: evaluate using the current terrain's rules and
+    // record original before transforming.
+    {
+        const ter_str_id chosen = apply_phase_thresholds( cur_ter, cur_id );
+        if( chosen != ter_t_pseudo_phase && chosen != cur_id ) {
+            // Record original terrain so it can be reverted later
+            set_original_terrain_at( p, cur_id.id() );
+            ter_set( p, chosen );
+        }
+    }
 
     // If this tile contains a recorded original terrain, evaluate using the
     // original terrain's phase rules and revert when appropriate.
@@ -6287,7 +6299,7 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
         const ter_id orig_id = get_original_terrain_at( p );
         const ter_t &orig_ter = orig_id.obj();
         const ter_str_id chosen = apply_phase_thresholds( orig_ter, orig_id.obj().id );
-        if( chosen != ter_str_id::NULL_ID() ) {
+        if( chosen != ter_t_pseudo_phase ) {
             // If chosen target is the original, revert and clear record.
             if( chosen == orig_id.obj().id ) {
                 ter_set( p, orig_id );
@@ -6298,17 +6310,6 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
             }
         }
         return;
-    }
-
-    // No original recorded: evaluate using the current terrain's rules and
-    // record original before transforming.
-    {
-        const ter_str_id chosen = apply_phase_thresholds( cur_ter, cur_id );
-        if( chosen != ter_str_id::NULL_ID() && chosen != cur_id ) {
-            // Record original terrain so it can be reverted later
-            set_original_terrain_at( p, cur_id.id() );
-            ter_set( p, chosen );
-        }
     }
 }
 
