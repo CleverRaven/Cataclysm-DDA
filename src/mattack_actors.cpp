@@ -783,7 +783,7 @@ bool melee_actor::call( monster &z ) const
             on_damage( z, *target, total_dealt_damage );
         }
 
-        add_msg_debug(debugmode::DF_MATTACK, "Total damage dealt: %d.", total_damage);
+        add_msg_debug( debugmode::DF_MATTACK, "Total damage dealt: %d.", total_damage );
     }
 
     // Pick body part
