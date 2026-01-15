@@ -555,7 +555,7 @@
       "I was thinkin' about the Sox, an' now I'm in a wicked bad mood…",
       "This reminds me of a bar back home…",
       "So what's your favorite cocktail?",
-      "Whicked gear you got theah.  Tell me where ya' found it?",
+      "Wicked cool gear you got theah.  Tell me where ya' found it?",
       "I been rationin' smokes, but yeah, this feels like a good exception…",
       "Yeah, sure.  Can I run somethin' by ya?  Nothin' serious…"
     ],
@@ -601,7 +601,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_PAT_GEAR",
     "type": "talk_topic",
-    "dynamic_line": "Check this shit out, eh?  So ya' wear the glasses like normal, but I've made a leg-strap for the other bits.  The tablet heah is useless for ya', we just need it for extra processin' powah to run the long range radiowave emitter and receiver.  The pictures you send'll be shit, but it should work, long as you aren't stupid enough to drive off to Texas or some shit.  Ya' stick that earbud in ya' ear, and we should be able to chat.  Here's the trick - toggle the recording switch on, and I'll be able to collect pictures and audio now and again, and I'll keep an eye on the feed, even though it may be slow n' ugly.  You just keep that transmitter-reciever toggled on and I'll do what I can to give you some wicked fuckin' good advice and info.",
+    "dynamic_line": "Check this shit out, eh?  So ya' wear the glasses like normal, but I've made a leg-strap for the other bits.  The tablet heah is useless for ya', we just need it for extra processin' powah to run the long range radiowave emitter and receiver.  The pictures you send'll be shit, but it should work, long as you aren't stupid enough to drive off to Texas or some shit.  Ya' stick that earbud in ya' ear, and we should be able to chat.  Here's the trick - toggle the recording switch on, and I'll be able to collect pictures and audio now and again, and I'll keep an eye on the feed, even though it may be slow n' ugly.  You just keep that transmitter-receiver toggled on and I'll do what I can to give you some wicked fuckin' good advice and info.",
     "responses": [ { "text": "Sounds great.  Guess we'll talk soon.", "topic": "TALK_DONE" } ]
   },
   {
