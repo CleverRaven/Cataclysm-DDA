@@ -395,7 +395,7 @@
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_lixa" } ] }
       },
       {
-        "text": "[Point to the photos of the strange temple] No doubt that place has some wierd shit in it, right?",
+        "text": "[Point to the photos of the strange temple] No doubt that place has some weird shit in it, right?",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_STRANGE_TEMPLE",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_strange_temple" } ] }
       },
