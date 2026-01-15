@@ -46,13 +46,7 @@
   {
     "id": [ "TALK_ROBOFAC_MERC_PAT" ],
     "type": "talk_topic",
-    "dynamic_line": [
-      "Hi.",
-      "How's it goin'?",
-      "Yo.",
-      "Whatsup?",
-      "They nod their head in greeting."
-    ],
+    "dynamic_line": [ "Hi.", "How's it goin'?", "Yo.", "Whatsup?", "They nod their head in greeting." ],
     "responses": [
       {
         "text": "Hi.  I'm <u_name>.",
@@ -62,22 +56,12 @@
       {
         "text": "No luck finding smokes, yet.",
         "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_NO",
-        "condition": {
-          "and": [
-            { "u_has_mission": "MISSION_ROBOFAC_PAT_1" },
-            { "not": { "u_has_items": { "item": "cig", "count": 2 } } }
-          ]
-        }
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_PAT_1" }, { "not": { "u_has_items": { "item": "cig", "count": 2 } } } ] }
       },
       {
         "text": "I found smokes!",
         "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_YES",
-        "condition": {
-          "and": [
-            { "u_has_mission": "MISSION_ROBOFAC_PAT_1" },
-            { "u_has_items": { "item": "cig", "count": 2 } }
-          ]
-        },
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_PAT_1" }, { "u_has_items": { "item": "cig", "count": 2 } } ] },
         "effect": [
           { "u_consume_item": "cig", "count": 2, "popup": true },
           { "u_add_var": "robofac_pat_friends", "value": "yes" },
@@ -237,9 +221,18 @@
     "type": "talk_topic",
     "dynamic_line": "You and Pat sit together for a long while, the room filled with smoke.  You learn that they're a bit of a weather nerd, and they like drinking, smoking, and baseball.  The topic inevitably turns to the cataclysm and how the first few days went for you both.",
     "responses": [
-      { "text": "[You enjoy the companionship and think this person could be a friend]", "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_MAKE_FRIENDS_2" },
-      { "text": "[You enjoy the companionship but think making friends is futile]", "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_LEAVE_EARLY" },
-      { "text": "[You're uncomfortable with this situation and try to end things early]", "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_LEAVE_EARLY" }
+      {
+        "text": "[You enjoy the companionship and think this person could be a friend]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_MAKE_FRIENDS_2"
+      },
+      {
+        "text": "[You enjoy the companionship but think making friends is futile]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_LEAVE_EARLY"
+      },
+      {
+        "text": "[You're uncomfortable with this situation and try to end things early]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_LEAVE_EARLY"
+      }
     ]
   },
   {
@@ -331,89 +324,49 @@
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1",
     "type": "talk_topic",
     "dynamic_line": "That theah was one of the first jobs they had me do.  I'm not keen to do it again.  I say see if you can find one of these storms, and stay as close to the edge as ya' can, and once that thing beeps, get outta'theah.",
-    "responses": [
-      {
-        "text": "Thanks.",
-        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE"
-      }
-    ]
+    "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_1",
     "type": "talk_topic",
     "dynamic_line": "That theah station's a BEAUT.  Real easy to set up.  We used to load 'em in trucks, so I suggest ya' throw it in the back of somethin', drive into one of those storms theah, set it up, start the recordin' routine, and get the fuck outta' there.  Go back in a day or two and pick it up.",
-    "responses": [
-      {
-        "text": "Thanks.",
-        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE"
-      }
-    ]
+    "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_2",
     "type": "talk_topic",
     "dynamic_line": "We used to contract a few'a those for weather data.  Lemme see those coordinates.\"  Pat takes out his personal device and skims his offline map data.  After a minute, he looks puzzled and turns back to you.  \"The fuck they sending you?  It isn't nowhere I ever heard of.  But look, these places are deathtraps anyhow - little metal coffins in the lake.  I don't envy you.",
-    "responses": [
-      {
-        "text": "Thanks.",
-        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE"
-      }
-    ]
+    "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_3",
     "type": "talk_topic",
     "dynamic_line": "Yeah, I was watchin' when you hauled that device in heah to the intercom.  Looks a lot like the standard station, but all those strange devices I don't have any idea about.  Same advice I'd give for even a normal recording: drop that thing off, set it up, and get the fuck outta dodge.  Go back the next day when the storm is ovah.",
-    "responses": [
-      {
-        "text": "Thanks.",
-        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE"
-      }
-    ]
+    "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE",
     "type": "talk_topic",
     "dynamic_line": "More important, I know the crew they sent as the advanced team.  Be careful with them.  They sold be some bunk electronics recently, and overcharged me for it, too.",
-    "responses": [
-      {
-        "text": "Thanks.",
-        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE"
-      }
-    ]
+    "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_2",
     "type": "talk_topic",
     "dynamic_line": "That's no highway, so whatever is going on there is no doubt cramped.  If it's zombies we're talking about, I suggest you take somethin' that makes a lot of noise.  Or a machine gun.",
-    "responses": [
-      {
-        "text": "Thanks a lot.",
-        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE"
-      }
-    ]
+    "responses": [ { "text": "Thanks a lot.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
     "type": "talk_topic",
     "dynamic_line": "Lemme check my maps.\" Pat looks at their personal device for a while before shaking their head.  \"Whatever that is isn't on the public maps I have downloaded.  Take your glasses rig and proceed with caution, yeah?  I'll chime in when you get there.",
-    "responses": [
-      {
-        "text": "Thanks a lot.",
-        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE"
-      }
-    ]
+    "responses": [ { "text": "Thanks a lot.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_3",
     "type": "talk_topic",
     "dynamic_line": "Look, you didn't heah this from me, but I don't think you're the first person they've sent theah.  Whatever it is, I'd bet a pack of smokes it's dangerous as all hell.  Take your glasses rig and stay in touch.",
-    "responses": [
-      {
-        "text": "Thanks a lot.",
-        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE"
-      }
-    ]
+    "responses": [ { "text": "Thanks a lot.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
@@ -427,7 +380,7 @@
           { "u_spawn_item": "manual_electronics" },
           { "u_spawn_item": "mag_electronics" },
           { "u_add_var": "robofac_pat_gave_electronics_books", "value": "yes" }
-        ] 
+        ]
       }
     ]
   },
@@ -501,154 +454,86 @@
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_RADIOSPHERE",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_radiosphere" } ] }
       },
-      {
-        "text": "Hmm.  Well, I guess we'll just see what I can find.",
-        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE"
-      }
+      { "text": "Hmm.  Well, I guess we'll just see what I can find.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" }
     ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_LIXA",
     "type": "talk_topic",
     "dynamic_line": "I don't trust anything about that place, but yeah, you're right, that'd be a good place to try.  Try scannin' from the surface.",
-    "responses": [
-      {
-        "text": "I'll be careful.",
-        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4"
-      }
-    ]
+    "responses": [ { "text": "I'll be careful.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_STRANGE_TEMPLE",
     "type": "talk_topic",
     "dynamic_line": "Never saw anything like that place before.  Set the HEW station up right next to the pedestle, yeah?  Don't want you goin' in and gettin' yoinked.",
-    "responses": [
-      {
-        "text": "Thanks, good idea.",
-        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4"
-      }
-    ]
+    "responses": [ { "text": "Thanks, good idea.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_EXODII",
     "type": "talk_topic",
     "dynamic_line": "Those fuckin' robots give me the heebies.  But yeah, I guess that makes sense.  I'd do it out of sight if I were you - don't think they'd appreciate it.",
-    "responses": [
-      {
-        "text": "Thanks, that's good advice.",
-        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4"
-      }
-    ]
+    "responses": [ { "text": "Thanks, that's good advice.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_VITRIFIED",
     "type": "talk_topic",
     "dynamic_line": "Oh hell yeah.  Just don't go inside, yeah?  I'd scan from the road - the HEW can reach it from theah.",
-    "responses": [
-      {
-        "text": "Good idea.",
-        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4"
-      }
-    ]
+    "responses": [ { "text": "Good idea.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_AMIGARA",
     "type": "talk_topic",
     "dynamic_line": "All sorts wrong with that place.  I'd set up the HEW and scan in the parking lot.",
-    "responses": [
-      {
-        "text": "Good idea.",
-        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4"
-      }
-    ]
+    "responses": [ { "text": "Good idea.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_HIGHLANDS",
     "type": "talk_topic",
     "dynamic_line": "Well, yeah, but how the fuck ayo gonna get back theah?  I remember the event.  Last thing I saw was that shot of you walkin' through water like an idiot, and bam, gone.",
-    "responses": [
-      {
-        "text": "Guess I'll give it a try.",
-        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4"
-      }
-    ]
+    "responses": [ { "text": "Guess I'll give it a try.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_PHYSICS_LAB",
     "type": "talk_topic",
     "dynamic_line": "Got a LOT of radio interference there.  Worth a try.  Try from the surface nearby, yeah?",
-    "responses": [
-      {
-        "text": "Thanks.",
-        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4"
-      }
-    ]
+    "responses": [ { "text": "Thanks.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_MONSTER_CORPSE",
     "type": "talk_topic",
     "dynamic_line": "Even if we had a thousand options, that's where I'd try first.  Right theah, near the 'entrance.'  I bet the air is full of all kinds of strange shit.  Just don't go all Noah on me and go inside, yeah?",
-    "responses": [
-      {
-        "text": "Thanks.",
-        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4"
-      }
-    ]
+    "responses": [ { "text": "Thanks.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_RURAL_CHURCH",
     "type": "talk_topic",
     "dynamic_line": "Yup, that'd do it.  Just do it from the road over heah, yeah?",
-    "responses": [
-      {
-        "text": "Thanks, good idea.",
-        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4"
-      }
-    ]
+    "responses": [ { "text": "Thanks, good idea.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_MORGANTOWN",
     "type": "talk_topic",
     "dynamic_line": "Well hell yeah that place is fuckin' haunted!  My uncle camped there once a few years ago and tells me all about the ghosts he saw.  If ghosts ain't strange what is?  Actually, don't answer that.",
-    "responses": [
-      {
-        "text": "Ghosts.  Right.",
-        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4"
-      }
-    ]
+    "responses": [ { "text": "Ghosts.  Right.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_MP3_CABIN",
     "type": "talk_topic",
     "dynamic_line": "That creepy music place?  Yeah.  Do that.  Just take earplugs.",
-    "responses": [
-      {
-        "text": "I'll keep that in mind.",
-        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4"
-      }
-    ]
+    "responses": [ { "text": "I'll keep that in mind.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_CABIN_REVERB",
     "type": "talk_topic",
     "dynamic_line": "Well, no shit Sherlock.  If you wanna go hang around that cabin roof again and wait for a portal storm, be my guest.",
-    "responses": [
-      {
-        "text": "Guess I'll give it a try.",
-        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4"
-      }
-    ]
+    "responses": [ { "text": "Guess I'll give it a try.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_RADIOSPHERE",
     "type": "talk_topic",
     "dynamic_line": "Those pictures were some of the most insane shit I ever saw.  No idea how you plan on gettin' back theah, though.",
-    "responses": [
-      {
-        "text": "Guess I'll give it a try.",
-        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4"
-      }
-    ]
+    "responses": [ { "text": "Guess I'll give it a try.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {
     "type": "talk_topic",
@@ -683,7 +568,10 @@
     "dynamic_line": "Actually, yeah, I been thinkin' about this a lot. I'm probably bettah suited stayin' heah, an' you're bettah out in the field. I'm wonderin' if maybe we team up.  Partners.  Whaddaya think?",
     "responses": [
       { "text": "Sure, I like it.  What do you have in mind?", "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2" },
-      { "text": "Let me think about this.  We'll talk again later, maybe.  See you later, Pat.", "topic": "TALK_DONE" },
+      {
+        "text": "Let me think about this.  We'll talk again later, maybe.  See you later, Pat.",
+        "topic": "TALK_DONE"
+      },
       { "text": "I work alone.  I gotta go.", "topic": "TALK_DONE" }
     ]
   },
