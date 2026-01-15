@@ -150,7 +150,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_PAT_GREETING_1",
     "type": "talk_topic",
-    "dynamic_line": "Hey, I'm Pat. Hope ya weren't plannin' on usin' this office.  The bosses don't seem ta give a damn, so I'm callin' dibs.",
+    "dynamic_line": "Hey, I'm Pat.  Hope ya weren't plannin' on usin' this office.  The bosses don't seem ta give a damn, so I'm callin' dibs.",
     "responses": [ { "text": "What do you do for our… employer?", "topic": "TALK_ROBOFAC_MERC_PAT_GREETING_2" } ]
   },
   {
@@ -202,7 +202,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_PAT_SMOKES_YES",
     "type": "talk_topic",
-    "dynamic_line": "They smile and produce a very small bottle of rum and a red plastic lighter. \"Wicked.  It ain't much and it ain't good, and I ain't got glasses, but it's what I got.  Have a seat?\"",
+    "dynamic_line": "They smile and produce a very small bottle of rum and a red plastic lighter.  \"Wicked.  It ain't much and it ain't good, and I ain't got glasses, but it's what I got.  Have a seat?",
     "responses": [
       { "text": "Enjoy.  I have to go.", "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_LEAVE_EARLY" },
       { "text": "Absolutely.", "topic": "TALK_ROBOFAC_MERC_PAT_SMOKES_MAKE_FRIENDS_1" },
@@ -213,7 +213,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_PAT_SMOKES_LEAVE_EARLY",
     "type": "talk_topic",
-    "dynamic_line": "You're a bit of a mystery, but yeah, alright, let's wrap this up. Far as I'm concerned, you're a friend a mine now, whether ya' like it or not. Swing by sometime, maybe we can shoot the shit or work on somethin' togethah.",
+    "dynamic_line": "You're a bit of a mystery, but yeah, alright, let's wrap this up.  Far as I'm concerned, you're a friend a mine now, whether ya' like it or not.  Swing by sometime, maybe we can shoot the shit or work on somethin' togethah.",
     "responses": [ { "text": "See you around.", "topic": "TALK_DONE" } ]
   },
   {
@@ -565,7 +565,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_1",
     "type": "talk_topic",
-    "dynamic_line": "Actually, yeah, I been thinkin' about this a lot. I'm probably bettah suited stayin' heah, an' you're bettah out in the field. I'm wonderin' if maybe we team up.  Partners.  Whaddaya think?",
+    "dynamic_line": "Actually, yeah, I been thinkin' about this a lot.  I'm probably bettah suited stayin' heah, an' you're bettah out in the field.  I'm wonderin' if maybe we team up.  Partners.  Whaddaya think?",
     "responses": [
       { "text": "Sure, I like it.  What do you have in mind?", "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2" },
       {
