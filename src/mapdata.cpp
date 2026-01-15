@@ -224,6 +224,10 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_CURRENT: return "CURRENT";
         case ter_furn_flag::TFLAG_HARVESTED: return "HARVESTED";
         case ter_furn_flag::TFLAG_PERMEABLE: return "PERMEABLE";
+        case ter_furn_flag::TFLAG_ICE_SHALLOW: return "ICE_SHALLOW";
+        case ter_furn_flag::TFLAG_ICE_DEEP: return "ICE_DEEP";
+        case ter_furn_flag::TFLAG_THIN_ICE: return "THIN_ICE";
+        case ter_furn_flag::TFLAG_THICK_ICE: return "THICK_ICE";
         case ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL: return "AUTO_WALL_SYMBOL";
         case ter_furn_flag::TFLAG_CONNECT_WITH_WALL: return "CONNECT_WITH_WALL";
         case ter_furn_flag::TFLAG_CLIMBABLE: return "CLIMBABLE";

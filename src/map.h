@@ -95,6 +95,8 @@ struct wrapped_vehicle {
 using VehicleList = std::vector<wrapped_vehicle>;
 class map;
 
+class weather_generator;
+
 enum class ter_furn_flag : int;
 struct pathfinding_cache;
 struct pathfinding_settings;
@@ -395,6 +397,10 @@ class map
         // Constructors & Initialization
         map() : map( MAPSIZE, true ) { }
         virtual ~map();
+
+        // Apply freezing/melting logic for a single map square based on historical
+        // weather (10-day average at 08:00).
+        void apply_ice_logic_at( const tripoint_bub_ms &p, const class weather_generator &wgen );
 
         map &operator=( const map & ) = delete;
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
@@ -1906,6 +1912,8 @@ class map
         void on_unload( const tripoint_rel_sm &loc );
         void copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from );
         void draw_map( mapgendata &dat );
+        // Apply historical temperature-based ice conversion to a single submap (load or generation)
+        void apply_historical_ice_to_submap( const tripoint_abs_sm &p_sm );
 
         void draw_lab( mapgendata &dat );
 

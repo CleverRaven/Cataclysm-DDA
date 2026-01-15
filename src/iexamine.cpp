@@ -1954,6 +1954,18 @@ void iexamine::pit_covered( Character &you, const tripoint_bub_ms &examp )
     you.mod_moves( -to_moves<int>( 1_seconds ) );
 }
 
+void iexamine::thin_ice( Character &you, const tripoint_bub_ms &examp )
+{
+    map &here = get_map();
+    const trap &tr = here.tr_at( examp );
+    if( !you.knows_trap( examp ) ) {
+        you.add_msg_if_player( m_warning, _( "The ice looks thin and won't support your weight." ) );
+        you.add_known_trap( examp, tr );
+    } else {
+        you.add_msg_if_player( m_info, _( "The ice here is thin." ) );
+    }
+}
+
 
 
 /**
@@ -7689,6 +7701,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "portable_structure", &iexamine::portable_structure },
             { "pit", &iexamine::pit },
             { "pit_covered", &iexamine::pit_covered },
+            { "thin_ice", &iexamine::thin_ice },
             { "safe", &iexamine::safe },
             { "bulletin_board", &iexamine::bulletin_board },
             { "pedestal_wyrm", &iexamine::pedestal_wyrm },
