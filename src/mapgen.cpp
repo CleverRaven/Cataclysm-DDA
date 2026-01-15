@@ -6217,15 +6217,16 @@ ret_val<void> jmapgen_objects::has_vehicle_collision( const mapgendata &dat,
     return ret_val<void>::make_success();
 }
 
-void map::apply_ice_logic_at( const tripoint_bub_ms &p, const weather_generator &wgen )
+void map::phase_change_at( const tripoint_bub_ms &p, const weather_generator &wgen )
 {
-    // Freeze water or melt ice based on 10-day average at 08:00.
-    if( has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p ) ||
-        has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
-        if( has_flag_ter( ter_furn_flag::TFLAG_CURRENT, p ) ) {
-            return; // flowing water doesn't freeze
-        }
-        const tripoint_abs_ms abs_p = get_abs( p );
+    // Phase-change logic based on per-ter `phase_*` configuration (falls back to legacy water/ice rules).
+    const tripoint_abs_ms abs_p = get_abs( p );
+    const ter_str_id cur_id = ter( p ).id();
+    const ter_t &cur_ter = cur_id.obj();
+    units::temperature standard = 0_K;
+
+    if( cur_ter.phase_method == "water_freeze" ) {
+        // 10-day average at 08:00.
         //1103515245u = random
         unsigned seed = static_cast<unsigned>( g->get_seed() ) ^
                         static_cast<unsigned>( abs_p.x() * 1103515245u + abs_p.y() );
@@ -6236,45 +6237,48 @@ void map::apply_ice_logic_at( const tripoint_bub_ms &p, const weather_generator 
             const time_point t = base_date - time_of_day + 8_hours;
             sum += wgen.get_weather_temperature( abs_p, t, seed );
         }
-        const units::temperature avg = sum / 10.0;
-        if( avg <= 268.15_K ) {
-            const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p );
-            const bool thick = avg <= 263.15_K; // -10C
-            if( shallow ) {
-                ter_set( p, thick ? ter_t_ice_sh_thick : ter_t_ice_sh_thin );
-            } else {
-                ter_set( p, thick ? ter_t_ice_dp_thick : ter_t_ice_dp_thin );
-            }
-        }
-    } else if( has_flag_ter( ter_furn_flag::TFLAG_ICE_SHALLOW, p ) ||
-               has_flag_ter( ter_furn_flag::TFLAG_ICE_DEEP, p ) ) {
-        const tripoint_abs_ms abs_p = get_abs( p );
-        unsigned seed = static_cast<unsigned>( g->get_seed() ) ^
-                        static_cast<unsigned>( abs_p.x() * 1103515245u + abs_p.y() );
-        units::temperature sum = 0_K;
-        for( int d = 0; d < 10; d++ ) {
-            time_point base_date = calendar::turn - ( d + 1 ) * 1_days;
-            const time_duration time_of_day = ( base_date - calendar::turn_zero ) % 1_days;
-            const time_point t = base_date - time_of_day + 8_hours;
-            sum += wgen.get_weather_temperature( abs_p, t, seed );
-        }
-        const units::temperature avg = sum / 10.0;
-        const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_ICE_SHALLOW, p );
-        const bool thick = has_flag_ter( ter_furn_flag::TFLAG_THICK_ICE, p );
-        if( thick && avg > 263.15_K ) { // -10C
-            if( shallow ) {
-                ter_set( p, ter_t_ice_sh_thin );
-            } else {
-                ter_set( p, ter_t_ice_dp_thin );
-            }
-        } else if( !thick && avg > 268.15_K ) { // -5C
-            if( shallow ) {
-                ter_set( p, ter_t_water_sh );
-            } else {
-                ter_set( p, ter_t_water_dp );
-            }
-        }
+        standard = sum / 10.0;
+    } else {
+        return;
     }
+
+    auto apply_phase_thresholds = [&]( const ter_t &tt ) {
+        // `phase_method` selects which phase behavior to apply.
+        if( tt.phase_targets.empty() || tt.phase_temps.empty() ) {
+            return false; // nothing to do
+        }
+        if( tt.phase_targets.size() != tt.phase_temps.size() ) {
+            debugmsg( "ter %s: phase_targets and phase_temps length mismatch", cur_id.str() );
+            return false;
+        }
+        const size_t n = tt.phase_targets.size();
+        std::vector<std::pair<units::temperature, ter_str_id>> pairs;
+        pairs.reserve( n );
+        for( size_t i = 0; i < n; ++i ) {
+            ter_str_id target = tt.phase_targets[i];
+            if( target == ter_str_id::NULL_ID() ) {
+                // NULL_ID used as shorthand for "self"; replace with current terrain id.
+                target = cur_id;
+            }
+            pairs.emplace_back( tt.phase_temps[i], target );
+        }
+        // Always use thresholds behavior internally: sort ascending and pick first where avg <= temp
+        std::sort( pairs.begin(), pairs.end(), []( const auto &a, const auto &b ) {
+            return a.first < b.first;
+        } );
+        for( const auto &pr : pairs ) {
+            if( standard <= pr.first ) {
+                if( pr.second != ter_str_id::NULL_ID() ) {
+                    ter_set( p, pr.second );
+                }
+                return true;
+            }
+        }
+        return false;
+    };
+
+    // Apply per-ter phase config only. If nothing applied, do nothing.
+    apply_phase_thresholds( cur_ter );
 }
 
 void map::draw_map( mapgendata &dat )
@@ -6304,7 +6308,7 @@ void map::draw_map( mapgendata &dat )
         for( int i = 0; i < SEEX * 2; i++ ) {
             for( int j = 0; j < SEEY * 2; j++ ) {
                 const tripoint_bub_ms p( i, j, abs_sub.z() );
-                apply_ice_logic_at( p, wgen );
+                phase_change_at( p, wgen );
             }
         }
     }
@@ -6324,7 +6328,7 @@ void map::apply_historical_ice_to_submap( const tripoint_abs_sm &p_sm )
     for( int i = 0; i < SEEX; i++ ) {
         for( int j = 0; j < SEEY; j++ ) {
             const tripoint_bub_ms p( i, j, abs_sub.z() );
-            apply_ice_logic_at( p, wgen );
+            phase_change_at( p, wgen );
         }
     }
 
