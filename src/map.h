@@ -400,7 +400,7 @@ class map
 
         // Apply phase-change logic for a single map square based on historical
         // weather (10-day average at 08:00). Currently implements "water_freeze".
-        void phase_change_at( const tripoint_bub_ms &p, const class weather_generator &wgen );
+        void temp_based_phase_change_at( const tripoint_bub_ms &p, const class weather_generator &wgen );
 
         // Original terrain recording for phase changes
         bool has_original_terrain_at( const tripoint_bub_ms &p ) const;

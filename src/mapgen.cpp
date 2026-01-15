@@ -6217,7 +6217,7 @@ ret_val<void> jmapgen_objects::has_vehicle_collision( const mapgendata &dat,
     return ret_val<void>::make_success();
 }
 
-void map::phase_change_at( const tripoint_bub_ms &p, const weather_generator &wgen )
+void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_generator &wgen )
 {
     const tripoint_abs_ms abs_p = get_abs( p );
     const ter_str_id cur_id = ter( p ).id();
@@ -6339,7 +6339,7 @@ void map::draw_map( mapgendata &dat )
         for( int i = 0; i < SEEX * 2; i++ ) {
             for( int j = 0; j < SEEY * 2; j++ ) {
                 const tripoint_bub_ms p( i, j, abs_sub.z() );
-                phase_change_at( p, wgen );
+                temp_based_phase_change_at( p, wgen );
             }
         }
     }
@@ -6359,7 +6359,7 @@ void map::apply_historical_ice_to_submap( const tripoint_abs_sm &p_sm )
     for( int i = 0; i < SEEX; i++ ) {
         for( int j = 0; j < SEEY; j++ ) {
             const tripoint_bub_ms p( i, j, abs_sub.z() );
-            phase_change_at( p, wgen );
+            temp_based_phase_change_at( p, wgen );
         }
     }
 
