@@ -151,6 +151,7 @@ static const flag_id json_flag_PLOWABLE( "PLOWABLE" );
 static const flag_id json_flag_PRESERVE_SPAWN_LOC( "PRESERVE_SPAWN_LOC" );
 static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
 static const flag_id json_flag_UNDODGEABLE( "UNDODGEABLE" );
+static const flag_id json_flag_PHASE_BACK( "PHASE_BACK" );
 
 static const furn_str_id furn_f_clear( "f_clear" );
 static const furn_str_id furn_f_rubble( "f_rubble" );
@@ -2436,6 +2437,7 @@ std::string map::features( const tripoint_bub_ms &p ) const
     add_if( is_bashable( p ), _( "Smashable." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_DIGGABLE, p ), json_flag_DIGGABLE->name() );
     add_if( has_flag( ter_furn_flag::TFLAG_PLOWABLE, p ), json_flag_PLOWABLE->name() );
+    add_if( has_flag( ter_furn_flag::TFLAG_PHASE_BACK, p ), json_flag_PHASE_BACK->name() );
     add_if( has_flag( ter_furn_flag::TFLAG_ROUGH, p ), _( "Rough." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_UNSTABLE, p ), _( "Unstable." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_SHARP, p ), _( "Sharp." ) );
@@ -4352,6 +4354,11 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
         // Handle error earlier so that we can assume smash_ter is true below
         debugmsg( "data/json/terrain.json does not have %s.bash.ter_set set!",
                   ter( p ).obj().id.c_str() );
+    } else if( has_original_terrain_at( p ) && ter( p )->has_flag( "PHASE_BACK" ) ) {
+        // If we have original terrain saved and the current terrain signals PHASE_BACK,
+        const ter_id orig = get_original_terrain_at( p );
+        ter_set( p, orig );
+        clear_original_terrain_at( p );
     } else if( params.bashing_from_above && ter_bash.ter_set_bashed_from_above ) {
         // If this terrain is being bashed from above and this terrain
         // has a valid post-destroy bashed-from-above terrain, set it

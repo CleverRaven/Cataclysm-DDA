@@ -40,6 +40,7 @@ static const bash_damage_profile_id bash_damage_profile_default( "default" );
 static const flag_id json_flag_DIGGABLE( "DIGGABLE" );
 static const flag_id json_flag_EASY_DECONSTRUCT( "EASY_DECONSTRUCT" );
 static const flag_id json_flag_FLAT( "FLAT" );
+static const flag_id json_flag_PHASE_BACK( "PHASE_BACK" );
 static const flag_id json_flag_PLOWABLE( "PLOWABLE" );
 
 static const furn_str_id furn_f_null( "f_null" );
@@ -875,6 +876,7 @@ std::vector<std::string> map_data_common_t::extended_description() const
         }
     };
     add_if( has_flag( ter_furn_flag::TFLAG_DIGGABLE ), json_flag_DIGGABLE->name() );
+    add_if( has_flag( ter_furn_flag::TFLAG_PHASE_BACK ), json_flag_PHASE_BACK->name() );
     add_if( has_flag( ter_furn_flag::TFLAG_PLOWABLE ), json_flag_PLOWABLE->name() );
     add_if( has_flag( ter_furn_flag::TFLAG_ROUGH ), _( "Rough." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_UNSTABLE ), _( "Unstable." ) );
