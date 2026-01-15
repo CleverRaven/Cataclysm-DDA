@@ -8,7 +8,7 @@
     "id": "CANNOT_GAIN_PSIONICS",
     "name": { "str": "Can't Become An Esper", "//~": "NO_I18N" },
     "points": -4,
-    "description": { "str": "You can't Become An Esper. Oh well!", "//~": "NO_I18N" },
+    "description": { "str": "You can't Become An Esper.  Oh well!", "//~": "NO_I18N" },
     "valid": false,
     "player_display": false,
     "starting_trait": false,
