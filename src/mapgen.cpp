@@ -7554,7 +7554,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
         return nullptr;
     }
     if( !inbounds( p ) ) {
-        dbg( D_WARNING ) << string_format( "Out of bounds add_vehicle t=%s d=%d p=%d,%d,%d",
+        dbg( D_WARNING ) << string_format( "Out of bounds add_vehicle t=%s d=%f p=%d,%d,%d",
                                            type.str(), to_degrees( dir ), p.x(), p.y(), p.z() );
         return nullptr;
     }
