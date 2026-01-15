@@ -3,8 +3,6 @@
     "type": "effect_on_condition",
     "id": "ROBOFAC_PAT_DEATH",
     "eoc_type": "NPC_DEATH",
-    "effect": [
-      { "math": [ "robofac_pat_is_dead = 1" ] }
-    ]
+    "effect": [ { "math": [ "robofac_pat_is_dead = 1" ] } ]
   }
 ]
