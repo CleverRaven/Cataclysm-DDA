@@ -749,7 +749,6 @@ bool melee_actor::call( monster &z ) const
     int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
 
     // Split damage bool check
-    int total_damage = 0;
     if( attack_all ) {
         std::vector<bodypart_id> body_parts_to_hit = target->get_all_eligable_parts( hitsize_min,
                 hitsize_max, attack_upper );
