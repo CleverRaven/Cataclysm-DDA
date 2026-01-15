@@ -376,7 +376,7 @@
     "color": "green",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "druid_veggrasp", "druid_summon_brambles", "seed_of_growth", "druid_natures_commune", "druid_healing_herb" ]
+      "spells": [ "druid_veggrasp", "druid_summon_brambles", "druid_growth", "druid_natures_commune", "druid_healing_herb" ]
     }
   },
   {
@@ -1345,7 +1345,7 @@
       "type": "learn_spell",
       "spells": [
         "kelvinist_firebolt",
-        "spell_scroll_point_flare",
+        "point_flare",
         "kelvinist_extinguish_fire_spell",
         "create_lighter",
         "kelvinist_heat_food",
