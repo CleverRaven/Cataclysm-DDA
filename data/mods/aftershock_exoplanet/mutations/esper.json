@@ -64,7 +64,7 @@
   {
     "type": "mutation",
     "id": "AFS_ELECTROKINETIC",
-    "name": "Electrokinesis",
+    "name": "Spark",
     "points": 0,
     "description": "The ability to control electricity with your mind.",
     "types": [ "ESPER" ],
@@ -77,7 +77,7 @@
   {
     "type": "mutation",
     "id": "AFS_PRECOG",
-    "name": "Precognition",
+    "name": "Sybil",
     "points": 0,
     "description": "The ability to see the future.",
     "types": [ "ESPER" ],
@@ -90,7 +90,7 @@
   {
     "type": "mutation",
     "id": "AFS_TELEKINETIC",
-    "name": "Telekinesis",
+    "name": "Geist",
     "points": 0,
     "description": "The ability to move objects without touching them.",
     "types": [ "ESPER" ],
@@ -103,7 +103,7 @@
   {
     "type": "mutation",
     "id": "AFS_TELEPATH",
-    "name": "Telepathy",
+    "name": "Whisper",
     "points": 0,
     "description": "The ability to read thoughts and influence others' minds.",
     "types": [ "ESPER" ],
