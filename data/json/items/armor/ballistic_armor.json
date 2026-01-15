@@ -1550,7 +1550,7 @@
     "category": "armor",
     "name": { "str": "lead plate" },
     "description": "An lead plate like those found in most medical x-ray protection vests, affixed to a steel backing plate.  This is clearly intended to be inserted into the pocket of a protective vest, and can't be worn on its own.",
-    "weight": "12587 g",
+    "weight": "10545 g",
     "volume": "1110 ml",
     "longest_side": "46 cm",
     "price": "400 USD",
