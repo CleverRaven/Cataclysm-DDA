@@ -69,7 +69,8 @@
         "u_message": "The effects of the enkindling tincture fade, and then you feel a tingling through your entire body.",
         "type": "mixed"
       },
-      { "give_achievement": "achievement_psion" }
+      { "give_achievement": "achievement_psion" },
+      "u_cancel_activity"
     ]
   },
   {
@@ -101,7 +102,17 @@
             "else": [
               { "math": [ "_random_enkindling_value = rng(5,15)" ] },
               {
-                "if": { "x_in_y_chance": { "x": { "math": [ "_random_enkindling_value" ] }, "y": 100 } },
+                "if": {
+                  "or": [
+                    { "u_has_trait": "ESPER_ADVANCEMENT_OKAY" },
+                    {
+                      "and": [
+                        { "not": { "u_has_trait": "ESPER_ADVANCEMENT_OKAY" } },
+                        { "x_in_y_chance": { "x": { "math": [ "_random_enkindling_value" ] }, "y": 100 } }
+                      ]
+                    }
+                  ]
+                },
                 "then": [ { "run_eocs": [ "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_MESSAGE", "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_GEIST" ] } ],
                 "else": { "run_eocs": "EOC_AFS_ENKINDLING_TINCTURE_FAILURE_MESSAGE" }
               }
@@ -154,7 +165,17 @@
             "else": [
               { "math": [ "_random_enkindling_value = rng(5,15)" ] },
               {
-                "if": { "x_in_y_chance": { "x": { "math": [ "_random_enkindling_value" ] }, "y": 100 } },
+                "if": {
+                  "or": [
+                    { "u_has_trait": "ESPER_ADVANCEMENT_OKAY" },
+                    {
+                      "and": [
+                        { "not": { "u_has_trait": "ESPER_ADVANCEMENT_OKAY" } },
+                        { "x_in_y_chance": { "x": { "math": [ "_random_enkindling_value" ] }, "y": 100 } }
+                      ]
+                    }
+                  ]
+                },
                 "then": [ { "run_eocs": [ "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_MESSAGE", "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_SPARK" ] } ],
                 "else": { "run_eocs": "EOC_AFS_ENKINDLING_TINCTURE_FAILURE_MESSAGE" }
               }
@@ -207,7 +228,17 @@
             "else": [
               { "math": [ "_random_enkindling_value = rng(5,15)" ] },
               {
-                "if": { "x_in_y_chance": { "x": { "math": [ "_random_enkindling_value" ] }, "y": 100 } },
+                "if": {
+                  "or": [
+                    { "u_has_trait": "ESPER_ADVANCEMENT_OKAY" },
+                    {
+                      "and": [
+                        { "not": { "u_has_trait": "ESPER_ADVANCEMENT_OKAY" } },
+                        { "x_in_y_chance": { "x": { "math": [ "_random_enkindling_value" ] }, "y": 100 } }
+                      ]
+                    }
+                  ]
+                },
                 "then": [ { "run_eocs": [ "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_MESSAGE", "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_SYBIL" ] } ],
                 "else": { "run_eocs": "EOC_AFS_ENKINDLING_TINCTURE_FAILURE_MESSAGE" }
               }
@@ -260,7 +291,17 @@
             "else": [
               { "math": [ "_random_enkindling_value = rng(5,15)" ] },
               {
-                "if": { "x_in_y_chance": { "x": { "math": [ "_random_enkindling_value" ] }, "y": 100 } },
+                "if": {
+                  "or": [
+                    { "u_has_trait": "ESPER_ADVANCEMENT_OKAY" },
+                    {
+                      "and": [
+                        { "not": { "u_has_trait": "ESPER_ADVANCEMENT_OKAY" } },
+                        { "x_in_y_chance": { "x": { "math": [ "_random_enkindling_value" ] }, "y": 100 } }
+                      ]
+                    }
+                  ]
+                },
                 "then": [ { "run_eocs": [ "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_MESSAGE", "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_WHISPER" ] } ],
                 "else": { "run_eocs": "EOC_AFS_ENKINDLING_TINCTURE_FAILURE_MESSAGE" }
               }
