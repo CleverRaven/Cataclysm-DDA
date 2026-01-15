@@ -13,7 +13,7 @@
     "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -15, -10, 0 ],
+    "phase_temps": [ -10, -5, 0 ],
     "phase_method": "water_freeze"
   },
   {
