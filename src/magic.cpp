@@ -2564,7 +2564,7 @@ void known_magic::channel_magic( Character &guy )
             return;
         }
     }
-    guy.add_effect( effect_magic_channeling,  time_duration::from_turns( 100 ) );
+    guy.add_effect( effect_magic_channeling,  calendar::INDEFINITELY_LONG_DURATION );
     channel_spell.cast_all_effects( guy, target );
 
     if( sp_id->channelling_turns < guy.get_effect_int( effect_magic_channeling ) ) {

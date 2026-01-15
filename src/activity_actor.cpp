@@ -2763,8 +2763,7 @@ void spellcasting_activity_actor::finish( player_activity &act, Character &who )
         }
         who.last_magic_target_pos = get_map().get_abs( *target );
         if( spell_being_cast.is_channeling_spell() ) {
-            who.add_effect( effect_magic_channeling, time_duration::from_turns( 100 ) );
-
+            who.add_effect( effect_magic_channeling, calendar::INDEFINITELY_LONG_DURATION );
         }
     }
 }

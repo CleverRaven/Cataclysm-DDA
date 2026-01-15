@@ -48,6 +48,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "line.h"
+#include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
