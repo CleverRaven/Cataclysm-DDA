@@ -9,6 +9,63 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_afs_esper_tincture_side_effects",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "bad",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "ench_effects": [
+          { "effect": "hallu", "intensity": 1 },
+          { "effect": "visuals", "intensity": 1 },
+          { "effect": "nausea", "intensity": 2 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_esper_tincture_geist",
+    "name": [ "Enkindling Tincture" ],
+    "desc": [ "You used the enkindling tincture and something about it seems to be working." ],
+    "rating": "mixed",
+    "enchantments": [
+      { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_afs_esper_tincture_side_effects", "intensity": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_esper_tincture_spark",
+    "name": [ "Enkindling Tincture" ],
+    "desc": [ "You used the enkindling tincture and something about it seems to be working." ],
+    "rating": "mixed",
+    "enchantments": [
+      { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_afs_esper_tincture_side_effects", "intensity": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_esper_tincture_sybil",
+    "name": [ "Enkindling Tincture" ],
+    "desc": [ "You used the enkindling tincture and something about it seems to be working." ],
+    "rating": "mixed",
+    "enchantments": [
+      { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_afs_esper_tincture_side_effects", "intensity": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_esper_tincture_whisper",
+    "name": [ "Enkindling Tincture" ],
+    "desc": [ "You used the enkindling tincture and something about it seems to be working." ],
+    "rating": "mixed",
+    "enchantments": [
+      { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_afs_esper_tincture_side_effects", "intensity": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_afs_psi_intense_concentration",
     "name": [ "Intense Concentration" ],
     "desc": [ "It's taking a lot of concentration to maintain your powers." ],
