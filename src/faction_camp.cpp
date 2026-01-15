@@ -5709,6 +5709,7 @@ bool basecamp::distribute_food( bool player_command )
     // @FIXME: items under a vehicle cargo part will get taken even if there's no non-vehicle zone there
     // @FIXME: items in a vehicle cargo part will get taken even if the zone is on the ground underneath
     std::map<time_point, nutrients> all_nutrients;
+    int num_skipped = 0;
     for( const tripoint_abs_ms &p_food_stock_abs : z_food ) {
         const tripoint_bub_ms p_food_stock = here.get_bub( p_food_stock_abs );
         map_stack items = here.i_at( p_food_stock );
@@ -5718,6 +5719,7 @@ bool basecamp::distribute_food( bool player_command )
             if( ret.success() ) {
                 iter = items.erase( iter );
             } else {
+                num_skipped++;
                 ++iter;
             }
             for( const std::pair<const time_point, nutrients> &entry : ret.value() ) {
@@ -5732,6 +5734,7 @@ bool basecamp::distribute_food( bool player_command )
                 if( ret.success() ) {
                     iter = items.erase( iter );
                 } else {
+                    num_skipped++;
                     ++iter;
                 }
                 for( const std::pair<const time_point, nutrients> &entry : ret.value() ) {
@@ -5743,7 +5746,12 @@ bool basecamp::distribute_food( bool player_command )
 
     if( all_nutrients.empty() ) {
         if( player_command ) {
-            popup( _( "No suitable items are located at the drop points…" ) );
+            std::string fail_msg = _( "No suitable items are located at the drop points…" );
+            fail_msg += "\n\n";
+            fail_msg += string_format(
+                            _( "%d items were skipped for being unsuitable (not food, or too disgusting to eat, or already rotten, etc. )" ),
+                            num_skipped );
+            popup( fail_msg );
         }
         return false;
     }
