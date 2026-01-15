@@ -175,11 +175,6 @@ Allow fields to track their sources (i.e. who started a fire)
 New Hub 01 quest-line for hazard meteorologists
 overthrow the reign of RELOAD_ONE, aka Reload everything one by one as part of activity
 More proper sorting
-Flailer birds in radiosphere dimension
-Cabin reverberation dimension
-Improve mobile weather station functions (1/2)
-Add anomalous mp3 player for finding and entering reverberations
-PAPRs make noise
 
 
 
@@ -402,14 +397,6 @@ Rework the blood analysis quest
 A new nether-creature encounter with prototype XEDRA tech as a reward
 new 2-piece Powered Air Purifying Respirator (PAPR) system
 New demo power tools + more difficult, but more consistent, concrete removal
-New Hub 01 quest - Invasive 'Meteorology'
-The Hub can research and build a new prototype environment suit
-a new XEDRA mystery quest, 2 of ?
-military ponchos & woobies (liners)
-laptop hard case
-Create subway ramps that link both subways together
-Gelled gasoline, gelled molotovs and other cool stuff
-tweak MWSs and associated missions
 
 
 ## Interface:
@@ -996,28 +983,9 @@ Martial Mastery: New defense oriented perkline.
 [Magiclysm] Shapeshifting and druid items
 Add an enchantment that modifies the 'free dodges' stat introduced for Martial Art styles
 [Sky Island] Missions take place in alternate dimensions
-[Sky Island/Magiclysm] Island construction for living wood floors
-[Magiclysm] The great spell categorization (tier 0)
-[Magiclysm] Fewer joke scrolls
-[Magiclysm] Rename Bless to Paragon, rewrite Mage Armor description
-[Magiclysm] The great spell itemgroup reorganization tier 1
-[Magiclysm] Rename classless light spell to Orb of Light, make it an effect
-[Magiclysm] Rename Technomancer spell Lamp to Enchanted Lamp, require components
-[Magiclysm] Change Impact Sling components
-[Sky Island] Update Scouting Lens 1 recipe for pipe changes
-[Magiclysm] Move Mage Armor to Magus, rename to Force Armor
-[alt-map-key] Add cabin reverberation overmap terrain
-[Magiclysm] The great spell categorization (tier 2)
-[Magiclysm] Reduce frequency of troll zombie, add start date
-[Magiclysm] The great spell categorization (tier 3)
-[DDotD] Add cunning zombie
-[MoM] `ephemerial riftwalker`s can Oubliette you
-[MoM] Change the Clairsentient power Combat Sense to use FREE_DODGES
-[DDotD] Raise base pressure
-[Magiclysm] More itemgroup reworks for school itemgroups
-Fix mod FREE_DODGES
+[Magiclysm] The great spell categorization
+[Magiclysm] The great spell itemgroup reorganization
 [MoM] Add Rainywood Oubliette dimension
-[Magiclysm] Make the Necronomicon a spell book 
 [Magiclysm] Add restricted and illegal spells to appropriate locations
 
 
@@ -1137,10 +1105,6 @@ Add UNBREAKABLE_MORALE flag, apply it to zombies
 Murdering humans('monsters') is still murdering humans
 Fixes Cloud Formation and Pressure
 Getting hurt is bad for your long-term health
-PAPRs spawn slightly more frequently and in expected areas
-add a few shady military to tunnels
-Fix jackhammer sizes
-Generate more flour and rice in the game.
 You can't choose where you will appear after exiting a reverberation
 
 
@@ -1556,19 +1520,6 @@ fix a crash when opening the item comparison window
 Remove anvilmancy (the ability to teleport anvils above zombies)
 Workaround UTF-8 and wide string conversion failure on some Linux/macOS systems
 Reset consume menu state when closed
-Fix float values provided in json silently converting into ints
-[Magiclysm/XE] Correct obsoletion
-[MoM] No drunken psi mastery
-Properly migrate atomic vehicle lamps
-Small amount of Nails
-[MoM] Fix Fountain of Flames contemplation
-Set xedra_genset noise_factor to 1
-E-Files should be inside usbs
-Traint Weakening doesn't exist
-[MoM] Add Oxygen Absorption end message
-https://github.com/CleverRaven/Cataclysm-DDA/pull/57057 erroneously swapped the encumbrance and coverage on the gold bracelet. Fixing by setting encumbrance to 0 and coverage to 20.
-bridge crossing in autodrive mode
-[MoM] Rework Mycus world foliage
 
 
 ## Performance:
@@ -1769,10 +1720,6 @@ move ACT_VEHICLE handler to vehicle_activity_actor
 Add an effect for EoCs to be able to browse or unbrowse items
 move ACT_BUILD handler to build_construction_activity_actor
 Allow overriding in snippets definitions
-move ACT_STUDY_SPELL to activity_actor
-move ACT_HAND_CRANK handler to activity_actor
-move ACT_SPELLCASTING handler to activity_actor
-move ACT_SOCIALIZE to activity_actor
 
 
 ## Build:
