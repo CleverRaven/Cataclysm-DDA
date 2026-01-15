@@ -437,7 +437,7 @@ Field              | Description
 `duration`         | The duration of the effect. Either a (min, max) pair or a single value.
 `permanent`        | Whether the effect is permanent.
 `intensity`        | The intensity of the effect. Either a (min, max) pair or a single value.
-`intensity`        | The intensity of the effect. Either a (min, max) pair or a single value.
+`damage_required`  | The range of damage, as a percentage of max health, required to trigger the effect.
 `instant_death_chance` | Probability out of 100 to instantly kill a monster, if this weakpoint is hit. Can be a two numbers to roll between
 `message`          | The message to print, if the player triggers the effect. Should take a single template parameter, referencing the monster's name.
 
