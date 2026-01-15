@@ -9,6 +9,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_ROBOFAC_MERC_PAT",
+    "death_eocs": [ "ROBOFAC_PAT_DEATH" ],
     "faction": "robofac_auxiliaries"
   },
   {
@@ -316,7 +317,12 @@
       {
         "text": "You'll never guess, but our employer wants me to hunt another robot.",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
-        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" }
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_electronics_books" } ] } }
+          ]
+        }
       },
       { "text": "That's all.  See you around.", "topic": "TALK_DONE" }
     ]
@@ -335,7 +341,7 @@
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_1",
     "type": "talk_topic",
-    "dynamic_line": "Oh, yah, that theah stations a BEAUT.  Real easy to set up, but knowing those storms, you wouldn't catch me sitting around with it.  We used to load 'em in trucks, so I suggest ya' throw it in the back of somethin', drive into one of those storms theah, set it up, start the recordin' routin, and get the fuck outta' there.  Go back in a day or two and pick it up.",
+    "dynamic_line": "That theah station's a BEAUT.  Real easy to set up.  We used to load 'em in trucks, so I suggest ya' throw it in the back of somethin', drive into one of those storms theah, set it up, start the recordin' routine, and get the fuck outta' there.  Go back in a day or two and pick it up.",
     "responses": [
       {
         "text": "Thanks.",
@@ -419,7 +425,8 @@
         "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE",
         "effect": [
           { "u_spawn_item": "manual_electronics" },
-          { "u_spawn_item": "mag_electronics" }
+          { "u_spawn_item": "mag_electronics" },
+          { "u_add_var": "robofac_pat_gave_electronics_books", "value": "yes" }
         ] 
       }
     ]
@@ -706,7 +713,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_PAT_GEAR",
     "type": "talk_topic",
-    "dynamic_line": "Check this shit out, eh?  So ya' wear the glasses like normal, but I've made a leg-strap for the other bits.  The tablet heah is useless for ya', we just need it for extra processin' powah to run the long range radiowave emitter and receiver.  The pictures you send'll be shit, but it should work, long as you aren't stupid enough to drive off to Texas or some shit.  Ya' stick that earbud in ya' ear, and we should be able to chat.  Here's the trick - toggle the recording switch on, and I'll be able to collect pictures and audio now and again, and I'll keep an eye on the feed, even though it may be slow n' ugly.  You keep that one and catalogue your journeys, yeah, and I'll do what I can do give you some wicked fuckin' good advice and info.  Let's call this a test run, yeah?  See what works and what don', and then we can improve things.",
+    "dynamic_line": "Check this shit out, eh?  So ya' wear the glasses like normal, but I've made a leg-strap for the other bits.  The tablet heah is useless for ya', we just need it for extra processin' powah to run the long range radiowave emitter and receiver.  The pictures you send'll be shit, but it should work, long as you aren't stupid enough to drive off to Texas or some shit.  Ya' stick that earbud in ya' ear, and we should be able to chat.  Here's the trick - toggle the recording switch on, and I'll be able to collect pictures and audio now and again, and I'll keep an eye on the feed, even though it may be slow n' ugly.  You just keep that transmitter-reciever toggled on and I'll do what I can to give you some wicked fuckin' good advice and info.",
     "responses": [ { "text": "Sounds great.  Guess we'll talk soon.", "topic": "TALK_DONE" } ]
   },
   {

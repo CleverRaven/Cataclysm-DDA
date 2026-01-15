@@ -1324,7 +1324,6 @@
       "CAN_USE_IN_DARK",
       "TWO_WAY_RADIO",
       "TRADER_AVOID",
-      "NO_DROP",
       "SPAWN_ACTIVE"
     ],
     "power_draw": "120 mW",
