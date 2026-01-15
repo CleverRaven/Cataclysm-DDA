@@ -6222,6 +6222,11 @@ void map::phase_change_at( const tripoint_bub_ms &p, const weather_generator &wg
     const tripoint_abs_ms abs_p = get_abs( p );
     const ter_str_id cur_id = ter( p ).id();
     const ter_t &cur_ter = cur_id.obj();
+    // Bail out early if neither this terrain nor a recorded original
+    // terrain declare a phase_method.
+    if( cur_ter.phase_method.empty() && !has_original_terrain_at( p ) ) {
+        return;
+    }
     units::temperature standard = 0_K;
     // `phase_method` selects which phase behavior to apply.
     if( cur_ter.phase_method == "water_freeze" ) {
