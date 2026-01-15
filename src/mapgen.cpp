@@ -6219,12 +6219,11 @@ ret_val<void> jmapgen_objects::has_vehicle_collision( const mapgendata &dat,
 
 void map::phase_change_at( const tripoint_bub_ms &p, const weather_generator &wgen )
 {
-    // Phase-change logic based on per-ter `phase_*` configuration (falls back to legacy water/ice rules).
     const tripoint_abs_ms abs_p = get_abs( p );
     const ter_str_id cur_id = ter( p ).id();
     const ter_t &cur_ter = cur_id.obj();
     units::temperature standard = 0_K;
-
+    // `phase_method` selects which phase behavior to apply.
     if( cur_ter.phase_method == "water_freeze" ) {
         // 10-day average at 08:00.
         //1103515245u = random
@@ -6242,14 +6241,13 @@ void map::phase_change_at( const tripoint_bub_ms &p, const weather_generator &wg
         return;
     }
 
-    auto apply_phase_thresholds = [&]( const ter_t &tt ) {
-        // `phase_method` selects which phase behavior to apply.
+    auto apply_phase_thresholds = [&]( const ter_t &tt, const ter_str_id &base_id ) -> ter_str_id {
         if( tt.phase_targets.empty() || tt.phase_temps.empty() ) {
-            return false; // nothing to do
+            return ter_str_id::NULL_ID();
         }
         if( tt.phase_targets.size() != tt.phase_temps.size() ) {
-            debugmsg( "ter %s: phase_targets and phase_temps length mismatch", cur_id.str() );
-            return false;
+            debugmsg( "ter %s: phase_targets and phase_temps length mismatch", base_id.str() );
+            return ter_str_id::NULL_ID();
         }
         const size_t n = tt.phase_targets.size();
         std::vector<std::pair<units::temperature, ter_str_id>> pairs;
@@ -6257,28 +6255,51 @@ void map::phase_change_at( const tripoint_bub_ms &p, const weather_generator &wg
         for( size_t i = 0; i < n; ++i ) {
             ter_str_id target = tt.phase_targets[i];
             if( target == ter_str_id::NULL_ID() ) {
-                // NULL_ID used as shorthand for "self"; replace with current terrain id.
-                target = cur_id;
+                // NULL_ID used as shorthand for "self"; replace with base terrain id.
+                target = base_id;
             }
             pairs.emplace_back( tt.phase_temps[i], target );
         }
-        // Always use thresholds behavior internally: sort ascending and pick first where avg <= temp
         std::sort( pairs.begin(), pairs.end(), []( const auto &a, const auto &b ) {
             return a.first < b.first;
         } );
         for( const auto &pr : pairs ) {
             if( standard <= pr.first ) {
-                if( pr.second != ter_str_id::NULL_ID() ) {
-                    ter_set( p, pr.second );
-                }
-                return true;
+                return pr.second;
             }
         }
-        return false;
+        return ter_str_id::NULL_ID();
     };
 
-    // Apply per-ter phase config only. If nothing applied, do nothing.
-    apply_phase_thresholds( cur_ter );
+    // If this tile contains a recorded original terrain, evaluate using the
+    // original terrain's phase rules and revert when appropriate.
+    if( has_original_terrain_at( p ) ) {
+        const ter_id orig_id = get_original_terrain_at( p );
+        const ter_t &orig_ter = orig_id.obj();
+        const ter_str_id chosen = apply_phase_thresholds( orig_ter, orig_id.obj().id );
+        if( chosen != ter_str_id::NULL_ID() ) {
+            // If chosen target is the original, revert and clear record.
+            if( chosen == orig_id.obj().id ) {
+                ter_set( p, orig_id );
+                clear_original_terrain_at( p );
+            } else {
+                // Otherwise ensure tile is set to the chosen transformed state and keep the original recorded.
+                ter_set( p, chosen );
+            }
+        }
+        return;
+    }
+
+    // No original recorded: evaluate using the current terrain's rules and
+    // record original before transforming.
+    {
+        const ter_str_id chosen = apply_phase_thresholds( cur_ter, cur_id );
+        if( chosen != ter_str_id::NULL_ID() && chosen != cur_id ) {
+            // Record original terrain so it can be reverted later
+            set_original_terrain_at( p, cur_id.id() );
+            ter_set( p, chosen );
+        }
+    }
 }
 
 void map::draw_map( mapgendata &dat )

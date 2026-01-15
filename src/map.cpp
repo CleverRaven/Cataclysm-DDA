@@ -2007,6 +2007,62 @@ int map::get_map_damage( const tripoint_bub_ms &p ) const
     return current_submap->get_map_damage( l );
 }
 
+bool map::has_original_terrain_at( const tripoint_bub_ms &p ) const
+{
+    if( !inbounds( p ) ) {
+        return false;
+    }
+    point_sm_ms l;
+    const submap *const current_submap = unsafe_get_submap_at( p, l );
+    if( current_submap == nullptr ) {
+        debugmsg( "Called has_original_terrain_at for unloaded submap" );
+        return false;
+    }
+    return current_submap->has_original_ter( l );
+}
+
+ter_id map::get_original_terrain_at( const tripoint_bub_ms &p ) const
+{
+    if( !inbounds( p ) ) {
+        return ter_id();
+    }
+    point_sm_ms l;
+    const submap *const current_submap = unsafe_get_submap_at( p, l );
+    if( current_submap == nullptr ) {
+        debugmsg( "Called get_original_terrain_at for unloaded submap" );
+        return ter_id();
+    }
+    return current_submap->get_original_ter( l );
+}
+
+void map::set_original_terrain_at( const tripoint_bub_ms &p, const ter_id &t )
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+    point_sm_ms l;
+    submap *const current_submap = unsafe_get_submap_at( p, l );
+    if( current_submap == nullptr ) {
+        debugmsg( "Called set_original_terrain_at for unloaded submap" );
+        return;
+    }
+    current_submap->set_original_ter( l, t );
+}
+
+void map::clear_original_terrain_at( const tripoint_bub_ms &p )
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+    point_sm_ms l;
+    submap *const current_submap = unsafe_get_submap_at( p, l );
+    if( current_submap == nullptr ) {
+        debugmsg( "Called clear_original_terrain_at for unloaded submap" );
+        return;
+    }
+    current_submap->clear_original_ter( l );
+}
+
 void map::set_map_damage( const tripoint_bub_ms &p, int dmg )
 {
     if( !inbounds( p ) ) {

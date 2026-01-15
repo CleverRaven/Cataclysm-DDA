@@ -402,6 +402,12 @@ class map
         // weather (10-day average at 08:00). Currently implements "water_freeze".
         void phase_change_at( const tripoint_bub_ms &p, const class weather_generator &wgen );
 
+        // Original terrain recording for phase changes
+        bool has_original_terrain_at( const tripoint_bub_ms &p ) const;
+        ter_id get_original_terrain_at( const tripoint_bub_ms &p ) const;
+        void set_original_terrain_at( const tripoint_bub_ms &p, const ter_id &t );
+        void clear_original_terrain_at( const tripoint_bub_ms &p );
+
         map &operator=( const map & ) = delete;
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
         map &operator=( map && );
