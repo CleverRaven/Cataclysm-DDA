@@ -163,29 +163,30 @@ bool trapfunc::thin_ice( const tripoint_bub_ms &p, Creature *c, item * )
         return false;
     }
 
-    // Determine whether this tile is shallow or deep ice
-    const bool shallow = here.has_flag_ter( ter_furn_flag::TFLAG_ICE_SHALLOW, p );
-
-    if( shallow ) {
-        c->add_msg_player_or_npc( m_bad, _( "The ice cracks beneath you and you fall into shallow water!" ),
-                                  _( "The ice beneath <npcname> cracks and they fall into shallow water!" ) );
-        here.ter_set( p, ter_t_water_sh );
+    // If this tile has an original terrain recorded (from a phase change),
+    // restore that instead of blindly switching to water based on ice flags.
+    if( here.has_original_terrain_at( p ) ) {
+        const ter_id orig = here.get_original_terrain_at( p );
+        here.ter_set( p, orig );
         here.remove_trap( p );
-        Character *you = dynamic_cast<Character *>( c );
-        if( you != nullptr ) {
-            g->water_affect_items( *you );
-            you->add_msg_if_player( m_bad, _( "You're wet and cold from the water." ) );
-        }
+        here.clear_original_terrain_at( p );
+    } else if (&here.ter( p ).obj().bash->ter_set) {
+        here.ter_set( p, here.ter( p ).obj().bash->ter_set );
+        here.remove_trap( p );
     } else {
-        c->add_msg_player_or_npc( m_bad, _( "The ice cracks beneath you and you plunge into deep water!" ),
-                                  _( "The ice beneath <npcname> cracks and they plunge into deep water!" ) );
-        here.ter_set( p, ter_t_water_dp );
-        here.remove_trap( p );
-        Character *you = dynamic_cast<Character *>( c );
-        if( you != nullptr ) {
+        return false;
+    }
+    // Apply appropriate effects depending on what the restored terrain is.
+    Character *you = dynamic_cast<Character *>( c );
+    if( you != nullptr ) {
+        const ter_t &cur = here.ter( p ).obj();
+        if( cur.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) {
             you->set_underwater( true );
             g->water_affect_items( *you );
             you->add_msg_if_player( m_bad, _( "You are underwater and struggling to stay afloat!" ) );
+        } else if( cur.has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER ) ) {
+            g->water_affect_items( *you );
+            you->add_msg_if_player( m_bad, _( "You're wet and cold from the water." ) );
         }
     }
 
