@@ -6246,18 +6246,21 @@ void map::phase_change_at( const tripoint_bub_ms &p, const weather_generator &wg
         return;
     }
 
-    auto apply_phase_thresholds = [&]( const ter_t &tt, const ter_str_id &base_id ) -> ter_str_id {
-        if( tt.phase_targets.empty() || tt.phase_temps.empty() ) {
+    auto apply_phase_thresholds = [&]( const ter_t & tt, const ter_str_id & base_id ) -> ter_str_id {
+        if( tt.phase_targets.empty() || tt.phase_temps.empty() )
+        {
             return ter_str_id::NULL_ID();
         }
-        if( tt.phase_targets.size() != tt.phase_temps.size() ) {
+        if( tt.phase_targets.size() != tt.phase_temps.size() )
+        {
             debugmsg( "ter %s: phase_targets and phase_temps length mismatch", base_id.str() );
             return ter_str_id::NULL_ID();
         }
         const size_t n = tt.phase_targets.size();
         std::vector<std::pair<units::temperature, ter_str_id>> pairs;
         pairs.reserve( n );
-        for( size_t i = 0; i < n; ++i ) {
+        for( size_t i = 0; i < n; ++i )
+        {
             ter_str_id target = tt.phase_targets[i];
             if( target == ter_str_id::NULL_ID() ) {
                 // NULL_ID used as shorthand for "self"; replace with base terrain id.
@@ -6265,10 +6268,12 @@ void map::phase_change_at( const tripoint_bub_ms &p, const weather_generator &wg
             }
             pairs.emplace_back( tt.phase_temps[i], target );
         }
-        std::sort( pairs.begin(), pairs.end(), []( const auto &a, const auto &b ) {
+        std::sort( pairs.begin(), pairs.end(), []( const auto & a, const auto & b )
+        {
             return a.first < b.first;
         } );
-        for( const auto &pr : pairs ) {
+        for( const auto &pr : pairs )
+        {
             if( standard <= pr.first ) {
                 return pr.second;
             }

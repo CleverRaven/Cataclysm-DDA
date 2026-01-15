@@ -170,7 +170,7 @@ bool trapfunc::thin_ice( const tripoint_bub_ms &p, Creature *c, item * )
         here.ter_set( p, orig );
         here.remove_trap( p );
         here.clear_original_terrain_at( p );
-    } else if (&here.ter( p ).obj().bash->ter_set) {
+    } else if( here.ter( p ).obj().bash->ter_set ) {
         here.ter_set( p, here.ter( p ).obj().bash->ter_set );
         here.remove_trap( p );
     } else {
