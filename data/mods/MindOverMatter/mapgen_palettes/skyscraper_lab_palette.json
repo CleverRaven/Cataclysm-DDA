@@ -28,6 +28,8 @@
       "o": "t_linoleum_white",
       "C": "t_linoleum_white",
       "y": "t_linoleum_white",
+      "X̄": "t_linoleum_white",
+      "Ẋ": "t_linoleum_white",
       "+": "t_door_c",
       "=": "t_door_locked",
       "D": "t_door_metal_c",

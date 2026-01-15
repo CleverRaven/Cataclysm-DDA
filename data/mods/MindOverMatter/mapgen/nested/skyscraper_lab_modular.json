@@ -1013,7 +1013,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "phavian_skyscraper_osiris_chamber",
+    "nested_mapgen_id": "phavian_skyscraper_osiris_chamber_clairsentient",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rows": [
@@ -1037,7 +1037,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "phavian_skyscraper_osiris_chamber",
+    "nested_mapgen_id": "phavian_skyscraper_osiris_chamber_telepathic",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rows": [
