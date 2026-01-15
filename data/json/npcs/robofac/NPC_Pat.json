@@ -460,7 +460,7 @@
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_highlands" } ] }
       },
       {
-        "text": "[Point to the photos of the ventilation shaft] Near that shaft out in the wilderness?",
+        "text": "[Point to the photos of the physics laboratory] That freaky lab?",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_PHYSICS_LAB",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_physics_lab" } ] }
       },
@@ -569,7 +569,7 @@
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_PHYSICS_LAB",
     "type": "talk_topic",
-    "dynamic_line": "Got a lot of radio interference there.  Worth a try.",
+    "dynamic_line": "Got a LOT of radio interference there.  Worth a try.  Try from the surface nearby, yeah?",
     "responses": [
       {
         "text": "Thanks.",
