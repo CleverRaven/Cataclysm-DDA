@@ -1602,8 +1602,8 @@ void bionic_operation_activity_actor::do_turn( player_activity &act, Character &
             if( std::optional<bionic *> bio = who.find_bionic_by_uid( uninstalled_bionic ) ) {
                 who.perform_uninstall( **bio, operation_difficulty, operation_success, operation_skill );
             } else {
-                debugmsg( _( "Tried to uninstall bionic with UID %s, but you don't have this bionic installed." ),
-                          uninstalled_bionic.c_str() );
+                debugmsg( _( "Tried to uninstall bionic with UID %u, but you don't have this bionic installed." ),
+                          uninstalled_bionic );
                 who.remove_effect( effect_under_operation );
                 act.set_to_null();
             }
