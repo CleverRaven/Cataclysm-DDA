@@ -2019,7 +2019,7 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
     // TODO: consider removing it, but for now it demonstrates the odds changing pretty well
     std::sort( sorted.begin(), sorted.end(),
     []( const auto & lhs, const auto & rhs ) {
-        return lhs.confidence <= rhs.confidence;
+        return lhs.confidence < rhs.confidence;
     } );
 
     int width = getmaxx( w ) - 2; // window width minus borders
