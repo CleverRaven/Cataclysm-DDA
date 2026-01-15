@@ -986,16 +986,16 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         }
 
         title += used_tool->is_tool() && used_tool->has_flag( flag_USES_NEARBY_AMMO )
-                 ? string_format( _( "Charges: <color_light_blue>%s</color> %s (%s per use)\n" ),
+                 ? string_format( _( "Charges: <color_light_blue>%d</color> %s (%d per use)\n" ),
                                   ammo_remaining,
                                   ammo_name,
                                   used_tool->ammo_required() )
-                 : string_format( _( "Charges: <color_light_blue>%s/%s</color> %s (%s per use)\n" ),
+                 : string_format( _( "Charges: <color_light_blue>%d/%d</color> %s (%d per use)\n" ),
                                   ammo_remaining, used_tool->ammo_capacity( current_ammo, true ),
                                   ammo_name,
                                   used_tool->ammo_required() );
         title += string_format( _( "Materials available: %s\n" ), string_join( material_list, ", " ) );
-        title += string_format( _( "Skill used: <color_light_blue>%s (%s)</color>\n" ),
+        title += string_format( _( "Skill used: <color_light_blue>%s (%d)</color>\n" ),
                                 actor->used_skill.obj().name(), level );
         title += string_format( _( "Success chance: <color_light_blue>%.1f</color>%%\n" ),
                                 100.0f * chance.first );
