@@ -2309,8 +2309,7 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
                                       const item *original_inventory_item )
 {
     if( it.made_of( phase_id::LIQUID ) ) {
-        liquid_handler::consume_liquid( it, 1, avoid );
-        return it.charges <= 0;
+        return liquid_handler::handle_liquid( liquid_wrapper( it ), std::nullopt, 1 );
     }
     if( !this->can_pickVolume( it, false, avoid ) ) {
         put_into_vehicle_or_drop( *this, item_drop_reason::too_large, { it } );
@@ -2329,7 +2328,7 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
         const bool allow_wield = !wielded_has_it && weapon.magazine_current() != &it;
         const int prev_charges = it.charges;
         item_location ni = i_add( it, true, avoid,
-                                  original_inventory_item, /*allow_drop=*/false, /*allow_wield=*/allow_wield );
+                                  original_inventory_item, false, allow_wield );
         if( ni == item_location::nowhere ) {
             // failed to add
             put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { it } );
@@ -2344,6 +2343,16 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
         }
     }
     return true;
+}
+
+bool Character::add_or_drop_with_msg( item_location &it, const bool /*unloading*/,
+                                      const item *avoid,
+                                      const item *original_inventory_item )
+{
+    if( it->made_of( phase_id::LIQUID ) ) {
+        return liquid_handler::handle_liquid( liquid_wrapper( it ), std::nullopt, 1 );
+    }
+    return add_or_drop_with_msg( *it, false, avoid, original_inventory_item );
 }
 
 bool Character::unload( item_location &loc, bool bypass_activity,
@@ -2477,7 +2486,8 @@ bool Character::unload( item_location &loc, bool bypass_activity,
         return true;
 
     } else if( target->magazine_current() ) {
-        if( !this->add_or_drop_with_msg( *target->magazine_current(), true, nullptr,
+        item_location magazine_loc( loc, target->magazine_current() );
+        if( !this->add_or_drop_with_msg( magazine_loc, true, nullptr,
                                          target->magazine_current() ) ) {
             return false;
         }
@@ -2498,13 +2508,15 @@ bool Character::unload( item_location &loc, bool bypass_activity,
         }
 
         if( ammo.made_of_from_type( phase_id::LIQUID ) ) {
+            return liquid_handler::handle_liquid( liquid_wrapper( loc ), std::nullopt, 1 );
+            /*
             if( !this->add_or_drop_with_msg( ammo ) ) {
                 qty -= ammo.charges; // only handled part (or none) of the liquid
             }
             if( qty <= 0 ) {
                 return false; // no liquid was moved
             }
-
+            */
         } else if( !this->add_or_drop_with_msg( ammo, qty > 1 ) ) {
             return false;
         }

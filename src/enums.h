@@ -278,19 +278,21 @@ enum class object_type : int {
 };
 
 enum class liquid_source_type : int {
+    NULL_SOURCE = 0,
     INFINITE_MAP = 1,
     MAP_ITEM = 2,
     VEHICLE = 3,
-    MONSTER = 4
+    MONSTER = 4,
+    NEW_ITEM = 5
 };
-
+/*
 enum class liquid_target_type : int {
     CONTAINER = 1,
     VEHICLE = 2,
     MAP = 3,
     MONSTER = 4
 };
-
+*/
 /**
  *  Possible layers that a piece of clothing/armor can occupy
  *

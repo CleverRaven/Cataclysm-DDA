@@ -2432,11 +2432,9 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
             menu.add( _( "Fill a container with water" ) )
             .hotkey( "FAUCET_FILL" )
             .skip_locked_check()
-            .on_submit( [this, vp_tank_idx] {
-                item &vp_tank_item = parts[vp_tank_idx].base;
-                item &water = vp_tank_item.only_item();
-                liquid_dest_opt liquid_target;
-                liquid_handler::handle_liquid( water, liquid_target, &vp_tank_item, 1, nullptr, this, vp_tank_idx );
+            .on_submit( [this, vp, vp_tank_idx] {
+                vpart_reference vpr( vp.vehicle(), vp_tank_idx );
+                liquid_handler::handle_liquid( liquid_wrapper( vpr ), std::nullopt, 1 );
             } );
 
             menu.add( _( "Have a drink" ) )

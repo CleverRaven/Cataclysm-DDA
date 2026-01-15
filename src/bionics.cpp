@@ -964,7 +964,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                                   colorize( it.tname(), it.color_in_inventory() ) ) ) {
                         item water( itype_water_clean, calendar::turn, avail );
                         water.set_item_temperature( it.temperature );
-                        if( liquid_handler::consume_liquid( water ) ) {
+                        if( liquid_handler::handle_liquid( liquid_wrapper( water ), std::nullopt, 1 ) ) {
                             add_msg_activate();
                             extracted = true;
                             it.set_var( "remaining_water", water.charges );

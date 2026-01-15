@@ -2269,11 +2269,14 @@ class Character : public Creature, public visitable
         hint_rating rate_action_unload( const item &it ) const;
         hint_rating rate_action_insert( const item_location &loc ) const;
         /**
-          * So far only called by unload() from game.cpp
-          * @avoid - do not put @it into @avoid
-         * @original_inventory_item set if the item was already in the characters inventory (wielded, worn, in different pocket) and is being moved.
-          */
+         * add a *new* item to the inventory, drop if can't carry
+         * @param avoid - do not put @it into @avoid
+         * @param original_inventory_item - set if the item was already in the characters inventory (wielded, worn, in different pocket) and is being moved.
+         */
         bool add_or_drop_with_msg( item &it, bool unloading = false, const item *avoid = nullptr,
+                                   const item *original_inventory_item = nullptr );
+        // for an *existing* item
+        bool add_or_drop_with_msg( item_location &it, bool unloading = false, const item *avoid = nullptr,
                                    const item *original_inventory_item = nullptr );
         /**
          * Unload item.

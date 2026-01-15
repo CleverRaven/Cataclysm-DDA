@@ -1297,6 +1297,15 @@ class consume_activity_actor : public activity_actor
         explicit consume_activity_actor( const item &consume_item, bool reprompt_consume_menu = false ) :
             consume_item( consume_item ), reprompt_consume_menu( reprompt_consume_menu ) {}
 
+        //explicitly copies the item from the liquid_wrapper but decrements the wrapper item's charges
+        explicit consume_activity_actor( const liquid_wrapper &consume_liquid,
+                                         bool reprompt_consume_menu = false ) :
+            consume_item( *consume_liquid.get_item() ), reprompt_consume_menu( reprompt_consume_menu ) {
+            // make a copy to avoid const-correctness
+            liquid_wrapper consume_liquid_copy = consume_liquid;
+            consume_liquid_copy.get_item()->charges--;
+        }
+
         const activity_id &get_type() const override {
             static const activity_id ACT_CONSUME( "ACT_CONSUME" );
             return ACT_CONSUME;
@@ -1415,6 +1424,42 @@ class unload_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<unload_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
+// moving a liquid from a source to a destination
+// see handle_liquid.cpp
+// TODO: this should take more than one turn
+class fill_liquid_activity_actor : public activity_actor
+{
+    private:
+        fill_liquid_activity_actor() = default;
+        liquid_wrapper source;
+        liquid_dest_opt destination;
+        int dest_container_search_radius;
+
+    public:
+        explicit fill_liquid_activity_actor( const liquid_wrapper &source,
+                                             const liquid_dest_opt &destination, int dest_container_search_radius = 0 ) :
+            source( source ), destination( destination ),
+            dest_container_search_radius( dest_container_search_radius ) {
+        };
+        const activity_id &get_type() const override {
+            static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
+            return ACT_FILL_LIQUID;
+        }
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &, Character & ) override;
+
+        void reprompt( player_activity &act, Character & );
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<fill_liquid_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;

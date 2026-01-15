@@ -7557,7 +7557,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
 
                 return 0;
             }
-            liquid_handler::handle_all_liquid( dish, PICKUP_RANGE );
+            liquid_handler::handle_liquid( liquid_wrapper( dish ), std::nullopt, PICKUP_RANGE );
         } else {
             p->i_add( dish );
         }

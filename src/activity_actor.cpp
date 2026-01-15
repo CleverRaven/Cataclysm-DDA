@@ -151,6 +151,7 @@ static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
 static const activity_id ACT_E_FILE( "ACT_E_FILE" );
 static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
+static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
@@ -254,6 +255,11 @@ static const fault_id fault_fail_to_feed( "fault_fail_to_feed" );
 static const flag_id json_flag_ALWAYS_AIMED( "ALWAYS_AIMED" );
 static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
 
+static const furn_str_id furn_f_compost_empty( "f_compost_empty" );
+static const furn_str_id furn_f_compost_full( "f_compost_full" );
+static const furn_str_id furn_f_fvat_empty( "f_fvat_empty" );
+static const furn_str_id furn_f_fvat_wood_empty( "f_fvat_wood_empty" );
+static const furn_str_id furn_f_fvat_wood_full( "f_fvat_wood_full" );
 static const furn_str_id furn_f_gunsafe_mj( "f_gunsafe_mj" );
 static const furn_str_id furn_f_gunsafe_ml( "f_gunsafe_ml" );
 static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
@@ -4744,12 +4750,14 @@ void unload_activity_actor::unload( Character &who, item_location &target )
 
             for( item *contained : it.all_items_top( ptype, true ) ) {
                 int old_charges = contained->charges;
-                const bool consumed = who.add_or_drop_with_msg( *contained, true, &it, contained );
+                item_location contained_loc( target, contained );
+                const bool consumed = who.add_or_drop_with_msg( contained_loc, true, &it, contained );
                 if( consumed || contained->charges != old_charges ) {
                     changed = true;
                     handler.unseal_pocket_containing( item_location( target, contained ) );
                 }
-                if( consumed ) {
+                // handle_liquid handles removal
+                if( consumed && !contained->made_of( phase_id::LIQUID ) ) {
                     it.remove_item( *contained );
                 }
             }
@@ -4775,7 +4783,8 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         if( contained->ammo_type() == ammo_plutonium ) {
             contained->charges /= PLUTONIUM_CHARGES;
         }
-        if( who.add_or_drop_with_msg( *contained, true, &it, contained ) ) {
+        item_location contained_loc( target, contained );
+        if( who.add_or_drop_with_msg( contained_loc, true, &it, contained ) ) {
             qty += contained->charges;
             remove_contained.push_back( contained );
             actually_unloaded = true;
@@ -4827,6 +4836,216 @@ std::unique_ptr<activity_actor> unload_activity_actor::deserialize( JsonValue &j
 
     data.read( "moves_total", actor.moves_total );
     data.read( "target", actor.target );
+
+    return actor.clone();
+}
+
+void fill_liquid_activity_actor::reprompt( player_activity &act, Character & )
+{
+    act.set_to_null();
+    if( source.source_item_was_new() ) {
+        liquid_handler::handle_liquid( source, std::nullopt, dest_container_search_radius );
+    }
+}
+
+#pragma optimize("", off)
+void fill_liquid_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    try {
+        // 1. Gather the source item.
+
+        item &liquid = *source.get_item();
+        map &here = get_map();
+        const tripoint_bub_ms source_pos = source.get_item_pos_bub(
+                                               here );
+        const liquid_source_type source_type = source.type;
+
+        // we can't (currently) specify a charge amount for the pour_into functions
+        // so make a copy of the liquid transferred and find how many charges were removed
+        item liquid_copy = liquid;
+        static const units::volume volume_per_second = units::from_liter( 4.0F / 6.0F );
+        const int charges_per_second = std::max( 1, liquid.charges_per_volume( volume_per_second ) );
+        const int charges_transferred = std::min( charges_per_second, liquid.charges );
+        const int original_charges = liquid.charges;
+        if( liquid.has_temperature() && units::to_joule_per_gram( liquid.specific_energy ) < 0 ) {
+            liquid.set_item_temperature( std::max( get_weather().get_temperature( who.pos_bub() ),
+                                                   temperatures::cold ) );
+        }
+
+        // 2. Transfer charges.
+
+        const vehicle *veh = nullptr;
+        size_t part;
+        switch( destination.dest_opt ) {
+            case liquid_dest::LD_VEH: {
+                const optional_vpart_position vp = here.veh_at( destination.pos );
+                if( vp ) {
+                    std::function<bool ( const vehicle_part & )> match_vp = [&veh, &part]( const vehicle_part & pa ) {
+                        return &veh->part( part ) != &pa;
+                    };
+
+                    const vpart_reference vpr( vp->vehicle(), destination.vp_index );
+                    veh = &vp->vehicle();
+                    if( source.type == liquid_source_type::VEHICLE &&
+                        here.veh_at( *source.as_vehicle_part )->vehicle().fuel_left( here, liquid.typeId(),
+                                ( veh ? match_vp : return_true<const vehicle_part &> ) ) <= 0 ) {
+                        // there is no liquid to transfer at source, cancel activity
+                        act.set_to_null();
+                        return;
+                    }
+                    who.pour_into( vpr, liquid_copy );
+
+                } else {
+                    throw std::runtime_error( "could not find target vehicle for liquid transfer" );
+                }
+                break;
+            }
+            case liquid_dest::LD_ITEM:
+                who.pour_into( destination.item_loc, liquid_copy, true, true );
+                break;
+            case liquid_dest::LD_GROUND:
+            case liquid_dest::LD_KEG:
+                if( iexamine::has_keg( destination.pos ) ) {
+                    iexamine::pour_into_keg( destination.pos, liquid_copy, false );
+                } else {
+                    here.add_item_or_charges( destination.pos, liquid_copy );
+                    who.add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid.tname() );
+                    liquid_copy.charges = 0;
+                }
+                break;
+        }
+
+        const int removed_charges = original_charges - liquid_copy.charges;
+        if( removed_charges == 0 ) {
+            // Nothing has been transferred, target must be full.
+            reprompt( act, who );
+            return;
+        }
+
+        // successfully completing a liquid transfer uses all moves
+        who.set_moves( 0 );
+
+        // 3. Remove charges from source.
+
+        switch( source_type ) {
+            case liquid_source_type::VEHICLE: {
+                vehicle &source_veh = here.veh_at( source_pos )->vehicle();
+
+                const size_t vp_index = source.vp_index;
+                const vehicle_part &pt = source_veh.part( vp_index );
+                if( pt.is_leaking() && !pt.ammo_remaining() ) {
+                    // leaky tank spilled while we were transferring; source liquid gone
+                    act.set_to_null();
+                    return;
+                }
+                source_veh.drain( here, vp_index, removed_charges );
+                liquid.charges -= removed_charges;
+                // If there's no liquid left in this tank we're done, otherwise
+                // we need to update our liquid serialization to reflect how
+                // many charges are actually left for the next time we come
+                // around this loop.
+                if( !liquid.charges ) {
+                    act.set_to_null();
+                }
+
+                break;
+            }
+            case liquid_source_type::MAP_ITEM: {
+                liquid.charges -= removed_charges;
+                if( liquid.charges <= 0 ) {
+                    source.standard_item.remove_item();
+                    if( here.ter( source_pos )->has_examine( iexamine::gaspump ) ) {
+                        add_msg( _( "With a clang and a shudder, the %s pump goes silent." ),
+                                 liquid.type_name( 1 ) );
+                    } else if( const furn_id &f = here.furn( source_pos ); f->has_examine( iexamine::fvat_full ) ) {
+                        add_msg( _( "You squeeze the last drops of %s from the vat." ),
+                                 liquid.type_name( 1 ) );
+                        map_stack items_here = here.i_at( source_pos );
+                        if( items_here.empty() ) {
+                            if( f == furn_f_fvat_wood_full ) {
+                                here.furn_set( source_pos, furn_f_fvat_wood_empty );
+                            } else {
+                                here.furn_set( source_pos, furn_f_fvat_empty );
+                            }
+                        }
+                    } else if( f->has_examine( iexamine::compost_full ) ) {
+                        add_msg( _( "You squeeze the last drops of %s from the tank." ),
+                                 liquid.type_name( 1 ) );
+                        map_stack items_here = here.i_at( source_pos );
+                        if( items_here.empty() ) {
+                            if( f == furn_f_compost_full ) {
+                                here.furn_set( source_pos, furn_f_compost_empty );
+                            }
+                        }
+                    }
+                    act.set_to_null();
+                }
+                break;
+            }
+            case liquid_source_type::INFINITE_MAP:
+                // nothing, the liquid source is infinite
+                break;
+            case liquid_source_type::MONSTER:
+                // liquid source charges handled in monexamine::milk_source
+                if( liquid.charges == 0 ) {
+                    act.set_to_null();
+                }
+                break;
+            case liquid_source_type::NEW_ITEM:
+                liquid.charges -= removed_charges;
+                if( liquid.charges == 0 ) {
+                    act.set_to_null();
+                }
+                break;
+        }
+
+        if( removed_charges < original_charges ) {
+            // Transferred less than the available charges -> target must be full
+            reprompt( act, who );
+        }
+
+    } catch( const std::runtime_error &err ) {
+        debugmsg( "error in activity data: \"%s\"", err.what() );
+        act.set_to_null();
+        return;
+    }
+}
+
+void fill_liquid_activity_actor::finish( player_activity &, Character & )
+{
+    item_location &dest_loc = destination.item_loc;
+    if( dest_loc != item_location::nowhere ) {
+        if( ( ( destination.dest_opt == LD_ITEM &&
+                dest_loc->is_watertight_container() ) || destination.dest_opt == LD_KEG ) ) {
+            //dest_loc->unset_flag(flag_id(json_flag_FROM_FROZEN_LIQUID));
+            if( dest_loc.where() == item_location::type::container ) {
+                dest_loc.parent_item().on_contents_changed();
+            }
+            if( dest_loc->charges == 0 ) {
+                dest_loc.remove_item();
+            }
+        }
+    }
+}
+
+void fill_liquid_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "source", source );
+    jsout.member( "destination", destination );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> fill_liquid_activity_actor::deserialize( JsonValue &jsin )
+{
+    fill_liquid_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "source", actor.source );
+    data.read( "destination", actor.destination );
 
     return actor.clone();
 }
@@ -6601,8 +6820,7 @@ void milk_activity_actor::do_turn( player_activity &act, Character &who )
             item milk( milked_item->first, calendar::turn, units );
             milk.set_item_temperature( units::from_celsius( 38.6 ) );
 
-            if( liquid_handler::handle_liquid( milk, target, nullptr, 1, nullptr, nullptr, -1,
-                                               source_mon, true ) ) {
+            if( liquid_handler::handle_liquid( liquid_wrapper( *source_mon, milk ), target, 1 ) ) {
                 milked_item->second--;
                 if( milked_item->second == 0 ) {
                     who.add_msg_if_player( _( "The %s's udders run dry." ), source_mon->get_name() );
@@ -6633,8 +6851,7 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
     }
     item milk( milked_item->first, calendar::turn, milked_item->second );
     milk.set_item_temperature( units::from_celsius( 38.6 ) );
-    if( liquid_handler::handle_liquid( milk, target, nullptr, 1, nullptr, nullptr, -1,
-                                       source_mon ) ) {
+    if( liquid_handler::handle_liquid( liquid_wrapper( *source_mon, milk ), target, 1 ) ) {
         milked_item->second = 0;
         if( milk.charges > 0 ) {
             milked_item->second = milk.charges;
@@ -10027,14 +10244,14 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
                 cold_item.remove_item();
             }
             if( copy.made_of( phase_id::LIQUID ) ) {
-                liquid_handler::handle_all_liquid( copy, PICKUP_RANGE );
+                liquid_handler::handle_liquid( liquid_wrapper( copy ), std::nullopt, PICKUP_RANGE );
             } else {
                 p.i_add_or_drop( copy );
             }
         } else {
             cold_item->heat_up();
             if( cold_item.get_item()->made_of( phase_id::LIQUID ) ) {
-                liquid_handler::handle_all_liquid( *cold_item, PICKUP_RANGE );
+                liquid_handler::handle_liquid( liquid_wrapper( *cold_item ), std::nullopt, PICKUP_RANGE );
             } else {
                 p.i_add_or_drop( *cold_item );
                 cold_item.remove_item();
@@ -11471,6 +11688,7 @@ deserialize_functions = {
     { ACT_E_FILE, &efile_activity_actor::deserialize },
     { ACT_EBOOKSAVE, &ebooksave_activity_actor::deserialize },
     { ACT_FIELD_DRESS, &butchery_activity_actor::deserialize },
+    { ACT_FILL_LIQUID, &fill_liquid_activity_actor::deserialize },
     { ACT_FIRSTAID, &firstaid_activity_actor::deserialize },
     { ACT_FISH, &fish_activity_actor::deserialize },
     { ACT_FORAGE, &forage_activity_actor::deserialize },

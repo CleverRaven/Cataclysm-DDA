@@ -760,7 +760,7 @@ void iexamine::gaspump( Character &you, const tripoint_bub_ms &examp )
 
             } else {
                 item_location loc( map_cursor( examp ), &*item_it );
-                liquid_handler::handle_liquid( loc, nullptr, 1 );
+                liquid_handler::handle_liquid( liquid_wrapper( loc ) );
             }
             return;
         }
@@ -3917,7 +3917,7 @@ void iexamine::fvat_empty( Character &you, const tripoint_bub_ms &examp )
             }
             case REMOVE_BREW: {
                 item_location loc( map_cursor( examp ), &*here.i_at( examp ).begin() );
-                liquid_handler::handle_liquid( loc );
+                liquid_handler::handle_liquid( liquid_wrapper( loc ) );
                 return;
             }
             case START_FERMENT: {
@@ -4043,7 +4043,7 @@ void iexamine::fvat_full( Character &you, const tripoint_bub_ms &examp )
 
     const std::string booze_name = brew_i.tname();
     item_location loc( map_cursor( examp ), &*items_here.begin() );
-    if( liquid_handler::handle_liquid( loc ) && loc->charges == 0 ) {
+    if( liquid_handler::handle_liquid( liquid_wrapper( loc ) ) && loc->charges == 0 ) {
         fvat_set_empty( examp );
         add_msg( _( "You squeeze the last drops of %s from the vat." ), booze_name );
     }
@@ -4148,7 +4148,7 @@ void iexamine::compost_empty( Character &you, const tripoint_bub_ms &examp )
             }
             case REMOVE_COMPOST: {
                 item_location loc( map_cursor( examp ), &*here.i_at( examp ).begin() );
-                liquid_handler::handle_liquid( loc );
+                liquid_handler::handle_liquid( liquid_wrapper( loc ) );
                 return;
             }
             case START_FERMENT: {
@@ -4330,7 +4330,7 @@ void iexamine::compost_full( Character &you, const tripoint_bub_ms &examp )
 
     const std::string compost_name = compost_i.tname();
     item_location loc( map_cursor( examp ), &*items_here.begin() );
-    if( liquid_handler::handle_liquid( loc ) && loc->charges == 0 ) {
+    if( liquid_handler::handle_liquid( liquid_wrapper( loc ) ) && loc->charges == 0 ) {
         compost_set_empty( examp );
         add_msg( _( "You squeeze the last drops of %s from the tank." ), compost_name );
     }
@@ -4493,7 +4493,7 @@ void iexamine::keg( Character &you, const tripoint_bub_ms &examp )
         switch( selectmenu.ret ) {
             case DISPENSE: {
                 item_location loc( map_cursor( examp ), &*items.begin() );
-                if( liquid_handler::handle_liquid( loc ) ) {
+                if( liquid_handler::handle_liquid( liquid_wrapper( loc ) ) ) {
                     add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
                              drink_tname, keg_name );
                 }
@@ -4982,8 +4982,8 @@ void iexamine::water_source( Character &, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
     item water = here.liquid_from( examp );
-    liquid_dest_opt liquid_target;
-    liquid_handler::handle_liquid( water, liquid_target, nullptr, 0, &examp );
+    const tripoint_abs_ms source_pos = here.get_abs( examp );
+    liquid_handler::handle_liquid( liquid_wrapper( source_pos, water ) );
 }
 
 void iexamine::finite_water_source( Character &, const tripoint_bub_ms &examp )
@@ -4992,7 +4992,7 @@ void iexamine::finite_water_source( Character &, const tripoint_bub_ms &examp )
     for( item &it : items ) {
         if( it.made_of( phase_id::LIQUID ) ) {
             item_location loc( map_cursor( examp ), &it );
-            liquid_handler::handle_liquid( loc );
+            liquid_handler::handle_liquid( liquid_wrapper( loc ) );
             break;
         }
     }
