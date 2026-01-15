@@ -1,0 +1,1823 @@
+[
+  {
+    "//": "10x10 side room with south center door.  This is an office space",
+    "//2": "Available area is 10x9, hence the empty row",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_south_door_10x10_room",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "          ",
+        "dxdd|ddxxd",
+        "dcc.|dc.cc",
+        "-..-|--.--",
+        "dx.d|dx..d",
+        "d.cd|dc.cd",
+        "xc.d|d..cd",
+        "d.xd|dc.xd",
+        "-..-|--.--",
+        "FFy......&"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "terrain": { "|": "t_wall_w" },
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 70 },
+          { "item": "lab_files_psi", "chance": 5 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 2 }
+        ],
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 80 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 60, "repeat": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "//": "10x10 side room with south center door.  This is an office space",
+    "//2": "Available area is 10x9, hence the empty row",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_south_door_10x10_room",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "          ",
+        "dxddddxdxd",
+        "dcc.cdc.cd",
+        "dd......xd",
+        "dx.cdd..cd",
+        "dd. ddc..d",
+        "xc.cdd..cd",
+        "dc...c..xd",
+        "dd......dd",
+        "FFy......&"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 70 },
+          { "item": "lab_files_psi", "chance": 5 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 2 }
+        ],
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 80 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 60, "repeat": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "//": "10x10 side room with south center door.  This is a meeting room.",
+    "//2": "Available area is 10x9, hence the empty rows",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_south_door_10x10_room",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "          ",
+        "dddddddddd",
+        "d........d",
+        "d...cc...d",
+        "...cttc..d",
+        "ð..cttc..&",
+        "ð..cttc...",
+        "...cttc...",
+        "....cc....",
+        "y........y"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "furniture": { "ð": "f_desk" },
+      "items": {
+        "t": [
+          { "item": "SUS_office_desk", "chance": 70 },
+          { "item": "lab_files_psi", "chance": 5 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 2 }
+        ],
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
+      },
+      "place_item": [ { "item": "television", "x": 0, "y": 5 }, { "item": "television", "x": 0, "y": 6 } ],
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 9 ], "y": [ 2, 9 ], "repeat": [ 1, 3 ], "chance": 70 } ]
+    }
+  },
+  {
+    "//": "10x10 side room with south center door.  This is a server room.",
+    "//2": "Available area is 10x9, hence the empty rows",
+    "type": "mapgen",
+    "weight": 500,
+    "nested_mapgen_id": "phavian_hospital_lab_south_door_10x10_room",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "          ",
+        "5.5.55.5.5",
+        "5.5.55.5.5",
+        "5.5.55.5.5",
+        "5.5.55.5.5",
+        "5.5.55.5.5",
+        "5.5....5.5",
+        "5.5....5.5",
+        ":f:fDDf:f:",
+        ".........."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "terrain": { ".": "t_linoleum_white" },
+      "furniture": { "5": "f_server", "f": "f_air_filter" }
+    }
+  },
+  {
+    "//": "10x10 side room with north center door.  This is an office space",
+    "//2": "Available area is 10x9, hence the empty row",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_north_door_10x10_room",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "&......yFF",
+        "-..-|-...-",
+        "dx.d|dx..d",
+        "dc.d|d..cx",
+        "d.cd|dc..d",
+        "d.xd|d..xd",
+        "-..-|-...-",
+        ".ccd|..ccd",
+        "dxxd|xddxd",
+        "          "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "terrain": { "|": "t_wall_w", "-": "t_wall_w" },
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 70 },
+          { "item": "lab_files_psi", "chance": 5 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 2 }
+        ],
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 80 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 60, "repeat": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "//": "10x10 side room with north center door.  This is an office space",
+    "//2": "Available area is 10x9, hence the empty row",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_north_door_10x10_room",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "&......yFF",
+        "dd......dd",
+        "dx..c...cd",
+        "dc..ddc.cx",
+        "d..cdd .dd",
+        "dc..ddc.xd",
+        "dx......dd",
+        "dc.cdc.ccd",
+        "dxdxddddxd",
+        "          "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "items": {
+        "d": [ { "item": "lab_files_psi", "chance": 5 }, { "item": "dist_lab_file_phavian_internal", "chance": 2 } ],
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 80 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 60, "repeat": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "//": "10x10 side room with north center door.  This is a meeting room.",
+    "//2": "Available area is 10x9, hence the empty rows",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_north_door_10x10_room",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "y........y",
+        "....cc....",
+        "...cttc...",
+        "...cttc..ð",
+        "&..cttc..ð",
+        "d..cttc...",
+        "d...cc...d",
+        "d........d",
+        "dddddddddd",
+        "          "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "furniture": { "ð": "f_desk" },
+      "items": {
+        "t": [ { "item": "lab_files_psi", "chance": 5 }, { "item": "dist_lab_file_phavian_internal", "chance": 2 } ],
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
+      },
+      "place_item": [ { "item": "television", "x": 0, "y": 5 }, { "item": "television", "x": 0, "y": 6 } ],
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 9 ], "y": [ 2, 9 ], "repeat": [ 1, 3 ], "chance": 70 } ]
+    }
+  },
+  {
+    "//": "10x10 side room with north center door.  This is a server room.",
+    "//2": "Available area is 10x9, hence the empty rows",
+    "type": "mapgen",
+    "weight": 500,
+    "nested_mapgen_id": "phavian_hospital_lab_north_door_10x10_room",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "..........",
+        ":f:fDDf:f:",
+        "5.5....5.5",
+        "5.5....5.5",
+        "5.5.55.5.5",
+        "5.5.55.5.5",
+        "5.5.55.5.5",
+        "5.5.55.5.5",
+        "5.5.55.5.5",
+        "          "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "terrain": { ".": "t_linoleum_white" },
+      "furniture": { "5": "f_server", "f": "f_air_filter" }
+    }
+  },
+  {
+    "//": "11x11 side room with south center door.  This is an office space.",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "//3": "south center door rooms begin here",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_south_door_11x11_room",
+    "weight": 750,
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "           ",
+        "dxddx|dxdxd",
+        "dcc..|dc.c.",
+        "--.--|--.--",
+        "dx..d|dx.cd",
+        "d..cd|dc..d",
+        "xc..d|d..cd",
+        "d..xd|dc.xd",
+        "--..-|--.--",
+        "FFy.......&",
+        "           "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "terrain": { "|": "t_wall_w" },
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 40 },
+          { "item": "lab_files_psi", "chance": 5 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 2 }
+        ],
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 80 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 60, "repeat": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "//": "11x11 side room with south center door.  This is an office space.",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_south_door_11x11_room",
+    "weight": 750,
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "           ",
+        "dxddxddxdxd",
+        "dcc..cdc.cd",
+        "dd.......xd",
+        "dx..cdc..cd",
+        "dd..ddxc..d",
+        "xc..cdc..cd",
+        "dc.......xd",
+        "dd.......dd",
+        "FFy.......&",
+        "           "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "terrain": { "|": "t_wall_w" },
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 40 },
+          { "item": "lab_files_psi", "chance": 5 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 2 }
+        ],
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 80 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 60, "repeat": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "//": "11x11 side room with south center door.  This is a meeting room.",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "weight": 800,
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_south_door_11x11_room",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        "ddddddddddd",
+        "d.........d",
+        "d...ccc...d",
+        "...ctttc..d",
+        "ð..ctttc..&",
+        "ð..ctttc...",
+        "...ctttc...",
+        "....ccc....",
+        "y.........y",
+        "           "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "furniture": { "ð": "f_desk" },
+      "items": {
+        "t": [
+          { "item": "SUS_office_desk", "chance": 40 },
+          { "item": "lab_files_psi", "chance": 5 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 2 }
+        ],
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
+      },
+      "place_item": [ { "item": "television", "x": 0, "y": 5 }, { "item": "television", "x": 0, "y": 6 } ],
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 9 ], "y": [ 2, 9 ], "repeat": [ 2, 5 ], "chance": 70 } ]
+    }
+  },
+  {
+    "//": "11x11 side room with south center door.  This is a patient care room.",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_south_door_11x11_room",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        "Г..Ṛ...Ṛ.Г.",
+        "v.hṚ...Ṛh.v",
+        "Uh.Ṛ...Ṛ.hU",
+        "||||..ւ||||",
+        "Г..Ṛ...Ṛ.Г.",
+        "v.hṚ...Ṛh.v",
+        "||||ւ..||||",
+        "Г..Ṛ...Ṛ.Г.",
+        "v.hṚ...Ṛh.v",
+        "           "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "items": { "ւ": { "item": "full_1st_aid", "chance": 65, "repeat": [ 1, 3 ] } },
+      "vehicles": { "Г": { "vehicle": "hospital_bed", "rotation": 180 }, "ւ": { "vehicle": "medical_cart", "rotation": 180 } },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 9 ], "y": [ 2, 9 ], "repeat": [ 4, 8 ], "chance": 70 },
+        {
+          "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC",
+          "x": [ 1, 9 ],
+          "y": [ 1, 9 ],
+          "chance": 30,
+          "repeat": [ 1, 3 ]
+        }
+      ]
+    }
+  },
+  {
+    "//": "11x11 side room with south center door.  This is a biokinetic testing space.",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_south_door_11x11_room",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "           ",
+        "NNNNNNNNNNN",
+        ".E.E...E.E.",
+        "...........",
+        ".P.P...P.P.",
+        "...........",
+        ".T.X...X.T.",
+        "...........",
+        "Uh.......hU",
+        "y.........z",
+        "           "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "terrain": { "|": "t_wall_w" },
+      "furniture": { "E": "f_ergometer", "P": "f_punching_bag", "T": "f_treadmill", "X": "f_exercise" },
+      "items": {
+        "N": [ { "item": "psi_lab_no_recipes", "chance": 40, "repeat": [ 1, 3 ] } ],
+        "z": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
+      },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 10 ], "y": [ 2, 9 ], "chance": 60, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC", "x": [ 1, 10 ], "y": [ 2, 9 ], "chance": 60, "repeat": [ 0, 3 ] }
+      ]
+    }
+  },
+  {
+    "//": "11x11 side room with south center door.  This is an MRI room.",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_south_door_11x11_room",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        "......|...U",
+        "..cd..|...h",
+        "t.....D....",
+        "t.....|.Г..",
+        "|ooDoo|....",
+        "Uh..hU|ւ...",
+        "Uh..hU|...u",
+        "|||D|||...u",
+        "Ł.........u",
+        "           "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "items": {
+        "Ł": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
+        "ւ": { "item": "full_1st_aid", "chance": 65, "repeat": [ 1, 3 ] },
+        "u": { "item": "used_1st_aid", "chance": 30, "repeat": [ 1, 2 ] }
+      },
+      "vehicles": { "Г": { "vehicle": "hospital_bed", "rotation": 90 }, "ւ": { "vehicle": "medical_cart", "rotation": 180 } },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 9 ], "y": [ 2, 9 ], "repeat": [ 2, 4 ], "chance": 70 } ]
+    }
+  },
+  {
+    "//": "11x11 side room with south center door.  This is a matrix crystal research lab",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "type": "mapgen",
+    "weight": 750,
+    "nested_mapgen_id": "phavian_hospital_lab_south_door_11x11_room",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        "NNNNNNN5555",
+        ".....A....0",
+        "....UaU...U",
+        "Uh........h",
+        ":Å:Å:D:Å:Å:",
+        "Nh....3...C",
+        "NU...Nh..hN",
+        ".........AN",
+        "ztLt...zNNN",
+        "           "
+      ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "furniture": { "5": "f_server" },
+      "items": {
+        "N": [
+          { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "electronics", "chance": 30, "repeat": [ 1, 2 ] }
+        ],
+        "t": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        "a": [ { "item": "dist_matrix_crystal_hospital_lab_group", "chance": 85 } ],
+        "z": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 9 ], "y": [ 2, 9 ], "repeat": [ 3, 5 ], "chance": 70 } ]
+    }
+  },
+  {
+    "//": "11x11 side room with south center door.  This is a project SHADOW URGE lab",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "type": "mapgen",
+    "weight": 500,
+    "nested_mapgen_id": "phavian_hospital_lab_south_door_11x11_room",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        "NNNNNNN5555",
+        "N.........0",
+        "N....4...hU",
+        "Uh..UXU...U",
+        "..........h",
+        ":Å:Å:D:Å:Å:",
+        "Uh.......hU",
+        "Uh.......hU",
+        "ŁŁL....zNNN",
+        "           "
+      ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "furniture": { "Ṅ": "f_lab_bench", "X": "f_biokinetic_physiology_improver", "5": "f_server" },
+      "place_item": [ { "item": "lab_file_shadow_urge_item", "x": 10, "y": 9, "chance": 30 } ],
+      "items": {
+        "Ł": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
+        "N": [
+          { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "psi_lab_no_recipes", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "electronics", "chance": 30, "repeat": [ 1, 2 ] }
+        ],
+        "Ṅ": { "item": "drugs_emergency", "chance": 30, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 9 ], "y": [ 2, 9 ], "repeat": [ 3, 5 ], "chance": 70 } ]
+    }
+  },
+  {
+    "//": "11x11 side room with north center door.  This is an office space",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "//3": "north center door rooms begin here",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_north_door_11x11_room",
+    "weight": 750,
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "           ",
+        "&.......yFF",
+        "--.--|-..--",
+        "dx.cd|dx..d",
+        "dc..d|d..cx",
+        "d..cd|dc..d",
+        "dc.xd|d..xd",
+        "--.--|--.--",
+        ".c.cd|..ccd",
+        "dxdxd|xddxd",
+        "           "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "terrain": { "|": "t_wall_w" },
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 40 },
+          { "item": "lab_files_psi", "chance": 5 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 2 }
+        ],
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 80 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 60, "repeat": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "//": "11x11 side room with north center door.  This is office space",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_north_door_11x11_room",
+    "weight": 750,
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "           ",
+        "&.......yFF",
+        "dd.......dd",
+        "dx.......cd",
+        "dc..cdc..cx",
+        "d..cxdd..dd",
+        "dc..cdc..xd",
+        "dx.......dd",
+        "dc.cdc..ccd",
+        "dxdxddxddxd",
+        "           "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "terrain": { "|": "t_wall_w" },
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 40 },
+          { "item": "lab_files_psi", "chance": 5 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 2 }
+        ],
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 80 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 60, "repeat": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "//": "11x11 side room with north center door.  This is a meeting room.",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "weight": 800,
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_north_door_11x11_room",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        "y.........y",
+        "....ccc....",
+        "...ctttc...",
+        "...ctttc..ð",
+        "&..ctttc..ð",
+        "d..ctttc...",
+        "d...ccc...d",
+        "d.........d",
+        "ddddddddddd",
+        "           "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "furniture": { "ð": "f_desk" },
+      "items": {
+        "t": [ { "item": "lab_files_psi", "chance": 5 }, { "item": "dist_lab_file_phavian_internal", "chance": 2 } ],
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
+      },
+      "place_item": [ { "item": "television", "x": 10, "y": 4 }, { "item": "television", "x": 10, "y": 5 } ],
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 9 ], "y": [ 2, 9 ], "repeat": [ 2, 5 ], "chance": 70 } ]
+    }
+  },
+  {
+    "//": "11x11 side room with north center door.  This is a patient care room.",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_north_door_11x11_room",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        "v.hṚ...Ṛh.v",
+        "Г..Ṛ...Ṛ.Г.",
+        "||||..ւ||||",
+        "v.hṚ...Ṛh.v",
+        "Г..Ṛ...Ṛ.Г.",
+        "||||ւ..||||",
+        "Uh.Ṛ...Ṛ.hU",
+        "v.hṚ...Ṛh.v",
+        "Г..Ṛ...Ṛ.Г.",
+        "           "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "items": { "ւ": { "item": "full_1st_aid", "chance": 65, "repeat": [ 1, 3 ] } },
+      "vehicles": { "Г": { "vehicle": "hospital_bed", "rotation": 180 }, "ւ": { "vehicle": "medical_cart", "rotation": 180 } },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 9 ], "y": [ 2, 9 ], "repeat": [ 4, 8 ], "chance": 70 },
+        {
+          "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC",
+          "x": [ 1, 9 ],
+          "y": [ 1, 9 ],
+          "chance": 30,
+          "repeat": [ 1, 3 ]
+        }
+      ]
+    }
+  },
+  {
+    "//": "11x11 side room with north center door.  This is a biokinetic testing space.",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_north_door_11x11_room",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "           ",
+        "z.........y",
+        "Uh.......hU",
+        "...........",
+        ".T.X...X.T.",
+        "...........",
+        ".P.P...P.P.",
+        "...........",
+        ".E.E...E.E.",
+        "NNNNNNNNNNN",
+        "           "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "terrain": { "|": "t_wall_w" },
+      "furniture": { "E": "f_ergometer", "P": "f_punching_bag", "T": "f_treadmill", "X": "f_exercise" },
+      "items": {
+        "N": [ { "item": "psi_lab_no_recipes", "chance": 40, "repeat": [ 1, 3 ] } ],
+        "z": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
+      },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 10 ], "y": [ 1, 8 ], "chance": 60, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC", "x": [ 1, 10 ], "y": [ 1, 8 ], "chance": 60, "repeat": [ 0, 3 ] }
+      ]
+    }
+  },
+  {
+    "//": "11x11 side room with north center door.  This is an MRI room.",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_north_door_11x11_room",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        "u.........Ł",
+        "u...|||D|||",
+        "u...|Uh..hU",
+        "...ւ|Uh..hU",
+        "....|ooDoo|",
+        "....|.....t",
+        "..Г.D.....t",
+        "h...|..dc..",
+        "U...|......",
+        "           "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "items": {
+        "Ł": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
+        "ւ": { "item": "full_1st_aid", "chance": 65, "repeat": [ 1, 3 ] },
+        "u": { "item": "used_1st_aid", "chance": 30, "repeat": [ 1, 2 ] }
+      },
+      "vehicles": { "Г": { "vehicle": "hospital_bed", "rotation": 90 }, "ւ": { "vehicle": "medical_cart", "rotation": 180 } },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 9 ], "y": [ 2, 9 ], "repeat": [ 2, 4 ], "chance": 70 } ]
+    }
+  },
+  {
+    "//": "11x11 side room with north center door.  This is a matrix crystal research lab",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "type": "mapgen",
+    "weight": 750,
+    "nested_mapgen_id": "phavian_hospital_lab_north_door_11x11_room",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        "NNNz...tLtz",
+        "NA.........",
+        "Nh..hN...UN",
+        "C...3....hN",
+        ":Å:Å:D:Å:Å:",
+        "h........hU",
+        "U...UaU....",
+        "0....A.....",
+        "5555NNNNNNN",
+        "           "
+      ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "furniture": { "5": "f_server" },
+      "items": {
+        "N": [
+          { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "electronics", "chance": 30, "repeat": [ 1, 2 ] }
+        ],
+        "t": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        "a": [ { "item": "dist_matrix_crystal_hospital_lab_group", "chance": 85 } ],
+        "z": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 9 ], "y": [ 2, 9 ], "repeat": [ 3, 5 ], "chance": 70 } ]
+    }
+  },
+  {
+    "//": "11x11 side room with north center door.  This is a project SHADOW URGE lab",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "type": "mapgen",
+    "weight": 500,
+    "nested_mapgen_id": "phavian_hospital_lab_north_door_11x11_room",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        "NNNz....LŁŁ",
+        "Uh.......hU",
+        "Uh.......hU",
+        ":Å:Å:D:Å:Å:",
+        "h..........",
+        "U...UXU..hU",
+        "Uh...4....N",
+        "0.........N",
+        "5555NNNNNNN",
+        "           "
+      ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "furniture": { "Ṅ": "f_lab_bench", "X": "f_biokinetic_physiology_improver", "5": "f_server" },
+      "place_item": [ { "item": "lab_file_shadow_urge_item", "x": 0, "y": 0, "chance": 30 } ],
+      "items": {
+        "Ł": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
+        "N": [
+          { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "psi_lab_no_recipes", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "electronics", "chance": 30, "repeat": [ 1, 2 ] }
+        ],
+        "Ṅ": { "item": "drugs_emergency", "chance": 30, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 9 ], "y": [ 1, 8 ], "repeat": [ 3, 5 ], "chance": 70 } ]
+    }
+  },
+  {
+    "//": "4x4 office with SE wall door",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_office_east_door4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "dddd",
+        " c F",
+        "    ",
+        "HHH "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 25 },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
+        "H": { "item": "bed", "chance": 15 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "place_monster": [
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 2 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
+      ]
+    }
+  },
+  {
+    "//": "4x4 office with SE wall door",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_office_east_door4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "dc B",
+        "d  B",
+        "d  F",
+        "dc  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 25 },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
+        "H": { "item": "bed", "chance": 15 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "place_monster": [
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
+      ]
+    }
+  },
+  {
+    "//": "4x4 office with SE wall door",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_office_east_door4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "BFdd",
+        "F cd",
+        "dc  ",
+        "dd  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 25 },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
+        "H": { "item": "bed", "chance": 15 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "place_monster": [
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
+      ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with SE wall door",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_office_east_door4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "HHBB",
+        "   F",
+        "dc  ",
+        "ddx "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 25 },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
+        "H": { "item": "bed", "chance": 15 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "place_monster": [
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 2 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
+      ]
+    }
+  },
+  {
+    "//": "4x4 office with SE door",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_office_east_door4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "dddd",
+        "cddc",
+        "    ",
+        "BBF "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 25 },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
+        "H": { "item": "bed", "chance": 15 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "place_monster": [
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
+      ]
+    }
+  },
+  {
+    "//": "4x4 office with SE door",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_office_east_door4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "BFdd",
+        "F cd",
+        "dc  ",
+        "dd  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 25 },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
+        "H": { "item": "bed", "chance": 15 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "place_monster": [
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
+      ]
+    }
+  },
+  {
+    "//": "4x4 office with SE door",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_office_east_door4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "F HH",
+        "d  H",
+        "dc  ",
+        "dd  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 25 },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
+        "H": { "item": "bed", "chance": 15 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "place_monster": [
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 2 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
+      ]
+    }
+  },
+  {
+    "//": "4x4 office with SE door",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_office_east_door4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "dd H",
+        "dc H",
+        "d   ",
+        "BBB "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 25 },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
+        "H": { "item": "bed", "chance": 15 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "place_monster": [
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 2 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
+      ]
+    }
+  },
+  {
+    "//": "4x4 office with SW wall door",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_office_west_door4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "ddFB",
+        "dc F",
+        "  cd",
+        "  dd"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 25 },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
+        "F": { "item": "SUS_office_desk", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "place_monster": [
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
+      ]
+    }
+  },
+  {
+    "//": "4x4 office with SW wall door",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_office_west_door4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "BBHH",
+        "F   ",
+        "  cd",
+        " xdd"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 25 },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
+        "H": { "item": "bed", "chance": 15 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "place_monster": [
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 2 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
+      ]
+    }
+  },
+  {
+    "//": "4x4 office with SW door",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_office_west_door4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "dddd",
+        "cddc",
+        "    ",
+        " FBB"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 25 },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
+        "H": { "item": "bed", "chance": 15 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "place_monster": [
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
+      ]
+    }
+  },
+  {
+    "//": "4x4 office with SW wall door",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_office_west_door4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "dddd",
+        "F c ",
+        "    ",
+        " HHH"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 25 },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
+        "H": { "item": "bed", "chance": 15 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "place_monster": [
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 2 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
+      ]
+    }
+  },
+  {
+    "//": "4x4 office with SW door",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_office_west_door4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "HH F",
+        "H  d",
+        "  cd",
+        "  dd"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "items": {
+        "d": [
+          { "item": "SUS_office_desk", "chance": 25 },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
+        "H": { "item": "bed", "chance": 15 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "place_monster": [
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 2 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
+      ]
+    }
+  },
+  {
+    "//": "4x4 office with SW door",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_storage_room_west_door4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "CCCC",
+        "   z",
+        "   z",
+        "L  <"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "items": {
+        "C": { "item": "SUS_janitors_closet", "chance": 90 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
+      },
+      "place_item": [ { "item": "broom", "x": 0, "y": 1, "chance": 100 }, { "item": "mop", "x": 0, "y": 2, "chance": 100 } ],
+      "place_monster": [ { "monster": "mon_zombie_technician", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_se",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "H.H.H",
+        "H.H.H",
+        "....H",
+        "sHHHs",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "furniture": { "H": "f_bench" },
+      "terrain": {
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "m": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
+      "items": {
+        "s": [
+          { "item": "newspaper_recent", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "book_mag_gen", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_se",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        " ...H",
+        " .s.H",
+        " ...H",
+        " .HHH",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": {
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "m": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
+      "items": {
+        "s": [
+          { "item": "newspaper_recent", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "book_mag_gen", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_se",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "    H",
+        "    H",
+        "    H",
+        " SRRz",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "furniture": { "H": "f_bench" },
+      "items": { "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] } },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_sw",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "H.H.H",
+        "H.H.H",
+        "H....",
+        "sHHHs",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "furniture": { "H": "f_bench" },
+      "terrain": {
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "m": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
+      "items": {
+        "s": [
+          { "item": "newspaper_recent", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "book_mag_gen", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_sw",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "H... ",
+        "H.s. ",
+        "H... ",
+        "HHH. ",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": {
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "m": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
+      "items": {
+        "s": [
+          { "item": "newspaper_recent", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "book_mag_gen", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_sw",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "H    ",
+        "H    ",
+        "H    ",
+        "zRRS ",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "furniture": { "H": "f_bench" },
+      "items": { "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] } },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_ne",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "sHHHs",
+        "H....",
+        "H.H.H",
+        "H.H.H",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "furniture": { "H": "f_bench" },
+      "terrain": {
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "m": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
+      "items": {
+        "s": [
+          { "item": "newspaper_recent", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "book_mag_gen", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_ne",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        " .HHH",
+        " ...H",
+        " .s.H",
+        " ...H",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": {
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "m": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
+      "items": {
+        "s": [
+          { "item": "newspaper_recent", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "book_mag_gen", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_ne",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        " SRRz",
+        "    H",
+        "    H",
+        "    H",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "furniture": { "H": "f_bench" },
+      "items": { "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] } },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_nw",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "sHHHs",
+        "....H",
+        "H.H.H",
+        "H.H.H",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "furniture": { "H": "f_bench" },
+      "terrain": {
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "m": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
+      "items": {
+        "s": [
+          { "item": "newspaper_recent", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "book_mag_gen", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_nw",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "HHH. ",
+        "H... ",
+        "H.s. ",
+        "H... ",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": {
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "m": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
+      "items": {
+        "s": [
+          { "item": "newspaper_recent", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "book_mag_gen", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "Available space is 4x5",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_rest_area_4x4_corner_nw",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "zRRS ",
+        "H    ",
+        "H    ",
+        "H    ",
+        "     "
+      ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "furniture": { "H": "f_bench" },
+      "items": { "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] } },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "//": "11x11 side room with south center door.  This is an Osiris chamber room for Ascension-level biokinetic awakenings.",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_osiris_chamber_biokinesis_11x11",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "x̄..:x̄..:x̄..",
+        "...:...:...",
+        "...:...:...",
+        ":D:::D:::D:",
+        "...........",
+        "UU...U...UU",
+        "hh...h...hh",
+        "...........",
+        "NLNN.....ŁŁ",
+        "           ",
+        "           "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "nested": { "x̄": { "chunks": [ [ "phavian_hospital_lab_osiris_chamber_biokinesis", 1 ] ] } },
+      "place_item": [ { "item": "lab_file_obsidian_ring_item", "x": 3, "y": 10, "chance": 45 } ],
+      "items": {
+        "Ł": [
+          { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] },
+          { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] },
+          { "item": "decontamination_room", "chance": 10, "repeat": [ 1, 3 ] }
+        ],
+        "N": [
+          { "item": "psi_lab_no_recipes", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "matrix_crystal_biokin_dust_group", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "biokinetic_matrix_crystals_group", "chance": 15 }
+        ]
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 0, 10 ], "y": [ 6, 10 ], "repeat": [ 2, 4 ], "chance": 70 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_osiris_chamber_biokinesis",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        " T ",
+        "   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "terrain": { "T": "t_ascension_chamber_biokinesis" },
+      "place_computers": [
+        {
+          "x": 2,
+          "y": 2,
+          "name": "Project OBSIDIAN RING access",
+          "eocs": [ "EOC_OBSIDIAN_RING_COMPUTER_BIOKINESIS_DIALOGUE" ],
+          "chat_topics": [ "COMP_OBSIDIAN_RING_COMPUTER_BIOKINESIS" ]
+        }
+      ]
+    }
+  },
+  {
+    "//": "11x11 side room with south center door.  This is an Osiris chamber room for Ascension-level vitakinetic awakenings.",
+    "//2": "Available area is 11x9, hence the empty rows",
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_osiris_chamber_vitakinesis_11x11",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "x̄..:x̄..:x̄..",
+        "...:...:...",
+        "...:...:...",
+        ":D:::D:::D:",
+        "...........",
+        "UU...U...UU",
+        "hh...h...hh",
+        "...........",
+        "NLNN.....ŁŁ",
+        "           ",
+        "           "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "nested": { "x̄": { "chunks": [ [ "phavian_hospital_lab_osiris_chamber_vitakinesis", 1 ] ] } },
+      "place_item": [ { "item": "lab_file_obsidian_ring_item", "x": 3, "y": 10, "chance": 45 } ],
+      "items": {
+        "Ł": [
+          { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] },
+          { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] },
+          { "item": "decontamination_room", "chance": 10, "repeat": [ 1, 3 ] }
+        ],
+        "N": [
+          { "item": "psi_lab_no_recipes", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "matrix_crystal_vitakin_dust_group", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 0, 10 ], "y": [ 6, 10 ], "repeat": [ 2, 4 ], "chance": 70 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "phavian_hospital_lab_osiris_chamber_vitakinesis",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        " T ",
+        "   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "terrain": { "T": "t_ascension_chamber_vitakinesis" },
+      "place_computers": [
+        {
+          "x": 2,
+          "y": 2,
+          "name": "Project OBSIDIAN RING access",
+          "eocs": [ "EOC_OBSIDIAN_RING_COMPUTER_VITAKINESIS_DIALOGUE" ],
+          "chat_topics": [ "COMP_OBSIDIAN_RING_COMPUTER_VITAKINESIS" ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "This is a security area near the elevator. Available area is part of 12x6, but L-shaped",
+    "nested_mapgen_id": "phavian_hospital_lab_security_area_12x12",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "v...UvvvUv.C",
+        "vh..h.h.h..C",
+        "vh.........C",
+        "v.....hv    ",
+        "Ł...h.hv    ",
+        "Ł...vvvU    ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_hospital_lab" ],
+      "items": {
+        "d": [ { "item": "SUS_office_desk", "chance": 70 }, { "item": "dist_lab_file_phavian_internal", "chance": 2 } ],
+        "Ł": [
+          { "item": "prison_weapons", "chance": 30 },
+          { "item": "prison_armor", "chance": 30 },
+          { "item": "security_torso", "chance": 20 },
+          { "item": "security_pants", "chance": 20 },
+          { "item": "security_shoes", "chance": 20 },
+          { "item": "phavian_lab_security", "chance": 20 }
+        ]
+      },
+      "place_monster": [
+        { "group": "GROUP_LAB_SECURITY_PHAVIAN", "x": [ 0, 11 ], "y": [ 1, 2 ], "chance": 100, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_LAB_SECURITY_PHAVIAN", "x": [ 0, 8 ], "y": [ 0, 5 ], "chance": 60, "repeat": [ 1, 3 ] }
+      ]
+    }
+  }
+]
