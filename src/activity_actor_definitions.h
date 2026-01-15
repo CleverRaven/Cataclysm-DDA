@@ -3137,6 +3137,53 @@ class unload_loot_activity_actor : public zone_activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+enum class assisted_pulp_type : int { SPELL };
+template<>
+struct enum_traits<assisted_pulp_type> {
+    static constexpr assisted_pulp_type last = assisted_pulp_type::SPELL;
+};
+
+namespace io
+{
+template<>
+std::string enum_to_string<assisted_pulp_type>( assisted_pulp_type type );
+} // namespace io
+
+class assisted_pulp_activity_actor : public activity_actor
+{
+    public:
+
+        assisted_pulp_activity_actor() = default;
+        assisted_pulp_activity_actor( const tripoint_bub_ms &target, spell_id sp_id ) : assist_type( assisted_pulp_type::SPELL ), target( target ), sp_id( sp_id ) {}
+        const activity_id &get_type() const override {
+            static const activity_id ACT_ASSISTED_PULP( "ACT_ASSISTED_PULP" );
+            return ACT_ASSISTED_PULP;
+        }
+
+        void start( player_activity &act, Character &you ) override;
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<assisted_pulp_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        // recalculates the corpses set.  Returns if there are any pulpable corpses left.
+        bool calculate_corpses_in_area( Character &you );
+
+        tripoint_bub_ms target;
+        assisted_pulp_type assist_type;
+        std::set<item> corpses;
+        int num_corpses = 0;
+
+        // spell pulping
+        spell_id sp_id;
+};
+
 class pulp_activity_actor : public activity_actor
 {
     public:

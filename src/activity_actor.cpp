@@ -129,6 +129,7 @@
 #include "vpart_range.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
+static const activity_id ACT_ASSISTED_PULP( "ASSISTED_PULP" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_BASH( "ACT_BASH" );
 static const activity_id ACT_BIKERACK_RACKING( "ACT_BIKERACK_RACKING" );
@@ -10508,6 +10509,115 @@ std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonValue &jsi
     data.read( "time", actor.requirements.time );
     data.read( "water", actor.requirements.water );
     data.read( "cleanser", actor.requirements.cleanser );
+    return actor.clone();
+}
+
+namespace io
+{
+template<>
+std::string enum_to_string<assisted_pulp_type>( assisted_pulp_type type )
+{
+    switch( type ) {
+        case assisted_pulp_type::SPELL: return "SPELL";
+        default:
+            cata_fatal( "Invalid based_on_type in enum_to_string" );
+    }
+}
+} // namespace io
+
+bool assisted_pulp_activity_actor::calculate_corpses_in_area( Character &you )
+{
+    map &here = get_map();
+    corpses = {};
+    if( assist_type == assisted_pulp_type::SPELL ) {
+        spell &sp = you.magic->get_spell( sp_id );
+        const std::set<tripoint_bub_ms> area = spell_effect::spell_effect_area( sp, target, you );
+
+        for( const tripoint_bub_ms &potential_target : area ) {
+            if( !sp.is_valid_target( you, potential_target ) ) {
+                continue;
+            }
+            for( item &potential_corpse : here.i_at( potential_target ) ) {
+                if( potential_corpse.can_revive() ) {
+                    corpses.insert( potential_corpse );
+                }
+            }
+        }
+    }
+    return !corpses.empty();
+}
+
+void assisted_pulp_activity_actor::start( player_activity &act, Character &you )
+{
+    // indefinitely long so activity won't end until we pulp all the corpses
+    // we then end the activity manually
+    act.moves_total = calendar::INDEFINITELY_LONG;
+    act.moves_left = calendar::INDEFINITELY_LONG;
+    add_msg("assisted_pulp_activity_actor: start" );
+
+    if( assist_type == assisted_pulp_type::SPELL) {
+        if( !calculate_corpses_in_area( you ) ) { // Immediately stop activity if no corpses to pulp
+            act.set_to_null();
+            return;
+        }
+    } else {
+        debugmsg("%s tried assisted pulping without a valid assisted pulp type!", you.name );
+        act.set_to_null();
+        return;
+    }
+}
+
+void assisted_pulp_activity_actor::do_turn( player_activity &act, Character &you )
+{
+
+    if( assist_type == assisted_pulp_type::SPELL ) {
+        spell &sp = you.magic->get_spell( sp_id );
+        you.cast_spell( sp, false, target );
+        add_msg("assisted_pulp_activity_actor: do_turn: spell=%s", sp.id().c_str() );
+    }
+
+    // If nothing to pulp, stop the activity.
+    // if( !calculate_corpses_in_area( you ) ) {
+    if( true ) {
+        act.moves_total = 0;
+        act.moves_left = 0;
+    }
+}
+
+void assisted_pulp_activity_actor::finish( player_activity &act, Character &you )
+{
+    act.moves_total = 0;
+    act.moves_left = 0;
+    add_msg("assisted_pulp_activity_actor: finish" );
+
+    act.set_to_null();
+}
+
+void assisted_pulp_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "target", target );
+    jsout.member( "assist_type", assist_type );
+    // jsout.member( "corpses", corpses );
+    // jsout.member( "num_corpses", num_corpses );
+    // jsout.member( "sp", sp );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> assisted_pulp_activity_actor::deserialize( JsonValue &jsin )
+{
+    assisted_pulp_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "target", actor.target );
+    data.read( "assist_type", actor.assist_type );
+    // data.read( "corpses", actor.corpses );
+    // data.read( "num_corpses", actor.num_corpses );
+    // data.read( "sp", actor.sp );
+
     return actor.clone();
 }
 

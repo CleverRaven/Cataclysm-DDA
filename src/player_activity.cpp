@@ -189,6 +189,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
 
 void player_activity::start_or_resume( Character &who, bool resuming )
 {
+    add_msg("player_activity::start_or_resume()");
     if( actor && !resuming ) {
         actor->start( *this, who );
     }
