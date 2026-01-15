@@ -64,12 +64,7 @@
     "ugliness": 2,
     "allow_soft_gear": true,
     "restricts_gear": [ "head_crown" ],
-    "attacks": {
-      "attack_text_u": "You stab %s with your pointed horns!",
-      "attack_text_npc": "%1$s stabs %2$s with their pointed horns!",
-      "chance": 22,
-      "base_damage": { "damage_type": "stab", "amount": 24 }
-    }
+    "integrated_armor": [ "integrated_horns_pointed" ]
   },
   {
     "type": "mutation",
