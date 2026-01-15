@@ -1,3 +1,18 @@
 [
-  UPLIFTED
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_NONE_ENKINDLING",
+    "effect": [ { "u_message": "You feel the pressure of the tincture against your skin, but nothing happens.", "type": "neutral" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_GEIST_ENKINDLING",
+    "effect": [
+      {
+        "u_message": "You feel the pressure of the tincture against your skin and a warmth slowly spreads through your body.",
+        "type": "mixed"
+      },
+      { "math": [ "_tincture_duration = 7200 + rand(10800)" ] }
+    ]
+  }
 ]
