@@ -15,7 +15,13 @@
     "type": "effect_on_condition",
     "id": "EOC_DECIPHERING_NEW_HEDGE_TOME_TIME_TRACKER",
     "condition": { "math": [ "u_most_recent_hedge_research_progress <= u_most_recent_hedge_research_difficulty" ] },
-    "effect": [ { "math": [ "u_most_recent_hedge_research_time += 1" ] } ],
+    "effect": [
+      { "math": [ "u_most_recent_hedge_research_time += 1" ] },
+      {
+        "if": { "and": [ { "math": [ "u_val('fine_detail_vision_mod') >= 4" ] }, { "not": { "u_has_flag": "READ_IN_DARKNESS" } } ] },
+        "then": [ "u_cancel_activity", { "u_message": "It's too dark to continue studying the occult.", "type": "bad" } ]
+      }
+    ],
     "false_effect": [ { "run_eocs": { "u_val": "latest_completion_eoc" } } ]
   },
   {
