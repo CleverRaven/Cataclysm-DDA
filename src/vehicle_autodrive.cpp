@@ -1437,12 +1437,18 @@ autodrive_result vehicle::do_autodrive( map &here, Character &driver )
     const tripoint_abs_ms veh_pos = pos_abs();
     const tripoint_abs_omt veh_omt = project_to<coords::omt>( veh_pos );
     std::vector<tripoint_abs_omt> &omt_path = driver.omt_path;
+    // following code finds the last overmap path tile matched to the vehicle coordinates
+    // usually it's just the last in the path vector, but we may skip it is we drive fast and cross the tile in a corner
     const auto veh_on_path = std::find_if( omt_path.rbegin(),
     omt_path.rend(), [xy = veh_omt.xy()]( const auto & path ) {
         return path.xy() == xy;
     } );
     if( veh_on_path != omt_path.rend() ) {
         omt_path.erase( ( veh_on_path + 1 ).base(), omt_path.end() );
+        // it removes XY duplicates spanned across mupltiple Z levels
+        while( !omt_path.empty() && veh_omt.xy() == omt_path.back().xy() ) {
+            omt_path.pop_back();
+        }
     }
     if( omt_path.empty() ) {
         stop_autodriving( false );
