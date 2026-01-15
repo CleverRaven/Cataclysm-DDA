@@ -466,7 +466,7 @@
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_STRANGE_TEMPLE",
     "type": "talk_topic",
-    "dynamic_line": "Never saw anything like that place before.  Set the HEW station up right next to the pedestle, yeah?  Don't want you goin' in and gettin' yoinked.",
+    "dynamic_line": "Never saw anything like that place before.  Set the HEW station up right next to the pedestal, yeah?  Don't want you goin' in and gettin' yoinked.",
     "responses": [ { "text": "Thanks, good idea.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {
