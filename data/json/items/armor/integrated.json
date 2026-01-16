@@ -1862,5 +1862,31 @@
         "encumbrance": 2
       }
     ]
+  },
+  {
+    "id": "integrated_horns_pointed",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "pointed horns" },
+    "description": "You have a set of long pointed horns, like those of a antelope.",
+    "weight": "2000 g",
+    "volume": "2500 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "bone" ],
+    "symbol": "V",
+    "color": "dark_gray",
+    "techniques": [ "POINTED_HORNS_STAB", "POINTED_HORNS_STAB_NATURAL", "POINTED_HORNS_STAB_CRIT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown" ],
+        "coverage": 20,
+        "encumbrance": 2
+      }
+    ]
   }
 ]
