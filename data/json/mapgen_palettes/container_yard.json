@@ -465,7 +465,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "furniture": { " ": "f_pallet_belted" },
-      "items": { " ": { "item": "glue_strong_professional_full", "chance": 95, "repeat": [ 1,10 ] } }
+      "items": { " ": { "item": "glue_strong_professional_full", "chance": 95, "repeat": [ 1, 10 ] } }
     }
   },
   {
