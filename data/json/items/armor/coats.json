@@ -412,7 +412,7 @@
         "encumbrance": [ 16, 25 ],
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
-          { "type": "down_feathers", "covered_by_mat": 95, "thickness": 4 }
+          { "type": "down_feathers", "covered_by_mat": 100, "thickness": 4 }
         ]
       },
       {
@@ -421,7 +421,7 @@
         "encumbrance": [ 16, 16 ],
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
-          { "type": "down_feathers", "covered_by_mat": 95, "thickness": 3.5 }
+          { "type": "down_feathers", "covered_by_mat": 100, "thickness": 4 }
         ]
       }
     ],

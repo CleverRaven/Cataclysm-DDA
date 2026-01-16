@@ -3297,6 +3297,6 @@
       { "fuel": 1.8, "smoke": 1, "burn": 0.075 }
     ],
     "resist": { "bash": 0.5, "cut": 0.1, "acid": 4, "heat": 0, "bullet": 0 },
-    "repair_difficulty": 1
+    "repair_difficulty": 4
   }
 ]
