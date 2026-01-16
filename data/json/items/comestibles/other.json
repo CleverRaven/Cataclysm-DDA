@@ -237,7 +237,9 @@
       [ "mutagenic_slurry", 25 ],
       [ "mutagen_alpha", 75 ]
     ],
-    "looks_like": "royal_jelly"
+    "looks_like": "royal_jelly",
+    "addiction_potential": 3,
+    "addiction_type": "mutagen"
   },
   {
     "type": "ITEM",
