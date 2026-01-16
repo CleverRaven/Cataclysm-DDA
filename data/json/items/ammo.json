@@ -726,7 +726,7 @@
     "symbol": "=",
     "color": "brown",
     "description": "A fluffy down feather from a bird.  Useful for making cozy bedclothes.",
-    "material": [ "cotton" ],
+    "material": [ "down_feathers" ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
     "weight": "1 g",
