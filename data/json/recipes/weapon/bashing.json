@@ -1703,11 +1703,11 @@
     "skill_used": "fabrication",
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "GRIND", "level": 2 } ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CUT", "level": 2 }, { "id": "GRIND", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
     "components": [
       [ [ "bat", 1 ] ],
-      [ [ "pipe", 1 ] ],
+      [ [ "pipe_fittings", 1 ] ],
       [ [ "spike", 1 ], [ "knife_small", 1 ], [ "knife_folding", 1 ], [ "scalpel", 1 ], [ "xacto", 1 ] ]
     ]
   }
