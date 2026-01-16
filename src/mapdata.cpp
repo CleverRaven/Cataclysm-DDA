@@ -1262,7 +1262,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
         JsonArray ja = jo.get_array( "phase_targets" );
         for( const JsonValue v : ja ) {
             if( v.test_string() ) {
-                phase_targets.push_back( ter_str_id( v.get_string() ) );
+                phase_targets.emplace_back( ter_str_id( v.get_string() ) );
             } else {
                 jo.throw_error( "phase_targets must be an array of terrain id strings" );
             }
@@ -1274,12 +1274,12 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
         for( const JsonValue v : ja ) {
             if( v.test_number() ) {
                 // Interpret numeric values as degrees Celsius in JSON
-                phase_temps.push_back( units::from_celsius( v.get_float() ) );
+                phase_temps.emplace_back( units::from_celsius( v.get_float() ) );
             } else if( v.test_string() ) {
                 const std::string s = v.get_string();
                 try {
                     const double val = std::stod( s );
-                    phase_temps.push_back( units::from_celsius( val ) );
+                    phase_temps.emplace_back( units::from_celsius( val ) );
                 } catch( const std::exception & ) {
                     jo.throw_error( "phase_temps entries must be numbers (Celsius) or numeric strings" );
                 }
