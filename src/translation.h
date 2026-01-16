@@ -5,8 +5,6 @@
 #include <optional>
 #include <string>
 
-#include <fmt/printf.h>
-
 #include "translation_cache.h"
 #include "value_ptr.h"
 

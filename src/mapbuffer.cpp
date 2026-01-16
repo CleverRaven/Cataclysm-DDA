@@ -383,8 +383,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
             std::optional<zzip> z = zzip::load( zzip_name.get_unrelative_path(),
                                                 ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
             if( !z ) {
-                debugmsg( "Failed to load submaps from %s, could not open zzip.",
-                          zzip_name.generic_u8string().c_str() );
+                debugmsg( _fmt( "Failed to load submaps from {0}, could not open zzip.", zzip_name ) );
                 return false;
             }
             if( !z->has_file( file_name_path ) ) {
