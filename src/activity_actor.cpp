@@ -1602,7 +1602,7 @@ void bionic_operation_activity_actor::do_turn( player_activity &act, Character &
             if( std::optional<bionic *> bio = who.find_bionic_by_uid( uninstalled_bionic ) ) {
                 who.perform_uninstall( **bio, operation_difficulty, operation_success, operation_skill );
             } else {
-                debugmsg( _( "Tried to uninstall bionic with UID %s, but you don't have this bionic installed." ),
+                debugmsg( _( "Tried to uninstall bionic with UID %u, but you don't have this bionic installed." ),
                           uninstalled_bionic );
                 who.remove_effect( effect_under_operation );
                 act.set_to_null();
@@ -1623,7 +1623,7 @@ void bionic_operation_activity_actor::do_turn( player_activity &act, Character &
                 who.perform_install( bid, upbio_uid, operation_difficulty, operation_success, operation_skill,
                                      installer_name, bid->canceled_mutations, actor_pos );
             } else {
-                debugmsg( _( "%s is no a valid bionic_id" ), bid.c_str() );
+                debugmsg( _( "%s is not a valid bionic_id" ), bid.c_str() );
                 who.remove_effect( effect_under_operation );
                 act.set_to_null();
             }
@@ -11441,7 +11441,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         if( !thisitem_loc ) {
             if( !dropoff_coords.empty() && !picked_up_stuff.empty() ) {
                 you.add_msg_if_player( m_info,
-                                       _( "Not enough space to pick up %s during sorting, moving to destination with %d current items." ),
+                                       _( "Not enough space to pick up %s during sorting, moving to destination with %zu current items." ),
                                        copy_thisitem.tname(), picked_up_stuff.size() );
                 break; // Stop trying to pick stuff up
             } else if( num_processed == 1 ) {  // This is the very first item to process
