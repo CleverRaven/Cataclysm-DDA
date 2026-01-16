@@ -1101,14 +1101,14 @@
       {
         "id": "pants_alpine",
         "name": { "str_sp": "alpine-camo khaki pants" },
-        "description": "The companion of aspiring mountaineers and alpine hunters, these brown, gray, and white dyed pants possess a network of jagged shapes and mottled lines, designed to break up the wearer's profile and better conceal them against the background landscape of mountains.",
+        "description": "The companion of aspiring mountaineers and alpine hunters, these brown, gray, and white dyed khaki pants possess a network of jagged shapes and mottled lines, designed to break up the wearer's profile and better conceal them against the background landscape of mountains.",
         "color": "light_gray",
         "weight": 6
       },
       {
         "id": "pants_urban",
         "name": { "str_sp": "urban-camo khaki pants" },
-        "description": "A set of rugged yet comfortable pants dyed in various scales of gray, black, and dirty white, possessing a set of sizable pockets, and printed with squares and irregular polygons to disrupt a wearer's silhouette within man-made environments.  You would honestly not be surprised if you learned that this singular pair of trousers contains 50 shades of gray.",
+        "description": "A set of comfortable pants dyed in various scales of gray, black, and dirty white, printed with squares and irregular polygons to disrupt a wearer's silhouette within man-made environments.  You would honestly not be surprised if you learned that this singular pair of trousers contains 50 shades of gray.",
         "color": "dark_gray",
         "weight": 6
       },
