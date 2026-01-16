@@ -6248,19 +6248,22 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
     }
 
     auto apply_phase_thresholds = [&]( const ter_t & tt, const ter_str_id & base_id ) -> ter_str_id {
-        if( tt.phase_targets.empty() ) {
+        if( tt.phase_targets.empty() )
+        {
             return ter_t_pseudo_phase;
         }
         const size_t targ_n = tt.phase_targets.size();
         const size_t temp_n = tt.phase_temps.size();
-        if( temp_n + 1 != targ_n ) {
+        if( temp_n + 1 != targ_n )
+        {
             debugmsg( "ter %s: phase_targets and phase_temps length mismatch (expected temps == targets-1)",
                       base_id.str() );
             return ter_t_pseudo_phase;
         }
         std::vector<ter_str_id> targets;
         targets.reserve( targ_n );
-        for( size_t i = 0; i < targ_n; ++i ) {
+        for( size_t i = 0; i < targ_n; ++i )
+        {
             ter_str_id target = tt.phase_targets[i];
             if( target == ter_t_pseudo_phase ) {
                 target = base_id;
@@ -6268,18 +6271,21 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
             targets.push_back( target );
         }
 
-        if( standard < tt.phase_temps[0] ) {
+        if( standard < tt.phase_temps[0] )
+        {
             return targets[0];
         }
 
         // Intermediate ranges: inclusive upper bound
-        for( size_t i = 0; i + 1 < temp_n; ++i ) {
+        for( size_t i = 0; i + 1 < temp_n; ++i )
+        {
             if( standard >= tt.phase_temps[i] && standard <= tt.phase_temps[i + 1] ) {
                 return targets[i + 1];
             }
         }
 
-        if( standard > tt.phase_temps.back() ) {
+        if( standard > tt.phase_temps.back() )
+        {
             return targets.back();
         }
 
@@ -6288,7 +6294,7 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
 
     // No original recorded: evaluate using the current terrain's rules and
     // record original before transforming.
-    
+
     const ter_str_id chosen = apply_phase_thresholds( cur_ter, cur_id );
     if( chosen != ter_t_pseudo_phase && chosen != cur_id ) {
         // Record original terrain so it can be reverted later
