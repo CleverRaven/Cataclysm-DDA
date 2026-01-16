@@ -297,5 +297,15 @@
     "subtype": "collection",
     "container-item": "bottle_plastic_pill_supplement",
     "entries": [ { "item": "caffeine", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "royal_bee_food",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "honeycomb", "prob": 30 },
+      { "item": "royal_jelly_mutant", "prob": 60 },
+      { "item": "royal_jelly", "prob": 10 }
+    ]
   }
 ]
