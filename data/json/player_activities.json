@@ -630,7 +630,7 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "using the ATM",
-    "based_on": "neither",
+    "based_on": "time",
     "can_resume": false
   },
   {

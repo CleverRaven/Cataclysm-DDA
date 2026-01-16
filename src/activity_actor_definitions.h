@@ -1118,6 +1118,45 @@ class efile_activity_actor : public activity_actor
         time_duration charge_time( efile_action action_type );
 };
 
+enum atm_options : int {
+    cancel,
+    // these have no do_turn, only finish
+    purchase_card,
+    deposit_money,
+    withdraw_money,
+    // these have do_turn
+    exchange_cash,
+    transfer_all_money
+};
+
+// all items for ATMs are automatically obtained through the inventory cache
+class atm_activity_actor : public activity_actor
+{
+    public:
+        explicit atm_activity_actor( atm_options option_selected, int cash_amount = 0 ) :
+            option_selected( option_selected ), cash_amount( cash_amount ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_ATM( "ACT_ATM" );
+            return ACT_ATM;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<atm_activity_actor>( *this );
+        }
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        atm_activity_actor() = default;
+        atm_options option_selected;
+        // for deposit/withdrawal only
+        int cash_amount;
+};
+
 class fish_activity_actor : public activity_actor
 {
     public:

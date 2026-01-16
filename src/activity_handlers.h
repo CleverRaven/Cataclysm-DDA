@@ -194,7 +194,6 @@ void generic_game_turn_handler( player_activity *act, Character *you, int morale
                                 int morale_max_bonus );
 
 /** activity_do_turn functions: */
-void atm_do_turn( player_activity *act, Character *you );
 void dismember_do_turn( player_activity *act, Character *you );
 void chop_trees_do_turn( player_activity *act, Character *you );
 void fertilize_plot_do_turn( player_activity *act, Character *you );
@@ -224,7 +223,6 @@ extern const std::map< activity_id, std::function<void( player_activity *, Chara
 do_turn_functions;
 
 /** activity_finish functions: */
-void atm_finish( player_activity *act, Character *you );
 void heat_item_finish( player_activity *act, Character *you );
 void mend_item_finish( player_activity *act, Character *you );
 void pull_creature_finish( player_activity *act, Character *you );

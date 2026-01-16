@@ -100,13 +100,10 @@
 #include "vpart_range.h"
 #include "weather.h"
 
-static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
 static const addiction_id addiction_opiate( "opiate" );
-
-static const ammotype ammo_money( "money" );
 
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
@@ -838,9 +835,6 @@ class atm_menu
 {
     public:
         // menu choices
-        enum options : int {
-            cancel, purchase_card, deposit_money, withdraw_money, exchange_cash, transfer_all_money
-        };
 
         atm_menu()                           = delete;
         atm_menu( atm_menu const & )            = delete;
@@ -853,29 +847,24 @@ class atm_menu
         }
 
         void start() {
-            for( bool result = false; !result; ) {
-                switch( choose_option() ) {
-                    case purchase_card:
-                        result = do_purchase_card();
-                        break;
-                    case deposit_money:
-                        result = do_deposit_money();
-                        break;
-                    case withdraw_money:
-                        result = do_withdraw_money();
-                        break;
-                    case exchange_cash:
-                        result = do_exchange_cash();
-                        break;
-                    case transfer_all_money:
-                        result = do_transfer_all_money();
-                        break;
-                    default:
-                        return;
-                }
-                if( !you.activity.is_null() ) {
+            switch( choose_option() ) {
+                case purchase_card:
+                    do_purchase_card();
                     break;
-                }
+                case deposit_money:
+                    do_deposit_money();
+                    break;
+                case withdraw_money:
+                    do_withdraw_money();
+                    break;
+                case exchange_cash:
+                    do_exchange_cash();
+                    break;
+                case transfer_all_money:
+                    do_transfer_all_money();
+                    break;
+                default:
+                    return;
             }
         }
     private:
@@ -886,13 +875,10 @@ class atm_menu
             amenu.addentry( i, false, -1, title );
         }
 
-        options choose_option() {
-            if( you.activity.id() == ACT_ATM ) {
-                return static_cast<options>( you.activity.index );
-            }
+        atm_options choose_option() {
             amenu.query();
             uistate.iexamine_atm_selected = amenu.selected;
-            return amenu.ret < 0 ? cancel : static_cast<options>( amenu.ret );
+            return amenu.ret < 0 ? cancel : static_cast<atm_options>( amenu.ret );
         }
 
         //! Reset and repopulate the menu; with a fair bit of work this could be more efficient.
@@ -943,19 +929,6 @@ class atm_menu
             }
         }
 
-        //! print a bank statement for @p print = true;
-        void finish_interaction( const bool print = true ) {
-            if( print ) {
-                if( you.cash < 0 ) {
-                    add_msg( m_info, _( "Your debt is now %s." ), format_money( you.cash ) );
-                } else {
-                    add_msg( m_info, _( "Your account now holds %s." ), format_money( you.cash ) );
-                }
-            }
-
-            you.mod_moves( -to_moves<int>( 5_seconds ) );
-        }
-
         //! Prompt for an integral value clamped to [0, max].
         static int prompt_for_amount( const char *const msg, const int max ) {
             int amount = max;
@@ -972,13 +945,7 @@ class atm_menu
                 return false;
             }
 
-            item card( itype_cash_card, calendar::turn );
-            card.ammo_set( card.ammo_default(), 0 );
-            you.i_add( card );
-            you.cash -= 1000;
-            you.mod_moves( -to_moves<int>( 5_seconds ) );
-            finish_interaction();
-
+            you.assign_activity( atm_activity_actor( purchase_card ) );
             return true;
         }
 
@@ -999,25 +966,12 @@ class atm_menu
                 return false;
             }
 
-            add_msg( m_info, _( "You deposit %s into your account." ), format_money( amount ) );
-            you.use_charges( itype_cash_card, amount );
-            you.cash += amount;
-            you.mod_moves( -to_moves<int>( 10_seconds ) );
-            finish_interaction();
-
+            you.assign_activity( atm_activity_actor( deposit_money, amount ) );
             return true;
         }
 
         //!Move money from bank account onto cash card.
         bool do_withdraw_money() {
-            std::vector<item *> cash_cards_on_hand = you.cache_get_items_with( "is_cash_card",
-                    &item::is_cash_card );
-            if( cash_cards_on_hand.empty() ) {
-                //Just in case we run into an edge case
-                popup( _( "You do not have a cash card to withdraw money!" ) );
-                return false;
-            }
-
             const int amount = prompt_for_amount( n_gettext(
                     "Withdraw how much?  Max: %d cent.  (0 to cancel) ",
                     "Withdraw how much?  Max: %d cents.  (0 to cancel) ", you.cash ), you.cash );
@@ -1026,137 +980,23 @@ class atm_menu
                 return false;
             }
 
-            int inserted = 0;
-            int remaining = amount;
-
-            std::sort( cash_cards_on_hand.begin(), cash_cards_on_hand.end(), []( item * one, item * two ) {
-                int balance_one = one->ammo_remaining( );
-                int balance_two = two->ammo_remaining( );
-                return balance_one > balance_two;
-            } );
-
-            for( item * const &cc : cash_cards_on_hand ) {
-                if( inserted == amount ) {
-                    break;
-                }
-                int max_cap = cc->ammo_capacity( ammo_money ) - cc->ammo_remaining( );
-                int to_insert = std::min( max_cap, remaining );
-                // insert whatever there's room for + the old balance.
-                cc->ammo_set( cc->ammo_default(), to_insert + cc->ammo_remaining( ) );
-                inserted += to_insert;
-                remaining -= to_insert;
-            }
-
-            if( remaining ) {
-                add_msg( m_info, _( "All cash cards at maximum capacity." ) );
-            }
-
-            //dst->charges += amount;
-            you.cash -= amount - remaining;
-            you.mod_moves( -to_moves<int>( 10_seconds ) );
-            finish_interaction();
-
+            you.assign_activity( atm_activity_actor( withdraw_money, amount ) );
             return true;
         }
 
         //!Deposit pre-Cataclysm currency and receive equivalent amount minus fees on a card.
         bool do_exchange_cash() {
-            item *dst;
-            if( you.activity.id() == ACT_ATM ) {
-                dst = you.activity.targets.front().get_item();
-                you.activity.set_to_null();
-                if( dst->is_null() || dst->typeId() != itype_cash_card ) {
-                    debugmsg( "do_exchange_cash lost the destination card" );
-                    return false;
-                }
-            } else {
-                const std::vector<item *> cash_cards = you.cache_get_items_with( "is_cash_card",
-                                                       &item::is_cash_card );
-                if( cash_cards.empty() ) {
-                    popup( _( "You do not have a cash card." ) );
-                    return false;
-                }
-                dst = *std::max_element( cash_cards.begin(), cash_cards.end(), []( const item * a,
-                const item * b ) {
-                    return a->ammo_remaining( ) < b->ammo_remaining( );
-                } );
-                if( !query_yn( _( "Exchange all paper bills and coins in inventory?" ) ) ) {
-                    return false;
-                }
-            }
 
-            item *cash_item = nullptr;
-            you.visit_items( [&]( item * e, const item * ) {
-                if( e->type->has_flag( flag_OLD_CURRENCY ) ) {
-                    cash_item = e;
-                    return VisitResponse::ABORT;
-                }
-                return VisitResponse::NEXT;
-            } );
-            if( !cash_item ) {
+            if( !query_yn( _( "Exchange all paper bills and coins in inventory?" ) ) ) {
                 return false;
             }
-            // Feeding a bill into the machine takes at least one turn
-            you.mod_moves( -std::max( 100, you.get_moves() ) );
-            int value = units::to_cent( cash_item->type->price );
-            value *= 0.99;  // subtract fee
-            if( value > dst->ammo_capacity( ammo_money ) - dst->ammo_remaining( ) ) {
-                popup( _( "Destination card is full." ) );
-                return false;
-            }
-            if( cash_item->charges > 1 ) {
-                cash_item->charges--;
-            } else {
-                item_location( you, cash_item ).remove_item();
-            }
-            dst->ammo_set( dst->ammo_default(), dst->ammo_remaining( ) + value );
-            you.assign_activity( ACT_ATM, 0, exchange_cash );
-            you.activity.targets.emplace_back( you, dst );
+            you.assign_activity( atm_activity_actor( exchange_cash ) );
             return true;
         }
 
         //!Move the money from all the cash cards in inventory to a single card.
         bool do_transfer_all_money() {
-            item *dst;
-            std::vector<item *> cash_cards_on_hand = you.cache_get_items_with( "is_cash_card",
-                    &item::is_cash_card );
-            if( you.activity.id() == ACT_ATM ) {
-                dst = you.activity.targets.front().get_item();
-                you.activity.set_to_null(); // stop for now, if required, it will be created again.
-                if( dst->is_null() || dst->typeId() != itype_cash_card ) {
-                    debugmsg( "do_transfer_all_money lost the destination card" );
-                    return false;
-                }
-            } else {
-
-                if( cash_cards_on_hand.empty() ) {
-                    return false;
-                }
-                dst = *cash_cards_on_hand.begin();
-            }
-
-            for( item *i : cash_cards_on_hand ) {
-                if( i == dst || i->ammo_remaining( ) <= 0 || i->typeId() != itype_cash_card ) {
-                    continue;
-                }
-                if( you.get_moves() < 0 ) {
-                    // Money from `*i` could be transferred, but we're out of moves, schedule it for
-                    // the next turn. Putting this here makes sure there will be something to be
-                    // done next turn.
-                    you.assign_activity( ACT_ATM, 0, transfer_all_money );
-                    you.activity.targets.emplace_back( you, dst );
-                    break;
-                }
-                // should we check for max capacity here?
-                if( i->ammo_remaining( ) > dst->ammo_capacity( ammo_money ) - dst->ammo_remaining( ) ) {
-                    popup( _( "Destination card is full." ) );
-                    return false;
-                }
-                dst->ammo_set( dst->ammo_default(), i->ammo_remaining( ) + dst->ammo_remaining( ) );
-                i->ammo_set( i->ammo_default(), 0 );
-                you.mod_moves( -to_moves<int>( 1_seconds ) * 0.1 );
-            }
-
+            you.assign_activity( atm_activity_actor( transfer_all_money ) );
             return true;
         }
 
