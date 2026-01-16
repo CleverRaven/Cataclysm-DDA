@@ -1106,13 +1106,15 @@
       { "group": "games_board_all", "premium": 2.5 },
       { "category": "clothing", "price": 0 },
       { "group": "SUS_bathroom_sink", "price": 0 },
-      { "group": "SUS_bathroom_medicine", "price": 0 },
+      { "group": "exodii_unwanted_bathroom_medicine", "price": 0 },
       { "group": "SUS_toilet", "price": 0 },
       { "group": "SUS_bathroom_cabinet", "price": 0 },
       { "group": "SUS_dishes", "price": 0 },
       { "group": "SUS_cookware", "price": 0 },
       { "group": "SUS_utensils", "price": 0 },
       { "group": "SUS_junk_drawer", "price": 0 },
+      { "group": "SUS_junk_drawer_messy", "price": 0 },
+      { "group": "SUS_junk_drawer_artsy", "price": 0 },
       { "group": "SUS_kitchen_sink", "price": 0 }
     ],
     "relations": {
