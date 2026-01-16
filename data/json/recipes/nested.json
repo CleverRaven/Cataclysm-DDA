@@ -7123,7 +7123,7 @@
       "spear_wood",
       "spear_wood_simple",
       "nested_pikes",
-      "makeshift_goedendag"
+      "crude_goedendag"
     ]
   },
   {
@@ -8385,7 +8385,7 @@
     "name": "bats",
     "description": "Recipes for making baseball bats and improving them with various materials.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "bat", "bat_with_lathe", "nailbat", "bwirebat", "nutboltbat", "bat_metal_bolt", "makeshift_goedendag" ],
+    "nested_category_data": [ "bat", "bat_with_lathe", "nailbat", "bwirebat", "nutboltbat", "bat_metal_bolt", "goedendag_bat" ],
     "difficulty": 1
   },
   {

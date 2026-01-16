@@ -291,7 +291,7 @@
     "color": "light_gray",
     "symbol": "/",
     "looks_like": "spear_steel",
-    "material": [ "steel", "wood" ],
+    "material": [ { "type": "wood", "portion": 95 }, { "type": "mc_steel", "portion": 5 } ],
     "techniques": [ "WBLOCK_1", "PENETRATE" ],
     "volume": "1350 ml",
     "longest_side": "180 cm",
@@ -303,6 +303,17 @@
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 4, "stab": 24 }
+  },
+  {
+    "id": "crude_goedendag",
+    "copy-from": "spear_steel_crude",
+    "relative": { "melee_damage": { "bash": 20, "stab": -6 }, "longest_side": "-30 cm" },
+    "techniques": [ "WBLOCK_1", "BRUTAL" ],
+    "type": "ITEM",
+    "name": { "str": "crude goedendag" },
+    "description": "A baseball bat with a pipe fitting on one end, wedged by a spike.",
+    "weapon_category": [ "MACES", "SPEARS" ],
+    "faults": [ { "fault_group": "handle_long" } ]
   },
   {
     "type": "ITEM",

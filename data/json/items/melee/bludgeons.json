@@ -86,12 +86,21 @@
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "volume": "1750 ml",
     "price": "160 USD",
     "melee_damage": { "bash": 22 },
     "faults": [ { "fault_group": "staff_short" } ],
     "weapon_category": [ "MACES" ]
+  },
+  {
+    "id": "goedendag_bat",
+    "copy-from": "bat",
+    "relative": { "melee_damage": { "bash": 2, "stab": 18 }, "weight": "730 g", "volume": "100 ml", "longest_side": "20 cm" },
+    "type": "ITEM",
+    "name": { "str": "goedendag bat" },
+    "description": "A baseball bat with a pipe fitting on one end, wedged by a spike.",
+    "material": [ { "type": "wood", "portion": 95 }, { "type": "iron", "portion": 5 } ]
   },
   {
     "type": "ITEM",
@@ -2120,16 +2129,5 @@
     "power_draw": "1200 W",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "clumsy" },
     "melee_damage": { "bash": 42, "cut": 16 }
-  },
-  {
-    "id": "goedendag_bat",
-    "copy-from": "bat",
-    "relative": { "melee_damage": { "bash": 2, "stab": 22 }, "weight": "730 g", "volume": "100 ml", "longest_side": "20 cm" },
-    "extend": { "flags": [ "SPEAR", "REACH_ATTACK" ] },
-    "type": "ITEM",
-    "name": { "str": "goedendag bat" },
-    "description": "A baseball bat with a length of steel pipe on one end, wedged by a spike, allowing you to use it as a spear in a pinch.",
-    "weapon_category": [ "MACES", "SPEARS" ],
-    "material": [ { "type": "wood", "portion": 95 }, { "type": "mc_steel", "portion": 5 } ]
   }
 ]
