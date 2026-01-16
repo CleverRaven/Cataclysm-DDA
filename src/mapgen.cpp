@@ -848,7 +848,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                 } else {
                     setsubmap( grid_pos, MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) );
                     // Apply historical ice conversion for submaps loaded from disk as well
-                    apply_historical_ice_to_submap( p_sm_base.xy() + pos );
+                    apply_historical_phase_change_to_submap( p_sm_base.xy() + pos );
                 }
             }
         }
@@ -6248,54 +6248,53 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
     }
 
     auto apply_phase_thresholds = [&]( const ter_t & tt, const ter_str_id & base_id ) -> ter_str_id {
-        if( tt.phase_targets.empty() || tt.phase_temps.empty() )
-        {
+        if( tt.phase_targets.empty() ) {
             return ter_t_pseudo_phase;
         }
-        if( tt.phase_targets.size() != tt.phase_temps.size() )
-        {
-            debugmsg( "ter %s: phase_targets and phase_temps length mismatch", base_id.str() );
+        const size_t targ_n = tt.phase_targets.size();
+        const size_t temp_n = tt.phase_temps.size();
+        if( temp_n + 1 != targ_n ) {
+            debugmsg( "ter %s: phase_targets and phase_temps length mismatch (expected temps == targets-1)",
+                      base_id.str() );
             return ter_t_pseudo_phase;
         }
-        const size_t n = tt.phase_targets.size();
-        std::vector<std::pair<units::temperature, ter_str_id>> pairs;
-        pairs.reserve( n );
-        for( size_t i = 0; i < n; ++i )
-        {
+        std::vector<ter_str_id> targets;
+        targets.reserve( targ_n );
+        for( size_t i = 0; i < targ_n; ++i ) {
             ter_str_id target = tt.phase_targets[i];
             if( target == ter_t_pseudo_phase ) {
-                // pseudo_phase used as shorthand for "self"; replace with base terrain id.
                 target = base_id;
             }
-            pairs.emplace_back( tt.phase_temps[i], target );
+            targets.push_back( target );
         }
-        std::sort( pairs.begin(), pairs.end(), []( const auto & a, const auto & b )
-        {
-            return a.first < b.first;
-        } );
-        for( const auto &pr : pairs )
-        {
-            if( standard <= pr.first ) {
-                return pr.second;
+
+        if( standard < tt.phase_temps[0] ) {
+            return targets[0];
+        }
+
+        // Intermediate ranges: inclusive upper bound
+        for( size_t i = 0; i + 1 < temp_n; ++i ) {
+            if( standard >= tt.phase_temps[i] && standard <= tt.phase_temps[i + 1] ) {
+                return targets[i + 1];
             }
         }
+
+        if( standard > tt.phase_temps.back() ) {
+            return targets.back();
+        }
+
         return ter_t_pseudo_phase;
     };
 
     // No original recorded: evaluate using the current terrain's rules and
     // record original before transforming.
-    {
-        const ter_str_id chosen = apply_phase_thresholds( cur_ter, cur_id );
-        if( chosen != ter_t_pseudo_phase && chosen != cur_id ) {
-            // Record original terrain so it can be reverted later
-            set_original_terrain_at( p, cur_id.id() );
-            ter_set( p, chosen );
-        }
-    }
-
-    // If this tile contains a recorded original terrain, evaluate using the
-    // original terrain's phase rules and revert when appropriate.
-    if( has_original_terrain_at( p ) ) {
+    
+    const ter_str_id chosen = apply_phase_thresholds( cur_ter, cur_id );
+    if( chosen != ter_t_pseudo_phase && chosen != cur_id ) {
+        // Record original terrain so it can be reverted later
+        set_original_terrain_at( p, cur_id.id() );
+        ter_set( p, chosen );
+    } else if( has_original_terrain_at( p ) ) {
         const ter_id orig_id = get_original_terrain_at( p );
         const ter_t &orig_ter = orig_id.obj();
         const ter_str_id chosen = apply_phase_thresholds( orig_ter, orig_id.obj().id );
@@ -6334,7 +6333,6 @@ void map::draw_map( mapgendata &dat )
 
     resolve_regional_terrain_and_furniture( dat );
 
-    // Use shared helper to convert water/ice based on 10-day average at 08:00.
     const weather_generator &wgen = get_weather().get_cur_weather_gen();
     if( abs_sub.z() >= 0 ) {
         for( int i = 0; i < SEEX * 2; i++ ) {
@@ -6348,7 +6346,7 @@ void map::draw_map( mapgendata &dat )
 }
 
 
-void map::apply_historical_ice_to_submap( const tripoint_abs_sm &p_sm )
+void map::apply_historical_phase_change_to_submap( const tripoint_abs_sm &p_sm )
 {
     if( abs_sub.z() < 0 ) {
         return;

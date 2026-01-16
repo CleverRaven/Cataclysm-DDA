@@ -13,7 +13,7 @@
     "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -10, -5, 0 ],
+    "phase_temps": [ -10, -5 ],
     "phase_method": "water_freeze"
   },
   {
@@ -33,7 +33,7 @@
     "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -10, -5, 0 ],
+    "phase_temps": [ -10, -5 ],
     "phase_method": "water_freeze"
   },
   {
@@ -51,7 +51,7 @@
     "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -10, -5, 0 ],
+    "phase_temps": [ -10, -5 ],
     "phase_method": "water_freeze"
   },
   {
@@ -71,7 +71,7 @@
     "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -10, -5, 0 ],
+    "phase_temps": [ -10, -5 ],
     "phase_method": "water_freeze"
   },
   {
@@ -89,7 +89,7 @@
     "liquid_source": { "id": "water_murky", "min_temp": 2.2 },
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -15, -10, 0 ],
+    "phase_temps": [ -15, -10 ],
     "phase_method": "water_freeze"
   },
   {
@@ -109,7 +109,7 @@
     "liquid_source": { "id": "water_murky", "min_temp": 2.2 },
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -15, -10, 0 ],
+    "phase_temps": [ -15, -10 ],
     "phase_method": "water_freeze"
   },
   {
@@ -127,7 +127,7 @@
     "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -15, -10, 0 ],
+    "phase_temps": [ -15, -10 ],
     "phase_method": "water_freeze"
   },
   {
@@ -147,7 +147,7 @@
     "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -15, -10, 0 ],
+    "phase_temps": [ -15, -10 ],
     "phase_method": "water_freeze"
   },
   {
@@ -165,7 +165,7 @@
     "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -15, -10, 0 ],
+    "phase_temps": [ -15, -10 ],
     "phase_method": "water_freeze"
   },
   {
@@ -185,7 +185,7 @@
     "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -15, -10, 0 ],
+    "phase_temps": [ -15, -10 ],
     "phase_method": "water_freeze"
   },
   {
@@ -203,7 +203,7 @@
     "connects_to": "WATER",
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -10, -5, 0 ],
+    "phase_temps": [ -10, -5 ],
     "phase_method": "water_freeze"
   },
   {
@@ -223,7 +223,7 @@
     "connects_to": "WATER",
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -10, -5, 0 ],
+    "phase_temps": [ -10, -5 ],
     "phase_method": "water_freeze"
   },
   {
@@ -241,7 +241,7 @@
     "connects_to": "WATER",
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -10, -5, 0 ],
+    "phase_temps": [ -10, -5 ],
     "phase_method": "water_freeze"
   },
   {
@@ -276,7 +276,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DIGGABLE", "FLAT" ],
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -15, -10, 0 ],
+    "phase_temps": [ -15, -10 ],
     "phase_method": "water_freeze"
   },
   {
@@ -294,7 +294,7 @@
     "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -10, -5, 0 ],
+    "phase_temps": [ -10, -5 ],
     "phase_method": "water_freeze"
   },
   {
@@ -312,7 +312,7 @@
     "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -10, -5, 0 ],
+    "phase_temps": [ -10, -5 ],
     "phase_method": "water_freeze"
   },
   {
@@ -330,7 +330,7 @@
     "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -10, -5, 0 ],
+    "phase_temps": [ -10, -5 ],
     "phase_method": "water_freeze"
   },
   {
@@ -348,7 +348,7 @@
     "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -10, -5, 0 ],
+    "phase_temps": [ -10, -5 ],
     "phase_method": "water_freeze"
   },
   {
@@ -364,7 +364,7 @@
     "flags": [ "TRANSPARENT", "SWIMMABLE", "SHALLOW_WATER" ],
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -15, -10, 0 ],
+    "phase_temps": [ -15, -10 ],
     "phase_method": "water_freeze"
   },
   {
@@ -557,7 +557,7 @@
     "flags": [ "TRANSPARENT", "LIQUIDCONT" ],
     "examine_action": "finite_water_source",
     "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -15, -10, 0 ],
+    "phase_temps": [ -15, -10 ],
     "phase_method": "water_freeze"
   },
   {
@@ -574,7 +574,7 @@
     "flags": [ "TRANSPARENT", "LIQUIDCONT", "INDOORS" ],
     "examine_action": "finite_water_source",
     "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -15, -10, 0 ],
+    "phase_temps": [ -15, -10 ],
     "phase_method": "water_freeze"
   },
   {
@@ -594,7 +594,7 @@
     "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source",
     "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -10, -5, 0 ],
+    "phase_temps": [ -10, -5 ],
     "phase_method": "water_freeze"
   }
 ]

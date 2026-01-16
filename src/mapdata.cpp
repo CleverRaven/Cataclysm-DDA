@@ -1291,6 +1291,13 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "phase_method", phase_method );
 
+    // Validate phase arrays: `phase_temps` must contain exactly one less
+    // entry than `phase_targets`. 
+    if( !phase_targets.empty() ) {
+        if( phase_temps.size() != phase_targets.size() - 1 ) {
+            jo.throw_error( "phase_temps must contain exactly one less entry than phase_targets" );
+        }
+    }
     oxytorch = cata::make_value<activity_data_ter>();
     if( jo.has_object( "oxytorch" ) ) { //TODO: Make overwriting these with eg "oxytorch": { } work while still allowing overwriting single values
         oxytorch->load( jo.get_object( "oxytorch" ) );
