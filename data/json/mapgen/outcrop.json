@@ -109,5 +109,40 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "cave_surface_palette" ]
     }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "outcrop_bottom" ],
+    "object": {
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           %%%%         ",
+        "          %%||%%%       ",
+        "         %||||||%       ",
+        "        %%||||||%%      ",
+        "       %%||||||||%%     ",
+        "      %%||||||||||%%    ",
+        "      %%||||||||||%     ",
+        "       %|||||||||%%     ",
+        "       %|||||||||%%     ",
+        "       %%|||||||%%      ",
+        "        %%%%||%%%       ",
+        "          %%%%%         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "cave_surface_palette" ]
+    }
   }
 ]
