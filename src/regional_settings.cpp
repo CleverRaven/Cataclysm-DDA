@@ -516,11 +516,11 @@ void region_settings_ocean::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "noise_threshold_ocean", noise_threshold_ocean );
     optional( jo, was_loaded, "ocean_size_min", ocean_size_min );
     optional( jo, was_loaded, "ocean_depth", ocean_depth );
-    optional( jo, was_loaded, "ocean_start_north", ocean_start_north );
-    optional( jo, was_loaded, "ocean_start_east", ocean_start_east );
-    optional( jo, was_loaded, "ocean_start_west", ocean_start_west );
-    optional( jo, was_loaded, "ocean_start_south", ocean_start_south );
-    optional( jo, was_loaded, "sandy_beach_width", sandy_beach_width );
+    optional( jo, was_loaded, "ocean_start_north", ocean_start_north, std::nullopt );
+    optional( jo, was_loaded, "ocean_start_east", ocean_start_east, std::nullopt );
+    optional( jo, was_loaded, "ocean_start_west", ocean_start_west, std::nullopt );
+    optional( jo, was_loaded, "ocean_start_south", ocean_start_south, std::nullopt );
+    optional( jo, was_loaded, "sandy_beach_width", sandy_beach_width, std::nullopt );
 }
 
 void region_settings_highway::load( const JsonObject &jo, std::string_view )
