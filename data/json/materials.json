@@ -3273,5 +3273,30 @@
     "cut_dmg_verb": "chipped",
     "resist": { "bash": 3, "cut": 4, "acid": 10, "heat": 2, "bullet": 2 },
     "repair_difficulty": 7
+  },
+  {
+    "type": "material",
+    "id": "Down_Feathers",
+    "name": "Down Feathers",
+    "density": 0.01,
+    "specific_heat_liquid": 0.02,
+    "specific_heat_solid": 0.02,
+    "latent_heat": 250,
+    "soft": true,
+    "chip_resist": 5,
+    "breathability": "GOOD",
+    "wind_resist": 80,
+    "repaired_with": "down_feather",
+    "salvaged_into": "down_feather",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "burn_data": [
+      { "fuel": 0.6, "smoke": 1, "burn": 0.025, "volume_per_turn": "200 ml" },
+      { "fuel": 1.2, "smoke": 1, "burn": 0.05, "volume_per_turn": "825 ml" },
+      { "fuel": 1.8, "smoke": 1, "burn": 0.075 }
+    ],
+    "resist": { "bash": 0.5, "cut": 0.1, "acid": 4, "heat": 0, "bullet": 0 },
+    "repair_difficulty": 1
   }
 ]
