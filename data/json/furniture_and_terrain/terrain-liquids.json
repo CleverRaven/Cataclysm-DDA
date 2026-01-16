@@ -126,7 +126,7 @@
     "connects_to": "WATER",
     "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source",
-    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
     "phase_temps": [ -15, -10 ],
     "phase_method": "water_freeze"
   },
@@ -184,7 +184,7 @@
     "connects_to": "WATER",
     "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source",
-    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
     "phase_temps": [ -15, -10 ],
     "phase_method": "water_freeze"
   },
@@ -202,8 +202,8 @@
     "connect_groups": "WATER",
     "connects_to": "WATER",
     "examine_action": "water_source",
-    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -10, -5 ],
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
     "phase_method": "water_freeze"
   },
   {
@@ -222,8 +222,8 @@
     "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
     "examine_action": "water_source",
-    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -10, -5 ],
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
     "phase_method": "water_freeze"
   },
   {
@@ -240,8 +240,8 @@
     "connect_groups": "WATER",
     "connects_to": "WATER",
     "examine_action": "water_source",
-    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -10, -5 ],
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
     "phase_method": "water_freeze"
   },
   {
@@ -259,7 +259,10 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "INDOORS", "EMPTY_SPACE" ],
     "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -274,10 +277,7 @@
     "connect_groups": [ "WATER" ],
     "connects_to": [ "WATER" ],
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DIGGABLE", "FLAT" ],
-    "examine_action": "water_source",
-    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
-    "phase_temps": [ -15, -10 ],
-    "phase_method": "water_freeze"
+    "examine_action": "water_source"
   },
   {
     "type": "terrain",
@@ -455,7 +455,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "MINEABLE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -503,7 +503,7 @@
     },
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -526,7 +526,7 @@
     },
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -554,7 +554,7 @@
     "color": "light_blue",
     "move_cost": 3,
     "liquid_source": { "id": "water_murky", "count": [ 40, 240 ], "min_temp": 2.2 },
-    "flags": [ "TRANSPARENT", "LIQUIDCONT" ],
+    "flags": [ "TRANSPARENT", "LIQUIDCONT", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
     "examine_action": "finite_water_source",
     "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
     "phase_temps": [ -15, -10 ],
@@ -571,7 +571,7 @@
     "move_cost": 3,
     "connect_groups": "INDOORFLOOR",
     "liquid_source": { "id": "water_murky", "count": [ 40, 240 ], "min_temp": 2.2 },
-    "flags": [ "TRANSPARENT", "LIQUIDCONT", "INDOORS" ],
+    "flags": [ "TRANSPARENT", "LIQUIDCONT", "INDOORS", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
     "examine_action": "finite_water_source",
     "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
     "phase_temps": [ -15, -10 ],
