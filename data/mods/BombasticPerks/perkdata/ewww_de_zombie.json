@@ -1,0 +1,116 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "item_ewww_de_zombie",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 5,
+    "time": "30 m",
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
+    "components": [ [ [ "meat_tainted", 3 ] ], [ [ "blood_tainted", 25 ] ], [ [ "fat_tainted", 8 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_LEARN_EWWW_DE_ZOMBIE_GAIN_RECIPE",
+    "required_event": "gains_mutation",
+    "eoc_type": "EVENT",
+    "condition": { "compare_string": [ "perk_ewwww_de_zombie", { "context_val": "trait" } ] },
+    "effect": [
+      { "u_message": "With a flash of insight you now understand how to mix zombie guts into a disguise!" },
+      { "u_learn_recipe": "item_ewww_de_zombie" }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "item_ewww_de_zombie",
+    "name": { "str": "dose of ewww de zombie", "str_pl": "doses of ewww de zombie" },
+    "description": "Zombie blood and guts all mixed together.  Coating yourself in this would have been unimaginable before the Cataclysm, but the prospect of being ripped apart otherwise is a powerful motivator.",
+    "copy-from": "blood_tainted",
+    "calories": 0,
+    "comestible_type": "MED",
+    "spoils_in": "12 days",
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "NO_INGEST" ] },
+    "delete": { "flags": [ "RAW" ] },
+    "consumption_effect_on_conditions": [ "EOC_USE_EWWW_DE_ZOMBIE" ],
+    "vitamins": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_USE_EWWW_DE_ZOMBIE",
+    "effect": [ { "u_add_effect": "effect_ewww_de_zombie", "duration": { "math": [ "10800 + rand(10800)" ] } } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ewww_de_zombie",
+    "name": [ "Ewww de Zombie" ],
+    "desc": [ "You're covered in zombie blood and guts.  Disgusting." ],
+    "apply_message": "You rub the eww de zombie all over yourself.  Disgusting, but hopefully effective.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "condition": {
+          "not": {
+            "or": [
+              { "u_has_effect": "effect_ewww_de_zombie_canceller" },
+              { "u_has_effect": "bleed", "bodypart": "head" },
+              { "u_has_effect": "bleed", "bodypart": "torso" },
+              { "u_has_effect": "bleed", "bodypart": "arm_r" },
+              { "u_has_effect": "bleed", "bodypart": "arm_l" },
+              { "u_has_effect": "bleed", "bodypart": "leg_r" },
+              { "u_has_effect": "bleed", "bodypart": "leg_l" }
+            ]
+          }
+        },
+        "mutations": [ "TRAIT_EWWW_DE_ZOMBIE" ]
+      },
+      { "mutations": [ "TRAIT_EWWW_DE_ZOMBIE_SCENT" ] }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "TRAIT_EWWW_DE_ZOMBIE",
+    "name": { "str": "Zombie Ignoring", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "Need this trait for anger relations.", "//~": "NO_I18N" },
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "ignored_by": [ "ZOMBIE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TRAIT_EWWW_DE_ZOMBIE_SCENT",
+    "name": { "str": "Fetid scent", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "Need this trait for scent.", "//~": "NO_I18N" },
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "scent_type": "sc_fetid"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ewww_de_zombie_canceller",
+    "//": "Hidden effect, cancels Ewww de Zombie briefly",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_OBSCURITY_REMOVAL_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "monster_takes_damage",
+    "condition": "has_beta",
+    "effect": [
+      {
+        "if": { "and": [ { "u_has_species": "ZOMBIE" }, { "npc_has_effect": "effect_ewww_de_zombie" } ] },
+        "then": [ { "npc_add_effect": "effect_ewww_de_zombie", "duration": 120 } ]
+      }
+    ]
+  }
+]
