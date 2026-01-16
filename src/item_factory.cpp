@@ -2542,6 +2542,17 @@ void Item_factory::check_definitions() const
             if( type->can_use( "MA_MANUAL" ) && !type->book->martial_art ) {
                 msg += "has use_action MA_MANUAL but does not specify a martial art\n";
             }
+            if( type->can_use( "learn_spell" ) ) {
+                const use_function learn_spell_action = *type->get_use( "learn_spell" );
+                const learn_spell_actor *actor_ptr = static_cast<const learn_spell_actor *>
+                                                     ( learn_spell_action.get_actor_ptr() );
+                for( const std::string &spell_str : actor_ptr->spells ) {
+                    const spell_id sp( spell_str );
+                    if( !sp.is_valid() ) {
+                        msg += string_format( "lists invalid spell in learn_spell use_action: '%s'\n", spell_str );
+                    }
+                }
+            }
         }
         if( type->can_use( "MA_MANUAL" ) && !type->book ) {
             msg += "has use_action MA_MANUAL but is not a book\n";
