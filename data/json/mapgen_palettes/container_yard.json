@@ -39,7 +39,32 @@
             [ "shipping_container_concrete_1x1", 10 ],
             [ "shipping_container_brick_1x1", 10 ],
             [ "shipping_container_wheel_1x1", 10 ],
-            [ "shipping_container_spare_parts_1x1", 10 ]
+            [ "shipping_container_spare_parts_1x1", 10 ],
+            [ "shipping_container_nails_1x1", 5 ],
+            [ "shipping_container_paint_1x1", 5 ],
+            [ "shipping_container_gravelbag_1x1", 5 ],
+            [ "shipping_container_sandbag_1x1", 5 ],
+            [ "shipping_container_rebar_1x1", 5 ],
+            [ "shipping_container_glue_strong_1x1", 1 ],
+            [ "shipping_container_radio_1x1", 5 ],
+            [ "shipping_container_dildo_1x1", 5 ],
+            [ "shipping_container_ar_basic_1x1", 5 ],
+            [ "shipping_container_ar_advanced_1x1", 1 ],
+            [ "shipping_container_mp3_1x1", 5 ],
+            [ "shipping_container_new_phones_1x1", 5 ],
+            [ "shipping_container_personal_devices_1x1", 5 ],
+            [ "shipping_container_elec_appliances_1x1", 5 ],
+            [ "shipping_container_newstorage_1x1", 5 ],
+            [ "shipping_container_batteries_1x1", 5 ],
+            [ "shipping_container_heavy_batteries_1x1", 1 ],
+            [ "shipping_container_petstore_1x1", 5 ],
+            [ "shipping_container_protein_bars_1x1", 5 ],
+            [ "shipping_container_water_1x1", 5 ],
+            [ "shipping_container_toilet_paper_1x1", 5 ],
+            [ "shipping_container_soap_1x1", 5 ],
+            [ "shipping_container_duct_tape_1x1", 5 ],
+            [ "shipping_container_large_cardboard_box_1x1", 5 ],
+            [ "shipping_container_circsaw_blade_1x1", 5 ]
           ]
         }
       },
@@ -387,6 +412,231 @@
       "mapgensize": [ 1, 1 ],
       "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
       "items": { " ": { "item": "supplies_spares_vehicle", "chance": 95, "repeat": [ 1, 20 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_nails_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 90 ], [ "f_cardboard_box", 10 ] ] },
+      "items": { " ": { "item": "nail_box_part", "chance": 95, "repeat": [ 10, 20 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_paint_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 90 ], [ "f_cardboard_box", 10 ] ] },
+      "items": { " ": { "item": "paint", "chance": 95, "repeat": [ 10, 15 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_gravelbag_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_pallet_belted" },
+      "items": { " ": { "item": "gravelbag", "chance": 95, "repeat": [ 10, 15 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_sandbag_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_pallet_belted" },
+      "items": { " ": { "item": "sandbag", "chance": 95, "repeat": [ 10, 15 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_rebar_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "item": { " ": { "item": "rebar", "chance": 95, "amount": [ 30, 50 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_glue_strong_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_pallet_belted" },
+      "items": { " ": { "item": "glue_strong_professional_full", "chance": 95, "repeat": [ 1,10 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_radio_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "item": { " ": { "item": "radio", "chance": 95, "amount": [ 5, 10 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_dildo_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "item": { " ": { "item": "sextoy", "chance": 95, "amount": [ 5, 20 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_ar_basic_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "item": { " ": { "item": "ar_glasses_basic", "chance": 95, "amount": [ 5, 10 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_ar_advanced_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "item": { " ": { "item": "ar_glasses_advanced", "chance": 95, "amount": [ 5, 10 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_mp3_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "item": { " ": { "item": "mp3", "chance": 95, "amount": [ 5, 10 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_new_phones_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "new_phones", "chance": 95, "repeat": [ 10, 20 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_personal_devices_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "elecsto_persele", "chance": 95, "repeat": [ 10, 20 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_elec_appliances_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "elecsto_homapl", "chance": 95, "repeat": [ 1, 20 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_newstorage_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "elecsto_stor", "chance": 95, "repeat": [ 20, 50 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_batteries_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "box_of_batteries_unopened", "chance": 95, "repeat": [ 10, 30 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_heavy_batteries_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "ammo_heavy_batteries_full", "chance": 95, "repeat": [ 10, 30 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_petstore_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "petstore_misc", "chance": 95, "repeat": [ 5, 20 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_protein_bars_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_pallet_belted" },
+      "items": { " ": { "item": "protein_bar_wrapped_box", "chance": 95, "repeat": [ 10, 20 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_water_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_pallet_belted" },
+      "items": { " ": { "item": "twoliter_water_batch", "chance": 95, "repeat": [ 10, 30 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_toilet_paper_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_pallet_belted" },
+      "items": { " ": { "item": "toilet_paper_packed", "chance": 95, "repeat": [ 10, 30 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_soap_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "soap_packed", "chance": 95, "repeat": [ 10, 30 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_duct_tape_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 90 ], [ "f_cardboard_box", 10 ] ] },
+      "items": { " ": { "item": "duct_tape_roll", "chance": 95, "repeat": [ 10, 30 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_large_cardboard_box_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "item": { " ": { "item": "box_large_folded", "chance": 95, "amount": [ 5, 10 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_circsaw_blade_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "item": { " ": { "item": "circsaw_blade", "chance": 95, "amount": [ 5, 10 ] } }
     }
   }
 ]
