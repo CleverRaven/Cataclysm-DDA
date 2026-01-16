@@ -1040,7 +1040,7 @@
         ]
       },
       {
-        "encumbrance": [ 12, 14 ],
+        "encumbrance": [ 0, 0 ],
         "coverage": 100,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
