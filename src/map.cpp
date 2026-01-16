@@ -8617,6 +8617,7 @@ void map::loadn( const point_bub_sm &grid, bool update_vehicles )
         set_pathfinding_cache_dirty( z );
         tmpsub = MAPBUFFER.lookup_submap( pos );
         setsubmap( get_nonant( tripoint_rel_sm{ grid.x(), grid.y(), z} ), tmpsub );
+        apply_historical_phase_change_to_submap( pos );
         if( !tmpsub->active_items.empty() ) {
             submaps_with_active_items_dirty.emplace( pos );
         }
