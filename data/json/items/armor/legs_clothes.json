@@ -1476,10 +1476,7 @@
     "volume": "2 L",
     "price": "65 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [
-      { "type": "cotton", "covered_by_mat": 100, "thickness": 0.6 },
-      { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 }
-    ],
+    "material": [ "nylon", "cotton" ],
     "symbol": "[",
     "looks_like": "pants",
     "color": "blue",
@@ -1517,7 +1514,17 @@
     "material_thickness": 1,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
-    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 6, 10 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.6 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 }
+        ]
+      }
+    ]
   },
   {
     "id": "police_breeches",
