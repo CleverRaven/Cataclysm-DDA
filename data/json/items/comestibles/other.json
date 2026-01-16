@@ -229,8 +229,8 @@
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "fun": -20,
     "healthy": -5,
-    "//": "A little less disgusting than a jabberwock heart.  Slurry decays into more toxins, and is the source of catalyst to make the typed mutagens do something.  The net result is 2:1 insect:alpha, because Apis might be a humanoid bee, or a beeoid human (intentionally ambiguous).  The mixed trees and risk of slurry overdose make this rather risky to use deliberately.",
-    "vitamins": [ [ "mutant_toxin", 100 ], [ "mutagen_insect", 100 ], [ "mutagenic_slurry", 50 ], [ "mutagen_alpha", 75 ] ],
+    "//": "A little less disgusting than a jabberwock heart.  Digests down to 150u toxin, 300u mutagen, 225u insect, 75u alpha, and 25u other categories.  The trace contamination of alpha mutagen - or something close to it - is there to make Apis more ambiguous, as to whether it is a bee->human or human->bee.  The substantial contaminants mean it cannot substitute for real alpha mutagen, but if you want to become mostly a bug, it could work for you.",
+    "vitamins": [ [ "mutant_toxin", 100 ], [ "mutagen", 100 ], [ "mutagen_insect", 200 ], [ "mutagenic_slurry", 25 ], [ "mutagen_alpha", 75 ] ],
     "looks_like": "royal_jelly"
   },
   {
