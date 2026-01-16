@@ -230,7 +230,13 @@
     "fun": -20,
     "healthy": -5,
     "//": "A little less disgusting than a jabberwock heart.  Digests down to 150u toxin, 300u mutagen, 225u insect, 75u alpha, and 25u other categories.  The trace contamination of alpha mutagen - or something close to it - is there to make Apis more ambiguous, as to whether it is a bee->human or human->bee.  The substantial contaminants mean it cannot substitute for real alpha mutagen, but if you want to become mostly a bug, it could work for you.",
-    "vitamins": [ [ "mutant_toxin", 100 ], [ "mutagen", 100 ], [ "mutagen_insect", 200 ], [ "mutagenic_slurry", 25 ], [ "mutagen_alpha", 75 ] ],
+    "vitamins": [
+      [ "mutant_toxin", 100 ],
+      [ "mutagen", 100 ],
+      [ "mutagen_insect", 200 ],
+      [ "mutagenic_slurry", 25 ],
+      [ "mutagen_alpha", 75 ]
+    ],
     "looks_like": "royal_jelly"
   },
   {
