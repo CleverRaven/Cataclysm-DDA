@@ -3283,7 +3283,7 @@
     "specific_heat_solid": 0.02,
     "latent_heat": 250,
     "soft": true,
-    "chip_resist": 5,
+    "chip_resist": 4,
     "breathability": "GOOD",
     "wind_resist": 80,
     "repaired_with": "down_feather",
