@@ -935,5 +935,136 @@
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ]
+  },
+  {
+    "id": "ski_bib",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str_sp": "ski bib" },
+    "description": "A heavy, waterproof ski bib that covers the legs and torso.  It is made of a thick, durable material and is designed to keep the wearer warm in cold conditions. Activate them to unzip the front legs for ventilation.",
+    "weight": "1200 g",
+    "volume": "3300 ml",
+    "price": "65 USD 50 cent",
+    "price_postapoc": "8 USD",
+    "material": [ "denim" ],
+    "symbol": "[",
+    "color": "light_blue",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 } ],
+        "coverage": 65,
+        "encumbrance": [ 12, 14 ]
+      },
+      {
+        "encumbrance": [ 12, 14 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_hip_r", "leg_upper_r", "leg_knee_r" ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.6 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l" ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.2 }
+        ],
+        "encumbrance": [ 0, 0 ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "4 kg",
+        "max_length": "25 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "4 kg",
+        "max_length": "25 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "350 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "9 cm",
+        "moves": 90
+      }
+    ],
+    "warmth": 60,
+    "material_thickness": 1.1,
+    "environmental_protection": 3,
+    "looks_like": "denim_overalls",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Open vents",
+      "msg": "You open vents in the legs of the snow bib.",
+      "target": "ski_bib_unzipped"
+    },
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF" ]
+  },
+  {
+    "id": "ski_bib_unzipped",
+    "copy-from": "ski_bib",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str_sp": "ski bib (unzipped)" },
+    "warmth": 40,
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "environmental_protection": 2,
+    "looks_like": "denim_overalls",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 } ],
+        "coverage": 65,
+        "encumbrance": [ 12, 14 ]
+      },
+      {
+        "encumbrance": [ 12, 14 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_knee_l", "leg_hip_r", "leg_knee_r" ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.6 }
+        ]
+      },
+      {
+        "encumbrance": [ 12, 14 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
+          { "type": "cotton", "covered_by_mat": 80, "thickness": 0.6 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l" ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.2 }
+        ],
+        "encumbrance": [ 0, 0 ]
+      }
+    ],
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Close vents",
+      "msg": "You close vents in the legs of the snow bib.",
+      "target": "ski_bib"
+    }
   }
 ]
