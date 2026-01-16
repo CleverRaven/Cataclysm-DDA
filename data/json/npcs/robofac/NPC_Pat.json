@@ -288,6 +288,11 @@
         "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_4" }
       },
       {
+        "text": "Any ideas on places we've seen worth scanning with the HEW system?",
+        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4",
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] }
+      },
+      {
         "text": "Our employer wants me to scan inside that 'thing.'  Have any advice?",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE",
         "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE" }
@@ -440,9 +445,14 @@
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_morgantown" } ] }
       },
       {
-        "text": "[Point to the photos of the boarded up cabin] Ah, that place.  What do you think?",
-        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_MP3_CABIN",
-        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_mp3_cabin" } ] }
+        "text": "[Point to the distorted photos of the boarded up cabin] Ah, that place.  What do you think?",
+        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_CABIN_REVERB_HINT",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_cabin_reverb_hint" } ] }
+      },
+      {
+        "text": "[Point to the audio recording] Ah, that place near the radio tower.  What do you think?",
+        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_RADIO_TOWER_REVERBERATION_MP3",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_radio_tower_reverberation_mp3" } ] }
       },
       {
         "text": "[Point to the photos of the repeating alien cabins] That's a no brainer.",
@@ -518,9 +528,15 @@
     "responses": [ { "text": "Ghosts.  Right.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {
-    "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_MP3_CABIN",
+    "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_RADIO_TOWER_REVERBERATION_MP3",
     "type": "talk_topic",
     "dynamic_line": "That creepy music place?  Yeah.  Do that.  Just take earplugs.",
+    "responses": [ { "text": "I'll keep that in mind.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
+  },
+  {
+    "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_CABIN_REVERB_HINT",
+    "type": "talk_topic",
+    "dynamic_line": "We did pick up interference there.  Worth a try.",
     "responses": [ { "text": "I'll keep that in mind.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {

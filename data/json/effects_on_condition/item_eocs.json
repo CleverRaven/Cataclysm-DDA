@@ -362,8 +362,9 @@
         { "u_near_om_location": "xedra_rural_church", "range": 3 },
         { "u_near_om_location": "morgantown_2b", "range": 10 },
         { "u_near_om_location": "cabin_3_reverberation", "range": 3 },
-        { "u_near_om_location": "cabin_3_reverberation_hint", "range": 10 },
+        { "u_near_om_location": "cabin_3_reverberation_hint", "range": 3 },
         { "u_near_om_location": "radiosphere_radio_tower_top", "range": 3 },
+        { "u_near_om_location": "radio_tower_reverberation_mp3", "range": 3 },
         { "math": [ "robofac_pat_lost_signal_highlands == 1" ] },
         { "math": [ "robofac_pat_lost_signal_radiosphere == 1" ] },
         { "math": [ "robofac_pat_lost_signal_cabin_reverb == 1" ] },
@@ -563,8 +564,8 @@
       {
         "if": {
           "and": [
-            { "u_near_om_location": "cabin_3_reverberation_hint", "range": 10 },
-            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_mp3_cabin" } ] } }
+            { "u_near_om_location": "radio_tower_reverberation_mp3", "range": 10 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_radio_tower_reverberation_mp3" } ] } }
           ]
         },
         "then": [
@@ -572,7 +573,22 @@
             "u_message": "Your earpiece is filled with static and your HUD glitches.  Suddenly, the sound of soft, slightly distorted smooth jazz starts to play in your earpiece - it continues for a moment before you hear a chirp and Pat's voice: \"What was that bullshit?  Pal, someone might be nearby with a transmitter.  There's not much but a radio tower nearby, so maybe there.  Lock and load.  Over.\"  A moment later, something, or someone, whispers an indiscernible word through the earpiece.  It then falls silent.",
             "popup": true
           },
-          { "u_add_var": "robofac_pat_saw_mp3_cabin", "value": "yes" }
+          { "u_add_var": "robofac_pat_saw_radio_tower_reverberation_mp3", "value": "yes" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "u_near_om_location": "cabin_3_reverberation_hint", "range": 10 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_cabin_reverb_hint" } ] } }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "You hear a chirp in your earpiece and Pat's voice comes over the line:  \"Some'a your recent images are wicked twisted with errors and noise.  Not sure what's nearby, but it's messin' with the signal.  Over.\"",
+            "popup": true
+          },
+          { "u_add_var": "robofac_pat_saw_cabin_reverb_hint", "value": "yes" }
         ]
       },
       {
