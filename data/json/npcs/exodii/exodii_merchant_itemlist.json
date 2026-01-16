@@ -66,32 +66,32 @@
     "//": "This stuff should be available in the Exodii store from the start.  This group includes common items used to craft nomad gear, which the Exodii are happy to offer, as well as blueprints for them.",
     "subtype": "collection",
     "items": [
-  		{ "item": "bp_nomad_cowl", "prob": 100 },
-  		{ "item": "bp_nomad_bodyglove", "prob": 100 },
-  		{ "item": "bp_nomad_jumpsuit", "prob": 100 },
-  		{ "item": "exodii_ac_kit", "prob": 100, "count": 5 },
-  		{ "item": "exodii_wire_kit", "prob": 100, "count": 10 },
-  		{ "item": "glasses_safety", "prob": 90 },
-  		{ "item": "goggles_chem", "prob": 90 },
-  		{ "item": "glasses_bal", "prob": 90 },
-  		{ "item": "cotton_patchwork", "prob": 30, "count": [ 3, 6 ] },
-  		{ "item": "leather", "prob": 90, "count": [ 5, 15 ] },
-  		{ "item": "tanned_hide", "prob": 80, "count": [ 1, 4 ] },
-  		{ "item": "thread_nomex", "prob": 90, "count": [ 1, 6 ] },
-  		{ "item": "thread_kevlar", "prob": 90, "count": [ 1, 6 ] },
-  		{ "item": "zipper_long_plastic", "prob": 90, "count": [ 3, 5 ] },
-  		{ "item": "snapfastener_steel", "prob": 80, "count": [ 5, 10 ] },
-  		{ "item": "chunk_rubber", "prob": 90, "count": [ 1, 2 ] },
-  		{ "group": "glue_strong_domestic", "prob": 90, "count": [ 1, 2 ] },
-  		{ "group": "glue_weak_domestic", "prob": 90, "count": [ 1, 2 ] },
-  		{ "item": "sheet_cotton_patchwork", "prob": 75, "count": [ 5, 15 ] },
-  		{ "item": "cotton_patchwork", "prob": 30, "count": [ 3, 6 ] },
-  		{ "item": "leather_pouch", "prob": 80, "count": [ 1, 2 ] },
-  		{ "item": "ragpouch", "prob": 80, "count": [ 1, 2 ] },
-  		{ "item": "tool_belt", "prob": 90 },
-  		{ "item": "leather_pouch", "prob": 10 },
-  		{ "group": "glue_strong_domestic", "prob": 15, "count": [ 1, 2 ] },
-  		{ "group": "glue_weak_domestic", "prob": 15, "count": [ 1, 2 ] }
+      { "item": "bp_nomad_cowl", "prob": 100 },
+      { "item": "bp_nomad_bodyglove", "prob": 100 },
+      { "item": "bp_nomad_jumpsuit", "prob": 100 },
+      { "item": "exodii_ac_kit", "prob": 100, "count": 5 },
+      { "item": "exodii_wire_kit", "prob": 100, "count": 10 },
+      { "item": "glasses_safety", "prob": 90 },
+      { "item": "goggles_chem", "prob": 90 },
+      { "item": "glasses_bal", "prob": 90 },
+      { "item": "cotton_patchwork", "prob": 30, "count": [ 3, 6 ] },
+      { "item": "leather", "prob": 90, "count": [ 5, 15 ] },
+      { "item": "tanned_hide", "prob": 80, "count": [ 1, 4 ] },
+      { "item": "thread_nomex", "prob": 90, "count": [ 1, 6 ] },
+      { "item": "thread_kevlar", "prob": 90, "count": [ 1, 6 ] },
+      { "item": "zipper_long_plastic", "prob": 90, "count": [ 3, 5 ] },
+      { "item": "snapfastener_steel", "prob": 80, "count": [ 5, 10 ] },
+      { "item": "chunk_rubber", "prob": 90, "count": [ 1, 2 ] },
+      { "group": "glue_strong_domestic", "prob": 90, "count": [ 1, 2 ] },
+      { "group": "glue_weak_domestic", "prob": 90, "count": [ 1, 2 ] },
+      { "item": "sheet_cotton_patchwork", "prob": 75, "count": [ 5, 15 ] },
+      { "item": "cotton_patchwork", "prob": 30, "count": [ 3, 6 ] },
+      { "item": "leather_pouch", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "ragpouch", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "tool_belt", "prob": 90 },
+      { "item": "leather_pouch", "prob": 10 },
+      { "group": "glue_strong_domestic", "prob": 15, "count": [ 1, 2 ] },
+      { "group": "glue_weak_domestic", "prob": 15, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -100,19 +100,54 @@
     "//": "This stuff should be available in the Exodii store from the start.  This group includes guns and ammo the Exodii are happy to sell to noobs.",
     "subtype": "collection",
     "items": [
-  	  { "item": "brogyeki", "prob": 100, "count": [ 1, 2 ] },
-  	  { "item": "brogyaga", "prob": 100, "count": [ 1, 2 ] },
-  	  { "item": "pamd68", "prob": 100, "count": [ 1, 2 ] },
-  	  { "item": "pamd71z", "prob": 100, "count": [ 1, 2 ] },
-  	  { "item": "knife_combat_army", "variant": "exodiibayonet", "prob": 100, "count": [ 1, 2 ] },
-  	  { "item": "exodiiminimag", "prob": 100, "charges": 0, "count": [ 4, 6 ] },
-  	  { "item": "exodiiBRmag", "prob": 100, "charges": 0, "count": [ 3, 4 ] },
-  	  { "item": "exodiiBRmag_26", "prob": 100, "charges": 0, "count": [ 3, 4 ] },
-      { "item": "123ln", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 5 ], "charges": 200, "sealed": true },
-      { "item": "273x110sluglight", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 6 ], "charges": 25, "sealed": true },
-      { "item": "273x44trainer", "container-item": "box_small_wood", "prob": 100, "count": [ 6, 8 ], "charges": 40, "sealed": true },
-      { "item": "273x110flock", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 6 ], "charges": 25, "sealed": true },
-      { "item": "273x44flare", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 6 ], "charges": 40, "sealed": true }
+      { "item": "brogyeki", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "brogyaga", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "pamd68", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "pamd71z", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "knife_combat_army", "variant": "exodiibayonet", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "exodiiminimag", "prob": 100, "charges": 0, "count": [ 4, 6 ] },
+      { "item": "exodiiBRmag", "prob": 100, "charges": 0, "count": [ 3, 4 ] },
+      { "item": "exodiiBRmag_26", "prob": 100, "charges": 0, "count": [ 3, 4 ] },
+      {
+        "item": "123ln",
+        "container-item": "box_small_wood",
+        "prob": 100,
+        "count": [ 4, 5 ],
+        "charges": 200,
+        "sealed": true
+      },
+      {
+        "item": "273x110sluglight",
+        "container-item": "box_small_wood",
+        "prob": 100,
+        "count": [ 4, 6 ],
+        "charges": 25,
+        "sealed": true
+      },
+      {
+        "item": "273x44trainer",
+        "container-item": "box_small_wood",
+        "prob": 100,
+        "count": [ 6, 8 ],
+        "charges": 40,
+        "sealed": true
+      },
+      {
+        "item": "273x110flock",
+        "container-item": "box_small_wood",
+        "prob": 100,
+        "count": [ 4, 6 ],
+        "charges": 25,
+        "sealed": true
+      },
+      {
+        "item": "273x44flare",
+        "container-item": "box_small_wood",
+        "prob": 100,
+        "count": [ 4, 6 ],
+        "charges": 40,
+        "sealed": true
+      }
     ]
   },
   {
@@ -122,8 +157,22 @@
     "items": [
       { "item": "sapra", "prob": 100, "count": [ 1, 2 ] },
       { "item": "exodiisapramag5", "prob": 100, "charges": 0, "count": [ 3, 5 ] },
-      { "item": "273x110canister", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 6 ], "charges": 25, "sealed": true },
-      { "item": "273x44HE", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 6 ], "charges": 40, "sealed": true },
+      {
+        "item": "273x110canister",
+        "container-item": "box_small_wood",
+        "prob": 100,
+        "count": [ 4, 6 ],
+        "charges": 25,
+        "sealed": true
+      },
+      {
+        "item": "273x44HE",
+        "container-item": "box_small_wood",
+        "prob": 100,
+        "count": [ 4, 6 ],
+        "charges": 40,
+        "sealed": true
+      },
       { "item": "exodiiBRmag_153", "prob": 100, "charges": 0, "count": 3 },
       { "item": "exodii_prybar", "prob": 100, "count": [ 1, 2 ] },
       { "item": "exodii_digger", "prob": 100, "count": [ 1, 2 ] }
@@ -134,14 +183,35 @@
     "id": "EXODII_Shop_Guns_Tier2",
     "subtype": "collection",
     "items": [
-      { "item": "273x44thermobaric", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 6 ], "charges": 25, "sealed": true },
-      { "item": "273x110slugmedium", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 6 ], "charges": 25, "sealed": true },
+      {
+        "item": "273x44thermobaric",
+        "container-item": "box_small_wood",
+        "prob": 100,
+        "count": [ 4, 6 ],
+        "charges": 25,
+        "sealed": true
+      },
+      {
+        "item": "273x110slugmedium",
+        "container-item": "box_small_wood",
+        "prob": 100,
+        "count": [ 4, 6 ],
+        "charges": 25,
+        "sealed": true
+      },
       {
         "collection": [
           { "item": "ree_33", "prob": 100, "count": 1 },
           { "item": "ree_33_4_mag", "prob": 100, "count": [ 2, 3 ] },
           { "item": "ree_33_53_mag", "prob": 100, "count": [ 1, 2 ] },
-          { "item": "33naval_ball", "container-item": "box_medium_wood", "prob": 100, "charges": 200, "sealed": true, "count": 1 }
+          {
+            "item": "33naval_ball",
+            "container-item": "box_medium_wood",
+            "prob": 100,
+            "charges": 200,
+            "sealed": true,
+            "count": 1
+          }
         ],
         "prob": 100
       },
@@ -163,7 +233,14 @@
     "subtype": "collection",
     "items": [
       { "item": "273x44RG", "container-item": "box_medium_wood", "prob": 100, "count": 1, "charges": 100, "sealed": true },
-      { "item": "273x110slugheavy", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 6 ], "charges": 25, "sealed": true }
+      {
+        "item": "273x110slugheavy",
+        "container-item": "box_small_wood",
+        "prob": 100,
+        "count": [ 4, 6 ],
+        "charges": 25,
+        "sealed": true
+      }
     ]
   },
   {
@@ -174,7 +251,14 @@
     "items": [
       { "item": "exodii_plasma_projectile", "prob": 100, "count": 1 },
       { "item": "caotel_plasma_ring", "prob": 100, "count": 1 },
-      { "item": "caotel_cell", "container-item": "box_small_wood", "prob": 100, "count": 2, "charges": 12, "sealed": true }
+      {
+        "item": "caotel_cell",
+        "container-item": "box_small_wood",
+        "prob": 100,
+        "count": 2,
+        "charges": 12,
+        "sealed": true
+      }
     ]
   },
   {
@@ -408,7 +492,7 @@
       { "item": "bio_emp_armgun", "prob": 100, "count": [ 1, 2 ] },
       { "item": "bio_shockwave", "prob": 100, "count": [ 1, 2 ] },
       { "item": "bio_emp", "prob": 100, "count": [ 1, 2 ] }
-	]
+    ]
   },
   {
     "type": "item_group",

@@ -38,7 +38,6 @@
       { "group": "EXODII_Store_Salvage_Tech", "rigid": true, "trust": 20 },
       { "group": "EXODII_CBM_Store_Tier4", "rigid": true, "trust": 40, "strict": true },
       { "group": "EXODII_CBM_unlocks_weapons_heavy", "rigid": true, "trust": 40, "strict": true }
-
     ],
     "shopkeeper_consumption_rates": "basic_shop_rates",
     "weapon_override": "NC_EXODII_TYPE_1_carried",
