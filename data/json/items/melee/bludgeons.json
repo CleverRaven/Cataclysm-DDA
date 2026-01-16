@@ -2124,7 +2124,7 @@
   {
     "id": "goedendag_bat",
     "copy-from": "bat",
-    "relative": { "melee_damage": { "bash": 2, "stab": 22 }, "weight": "750 g", "volume": "100 ml", "longest_side": "20 cm" },
+    "relative": { "melee_damage": { "bash": 2, "stab": 22 }, "weight": "730 g", "volume": "100 ml", "longest_side": "20 cm" },
     "extend": { "flags": [ "SPEAR", "REACH_ATTACK" ] },
     "type": "ITEM",
     "name": { "str": "goedendag bat" },
