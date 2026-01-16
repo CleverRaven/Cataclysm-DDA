@@ -1476,7 +1476,10 @@
     "volume": "2 L",
     "price": "65 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "cotton" ],
+    "material": [
+      { "type": "cotton", "covered_by_mat": 100, "thickness": 0.6 },
+      { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 }
+    ],
     "symbol": "[",
     "looks_like": "pants",
     "color": "blue",
