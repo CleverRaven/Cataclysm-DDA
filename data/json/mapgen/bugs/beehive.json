@@ -84,7 +84,8 @@
       ],
       "terrain": { "|": "t_wax", "#": "t_wax", ".": "t_floor_wax", ":": "t_floor_wax", "+": "t_floor_wax" },
       "place_npcs": [ { "class": "apis", "x": 14, "y": 22 } ],
-      "item": { ".": { "item": "honeycomb", "chance": 1 }, ":": { "group": "royal_bee_food", "chance": 10, "repeat": [ 1, 2 ] } },
+      "items": { ":": { "item": "royal_bee_food", "chance": 10, "repeat": [ 1, 2 ] } },
+      "item": { ".": { "item": "honeycomb", "chance": 1 } },
       "monster": { ".": { "group": "GROUP_BEEHIVE", "chance": 3 } }
     }
   },
