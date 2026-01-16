@@ -898,6 +898,8 @@ bool melee_actor::call( monster &z ) const
             // Create a copy of distributed damage for this body part
             damage_instance bp_damage = distributed_damage;
 
+            bodypart_id bp_hit = bp;
+
             // Block each hit if blockable
             if( blockable ) {
                 target->block_hit( &z, bp, bp_damage );
