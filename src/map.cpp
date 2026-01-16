@@ -8661,6 +8661,17 @@ void map::loadn( const point_bub_sm &grid, bool update_vehicles )
         if( zlevels ) {
             add_tree_tops( { grid.x(), grid.y(), z } );
         }
+        // When a submap is loaded into the reality bubble, apply
+        // temperature-based phase changes
+        const weather_generator &wgen = get_weather().get_cur_weather_gen();
+        const tripoint_abs_sm pos_sm = { grid_abs_sub.xy(), z };
+        const tripoint_abs_ms sm_abs_ms = project_to<coords::ms>( pos_sm );
+        const tripoint_bub_ms sm_origin = get_bub( sm_abs_ms );
+        for( int sx = 0; sx < SEEX; ++sx ) {
+            for( int sy = 0; sy < SEEX; ++sy ) {
+                temp_based_phase_change_at( sm_origin + point( sx, sy ), wgen );
+            }
+        }
     }
 }
 
