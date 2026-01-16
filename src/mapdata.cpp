@@ -1262,7 +1262,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
         JsonArray ja = jo.get_array( "phase_targets" );
         for( const JsonValue v : ja ) {
             if( v.test_string() ) {
-                phase_targets.emplace_back( ter_str_id( v.get_string() ) );
+                phase_targets.emplace_back( v.get_string() );
             } else {
                 jo.throw_error( "phase_targets must be an array of terrain id strings" );
             }
