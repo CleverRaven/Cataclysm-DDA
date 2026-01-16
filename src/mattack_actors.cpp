@@ -744,46 +744,8 @@ bool melee_actor::call( monster &z ) const
     }
 
     // Dodge check
-
     const int acc = accuracy >= 0 ? accuracy : z.type->melee_skill;
     int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
-
-    // Split damage bool check
-    if( attack_all ) {
-        std::vector<bodypart_id> body_parts_to_hit = target->get_all_eligable_parts( hitsize_min,
-                hitsize_max, attack_upper );
-        if( body_parts_to_hit.empty() ) {
-            add_msg_debug( debugmode::DF_MATTACK, "No eligible body parts for attack_all." );
-            return false;
-        }
-
-        // Split damage evenly across all available body parts
-        damage_instance distributed_damage = damage_max_instance;
-        double damage_multiplier = rng_float( min_mul, max_mul ) / body_parts_to_hit.size();
-        distributed_damage.mult_damage( damage_multiplier );
-
-        int total_damage = 0;
-
-        for( const bodypart_id &bp : body_parts_to_hit ) {
-            dealt_damage_instance bp_dealt_damage = target->deal_damage( &z, bp, distributed_damage );
-            total_damage += bp_dealt_damage. total_damage();
-
-            add_msg_debug( debugmode:: DF_MATTACK, "Dealt %d damage to body part %s.",
-                           bp_dealt_damage.total_damage(), bp->name );
-
-            target->on_hit( &here, &z, bp );
-        }
-
-
-        add_msg_debug( debugmode::DF_MATTACK, "Total damage dealt by attack_all: %d.", total_damage );
-
-        if( total_damage > 0 ) {
-            dealt_damage_instance total_dealt_damage;
-            on_damage( z, *target, total_dealt_damage );
-        }
-
-        add_msg_debug( debugmode::DF_MATTACK, "Total damage dealt: %d.", total_damage );
-    }
 
     // Pick body part
     bodypart_str_id bp_hit = body_parts.empty() ?
@@ -914,24 +876,67 @@ bool melee_actor::call( monster &z ) const
         grabbed_bp_id = bp_id;
     }
 
-    // Damage instance calculation
-    damage_instance damage = damage_max_instance;
-    double multiplier = rng_float( min_mul, max_mul );
-    add_msg_debug( debugmode::DF_MATTACK, "Damage multiplier %.1f (range %.1f - %.1f)", multiplier,
-                   min_mul, max_mul );
-    damage.mult_damage( multiplier );
+    // Damage calculation - either split across all body parts or single target
+    dealt_damage_instance dealt_damage;
+    int damage_total = 0;
 
-    // Block our hit
-    if( blockable ) {
-        target->block_hit( &z, bp_id, damage );
+    if( attack_all ) {
+        // Split damage bool check - attack all eligible body parts
+        std::vector<bodypart_id> body_parts_to_hit = target->get_all_eligable_parts( hitsize_min,
+                hitsize_max, attack_upper );
+        if( body_parts_to_hit.empty() ) {
+            add_msg_debug( debugmode::DF_MATTACK, "No eligible body parts for attack_all." );
+            return false;
+        }
+
+        // Split damage evenly across all available body parts
+        damage_instance distributed_damage = damage_max_instance;
+        double damage_multiplier = rng_float( min_mul, max_mul ) / body_parts_to_hit.size();
+        distributed_damage. mult_damage( damage_multiplier );
+
+        for( const bodypart_id bp : body_parts_to_hit ) {
+            // Create a copy of distributed damage for this body part
+            damage_instance bp_damage = distributed_damage;
+
+            // Block each hit if blockable
+            if( blockable ) {
+                target->block_hit( &z, bp, bp_damage );
+            }
+
+            dealt_damage_instance bp_dealt_damage = target->deal_damage( &z, bp, bp_damage );
+            damage_total += bp_dealt_damage.total_damage();
+
+            add_msg_debug( debugmode::DF_MATTACK, "Dealt %d damage to body part %s.",
+                           bp_dealt_damage.total_damage(), bp->name );
+
+            target->on_hit( &here, &z, bp );
+        }
+
+        add_msg_debug( debugmode::DF_MATTACK, "Total damage dealt by attack_all: %d.", damage_total );
+
+        dealt_damage.bp_hit = bp_id;
+
+    } else {
+        // Single target damage
+        damage_instance damage = damage_max_instance;
+        double multiplier = rng_float( min_mul, max_mul );
+        add_msg_debug( debugmode:: DF_MATTACK, "Damage multiplier %. 1f (range %. 1f - %.1f)", multiplier,
+                       min_mul, max_mul );
+        damage.mult_damage( multiplier );
+
+        // Block hit
+        if( blockable ) {
+            target->block_hit( &z, bp_id, damage );
+        }
+
+        // Take damage
+        dealt_damage = target->deal_damage( &z, bp_id, damage );
+        dealt_damage.bp_hit = bp_id;
+        damage_total = dealt_damage.total_damage();
+
+        // On hit effects
+        target->on_hit( &here, &z, bp_id );
     }
-
-    // Take damage
-    dealt_damage_instance dealt_damage = target->deal_damage( &z, bp_id, damage );
-    dealt_damage.bp_hit = bp_id;
-
-    // On hit effects
-    target->on_hit( &here, &z, bp_id );
 
     // Apply onhit self effects
     for( const mon_effect_data &eff : self_effects_onhit ) {
@@ -942,7 +947,7 @@ bool melee_actor::call( monster &z ) const
             target->add_msg_if_player( msg_type, eff.message, mon_name );
         }
     }
-    int damage_total = dealt_damage.total_damage();
+
     add_msg_debug( debugmode::DF_MATTACK, "%s's melee_attack did %d damage", z.name(), damage_total );
     if( damage_total > 0 ) {
         on_damage( z, *target, dealt_damage );
