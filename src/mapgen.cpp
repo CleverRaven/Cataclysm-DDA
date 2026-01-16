@@ -848,7 +848,6 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                 } else {
                     setsubmap( grid_pos, MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) );
                     // Apply historical ice conversion for submaps loaded from disk as well
-                    apply_historical_phase_change_to_submap( p_sm_base.xy() + pos );
                 }
             }
         }
@@ -6220,6 +6219,12 @@ ret_val<void> jmapgen_objects::has_vehicle_collision( const mapgendata &dat,
 
 void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_generator &wgen )
 {
+    // If we have a recorded original terrain, use its rules to revert or
+    if( has_original_terrain_at( p ) ) {
+        const ter_id orig_id = get_original_terrain_at( p );
+        ter_set( p, orig_id );
+        clear_original_terrain_at( p );
+    }
     const tripoint_abs_ms abs_p = get_abs( p );
     const ter_str_id cur_id = ter( p ).id();
     const ter_t &cur_ter = cur_id.obj();
@@ -6300,21 +6305,6 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
         // Record original terrain so it can be reverted later
         set_original_terrain_at( p, cur_id.id() );
         ter_set( p, chosen );
-    } else if( has_original_terrain_at( p ) ) {
-        const ter_id orig_id = get_original_terrain_at( p );
-        const ter_t &orig_ter = orig_id.obj();
-        const ter_str_id chosen = apply_phase_thresholds( orig_ter, orig_id.obj().id );
-        if( chosen != ter_t_pseudo_phase ) {
-            // If chosen target is the original, revert and clear record.
-            if( chosen == orig_id.obj().id ) {
-                ter_set( p, orig_id );
-                clear_original_terrain_at( p );
-            } else {
-                // Otherwise ensure tile is set to the chosen transformed state and keep the original recorded.
-                ter_set( p, chosen );
-            }
-        }
-        return;
     }
 }
 
@@ -6350,27 +6340,6 @@ void map::draw_map( mapgendata &dat )
     }
     // End of draw_map
 }
-
-
-void map::apply_historical_phase_change_to_submap( const tripoint_abs_sm &p_sm )
-{
-    if( abs_sub.z() < 0 ) {
-        return;
-    }
-    // Save previous abs_sub and restore on exit
-    const tripoint_abs_sm prev_abs_sub = abs_sub;
-    set_abs_sub( p_sm );
-    const weather_generator &wgen = get_weather().get_cur_weather_gen();
-    for( int i = 0; i < SEEX; i++ ) {
-        for( int j = 0; j < SEEY; j++ ) {
-            const tripoint_bub_ms p( i, j, abs_sub.z() );
-            temp_based_phase_change_at( p, wgen );
-        }
-    }
-
-    set_abs_sub( prev_abs_sub );
-}
-
 
 static const int SOUTH_EDGE = 2 * SEEY - 1;
 static const int EAST_EDGE = 2 * SEEX  - 1;
@@ -7687,7 +7656,8 @@ void map::add_spawn(
                                           data );
 }
 
-vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, const units::angle &dir,
+vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p,
+                           const units::angle &dir,
                            const int veh_fuel, const int veh_status, const bool merge_wrecks,
                            const bool force_status/* = false*/ )
 {
@@ -8690,11 +8660,13 @@ void line( tinymap *m, const ter_id &type, const point_omt_ms &p1, const point_o
 {
     m->draw_line_ter( type, p1, p2 );
 }
-void line_furn( map *m, const furn_id &type, const point_bub_ms &p1, const point_bub_ms &p2, int z )
+void line_furn( map *m, const furn_id &type, const point_bub_ms &p1, const point_bub_ms &p2,
+                int z )
 {
     m->draw_line_furn( type, p1, p2, z );
 }
-void line_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1, const point_omt_ms &p2 )
+void line_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1,
+                const point_omt_ms &p2 )
 {
     m->draw_line_furn( type, p1, p2 );
 }
@@ -8710,11 +8682,13 @@ void square( map *m, const ter_id &type, const point_bub_ms &p1, const point_bub
 {
     m->draw_square_ter( type, p1, p2, m->get_abs_sub().z() );
 }
-void square_furn( map *m, const furn_id &type, const point_bub_ms &p1, const point_bub_ms &p2 )
+void square_furn( map *m, const furn_id &type, const point_bub_ms &p1,
+                  const point_bub_ms &p2 )
 {
     m->draw_square_furn( type, p1, p2, m->get_abs_sub().z() );
 }
-void square_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1, const point_omt_ms &p2 )
+void square_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1,
+                  const point_omt_ms &p2 )
 {
     m->draw_square_furn( type, p1, p2 );
 }

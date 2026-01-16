@@ -1918,8 +1918,6 @@ class map
         void on_unload( const tripoint_rel_sm &loc );
         void copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from );
         void draw_map( mapgendata &dat );
-        // Apply historical temperature-based phase change to a single submap (load or generation)
-        void apply_historical_phase_change_to_submap( const tripoint_abs_sm &p_sm );
 
         void draw_lab( mapgendata &dat );
 
@@ -2111,6 +2109,7 @@ class map
     private:
         // Iterates over every item on the map, passing each item to the provided function.
         void process_items_in_submap( submap &current_submap, const tripoint_rel_sm &gridp );
+        void process_terrain_in_submap( submap &current_submap, const tripoint_rel_sm &gridp );
         void process_items_in_vehicles( submap &current_submap );
         void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap );
 
