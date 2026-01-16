@@ -3276,7 +3276,7 @@
   },
   {
     "type": "material",
-    "id": "Down_Feathers",
+    "id": "down_Feathers",
     "name": "Down Feathers",
     "density": 0.01,
     "specific_heat_liquid": 0.02,
