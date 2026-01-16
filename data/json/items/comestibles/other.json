@@ -223,7 +223,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 300,
-    "description": "A disgusting glob of royal jelly from a mutant beehive.  It looks like pus, but with the consistency of gelatin, and a blood-red center like a fruit gusher from Hell.  Royal jelly is fed to larval bees to grow them into new queens; it may not be wise to eat this yourself given the state of the hive it came from. ",
+    "description": "A disgusting glob of royal jelly from a mutant beehive.  It looks like pus, but with the consistency of gelatin, and a blood-red center like a fruit gusher from Hell.  Royal jelly is fed to larval bees to grow them into new queens; it may not be wise to eat this yourself given the state of the hive it came from.",
     "price_postapoc": "0 USD",
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
