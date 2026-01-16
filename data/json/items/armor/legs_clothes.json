@@ -1010,7 +1010,7 @@
       {
         "id": "pants_brown",
         "name": { "str_sp": "brown khaki pants" },
-        "description": "This pair of corduroy pants is a pleasent but dull hue of brown.",
+        "description": "This pair of corduroy pants is a pleasant but dull hue of brown.",
         "color": "brown",
         "weight": 10
       },
