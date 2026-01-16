@@ -114,6 +114,7 @@
     "type": "mapgen",
     "om_terrain": [ "outcrop_bottom" ],
     "object": {
+      "fill_ter": "t_soil",
       "rotation": [ 0, 3 ],
       "rows": [
         "                        ",
@@ -142,7 +143,7 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "cave_surface_palette" ]
+      "terrain": { "|": "t_rock", "%": [ [ "t_soil", 1 ], [ "t_rock", 1 ] ] }
     }
   }
 ]

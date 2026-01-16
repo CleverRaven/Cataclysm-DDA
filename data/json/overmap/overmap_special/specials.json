@@ -4022,7 +4022,7 @@
   {
     "type": "overmap_special",
     "id": "outcrop",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outcrop_north" }, { "point": [ 0, 0, 0 ], "overmap": "outcrop_bottom_north" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outcrop_north" }, { "point": [ 0, 0, -1 ], "overmap": "outcrop_bottom_north" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 30, -1 ],
     "occurrences": [ 0, 10 ],
