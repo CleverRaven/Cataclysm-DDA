@@ -1047,7 +1047,8 @@
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
           { "type": "cotton", "covered_by_mat": 80, "thickness": 0.6 }
-        ]
+        ],
+        "breathability": "GOOD"
       },
       {
         "coverage": 100,
