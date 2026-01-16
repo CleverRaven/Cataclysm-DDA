@@ -877,7 +877,8 @@ void advanced_inventory::redraw_pane( side p )
         int itemcount = square.get_item_count();
         int fmtw = 7 + ( itemcount > 99 ? 3 : itemcount > 9 ? 2 : 1 ) +
                    ( max > 99 ? 3 : max > 9 ? 2 : 1 );
-        mvwprintz( w, point( w_width / 2 - fmtw, 0 ), active ? c_white : c_dark_gray, "< %d/%d >", itemcount, max );
+        mvwprintz( w, point( w_width / 2 - fmtw, 0 ), active ? c_white : c_dark_gray, "< %d/%d >",
+                   itemcount, max );
     }
 
     std::string fprefix = string_format( _( "[%s] Filter" ), ctxt.get_desc( "FILTER" ) );
