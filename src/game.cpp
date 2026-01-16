@@ -2293,6 +2293,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     }
                     break;
                 case 't': {
+                    ui_impl.reset();
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
                     avatar_action::plthrow( u, locThisItem );
@@ -2340,20 +2341,24 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'v':
                     if( oThisItem.is_container() ) {
+                        ui_impl.reset();
                         oThisItem.favorite_settings_menu();
                     }
                     break;
                 case 'V': {
+                    ui_impl.reset();
                     view_recipe_crafting_menu( oThisItem );
                     break;
                 }
                 case 'i':
                     if( oThisItem.is_container() ) {
+                        ui_impl.reset();
                         game_menus::inv::insert_items( locThisItem );
                     }
                     break;
                 case 'o':
                     if( oThisItem.is_container() && oThisItem.num_item_stacks() > 0 ) {
+                        ui_impl.reset();
                         game_menus::inv::common( locThisItem );
                     }
                     break;
