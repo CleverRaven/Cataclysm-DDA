@@ -16,8 +16,8 @@
     "id": "EXODII_trade_Tier1",
     "subtype": "collection",
     "entries": [
-      { "group": "EXODII_CBM_Store_tier1_extra", "count": [ 1, 2 ], "prob": 100 },
-      { "group": "EXODII_Shop_Guns_Tier1", "count": [ 1, 2 ], "prob": 70 }
+      { "group": "EXODII_CBM_Store_tier1_extra", "count": 1, "prob": 100 },
+      { "group": "EXODII_Shop_Guns_Tier1", "count": 1, "prob": 100 }
     ]
   },
   {
@@ -25,8 +25,8 @@
     "id": "EXODII_trade_Tier2",
     "subtype": "collection",
     "entries": [
-      { "group": "EXODII_CBM_Store_Tier2", "count": [ 1, 2 ], "prob": 100 },
-      { "group": "EXODII_Shop_Guns_Tier2", "count": [ 1, 2 ], "prob": 80 }
+      { "group": "EXODII_CBM_Store_Tier2", "count": 1, "prob": 100 },
+      { "group": "EXODII_Shop_Guns_Tier2", "count": 1, "prob": 100 }
     ]
   },
   {
@@ -34,18 +34,8 @@
     "id": "EXODII_trade_Tier3",
     "subtype": "collection",
     "entries": [
-      { "group": "EXODII_CBM_Store_Tier3", "count": [ 1, 2 ], "prob": 100 },
-      { "group": "EXODII_Shop_Guns_Tier3", "count": [ 1, 2 ], "prob": 100 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "//": "Spawn extra tier 1 CBMs and a bonus tier 2 if the Exodii don't dislike you.",
-    "id": "EXODII_CBM_Store_tier1_extra",
-    "subtype": "collection",
-    "entries": [
-      { "group": "EXODII_CBM_Store_Tier1", "count": [ 2, 4 ], "prob": 100 },
-      { "group": "EXODII_CBM_Store_Tier2", "count": 1, "prob": 25 }
+      { "group": "EXODII_CBM_Store_Tier3", "count": 1, "prob": 100 },
+      { "group": "EXODII_Shop_Guns_Tier3", "count": 1, "prob": 100 }
     ]
   },
   {
@@ -54,85 +44,54 @@
     "//": "This stuff should be available in the Exodii store from the start.",
     "subtype": "collection",
     "items": [
-      { "item": "thread", "prob": 75, "count": [ 10, 20 ] },
-      [ "vac_mold", 10 ],
-      [ "box_medium", 75 ],
-      [ "box_large", 25 ],
-      [ "pipe_fittings", 70 ],
-      [ "goggles_welding", 50 ],
-      [ "welding_mask", 30 ],
-      [ "jerrycan", 10 ],
-      [ "jerrycan_big", 10 ],
-      [ "metal_tank", 8 ],
-      [ "metal_tank_little", 8 ],
-      [ "cu_pipe", 25 ],
-      [ "plastic_sheet", 10 ],
-      [ "oxy_torch", 45 ],
-      { "item": "weldtank", "prob": 15, "count": [ 1, 2 ] },
-      { "item": "smallweldtank", "prob": 45, "count": [ 1, 3 ] },
-      { "item": "tinyweldtank", "prob": 45, "count": [ 1, 3 ] },
-      { "item": "oxygen_cylinder", "prob": 10, "count": [ 1, 2 ] }
+      { "item": "thread", "prob": 100, "count": [ 10, 20 ] },
+      { "item": "vac_mold", "prob": 75, "count": [ 1, 2 ] },
+      { "item": "welding_mask", "prob": 85, "count": [ 1, 5 ] },
+      { "item": "jerrycan", "prob": 65, "count": [ 1, 2 ] },
+      { "item": "jerrycan_big", "prob": 65, "count": [ 1, 3 ] },
+      { "item": "metal_tank", "prob": 65, "count": [ 1, 3 ] },
+      { "item": "metal_tank_little", "prob": 65, "count": [ 1, 4 ] },
+      { "item": "cu_pipe", "prob": 80, "count": [ 3, 9 ] },
+      { "item": "plastic_sheet", "prob": 65, "count": [ 1, 2 ] },
+      { "item": "oxy_torch", "prob": 90, "count": [ 1, 2 ] },
+      { "item": "weldtank", "prob": 75, "count": [ 1, 2 ] },
+      { "item": "smallweldtank", "prob": 80, "count": [ 1, 3 ] },
+      { "item": "tinyweldtank", "prob": 85, "count": [ 1, 3 ] },
+      { "item": "oxygen_cylinder", "prob": 90, "count": [ 1, 2 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "EXODII_Shop_NomadGear_Tier0",
     "//": "This stuff should be available in the Exodii store from the start.  This group includes common items used to craft nomad gear, which the Exodii are happy to offer, as well as blueprints for them.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "items": [
-      {
-        "collection": [
-          { "item": "bp_nomad_cowl", "prob": 100 },
-          { "item": "bp_nomad_bodyglove", "prob": 100 },
-          { "item": "bp_nomad_jumpsuit", "prob": 100 },
-          { "item": "exodii_ac_kit", "prob": 100, "count": 1 },
-          { "item": "exodii_wire_kit", "prob": 100, "count": 1 }
-        ],
-        "prob": 100
-      },
-      {
-        "collection": [
-          { "item": "leather", "prob": 50, "count": [ 2, 4 ] },
-          { "item": "tanned_hide", "prob": 30, "count": [ 1, 2 ] },
-          { "item": "glasses_safety", "prob": 30 },
-          { "item": "goggles_chem", "prob": 10 },
-          { "item": "glasses_bal", "prob": 10 }
-        ],
-        "prob": 50
-      },
-      {
-        "collection": [
-          { "item": "sheet_cotton_patchwork", "prob": 50, "count": [ 1, 4 ] },
-          { "item": "cotton_patchwork", "prob": 30, "count": [ 3, 6 ] },
-          { "item": "leather", "prob": 50, "count": [ 2, 4 ] },
-          { "item": "tanned_hide", "prob": 30, "count": [ 1, 2 ] },
-          { "item": "thread_nomex", "prob": 20, "count": [ 1, 6 ] },
-          { "item": "thread_kevlar", "prob": 20, "count": [ 1, 6 ] },
-          { "item": "zipper_long_plastic", "prob": 10, "count": [ 1, 2 ] },
-          { "item": "snapfastener_steel", "prob": 40, "count": [ 5, 10 ] },
-          { "item": "chunk_rubber", "prob": 50, "count": [ 1, 2 ] },
-          { "group": "glue_strong_domestic", "prob": 30, "count": [ 1, 2 ] },
-          { "group": "glue_weak_domestic", "prob": 40, "count": [ 1, 2 ] }
-        ],
-        "prob": 50
-      },
-      {
-        "collection": [
-          { "item": "exodii_ac_kit", "prob": 100, "count": 1 },
-          { "item": "exodii_wire_kit", "prob": 100, "count": [ 1, 3 ] },
-          { "item": "sheet_cotton_patchwork", "prob": 50, "count": [ 1, 4 ] },
-          { "item": "cotton_patchwork", "prob": 30, "count": [ 3, 6 ] },
-          { "item": "leather", "prob": 50, "count": [ 2, 4 ] },
-          { "item": "tanned_hide", "prob": 30, "count": [ 1, 2 ] },
-          { "item": "leather_pouch", "prob": 10, "count": [ 1, 2 ] },
-          { "item": "ragpouch", "prob": 40, "count": [ 1, 2 ] },
-          { "item": "tool_belt", "prob": 40 },
-          { "item": "leather_pouch", "prob": 10 },
-          { "group": "glue_strong_domestic", "prob": 15, "count": [ 1, 2 ] },
-          { "group": "glue_weak_domestic", "prob": 15, "count": [ 1, 2 ] }
-        ],
-        "prob": 50
-      }
+  		{ "item": "bp_nomad_cowl", "prob": 100 },
+  		{ "item": "bp_nomad_bodyglove", "prob": 100 },
+  		{ "item": "bp_nomad_jumpsuit", "prob": 100 },
+  		{ "item": "exodii_ac_kit", "prob": 100, "count": 5 },
+  		{ "item": "exodii_wire_kit", "prob": 100, "count": 10 },
+  		{ "item": "glasses_safety", "prob": 90 },
+  		{ "item": "goggles_chem", "prob": 90 },
+  		{ "item": "glasses_bal", "prob": 90 },
+  		{ "item": "cotton_patchwork", "prob": 30, "count": [ 3, 6 ] },
+  		{ "item": "leather", "prob": 90, "count": [ 5, 15 ] },
+  		{ "item": "tanned_hide", "prob": 80, "count": [ 1, 4 ] },
+  		{ "item": "thread_nomex", "prob": 90, "count": [ 1, 6 ] },
+  		{ "item": "thread_kevlar", "prob": 90, "count": [ 1, 6 ] },
+  		{ "item": "zipper_long_plastic", "prob": 90, "count": [ 3, 5 ] },
+  		{ "item": "snapfastener_steel", "prob": 80, "count": [ 5, 10 ] },
+  		{ "item": "chunk_rubber", "prob": 90, "count": [ 1, 2 ] },
+  		{ "group": "glue_strong_domestic", "prob": 90, "count": [ 1, 2 ] },
+  		{ "group": "glue_weak_domestic", "prob": 90, "count": [ 1, 2 ] },
+  		{ "item": "sheet_cotton_patchwork", "prob": 75, "count": [ 5, 15 ] },
+  		{ "item": "cotton_patchwork", "prob": 30, "count": [ 3, 6 ] },
+  		{ "item": "leather_pouch", "prob": 80, "count": [ 1, 2 ] },
+  		{ "item": "ragpouch", "prob": 80, "count": [ 1, 2 ] },
+  		{ "item": "tool_belt", "prob": 90 },
+  		{ "item": "leather_pouch", "prob": 10 },
+  		{ "group": "glue_strong_domestic", "prob": 15, "count": [ 1, 2 ] },
+  		{ "group": "glue_weak_domestic", "prob": 15, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -141,27 +100,19 @@
     "//": "This stuff should be available in the Exodii store from the start.  This group includes guns and ammo the Exodii are happy to sell to noobs.",
     "subtype": "collection",
     "items": [
-      {
-        "distribution": [
-          { "item": "brogyeki", "prob": 20, "count": [ 1, 2 ] },
-          { "item": "brogyaga", "prob": 5, "count": [ 1, 2 ] },
-          { "item": "pamd68", "prob": 60, "count": [ 1, 2 ] },
-          { "item": "pamd71z", "prob": 10, "count": [ 1, 2 ] },
-          { "item": "knife_combat_army", "variant": "exodiibayonet", "prob": 50, "count": [ 1, 2 ] }
-        ]
-      },
-      {
-        "distribution": [
-          { "item": "exodiiminimag", "prob": 60, "charges": 0, "count": [ 1, 2 ] },
-          { "item": "exodiiBRmag", "prob": 10, "charges": 0, "count": [ 1, 2 ] },
-          { "item": "exodiiBRmag_26", "prob": 25, "charges": 0, "count": [ 2, 5 ] }
-        ]
-      },
-      { "item": "123ln", "container-item": "box_small", "prob": 60, "count": [ 2, 4 ], "sealed": true },
-      { "item": "273x110sluglight", "container-item": "box_small", "prob": 40, "count": [ 3, 4 ], "sealed": true },
-      { "item": "273x44trainer", "container-item": "box_small", "prob": 30, "count": [ 3, 5 ], "sealed": true },
-      { "item": "273x110flock", "container-item": "box_small", "prob": 10, "count": [ 1, 2 ], "sealed": true },
-      { "item": "273x44flare", "container-item": "box_small_wood", "prob": 5, "count": [ 1, 2 ], "sealed": true }
+  	  { "item": "brogyeki", "prob": 100, "count": [ 1, 2 ] },
+  	  { "item": "brogyaga", "prob": 100, "count": [ 1, 2 ] },
+  	  { "item": "pamd68", "prob": 100, "count": [ 1, 2 ] },
+  	  { "item": "pamd71z", "prob": 100, "count": [ 1, 2 ] },
+  	  { "item": "knife_combat_army", "variant": "exodiibayonet", "prob": 100, "count": [ 1, 2 ] },
+  	  { "item": "exodiiminimag", "prob": 100, "charges": 0, "count": [ 4, 6 ] },
+  	  { "item": "exodiiBRmag", "prob": 100, "charges": 0, "count": [ 3, 4 ] },
+  	  { "item": "exodiiBRmag_26", "prob": 100, "charges": 0, "count": [ 3, 4 ] },
+      { "item": "123ln", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 5 ], "charges": 200, "sealed": true },
+      { "item": "273x110sluglight", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 6 ], "charges": 25, "sealed": true },
+      { "item": "273x44trainer", "container-item": "box_small_wood", "prob": 100, "count": [ 6, 8 ], "charges": 40, "sealed": true },
+      { "item": "273x110flock", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 6 ], "charges": 25, "sealed": true },
+      { "item": "273x44flare", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 6 ], "charges": 40, "sealed": true }
     ]
   },
   {
@@ -169,13 +120,13 @@
     "id": "EXODII_Shop_Guns_Tier1",
     "subtype": "collection",
     "items": [
-      { "distribution": [ { "item": "sapra", "prob": 10, "count": [ 1, 2 ] } ] },
-      { "distribution": [ { "item": "exodiisapramag5", "prob": 10, "charges": 0, "count": [ 1, 2 ] } ] },
-      { "item": "273x110canister", "container-item": "box_small", "prob": 25, "count": [ 2, 4 ], "sealed": true },
-      { "item": "273x44HE", "container-item": "box_small_wood", "prob": 5, "count": [ 1, 3 ], "sealed": true },
-      { "item": "exodiiBRmag_153", "prob": 25, "charges": 0, "count": 1 },
-      { "item": "exodii_prybar", "prob": 40, "count": [ 1, 2 ] },
-      { "item": "exodii_digger", "prob": 35, "count": [ 1, 2 ] }
+      { "item": "sapra", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "exodiisapramag5", "prob": 100, "charges": 0, "count": [ 3, 5 ] },
+      { "item": "273x110canister", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 6 ], "charges": 25, "sealed": true },
+      { "item": "273x44HE", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 6 ], "charges": 40, "sealed": true },
+      { "item": "exodiiBRmag_153", "prob": 100, "charges": 0, "count": 3 },
+      { "item": "exodii_prybar", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "exodii_digger", "prob": 100, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -183,27 +134,26 @@
     "id": "EXODII_Shop_Guns_Tier2",
     "subtype": "collection",
     "items": [
-      { "item": "273x44thermobaric", "container-item": "box_small_wood", "prob": 10, "count": [ 1, 2 ], "sealed": true },
-      { "item": "273x110slugmedium", "container-item": "box_small", "prob": 30, "count": [ 2, 4 ], "sealed": true },
+      { "item": "273x44thermobaric", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 6 ], "charges": 25, "sealed": true },
+      { "item": "273x110slugmedium", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 6 ], "charges": 25, "sealed": true },
       {
         "collection": [
-          { "item": "ree_33", "prob": 100, "count": [ 1, 3 ] },
-          { "item": "ree_33_4_mag", "prob": 100, "count": [ 2, 4 ] },
-          { "item": "ree_33_53_mag", "prob": 20, "count": [ 1, 3 ] },
-          { "item": "33naval_ball", "container-item": "box_medium_wood", "prob": 100, "charges": 200, "sealed": true },
-          { "item": "33naval_ball", "container-item": "box_medium_wood", "prob": 50, "charges": 200, "sealed": true }
+          { "item": "ree_33", "prob": 100, "count": 1 },
+          { "item": "ree_33_4_mag", "prob": 100, "count": [ 2, 3 ] },
+          { "item": "ree_33_53_mag", "prob": 100, "count": [ 1, 2 ] },
+          { "item": "33naval_ball", "container-item": "box_medium_wood", "prob": 100, "charges": 200, "sealed": true, "count": 1 }
         ],
-        "prob": 20
+        "prob": 100
       },
       {
         "collection": [
           { "item": "khuunaofaai", "prob": 100, "count": [ 1, 2 ] },
-          { "item": "exodii_khuunaofaai_mag_firework", "prob": 100, "count": [ 3, 4 ] },
-          { "item": "exodii_khuunaofaai_mag_incendiary", "prob": 50, "count": [ 1, 2 ] },
-          { "item": "exodii_khuunaofaai_mag_corrosive", "prob": 50, "count": [ 1, 2 ] },
-          { "item": "exodii_khuunaofaai_mag_adhesive", "prob": 50, "count": [ 1, 2 ] }
+          { "item": "exodii_khuunaofaai_mag_firework", "prob": 100, "count": [ 3, 5 ] },
+          { "item": "exodii_khuunaofaai_mag_incendiary", "prob": 100, "count": [ 2, 4 ] },
+          { "item": "exodii_khuunaofaai_mag_corrosive", "prob": 100, "count": [ 2, 4 ] },
+          { "item": "exodii_khuunaofaai_mag_adhesive", "prob": 100, "count": [ 2, 4 ] }
         ],
-        "prob": 25
+        "prob": 100
       }
     ]
   },
@@ -212,8 +162,8 @@
     "id": "EXODII_Shop_Guns_Tier3",
     "subtype": "collection",
     "items": [
-      { "item": "273x44RG", "container-item": "box_medium_wood", "prob": 10, "count": [ 1, 2 ], "sealed": true },
-      { "item": "273x110slugheavy", "container-item": "box_small", "prob": 30, "count": [ 1, 2 ], "sealed": true }
+      { "item": "273x44RG", "container-item": "box_medium_wood", "prob": 100, "count": 1, "charges": 100, "sealed": true },
+      { "item": "273x110slugheavy", "container-item": "box_small_wood", "prob": 100, "count": [ 4, 6 ], "charges": 25, "sealed": true }
     ]
   },
   {
@@ -224,7 +174,7 @@
     "items": [
       { "item": "exodii_plasma_projectile", "prob": 100, "count": 1 },
       { "item": "caotel_plasma_ring", "prob": 100, "count": 1 },
-      { "item": "caotel_cell", "container-item": "box_small", "prob": 100, "count": 2, "sealed": true }
+      { "item": "caotel_cell", "container-item": "box_small_wood", "prob": 100, "count": 2, "charges": 12, "sealed": true }
     ]
   },
   {
@@ -234,13 +184,13 @@
     "//2": "Ideally, the spear should be sold as a spearhead and the player crafts it by getting their own pole.",
     "subtype": "collection",
     "items": [
-      { "item": "gambeson", "prob": 40, "count": [ 1, 2 ] },
-      { "item": "armor_lorica", "prob": 20, "count": [ 1, 2 ] },
-      { "item": "helmet_corinthian", "prob": 60, "count": [ 1, 2 ] },
-      { "item": "armor_thessalonian", "prob": 80, "count": [ 1, 2 ] },
-      { "item": "leggings_thessalonian", "prob": 80, "count": [ 1, 2 ] },
-      { "item": "sword_xiphos", "prob": 50, "count": [ 1, 2 ] },
-      { "item": "spear_dory", "prob": 30, "count": [ 1, 2 ] }
+      { "item": "gambeson", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "armor_lorica", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "helmet_corinthian", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "armor_thessalonian", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "leggings_thessalonian", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "sword_xiphos", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "spear_dory", "prob": 100, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -250,8 +200,8 @@
     "subtype": "collection",
     "items": [
       { "group": "EXODII_CBM_tier1_utility", "prob": 100 },
-      { "group": "EXODII_CBM_tier1_tools", "prob": 80 },
-      { "group": "EXODII_CBM_tier1_power", "prob": 50 },
+      { "group": "EXODII_CBM_tier1_tools", "prob": 100 },
+      { "group": "EXODII_CBM_tier1_power", "prob": 100 },
       { "group": "EXODII_CBM_tier1_fun", "prob": 100 }
     ]
   },
@@ -259,108 +209,118 @@
     "type": "item_group",
     "id": "EXODII_CBM_Store_Tier2",
     "//": "These CBMs should be available in the Exodii store after at least 2 weeks.",
+    "subtype": "collection",
     "items": [
-      [ "bio_tools", 10 ],
-      [ "bio_electrokit", 10 ],
-      [ "bio_ethanol", 10 ],
-      [ "bio_eye_optic", 10 ],
-      [ "bio_remote", 10 ],
-      [ "bio_torsionratchet", 10 ],
-      [ "bio_ears", 10 ],
-      [ "bio_fuel_cell_gasoline", 10 ],
-      [ "bio_lampoil", 10 ],
-      [ "bio_armor_arms", 10 ],
-      [ "bio_armor_eyes", 10 ],
-      [ "bio_armor_head", 10 ],
-      [ "bio_armor_legs", 10 ],
-      [ "bio_armor_torso", 10 ],
-      [ "bio_digestion", 10 ],
-      [ "bio_infrared", 10 ],
-      [ "bio_lockpick", 10 ],
-      [ "bio_night_vision", 10 ],
-      [ "bio_sonar", 10 ],
-      [ "bio_power_storage_mkII", 10 ],
-      [ "bio_scent_mask", 10 ],
-      [ "bio_jointservo", 10 ],
-      [ "bio_taste_blocker", 10 ],
-      [ "bio_ar", 10 ]
+      { "item": "bio_tools", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_electrokit", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_ethanol", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_eye_optic", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_remote", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_torsionratchet", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_ears", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_fuel_cell_gasoline", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_lampoil", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_armor_arms", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_armor_eyes", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_armor_head", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_armor_legs", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_armor_torso", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_digestion", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_infrared", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_lockpick", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_night_vision", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_sonar", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_power_storage_mkII", "prob": 100, "count": [ 4, 8 ] },
+      { "item": "bio_scent_mask", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_jointservo", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_taste_blocker", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_ar", "prob": 100, "count": [ 1, 2 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "EXODII_CBM_Store_Tier3",
     "//": "These CBMs should be available in the Exodii store after at least 4 weeks.",
+    "subtype": "collection",
     "items": [
-      [ "bio_blood_filter", 10 ],
-      [ "bio_purifier", 10 ],
-      [ "bio_heatsink", 10 ],
-      [ "bio_climate", 10 ],
-      [ "bio_leukocyte", 10 ],
-      [ "bio_adrenaline", 10 ],
-      [ "bio_blood_anal", 10 ],
-      [ "bio_carbon", 10 ],
-      [ "bio_evap", 10 ],
-      [ "bio_face_mask", 10 ],
-      [ "bio_gills", 10 ],
-      [ "bio_hydraulics", 10 ],
-      [ "bio_membrane", 10 ],
-      [ "bio_painkiller", 10 ],
-      [ "bio_radscrubber", 10 ],
-      [ "bio_weight", 10 ],
-      [ "bio_synlungs", 10 ]
+      { "item": "bio_blood_filter", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_purifier", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_heatsink", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_climate", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_leukocyte", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_adrenaline", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_blood_anal", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_carbon", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_evap", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_face_mask", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_gills", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_hydraulics", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_membrane", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_painkiller", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_radscrubber", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_weight", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_synlungs", "prob": 100, "count": [ 1, 2 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "EXODII_CBM_Store_Tier4",
     "//": "These CBMs should be available in the Exodii store after at least 8 weeks.",
+    "subtype": "collection",
     "items": [
-      [ "bio_surgical_razor", 10 ],
-      [ "bio_faraday", 10 ],
-      [ "bio_metabolics", 10 ],
-      [ "bio_ground_sonar", 10 ],
-      [ "bio_recycler", 10 ],
-      [ "bio_uncanny_dodge", 10 ],
-      [ "bio_eye_enhancer", 10 ],
-      [ "bio_dex_enhancer", 10 ],
-      [ "bio_heat_absorb", 10 ],
-      [ "bio_int_enhancer", 10 ],
-      [ "bio_memory", 10 ],
-      [ "bio_speed", 10 ],
-      [ "bio_str_enhancer", 10 ],
-      [ "bio_water_extractor", 10 ],
-      [ "bio_synaptic_regen", 10 ]
+      { "item": "bio_surgical_razor", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_faraday", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_metabolics", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_ground_sonar", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_recycler", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_uncanny_dodge", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_eye_enhancer", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_dex_enhancer", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_heat_absorb", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_int_enhancer", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_memory", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_speed", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_str_enhancer", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_water_extractor", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_synaptic_regen", "prob": 100, "count": [ 1, 2 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "EXODII_CBM_tier1_utility",
+    "subtype": "collection",
     "items": [
-      [ "bio_watch", 10 ],
-      [ "bio_alarm", 10 ],
-      [ "bio_sunglasses", 10 ],
-      [ "bio_meteorologist", 10 ],
-      [ "bio_pitch_perfect", 10 ],
-      [ "bio_fitnessband", 10 ],
-      [ "bio_radio", 10 ]
+      { "item": "bio_watch", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_alarm", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_sunglasses", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_meteorologist", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_pitch_perfect", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_fitnessband", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_radio", "prob": 100, "count": [ 1, 2 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "EXODII_CBM_tier1_power",
-    "items": [ [ "bio_power_storage", 30 ], [ "bio_batteries", 1 ], [ "bio_cable", 5 ] ]
+    "subtype": "collection",
+    "items": [
+      { "item": "bio_power_storage", "prob": 100, "count": [ 10, 20 ] },
+      { "item": "bio_batteries", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_cable", "prob": 100, "count": [ 1, 2 ] }
+    ]
   },
   {
     "type": "item_group",
     "id": "EXODII_CBM_tier1_tools",
+    "subtype": "collection",
     "items": [
-      [ "bio_syringe", 10 ],
-      [ "bio_flashlight", 10 ],
-      [ "bio_lighter", 10 ],
-      [ "bio_multimeter", 5 ],
-      [ "bio_magnet", 5 ],
-      [ "bio_fingerhack", 2 ],
-      [ "bio_geiger", 5 ]
+      { "item": "bio_syringe", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_flashlight", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_lighter", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_multimeter", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_magnet", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_fingerhack", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_geiger", "prob": 100, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -401,33 +361,54 @@
   {
     "type": "item_group",
     "id": "EXODII_CBM_tier1_fun",
-    "items": [ [ "bio_tattoo_led", 10 ], [ "bio_nostril", 1 ], [ "bio_voice", 10 ], [ "bio_sleep_shutdown", 2 ] ]
+    "subtype": "collection",
+    "items": [
+      { "item": "bio_tattoo_led", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_voice", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_sleep_shutdown", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_voice_b", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_mp3", "prob": 100, "count": [ 1, 2 ] }
+    ]
   },
   {
     "type": "item_group",
     "id": "EXODII_CBM_unlocks_weapons_light",
-    "//": "To get items from this group in the Exodii CBM store requires finishing missions for their faction and earning their trust",
-    "items": [ [ "bio_blade", 10 ], [ "bio_claws", 10 ], [ "bio_cqb", 10 ], [ "bio_flashbang", 10 ], [ "bio_razors", 10 ] ]
+    "//": "Lower-powered or cheap weapon-type CBMs the Exodii is willing to sell fairly freely",
+    "subtype": "collection",
+    "items": [
+      { "item": "bio_taser", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_flashbang", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_shotgun", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_razors", "prob": 100, "count": [ 1, 2 ] }
+    ]
   },
   {
     "type": "item_group",
     "id": "EXODII_CBM_unlocks_weapons_medium",
-    "//": "To get items from this group in the Exodii CBM store requires finishing missions for their faction and earning their trust",
+    "//": "Midgade, useful weapon-type CBMs the Exodii doles out more selectively",
+    "subtype": "collection",
     "items": [
-      [ "bio_resonator", 10 ],
-      [ "bio_targeting", 15 ],
-      [ "bio_shotgun", 10 ],
-      [ "bio_laser", 5 ],
-      [ "bio_shock", 10 ],
-      [ "bio_recoil", 15 ],
-      [ "bio_taser", 10 ]
+      { "item": "bio_targeting", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_laser", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_claws", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_shock", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_recoil", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_blade", "prob": 100, "count": [ 1, 2 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "EXODII_CBM_unlocks_weapons_heavy",
-    "//": "To get items from this group in the Exodii CBM store requires finishing missions for their faction and earning their trust",
-    "items": [ [ "bio_chain_lightning", 15 ], [ "bio_emp", 1 ], [ "bio_emp_armgun", 1 ], [ "bio_shockwave", 10 ] ]
+    "//": "Dangerous or exotic weapon-type CBMs that the Exodii only gives to a trusted ally",
+    "subtype": "collection",
+    "items": [
+      { "item": "bio_chain_lightning", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_cqb", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_resonator", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_emp_armgun", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_shockwave", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_emp", "prob": 100, "count": [ 1, 2 ] }
+	]
   },
   {
     "type": "item_group",
