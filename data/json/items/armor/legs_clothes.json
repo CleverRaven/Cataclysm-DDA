@@ -1532,7 +1532,7 @@
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 0.6 },
-          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
+          { "type": "vinyl", "covered_by_mat": 60, "thickness": 0.2 }
         ],
         "encumbrance": [ 0, 0 ],
         "rigid_layer_only": false
