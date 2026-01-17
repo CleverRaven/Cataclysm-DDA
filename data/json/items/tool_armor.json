@@ -1158,6 +1158,7 @@
     "looks_like": "glasses_safety",
     "color": "light_gray",
     "charges_per_use": 1,
+    "etransfer_rate": "30 MB",
     "use_action": [ "CAMERA" ],
     "pocket_data": [
       {
@@ -1165,6 +1166,14 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
+      },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0,
+        "ememory_max": "64 GB"
       }
     ],
     "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ] } ],
@@ -1190,6 +1199,7 @@
     "looks_like": "glasses_safety",
     "color": "light_gray",
     "charges_per_use": 1,
+    "etransfer_rate": "30 MB",
     "use_action": [ "CAMERA", "PORTABLE_GAME", "EBOOKSAVE", "E_FILE_DEVICE" ],
     "pocket_data": [
       {
