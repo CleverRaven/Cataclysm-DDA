@@ -241,7 +241,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
-      "items": { " ": { "item": "science", "chance": 95, "repeat": [ 10, 20 ] } }
+      "items": { " ": { "item": "mundane_science", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
