@@ -1095,11 +1095,11 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_holy_blade",
-    "//": "Technomancer spell",
-    "name": { "str": "Scroll of Holy Blade", "str_pl": "Scrolls of Holy Blade" },
-    "description": "This blade of light will cut through any evil it makes contact with!",
-    "use_action": { "type": "learn_spell", "spells": [ "holy_blade" ] }
+    "id": "spell_scroll_magus_mage_conjured_blade",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Force Blade", "str_pl": "Scrolls of Force Blade" },
+    "description": "Conjure up a sword made of force, sharper than any physical blade.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_mage_conjured_blade" ] }
   },
   {
     "type": "ITEM",
