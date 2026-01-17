@@ -2783,6 +2783,117 @@
     "tool_ammo": "gasfilter_m"
   },
   {
+    "id": "basic_papr_helmet_xedra_mark",
+    "//": "modified version for xedra field notebook mission.  Really just extra warm and cumbersome PAPR mask, plus a tinfoil hat to protect from THEM.",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "shielded PAPR-EEG helmet" },
+    "looks_like": "flight_helmet",
+    "description": "A white plastic helmet fit with a transparent full-face mask.  It has been modified for some unknown purpose.  On the back of the helmet is a long tube which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be loaded with a filter and prepared before use; unlike a standard gas mask it will only function when paired with an active PAPR blower unit.  A cotton cap covered in electrodes and wires, like those used to make electroencephalogram recordings, has been integrated as an underlayer, with a thick connection cable exiting a grommeted and sealed hole in the back.  A layer of shiny metallized polyethylene terephthalate has been glued to the interior of the helmet itself.  A tinfoil hat for a prepper with class.",
+    "weight": "950 g",
+    "volume": "2250 ml",
+    "price": "700 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "cotton", "plastic", "aluminum" ],
+    "symbol": "[",
+    "color": "white",
+    "warmth": 30,
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.01 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1 }
+        ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_r", "head_ear_l" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "layers": [ "SKINTIGHT" ]
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "covers": [ "eyes" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "covers": [ "mouth" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      }
+    ],
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 16,
+    "flags": [ "WATERPROOF", "PADDED", "OVERSIZE", "SLEEP_IGNORE", "PAPR_MASK", "PSYSHIELD_PARTIAL" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med",
+        "rigid": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for an ear attachment.",
+        "flag_restriction": [ "HELMET_EAR_ATTACHMENT" ],
+        "inherits_flags": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a counterweight pouch.",
+        "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "14 cm",
+        "moves": 100,
+        "description": "Pocket for a flashlight attachment.",
+        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ],
+        "transparent": true
+      }
+    ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "tool_ammo": "gasfilter_m"
+  },
+  {
     "id": "basic_papr_belt_off",
     "//": "Based on 3M TR-300",
     "type": "ITEM",
