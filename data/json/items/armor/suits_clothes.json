@@ -941,7 +941,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "ski bib" },
-    "description": "A heavy, waterproof ski bib that covers the legs and torso.  It is made of a thick, durable material and is designed to keep the wearer warm in cold conditions. Activate them to unzip the front legs for ventilation and pull up the gaiters.",
+    "description": "A heavy, waterproof ski bib that covers the legs and torso.  It is made of a thick, durable material and is designed to keep the wearer warm in cold conditions, and includes a boot clip to keep snow out of your feet. Activate them to unzip the front legs for ventilation and pull up the gaiters.",
     "weight": "1200 g",
     "volume": "3300 ml",
     "price": "65 USD 50 cent",
@@ -1007,6 +1007,20 @@
         "max_contains_weight": "1600 g",
         "max_length": "9 cm",
         "moves": 90
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "18 cm",
+        "moves": 70
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "18 cm",
+        "moves": 70
       }
     ],
     "warmth": 60,
@@ -1027,6 +1041,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "ski bib (unzipped)" },
+    "description": "A heavy, waterproof ski bib that covers the legs and torso.  It is made of a thick, durable material and is designed to keep the wearer warm in cold conditions, and includes a boot clip to keep snow out of your feet. Activate them to zip up the front legs for ventilation and clip on the gaiters.",
     "warmth": 40,
     "flags": [ "VARSIZE", "POCKETS" ],
     "environmental_protection": 2,
