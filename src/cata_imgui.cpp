@@ -203,8 +203,7 @@ void cataimgui::client::process_input( void *input )
         } else {
             int ch = curses_input->get_first_input();
             if( ch != UNKNOWN_UNICODE ) {
-                // TODO: Check for proper way to detect non special-key multibyte input
-                if( ( ch & 0xffffff00 ) >> 8 != 1 ) {
+                if( ch <= 0xff ) { // Values bigger than 1 byte represent function keys
                     ch = utf8_wrapper( curses_input->text ).at( 0 );
                 }
                 imtui_events.push_back( std::pair<int, ImTui::mouse_event>( ch, new_mouse_event ) );
