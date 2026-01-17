@@ -946,7 +946,7 @@
     "volume": "3300 ml",
     "price": "65 USD 50 cent",
     "price_postapoc": "8 USD",
-    "material": [ "denim" ],
+    "material": [ "nylon", "cotton", "vinyl" ],
     "symbol": "[",
     "color": "light_blue",
     "armor": [
