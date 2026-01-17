@@ -396,7 +396,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "puffer jacket" },
-    "description": "A down-filled coat with deep pockets and a hood.  Very warm.",
+    "description": "A down-filled jacket with deep pockets and a hood.  Very warm.",
     "weight": "1340 g",
     "volume": "6750 ml",
     "price": "140 USD",
@@ -3865,5 +3865,60 @@
     "warmth": 5,
     "flags": [ "VARSIZE", "OUTER" ],
     "armor": [ { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100 } ]
+  },
+  {
+    "id": "coat_light_winter",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "shell jacket" },
+    "description": "A lightweight waterproof shell jacket designed to block wind and rain. It has deep pockets and provides a moderate amount of warmth.",
+    "weight": "1340 g",
+    "volume": "6750 ml",
+    "price": "140 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "material": [ "nylon", "cotton" ],
+    "symbol": "[",
+    "looks_like": "coat_rain",
+    "color": "light_blue",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 12, 14 ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.4 }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 12, 12 ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.4 }
+        ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 40,
+    "material_thickness": 1,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER" ]
   }
 ]

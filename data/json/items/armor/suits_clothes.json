@@ -974,14 +974,16 @@
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
           { "type": "plastic", "covered_by_mat": 70, "thickness": 0.2 }
         ],
-        "encumbrance": [ 0, 0 ]
+        "encumbrance": [ 0, 0 ],
+        "rigid_layer_only": false
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "encumbrance": [ 0, 0 ],
         "coverage": 60,
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 0.2 } ],
-        "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_ankle_r", "foot_ankle_l" ]
+        "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_ankle_r", "foot_ankle_l" ],
+        "rigid_layer_only": false
       }
     ],
     "pocket_data": [
@@ -1065,7 +1067,8 @@
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
           { "type": "plastic", "covered_by_mat": 70, "thickness": 0.2 }
         ],
-        "encumbrance": [ 0, 0 ]
+        "encumbrance": [ 0, 0 ],
+        "rigid_layer_only": false
       }
     ],
     "use_action": {
