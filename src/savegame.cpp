@@ -75,7 +75,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 38;
+const int savegame_version = 39;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -659,7 +659,7 @@ void overmap::unserialize( const JsonObject &jsobj )
             JsonArray monster_map_json = om_member;
             while( monster_map_json.has_more() ) {
                 tripoint_abs_ms monster_location;
-                std::unordered_map<tripoint_abs_ms, horde_entity>::iterator result;
+                std::optional<std::unordered_map<tripoint_abs_ms, horde_entity>::iterator> result;
                 monster_location.deserialize( monster_map_json.next_value() );
                 point_abs_om omp;
                 tripoint_om_sm monster_submap;
@@ -674,10 +674,18 @@ void overmap::unserialize( const JsonObject &jsobj )
                     result = hordes.spawn_entity( monster_location, new_monster );
                 }
 
-                result->second.destination.deserialize( monster_map_json.next_value() );
-                result->second.tracking_intensity = monster_map_json.next_int();
-                result->second.last_processed.deserialize( monster_map_json.next_value() );
-                result->second.moves = monster_map_json.next_int();
+                if( result.has_value() ) {
+                    ( *result )->second.destination.deserialize( monster_map_json.next_value() );
+                    ( *result )->second.tracking_intensity = monster_map_json.next_int();
+                    ( *result )->second.last_processed.deserialize( monster_map_json.next_value() );
+                    ( *result )->second.moves = monster_map_json.next_int();
+                } else {
+                    // We deserialized something nasty, skip the rest of the stored values
+                    monster_map_json.next_value();
+                    monster_map_json.next_int();
+                    monster_map_json.next_value();
+                    monster_map_json.next_int();
+                }
             }
         } else if( name == "map_data" ) {
             JsonArray map_data_json = om_member;

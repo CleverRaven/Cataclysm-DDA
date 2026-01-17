@@ -377,7 +377,7 @@ The Gradle project lives in the repository under `android/`. You can build it vi
 
 ### Dependencies
 
-  * Java JDK 8
+  * Java JDK 11
   * SDL2 (tested with 2.0.8, though a custom fork is recommended with project-specific bugfixes)
   * SDL2_ttf (tested with 2.0.14)
   * SDL2_mixer (tested with 2.0.2)
@@ -389,7 +389,7 @@ The Gradle build process automatically installs dependencies from [deps.zip](/an
 
 Install Linux dependencies. For a desktop Ubuntu installation:
 
-    sudo apt-get install openjdk-8-jdk-headless
+    sudo apt-get install openjdk-11-jdk-headless
 
 Install Android SDK and NDK:
 

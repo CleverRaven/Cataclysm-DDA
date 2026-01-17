@@ -1305,7 +1305,7 @@ void sfx::do_ambient()
 
 // firing is the item that is fired. It may be the wielded gun, but it can also be an attached
 // gunmod. p is the character that is firing, this may be a pseudo-character (used by monattack/
-// vehicle turrets) or a NPC.
+// vehicle turrets) or an NPC.
 void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
 {
     if( test_mode ) {

@@ -97,7 +97,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "alchemically altered trucker pill" },
-    "description": "When you began the sinister path into occultism, you never imagined you'd be alchemically altering truckstop viagra into combat drugs.  But here you are, no sleep til Boston.",
+    "description": "When you began the sinister path into occultism, you never imagined you'd be alchemically altering truckstop Viagra into combat drugs.  But here you are, no sleep til Boston.",
     "weight": "1 g",
     "volume": "2 ml",
     "price": "150 cent",
@@ -286,7 +286,6 @@
     "longest_side": "46 cm",
     "price": "55 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
     "material": [ "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -394,7 +393,7 @@
     "effect": [ { "u_message": "You imbibed the concoction and you feel your inner self unleashed." }, { "u_add_trait": "HYDE" } ],
     "false_effect": [
       {
-        "u_message": "If this was a just world choosing to drink this concotion more than once would send you into an uncontrollable rage state where you rampaged until your inevitable death.  This is not a just world.",
+        "u_message": "If this was a just world choosing to drink this concoction more than once would send you into an uncontrollable rage state where you rampaged until your inevitable death.  This is not a just world.",
         "type": "neutral"
       }
     ]

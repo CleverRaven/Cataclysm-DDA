@@ -5,20 +5,8 @@
     "subtype": "distribution",
     "entries": [
       { "group": "modular_m4a1", "prob": 88, "charges": [ 0, 30 ], "contents-group": "issued_carbine_mods" },
-      {
-        "item": "modular_m27_assault_rifle",
-        "variant": "modular_m27iar",
-        "prob": 10,
-        "charges": [ 0, 30 ],
-        "contents-group": "issued_carbine_mods"
-      },
-      {
-        "item": "modular_m27_assault_rifle",
-        "variant": "modular_m38dmr",
-        "contents-group": "m38dmr_mods",
-        "prob": 1,
-        "charges": [ 0, 30 ]
-      },
+      { "group": "m27iar", "prob": 10, "charges": [ 0, 30 ] },
+      { "group": "m38dmr", "prob": 1, "charges": [ 0, 30 ] },
       { "item": "modular_m16a4", "prob": 2, "charges": [ 0, 30 ], "contents-group": "issued_slings" }
     ]
   },
@@ -408,7 +396,7 @@
     "id": "military_standard_shotguns",
     "subtype": "distribution",
     "entries": [
-      { "item": "m1014", "charges": [ 0, 5 ] },
+      { "item": "m1014", "charges": [ 0, 7 ] },
       { "item": "mossberg_590", "prob": 40, "charges": [ 0, 9 ] },
       { "item": "m26_mass_standalone", "prob": 5, "charges": [ 0, 3 ] }
     ]
@@ -461,7 +449,11 @@
     "subtype": "collection",
     "entries": [
       { "item": "e_tool", "prob": 60 },
+      { "item": "military_poncho", "prob": 40 },
+      { "item": "military_poncho_heavy", "prob": 40 },
+      { "item": "military_poncho_liner", "prob": 40 },
       { "group": "gasmask_bag_full", "prob": 20 },
+      { "group": "military_papr_kit", "prob": 5 },
       { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
       { "item": "balthazar_radio", "prob": 1 },
       { "group": "infantry_knives", "prob": 80 }
@@ -473,7 +465,11 @@
     "subtype": "collection",
     "entries": [
       { "item": "e_tool", "prob": 60 },
+      { "item": "military_poncho", "prob": 40 },
+      { "item": "military_poncho_heavy", "prob": 40 },
+      { "item": "military_poncho_liner", "prob": 40 },
       { "group": "gasmask_bag_full", "prob": 20 },
+      { "group": "military_papr_kit", "prob": 5 },
       { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
       { "group": "infantry_knives", "prob": 100 }
     ]
@@ -562,7 +558,7 @@
         "distribution": [ { "group": "tac_helmet_nvg", "prob": 60 }, { "item": "tac_helmet", "prob": 40 } ],
         "prob": 100
       },
-      { "item": "mask_gas", "prob": 100 },
+      { "group": "molle_papr_kit", "prob": 90 },
       { "item": "gloves_tactical", "prob": 80 },
       { "group": "xedra_ballistic_vest_heavy_pristine", "prob": 100 },
       { "group": "clothing_tactical_leg", "prob": 80 },
@@ -579,9 +575,14 @@
     "subtype": "distribution",
     "entries": [
       { "item": "jumpsuit", "variant": "green", "prob": 40 },
+      { "item": "military_poncho", "prob": 40 },
+      { "item": "military_poncho_heavy", "prob": 40 },
+      { "item": "military_poncho_liner", "prob": 40 },
       { "item": "officer_uniform", "prob": 20 },
       { "item": "flight_helmet", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "mil_flight_suit", "prob": 30 },
+      { "group": "military_papr_kit", "prob": 15 },
+      { "group": "molle_papr_kit", "prob": 15 },
       { "item": "combo_cover", "prob": 20 },
       { "item": "pants_army", "prob": 70 },
       { "item": "combat_shirt", "prob": 35 },
@@ -593,6 +594,7 @@
       { "item": "tank_top", "variant": "tank_top_camo", "prob": 70 },
       { "group": "eod_armor", "prob": 15 },
       { "group": "box_of_batteries_random", "prob": 40 },
+      { "item": "laptop_hard_case", "prob": 20 },
       { "item": "radio", "prob": 10, "charges": [ 10, 95 ] },
       { "item": "boots_combat", "prob": 50 },
       { "item": "bandages", "prob": 10, "count": [ 1, 3 ] },
@@ -638,6 +640,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "blanket", "prob": 70 },
+      { "item": "military_poncho_liner", "prob": 20 },
       { "item": "pillow", "prob": 70 },
       { "item": "sheet", "prob": 70 },
       { "item": "mag_porn", "prob": 40 },
@@ -686,15 +689,15 @@
       { "group": "MRE", "prob": 1035 },
       { "prob": 20, "group": "chocolate_wrapper_3" },
       { "prob": 30, "group": "neccowafers_bag_plastic_3" },
-      { "prob": 40, "group": "can_beans_can_medium_2" },
-      { "prob": 40, "group": "pork_beans_can_medium_2" },
+      { "prob": 40, "group": "beans_in_can" },
+      { "prob": 40, "group": "pork_beans_in_can" },
       { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 35 },
       { "item": "saline", "prob": 10 },
       { "item": "instant_coffee", "prob": 25 },
       { "item": "con_milk", "prob": 10 },
       { "group": "milk_in_container", "prob": 25 },
-      { "prob": 20, "group": "box_cereal2" },
-      { "prob": 20, "group": "box_cereal3" },
+      { "prob": 20, "group": "breakfast_cereal_in_box_full" },
+      { "prob": 20, "group": "breakfast_cereal_in_box_full" },
       { "item": "sports_drink", "prob": 40 },
       { "item": "water_clean", "prob": 90 }
     ]
@@ -727,6 +730,7 @@
       { "item": "hard_plate", "prob": 30 },
       { "item": "motor", "prob": 2 },
       { "item": "motor_large", "prob": 1 },
+      { "item": "laptop_hard_case", "prob": 10 },
       { "item": "motor_small", "prob": 1 },
       { "item": "hose", "prob": 15 },
       { "item": "pants_army", "prob": 30 },
@@ -741,6 +745,9 @@
       { "item": "boots_combat", "prob": 10 },
       { "item": "gloves_tactical", "prob": 10 },
       { "item": "jumpsuit", "variant": "green", "prob": 20 },
+      { "item": "military_poncho", "prob": 20 },
+      { "item": "military_poncho_heavy", "prob": 20 },
+      { "item": "military_poncho_liner", "prob": 20 },
       { "item": "kevlar", "prob": 10 },
       { "item": "officer_uniform", "prob": 5 },
       { "item": "combo_cover", "prob": 5 },
@@ -758,6 +765,7 @@
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "UPS_OFF", "prob": 8, "charges": [ 0, 1000 ] },
+      { "group": "papr_kit", "prob": 5 },
       { "item": "tacvest", "prob": 10 },
       { "group": "molle_backpacks_and_accessories", "prob": 15 },
       { "item": "legrig", "prob": 10 },
@@ -766,6 +774,7 @@
       { "group": "full_survival_kit", "prob": 3 },
       { "item": "tac_helmet", "prob": 5 },
       { "item": "tac_fullhelmet", "prob": 2 },
+      { "group": "molle_papr_kit", "prob": 5 },
       { "item": "cowboy_hat", "prob": 4 },
       { "item": "mask_bal", "prob": 1 },
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
@@ -870,7 +879,6 @@
     "type": "item_group",
     "id": "chocolate_wrapper_1_3",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "wrapper",
     "entries": [ { "item": "chocolate", "container-item": "null", "count": [ 1, 3 ] } ]
   },
@@ -878,7 +886,6 @@
     "type": "item_group",
     "id": "neccowafers_bag_plastic_3",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "neccowafers", "container-item": "null", "count": 3 } ]
   },
@@ -886,7 +893,6 @@
     "type": "item_group",
     "id": "iodine_bottle_plastic_pill_supplement_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_supplement",
     "entries": [ { "item": "iodine", "container-item": "null", "count": 10 } ]
   },
@@ -894,7 +900,6 @@
     "type": "item_group",
     "id": "prussian_blue_bottle_plastic_pill_supplement_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_supplement",
     "entries": [ { "item": "prussian_blue", "container-item": "null", "count": 10 } ]
   },
@@ -902,7 +907,6 @@
     "type": "item_group",
     "id": "antiparasitic_bottle_plastic_pill_prescription_5",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "antiparasitic", "container-item": "null", "count": 5 } ]
   },
@@ -910,7 +914,6 @@
     "type": "item_group",
     "id": "codeine_bottle_plastic_pill_painkiller_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_painkiller",
     "entries": [ { "item": "codeine", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -918,7 +921,6 @@
     "type": "item_group",
     "id": "antibiotics_bottle_plastic_pill_prescription_1_15",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "antibiotics", "container-item": "null", "count": [ 1, 15 ] } ]
   },
@@ -926,7 +928,6 @@
     "type": "item_group",
     "id": "weak_antibiotic_bottle_plastic_pill_prescription_1_5",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "weak_antibiotic", "container-item": "null", "count": [ 1, 5 ] } ]
   },
@@ -934,7 +935,6 @@
     "type": "item_group",
     "id": "chocolate_wrapper_3",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "wrapper",
     "entries": [ { "item": "chocolate", "container-item": "null", "count": 3 } ]
   }

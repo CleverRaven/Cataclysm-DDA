@@ -16,6 +16,7 @@
     "subtype": "collection",
     "entries": [
       { "group": "hazmat_torso", "prob": 30 },
+      { "group": "papr_kit", "prob": 20 },
       { "group": "hazmat_full", "prob": 10 },
       { "group": "clothing_work_set", "prob": 20 },
       { "group": "lab_torso", "prob": 20 },

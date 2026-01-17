@@ -17,7 +17,6 @@
 #include "avatar.h"
 #include "basecamp.h"
 #include "bodypart.h"
-#include "cata_assert.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
@@ -122,18 +121,12 @@ static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing
 
 static const itype_id itype_molotov( "molotov" );
 
-static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
-static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
-static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
 
 static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_human( "human" );
 static const mfaction_str_id monfaction_player( "player" );
-
-static const morale_type morale_killed_innocent( "morale_killed_innocent" );
-static const morale_type morale_killer_has_killed( "morale_killer_has_killed" );
 
 static const npc_class_id NC_ARSONIST( "NC_ARSONIST" );
 static const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
@@ -169,7 +162,6 @@ static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
 static const trait_id trait_NO_BASH( "NO_BASH" );
-static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
@@ -339,6 +331,26 @@ void npc_template::load( const JsonObject &jsobj, std::string_view src )
     }
     if( jsobj.has_string( "temp_suffix" ) ) {
         jsobj.read( "temp_suffix", tem.temp_suffix );
+    }
+    std::set allowed_attitudes = {
+        NPCATT_NULL,
+        NPCATT_TALK,
+        NPCATT_FOLLOW,
+        NPCATT_LEAD,
+        NPCATT_WAIT,
+        NPCATT_MUG,
+        NPCATT_WAIT_FOR_LEAVE,
+        NPCATT_KILL,
+        NPCATT_FLEE,
+        NPCATT_HEAL
+    };
+    const npc_attitude to_set = static_cast<npc_attitude>( jsobj.get_int( "attitude" ) );
+    if( allowed_attitudes.count( to_set ) > 0 ) {
+        guy.set_attitude( to_set );
+    } else {
+        debugmsg( "NPC class %s has invalid attitude enum %d", guy.idz.c_str(),
+                  static_cast<int>( to_set ) );
+        guy.set_attitude( NPCATT_NULL );
     }
     guy.set_attitude( static_cast<npc_attitude>( jsobj.get_int( "attitude" ) ) );
     guy.mission = static_cast<npc_mission>( jsobj.get_int( "mission" ) );
@@ -677,6 +689,9 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     double weight_percent = std::clamp<double>( chi_squared_roll( time_influence ) / 5.0,
                             0.2, 5.0 );
     set_stored_kcal( weight_percent * get_healthy_kcal() );
+    if( !needs_food() ) {
+        set_stored_kcal( get_healthy_kcal() );
+    }
     starting_weapon( myclass );
     starting_clothes( *this, myclass, male );
     starting_inv( *this, myclass );
@@ -3009,7 +3024,7 @@ void npc::die( map *here, Creature *nkiller )
         if( eoc->type == eoc_type::NPC_DEATH ) {
             eoc->activate( d );
         } else {
-            debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an npc death.", eoc.c_str() );
+            debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an NPC death.", eoc.c_str() );
         }
     }
     get_event_bus().send<event_type::character_dies>( getID() );
@@ -3069,38 +3084,7 @@ void npc::die( map *here, Creature *nkiller )
     }
     Character &player_character = get_player_character();
     if( killer == &player_character ) {
-        if( player_character.has_trait( trait_PACIFIST ) ) {
-            add_msg( _( "A cold shock of guilt washes over you." ) );
-            player_character.add_morale( morale_killer_has_killed, -15, 0, 1_days, 1_hours );
-        }
-        if( hit_by_player ) {
-            int morale_effect = -90;
-            // Just because you like eating people doesn't mean you love killing innocents
-            if( player_character.has_flag( json_flag_CANNIBAL ) && morale_effect < 0 ) {
-                morale_effect = std::min( 0, morale_effect + 50 );
-            } // Pacifists double dip on penalties if they kill an innocent
-            if( player_character.has_trait( trait_PACIFIST ) ) {
-                morale_effect -= 15;
-            }
-            if( player_character.has_flag( json_flag_PSYCHOPATH ) ||
-                player_character.has_flag( json_flag_SAPIOVORE ) ) {
-                morale_effect = 0;
-            } // only god can juge me
-            if( player_character.has_flag( json_flag_SPIRITUAL ) &&
-                !player_character.has_flag( json_flag_PSYCHOPATH ) &&
-                !player_character.has_flag( json_flag_SAPIOVORE ) ) {
-                add_msg( _( "You feel ashamed of your actions." ) );
-                morale_effect -= 10;
-            }
-            cata_assert( morale_effect <= 0 );
-            if( morale_effect == 0 ) {
-                // No morale effect
-            } else if( morale_effect <= -50 ) {
-                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 14_days, 7_days );
-            } else if( morale_effect > -50 && morale_effect < 0 ) {
-                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 10_days, 7_days );
-            }
-        }
+        player_character.apply_murder_penalties( this );
     }
 
     if( spawn_corpse ) {
@@ -3201,7 +3185,7 @@ std::string npc_attitude_name( npc_attitude att )
         case NPCATT_LEGACY_4:
         case NPCATT_LEGACY_5:
         case NPCATT_LEGACY_6:
-            return _( "NPC Legacy Attitude" );
+            return _( "ERROR!  Legacy Attitude" );
         default:
             break;
     }
@@ -3364,7 +3348,7 @@ void npc::on_load( map *here )
 bool npc::query_yn( const std::string &msg ) const
 {
     add_msg_debug( debugmode::DF_NPC,
-                   "%s declines this query_yn because they are a npc (automatic, always declines).\n %s",
+                   "%s declines this query_yn because they are an NPC (automatic, always declines).\n %s",
                    disp_name(), msg );
     // NPCs don't like queries - most of them are in the form of "Do you want to get hurt?".
     return false;

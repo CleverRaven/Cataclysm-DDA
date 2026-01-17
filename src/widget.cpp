@@ -1663,20 +1663,20 @@ std::string widget::graph( int value ) const
     int quot;
     int rem;
 
-    const std::wstring syms = utf8_to_wstr( _symbols );
-    std::wstring ret;
+    const std::u32string syms = utf8_to_utf32( _symbols );
+    std::u32string ret;
     if( _fill == "bucket" ) {
         quot = value / depth; // number of full cells/buckets
         rem = value % depth;  // partly full next cell, maybe
         // Full cells at the front
-        ret += std::wstring( quot, syms.back() );
+        ret += std::u32string( quot, syms.back() );
         // Any partly-full cells?
         if( w > quot ) {
             // Current partly-full cell
             ret += syms[rem];
             // Any more zero cells at the end
             if( w > quot + 1 ) {
-                ret += std::wstring( w - quot - 1, syms[0] );
+                ret += std::u32string( w - quot - 1, syms[0] );
             }
         }
     } else if( _fill == "pool" ) {
@@ -1684,14 +1684,14 @@ std::string widget::graph( int value ) const
         rem = value % w;  // number of cells at next depth
         // Most-filled cells come first
         if( rem > 0 ) {
-            ret += std::wstring( rem, syms[quot + 1] );
+            ret += std::u32string( rem, syms[quot + 1] );
             // Less-filled cells may follow
             if( w > rem ) {
-                ret += std::wstring( w - rem, syms[quot] );
+                ret += std::u32string( w - rem, syms[quot] );
             }
         } else {
             // All cells at the same level
-            ret += std::wstring( w, syms[quot] );
+            ret += std::u32string( w, syms[quot] );
         }
     } else {
         debugmsg( "Unknown widget fill type %s", _fill );
@@ -1700,7 +1700,7 @@ std::string widget::graph( int value ) const
 
     // Re-arrange characters to a vertical bar graph
     if( _arrange == "rows" ) {
-        std::wstring temp = ret;
+        std::u32string temp = ret;
         ret.clear();
         for( int i = temp.size() - 1; i >= 0; i-- ) {
             ret += temp[i];
@@ -1710,7 +1710,7 @@ std::string widget::graph( int value ) const
         }
     }
 
-    return wstr_to_utf8( ret );
+    return utf32_to_utf8( ret );
 }
 
 // For widget::layout, process each row to append to the layout string
@@ -1773,13 +1773,13 @@ static std::string append_line( const std::string &line, bool first_row, int max
     // If the text is too long, start eating the free space next to the label.
     // This only works because labels are not colorized (no color tags).
     if( txt_w + lbl_w > max_width ) {
-        std::wstring tmplbl = utf8_to_wstr( lbl );
+        std::u32string tmplbl = utf8_to_utf32( lbl );
         for( int i = tmplbl.size() - 1; txt_w + lbl_w > max_width && i > 0 && tmplbl[i] == ' ' &&
              tmplbl[i - 1] != ':'; i-- ) {
             tmplbl.pop_back();
             lbl_w--;
         }
-        lbl = wstr_to_utf8( tmplbl );
+        lbl = utf32_to_utf8( tmplbl );
     }
 
     // Text padding

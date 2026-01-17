@@ -426,7 +426,7 @@
     "id": "iso_eldritch_mass_aoe_zombie_destruction",
     "type": "SPELL",
     "name": "The Most Excellent Obliteration of Blasphemies",
-    "description": "Concentrate the full force of reality on all creatures of the Outside, including Nether monsters, zombies, and all of their ilk, crushing them beneath its weight.\n\nThis spell is channeled--after the initial effect, as long as you do not move, attack, or cast another spell, every 5 seconds it will increase in area of effect and damage.",
+    "description": "Concentrate the full force of reality on all creatures of the Outside, including Nether monsters, zombies, and all of their ilk, crushing them beneath its weight.\n\nThis spell is channeled--waiting after its initial recast it with increasing area of effect and damage.",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [
       "CHANNELING_SPELL",
@@ -436,7 +436,8 @@
       "SPLIT_DAMAGE",
       "VERBAL",
       "SOMATIC",
-      "NO_LEGS"
+      "NO_LEGS",
+      "SILENT"
     ],
     "spell_class": "iso_eldritch_sorcery",
     "magic_type": "iso_eldritch_sorcery",
@@ -445,57 +446,19 @@
     "effect": "attack",
     "shape": "blast",
     "damage_type": "pure",
-    "extra_effects": [
-      { "id": "iso_eldritch_mass_aoe_zombie_destruction_buff", "hit_self": true },
-      { "id": "iso_eldritch_mass_aoe_zombie_destruction_prevent_buff_removal", "hit_self": true }
-    ],
     "min_damage": { "math": [ "(u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 3) + 25" ] },
     "max_damage": { "math": [ "(u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 6) + 75" ] },
     "min_aoe": 3,
     "max_aoe": 3,
-    "base_energy_cost": 1500,
+    "base_energy_cost": 500,
     "base_casting_time": 500,
-    "targeted_monster_species": [ "NETHER", "MUTANT", "ZOMBIE", "FERAL" ]
-  },
-  {
-    "id": "iso_eldritch_mass_aoe_zombie_destruction_buff",
-    "type": "SPELL",
-    "name": { "str": "The Most Excellent Obliteration of Blasphemies Buff", "//~": "NO_I18N" },
-    "description": {
-      "str": "Buff for intermittent casting from The Most Excellent Obliteration of Blasphemies.  You shouldn't see this.",
-      "//~": "NO_I18N"
-    },
-    "valid_targets": [ "self" ],
-    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
-    "spell_class": "iso_eldritch_sorcery",
-    "magic_type": "iso_eldritch_sorcery",
-    "difficulty": 15,
-    "max_level": 30,
-    "effect": "attack",
-    "effect_str": "effect_iso_eldritch_mass_aoe_zombie_destruction",
-    "shape": "blast",
-    "min_duration": { "math": [ "(u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 125) + 1500" ] },
-    "max_duration": { "math": [ "(u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 125) + 1500" ] }
-  },
-  {
-    "id": "iso_eldritch_mass_aoe_zombie_destruction_prevent_buff_removal",
-    "type": "SPELL",
-    "name": { "str": "The Most Excellent Obliteration of Blasphemies Preven Buff Removal", "//~": "NO_I18N" },
-    "description": {
-      "str": "spellcasting_finish EoCs trigger *after* effects are applied, meaning iso_eldritch_mass_aoe_zombie_destruction_buff is instantly removed as soon as it's applied.  This stops that from happening.",
-      "//~": "NO_I18N"
-    },
-    "valid_targets": [ "self" ],
-    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
-    "spell_class": "iso_eldritch_sorcery",
-    "magic_type": "iso_eldritch_sorcery",
-    "difficulty": 15,
-    "max_level": 30,
-    "effect": "attack",
-    "effect_str": "effect_iso_eldritch_mass_aoe_zombie_destruction_preventer",
-    "shape": "blast",
-    "min_duration": 1,
-    "max_duration": 1
+    "targeted_monster_species": [ "NETHER", "MUTANT", "ZOMBIE", "FERAL" ],
+    "channel_data": {
+      "max_channel_turns": 20,
+      "channel_spell": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+      "channel_end_spell": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+      "channel_uses_energy": true
+    }
   },
   {
     "id": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
@@ -506,27 +469,28 @@
       "//~": "NO_I18N"
     },
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "IGNORE_WALLS", "SPLIT_DAMAGE", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "IGNORE_WALLS", "SPLIT_DAMAGE", "VERBAL", "SOMATIC", "NO_LEGS", "SILENT" ],
     "spell_class": "iso_eldritch_sorcery",
     "magic_type": "iso_eldritch_sorcery",
     "difficulty": 15,
     "max_level": 30,
+    "base_energy_cost": 50,
     "effect": "attack",
     "shape": "blast",
     "damage_type": "pure",
     "min_damage": {
       "math": [
-        "( (u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 3) + 25) * (1 + ( u_effect_intensity('effect_iso_eldritch_mass_aoe_zombie_destruction') / 10) )"
+        "( (u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 3) + 25) * (1 + ( u_effect_intensity('magic_channeling') ) )"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 6) + 75) * (1 + ( u_effect_intensity('effect_iso_eldritch_mass_aoe_zombie_destruction') / 10) )"
+        "( (u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 6) + 75) * (1 + ( u_effect_intensity('magic_channeling') / 10) )"
       ]
     },
     "min_aoe": {
       "math": [
-        "3 + min( ( u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 2 ), ( u_effect_intensity('effect_iso_eldritch_mass_aoe_zombie_destruction') ) )"
+        "3 + min( ( u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 2 ), ( u_effect_intensity('magic_channeling') ) )"
       ]
     },
     "targeted_monster_species": [ "NETHER", "MUTANT", "ZOMBIE", "FERAL" ]

@@ -2,7 +2,7 @@
   {
     "id": "ALTERNATOR",
     "type": "json_flag",
-    "info": "When mounted on an engine and the engine is on it will provide up to <color_green>%sW</color> of electrical power to the vehicle.",
+    "info": "When mounted on an engine and the engine is on it will provide up to <color_green>%dW</color> of electrical power to the vehicle.",
     "requires_flag": "E_ALTERNATOR"
   },
   {
@@ -87,12 +87,12 @@
   {
     "id": "ENABLED_DRAINS_EPOWER",
     "type": "json_flag",
-    "info": "When turned on, this device drains <color_red>%sW</color> from the vehicle's batteries."
+    "info": "When turned on, this device drains <color_red>%dW</color> from the vehicle's batteries."
   },
   {
     "id": "SOLAR_PANEL",
     "type": "json_flag",
-    "info": "Provides up to <color_green>%sW</color> of electrical power to the vehicle when exposed to the sun.  Weather and clouds will affect power generation."
+    "info": "Provides up to <color_green>%dW</color> of electrical power to the vehicle when exposed to the sun.  Weather and clouds will affect power generation."
   },
   {
     "id": "ENGINE",
@@ -195,12 +195,12 @@
   {
     "id": "WIND_TURBINE",
     "type": "json_flag",
-    "info": "Provides <color_green>%sW</color> of electrical power to the vehicle for every 1 m/s of wind the vehicle is exposed to."
+    "info": "Provides <color_green>%dW</color> of electrical power to the vehicle for every 1 m/s of wind the vehicle is exposed to."
   },
   {
     "id": "WATER_WHEEL",
     "type": "json_flag",
-    "info": "Provides up to <color_green>%sW</color> of electrical power to the vehicle when built over shallow moving water."
+    "info": "Provides up to <color_green>%dW</color> of electrical power to the vehicle when built over shallow moving water."
   },
   {
     "id": "FLAT_SURF",
@@ -479,6 +479,16 @@
   {
     "id": "MUSCLE_LEGS",
     "type": "json_flag"
+  },
+  {
+    "id": "MWS",
+    "type": "json_flag",
+    "info": "This part functions as a mobile weather station."
+  },
+  {
+    "id": "ADVANCED_MWS",
+    "type": "json_flag",
+    "info": "This part functions as an advanced mobile weather station."
   },
   {
     "id": "NEEDS_JACKING",

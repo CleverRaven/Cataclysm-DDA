@@ -1,0 +1,21 @@
+[
+  {
+    "type": "region_settings",
+    "id": "mom_innawood_rainy",
+    "copy-from": "default",
+    "cities": null,
+    "highways": null,
+    "place_roads": false,
+    "weather": "mom_innawood_rainy",
+    "feature_flag_settings": { "blacklist": [ "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII", "HIGHLANDS" ], "whitelist": [  ] }
+  },
+  {
+    "type": "weather_generator",
+    "id": "mom_innawood_rainy",
+    "copy-from": "default",
+    "base_temperature": 8.5,
+    "base_humidity": 80.0,
+    "base_pressure": 999,
+    "base_wind": 4.4
+  }
+]

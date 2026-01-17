@@ -55,5 +55,24 @@
       "skills": [ "deduction", "electronics", "computer" ]
     },
     "flags": [ "SINGLE_USE", "INVENTOR_CRAFTED" ]
+  },
+  {
+    "id": "bot_bitebot",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "inactive bitebot" },
+    "description": "A compressed biting sentry.  Ludicrous, physical law violating compression allows you to fit them into a small metal cylinder, but the weight compression is not as effective.",
+    "weight": "5 kg",
+    "volume": "500 ml",
+    "symbol": ";",
+    "color": "red",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_bitebot",
+      "difficulty": 0,
+      "moves": 100,
+      "skills": [ "deduction", "electronics", "computer" ]
+    },
+    "flags": [ "SINGLE_USE", "INVENTOR_CRAFTED" ]
   }
 ]

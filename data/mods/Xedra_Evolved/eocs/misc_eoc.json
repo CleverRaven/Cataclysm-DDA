@@ -508,7 +508,6 @@
     "type": "effect_on_condition",
     "id": "HYDRATING_GOUT_SYMPTOMS_START",
     "condition": { "u_has_effect": "xe_hydrating_gout_incubation" },
-    "//": "The illness was supposed to last 1-2 days, but until deydration through consumables is possible it will last far less time.",
     "effect": [
       { "u_add_effect": "xe_hydrating_gout", "duration": { "math": [ "8400 + rand(8400)" ] } },
       { "u_lose_effect": "xe_hydrating_gout_incubation" }

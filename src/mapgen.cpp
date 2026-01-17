@@ -100,6 +100,8 @@
 #include "vehicle_group.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weather.h"
+#include "weather_gen.h"
 #include "weighted_dbl_or_var_list.h"
 #include "weighted_list.h"
 #include "magic_teleporter_list.h"
@@ -221,6 +223,10 @@ static const ter_str_id ter_t_floor_burnt( "t_floor_burnt" );
 static const ter_str_id ter_t_fungus_floor_in( "t_fungus_floor_in" );
 static const ter_str_id ter_t_fungus_wall( "t_fungus_wall" );
 static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_ice_dp_thick( "t_ice_dp_thick" );
+static const ter_str_id ter_t_ice_dp_thin( "t_ice_dp_thin" );
+static const ter_str_id ter_t_ice_sh_thick( "t_ice_sh_thick" );
+static const ter_str_id ter_t_ice_sh_thin( "t_ice_sh_thin" );
 static const ter_str_id ter_t_marloss( "t_marloss" );
 static const ter_str_id ter_t_metal_floor( "t_metal_floor" );
 static const ter_str_id ter_t_radio_tower( "t_radio_tower" );
@@ -239,6 +245,7 @@ static const ter_str_id ter_t_thconc_floor_olight( "t_thconc_floor_olight" );
 static const ter_str_id ter_t_vat( "t_vat" );
 static const ter_str_id ter_t_wall_burnt( "t_wall_burnt" );
 static const ter_str_id ter_t_wall_prefab_metal( "t_wall_prefab_metal" );
+static const ter_str_id ter_t_water_dp( "t_water_dp" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
@@ -839,6 +846,8 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                     }
                 } else {
                     setsubmap( grid_pos, MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) );
+                    // Apply historical ice conversion for submaps loaded from disk as well
+                    apply_historical_ice_to_submap( p_sm_base.xy() + pos );
                 }
             }
         }
@@ -6208,6 +6217,66 @@ ret_val<void> jmapgen_objects::has_vehicle_collision( const mapgendata &dat,
     return ret_val<void>::make_success();
 }
 
+void map::apply_ice_logic_at( const tripoint_bub_ms &p, const weather_generator &wgen )
+{
+    // Freeze water or melt ice based on 10-day average at 08:00.
+    if( has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p ) ||
+        has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
+        if( has_flag_ter( ter_furn_flag::TFLAG_CURRENT, p ) ) {
+            return; // flowing water doesn't freeze
+        }
+        const tripoint_abs_ms abs_p = get_abs( p );
+        //1103515245u = random
+        unsigned seed = static_cast<unsigned>( g->get_seed() ) ^
+                        static_cast<unsigned>( abs_p.x() * 1103515245u + abs_p.y() );
+        units::temperature sum = 0_K;
+        for( int d = 0; d < 10; d++ ) {
+            time_point base_date = calendar::turn - ( d + 1 ) * 1_days;
+            const time_duration time_of_day = ( base_date - calendar::turn_zero ) % 1_days;
+            const time_point t = base_date - time_of_day + 8_hours;
+            sum += wgen.get_weather_temperature( abs_p, t, seed );
+        }
+        const units::temperature avg = sum / 10.0;
+        if( avg <= 268.15_K ) {
+            const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p );
+            const bool thick = avg <= 263.15_K; // -10C
+            if( shallow ) {
+                ter_set( p, thick ? ter_t_ice_sh_thick : ter_t_ice_sh_thin );
+            } else {
+                ter_set( p, thick ? ter_t_ice_dp_thick : ter_t_ice_dp_thin );
+            }
+        }
+    } else if( has_flag_ter( ter_furn_flag::TFLAG_ICE_SHALLOW, p ) ||
+               has_flag_ter( ter_furn_flag::TFLAG_ICE_DEEP, p ) ) {
+        const tripoint_abs_ms abs_p = get_abs( p );
+        unsigned seed = static_cast<unsigned>( g->get_seed() ) ^
+                        static_cast<unsigned>( abs_p.x() * 1103515245u + abs_p.y() );
+        units::temperature sum = 0_K;
+        for( int d = 0; d < 10; d++ ) {
+            time_point base_date = calendar::turn - ( d + 1 ) * 1_days;
+            const time_duration time_of_day = ( base_date - calendar::turn_zero ) % 1_days;
+            const time_point t = base_date - time_of_day + 8_hours;
+            sum += wgen.get_weather_temperature( abs_p, t, seed );
+        }
+        const units::temperature avg = sum / 10.0;
+        const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_ICE_SHALLOW, p );
+        const bool thick = has_flag_ter( ter_furn_flag::TFLAG_THICK_ICE, p );
+        if( thick && avg > 263.15_K ) { // -10C
+            if( shallow ) {
+                ter_set( p, ter_t_ice_sh_thin );
+            } else {
+                ter_set( p, ter_t_ice_dp_thin );
+            }
+        } else if( !thick && avg > 268.15_K ) { // -5C
+            if( shallow ) {
+                ter_set( p, ter_t_water_sh );
+            } else {
+                ter_set( p, ter_t_water_dp );
+            }
+        }
+    }
+}
+
 void map::draw_map( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
@@ -6228,7 +6297,40 @@ void map::draw_map( mapgendata &dat )
     }
 
     resolve_regional_terrain_and_furniture( dat );
+
+    // Use shared helper to convert water/ice based on 10-day average at 08:00.
+    const weather_generator &wgen = get_weather().get_cur_weather_gen();
+    if( abs_sub.z() >= 0 ) {
+        for( int i = 0; i < SEEX * 2; i++ ) {
+            for( int j = 0; j < SEEY * 2; j++ ) {
+                const tripoint_bub_ms p( i, j, abs_sub.z() );
+                apply_ice_logic_at( p, wgen );
+            }
+        }
+    }
+    // End of draw_map
 }
+
+
+void map::apply_historical_ice_to_submap( const tripoint_abs_sm &p_sm )
+{
+    if( abs_sub.z() < 0 ) {
+        return;
+    }
+    // Save previous abs_sub and restore on exit
+    const tripoint_abs_sm prev_abs_sub = abs_sub;
+    set_abs_sub( p_sm );
+    const weather_generator &wgen = get_weather().get_cur_weather_gen();
+    for( int i = 0; i < SEEX; i++ ) {
+        for( int j = 0; j < SEEY; j++ ) {
+            const tripoint_bub_ms p( i, j, abs_sub.z() );
+            apply_ice_logic_at( p, wgen );
+        }
+    }
+
+    set_abs_sub( prev_abs_sub );
+}
+
 
 static const int SOUTH_EDGE = 2 * SEEY - 1;
 static const int EAST_EDGE = 2 * SEEX  - 1;
@@ -7554,7 +7656,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
         return nullptr;
     }
     if( !inbounds( p ) ) {
-        dbg( D_WARNING ) << string_format( "Out of bounds add_vehicle t=%s d=%d p=%d,%d,%d",
+        dbg( D_WARNING ) << string_format( "Out of bounds add_vehicle t=%s d=%f p=%d,%d,%d",
                                            type.str(), to_degrees( dir ), p.x(), p.y(), p.z() );
         return nullptr;
     }

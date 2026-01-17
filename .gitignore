@@ -14,6 +14,7 @@
 /bindist/
 /build/
 /build-start-time
+/ccache/
 /cache/
 /cmake-build-debug/
 /config/

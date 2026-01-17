@@ -799,6 +799,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "difficulty": 6,
+    "charges": 250,
     "time": "60 m",
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "book_learn": {
@@ -820,19 +821,170 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "gelled_gasoline",
+    "id_suffix": "from_lye_and_rosin",
+    "//": [ "TM 21 210, Section V No. 4.1", "castor oil can be used instead of rosin" ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "difficulty": 2,
-    "time": "20 m",
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "time": "15 m",
+    "charges": 500,
+    "batch_time_factors": [ 70, 5 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "book_learn": {
       "textbook_gaswarfare": { "skill_level": 2 },
       "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
     },
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
-    "components": [ [ [ "gasoline", 100 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [
+      [ [ "gasoline", 500 ], [ "avgas", 500 ] ],
+      [ [ "lye_powder", 7 ] ],
+      [ [ "rosin", 13 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gelled_gasoline",
+    "id_suffix": "from_lye_alcohol_tallow",
+    "//": [ "TM 21 210, Section V No. 4.2" ],
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "difficulty": 2,
+    "time": "37 m",
+    "charges": 500,
+    "batch_time_factors": [ 70, 5 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 2 },
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+    },
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
+    "components": [
+      [ [ "gasoline", 500 ], [ "avgas", 500 ] ],
+      [ [ "lye_powder", 7 ] ],
+      [ [ "chem_ethanol", 25 ], [ "disinfectant", 1 ] ],
+      [ [ "any_tallow", 5, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gelled_gasoline",
+    "id_suffix": "from_lye_alcohol_tallow_substitute",
+    "//": [ "TM 21 210, Section V No. 4.2" ],
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "difficulty": 2,
+    "time": "37 m",
+    "charges": 500,
+    "batch_time_factors": [ 70, 5 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 2 },
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+    },
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
+    "components": [
+      [ [ "gasoline", 500 ], [ "avgas", 500 ] ],
+      [ [ "lye_powder", 14 ] ],
+      [ [ "chem_ethanol", 25 ], [ "disinfectant", 1 ] ],
+      [ [ "cooking_oil", 10 ], [ "any_butter", 16, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gelled_gasoline",
+    "id_suffix": "from_alcohol_soap",
+    "//": [ "TM 21 210, Section V No. 4.3" ],
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "difficulty": 2,
+    "time": "20 m",
+    "charges": 500,
+    "batch_time_factors": [ 70, 5 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 2 },
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+    },
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
+    "components": [
+      [ [ "gasoline", 500 ], [ "avgas", 500 ] ],
+      [ [ "chem_ethanol", 14 ], [ "disinfectant", 1 ] ],
+      [ [ "soap", 12 ], [ "soap_flakes", 32 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gelled_gasoline",
+    "id_suffix": "from_wax",
+    "//": [ "TM 21 210, Section V No. 4.6" ],
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "difficulty": 2,
+    "time": "35 m",
+    "charges": 1000,
+    "batch_time_factors": [ 50, 5 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 2 },
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+    },
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
+    "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ] ],
+    "components": [
+      [ [ "gasoline", 1000 ], [ "avgas", 1000 ] ],
+      [ [ "wax", 1 ], [ "wax_paraffin", 1 ] ],
+      [ [ "soap", 12 ], [ "soap_flakes", 32 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gelled_gasoline",
+    "id_suffix": "from_blood",
+    "//": [ "TM 21 210, Section V No. 4.7" ],
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "difficulty": 2,
+    "time": "10 m",
+    "charges": 500,
+    "batch_time_factors": [ 80, 3 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 2 },
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+    },
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
+    "components": [
+      [ [ "gasoline", 500 ], [ "avgas", 500 ] ],
+      [ [ "any_blood", 2, "LIST" ] ],
+      [
+        [ "salt", 3 ],
+        [ "coffee_raw", 1 ],
+        [ "tea_bag", 2 ],
+        [ "tea_raw", 2 ],
+        [ "tea_green_raw", 2 ],
+        [ "tea_green_bag", 2 ],
+        [ "sugar", 3 ],
+        [ "material_limestone", 3 ],
+        [ "chem_caco3", 50 ],
+        [ "chem_baking_soda", 15 ]
+      ]
+    ]
   },
   {
     "type": "recipe",

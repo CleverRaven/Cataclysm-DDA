@@ -1158,6 +1158,7 @@
     "looks_like": "glasses_safety",
     "color": "light_gray",
     "charges_per_use": 1,
+    "etransfer_rate": "30 MB",
     "use_action": [ "CAMERA" ],
     "pocket_data": [
       {
@@ -1165,6 +1166,14 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
+      },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0,
+        "ememory_max": "64 GB"
       }
     ],
     "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ] } ],
@@ -1190,6 +1199,7 @@
     "looks_like": "glasses_safety",
     "color": "light_gray",
     "charges_per_use": 1,
+    "etransfer_rate": "30 MB",
     "use_action": [ "CAMERA", "PORTABLE_GAME", "EBOOKSAVE", "E_FILE_DEVICE" ],
     "pocket_data": [
       {
@@ -1225,6 +1235,123 @@
     ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "tool_ammo": "battery"
+  },
+  {
+    "id": "ar_glasses_advanced_pat",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "name": { "str_sp": "modified advanced AR glasses" },
+    "description": "An expensive model of augmented reality glasses, with adaptive light correction and some gadgets, designed to be compatible with corrective glasses.  An augmented reality overlay allows the user to zoom their view, and it displays handy information about local topology.  These have been modified by your friend Pat to function on long-distance radio waves (LoRa).  A battery pack, the internal parts of a tablet PC, and a two-way radio have been combined onto a hip-strapped unit.  Activate it to start recording and transmitting with Pat's system.",
+    "weight": "400 g",
+    "volume": "750 ml",
+    "price": "3 kUSD",
+    "price_postapoc": "4 USD",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "glasses_safety",
+    "color": "white",
+    "charges_per_use": 1,
+    "etransfer_rate": "30 MB",
+    "e_port": "phone",
+    "use_action": [
+      "CAMERA",
+      "PORTABLE_GAME",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE",
+      {
+        "menu_text": "Switch on the transmitter/receiver",
+        "type": "transform",
+        "msg": "You turn the %s on and put in your earbud.",
+        "target": "ar_glasses_advanced_pat_on",
+        "ammo_scale": 0
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0,
+        "ememory_max": "1 TB"
+      }
+    ],
+    "armor": [
+      { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ] },
+      {
+        "coverage": 15,
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 5,
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ],
+        "layers": [ "BELTED" ]
+      }
+    ],
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [
+      "ZOOM",
+      "WATCH",
+      "ALARMCLOCK",
+      "OUTER",
+      "FRAGILE",
+      "SUN_GLASSES",
+      "THERMOMETER",
+      "WATER_BREAK",
+      "PADDED",
+      "ELECTRONIC",
+      "CAN_USE_IN_DARK",
+      "TWO_WAY_RADIO",
+      "TRADER_AVOID"
+    ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "tool_ammo": "battery"
+  },
+  {
+    "id": "ar_glasses_advanced_pat_on",
+    "copy-from": "ar_glasses_advanced_pat",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "name": { "str": "modified advanced AR glasses (on)", "str_pl": "pairs of modified advanced AR glasses (on)" },
+    "flags": [
+      "ZOOM",
+      "WATCH",
+      "ALARMCLOCK",
+      "OUTER",
+      "FRAGILE",
+      "SUN_GLASSES",
+      "THERMOMETER",
+      "WATER_BREAK",
+      "PADDED",
+      "ELECTRONIC",
+      "CAN_USE_IN_DARK",
+      "TWO_WAY_RADIO",
+      "TRADER_AVOID",
+      "SPAWN_ACTIVE"
+    ],
+    "power_draw": "120 mW",
+    "revert_to": "ar_glasses_advanced_pat",
+    "use_action": [
+      "CAMERA",
+      "PORTABLE_GAME",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE",
+      {
+        "menu_text": "Switch off the transmitter/receiver",
+        "type": "transform",
+        "msg": "You turn the %s off and remove your earbud.",
+        "target": "ar_glasses_advanced_pat",
+        "ammo_scale": 0
+      }
+    ],
+    "tick_action": { "type": "effect_on_conditions", "effect_on_conditions": [ "EOC_pat_AR_activate" ] }
   },
   {
     "id": "helmet_eod",
@@ -2449,6 +2576,610 @@
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ],
     "tool_ammo": "battery",
     "passive_effects": [ { "id": "nvg_bad" } ]
+  },
+  {
+    "id": "basic_papr_helmet",
+    "//": "Based on 3M M-307",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "PAPR helmet" },
+    "looks_like": "flight_helmet",
+    "description": "A helmet fit with a transparent full-face mask.  On the back of the helmet is a long tube which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be loaded with a filter and prepared before use; unlike a standard gas mask, it is relatively cool and comfortable, but will only function when paired with an active PAPR blower unit.",
+    "weight": "857 g",
+    "volume": "2250 ml",
+    "price": "700 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 20,
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "covers": [ "eyes" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "covers": [ "mouth" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      }
+    ],
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 16,
+    "flags": [ "WATERPROOF", "PADDED", "OVERSIZE", "SLEEP_IGNORE", "PAPR_MASK" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med",
+        "rigid": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for an ear attachment.",
+        "flag_restriction": [ "HELMET_EAR_ATTACHMENT" ],
+        "inherits_flags": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a counterweight pouch.",
+        "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "14 cm",
+        "moves": 100,
+        "description": "Pocket for a flashlight attachment.",
+        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ],
+        "transparent": true
+      }
+    ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "tool_ammo": "gasfilter_m"
+  },
+  {
+    "id": "military_papr_mask",
+    "//": "Based on the Avalon/US military FM50/FM51.  Very similar to standard mask_gas",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "name": { "str": "military PAPR mask" },
+    "looks_like": "mask_gas",
+    "description": "A black, full-face military respirator made from a silicon and butyl rubber blend, providing decent user comfort in addition to a clear field of view and a secure fit thanks to the mask's single-element visor and 6-point head harness.  The mask has pre-installed tubing which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be loaded with a filter and prepared before use; unlike a standard gas mask it will only function when paired with an active PAPR blower unit.  Unlike large commercial and industrial models, this respirator sits close to the face and can accommodate various attachments.",
+    "weight": "490 g",
+    "volume": "1536 ml",
+    "longest_side": "27 cm",
+    "price": "499 USD 50 cent",
+    "price_postapoc": "7 USD 50 cent",
+    "material": [ { "type": "butyl_rubber", "portion": 3 }, { "type": "plastic", "portion": 2 } ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "armor": [
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_nape" ],
+        "coverage": 25,
+        "encumbrance": 0,
+        "layers": [ "SKINTIGHT" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [ { "type": "butyl_rubber", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "volume_encumber_modifier": 0,
+        "layers": [ "SKINTIGHT" ]
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "SKINTIGHT", "NORMAL" ],
+        "rigid_layer_only": true,
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "butyl_rubber", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "plastic", "covered_by_mat": 30, "thickness": 1 }
+        ],
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_lips", "mouth_nose", "mouth_chin" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "SKINTIGHT", "NORMAL" ]
+      },
+      {
+        "material": [
+          { "type": "butyl_rubber", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "plastic", "covered_by_mat": 25, "thickness": 1 }
+        ],
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_cheeks" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "SKINTIGHT", "NORMAL", "OUTER" ],
+        "volume_encumber_modifier": 0
+      }
+    ],
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 16,
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GASFILTER_MED" ], "default_magazine": "gasfilter_med" },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "50 ml",
+        "max_contains_weight": "60 g",
+        "max_item_length": "17 cm",
+        "moves": 250,
+        "description": "A number of external brackets arranged around the eyepiece to retain an outer attachment.",
+        "flag_restriction": [ "PANORAMIC_OUTSERT" ],
+        "inherits_flags": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "50 ml",
+        "max_contains_weight": "50 g",
+        "max_item_length": "10 cm",
+        "moves": 380,
+        "description": "A space behind the visor designed to accommodate the installation of inserts.",
+        "flag_restriction": [ "PANORAMIC_INSERT" ],
+        "inherits_flags": true
+      }
+    ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "flags": [ "SKINTIGHT", "NORMAL", "SLEEP_IGNORE", "VARSIZE", "PADDED", "PAPR_MASK" ],
+    "tool_ammo": "gasfilter_m"
+  },
+  {
+    "id": "basic_papr_helmet_xedra_mark",
+    "//": "modified version for xedra field notebook mission.  Really just extra warm and cumbersome PAPR mask, plus a tinfoil hat to protect from THEM.",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "shielded PAPR-EEG helmet" },
+    "looks_like": "flight_helmet",
+    "description": "A white plastic helmet fit with a transparent full-face mask.  It has been modified for some unknown purpose.  On the back of the helmet is a long tube which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be loaded with a filter and prepared before use; unlike a standard gas mask it will only function when paired with an active PAPR blower unit.  A cotton cap covered in electrodes and wires, like those used to make electroencephalogram recordings, has been integrated as an underlayer, with a thick connection cable exiting a grommeted and sealed hole in the back.  A layer of shiny metallized polyethylene terephthalate has been glued to the interior of the helmet itself.  A tinfoil hat for a prepper with class.",
+    "weight": "950 g",
+    "volume": "2250 ml",
+    "price": "700 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "cotton", "plastic", "aluminum" ],
+    "symbol": "[",
+    "color": "white",
+    "warmth": 30,
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.01 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1 }
+        ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_r", "head_ear_l" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "layers": [ "SKINTIGHT" ]
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "covers": [ "eyes" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "covers": [ "mouth" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      }
+    ],
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 16,
+    "flags": [ "WATERPROOF", "PADDED", "OVERSIZE", "SLEEP_IGNORE", "PAPR_MASK", "PSYSHIELD_PARTIAL" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med",
+        "rigid": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for an ear attachment.",
+        "flag_restriction": [ "HELMET_EAR_ATTACHMENT" ],
+        "inherits_flags": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a counterweight pouch.",
+        "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "14 cm",
+        "moves": 100,
+        "description": "Pocket for a flashlight attachment.",
+        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ],
+        "transparent": true
+      }
+    ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "tool_ammo": "gasfilter_m"
+  },
+  {
+    "id": "basic_papr_belt_off",
+    "//": "Based on 3M TR-300",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "PAPR blower (off)", "str_pl": "PAPR blowers (off)" },
+    "description": "A blower unit for a powered air purifying respirator system.  It has been attached to a basic rubber and plastic belt.  When active and paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.",
+    "weight": "918 g",
+    "volume": "1000 ml",
+    "price": "300 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "rubber", "plastic" ],
+    "symbol": "[",
+    "looks_like": "leather_belt",
+    "color": "black",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "charges_per_use": 1,
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s and the fan starts to audibly whoosh.",
+      "target": "basic_papr_belt_on",
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead."
+    },
+    "tool_ammo": [ "battery" ],
+    "flags": [ "BELTED", "OVERSIZE", "ELECTRONIC", "WATER_BREAK_ACTIVE" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "coverage": 50,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_waist" ],
+        "volume_encumber_modifier": 0.35
+      }
+    ]
+  },
+  {
+    "id": "basic_papr_belt_on",
+    "copy-from": "basic_papr_belt_off",
+    "//": "Based on 3M TR-300",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "PAPR blower (on)", "str_pl": "PAPR blowers (on)" },
+    "description": "A blower unit for a powered air purifying respirator system.  It has been attached to a basic rubber and plastic belt.  If paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.  The fan is audibly blowing.",
+    "weight": "918 g",
+    "volume": "1000 ml",
+    "material": [ "rubber", "plastic" ],
+    "symbol": "[",
+    "looks_like": "leather_belt",
+    "color": "black",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "power_draw": "4000 mW",
+    "revert_to": "basic_papr_belt_off",
+    "use_action": {
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You turn the %s off.",
+      "target": "basic_papr_belt_off",
+      "ammo_scale": 0
+    },
+    "tick_action": {
+      "type": "sound",
+      "sound_type": "movement",
+      "sound_message": "whooooo…",
+      "sound_id": "humming",
+      "sound_variant": "machinery",
+      "sound_volume": 12
+    },
+    "tool_ammo": [ "battery" ],
+    "flags": [ "BELTED", "OVERSIZE", "ELECTRONIC", "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE", "PAPR_BLOWER" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "coverage": 50,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_waist" ],
+        "volume_encumber_modifier": 0.35
+      }
+    ]
+  },
+  {
+    "id": "military_papr_blower_off",
+    "//": "Based on the C420",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "military PAPR blower (off)", "str_pl": "military PAPR blowers (off)" },
+    "description": "A sturdy blower unit for a powered air purifying respirator system.  Its large triangular body is designed to be worn on the back.  When active and paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.",
+    "weight": "653 g",
+    "volume": "3589 ml",
+    "price": "1400 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "rubber", "plastic" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "black",
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_plus_battery_cell"
+      }
+    ],
+    "charges_per_use": 1,
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s and the fan starts to audibly whoosh.",
+      "target": "military_papr_blower_on",
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead."
+    },
+    "tool_ammo": [ "battery" ],
+    "flags": [ "BELTED", "OVERSIZE", "ELECTRONIC" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "coverage": 40,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ],
+        "volume_encumber_modifier": 0.35
+      }
+    ]
+  },
+  {
+    "id": "military_papr_blower_on",
+    "copy-from": "military_papr_blower_off",
+    "//": "Based on the Airboss Defense C420",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "military PAPR blower (on)", "str_pl": "military PAPR blowers (on)" },
+    "description": "A sturdy blower unit for a powered air purifying respirator system.  Its large triangular body is designed to be worn on the back.  When active and paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.  The fan is audibly blowing.",
+    "weight": "653 g",
+    "volume": "3589 ml",
+    "material": [ "rubber", "plastic" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "black",
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_plus_battery_cell"
+      }
+    ],
+    "power_draw": "4000 mW",
+    "revert_to": "military_papr_blower_off",
+    "use_action": {
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You turn the %s off.",
+      "target": "military_papr_blower_off",
+      "ammo_scale": 0
+    },
+    "tick_action": {
+      "type": "sound",
+      "sound_type": "movement",
+      "sound_message": "whooooo…",
+      "sound_id": "humming",
+      "sound_variant": "machinery",
+      "sound_volume": 12
+    },
+    "tool_ammo": [ "battery" ],
+    "flags": [ "BELTED", "OVERSIZE", "ELECTRONIC", "TRADER_AVOID", "SPAWN_ACTIVE", "PAPR_BLOWER" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "coverage": 40,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ],
+        "volume_encumber_modifier": 0.35
+      }
+    ]
+  },
+  {
+    "id": "molle_papr_blower_off",
+    "//": "Based on the Avon MP-PAPR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "modular PAPR blower (off)", "str_pl": "modular PAPR blowers (off)" },
+    "description": "A blower unit for a powered air purifying respirator system, built from a flexible silicon and butyl rubber blend.  Its components are arranged linearly in a narrow strip close to the body and is outfitted with straps to wear it about the waist.  If paired with the appropriate straps, it can also attached to any compatible MOLLE system.  When active and paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.",
+    "weight": "920 g",
+    "volume": "3000 ml",
+    "price": "1600 USD",
+    "price_postapoc": "20 USD",
+    "material": [ "butyl_rubber", "plastic" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "dark_gray",
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_plus_battery_cell"
+      }
+    ],
+    "charges_per_use": 1,
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s and the fan starts to audibly whoosh.",
+      "target": "molle_papr_blower_on",
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead."
+    },
+    "tool_ammo": [ "battery" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ELECTRONIC" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 30,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_waist" ],
+        "volume_encumber_modifier": 0.35
+      }
+    ]
+  },
+  {
+    "id": "molle_papr_blower_on",
+    "copy-from": "molle_papr_blower_off",
+    "//": "Based on the Avon MP-PAPR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "modular PAPR blower (on)", "str_pl": "modular PAPR blowers (on)" },
+    "description": "A blower unit for a powered air purifying respirator system, built from a flexible silicon and butyl rubber blend.  Its components are arranged linearly in a narrow strip close to the body and is outfitted with straps to wear it about the waist.  If paired with the appropriate straps, it can also attached to any compatible MOLLE system.  When active and paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.  The fan is quietly blowing.",
+    "weight": "920 g",
+    "volume": "3000 ml",
+    "material": [ "butyl_rubber", "plastic" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "dark_gray",
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_plus_battery_cell"
+      }
+    ],
+    "power_draw": "4000 mW",
+    "revert_to": "molle_papr_blower_off",
+    "use_action": {
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You turn the %s off.",
+      "target": "molle_papr_blower_off",
+      "ammo_scale": 0
+    },
+    "tick_action": {
+      "type": "sound",
+      "sound_type": "movement",
+      "sound_message": "whooooo…",
+      "sound_id": "humming",
+      "sound_variant": "machinery",
+      "sound_volume": 8
+    },
+    "tool_ammo": [ "battery" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ELECTRONIC", "TRADER_AVOID", "SPAWN_ACTIVE", "PAPR_BLOWER" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 30,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_waist" ],
+        "volume_encumber_modifier": 0.35
+      }
+    ]
   },
   {
     "id": "goggles_nv_on",

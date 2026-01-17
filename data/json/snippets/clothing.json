@@ -24,6 +24,7 @@
       { "id": "horses", "text": "horses" },
       { "id": "kittens", "text": "kittens" },
       { "id": "mice", "text": "mice" },
+      { "id": "bunnies", "text": "bunnies" },
       { "id": "puppies", "text": "puppies" }
     ]
   },

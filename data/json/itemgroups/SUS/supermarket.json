@@ -115,7 +115,7 @@
     "id": "commercial_canned_vegetables",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "can_beans", 1 ], [ "can_tomato", 1 ], [ "can_corn", 1 ] ]
+    "entries": [ { "prob": 1, "group": "corn_in_can" }, { "prob": 1, "group": "tomatoes_in_can" } ]
   },
   {
     "id": "SUS_shelf_commercial_canned_vegetables",
@@ -128,7 +128,7 @@
     "id": "commercial_canned_fruits",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "can_pineapple", 1 ], [ "apple_canned", 1 ] ]
+    "entries": [ { "prob": 1, "group": "pineapple_in_can" }, { "prob": 1, "group": "fruits_in_can" } ]
   },
   {
     "id": "SUS_shelf_commercial_canned_fruits",
@@ -141,18 +141,15 @@
     "id": "commercial_canned_meat",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [
-      [ "fish_canned", 1 ],
-      [ "lobster_canned", 1 ],
-      [ "can_spam", 1 ],
-      [ "can_sardine", 1 ],
-      [ "can_tuna", 1 ],
-      [ "can_spam", 1 ],
-      [ "can_salmon", 1 ],
-      [ "can_chicken", 1 ],
-      [ "can_spam", 1 ],
-      [ "can_clams", 1 ],
-      [ "meat_canned", 1 ]
+    "entries": [
+      { "prob": 1, "group": "fish_in_can" },
+      { "prob": 1, "group": "lobster_in_can" },
+      { "prob": 1, "group": "sardine_in_can" },
+      { "prob": 1, "group": "tuna_in_can" },
+      { "prob": 1, "group": "salmon_in_can" },
+      { "prob": 1, "group": "chicken_in_can" },
+      { "prob": 1, "group": "spam_in_can" },
+      { "prob": 1, "group": "clams_in_can" }
     ]
   },
   {
@@ -164,21 +161,15 @@
   },
   {
     "id": "commercial_canned_meals",
-    "//": "No canned meal in the game, placeholder copy from canned meat. TODO fix.",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [
-      [ "fish_canned", 1 ],
-      [ "lobster_canned", 1 ],
-      [ "can_spam", 1 ],
-      [ "can_sardine", 1 ],
-      [ "can_tuna", 1 ],
-      [ "can_spam", 1 ],
-      [ "can_salmon", 1 ],
-      [ "can_chicken", 1 ],
-      [ "can_spam", 1 ],
-      [ "can_clams", 1 ],
-      [ "meat_canned", 1 ]
+    "entries": [
+      { "prob": 1, "group": "pork_beans_in_can" },
+      { "prob": 1, "group": "beans_in_can" },
+      { "prob": 1, "group": "chowder_in_can" },
+      { "prob": 1, "group": "ravioli_in_can" },
+      { "prob": 1, "group": "cheese_in_can" },
+      { "prob": 1, "group": "chili_in_can" }
     ]
   },
   {
@@ -189,17 +180,11 @@
     "entries": [ { "group": "commercial_canned_meals", "count": [ 1, 60 ] } ]
   },
   {
-    "id": "commercial_coffee",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [ [ "coffee_raw", 1 ], [ "coffee_raw_kentucky", 1 ], [ "instant_coffee", 1 ] ]
-  },
-  {
     "id": "SUS_shelf_commercial_coffee",
     "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "group": "commercial_coffee", "count": [ 1, 60 ] } ]
+    "entries": [ { "group": "raw_coffee_in_container_full", "count": [ 1, 60 ] } ]
   },
   {
     "id": "commercial_tea",
@@ -222,28 +207,11 @@
     "entries": [ { "group": "commercial_tea", "count": [ 1, 60 ] } ]
   },
   {
-    "id": "commercial_breakfast_cereal",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      [ "cereal_fp1", 1 ],
-      [ "cereal_fp2", 1 ],
-      [ "cereal_fp3", 1 ],
-      [ "cereal_fp4", 1 ],
-      [ "cereal_fp5", 1 ],
-      [ "cereal_fp6", 1 ],
-      [ "cereal_fp7", 1 ],
-      [ "cereal", 1 ],
-      [ "cereal2", 1 ],
-      [ "cereal3", 1 ]
-    ]
-  },
-  {
     "id": "SUS_shelf_commercial_breakfast_cereal",
     "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "group": "commercial_breakfast_cereal", "count": [ 1, 60 ] } ]
+    "entries": [ { "group": "cereal_in_container_full", "count": [ 1, 60 ] } ]
   },
   {
     "id": "commercial_breakfast_mixes",
@@ -340,17 +308,11 @@
     "entries": [ { "group": "milk_in_container_full", "count": [ 0, 60 ] } ]
   },
   {
-    "id": "commercial_eggs",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [ [ "egg_chicken", 1 ] ]
-  },
-  {
     "id": "SUS_shelf_commercial_eggs",
     "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "group": "commercial_eggs", "count": [ 1, 60 ] } ]
+    "entries": [ { "group": "eggs_in_carton_full", "count": [ 1, 60 ] } ]
   },
   {
     "id": "commercial_deli",
@@ -584,24 +546,11 @@
     "entries": [ { "group": "commercial_candy", "count": [ 1, 60 ] } ]
   },
   {
-    "id": "commercial_pet_food",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      [ "dogfood", 1 ],
-      [ "dogfood_raw", 1 ],
-      [ "dogfood_dry", 1 ],
-      [ "catfood", 1 ],
-      [ "catfood_raw", 1 ],
-      [ "catfood_dry", 1 ]
-    ]
-  },
-  {
-    "id": "SUS_shelf_commercial_pet_food",
+    "id": "SUS_shelf_commercial_pet_food_in_container",
     "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "group": "commercial_pet_food", "count": [ 1, 60 ] } ]
+    "entries": [ { "group": "pet_food_in_container_full", "count": [ 1, 60 ] } ]
   },
   {
     "id": "commercial_pet_accessories",
@@ -677,8 +626,8 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "group": "used_usb_drives", "prob": 60, "contents-group": "SUS_efiles_office", "count": [ 3, 8 ] },
-      { "group": "used_memory_cards", "prob": 60, "contents-group": "SUS_efiles_office", "count": [ 2, 7 ] },
+      { "group": "used_usb_drives", "prob": 60, "variables": [ { "browsed": "true" } ] },
+      { "group": "used_memory_cards", "prob": 60, "variables": [ { "browsed": "true" } ] },
       { "item": "battery_charger", "prob": 80 }
     ]
   },
@@ -785,7 +734,7 @@
     "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "group": "drugs_pharmacy", "count": [ 1, 60 ] } ]
+    "entries": [ { "group": "vitamin_shop", "count": [ 1, 60 ] } ]
   },
   {
     "id": "commercial_shower_supplies",
@@ -933,7 +882,12 @@
     "id": "commercial_bread_specialty",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "bread_garlic", 1 ], [ "frybread", 1 ], [ "cornbread", 1 ], [ "flatbread", 1 ] ]
+    "entries": [
+      { "prob": 1, "group": "garlic_bread_in_bag_full" },
+      { "prob": 1, "group": "frybread_in_bag_full" },
+      { "prob": 1, "group": "cornbread_in_bag_full" },
+      { "prob": 1, "group": "flatbread_in_bag_full" }
+    ]
   },
   {
     "id": "SUS_shelf_commercial_bread_specialty",
@@ -953,7 +907,7 @@
     "id": "commercial_bread",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "bread", 1 ], [ "brown_bread", 1 ], [ "sourdough_bread", 1 ] ]
+    "items": [ { "prob": 1, "group": "bread_in_bag_full" }, { "prob": 1, "group": "bread_in_bag_full" } ]
   },
   {
     "id": "SUS_shelf_commercial_bread",
@@ -1050,7 +1004,7 @@
       { "group": "SUS_shelf_commercial_nuts_crackers", "prob": 1 },
       { "group": "SUS_shelf_commercial_chocolate", "prob": 1 },
       { "group": "SUS_shelf_commercial_candy", "prob": 1 },
-      { "group": "SUS_shelf_commercial_pet_food", "prob": 1 },
+      { "group": "SUS_shelf_commercial_pet_food_in_container", "prob": 1 },
       { "group": "SUS_shelf_commercial_pet_accessories", "prob": 1 },
       { "group": "SUS_shelf_commercial_baby_accessories_food", "prob": 1 },
       { "group": "SUS_shelf_commercial_baby_hygiene", "prob": 1 },

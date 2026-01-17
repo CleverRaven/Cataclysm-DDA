@@ -114,7 +114,6 @@ CXX_WARNINGS = \
   -Woverloaded-virtual \
   -Wsuggest-override \
   -Wzero-as-null-pointer-constant \
-  -Wno-unknown-warning-option \
   -Wno-dangling-reference \
   -Wno-c++20-compat
 ifeq ($(NATIVE), emscripten)
@@ -274,7 +273,7 @@ ifneq (,$(findstring Windows_NT,$(OS)))
   endif
 else
   IS_WINDOWS_HOST = 0
-  OS = $(shell uname -o)
+  OS := $(shell uname -o)
 endif
 
 ifneq ($(findstring Darwin,$(OS)),)
@@ -382,10 +381,14 @@ ifneq ($(CLANG), 0)
   ifeq ($(CCACHE), 1)
     CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
     LD  = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
+    CC  = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(subst ++,,$(CLANGCMD))
   else
     CXX = $(CROSS)$(CLANGCMD)
     LD  = $(CROSS)$(CLANGCMD)
+    CC  = $(CROSS)$(subst ++,,$(CLANGCMD))
   endif
+  CXX_WARNINGS += -Wno-unknown-warning-option
+  WARNINGS += -Wno-unknown-warning-option
 else
   # Compiler version & target machine - used later for MXE ICE workaround
   ifdef CROSS
@@ -409,6 +412,8 @@ else
     CXX = $(CROSS)$(OS_COMPILER)
     LD  = $(CROSS)$(OS_LINKER)
   endif
+  CXX_WARNINGS += -Wno-unknown-warning
+  WARNINGS += -Wno-unknown-warning
 endif
 
 STRIP = $(CROSS)strip
@@ -530,9 +535,9 @@ ifeq ($(PCH), 1)
 
   ifeq ($(CLANG), 0)
     PCHFLAGS += -include pch/main-pch.hpp
-    PCH_P = $(PCH_H).gch
+    PCH_P = $(ODIR)/$(PCH_H).gch
   else
-    PCH_P = $(PCH_H).pch
+    PCH_P = $(ODIR)/$(PCH_H).pch
     PCHFLAGS += -include-pch $(PCH_P)
 
     # FIXME: dirty hack ahead
@@ -553,10 +558,10 @@ ifeq ($(PCH), 1)
   endif
 endif
 
-CPPFLAGS += -Isrc -isystem ${SRC_DIR}/third-party
+CPPFLAGS += -Isrc -isystem ${SRC_DIR}/third-party $(DEFINES)
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS)
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
-DEFINES += -DZSTD_STATIC_LINKING_ONLY -DZSTD_DISABLE_ASM
+DEFINES += -DZSTD_STATIC_LINKING_ONLY -DZSTD_DISABLE_ASM -DFMT_USE_LOCALE=0
 
 BINDIST_EXTRAS += README.md data doc LICENSE.txt LICENSE-OFL-Terminus-Font.txt VERSION.txt $(JSON_FORMATTER_BIN)
 BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz
@@ -611,11 +616,13 @@ endif
 ifeq ($(NATIVE), osx)
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=10.15
+  CFLAGS += -mmacosx-version-min=10.15
   LDFLAGS += -mmacosx-version-min=10.15 -framework CoreFoundation -Wl,-headerpad_max_install_names
   # doesn't use GNU ar
   THIN_AR=0
   ifeq ($(UNIVERSAL_BINARY), 1)
     CXXFLAGS += -arch x86_64 -arch arm64
+    CFLAGS += -arch x86_64 -arch arm64
     LDFLAGS += -arch x86_64 -arch arm64
   endif
   ifdef FRAMEWORK
@@ -778,20 +785,20 @@ ifeq ($(TILES), 1)
     else # libsdl build
       DEFINES += -DOSX_SDL2_LIBS
       # handle #include "SDL2/SDL.h" and "SDL.h"
-      CXXFLAGS += $(shell sdl2-config --cflags) \
-		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
+      CXXFLAGS += $(subst -I,-isystem ,$(shell sdl2-config --cflags)) \
+		  -isystem $(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       LDFLAGS += -lSDL2_image
       ifeq ($(SOUND), 1)
         LDFLAGS += -lSDL2_mixer
       endif
     endif
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags freetype2)
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags freetype2))
     LDFLAGS += $(shell $(PKG_CONFIG) --libs freetype2)
   else ifneq ($(NATIVE),emscripten)
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2)
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_image SDL2_ttf)
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags freetype2)
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags sdl2))
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags SDL2_image SDL2_ttf))
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags freetype2))
 
     ifeq ($(STATIC), 1)
       LDFLAGS += $(shell $(PKG_CONFIG) sdl2 --static --libs)
@@ -848,7 +855,7 @@ else
 
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(HAVE_PKGCONFIG),1)
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags $(NCURSES_PREFIX))
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags $(NCURSES_PREFIX)))
     LDFLAGS += $(shell $(PKG_CONFIG) --libs $(NCURSES_PREFIX))
   else
     ifeq ($(HAVE_NCURSES5CONFIG),1)
@@ -876,13 +883,13 @@ ifeq ($(SOUND), 1)
       ifeq ($(MACPORTS), 1)
         LDFLAGS += -lSDL2_mixer -lvorbisfile -lvorbis -logg
       else # homebrew
-        CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
+        CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags SDL2_mixer))
         LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
         LDFLAGS += -lvorbisfile -lvorbis -logg
       endif
     endif
   else # not osx
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags SDL2_mixer))
     LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
     LDFLAGS += -lpthread
   endif
@@ -960,12 +967,10 @@ ifeq ($(TARGETSYSTEM),CYGWIN)
 endif
 
 ifeq ($(MSYS2),1)
-  DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
-  CXXFLAGS += -DMSYS2
+  DEFINES += -DMSYS2 -D_GLIBCXX_USE_C99_MATH_TR1
 endif
 
-CFLAGS := $(CXXFLAGS)
-CFLAGS += $(C_STD)
+CFLAGS += $(C_STD) $(WARNINGS)
 CXXFLAGS += $(CXX_STD) $(CXX_WARNINGS)
 
 # Enumerations of all the source files and headers.
@@ -975,7 +980,7 @@ ifeq ($(HEADERPOPULARITY), 1)
 else
   SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
 endif
-THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp)
+THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp $(SRC_DIR)/third-party/fmt/*.cc)
 THIRD_PARTY_C_SOURCES := $(wildcard $(SRC_DIR)/third-party/zstd/common/*.c $(SRC_DIR)/third-party/zstd/compress/*.c $(SRC_DIR)/third-party/zstd/decompress/*.c)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
@@ -1017,7 +1022,10 @@ endif
 
 SOURCES += $(IMGUI_SOURCES)
 
-_OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
+CPP_SOURCES := $(filter %.cpp,$(SOURCES))
+CC_SOURCES := $(filter %.cc,$(SOURCES))
+_OBJS = $(CPP_SOURCES:$(SRC_DIR)/%.cpp=%.o)
+_OBJS += $(CC_SOURCES:$(SRC_DIR)/%.cc=%.o)
 _OBJS += $(C_SOURCES:$(SRC_DIR)/%.c=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
@@ -1102,7 +1110,7 @@ ifeq ($(RELEASE), 1)
 endif
 
 $(PCH_P): $(PCH_H)
-	-$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP -Wno-error -c $(PCH_H) -o $(PCH_P)
+	-$(COMPILE.cc) $(OUTPUT_OPTION) -MMD -MP -Wno-error $<
 
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(AR_FLAGS) $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
@@ -1113,7 +1121,7 @@ version:
         [ -e ".git" ] && \
           GITVERSION=$$( git describe --tags --always --match "[0-9A-Z]*.[0-9A-Z]*" --match "cdda-experimental-*" --exact-match 2>/dev/null || true ) && \
           GITSHA=$$( git rev-parse --short HEAD ) && \
-          DIRTYFLAG=$$( [ -z "$$(git diff --numstat | grep -v lang/po/)" ] || echo "-dirty") && \
+          DIRTYFLAG=$$( [ -z "$$(git -c core.autocrlf=input -c core.safecrlf=false diff --numstat | grep -v lang/po/)" ] || echo "-dirty") && \
           VERSION_STRING="$$GITVERSION $$GITSHA$$DIRTYFLAG" && \
           VERSION_STRING="$${VERSION_STRING## }" ; \
         [ -e "$(SRC_DIR)/version.h" ] && \
@@ -1130,27 +1138,33 @@ prefix:
          )
 
 # Unconditionally create the object dirs on every invocation.
-DIRS = $(sort $(dir $(OBJS)))
+DIRS = $(sort $(dir $(OBJS) $(PCH_P)))
 $(shell mkdir -p $(DIRS))
 
 $(ODIR)/%.inc: $(SRC_DIR)/%.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -Wno-error -H -E $< -o /dev/null 2> $@
+	$(COMPILE.cc) -o /dev/null -Wno-error -H -E $< 2> $@
+
+$(ODIR)/%.inc: $(SRC_DIR)/%.cc
+	$(COMPILE.cc) -o /dev/null -Wno-error -H -E $< 2> $@
 
 $(ODIR)/%.inc: $(SRC_DIR)/%.c
-	$(CXX) -x c $(CPPFLAGS) $(DEFINES) $(CFLAGS) -Wno-error -H -E $< -o /dev/null 2> $@
+	$(COMPILE.c) -o /dev/null -Wno-error -H -E $< 2> $@
 
 .PHONY: includes
 includes: $(OBJS:.o=.inc)
 	+make -C tests includes
 
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -w -MMD -MP -c $< -o $@
+	$(COMPILE.cc) $(OUTPUT_OPTION) -w -MMD -MP $<
+
+$(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.cc
+	$(COMPILE.cc) $(OUTPUT_OPTION) -w -MMD -MP $<
 
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.c
-	$(CXX) -x c $(CPPFLAGS) $(DEFINES) $(CFLAGS) -w -MMD -MP -c $< -o $@
+	$(COMPILE.c) $(OUTPUT_OPTION) -x c $(CFLAGS) -w -MMD -MP $<
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(PCHFLAGS) -c $< -o $@
+	$(COMPILE.cc) $(OUTPUT_OPTION) $(PCHFLAGS) -MMD -MP $<
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
@@ -1178,12 +1192,12 @@ lang/mo_built.stamp: $(MO_DEPS)
 localization: lang/mo_built.stamp
 
 $(CHKJSON_BIN): $(CHKJSON_SOURCES)
-	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Isrc/chkjson -Isrc -isystem src/third-party $(CHKJSON_SOURCES) -o $(CHKJSON_BIN)
+	$(LINK.cc) $(OUTPUT_OPTION) $(TOOL_CXXFLAGS) -Isrc/chkjson -Isrc -isystem src/third-party $^
 
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
 
-clean: clean-tests clean-pch clean-lang
+clean: clean-tests clean-lang
 	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
@@ -1191,6 +1205,7 @@ clean: clean-tests clean-pch clean-lang
 	rm -f $(SRC_DIR)/version.h $(SRC_DIR)/prefix.h
 	rm -f $(CHKJSON_BIN)
 	rm -f $(TEST_MO)
+	rm -rf zzip.dSYM
 	rm -f zzip zzip.*
 
 distclean:
@@ -1398,7 +1413,7 @@ astyle-fast: $(ASTYLE_SOURCES)
 	echo $(ASTYLE_SOURCES) | xargs -P 0 -L 1 $(ASTYLE_BINARY) --quiet --options=.astylerc -n
 
 astyle-diff: $(ASTYLE_SOURCES)
-	$(ASTYLE_BINARY) --options=.astylerc -n $$(git diff --name-only src/*.h src/*.cpp tests/*.h tests/*.cpp tools/*.h tools/*.cpp)
+	$(ASTYLE_BINARY) --options=.astylerc -n $$(git -c core.autocrlf=input -c core.safecrlf=false diff --name-only src/*.h src/*.cpp tests/*.h tests/*.cpp tools/*.h tools/*.cpp)
 
 astyle-all: $(ASTYLE_SOURCES)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
@@ -1435,14 +1450,14 @@ style-all-json-parallel: $(JSON_FORMATTER_BIN)
 	find data -name "*.json" -print0 | xargs -0 -L 1 -P $$(nproc) $(JSON_FORMATTER_BIN)
 
 $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
-	$(CXX) $(CXXFLAGS) -MMD -MP $(TOOL_CXXFLAGS) -Itools/format -Isrc -isystem src/third-party \
-	  $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
+	$(LINK.cc) $(OUTPUT_OPTION) -MMD -MP $(TOOL_CXXFLAGS) -Itools/format -Isrc -isystem src/third-party $^
 
 $(BUILD_PREFIX)zstd.a: $(filter $(ODIR)/third-party/zstd/%.o,$(OBJS))
 	$(AR) rcs $(AR_FLAGS) $(BUILD_PREFIX)zstd.a $^
 
 $(ZZIP_BIN): $(ZZIP_SOURCES) $(BUILD_PREFIX)zstd.a
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(ZZIP_SOURCES) $(BUILD_PREFIX)zstd.a -isystem src/third-party -o $(ZZIP_BIN)
+  # Remove SDL libraries used by cataclysm
+	$(subst $(LDFLAGS),,$(LINK.cc)) $(OUTPUT_OPTION) -MMD -MP -isystem src/third-party $^
 
 python-check:
 	flake8
@@ -1456,15 +1471,15 @@ check: version $(BUILD_PREFIX)cataclysm.a $(LOCALIZE_TEST_DEPS)
 clean-tests:
 	$(MAKE) -C tests clean
 
-clean-pch:
-	rm -f pch/*pch.hpp.gch
-	rm -f pch/*pch.hpp.pch
-	rm -f pch/*pch.hpp.d
-	$(MAKE) -C tests clean-pch
-
 clean-lang:
 	$(MAKE) -C lang clean
 
-.PHONY: tests check ctags etags clean-tests clean-pch clean-lang install lint
+.PHONY: tests check ctags etags clean-tests clean-lang install lint
+
+compile_commands.txt:
+	@echo 'COMPILE.cc := $(COMPILE.cc)' > $@
+	@echo 'LINK.cc := $(LINK.cc)' >> $@
+	@echo 'COMPILE.c := $(COMPILE.c)' >> $@
+	@echo 'LINK.c := $(LINK.c)' >> $@
 
 -include ${OBJS:.o=.d}

@@ -34,8 +34,8 @@
       { "item": "salt_water", "prob": 20, "charges": [ 1, -1 ] },
       { "item": "usb_drive", "prob": 15 },
       { "item": "wrapped_rad_badge", "prob": 10 },
-      { "item": "software_electronics_reference", "prob": 10 },
-      { "item": "software_useless", "prob": 20 },
+      { "item": "usb_drive", "contents-item": "software_useless", "prob": 15 },
+      { "item": "usb_drive", "contents-item": "software_electronics_reference", "prob": 10 },
       { "item": "UPS_OFF", "prob": 8, "charges": [ 0, 1000 ] },
       { "item": "rad_monitor", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "chem_sulphuric_acid", "prob": 20, "container-item": "bottle_glass" },
@@ -49,7 +49,7 @@
       { "item": "syringe", "prob": 12 },
       { "item": "matrix_crystal_drained", "prob": 15 },
       { "group": "dist_matrix_crystals", "prob": 5 },
-      { "item": "matrix_channeling_tool", "prob": 4 },
+      { "group": "dist_matrix_tools", "prob": 15 },
       { "item": "manual_meditation", "prob": 20 },
       { "item": "manual_meditation_int", "prob": 12 },
       { "item": "manual_psionics_advan", "prob": 4 },
@@ -66,7 +66,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "dist_matrix_tools",
-    "items": [ [ "null", 50 ], [ "matrix_channeling_tool", 25 ], [ "matrix_aligning_tool", 10 ], [ "telepathic_focusing_tool", 4 ] ]
+    "items": [
+      { "item": "matrix_channeling_tool", "prob": 25 },
+      { "item": "matrix_aligning_tool", "prob": 10 },
+      { "item": "telepathic_focusing_tool", "prob": 4 }
+    ]
   },
   {
     "type": "item_group",
@@ -208,8 +212,8 @@
       { "item": "salt_water", "prob": 20, "charges": [ 1, -1 ] },
       { "item": "usb_drive", "prob": 15 },
       { "item": "wrapped_rad_badge", "prob": 10 },
-      { "item": "software_electronics_reference", "prob": 10 },
-      { "item": "software_useless", "prob": 20 },
+      { "item": "usb_drive", "contents-item": "software_useless", "prob": 15 },
+      { "item": "usb_drive", "contents-item": "software_electronics_reference", "prob": 10 },
       { "item": "UPS_OFF", "prob": 8, "charges": [ 0, 1000 ] },
       { "item": "rad_monitor", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "chem_sulphuric_acid", "prob": 20, "container-item": "bottle_glass" },
@@ -222,6 +226,7 @@
       { "item": "blindfold", "prob": 10 },
       { "item": "syringe", "prob": 12 },
       { "item": "matrix_crystal_drained", "prob": 15 },
+      { "group": "dist_matrix_tools", "prob": 15 },
       { "group": "dist_matrix_translocation_items", "prob": 2 }
     ]
   },
@@ -279,6 +284,17 @@
       { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
       { "item": "lab_file_mutagen_guide", "prob": 100 },
       { "item": "lab_file_mutation_testing", "prob": 100 }
+    ]
+  },
+  {
+    "id": "phavian_lab_security",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "grenade_anti_psi", "prob": 50 },
+      { "item": "grenade_anti_psi", "prob": 5, "count": [ 2, 3 ] },
+      { "group": "dist_shield_belts", "prob": 10 },
+      { "item": "tazer", "prob": 25, "charges": [ 0, 500 ] }
     ]
   }
 ]

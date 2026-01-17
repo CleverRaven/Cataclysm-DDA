@@ -99,6 +99,7 @@ namespace io
             case enchant_vals::mod::RANGED_DAMAGE: return "RANGED_DAMAGE";
 			case enchant_vals::mod::RANGED_ARMOR_PENETRATION: return "RANGED_ARMOR_PENETRATION";
             case enchant_vals::mod::DODGE_CHANCE: return "DODGE_CHANCE";
+            case enchant_vals::mod::FREE_DODGES: return "FREE_DODGES";
             case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
             case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
             case enchant_vals::mod::ATTACK_NOISE: return "ATTACK_NOISE";
@@ -631,7 +632,7 @@ void enchant_cache::load( const JsonObject &jo, std::string_view,
             try {
                 const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
                                                 ( value_obj.get_string( "value" ) );
-                const int add = value_obj.get_int( "add", 0 );
+                const double add = value_obj.get_float( "add", 0 );
                 if( add != 0 ) {
                     values_add.emplace( value, add );
                 }
@@ -1053,7 +1054,7 @@ void enchant_cache::set_has( enchantment::has value )
     active_conditions.first = value;
 }
 
-void enchant_cache::add_value_add( enchant_vals::mod value, int add_value )
+void enchant_cache::add_value_add( enchant_vals::mod value, float add_value )
 {
     values_add[value] = add_value;
 }
@@ -1393,6 +1394,9 @@ void enchant_cache::activate_passive( Character &guy ) const
 
     guy.mod_num_blocks_bonus( modify_value( enchant_vals::mod::BONUS_BLOCK,
                                             guy.get_num_blocks_base() ) - guy.get_num_blocks_base() );
+
+    guy.mod_free_dodges( modify_value( enchant_vals::mod::FREE_DODGES,
+                                       guy.get_num_free_dodges() ) - guy.get_num_free_dodges() );
 
     if( emitter ) {
         get_map().emit_field( guy.pos_bub(), *emitter );

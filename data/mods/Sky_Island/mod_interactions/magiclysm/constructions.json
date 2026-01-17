@@ -1,0 +1,20 @@
+[
+  {
+    "type": "construction_group",
+    "id": "floor_to_sapwood_floor",
+    "name": "Warp floor into a living wood floor"
+  },
+  {
+    "type": "construction",
+    "id": "floor_to_sapwood_floor",
+    "group": "floor_to_sapwood_floor",
+    "category": "OTHER",
+    "components": [ [ [ "warp_druid_wood_floor_tokens", 1 ] ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 s",
+    "pre_flags": [ "FLAT" ],
+    "post_flags": [ "keep_items" ],
+    "post_terrain": "t_heartwood_floor",
+    "activity_level": "NO_EXERCISE"
+  }
+]

@@ -36,7 +36,7 @@
     "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "A Beginner's Guide to Magic", "str_pl": "copies of A Beginner's Guide to Magic" },
-    "//": "2 Magus, 3 classless spell",
+    "//": "4 classless spell",
     "description": "You would describe this as more like a pamphlet than a spellbook, but it seems to have at least a few interesting spells you can use.",
     "weight": "585 g",
     "volume": "250 ml",
@@ -45,10 +45,7 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
-    "use_action": {
-      "type": "learn_spell",
-      "spells": [ "magic_missile", "phase_door", "create_atomic_light", "sound_bomb", "classless_watch_spell" ]
-    }
+    "use_action": { "type": "learn_spell", "spells": [ "create_atomic_light", "sound_bomb", "classless_watch_spell", "protection_aura" ] }
   },
   {
     "id": "novice_stormshaper_book",
@@ -65,7 +62,7 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "shocking_lash", "windrun" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "electric_arts", "windrun" ] }
   },
   {
     "id": "wizard_utility",
@@ -85,7 +82,6 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [
-        "phase_door",
         "create_lighter",
         "create_electric_lighter",
         "pain_split",
@@ -163,7 +159,7 @@
       "str": "The Paladin's Guide to Modern Spellcasting",
       "str_pl": "copies of The Paladin's Guide to Modern Spellcasting"
     },
-    "//": "2 technomancer, 1 animist spells",
+    "//": "1 technomancer, 1 animist spells",
     "description": "Despite the title, this seems to be written in Middle English.  A little obtuse, but you can make out most of the words well enough.",
     "weight": "830 g",
     "volume": "750 ml",
@@ -172,7 +168,7 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade", "spirit_armor" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade" ] }
   },
   {
     "id": "winter_grasp",
@@ -370,7 +366,7 @@
     "category": "manuals",
     "name": { "str": "The Book of Trees", "str_pl": "copies of The Book of Trees" },
     "//": "5 Druid spells",
-    "description": "A bark covered book.",
+    "description": "A bark covered book, though the pages inside are modern typed ones.  Contains several druid spells.",
     "weight": "355 g",
     "volume": "500 ml",
     "price": "50 USD",
@@ -380,15 +376,7 @@
     "color": "green",
     "use_action": {
       "type": "learn_spell",
-      "spells": [
-        "druid_woodshaft",
-        "druid_veggrasp",
-        "druid_rootstrike",
-        "druid_naturebow1",
-        "druid_natures_commune",
-        "druid_healing_herb",
-        "druid_healing"
-      ]
+      "spells": [ "druid_veggrasp", "druid_summon_brambles", "druid_growth", "druid_natures_commune", "druid_healing_herb" ]
     }
   },
   {
@@ -398,7 +386,7 @@
     "category": "manuals",
     "name": { "str": "The Utility of Mana as an Energy Source", "str_pl": "copies of The Utility of Mana as an Energy Source" },
     "description": "This book details spells that use your mana to recover various physiological effects.",
-    "//": "1 classless, 1 technomancer, 2 animist, 1 druid, 1 earthshaper spell",
+    "//": "1 classless, 1 technomancer, 1 animist, 1 druid, 1 earthshaper spell",
     "weight": "728 g",
     "volume": "3 L",
     "price": "50 USD",
@@ -415,8 +403,7 @@
         "recover_pain",
         "recover_sleepiness",
         "recover_stamina",
-        "druid_healing",
-        "convert"
+        "druid_healing"
       ]
     }
   },
@@ -454,7 +441,7 @@
     "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Tome of The Battle Mage", "str_pl": "copies of The Tome of The Battle Mage" },
-    "//": "4 Magus spells",
+    "//": "5 Magus spells",
     "description": "Your standard wizardy looking spellbook, filled with Magus combat spells.  You sure lucked out!",
     "weight": "434 g",
     "volume": "750 ml",
@@ -465,7 +452,7 @@
     "color": "light_gray",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast", "magus_summon_impact_sling" ]
+      "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast", "magus_summon_impact_sling", "magus_mage_conjured_armor" ]
     }
   },
   {
@@ -841,6 +828,35 @@
         "druid_renew_forest_spell",
         "druid_wood_living_tree_spell",
         "druid_rootstrike",
+        "druidic_regrowth"
+      ]
+    }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "id": "plant_spellbook_expurgated",
+    "name": {
+      "ctxt": "spellbook",
+      "str": "The Elven Path (popular edition)",
+      "str_pl": "copies of The Elven Path (popular edition)"
+    },
+    "//": "7 Druid spells",
+    "description": "Written by the elven archdruid Tylindel Melithilarahd over 500 years ago, this weighty tome was considered *the* most important book of the Harmonist druidic movement up until just before the Cataclysm.  Archdruid Melithilarahd's death in 2016 ended his overt patronage of his own works, allowing other writers to attempt to make their mark, especially younger elves who did not have such a strident anti-modern attitude.  In addition to all the philosophical essays about the importance of living in harmony with nature and allowing plants to grow where they will are several plant-based druidic spells.  This particular copy has the restricted spells present in the original excised.",
+    "price": "150 USD",
+    "material": [ "paper", "cardboard" ],
+    "symbol": "?",
+    "looks_like": "cookbook",
+    "color": "green",
+    "weight": "2041 g",
+    "volume": "1500 ml",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "druid_whisper_leaves",
+        "druid_summon_brambles",
+        "druid_renew_forest_spell",
+        "druid_wood_living_tree_spell",
         "druidic_regrowth"
       ]
     }
@@ -1243,7 +1259,7 @@
     "category": "manuals",
     "name": { "str": "Magical Mishaps: When Spells Go Wrong", "str_pl": "copies of Magical Mishaps: When Spells Go Wrong" },
     "//": "2 druid spells, 1 stormshaper spell, 1 animist spell, all spells the pun ones",
-    "description": "A series of stories of the various ways magic can go wrong if the wrong ingredients, words, or gestures are used.  A lot of the stories are merely funny, like the magus who in trying to alter the Sorcerer's Hand spell caused music to follow her everywhere she went, but there's the occasional real tragedy mixed in as a cautionary tale.",
+    "description": "A series of stories of the various ways magic can go wrong if the wrong ingredients, words, or gestures are used.  A lot of the stories are merely funny, like the magus who in trying to alter the Sorcerer's Hand spell caused music to follow her everywhere she went, but there's the occasional real tragedy mixed in as a cautionary tale.  This version of the book contains the actual formulae for the spells.",
     "weight": "483 g",
     "volume": "825 ml",
     "price": "50 USD",
@@ -1312,9 +1328,12 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "category": "manuals",
-    "//": "6 Kelvinist spells",
-    "name": { "str": "Practical Pyromancy, Seventh Edition", "str_pl": "copies of Practical Pyromancy, Seventh Edition" },
-    "description": "The 2020 edition of the classic tome of fire magic, not containing any restricted battle magic but popular all the same.",
+    "//": "7 Kelvinist spells",
+    "name": {
+      "str": "Practical Pyromancy, Seventh Edition (Scholarly Edition)",
+      "str_pl": "copies of Practical Pyromancy, Seventh Edition (Scholarly Edition)"
+    },
+    "description": "The 2020 edition of the classic tome of fire magic.  This is the restricted version, also containing information about combat spells.",
     "weight": "537 g",
     "volume": "930 ml",
     "price": "90 USD",
@@ -1326,12 +1345,33 @@
       "type": "learn_spell",
       "spells": [
         "kelvinist_firebolt",
+        "point_flare",
         "kelvinist_extinguish_fire_spell",
         "create_lighter",
         "kelvinist_heat_food",
         "kelvinist_anti_cold",
         "burning_hands"
       ]
+    }
+  },
+  {
+    "id": "basic_pyromancy_expurgated",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "//": "4 Kelvinist spells",
+    "name": { "str": "Practical Pyromancy, Seventh Edition", "str_pl": "copies of Practical Pyromancy, Seventh Edition" },
+    "description": "The 2020 edition of the classic tome of fire magic.  This is the expurgated version with all info about restricted battle magic removed.",
+    "weight": "537 g",
+    "volume": "930 ml",
+    "price": "90 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "red",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "kelvinist_extinguish_fire_spell", "create_lighter", "kelvinist_heat_food", "kelvinist_anti_cold" ]
     }
   },
   {
@@ -1471,6 +1511,28 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "stormshaper_cloak_of_fog", "storm_shipwrecker", "air_bubble", "technomancer_far_sight" ]
+    }
+  },
+  {
+    "id": "necronomicon",
+    "copy-from": "necronomicon",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "grimoire" },
+    "//": "5 Animist spells, 2 Biomancer spell",
+    "price": "45000 USD",
+    "price_postapoc": "1000 USD",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "animist_see_invisibility",
+        "rupture",
+        "dominate",
+        "animist_sense_outsiders",
+        "biomancer_baleful_polymorph",
+        "biomancer_carrion_feast",
+        "animist_do_psionic_damage_to_head"
+      ]
     }
   }
 ]

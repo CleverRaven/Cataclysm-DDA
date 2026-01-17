@@ -40,7 +40,6 @@ static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
 static const zone_type_id zone_type_LOOT_PDRINK( "LOOT_PDRINK" );
 static const zone_type_id zone_type_LOOT_PFOOD( "LOOT_PFOOD" );
-static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 
 namespace
@@ -87,8 +86,6 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
     clear_map();
 
     tripoint_abs_ms const start = here.get_abs( tripoint_bub_ms::zero + tripoint::east );
-    bool const move_act = GENERATE( true, false );
-    CAPTURE( move_act );
     dummy.set_pos_abs_only( start );
 
     if( in_vehicle ) {
@@ -99,7 +96,6 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
         vp->vehicle().set_owner( dummy );
     }
 
-    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start, in_vehicle );
     create_tile_zone( "Unload All", zone_type_UNLOAD_ALL, start, in_vehicle );
 
     item ammo_belt = item( itype_belt223, calendar::turn );
@@ -114,11 +110,7 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
         } else {
             here.add_item_or_charges( tripoint_bub_ms( tripoint::east ), ammo_belt );
         }
-        if( move_act ) {
-            dummy.assign_activity( zone_sort_activity_actor() );
-        } else {
-            dummy.assign_activity( unload_loot_activity_actor() );
-        }
+        dummy.assign_activity( unload_loot_activity_actor() );
         CAPTURE( dummy.activity.id() );
         process_activity( dummy );
 

@@ -1988,7 +1988,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                                                               &is_food, &remove_raw]( const inventory_source & inv_source,
         const itype_id & ingredient_type, const int &count ) {
             std::string text;
-            int available;
+            int available = 0;
             const item ingredient = item( ingredient_type );
             std::pair<int, int> kcal_values{ 0, 0 };
 

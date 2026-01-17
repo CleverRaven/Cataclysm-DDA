@@ -1,0 +1,20 @@
+[
+  {
+    "type": "ITEM",
+    "name": "hastily-scribbled note",
+    "id": "survnote_cabin_reverberation_hint",
+    "copy-from": "survnote",
+    "snippet_category": "cabin_reverberation_hint"
+  },
+  {
+    "type": "snippet",
+    "category": "cabin_reverberation_hint",
+    "text": [
+      {
+        "id": "note_cabin_reverberation_hint",
+        "name": "I want to go back",
+        "text": "I'm stuck, I'm stuck here\nit wasn't a dream, I was standing relaxing enjoying the evening on the roof\nwhen the sky broke, I don't know what happened\nsoon after the sun vanished, I found myself somewhere else\nexpanse of my cabin, the exact same cabin.  Gentle wind with drizzling rain, I thought I died and this was heaven\nI must've spent hours just going through those replicas of my cabin, every single one was the same\na bench on the porch, windows\nI think there's something special about this configuration\nsomething special about the layout of my cabin\nit can't be a coincidence\nI can't tell how many hours passed when I was transported back to our world, I don't know where I am, but the sky is normal again\nI wish to go back\nThis isn't my house, looks similar though.  I don't care anymore, all I want to do is to get back there\nI know it wasn't a dream"
+      }
+    ]
+  }
+]

@@ -228,5 +228,89 @@
     ],
     "melee_damage": { "stab": 10 },
     "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "inventor_water_purifier",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "ThirstTrouncer Dispenser" },
+    "looks_like": "water_purifier",
+    "description": "This turbocharged water purifier can turn any water into pure ThirstTrouncer.  Even sewage will be processed, purified and turned into the most hydrating substance ever made through clever application of the principes that rule the purification of water.  Warning: do not consume if hydrated.",
+    "longest_side": "200 mm",
+    "material": [ "plastic", "steel" ],
+    "symbol": ";",
+    "volume": "4 L",
+    "weight": "1760 g",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "default_magazine": "inventor_heavy_cell"
+      }
+    ],
+    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "tool_ammo": "battery"
+  },
+  {
+    "id": "inventor_oxygen_jelly_machine",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "Oxyjelly Machine" },
+    "looks_like": "pressure_cooker",
+    "description": "This high-pressure device creates the perfect environment to jellify oxygen, resulting in a compact and light jelly carrying all the benefits of pure oxygen.",
+    "material": [ "steel" ],
+    "symbol": ")",
+    "volume": "8000 ml",
+    "weight": "7 kg",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "default_magazine": "inventor_heavy_cell"
+      }
+    ],
+    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "tool_ammo": "battery"
+  },
+  {
+    "id": "inventor_gaming_rig",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "name": { "str": "Oneiromantic gaming rig" },
+    "description": "One of the harsh realities of being an inventor is needing to devote a third of your time to sleep and then devote some time to do non-inventor fun things.  This little wonder alleviates this issue by turning your sleep time in entertainment time through application of your deductive power!  Have it on your person while you sleep and your dreams will become anything you want!  No nightmare will disturb you, for you decide if they happen at all!",
+    "material": [ "steel" ],
+    "symbol": "n",
+    "volume": "750 ml",
+    "weight": "1 kg",
+    "use_action": [
+      { "target": "inventor_gaming_rig_on", "need_charges": 1, "msg": "The gaming rig is activated.", "type": "transform" }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "default_magazine": "inventor_heavy_cell"
+      }
+    ],
+    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "passive_effects": [ { "id": "ench_inventor_gaming_rig" } ],
+    "tool_ammo": "battery"
+  },
+  {
+    "id": "inventor_gaming_rig_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "inventor_gaming_rig",
+    "name": { "str": "Oneiromantic gaming rig (on)", "str_pl": "Oneiromantic gaming rigs (on)" },
+    "power_draw": "3 W",
+    "revert_to": "inventor_gaming_rig",
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
+    "use_action": [ { "ammo_scale": 0, "target": "inventor_gaming_rig", "msg": "The gaming rig powers down.", "type": "transform" } ]
   }
 ]

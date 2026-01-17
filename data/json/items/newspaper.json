@@ -640,5 +640,12 @@
         "weight": 40
       }
     ]
+  },
+  {
+    "type": "ITEM",
+    "id": "xedra_shack_checklist",
+    "name": { "str": "incomplete checklist" },
+    "copy-from": "file",
+    "description": "A sheet of paper with a checklist titled \"TO DO BEFORE JULY RESIGNATION\":\n [X] Acquire activity suit\n [X] Acquire respirator\n [X] Shield gear against THEM\n [ ] Shield walls against THEM\n [X] Install security door\n [ ] 6 months food, water\n [X] Order appliances, panels, radio\n [ ] Install solar panels\n [X] Install radio gear\n [X] Install air purifiers\n [ ] Fix the old boat\n [ ] Buy a gun\n [ ] Finish research statement for faculty apps"
   }
 ]

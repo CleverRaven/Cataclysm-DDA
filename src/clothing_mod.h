@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <string>
 #include <string_view>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -27,6 +28,11 @@ enum clothing_mod_type : int {
     clothing_mod_type_invalid,
     num_clothing_mod_types
 };
+
+inline auto  format_as( clothing_mod_type cmt )
+{
+    return static_cast<std::underlying_type_t<clothing_mod_type>>( cmt );
+}
 
 template<>
 struct enum_traits<clothing_mod_type> {

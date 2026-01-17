@@ -153,6 +153,7 @@ static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 static const fault_id fault_overheat_explosion( "fault_overheat_explosion" );
+static const fault_id fault_overheat_forced_safety( "fault_overheat_forced_safety" );
 static const fault_id fault_overheat_melting( "fault_overheat_melting" );
 static const fault_id fault_overheat_safety( "fault_overheat_safety" );
 static const fault_id fault_overheat_venting( "fault_overheat_venting" );
@@ -729,7 +730,7 @@ bool Character::handle_gun_damage( item &it )
 
 
     // i am bad at math, so we will use vibes instead
-    double gun_jam_chance;
+    double gun_jam_chance = 0;
     int gun_damage = it.damage() / 1000.0;
     switch( gun_damage ) {
         case 0:
@@ -749,7 +750,7 @@ bool Character::handle_gun_damage( item &it )
             break;
     }
 
-    int mag_damage;
+    int mag_damage = 0;
     double mag_jam_chance = 0;
     if( it.magazine_current() ) {
         mag_damage = it.magazine_current()->damage() / 1000.0;
@@ -924,11 +925,21 @@ bool Character::handle_gun_overheat( item &it )
         heat_multiplier *= mod->type->gunmod->heat_per_shot_multiplier;
     }
     double heat = it.get_var( "gun_heat", 0.0 );
+    double heat_for_shot = std::max( ( it.type->gun->heat_per_shot * heat_multiplier ) +
+                                     heat_modifier, 0.0 );
     double threshold = std::max( ( it.type->gun->overheat_threshold * overheat_multiplier ) +
                                  overheat_modifier, 5.0 );
     const islot_gun &gun_type = *it.type->gun;
 
     if( threshold < 0.0 ) {
+        return true;
+    }
+
+    // Forced safety completely prevents other failures.  The gun still fires the shot that triggers the safety.
+    if( ( it.faults_potential().count( fault_overheat_forced_safety ) &&
+          heat + heat_for_shot > threshold ) ) {
+        it.set_fault( fault_overheat_safety );
+        it.set_var( "gun_heat", heat + heat_for_shot );
         return true;
     }
 
@@ -971,8 +982,7 @@ bool Character::handle_gun_overheat( item &it )
             return false;
         }
     }
-    it.set_var( "gun_heat", heat + std::max( ( gun_type.heat_per_shot * heat_multiplier ) +
-                heat_modifier, 0.0 ) );
+    it.set_var( "gun_heat", heat + heat_for_shot );
     return true;
 }
 
@@ -1585,7 +1595,7 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
     }
 
     // Throw from the player's position, unless we're blind throwing, in which case
-    // throw from the the blind throw position instead.
+    // throw from the blind throw position instead.
     const tripoint_bub_ms throw_from = blind_throw_from_pos ? *blind_throw_from_pos : pos_bub();
 
     float range = rl_dist( throw_from, target );
@@ -1972,7 +1982,7 @@ static void print_confidence_ratings( const catacurses::window &w,
 {
     for( const confidence_rating &cr : ratings ) {
         std::string label = pgettext( "aim_confidence", cr.label.c_str() );
-        std::string symbols = string_format( "<color_%s>%s</color> = %s", cr.color, cr.symbol, label );
+        std::string symbols = string_format( "<color_%s>%c</color> = %s", cr.color, cr.symbol, label );
         int line_len = utf8_width( label ) + 5; // 5 for '# = ' and whitespace at end
         if( ( width - column_number ) < line_len ) {
             column_number = 1;
@@ -2009,7 +2019,7 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
     // TODO: consider removing it, but for now it demonstrates the odds changing pretty well
     std::sort( sorted.begin(), sorted.end(),
     []( const auto & lhs, const auto & rhs ) {
-        return lhs.confidence <= rhs.confidence;
+        return lhs.confidence < rhs.confidence;
     } );
 
     int width = getmaxx( w ) - 2; // window width minus borders

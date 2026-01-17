@@ -647,7 +647,10 @@ class Character : public Creature, public visitable
         /** Modifiers to character speed, with descriptions */
         std::vector<speed_bonus_effect> speed_bonus_effects;
 
+        // How many chances to dodge(this turn) does the character have left?
         int dodges_left;
+        // How many dodges(this turn) will not consume stamina?
+        int free_dodges_left;
 
     public:
         std::vector<speed_bonus_effect> get_speed_bonus_effects() const;
@@ -752,7 +755,7 @@ class Character : public Creature, public visitable
         /** Recalculate size class of character **/
         void recalculate_size();
 
-        /** Displays character name with a npc_class/profession suffix
+        /** Displays character name with an npc_class/profession suffix
         **/
         std::string disp_name( bool possessive = false, bool capitalize_first = false ) const override;
         /** Returns the player's profession or an NPC's suffix if they have one
@@ -837,6 +840,14 @@ class Character : public Creature, public visitable
         int get_dodges_left() const;
         void set_dodges_left( int dodges );
         void mod_dodges_left( int mod );
+
+
+        // Mod the actual base value, *not* the amount left for this turn
+        void mod_free_dodges( int added );
+
+        int get_free_dodges_left() const;
+        void set_free_dodges_left( int dodges );
+        void mod_free_dodges_left( int mod );
         void consume_dodge_attempts();
         ret_val<void> can_try_dodge( bool ignore_dodges_left = false ) const;
 
@@ -1618,6 +1629,8 @@ class Character : public Creature, public visitable
         void calc_encumbrance();
         /** Calculate any discomfort your current clothes are causing. */
         void calc_discomfort();
+        /** Apply morale penalties for murder */
+        void apply_murder_penalties( Creature *victim );
         /** Recalculate encumbrance for all body parts as if `new_item` was also worn. */
         void calc_encumbrance( const item &new_item );
         // recalculates bodyparts based on enchantments modifying them and the default anatomy.
@@ -2612,6 +2625,10 @@ class Character : public Creature, public visitable
         // gets all the spells known by this character that have this spell class
         // spells returned are a copy, do not try to edit them from here, instead use known_magic::get_spell
         std::vector<spell> spells_known_of_class( const trait_id &spell_class ) const;
+        /**
+        * @param fake_spell - "true" indicates a spell cast by a bionic
+        * @param target - if not provided, defers to spell::select_target()
+        */
         bool cast_spell( spell &sp, bool fake_spell, const std::optional<tripoint_bub_ms> &target );
 
         /** Called when a player triggers a trap, returns true if they don't set it off */
@@ -2900,6 +2917,7 @@ class Character : public Creature, public visitable
         int cash = 0;
         weak_ptr_fast<Creature> last_target;
         std::optional<tripoint_abs_ms> last_target_pos;
+        std::optional<tripoint_abs_ms> last_magic_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
         // FIXME: The presence of camps should be global objects, this should only be knowledge of camps (at best)

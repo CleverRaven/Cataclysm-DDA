@@ -115,6 +115,7 @@
     "color": "red",
     "flags": [ "TRADER_AVOID" ],
     "material": [ "wood" ],
+    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 6000, "qualities_needed": { "STRIKING_SURFACE": 1 } },
     "ammo_type": "match"
   },
   {

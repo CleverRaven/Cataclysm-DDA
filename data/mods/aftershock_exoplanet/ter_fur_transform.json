@@ -82,7 +82,7 @@
       {
         "result": "f_security_panel_locked",
         "valid_furniture": [ "f_security_panel", "f_security_panel_10" ],
-        "message": "You trip the security failsafe and the panel fries it's own electronics."
+        "message": "You trip the security failsafe and the panel fries its own electronics."
       },
       {
         "result": "f_reinforced_displaycase_locked",

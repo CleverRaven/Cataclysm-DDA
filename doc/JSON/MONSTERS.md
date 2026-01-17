@@ -419,7 +419,7 @@ Field              | Description
 `is_good`          | marks mutation, that is beneficial for you to hit (like headshot); false means it is a bad weakpoint for you to hit (like thick piece of armor); default true;
 `is_head`          | determines whether this weakpoint is part of the monster's head and can trigger a headshot; Only functions when `is_good` is also true, default false;
 `coverage_mult`    | object mapping weapon types to constant coverage multipliers.
-`difficulty`       | object mapping weapon types to difficulty values. Difficulty acts as soft "gate" on the attacker's skill. If the the attacker has skill equal to the difficulty, coverage is reduced to 50%. For bad weakpoint, attacker's skill will reduce the chance of hitting it.
+`difficulty`       | object mapping weapon types to difficulty values. Difficulty acts as soft "gate" on the attacker's skill. If the attacker has skill equal to the difficulty, coverage is reduced to 50%. For bad weakpoint, attacker's skill will reduce the chance of hitting it.
 `armor_mult`       | object mapping damage types to multipliers on the monster's base protection, when hitting the weakpoint.
 `armor_penalty`    | object mapping damage types to flat penalties on the monster's protection, applied after the multiplier.
 `damage_mult`      | object mapping damage types to multipliers on the post-armor damage, when hitting the weakpoint.
@@ -438,6 +438,7 @@ Field              | Description
 `permanent`        | Whether the effect is permanent.
 `intensity`        | The intensity of the effect. Either a (min, max) pair or a single value.
 `damage_required`  | The range of damage, as a percentage of max health, required to trigger the effect.
+`instant_death_chance` | Probability out of 100 to instantly kill a monster, if this weakpoint is hit. Can be a two numbers to roll between
 `message`          | The message to print, if the player triggers the effect. Should take a single template parameter, referencing the monster's name.
 
 The `coverage_mult` and `difficulty` objects support the following subfields:
@@ -531,7 +532,7 @@ How the monster behaves on death.
     "corpse_type": "NORMAL", // can be: BROKEN, NO_CORPSE, NORMAL (default)
     "message": "The %s dies!", // substitute %s for the monster's name.
     "effect": { "id": "death_boomer", "hit_self": true }, // the spell that gets called when the monster dies.  follows the syntax of fake_spell.
-    "eoc": "debug_eoc_message",  // eoc that would be run when monster dies. Alpha talker is monster, beta talker is player (always).
+    "eoc": "debug_eoc_message",  // eoc that would be run when monster dies. Alpha talker is the killer (if it exists), beta talker is the monster. Check for "has_alpha" if you plan to use it.
 }
 ```
 

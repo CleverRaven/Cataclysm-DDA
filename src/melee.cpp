@@ -48,6 +48,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "line.h"
+#include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -647,7 +648,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         return false;
     }
 
-    if( is_avatar() && move_cost > 1000 && calendar::turn > melee_warning_turn ) {
+    if( is_avatar() && move_cost > 300 && calendar::turn > melee_warning_turn ) {
         const std::string &action = query_popup()
                                     .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
                                     .message( _( "<color_light_red>Attacking with your %1$s will take a long time.  "
@@ -2001,6 +2002,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     // fire martial arts on-getting-hit-triggered effects
     // these fire even if the attack is blocked (you still got hit)
     martial_arts_data->ma_ongethit_effects( *this );
+
+    magic->break_channeling( *this );
 
     if( blocks_left < 1 ) {
         return false;

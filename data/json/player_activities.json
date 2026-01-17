@@ -559,14 +559,6 @@
     "auto_needs": true
   },
   {
-    "id": "ACT_ARMOR_LAYERS",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "fiddling with your clothes",
-    "based_on": "neither",
-    "can_resume": false
-  },
-  {
     "id": "ACT_START_FIRE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -638,7 +630,7 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "using the ATM",
-    "based_on": "neither",
+    "based_on": "time",
     "can_resume": false
   },
   {
@@ -944,26 +936,6 @@
     "can_resume": false
   },
   {
-    "id": "ACT_EAT_MENU",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "eating",
-    "rooted": true,
-    "based_on": "neither",
-    "ignored_distractions": [ "hunger", "thirst" ],
-    "can_resume": false
-  },
-  {
-    "id": "ACT_CONSUME_FOOD_MENU",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "consuming",
-    "rooted": true,
-    "based_on": "neither",
-    "ignored_distractions": [ "hunger", "thirst" ],
-    "can_resume": false
-  },
-  {
     "id": "ACT_SPELLCASTING",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
@@ -980,24 +952,6 @@
     "auto_needs": true,
     "rooted": true,
     "based_on": "time",
-    "can_resume": false
-  },
-  {
-    "id": "ACT_CONSUME_DRINK_MENU",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "drinking",
-    "based_on": "neither",
-    "ignored_distractions": [ "hunger", "thirst" ],
-    "can_resume": false
-  },
-  {
-    "id": "ACT_CONSUME_MEDS_MENU",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "using drugs",
-    "based_on": "neither",
-    "ignored_distractions": [ "hunger", "thirst" ],
     "can_resume": false
   },
   {

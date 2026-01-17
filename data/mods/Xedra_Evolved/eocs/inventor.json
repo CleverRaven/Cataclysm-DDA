@@ -23,6 +23,10 @@
           "software_math_inventor",
           "software_electronics_reference_inventor",
           "combatsaw_spear_off",
+          "inventor_carry_hands",
+          "inventor_water_purifier",
+          "inventor_coffee",
+          "inventor_gaming_rig",
           "inventor_research_base_2"
         ],
         "type": "recipe",
@@ -75,6 +79,7 @@
           "trinket_sound",
           "choke_wideshot",
           "mod_inv_pistol_booster",
+          "inventor_oxygen_jelly_machine",
           "inventor_research_base_3",
           "inventor_research_energy_1",
           "software_AI",
@@ -122,7 +127,8 @@
           "stunning_arg_trap",
           "inventor_fists_plus",
           "inventor_plasma_axe_off",
-          "inventor_research_energy_1"
+          "inventor_research_energy_1",
+          "inventor_research_bionic"
         ],
         "type": "recipe",
         "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
@@ -130,6 +136,46 @@
           "id": "EOC_REMOVE_RESEARCH_BASE_3",
           "effect": [
             { "u_forget_recipe": "inventor_research_base_3" },
+            {
+              "u_message": "You reach the limit of what can be done at this level.  It is time to move forward.",
+              "type": "info"
+            }
+          ]
+        }
+      }
+    ],
+    "false_effect": [
+      { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      { "math": [ "u_vitamin('creative_spark_research') += 3" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_RESEARCH_BIONIC",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('creative_spark_research') >= base_difficulty_3" ] },
+        { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('creative_spark_research') -= base_difficulty_3" ] },
+      { "math": [ "base_difficulty_3 += 4" ] },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      {
+        "u_roll_remainder": [
+          "bio_inventor_mana_kj_penalty_switch",
+          "bio_inventor_calorie_storage",
+          "bio_inventor_creative_fuel",
+          "bio_inventor_book_burn_boost"
+        ],
+        "type": "recipe",
+        "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
+        "false_eocs": {
+          "id": "EOC_REMOVE_RESEARCH_BIONIC",
+          "effect": [
+            { "u_forget_recipe": "inventor_research_bionic" },
             {
               "u_message": "You reach the limit of what can be done at this level.  It is time to move forward.",
               "type": "info"
@@ -309,7 +355,7 @@
       { "math": [ "AI_difficulty_1 += 5" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
-        "u_roll_remainder": [ "bot_sniperbot", "bot_shotgunbot", "bot_meleebot" ],
+        "u_roll_remainder": [ "bot_sniperbot", "bot_shotgunbot", "bot_meleebot", "crafting_assistant", "bot_bitebot" ],
         "type": "recipe",
         "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
         "false_eocs": {
@@ -429,6 +475,88 @@
             { "npc_message": "My items are falling apart!  It isn't me!" }
           ]
         }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_CBM_DEGRADATION",
+    "recurrence": [ "1 d", "2 d" ],
+    "global": true,
+    "run_for_npcs": true,
+    "condition": {
+      "and": [
+        { "not": { "u_has_trait": "INVENTOR" } },
+        {
+          "or": [
+            { "u_has_bionics": "bio_inventor_mana_kj_penalty_switch" },
+            { "u_has_bionics": "bio_inventor_calorie_storage" },
+            { "u_has_bionics": "bio_inventor_creative_fuel" },
+            { "u_has_bionics": "bio_inventor_book_burn_boost" }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_INVENTOR_CBM_DEGRADATION_BREAKDOWN" ], "alpha_talker": "u" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_CBM_DEGRADATION_BREAKDOWN",
+    "//": "Inserting the effect inside the recurrent EOC fails to grant the faulty bionics through an invalid beta talker error.",
+    "effect": [
+      {
+        "if": { "u_has_bionics": "bio_inventor_mana_kj_penalty_switch" },
+        "then": [ { "u_lose_bionic": "bio_inventor_mana_kj_penalty_switch" }, { "u_add_bionic": "bio_power_weakness" } ]
+      },
+      {
+        "if": { "u_has_bionics": "bio_inventor_calorie_storage" },
+        "then": [ { "u_lose_bionic": "bio_inventor_calorie_storage" }, { "u_add_bionic": "bio_drain" } ]
+      },
+      {
+        "if": { "u_has_bionics": "bio_inventor_creative_fuel" },
+        "then": [ { "u_lose_bionic": "bio_inventor_creative_fuel" }, { "u_add_bionic": "bio_dis_shock" } ]
+      },
+      {
+        "if": { "u_has_bionics": "bio_inventor_book_burn_boost" },
+        "then": [ { "u_lose_bionic": "bio_inventor_book_burn_boost" }, { "u_add_bionic": "bio_leaky" } ]
+      },
+      { "message": "You hear a sudden crack!" },
+      {
+        "if": "u_is_avatar",
+        "then": { "message": "Your lack of an inventor's aura is breaking the bionics that depend on it!" },
+        "else": { "message": "My bionics are falling apart!  It isn't me!" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_SLEEP_GAMING",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "u_has_item": "inventor_gaming_rig_on" },
+    "effect": [
+      { "math": [ "morale_game_inventor = (3 * u_skill('deduction')) + 3" ] },
+      {
+        "u_add_morale": "morale_game_inventor",
+        "bonus": { "math": [ "morale_game_inventor" ] },
+        "max_bonus": { "math": [ "morale_game_inventor" ] },
+        "duration": "30 minutes",
+        "decay_start": "15 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_CRAFTED_GEAR",
+    "recurrence": [ "5 minutes", "5 minutes" ],
+    "global": true,
+    "run_for_npcs": true,
+    "condition": { "u_has_trait": "INVENTOR" },
+    "effect": {
+      "u_run_inv_eocs": "all",
+      "search_data": [ { "flags": [ "INVENTOR_CRAFTED" ] } ],
+      "true_eocs": [
+        { "id": "EOC_GEAR_INVENTOR_ITEMS", "effect": [ { "u_add_effect": "effect_weird_equpiment", "duration": "5 minutes" } ] }
       ]
     }
   }

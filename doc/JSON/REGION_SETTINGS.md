@@ -368,7 +368,7 @@ The **overmap_connection_settings** section defines the `overmap_connection_id`s
 | `inter_city_road_connection` | overmap_connection id used between cities. Should include locations for the intra city terrains.   |
 | `trail_connection`           | overmap_connection id used for forest trails.                                                      |
 | `sewer_connection`           | overmap_connection id used for sewer connections.                                                  |
-| `subway_connection`          | overmap_connection id used for for both z-2 and z-4 subway connections.                            |
+| `subway_connection`          | overmap_connection id used for both z-2 and z-4 subway connections.                            |
 | `rail_connection`            | overmap_connection id used for rail connections. ( Unused in vanilla as of 0.H )                   |
 
 ### Example

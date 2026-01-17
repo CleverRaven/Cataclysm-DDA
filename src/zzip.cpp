@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <cstring>
 #include <exception>
 #include <iosfwd>
@@ -9,6 +10,7 @@
 #include <optional>
 #include <string>
 #include <system_error>
+#include <thread>
 #include <tuple>
 #include <unordered_map>
 #include <unordered_set>
@@ -354,6 +356,17 @@ std::optional<zzip> zzip::load( std::filesystem::path const &path,
                                 std::filesystem::path const &dictionary_path )
 {
     std::shared_ptr<mmap_file> file = mmap_file::map_writeable_file( path );
+    int retries = 0;
+
+    while( !file && ++retries < 3 ) {
+        // It's the caller's responsibility to ensure this is a writeable path, but maybe
+        // OneDrive or antivirus is interfering. Wait a couple time slices to see if it resolves.
+        std::this_thread::sleep_for( std::chrono::milliseconds( 32 ) );
+        file = mmap_file::map_writeable_file( path );
+    }
+    if( !file ) {
+        return {};
+    }
 
     return load( std::move( file ), dictionary_path );
 }
@@ -1166,13 +1179,15 @@ bool zzip::compact_to( std::filesystem::path const &dest, double bloat_factor )
     return compact_to( std::move( compacted_file ) );
 }
 
-bool zzip::compact_to( std::shared_ptr<mmap_file> dest ) const
+bool zzip::compact_to( std::shared_ptr<mmap_file> const &dest ) const
 {
-    std::optional<zzip> new_zip = zzip::load( std::move( dest ) );
+    std::optional<zzip> new_zip = zzip::load( dest );
     if( !new_zip ) {
         return false;
     }
-    return new_zip->copy_files( get_entries(), *this, /* shrink_to_fit = */ true );
+    bool success = new_zip->copy_files( get_entries(), *this, /* shrink_to_fit = */ true );
+    dest->flush();
+    return success;
 }
 
 bool zzip::clear()

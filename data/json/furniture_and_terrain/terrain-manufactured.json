@@ -378,6 +378,13 @@
   },
   {
     "type": "terrain",
+    "id": "t_radiosphere_radio_tower_liminal_light",
+    "copy-from": "t_radio_tower",
+    "description": "The structure of a radio transmission tower, there's a bright spotlight hanging off it.",
+    "light_emitted": 50
+  },
+  {
+    "type": "terrain",
     "id": "t_radio_controls",
     "name": "radio controls",
     "description": "A console that appears to control a nearby radio transmission tower.  It doesn't seem to be fully operational.",

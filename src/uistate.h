@@ -15,6 +15,8 @@
 #include "omdata.h"
 #include "type_id.h"
 
+constexpr int DEFAULT_TILESET_ZOOM = 16;
+
 class item;
 
 struct advanced_inv_pane_save_state {
@@ -111,6 +113,35 @@ struct overmap_sidebar_uistate {
     void deserialize( const JsonObject &jo );
 };
 
+// the consume menu reopens when done successfully consuming
+struct consume_menu_uistate {
+    // values[0] = inventory selector selected column index,
+    // values[1] = inventory selector selected index in column
+    std::vector<uint64_t> consume_menu_selections;
+    // targets[0...x] if collated, a pair of {0, 1}, otherwise all item_locations highlighted
+    std::vector<item_location> consume_menu_selected_items;
+    // str_values[0] = filter (the one you type in, not the new comestype filter)
+    std::string consume_menu_filter;
+    // values[2] = inventory selector collated bool
+    bool collated = false;
+    // new value to unify consume menus; when set, filter items by comestype
+    std::string consume_menu_comestype;
+
+    bool empty() const {
+        return consume_menu_selections.empty() && consume_menu_selected_items.empty() &&
+               consume_menu_filter.empty();
+    }
+    void clear() {
+        collated = false;
+        consume_menu_selections.clear();
+        consume_menu_selected_items.clear();
+        consume_menu_filter.clear();
+        //comestype does not clear
+    }
+    void serialize( JsonOut &json ) const;
+    void deserialize( const JsonObject &jo );
+};
+
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
   To use this, see the ****notes**** below
@@ -158,7 +189,12 @@ class uistatedata
         bool overmap_fast_travel = false;
         bool overmap_fast_scroll = false;
 
+        int tileset_zoom = DEFAULT_TILESET_ZOOM;
+        int overmap_tileset_zoom = DEFAULT_TILESET_ZOOM;
+
         overmap_sidebar_uistate overmap_sidebar_state;
+
+        consume_menu_uistate consume_uistate;
 
         // Distraction manager stuff
         bool distraction_noise = true;

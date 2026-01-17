@@ -273,6 +273,28 @@ Field group | Description | Example
 `condition` | Dynamic field that takes conditions for spell targeting.  These conditions will apply after more specific targeting criteria, such as "valid_targets" or "ignored_monster_species".  The caster is the alpha talker and the target is the beta talker.  Note: Since targeting the ground will not pass a beta talker, make sure any condition tree from a spell with "ground" as a valid target first checks for the presence of a beta talker if it wants to check against it.
 `magic_type` | Optional field indicating which type of magic this spell is part of.  Separate from spell class, this field links to a magic_type object that can define several shareable parts of spells, such as xp required to level or flags that make the spell not castable.
 
+### Channeled Spell fields
+Channeled spells trigger their effects whenever you manually wait a turn after casting. They interrupt if you do ANYTHING but manually wait.  They also break if you are involved in melee combat.
+
+Example `"channel_data`:
+```
+    "channel_data": {
+      "max_channel_turns": 20,
+      "channel_spell": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+      "channel_interrupt_spell": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+      "channel_end_spell": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+      "channel_uses_energy": true
+    }
+```
+With the values being:
+
+| field | effect |
+|-|-|
+|max_channel_turns| The number of times the spell is channeled. |
+|channel_spell         | The spell that triggers every turn of channeling. |
+|channel_end_spell | The spell that triggers on the last turn of channeling. |
+| channel_uses_energy | The `channel_spell` consumes and requires mana/other energy when it triggers. |
+|channel_interrupt_spell | The spell that triggers when channeling is interrupted. Wether its because the player ran out of mana or because they did something other than wait. (OPTIONAL) |
 
 ### Spell Flags
 
@@ -1000,6 +1022,7 @@ Character status value  | Description
 `FAT_TO_MAX_HP`         | Changes the amount of HP, that is given to you by your fat. Formula is `((your_calories/7716.17)/((your_height_in_cm/100)^2))*hitsize_of_all_non_bionic_bodyparts`. Using `add` works just as adding HP, so use `multiply` instead
 `FOOTSTEP_NOISE`        | 
 `FORCEFIELD`            | Chance your character reduces incoming damage to 0. From 0.0 (no chance), to 1.0 (100% chance to avoid attacks).
+`FREE_DODGES`           | Dodges per turn that won't consume stamina. Can be higher than actual amount of dodges, but won't add more dodges.
 `HEALTHY_RATE`          | How much of your health is changed daily. `"multiply": -1` stops any changes in health
 `HEARING_MULT`          | How well you can hear. Remember that increased hearing means you would have a bigger "noise" written in UI; default step noise of 6, multiplied 10 times, would show it as 60
 `HUNGER`                | Affects how fast your hunger level changes. Do not affect actual calorie burn, the `METABOLISM` field is responsible for this

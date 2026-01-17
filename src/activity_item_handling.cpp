@@ -311,8 +311,9 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
             it.charges = 0;
         }
 
-        if( veh.add_item( here, vp, it ) ) {
+        if( std::optional<vehicle_stack::iterator> maybe_item = veh.add_item( here, vp, it ) ) {
             into_vehicle_count += it.count();
+            result.emplace_back( vehicle_cursor( veh, vpr.part_index() ), &*maybe_item.value() );
         } else {
             if( it.count_by_charges() ) {
                 // Maybe we can add a few charges in the trunk and the rest on the ground.
@@ -541,11 +542,16 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
 
 std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
         item_drop_reason reason,
-        const std::list<item> &items )
+        const std::list<item> &items, tripoint_bub_ms dest )
 {
     map &here = get_map();
 
-    return put_into_vehicle_or_drop_ret_locs( you, reason, items, &here, you.pos_bub( here ) );
+    // If they didn't specify somewhere to place, drop at the character's feet.
+    if( dest == tripoint_bub_ms::invalid ) {
+        dest = you.pos_bub( here );
+    }
+
+    return put_into_vehicle_or_drop_ret_locs( you, reason, items, &here, dest );
 }
 
 std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
@@ -639,6 +645,7 @@ int activity_handlers::move_cost_cart(
 int activity_handlers::move_cost( const item &it, const tripoint_bub_ms &src,
                                   const tripoint_bub_ms &dest )
 {
+    // ?!??!?! This always checks the player regardless of who's doing the activity
     avatar &player_character = get_avatar();
     if( player_character.get_grab_type() == object_type::VEHICLE ) {
         const tripoint_bub_ms cart_position = player_character.pos_bub() + player_character.grab_point;

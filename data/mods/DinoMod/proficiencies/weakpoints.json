@@ -5,10 +5,10 @@
     "category": "prof_weakpoint",
     "name": { "str": "Dinosaur Biology" },
     "description": "You are familiar with general dinosaur anatomy, and can exploit potential weaknesses.",
-    "required_proficiencies": [ "prof_intro_biology" ],
+    "required_proficiencies": [ "prof_gross_anatomy" ],
     "can_learn": true,
-    "time_to_learn": "6 h",
-    "default_weakpoint_bonus": 4,
-    "default_weakpoint_penalty": -2
+    "time_to_learn": "30 m",
+    "default_weakpoint_bonus": 1,
+    "default_weakpoint_penalty": 0
   }
 ]

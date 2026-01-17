@@ -243,6 +243,7 @@
     "remove_message": "Your energy fades.",
     "rating": "good",
     "max_duration": 1200,
+    "removes_effects": [ "effect_technomancer_arete" ],
     "enchantments": [
       {
         "values": [
@@ -921,6 +922,47 @@
     ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_technomancer_arete",
+    "name": [ "Arete" ],
+    "desc": [ "You are at the apex of possibility." ],
+    "apply_message": "",
+    "remove_message": "Your heightened capabilities fade away.",
+    "rating": "good",
+    "max_duration": 72000,
+    "removes_effects": [ "bless" ],
+    "enchantments": [
+      { "mutations": [ "STR_ALPHA", "DEX_ALPHA", "PER_ALPHA", "INT_ALPHA" ] },
+      {
+        "condition": { "math": [ "(u_val('strength_base') + u_val('strength_bonus') ) >= 16" ] },
+        "values": [ { "value": "STRENGTH", "add": 2 } ]
+      },
+      {
+        "condition": { "math": [ "( u_val('dexterity_base') + u_val('dexterity_bonus') ) >= 16" ] },
+        "values": [ { "value": "DEXTERITY", "add": 2 } ]
+      },
+      {
+        "condition": { "math": [ "(u_val('intelligence_base') + u_val('intelligence_bonus') ) >= 16" ] },
+        "values": [ { "value": "INTELLIGENCE", "add": 2 } ]
+      },
+      {
+        "condition": { "math": [ "(u_val('perception_base') + u_val('perception_bonus') ) >= 16" ] },
+        "values": [ { "value": "PERCEPTION", "add": 2 } ]
+      }
+    ],
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 1.1 },
+      { "limb_score": "block", "modifier": 1.1 },
+      { "limb_score": "vision", "modifier": 1.1 },
+      { "limb_score": "reaction", "modifier": 1.1 },
+      { "limb_score": "move_speed", "modifier": 1.1 },
+      { "limb_score": "balance", "modifier": 1.1 },
+      { "limb_score": "footing", "modifier": 1.1 },
+      { "limb_score": "swim", "modifier": 1.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
     "id": "eshaper_crystal_wrap",
     "type": "effect_type",
     "name": [ "Crystal Wrapping" ],
@@ -1506,6 +1548,19 @@
     "flags": [ "WATCH" ]
   },
   {
+    "id": "effect_classless_magic_light",
+    "type": "effect_type",
+    "name": [ "Orb of Light" ],
+    "desc": [ "A softly-glowing orb is floating nearby." ],
+    "apply_message": "",
+    "remove_message": "The orb of light winks out.",
+    "rating": "good",
+    "max_duration": 40000,
+    "enchantments": [
+      { "values": [ { "value": "LUMINATION", "add": { "math": [ "( u_spell_level('create_atomic_light') * 2) + 3" ] } } ] }
+    ]
+  },
+  {
     "id": "effect_classless_easy_sleep",
     "type": "effect_type",
     "name": [ "Peaceful Rest" ],
@@ -1744,6 +1799,45 @@
     "remove_message": "Your footsteps make noise again.",
     "enchantments": [ { "values": [ { "value": "ATTACK_NOISE", "multiply": -1 }, { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] } ],
     "flags": [ "MUTE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_magus_impact_sling_buff",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": 86400,
+    "show_in_info": true,
+    "remove_message": "The energy vanishes from your sling.",
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "u_has_wielded_with_skill": "throw" },
+            { "u_has_wielded_with_flag": "PRIMITIVE_RANGED_WEAPON" },
+            { "or": [ { "u_has_wielded_with_ammotype": "pebble" }, { "u_has_wielded_with_ammotype": "rock" } ] }
+          ]
+        },
+        "values": [
+          {
+            "value": "RANGE",
+            "multiply": { "math": [ "(u_spell_level('magus_summon_impact_sling') + u_spell_level('magus_summon_impact_sling_plus') ) * 0.05" ] }
+          },
+          {
+            "value": "RANGED_DAMAGE",
+            "multiply": {
+              "math": [ "( (u_spell_level('magus_summon_impact_sling') + u_spell_level('magus_summon_impact_sling_plus') ) * 0.05) + 0.25" ]
+            }
+          },
+          {
+            "value": "RANGED_ARMOR_PENETRATION",
+            "add": {
+              "math": [ "( (u_spell_level('magus_summon_impact_sling') + u_spell_level('magus_summon_impact_sling_plus') ) * 0.25) + 4" ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -2090,6 +2184,7 @@
       "effect_magus_ranged_increase",
       "magic_slowed",
       "effect_classless_watch",
+      "effect_classless_magic_light",
       "effect_obfuscating_aura",
       "effect_shape_of_dust",
       "effect_acid_res_aura",
@@ -2159,6 +2254,7 @@
       { "u_remove_item_with": "electric_lighter" },
       { "u_remove_item_with": "flask_ethereal_rebreather" },
       { "u_remove_item_with": "armor_spirit" },
+      { "u_remove_item_with": "item_armor_magus_mage_conjured_armor" },
       { "u_remove_item_with": "magic_lamp" },
       { "u_remove_item_with": "technomancer_summoned_radio" },
       { "u_remove_item_with": "technomancer_welder" },
@@ -2217,6 +2313,7 @@
       "effect_biomancer_swim_speed",
       "effect_biomancer_carrion_feast",
       "effect_classless_watch",
+      "effect_classless_magic_light",
       "effect_obfuscating_aura",
       "effect_shape_of_dust",
       "effect_acid_res_aura",
