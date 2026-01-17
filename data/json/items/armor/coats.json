@@ -3886,8 +3886,8 @@
         "coverage": 100,
         "encumbrance": [ 12, 14 ],
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.4 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.25 }
         ]
       },
       {
@@ -3895,8 +3895,8 @@
         "coverage": 100,
         "encumbrance": [ 12, 12 ],
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.4 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.25 }
         ]
       }
     ],
