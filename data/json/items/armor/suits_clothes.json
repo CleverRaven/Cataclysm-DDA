@@ -941,7 +941,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "ski bib" },
-    "description": "A heavy, waterproof ski bib that covers the legs and torso.  It is made of a thick, durable material and is designed to keep the wearer warm in cold conditions. Activate them to unzip the front legs for ventilation.",
+    "description": "A heavy, waterproof ski bib that covers the legs and torso.  It is made of a thick, durable material and is designed to keep the wearer warm in cold conditions. Activate them to unzip the front legs for ventilation and pull up the gaiters.",
     "weight": "1200 g",
     "volume": "3300 ml",
     "price": "65 USD 50 cent",
@@ -972,9 +972,16 @@
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ],
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.2 }
+          { "type": "plastic", "covered_by_mat": 70, "thickness": 0.2 }
         ],
         "encumbrance": [ 0, 0 ]
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "encumbrance": [ 0, 0 ],
+        "coverage": 60,
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 0.2 } ],
+        "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_ankle_r", "foot_ankle_l" ]
       }
     ],
     "pocket_data": [
@@ -1056,7 +1063,7 @@
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ],
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.2 }
+          { "type": "plastic", "covered_by_mat": 70, "thickness": 0.2 }
         ],
         "encumbrance": [ 0, 0 ]
       }
