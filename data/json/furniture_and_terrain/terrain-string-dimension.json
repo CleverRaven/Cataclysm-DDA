@@ -1,0 +1,61 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_string_void",
+    "name": "nothing",
+    "description": "There's an otherworldly nothing there - it somehow feels like a black wall at the front of your senses, yet you know what lies beyond it.",
+    "symbol": " ",
+    "color": "black",
+    "flags": [ "TRANSPARENT", "WALL" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_string_x",
+    "name": "impossibly thin magenta line",
+    "description": "You percieve a magenta line here.  It seems impossible thin - you're not even sure it has width in any meaningful sense.  You cannot tell where it is in relation to your height - confusingly, it seems to fill your entire field of vision.",
+    "symbol": "-",
+    "color": "magenta",
+    "move_cost": 1,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "ONE_DIMENSIONAL_X" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_string_y",
+    "name": "impossibly thin cyan line",
+    "description": "You percieve a cyan line here.  It seems impossible thin - you're not even sure it has width in any meaningful sense.  You cannot tell where it is in relation to your height - confusingly, it seems to fill your entire field of vision.",
+    "symbol": "|",
+    "color": "cyan",
+    "move_cost": 1,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "ONE_DIMENSIONAL_Y" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_string_z",
+    "name": "impossibly thin yellow line",
+    "description": "You percieve a yellow line here.  It seems impossible thin - you're not even sure it has width in any meaningful sense.  You cannot tell where it is in relation to your height - confusingly, it seems to fill your entire field of vision.",
+    "symbol": ".",
+    "color": "yellow",
+    "move_cost": 1,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "ONE_DIMENSIONAL_Z" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_string_xy",
+    "name": "impossibly flat blue square",
+    "description": "You percieve a square, here.  It seems impossibly flat - you're not even sure it has depth in any meaningful sense.  You cannot tell where it is in relation to your height - confusingly, it seems to fill your entire field of vision.",
+    "symbol": "+",
+    "color": "blue",
+    "move_cost": 1,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "ONE_DIMENSIONAL_X", "ONE_DIMENSIONAL_Y" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_string_xyz",
+    "name": "white cube",
+    "description": "A true cube of space - it reminds you of home.",
+    "symbol": "#",
+    "color": "white",
+    "move_cost": 1,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
+  }
+]
