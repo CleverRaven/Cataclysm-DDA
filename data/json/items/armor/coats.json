@@ -3872,13 +3872,13 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "shell jacket" },
     "description": "A lightweight waterproof shell jacket designed to block wind and rain. It has deep pockets and provides a moderate amount of warmth.",
-    "weight": "1340 g",
-    "volume": "6750 ml",
+    "weight": "880 g",
+    "volume": "2150 ml",
     "price": "140 USD",
-    "price_postapoc": "7 USD 50 cent",
+    "price_postapoc": "5 USD ",
     "material": [ "nylon", "cotton" ],
     "symbol": "[",
-    "looks_like": "coat_rain",
+    "looks_like": "coat_winter",
     "color": "light_blue",
     "armor": [
       {
@@ -3914,6 +3914,13 @@
         "max_contains_weight": "3 kg",
         "max_item_length": "21 cm",
         "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "18 cm",
+        "moves": 90
       }
     ],
     "warmth": 40,
