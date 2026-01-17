@@ -347,8 +347,9 @@ std::string ethereal( item const &it, unsigned int /* quantity */,
                       segment_bitset const &/* segments */ )
 {
     if( it.ethereal ) {
-        const int turns = static_cast<int>( std::lround( it.get_var( "ethereal", 0.0 ) ) );
-        return string_format( _( " (%d turns)" ), turns );
+        const time_duration turns = time_duration::from_turns(
+                                        std::lround( it.get_var( "ethereal", 0.0 ) ) );
+        return string_format( _( " (%s)" ), to_string( turns, true ) );
     }
     return {};
 }
