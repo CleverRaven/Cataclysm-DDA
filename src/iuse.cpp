@@ -2480,8 +2480,7 @@ std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint_
     p->mod_moves( -to_moves<int>( 2_seconds ) );
 
     for( item *water : liquids ) {
-        water->convert( itype_water_purifying_active, p ).poison = 0;
-        water->set_birthday( calendar::turn );
+        water->convert( itype_water_clean, p ).poison = 0;
     }
     return charges_of_water;
 }
