@@ -273,6 +273,28 @@ Field group | Description | Example
 `condition` | Dynamic field that takes conditions for spell targeting.  These conditions will apply after more specific targeting criteria, such as "valid_targets" or "ignored_monster_species".  The caster is the alpha talker and the target is the beta talker.  Note: Since targeting the ground will not pass a beta talker, make sure any condition tree from a spell with "ground" as a valid target first checks for the presence of a beta talker if it wants to check against it.
 `magic_type` | Optional field indicating which type of magic this spell is part of.  Separate from spell class, this field links to a magic_type object that can define several shareable parts of spells, such as xp required to level or flags that make the spell not castable.
 
+### Channeled Spell fields
+Channeled spells trigger their effects whenever you manually wait a turn after casting. They interrupt if you do ANYTHING but manually wait.  They also break if you are involved in melee combat.
+
+Example `"channel_data`:
+```
+    "channel_data": {
+      "max_channel_turns": 20,
+      "channel_spell": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+      "channel_interrupt_spell": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+      "channel_end_spell": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+      "channel_uses_energy": true
+    }
+```
+With the values being:
+
+| field | effect |
+|-|-|
+|max_channel_turns| The number of times the spell is channeled. |
+|channel_spell         | The spell that triggers every turn of channeling. |
+|channel_end_spell | The spell that triggers on the last turn of channeling. |
+| channel_uses_energy | The `channel_spell` consumes and requires mana/other energy when it triggers. |
+|channel_interrupt_spell | The spell that triggers when channeling is interrupted. Wether its because the player ran out of mana or because they did something other than wait. (OPTIONAL) |
 
 ### Spell Flags
 

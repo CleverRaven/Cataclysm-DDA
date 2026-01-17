@@ -235,6 +235,12 @@ class spell_type
         // list of additional "spell effects"
         std::vector<fake_spell> additional_spells;
 
+        int channelling_turns = 0;
+        std::string channel_spell;
+        std::string channel_end_spell;
+        std::string channel_interrupt_spell;
+        bool channel_uses_energy = true;
+
         // if the spell has a field name defined, this is where it is
         std::optional<field_type_id> field = std::nullopt;
         // the chance one_in( field_chance ) that the field spawns at a tripoint in the area of the spell
@@ -593,6 +599,7 @@ class spell
         bool has_flag( const spell_flag &flag ) const;
         bool has_flag( const std::string &flag ) const;
         bool no_hands() const;
+        bool is_channeling_spell() const;
         // check if the spell's class is the same as input
         bool is_spell_class( const trait_id &mid ) const;
 
@@ -773,6 +780,8 @@ class known_magic
         void clear_opens_spellbook_data();
         // uses data received from EoC
         void evaluate_opens_spellbook_data();
+        void channel_magic( Character &guy );
+        void break_channeling( Character &guy );
 
         void on_mutation_gain( const trait_id &mid, Character &guy );
         void on_mutation_loss( const trait_id &mid, Character &guy );
