@@ -1476,7 +1476,7 @@
     "volume": "2 L",
     "price": "65 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "nylon", "vinyl", "down_feathers" ],
+    "material": [ "nylon", "vinyl", "cotton" ],
     "symbol": "[",
     "looks_like": "pants",
     "color": "blue",
@@ -1522,7 +1522,7 @@
         "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_hip_r", "leg_upper_r", "leg_knee_r" ],
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
-          { "type": "down_feathers", "covered_by_mat": 100, "thickness": 2.5 }
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.6 }
         ]
       },
       {
@@ -1531,6 +1531,7 @@
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ],
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.6 },
           { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "encumbrance": [ 0, 0 ],
