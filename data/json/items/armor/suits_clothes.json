@@ -972,7 +972,7 @@
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ],
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
-          { "type": "plastic", "covered_by_mat": 70, "thickness": 0.2 }
+          { "type": "plastic", "covered_by_mat": 60, "thickness": 0.2 }
         ],
         "encumbrance": [ 0, 0 ],
         "rigid_layer_only": false
@@ -1080,7 +1080,7 @@
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ],
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
-          { "type": "plastic", "covered_by_mat": 70, "thickness": 0.2 }
+          { "type": "plastic", "covered_by_mat": 60, "thickness": 0.2 }
         ],
         "encumbrance": [ 0, 0 ],
         "rigid_layer_only": false
