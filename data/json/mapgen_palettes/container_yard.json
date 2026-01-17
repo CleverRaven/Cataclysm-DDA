@@ -680,26 +680,17 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_shaker_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "furniture": { " ": "f_shaker" }
-    }
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_shaker" } }
   },
   {
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_exam_chair_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "furniture": { " ": "f_exam_chair" }
-    }
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_exam_chair" } }
   },
   {
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_toilet_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "furniture": { " ": "f_toilet" }
-    }
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_toilet" } }
   },
   {
     "type": "mapgen",
@@ -713,42 +704,27 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_bookcase_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "furniture": { " ": "f_bookcase" }
-    }
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_bookcase" } }
   },
   {
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_coffin_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "furniture": { " ": "f_coffin_c" }
-    }
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_coffin_c" } }
   },
   {
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_stack_wooden_planks_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "furniture": { " ": "f_plank_stack_mid" }
-    }
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_plank_stack_mid" } }
   },
   {
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_pallet_adobe_bricks_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "furniture": { " ": "f_pallet_brick_adobe" }
-    }
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_pallet_brick_adobe" } }
   },
   {
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_stack_pipes_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "furniture": { " ": "f_pipe_stack_mid" }
-    }
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_pipe_stack_mid" } }
   },
   {
     "type": "mapgen",
@@ -762,10 +738,7 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_mannequin_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "furniture": { " ": "f_mannequin" }
-    }
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_mannequin" } }
   },
   {
     "type": "mapgen",
@@ -824,9 +797,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_wine_keg_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "items": { " ": { "item": "keg_wine_intact", "chance": 95 } }
-    }
+    "object": { "mapgensize": [ 1, 1 ], "items": { " ": { "item": "keg_wine_intact", "chance": 95 } } }
   }
 ]
