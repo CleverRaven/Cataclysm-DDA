@@ -614,7 +614,8 @@ construction_id construction_menu( const bool blueprint )
                 construction *current_con = *it;
                 if( filter_mode == 1 ) {
                     // show stages where skills & materials are satisfied but location is not
-                    if( !( player_can_build( player_character, total_inv, *current_con, true ) && !can_construct( *current_con ) ) ) {
+                    if( !( player_can_build( player_character, total_inv, *current_con, true ) &&
+                           !can_construct( *current_con ) ) ) {
                         continue;
                     }
                 } else if( filter_mode == 2 ) {
