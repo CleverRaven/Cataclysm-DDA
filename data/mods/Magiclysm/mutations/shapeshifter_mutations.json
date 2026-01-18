@@ -155,7 +155,7 @@
         "mutations": [ "ANTLERS", "HOOVES" ]
       },
       {
-        "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
+        "condition": { "not": "u_can_drop_weapon" },
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
       },
       { "condition": { "u_has_move_mode": "run" }, "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ] },
