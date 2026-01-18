@@ -620,7 +620,8 @@ construction_id construction_menu( const bool blueprint )
                     }
                 } else if( filter_mode == 2 ) {
                     // show stages that are buildable here (skills & materials + location)
-                    if( !( player_can_build( player_character, total_inv, *current_con, true ) && can_construct( *current_con ) ) ) {
+                    if( !( player_can_build( player_character, total_inv, *current_con, true ) &&
+                           can_construct( *current_con ) ) ) {
                         continue;
                     }
                 }
