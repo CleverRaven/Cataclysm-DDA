@@ -415,7 +415,7 @@
     "type": "profession",
     "id": "xe_dreamer",
     "name": "Mobile Task Force: Theta 1 \"Middle-Management\"",
-    "description": "Theta 1, also known as \"kindergarten\" between other task forces, is used when missions are expected to be too dangerous to send people or when reconnaissance can't obtain any important information about the target, which is why otherworldly creatures, summoned by dreamers, are sent.  It's not the best course of action, but the unit's nearly zero fatality rate makes it worth using.",
+    "description": "Theta 1, also known as \"kindergarten\" between other task forces, is used when missions are expected to be too dangerous to send people or when reconnaissance can't obtain any important information about the target, which is why otherworldly creatures, summoned by dreamers, are sent.  It's not the best course of action, but the unit's nearly zero fatality rate makes it worth using.  You have to feel significant emotions to effectively regenerate your mana so you've gotten used to carrying a supply of xanax when you don't have access to whatever mood enhancers they give you in the lab.",
     "points": 7,
     "skills": [
       { "level": 4, "name": "gun" },
@@ -449,6 +449,8 @@
           { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_dreamer" },
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
           { "group": "military_ballistic_vest_light" },
+          { "group": "diazepam_scrip" },
+          { "group": "diazepam_scrip" },
           { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20, "container-item": "shoulder_holster" },
           { "item": "legpouch_large", "contents-group": "suppressed_fn57" }
         ]
