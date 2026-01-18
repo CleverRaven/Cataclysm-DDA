@@ -251,7 +251,7 @@
   {
     "type": "terrain",
     "id": "t_rock_feldspar",
-    "looks_like": "t_rockyobstacle",
+    "looks_like": "t_rock_smooth",
     "name": "feldspar",
     "description": "A deposit of feldspar.",
     "symbol": "#",
