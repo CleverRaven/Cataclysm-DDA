@@ -15,7 +15,7 @@
             [ "innawood_ore_vein_cassiterite", 1 ],
             [ "innawood_ore_vein_iron_galena", 15 ],
             [ "innawood_ore_vein_iron_hematite", 15 ],
-            [ "innawood_ore_feldspar", 2500 ]
+            [ "innawood_ore_feldspar", 25 ]
           ]
         }
       }
