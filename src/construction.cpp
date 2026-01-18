@@ -345,7 +345,8 @@ static void load_available_constructions( std::vector<construction_group_str_id>
             ok = player_can_build( player_character, player_character.crafting_inventory(), it, true ) &&
                  !can_construct( it );
         } else if( filter_mode == 2 ) {
-            ok = player_can_build( player_character, player_character.crafting_inventory(), it, true ) && can_construct( it );
+            ok = player_can_build( player_character, player_character.crafting_inventory(), it, true ) &&
+                 can_construct( it );
         }
         if( !ok ) {
             continue;
