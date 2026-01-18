@@ -1,0 +1,215 @@
+[
+  {
+    "type": "palette",
+    "id": "string_dimension_palette",
+    "terrain": {
+        "|": "t_string_y",
+        "-": "t_string_x",
+        "+": "t_string_xy",
+        ".": "t_string_z"
+    }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "string_dimension_crossroads" ],
+    "vision_levels": "isolated_tower",
+    "name": "string dimension",
+    "sym": ".",
+    "color": "white",
+    "see_cost": "all_clear"
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "string_dimension_crossroads",
+    "object": {
+      "fill_ter": "t_string_void",
+      "rows": [
+        "         | | |          ",
+        "         | | |          ",
+        "         | | |          ",
+        "         | | |          ",
+        "         | | |          ",
+        "         | | |          ",
+        "         | | |          ",
+        "         | | |          ",
+        "         | | |          ",
+        "         | | |          ",
+        "---------+-+-+----------",
+        "         | | |          ",
+        "---------+-+-+----------",
+        "         | | |          ",
+        "---------+-+-+----------",
+        "         | | |          ",
+        "         | | |          ",
+        "         | | |          ",
+        "         | | |          ",
+        "         | | |          ",
+        "         | | |          ",
+        "         | | |          ",
+        "         | | |          ",
+        "         | | |          "
+      ],
+      "terrain": {
+        "|": "t_string_y",
+        "-": "t_string_x",
+        "+": "t_string_xy",
+        ".": "t_string_z"
+      },
+      "place_nested": [ { "chunks": [ "string_dimension_crossroads_nest_nw" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "string_dimension_crossroads_nest_nw",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "----+----+  ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    +       ",
+        "            "   
+      ],
+      "palettes": [ "string_dimension_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "string_dimension_crossroads_nest_nw",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    +       ",
+        "            "   
+      ],
+      "palettes": [ "string_dimension_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "string_dimension_crossroads_nest_nw",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "---------+  ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            "   
+      ],
+      "palettes": [ "string_dimension_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "string_dimension_crossroads_nest_nw",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    +----+  ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            "   
+      ],
+      "palettes": [ "string_dimension_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "string_dimension_crossroads_nest_nw",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "    +----+  ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    +       ",
+        "            "   
+      ],
+      "palettes": [ "string_dimension_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "string_dimension_crossroads_nest_nw",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "----+       ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    +       ",
+        "            "   
+      ],
+      "palettes": [ "string_dimension_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "string_dimension_crossroads_nest_nw",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "    |       ",
+        "----+       ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            "   
+      ],
+      "palettes": [ "string_dimension_palette" ]
+    }
+  }
+]
