@@ -52,7 +52,7 @@
     "type": "terrain",
     "id": "t_string_xyz",
     "name": "white cube",
-    "description": "A true cube of space - it reminds you of home.",
+    "description": "A true cube of space where one could go left, right, up, down, backward, or forward - it reminds you of home.",
     "symbol": "#",
     "color": "white",
     "move_cost": 1,
