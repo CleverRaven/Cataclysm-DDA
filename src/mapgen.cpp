@@ -6218,7 +6218,6 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
     if( has_original_terrain_at( p ) ) {
         const ter_id orig_id = get_original_terrain_at( p );
         ter_set( p, orig_id );
-        clear_original_terrain_at( p );
     }
     const tripoint_abs_ms abs_p = get_abs( p );
     const ter_str_id cur_id = ter( p ).id();
@@ -6297,9 +6296,9 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
 
     const ter_str_id chosen = apply_phase_thresholds( cur_ter, cur_id );
     if( chosen != ter_t_pseudo_phase && chosen != cur_id ) {
-        // Record original terrain so it can be reverted later
-        set_original_terrain_at( p, cur_id.id() );
+        // Record original terrain so it can be reverted later.
         ter_set( p, chosen );
+        set_original_terrain_at( p, cur_id.id() );
     }
 }
 
