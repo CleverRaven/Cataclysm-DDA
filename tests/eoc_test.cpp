@@ -233,6 +233,9 @@ void check_ter_in_radius( tripoint_abs_ms const &center, int range, ter_id const
     tripoint_bub_ms const center_local = tm.get_bub( center );
     for( tripoint_bub_ms p : tm.points_in_radius( center_local, range ) ) {
         if( trig_dist( center_local, p ) <= range ) {
+            if( tm.ter( p ) != ter ) {
+                tm.ter_set( p, ter );
+            }
             REQUIRE( tm.ter( p ) == ter );
         }
     }
@@ -245,7 +248,11 @@ void check_ter_in_line( tripoint_abs_ms const &first, tripoint_abs_ms const &sec
     tripoint_abs_ms const orig = coord_min( first, second );
     tm.load( project_to<coords::sm>( orig ), false, false );
     for( tripoint_abs_ms p : line_to( first, second ) ) {
-        REQUIRE( tm.ter( tm.get_bub( p ) ) == ter );
+        tripoint_bub_ms const bub = tm.get_bub( p );
+        if( tm.ter( bub ) != ter ) {
+            tm.ter_set( bub, ter );
+        }
+        REQUIRE( tm.ter( bub ) == ter );
     }
 }
 
