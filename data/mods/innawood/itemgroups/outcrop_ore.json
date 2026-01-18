@@ -40,5 +40,11 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [ { "item": "pebble", "count": [ 50, 100 ] }, { "item": "chunk_hematite", "count": [ 1, 3 ], "prob": 30 } ]
+  },
+  {
+    "id": "outcrop_feldspar",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "pebble", "count": [ 50, 100 ] }, { "item": "chunk_feldspar", "count": [ 2, 4 ], "prob": 30 } ]
   }
 ]
