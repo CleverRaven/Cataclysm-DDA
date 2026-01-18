@@ -43,7 +43,7 @@ CREATE INDEX gun_data_idx_deduplication_query ON gun_data(serial, date); DELETE 
 -- Remove rows with a state field not equal to MA
 DELETE FROM gun_data WHERE state != "MA" AND state != "";
 
--- Add OG_MAKE field for 
+-- Add OG_MAKE column to gun_data for make_updates.sql to do its magic on
 ALTER TABLE gun_data ADD COLUMN OG_MAKE TEXT;
 
 -- Correct incorrectly spelled fields
