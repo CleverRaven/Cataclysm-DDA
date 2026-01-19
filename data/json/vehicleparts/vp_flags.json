@@ -198,6 +198,16 @@
     "info": "If the center of balance of your vehicle is between all the wheels, the vehicle will be able to move, provided it has an active engine or motor with enough power to move the vehicle."
   },
   {
+    "id": "TIRE",
+    "type": "json_flag",
+    "info": "A rubber tire mounted on a wheel rim. Tire damage is tracked separately from the rim."
+  },
+  {
+    "id": "RIM",
+    "type": "json_flag",
+    "info": "A wheel rim. Rim damage is tracked separately from the tire."
+  },
+  {
     "id": "WIND_TURBINE",
     "type": "json_flag",
     "info": "Provides <color_green>%dW</color> of electrical power to the vehicle for every 1 m/s of wind the vehicle is exposed to."

@@ -202,10 +202,10 @@
     "variants": [ { "symbols": "B", "symbols_broken": "E" } ]
   },
   {
-    "id": "wheel",
+    "id": "rim",
     "type": "vehicle_part",
-    "item": "wheel",
-    "description": "A car wheel.",
+    "item": "rim",
+    "description": "A car rim.",
     "location": "under",
     "categories": [ "movement" ],
     "color": "dark_gray",
@@ -214,32 +214,18 @@
     "breaks_into": [
       { "item": "mc_steel_lump", "count": [ 1, 2 ] },
       { "item": "mc_steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] },
-      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
-      { "item": "chunk_rubber", "count": [ 8, 19 ] },
-      { "item": "shredded_rubber", "charges": [ 8, 20 ] }
+      { "item": "scrap", "count": [ 1, 2 ] }
     ],
-    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 153,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "10 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
-    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "flags": [ "RIM", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "tires": [ "tire_medium", "tire_medium_slick" ],
     "damage_reduction": { "bash": 20 },
     "variants": [ { "symbols": "0", "symbols_broken": "x" } ]
-  },
-  {
-    "id": "wheel_slick",
-    "copy-from": "wheel",
-    "type": "vehicle_part",
-    "item": "wheel_slick",
-    "description": "A wide, smooth wheel intended for racing.  The slick surface provides better speed on pavement but penalizes off-road speed.",
-    "wheel_offroad_rating": 0.3,
-    "wheel_terrain_modifiers": { "FLAT": [ 0, 5 ], "ROAD": [ 0, 2 ] },
-    "contact_area": 180,
-    "damage_reduction": { "bash": 12 }
   },
   {
     "id": "wheel_armor",
@@ -302,10 +288,10 @@
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   },
   {
-    "id": "wheel_bicycle",
+    "id": "rim_bicycle",
     "type": "vehicle_part",
-    "item": "wheel_bicycle",
-    "description": "A thin bicycle wheel.",
+    "item": "rim_bicycle",
+    "description": "A thin bicycle rim.",
     "location": "under",
     "categories": [ "movement" ],
     "color": "dark_gray",
@@ -315,35 +301,22 @@
     "breaks_into": [
       { "item": "mc_steel_lump", "prob": 50 },
       { "item": "mc_steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] },
-      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
-      { "item": "chunk_rubber", "count": [ 4, 13 ] },
-      { "item": "shredded_rubber", "charges": [ 5, 12 ] }
+      { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "rolling_resistance": 0.45,
-    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 40,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
-    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "flags": [ "RIM", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "tires": [ "tire_bicycle", "tire_bicycle_or" ],
     "damage_reduction": { "bash": 6 },
     "variants": [
       { "id": "front", "label": "Front", "symbols": "|\\-/|\\-/", "symbols_broken": "x" },
       { "id": "rear", "label": "Rear", "symbols": "|\\-/|\\-/", "symbols_broken": "x" }
     ]
-  },
-  {
-    "id": "wheel_bicycle_or",
-    "copy-from": "wheel_bicycle",
-    "type": "vehicle_part",
-    "item": "wheel_bicycle_or",
-    "description": "A wide, studded bicycle wheel intended for off-road biking.",
-    "contact_area": 36,
-    "wheel_offroad_rating": 0.7,
-    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] }
   },
   {
     "id": "wheel_caster",
@@ -488,10 +461,10 @@
     "variants": [ { "symbols": "-", "symbols_broken": "X" } ]
   },
   {
-    "id": "wheel_motorbike",
+    "id": "rim_motorbike",
     "type": "vehicle_part",
-    "item": "wheel_motorbike",
-    "description": "A small wheel from a motorcycle.",
+    "item": "rim_motorbike",
+    "description": "A small rim from a motorcycle.",
     "location": "under",
     "looks_like": "wheel",
     "categories": [ "movement" ],
@@ -501,44 +474,22 @@
     "breaks_into": [
       { "item": "mc_steel_lump", "count": [ 1, 3 ] },
       { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
-      { "item": "scrap", "count": [ 1, 3 ] },
-      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
-      { "item": "chunk_rubber", "count": [ 8, 19 ] },
-      { "item": "shredded_rubber", "charges": [ 8, 20 ] }
+      { "item": "scrap", "count": [ 1, 3 ] }
     ],
     "rolling_resistance": 1.9,
-    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 66,
+    "tires": [ "tire_motorbike", "tire_motorbike_or" ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
-    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "flags": [ "RIM", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 10 },
     "variants": [
       { "id": "front", "label": "Front", "symbols": "o", "symbols_broken": "x" },
       { "id": "rear", "label": "Rear", "symbols": "o", "symbols_broken": "x" }
     ]
-  },
-  {
-    "id": "wheel_motorbike_or",
-    "copy-from": "wheel_motorbike",
-    "type": "vehicle_part",
-    "item": "wheel_motorbike_or",
-    "description": "A motorbike wheel, studded for improved off-road performance.",
-    "contact_area": 60,
-    "breaks_into": [
-      { "item": "mc_steel_lump", "count": [ 1, 3 ] },
-      { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
-      { "item": "scrap", "count": [ 1, 3 ] },
-      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
-      { "item": "chunk_rubber", "count": [ 9, 25 ] },
-      { "item": "shredded_rubber", "charges": [ 8, 20 ] }
-    ],
-    "wheel_offroad_rating": 0.7,
-    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
-    "damage_reduction": { "bash": 10, "cut": 8, "stab": 4 }
   },
   {
     "id": "wheel_small",
@@ -666,10 +617,10 @@
     "variants": [ { "symbols": "|", "symbols_broken": "x" } ]
   },
   {
-    "id": "wheel_wide",
+    "id": "rim_wide",
     "type": "vehicle_part",
-    "item": "wheel_wide",
-    "description": "A wide wheel.  \\o/ This wide.  Provides more traction and better off-road performance.",
+    "item": "rim_wide",
+    "description": "A wide rim.  \\o/ This wide.  Provides more traction and better off-road performance.",
     "location": "under",
     "looks_like": "wheel",
     "categories": [ "movement" ],
@@ -679,33 +630,19 @@
     "breaks_into": [
       { "item": "mc_steel_lump", "count": [ 2, 3 ] },
       { "item": "mc_steel_chunk", "count": [ 2, 3 ] },
-      { "item": "scrap", "count": [ 2, 3 ] },
-      { "item": "rubber_tire_chunk", "count": [ 1, 3 ] },
-      { "item": "chunk_rubber", "count": [ 8, 24 ] },
-      { "item": "shredded_rubber", "charges": [ 8, 20 ] }
+      { "item": "scrap", "count": [ 2, 3 ] }
     ],
     "rolling_resistance": 0.575,
-    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 360,
+    "tires": [ "tire_wide", "tire_wide_or" ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "10 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
-    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "flags": [ "RIM", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "bash": 25 },
     "variants": [ { "symbols": "O", "symbols_broken": "x" } ]
-  },
-  {
-    "id": "wheel_wide_or",
-    "copy-from": "wheel_wide",
-    "type": "vehicle_part",
-    "item": "wheel_wide_or",
-    "description": "A wide wheel.  \\o/ This wide.  It's studded to provide better grip off-road at the cost of some performance on pavement.",
-    "wheel_offroad_rating": 0.7,
-    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
-    "contact_area": 320,
-    "damage_reduction": { "bash": 20, "cut": 15, "stab": 10 }
   },
   {
     "id": "wheel_wood",
@@ -781,5 +718,100 @@
     "contact_area": 60,
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_WHEEL_MOUNT_CONCRETE_MIX", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tire_medium",
+    "item": "tire_medium",
+    "description": "A standard car tire.",
+    "location": "under",
+    "categories": [ "movement" ],
+    "durability": 120,
+    "damage_modifier": 40,
+    "breaks_into": [
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 6, 18 ] },
+      { "item": "shredded_rubber", "charges": [ 6, 18 ] }
+    ],
+    "flags": [ "TIRE", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
+    "variants": [ { "symbols": "=", "symbols_broken": "." } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tire_medium_slick",
+    "item": "tire_medium_slick",
+    "description": "A slick racing car tire.",
+    "location": "under",
+    "categories": [ "movement" ],
+    "durability": 140,
+    "damage_modifier": 40,
+    "breaks_into": [ { "item": "rubber_tire_chunk", "count": [ 0, 1 ] }, { "item": "chunk_rubber", "count": [ 8, 20 ] } ],
+    "flags": [ "TIRE", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "wheel_offroad_rating": 0.3,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 5 ], "ROAD": [ 0, 2 ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tire_motorbike",
+    "item": "tire_motorbike",
+    "description": "A motorbike tire.",
+    "location": "under",
+    "categories": [ "movement" ],
+    "durability": 80,
+    "damage_modifier": 40,
+    "breaks_into": [ { "item": "rubber_tire_chunk", "count": [ 0, 1 ] }, { "item": "chunk_rubber", "count": [ 4, 12 ] } ],
+    "flags": [ "TIRE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tire_wide",
+    "item": "tire_wide",
+    "description": "A wide tire for large wheels.",
+    "location": "under",
+    "categories": [ "movement" ],
+    "durability": 240,
+    "damage_modifier": 40,
+    "breaks_into": [ { "item": "rubber_tire_chunk", "count": [ 1, 3 ] }, { "item": "chunk_rubber", "count": [ 8, 24 ] } ],
+    "flags": [ "TIRE", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tire_bicycle",
+    "item": "tire_bicycle",
+    "description": "A bicycle tire.",
+    "location": "under",
+    "categories": [ "movement" ],
+    "durability": 30,
+    "damage_modifier": 40,
+    "breaks_into": [ { "item": "rubber_tire_chunk", "count": [ 0, 1 ] }, { "item": "chunk_rubber", "count": [ 2, 8 ] } ],
+    "flags": [ "TIRE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tire_wide_or",
+    "copy-from": "tire_wide",
+    "description": "A studded wide tire for off-road use.",
+    "wheel_offroad_rating": 0.7,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tire_motorbike_or",
+    "copy-from": "tire_motorbike",
+    "description": "A studded motorbike tire for off-road use.",
+    "wheel_offroad_rating": 0.7,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tire_bicycle_or",
+    "copy-from": "tire_bicycle",
+    "description": "A studded bicycle tire for off-road use.",
+    "wheel_offroad_rating": 0.7,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] }
   }
 ]

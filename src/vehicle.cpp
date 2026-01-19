@@ -154,6 +154,16 @@ static const translation power_grid_name = to_translation( "power grid" );
 static bool is_sm_tile_outside( const tripoint_abs_ms &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint_abs_ms &real_global_pos );
 
+// Helper: determine whether a vehicle_part represents a tire (as opposed to rim/etc).
+static bool is_tire_part( const vehicle_part &pt )
+{
+    const vpart_info &vpi = pt.info();
+    if( vpi.has_flag( "TIRE" ) ) {
+        return true;
+    }
+    return false;
+}
+
 static const int MAX_WIRE_VEHICLE_SIZE = 24;
 
 void DefaultRemovePartHandler::removed( map *here, vehicle &veh, const int part )
