@@ -226,6 +226,10 @@
     },
     "flags": [ "RIM", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "tires": [ "tire_medium", "tire_medium_slick", "tire_medium_deflated", "tire_medium_slick_deflated" ],
+    "pocket": {
+      "max_item_count": 1,
+      "allowed_items": [ "tire_medium", "tire_medium_slick", "tire_medium_deflated", "tire_medium_slick_deflated" ]
+    },
     "damage_reduction": { "bash": 20 },
     "variants": [ { "symbols": "0", "symbols_broken": "x" } ]
   },
@@ -316,6 +320,10 @@
     },
     "flags": [ "RIM", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "tires": [ "tire_bicycle", "tire_bicycle_or", "tire_bicycle_deflated", "tire_bicycle_or_deflated" ],
+    "pocket": {
+      "max_item_count": 1,
+      "allowed_items": [ "tire_bicycle", "tire_bicycle_or", "tire_bicycle_deflated", "tire_bicycle_or_deflated" ]
+    },
     "damage_reduction": { "bash": 6 },
     "variants": [
       { "id": "front", "label": "Front", "symbols": "|\\-/|\\-/", "symbols_broken": "x" },
@@ -485,6 +493,10 @@
     "wheel_offroad_rating": 0.015,
     "wheel_terrain_modifiers": { "FLAT": [ 2, 9 ], "ROAD": [ 1, 5 ] },
     "tires": [ "tire_motorbike", "tire_motorbike_or", "tire_motorbike_deflated", "tire_motorbike_or_deflated" ],
+    "pocket": {
+      "max_item_count": 1,
+      "allowed_items": [ "tire_motorbike", "tire_motorbike_or", "tire_motorbike_deflated", "tire_motorbike_or_deflated" ]
+    },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
@@ -643,6 +655,7 @@
     "wheel_offroad_rating": 0.02,
     "wheel_terrain_modifiers": { "FLAT": [ 2, 7 ], "ROAD": [ 1, 3 ] },
     "tires": [ "tire_wide", "tire_wide_or", "tire_wide_deflated", "tire_wide_or_deflated" ],
+    "pocket": { "max_item_count": 1, "allowed_items": [ "tire_wide", "tire_wide_or", "tire_wide_deflated", "tire_wide_or_deflated" ] },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
