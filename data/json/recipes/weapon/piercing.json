@@ -1597,11 +1597,6 @@
       { "id": "GRIND", "level": 2 },
       { "id": "DRILL", "level": 3 }
     ],
-    "components": [
-      [ [ "q_staff", 1 ] ],
-      [ [ "pipe_fittings", 1 ] ],
-      [ [ "spike", 1 ] ],
-      [ [ "nails", 2, "LIST" ], [ "nuts_bolts", 2 ] ]
-    ]
+    "components": [ [ [ "q_staff", 1 ] ], [ [ "pipe_fittings", 1 ] ], [ [ "spike", 1 ] ], [ [ "nuts_bolts", 2 ] ] ]
   }
 ]

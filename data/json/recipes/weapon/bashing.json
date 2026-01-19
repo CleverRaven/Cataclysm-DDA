@@ -1710,6 +1710,6 @@
       { "id": "DRILL", "level": 3 }
     ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
-    "components": [ [ [ "bat", 1 ] ], [ [ "pipe_fittings", 1 ] ], [ [ "spike", 1 ] ], [ [ "nails", 2, "LIST" ], [ "nuts_bolts", 2 ] ] ]
+    "components": [ [ [ "bat", 1 ] ], [ [ "pipe_fittings", 1 ] ], [ [ "spike", 1 ] ], [ [ "nuts_bolts", 2 ] ] ]
   }
 ]
