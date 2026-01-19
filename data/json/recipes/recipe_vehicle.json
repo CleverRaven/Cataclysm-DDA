@@ -47,90 +47,106 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "wheel",
+    "result": "tire_medium",
+    "container": "wheel_rim_medium",
+    "contained": true,
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
-    "components": [ [ [ "deflated_wheel", 1 ] ] ]
+    "components": [ [ [ "wheel_rim_medium", 1 ] ], [ [ { "item": "tire_medium", "count": 1, "damage": [ 0, 0 ] } ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "wheel_slick",
+    "result": "tire_medium_slick",
+    "container": "wheel_rim_medium",
+    "contained": true,
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
-    "components": [ [ [ "deflated_wheel_slick", 1 ] ] ]
+    "components": [ [ [ "wheel_rim_medium", 1 ] ], [ [ { "item": "tire_medium_slick", "count": 1, "damage": [ 0, 0 ] } ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "wheel_motorbike",
+    "result": "tire_motorbike",
+    "container": "wheel_rim_motorbike",
+    "contained": true,
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
-    "components": [ [ [ "deflated_wheel_motorbike", 1 ] ] ]
+    "components": [ [ [ "wheel_rim_motorbike", 1 ] ], [ [ { "item": "tire_motorbike", "count": 1, "damage": [ 0, 0 ] } ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "wheel_motorbike_or",
+    "result": "tire_motorbike_or",
+    "container": "wheel_rim_motorbike",
+    "contained": true,
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
-    "components": [ [ [ "deflated_wheel_motorbike_or", 1 ] ] ]
+    "components": [ [ [ "wheel_rim_motorbike", 1 ] ], [ [ { "item": "tire_motorbike_or", "count": 1, "damage": [ 0, 0 ] } ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "wheel_wide",
+    "result": "tire_wide",
+    "container": "wheel_rim_wide",
+    "contained": true,
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
-    "components": [ [ [ "deflated_wheel_wide", 1 ] ] ]
+    "components": [ [ [ "wheel_rim_wide", 1 ] ], [ [ { "item": "tire_wide", "count": 1, "damage": [ 0, 0 ] } ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "wheel_wide_or",
+    "result": "tire_wide_or",
+    "container": "wheel_rim_wide",
+    "contained": true,
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
-    "components": [ [ [ "deflated_wheel_wide_or", 1 ] ] ]
+    "components": [ [ [ "wheel_rim_wide", 1 ] ], [ [ { "item": "tire_wide_or", "count": 1, "damage": [ 0, 0 ] } ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "wheel_bicycle",
+    "result": "tire_bicycle",
+    "container": "wheel_rim_bicycle",
+    "contained": true,
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
-    "components": [ [ [ "deflated_wheel_bicycle", 1 ] ] ]
+    "components": [ [ [ "wheel_rim_bicycle", 1 ] ], [ [ { "item": "tire_bicycle", "count": 1, "damage": [ 0, 0 ] } ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "wheel_bicycle_or",
+    "result": "tire_bicycle_or",
+    "container": "wheel_rim_bicycle",
+    "contained": true,
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
-    "components": [ [ [ "deflated_wheel_bicycle_or", 1 ] ] ]
+    "components": [ [ [ "wheel_rim_bicycle", 1 ] ], [ [ { "item": "tire_bicycle_or", "count": 1, "damage": [ 0, 0 ] } ] ] ]
   },
   {
     "type": "recipe",
