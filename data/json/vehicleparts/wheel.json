@@ -202,9 +202,9 @@
     "variants": [ { "symbols": "B", "symbols_broken": "E" } ]
   },
   {
-    "id": "rim",
+    "id": "wheel_rim",
     "type": "vehicle_part",
-    "item": "rim",
+    "item": "wheel_rim",
     "description": "A car rim.",
     "location": "under",
     "categories": [ "movement" ],
@@ -288,9 +288,9 @@
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   },
   {
-    "id": "rim_bicycle",
+    "id": "wheel_rim_bicycle",
     "type": "vehicle_part",
-    "item": "rim_bicycle",
+    "item": "wheel_rim_bicycle",
     "description": "A thin bicycle rim.",
     "location": "under",
     "categories": [ "movement" ],
@@ -461,9 +461,9 @@
     "variants": [ { "symbols": "-", "symbols_broken": "X" } ]
   },
   {
-    "id": "rim_motorbike",
+    "id": "wheel_rim_motorbike",
     "type": "vehicle_part",
-    "item": "rim_motorbike",
+    "item": "wheel_rim_motorbike",
     "description": "A small rim from a motorcycle.",
     "location": "under",
     "looks_like": "wheel",
@@ -617,9 +617,9 @@
     "variants": [ { "symbols": "|", "symbols_broken": "x" } ]
   },
   {
-    "id": "rim_wide",
+    "id": "wheel_rim_wide",
     "type": "vehicle_part",
-    "item": "rim_wide",
+    "item": "wheel_rim_wide",
     "description": "A wide rim.  \\o/ This wide.  Provides more traction and better off-road performance.",
     "location": "under",
     "looks_like": "wheel",
@@ -813,5 +813,62 @@
     "description": "A studded bicycle tire for off-road use.",
     "wheel_offroad_rating": 0.7,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tire_medium_deflated",
+    "copy-from": "tire_medium",
+    "item": "deflated_wheel",
+    "description": "A standard car tire. It is currently deflated and will need to be inflated to be used properly.",
+    "variants": [ { "symbols": "=", "symbols_broken": "." } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tire_medium_slick_deflated",
+    "copy-from": "tire_medium_slick",
+    "item": "deflated_wheel_slick",
+    "description": "A slick racing tire. It is currently deflated and will need to be inflated to be used properly."
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tire_motorbike_deflated",
+    "copy-from": "tire_motorbike",
+    "item": "deflated_wheel_motorbike",
+    "description": "A motorbike tire. It is currently deflated and will need to be inflated to be used properly."
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tire_motorbike_or_deflated",
+    "copy-from": "tire_motorbike_or",
+    "item": "deflated_wheel_motorbike_or",
+    "description": "A studded motorbike tire for off-road use. It is currently deflated and will need to be inflated to be used properly."
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tire_wide_deflated",
+    "copy-from": "tire_wide",
+    "item": "deflated_wheel_wide",
+    "description": "A wide tire for large wheels. It is currently deflated and will need to be inflated to be used properly."
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tire_wide_or_deflated",
+    "copy-from": "tire_wide_or",
+    "item": "deflated_wheel_wide_or",
+    "description": "A studded wide tire for off-road use. It is currently deflated and will need to be inflated to be used properly."
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tire_bicycle_deflated",
+    "copy-from": "tire_bicycle",
+    "item": "deflated_wheel_bicycle",
+    "description": "A bicycle tire. It is currently deflated and will need to be inflated to be used properly."
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tire_bicycle_or_deflated",
+    "copy-from": "tire_bicycle_or",
+    "item": "deflated_wheel_bicycle_or",
+    "description": "A studded bicycle tire for off-road use. It is currently deflated and will need to be inflated to be used properly."
   }
 ]
