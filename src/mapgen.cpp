@@ -223,12 +223,9 @@ static const ter_str_id ter_t_floor_burnt( "t_floor_burnt" );
 static const ter_str_id ter_t_fungus_floor_in( "t_fungus_floor_in" );
 static const ter_str_id ter_t_fungus_wall( "t_fungus_wall" );
 static const ter_str_id ter_t_grass( "t_grass" );
-static const ter_str_id ter_t_ice_dp_thick( "t_ice_dp_thick" );
-static const ter_str_id ter_t_ice_dp_thin( "t_ice_dp_thin" );
-static const ter_str_id ter_t_ice_sh_thick( "t_ice_sh_thick" );
-static const ter_str_id ter_t_ice_sh_thin( "t_ice_sh_thin" );
 static const ter_str_id ter_t_marloss( "t_marloss" );
 static const ter_str_id ter_t_metal_floor( "t_metal_floor" );
+static const ter_str_id ter_t_pseudo_phase( "t_pseudo_phase" );
 static const ter_str_id ter_t_radio_tower( "t_radio_tower" );
 static const ter_str_id ter_t_reinforced_door_glass_c( "t_reinforced_door_glass_c" );
 static const ter_str_id ter_t_reinforced_glass( "t_reinforced_glass" );
@@ -245,7 +242,6 @@ static const ter_str_id ter_t_thconc_floor_olight( "t_thconc_floor_olight" );
 static const ter_str_id ter_t_vat( "t_vat" );
 static const ter_str_id ter_t_wall_burnt( "t_wall_burnt" );
 static const ter_str_id ter_t_wall_prefab_metal( "t_wall_prefab_metal" );
-static const ter_str_id ter_t_water_dp( "t_water_dp" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
@@ -847,7 +843,6 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                 } else {
                     setsubmap( grid_pos, MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) );
                     // Apply historical ice conversion for submaps loaded from disk as well
-                    apply_historical_ice_to_submap( p_sm_base.xy() + pos );
                 }
             }
         }
@@ -6217,15 +6212,25 @@ ret_val<void> jmapgen_objects::has_vehicle_collision( const mapgendata &dat,
     return ret_val<void>::make_success();
 }
 
-void map::apply_ice_logic_at( const tripoint_bub_ms &p, const weather_generator &wgen )
+void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_generator &wgen )
 {
-    // Freeze water or melt ice based on 10-day average at 08:00.
-    if( has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p ) ||
-        has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
-        if( has_flag_ter( ter_furn_flag::TFLAG_CURRENT, p ) ) {
-            return; // flowing water doesn't freeze
-        }
-        const tripoint_abs_ms abs_p = get_abs( p );
+    // If we have a recorded original terrain, use its rules to revert or
+    if( has_original_terrain_at( p ) ) {
+        const ter_id orig_id = get_original_terrain_at( p );
+        ter_set( p, orig_id );
+    }
+    const tripoint_abs_ms abs_p = get_abs( p );
+    const ter_str_id cur_id = ter( p ).id();
+    const ter_t &cur_ter = cur_id.obj();
+    // Bail out early if neither this terrain nor a recorded original
+    // terrain declare a phase_method.
+    if( cur_ter.phase_method.empty() && !has_original_terrain_at( p ) ) {
+        return;
+    }
+    units::temperature standard = 0_K;
+    // `phase_method` selects which phase behavior to apply.
+    if( cur_ter.phase_method == "water_freeze" ) {
+        // 10-day average at 08:00.
         //1103515245u = random
         unsigned seed = static_cast<unsigned>( g->get_seed() ) ^
                         static_cast<unsigned>( abs_p.x() * 1103515245u + abs_p.y() );
@@ -6236,44 +6241,64 @@ void map::apply_ice_logic_at( const tripoint_bub_ms &p, const weather_generator 
             const time_point t = base_date - time_of_day + 8_hours;
             sum += wgen.get_weather_temperature( abs_p, t, seed );
         }
-        const units::temperature avg = sum / 10.0;
-        if( avg <= 268.15_K ) {
-            const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p );
-            const bool thick = avg <= 263.15_K; // -10C
-            if( shallow ) {
-                ter_set( p, thick ? ter_t_ice_sh_thick : ter_t_ice_sh_thin );
-            } else {
-                ter_set( p, thick ? ter_t_ice_dp_thick : ter_t_ice_dp_thin );
+        standard = sum / 10.0;
+    } else {
+        return;
+    }
+
+    auto apply_phase_thresholds = [&]( const ter_t & tt, const ter_str_id & base_id ) -> ter_str_id {
+        if( tt.phase_targets.empty() )
+        {
+            return ter_t_pseudo_phase;
+        }
+        const size_t targ_n = tt.phase_targets.size();
+        const size_t temp_n = tt.phase_temps.size();
+        if( temp_n + 1 != targ_n )
+        {
+            debugmsg( "ter %s: phase_targets and phase_temps length mismatch (expected temps == targets-1)",
+                      base_id.str() );
+            return ter_t_pseudo_phase;
+        }
+        std::vector<ter_str_id> targets;
+        targets.reserve( targ_n );
+        for( size_t i = 0; i < targ_n; ++i )
+        {
+            ter_str_id target = tt.phase_targets[i];
+            if( target == ter_t_pseudo_phase ) {
+                target = base_id;
+            }
+            targets.push_back( target );
+        }
+
+        if( standard < tt.phase_temps[0] )
+        {
+            return targets[0];
+        }
+
+        // Intermediate ranges: inclusive upper bound
+        for( size_t i = 0; i + 1 < temp_n; ++i )
+        {
+            if( standard >= tt.phase_temps[i] && standard <= tt.phase_temps[i + 1] ) {
+                return targets[i + 1];
             }
         }
-    } else if( has_flag_ter( ter_furn_flag::TFLAG_ICE_SHALLOW, p ) ||
-               has_flag_ter( ter_furn_flag::TFLAG_ICE_DEEP, p ) ) {
-        const tripoint_abs_ms abs_p = get_abs( p );
-        unsigned seed = static_cast<unsigned>( g->get_seed() ) ^
-                        static_cast<unsigned>( abs_p.x() * 1103515245u + abs_p.y() );
-        units::temperature sum = 0_K;
-        for( int d = 0; d < 10; d++ ) {
-            time_point base_date = calendar::turn - ( d + 1 ) * 1_days;
-            const time_duration time_of_day = ( base_date - calendar::turn_zero ) % 1_days;
-            const time_point t = base_date - time_of_day + 8_hours;
-            sum += wgen.get_weather_temperature( abs_p, t, seed );
+
+        if( standard > tt.phase_temps.back() )
+        {
+            return targets.back();
         }
-        const units::temperature avg = sum / 10.0;
-        const bool shallow = has_flag_ter( ter_furn_flag::TFLAG_ICE_SHALLOW, p );
-        const bool thick = has_flag_ter( ter_furn_flag::TFLAG_THICK_ICE, p );
-        if( thick && avg > 263.15_K ) { // -10C
-            if( shallow ) {
-                ter_set( p, ter_t_ice_sh_thin );
-            } else {
-                ter_set( p, ter_t_ice_dp_thin );
-            }
-        } else if( !thick && avg > 268.15_K ) { // -5C
-            if( shallow ) {
-                ter_set( p, ter_t_water_sh );
-            } else {
-                ter_set( p, ter_t_water_dp );
-            }
-        }
+
+        return ter_t_pseudo_phase;
+    };
+
+    // No original recorded: evaluate using the current terrain's rules and
+    // record original before transforming.
+
+    const ter_str_id chosen = apply_phase_thresholds( cur_ter, cur_id );
+    if( chosen != ter_t_pseudo_phase && chosen != cur_id ) {
+        // Record original terrain so it can be reverted later.
+        ter_set( p, chosen );
+        set_original_terrain_at( p, cur_id.id() );
     }
 }
 
@@ -6298,39 +6323,17 @@ void map::draw_map( mapgendata &dat )
 
     resolve_regional_terrain_and_furniture( dat );
 
-    // Use shared helper to convert water/ice based on 10-day average at 08:00.
     const weather_generator &wgen = get_weather().get_cur_weather_gen();
     if( abs_sub.z() >= 0 ) {
         for( int i = 0; i < SEEX * 2; i++ ) {
             for( int j = 0; j < SEEY * 2; j++ ) {
                 const tripoint_bub_ms p( i, j, abs_sub.z() );
-                apply_ice_logic_at( p, wgen );
+                temp_based_phase_change_at( p, wgen );
             }
         }
     }
     // End of draw_map
 }
-
-
-void map::apply_historical_ice_to_submap( const tripoint_abs_sm &p_sm )
-{
-    if( abs_sub.z() < 0 ) {
-        return;
-    }
-    // Save previous abs_sub and restore on exit
-    const tripoint_abs_sm prev_abs_sub = abs_sub;
-    set_abs_sub( p_sm );
-    const weather_generator &wgen = get_weather().get_cur_weather_gen();
-    for( int i = 0; i < SEEX; i++ ) {
-        for( int j = 0; j < SEEY; j++ ) {
-            const tripoint_bub_ms p( i, j, abs_sub.z() );
-            apply_ice_logic_at( p, wgen );
-        }
-    }
-
-    set_abs_sub( prev_abs_sub );
-}
-
 
 static const int SOUTH_EDGE = 2 * SEEY - 1;
 static const int EAST_EDGE = 2 * SEEX  - 1;
@@ -7647,7 +7650,8 @@ void map::add_spawn(
                                           data );
 }
 
-vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, const units::angle &dir,
+vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p,
+                           const units::angle &dir,
                            const int veh_fuel, const int veh_status, const bool merge_wrecks,
                            const bool force_status/* = false*/ )
 {
@@ -8650,11 +8654,13 @@ void line( tinymap *m, const ter_id &type, const point_omt_ms &p1, const point_o
 {
     m->draw_line_ter( type, p1, p2 );
 }
-void line_furn( map *m, const furn_id &type, const point_bub_ms &p1, const point_bub_ms &p2, int z )
+void line_furn( map *m, const furn_id &type, const point_bub_ms &p1, const point_bub_ms &p2,
+                int z )
 {
     m->draw_line_furn( type, p1, p2, z );
 }
-void line_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1, const point_omt_ms &p2 )
+void line_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1,
+                const point_omt_ms &p2 )
 {
     m->draw_line_furn( type, p1, p2 );
 }
@@ -8670,11 +8676,13 @@ void square( map *m, const ter_id &type, const point_bub_ms &p1, const point_bub
 {
     m->draw_square_ter( type, p1, p2, m->get_abs_sub().z() );
 }
-void square_furn( map *m, const furn_id &type, const point_bub_ms &p1, const point_bub_ms &p2 )
+void square_furn( map *m, const furn_id &type, const point_bub_ms &p1,
+                  const point_bub_ms &p2 )
 {
     m->draw_square_furn( type, p1, p2, m->get_abs_sub().z() );
 }
-void square_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1, const point_omt_ms &p2 )
+void square_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1,
+                  const point_omt_ms &p2 )
 {
     m->draw_square_furn( type, p1, p2 );
 }

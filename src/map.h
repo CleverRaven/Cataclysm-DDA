@@ -398,9 +398,15 @@ class map
         map() : map( MAPSIZE, true ) { }
         virtual ~map();
 
-        // Apply freezing/melting logic for a single map square based on historical
-        // weather (10-day average at 08:00).
-        void apply_ice_logic_at( const tripoint_bub_ms &p, const class weather_generator &wgen );
+        // Apply phase-change logic for a single map square based on historical
+        // weather (10-day average at 08:00). Currently implements "water_freeze".
+        void temp_based_phase_change_at( const tripoint_bub_ms &p, const class weather_generator &wgen );
+
+        // Original terrain recording for phase changes
+        bool has_original_terrain_at( const tripoint_bub_ms &p ) const;
+        ter_id get_original_terrain_at( const tripoint_bub_ms &p ) const;
+        void set_original_terrain_at( const tripoint_bub_ms &p, const ter_id &t );
+        void clear_original_terrain_at( const tripoint_bub_ms &p );
 
         map &operator=( const map & ) = delete;
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
@@ -1912,8 +1918,6 @@ class map
         void on_unload( const tripoint_rel_sm &loc );
         void copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from );
         void draw_map( mapgendata &dat );
-        // Apply historical temperature-based ice conversion to a single submap (load or generation)
-        void apply_historical_ice_to_submap( const tripoint_abs_sm &p_sm );
 
         void draw_lab( mapgendata &dat );
 
