@@ -46,7 +46,10 @@
         "f": { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 3 ] },
         "^": { "item": "gear_medical", "chance": 60, "repeat": [ 1, 2 ] }
       },
-      "place_item": [ { "item": "phavian_noetic_resonance_detector_instructions", "x": 8, "y": 20, "chance": 50 } ],
+      "place_item": [
+        { "item": "phavian_noetic_resonance_detector_instructions", "x": 7, "y": 16, "chance": 33 },
+        { "item": "phavian_noetic_resonance_detector_instructions", "x": 7, "y": 17, "chance": 33 }
+      ],
       "place_items": [ { "item": "record_patient", "x": 7, "y": 6, "chance": 50 } ],
       "place_loot": [ { "item": "anesthetic_kit", "x": 16, "y": [ 14, 17 ], "chance": 75, "ammo": 100 } ],
       "computers": {
@@ -116,7 +119,10 @@
         "?": "f_bed",
         "/": "f_bed"
       },
-      "place_item": [ { "item": "phavian_noetic_resonance_detector_instructions", "x": 12, "y": 11, "chance": 50 } ],
+      "place_item": [
+        { "item": "phavian_noetic_resonance_detector_instructions", "x": 4, "y": 12, "chance": 25 },
+        { "item": "phavian_noetic_resonance_detector_instructions", "x": 4, "y": 13, "chance": 25 }
+      ],
       "items": {
         "b": { "item": "hospital_bed", "chance": 60 },
         "i": { "item": "SUS_office_filing_cabinet", "chance": 70 },
