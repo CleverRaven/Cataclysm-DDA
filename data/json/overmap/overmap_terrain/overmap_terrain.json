@@ -950,6 +950,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "outcrop_bottom",
+    "name": "outcrop base",
+    "vision_levels": "underground_dirt",
+    "travel_cost_type": "other",
+    "sym": "O",
+    "color": "brown",
+    "see_cost": "full_high"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cs_public_space",
     "copy-from": "generic_city_building",
     "name": "public space",

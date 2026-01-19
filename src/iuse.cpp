@@ -2490,10 +2490,10 @@ std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint_
 std::optional<int> iuse::purify_water( Character *p, item *purifier, item_location &water )
 {
     const double default_ratio = 4; // Existing pur_tablets will not have the var
-    const int max_water_per_tablet = static_cast<int>( purifier->get_var( "water_per_tablet",
-                                     default_ratio ) );
+    double max_water_per_tablet_d = purifier->get_var( "water_per_tablet", default_ratio );
+    const int max_water_per_tablet = static_cast<int>( std::lround( max_water_per_tablet_d ) );
     if( max_water_per_tablet < 1 ) {
-        debugmsg( "ERROR: %s set to purify only %i water each.  Nothing was purified.",
+        debugmsg( _( "ERROR: %s set to purify only %d water each.  Nothing was purified." ),
                   purifier->typeId().str(), max_water_per_tablet );
         return std::nullopt;
     }
@@ -2511,8 +2511,8 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
     const int available = p->crafting_inventory().count_item( itype_pur_tablets );
     if( available * max_water_per_tablet >= charges_of_water ) {
         int to_consume = std::ceil( to_consume_f );
-        p->add_msg_if_player( m_info, _( "Purifying %i water using %i %s" ), charges_of_water, to_consume,
-                              purifier->tname( to_consume ) );
+        p->add_msg_if_player( m_info, _( "Purifying %d water using %d %s" ), charges_of_water,
+                              to_consume, purifier->tname( to_consume ) );
         // Pull from surrounding map first because it will update to_consume
         get_map().use_amount( p->pos_bub(), PICKUP_RANGE, itype_pur_tablets, to_consume );
         // Then pull from inventory
@@ -2521,7 +2521,7 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
         }
     } else {
         p->add_msg_if_player( m_info,
-                              _( "You need %i tablets to purify that.  You only have %i" ),
+                              _( "You need %d tablets to purify that.  You only have %d" ),
                               charges_of_water / max_water_per_tablet,  available );
         return std::nullopt;
     }

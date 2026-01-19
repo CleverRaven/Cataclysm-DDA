@@ -227,7 +227,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock_23", "charges": [ 0, 15 ], "ammo-item": "40sw" },
+      { "item": "glock_27", "charges": [ 0, 15 ], "ammo-item": "40sw" },
       { "item": "glock40mag_9", "ammo-item": "40sw" },
       { "item": "glock40mag_9", "ammo-item": "40sw", "prob": 50 },
       { "group": "on_hand_40" }
