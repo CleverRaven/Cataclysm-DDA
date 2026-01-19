@@ -1682,6 +1682,21 @@ int vehicle::install_part( map &here, const point_rel_ms &dp, vehicle_part &&vp 
         debugmsg( "installing %s would make invalid vehicle: %s", vpi.id.str(), valid_mount.str() );
         return -1;
     }
+    // If this is a rim being installed, capture the single item stored in its pocket
+    // (if any) into `tire` before proceeding.
+    std::optional<item> tire;
+    if( vpi.has_flag( "RIM" ) ) {
+        const item &base_item = vp.get_base();
+        if( !base_item.empty_container() ) {
+            tire = base_item.legacy_front();
+        }
+    }
+
+    if( vpi.has_flag( "TIRE" ) ) {
+        debugmsg( "installing tire %s directly is not allowed", vpi.id.str() );
+        return -1;
+    }
+
     // Should be checked before installing the part
     bool enable = false;
     if( vp.is_engine() ) {
@@ -1731,6 +1746,14 @@ int vehicle::install_part( map &here, const point_rel_ms &dp, vehicle_part &&vp 
     vp_installed.enabled = enable;
     vp_installed.mount = dp;
     const int vp_installed_index = parts.size() - 1;
+
+    if( vpi.has_flag( "RIM" ) && tire.has_value() ) {
+        vehicle_part &vp_installed_tire = parts.emplace_back( std::move( *tire ) );
+        vp_installed_tire.enabled = enable;
+        vp_installed_tire.mount = dp;
+        const int vp_installed_index = parts.size() - 1;
+        tire.reset();
+    }
     refresh( );
     coeff_air_changed = true;
     recalculate_enchantment_cache();
@@ -2265,6 +2288,25 @@ bool vehicle::remove_part( vehicle_part &vp, RemovePartHandler &handler )
     remove_dependent_part( "SEAT", "SEATBELT" );
     remove_dependent_part( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT" );
     remove_dependent_part( "HANDHELD_BATTERY_MOUNT", "NEEDS_HANDHELD_BATTERY_MOUNT" );
+    
+    if( vpi.has_flag( "RIM" ) ) {
+        // If removing a rim, look for a tire at the same mount and move the
+        // tire item into the rim's pocket before removing the tire part.
+        const int tire_idx = part_with_feature( vp.mount, "TIRE", false );
+        if( !magic && tire_idx >= 0 ) {
+            vehicle_part &vp_tire = parts[tire_idx];
+            // Create the item representation of the tire part (as it would be dropped)
+            item tire_item = part_to_item( handler.get_map_ref(), vp_tire );
+            // Insert the tire item into the rim base's pockets so the removed rim
+            // item will carry the tire inside it. Use force_insert_item to bypass
+            // pocket restrictions if necessary.
+            item rim_base = vp.get_base();
+            rim_base.force_insert_item( tire_item, pocket_type::CONTAINER );
+            vp.set_base( std::move( rim_base ) );
+            // Now remove the tire part from the vehicle (cleanup handled by remove_part)
+            remove_part( vp_tire, handler );
+        }
+    }
 
     // Release any animal held by the part
     if( vp.has_flag( vp_flag::animal_flag ) ) {
@@ -8753,6 +8795,18 @@ item vehicle::part_to_item( map &here, const vehicle_part &vp ) const
 
 item vehicle::removed_part( map &here, const vehicle_part &vp ) const
 {
+    // Special-case tires: return the deflated item if a corresponding deflated vpart exists.
+    if( vp.info().has_flag( "TIRE" ) ) {
+        const std::string deflated_id = vp.info().id.str() + "_deflated";
+        const vpart_id maybe_deflated( deflated_id );
+        if( maybe_deflated.is_valid() ) {
+            const vpart_info &dvpi = maybe_deflated.obj();
+            if( !dvpi.base_item.is_null() ) {
+                return item( dvpi.base_item );
+            }
+        }
+    }
+
     item ret = part_to_item( here, vp );
     if( vp.info().removed_item ) {
         ret.convert( *vp.info().removed_item );
