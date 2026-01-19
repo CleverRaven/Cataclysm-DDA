@@ -90,7 +90,7 @@
     "id": "mon_zombie_brute_string_dimension",
     "type": "MONSTER",
     "name": { "str": "mummified zombie" },
-    "description": "This zombie's skin has been preserved and appears almost living, but its corded muscles, bulging eyes, and absolutely massive pupils leave no mistake that it is undead.  It is wearing a white robe of some sort, with ceremonial looking metal armor covering its vitals.",
+    "description": "This zombie's skin has been preserved and appears almost living, but its corded muscles, bulging eyes, and absolutely massive pupils leave no mistake that it is undead.  It is wearing ceremonial-looking metal armor.",
     "species": [ "ZOMBIE" ],
     "copy-from": "mon_zombie_base",
     "diff": 3,
@@ -108,9 +108,9 @@
     "vision_night": 30,
     "grab_strength": 30,
     "upgrades": false,
-    "armor": { "bash": 6, "cut": 8, "bullet": 7, "electric": 3 },
+    "armor": { "bash": 8, "cut": 8, "bullet": 7, "electric": 3 },
     "extend": {
-      "flags": [ "SMELLS", "PUSH_VEH", "PUSH_MON", "PHOTOPHOBIC" ],
+      "flags": [ "SMELLS", "PUSH_VEH", "PUSH_MON", "HIT_AND_RUN"],
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
       "families": [ "prof_wp_hulk" ],
       "special_attacks": [ { "id": "smash", "throw_strength": 72, "cooldown": 30 } ]

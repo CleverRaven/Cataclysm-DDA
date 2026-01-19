@@ -56,6 +56,6 @@
     "symbol": "#",
     "color": "white",
     "move_cost": 1,
-    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
+    "flags": [ "TRANSPARENT", "FLAT", "GOES_UP", "GOES_DOWN" ]
   }
 ]
