@@ -307,12 +307,12 @@
   {
     "id": "crude_goedendag",
     "copy-from": "spear_steel_crude",
-    "relative": { "melee_damage": { "bash": 20, "stab": -6 }, "longest_side": "-30 cm" },
+    "relative": { "melee_damage": { "bash": 18, "stab": -14 }, "longest_side": "-30 cm" },
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "type": "ITEM",
     "name": { "str": "crude goedendag" },
-    "description": "A baseball bat with a pipe fitting on one end, wedged by a spike.",
-    "weapon_category": [ "MACES", "SPEARS" ],
+    "description": "A stout wooden pole, slightly thicker at the end, with a metal cap and a spike protruding straight up from the top.",
+    "weapon_category": [ "GREAT_HAMMERS", "SPEARS" ],
     "faults": [ { "fault_group": "handle_long" } ]
   },
   {

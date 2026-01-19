@@ -86,7 +86,7 @@
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "volume": "1750 ml",
     "price": "160 USD",
     "melee_damage": { "bash": 22 },
@@ -96,10 +96,10 @@
   {
     "id": "goedendag_bat",
     "copy-from": "bat",
-    "relative": { "melee_damage": { "bash": 2, "stab": 18 }, "weight": "730 g", "volume": "100 ml", "longest_side": "20 cm" },
+    "relative": { "melee_damage": { "bash": 2, "stab": 6 }, "weight": "730 g", "volume": "100 ml", "longest_side": "20 cm" },
     "type": "ITEM",
     "name": { "str": "goedendag bat" },
-    "description": "A baseball bat with a pipe fitting on one end, wedged by a spike.",
+    "description": "A weaponized baseball bat with a metal cap and a spike protruding straight up from the top.",
     "material": [ { "type": "wood", "portion": 95 }, { "type": "iron", "portion": 5 } ]
   },
   {

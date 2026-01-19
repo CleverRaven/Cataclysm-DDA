@@ -1591,7 +1591,17 @@
     "result": "crude_goedendag",
     "copy-from": "goedendag_bat",
     "type": "recipe",
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CUT", "level": 2 }, { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "q_staff", 1 ] ], [ [ "pipe_fittings", 1 ] ], [ [ "spike", 1 ] ] ]
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CUT", "level": 2 },
+      { "id": "GRIND", "level": 2 },
+      { "id": "DRILL", "level": 3 }
+    ],
+    "components": [
+      [ [ "q_staff", 1 ] ],
+      [ [ "pipe_fittings", 1 ] ],
+      [ [ "spike", 1 ] ],
+      [ [ "nails", 2, "LIST" ], [ "nuts_bolts", 2 ] ]
+    ]
   }
 ]
