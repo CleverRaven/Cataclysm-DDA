@@ -510,6 +510,7 @@ void milk_source( monster &source_mon )
     map &here = get_map();
 
     itype_id milked_item = source_mon.type->starting_ammo.begin()->first;
+    // in charges
     auto milkable_ammo = source_mon.ammo.find( milked_item );
     if( milkable_ammo == source_mon.ammo.end() ) {
         debugmsg( "The %s has no milkable %s.", source_mon.get_name(), milked_item.str() );
@@ -518,13 +519,12 @@ void milk_source( monster &source_mon )
 
     else if( milkable_ammo->second > 0 ) {
         // This could be expanded upon by taking species and actor skills into consideration.
-        const int moves_per_unit = to_moves<int>( time_duration::from_minutes( 1.0 / 2 ) );
-        int moves = milkable_ammo->second * moves_per_unit;
+        const time_duration time_per_unit = 30_seconds;
         tripoint_abs_ms coords;
         Character &player_character = get_player_character();
         coords = source_mon.pos_abs();
         // pin the cow in place if it isn't already
-        bool temp_tie = !source_mon.has_effect( effect_tied );
+        const bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {
             source_mon.add_effect( effect_tied, 1_turns, true );
         }
@@ -537,38 +537,30 @@ void milk_source( monster &source_mon )
         }
 
         units::volume target_volume;
+        int target_units = 0;
 
         switch( liquid_target.dest_opt ) {
             case LD_ITEM:
                 target_volume = liquid_target.item_loc.get_item()->max_containable_volume() -
                                 liquid_target.item_loc.get_item()->get_contents_volume();
-
-                if( target_volume < milk.volume() ) {
-                    const item single_unit( milked_item, calendar::turn, 1 );
-                    int target_units = target_volume / single_unit.volume();
-                    moves = target_units * moves_per_unit;
-                }
                 break;
-
             case LD_KEG:
                 target_volume = here.furn( liquid_target.pos ).obj().keg_capacity;
-
-                if( target_volume < milk.volume() ) {
-                    const item single_unit( milked_item, calendar::turn, 1 );
-                    int target_units = target_volume / single_unit.volume();
-                    moves = target_units * moves_per_unit;
-                }
                 break;
-
-            // None of these should happen
-            case LD_NULL:
-            case LD_CONSUME:
-            case LD_GROUND:
-            case LD_VEH:
-                break;
+            default:
+                add_msg( _( "You can't milk the %s into there!" ), source_mon.get_name() );
+                return;
         }
 
-        player_character.assign_activity( milk_activity_actor( moves, moves_per_unit, coords, liquid_target,
+        if( target_volume < milk.volume() ) {
+            const item single_unit( milked_item, calendar::turn, 1 );
+            target_units = target_volume / single_unit.volume();
+        } else {
+            target_units = milkable_ammo->second;
+        }
+
+        player_character.assign_activity( milk_activity_actor( target_units, time_per_unit, coords,
+                                          liquid_target,
                                           temp_tie ) );
 
         add_msg( _( "You milk the %s." ), source_mon.get_name() );

@@ -1768,20 +1768,21 @@ class milk_activity_actor : public activity_actor
 {
     public:
         milk_activity_actor() = default;
-        milk_activity_actor( int moves, int moves_per_unit, tripoint_abs_ms coords,
-                             liquid_dest_opt &target, bool milking_tie = true ) : total_moves( moves ),
-            moves_per_unit( moves_per_unit ), monster_coords( coords ), target( target ),
-            milking_tie( milking_tie ) {}
+        milk_activity_actor( int target_units, time_duration time_per_unit, tripoint_abs_ms coords,
+                             liquid_dest_opt &target, bool milking_tie = true ) : target_units( target_units ),
+            time_per_unit( time_per_unit ), monster_coords( coords ), target( target ),
+            milking_tie( milking_tie ) {
+        };
 
         const activity_id &get_type() const override {
             static const activity_id ACT_MILK( "ACT_MILK" );
             return ACT_MILK;
         }
 
-        void start( player_activity &act, Character &/*who*/ ) override;
-        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override;
+        void start( player_activity &, Character & ) override;
+        void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
-        void canceled( player_activity &/*act*/, Character &/*who*/ ) override {}
+        void canceled( player_activity &, Character & ) override {};
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<milk_activity_actor>( *this );
@@ -1791,12 +1792,14 @@ class milk_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
-        int total_moves {};
-        int moves_per_unit;
+        int target_units;
+        time_duration time_per_unit;
         tripoint_abs_ms monster_coords;
         liquid_dest_opt target;
         bool milking_tie; // was the monster tied due to milking.
-        time_point next_unit_move;
+
+        int turns_until_next_unit;
+
 };
 
 class shearing_activity_actor : public activity_actor

@@ -4987,6 +4987,7 @@ void fill_liquid_activity_actor::do_turn( player_activity &act, Character &who )
                 break;
             case liquid_source_type::MONSTER:
                 // liquid source charges handled in monexamine::milk_source
+                liquid.charges -= removed_charges;
                 if( liquid.charges == 0 ) {
                     act.set_to_null();
                 }
@@ -6790,15 +6791,18 @@ std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonValue &j
     return actor.clone();
 }
 
-void milk_activity_actor::start( player_activity &act, Character &/*who*/ )
+void milk_activity_actor::start( player_activity &, Character & )
 {
-    act.moves_total = total_moves;
-    act.moves_left = total_moves;
-    next_unit_move = calendar::turn + time_duration::from_moves( moves_per_unit );
+    turns_until_next_unit = to_turns<int>( time_per_unit );
 }
 
 void milk_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    if( target.dest_opt == LD_NULL ) {
+        act.set_to_null();
+        return;
+    }
+
     map &here = get_map();
     const tripoint_bub_ms source_pos = here.get_bub( monster_coords );
     monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
@@ -6809,24 +6813,31 @@ void milk_activity_actor::do_turn( player_activity &act, Character &who )
         return;
     }
 
-    if( target.dest_opt != LD_NULL ) { // Backward compatibility check 2025-04-29.
-        if( calendar::turn >= next_unit_move ) {
-            // Add one since we've included that in next_unit_move.
-            int units = to_moves<int>( calendar::turn - next_unit_move ) / moves_per_unit + 1;
-            next_unit_move += time_duration::from_moves( moves_per_unit );
+    if( target_units == 0 ) {
+        finish( act, who );
+        return;
+    }
 
-            auto milked_item = source_mon->ammo.find( source_mon->type->starting_ammo.begin()->first );
-            units = std::min( units, milked_item->second );
-            item milk( milked_item->first, calendar::turn, units );
-            milk.set_item_temperature( units::from_celsius( 38.6 ) );
+    if( turns_until_next_unit == 0 ) {
+        target_units--;
+        turns_until_next_unit = to_turns<int>( time_per_unit );
 
-            if( liquid_handler::handle_liquid( liquid_wrapper( *source_mon, milk ), target, 1 ) ) {
-                milked_item->second--;
-                if( milked_item->second == 0 ) {
-                    who.add_msg_if_player( _( "The %s's udders run dry." ), source_mon->get_name() );
-                }
+        auto milked_item = source_mon->ammo.find( source_mon->type->starting_ammo.begin()->first );
+        item milk( milked_item->first, calendar::turn, 1 );
+        milk.set_item_temperature( units::from_celsius( 38.6 ) );
+
+        act.auto_resume = true;
+        if( liquid_handler::handle_liquid( liquid_wrapper( *source_mon, milk ), target, 1 ) ) {
+            // handle_liquid starts a fill_liquid_activity_actor, resume milking once done
+            milked_item->second--;
+            if( milked_item->second == 0 ) {
+                // end activity, but not directly -- `act` may no longer be this activity
+                who.add_msg_if_player( _( "The %s's udders run dry." ), source_mon->get_name() );
+                target_units = 0;
             }
         }
+    } else {
+        turns_until_next_unit--;
     }
 }
 
@@ -6840,25 +6851,6 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
         debugmsg( "could not find source creature for liquid transfer" );
         return;
     }
-    auto milked_item = source_mon->ammo.find( source_mon->type->starting_ammo.begin()->first );
-    if( milked_item == source_mon->ammo.end() ) {
-        debugmsg( "animal has no milkable ammo type" );
-        return;
-    }
-    if( milked_item->second <= 0 ) {
-        debugmsg( "started milking but udders are now empty before milking finishes" );
-        return;
-    }
-    item milk( milked_item->first, calendar::turn, milked_item->second );
-    milk.set_item_temperature( units::from_celsius( 38.6 ) );
-    if( liquid_handler::handle_liquid( liquid_wrapper( *source_mon, milk ), target, 1 ) ) {
-        milked_item->second = 0;
-        if( milk.charges > 0 ) {
-            milked_item->second = milk.charges;
-        } else {
-            who.add_msg_if_player( _( "The %s's udders run dry." ), source_mon->get_name() );
-        }
-    }
     // if the monster was not manually tied up, but needed to be fixed in place temporarily then
     // remove that now.
     if( milking_tie ) {
@@ -6870,28 +6862,12 @@ void milk_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "total_moves", total_moves );
     jsout.member( "monster_coords", monster_coords );
     jsout.member( "milking_tie", milking_tie );
-    jsout.member( "targer_dest_opt", static_cast<int>( target.dest_opt ) );
-
-    switch( target.dest_opt ) {
-        case LD_ITEM:
-            jsout.member( "target_item_loc", target.item_loc );
-            break;
-
-        case LD_KEG:
-            jsout.member( "target_pos", target.pos );
-            break;
-
-        case LD_NULL:
-        case LD_CONSUME:
-        case LD_GROUND:
-        case LD_VEH:
-            break;
-    }
-    jsout.member( "moves_per_unit", moves_per_unit );
-    jsout.member( "next_unit_move", next_unit_move );
+    jsout.member( "target", target );
+    jsout.member( "target_units", target_units );
+    jsout.member( "time_per_unit", time_per_unit );
+    jsout.member( "turns_until_next_unit", turns_until_next_unit );
 
     jsout.end_object();
 }
@@ -6901,43 +6877,19 @@ std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonValue &jsi
     milk_activity_actor actor;
     JsonObject data = jsin.get_object();
 
-    data.read( "moves_total", actor.total_moves );
     data.read( "monster_coords", actor.monster_coords );
     // Backward compatibility introduced 2025-04-29.
     // When removing it, there's no need for the 'if' check.
-    if( data.read( "milking_tie", actor.milking_tie ) ) {
-        int temp;
-        data.read( "target_dest_opt", temp );
-        actor.target.dest_opt = static_cast<liquid_dest>( temp );
-
-        switch( actor.target.dest_opt ) {
-            case LD_ITEM:
-                data.read( "target_item_loc", actor.target.item_loc );
-                break;
-
-            case LD_KEG:
-                data.read( "target_pos", actor.target.pos );
-                break;
-
-            case LD_NULL:
-            case LD_CONSUME:
-            case LD_GROUND:
-            case LD_VEH:
-                actor.target.dest_opt = LD_NULL;
-                break;
-        }
-
-        data.read( "moves_per_unit", actor.moves_per_unit );
-        data.read( "next_unit_move", actor.next_unit_move );
+    if( !data.read( "milking_tie", actor.milking_tie ) ||
+        !data.read( "time_per_unit", actor.time_per_unit ) ) {
+        actor.target.dest_opt = LD_NULL; // cancel activity
     } else {
-        std::string temp;
-        data.read( "string_values", temp );
-        actor.milking_tie = !temp.empty();
-        actor.target.dest_opt = LD_NULL;
-        actor.moves_per_unit = 3000;
-        actor.next_unit_move = calendar::turn;
+        data.read( "target", actor.target );
+        data.read( "target_units", actor.target_units );
+        data.read( "milking_tie", actor.milking_tie );
+        data.read( "time_per_unit", actor.time_per_unit );
+        data.read( "turns_until_next_unit", actor.turns_until_next_unit );
     }
-
     return actor.clone();
 }
 

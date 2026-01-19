@@ -597,7 +597,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": "milking an animal",
     "rooted": true,
-    "based_on": "time",
+    "based_on": "neither",
     "can_resume": false
   },
   {
