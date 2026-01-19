@@ -623,7 +623,7 @@
             "u_message": "You hear a chirp in your earpiece and Pat's voice comes over the line: \"What the hell, pal, I thought you fell off that radio tower.  What happened?  Wait, wait, wait image coming through now.  It looks broken?  Where the hell were you?  Over.\"",
             "popup": true
           },
-          { "math": [ "robofac_pat_lost_signal_highlands = 0" ] }
+          { "math": [ "robofac_pat_lost_signal_radiosphere = 0" ] }
         ]
       },
       {
@@ -633,7 +633,7 @@
             "u_message": "You hear a chirp in your earpiece and Pat's voice comes over the line: \"Well, welcome back.  I guess that robot wasn't kidding.  Your radio signal vanished.  I'll record all the data as it comes through.\"",
             "popup": true
           },
-          { "math": [ "robofac_pat_lost_signal_labyrinth = 1" ] }
+          { "math": [ "robofac_pat_lost_signal_labyrinth = 0" ] }
         ]
       },
       {
@@ -645,7 +645,7 @@
             "u_message": "You hear a chirp in your earpiece and Pat's voice comes over the line: \"I thought maybe you fell off that roof.  You alright?  I'm getting a backed up stream of shitty images now.  I'll record whatever the hell happened, I guess.  Over.\"",
             "popup": true
           },
-          { "math": [ "robofac_pat_lost_signal_cabin_reverb = 1" ] }
+          { "math": [ "robofac_pat_lost_signal_cabin_reverb = 0" ] }
         ]
       }
     ]
