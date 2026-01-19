@@ -70,5 +70,16 @@
     "item_prefix": "faulty",
     "price_modifier": 0.5,
     "flags": [ "BAD_STARTER" ]
+  },
+  {
+    "id": "fault_punctured_wheels",
+    "type": "fault",
+    "name": { "str": "Flat tire" },
+    "description": "Something made a hole in the wheel, and its tire is now as flat as the ground it drives onto.",
+    "price_modifier": 0.0,
+    "contact_area_mod": 0.0,
+    "rolling_resistance_mod": 2.0,
+    "item_suffix": "flat",
+    "flags": [ "FLAT_TIRE" ]
   }
 ]

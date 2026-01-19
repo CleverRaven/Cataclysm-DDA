@@ -1522,6 +1522,10 @@
     "type": "json_flag"
   },
   {
+    "id": "FLAT_TIRE",
+    "type": "json_flag"
+  },
+  {
     "id": "FELINE",
     "type": "json_flag"
   },
@@ -2138,7 +2142,8 @@
     "type": "json_flag"
   },
   {
-    "id": "DAMAGE_VEHICLE_WHEELS",
+    "id": "PUNCTURE_VEHICLE_WHEELS",
+    "//": "Sharp or pointy item, capable to make a hole in your tire",
     "type": "json_flag"
   },
   {
