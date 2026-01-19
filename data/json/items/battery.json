@@ -75,11 +75,11 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": [ "battery" ],
-    "count": 10,
-    "capacity": 10,
+    "count": 9,
+    "capacity": 9,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_LIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 9 } } ]
   },
   {
     "id": "light_alkaline_cell",
@@ -98,11 +98,11 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": [ "battery" ],
-    "count": 10,
-    "capacity": 10,
+    "count": 9,
+    "capacity": 9,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_LIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 9 } } ]
   },
   {
     "id": "light_cell_rechargeable",
@@ -160,9 +160,9 @@
     "ammo_type": [ "battery" ],
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_MEDIUM" ],
-    "count": 56,
-    "capacity": 56,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 56 } } ]
+    "count": 24,
+    "capacity": 24,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 24 } } ]
   },
   {
     "id": "medium_alkaline_cell",
@@ -183,9 +183,9 @@
     "ammo_type": [ "battery" ],
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_MEDIUM" ],
-    "count": 56,
-    "capacity": 56,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 56 } } ]
+    "count": 24,
+    "capacity": 24,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 24 } } ]
   },
   {
     "id": "heavy_battery_cell",
@@ -222,10 +222,10 @@
     "color": "yellow",
     "ammo_type": [ "battery" ],
     "looks_like": "battery",
-    "count": 259,
-    "capacity": 259,
+    "count": 210,
+    "capacity": 210,
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_HEAVY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 259 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 210 } } ]
   },
   {
     "id": "heavy_alkaline_cell",
@@ -245,10 +245,10 @@
     "color": "yellow",
     "ammo_type": [ "battery" ],
     "looks_like": "battery",
-    "count": 259,
-    "capacity": 259,
+    "count": 210,
+    "capacity": 210,
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_HEAVY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 259 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 210 } } ]
   },
   {
     "id": "heavy_plus_battery_cell",
