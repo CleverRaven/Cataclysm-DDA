@@ -35,7 +35,7 @@
       "vehicles": { "v": { "vehicle": "forklift_vehicles", "chance": 20, "rotation": 1 } },
       "furniture": {
         " ": [ [ "f_null", 199 ], [ "f_rubble", 1 ] ],
-        "B": [ [ "f_30gal_firebarrel", 50 ], [ "f_tourist_table", 50] ],
+        "B": [ [ "f_30gal_firebarrel", 50 ], [ "f_tourist_table", 50 ] ],
         "@": [ [ "f_deckchair", 25 ], [ "f_camp_chair", 25 ], [ "f_armchair", 25 ], [ "f_null", 25 ] ]
       },
       "npcs": { "@": { "class": "bandit" } },
@@ -149,7 +149,7 @@
       "nested": { "1": { "chunks": [ "shipping_container" ] } },
       "furniture": {
         " ": [ [ "f_null", 199 ], [ "f_rubble", 1 ] ],
-        "B": [ [ "f_30gal_firebarrel", 50 ], [ "f_tourist_table", 50] ],
+        "B": [ [ "f_30gal_firebarrel", 50 ], [ "f_tourist_table", 50 ] ],
         "@": [ [ "f_deckchair", 25 ], [ "f_camp_chair", 25 ], [ "f_armchair", 25 ], [ "f_null", 25 ] ]
       },
       "npcs": { "@": { "class": "bandit" } },
@@ -384,10 +384,7 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "f": "t_chainfence", ",": "t_region_groundcover" },
-      "furniture": {
-        " ": [ [ "f_null", 199 ], [ "f_rubble", 1 ] ],
-        "B": "f_30gal_firebarrel"
-      },
+      "furniture": { " ": [ [ "f_null", 199 ], [ "f_rubble", 1 ] ], "B": "f_30gal_firebarrel" },
       "npcs": { "@": { "class": "bandit" } },
       "faction_owner": [ { "id": "hells_raiders", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }
@@ -495,10 +492,7 @@
         "                        "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "terrain": {
-        "_": "t_metal_floor",
-        "@": "t_metal_floor"
-      },
+      "terrain": { "_": "t_metal_floor", "@": "t_metal_floor" },
       "furniture": { "@": "f_chair" },
       "npcs": { "@": { "class": "bandit" } },
       "faction_owner": [ { "id": "hells_raiders", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
