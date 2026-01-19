@@ -1826,6 +1826,8 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
     }
     martial_arts_data->ma_ondodge_effects( *this );
 
+    magic->break_channeling( *this );
+
     // For adjacent attackers check for techniques usable upon successful dodge
     if( source && square_dist( pos_bub(), source->pos_bub() ) == 1 ) {
         matec_id tec = std::get<0>( pick_technique( *source, used_weapon(), false, true, false ) );
@@ -8053,6 +8055,7 @@ void Character::pause()
     }
     // on-pause effects for martial arts
     martial_arts_data->ma_onpause_effects( *this );
+    magic->channel_magic( *this );
 
     if( is_npc() ) {
         // The stuff below doesn't apply to NPCs

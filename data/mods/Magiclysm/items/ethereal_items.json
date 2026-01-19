@@ -853,7 +853,7 @@
     "type": "ITEM",
     "subtypes": [ "ARTIFACT" ],
     "copy-from": "longsword",
-    "name": { "str": "mage blade" },
+    "name": { "str": "force blade" },
     "description": "This is a summoned mana sword, between the lighter arming sword and later two-handed swords in size.  It glows shiny, and its edge is sharper the more spell level and intelligence you have.",
     "material": [ "concentrated_mana" ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],

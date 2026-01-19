@@ -2002,44 +2002,6 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_feral_technomancer_mage_blade",
-    "name": [ { "str": "Wielding Mage Blade", "//~": "NO_I18N" } ],
-    "desc": [ { "str": "You are a monster wielding a mage blade, as this effect indicates.", "//~": "NO_I18N" } ],
-    "show_in_info": true
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_feral_technomancer_mage_blade_cooldown",
-    "//": "Longer internal cooldown for feral mage blade",
-    "name": [ "" ],
-    "desc": [ "" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_feral_technomancer_mage_armor",
-    "name": [ "Mage Armor" ],
-    "desc": [ { "str": "You are a monster wearing conjured armor, as this effect indicates.", "//~": "NO_I18N" } ],
-    "show_in_info": true,
-    "enchantments": [
-      {
-        "incoming_damage_mod": [
-          { "type": "cut", "add": -15 },
-          { "type": "bash", "add": -15 },
-          { "type": "stab", "add": -15 },
-          { "type": "bullet", "add": -15 }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_feral_technomancer_mage_armor_cooldown",
-    "//": "Longer internal cooldown for feral mage armor",
-    "name": [ "" ],
-    "desc": [ "" ]
-  },
-  {
-    "type": "effect_type",
     "id": "effect_feral_technomancer_bless",
     "name": [ "Bless" ],
     "desc": [ { "str": "You get bonuses to hit and dodge because monsters don't have stats.", "//~": "NO_I18N" } ],

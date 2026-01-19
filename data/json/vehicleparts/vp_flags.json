@@ -121,6 +121,11 @@
     "info": "You can tie down a furniture here."
   },
   {
+    "id": "FURNITURE_LIFT_ASSIST",
+    "type": "json_flag",
+    "info": "It's much easier to tie down a furniture here."
+  },
+  {
     "id": "NO_LEAK",
     "type": "json_flag",
     "info": "Causes a boat hull to float even when damaged."

@@ -581,7 +581,7 @@
     "id": "magus_restricted_tier_1",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "spell_scroll_phase_door", "prob": 50 } ]
+    "entries": [ { "item": "spell_scroll_phase_door", "prob": 50 }, { "item": "spell_scroll_magus_mage_conjured_blade", "prob": 25 } ]
   },
   {
     "id": "magus_illegal_tier_1",
@@ -649,11 +649,7 @@
     "id": "technomancer_restricted_tier_1",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "spell_scroll_holy_blade", "prob": 25 },
-      { "item": "spell_scroll_knock", "prob": 30 },
-      { "item": "spell_scroll_quantum_tunnel_lesser", "prob": 30 }
-    ]
+    "entries": [ { "item": "spell_scroll_knock", "prob": 30 }, { "item": "spell_scroll_quantum_tunnel_lesser", "prob": 30 } ]
   },
   {
     "id": "technomancer_illegal_tier_1",

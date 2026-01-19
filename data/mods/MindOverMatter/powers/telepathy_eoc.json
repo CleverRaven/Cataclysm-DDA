@@ -248,16 +248,26 @@
     "id": "EOC_TELEPATH_OBSCURITY_REMOVAL_CHARACTER",
     "eoc_type": "EVENT",
     "required_event": "character_takes_damage",
-    "condition": { "and": [ { "u_has_effect": "telepathic_ignorance" }, { "npc_has_effect": "telepathic_ignorance_self" } ] },
-    "effect": [ { "u_lose_effect": "telepathic_ignorance" } ]
+    "condition": "has_beta",
+    "effect": [
+      {
+        "if": { "and": [ { "u_has_effect": "telepathic_ignorance" }, { "npc_has_effect": "telepathic_ignorance_self" } ] },
+        "then": { "u_lose_effect": "telepathic_ignorance" }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_OBSCURITY_REMOVAL_MONSTER",
     "eoc_type": "EVENT",
     "required_event": "monster_takes_damage",
-    "condition": { "and": [ { "u_has_effect": "telepathic_ignorance" }, { "npc_has_effect": "telepathic_ignorance_self" } ] },
-    "effect": [ { "u_lose_effect": "telepathic_ignorance" } ]
+    "condition": "has_beta",
+    "effect": [
+      {
+        "if": { "and": [ { "u_has_effect": "telepathic_ignorance" }, { "npc_has_effect": "telepathic_ignorance_self" } ] },
+        "then": { "u_lose_effect": "telepathic_ignorance" }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

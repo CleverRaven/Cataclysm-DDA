@@ -8,24 +8,11 @@
 
 #include "printf_converter.h"
 
+// #include <fmt/format.h>
 #include <fmt/printf.h>
 
-/*
-template<typename T, typename = std::enable_if_t<std::is_enum_v<T>>>
-         inline auto format_as( T e )
-{
-    return static_cast<std::underlying_type_t<T>>( e );
-}
+extern std::string string_vfmt( fmt::string_view format, fmt::format_args args );
 
-namespace cata
-{
-template<typename T, typename = std::enable_if_t<std::is_enum_v<T>>>
-         inline auto format_as( T e )
-{
-    return static_cast<std::underlying_type_t<T>>( e );
-}
-} // namespace cata
-*/
 extern std::string string_vprintf( fmt::string_view format, fmt::printf_args args );
 
 template<typename ...Args>
