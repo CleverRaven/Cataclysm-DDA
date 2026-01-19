@@ -80,12 +80,7 @@
     "ugliness": 3,
     "allow_soft_gear": true,
     "restricts_gear": [ "head_crown" ],
-    "attacks": {
-      "attack_text_u": "You butt %s with your antlers!",
-      "attack_text_npc": "%1$s butts %2$s with their antlers!",
-      "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 4 }
-    }
+    "integrated_armor": [ "integrated_antlers" ]
   },
   {
     "type": "mutation",

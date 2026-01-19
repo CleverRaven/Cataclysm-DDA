@@ -322,7 +322,7 @@ constructions_by_filter( std::function<bool( construction const & )> const &filt
 
 static void load_available_constructions( std::vector<construction_group_str_id> &available,
         std::map<construction_category_id, std::vector<construction_group_str_id>> &cat_available,
-        bool hide_unconstructable )
+        int filter_mode )
 {
     cat_available.clear();
     available.clear();
@@ -332,19 +332,35 @@ static void load_available_constructions( std::vector<construction_group_str_id>
     }
     avatar &player_character = get_avatar();
     for( construction &it : constructions ) {
-        if( it.on_display && ( !hide_unconstructable ||
-                               player_can_build( player_character, player_character.crafting_inventory(), it ) ) ) {
-            bool already_have_it = false;
-            for( auto &avail_it : available ) {
-                if( avail_it == it.group ) {
-                    already_have_it = true;
-                    break;
-                }
+        if( !it.on_display ) {
+            continue;
+        }
+        bool ok = false;
+        // filter_mode: 0 = all,
+        // 1 = ready (skills & materials satisfied, but location not satisfied),
+        // 2 = buildable here (skills & materials satisfied and location satisfied)
+        if( filter_mode == 0 ) {
+            ok = true;
+        } else if( filter_mode == 1 ) {
+            ok = player_can_build( player_character, player_character.crafting_inventory(), it, true ) &&
+                 !can_construct( it );
+        } else if( filter_mode == 2 ) {
+            ok = player_can_build( player_character, player_character.crafting_inventory(), it, true ) &&
+                 can_construct( it );
+        }
+        if( !ok ) {
+            continue;
+        }
+        bool already_have_it = false;
+        for( auto &avail_it : available ) {
+            if( avail_it == it.group ) {
+                already_have_it = true;
+                break;
             }
-            if( !already_have_it ) {
-                available.push_back( it.group );
-                cat_available[it.category].push_back( it.group );
-            }
+        }
+        if( !already_have_it ) {
+            available.push_back( it.group );
+            cat_available[it.category].push_back( it.group );
         }
     }
 }
@@ -488,11 +504,13 @@ construction_id construction_menu( const bool blueprint )
         debugmsg( "construction_menu called before finalization" );
         return construction_id( -1 );
     }
-    static bool hide_unconstructable = false;
+    // filter_mode: 0 = all, 1 = ready (skills & materials satisfied, but location not satisfied),
+    // 2 = buildable here (skills & materials satisfied and location satisfied)
+    static int filter_mode = 0;
     // only display constructions the player can theoretically perform
     std::vector<construction_group_str_id> available;
     std::map<construction_category_id, std::vector<construction_group_str_id>> cat_available;
-    load_available_constructions( available, cat_available, hide_unconstructable );
+    load_available_constructions( available, cat_available, filter_mode );
 
     if( available.empty() ) {
         popup( _( "You can not construct anything here." ) );
@@ -594,8 +612,18 @@ construction_id construction_menu( const bool blueprint )
                  it != options.end(); ++it ) {
                 stage_counter++;
                 construction *current_con = *it;
-                if( hide_unconstructable && !can_construct( *current_con ) ) {
-                    continue;
+                if( filter_mode == 1 ) {
+                    // show stages where skills & materials are satisfied but location is not
+                    if( !( player_can_build( player_character, total_inv, *current_con, true ) &&
+                           !can_construct( *current_con ) ) ) {
+                        continue;
+                    }
+                } else if( filter_mode == 2 ) {
+                    // show stages that are buildable here (skills & materials + location)
+                    if( !( player_can_build( player_character, total_inv, *current_con, true ) &&
+                           can_construct( *current_con ) ) ) {
+                        continue;
+                    }
                 }
                 // Update the cached availability of components and tools in the requirement object
                 current_con->requirements->can_make_with_inventory( total_inv, is_crafting_component, 1,
@@ -983,15 +1011,19 @@ construction_id construction_menu( const bool blueprint )
                                             ctxt.get_desc( "RIGHT" ) ) );
             notes.push_back( string_format( _( "Press [<color_yellow>%s</color>] to search." ),
                                             ctxt.get_desc( "FILTER" ) ) );
-            if( !hide_unconstructable ) {
-                notes.push_back( string_format(
-                                     _( "Press [<color_yellow>%s</color>] to hide unavailable constructions." ),
-                                     ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) ) );
+            // show the current filter mode in the notes area
+            std::string mode_name;
+            if( filter_mode == 0 ) {
+                mode_name = _( "All" );
+            } else if( filter_mode == 1 ) {
+                mode_name = _( "Ready (missing location)" );
             } else {
-                notes.push_back( string_format(
-                                     _( "Press [<color_red>%s</color>] to show unavailable constructions." ),
-                                     ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) ) );
+                mode_name = _( "Buildable here" );
             }
+            notes.push_back( string_format(
+                                 _( "Filter: %s — Press [<color_yellow>%s</color>] to cycle." ),
+                                 colorize( mode_name, c_light_green ),
+                                 ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) ) );
             notes.push_back( string_format(
                                  _( "Press [<color_yellow>%s</color>] to view and edit keybindings." ),
                                  ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
@@ -1057,9 +1089,12 @@ construction_id construction_menu( const bool blueprint )
         } else if( action == "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) {
             update_info = true;
             update_cat = true;
-            hide_unconstructable = !hide_unconstructable;
+            // cycle through filter modes: 0 -> 1 -> 2 -> 0
+            filter_mode = ( filter_mode + 1 ) % 3;
             offset = 0;
-            load_available_constructions( available, cat_available, hide_unconstructable );
+            load_available_constructions( available, cat_available, filter_mode );
+            // force main UI to refresh so the notes update immediately
+            g->invalidate_main_ui_adaptor();
         } else if( action == "CONFIRM" ) {
             if( constructs.empty() || select >= static_cast<int>( constructs.size() ) ) {
                 // Nothing to be done here

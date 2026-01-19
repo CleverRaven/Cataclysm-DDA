@@ -588,5 +588,72 @@
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
+  },
+  {
+    "//": "Scaling on these three is lower than normal because it's explicitly a weak attack",
+    "type": "technique",
+    "id": "ANTLERS_BASH",
+    "name": "Antlers Bash",
+    "melee_allowed": true,
+    "messages": [ "You ram %s with your antlers", "<npcname> rams %s with their antlers" ],
+    "unarmed_allowed": true,
+    "weighting": -4,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_headbutt" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.25 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.5 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.33 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "ANTLERS_BASH_NATURAL",
+    "name": "Antlers Bash",
+    "melee_allowed": true,
+    "messages": [ "You ram %s with your antlers", "<npcname> rams %s with their antlers" ],
+    "unarmed_allowed": true,
+    "weighting": 0,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_headbutt" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "natural_stance" },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.25 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.5 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.33 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "ANTLERS_BASH_CRIT",
+    "name": "Antlers Bash Crit",
+    "melee_allowed": true,
+    "messages": [ "You slam into %s with your antlers", "<npcname> slams into %s with their antlers" ],
+    "unarmed_allowed": true,
+    "reach_ok": false,
+    "crit_tec": true,
+    "attack_vectors": [ "vector_headbutt" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 2.2 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
   }
 ]

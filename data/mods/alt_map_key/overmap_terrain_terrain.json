@@ -108,7 +108,7 @@
     "name": "river",
     "sym": "~",
     "color": "blue",
-    "uniform_terrain": "t_water_moving_dp"
+    "mapgen": [ { "weight": 1000, "object": { "fill_ter": "t_water_moving_dp" } } ]
   },
   {
     "type": "overmap_terrain",
