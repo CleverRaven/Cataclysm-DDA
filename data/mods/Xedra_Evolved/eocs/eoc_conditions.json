@@ -80,69 +80,44 @@
     "condition": {
       "and": [
         { "math": [ "dream_counter == 0" ] },
-        { "not": [ { "u_has_trait": "VAMPIRE4"  } ] },
-        { "not": [ { "u_has_trait": "LILIN_TRAITS"  } ] },
-        { "not": [ { "u_has_trait": "IERDE"  } ] },
-        { "not": [ { "u_has_trait": "ARVORE"  } ] },
-        { "not": [ { "u_has_trait": "SALAMANDER"  } ] },
-        { "not": [ { "u_has_trait": "UNDINE"  } ] },
-        { "not": [ { "u_has_trait": "SYLPH"  } ] },
-        { "not": [ { "u_has_trait": "HOMULLUS"  } ] },
-        { "not": [ { "u_has_trait": "THRESH_FAIR_FOLK_COMMONER_POOKA"  } ] },
-        { "not": [ { "u_has_trait": "THRESH_FAIR_FOLK_COMMONER_BROWNIE"  } ] },
-        { "not": [ { "u_has_trait": "THRESH_FAIR_FOLK_COMMONER_TROW"  } ] },
-        { "not": [ { "u_has_trait": "THRESH_FAIR_FOLK_COMMONER_SELKIE"  } ] },
-        { "not": [ { "u_has_trait": "THRESH_FAIR_FOLK_NOBLE"  } ] }
+        { "not": [ { "u_has_trait": "VAMPIRE4" } ] },
+        { "not": [ { "u_has_trait": "LILIN_TRAITS" } ] },
+        { "not": [ { "u_has_trait": "IERDE" } ] },
+        { "not": [ { "u_has_trait": "ARVORE" } ] },
+        { "not": [ { "u_has_trait": "SALAMANDER" } ] },
+        { "not": [ { "u_has_trait": "UNDINE" } ] },
+        { "not": [ { "u_has_trait": "SYLPH" } ] },
+        { "not": [ { "u_has_trait": "HOMULLUS" } ] },
+        { "not": [ { "u_has_trait": "THRESH_FAIR_FOLK_COMMONER_POOKA" } ] },
+        { "not": [ { "u_has_trait": "THRESH_FAIR_FOLK_COMMONER_BROWNIE" } ] },
+        { "not": [ { "u_has_trait": "THRESH_FAIR_FOLK_COMMONER_TROW" } ] },
+        { "not": [ { "u_has_trait": "THRESH_FAIR_FOLK_COMMONER_SELKIE" } ] },
+        { "not": [ { "u_has_trait": "THRESH_FAIR_FOLK_NOBLE" } ] },
+        { "not": [ { "u_has_trait": "GRACKEN" } ] }
       ]
     },
-    "effect": [
-      { "run_eocs": "EOC_DREAMS_OR_NIGHTMARES_EDGE_CASES" }
-    ],
-    "false_effect": [
-      { "run_eocs": "EOC_DREAMS_OR_NIGHTMARES_MANA?" }
-    ]
+    "effect": [ { "run_eocs": "EOC_DREAMS_OR_NIGHTMARES_EDGE_CASES" } ],
+    "false_effect": [ { "run_eocs": "EOC_DREAMS_OR_NIGHTMARES_MANA?" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_DREAMS_OR_NIGHTMARES_EDGE_CASES",
-    "condition": {
-      "or": [
-        { "u_has_trait": "VAMPIRE4"  },
-        { "u_has_trait": "LILIN_TRAITS"}
-      ]
-    },
-    "effect": [
-      { "u_message": "undead_wake_up", "snippet": true, "type": "neutral" }
-    ],
-    "false_effect": [
-      { "u_message": "fae_wake_up", "snippet": true, "type": "neutral" }
-    ]
+    "condition": { "or": [ { "u_has_trait": "VAMPIRE4" }, { "u_has_trait": "LILIN_TRAITS" } ] },
+    "effect": [ { "u_message": "undead_wake_up", "snippet": true, "type": "neutral" } ],
+    "false_effect": [ { "u_message": "fae_wake_up", "snippet": true, "type": "neutral" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_DREAMS_OR_NIGHTMARES_MANA?",
-    "condition": {
-      "or": [
-        { "u_has_trait": "DREAMER"  },
-        { "u_has_trait": "EATER"}
-      ]
-    },
-    "effect": [
-      { "run_eocs": "EOC_DREAMS_OR_NIGHTMARES_MANA" }
-    ],
-    "false_effect": [
-      { "run_eocs": "EOC_DREAMS_OR_NIGHTMARES_NO_MANA" }
-    ]
+    "condition": { "or": [ { "u_has_trait": "DREAMER" }, { "u_has_trait": "EATER" } ] },
+    "effect": [ { "run_eocs": "EOC_DREAMS_OR_NIGHTMARES_MANA" } ],
+    "false_effect": [ { "run_eocs": "EOC_DREAMS_OR_NIGHTMARES_NO_MANA" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_DREAMS_OR_NIGHTMARES_MANA",
-    "condition":{ "or": [
-      { "one_in_chance": 2 },
-      { "u_has_effect": "effect_hedge_no_nightmares" },
-    ] 
-    },
-    "effect": [ 
+    "condition": { "or": [ { "one_in_chance": 2 }, { "u_has_effect": "effect_hedge_no_nightmares" } ] },
+    "effect": [
       { "u_message": "sweet_dreams", "snippet": true, "type": "bad" },
       { "u_add_morale": "morale_sweet_dreams", "bonus": [ 15, 40 ], "max_bonus": 40 },
       { "math": [ "dream_counter = 1" ] },
@@ -175,7 +150,7 @@
     "base_casting_time": 0,
     "base_energy_cost": 0,
     "extra_effects": [ { "id": "lucid_dreaming_bonus" } ],
-    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_EXPLOSION_SFX" ]
   },
   {
     "id": "nightmare_mana_gain",
@@ -212,19 +187,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DREAMS_OR_NIGHTMARES_NO_MANA",
-    "condition":{ "or": [
-      { "one_in_chance": 2 },
-      { "u_has_effect": "effect_hedge_no_nightmares" },
-    ] 
-    },
-    "effect": [ 
+    "condition": { "or": [ { "one_in_chance": 2 }, { "u_has_effect": "effect_hedge_no_nightmares" } ] },
+    "effect": [
       { "u_message": "sweet_dreams", "snippet": true, "type": "bad" },
       { "u_add_morale": "morale_sweet_dreams", "bonus": [ 15, 40 ], "max_bonus": 40 },
       { "math": [ "dream_counter = 1" ] },
       { "run_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
     ],
     "false_effect": [
-      { "u_message": "nightmares", "snippet": true, "type": "bad" },
+      { "u_message": "XE_BAD_DREAMS", "snippet": true, "type": "bad" },
       { "u_add_morale": "morale_nightmare", "bonus": [ -15, -40 ], "max_bonus": -40 },
       { "math": [ "dream_counter = 1" ] },
       { "run_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
