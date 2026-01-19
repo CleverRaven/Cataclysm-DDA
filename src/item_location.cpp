@@ -744,6 +744,33 @@ class item_location::impl::item_in_container : public item_location::impl
             }
 
             const item obj = target()->split( qty );
+
+            // If taking a TIRE out of a RIM's pocket, give the player the
+            // corresponding deflated tire item (if one exists) instead of the
+            // real tire stored in the pocket.
+            if( target()->has_flag( flag_id( "TIRE" ) ) && container->has_flag( flag_id( "RIM" ) ) ) {
+                const std::string deflated_id = target()->typeId().str() + "_deflated";
+                const itype_id maybe_deflated( deflated_id );
+                if( maybe_deflated.is_valid() ) {
+                    item deflated_item( maybe_deflated, calendar::turn );
+                    if( !obj.is_null() ) {
+                        return ch.i_add( deflated_item, should_stack, /*avoid=*/nullptr, nullptr );
+                    } else {
+                        item_location inv = ch.i_add( deflated_item, should_stack, /*avoid=*/nullptr,
+                                                      nullptr );
+                        if( inv == item_location::nowhere ) {
+                            DebugLog( D_INFO, DC_ALL )
+                                    << "failed to add item " << target()->tname()
+                                    << " to character inventory while obtaining from container";
+                            return {};
+                        }
+                        remove_item();
+                        return inv;
+                    }
+                }
+            }
+
+
             if( !obj.is_null() ) {
                 return ch.i_add( obj, should_stack,/*avoid=*/nullptr, nullptr,/*allow_drop=*/false );
             } else {

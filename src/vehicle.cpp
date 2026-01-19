@@ -2288,7 +2288,7 @@ bool vehicle::remove_part( vehicle_part &vp, RemovePartHandler &handler )
     remove_dependent_part( "SEAT", "SEATBELT" );
     remove_dependent_part( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT" );
     remove_dependent_part( "HANDHELD_BATTERY_MOUNT", "NEEDS_HANDHELD_BATTERY_MOUNT" );
-    
+
     if( vpi.has_flag( "RIM" ) ) {
         // If removing a rim, look for a tire at the same mount and move the
         // tire item into the rim's pocket before removing the tire part.
