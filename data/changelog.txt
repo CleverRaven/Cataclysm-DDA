@@ -175,6 +175,11 @@ Allow fields to track their sources (i.e. who started a fire)
 New Hub 01 quest-line for hazard meteorologists
 overthrow the reign of RELOAD_ONE, aka Reload everything one by one as part of activity
 More proper sorting
+If ‘force‘ is set for EOC u_teleport, skip collision test for vehicle
+Freeze water into ice in winter basic func
+Spells can now be actively channeled, causing continued effects over time so long as you wait after casting.
+If ‘force‘ is set for EOC u_teleport, skip collision test for vehicle
+Better furniture loading onto vehicles
 
 
 
@@ -397,6 +402,14 @@ Rework the blood analysis quest
 A new nether-creature encounter with prototype XEDRA tech as a reward
 new 2-piece Powered Air Purifying Respirator (PAPR) system
 New demo power tools + more difficult, but more consistent, concrete removal
+Inland container depot
+Rework the Weaver fight
+25 more shipping containers
+Your new pal, Pat (check the Hub)
+A mission to find a prepper's cabin
+20 more shipping containers
+Clean up pant variants
+Add feldspar chunks to forest/field itemgroups, add feldspar veins to Innawood
 
 
 ## Interface:
@@ -533,6 +546,10 @@ Move the lore snippets from the faction to the diary UI
 Persist zoom levels
 Improved controller support to add left trigger to switch to alternate buttons, and radial menus
 Add crafting recipe **filter** by its source
+Better contrast for blue-on-black color
+Print 'taming' foods for monsters
+Sidebar headers to differentiate terrain vs furniture
+Remove 'Toggle skill training' hotkey description
 
 
 ## Mods:
@@ -987,6 +1004,18 @@ Add an enchantment that modifies the 'free dodges' stat introduced for Martial A
 [Magiclysm] The great spell itemgroup reorganization
 [MoM] Add Rainywood Oubliette dimension
 [Magiclysm] Add restricted and illegal spells to appropriate locations
+[Innawood] Add ore to some outcroppings
+[Xedra Evolved] Sidebar updates
+[Xedra Evolved] Increase hedge magick learning time
+[alt-map-key] Add new overmap tiles to mod
+[Xedra Evolved] Add Sefer Raziel HaMalakh as a hedge magic book
+Excursions with Sky Island and Innawood gives bonus experience for Bombastic Perks, Sorcerer, and Martial Mastery
+[Magiclysm] Add Technomancer spell Arete
+[MoM] Add biokinesis/vitakinesis research facility
+[Aftershock] Add esper enkindling tinctures
+[MoM] Add guaranteed Osiris chambers to skyscraper lab
+[Magiclysm] Reduce the cost of Vegetative Poultice
+[Magiclysm] Rename Mage Blade to Force Blade, move to a Magus spell
 
 
 
@@ -1106,6 +1135,15 @@ Murdering humans('monsters') is still murdering humans
 Fixes Cloud Formation and Pressure
 Getting hurt is bad for your long-term health
 You can't choose where you will appear after exiting a reverberation
+Techniqueify `HOOVES`
+Increase hulk combat ability
+internal vehicle electronics don't threaten the integrity of the tires when destroyed
+Switch toe talons to using techniques
+Add pressure cooker in house.
+Convert Curled Horns to integrated armor with attack techniques
+Apis npc is more insectoid, more brave, less talkative, and more dangerous
+Move Pointed Horns to techniques
+Shipping containers have more mundane science equipment
 
 
 ## Bugfixes:
@@ -1520,6 +1558,29 @@ fix a crash when opening the item comparison window
 Remove anvilmancy (the ability to teleport anvils above zombies)
 Workaround UTF-8 and wide string conversion failure on some Linux/macOS systems
 Reset consume menu state when closed
+Fix translation progress not showing up
+Fix butchering activity stopping after first corpse
+give hatchbacks a hatchback
+unique description for Hub 01 haz suit (on)
+Fixed calculations in the heating ui and func for items counted by charge.
+certain bombastic perks no longer cause mutation instability
+You can now swim down (and up) in oceans
+reinforced glass in labs can also be deconstructed
+[Xedra Evolved] Fix Dreamer regen
+[Xedra Evolved] Fix being allowed to study occult texts in complete darkness
+Fix some incorrect format specifiers
+Fix x-ray vision of NPC underwear
+Close item info's command bar after sub-interface open
+Fixes a wrong behavior when many dialogue options are present where the first one without a keybind will be selected by default.
+[Magiclysm] Fix Giant Growth spam
+AR glasses can be used for data storage
+[MoM] Fix Obscurity crash
+Tiny bug in item debug info and i18n
+bridge crossing in autodrive mode
+Fix format mismatch in cataimgui::draw_colored_text
+Fixing error and tips msg for water purification tablets
+Fix ethereal item info
+Fixed debug msg in mapgen that caused debug errors.
 
 
 ## Performance:
@@ -1720,6 +1781,10 @@ move ACT_VEHICLE handler to vehicle_activity_actor
 Add an effect for EoCs to be able to browse or unbrowse items
 move ACT_BUILD handler to build_construction_activity_actor
 Allow overriding in snippets definitions
+obsolete ACT_ARMOR_LAYERS, move to uistate::open_menu
+move ACT_TREE_COMMUNION handler to activity_actor
+move ACT_ATM handler to activity_actor
+Add support for fstring style placeholders in translated strings.
 
 
 ## Build:
