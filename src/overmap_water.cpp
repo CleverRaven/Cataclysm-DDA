@@ -42,8 +42,6 @@ static const oter_str_id oter_river_south( "river_south" );
 static const oter_str_id oter_river_sw( "river_sw" );
 static const oter_str_id oter_river_west( "river_west" );
 
-static const int OCEAN_INDENT = 2;
-
 void overmap::place_river( const std::vector<const overmap *> &neighbor_overmaps,
                            const overmap_river_node &initial_points, int river_scale, bool major_river )
 {
@@ -381,22 +379,20 @@ float overmap::calculate_ocean_gradient( const point_om_omt &p, const point_abs_
     float ocean_adjust_E = 0.0f;
     float ocean_adjust_W = 0.0f;
     float ocean_adjust_S = 0.0f;
-    if( northern_ocean > 0 && this_om.y() <= ( northern_ocean - OCEAN_INDENT ) * -1 ) {
+    if( this_om.y() <= northern_ocean * -1 ) {
         ocean_adjust_N = 0.0005f * static_cast<float>( OMAPY - p.y()
-                         + std::abs( ( this_om.y() + northern_ocean - OCEAN_INDENT ) * OMAPY ) );
+                         + std::abs( ( this_om.y() + northern_ocean ) * OMAPY ) );
     }
-    if( eastern_ocean > 0 && this_om.x() >= eastern_ocean - OCEAN_INDENT ) {
-        ocean_adjust_E = 0.0005f * static_cast<float>( p.x() + ( this_om.x() - eastern_ocean +
-                         OCEAN_INDENT )
+    if( this_om.x() >= eastern_ocean ) {
+        ocean_adjust_E = 0.0005f * static_cast<float>( p.x() + ( this_om.x() - eastern_ocean )
                          * OMAPX );
     }
-    if( western_ocean > 0 && this_om.x() <= ( western_ocean - OCEAN_INDENT ) * -1 ) {
+    if( this_om.x() <= western_ocean * -1 ) {
         ocean_adjust_W = 0.0005f * static_cast<float>( OMAPX - p.x()
-                         + std::abs( ( this_om.x() + western_ocean - OCEAN_INDENT ) * OMAPX ) );
+                         + std::abs( ( this_om.x() + western_ocean ) * OMAPX ) );
     }
-    if( southern_ocean > 0 && this_om.y() >= southern_ocean - OCEAN_INDENT ) {
-        ocean_adjust_S = 0.0005f * static_cast<float>( p.y() + ( this_om.y() - southern_ocean +
-                         OCEAN_INDENT ) * OMAPY );
+    if( this_om.y() >= southern_ocean ) {
+        ocean_adjust_S = 0.0005f * static_cast<float>( p.y() + ( this_om.y() - southern_ocean ) * OMAPY );
     }
     return std::max( { ocean_adjust_N, ocean_adjust_E, ocean_adjust_W, ocean_adjust_S } );
 }
