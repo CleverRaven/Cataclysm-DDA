@@ -298,7 +298,7 @@
         "if": "has_alpha",
         "//": "only do the following if MP3 is in player's inventory.",
         "then": {
-          "if": { "math": [ "n_on_cooldown == false" ] },
+          "if": { "math": [ "n_cooldown < time('now')" ] },
           "then": { "run_eocs": [ "EOC_MP3_REVERBERATION_LOCATOR" ] },
           "else": { "u_message": "<mp3_reverberation_locator_cooldown>", "type": "info", "snippet": true }
         }
@@ -321,11 +321,7 @@
         "then": [
           { "u_message": "Its song drowns out the world.", "type": "info", "popup": true, "popup_w_interrupt_query": true },
           { "transform_item": "mp3_reverberation", "active": false },
-          { "math": [ "n_on_cooldown = true" ] },
-          {
-            "run_eocs": { "id": "_EOC_MP3_REVERBERATION_DISABLE_COOLDOWN", "effect": { "math": [ "n_on_cooldown = false" ] } },
-            "time_in_future": [ "2 days", "3 days" ]
-          },
+          { "math": [ "n_cooldown = time('now')+time('1 d')+( time('8 h')*rand(4) )" ] },
           { "run_eocs": [ "EOC_REVERBERATION_ENTER" ], "time_in_future": "2 seconds" }
         ],
         "else": {

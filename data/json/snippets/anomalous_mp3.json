@@ -4,7 +4,6 @@
     "category": "<mp3_reverberation_locator_cooldown>",
     "text": [
       "You hear static noise.",
-      "You hear a young child's voice say \"Just five more minutes!\"",
       "You hear distant bird chirping.",
       "You hear a windy forest.",
       "You feel an overwhelming presence, stirring in its sleep."
@@ -13,11 +12,15 @@
   {
     "type": "snippet",
     "category": "<mp3_reverberation_locator_almost_there>",
-    "text": [ "Its song is indescribable..", "Its song is making your vision vibrant..", "Its song is begging you to get closer.." ]
+    "text": [
+      "Its song is indescribably beautiful..",
+      "Its song is painting the world in vibrant colors..",
+      "Its song is begging you to get closer.."
+    ]
   },
   {
     "type": "snippet",
     "category": "<mp3_reverberation_locator_close>",
-    "text": [ "Its song is energetic, joyful." ]
+    "text": [ "Its song is energetic.", "Its song is joyful." ]
   }
 ]

@@ -16,7 +16,6 @@
       },
       { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" }
     ],
-    "variables": { "on_cooldown": false },
     "delete": { "flags": [ "WATER_BREAK_ACTIVE" ] }
   },
   {
