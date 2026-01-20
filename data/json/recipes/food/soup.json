@@ -448,7 +448,7 @@
     "time": "1 m",
     "charges": 1,
     "autolearn": true,
-    "//1": "Soup is a cereal.",
+    "//1": "Cereal is a soup.",
     "batch_time_factors": [ 90, 1 ],
     "components": [
       [
