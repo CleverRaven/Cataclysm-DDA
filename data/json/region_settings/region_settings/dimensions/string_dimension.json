@@ -28,7 +28,7 @@
       "open_air",
       "open_air",
       "open_air",
-      "string_dimension_crossroads_north",
+      "string_dimension_crossroads",
       "string_dimension_true_void",
       "string_dimension_true_void",
       "string_dimension_true_void",
@@ -41,6 +41,7 @@
       "string_dimension_true_void"
     ],
     "default_groundcover": [ [ "t_string_dimension_groundcover", 1 ] ],
+    "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "STRING_DIMENSION" ] },
     "//": "ignored",
     "connections": {
       "intra_city_road_connection": "local_road",

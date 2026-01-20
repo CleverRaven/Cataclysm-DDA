@@ -90,7 +90,7 @@
     "id": "mon_zombie_brute_string_dimension",
     "type": "MONSTER",
     "name": { "str": "mummified zombie" },
-    "description": "This zombie's skin has been preserved and appears almost living, but drawn visage, corded muscles, and bulging eyes leave no mistake that it is undead.  Its ceremonial-looking metal armor hangs loosely about its body.",
+    "description": "This zombie's skin has been preserved and appears almost living, but its drawn visage, corded muscles, and bulging eyes leave no mistake that it is undead.  Its ceremonial-looking metal armor hangs loosely about its body, stained black long ago by some now evaporated substance.",
     "species": [ "ZOMBIE" ],
     "copy-from": "mon_zombie_base",
     "diff": 3,
@@ -109,6 +109,7 @@
     "grab_strength": 30,
     "upgrades": false,
     "armor": { "bash": 8, "cut": 8, "bullet": 7, "electric": 3 },
+    "death_drops": "mon_zombie_brute_string_dimension_drops",
     "extend": {
       "flags": [ "SMELLS", "SEES", "PUSH_VEH", "PUSH_MON", "HIT_AND_RUN"],
       "weakpoint_sets": [ "wps_humanoid_head_small" ],

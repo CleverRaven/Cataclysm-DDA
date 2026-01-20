@@ -95,6 +95,36 @@
   },
   {
     "type": "terrain",
+    "id": "t_string_xy_plane_1",
+    "name": "impossibly flat blue square",
+    "description": "You percieve a square, here.  It seems impossibly flat - you're not even sure it has depth in any meaningful sense.  You cannot tell where it is in relation to your height - confusingly, it seems to fill your entire field of vision.",
+    "symbol": ".",
+    "color": "blue",
+    "move_cost": 1,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "ONE_DIMENSIONAL_X", "ONE_DIMENSIONAL_Y" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_string_xy_plane_2",
+    "name": "shimmering blue square",
+    "description": "You percieve a square, here.  It is both shimmering and impossibly flat - you're not even sure it has depth in any meaningful sense.  You cannot tell where it is in relation to your height - confusingly, it seems to fill your entire field of vision.",
+    "symbol": ",",
+    "color": "blue",
+    "move_cost": 1,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "ONE_DIMENSIONAL_X", "ONE_DIMENSIONAL_Y" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_string_xy_plane_3",
+    "name": "wavy square",
+    "description": "You percieve a square, here.  It is both waving and impossibly flat - you're not even sure it has depth in any meaningful sense.  You cannot tell where it is in relation to your height - confusingly, it seems to fill your entire field of vision.",
+    "symbol": "'",
+    "color": "light_blue",
+    "move_cost": 1,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "ONE_DIMENSIONAL_X", "ONE_DIMENSIONAL_Y" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_string_xyz",
     "name": "white cube",
     "description": "A true cube of space where one could go left, right, up, down, backward, or forward - it reminds you of home.",
@@ -102,5 +132,40 @@
     "color": "white",
     "move_cost": 1,
     "flags": [ "TRANSPARENT", "FLAT", "GOES_UP", "GOES_DOWN" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_string_gates_mech_control",
+    "name": "rotary lever",
+    "description": "A heavy-duty metal lever with two settings, each marked by an alien symbol.",
+    "symbol": "6",
+    "color": "cyan_red",
+    "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
+    "examine_action": "controls_gate",
+    "bash": {
+      "str_min": 18,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_floor",
+      "items": [ { "item": "mc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "type": "gate",
+    "id": "t_string_gates_mech_control",
+    "door": "t_door_metal_locked",
+    "floor": "t_metal_floor",
+    "walls": [  ],
+    "messages": {
+      "pull": "You turn the lever…",
+      "open": "The doors open, and a gust of air hisses by!",
+      "close": "The doors close while some distant machinery whirrs and thunks!",
+      "fail": "The doors can't be closed!"
+    },
+    "moves": 1800,
+    "bashing_damage": 40
   }
 ]

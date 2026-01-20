@@ -1,0 +1,13 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_brute_string_dimension_drops",
+    "entries": [
+      { "item": "string_dimension_chainmail_suit", "prob": 100, "damage": [ 0, 4 ] },
+      { "item": "footrags", "prob": 100, "damage": [ 0, 4 ] },
+      { "item": "string_dimension_helmet_conical", "prob": 33, "damage": [ 0, 4 ] },
+      { "item": "string_dimension_mirror_cuirass", "prob": 33, "damage": [ 0, 4 ] }
+    ]
+  }
+]

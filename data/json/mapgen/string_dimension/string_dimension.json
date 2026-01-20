@@ -51,5 +51,173 @@
     "type": "mapgen",
     "om_terrain": "string_dimension_true_void",
     "object": { "fill_ter": "t_string_true_void" }
+  },
+  {
+    "om_terrain": "string_dimension_plane_core",
+    "type": "mapgen",
+    "object": {
+      "rows": [
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++"
+      ],
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 900 ], [ "string_dimension_plane_tindalos_tear", 100 ], [ "string_dimension_plane_yrax_research", 1 ] ],
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "+": "t_string_xy" }
+    }
+  },
+  {
+    "om_terrain": "string_dimension_plane_end",
+    "type": "mapgen",
+    "weight": 10,
+    "object": {
+      "fallback_predecessor_mapgen": "string_dimension_crossroads",
+      "rows": [
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        " ++++++++++++++++++++++ ",
+        "    +++++++++++++++     ",
+        "     +            ++++  ",
+        "    +++         +++++++ ",
+        "    +++       +  +++++  ",
+        "            ++++        ",
+        "++++++    +++++++       ",
+        "  +++++     ++++        ",
+        "    +++++    +          ",
+        "                        ",
+        "          +++       +   ",
+        "          ++++      ++  ",
+        "           ++      +++  ",
+        "                        ",
+        "  ++                ++  ",
+        "  ++                 ++ ",
+        "         ++             ",
+        "         ++             ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "+": "t_string_xy" }
+    }
+  },
+  {
+    "om_terrain": "string_dimension_plane_end",
+    "type": "mapgen",
+    "weight": 2,
+    "object": {
+      "fallback_predecessor_mapgen": "string_dimension_crossroads",
+      "rows": [
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "+++++++++++++++++++++++ ",
+        " +++++++++++++++++++++  ",
+        "  +++++++++++++++++++   ",
+        "   ++++++++++++++++++   ",
+        "   ++++++++   ++++++    ",
+        "  ++++++        ++    ++",
+        "   ++++    ++         ++",
+        "    +     ++++          ",
+        "   +++   ++++++      +  ",
+        "    +     ++++      +++ ",
+        "        ++         ++ ++",
+        "  ++   ++++ ++      +++ ",
+        "   ++   ++ ++++      +  ",
+        "           ++++         ",
+        "     +      ++          ",
+        "     ++   +        ++   ",
+        "         ++        ++   ",
+        "+                      +",
+        "+                      +",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "+": [ ["t_string_xy_plane_1", 90 ], ["t_string_xy_plane_2", 7 ], ["t_string_xy_plane_3", 3 ] ] }
+    }
+  },
+  {
+    "om_terrain": "string_dimension_plane_end",
+    "type": "mapgen",
+    "weight": 2,
+    "object": {
+      "fallback_predecessor_mapgen": "string_dimension_crossroads",
+      "rows": [
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        " +++++++++++++++++++++  ",
+        " +++++++++++++++++++    ",
+        " +++ ++++++  ++++++ +   ",
+        "++++  + +++   ++++++    ",
+        " + +  ++ +++  +  ++ +   ",
+        "   +++             +++  ",
+        "                  +++++ ",
+        "  +                 ++++",
+        "++             +      ++",
+        "++            +++       ",
+        "+           ++ ++++     ",
+        "          +++ ++++      ",
+        "        ++++            ",
+        "         ++             ",
+        "                ++      ",
+        "                +++     ",
+        "                 +      ",
+        "                        ",
+        "                        ",
+        "          ++            ",
+        "           +            ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "+": "t_string_xy" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "string_dimension_plane_tindalos_tear",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_traps": [ { "trap": "tr_portal", "x": 11, "y": 11 } ],
+      "place_monster": [ { "group": "GROUP_TINDALOS", "x": 12, "y": 12, "chance": 90 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "string_dimension_plane_yrax_research",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_monster": [ { "monster": "mon_golden_monolith", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 5, 7 ] } ]
+    }
   }
 ]

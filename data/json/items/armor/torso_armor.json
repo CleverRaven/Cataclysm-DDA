@@ -2495,7 +2495,7 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "do-āyneh cuirass", "str_pl": "do-āyneh cuirasses" },
-    "description": "Somewhat resembling your Earth's mirror armor, this otherworldly cuirass is made up of only two round metal plates on the chest and back, lashed together by steel chains around the torso and shoulder.  It covers less than Earth's ancient cuirass, but is notably thicker.",
+    "description": "Somewhat resembling your Earth's mirror armor, this otherworldly cuirass is made up of two round metal plates on the chest and back, lashed together by steel chains around the torso and shoulder.  It covers less than Earth's ancient cuirass, but is notably thicker.",
     "weight": "1200 g",
     "volume": "2 L",
     "price": "200 USD",

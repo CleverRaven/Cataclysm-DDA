@@ -25,7 +25,7 @@
       "u": "t_stairs_up",
       "1": [ [ "t_string_void", 10 ], [ "t_string_xyz", 90 ] ],
       "2": [ [ "t_string_void", 66 ], [ "t_string_xyz", 33 ] ],
-      "+": "t_door_metal_c"
+      "+": "t_door_metal_locked"
     },
     "furniture": { "c": "f_electrical_conduit" }
   }
