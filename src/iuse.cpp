@@ -59,7 +59,6 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
-#include "harvest.h"
 #include "iexamine.h"
 #include "input_context.h"
 #include "input_enums.h"
@@ -250,8 +249,6 @@ static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
-
-static const harvest_drop_type_id harvest_drop_blood( "blood" );
 
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_apparatus( "apparatus" );
@@ -4451,9 +4448,6 @@ std::optional<int> iuse::call_of_tindalos( Character *p, item *, const tripoint_
 
 std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_ms & )
 {
-    map &here = get_map();
-    const tripoint_bub_ms pos = p->pos_bub( here );
-
     if( p->is_npc() ) {
         return std::nullopt;    // No NPCs for now!
     }
@@ -4470,31 +4464,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_
     bool acid_blood = false;
     bool vampire = false;
     units::temperature blood_temp = units::from_kelvin( -1.0f ); //kelvins
-    for( item &map_it : here.i_at( pos.xy() ) ) {
-        if( map_it.is_corpse() &&
-            query_yn( _( "Draw blood from %s?" ),
-                      colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
-            p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it.tname() );
-            drew_blood = true;
-            blood_temp = map_it.temperature;
-
-            field_type_id bloodtype( map_it.get_mtype()->bloodType() );
-            if( bloodtype.obj().has_acid ) {
-                acid_blood = true;
-            } else {
-                blood.set_mtype( map_it.get_mtype() );
-
-                for( const harvest_entry &entry : map_it.get_mtype()->harvest.obj() ) {
-                    if( entry.type == harvest_drop_blood ) {
-                        blood.convert( itype_id( entry.drop ) );
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    if( !drew_blood && query_yn( _( "Draw your own blood?" ) ) ) {
+    if( query_yn( _( "Draw your own blood?" ) ) ) {
         p->add_msg_if_player( m_info, _( "You drew your own blood…" ) );
         drew_blood = true;
         blood_temp = units::from_celsius( 37 );
