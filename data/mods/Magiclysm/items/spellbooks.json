@@ -751,7 +751,7 @@
     "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Transcendence of the Human Condition", "str_pl": "copies of Transcendence of the Human Condition" },
-    "//": "4 Magus spells",
+    "//": "4 Technomancer spells",
     "description": "The Human is the only creature that seeks to improve himself.  This study examines different spells that can heighten various senses temporarily, in hopes to discover a more permanent solution.",
     "weight": "1300 g",
     "volume": "2500 ml",
@@ -760,7 +760,15 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "yellow",
-    "use_action": { "type": "learn_spell", "spells": [ "cats_grace", "ogres_strength", "foxs_cunning", "eagles_sight" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "technomancer_dexterity_buff_spell",
+        "technomancer_strength_buff_spell",
+        "technomancer_intelligence_buff_spell",
+        "technomancer_perception_buff_spell"
+      ]
+    }
   },
   {
     "id": "magic_movement_book",

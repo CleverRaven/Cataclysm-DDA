@@ -898,10 +898,6 @@
       { "item": "spell_scroll_magus_ranged_increase", "prob": 35 },
       { "item": "spell_scroll_magus_push_nearby_enemies_back", "prob": 50 },
       { "item": "spell_scroll_magus_slow", "prob": 40 },
-      { "item": "spell_scroll_cats_grace", "prob": 35 },
-      { "item": "spell_scroll_eagles_sight", "prob": 35 },
-      { "item": "spell_scroll_ogres_strength", "prob": 35 },
-      { "item": "spell_scroll_foxs_cunning", "prob": 35 },
       { "item": "spell_scroll_magus_teleport_mark", "prob": 25 }
     ]
   },
@@ -987,7 +983,11 @@
       { "item": "spell_scroll_mirror_image", "prob": 15 },
       { "item": "spell_scroll_technomancer_recharge_vehicle", "prob": 25 },
       { "item": "spell_scroll_technomancer_create_ups_connection", "prob": 20 },
-      { "item": "spell_scroll_technomancer_conjure_ups", "prob": 30 }
+      { "item": "spell_scroll_technomancer_conjure_ups", "prob": 30 },
+      { "item": "spell_scroll_technomancer_dexterity_buff_spell", "prob": 35 },
+      { "item": "spell_scroll_technomancer_perception_buff_spell", "prob": 35 },
+      { "item": "spell_scroll_technomancer_strength_buff_spell", "prob": 35 },
+      { "item": "spell_scroll_technomancer_intelligence_buff_spell", "prob": 35 }
     ]
   },
   {
@@ -2349,7 +2349,7 @@
     "id": "magus_spellbooks_unrestricted_tier_1",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "wizard_utility", "prob": 30 }, { "item": "stat_up_spellbook", "prob": 30 } ]
+    "entries": [ { "item": "wizard_utility", "prob": 30 } ]
   },
   {
     "id": "magus_spellbooks_restricted_tier_1",
@@ -2581,7 +2581,7 @@
     "id": "technomancer_spellbooks_unrestricted_tier_1",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 30 } ]
+    "entries": [ { "item": "stat_up_spellbook", "prob": 30 } ]
   },
   {
     "id": "technomancer_spellbooks_restricted_tier_1",
