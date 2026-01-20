@@ -535,7 +535,7 @@ static bool get_liquid_destination( const liquid_wrapper &source, liquid_dest_op
     actions.emplace_back( [&]() {
         // From infinite source to the ground somewhere else. The target has
         // infinite space and the liquid can not be used from there anyway.
-        if( !!source.as_infinite_terrain && source.get_item()->has_infinite_charges() ) {
+        if( source.type == liquid_source_type::INFINITE_MAP && source.get_item()->has_infinite_charges() ) {
             add_msg( m_info, _( "Clearing out the %s would take forever." ),
                      here.name( liquid_pos ) );
             return;
@@ -548,11 +548,12 @@ static bool get_liquid_destination( const liquid_wrapper &source, liquid_dest_op
             return;
         }
         target.pos = *target_pos_;
-
+        /* no reason to check this?
         if( liquid_pos == target.pos ) {
             add_msg( m_info, _( "That's where you took it from!" ) );
             return;
         }
+        */
         if( !here.can_put_items_ter_furn( target.pos ) ) {
             add_msg( m_info, _( "You can't pour there!" ) );
             return;

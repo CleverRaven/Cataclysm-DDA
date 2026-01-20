@@ -809,15 +809,8 @@ void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
 
     for( auto iter = contents.begin(); iter != contents.end(); ) {
         if( iter->made_of( phase_id::LIQUID ) ) {
-            while( iter->charges > 0 &&
-                   liquid_handler::handle_liquid( liquid_wrapper( item_location( guy, &*iter ) ), std::nullopt, 1 ) ) {
-                // query until completely handled or explicitly canceled
-            }
-            if( iter->charges == 0 ) {
-                iter = contents.erase( iter );
-            } else {
-                return;
-            }
+            liquid_handler::handle_liquid( liquid_wrapper( item_location( guy, &*iter ) ), std::nullopt, 1 );
+            iter++; // liquid handling takes care of source liquid
         } else {
             item i_copy( *iter );
             guy.i_add_or_drop( i_copy, 1, avoid, &*iter );

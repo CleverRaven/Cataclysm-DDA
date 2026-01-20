@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "cached_options.h"
 #include "cata_catch.h"
@@ -161,16 +162,16 @@ class test_scenario
         }
 };
 
-void unseal_items_containing( contents_change_handler &handler, item_location &root,
+void unload_items_containing( Character &player_character, item_location &root,
                               const std::set<itype_id> &types )
 {
     for( item *it : root->all_items_top( pocket_type::CONTAINER ) ) {
         if( it ) {
             item_location content( root, it );
             if( types.count( it->typeId() ) ) {
-                handler.unseal_pocket_containing( content );
+                unload_activity_actor::unload( player_character, content );
             }
-            unseal_items_containing( handler, content, types );
+            unload_items_containing( player_character, content, types );
         }
     }
 }
@@ -491,8 +492,7 @@ void test_scenario::run()
     INFO( player_action_str );
 
     contents_change_handler handler;
-    // TODO replace with actual activities
-    unseal_items_containing( handler, it_loc,
+    unload_items_containing( guy, it_loc,
                              std::set<itype_id> { itype_test_liquid_1ml, itype_test_solid_1ml } );
     handler.handle_by( guy );
 
