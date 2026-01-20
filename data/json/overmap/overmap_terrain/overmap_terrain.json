@@ -110,6 +110,34 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "ruined_tower_highlands_ground",
+    "name": "ruined tower",
+    "sym": "T",
+    "color": "c_blue",
+    "looks_like": "lake_retreat_ground",
+    "see_cost": "high",
+    "vision_levels": "isolated_tower",
+    "travel_cost_type": "structure"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "ruined_tower_highlands_z1",
+      "ruined_tower_highlands_z2",
+      "ruined_tower_highlands_z3",
+      "ruined_tower_highlands_z4",
+      "ruined_tower_highlands_z5"
+    ],
+    "name": "ruined tower",
+    "sym": "T",
+    "color": "blue",
+    "looks_like": "lake_retreat_z1",
+    "see_cost": "all_clear",
+    "vision_levels": "isolated_tower",
+    "travel_cost_type": "roof"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "boat_rental", "boat_rental_1", "boat_rental_2" ],
     "name": "boat rental",
     "sym": "#",
