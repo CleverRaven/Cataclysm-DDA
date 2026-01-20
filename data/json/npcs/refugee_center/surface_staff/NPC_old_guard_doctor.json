@@ -131,16 +131,10 @@
     "value": 50000,
     "item": "software_lab_data",
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "microlab_generic_surface",
-        "om_special": "4x4_microlab_surface",
-        "reveal_radius": 3,
-        "z": -2,
-        "cant_see": true
-      },
+      "assign_mission_target": { "om_terrain": "microlab_generic_surface", "om_special": "4x4_microlab_surface", "reveal_radius": 3, "cant_see": true },
       "update_mapgen": [
         {
-          "om_terrain": "microlab_generic",
+          "om_terrain": "microlab_generic_surface_connector",
           "place_nested": [ { "chunks": [ "mission_science_rep_2_computer_mapgen" ], "x": 0, "y": 0 } ]
         }
       ],
