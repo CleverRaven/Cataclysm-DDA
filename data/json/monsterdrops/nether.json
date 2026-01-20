@@ -46,5 +46,18 @@
       { "item": "etched_skull", "count": [ 0, 1 ], "prob": 4 },
       { "item": "skewer_bone", "count": [ 0, 5 ], "prob": 10 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nether_crowned_drops",
+    "entries": [
+      { "item": "stone_chisel", "count": [ 0, 1 ], "prob": 20, "damage": [ 0, 2 ] },
+      { "item": "stone_chopper", "count": [ 0, 1 ], "prob": 20, "damage": [ 0, 2 ] },
+      { "item": "hand_axe", "count": [ 0, 1 ], "prob": 20, "damage": [ 0, 2 ] },
+      { "item": "stomach_sealed", "count": [ 0, 1 ], "prob": 20, "damage": [ 0, 1 ] },
+      { "item": "large_stomach_sealed", "count": [ 0, 1 ], "prob": 10, "damage": [ 0, 1 ] },
+      { "item": "coat_gut", "count": [ 0, 1 ], "prob": 5, "damage": [ 0, 2 ] }
+    ]
   }
 ]

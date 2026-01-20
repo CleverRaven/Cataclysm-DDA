@@ -1786,6 +1786,22 @@
     "display_field": true
   },
   {
+    "id": "fd_crowned_pain",
+    "type": "field_type",
+    "priority": -1,
+    "linear_half_life": true,
+    "half_life": "2 seconds",
+    "intensity_levels": [
+      {
+        "name": " ",
+        "//": "It's supposed to be invisible but if I left it without a name the game would complain.  If this is still here when this guy ships I didn't find another workaround.",
+        "sym": "&",
+        "concentration": 1,
+        "effects": [ { "effect_id": "crowned_speaking", "intensity": 1, "min_duration": "10 seconds", "max_duration": "20 seconds" } ]
+      }
+    ]
+  },
+  {
     "id": "fd_migo_atmosphere",
     "type": "field_type",
     "intensity_levels": [

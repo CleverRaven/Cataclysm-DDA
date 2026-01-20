@@ -475,5 +475,31 @@
     "material": [ "gold" ],
     "weight": "385 g",
     "volume": "20 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "crowned_monolith",
+    "color": "gray",
+    "symbol": "@",
+    "name": { "str": "crowned one's head", "str_pl": "crowned one heads" },
+    "category": "other",
+    "price_postapoc": "0 cent",
+    "description": "A vaguely pyramidal monolith of metallic stone that was once the head of some abominable creature.  Its completely solid, with no indication it was attached to a living thing, and no clue as to how it functioned.",
+    "material": [ "stone" ],
+    "weight": "24000 g",
+    "volume": "20000 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "crowned_organ",
+    "color": "white",
+    "symbol": ",",
+    "name": { "str": "wiry peritoneum" },
+    "category": "other",
+    "price_postapoc": "0 cent",
+    "description": "Some unidentified internal tissue composed of fibrous metallic wires and stalks.  It appears inorganic, but naturally formed.",
+    "material": [ "platinum" ],
+    "weight": "45 g",
+    "volume": "50 ml"
   }
 ]
