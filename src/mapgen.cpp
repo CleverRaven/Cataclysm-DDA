@@ -71,6 +71,7 @@
 #include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
+#include "monster.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "omdata.h"
@@ -144,6 +145,10 @@ static const item_group_id Item_spawn_data_guns_rare( "guns_rare" );
 static const item_group_id Item_spawn_data_lab_dorm( "lab_dorm" );
 static const item_group_id Item_spawn_data_mut_lab( "mut_lab" );
 static const item_group_id Item_spawn_data_teleport( "teleport" );
+
+static const efftype_id effect_aquatic_frozen( "aquatic_frozen" );
+
+static const mon_flag_id mon_flag_AQUATIC( "AQUATIC" );
 
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_ash( "ash" );
@@ -6296,6 +6301,42 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
 
     const ter_str_id chosen = apply_phase_thresholds( cur_ter, cur_id );
     if( chosen != ter_t_pseudo_phase && chosen != cur_id ) {
+        // Freeze aquatic creatures when water freezes.
+        // This ensures water-based life transitions gracefully when water freezes or changes phase.
+        Creature *creature = get_creature_tracker().creature_at( abs_p, true );
+        if( creature && !creature->is_avatar() ) {
+            // Check if creature is aquatic and water is freezing
+            monster *mon = dynamic_cast<monster *>( creature );
+            if( mon && ( mon->has_flag( mon_flag_AQUATIC ) ) ) {
+                // Check if we're transitioning from liquid to non-liquid (freezing)
+                bool is_freezing = cur_ter.has_flag( ter_furn_flag::TFLAG_LIQUID ) &&
+                                 !chosen.obj().has_flag( ter_furn_flag::TFLAG_LIQUID );
+                bool is_thawing = !cur_ter.has_flag( ter_furn_flag::TFLAG_LIQUID ) &&
+                                   chosen.obj().has_flag( ter_furn_flag::TFLAG_LIQUID );
+                if( is_freezing ) {
+                    // Try to move aquatic creature to lower level before freezing
+                    bool escaped = false;
+                    tripoint_bub_ms down_pos = p;
+                    down_pos.z() -= 1;
+                    const ter_id down_ter = ter( down_pos );
+                    
+                    if( down_ter.obj().has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
+                        // Attempt to move creature down to water in lower level
+                        mon->move_to( down_pos );
+                        escaped = true;
+                    }
+                    
+                    // If creature couldn't escape to lower water, freeze it
+                    if( !escaped ) {
+                        mon->add_effect( effect_aquatic_frozen, 0_turns, true );
+                    }
+                } else if( is_thawing && mon->has_effect( effect_aquatic_frozen ) ) {
+                    // Remove frozen effect if creature thaws
+                    mon->remove_effect( effect_aquatic_frozen );
+                }
+            }
+        }
+
         // Record original terrain so it can be reverted later.
         ter_set( p, chosen );
         set_original_terrain_at( p, cur_id.id() );
