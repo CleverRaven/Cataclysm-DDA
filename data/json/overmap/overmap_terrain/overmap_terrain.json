@@ -110,6 +110,17 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "ruined_tower_highlands_basement",
+    "sym": "T",
+    "color": "c_blue",
+    "see_cost": "high",
+    "flags": [ "KNOWN_UP" ],
+    "looks_like": "magic_academy_basement",
+    "vision_levels": "underground_dirt",
+    "travel_cost_type": "basement"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "ruined_tower_highlands_ground",
     "name": "ruined tower",
     "sym": "T",

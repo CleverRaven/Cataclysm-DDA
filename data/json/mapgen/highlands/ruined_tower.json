@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": "ruined_tower_basement",
+    "om_terrain": "ruined_tower_highlands_basement",
     "object": {
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -35,14 +35,18 @@
         { "item": "wooden_barrel_rotten", "x": 11, "y": 8, "chance": 100 },
         { "item": "wooden_barrel_rotten", "x": 12, "y": 8, "chance": 100 },
         { "item": "wooden_barrel_rotten", "x": 9, "y": 9, "chance": 100 },
-        { "item": "wooden_barrel_rotten", "x": 10, "y": 9, "chance": 100 }
+        { "item": "wooden_barrel_rotten", "x": 10, "y": 9, "chance": 100 },
+        { "item": "wooden_barrel_rotten", "x": 15, "y": 10, "chance": 100 },
+        { "item": "wooden_barrel_rotten", "x": 15, "y": 11, "chance": 100 },
+        { "item": "wooden_barrel_rotten", "x": 15, "y": 12, "chance": 100 },
+        { "item": "wooden_barrel_rotten", "x": 15, "y": 13, "chance": 100 }
       ],
       "place_fields": [ { "field": "fd_dust", "x": [ 8, 15 ], "y": [ 8, 15 ], "repeat": [ 10, 20 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": "ruined_tower_ground",
+    "om_terrain": "ruined_tower_highlands_ground",
     "object": {
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -71,7 +75,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
       "terrain": {
-        ",": [ [ "t_region_groundcover", 50 ], [ "t_region_groundcover_forest", 5 ], "t_region_shrub", "t_region_tree" ],
+        ",": "t_highland_groundcover",
         " ": [ [ "t_floor_rotted", 7 ], [ "t_open_air", 1 ] ],
         "<": "t_stairs_up",
         ">": "t_stairs_down",
@@ -82,7 +86,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": "ruined_tower_z1",
+    "om_terrain": "ruined_tower_highlands_z1",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -123,7 +127,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": "ruined_tower_z2",
+    "om_terrain": "ruined_tower_highlands_z2",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -164,7 +168,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": "ruined_tower_z3",
+    "om_terrain": "ruined_tower_highlands_z3",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -205,7 +209,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": "ruined_tower_z4",
+    "om_terrain": "ruined_tower_highlands_z4",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -246,7 +250,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": "ruined_tower_z5",
+    "om_terrain": "ruined_tower_highlands_z5",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
