@@ -10,6 +10,51 @@
   },
   {
     "type": "terrain",
+    "id": "t_string_true_void",
+    "name": "nothing",
+    "description": "There's an otherworldly nothing there - it somehow feels like a black wall at the front of your senses.",
+    "symbol": " ",
+    "color": "black",
+    "flags": [ "WALL" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_string_point_small",
+    "name": "nothing",
+    "description": "A speck in the darkness.",
+    "symbol": ".",
+    "color": "white",
+    "flags": [ "TRANSPARENT", "WALL" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_string_point_big",
+    "name": "nothing",
+    "description": "A speck in the darkness.",
+    "symbol": "*",
+    "color": "white",
+    "flags": [ "TRANSPARENT", "WALL" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_string_point_small_gray",
+    "name": "nothing",
+    "description": "A speck in the darkness.",
+    "symbol": ".",
+    "color": "light_gray",
+    "flags": [ "TRANSPARENT", "WALL" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_string_point_big_gray",
+    "name": "nothing",
+    "description": "A speck in the darkness.",
+    "symbol": "*",
+    "color": "light_gray",
+    "flags": [ "TRANSPARENT", "WALL" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_string_x",
     "name": "impossibly thin magenta line",
     "description": "You percieve a magenta line here.  It seems impossible thin - you're not even sure it has width in any meaningful sense.  You cannot tell where it is in relation to your height - confusingly, it seems to fill your entire field of vision.",
