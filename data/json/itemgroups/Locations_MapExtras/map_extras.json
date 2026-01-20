@@ -118,13 +118,25 @@
       {
         "distribution": [
           { "item": "weed", "entry-wrapper": "bag_zipper", "container-item": "null", "count": [ 20, 30 ], "prob": 10 },
-          { "item": "coke", "entry-wrapper": "bag_zipper", "container-item": "null", "count": [ 10, 20 ], "prob": 40 },
-          { "item": "meth", "entry-wrapper": "bag_zipper", "container-item": "null", "count": [ 8, 14 ], "prob": 30 },
+          {
+            "item": "coke",
+            "entry-wrapper": "bag_zipper",
+            "container-item": "null",
+            "count": [ 100, 200 ],
+            "prob": 40
+          },
+          {
+            "item": "meth",
+            "entry-wrapper": "bag_zipper",
+            "container-item": "null",
+            "count": [ 160, 280 ],
+            "prob": 30
+          },
           {
             "item": "heroin",
             "entry-wrapper": "bag_zipper",
             "container-item": "null",
-            "count": [ 6, 12 ],
+            "count": [ 300, 600 ],
             "prob": 20
           }
         ],
