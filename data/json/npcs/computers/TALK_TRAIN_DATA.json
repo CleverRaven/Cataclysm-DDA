@@ -13,7 +13,7 @@
       {
         "text": "Download Train Data",
         "topic": "COMP_TRAIN_DATA_DOWNLOAD",
-        "condition": { "u_has_item": "usb_drive_nano" }
+        "condition": { "and": [ { "u_has_item": "usb_drive_nano" }, { "u_has_mission": "MISSION_SCIENCE_REP_5" } ] }
       },
       { "text": "Power off.", "topic": "TALK_DONE" }
     ]
