@@ -1,0 +1,59 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DEFAULT_REGION",
+    "stype": "string_input",
+    "value": "nulland"
+  },
+  {
+    "id": "nulland",
+    "copy-from": "default",
+    "type": "region_settings",
+    "rivers": null,
+    "lakes": null,
+    "ocean": null,
+    "ravines": null,
+    "forests": null,
+    "forest_composition": "no_forests",
+    "forest_trails": null,
+    "map_extras": "no_map_extras",
+    "highways": null,
+    "cities": "nulland_city",
+    "urbanity_increase": [ 0, 0, 0, 0 ],
+    "default_oter": [
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "field",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock"
+    ]
+  },
+  {
+    "id": "nulland_city",
+    "copy-from": "default",
+    "type": "region_settings_city",
+    "shop_radius": 0,
+    "shop_sigma": 0,
+    "park_radius": 0,
+    "park_sigma": 0,
+    "houses": [ [ "house_01", 1 ] ],
+    "parks": [  ],
+    "shops": [  ]
+  }
+]

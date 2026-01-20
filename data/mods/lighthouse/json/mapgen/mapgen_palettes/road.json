@@ -1,0 +1,41 @@
+[
+  {
+    "type": "palette",
+    "id": "road_palette",
+    "//": "mapgendata::first_predecessor doesn't work perfectly so use 9 to overwrite other nests",
+    "terrain": {
+      ".": "t_railroad_rubble",
+      "_": "t_sidewalk",
+      "*": "t_railroad_track",
+      "│": "t_zebra",
+      "─": "t_zebra",
+      "c": "t_concrete",
+      "b": "t_concrete",
+      "x": "t_concrete",
+      "n": "t_concrete",
+      "g": "t_region_grass",
+      "f": "t_region_grass",
+      "#": "t_concrete_wall",
+      "~": "t_water_sh",
+      "s": "t_region_shrub_decorative",
+      "6": "t_region_tree",
+      "9": "t_region_groundcover_urban"
+    },
+    "furniture": {
+      "Y": "f_street_light",
+      "T": "f_traffic_light",
+      "S": "f_sign_stop",
+      "f": [ [ "f_region_flower_decorative", 2 ], [ "f_null", 1 ] ],
+      "b": "f_bench",
+      "x": "f_trashcan",
+      "n": "f_bike_rack"
+    },
+    "signs": { "@": { "signage": "<statue_plaque>", "furniture": "f_statue" } }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "field",
+    "copy-from": "generic_open_land",
+    "flags": [ "NO_ROTATE" ]
+  }
+]
