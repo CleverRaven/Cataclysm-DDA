@@ -11731,7 +11731,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                         auto cleanup_iter = picked_up_stuff.begin();
                         while( cleanup_iter != picked_up_stuff.end() ) {
                             if( !cleanup_iter->get_item() ) {
-                                cleanup_iter = picked_up_stuff.erase( iter );
+                                cleanup_iter = picked_up_stuff.erase( cleanup_iter );
                             } else {
                                 cleanup_iter++;
                             }
