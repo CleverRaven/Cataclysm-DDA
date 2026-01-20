@@ -280,13 +280,28 @@
     "id": "EOC_MP3_REVERBERATION",
     "effect": [
       {
-        "if": { "math": [ "has_var(u_mp3_reverberation_timer)" ] },
+        "if": { "math": [ "has_var(n_mp3_timer)" ] },
         "then": {
-          "if": { "math": [ "u_mp3_reverberation_timer < 0" ] },
-          "then": [ { "run_eocs": [ "EOC_MP3_REVERBERATION_LOCATOR" ] }, { "math": [ "u_mp3_reverberation_timer = rand(20)+20" ] } ],
-          "else": [ { "math": [ "u_mp3_reverberation_timer -= 1" ] } ]
+          "if": { "math": [ "n_mp3_timer < 0" ] },
+          "then": [ { "run_eocs": [ "EOC_MP3_REVERBERATION_PING" ] }, { "math": [ "n_mp3_timer = rand(20)+20" ] } ],
+          "else": [ { "math": [ "n_mp3_timer -= 1" ] } ]
         },
-        "else": { "math": [ "u_mp3_reverberation_timer = rand(20)+20" ] }
+        "else": { "math": [ "n_mp3_timer = rand(20)+20" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MP3_REVERBERATION_PING",
+    "effect": [
+      {
+        "if": "has_alpha",
+        "//": "only do the following if MP3 is in player's inventory.",
+        "then": {
+          "if": { "math": [ "n_cooldown < time('now')" ] },
+          "then": { "run_eocs": [ "EOC_MP3_REVERBERATION_LOCATOR" ] },
+          "else": { "u_message": "<mp3_reverberation_locator_cooldown>", "type": "info", "snippet": true }
+        }
       }
     ]
   },
@@ -304,8 +319,9 @@
           ]
         },
         "then": [
-          { "u_message": "Its song drowns out the world.", "popup": true, "popup_w_interrupt_query": true },
+          { "u_message": "Its song drowns out the world.", "type": "info", "popup": true, "popup_w_interrupt_query": true },
           { "transform_item": "mp3_reverberation", "active": false },
+          { "math": [ "n_cooldown = time('now')+time('1 d')+( time('8 h')*rand(4) )" ] },
           { "run_eocs": [ "EOC_REVERBERATION_ENTER" ], "time_in_future": "2 seconds" }
         ],
         "else": {
@@ -320,7 +336,10 @@
               { "u_at_om_location": "radio_tower_odd" }
             ]
           },
-          "then": { "u_message": "Its song is indescribable." },
+          "then": [
+            { "u_message": "<mp3_reverberation_locator_almost_there>", "type": "info", "snippet": true },
+            { "u_add_morale": "morale_music", "bonus": 60, "max_bonus": 40 }
+          ],
           "else": {
             "if": {
               "or": [
@@ -331,8 +350,14 @@
                 { "u_near_om_location": "radio_tower_reverberation_mp3", "range": 8 }
               ]
             },
-            "then": { "u_message": "Its song is energetic, joyful." },
-            "else": { "u_message": "Its song is quiet, reserved." }
+            "then": [
+              { "u_message": "<mp3_reverberation_locator_close>", "type": "info", "snippet": true },
+              { "u_add_morale": "morale_music", "bonus": 40, "max_bonus": 20 }
+            ],
+            "else": [
+              { "u_message": "<music_description>", "type": "info", "snippet": true },
+              { "u_add_morale": "morale_music", "bonus": 20, "max_bonus": 20 }
+            ]
           }
         }
       }
