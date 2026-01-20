@@ -126,11 +126,18 @@
     "id": "MISSION_SCIENCE_REP_2",
     "type": "mission_definition",
     "name": { "str": "Download Workstation Data" },
-    "goal": "MGOAL_FIND_ANY_ITEM",
+    "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
-    "item": "software_lab_data",
-    "start": "create_lab_console",
+    "item": "magic_8_ball",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "lab_subway_vent_shaft_surface",
+        "om_special": "4x4_microlab_vent_shaft",
+        "reveal_radius": 3,
+        "cant_see": true
+      }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "followup": "MISSION_SCIENCE_REP_3",
@@ -151,11 +158,18 @@
     "id": "MISSION_SCIENCE_REP_3",
     "type": "mission_definition",
     "name": { "str": "Download Encryption Codes" },
-    "goal": "MGOAL_FIND_ANY_ITEM",
+    "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
-    "item": "software_encryption_codes",
-    "start": "create_hidden_lab_console",
+    "item": "magic_8_ball",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "lab_subway_vent_shaft_surface",
+        "om_special": "4x4_microlab_vent_shaft",
+        "reveal_radius": 3,
+        "cant_see": true
+      }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "followup": "MISSION_SCIENCE_REP_4",
@@ -175,11 +189,18 @@
     "id": "MISSION_SCIENCE_REP_4",
     "type": "mission_definition",
     "name": { "str": "Download Research Archives" },
-    "goal": "MGOAL_FIND_ANY_ITEM",
+    "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
-    "item": "software_archived_data",
-    "start": "create_ice_lab_console",
+    "item": "magic_8_ball",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "lab_subway_vent_shaft_surface",
+        "om_special": "4x4_microlab_vent_shaft",
+        "reveal_radius": 3,
+        "cant_see": true
+      }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "followup": "MISSION_SCIENCE_REP_5",
