@@ -456,7 +456,7 @@
           "group": "GROUP_PREPPER_HOUSE",
           "x": [ 4, 21 ],
           "y": [ 2, 18 ],
-          "pack_size": [ 1, 4 ],
+          "pack_size": [ 2, 8 ],
           "spawn_data": { "patrol": [ { "x": [ 4, 20 ], "y": [ 3, 15 ] } ] }
         }
       ],
@@ -536,7 +536,7 @@
           { "item": "wide_headlight_reinforced", "amount": [ 1, 5 ], "chance": 20, "repeat": [ 1, 4 ] }
         ]
       },
-      "place_vehicles": [ { "vehicle": "garage", "chance": 95, "rotation": 90, "x": 8, "y": [ 9, 10 ] } ]
+      "place_vehicles": [ { "vehicle": "parking_garage", "chance": 100, "rotation": 90, "x": 8, "y": [ 9, 10 ] } ]
     }
   },
   {
