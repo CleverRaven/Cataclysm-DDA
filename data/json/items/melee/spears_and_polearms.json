@@ -291,7 +291,7 @@
     "color": "light_gray",
     "symbol": "/",
     "looks_like": "spear_steel",
-    "material": [ "steel", "wood" ],
+    "material": [ { "type": "wood", "portion": 95 }, { "type": "mc_steel", "portion": 5 } ],
     "techniques": [ "WBLOCK_1", "PENETRATE" ],
     "volume": "1350 ml",
     "longest_side": "180 cm",
@@ -303,6 +303,17 @@
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 4, "stab": 24 }
+  },
+  {
+    "id": "crude_goedendag",
+    "copy-from": "spear_steel_crude",
+    "relative": { "melee_damage": { "bash": 18, "stab": -14 }, "longest_side": "-30 cm" },
+    "techniques": [ "WBLOCK_1", "BRUTAL" ],
+    "type": "ITEM",
+    "name": { "str": "crude goedendag" },
+    "description": "A stout wooden pole, slightly thicker at the end, with a metal cap and a spike protruding straight up from the top.",
+    "weapon_category": [ "GREAT_HAMMERS", "SPEARS" ],
+    "faults": [ { "fault_group": "handle_long" } ]
   },
   {
     "type": "ITEM",
