@@ -73,6 +73,7 @@
 #include "mission.h"
 #include "monster.h"
 #include "mongroup.h"
+#include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
 #include "options.h"
@@ -107,8 +108,11 @@
 #include "weighted_list.h"
 #include "magic_teleporter_list.h"
 
+static const efftype_id effect_aquatic_frozen( "aquatic_frozen" );
+
 static const field_type_str_id field_fd_blood( "fd_blood" );
 static const field_type_str_id field_fd_fire( "fd_fire" );
+static const field_type_str_id field_fd_ice( "fd_ice" );
 
 static const furn_str_id furn_f_ash( "f_ash" );
 static const furn_str_id furn_f_bed( "f_bed" );
@@ -145,10 +149,6 @@ static const item_group_id Item_spawn_data_guns_rare( "guns_rare" );
 static const item_group_id Item_spawn_data_lab_dorm( "lab_dorm" );
 static const item_group_id Item_spawn_data_mut_lab( "mut_lab" );
 static const item_group_id Item_spawn_data_teleport( "teleport" );
-
-static const efftype_id effect_aquatic_frozen( "aquatic_frozen" );
-
-static const mon_flag_id mon_flag_AQUATIC( "AQUATIC" );
 
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_ash( "ash" );
@@ -1000,6 +1000,16 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                 if( omt->has_flag( oter_flags::pp_generate_ruined ) && !omt->has_flag( oter_flags::road ) ) {
                     GENERATOR_aftershock_ruin( *this, omt_point );
                 }
+            }
+        }
+    }
+
+    const weather_generator &wgen = get_weather().get_cur_weather_gen();
+    if( abs_sub.z() >= 0 ) {
+        for( int i = 0; i < SEEX * 2; i++ ) {
+            for( int j = 0; j < SEEY * 2; j++ ) {
+                const tripoint_bub_ms p( i, j, abs_sub.z() );
+                temp_based_phase_change_at( p, wgen );
             }
         }
     }
@@ -6301,6 +6311,13 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
 
     const ter_str_id chosen = apply_phase_thresholds( cur_ter, cur_id );
     if( chosen != ter_t_pseudo_phase && chosen != cur_id ) {
+        
+
+        bool is_freezing = cur_ter.has_flag( ter_furn_flag::TFLAG_LIQUID ) &&
+                         !chosen.obj().has_flag( ter_furn_flag::TFLAG_LIQUID );
+        bool is_thawing = !cur_ter.has_flag( ter_furn_flag::TFLAG_LIQUID ) &&
+                           chosen.obj().has_flag( ter_furn_flag::TFLAG_LIQUID );
+        
         // Freeze aquatic creatures when water freezes.
         // This ensures water-based life transitions gracefully when water freezes or changes phase.
         Creature *creature = get_creature_tracker().creature_at( abs_p, true );
@@ -6309,10 +6326,6 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
             monster *mon = dynamic_cast<monster *>( creature );
             if( mon && ( mon->has_flag( mon_flag_AQUATIC ) ) ) {
                 // Check if we're transitioning from liquid to non-liquid (freezing)
-                bool is_freezing = cur_ter.has_flag( ter_furn_flag::TFLAG_LIQUID ) &&
-                                 !chosen.obj().has_flag( ter_furn_flag::TFLAG_LIQUID );
-                bool is_thawing = !cur_ter.has_flag( ter_furn_flag::TFLAG_LIQUID ) &&
-                                   chosen.obj().has_flag( ter_furn_flag::TFLAG_LIQUID );
                 if( is_freezing ) {
                     // Try to move aquatic creature to lower level before freezing
                     bool escaped = false;
@@ -6336,10 +6349,23 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
                 }
             }
         }
+        
+        
+        // Preserve plant
+        furn_id saved_furn = furn( p );
+        bool had_plant = false;
+        if( saved_furn != furn_str_id::NULL_ID() && saved_furn.obj().has_flag( ter_furn_flag::TFLAG_PLANT ) ) {
+            had_plant = true;
+        }
 
         // Record original terrain so it can be reverted later.
         ter_set( p, chosen );
         set_original_terrain_at( p, cur_id.id() );
+
+        // Restore plant
+        if( had_plant ) {
+            furn_set( p, saved_furn );
+        }
     }
 }
 
@@ -6363,16 +6389,6 @@ void map::draw_map( mapgendata &dat )
     }
 
     resolve_regional_terrain_and_furniture( dat );
-
-    const weather_generator &wgen = get_weather().get_cur_weather_gen();
-    if( abs_sub.z() >= 0 ) {
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                const tripoint_bub_ms p( i, j, abs_sub.z() );
-                temp_based_phase_change_at( p, wgen );
-            }
-        }
-    }
     // End of draw_map
 }
 
