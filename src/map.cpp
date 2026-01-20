@@ -4361,6 +4361,19 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
         // If we have original terrain saved and the current terrain signals PHASE_BACK,
         const ter_id orig = get_original_terrain_at( p );
         ter_set( p, orig );
+        // Unfreeze aquatic creatures if restored terrain is liquid
+        if( orig.obj().has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
+            Creature *creature = get_creature_tracker().creature_at( get_abs( p ), true );
+            if( creature && !creature->is_avatar() ) {
+                monster *mon = dynamic_cast<monster *>( creature );
+                if( mon ) {
+                    static const efftype_id effect_aquatic_frozen( "aquatic_frozen" );
+                    if( mon->has_effect( effect_aquatic_frozen ) ) {
+                        mon->remove_effect( effect_aquatic_frozen );
+                    }
+                }
+            }
+        }
     } else if( params.bashing_from_above && ter_bash.ter_set_bashed_from_above ) {
         // If this terrain is being bashed from above and this terrain
         // has a valid post-destroy bashed-from-above terrain, set it
