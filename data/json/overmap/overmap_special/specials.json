@@ -862,6 +862,23 @@
   },
   {
     "type": "overmap_special",
+    "id": "Ruined Tower Highlands",
+    "overmaps": [
+      { "point": [ 0, 0, -1 ], "overmap": "ruined_tower_highlands_basement_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "ruined_tower_highlands_ground_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "ruined_tower_highlands_z1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "ruined_tower_highlands_z2_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "ruined_tower_highlands_z3_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "ruined_tower_highlands_z4_north" },
+      { "point": [ 0, 0, 5 ], "overmap": "ruined_tower_highlands_z5_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, 4 ],
+    "flags": [ "CLASSIC", "WILDERNESS", "HIGHLANDS" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Standing stones",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "standing_stones" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "forest_trail", "connection": "forest_trail" } ],
