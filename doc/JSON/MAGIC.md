@@ -931,7 +931,7 @@ From now, EOC variables can be used inside enchantments, including predefined (s
 ```jsonc
   {
     "type": "enchantment",
-    "id": "MON_NEARBY_STR",
+    "id": "STR+DEX+1",
     "has": "WIELD",
     "condition": "ALWAYS",
     "values": [ { "value": "STRENGTH", "add": { "math": [ "u_val('dexterity') + 1" ] } } ]

@@ -20,6 +20,7 @@
     ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "flags": [ "EXPLOSIVE" ],
     "components": [
       [ [ "paper", 5 ], [ "rolling_paper", 32 ] ],
       [ [ "chem_sulphuric_acid", 2 ] ],
@@ -64,6 +65,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
+    "flags": [ "EXPLOSIVE" ],
     "components": [
       [ [ "thread", 10 ] ],
       [ [ "paper", 1 ], [ "rolling_paper", 6 ] ],
@@ -78,6 +80,7 @@
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
     "time": "3 m",
+    "flags": [ "EXPLOSIVE" ],
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
@@ -193,6 +196,7 @@
     "time": "12 m",
     "reversible": true,
     "autolearn": true,
+    "flags": [ "EXPLOSIVE" ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 1 } ],
     "tools": [
@@ -228,6 +232,7 @@
       [ "adv_chemistry", 3 ],
       [ "textbook_anarch", 3 ]
     ],
+    "flags": [ "EXPLOSIVE" ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "time": "7 m 30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -252,6 +257,7 @@
     "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ], [ "textbook_anarch", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "time": "7 m 30 s",
+    "flags": [ "EXPLOSIVE" ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "using": [ [ "small_gas_canister_case", 1 ] ],
     "components": [
@@ -296,6 +302,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "using": [ [ "military_explosive", 92 ], [ "explosives_casting_standard", 1 ] ],
+    "flags": [ "EXPLOSIVE" ],
     "components": [
       [ [ "delay_fuze", 1 ] ],
       [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
@@ -317,6 +324,7 @@
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "military_explosive", 92 ], [ "explosives_casting_standard", 1 ] ],
+    "flags": [ "EXPLOSIVE" ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "delay_fuze", 1 ] ] ]
   },
@@ -334,6 +342,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "military_explosive", 697 ], [ "explosives_casting_standard", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "flags": [ "EXPLOSIVE" ],
     "components": [
       [ [ "delay_fuze", 1 ] ],
       [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
@@ -354,6 +363,7 @@
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "explosives_casting_standard", 5 ], [ "military_explosive", 10000 ] ],
+    "flags": [ "EXPLOSIVE" ],
     "components": [
       [ [ "delay_fuze", 1 ] ],
       [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
@@ -373,6 +383,7 @@
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "explosives_casting_standard", 10 ], [ "military_explosive", 20000 ] ],
+    "flags": [ "EXPLOSIVE" ],
     "components": [
       [ [ "delay_fuze", 1 ] ],
       [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
@@ -434,6 +445,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "flags": [ "EXPLOSIVE" ],
     "using": [ [ "stable_explosive", 29 ], [ "volatile_explosive", 1 ] ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
@@ -463,6 +475,7 @@
       "allowing it on smaller explosives, but not on the largest like ",
       "the barrel bombs."
     ],
+    "flags": [ "EXPLOSIVE" ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
@@ -480,6 +493,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "stable_explosive", 226 ], [ "volatile_explosive", 6 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "flags": [ "EXPLOSIVE" ],
     "components": [
       [ [ "fuse", 1 ] ],
       [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
@@ -501,6 +515,7 @@
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "stable_explosive", 253 ], [ "volatile_explosive", 6 ] ],
+    "flags": [ "EXPLOSIVE" ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "fuse", 1 ] ], [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ], [ [ "jug_plastic", 1 ] ] ]
   },
@@ -514,6 +529,7 @@
     "difficulty": 3,
     "time": "30 m",
     "reversible": true,
+    "flags": [ "EXPLOSIVE" ],
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "volatile_explosive", 86 ], [ "stable_explosive", 3354 ] ],
@@ -531,6 +547,7 @@
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
+    "flags": [ "EXPLOSIVE" ],
     "using": [ [ "volatile_explosive", 173 ], [ "stable_explosive", 6747 ] ],
     "components": [ [ [ "fuse", 1 ] ], [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ], [ [ "30gal_drum", 1 ] ] ]
   }

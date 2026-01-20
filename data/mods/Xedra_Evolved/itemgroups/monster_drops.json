@@ -647,5 +647,87 @@
       { "group": "underwear", "damage": [ 1, 4 ] },
       { "item": "boots_plate", "damage": [ 1, 4 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "flickering_feral_death_drops",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "knife_large", "variant": "knife_chef", "prob": 50, "damage": [ 0, 3 ] },
+          { "item": "knife_huge", "variant": "knife_butcher", "prob": 50, "damage": [ 0, 3 ] }
+        ]
+      },
+      { "distribution": [ { "group": "default_serial_kiler_clothes", "prob": 50, "damage": [ 1, 4 ] } ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "contains cloth for a feral masked stabber",
+    "id": "default_serial_kiler_clothes",
+    "entries": [
+      { "group": "killer_masks", "damage": [ 1, 4 ] },
+      { "group": "accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 15 },
+      {
+        "distribution": [
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "group": "male_underwear", "prob": 80, "damage": [ 1, 4 ] },
+                  { "item": "union_suit", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "group": "pants_male", "prob": 60, "damage": [ 1, 4 ] },
+              { "group": "shoes", "prob": 45, "damage": [ 1, 4 ] },
+              { "group": "socks_unisex", "damage": [ 1, 4 ], "prob": 50 },
+              { "group": "accesories_personal_mens", "prob": 15, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "collection": [
+              { "group": "female_underwear", "prob": 90, "damage": [ 1, 4 ] },
+              { "group": "shoes", "prob": 15, "damage": [ 1, 4 ] },
+              { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_female", "prob": 100, "damage": [ 1, 4 ] },
+                      {
+                        "collection": [
+                          {
+                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "killer_masks",
+    "//": "masks for killers",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "santa_beard", "prob": 20 },
+      { "item": "mask_hockey", "prob": 20 },
+      { "item": "bondage_mask", "prob": 5 },
+      { "item": "balaclava_skull", "prob": 25 },
+      { "item": "mask_skull", "prob": 20 },
+      { "item": "mask_dust", "variant": "skull_mask_dust", "prob": 20 },
+      { "item": "mask_plague", "prob": 15 },
+      { "item": "pumpkin_mask", "prob": 10 },
+      { "item": "zombie_mask", "prob": 10 }
+    ]
   }
 ]

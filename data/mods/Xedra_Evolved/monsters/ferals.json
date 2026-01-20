@@ -7,7 +7,7 @@
     "default_faction": "science",
     "looks_like": "chud",
     "bodytype": "human",
-    "species": [ "HUMAN" ],
+    "species": [ "FERAL", "HUMAN" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 80,
@@ -88,5 +88,138 @@
       }
     ],
     "death_drops": "feral_agent_p90_death_drops"
+  },
+  {
+    "id": "mon_feral_flickering",
+    "type": "MONSTER",
+    "name": "flickering stabber",
+    "copy-from": "mon_feral_maid_knife",
+    "description": "This masked person is holding a bloody knife but more concerningly seems to flicker in and out of existence anytime you aren't directly looking at it.",
+    "melee_skill": 3,
+    "special_attacks": [ { "id": "flickering_feral_stab" }, [ "BROWSE", 100 ], [ "EAT_FOOD", 100 ] ],
+    "zombify_into": "mon_zombie_monochrome",
+    "extend": { "flags": [ "CLIMBS", "STUN_IMMUNE" ] },
+    "//": "Need to make upgrade group and a death drop group.  Also need higher levels of flickering zombies and for one of those higher levels to haunt the PC after death by creating a possession spell that affects the pc and when they are near other types of zombies the zombies will randomly upgrade into a possessed zombie that will parrot accusations of responsiblity for the zombies death.  'You left me behind to die!' also will have hard to shoot flag.",
+    "death_drops": "flickering_feral_death_drops"
+  },
+  {
+    "id": "mon_feral_whispering",
+    "type": "MONSTER",
+    "name": "whispering stabber",
+    "copy-from": "mon_feral_flickering",
+    "description": "This masked person is holding a bloody knife and skipping phases of their movement, disappearing and reappearing in slightly different positions and poses in implacable progress towards you.",
+    "melee_skill": 5,
+    "special_attacks": [ { "id": "whispering_feral_stab" }, [ "PARROT_AT_DANGER", 100 ] ],
+    "extend": { "flags": [ "HARDTOSHOOT", "NOT_HALLUCINATION" ] },
+    "bleed_rate": 50,
+    "death_function": { "eoc": "EOC_whispering_feral_death" },
+    "//": "Need to make upgrade group and a death drop group.  Also need higher levels of flickering zombies and for one of those higher levels to haunt the PC after death by creating a possession spell that affects the pc and when they are near other types of zombies the zombies will randomly upgrade into a possessed zombie that will parrot accusations of responsiblity for the zombies death.  'You left me behind to die!' also will have hard to shoot flag.",
+    "death_drops": "flickering_feral_death_drops"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_whispering_feral_death",
+    "effect": [
+      {
+        "if": { "math": [ "u_have_killed_whispering_feral == 0" ] },
+        "then": [
+          { "math": [ "u_have_killed_whispering_feral += 1" ] },
+          {
+            "u_message": "As the light leaves the masked feral's eyes it whispers to you 'See you soon'.",
+            "type": "mixed"
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "u_have_killed_whispering_feral == 2" ] },
+        "then": [
+          { "math": [ "u_have_killed_whispering_feral += 1" ] },
+          {
+            "u_message": "The masked feral choking on blood, your can barely make out a whisper 'Catch you next time'",
+            "type": "mixed"
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "u_have_killed_whispering_feral == 3" ] },
+        "then": [
+          { "math": [ "u_have_killed_whispering_feral += 1" ] },
+          {
+            "u_message": "Looking down at the masked feral's corpse you hear from just outside of your sight 'Be afraid, be very afraid'",
+            "type": "mixed"
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "u_have_killed_whispering_feral == 4" ] },
+        "then": [
+          { "math": [ "u_have_killed_whispering_feral += 1" ] },
+          {
+            "u_message": "A radio nearby suddenly clicks on with a very staticky 'Ttttiiimmmmmeeee is on my side, yes it is.'",
+            "type": "mixed"
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "u_have_killed_whispering_feral == 5" ] },
+        "then": [
+          { "math": [ "u_have_killed_whispering_feral += 1" ] },
+          {
+            "u_message": "The masked feral looks down at its wounds and looks at you 'I'm getting real sick of your shit.' Then collapses to the ground dead.",
+            "type": "mixed"
+          }
+        ]
+      },
+      {
+        "if": { "and": [ { "math": [ "u_have_killed_whispering_feral == 6" ] }, { "u_has_trait": "XEDRA_CHRONOMANCER" } ] },
+        "then": [
+          { "math": [ "u_have_killed_whispering_feral += 1" ] },
+          { "u_message": "The masked feral stabs itself in the chest 'Now the *real* fun begins'.", "type": "mixed" },
+          { "u_add_effect": "effect_haunting_echoes" },
+          { "u_lose_effect": "effect_haunting_whispers" }
+        ]
+      },
+      {
+        "if": { "math": [ "u_have_killed_whispering_feral == 6" ] },
+        "then": [
+          { "math": [ "u_have_killed_whispering_feral += 1" ] },
+          {
+            "u_message": "The masked feral stabs itself in the chest 'You're no fun at all'.  Then collapses to the ground dead.",
+            "type": "mixed"
+          },
+          { "u_lose_effect": "effect_haunting_whispers" },
+          { "player_gets_achievement": "achievement_final_boy_girl" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mon__feral_possessing_singularity",
+    "type": "MONSTER",
+    "name": "whispering stabber",
+    "copy-from": "mon_feral_whispering",
+    "description": "This masked person is holding a bloody knife and skipping phases of their movement, dissappearing and reappearing in slightly different positions and poses.  Making implacable progress towards you.",
+    "melee_skill": 7,
+    "special_attacks": [ { "id": "whispering_feral_stab" }, [ "PARROT_AT_DANGER", 100 ] ],
+    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "bleed_rate": 0,
+    "death_function": { "eoc": "EOC_possessing_singularity_death" },
+    "death_drops": "flickering_feral_death_drops"
+  },
+  {
+    "id": "mon_endless_victim",
+    "type": "MONSTER",
+    "name": { "str": "panicked person" },
+    "description": "This hysterical individual has a faint, yet fading, glint of intelligence in their bloodshot eyes.  They sometimes scream in fear and behave clearly irrationally.  This will quite likely cause their demise at the hands of the undead horde rather quickly.",
+    "copy-from": "mon_civilian_panic",
+    "chat_topics": [ "TALK_HORROR_PANIC" ],
+    "special_attacks": [ [ "PARROT_AT_DANGER", 0 ] ],
+    "//": "They are human after all",
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
+    "upgrades": { "half_life": 20, "age_grow": 1, "into_group": "GROUP_HORROR_UPGRADE" },
+    "death_drops": "default_zombie_death_drops",
+    "zombify_into": "mon_endless_victim",
+    "revive_time": 16000,
+    "flags": [ "SEES", "HEARS", "WARM", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "CONVERSATION", "GUILT_HUMAN" ]
   }
 ]
