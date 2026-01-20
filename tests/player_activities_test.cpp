@@ -1965,7 +1965,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     //player_activity( longsalvage_activity_actor() ),
     [] { return player_activity( meditate_activity_actor() ); },
     [] { return player_activity( migration_cancel_activity_actor() ); },
-    [] { return player_activity( milk_activity_actor( 1, 3000, get_avatar().pos_abs(), dest_opt, false ) ); },
+    [] { return player_activity( milk_activity_actor( 1, 30_seconds, get_avatar().pos_abs(), dest_opt, false ) ); },
     [] { return player_activity( mop_activity_actor( 1 ) ); },
     //player_activity( move_furniture_activity_actor( p, false ) ),
     [] { return player_activity( move_items_activity_actor( {}, {}, false, tripoint_rel_ms::north ) ); },

@@ -4420,6 +4420,8 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
         player_will_eat( *consume_location );
     } else if( !consume_item.is_null() ) {
         player_will_eat( consume_item );
+    } else if( !!consume_liquid ) {
+        player_will_eat( *consume_liquid.get_item() );
     } else {
         debugmsg( "Item/location to be consumed should not be null." );
         was_canceled = true;
@@ -4438,10 +4440,19 @@ void consume_activity_actor::finish( player_activity &act, Character & )
 
     item_location consume_loc = consume_location;
 
+    bool using_liquid_wrapper = !!consume_liquid;
+
     avatar &player_character = get_avatar();
     if( !was_canceled ) {
         if( consume_loc ) {
             player_character.consume( consume_loc, /*force=*/true );
+        } else if( !!consume_liquid ) {
+            item *consume_liquid_item = consume_liquid.get_item();
+            player_character.consume( *consume_liquid_item, /*force=*/true );
+            if( consume_liquid_item->charges > 0 ) {
+                liquid_handler::handle_liquid( consume_liquid );
+                return;
+            }
         } else if( !consume_item.is_null() ) {
             player_character.consume( consume_item, /*force=*/true );
         } else {
@@ -4450,6 +4461,9 @@ void consume_activity_actor::finish( player_activity &act, Character & )
         if( player_character.get_value( "THIEF_MODE_KEEP" ).str() != "YES" ) {
             player_character.set_value( "THIEF_MODE", "THIEF_ASK" );
         }
+    } else if( !!consume_liquid ) {
+        liquid_handler::handle_liquid( consume_liquid );
+        return;
     }
 
     /*
@@ -4785,9 +4799,13 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         }
         item_location contained_loc( target, contained );
         if( who.add_or_drop_with_msg( contained_loc, true, &it, contained ) ) {
-            qty += contained->charges;
-            remove_contained.push_back( contained );
-            actually_unloaded = true;
+            if( !contained->made_of_from_type( phase_id::LIQUID ) ) {
+                qty += contained->charges;
+                remove_contained.push_back( contained );
+                actually_unloaded = true;
+            } else {
+                return;
+            }
         }
     }
     // remove the ammo leads in the belt
@@ -4848,7 +4866,6 @@ void fill_liquid_activity_actor::reprompt( player_activity &act, Character & )
     }
 }
 
-#pragma optimize("", off)
 void fill_liquid_activity_actor::do_turn( player_activity &act, Character &who )
 {
     try {
@@ -10185,7 +10202,24 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
 {
     map &here = get_map();
 
-    for( drop_location &ait : to_heat ) {
+    if( h.consume_flag ) {
+        if( h.pseudo_flag ) {
+            here.veh_at( h.vpt ).value().vehicle().discharge_battery( here, requirements.ammo *
+                    h.heating_effect );
+        } else {
+            h.loc->activation_consume( requirements.ammo, h.loc.pos_bub( here ), &p );
+        }
+    }
+    p.add_msg_if_player( m_good, _( "You heated your items." ) );
+
+    p.invalidate_crafting_inventory();
+
+    act.set_to_null();
+
+    drop_locations to_heat_copy = to_heat;
+    // after this point, liquid handling may assign a new activity
+
+    for( drop_location &ait : to_heat_copy ) {
         item_location cold_item = ait.first;
         if( cold_item->count_by_charges() ) {
             item copy( *cold_item );
@@ -10210,19 +10244,6 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
             }
         }
     }
-    if( h.consume_flag ) {
-        if( h.pseudo_flag ) {
-            here.veh_at( h.vpt ).value().vehicle().discharge_battery( here, requirements.ammo *
-                    h.heating_effect );
-        } else {
-            h.loc->activation_consume( requirements.ammo, h.loc.pos_bub( here ), &p );
-        }
-    }
-    p.add_msg_if_player( m_good, _( "You heated your items." ) );
-
-    p.invalidate_crafting_inventory();
-
-    act.set_to_null();
 }
 
 void heat_activity_actor::serialize( JsonOut &jsout ) const

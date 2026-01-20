@@ -83,6 +83,9 @@ struct liquid_wrapper {
     // for serialization ONLY. NEVER construct an empty liquid_wrapper.
     liquid_wrapper() = default;
 
+    explicit operator bool() const {
+        return type != liquid_source_type::NULL_SOURCE;
+    }
     void validate() const;
     std::string get_menu_prompt() const;
     item *get_item();

@@ -408,7 +408,6 @@ static bool handle_liquid_menu( const std::string &menu_prompt,
     return true;
 }
 
-#pragma optimize("", off)
 static bool get_liquid_destination( const liquid_wrapper &source, liquid_dest_opt &target,
                                     const int radius = 0 )
 {
@@ -594,7 +593,6 @@ bool can_handle_liquid( const item &liquid )
     return true;
 }
 
-#pragma optimize("", off)
 bool handle_liquid( const liquid_wrapper &source, const std::optional<liquid_dest_opt> &destination,
                     const int dest_container_search_radius )
 {

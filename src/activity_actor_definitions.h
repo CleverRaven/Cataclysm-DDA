@@ -1276,6 +1276,7 @@ class consume_activity_actor : public activity_actor
 {
     private:
         item_location consume_location;
+        liquid_wrapper consume_liquid;
         item consume_item;
         bool was_canceled = false;
         // whether to show the consume menu after this activity finishes
@@ -1300,10 +1301,7 @@ class consume_activity_actor : public activity_actor
         //explicitly copies the item from the liquid_wrapper but decrements the wrapper item's charges
         explicit consume_activity_actor( const liquid_wrapper &consume_liquid,
                                          bool reprompt_consume_menu = false ) :
-            consume_item( *consume_liquid.get_item() ), reprompt_consume_menu( reprompt_consume_menu ) {
-            // make a copy to avoid const-correctness
-            liquid_wrapper consume_liquid_copy = consume_liquid;
-            consume_liquid_copy.get_item()->charges--;
+            consume_liquid( consume_liquid ), reprompt_consume_menu( reprompt_consume_menu ) {
         }
 
         const activity_id &get_type() const override {
