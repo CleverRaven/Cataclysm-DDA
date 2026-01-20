@@ -19,8 +19,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "character_id.h"
-#include "character_martial_arts.h"
 #include "clzones.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -28,11 +26,8 @@
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
-#include "event.h"
-#include "event_bus.h"
 #include "fault.h"
 #include "flag.h"
-#include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "iexamine.h"
@@ -44,10 +39,8 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "magic.h"
 #include "map.h"
 #include "mapdata.h"
-#include "martialarts.h"
 #include "math_parser_diag_value.h"
 #include "memory_fast.h"
 #include "messages.h"
@@ -55,14 +48,11 @@
 #include "npc.h"
 #include "overmap_ui.h"
 #include "pathfinding.h"
-#include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "point.h"
-#include "proficiency.h"
 #include "requirements.h"
 #include "ret_val.h"
-#include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "translation.h"
@@ -99,8 +89,6 @@ static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
-static const activity_id ACT_TRAIN( "ACT_TRAIN" );
-static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
@@ -163,8 +151,6 @@ activity_handlers::do_turn_functions = {
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 activity_handlers::finish_functions = {
     { ACT_START_FIRE, start_fire_finish },
-    { ACT_TRAIN, train_finish },
-    { ACT_TRAIN_TEACHER, teach_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
@@ -521,133 +507,6 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
         add_msg( m_bad, _( "There is not enough sunlight to start a fire now.  You stop trying." ) );
         you->cancel_activity();
     }
-}
-
-static bool magic_train( player_activity *act, Character *you )
-{
-    if( !you ) {
-        return false;
-    }
-    const spell_id &sp_id = spell_id( act->name );
-    if( sp_id.is_valid() ) {
-        const bool knows = you->magic->knows_spell( sp_id );
-        if( knows ) {
-            spell &studying = you->magic->get_spell( sp_id );
-            const int expert_multiplier = act->values.empty() ? 0 : act->values[0];
-            const int xp = roll_remainder( studying.exp_modifier( *you ) * expert_multiplier );
-            studying.gain_exp( *you, xp );
-            you->add_msg_player_or_npc( m_good, _( "You learn a little about the spell: %s" ),
-                                        _( "<npcname> learns a little about the spell: %s" ), sp_id->name );
-        } else {
-            you->magic->learn_spell( act->name, *you );
-            // you can decline to learn this spell , as it may lock you out of other magic.
-            if( you->magic->knows_spell( sp_id ) ) {
-                you->add_msg_player_or_npc( m_good, _( "You learn %s." ),
-                                            _( "<npcname> learns %s." ), sp_id->name.translated() );
-            } else {
-                act->set_to_null();
-            }
-        }
-        return true;
-    }
-    return false;
-}
-
-void activity_handlers::teach_finish( player_activity *act, Character *you )
-{
-    const skill_id sk( act->name );
-    const proficiency_id pr( act->name );
-    const matype_id ma( act->name );
-    const spell_id sp( act->name );
-
-    std::string subject;
-    if( sk.is_valid() ) {
-        subject = sk->name();
-    } else if( pr.is_valid() ) {
-        subject = pr->name();
-    } else if( ma.is_valid() ) {
-        subject = ma->name.translated();
-    } else if( sp.is_valid() ) {
-        subject = sp->name.translated();
-    } else {
-        debugmsg( "teach_finish without a valid skill or style or spell name" );
-    }
-
-    if( you->is_avatar() ) {
-        add_msg( m_good, _( "You finish teaching %s." ), subject );
-    } else {
-        add_msg( m_good, _( "%s finishes teaching %s." ), you->name, subject );
-    }
-
-    act->set_to_null();
-}
-
-void activity_handlers::train_finish( player_activity *act, Character *you )
-{
-    const std::vector<npc *> teachlist = g->get_npcs_if( [act]( const npc & n ) {
-        return n.getID().get_value() == act->index;
-    } );
-    Character *teacher = &get_player_character();
-    if( !teachlist.empty() ) {
-        teacher = teachlist.front();
-    }
-    if( teacher->activity.id() == ACT_TRAIN_TEACHER ) {
-        bool all_students_done = true;
-        g->get_npcs_if( [&]( const npc & n ) {
-            for( int st_id : teacher->activity.values ) {
-                if( n.getID().get_value() == st_id && n.activity.id() == ACT_TRAIN ) {
-                    all_students_done = false;
-                    break;
-                }
-            }
-            return false;
-        } );
-        if( all_students_done ) {
-            teacher->cancel_activity();
-        }
-    }
-
-    const skill_id sk( act->name );
-    if( sk.is_valid() ) {
-        const Skill &skill = sk.obj();
-        std::string skill_name = skill.name();
-        int old_skill_level = you->get_knowledge_level( sk );
-        you->practice( sk, 100, old_skill_level + 2 );
-        int new_skill_level = you->get_knowledge_level( sk );
-        if( old_skill_level != new_skill_level ) {
-            if( you->is_avatar() ) {
-                add_msg( m_good, _( "You finish training %s to level %d." ),
-                         skill_name, new_skill_level );
-            }
-            get_event_bus().send<event_type::gains_skill_level>( you->getID(), sk, new_skill_level );
-        } else if( you->is_avatar() ) {
-            add_msg( m_good, _( "You get some training in %s." ), skill_name );
-        }
-        act->set_to_null();
-        return;
-    }
-
-    const proficiency_id &proficiency = proficiency_id( act->name );
-    if( proficiency.is_valid() ) {
-        you->practice_proficiency( proficiency, 15_minutes );
-        if( you->is_avatar() ) {
-            add_msg( m_good, _( "You get some training in %s." ), proficiency->name() );
-        }
-        act->set_to_null();
-        return;
-    }
-
-    const matype_id &ma_id = matype_id( act->name );
-    if( ma_id.is_valid() ) {
-        const martialart &mastyle = ma_id.obj();
-        // Trained martial arts,
-        get_event_bus().send<event_type::learns_martial_art>( you->getID(), ma_id );
-        you->martial_arts_data->learn_style( mastyle.id, you->is_avatar() );
-    } else if( !magic_train( act, you ) ) {
-        debugmsg( "train_finish without a valid skill or style or spell name" );
-    }
-
-    act->set_to_null();
 }
 
 enum class repeat_type : int {
