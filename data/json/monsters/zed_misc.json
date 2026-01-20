@@ -198,7 +198,7 @@
     "melee_skill": 5,
     "melee_dice": 4,
     "melee_dice_sides": 5,
-    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 }, { "damage_type": "bash", "amount": 6, "armor_penetration": 6 } ],
     "dodge": 4,
     "bleed_rate": 0,
     "vision_day": 5,
