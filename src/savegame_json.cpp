@@ -323,6 +323,15 @@ void item_pocket::favorite_settings::serialize( JsonOut &json ) const
     json.end_object();
 }
 
+static cata::flat_set<itype_id> migrate_ids( const cata::flat_set<itype_id> &list )
+{
+    cata::flat_set<itype_id> new_list;
+    for( const itype_id &it : list ) {
+        new_list.insert( item_controller->migrate_id( it ) );
+    }
+    return new_list;
+}
+
 void item_pocket::favorite_settings::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
@@ -332,6 +341,8 @@ void item_pocket::favorite_settings::deserialize( const JsonObject &data )
     data.read( "priority", priority_rating );
     data.read( "item_whitelist", item_whitelist );
     data.read( "item_blacklist", item_blacklist );
+    item_whitelist = migrate_ids( item_whitelist );
+    item_blacklist = migrate_ids( item_blacklist );
     data.read( "category_whitelist", category_whitelist );
     data.read( "category_blacklist", category_blacklist );
     if( data.has_member( "collapsed" ) ) {
