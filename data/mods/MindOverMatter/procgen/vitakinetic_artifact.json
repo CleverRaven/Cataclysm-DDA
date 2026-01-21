@@ -1,0 +1,371 @@
+[
+  {
+    "type": "relic_procgen_data",
+    "id": "vitakinetic_crystal_procgen",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 3 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 4 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "3 h", "24 h" ]
+      }
+    ],
+    "active_procgen_values": [
+      { "weight": 100, "spell_id": "MoM_AEA_ATTENTION", "base_power": -150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_VOMIT", "base_power": -50, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_NETHER_ATTUNEMENT", "base_power": -100, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_EXTRA_CALORIE_COST", "base_power": -150, "ench_has": "WIELD" }
+    ],
+    "passive_mult_procgen_values": [
+      {
+        "weight": 75,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "BANDAGE_BONUS",
+        "increment": 0.1,
+        "power_per_increment": 25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 75,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "BLEED_STOP_BONUS",
+        "increment": 0.1,
+        "power_per_increment": 25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 75,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "DISINFECTANT_BONUS",
+        "increment": 0.1,
+        "power_per_increment": 25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 25,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "FAT_TO_MAX_HP",
+        "increment": 0.1,
+        "power_per_increment": 25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "HEALTHY_RATE",
+        "increment": 0.1,
+        "power_per_increment": 75,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.15,
+        "max_value": 0.35,
+        "type": "MAX_HP",
+        "increment": 0.05,
+        "power_per_increment": 100,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "MENDING_MODIFIER",
+        "increment": 0.1,
+        "power_per_increment": 50,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "PAIN_REMOVE",
+        "increment": 0.1,
+        "power_per_increment": 50,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 4,
+        "type": "REGEN_HP",
+        "increment": 0.25,
+        "power_per_increment": 100,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 0,
+        "max_value": 0.75,
+        "type": "REGEN_HP_AWAKE",
+        "increment": 0.05,
+        "power_per_increment": 50,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.75,
+        "max_value": 0.5,
+        "type": "SLEEPINESS",
+        "increment": -0.05,
+        "power_per_increment": 35,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "SLEEPINESS_REGEN",
+        "increment": 0.05,
+        "power_per_increment": 35,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 25,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "VITAMIN_ABSORB_MOD",
+        "increment": 0.05,
+        "power_per_increment": 50,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 25,
+        "min_value": -0.5,
+        "max_value": 0.25,
+        "type": "VOMIT_MUL",
+        "increment": -0.05,
+        "power_per_increment": 15,
+        "ench_has": "HELD"
+      }
+    ],
+    "passive_add_procgen_values": [
+      {
+        "weight": 100,
+        "min_value": -2,
+        "max_value": 5,
+        "type": "EFFECTIVE_HEALTH_MOD",
+        "increment": 1,
+        "power_per_increment": 150,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -2,
+        "max_value": 2,
+        "type": "MOD_HEALTH",
+        "increment": 1,
+        "power_per_increment": 250,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -10,
+        "max_value": 50,
+        "type": "SLEEPY",
+        "increment": 3,
+        "power_per_increment": 10,
+        "ench_has": "WIELD"
+      }
+    ],
+    "type_weights": [
+      { "weight": 100, "value": "passive_enchantment_add" },
+      { "weight": 100, "value": "active_enchantment" },
+      { "weight": 100, "value": "passive_enchantment_mult" }
+    ],
+    "items": [ { "weight": 100, "item": "matrix_crystal_vitakinesis_artifact" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vitakinetic_crystal_artifact_item",
+    "subtype": "distribution",
+    "items": [ [ "matrix_crystal_vitakinesis_artifact", 100 ] ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "vitakinetic_matrix_crystal_procgen",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 3 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 4 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "3 h", "24 h" ]
+      }
+    ],
+   "passive_mult_procgen_values": [
+      {
+        "weight": 75,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "BANDAGE_BONUS",
+        "increment": 0.1,
+        "power_per_increment": 25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 75,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "BLEED_STOP_BONUS",
+        "increment": 0.1,
+        "power_per_increment": 25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 75,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "DISINFECTANT_BONUS",
+        "increment": 0.1,
+        "power_per_increment": 25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 25,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "FAT_TO_MAX_HP",
+        "increment": 0.1,
+        "power_per_increment": 25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "HEALTHY_RATE",
+        "increment": 0.1,
+        "power_per_increment": 75,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.15,
+        "max_value": 0.35,
+        "type": "MAX_HP",
+        "increment": 0.05,
+        "power_per_increment": 100,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "MENDING_MODIFIER",
+        "increment": 0.1,
+        "power_per_increment": 50,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "PAIN_REMOVE",
+        "increment": 0.1,
+        "power_per_increment": 50,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 4,
+        "type": "REGEN_HP",
+        "increment": 0.25,
+        "power_per_increment": 100,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 0,
+        "max_value": 0.75,
+        "type": "REGEN_HP_AWAKE",
+        "increment": 0.05,
+        "power_per_increment": 50,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.75,
+        "max_value": 0.5,
+        "type": "SLEEPINESS",
+        "increment": -0.05,
+        "power_per_increment": 35,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "SLEEPINESS_REGEN",
+        "increment": 0.05,
+        "power_per_increment": 35,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 25,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "VITAMIN_ABSORB_MOD",
+        "increment": 0.05,
+        "power_per_increment": 50,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 25,
+        "min_value": -0.5,
+        "max_value": 0.25,
+        "type": "VOMIT_MUL",
+        "increment": -0.05,
+        "power_per_increment": 15,
+        "ench_has": "HELD"
+      }
+    ],
+    "passive_add_procgen_values": [
+      {
+        "weight": 100,
+        "min_value": -2,
+        "max_value": 5,
+        "type": "EFFECTIVE_HEALTH_MOD",
+        "increment": 1,
+        "power_per_increment": 150,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -2,
+        "max_value": 2,
+        "type": "MOD_HEALTH",
+        "increment": 1,
+        "power_per_increment": 250,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -10,
+        "max_value": 50,
+        "type": "SLEEPY",
+        "increment": 3,
+        "power_per_increment": 10,
+        "ench_has": "WIELD"
+      }
+    ],
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" }, { "weight": 100, "value": "passive_enchantment_mult" } ],
+    "items": [ { "weight": 100, "item": "matrix_crystal_vitakinesis" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vitakinetic_crystal_awakening_artifact_item",
+    "subtype": "distribution",
+    "items": [ [ "matrix_crystal_vitakinesis", 100 ] ]
+  }
+]
