@@ -1,64 +1,77 @@
 [
   {
-    "id": "eoc_mission_science_rep_2_computer",
+    "id": "eoc_mission_science_rep_computer",
     "type": "effect_on_condition",
     "effect": [ "open_dialogue" ]
   },
   {
     "type": "talk_topic",
     "id": "mission_science_rep_2_computer_main",
-    "dynamic_line": "The computer awaits input…",
+    "dynamic_line": {
+      "u_has_mission": "MISSION_SCIENCE_REP_2",
+      "yes": "The computer awaits your input",
+      "no": "You don't see anything useful available on this computer."
+    },
     "responses": [
       {
-        "text": "Download Lab Data",
-        "topic": "TALK_DONE",
-        "condition": { "and": [ { "u_has_item": "usb_drive_nano" }, { "u_has_mission": "MISSION_SCIENCE_REP_2" } ] },
-        "effect": [ { "u_consume_item": "usb_drive_nano" }, { "u_spawn_item": "train_data" } ]
+        "text": "Access Lab Data",
+        "topic": "mission_science_rep_2_computer_download",
+        "condition": { "u_has_mission": "MISSION_SCIENCE_REP_2" }
       },
       { "text": "Power off.", "topic": "TALK_DONE" }
     ]
   },
   {
-    "type": "mapgen",
-    "nested_mapgen_id": "mission_science_rep_2_computer_mapgen",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        " cc  |    |  |FFFF|Φ    ",
-        " cc      F|  ||||||Φ h  ",
-        "         F|  2    |^    ",
-        "c=   dd ||||||||r |Φh   ",
-        "c=   dh |;|;| ;|r |Φ    ",
-        "|||22||||2|2|2||r |||||2",
-        " F|  |##|      |F =FFFF ",
-        " F|  ||||||    |F =     ",
-        " F|  |ll|i     |F 2  cc ",
-        "  2  |i |i     |F =  cc ",
-        "|||  ||2||||||2||||22|||",
-        "     2999999999  Y      ",
-        "     2999999999  Y      ",
-        "||2||||2||||||2|     |||",
-        "    r|- |iiiY  |     |c ",
-        "cc  r|ll|      |  =[==c ",
-        "cc hc||||      |  =  =c ",
-        "    c|@@|2|2|2||  =  [  ",
-        "||2|||  |;|;| ;|  =[==||",
-        "     =[=||||||||  | c c ",
-        "  c  Y   Φ|       | c c ",
-        "  iccc   Φ|       | i i ",
-        "  c      Φ|  |||2||     ",
-        "  c c|c   |22|    | c c "
-      ],
-      "palettes": [ "microlab" ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "computers": {
-        "Φ": {
-          "name": "Laboratory Archives",
-          "eocs": [ "eoc_mission_science_rep_2_computer" ],
-          "chat_topics": [ "mission_science_rep_2_computer_main" ]
-        }
+    "type": "talk_topic",
+    "id": "mission_science_rep_2_computer_download",
+    "dynamic_line": {
+      "u_has_item": "usb_drive_nano",
+      "yes": "The lab data is ready to download.",
+      "no": "You don't have the right device to download the lab data."
+    },
+    "responses": [
+      {
+        "text": "Download Lab Data",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "usb_drive_nano" },
+        "effect": [ { "u_consume_item": "usb_drive_nano" }, { "u_spawn_item": "software_lab_data" } ]
       },
-      "furniture": { "9": "f_chair" }
-    }
+      { "text": "Power off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "mission_science_rep_3_computer_main",
+    "dynamic_line": {
+      "u_has_mission": "MISSION_SCIENCE_REP_3",
+      "yes": "The computer awaits your input",
+      "no": "You don't see anything useful available on this computer."
+    },
+    "responses": [
+      {
+        "text": "Access Encryption Codes",
+        "topic": "mission_science_rep_3_computer_download",
+        "condition": { "u_has_mission": "MISSION_SCIENCE_REP_3" }
+      },
+      { "text": "Power off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "mission_science_rep_3_computer_download",
+    "dynamic_line": {
+      "u_has_item": "usb_drive_nano",
+      "yes": "The encryption codes are ready to download.",
+      "no": "You don't have the right device to download the encryption codes."
+    },
+    "responses": [
+      {
+        "text": "Download Encryption Codes",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "usb_drive_nano" },
+        "effect": [ { "u_consume_item": "usb_drive_nano" }, { "u_spawn_item": "software_encryption_codes" } ]
+      },
+      { "text": "Power off.", "topic": "TALK_DONE" }
+    ]
   }
 ]
