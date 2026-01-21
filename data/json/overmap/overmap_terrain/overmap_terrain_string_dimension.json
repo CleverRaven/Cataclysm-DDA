@@ -29,7 +29,6 @@
     "type": "overmap_terrain",
     "id": [ "string_dimension_true_void" ],
     "flags": [ "NO_ROTATE" ],
-    "uniform_terrain": "t_string_true_void",
     "vision_levels": "open_land",
     "name": "empty space",
     "sym": " ",
