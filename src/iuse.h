@@ -217,6 +217,8 @@ std::optional<int> post_up( Character *, item *, const tripoint_bub_ms & );
 void cut_log_into_planks( Character & );
 void play_music( Character *p, const tripoint_bub_ms &source, int volume, int max_morale,
                  bool play_sounds = true );
+void make_music( Character *p, const tripoint_bub_ms &source, int volume, int max_morale,
+                 bool play_sounds = true );
 std::optional<int> purify_water( Character *p, item *purifier, item_location &water );
 int towel_common( Character *, item *, bool );
 

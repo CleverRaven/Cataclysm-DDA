@@ -3789,6 +3789,29 @@ void iuse::play_music( Character *p, const tripoint_bub_ms &source, const int vo
     }
 }
 
+void iuse::make_music( Character *p, const tripoint_bub_ms &source, int volume, int max_morale,
+                       bool play_sounds )
+{
+    //I've mirrored playing music which is really more like listening to music.  Studies show that satisfaction from playing musical instruments outlasts emotional impact of listening to music.
+    map &here = get_map();
+    
+    if( play_sounds ) {
+        sounds::sound( source, volume, sounds::sound_t::music, _( "music" ), false, "music", "music" );
+    }
+    
+    if( ! p || !p->can_hear( source, volume ) ) {
+        return;
+    }
+    
+    p->add_effect( effect_music, 1_turns );
+    
+    if( max_morale > 0 ) {
+        p->add_morale( morale_music, 1, max_morale, 2_hours, 30_minutes );
+    } else if( max_morale < 0 ) {
+        p->add_morale( morale_music, -1, max_morale, 2_hours, 30_minutes );
+    }
+}
+
 std::optional<int> iuse::mp3_on( Character *p, item *it, const tripoint_bub_ms &pos )
 {
     if( !it->activation_success() ) {
