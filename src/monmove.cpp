@@ -193,7 +193,6 @@ bool monster::will_move_to( map *here, const tripoint_bub_ms &p ) const
         ) ) {
         return false;
     }
-    
     if( has_flag( mon_flag_ONE_DIMENSIONAL_Z ) && (
             !here->has_flag( ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Z, p ) ||
             // In the off chance a multidimensional vehicle enters a one dimensional tile
