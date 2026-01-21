@@ -46,6 +46,7 @@
 #include "vpart_range.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+#define disable_rotor_collision 1
 
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
@@ -767,10 +768,20 @@ bool vehicle::collision( map &here, std::vector<veh_collision> &colls,
         const tripoint_abs_ms dsp = vp.next_pos;
         veh_collision coll = part_collision( here, p, dsp, just_detect, bash_floor );
         if( coll.type == veh_coll_nothing && info.has_flag( VPFLAG_ROTOR ) ) {
-            size_t radius = static_cast<size_t>( std::round( info.rotor_info->rotor_diameter / 2.0f ) );
-            for( const tripoint_bub_ms &rotor_point : here.points_in_radius( here.get_bub( dsp ), radius ) ) {
-                veh_collision rotor_coll = part_collision( here, p, here.get_abs( rotor_point ), just_detect,
-                                           false );
+            size_t radius;
+        
+            if( disable_rotor_collision ) {
+                radius = 0;
+            } else {
+                radius = static_cast<size_t>(
+                    std::round( info.rotor_info->rotor_diameter / 2.0f ) );
+            }
+        
+            for( const tripoint_bub_ms &rotor_point :
+                 here.points_in_radius( here.get_bub( dsp ), radius ) ) {
+                veh_collision rotor_coll =
+                    part_collision( here, p, here.get_abs( rotor_point ),
+                                    just_detect, false );
                 if( rotor_coll.type != veh_coll_nothing ) {
                     coll = rotor_coll;
                     if( just_detect ) {
@@ -781,6 +792,7 @@ bool vehicle::collision( map &here, std::vector<veh_collision> &colls,
                 }
             }
         }
+
         if( coll.type == veh_coll_nothing ) {
             continue;
         }
