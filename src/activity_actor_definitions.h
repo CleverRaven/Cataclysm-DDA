@@ -2757,8 +2757,9 @@ class heat_activity_actor : public activity_actor
     public:
         heat_activity_actor( drop_locations to_heat,
                              heating_requirements &requirements,
-                             heater h ) :
-            to_heat( std::move( to_heat ) ), requirements( requirements ), h( std::move( h ) ) {};
+                             heater heater_data ) :
+            to_heat( std::move( to_heat ) ), requirements( requirements ),
+            heater_data( std::move( heater_data ) ) {};
 
         const activity_id &get_type() const override {
             static const activity_id ACT_HEATING( "ACT_HEATING" );
@@ -2779,7 +2780,7 @@ class heat_activity_actor : public activity_actor
     private:
         drop_locations to_heat;
         heating_requirements requirements;
-        heater h;
+        heater heater_data;
 };
 
 class wear_activity_actor : public activity_actor
