@@ -4,7 +4,7 @@
     "id": "string_dimension_plane_mutable",
     "subtype": "mutable",
     "locations": [ "string_dimension_crossroads" ],
-    "occurrences": [ 5, 15 ],
+    "occurrences": [ 0, 20 ],
     "priority": 3,
     "flags": [ "WILDERNESS", "EXTRADIMENSIONAL", "STRING_DIMENSION" ],
     "check_for_locations_area": [ { "type": [ "string_dimension_crossroads" ], "from": [ 2, 2, 0 ], "to": [ -2, -2, 0 ] } ],
