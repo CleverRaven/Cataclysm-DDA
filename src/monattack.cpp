@@ -3382,7 +3382,8 @@ bool mattack::blow_whistle( monster *z )
         return false;
     }
     add_msg_if_player_sees( *z, m_warning, _( "The %1$s loudly blows their whistle!" ), z->name() );
-    sounds::sound( z->pos_bub( here ), 40, sounds::sound_t::alarm, _( "FWEEEET!" ), false, "misc",
+    // should match the loudness of whistle item
+    sounds::sound( z->pos_bub( here ), 100, sounds::sound_t::alarm, _( "FWEEEET!" ), false, "misc",
                    "whistle" );
 
     return true;
