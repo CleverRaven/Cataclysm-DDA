@@ -267,7 +267,7 @@
     "flags": [ "TRANSFORMATION_SPELL", "VERBAL", "SOMATIC", "NO_LEGS" ],
     "spell_class": "iso_eldritch_sorcery",
     "magic_type": "iso_eldritch_sorcery",
-    "condition": { "math": [ "u_val('fine_detail_vision_mod') >= 3" ] },
+    "caster_condition": { "math": [ "u_val('fine_detail_vision_mod') >= 3" ] },
     "difficulty": 5,
     "max_level": 30,
     "effect": "effect_on_condition",

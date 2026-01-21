@@ -39,7 +39,7 @@
     "magic_type": "xedra_bloodthorne_sorcery",
     "skill": "deduction",
     "spell_class": "BLOODTHORNE_SORCERY",
-    "condition": {
+    "caster_condition": {
       "or": [
         { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
         { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" }
@@ -63,7 +63,7 @@
     "magic_type": "xedra_bloodthorne_sorcery",
     "skill": "deduction",
     "spell_class": "BLOODTHORNE_SORCERY",
-    "condition": {
+    "caster_condition": {
       "or": [
         { "u_has_effect": "bleed", "bodypart": "head" },
         { "u_has_effect": "bleed", "bodypart": "torso" },
@@ -116,7 +116,7 @@
     "magic_type": "xedra_bloodthorne_sorcery",
     "skill": "deduction",
     "spell_class": "BLOODTHORNE_SORCERY",
-    "condition": {
+    "caster_condition": {
       "or": [
         { "npc_has_effect": "effect_hungry_roots" },
         { "npc_is_on_terrain": "t_grass_long" },
@@ -177,7 +177,7 @@
     "magic_type": "xedra_bloodthorne_sorcery",
     "skill": "deduction",
     "spell_class": "BLOODTHORNE_SORCERY",
-    "condition": {
+    "caster_condition": {
       "or": [
         { "u_is_on_terrain_with_flag": "PLOWABLE" },
         { "u_is_on_terrain_with_flag": "SHRUB" },
@@ -207,7 +207,7 @@
     "magic_type": "xedra_bloodthorne_sorcery",
     "skill": "deduction",
     "spell_class": "BLOODTHORNE_SORCERY",
-    "condition": {
+    "caster_condition": {
       "or": [
         { "u_is_on_terrain_with_flag": "DIGGABLE" },
         { "u_is_on_terrain_with_flag": "YOUNG" },
@@ -241,7 +241,7 @@
     "magic_type": "xedra_bloodthorne_sorcery",
     "skill": "deduction",
     "spell_class": "BLOODTHORNE_SORCERY",
-    "condition": {
+    "caster_condition": {
       "or": [
         { "u_is_on_terrain_with_flag": "DIGGABLE" },
         { "u_is_on_terrain_with_flag": "YOUNG" },
@@ -279,7 +279,7 @@
     "magic_type": "xedra_bloodthorne_sorcery",
     "skill": "deduction",
     "spell_class": "BLOODTHORNE_SORCERY",
-    "condition": {
+    "target_condition": {
       "or": [
         { "npc_is_on_terrain_with_flag": "DIGGABLE" },
         { "npc_is_on_terrain_with_flag": "YOUNG" },
