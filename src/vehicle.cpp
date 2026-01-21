@@ -8040,6 +8040,9 @@ bool vehicle::is_foldable() const
         return false;
     }
     for( const vehicle_part &vp : real_parts() ) {
+        if( vp.get_base().has_var( "tied_down_furniture" ) ) {
+            return false;
+        }
         if( !vp.info().folded_volume ) {
             return false;
         }
