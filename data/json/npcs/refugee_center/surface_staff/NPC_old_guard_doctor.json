@@ -147,7 +147,7 @@
           "set": [ { "point": "item_remove", "x": 21, "y": 14 } ]
         }
       ],
-      "effect": [ { "u_spawn_item": "usb_drive_nano" } ]
+      "effect": [ { "u_spawn_item": "mission_science_rep_secure_usb_blank", "use_item_group": true } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -182,20 +182,20 @@
       },
       "update_mapgen": [
         {
-          "om_terrain": "microlab_generic_surface_connector",
+          "om_terrain": "microlab_generic_vent_shaft_connector",
           "place_computers": [
             {
-              "name": "Laboratory Archives",
+              "name": "Security Console",
               "eocs": [ "eoc_mission_science_rep_computer" ],
-              "chat_topics": [ "mission_science_rep_2_computer_main" ],
-              "x": 21,
-              "y": 14
+              "chat_topics": [ "mission_science_rep_3_computer_main" ],
+              "x": 11,
+              "y": 8
             }
           ],
           "set": [ { "point": "item_remove", "x": 21, "y": 14 } ]
         }
       ],
-      "effect": [ { "u_spawn_item": "usb_drive_nano" } ]
+      "effect": [ { "u_spawn_item": "mission_science_rep_secure_usb_blank", "use_item_group": true } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -226,7 +226,23 @@
         "om_special": "microlab_mutable",
         "reveal_radius": 3,
         "cant_see": true
-      }
+      },
+      "update_mapgen": [
+        {
+          "om_terrain": "microlab_generic_vent_shaft_connector",
+          "place_computers": [
+            {
+              "name": "Laboratory Archives",
+              "eocs": [ "eoc_mission_science_rep_computer" ],
+              "chat_topics": [ "mission_science_rep_4_computer_main" ],
+              "x": 21,
+              "y": 14
+            }
+          ],
+          "set": [ { "point": "item_remove", "x": 21, "y": 14 } ]
+        }
+      ],
+      "effect": [ { "u_spawn_item": "mission_science_rep_secure_usb_blank", "use_item_group": true } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -260,7 +276,7 @@
         "random": false,
         "z": -4
       },
-      "effect": [ { "u_spawn_item": "usb_drive_nano" } ]
+      "effect": [ { "u_spawn_item": "mission_science_rep_secure_usb_blank", "use_item_group": true } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
