@@ -6,7 +6,7 @@ The formula to gain new powers is different depending on the method of awakening
 
 The processing of gaining a new power path is referred to in the mod as "Awakening." 
 
-# Learning New Powers
+# Gaining Access to New Powers
 
 A character who has any awakenings has a chance to gain insight on a cooldown. By default, the cooldown is 12 hours to 168 hours, but is reduced by 3% per point of Intelligence above 10 and 5% per point of Metaphysics skill above 5. Only when you have insight are you capable of learning new powers. Learning a power consumes insight, requiring you to wait for the cooldown again. In addition, you cannot "bank" insight--you either have it or you don't. 
 
@@ -26,3 +26,14 @@ A way variety of effects prevent insight from triggering (though you do not lose
 * Being on fire or electrocuted
 * Being dazed or stunned
 * Suffering malaise from eating Soypelusa protein bars
+
+# Mastering New Powers
+
+An important point is that insight just gives you the possibility to learn a new power--you still need to study and learn it. Rather than learning a power directly, you gain a recipe (the Practice tab of the recipe list) that lets you attempt to understand the power enough to use it. This requires a lengthy meditation period that ends with a roll: 
+* One half your Intelligence + a random number between 0 and your Metaphysics skill (with a minimum of one-half your Metaphysics skill) + a random number from -2 to 8 + a random number from -2 to 8 + 5 (if you have the contemplation proficiency for that path)
+VS
+* (The Difficulty of the studied power * 1.5) + 7 + (1 if you have 1 maintained power + 2 for each maintained power past that) + 1 per point your Concentration Limit is below 0
+
+In addition, being at Nether Attunement 6 gives you a +1 bonus to the roll, being at Nether Attunement 11 gives you a further +1 bonus, and having the Observed effect gives you a +2 bonus. 
+
+If you fail this roll, you may try again. If you succeed, you learn the power at level 1, and that same recipe you used to learn the power at all may now be used to study and improve it; no roll is required for this. 
