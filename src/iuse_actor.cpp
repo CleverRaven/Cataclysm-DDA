@@ -2496,8 +2496,8 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
     }
 
     if( p->can_hear( p->pos_bub( *here ), volume ) && desc != "music" ) {
-    p->add_msg_if_player( m_info, desc );
-        }
+        p->add_msg_if_player( m_info, desc );
+    }
 
     // We already played the sounds, just handle applying effects now
     iuse::make_music( p, p->pos_bub( *here ), volume, morale_effect, /*play_sounds=*/false );
