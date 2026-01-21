@@ -54,7 +54,10 @@
       },
       {
         "if": { "math": [ "u_string_dimension_visits >= 4" ] },
-        "then": { "u_message": "You quickly and naturally orient yourself to this place - it's as if you stepped through a door that shut and vanished.", "popup": true }
+        "then": {
+          "u_message": "You quickly and naturally orient yourself to this place - it's as if you stepped through a door that shut and vanished.",
+          "popup": true
+        }
       }
     ],
     "false_effect": { "u_message": "Your glowing string rattles in its container." }
@@ -82,7 +85,10 @@
       {
         "if": { "math": [ "u_string_dimension_ziggurat_exit >= 1" ] },
         "then": [
-          { "u_message": "As you pulled the hypercube free, there was an immense explosion of light.  The object is gone and you're back in the world you know.", "popup": true },
+          {
+            "u_message": "As you pulled the hypercube free, there was an immense explosion of light.  The object is gone and you're back in the world you know.",
+            "popup": true
+          },
           { "clear_dimension": "string_dimension" }
         ]
       }
@@ -91,9 +97,7 @@
       {
         "if": { "current_dimension": "string_dimension" },
         "then": [
-          {
-            "u_message": "You feel a prickle at the edge of your senses."
-          },
+          { "u_message": "You feel a prickle at the edge of your senses." },
           { "run_eocs": "EOC_PORTAL_STRING_DIMENSION_RETURN", "time_in_future": "2 minutes" }
         ]
       }
@@ -117,10 +121,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STRING_DIMENSION_ZIGGURAT_RETURN",
     "condition": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
-    "effect": [
-      { "math": [ "u_string_dimension_ziggurat_exit += 1" ] },
-      { "run_eocs": "EOC_PORTAL_STRING_DIMENSION_RETURN" }
-    ],
+    "effect": [ { "math": [ "u_string_dimension_ziggurat_exit += 1" ] }, { "run_eocs": "EOC_PORTAL_STRING_DIMENSION_RETURN" } ],
     "false_effect": { "u_message": "An invisible, repulsive field keeps you from touching the hypercube.", "popup": true }
   }
 ]

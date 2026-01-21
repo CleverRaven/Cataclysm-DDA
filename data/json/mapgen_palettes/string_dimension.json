@@ -2,17 +2,12 @@
   {
     "type": "palette",
     "id": "string_dimension_palette",
-    "terrain": {
-        "|": "t_string_y",
-        "-": "t_string_x",
-        "+": "t_string_xy",
-        ".": "t_string_z"
-    }
+    "terrain": { "|": "t_string_y", "-": "t_string_x", "+": "t_string_xy", ".": "t_string_z" }
   },
   {
     "type": "palette",
     "id": "string_dimension_plane_palette",
-    "terrain": { "+": [ ["t_string_xy_plane_1", 85 ], ["t_string_xy_plane_2", 10 ], ["t_string_xy_plane_3", 5 ] ] }
+    "terrain": { "+": [ [ "t_string_xy_plane_1", 85 ], [ "t_string_xy_plane_2", 10 ], [ "t_string_xy_plane_3", 5 ] ] }
   },
   {
     "type": "palette",

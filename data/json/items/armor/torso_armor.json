@@ -2513,9 +2513,7 @@
         "coverage": 50,
         "cover_vitals": 50,
         "covers": [ "torso" ],
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 }
-        ]
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ]
       }
     ]
   }

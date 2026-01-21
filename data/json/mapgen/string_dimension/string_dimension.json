@@ -34,12 +34,15 @@
         "|": "t_string_y",
         "-": "t_string_x",
         "+": "t_string_xy",
-        " ": [ [ "t_string_void", 194 ], [ "t_string_point_big", 1 ], [ "t_string_point_big", 1 ], [ "t_string_point_small_gray", 2 ], [ "t_string_point_small_gray", 2 ] ]
+        " ": [
+          [ "t_string_void", 194 ],
+          [ "t_string_point_big", 1 ],
+          [ "t_string_point_big", 1 ],
+          [ "t_string_point_small_gray", 2 ],
+          [ "t_string_point_small_gray", 2 ]
+        ]
       },
-      "monster": {
-        "|": { "monster": "mon_linelander_cyan", "chance": 1 },
-        "-": { "monster": "mon_linelander_magenta", "chance": 1 }
-      }
+      "monster": { "|": { "monster": "mon_linelander_cyan", "chance": 1 }, "-": { "monster": "mon_linelander_magenta", "chance": 1 } }
     }
   },
   {

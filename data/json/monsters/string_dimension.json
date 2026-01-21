@@ -111,7 +111,7 @@
     "armor": { "bash": 8, "cut": 8, "bullet": 7, "electric": 3 },
     "death_drops": "mon_zombie_brute_string_dimension_drops",
     "extend": {
-      "flags": [ "SMELLS", "SEES", "PUSH_VEH", "PUSH_MON", "HIT_AND_RUN"],
+      "flags": [ "SMELLS", "SEES", "PUSH_VEH", "PUSH_MON", "HIT_AND_RUN" ],
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
       "families": [ "prof_wp_hulk" ],
       "special_attacks": [ { "id": "smash", "throw_strength": 72, "cooldown": 30 } ]
