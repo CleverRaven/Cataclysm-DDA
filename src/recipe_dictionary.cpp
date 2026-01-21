@@ -893,7 +893,7 @@ void recipe_dictionary::check_consistency()
                 }
             }
             if( r.difficulty < min_diff ) {
-                debugmsg( "nested recipe %s doesn't have the minimum difficulty of the recipes nested inside. Its difficulty is %i and the minimum is %i.  This will create discrepencies in the crafting menu.",
+                debugmsg( "nested recipe %s doesn't have the minimum difficulty of the recipes nested inside.  Its difficulty is %i and the minimum is %i.  This will create discrepencies in the crafting menu.",
                           r.ident().str(), r.difficulty, min_diff );
             }
         }
