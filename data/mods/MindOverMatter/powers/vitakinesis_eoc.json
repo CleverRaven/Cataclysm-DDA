@@ -865,7 +865,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING",
-    "condition": { "u_has_trait": "WEAKENING" },
+    "condition": { "u_has_trait": "ROT1" },
     "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_WEAKENING", "duration": "480 minutes" } ],
     "false_effect": [ { "u_message": "You don't have a weakening sickness.  There is no need to attempt to cure it.", "type": "mixed" } ]
   },
@@ -883,7 +883,7 @@
     "condition": { "math": [ "vita_banish_illness_equation() >= 15" ] },
     "effect": [
       { "u_message": "New vigor fills your body.", "type": "good" },
-      { "u_lose_trait": "WEAKENING" },
+      { "u_lose_trait": "ROT1" },
       { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 45,75 )" ] }
     ],
     "false_effect": [

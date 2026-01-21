@@ -9,6 +9,7 @@
 #include <set>
 #include <string>
 #include <string_view>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -63,6 +64,11 @@ enum body_part : int {
     bp_foot_r,
     num_bp
 };
+
+inline auto format_as( body_part bp )
+{
+    return static_cast<std::underlying_type_t<body_part>>( bp );
+}
 
 template<>
 struct enum_traits<body_part> {

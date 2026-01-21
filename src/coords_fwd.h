@@ -28,6 +28,15 @@ enum class scale {
     vehicle
 };
 
+inline auto  format_as( origin o )
+{
+    return static_cast<std::underlying_type_t<origin>>( o );
+}
+inline auto  format_as( scale s )
+{
+    return static_cast<std::underlying_type_t<scale>>( s );
+}
+
 constexpr scale ms = scale::map_square;
 constexpr scale sm = scale::submap;
 constexpr scale omt = scale::overmap_terrain;

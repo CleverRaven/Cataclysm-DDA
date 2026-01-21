@@ -310,6 +310,102 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
+    "id": "coat_lab_xedra_mark",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "shielded lab coat" },
+    "description": "A long white coat modified for some unknown purpose.  A synthetic x-ray protection apron has been integrated as a liner, with open pockets to accommodate torso plates.  The coat itself also has a layer of shiny metallized polyethylene terephthalate carefully sewn into it, including along the sleeves - the tag for the emergency blanket it was taken from is still attached.  The small breast pocket is embroidered in blue with the name \"Mark Cavaliere, PhD.\"",
+    "weight": "580 g",
+    "volume": "2250 ml",
+    "price": "25 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "cotton", "nylon", "plastic", "aluminum" ],
+    "symbol": "[",
+    "looks_like": "coat_winter",
+    "color": "white",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ],
+        "coverage": 100,
+        "encumbrance": 4,
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.74 },
+          { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.01 }
+        ]
+      },
+      {
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "coverage": 95,
+        "encumbrance": 4,
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.74 },
+          { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.01 }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 3,
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.01 }
+        ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "13 kg",
+        "max_item_length": "46 cm",
+        "moves": 800,
+        "description": "Pocket for a large plate.",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "13 kg",
+        "max_item_length": "46 cm",
+        "moves": 800,
+        "description": "Pocket for a large plate.",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 30,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
     "id": "coat_rain",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],

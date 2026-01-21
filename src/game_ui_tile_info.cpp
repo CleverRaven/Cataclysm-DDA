@@ -193,8 +193,9 @@ void game::print_terrain_info( const tripoint_bub_ms &lp, const catacurses::wind
         area = e->string_id;
     }
     mvwprintz( w_look, point( column, line++ ), c_yellow, area );
+    mvwprintz( w_look, point( column, line++ ), c_light_blue, _( "-----TERRAIN-----" ) );
     mvwprintz( w_look, point( column, line++ ), c_white, tile );
-    std::string desc = string_format( here.ter( lp ).obj().description );
+    std::string desc = string_format( here.ter( lp ).obj().description.translated() );
     std::vector<std::string> lines = foldstring( desc, max_width );
     int numlines = lines.size();
     wattron( w_look, c_light_gray );
@@ -282,13 +283,18 @@ void game::print_furniture_info( const tripoint_bub_ms &lp, const catacurses::wi
     }
     const int max_width = getmaxx( w_look ) - column - 1;
 
+    // Print an empty line as padding IF and only if we're going to print any furniture info.
+    mvwprintw( w_look, point( column, line++ ), "" );
+
+    mvwprintz( w_look, point( column, line++ ), c_light_blue, _( "-----FURNITURE-----" ) );
+
     // Print furniture name in white
     std::string desc = uppercase_first_letter( here.furnname( lp ) );
     mvwprintz( w_look, point( column, line++ ), c_white, desc );
 
     // Print each line of furniture description in gray
     const furn_id &f = here.furn( lp );
-    desc = string_format( f.obj().description );
+    desc = string_format( f.obj().description.translated() );
     std::vector<std::string> lines = foldstring( desc, max_width );
     int numlines = lines.size();
     wattron( w_look, c_light_gray );

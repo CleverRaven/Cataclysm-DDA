@@ -11,12 +11,12 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "void_spider_lair_entrance", "void_spider_lair_a1", "void_spider_lair_a2" ],
+    "id": "void_spider_lair",
     "vision_levels": "always_full",
-    "name": "abyss",
+    "name": "abyssal cavern",
     "sym": " ",
     "color": "black",
     "see_cost": "opaque",
-    "flags": [ "RISK_EXTREME" ]
+    "flags": [ "RISK_EXTREME", "NO_ROTATE" ]
   }
 ]

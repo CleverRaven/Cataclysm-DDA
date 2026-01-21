@@ -396,6 +396,7 @@ Add Radiosphere dimension
 Rework the blood analysis quest
 A new nether-creature encounter with prototype XEDRA tech as a reward
 new 2-piece Powered Air Purifying Respirator (PAPR) system
+New demo power tools + more difficult, but more consistent, concrete removal
 
 
 ## Interface:
@@ -529,6 +530,9 @@ Rework inventory capacity summary
 Show weapon category in item info
 Optimize pinyin search
 Move the lore snippets from the faction to the diary UI
+Persist zoom levels
+Improved controller support to add left trigger to switch to alternate buttons, and radial menus
+Add crafting recipe **filter** by its source
 
 
 ## Mods:
@@ -979,6 +983,10 @@ Martial Mastery: New defense oriented perkline.
 [Magiclysm] Shapeshifting and druid items
 Add an enchantment that modifies the 'free dodges' stat introduced for Martial Art styles
 [Sky Island] Missions take place in alternate dimensions
+[Magiclysm] The great spell categorization
+[Magiclysm] The great spell itemgroup reorganization
+[MoM] Add Rainywood Oubliette dimension
+[Magiclysm] Add restricted and illegal spells to appropriate locations
 
 
 
@@ -1097,6 +1105,7 @@ Add UNBREAKABLE_MORALE flag, apply it to zombies
 Murdering humans('monsters') is still murdering humans
 Fixes Cloud Formation and Pressure
 Getting hurt is bad for your long-term health
+You can't choose where you will appear after exiting a reverberation
 
 
 ## Bugfixes:
@@ -1509,6 +1518,8 @@ Properly load the region type of the dimension the game was last saved in
 Make pockets check volume of a single charge against min_item_volume
 fix a crash when opening the item comparison window
 Remove anvilmancy (the ability to teleport anvils above zombies)
+Workaround UTF-8 and wide string conversion failure on some Linux/macOS systems
+Reset consume menu state when closed
 
 
 ## Performance:

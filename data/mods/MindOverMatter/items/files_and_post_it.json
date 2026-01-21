@@ -292,6 +292,22 @@
   },
   {
     "type": "ITEM",
+    "id": "lab_file_shadow_urge_item",
+    "name": { "str": "report (SHADOW URGE)", "str_pl": "copies of report (SHADOW URGE)" },
+    "category": "books",
+    "description": "A folder full of what appear to be transcripts of experimental results or reports, with a large \"Project SHADOW URGE\" on the front.  Most of it is rather trivial, but certain passages catch your eye…",
+    "snippet_category": "lab_file_shadow_urge",
+    "weight": "15 g",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "50 ml",
+    "flags": [ "TRADER_AVOID" ],
+    "copy-from": "file"
+  },
+  {
+    "type": "ITEM",
     "id": "id_science_visitor_phavian",
     "symbol": ",",
     "color": "red",
@@ -315,7 +331,11 @@
         { "om_terrain": "psi_phavian_lab", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "phavan_office_skyscraper_lab", "om_terrain_match_type": "PREFIX" },
         "office_cubical_phavian",
-        "office_cubical_phavian_basement"
+        "office_cubical_phavian_basement",
+        "phavian_hospital_basement_nw",
+        "phavian_hospital_basement_ne",
+        "phavian_hospital_basement_sw",
+        "phavian_hospital_basement_se"
       ]
     }
   }

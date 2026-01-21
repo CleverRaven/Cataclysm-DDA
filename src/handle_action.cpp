@@ -51,6 +51,7 @@
 #include "help.h"
 #include "input_context.h"
 #include "input_enums.h"
+#include "input_popup.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_group.h"
@@ -87,7 +88,6 @@
 #include "sleep.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "timed_event.h"
 #include "translation.h"
 #include "translations.h"
@@ -919,16 +919,14 @@ static void haul()
         case 3:
             autohaul ? player_character.stop_autohaul() : player_character.start_autohaul();
             break;
-        case 4:
-            string_input_popup()
-            .title( _( "Filter:" ) )
-            .width( 55 )
-            .description( item_filter_rule_string( item_filter_type::FILTER ) )
-            .desc_color( c_white )
-            .identifier( "item_filter" )
-            .max_length( 256 )
-            .edit( player_character.hauling_filter );
-            break;
+        case 4: {
+            string_input_popup_imgui filter_popup( 50, player_character.hauling_filter );
+            filter_popup.set_label( _( "Filter:" ) );
+            filter_popup.set_description( item_filter_rule_string( item_filter_type::FILTER ), c_white, true );
+            filter_popup.set_identifier( "item_filter" );
+            player_character.hauling_filter = filter_popup.query();
+        }
+        break;
         case 9:
         default:
             break;
@@ -3339,6 +3337,10 @@ bool game::handle_action()
     if( act != ACTION_TIMEOUT ) {
         player_character.mod_moves( -current_turn.moves_elapsed() );
     }
+    if( act != ACTION_PAUSE ) {
+        player_character.magic->break_channeling( player_character );
+    }
+
     gamemode->post_action( act );
 
     player_character.movecounter = ( !player_character.is_dead_state() ? ( before_action_moves -

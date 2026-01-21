@@ -27,6 +27,14 @@
       "highland_crossroads_temple_above",
       "highland_crossroads_temple_above2",
       "highland_road",
+      "ruined_tower_highlands_basement",
+      "ruined_tower_highlands_ground",
+      "ruined_tower_highlands_z1",
+      "ruined_tower_highlands_z2",
+      "ruined_tower_highlands_z3",
+      "ruined_tower_highlands_z4",
+      "ruined_tower_highlands_z5",
+      "radio_tower_reverberation_mp3",
       "radiosphere_radio_tower_top",
       "radiosphere_deletion_plane",
       "rock_border",
@@ -65,7 +73,11 @@
       "pottery_cottage_field_2nd",
       "pottery_cottage_field_roof",
       "pottery_cottage_field",
-      "pottery_cottage_basement"
+      "pottery_cottage_basement",
+      "void_spider_lair",
+      "xedra_fishing_shack_0",
+      "xedra_fishing_shack_1",
+      "xedra_fishing_shack_2"
     ]
   }
 ]

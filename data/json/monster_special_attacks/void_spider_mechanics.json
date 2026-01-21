@@ -14,20 +14,125 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Touch the effigy.",
-      "effect_on_conditions": [
-        {
-          "id": "VOID_SPIDER_TEST_MAP",
-          "effect": [
-            { "u_message": "The world warps." },
-            {
-              "u_location_variable": { "global_val": "spider_map" },
-              "target_params": { "om_terrain": "void_spider_lair_entrance", "z": -5, "min_distance": 1 }
-            },
-            { "u_teleport": { "global_val": "spider_map" }, "force": true }
-          ]
-        }
-      ]
+      "effect_on_conditions": [ "EOC_VOID_SPIDER_RESET_VARS", "EOC_SPIDER_DIMENSION_TELEPORT" ]
     }
+  },
+  {
+    "type": "trap",
+    "id": "tr_void_spider_entry",
+    "name": "",
+    "color": "green",
+    "symbol": "#",
+    "visibility": 99,
+    "always_invisible": true,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 0,
+    "flags": [ "UNDODGEABLE" ],
+    "action": "eocs",
+    "eocs": [ "EOC_SPIDER_DIMENSION_TELEPORT" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPIDER_DIMENSION_TELEPORT",
+    "condition": { "math": [ "void_spider_killed != 1" ] },
+    "global": true,
+    "effect": [
+      {
+        "u_travel_to_dimension": "spider_dimension",
+        "npc_travel_radius": 0,
+        "region_type": "spider_dimension",
+        "npc_travel_filter": "none",
+        "fail_message": "Nothing happens.",
+        "success_message": "The abyss opens up around you."
+      },
+      {
+        "u_location_variable": { "context_val": "spider_map" },
+        "target_params": { "om_terrain": "void_spider_lair", "z": -1 },
+        "terrain": "t_nether_glass_floor_basalt",
+        "target_max_radius": 26
+      },
+      { "u_teleport": { "context_val": "spider_map" } },
+      { "run_eocs": "EOC_IN_VOID_SPIDER_LAIR", "time_in_future": "1 seconds" }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "void_spider_gore",
+    "name": { "str": "Great Gore Heap", "//~": "NO_I18N" },
+    "description": { "str": "Calls foul chunks of gore and acid from the great heap.", "//~": "NO_I18N" },
+    "extra_effects": [
+      { "id": "void_spider_acid" },
+      { "id": "void_spider_gore_repeat" },
+      { "id": "void_spider_acid" },
+      { "id": "void_spider_gore_repeat" }
+    ],
+    "valid_targets": [ "ground", "self", "ally" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "bash",
+    "min_damage": 1,
+    "max_damage": 1,
+    "flags": [ "LOUD", "RANDOM_TARGET", "RANDOM_DAMAGE", "RANDOM_AOE", "NO_EXPLOSION_SFX", "SILENT" ],
+    "base_casting_time": 100,
+    "min_aoe": 2,
+    "max_aoe": 4,
+    "min_range": 20,
+    "max_range": 20
+  },
+  {
+    "type": "SPELL",
+    "id": "void_spider_gore_repeat",
+    "name": { "str": "Gore Heap - gore", "//~": "NO_I18N" },
+    "description": { "str": "A single bit of gore from the heap.", "//~": "NO_I18N" },
+    "valid_targets": [ "ground" ],
+    "effect": "attack",
+    "shape": "blast",
+    "message": "",
+    "damage_type": "bash",
+    "min_damage": 1,
+    "max_damage": 5,
+    "flags": [ "LOUD", "RANDOM_TARGET", "RANDOM_DAMAGE", "RANDOM_AOE" ],
+    "base_casting_time": 100,
+    "min_aoe": 1,
+    "max_aoe": 2,
+    "min_range": 10,
+    "max_range": 30,
+    "field_id": "fd_gibs_flesh",
+    "field_chance": 2,
+    "min_field_intensity": 1,
+    "max_field_intensity": 3
+  },
+  {
+    "type": "SPELL",
+    "id": "void_spider_acid",
+    "name": { "str": "Gore Heap - acid", "//~": "NO_I18N" },
+    "description": { "str": "A single bit of acid from the heap.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile", "ground", "self", "ally" ],
+    "effect": "attack",
+    "shape": "blast",
+    "message": "",
+    "damage_type": "bash",
+    "min_damage": 1,
+    "max_damage": 3,
+    "flags": [ "LOUD", "RANDOM_TARGET", "RANDOM_DAMAGE", "RANDOM_AOE" ],
+    "base_casting_time": 100,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "min_range": 10,
+    "max_range": 30,
+    "field_id": "fd_acid",
+    "field_chance": 2,
+    "min_field_intensity": 1,
+    "max_field_intensity": 3
+  },
+  {
+    "type": "monster_attack",
+    "id": "void_spider_control",
+    "attack_type": "eoc",
+    "cooldown": 1,
+    "range": 35,
+    "eoc": [ "EOC_VOID_SPIDER_CONTROL" ]
   },
   {
     "type": "monster_attack",
@@ -39,22 +144,12 @@
     "hitsize_min": 4,
     "effects": [ { "id": "venom_blind", "duration": 120 } ],
     "hit_dmg_u": "%1$s's immaterial limbs crawl over you and sink their fangs in your %2$s!",
-    "hit_dmg_npc": "%1$s buries its beak in <npcname>!",
+    "hit_dmg_npc": "%1$s's immaterial limbs sink into <npcname>!",
     "miss_msg_u": "%1$s's hanging limbs try to bite you, but you dodge!",
     "miss_msg_npc": "%1$s's hanging limbs try to bite <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s's hanging limbs try to bite your %2$s, but fails to penetrate your armor!",
     "no_dmg_msg_npc": "%1$s's hanging limbs try to bite <npcname>, but fails to penetrate their armor!",
     "condition": { "or": [ { "npc_has_effect": "WEBBED" }, { "npc_has_effect": "GRABBED" } ] }
-  },
-  {
-    "type": "ter_furn_transform",
-    "id": "cavern_emptiness",
-    "terrain": [ { "result": [ "t_nether_glass_floor_basalt" ], "valid_terrain": [ "t_nether_basalt" ] } ]
-  },
-  {
-    "type": "ter_furn_transform",
-    "id": "cavern_emptiness_revert",
-    "terrain": [ { "result": [ "t_nether_basalt" ], "valid_terrain": [ "t_nether_glass_floor_basalt" ] } ]
   },
   {
     "id": "void_spider_empty",
@@ -66,35 +161,13 @@
     "effect": "ter_transform",
     "effect_str": "cavern_emptiness",
     "shape": "blast",
-    "min_aoe": 5,
-    "max_aoe": 5
+    "min_aoe": 12,
+    "max_aoe": 12
   },
   {
-    "id": "void_spider_empty_revert",
-    "name": { "str": "Void spider revert emptiness", "//~": "NO_I18N" },
-    "description": { "str": "Constantly empties the area around the spider.", "//~": "NO_I18N" },
-    "valid_targets": [ "ally", "hostile", "ground" ],
-    "type": "SPELL",
-    "effect": "ter_transform",
-    "effect_str": "cavern_emptiness_revert",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "shape": "blast",
-    "min_aoe": 35,
-    "max_aoe": 35
-  },
-  {
-    "id": "void_spider_control",
-    "type": "SPELL",
-    "name": { "str": "Void spider control", "//~": "NO_I18N" },
-    "description": { "str": "Void spiders control themselves using this one.", "//~": "NO_I18N" },
-    "valid_targets": [ "self" ],
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "shape": "blast",
-    "min_range": 1,
-    "max_range": 1,
-    "message": "",
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_VOID_SPIDER_CONTROL"
+    "type": "ter_furn_transform",
+    "id": "cavern_emptiness",
+    "terrain": [ { "result": [ "t_nether_glass_floor_basalt" ], "valid_terrain": [ "t_nether_basalt" ] } ]
   },
   {
     "type": "SPELL",
@@ -116,66 +189,11 @@
     "effect_str": "mon_void_spider"
   },
   {
-    "type": "SPELL",
-    "id": "mon_void_weaver_death",
-    "name": { "str": "Void Weaver Death", "//~": "NO_I18N" },
-    "description": { "str": "Ends the fight.", "//~": "NO_I18N" },
-    "valid_targets": [ "self", "hostile", "ally" ],
-    "max_level": 1,
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
-    "base_casting_time": 75,
-    "min_range": 15,
-    "max_range": 15,
-    "min_aoe": 30,
-    "max_aoe": 30,
-    "shape": "blast",
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_VOID_SPIDER_ON_DEATH"
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_ENTER_VOID_SPIDER_LAIR",
-    "eoc_type": "EVENT",
-    "required_event": "avatar_enters_omt",
-    "condition": { "or": [ { "u_at_om_location": "void_spider_lair_a1" }, { "u_at_om_location": "void_spider_lair_a2" } ] },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "seal_void_spider_lair",
-            "condition": { "math": [ "spider_lair_sealed != 1" ] },
-            "effect": [
-              { "mapgen_update": "void_spider_lair_entrance_shift", "om_terrain": "void_spider_lair_entrance" },
-              { "math": [ "spider_lair_sealed = 1" ] },
-              { "run_eocs": "EOC_IN_VOID_SPIDER_LAIR", "time_in_future": "1 seconds" },
-              { "run_eocs": "EOC_VOID_SPIDER_EMPTY_REVERT", "time_in_future": "25 seconds" }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
     "type": "effect_on_condition",
     "id": "EOC_IN_VOID_SPIDER_LAIR",
-    "condition": {
-      "or": [
-        { "u_at_om_location": "void_spider_lair_entrance" },
-        { "u_at_om_location": "void_spider_lair_a1" },
-        { "u_at_om_location": "void_spider_lair_a2" }
-      ]
-    },
-    "deactivate_condition": {
-      "not": {
-        "or": [
-          { "u_at_om_location": "void_spider_lair_entrance" },
-          { "u_at_om_location": "void_spider_lair_a1" },
-          { "u_at_om_location": "void_spider_lair_a2" }
-        ]
-      }
-    },
+    "condition": { "or": [ { "u_at_om_location": "void_spider_lair" } ] },
+    "deactivate_condition": { "not": { "or": [ { "u_at_om_location": "void_spider_lair" } ] } },
     "effect": [
-      { "place_override": { "global_val": "place_name", "default": "strange cavern" }, "length": "10 seconds" },
       { "run_eocs": "EOC_IN_VOID_SPIDER_LAIR", "time_in_future": "1 seconds" },
       {
         "run_eocs": [
@@ -241,8 +259,12 @@
             "id": "void_spider_life_remaining",
             "condition": { "and": [ { "math": [ "u_hp('ALL') < 350" ] }, { "math": [ "u_void_spider_nest_disturbed != 1" ] } ] },
             "effect": [
+              { "math": [ "u_hp('ALL') += 150" ] },
+              { "u_lose_effect": "maimed_armor" },
               { "u_make_sound": "the spider mimic an anguished scream", "volume": 60, "type": "speech" },
               { "run_eocs": [ "EOC_VOID_SPIDER_DISTURBED_NEST" ] },
+              { "npc_location_variable": { "context_val": "disturbed_loc" }, "min_radius": 40, "max_radius": 50 },
+              { "u_teleport": { "context_val": "disturbed_loc" } },
               { "math": [ "u_void_spider_nest_disturbed = 1" ] }
             ]
           },
@@ -254,22 +276,68 @@
                 "real_count": { "math": [ "(u_hp('ALL') / 300)" ] },
                 "min_radius": 1,
                 "max_radius": 1,
-                "lifespan": [ "1 seconds", "3 seconds" ]
+                "lifespan": [ "2 seconds", "3 seconds" ]
               },
               {
-                "//": "6 of these at the start, looses one for every 100 hp lost, monster starts at 600 hp",
+                "//": "6 of these at the start, looses one for every 150 hp lost, monster starts at 900 hp",
                 "u_spawn_monster": "mon_void_spider_limb",
-                "real_count": { "math": [ "u_hp('ALL') / 100" ] },
+                "real_count": { "math": [ "u_hp('ALL') / 150" ] },
                 "min_radius": 2,
                 "max_radius": 2,
-                "lifespan": [ "1 seconds", "3 seconds" ]
+                "lifespan": [ "2 seconds", "3 seconds" ]
               }
             ]
           }
         ]
       },
+      { "u_location_variable": { "context_val": "my_loc" } },
+      { "npc_location_variable": { "context_val": "t_loc" } },
+      { "math": [ "_distance = distance('u', 'npc')" ] },
+      {
+        "switch": { "math": [ "_distance" ] },
+        "cases": [
+          { "case": 0, "effect": [ { "u_attack": "void_spider_bite" } ] },
+          {
+            "case": 15,
+            "effect": [ { "run_eocs": [ "EOC_VOID_SPIDER_GORE" ], "variables": { "tar": { "context_val": "t_loc" } } } ]
+          }
+        ]
+      },
       { "u_cast_spell": { "id": "void_spider_empty", "hit_self": true } }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HURT_WEAVER",
+    "condition": "has_alpha",
+    "effect": [
+      {
+        "if": "u_is_avatar",
+        "then": [
+          { "message": "The limb shatters like a pane of glass!", "type": "good" },
+          {
+            "npc_run_monster_eocs": [ { "id": "_EOC_HURT_WEAVER", "effect": { "u_deal_damage": "pure", "amount": 20, "bodypart": "torso" } } ],
+            "monster_range": 36
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VOID_SPIDER_GORE",
+    "condition": { "math": [ "spider_gore < 10" ] },
+    "effect": [
+      { "u_message": "Foul heaps of rotten flesh rain down from the Weaver's maw!", "type": "bad" },
+      { "u_cast_spell": { "id": "void_spider_gore" }, "loc": { "context_val": "tar" } },
+      { "math": [ "spider_gore++" ] },
+      {
+        "run_eocs": "EOC_VOID_SPIDER_GORE",
+        "time_in_future": "1 seconds",
+        "variables": { "tar": { "context_val": "t_loc" } }
+      }
+    ],
+    "false_effect": [ { "math": [ "spider_gore = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -283,8 +351,12 @@
         "real_count": [ 1, 3 ],
         "min_radius": 6,
         "max_radius": 12,
-        "lifespan": [ "10 seconds", "25 seconds" ]
+        "lifespan": [ "5 seconds", "25 seconds" ]
       },
+      { "u_location_variable": { "global_val": "void_spider_eggs" } },
+      { "u_location_variable": { "global_val": "void_spider_corpses" } },
+      { "location_variable_adjust": { "global_val": "void_spider_eggs" }, "overmap_tile": true, "x_adjust": 1 },
+      { "location_variable_adjust": { "global_val": "void_spider_corpses" }, "overmap_tile": true, "y_adjust": 1 },
       {
         "run_eocs": [
           {
@@ -301,7 +373,11 @@
             "id": "EOC_VOID_SPIDER_SPAWN_EGGS",
             "condition": { "and": [ { "one_in_chance": 3 }, { "math": [ "void_spider_nest_eggs_spawned != 1" ] } ] },
             "effect": [
-              { "mapgen_update": "void_spider_lair_eggs", "om_terrain": "void_spider_lair_a2" },
+              {
+                "mapgen_update": "void_spider_lair_eggs",
+                "om_terrain": "void_spider_lair",
+                "target_var": { "global_val": "void_spider_eggs" }
+              },
               { "math": [ "void_spider_nest_eggs_spawned = 1" ] }
             ]
           },
@@ -309,7 +385,11 @@
             "id": "EOC_VOID_SPIDER_SPAWN_CORPSES",
             "condition": { "and": [ { "one_in_chance": 6 }, { "math": [ "void_spider_nest_corpses_spawned != 1" ] } ] },
             "effect": [
-              { "mapgen_update": "void_spider_lair_corpses", "om_terrain": "void_spider_lair_a1" },
+              {
+                "mapgen_update": "void_spider_lair_corpses",
+                "om_terrain": "void_spider_lair",
+                "target_var": { "global_val": "void_spider_corpses" }
+              },
               { "math": [ "void_spider_nest_corpses_spawned = 1" ] }
             ]
           }
@@ -323,25 +403,9 @@
     "id": "EOC_VOID_SPIDER_CAST_CHAOS_SWAP",
     "global": true,
     "effect": [
-      { "u_location_variable": { "global_val": "void_spider_chaos_point_player" }, "min_radius": 5, "max_radius": 12 },
+      { "u_location_variable": { "global_val": "void_spider_chaos_point_player" }, "min_radius": 25, "max_radius": 30 },
       { "u_teleport": { "global_val": "void_spider_chaos_point_player" } },
       { "u_message": "The cavern shifts under unseen pressure." }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VOID_SPIDER_EMPTY_REVERT",
-    "global": true,
-    "condition": {
-      "or": [
-        { "u_at_om_location": "void_spider_lair_entrance" },
-        { "u_at_om_location": "void_spider_lair_a1" },
-        { "u_at_om_location": "void_spider_lair_a2" }
-      ]
-    },
-    "effect": [
-      { "u_cast_spell": { "id": "void_spider_empty_revert", "hit_self": true } },
-      { "run_eocs": "EOC_VOID_SPIDER_EMPTY_REVERT", "time_in_future": "25 seconds" }
     ]
   },
   {
@@ -349,15 +413,22 @@
     "id": "EOC_VOID_SPIDER_ON_DEATH",
     "effect": [
       { "run_eocs": "EOC_VOID_SPIDER_KILLED", "time_in_future": "0 seconds" },
-      { "run_eocs": "EOC_VOID_SPIDER_RESET_VARS", "time_in_future": "2 hours" },
       { "run_eocs": "EOC_DISSOLVE_VOID_SPIDER_LAIR", "time_in_future": "20 minutes" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_DISSOLVE_VOID_SPIDER_LAIR",
+    "global": true,
     "effect": [
       { "u_message": "The cavern folds itself beyond perception.", "popup": true },
+      {
+        "u_travel_to_dimension": "",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "Nothing seems to change.",
+        "success_message": "The emptiness seems to expand into endlessness."
+      },
       {
         "u_location_variable": { "global_val": "nether_glass" },
         "target_params": { "om_terrain": "nether_glass_deep", "z": -10, "min_distance": 1 }
@@ -379,9 +450,8 @@
     "type": "effect_on_condition",
     "id": "EOC_VOID_SPIDER_RESET_VARS",
     "global": true,
-    "//": "Reset in case someone finds a second lair under some extraneous circumstances.",
+    "//": "Reset vars for debugging.",
     "effect": [
-      { "math": [ "spider_lair_sealed = 0" ] },
       { "math": [ "void_spider_killed = 0" ] },
       { "math": [ "void_spider_nest_eggs_spawned = 0" ] },
       { "math": [ "void_spider_nest_corpses_spawned = 0" ] }

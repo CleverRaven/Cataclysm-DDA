@@ -59,10 +59,10 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
-#include "harvest.h"
 #include "iexamine.h"
 #include "input_context.h"
 #include "input_enums.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -112,7 +112,6 @@
 #include "speech.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "teleport.h"
 #include "text_snippets.h"
 #include "translation.h"
@@ -250,8 +249,6 @@ static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
-
-static const harvest_drop_type_id harvest_drop_blood( "blood" );
 
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_apparatus( "apparatus" );
@@ -2490,10 +2487,10 @@ std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint_
 std::optional<int> iuse::purify_water( Character *p, item *purifier, item_location &water )
 {
     const double default_ratio = 4; // Existing pur_tablets will not have the var
-    const int max_water_per_tablet = static_cast<int>( purifier->get_var( "water_per_tablet",
-                                     default_ratio ) );
+    double max_water_per_tablet_d = purifier->get_var( "water_per_tablet", default_ratio );
+    const int max_water_per_tablet = static_cast<int>( std::lround( max_water_per_tablet_d ) );
     if( max_water_per_tablet < 1 ) {
-        debugmsg( "ERROR: %s set to purify only %i water each.  Nothing was purified.",
+        debugmsg( _( "ERROR: %s set to purify only %d water each.  Nothing was purified." ),
                   purifier->typeId().str(), max_water_per_tablet );
         return std::nullopt;
     }
@@ -2511,8 +2508,8 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
     const int available = p->crafting_inventory().count_item( itype_pur_tablets );
     if( available * max_water_per_tablet >= charges_of_water ) {
         int to_consume = std::ceil( to_consume_f );
-        p->add_msg_if_player( m_info, _( "Purifying %i water using %i %s" ), charges_of_water, to_consume,
-                              purifier->tname( to_consume ) );
+        p->add_msg_if_player( m_info, _( "Purifying %d water using %d %s" ), charges_of_water,
+                              to_consume, purifier->tname( to_consume ) );
         // Pull from surrounding map first because it will update to_consume
         get_map().use_amount( p->pos_bub(), PICKUP_RANGE, itype_pur_tablets, to_consume );
         // Then pull from inventory
@@ -2521,7 +2518,7 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
         }
     } else {
         p->add_msg_if_player( m_info,
-                              _( "You need %i tablets to purify that.  You only have %i" ),
+                              _( "You need %d tablets to purify that.  You only have %d" ),
                               charges_of_water / max_water_per_tablet,  available );
         return std::nullopt;
     }
@@ -4451,9 +4448,6 @@ std::optional<int> iuse::call_of_tindalos( Character *p, item *, const tripoint_
 
 std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_ms & )
 {
-    map &here = get_map();
-    const tripoint_bub_ms pos = p->pos_bub( here );
-
     if( p->is_npc() ) {
         return std::nullopt;    // No NPCs for now!
     }
@@ -4470,31 +4464,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_
     bool acid_blood = false;
     bool vampire = false;
     units::temperature blood_temp = units::from_kelvin( -1.0f ); //kelvins
-    for( item &map_it : here.i_at( pos.xy() ) ) {
-        if( map_it.is_corpse() &&
-            query_yn( _( "Draw blood from %s?" ),
-                      colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
-            p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it.tname() );
-            drew_blood = true;
-            blood_temp = map_it.temperature;
-
-            field_type_id bloodtype( map_it.get_mtype()->bloodType() );
-            if( bloodtype.obj().has_acid ) {
-                acid_blood = true;
-            } else {
-                blood.set_mtype( map_it.get_mtype() );
-
-                for( const harvest_entry &entry : map_it.get_mtype()->harvest.obj() ) {
-                    if( entry.type == harvest_drop_blood ) {
-                        blood.convert( itype_id( entry.drop ) );
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    if( !drew_blood && query_yn( _( "Draw your own blood?" ) ) ) {
+    if( query_yn( _( "Draw your own blood?" ) ) ) {
         p->add_msg_if_player( m_info, _( "You drew your own blood…" ) );
         drew_blood = true;
         blood_temp = units::from_celsius( 37 );
@@ -4915,13 +4885,12 @@ std::optional<int> iuse::spray_can( Character *p, item *it, const tripoint_bub_m
 std::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
         map *here, const tripoint_bub_ms &where )
 {
-    string_input_popup popup;
-    std::string message = popup
-                          .description( prefix + " " + _( "(To delete, clear the text and confirm)" ) )
-                          .text( here->has_graffiti_at( where ) ? here->graffiti_at( where ) : std::string() )
-                          .identifier( "graffiti" )
-                          .query_string();
-    if( popup.canceled() ) {
+    string_input_popup_imgui popup( 50,
+                                    here->has_graffiti_at( where ) ? here->graffiti_at( where ) : std::string() );
+    popup.set_description( prefix + " " + _( "(To delete, clear the text and confirm)" ) );
+    popup.set_identifier( "graffiti" );
+    std::string message = popup.query();
+    if( popup.cancelled() ) {
         return std::nullopt;
     }
 
@@ -8339,10 +8308,19 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
             units::mass not_frozen_weight = 0_gram;
             for( const auto &pair : locs ) {
                 used_volume +=  pair.first->volume( false, true, pair.second );
-                if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
-                    frozen_weight +=  pair.first->weight( false, false ) * pair.second ;
+                units::mass item_weight = 0_gram;
+                if( pair.first->count_by_charges() ) {
+                    const int charges_in_item = pair.first->charges;
+                    if( charges_in_item > 0 ) {
+                        item_weight = pair.first->weight( false, false ) / charges_in_item * pair.second;
+                    }
                 } else {
-                    not_frozen_weight +=  pair.first->weight( false, false ) * pair.second;
+                    item_weight = pair.first->weight( false, false ) * pair.second;
+                }
+                if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
+                    frozen_weight += item_weight;
+                } else {
+                    not_frozen_weight += item_weight;
                 }
             }
             heating_requirements required = heating_requirements_for_weight( frozen_weight, not_frozen_weight,
@@ -8386,10 +8364,19 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     }
     for( const auto &pair : to_heat ) {
         used_volume +=  pair.first->volume( false, true, pair.second );
-        if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
-            frozen_weight +=  pair.first->weight( false, false ) * pair.second ;
+        units::mass item_weight = 0_gram;
+        if( pair.first->count_by_charges() ) {
+            const int charges_in_item = pair.first->charges;
+            if( charges_in_item > 0 ) {
+                item_weight = pair.first->weight( false, false ) / charges_in_item * pair.second;
+            }
         } else {
-            not_frozen_weight +=  pair.first->weight( false, false ) * pair.second;
+            item_weight = pair.first->weight( false, false ) * pair.second;
+        }
+        if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
+            frozen_weight += item_weight;
+        } else {
+            not_frozen_weight += item_weight;
         }
     }
     heating_requirements required = heating_requirements_for_weight( frozen_weight, not_frozen_weight,

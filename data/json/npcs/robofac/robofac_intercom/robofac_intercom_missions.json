@@ -929,6 +929,12 @@
     "difficulty": 5,
     "value": 0,
     "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "robofachq_surface_entrance",
+          "place_nested": [ { "chunks": [ "robofac_hq_surface_merc_2" ], "x": 1, "y": 9 } ]
+        }
+      ],
       "effect": [
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_portal_sm_1", "value": "yes" },
         { "math": [ "u_hub01_completed_missions++" ] }
@@ -1014,10 +1020,11 @@
       "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER",
       "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_MWS",
       "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Reality_Bubble",
+      "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Recording_Length",
       "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Replacement"
     ],
     "type": "talk_topic",
-    "dynamic_line": "Your field NRE recordings are of continued interest of us.  Since you have proved yourself capable, we would like to expand your assignment.  We are willing to provide you with a mobile weather station.  We'd like you to set it up and deploy it near the eye of one of these portal storms.  A standard recording takes 1 hour.  We realize the anomalies may not last that long, so as long as the portal storm passes over the unit while recording, we can make use of the data.  As payment we will let you keep the weather system and pay you our standard subcontracting rate.",
+    "dynamic_line": "Your field NRE recordings are of continued interest of us.  Since you have proved yourself capable, we would like to expand your assignment.  We are willing to provide you with a mobile weather station.  We'd like you to set it up and deploy it near a portal storm.  A standard recording takes 1 hour.  We realize the anomalies may not last that long, so as long as the portal storm passes near the unit while recording, we can make use of the data.  As payment we will let you keep the weather system and pay you our standard subcontracting rate.",
     "responses": [
       {
         "text": "More science?  I'm in.",
@@ -1028,6 +1035,10 @@
       {
         "text": "Do I need to stay near the station while it records?",
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Reality_Bubble"
+      },
+      {
+        "text": "How close do I need to get and do I need to record for the full hour?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Recording_Length"
       },
       {
         "text": "If I lose the station or break it, what should I do?",
@@ -1045,6 +1056,11 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Reality_Bubble",
     "type": "talk_topic",
     "dynamic_line": "You do not.  This is expensive technology in short supply, so you may wish to defend it from anomalous interference.  But the device can hypothetically be left and collected later."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Recording_Length",
+    "type": "talk_topic",
+    "dynamic_line": "You do need to have the storm, in some capacity, be active near the unit while it is recording.  But, we do not expect you to record from the eye of the storm, nor does the storm need to be active for the full hour.  As long as you capture some data it will suffice.  We caution you not to shut off the device early - allow it to finish the 1 hour recording subroutine so that it prints useable data."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Replacement",
@@ -1482,7 +1498,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_1",
     "type": "mission_definition",
     "name": { "str": "Weather Permitting" },
-    "description": "Take the mobile weather station into a portal storm, assemble it, and start a recording.  After 1 hour the station will produce a datasheet to return to Hub 01.",
+    "description": "Assemble and <color_yellow>activate the 1-hour recording subroutine</color> on a <color_yellow>a mobile weather station</color> during an <color_yellow>early</color>, <color_yellow>distant</color>, or <color_yellow>close portal storm</color>.  After 1 hour the station will print some sort of <color_yellow>strange weather datasheet</color> to return to Hub 01.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
@@ -1511,7 +1527,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_2",
     "type": "mission_definition",
     "name": { "str": "System Retrieval" },
-    "description": "Travel to the DARPA research station and find the mobile hazardous environment weather station.  Should I bring a swimsuit?",
+    "description": "Travel to the DARPA research station and find the <color_yellow>mobile hazardous environment weather station</color>.  Should I bring a swimsuit?",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
@@ -1549,7 +1565,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_3",
     "type": "mission_definition",
     "name": { "str": "Storm Chaser" },
-    "description": "Take the mobile HEW station into a portal storm, assemble it, and start a recording.  After 1 hour the station will produce a datasheet to return to Hub 01.",
+    "description": "Take the <color_yellow>mobile hazardous environment weather station</color> into an <color_yellow>early</color>, <color_yellow>distant</color>, or <color_yellow>close portal storm</color>, assemble it, and start a recording.  Return the resulting <color_yellow>HEW anomalous weather printout</color> to Hub 01.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
@@ -1578,7 +1594,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_4",
     "type": "mission_definition",
     "name": { "str": "True Weatherperson" },
-    "description": "Record strange things for Hub 01.  They recommend scanning with the HEW system anywhere there is portal activity.",
+    "description": "Record \"atmospheric\" data return a HEW datasheet to Hub 01.  They recommend scanning with the HEW system anywhere there is, or was, portal activity.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,

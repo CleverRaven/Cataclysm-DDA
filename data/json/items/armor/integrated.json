@@ -1774,5 +1774,146 @@
       }
     ],
     "melee_damage": { "stab": 15 }
+  },
+  {
+    "id": "integrated_hooves",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "hooves" },
+    "description": "You have hooves on the ends of your feet rather than toes.  They allow powerful kicking attacks, but prevent wearing footwear.",
+    "weight": "250 g",
+    "volume": "500 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "chitin" ],
+    "symbol": "b",
+    "color": "brown",
+    "warmth": 2,
+    "techniques": [
+      "HOOVES_KICK",
+      "HOOVES_KICK_AGAINST_LARGE",
+      "HOOVES_KICK_NATURAL",
+      "HOOVES_KICK_NATURAL_AGAINST_LARGE",
+      "HOOVES_KICK_CRIT",
+      "HOOVES_KICK_CRIT_AGAINST_LARGE"
+    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "WATER_FRIENDLY", "PROVIDES_TECHNIQUES", "SKINTIGHT" ],
+    "armor": [
+      {
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_sole_r", "foot_sole_l" ],
+        "coverage": 100,
+        "encumbrance": 1
+      }
+    ]
+  },
+  {
+    "id": "integrated_toe_talons",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "talons" },
+    "description": "Your toes have become talons.  They make wicked natural daggers, allowing for damaging kick attacks.  Unfortunately, they get in the way of everything including shoes.",
+    "weight": "100 g",
+    "volume": "350 ml",
+    "//": "No butcher or fine cut because it's your feet",
+    "qualities": [ [ "CUT", 2 ] ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "chitin" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "techniques": [ "TOE_TALONS_KICK", "TOE_TALONS_KICK_NATURAL", "TOE_TALONS_KICK_CRIT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES", "SKINTIGHT" ],
+    "armor": [
+      {
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_l", "foot_toes_r" ],
+        "coverage": 10,
+        "encumbrance": 1
+      }
+    ]
+  },
+  {
+    "id": "integrated_horns_curled",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "curled horns" },
+    "description": "You have a set of curling horns, like those of a ram.",
+    "weight": "2000 g",
+    "volume": "2500 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "bone" ],
+    "symbol": "V",
+    "color": "dark_gray",
+    "techniques": [ "CURLED_HORNS_BASH", "CURLED_HORNS_BASH_NATURAL", "CURLED_HORNS_BASH_CRIT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown" ],
+        "coverage": 20,
+        "encumbrance": 2
+      }
+    ]
+  },
+  {
+    "id": "integrated_horns_pointed",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "pointed horns" },
+    "description": "You have a set of long pointed horns, like those of a antelope.",
+    "weight": "2000 g",
+    "volume": "2500 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "bone" ],
+    "symbol": "V",
+    "color": "dark_gray",
+    "techniques": [ "POINTED_HORNS_STAB", "POINTED_HORNS_STAB_NATURAL", "POINTED_HORNS_STAB_CRIT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown" ],
+        "coverage": 20,
+        "encumbrance": 2
+      }
+    ]
+  },
+  {
+    "id": "integrated_antlers",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "antlers" },
+    "description": "You have a majestic crown of antlers, like those of a deer or moose.",
+    "weight": "2000 g",
+    "volume": "2500 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "bone" ],
+    "symbol": "V",
+    "color": "dark_gray",
+    "techniques": [ "ANTLERS_BASH", "ANTLERS_BASH_NATURAL", "ANTLERS_BASH_CRIT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "AURA", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown" ],
+        "coverage": 20,
+        "encumbrance": 2
+      }
+    ],
+    "melee_damage": { "bash": 6 }
   }
 ]

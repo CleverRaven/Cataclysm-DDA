@@ -231,8 +231,6 @@
 #define UNUSED
 #endif
 
-static const activity_id ACT_TRAIN( "ACT_TRAIN" );
-static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
@@ -251,7 +249,6 @@ static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_stab( "stab" );
 
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
-static const efftype_id effect_asked_to_train( "asked_to_train" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_cramped_space( "cramped_space" );
@@ -1559,24 +1556,6 @@ bool game::cancel_activity_query( const std::string &text )
     }
     g->invalidate_main_ui_adaptor();
     if( query_yn( "%s %s", text, u.activity.get_stop_phrase() ) ) {
-        if( u.activity.id() == ACT_TRAIN_TEACHER ) {
-            for( npc &n : all_npcs() ) {
-                // Also cancel activities for students
-                for( const int st_id : u.activity.values ) {
-                    if( n.getID().get_value() == st_id ) {
-                        n.cancel_activity();
-                    }
-                }
-            }
-            u.remove_effect( effect_asked_to_train );
-        } else if( u.activity.id() == ACT_TRAIN ) {
-            for( npc &n : all_npcs() ) {
-                // If the player is the only student, cancel the teacher's activity
-                if( n.getID().get_value() == u.activity.index && n.activity.values.size() == 1 ) {
-                    n.cancel_activity();
-                }
-            }
-        }
         u.cancel_activity();
         u.abort_automove();
         u.resume_backlog_activity();
@@ -2293,6 +2272,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     }
                     break;
                 case 't': {
+                    ui_impl.reset();
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
                     avatar_action::plthrow( u, locThisItem );
@@ -2340,20 +2320,24 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'v':
                     if( oThisItem.is_container() ) {
+                        ui_impl.reset();
                         oThisItem.favorite_settings_menu();
                     }
                     break;
                 case 'V': {
+                    ui_impl.reset();
                     view_recipe_crafting_menu( oThisItem );
                     break;
                 }
                 case 'i':
                     if( oThisItem.is_container() ) {
+                        ui_impl.reset();
                         game_menus::inv::insert_items( locThisItem );
                     }
                     break;
                 case 'o':
                     if( oThisItem.is_container() && oThisItem.num_item_stacks() > 0 ) {
+                        ui_impl.reset();
                         game_menus::inv::common( locThisItem );
                     }
                     break;
@@ -6155,11 +6139,9 @@ look_around_result game::look_around(
             creature_tracker &creatures = get_creature_tracker();
             monster *const mon = creatures.creature_at<monster>( lp, true );
             if( mon ) {
-                string_input_popup popup;
-                popup
-                .title( _( "Nickname:" ) )
-                .width( 85 )
-                .edit( mon->nickname );
+                string_input_popup_imgui popup( 50, mon->nickname );
+                popup.set_label( _( "Nickname:" ) );
+                mon->nickname = popup.query();
             }
         } else if( action == "CENTER" ) {
             center = u.pos_bub();

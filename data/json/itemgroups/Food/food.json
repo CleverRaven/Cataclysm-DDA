@@ -38,7 +38,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "prob": 50, "group": "flour_various" },
+      { "prob": 80, "group": "flour_various" },
       { "prob": 10, "group": "potato_bag_plastic_1" },
       { "prob": 10, "group": "onion_bag_plastic_1" },
       { "prob": 50, "group": "yeast_various" },
@@ -55,7 +55,7 @@
       { "item": "salted_fish", "prob": 15 },
       { "prob": 40, "group": "dry_beans_bag_plastic_full" },
       { "prob": 30, "group": "dry_lentils_bag_plastic_full" },
-      { "prob": 40, "group": "dry_rice_bag_plastic_full" },
+      { "prob": 60, "group": "dry_rice_various" },
       { "prob": 10, "group": "freeze_dried_meal_box_any" },
       { "prob": 40, "group": "gelatin_powder_bag_plastic_full" },
       { "prob": 15, "group": "chem_agar_bottle_plastic_small_50" },
@@ -286,7 +286,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "offal_canned", "prob": 1 },
-      { "item": "can_coconut", "prob": 1 },
+      { "group": "coconut_milk_in_can", "prob": 1 },
       { "item": "con_milk", "prob": 1 },
       { "item": "milk_evap", "prob": 1 },
       { "item": "sauce_red", "prob": 1 },
@@ -346,7 +346,7 @@
       { "prob": 30, "group": "spam_in_can" },
       { "prob": 30, "group": "pineapple_in_can" },
       { "item": "can_peach", "prob": 30 },
-      { "item": "can_coconut", "prob": 10 },
+      { "group": "coconut_milk_in_can", "prob": 10 },
       { "item": "can_sardine", "prob": 14 },
       { "group": "tuna_in_can", "prob": 35 },
       { "group": "clams_in_can", "prob": 25 },
@@ -372,7 +372,7 @@
       { "item": "soup_dumplings", "prob": 15 },
       { "item": "curry_veggy", "prob": 15 },
       { "item": "curry_meat", "prob": 15 },
-      { "prob": 30, "group": "flour_various" },
+      { "prob": 80, "group": "flour_various" },
       { "prob": 20, "group": "milk_powder_various" },
       { "prob": 20, "group": "cocoa_powder_various" },
       { "prob": 20, "group": "milk_cocoa_powder_various" },
@@ -411,7 +411,7 @@
       { "item": "lutefisk", "prob": 1 },
       { "prob": 40, "group": "dry_beans_bag_plastic_full" },
       { "prob": 40, "group": "dry_lentils_bag_plastic_full" },
-      { "prob": 40, "group": "dry_rice_bag_plastic_full" },
+      { "prob": 60, "group": "dry_rice_various" },
       { "prob": 6, "group": "meat_pickled_jar_glass_sealed_2" },
       { "prob": 2, "group": "kitchen_sealed_3L_jar" },
       { "group": "big_canned_food", "prob": 1 },
@@ -1337,10 +1337,44 @@
     "entries": [ { "item": "can_corn", "container-item": "null", "count": 6 } ]
   },
   {
-    "id": "raw_coffee",
+    "id": "ground_coffee_small",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "coffee_raw", 1 ], [ "coffee_raw_kentucky", 1 ], [ "instant_coffee", 1 ], [ "roasted_coffee_bean", 1 ] ]
+    "entries": [
+      { "item": "coffee_raw", "count": [ 1, 30 ] },
+      { "item": "coffee_raw_kentucky", "count": [ 1, 30 ] },
+      { "item": "roasted_coffee_bean", "count": [ 1, 30 ] }
+    ]
+  },
+  {
+    "id": "ground_coffee_small_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "coffee_raw", "count": 30 },
+      { "item": "coffee_raw_kentucky", "count": 30 },
+      { "item": "roasted_coffee_bean", "count": 30 }
+    ]
+  },
+  {
+    "id": "ground_coffee_big",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "coffee_raw", "count": [ 1, 60 ] },
+      { "item": "coffee_raw_kentucky", "count": [ 1, 60 ] },
+      { "item": "roasted_coffee_bean", "count": [ 1, 60 ] }
+    ]
+  },
+  {
+    "id": "ground_coffee_big_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "coffee_raw", "count": 60 },
+      { "item": "coffee_raw_kentucky", "count": 60 },
+      { "item": "roasted_coffee_bean", "count": 60 }
+    ]
   },
   {
     "id": "raw_coffee_in_container",
@@ -1349,18 +1383,21 @@
     "entries": [
       {
         "distribution": [
-          { "prob": 1, "group": "raw_coffee", "count": [ 1, 13 ], "entry-wrapper": "can_medium" },
-          { "prob": 1, "group": "raw_coffee", "count": [ 1, 13 ], "entry-wrapper": "bottle_glass_seasoning" },
-          { "prob": 1, "group": "raw_coffee", "count": [ 1, 13 ], "entry-wrapper": "bag_plastic_small" }
-        ],
-        "prob": 1
+          { "item": "instant_coffee", "count": [ 1, 40 ], "entry-wrapper": "bottle_glass_seasoning" },
+          { "item": "instant_coffee", "count": [ 1, 40 ], "entry-wrapper": "can_medium" }
+        ]
       },
       {
         "distribution": [
-          { "prob": 1, "group": "raw_coffee", "count": [ 1, 66 ], "entry-wrapper": "can_food_big" },
-          { "prob": 1, "group": "raw_coffee", "count": [ 1, 66 ], "entry-wrapper": "bag_plastic" }
-        ],
-        "prob": 1
+          { "group": "ground_coffee_small", "entry-wrapper": "can_food_big" },
+          { "group": "ground_coffee_small", "entry-wrapper": "bag_plastic" }
+        ]
+      },
+      {
+        "distribution": [
+          { "group": "ground_coffee_big", "entry-wrapper": "can_food_big" },
+          { "group": "ground_coffee_big", "entry-wrapper": "bag_plastic" }
+        ]
       }
     ]
   },
@@ -1371,18 +1408,21 @@
     "entries": [
       {
         "distribution": [
-          { "prob": 1, "group": "raw_coffee", "count": 13, "entry-wrapper": "can_medium" },
-          { "prob": 1, "group": "raw_coffee", "count": 13, "entry-wrapper": "bottle_glass_seasoning" },
-          { "prob": 1, "group": "raw_coffee", "count": 13, "entry-wrapper": "bag_plastic_small" }
-        ],
-        "prob": 1
+          { "item": "instant_coffee", "count": 40, "entry-wrapper": "bottle_glass_seasoning" },
+          { "item": "instant_coffee", "count": 40, "entry-wrapper": "can_medium" }
+        ]
       },
       {
         "distribution": [
-          { "prob": 1, "group": "raw_coffee", "count": 66, "entry-wrapper": "can_food_big" },
-          { "prob": 1, "group": "raw_coffee", "count": 66, "entry-wrapper": "bag_plastic" }
-        ],
-        "prob": 1
+          { "group": "ground_coffee_small_full", "entry-wrapper": "can_food_big" },
+          { "group": "ground_coffee_small_full", "entry-wrapper": "bag_plastic" }
+        ]
+      },
+      {
+        "distribution": [
+          { "group": "ground_coffee_big_full", "entry-wrapper": "can_food_big" },
+          { "group": "ground_coffee_big_full", "entry-wrapper": "bag_plastic" }
+        ]
       }
     ]
   },

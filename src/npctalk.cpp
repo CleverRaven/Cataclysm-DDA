@@ -10,7 +10,6 @@
 #include <list>
 #include <map>
 #include <memory>
-#include <numeric>
 #include <optional>
 #include <ostream>
 #include <set>
@@ -770,6 +769,10 @@ std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
                                    const std::string &prompt,
                                    const std::function<bool( const Character * )> &exclude_func )
 {
+    auto npc_enabled = [&exclude_func, &npc_list]( int list_index ) {
+        return exclude_func == nullptr || !exclude_func( npc_list[list_index] );
+    };
+
     std::vector<int> picked;
     if( npc_list.empty() ) {
         return picked;
@@ -784,7 +787,7 @@ std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
             if( std::find( picked.begin(), picked.end(), i ) != picked.end() ) {
                 entry = "* ";
             }
-            bool enable = exclude_func == nullptr || !exclude_func( npc_list[i] );
+            bool enable = npc_enabled( i );
             entry += npc_list[i]->name_and_maybe_activity();
             nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
         }
@@ -795,8 +798,12 @@ std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
         if( nmenu.ret < 0 ) {
             return std::vector<int>();
         } else if( nmenu.ret == npc_count ) {
-            picked.resize( npc_count );
-            std::iota( picked.begin(), picked.end(), 0 );
+            picked.clear();
+            for( int i = 0; i < npc_count; i++ ) {
+                if( npc_enabled( i ) ) {
+                    picked.emplace_back( i );
+                }
+            }
             last_index = nmenu.fselected;
             continue;
         } else if( nmenu.ret > npc_count ) {
@@ -3029,6 +3036,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
             input_event evt;
             action = ctxt.handle_input();
             evt = ctxt.get_raw_input();
+            if( evt.type == input_event_t::error || evt.type == input_event_t::timeout ) {
+                continue;
+            }
             d_win.handle_scrolling( action, ctxt );
             talk_topic st = special_talk( action );
             if( st.id != "TALK_NONE" ) {
@@ -7837,7 +7847,7 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
         }
         vehicle *veh = d.actor( is_npc )->get_vehicle();
         if( veh ) {
-            if( teleport::teleport_vehicle( *veh, target_pos ) ) {
+            if( teleport::teleport_vehicle( *veh, target_pos, force ) ) {
                 add_msg( success_message.evaluate( d ) );
             } else {
                 add_msg( fail_message.evaluate( d ) );

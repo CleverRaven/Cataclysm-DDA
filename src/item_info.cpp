@@ -473,14 +473,14 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 faults += colorize( fault.first.str() + string_format( " (%d, %d%%)\n", fault.second,
                                     weight_percent ), has_fault( fault.first ) ? c_yellow : c_white );
             }
-            info.emplace_back( "BASE", string_format( "faults: %s", faults ) );
+            info.emplace_back( "BASE", string_format( _( "faults: %s" ), faults ) );
 
             units::mass sum_of_components_weight;
             for( const item_comp &c : get_uncraft_components() ) {
                 sum_of_components_weight += c.type->weight * c.count;
             }
-            info.emplace_back( "BASE", string_format( "weight of uncraft components: %s grams",
-                               to_gram( sum_of_components_weight ) ) );
+            info.emplace_back( "BASE", string_format( _( "weight of uncraft components: %d grams" ),
+                               static_cast<int>( std::round( to_gram( sum_of_components_weight ) ) ) ) );
         }
     }
 }
@@ -1034,14 +1034,25 @@ std::string item::print_compatible_mags_or_flags() const
     if( !mag_compatible.empty() ) {
         std::set<std::string> compat;
         std::string mag_names;
+
+        // if variants are on…
         if( get_option<bool>( "SHOW_GUN_VARIANTS" ) ) {
             for( const itype_id &i : mag_compatible ) {
-                for( const std::string &variant_name : i->all_variant_names() ) {
-                    compat.insert( variant_name );
+                const std::set<std::string> all_variant_names = i->all_variant_names();
+                // and magazine actually has variants…
+                if( !all_variant_names.empty() ) {
+                    for( const std::string &variant_name : all_variant_names ) {
+                        // print variant names
+                        compat.insert( variant_name );
+                    }
+                } else {
+                    // otherwise print the name of the magazine itself
+                    compat.insert( item::nname( i ) );
                 }
             }
             mag_names = enumerate_as_string( compat );
         } else {
+            // print just item names if variants are turned off
             const std::vector<itype_id> compat_sorted = sorted_lex( mag_compatible );
             mag_names = enumerate_as_string( compat_sorted,
             []( const itype_id & id ) {

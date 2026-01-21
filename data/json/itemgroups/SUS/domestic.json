@@ -476,6 +476,7 @@
       { "item": "pot_copper", "prob": 75 },
       { "item": "stock_pot", "prob": 50 },
       { "item": "pot_canning", "prob": 25 },
+      { "item": "pressure_cooker", "prob": 15 },
       { "item": "colander_steel", "prob": 80 },
       { "item": "splatter_guard", "prob": 20 },
       { "item": "pan", "count": [ 1, 2 ] },
@@ -876,10 +877,7 @@
         ],
         "prob": 10
       },
-      {
-        "distribution": [ { "item": "nyquil", "prob": 60, "charges": [ 1, -1 ] }, { "item": "dayquil", "prob": 20, "charges": [ 1, -1 ] } ],
-        "prob": 50
-      },
+      { "group": "any_cough_syrup_in_bottle", "prob": 70 },
       {
         "distribution": [
           { "group": "adhesive_bandages_box_used", "prob": 30 },

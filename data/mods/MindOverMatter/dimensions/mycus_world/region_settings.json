@@ -12,6 +12,7 @@
     "lakes": null,
     "ocean": null,
     "forests": "mom_mycus_world",
+    "forest_composition": "mom_mycus_world",
     "terrain_furniture": "mom_mycus_world",
     "default_oter": [
       "open_air",
@@ -37,13 +38,22 @@
       "deep_rock"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
-    "feature_flag_settings": { "blacklist": [ "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII", "HIGHLANDS" ], "whitelist": [ "FUNGAL" ] }
+    "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "FUNGAL" ] }
   },
   {
     "type": "region_settings_terrain_furniture",
     "id": "mom_mycus_world",
     "copy-from": "default",
-    "ter_furn": [ "mom_mycus_world_t_region_groundcover", "mom_mycus_world_t_region_groundcover_forest" ]
+    "ter_furn": [
+      "mom_mycus_world_t_region_groundcover",
+      "mom_mycus_world_t_region_groundcover_forest",
+      "mom_mycus_world_t_region_tree",
+      "mom_mycus_world_t_region_tree_nut",
+      "mom_mycus_world_t_region_tree_fruit",
+      "mom_mycus_world_t_region_tree_shade",
+      "mom_mycus_world_t_region_tree_evergreen",
+      "mom_mycus_world_t_region_shrub"
+    ]
   },
   {
     "type": "region_terrain_furniture",
@@ -66,6 +76,7 @@
   {
     "type": "region_settings_forest_mapgen",
     "id": "mom_mycus_world",
+    "copy-from": "default",
     "biomes": [ "biome_forest_mom_mycus_world" ]
   },
   {
@@ -80,31 +91,40 @@
   {
     "type": "forest_biome_mapgen",
     "id": "biome_forest_mom_mycus_world",
+    "copy-from": "biome_forest_default",
     "terrains": [ "forest" ],
     "sparseness_adjacency_factor": 3,
-    "item_group": "forest",
-    "item_group_chance": 0,
+    "item_group": "mom_mycus_forest_items",
+    "item_group_chance": 1,
     "item_spawn_iterations": 1,
-    "groundcover": [ [ "t_region_groundcover_forest", 1 ] ],
-    "components": [ "trees_forest", "shrubs_and_flowers_forest", "clutter_forest", "water_forest" ]
+    "groundcover": { "t_region_groundcover_forest": 1 },
+    "components": [
+      "trees_forest_mom_mycus",
+      "shrubs_and_flowers_forest_mom_mycus",
+      "clutter_forest_mom_mycus",
+      "water_forest_mom_mycus"
+    ]
   },
   {
     "type": "forest_biome_component",
-    "id": "trees_forest",
+    "id": "trees_forest_mom_mycus",
+    "copy-from": "trees_forest",
     "sequence": 0,
     "chance": 12,
     "types": [ [ "t_tree_fungal", 128 ], [ "t_tree_fungal_young", 32 ] ]
   },
   {
     "type": "forest_biome_component",
-    "id": "shrubs_and_flowers_forest",
+    "id": "shrubs_and_flowers_forest_mom_mycus",
+    "copy-from": "shrubs_and_flowers_forest",
     "sequence": 1,
     "chance": 10,
     "types": [ [ "t_shrub_fungal", 120 ], [ "t_tree_fungal_young", 10 ], [ "t_marloss", 1 ] ]
   },
   {
     "type": "forest_biome_component",
-    "id": "clutter_forest",
+    "id": "clutter_forest_mom_mycus",
+    "copy-from": "clutter_forest",
     "sequence": 2,
     "chance": 80,
     "types": [
@@ -120,9 +140,52 @@
   },
   {
     "type": "forest_biome_component",
-    "id": "water_forest",
+    "id": "water_forest_mom_mycus",
+    "copy-from": "clutter_forest",
     "sequence": 3,
     "chance": 512,
     "types": [ [ "t_puddle", 1 ], [ "t_puddle_mycus", 10 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "mom_mycus_world_t_region_tree",
+    "ter_id": "t_region_tree",
+    "replace_with_terrain": [ [ "t_tree_fungal", 128 ], [ "t_tree_fungal_young", 32 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "mom_mycus_world_t_region_tree_nut",
+    "ter_id": "t_region_tree",
+    "replace_with_terrain": [ [ "t_tree_fungal", 128 ], [ "t_tree_fungal_young", 32 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "mom_mycus_world_t_region_tree_fruit",
+    "ter_id": "t_region_tree",
+    "replace_with_terrain": [ [ "t_tree_fungal", 128 ], [ "t_tree_fungal_young", 32 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "mom_mycus_world_t_region_tree_shade",
+    "ter_id": "t_region_tree",
+    "replace_with_terrain": [ [ "t_tree_fungal", 128 ], [ "t_tree_fungal_young", 32 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "mom_mycus_world_t_region_tree_evergreen",
+    "ter_id": "t_region_tree",
+    "replace_with_terrain": [ [ "t_tree_fungal", 128 ], [ "t_tree_fungal_young", 32 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "mom_mycus_world_t_region_tree_evergreen",
+    "ter_id": "t_region_tree",
+    "replace_with_terrain": [ [ "t_tree_fungal", 128 ], [ "t_tree_fungal_young", 32 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "mom_mycus_world_t_region_shrub",
+    "ter_id": "t_region_shrub",
+    "replace_with_terrain": [ [ "t_shrub_fungal", 120 ], [ "t_tree_fungal_young", 10 ], [ "t_marloss", 1 ] ]
   }
 ]

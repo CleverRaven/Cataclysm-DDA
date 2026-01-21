@@ -4,20 +4,18 @@
     "id": "ench_longsword_holy",
     "has": "WIELD",
     "condition": "ALWAYS",
-    "name": { "str": "Magic blade" },
-    "description": "The damage done and light emitted by this sword increase with intelligence.",
+    "name": { "str": "Force blade" },
+    "description": "The damage done and light emitted by this sword increase with intelligence and spell level.",
     "melee_damage_bonus": [
       {
         "type": "light",
-        "add": {
-          "math": [ "min( ( (u_val('intelligence') * 2) + (u_spell_level('holy_blade') + u_spell_level('holy_blade_plus') ) ),40)" ]
-        }
+        "add": { "math": [ "min( ( (u_val('intelligence') * 2) + (u_spell_level('magus_mage_conjured_blade') * 1.5 ) ),40)" ] }
       }
     ],
     "values": [
       {
         "value": "LUMINATION",
-        "add": { "math": [ "((u_val('intelligence') * 2) + (u_spell_level('holy_blade') + u_spell_level('holy_blade_plus'))) * 3" ] }
+        "add": { "math": [ "((u_val('intelligence') * 2) + (u_spell_level('magus_mage_conjured_blade') * 1.5 ) ) * 3" ] }
       }
     ]
   },

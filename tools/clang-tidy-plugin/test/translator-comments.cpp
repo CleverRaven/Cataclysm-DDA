@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy -allow-stdinc %s cata-translator-comments %t -- --load=%cata_plugin -- -isystem %cata_include -DLOCALIZE
+// RUN: %check_clang_tidy -allow-stdinc %s cata-translator-comments %t -- --load=%cata_plugin -- -isystem %cata_include -isystem %cata_third_party_include -DLOCALIZE
 
 #include "translations.h"
 
