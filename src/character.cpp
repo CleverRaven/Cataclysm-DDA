@@ -115,7 +115,6 @@ static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
-static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_READ( "ACT_READ" );
@@ -4202,10 +4201,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
 
         const fault_fix &fix = opt.fix;
-        assign_activity( ACT_MEND_ITEM, to_moves<int>( opt.time_to_fix ) );
-        activity.name = opt.fault.str();
-        activity.str_values.emplace_back( fix.id.str() );
-        activity.targets.push_back( std::move( obj ) );
+        assign_activity( mend_item_activity_actor( opt.time_to_fix, obj, opt.fault, fix.id ) );
     }
 }
 
