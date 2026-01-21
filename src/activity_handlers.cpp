@@ -15,7 +15,6 @@
 #include <utility>
 
 #include "activity_actor.h"
-#include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -83,7 +82,6 @@ static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
-static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
@@ -150,8 +148,7 @@ activity_handlers::finish_functions = {
     { ACT_START_FIRE, start_fire_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
-    { ACT_MEND_ITEM, mend_item_finish },
-    { ACT_PULL_CREATURE, pull_creature_finish }
+    { ACT_MEND_ITEM, mend_item_finish }
 };
 
 static void assign_multi_activity( Character &you, const player_activity &act )
@@ -1280,14 +1277,4 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
                                 reject_tile,
                                 fertilize,
                                 _( "You fertilized every plot you could." ) );
-}
-
-void activity_handlers::pull_creature_finish( player_activity *act, Character *you )
-{
-    if( you->is_avatar() ) {
-        you->as_avatar()->longpull( act->name );
-    } else {
-        you->longpull( act->name, get_map().get_bub( act->placement ) );
-    }
-    act->set_to_null();
 }
