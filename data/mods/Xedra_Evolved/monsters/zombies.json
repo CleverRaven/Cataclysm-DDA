@@ -120,7 +120,7 @@
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "mon_zombie_oa_agent_death_drops",
     "armor": { "bash": 10, "cut": 18, "stab": 18, "bullet": 25, "electric": 3 },
-    "dissect": "dissect_mon_zomborg",
+    "dissect": "dissect_mon_zombie_oa_agent",
     "extend": {
       "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
       "families": [ "prof_wp_syn_armored" ],
