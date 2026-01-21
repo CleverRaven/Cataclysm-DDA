@@ -5,7 +5,7 @@
     "categories": [ "movement" ],
     "location": "on_roof",
     "color": "light_blue",
-    "flags": [ "ROTOR", "NO_INSTALL_PLAYER", "NO_REPAIR", "SMASH_REMOVE" ],
+    "flags": [ "ROTOR" ],
     "variants": [ { "symbols": "X", "symbols_broken": "O" } ],
     "control_requirements": { "air": { "proficiencies": [ "prof_helicopter_pilot" ] } }
   },
@@ -30,7 +30,7 @@
     "item": "small_helicopter_rotor",
     "description": "A set of four rotor blades from a civilian light helicopter.",
     "//": "rotor diameter is in meters",
-    "rotor_diameter": 8,
+    "rotor_diameter": 10,
     "durability": 100,
     "damage_modifier": 80,
     "requirements": { "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "1 h", "using": "vehicle_weld_removal" } },
@@ -43,7 +43,7 @@
     "type": "vehicle_part",
     "name": { "str": "heavy-duty military Blackhawk rotors" },
     "//": "rotor diameter is in meters",
-    "rotor_diameter": 16
+    "rotor_diameter": 25
   },
   {
     "id": "heavy_duty_military_osprey_rotors",
@@ -51,6 +51,6 @@
     "type": "vehicle_part",
     "name": { "str": "heavy-duty military Osprey rotors" },
     "//": "rotor diameter is in meters",
-    "rotor_diameter": 11
+    "rotor_diameter": 20
   }
 ]
