@@ -883,6 +883,19 @@ void recipe_dictionary::check_consistency()
                     r.ident().str(), r.subcategory, r.category.str() );
             }
         }
+
+        if( !r.nested_category_data.empty() ) {
+            int min_diff = MAX_SKILL;
+            for( const recipe_id &res : r.nested_category_data ) {
+                if( res.obj().difficulty < min_diff ) {
+                    min_diff = res.obj().difficulty;
+                }
+            }
+            if( r.difficulty < min_diff ) {
+                debugmsg( "nested recipe %s doesn't have the minimum difficulty of the recipes nested inside. Its difficulty is %i and the minimum is %i.  This will create discrepencies in the crafting menu.",
+                          r.ident().str(), r.difficulty, min_diff );
+            }
+        }
     }
 
     for( const auto &e : recipe_dict.recipes ) {
