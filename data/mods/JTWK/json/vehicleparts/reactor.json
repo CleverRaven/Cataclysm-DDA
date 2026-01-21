@@ -1,0 +1,41 @@
+{
+  "type": "vehicle_part",
+  "id": "minireactor",
+  "name": { "str": "minireactor" },
+  "categories": [ "energy" ],
+  "color": "light_green",
+  "broken_color": "red",
+  "damage_modifier": 80,
+  "durability": 580,
+  "description": "A small nuclear reactor.  When loaded with plutonium cells and turned on, will generate a lot of electrical power.",
+  "power": "100 W",
+  "//": "Here it is a multiplier on power efficiency - 1 unit of plutonium is 100 units of battery",
+  "epower": "149200 W",
+  "item": "vanomertic_generator",
+  "location": "on_ceiling",
+  "requirements": {
+    "install": {
+      "skills": [ [ "mechanics", 6 ] ],
+      "time": "30 m",
+      "using": [ [ "welding_standard", 5 ], [ "vehicle_bolt_install", 1 ] ]
+    },
+    "removal": {
+      "skills": [ [ "mechanics", 4 ] ],
+      "time": "30 m",
+      "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+    },
+    "repair": {
+      "skills": [ [ "mechanics", 7 ] ],
+      "time": "60 m",
+      "using": [ [ "repair_welding_standard", 5 ], [ "repair_welding_alloys", 2 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+    }
+  },
+  "flags": [ "REACTOR", "PERPETUAL" ],
+  "breaks_into": [
+    { "item": "steel_lump", "count": [ 6, 11 ] },
+    { "item": "steel_chunk", "count": [ 6, 11 ] },
+    { "item": "scrap", "count": [ 6, 11 ] }
+  ],
+  "damage_reduction": { "all": 50 },
+  "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
+}

@@ -1,0 +1,28 @@
+[
+    {
+        "type": "recipe",
+        "result": "vanomertic_generator",
+        "activity_level": "LIGHT_EXERCISE",    
+        "category": "CC_OTHER",
+        "subcategory": "CSC_OTHER_VEHICLE",    
+        "skill_used": "electronics",
+        "difficulty": 8,
+        "time": "16 h",
+        "autolearn": true,
+    "book_learn": [
+      [ "advanced_electronics", 3 ],
+      [ "recipe_lab_elec", 3 ],
+      [ "exodii_wiring_kit_reference", 4 ]
+    ],
+        "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_elec_semiconductors" }
+    ],
+    "using": [ [ "soldering_standard", 15 ], [ "lc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
+    "components": [ [ [ "pipe", 8 ] ], [ [ "steel_plate", 2 ], [ "scrap", 8 ] ], [ [ "cable", 10 ] ] ]
+    }
+]

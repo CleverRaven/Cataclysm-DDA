@@ -1,0 +1,30 @@
+[
+    {
+        "type":"profession",
+        "id":"neosamurai",
+        "name": "Retired Samurai",
+        "description":"You were once a soldier in a war, slaughtering entire villages with your katana. Much time has passed since then. You were living an aimless life in the city when everything went wrong.",
+        "skills": [ { "level": 6, "name": "melee" }, { "level": 6, "name": "cutting" } ],
+        "points": 0,
+        "items": {
+        "both": {
+            "entries": [
+            { "item": "haori" },
+            { "item": "kimono" },
+            { "item": "hakama" },
+            { "item": "loincloth" },
+            { "item": "tabi_dress" },
+            { "item": "geta" },
+            { "item": "bellywrap" },
+            { "group": "charged_smart_phone", "contents-item": "novel_samurai" },
+            { "item": "bokken_inferior", "container-item": "scabbard" },
+            { "item": "baldric"},
+            { "item": "hc_katana"}
+            ]
+        },
+        "female": { "entries": [ { "item": "chestwrap" } ] }
+        },
+        "proficiencies": ["prof_long_swords_pro", "prof_long_swords_familiar", "prof_long_swords_master"],
+        "traits": ["BRAWLER", "DEX_UP_2"]
+    }
+]

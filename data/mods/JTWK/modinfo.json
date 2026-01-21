@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "JTWK",
+    "name": "JTweaks",
+    "authors": [ "MrJluk" ],
+    "description": "Adds the ability to craft helicopter rotors and endgame nuclear reactors.",
+    "category": "buildings",
+    "dependencies": [ "dda" ]
+  }
+]

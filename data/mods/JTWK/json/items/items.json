@@ -1,0 +1,127 @@
+  [
+  {
+    "id": "Flins_lantern",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Weird Lantern (off)", "str_pl":"Weird Lanterns (off)" },
+    "description": "A strange metal lantern. It looks old, but it's very sturdy. It can be used to store items and has a belt clip.",
+    "weight": "1200 g",
+    "volume": "650 ml",
+    "price": "10000 USD",
+    "price_postapoc": "5000 USD",
+    "repairs_like": "steel",
+    "material": [ { "type": "steel", "portion": 100 } ],
+    "symbol": "[",
+    "color": "cyan",
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "holster": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5500 ml",
+        "max_contains_weight": "50 kg",
+        "max_item_length": "180 cm",
+        "moves": 41,
+        "description": "Stored in the pocket space of the strange lantern",
+        "watertight": true
+      },
+      {
+        "holster": false,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "70 cm",
+        "moves": 65,
+        "description": "Stored in the pocket space of the strange lantern",
+        "watertight": true
+      }
+    ],
+    "use_action": [
+        {
+        "type": "transform",
+        "msg": "At your command, the Lantern stars emitting light.",
+        "target": "Flins_lantern_on"
+        },
+        {
+        "type": "holster",
+        "holster_prompt": "Stick what into the lantern?",
+        "holster_msg": "You tuck your %s into your %s."
+        }   
+    ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "Flins_lantern_on",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Weird Lantern (on)", "str_pl":"Weird Lanterns (on)" },
+    "description": "A strange metal lantern. It looks old, but it's very sturdy. It can be used to store items and has a belt clip.",
+    "weight": "1200 g",
+    "volume": "650 ml",
+    "price": "10000 USD",
+    "price_postapoc": "5000 USD",
+    "repairs_like": "steel",
+    "material": [ { "type": "steel", "portion": 100 } ],
+    "symbol": "[",
+    "color": "cyan",
+
+    "light": 210,
+
+    
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "holster": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5500 ml",
+        "max_contains_weight": "50 kg",
+        "max_item_length": "180 cm",
+        "moves": 41,
+        "description": "Stored in the pocket space of the strange lantern",
+        "watertight": true
+      },
+      {
+        "holster": false,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "70 cm",
+        "moves": 65,
+        "description": "Stored in the pocket space of the strange lantern",
+        "watertight": true
+      }
+    ],
+    "use_action": [
+        {
+        "type": "transform",
+        "msg": "At your command, the Lantern stops emitting light.",
+        "target": "Flins_lantern"
+        },
+        {
+        "type": "holster",
+        "holster_prompt": "Stick what into the lantern?",
+        "holster_msg": "You tuck your %s into your %s."
+        }        
+    ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+  },
+ 
+  
+  {
+    "id": "vanomertic_generator",   
+    "type": "ITEM",
+    "name": { "str": "Vanometric generator" },
+"description": "A medium-duty electrical motor, suitable for powering ultra-light vehicles, or as part of a hybrid gas-electric drivetrain.",
+    "weight": "46 kg",
+    "color": "light_cyan",
+    "symbol": "k",  
+    "material": [ "lc_steel", "copper" ],
+    "volume": "30 L",    
+    "category": "veh_parts",
+    "price": "120000 USD",
+    "price_postapoc": "150000 USD",  
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],  
+    "faults": [ { "fault_group": "electronic_general" } ]                
+  }
+
+]

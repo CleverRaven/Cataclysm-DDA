@@ -1,0 +1,23 @@
+[
+    {
+        "type": "recipe",
+        "result": "small_helicopter_rotor",
+        "activity_level": "BRISK_EXERCISE",    
+        "category": "CC_OTHER",
+        "subcategory": "CSC_OTHER_VEHICLE",    
+        "skill_used": "fabrication",
+        "difficulty": 7,
+        "time": "15 h",
+        "autolearn": true,
+        "book_learn": [ [ "textbook_fabrication", 5 ], [ "welding_book", 6 ], [ "textbook_carpentry", 5 ] ],    
+        "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_welding_basic" }
+    ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
+    "components": [ [ [ "pipe", 16 ] ], [ [ "steel_plate", 4 ] ]]
+    }
+]
