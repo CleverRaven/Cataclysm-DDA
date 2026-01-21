@@ -4915,8 +4915,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
-    "name": "zweih\u00c3\u00a4nders",
-    "description": "Recipes for making zweih\u00c3\u00a4nders.",
+    "name": "zweihänders",
+    "description": "Recipes for making zweihänders.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_zweihander", "mc_zweihander", "hc_zweihander", "ch_zweihander", "qt_zweihander" ],
     "difficulty": 7
