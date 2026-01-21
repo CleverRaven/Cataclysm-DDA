@@ -61,12 +61,20 @@
   {
     "type": "weather_generator",
     "id": "string_dimension_weather",
-    "base_temperature": 15.5,
+    "base_temperature": 10,
     "base_humidity": 75.0,
     "base_pressure": 1200.0,
-    "base_wind": 0,
-    "base_wind_distrib_peaks": 0,
+    "base_wind": 1,
+    "base_wind_distrib_peaks": 20,
     "base_wind_season_variation": 0,
+    "spring_temp_manual_mod": 0,
+    "summer_temp_manual_mod": 0,
+    "autumn_temp_manual_mod": 0,
+    "winter_temp_manual_mod": 0,
+    "spring_humidity_manual_mod": 0,
+    "summer_humidity_manual_mod": 0,
+    "autumn_humidity_manual_mod": 0,
+    "winter_humidity_manual_mod": 0,
     "weather_white_list": [ "clear" ]
   }
 ]

@@ -928,6 +928,29 @@
     "melee_damage": { "bash": 8, "stab": 39 }
   },
   {
+    "id": "string_dimension_partigiana_ixwa",
+    "//": "An other-earth interpretation of a hewing short spear, combining the hooking head of the Italian partisan spear with the short Zulu ixwa.  On par or worse than other qt_steel weapons, and uncraftable, being alien.",
+    "type": "ITEM",
+    "name": "partigiana-ixwa",
+    "description": "A steel shortspear from an alien world, made of a single, continuous piece of tempered steel.  The head is a broad cutting-stabbing implement with small hooks on either side.",
+    "weight": "3200 g",
+    "volume": "400 ml",
+    "longest_side": "91 cm",
+    "price": "100 USD",
+    "price_postapoc": "35 USD",
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
+    "material": [ "qt_steel" ],
+    "symbol": "/",
+    "color": "white",
+    "techniques": [ "WBLOCK_1", "PENETRATE", "DEF_DISARM" ],
+    "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
+    "flags": [ "SPEAR", "CONDUCTIVE", "DURABLE_MELEE", "SHEATH_SPEAR" ],
+    "faults": [ { "fault_group": "blade_general" } ],
+    "weapon_category": [ "SPEARS", "HOOKING_WEAPONRY" ],
+    "melee_damage": { "cut": 12, "stab": 35 }
+  },
+  {
     "id": "spear_bronze",
     "type": "ITEM",
     "name": { "str": "bronze spear" },
@@ -1164,28 +1187,5 @@
     "price_postapoc": "30 USD",
     "material": [ "wood", "qt_steel" ],
     "melee_damage": { "bash": 18, "cut": 26 }
-  },
-  {
-    "id": "string_dimension_partigiana_ixwa",
-    "//": "an other-earth interpretation of a hewing short spear, combining the hooking head of the Italian partisan spear with the short Zulu ixwa.",
-    "type": "ITEM",
-    "name": "partigiana-ixwa",
-    "description": "A steel shortspear from an alien world.  It is made of a single, continuous piece of tempered steel, displaying an iridescence ranging yellow, red, and purple along its length, indicating it was carefully and decoratively tempered in a gradient.  The head is a broad cutting-stabbing implement with small hooks on either side.",
-    "weight": "3200 g",
-    "volume": "400 ml",
-    "longest_side": "91 cm",
-    "price": "100 USD",
-    "price_postapoc": "35 USD",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
-    "material": [ "qt_steel" ],
-    "symbol": "/",
-    "color": "white",
-    "techniques": [ "WBLOCK_1", "PENETRATE", "DEF_DISARM" ],
-    "qualities": [ [ "COOK", 1 ] ],
-    "use_action": [ "HEAT_SOLID_ITEMS" ],
-    "flags": [ "SPEAR", "CONDUCTIVE", "DURABLE_MELEE", "SHEATH_SPEAR" ],
-    "faults": [ { "fault_group": "blade_general" } ],
-    "weapon_category": [ "SPEARS", "HOOKING_WEAPONRY" ],
-    "melee_damage": { "cut": 12, "stab": 35 }
   }
 ]

@@ -42,7 +42,7 @@
         "211111111111111111111112",
         "21####################12",
         "21#.-----------------#12",
-        "21#.................-#12",
+        "21#.v..............v-#12",
         "21#.#..............#-#12",
         "21#.c..............c-#12",
         "21#.c...@......@...c-#12",
@@ -57,7 +57,7 @@
         "21#.c..............c-#12",
         "21#.c..............c-#12",
         "21#.#..............#-#12",
-        "21#.................-#12",
+        "21#.v..............v-#12",
         "21#.................>#12",
         "21#########++#########12",
         "2111111111,,,a1111111112",
@@ -71,8 +71,10 @@
       ],
       "terrain": {
         "@": "t_metal_floor",
-        "a": "t_string_gates_mech_control"
+        "a": "t_string_gates_mech_control",
+        "v": "t_metal_floor"
       },
+      "furniture": { "v": "f_vent_cold_air2_blast" },
       "place_graffiti": [
         { "text": "Six lines of text you cannot understand, each in different character sets.", "x": 10, "y": 21 },
         { "text": "Four simple images: A circle with an alien symbol inside, a human heart, a human face that looks scared, and a human face with a slack jaw and closed eyes.", "x": 13, "y": 21 }
@@ -162,12 +164,12 @@
         "                        ",
         "                        ",
         "         ######         ",
-        "         #....#         ",
-        "        ##....#         ",
-        "        #u....#         ",
-        "        #u....#         ",
-        "        ##....#         ",
-        "         #....#         ",
+        "         #OOOO#         ",
+        "        ##...O#         ",
+        "        #u...E#         ",
+        "        #u...c#         ",
+        "        ##...O#         ",
+        "         #OOOO#         ",
         "         ######         ",
         "                        ",
         "                        ",
@@ -178,7 +180,15 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "string_dimension_small_ziggurat_palette" ]
+      "palettes": [ "string_dimension_small_ziggurat_palette" ],
+      "terrain": {
+        "E": "t_metal_floor",
+        "O": "t_metal_floor"
+      },
+      "furniture": {
+        "O": "f_string_dimension_pylon",
+        "E": "f_string_dimension_housing"
+      }
     }
   }
 ]

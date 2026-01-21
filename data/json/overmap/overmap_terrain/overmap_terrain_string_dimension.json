@@ -7,7 +7,7 @@
     "land_use_code": "open_land",
     "name": "bridges",
     "sym": ".",
-    "color": "white",
+    "color": "light_gray",
     "see_cost": "all_clear"
   },
   {
@@ -22,7 +22,7 @@
     "vision_levels": "open_land",
     "name": "empty space",
     "sym": " ",
-    "color": "white",
+    "color": "black",
     "see_cost": "all_clear"
   },
   {
@@ -33,7 +33,7 @@
     "vision_levels": "open_land",
     "name": "empty space",
     "sym": " ",
-    "color": "white",
+    "color": "black",
     "see_cost": "opaque"
   },
   {

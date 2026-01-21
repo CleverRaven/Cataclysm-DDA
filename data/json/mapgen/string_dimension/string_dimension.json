@@ -90,7 +90,7 @@
         }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "+": "t_string_xy" }
+      "palettes": [ "string_dimension_plane_palette" ]
     }
   },
   {
@@ -126,7 +126,7 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "+": "t_string_xy" }
+      "palettes": [ "string_dimension_plane_palette" ]
     }
   },
   {
@@ -162,7 +162,7 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "+": [ ["t_string_xy_plane_1", 90 ], ["t_string_xy_plane_2", 7 ], ["t_string_xy_plane_3", 3 ] ] }
+      "palettes": [ "string_dimension_plane_palette" ]
     }
   },
   {
@@ -198,7 +198,7 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "+": "t_string_xy" }
+      "palettes": [ "string_dimension_plane_palette" ]
     }
   },
   {

@@ -11,6 +11,11 @@
   },
   {
     "type": "palette",
+    "id": "string_dimension_plane_palette",
+    "terrain": { "+": [ ["t_string_xy_plane_1", 85 ], ["t_string_xy_plane_2", 10 ], ["t_string_xy_plane_3", 5 ] ] }
+  },
+  {
+    "type": "palette",
     "id": "string_dimension_small_ziggurat_palette",
     "terrain": {
       " ": "t_string_xyz",

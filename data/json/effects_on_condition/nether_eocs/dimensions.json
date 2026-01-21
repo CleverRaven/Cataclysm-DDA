@@ -29,28 +29,5 @@
       },
       { "u_spawn_item": "abyss_teleport_orb" }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PORTAL_STRING_DIMENSION",
-    "effect": [
-      { "u_add_effect": "blind", "duration": 0 },
-      {
-        "u_travel_to_dimension": "string_dimension",
-        "npc_travel_radius": 0,
-        "region_type": "string_dimension",
-        "npc_travel_filter": "none",
-        "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
-        "success_message": "Your surroundings warp and fold before reforming into a dark industrial area."
-      },
-      {
-        "u_location_variable": { "context_val": "nearest_floor" },
-        "terrain": "t_string_xy",
-        "target_max_radius": 20,
-        "min_radius": 0,
-        "max_radius": 0
-      },
-      { "u_teleport": { "context_val": "nearest_floor" } }
-    ]
   }
 ]
