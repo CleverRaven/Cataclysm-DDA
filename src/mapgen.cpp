@@ -1006,8 +1006,8 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
 
     const weather_generator &wgen = get_weather().get_cur_weather_gen();
     if( abs_sub.z() >= 0 ) {
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
+        for( int i = 0; i < my_MAPSIZE; i++ ) {
+            for( int j = 0; j < my_MAPSIZE; j++ ) {
                 const tripoint_bub_ms p( i, j, abs_sub.z() );
                 temp_based_phase_change_at( p, wgen );
             }
@@ -6311,13 +6311,13 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
 
     const ter_str_id chosen = apply_phase_thresholds( cur_ter, cur_id );
     if( chosen != ter_t_pseudo_phase && chosen != cur_id ) {
-        
+
 
         bool is_freezing = cur_ter.has_flag( ter_furn_flag::TFLAG_LIQUID ) &&
-                         !chosen.obj().has_flag( ter_furn_flag::TFLAG_LIQUID );
+                           !chosen.obj().has_flag( ter_furn_flag::TFLAG_LIQUID );
         bool is_thawing = !cur_ter.has_flag( ter_furn_flag::TFLAG_LIQUID ) &&
-                           chosen.obj().has_flag( ter_furn_flag::TFLAG_LIQUID );
-        
+                          chosen.obj().has_flag( ter_furn_flag::TFLAG_LIQUID );
+
         // Freeze aquatic creatures when water freezes.
         // This ensures water-based life transitions gracefully when water freezes or changes phase.
         Creature *creature = get_creature_tracker().creature_at( abs_p, true );
@@ -6332,13 +6332,13 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
                     tripoint_bub_ms down_pos = p;
                     down_pos.z() -= 1;
                     const ter_id down_ter = ter( down_pos );
-                    
+
                     if( down_ter.obj().has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
                         // Attempt to move creature down to water in lower level
                         mon->move_to( down_pos );
                         escaped = true;
                     }
-                    
+
                     // If creature couldn't escape to lower water, freeze it
                     if( !escaped ) {
                         mon->add_effect( effect_aquatic_frozen, 0_turns, true );
@@ -6349,23 +6349,9 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
                 }
             }
         }
-        
-        
-        // Preserve plant
-        furn_id saved_furn = furn( p );
-        bool had_plant = false;
-        if( saved_furn != furn_str_id::NULL_ID() && saved_furn.obj().has_flag( ter_furn_flag::TFLAG_PLANT ) ) {
-            had_plant = true;
-        }
-
         // Record original terrain so it can be reverted later.
         ter_set( p, chosen );
         set_original_terrain_at( p, cur_id.id() );
-
-        // Restore plant
-        if( had_plant ) {
-            furn_set( p, saved_furn );
-        }
     }
 }
 

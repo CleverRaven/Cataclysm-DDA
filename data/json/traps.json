@@ -598,7 +598,7 @@
     "memorial_male": { "ctxt": "memorial_male", "str": "Fell through thin ice into water." },
     "memorial_female": { "ctxt": "memorial_female", "str": "Fell through thin ice into water." },
     "flags": [ "ECHOLOCATION_DETECTABLE" ],
-    "symbol": "~",
+    "symbol": "/",
     "visibility": 0,
     "avoidance": 20,
     "difficulty": 99,

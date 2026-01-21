@@ -1281,9 +1281,9 @@ nc_color monster::color_with_effects() const
     if( has_effect( effect_aquatic_frozen ) ) {
         ret = c_cyan;
     } else if( has_effect( effect_beartrap ) || has_effect( effect_stunned ) ||
-        has_effect( effect_psi_stunned ) || has_effect( effect_downed ) ||
-        has_effect( effect_tied ) ||
-        has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) ) {
+               has_effect( effect_psi_stunned ) || has_effect( effect_downed ) ||
+               has_effect( effect_tied ) ||
+               has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) ) {
         ret = hilite( ret );
     }
     if( has_effect( effect_pacified ) ) {
