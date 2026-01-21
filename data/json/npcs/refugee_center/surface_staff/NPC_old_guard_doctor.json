@@ -182,17 +182,17 @@
       },
       "update_mapgen": [
         {
-          "om_terrain": "microlab_generic_vent_shaft_connector",
+          "om_terrain": "microlab_portal_dressroom",
           "place_computers": [
             {
               "name": "Security Console",
               "eocs": [ "eoc_mission_science_rep_computer" ],
               "chat_topics": [ "mission_science_rep_3_computer_main" ],
-              "x": 11,
-              "y": 8
+              "x": 9,
+              "y": 18
             }
           ],
-          "set": [ { "point": "item_remove", "x": 21, "y": 14 } ]
+          "set": [ { "point": "item_remove", "x": 9, "y": 18 } ]
         }
       ],
       "effect": [ { "u_spawn_item": "mission_science_rep_secure_usb_blank", "use_item_group": true } ]
