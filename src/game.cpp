@@ -231,8 +231,6 @@
 #define UNUSED
 #endif
 
-static const activity_id ACT_TRAIN( "ACT_TRAIN" );
-static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
@@ -251,7 +249,6 @@ static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_stab( "stab" );
 
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
-static const efftype_id effect_asked_to_train( "asked_to_train" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_cramped_space( "cramped_space" );
@@ -1559,24 +1556,6 @@ bool game::cancel_activity_query( const std::string &text )
     }
     g->invalidate_main_ui_adaptor();
     if( query_yn( "%s %s", text, u.activity.get_stop_phrase() ) ) {
-        if( u.activity.id() == ACT_TRAIN_TEACHER ) {
-            for( npc &n : all_npcs() ) {
-                // Also cancel activities for students
-                for( const int st_id : u.activity.values ) {
-                    if( n.getID().get_value() == st_id ) {
-                        n.cancel_activity();
-                    }
-                }
-            }
-            u.remove_effect( effect_asked_to_train );
-        } else if( u.activity.id() == ACT_TRAIN ) {
-            for( npc &n : all_npcs() ) {
-                // If the player is the only student, cancel the teacher's activity
-                if( n.getID().get_value() == u.activity.index && n.activity.values.size() == 1 ) {
-                    n.cancel_activity();
-                }
-            }
-        }
         u.cancel_activity();
         u.abort_automove();
         u.resume_backlog_activity();

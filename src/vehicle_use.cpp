@@ -1673,12 +1673,17 @@ static void pickup_furniture_for_carry( map &here, vehicle_part &part )
     const furn_str_id picked_up_furn = here.furn( *selected_tile )->id;
 
     const Character &you = get_player_character();
-    const int lifting_str_available = you.get_lift_str() + you.get_lift_assist();
+    // FURNITURE_LIFT_ASSIST gives 5 bonus strength for the lift check
+    const int part_lifting_bonus = part.info().has_flag( "FURNITURE_LIFT_ASSIST" ) ? 5 : 0;
+    const int lifting_str_available = you.get_lift_str() + you.get_lift_assist() + part_lifting_bonus;
+
+    // This handles cranes, the actual "LIFT" quality, and all that. Sure, you can boom crane a freezer onto the back of a truck. Why not.
+    const bool crane_lift = you.best_nearby_lifting_assist() >= picked_up_furn->mass;
 
     if( picked_up_furn->move_str_req < 0 ) {
         add_msg( _( "That furniture can't be moved." ) );
         return;
-    } else if( picked_up_furn->move_str_req > lifting_str_available ) {
+    } else if( !crane_lift && picked_up_furn->move_str_req > lifting_str_available ) {
         if( you.get_lift_assist() > 0 ) {
             add_msg( string_format( _( "Even working together, you are unable to lift the %s." ),
                                     picked_up_furn->name() ) );

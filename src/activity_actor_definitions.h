@@ -22,6 +22,7 @@
 #include "itype.h"
 #include "item_location.h"
 #include "memory_fast.h"
+#include "npctalk.h"
 #include "pickup.h"
 #include "point.h"
 #include "recipe.h"
@@ -2526,6 +2527,52 @@ class socialize_activity_actor : public activity_actor
         explicit socialize_activity_actor() = default;
 };
 
+// for a Character teaching or learning from a teacher:
+// skill, proficiency, martial arts technique, spell
+class training_activity_actor : public activity_actor
+{
+    public:
+        //teaching
+        explicit training_activity_actor( time_duration initial_moves, talk_function::teach_domain subject,
+                                          const std::vector<character_id> &trainees ) :
+            initial_moves( initial_moves ), subject( subject ), teaching( true ), trainees( trainees ) {};
+        //learning
+        explicit training_activity_actor( time_duration initial_moves, talk_function::teach_domain subject,
+                                          character_id teacher ) :
+            initial_moves( initial_moves ), subject( subject ), teaching( false ), teacher( teacher ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_TRAIN( "ACT_TRAIN" );
+            return ACT_TRAIN;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        void train_spell( Character &who, spell_id trained_spell );
+        void train_skill( Character &who, skill_id trained_skill );
+        void train_proficiency( Character &who, proficiency_id trained_proficiency );
+        void train_martial_art( Character &who, matype_id trained_martial_art );
+
+        //clean up students' ACT_TRAIN
+        void canceled( player_activity &, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<training_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        training_activity_actor() = default;
+        time_duration initial_moves; // NOLINT(cata-serialize)
+        talk_function::teach_domain subject;
+        bool teaching; // false = learning
+        character_id teacher;
+        std::vector<character_id> trainees;
+};
+
 // Any entertainment action involving an item for a duration with one or more people
 class generic_entertainment_activity_actor : public activity_actor
 {
@@ -3100,6 +3147,36 @@ class gunmod_add_activity_actor : public activity_actor
     private:
         int moves;
         std::string name;
+};
+
+class toolmod_add_activity_actor : public activity_actor
+{
+    public:
+        toolmod_add_activity_actor( time_duration initial_moves, const item_location &tool_to_mod,
+                                    const item_location &mod_installed ) :
+            initial_moves( initial_moves ), tool_to_mod( tool_to_mod ), mod_installed( mod_installed ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
+            return ACT_TOOLMOD_ADD;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<toolmod_add_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        toolmod_add_activity_actor() = default;
+        time_duration initial_moves; // NOLINT(cata-serialize)
+        item_location tool_to_mod;
+        item_location mod_installed;
 };
 
 class longsalvage_activity_actor : public activity_actor

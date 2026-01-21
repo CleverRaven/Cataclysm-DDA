@@ -2093,7 +2093,7 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "<color_c_white>Calories (kcal)</color>:"
-               " <color_c_yellow>53</color>-<color_c_yellow>470</color>"
+               " <color_c_yellow>53</color>-<color_c_yellow>465</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
         // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==

@@ -611,3 +611,7 @@ This is currently used to provide a mechanism for whitelisting and blacklisting 
     "feature_flag_settings": { "extend": { "blacklist": [ "HIGHLANDS" ] }, "delete": { "whitelist" : [ "CLASSIC" ]} }
   }
 ```
+
+### The EXTRADIMENSIONAL flag
+
+At the moment, the EXTRADIMENSIONAL flag is used to prevent locations from spawning in the default dimension.  An additional flag (for example, `HIGHLANDS`) can be then whitelisted to allow extradimensional locations to spawn in the appropriate dinmension. 

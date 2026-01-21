@@ -3029,7 +3029,7 @@ void spellcasting_callback::display_spell_info( size_t index )
             std::string dot_string;
             if( sp.damage_dot( pc ) != 0 ) {
                 //~ amount of damage per second, abbreviated
-                dot_string = string_format( _( ", %d/sec" ), sp.damage_dot( pc ) );
+                dot_string = string_format( _( ", %d/sec" ), static_cast<int>( sp.damage_dot( pc ) ) );
             }
             ImGui::TextColored( sp.damage_type_color(),
                                 "%s: %s %s%s", _( "Damage" ),

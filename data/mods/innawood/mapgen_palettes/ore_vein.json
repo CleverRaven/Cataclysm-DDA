@@ -14,7 +14,8 @@
             [ "innawood_ore_vein_copper", 5 ],
             [ "innawood_ore_vein_cassiterite", 1 ],
             [ "innawood_ore_vein_iron_galena", 15 ],
-            [ "innawood_ore_vein_iron_hematite", 15 ]
+            [ "innawood_ore_vein_iron_hematite", 15 ],
+            [ "innawood_ore_feldspar", 25 ]
           ]
         }
       }
@@ -62,5 +63,11 @@
     "id": "innawood_ore_vein_iron_hematite",
     "terrain": { "+": "t_rock_hematite", ".": [ [ "t_rock_hematite", 2 ], [ "t_rock", 1 ] ] },
     "items": { "O": { "item": "outcrop_hematite", "chance": 55 } }
+  },
+  {
+    "type": "palette",
+    "id": "innawood_ore_feldspar",
+    "terrain": { "+": "t_rock_feldspar", ".": [ [ "t_rock_feldspar", 2 ], [ "t_rock", 1 ] ] },
+    "items": { "O": { "item": "outcrop_feldspar", "chance": 55 } }
   }
 ]
