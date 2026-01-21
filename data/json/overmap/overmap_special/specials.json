@@ -875,7 +875,7 @@
     "locations": [ "land" ],
     "city_distance": [ 0, -1 ],
     "occurrences": [ 0, 4 ],
-    "flags": [ "CLASSIC", "WILDERNESS", "HIGHLANDS" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "HIGHLANDS", "EXTRADIMENSIONAL" ]
   },
   {
     "type": "overmap_special",
