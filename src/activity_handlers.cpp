@@ -88,7 +88,6 @@ static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
-static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
@@ -154,7 +153,6 @@ activity_handlers::finish_functions = {
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
-    { ACT_TOOLMOD_ADD, toolmod_add_finish },
     { ACT_PULL_CREATURE, pull_creature_finish }
 };
 
@@ -995,22 +993,6 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
 
     add_msg( m_good, fix.success_msg.translated(), target.tname( 1, false ),
              start_durability, target.durability_indicator( true ) );
-}
-
-void activity_handlers::toolmod_add_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-    if( act->targets.size() != 2 || !act->targets[0] || !act->targets[1] ) {
-        debugmsg( "Incompatible arguments to ACT_TOOLMOD_ADD" );
-        return;
-    }
-    item &tool = *act->targets[0];
-    item &mod = *act->targets[1];
-    you->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
-                            mod.tname(), tool.tname() );
-    tool.put_in( mod, pocket_type::MOD );
-    tool.on_contents_changed();
-    act->targets[1].remove_item();
 }
 
 void activity_handlers::travel_do_turn( player_activity *act, Character *you )

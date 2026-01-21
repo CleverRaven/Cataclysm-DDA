@@ -62,7 +62,6 @@
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "pimpl.h"
-#include "player_activity.h"
 #include "pocket_type.h"
 #include "profession.h"
 #include "ret_val.h"
@@ -81,7 +80,6 @@
 #include "vpart_range.h"
 
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
-static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
 
 static const ammotype ammo_battery( "battery" );
 
@@ -1346,9 +1344,7 @@ void Character::toolmod_add( item_location tool, item_location mod )
         }
     }
 
-    assign_activity( ACT_TOOLMOD_ADD, 1, -1 );
-    activity.targets.emplace_back( std::move( tool ) );
-    activity.targets.emplace_back( std::move( mod ) );
+    assign_activity( toolmod_add_activity_actor( 1_minutes, tool, mod ) );
 }
 
 int Character::item_handling_cost( const item &it, bool penalties, int base_cost,

@@ -3149,6 +3149,36 @@ class gunmod_add_activity_actor : public activity_actor
         std::string name;
 };
 
+class toolmod_add_activity_actor : public activity_actor
+{
+    public:
+        toolmod_add_activity_actor( time_duration initial_moves, const item_location &tool_to_mod,
+                                    const item_location &mod_installed ) :
+            initial_moves( initial_moves ), tool_to_mod( tool_to_mod ), mod_installed( mod_installed ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
+            return ACT_TOOLMOD_ADD;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<toolmod_add_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        toolmod_add_activity_actor() = default;
+        time_duration initial_moves; // NOLINT(cata-serialize)
+        item_location tool_to_mod;
+        item_location mod_installed;
+};
+
 class longsalvage_activity_actor : public activity_actor
 {
     public:
