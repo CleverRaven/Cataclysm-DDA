@@ -846,7 +846,7 @@
     "type": "furniture",
     "id": "f_string_dimension_pylon",
     "name": "humming column",
-    "description": "A floor-to-ceiling cylinder wrapped neatly and tightly in thick copper wire.  It has no markings, but the cables connected to the base suggest that it generates or recieves some kind of power.",
+    "description": "A floor-to-ceiling cylinder wrapped neatly and tightly in thick copper wire.  It has no markings, but the cables connected to the base suggest that it generates or receives some kind of power.",
     "symbol": "O",
     "color": "red",
     "move_cost_mod": -1,

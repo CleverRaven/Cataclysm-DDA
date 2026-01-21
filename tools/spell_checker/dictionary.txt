@@ -3464,6 +3464,8 @@ limnological
 Lincoln
 Linda
 Lindbergh
+linelander
+linelanders
 linework
 linux
 Lisa
@@ -5618,6 +5620,8 @@ shootable
 shopkeep
 shorthair
 shortnose
+shortspear
+shortspears
 shoryuken
 shotcestus
 shotcestuses
