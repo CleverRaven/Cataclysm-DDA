@@ -35,6 +35,7 @@
       "string_dimension_true_void",
       "string_dimension_plane_core",
       "string_dimension_plane_end",
+      "string_dimension_plane_mutable",
       "string_dimension_small_ziggurat_1",
       "string_dimension_small_ziggurat_0",
       "string_dimension_small_ziggurat_-1",
