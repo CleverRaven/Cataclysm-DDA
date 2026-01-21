@@ -38,6 +38,29 @@
     ]
   },
   {
+    "id": "dissect_mon_zombie_scientist_xe",
+    "type": "harvest",
+    "message": "You cut into the zombir scientist, carefully removing layers of tissue.",
+    "entries": [
+      {
+        "drop": "scientist_xe_base_CBM_harvest",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "base_num": [ 0, 1 ],
+        "scale_num": [ 0.1, 0.3 ],
+        "faults": [ "fault_bionic_salvaged" ]
+      }
+      {
+        "drop": "scientist_xe_base_CBM_power_harvest",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "base_num": [ 0, 1 ],
+        "scale_num": [ 0.1, 0.3 ],
+        "faults": [ "fault_bionic_salvaged" ]
+      }
+    ]
+  },
+  {
     "id": "dissect_ierde_single",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
