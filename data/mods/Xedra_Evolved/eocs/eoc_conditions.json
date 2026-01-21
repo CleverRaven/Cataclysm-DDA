@@ -121,14 +121,14 @@
       { "u_message": "sweet_dreams", "snippet": true, "type": "bad" },
       { "u_add_morale": "morale_sweet_dreams", "bonus": [ 15, 40 ], "max_bonus": 40 },
       { "math": [ "dream_counter = 1" ] },
-      { "u_cast_spell": "dream_mana_gain" },
+      { "u_cast_spell": { "id": "dream_mana_gain" } },
       { "run_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
     ],
     "false_effect": [
       { "u_message": "nightmares", "snippet": true, "type": "bad" },
       { "u_add_morale": "morale_nightmare", "bonus": [ -15, -40 ], "max_bonus": -40 },
       { "math": [ "dream_counter = 1" ] },
-      { "u_cast_spell": "nightmare_mana_gain" },
+      { "u_cast_spell": { "id": "nightmare_mana_gain" } },
       { "run_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
     ]
   },
