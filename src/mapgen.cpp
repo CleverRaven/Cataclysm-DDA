@@ -737,7 +737,8 @@ static void GENERATOR_aftershock_ruin( map &md, const tripoint_abs_omt &p )
                 !one_in( 5 ) ? md.ter_set( current_tile.xy(),
                                            ter_t_wall_prefab_metal ) : md.ter_set( current_tile.xy(), ter_t_metal_floor );
             }
-            if( md.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, current_tile ) ) {
+            //BEFOREMERGE: I haven't checked if outside cache is rebuilt before this
+            if( !md.is_outside( current_tile ) ) {
                 if( !one_in( 4 ) ) {
                     p.z() == 0 ? md.ter_set( current_tile.xy(),
                                              ter_t_snow_metal_floor ) : md.ter_set( current_tile.xy(), ter_t_snow );
