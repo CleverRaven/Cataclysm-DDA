@@ -1210,7 +1210,7 @@ void Character::regen( int rate_multiplier )
         if( healing_apply > 0 ) {
             for( const bodypart_id &healed_part : get_all_body_parts() ) {
                 int part_healing = std::min( healing_apply,
-                        get_part_hp_max( healed_part ) - get_part_hp_cur( healed_part ) );
+                                             get_part_hp_max( healed_part ) - get_part_hp_cur( healed_part ) );
                 if( part_healing > 0 ) {
                     mod_part_healed_total( healed_part, part_healing );
                     heal( healed_part, part_healing );
