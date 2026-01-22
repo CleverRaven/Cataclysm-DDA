@@ -40,7 +40,7 @@
   {
     "id": "dissect_mon_zombie_scientist_xe",
     "type": "harvest",
-    "message": "You cut into the zombir scientist, carefully removing layers of tissue.",
+    "message": "You cut into the undead scientist, carefully removing layers of tissue.",
     "entries": [
       {
         "drop": "scientist_xe_base_CBM_harvest",
@@ -63,7 +63,7 @@
   {
     "id": "dissect_mon_zombie_oa_agent",
     "type": "harvest",
-    "message": "You search through the remains of the strange soldier, lookinh for anything of interest.",
+    "message": "You search through the remains of the strange soldier, looking for anything of interest.",
     "entries": [
       {
         "drop": "zombie_oa_agent_CBM_harvest",
