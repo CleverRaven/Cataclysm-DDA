@@ -5712,13 +5712,17 @@ std::optional<int> iuse::efiledevice( Character *p, item *it, const tripoint_bub
     amenu.addentry( efd_combo_bm, true, 'a', _( "Browse + move files from all devices" ) );
     amenu.addentry( efd_browse, true, 'b', _( "Browse devices" ) );
     if( used_edevice->is_browsed() ) {
-        amenu.addentry( efd_read_this, true, 'r', _( "Read files on this device" ) );
+        if( !used_edevice->efiles().empty() ) {
+            amenu.addentry( efd_read_this, true, 'r', _( "Read files on this device" ) );
+        }
         amenu.addentry( efd_read_external, true, 'e', _( "Read files on external devices" ) );
         amenu.addentry( efd_move_onto_this, true, 'm', _( "Move files onto this device" ) );
-        amenu.addentry( efd_move_off_this, true, 'k', _( "Move files off of this device" ) );
         amenu.addentry( efd_copy_onto_this, true, 'c', _( "Copy files onto this device" ) );
-        amenu.addentry( efd_copy_from_this, true, 'f', _( "Copy files off of this device" ) );
-        amenu.addentry( efd_wipe, true, 'W', _( "Wipe files from devices" ) );
+        if( !used_edevice->efiles().empty() ) {
+            amenu.addentry( efd_move_off_this, true, 'k', _( "Move files off of this device" ) );
+            amenu.addentry( efd_copy_from_this, true, 'f', _( "Copy files off of this device" ) );
+            amenu.addentry( efd_wipe, true, 'W', _( "Wipe files from devices" ) );
+        }
     }
 
     amenu.query();
