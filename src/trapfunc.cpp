@@ -164,11 +164,8 @@ bool trapfunc::thin_ice( const tripoint_bub_ms &p, Creature *c, item * )
     // If creature is frozen, don't trigger the trap
     if( !c->is_avatar() ) {
         monster *mon = dynamic_cast<monster *>( c );
-        if( mon ) {
-            static const efftype_id effect_aquatic_frozen( "aquatic_frozen" );
-            if( mon->has_effect( effect_aquatic_frozen ) ) {
-                return false;
-            }
+        if( mon && ( mon->has_flag( mon_flag_AQUATIC ) || mon->has_flag( mon_flag_FLIES ) ) ) {
+            return false;
         }
     }
 

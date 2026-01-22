@@ -6344,7 +6344,7 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
 
                     // If creature couldn't escape to lower water, freeze it
                     if( !escaped && !mon->has_effect( effect_aquatic_frozen ) ) {
-                        mon->add_effect( effect_aquatic_frozen, 0_turns, true );
+                        mon->add_effect( effect_aquatic_frozen, 1_turns, true );
                     }
                 } else if( is_thawing && mon->has_effect( effect_aquatic_frozen ) ) {
                     // Remove frozen effect if creature thaws
