@@ -141,7 +141,7 @@
     "min_damage": 75,
     "damage_increment": 1,
     "max_damage": 110,
-    "max_level": { "math": [ "max(eater_level(1), dreamer_level(1)))" ] },
+    "max_level": { "math": [ "max(eater_level(1), dreamer_level(1))" ] },
     "effect": "recover_energy",
     "effect_str": "MANA",
     "shape": "blast",
