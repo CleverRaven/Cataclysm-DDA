@@ -55,7 +55,72 @@
     "decay": "zombie_decay_bone_human_skull_multiple",
     "//grab": "All these arms to grab you with",
     "grab_strength": 50,
-    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch" }, [ "ZOMBIE_FUSE", 80 ] ],
+    "special_attacks": [
+      { "id": "grab", "cooldown": 7 },
+      { "id": "scratch" },
+      [ "ZOMBIE_FUSE", 80 ],
+      { "id": "grab_2", "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 100" ] } },
+      { "id": "grab_3", "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 250" ] } },
+      {
+        "type": "monster_attack",
+        "attack_type": "bite",
+        "id": "bite_devourer_1",
+        "condition": {
+          "and": [
+            { "u_has_flag": "GRAB_FILTER" },
+            { "npc_has_flag": "GRAB" },
+            { "math": [ "u_effect_intensity('grown_of_fuse') > 75" ] }
+          ]
+        },
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15 } ],
+        "infection_chance": 15,
+        "cooldown": 4,
+        "move_cost": 150
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "bite",
+        "id": "bite_devourer_2",
+        "condition": {
+          "and": [
+            { "u_has_flag": "GRAB_FILTER" },
+            { "npc_has_flag": "GRAB" },
+            { "math": [ "u_effect_intensity('grown_of_fuse') > 150" ] }
+          ]
+        },
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 5 } ],
+        "infection_chance": 20,
+        "cooldown": 4,
+        "move_cost": 150
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "bite",
+        "id": "bite_devourer_3",
+        "condition": {
+          "and": [
+            { "u_has_flag": "GRAB_FILTER" },
+            { "npc_has_flag": "GRAB" },
+            { "math": [ "u_effect_intensity('grown_of_fuse') > 250" ] }
+          ]
+        },
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 5 } ],
+        "infection_chance": 15,
+        "cooldown": 4,
+        "move_cost": 150
+      },
+      {
+        "id": "stretch_bite",
+        "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 350" ] },
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 5 } ],
+        "hit_dmg_u": "A tangle of flesh covered in maws shoots out from %1$s, and its teeth sink into your %2$s!",
+        "hit_dmg_npc": "A tangle of flesh covered in maws shoots out from %1$s, and its teeth sink into <npcname>'s %2$s!",
+        "no_dmg_msg_u": "A tangle of flesh covered in maws shoots out from %1$s, but glances off your armor.",
+        "no_dmg_msg_npc": "A tangle of flesh covered in maws shoots out from %1$s, but glances off <npcname>'s armor.",
+        "miss_msg_u": "A tangle of flesh covered in maws shoots out from %1$s, but you dodge!",
+        "miss_msg_npc": "A tangle of flesh covered in maws shoots out from %1$s, but <npcname> dodges!"
+      }
+    ],
     "death_drops": {
       "subtype": "collection",
       "groups": [ "default_zombie_death_drops", "default_zombie_death_drops", "default_zombie_death_drops" ]

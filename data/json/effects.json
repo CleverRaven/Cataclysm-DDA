@@ -623,6 +623,16 @@
     "int_decay_step": 0
   },
   {
+    "type": "effect_type",
+    "id": "absorbed_acidic",
+    "//": "This tells a devourer that it has absorbed an acidic monster (one with the flag ACID_BLOOD or ACIDTRAIL)"
+  },
+  {
+    "type": "effect_type",
+    "id": "absorbed_electric",
+    "//": "This tells a devourer that it has absorbed an electric monster (one with the flag ELECTRIC)"
+  },
+  {
     "id": "Shadow_Reveal",
     "type": "effect_type",
     "max_duration": "60 s",
