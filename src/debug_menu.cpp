@@ -832,7 +832,7 @@ static void monster_edit_menu()
         data << string_format( _( "Faction: %s" ), critter->get_monster_faction().id().str() ) << std::endl;
         data << string_format( _( "HP(max): %d (%d)" ), critter->get_hp(),
                                critter->get_hp_max() ) << std::endl;
-        data << string_format( _( "Volume: %sL (size %s)" ), units::to_liter( critter->get_volume() ),
+        data << string_format( _( "Volume: %.2fL (size %s)" ), units::to_liter( critter->get_volume() ),
                                size_string ) << std::endl;
         data << string_format( _( "Speed(base): %d (%d)" ), critter->get_speed(),
                                critter->get_speed_base() ) << std::endl;
