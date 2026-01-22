@@ -49,7 +49,7 @@
         "base_num": [ 0, 1 ],
         "scale_num": [ 0.1, 0.3 ],
         "faults": [ "fault_bionic_salvaged" ]
-      }
+      },
       {
         "drop": "scientist_xe_base_CBM_power_harvest",
         "type": "bionic_group",
@@ -84,7 +84,7 @@
         "max": 5
       }
     ]
-  }
+  },
   {
     "id": "dissect_ierde_single",
     "type": "harvest",

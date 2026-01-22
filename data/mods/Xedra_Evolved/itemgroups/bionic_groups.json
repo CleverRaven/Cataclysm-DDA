@@ -3,30 +3,22 @@
     "id": "scientist_xe_base_CBM_harvest",
     "type": "item_group",
     "subtype": "distribution",
-    "entries" [
-    { "item": "null", "prob": 195 },
-    { "group": "Zomborg_CBM_harvest_utility", "prob": 1 }
-    
-    ]
-    },
-    {
+    "entries": [ { "item": "null", "prob": 195 }, { "group": "Zomborg_CBM_harvest_utility", "prob": 1 } ]
+  },
+  {
     "id": "scientist_xe_base_CBM_power_harvest",
     "type": "item_group",
     "subtype": "distribution",
-    "entries" [
-    { "item": "null", "prob": 99 },
-    { "group": "Zomborg_CBM_harvest_power", "prob": 1 }
-    
-    ]
-    },
-    {
+    "entries": [ { "item": "null", "prob": 99 }, { "group": "Zomborg_CBM_harvest_power", "prob": 1 } ]
+  },
+  {
     "id": "zombie_oa_agent_CBM_harvest",
     "type": "item_group",
     "subtype": "collection",
     "entries": [
       { "group": "Zomborg_CBM_harvest_utility", "prob": 2 },
-      { "group": "Zomborg_CBM_harvest_structural", "prob":  3 },
+      { "group": "Zomborg_CBM_harvest_structural", "prob": 3 },
       { "group": "Zomborg_CBM_harvest_combat", "prob": 2 }
     ]
-  },
+  }
 ]
