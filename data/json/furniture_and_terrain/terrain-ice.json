@@ -21,7 +21,7 @@
     "color": "cyan",
     "move_cost": 2,
     "bash": { "str_min": 80, "str_max": 180, "sound": "crack!", "ter_set": "t_water_sh" },
-    "flags": [ "THICK_ICE", "TRANSPARENT", "FLAT", "PHASE_BACK" ]
+    "flags": [ "THICK_ICE", "TRANSPARENT", "FLAT", "PHASE_BACK", "SWIMMABLE" ]
   },
   {
     "type": "terrain",
@@ -34,7 +34,7 @@
     "trap": "tr_thin_ice",
     "examine_action": "thin_ice",
     "bash": { "str_min": 3, "str_max": 6, "sound": "crack!", "ter_set": "t_water_dp" },
-    "flags": [ "THIN_ICE", "TRANSPARENT", "FLAT", "PHASE_BACK" ]
+    "flags": [ "THIN_ICE", "TRANSPARENT", "FLAT", "PHASE_BACK", "SWIMMABLE" ]
   },
   {
     "type": "terrain",
@@ -45,7 +45,7 @@
     "color": "cyan",
     "move_cost": 2,
     "bash": { "str_min": 80, "str_max": 180, "sound": "crack!", "ter_set": "t_water_dp" },
-    "flags": [ "THICK_ICE", "TRANSPARENT", "FLAT", "PHASE_BACK" ]
+    "flags": [ "THICK_ICE", "TRANSPARENT", "FLAT", "PHASE_BACK", "SWIMMABLE" ]
   },
   {
     "type": "terrain",

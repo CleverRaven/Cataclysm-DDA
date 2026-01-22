@@ -603,8 +603,7 @@
     "avoidance": 20,
     "difficulty": 99,
     "action": "thin_ice",
-    "trigger_message_u": "The ice cracks beneath you!",
-    "trigger_message_npc": "The ice cracks beneath <npcname>!"
+    "trigger_message_u": "The ice cracks beneath you!"
   },
   {
     "type": "trap",

@@ -5346,15 +5346,5 @@
         ]
       }
     ]
-  },
-  {
-    "type": "effect_type",
-    "id": "aquatic_frozen",
-    "name": [ "Frozen in Ice" ],
-    "desc": [ "Aquatic creature is frozen solid in ice and cannot move or be harmed." ],
-    "rating": "bad",
-    "show_in_info": true,
-    "max_intensity": 1,
-    "flags": [ "PREVENT_REMOVAL" ]
   }
 ]

@@ -100,7 +100,6 @@ static const damage_type_id damage_electric( "electric" );
 static const damage_type_id damage_heat( "heat" );
 static const damage_type_id damage_stab( "stab" );
 
-static const efftype_id effect_aquatic_frozen( "aquatic_frozen" );
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bleed( "bleed" );
@@ -1278,12 +1277,10 @@ bool monster::is_symbol_highlighted() const
 nc_color monster::color_with_effects() const
 {
     nc_color ret = type->color;
-    if( has_effect( effect_aquatic_frozen ) ) {
-        ret = c_cyan;
-    } else if( has_effect( effect_beartrap ) || has_effect( effect_stunned ) ||
-               has_effect( effect_psi_stunned ) || has_effect( effect_downed ) ||
-               has_effect( effect_tied ) ||
-               has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) ) {
+    if( has_effect( effect_beartrap ) || has_effect( effect_stunned ) ||
+        has_effect( effect_psi_stunned ) || has_effect( effect_downed ) ||
+        has_effect( effect_tied ) ||
+        has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) ) {
         ret = hilite( ret );
     }
     if( has_effect( effect_pacified ) ) {
@@ -2397,13 +2394,6 @@ void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
     if( is_dead_state() || has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         return;
     }
-    // Frozen aquatic creatures cannot be harmed
-    if( has_effect( effect_aquatic_frozen ) ) {
-        if( source && source->is_avatar() ) {
-            add_msg( _( "The frozen creature is protected by solid ice and cannot be harmed!" ) );
-        }
-        return;
-    }
     // Ensure we can try to get at what hit us.
     reset_pathfinding_cd();
     hp -= dam;
@@ -2500,12 +2490,6 @@ bool monster::move_effects( bool )
                 }
             }
             remove_effect( effect_tied );
-        }
-        return false;
-    }
-    if( has_effect( effect_aquatic_frozen ) ) {
-        if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
-            add_msg( _( "The %s is frozen solid in ice." ), name() );
         }
         return false;
     }
