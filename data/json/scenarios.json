@@ -48,7 +48,7 @@
     "id": "beached",
     "name": "Beached",
     "points": -2,
-    "description": "You tried to escape the chaos by stealing a boat during the initial panic, failing to note its dwindling fuel reserves.  Eventually you picked a calm moment and spent the last of your energy swimming to shore, only to pass out.  Soaked, dedraggled and with no supplies you wake to the sound of harrowing bird call, a lump in your stomach telling you the worst is still to come.",
+    "description": "You tried to escape the chaos by stealing a boat during the initial panic, failing to note its dwindling fuel reserves.  Eventually you picked a calm moment and spent the last of your energy swimming to shore, only to pass out.  Soaked, bedraggled and with no supplies you wake to the sound of harrowing bird call, a lump in your stomach telling you the worst is still to come.",
     "//": "If this start location is expanded the EOC's mapgen update should be changed to a map extra only spawned by the scenario",
     "allowed_locs": [ "sloc_beach" ],
     "start_name": "Beach",
@@ -56,7 +56,7 @@
     "professions": [ "naked" ],
     "forbidden_traits": [ "WAYFARER" ],
     "reveal_locale": false,
-    "flags": [ "LONE_START", "SUR_START" ],
+    "flags": [ "LONE_START" ],
     "start_of_game": { "hour": 4, "day": 61, "season": "spring", "year": 1 },
     "surround_groups": [ [ "GROUP_COASTAL_BIRDS", 3.0 ] ]
   },
