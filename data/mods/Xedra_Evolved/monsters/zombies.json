@@ -129,7 +129,7 @@
   },
   {
     "id": "mon_zombie_scientist",
-    "copy_from": "mon_zombie_scientist",
+    "copy-from": "mon_zombie_scientist",
     "type": "MONSTER",
     "dissect": "dissect_mon_zombie_scientist_xe"
   }
