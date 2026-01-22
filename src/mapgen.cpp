@@ -6335,12 +6335,15 @@ void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_ge
 
                     if( down_ter.obj().has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
                         // Attempt to move creature down to water in lower level
+                        if( mon->has_effect( effect_aquatic_frozen ) ) {
+                            mon->remove_effect( effect_aquatic_frozen );
+                        }
                         mon->move_to( down_pos );
                         escaped = true;
                     }
 
                     // If creature couldn't escape to lower water, freeze it
-                    if( !escaped ) {
+                    if( !escaped && !mon->has_effect( effect_aquatic_frozen ) ) {
                         mon->add_effect( effect_aquatic_frozen, 0_turns, true );
                     }
                 } else if( is_thawing && mon->has_effect( effect_aquatic_frozen ) ) {

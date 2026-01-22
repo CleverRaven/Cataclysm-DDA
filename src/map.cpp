@@ -9533,9 +9533,22 @@ void map::spawn_monsters_submap( const tripoint_rel_sm &gp, bool ignore_sight, b
                 tmp.ammo = tmp.type->starting_ammo;
             }
 
-            // This can fail, but there isn't much we can do about it if it does. We could output some
-            // kind of info message, but, again, it's unlikely to result in anything that can be acted on.
-            g->place_critter_at_or_within( make_shared_fast<monster>( tmp ), this, center, points );
+            // Try to place the monster. If placement fails for aquatic monsters
+            // (e.g. water is frozen so they don't "fit"), only attempt a forced
+            // placement when the tile has thin or thick ice flags.
+            auto mon_sp = make_shared_fast<monster>( tmp );
+            monster *placed = g->place_critter_at_or_within( mon_sp, this, center, points );
+            if( !placed && mon_sp->has_flag( mon_flag_AQUATIC ) ) {
+                const bool has_thin_ice = has_flag_ter( ter_furn_flag::TFLAG_THIN_ICE, center );
+                const bool has_thick_ice = has_flag_ter( ter_furn_flag::TFLAG_THICK_ICE, center );
+                if( has_thin_ice || has_thick_ice ) {
+                    placed = g->place_critter_around( mon_sp, center, 0, true );
+                    if( placed ) {
+                        static const efftype_id effect_aquatic_frozen( "aquatic_frozen" );
+                        placed->add_effect( effect_aquatic_frozen, 0_turns, true );
+                    }
+                }
+            }
         }
     }
     current_submap->spawns.clear();
