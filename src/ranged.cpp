@@ -1982,7 +1982,7 @@ static void print_confidence_ratings( const catacurses::window &w,
 {
     for( const confidence_rating &cr : ratings ) {
         std::string label = pgettext( "aim_confidence", cr.label.c_str() );
-        std::string symbols = string_format( "<color_%s>%s</color> = %s", cr.color, cr.symbol, label );
+        std::string symbols = string_format( "<color_%s>%c</color> = %s", cr.color, cr.symbol, label );
         int line_len = utf8_width( label ) + 5; // 5 for '# = ' and whitespace at end
         if( ( width - column_number ) < line_len ) {
             column_number = 1;
@@ -2019,7 +2019,7 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
     // TODO: consider removing it, but for now it demonstrates the odds changing pretty well
     std::sort( sorted.begin(), sorted.end(),
     []( const auto & lhs, const auto & rhs ) {
-        return lhs.confidence <= rhs.confidence;
+        return lhs.confidence < rhs.confidence;
     } );
 
     int width = getmaxx( w ) - 2; // window width minus borders

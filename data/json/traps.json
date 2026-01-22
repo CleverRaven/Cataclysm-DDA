@@ -7,7 +7,7 @@
     "memorial_male": { "ctxt": "memorial_male", "str": "Stepped on bubble wrap." },
     "memorial_female": { "ctxt": "memorial_female", "str": "Stepped on bubble wrap." },
     "symbol": "_",
-    "visibility": 0,
+    "visibility": -1,
     "avoidance": 8,
     "difficulty": 0,
     "action": "bubble",
@@ -589,6 +589,22 @@
     "difficulty": 99,
     "action": "pit",
     "vehicle_data": { "damage": 500 }
+  },
+  {
+    "type": "trap",
+    "id": "tr_thin_ice",
+    "name": "thin ice",
+    "color": "light_cyan",
+    "memorial_male": { "ctxt": "memorial_male", "str": "Fell through thin ice into water." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Fell through thin ice into water." },
+    "flags": [ "ECHOLOCATION_DETECTABLE" ],
+    "symbol": "~",
+    "visibility": 0,
+    "avoidance": 20,
+    "difficulty": 99,
+    "action": "thin_ice",
+    "trigger_message_u": "The ice cracks beneath you!",
+    "trigger_message_npc": "The ice cracks beneath <npcname>!"
   },
   {
     "type": "trap",

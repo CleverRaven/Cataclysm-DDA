@@ -561,7 +561,7 @@ endif
 CPPFLAGS += -Isrc -isystem ${SRC_DIR}/third-party $(DEFINES)
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS)
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
-DEFINES += -DZSTD_STATIC_LINKING_ONLY -DZSTD_DISABLE_ASM
+DEFINES += -DZSTD_STATIC_LINKING_ONLY -DZSTD_DISABLE_ASM -DFMT_USE_LOCALE=0
 
 BINDIST_EXTRAS += README.md data doc LICENSE.txt LICENSE-OFL-Terminus-Font.txt VERSION.txt $(JSON_FORMATTER_BIN)
 BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz
@@ -785,20 +785,20 @@ ifeq ($(TILES), 1)
     else # libsdl build
       DEFINES += -DOSX_SDL2_LIBS
       # handle #include "SDL2/SDL.h" and "SDL.h"
-      CXXFLAGS += $(shell sdl2-config --cflags) \
-		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
+      CXXFLAGS += $(subst -I,-isystem ,$(shell sdl2-config --cflags)) \
+		  -isystem $(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       LDFLAGS += -lSDL2_image
       ifeq ($(SOUND), 1)
         LDFLAGS += -lSDL2_mixer
       endif
     endif
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags freetype2)
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags freetype2))
     LDFLAGS += $(shell $(PKG_CONFIG) --libs freetype2)
   else ifneq ($(NATIVE),emscripten)
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2)
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_image SDL2_ttf)
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags freetype2)
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags sdl2))
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags SDL2_image SDL2_ttf))
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags freetype2))
 
     ifeq ($(STATIC), 1)
       LDFLAGS += $(shell $(PKG_CONFIG) sdl2 --static --libs)
@@ -855,7 +855,7 @@ else
 
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(HAVE_PKGCONFIG),1)
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags $(NCURSES_PREFIX))
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags $(NCURSES_PREFIX)))
     LDFLAGS += $(shell $(PKG_CONFIG) --libs $(NCURSES_PREFIX))
   else
     ifeq ($(HAVE_NCURSES5CONFIG),1)
@@ -883,13 +883,13 @@ ifeq ($(SOUND), 1)
       ifeq ($(MACPORTS), 1)
         LDFLAGS += -lSDL2_mixer -lvorbisfile -lvorbis -logg
       else # homebrew
-        CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
+        CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags SDL2_mixer))
         LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
         LDFLAGS += -lvorbisfile -lvorbis -logg
       endif
     endif
   else # not osx
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags SDL2_mixer))
     LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
     LDFLAGS += -lpthread
   endif
@@ -980,7 +980,7 @@ ifeq ($(HEADERPOPULARITY), 1)
 else
   SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
 endif
-THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp)
+THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp $(SRC_DIR)/third-party/fmt/*.cc)
 THIRD_PARTY_C_SOURCES := $(wildcard $(SRC_DIR)/third-party/zstd/common/*.c $(SRC_DIR)/third-party/zstd/compress/*.c $(SRC_DIR)/third-party/zstd/decompress/*.c)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
@@ -1022,7 +1022,10 @@ endif
 
 SOURCES += $(IMGUI_SOURCES)
 
-_OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
+CPP_SOURCES := $(filter %.cpp,$(SOURCES))
+CC_SOURCES := $(filter %.cc,$(SOURCES))
+_OBJS = $(CPP_SOURCES:$(SRC_DIR)/%.cpp=%.o)
+_OBJS += $(CC_SOURCES:$(SRC_DIR)/%.cc=%.o)
 _OBJS += $(C_SOURCES:$(SRC_DIR)/%.c=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
@@ -1141,6 +1144,9 @@ $(shell mkdir -p $(DIRS))
 $(ODIR)/%.inc: $(SRC_DIR)/%.cpp
 	$(COMPILE.cc) -o /dev/null -Wno-error -H -E $< 2> $@
 
+$(ODIR)/%.inc: $(SRC_DIR)/%.cc
+	$(COMPILE.cc) -o /dev/null -Wno-error -H -E $< 2> $@
+
 $(ODIR)/%.inc: $(SRC_DIR)/%.c
 	$(COMPILE.c) -o /dev/null -Wno-error -H -E $< 2> $@
 
@@ -1149,6 +1155,9 @@ includes: $(OBJS:.o=.inc)
 	+make -C tests includes
 
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.cpp
+	$(COMPILE.cc) $(OUTPUT_OPTION) -w -MMD -MP $<
+
+$(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.cc
 	$(COMPILE.cc) $(OUTPUT_OPTION) -w -MMD -MP $<
 
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.c
@@ -1196,6 +1205,7 @@ clean: clean-tests clean-lang
 	rm -f $(SRC_DIR)/version.h $(SRC_DIR)/prefix.h
 	rm -f $(CHKJSON_BIN)
 	rm -f $(TEST_MO)
+	rm -rf zzip.dSYM
 	rm -f zzip zzip.*
 
 distclean:

@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <exception>
 #include <iterator>
+#include <list>
 #include <memory>
 #include <optional>
 #include <set>
@@ -36,6 +37,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "sdl_gamepad.h"
 
 enum class kb_menu_status {
     remove, reset, add, add_global, execute, show, filter
@@ -154,9 +156,43 @@ const std::string &input_context::input_to_action( const input_event &inp ) cons
     return CATA_ERROR;
 }
 
-#if defined(__ANDROID__)
-std::list<input_context *> input_context::input_context_stack;
+input_context *input_context_stack_impl::reap()
+{
+    input_context *ret = nullptr;
+    while( !stack.empty() ) {
+        std::shared_ptr<input_context_handle> handle = stack.back().lock();
+        if( handle ) {
+            ret = handle->cxtx;
+            break;
+        }
+        stack.pop_back();
+    }
+    return ret;
+}
 
+input_context *input_context_stack_impl::back()
+{
+    return reap();
+}
+
+void input_context_stack_impl::pop()
+{
+    if( reap() ) {
+        stack.pop_back();
+    }
+}
+
+void input_context_stack_impl::push( std::shared_ptr<input_context_handle> const &context )
+{
+    reap();
+    stack.push_back( context );
+}
+
+#if defined(__ANDROID__) || defined(TILES)
+input_context_stack_impl input_context::input_context_stack;
+#endif
+
+#if defined(__ANDROID__)
 void input_context::register_manual_key( manual_key mk )
 {
     // Prevent duplicates
@@ -367,7 +403,7 @@ std::string input_context::get_desc(
 {
     if( action_descriptor == "ANY_INPUT" ) {
         //~ keybinding description for anykey
-        return string_format( separate_fmt, pgettext( "keybinding", "any" ), text );
+        return string_format( separate_fmt.translated(), pgettext( "keybinding", "any" ), text );
     }
 
     const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
@@ -383,7 +419,7 @@ std::string input_context::get_desc(
                     const std::string key = utf32_to_utf8( ch );
                     const int pos = ci_find_substr( text, key );
                     if( pos >= 0 ) {
-                        return string_format( inline_fmt, text.substr( 0, pos ),
+                        return string_format( inline_fmt.translated(), text.substr( 0, pos ),
                                               key, text.substr( pos + key.size() ) );
                     }
                 }
@@ -393,9 +429,10 @@ std::string input_context::get_desc(
 
     if( na ) {
         //~ keybinding description for unbound or non-applicable keys
-        return string_format( separate_fmt, pgettext( "keybinding", "n/a" ), text );
+        return string_format( separate_fmt.translated(), pgettext( "keybinding", "n/a" ), text );
     } else {
-        return string_format( separate_fmt, get_desc( action_descriptor, 1, evt_filter ), text );
+        return string_format( separate_fmt.translated(), get_desc( action_descriptor, 1, evt_filter ),
+                              text );
     }
 }
 
@@ -1141,11 +1178,6 @@ input_event input_context::get_raw_input()
 
 #if defined(TUI)
 // Also specify that we don't have a gamepad plugged in.
-bool gamepad_available()
-{
-    return false;
-}
-
 std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses::window
         &capture_win, const point &offset, const bool center_cursor ) const
 {
@@ -1343,7 +1375,11 @@ bool input_context::is_event_type_enabled( const input_event_t type ) const
         case input_event_t::keyboard_code:
             return input_manager::actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keycode;
         case input_event_t::gamepad:
-            return gamepad_available();
+#if defined(TILES)
+            return gamepad::is_active();
+#else
+            return false;
+#endif
         case input_event_t::mouse:
             return true;
     }

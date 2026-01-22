@@ -2625,6 +2625,10 @@ class Character : public Creature, public visitable
         // gets all the spells known by this character that have this spell class
         // spells returned are a copy, do not try to edit them from here, instead use known_magic::get_spell
         std::vector<spell> spells_known_of_class( const trait_id &spell_class ) const;
+        /**
+        * @param fake_spell - "true" indicates a spell cast by a bionic
+        * @param target - if not provided, defers to spell::select_target()
+        */
         bool cast_spell( spell &sp, bool fake_spell, const std::optional<tripoint_bub_ms> &target );
 
         /** Called when a player triggers a trap, returns true if they don't set it off */
@@ -2913,6 +2917,7 @@ class Character : public Creature, public visitable
         int cash = 0;
         weak_ptr_fast<Creature> last_target;
         std::optional<tripoint_abs_ms> last_target_pos;
+        std::optional<tripoint_abs_ms> last_magic_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
         // FIXME: The presence of camps should be global objects, this should only be knowledge of camps (at best)

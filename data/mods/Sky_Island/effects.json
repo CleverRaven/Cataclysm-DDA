@@ -144,5 +144,12 @@
     "name": [ "" ],
     "desc": [ "" ],
     "flags": [ "STEADY" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sky_island_momentary_flight",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "LEVITATION" ]
   }
 ]

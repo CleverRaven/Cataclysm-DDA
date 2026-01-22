@@ -20,7 +20,6 @@
 #include "game.h"
 #include "item.h"
 #include "itype.h"
-#include "magic.h"
 #include "messages.h"
 #include "rng.h"
 #include "skill.h"
@@ -37,8 +36,6 @@
 #include "weather.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
-static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
-static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
@@ -51,7 +48,6 @@ static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_READ( "ACT_READ" );
-static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
@@ -142,8 +138,6 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
     }
 
     if( type == ACT_AIM ||
-        type == ACT_ARMOR_LAYERS ||
-        type == ACT_ATM ||
         type == ACT_INVOKE_ITEM
       ) {
         return std::nullopt;
@@ -157,8 +151,8 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
                 if( skill && u.get_knowledge_level( skill ) < reading->level &&
                     u.get_skill_level_object( skill ).can_train() && u.has_identified( book->typeId() ) ) {
                     const SkillLevel &skill_level = u.get_skill_level_object( skill );
-                    //~ skill_name current_skill_level -> next_skill_level (% to next level)
-                    extra_info = string_format( pgettext( "reading progress", "%s %d -> %d (%d%%)" ),
+                    //~ skill_name current_skill_level (% of next level) -> next_skill_level
+                    extra_info = string_format( pgettext( "reading progress", "%1s %2d (%4d%%) -> %3d" ),
                                                 skill.obj().name(),
                                                 skill_level.knowledgeLevel(),
                                                 skill_level.knowledgeLevel() + 1,
@@ -179,11 +173,6 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
             const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
 
             extra_info = string_format( "%d%%", percentage );
-        }
-
-        if( type == ACT_SPELLCASTING ) {
-            const std::string spell_name = spell_id( name )->name.translated();
-            extra_info = string_format( "%s …", spell_name );
         }
     }
 

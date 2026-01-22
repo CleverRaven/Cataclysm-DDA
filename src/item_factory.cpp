@@ -26,6 +26,7 @@
 #include "coords_fwd.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue_helpers.h"
 #include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -141,6 +142,8 @@ static item_blacklist_t item_blacklist;
 
 std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
 std::set<std::string> Item_factory::repair_actions = {};
+
+using diag_value_or_var = value_or_var<diag_value, eoc_math, string_mutator<translation>>;
 
 static void migrate_mag_from_pockets( itype &def )
 {
@@ -1923,9 +1926,6 @@ void Item_factory::init()
     add_iuse( "ACIDBOMB_ACT", &iuse::acidbomb_act );
     add_iuse( "ADRENALINE_INJECTOR", &iuse::adrenaline_injector );
     add_iuse( "AFS_TRANSLOCATOR", &iuse::afs_translocator );
-    add_iuse( "ALCOHOL", &iuse::alcohol_medium );
-    add_iuse( "ALCOHOL_STRONG", &iuse::alcohol_strong );
-    add_iuse( "ALCOHOL_WEAK", &iuse::alcohol_weak );
     add_iuse( "ANTIBIOTIC", &iuse::antibiotic );
     add_iuse( "ANTICONVULSANT", &iuse::anticonvulsant );
     add_iuse( "ANTIFUNGAL", &iuse::antifungal );
@@ -2018,7 +2018,6 @@ void Item_factory::init()
     add_iuse( "MEDITATE", &iuse::meditate );
     add_iuse( "METH", &iuse::meth );
     add_iuse( "MININUKE", &iuse::mininuke );
-    add_iuse( "MOLOTOV_LIT", &iuse::molotov_lit );
     add_iuse( "MOP", &iuse::mop );
     add_iuse( "MP3_ON", &iuse::mp3_on );
     add_iuse( "MULTICOOKER", &iuse::multicooker );
@@ -2542,6 +2541,17 @@ void Item_factory::check_definitions() const
             }
             if( type->can_use( "MA_MANUAL" ) && !type->book->martial_art ) {
                 msg += "has use_action MA_MANUAL but does not specify a martial art\n";
+            }
+            if( type->can_use( "learn_spell" ) ) {
+                const use_function learn_spell_action = *type->get_use( "learn_spell" );
+                const learn_spell_actor *actor_ptr = static_cast<const learn_spell_actor *>
+                                                     ( learn_spell_action.get_actor_ptr() );
+                for( const std::string &spell_str : actor_ptr->spells ) {
+                    const spell_id sp( spell_str );
+                    if( !sp.is_valid() ) {
+                        msg += string_format( "lists invalid spell in learn_spell use_action: '%s'\n", spell_str );
+                    }
+                }
             }
         }
         if( type->can_use( "MA_MANUAL" ) && !type->book ) {
@@ -4660,11 +4670,23 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj,
         use_modifier = true;
     }
 
-    if( obj.has_object( "faults" ) ) {
-        JsonObject jo = obj.get_object( "faults" );
-        int chance = jo.get_int( "chance", 100 );
-        for( std::string ids : jo.get_array( "id" ) ) {
-            modifier.faults.emplace_back( fault_id( ids ), chance );
+    if( obj.has_array( "faults" ) ) {
+        for( const JsonObject jo : obj.get_array( "faults" ) ) {
+            int chance = jo.get_int( "chance", 100 );
+            for( const JsonValue &ids : jo.get_array( "id" ) ) {
+                modifier.faults.emplace_back( fault_id( ids ), chance );
+            }
+        }
+        use_modifier = true;
+    }
+
+    if( obj.has_array( "variables" ) ) {
+        for( const JsonObject jo : obj.get_array( "variables" ) ) {
+            for( const JsonMember &jv : jo ) {
+                diag_value dv;
+                mandatory( jo, false, jv.name(), dv );
+                modifier.item_vars.insert( { jv.name(), dv } );
+            }
         }
         use_modifier = true;
     }

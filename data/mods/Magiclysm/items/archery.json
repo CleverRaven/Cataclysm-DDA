@@ -199,6 +199,14 @@
         "moves": 20
       }
     ],
+    "armor": [
+      {
+        "encumbrance": [ 3, 11 ],
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
+    ],
     "extend": { "flags": [ "TARDIS" ] }
   },
   {

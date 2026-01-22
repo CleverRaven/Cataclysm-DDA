@@ -18,7 +18,7 @@
     "use_action": {
       "type": "manualnoise",
       "moves": 100,
-      "noise": 50,
+      "noise": 110,
       "noise_message": "HOOOOONK!",
       "noise_id": "misc",
       "noise_variant": "airhorn",
@@ -1012,12 +1012,11 @@
       {
         "type": "manualnoise",
         "moves": 100,
-        "noise": 34,
+        "noise": 100,
         "noise_message": "FWEEEET!",
         "noise_id": "misc",
         "noise_variant": "whistle",
-        "use_message": "You blow the whistle.",
-        "//": "Somewhat lower than the proper whistle."
+        "use_message": "You blow the whistle."
       },
       "WEATHER_TOOL",
       { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true }

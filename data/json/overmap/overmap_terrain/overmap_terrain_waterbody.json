@@ -27,7 +27,7 @@
     "id": "lake_surface",
     "copy-from": "generic_lake",
     "travel_cost_type": "water",
-    "uniform_terrain": "t_water_dp"
+    "mapgen": [ { "weight": 1000, "object": { "fill_ter": "t_water_dp" } } ]
   },
   {
     "type": "overmap_terrain",

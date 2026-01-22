@@ -95,6 +95,8 @@ struct wrapped_vehicle {
 using VehicleList = std::vector<wrapped_vehicle>;
 class map;
 
+class weather_generator;
+
 enum class ter_furn_flag : int;
 struct pathfinding_cache;
 struct pathfinding_settings;
@@ -395,6 +397,16 @@ class map
         // Constructors & Initialization
         map() : map( MAPSIZE, true ) { }
         virtual ~map();
+
+        // Apply phase-change logic for a single map square based on historical
+        // weather (10-day average at 08:00). Currently implements "water_freeze".
+        void temp_based_phase_change_at( const tripoint_bub_ms &p, const class weather_generator &wgen );
+
+        // Original terrain recording for phase changes
+        bool has_original_terrain_at( const tripoint_bub_ms &p ) const;
+        ter_id get_original_terrain_at( const tripoint_bub_ms &p ) const;
+        void set_original_terrain_at( const tripoint_bub_ms &p, const ter_id &t );
+        void clear_original_terrain_at( const tripoint_bub_ms &p );
 
         map &operator=( const map & ) = delete;
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
@@ -2246,6 +2258,9 @@ class map
         std::list<Creature *> get_creatures_in_radius( const tripoint_bub_ms &center, size_t radius,
                 size_t radiusz = 0 ) const;
 
+        std::list<Creature *> get_creatures_in_radius_circ( const tripoint_bub_ms &center, size_t radius,
+                size_t radiusz = 0 ) const;
+
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;
         bool dont_draw_lower_floor( const tripoint_bub_ms &p ) const;
@@ -2401,6 +2416,7 @@ class tinymap : private map
         tripoint_range<tripoint_omt_ms> points_on_zlevel( int z ) const;
         tripoint_range<tripoint_omt_ms> points_in_rectangle(
             const tripoint_omt_ms &from, const tripoint_omt_ms &to ) const;
+        // rectangular prism
         tripoint_range<tripoint_omt_ms> points_in_radius(
             const tripoint_omt_ms &center, size_t radius, size_t radiusz = 0 ) const;
         map_stack i_at( const tripoint_omt_ms &p ) {

@@ -596,20 +596,38 @@
               }
             ]
           },
-          "effect": {
-            "if": { "u_has_mission": "MISSION_XEDRA_FIELD_STATION_1" },
-            "then": { "u_message": "You study the notebook, but don't find anything interesting or new.", "popup": true },
-            "else": [
-              {
-                "u_message": "You study the notebook.  The most recent entry has an address underlined several times, with a note: \"S02a deployed for anomaly collection.\"  You mark down the address.",
-                "popup": true
+          "effect": [
+            {
+              "if": {
+                "and": [
+                  { "compare_string": [ "yes", { "u_val": "knows_xedra_field_station_1" } ] },
+                  { "compare_string": [ "yes", { "u_val": "knows_xedra_field_station_2" } ] },
+                  { "compare_string": [ "yes", { "u_val": "knows_xedra_field_station_3" } ] }
+                ]
               },
-              { "assign_mission": "MISSION_XEDRA_FIELD_STATION_1" }
-            ]
-          },
+              "then": { "u_message": "You study the notebook, but don't find anything interesting or new.", "popup": true },
+              "else": { "run_eocs": "EOC_XEDRA_FIELD_NOTES_PICK_QUEST" }
+            },
+            { "transform_item": "xedra_field_notes_used" }
+          ],
           "false_effect": { "u_message": "It's too dark to read." }
         }
       ]
     }
+  },
+  {
+    "type": "ITEM",
+    "id": "xedra_field_notes_used",
+    "name": { "str": "field notebook (used)", "str_pl": "field notebooks (used)" },
+    "category": "maps",
+    "symbol": ",",
+    "color": "white",
+    "description": "A small notebook with \"X.E.D.R.A\" embossed on the cover.  It's filled with notes scribbled by pencil.  You've already searched it for useful information.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
+    "weight": "5 g",
+    "volume": "5 ml"
   }
 ]

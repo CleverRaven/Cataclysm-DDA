@@ -12,7 +12,8 @@
       "MISSION_ROBOFAC_INTERCOM_MWS_1_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_MWS_2_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_MWS_3_ACCEPTED",
-      "MISSION_ROBOFAC_INTERCOM_MWS_4_ACCEPTED"
+      "MISSION_ROBOFAC_INTERCOM_MWS_4_ACCEPTED",
+      "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_ACCEPTED"
     ],
     "type": "talk_topic",
     "dynamic_line": "What would you like to discuss?",
@@ -91,6 +92,20 @@
           { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_3", "success": true }
         ],
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_3_COMPLETE"
+      },
+      {
+        "text": "I'm back.  I don't know what the hell that thing was, but it wasn't a cave.  [Hand over the alien \"atmospheric data.\"]",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE" },
+            { "u_has_item": "mws_monster_corpse_weather_data" }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "mws_monster_corpse_weather_data", "count": 1, "popup": true },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE", "success": true }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_COMPLETE"
       },
       {
         "text": "[Contract: Return to sender]",
@@ -193,6 +208,19 @@
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_4_OFFER"
+      },
+      {
+        "text": "[Contract: Invasive \"Meteorology\"]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE" } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_monster_corpse" } ] }
+            },
+            { "math": [ "HEW_monster_corpse_data_sold > 0" ] }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER"
       },
       {
         "text": "[Contract: Data Retrieval]",
@@ -901,6 +929,12 @@
     "difficulty": 5,
     "value": 0,
     "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "robofachq_surface_entrance",
+          "place_nested": [ { "chunks": [ "robofac_hq_surface_merc_2" ], "x": 1, "y": 9 } ]
+        }
+      ],
       "effect": [
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_portal_sm_1", "value": "yes" },
         { "math": [ "u_hub01_completed_missions++" ] }
@@ -986,10 +1020,11 @@
       "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER",
       "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_MWS",
       "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Reality_Bubble",
+      "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Recording_Length",
       "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Replacement"
     ],
     "type": "talk_topic",
-    "dynamic_line": "Your field NRE recordings are of continued interest of us.  Since you have proved yourself capable, we would like to expand your assignment.  We are willing to provide you with a mobile weather station.  We'd like you to set it up and deploy it near the eye of one of these portal storms.  A standard recording takes 1 hour.  We realize the anomalies may not last that long, so as long as the portal storm passes over the unit while recording, we can make use of the data.  As payment we will let you keep the weather system and pay you our standard subcontracting rate.",
+    "dynamic_line": "Your field NRE recordings are of continued interest of us.  Since you have proved yourself capable, we would like to expand your assignment.  We are willing to provide you with a mobile weather station.  We'd like you to set it up and deploy it near a portal storm.  A standard recording takes 1 hour.  We realize the anomalies may not last that long, so as long as the portal storm passes near the unit while recording, we can make use of the data.  As payment we will let you keep the weather system and pay you our standard subcontracting rate.",
     "responses": [
       {
         "text": "More science?  I'm in.",
@@ -1000,6 +1035,10 @@
       {
         "text": "Do I need to stay near the station while it records?",
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Reality_Bubble"
+      },
+      {
+        "text": "How close do I need to get and do I need to record for the full hour?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Recording_Length"
       },
       {
         "text": "If I lose the station or break it, what should I do?",
@@ -1017,6 +1056,11 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Reality_Bubble",
     "type": "talk_topic",
     "dynamic_line": "You do not.  This is expensive technology in short supply, so you may wish to defend it from anomalous interference.  But the device can hypothetically be left and collected later."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Recording_Length",
+    "type": "talk_topic",
+    "dynamic_line": "You do need to have the storm, in some capacity, be active near the unit while it is recording.  But, we do not expect you to record from the eye of the storm, nor does the storm need to be active for the full hour.  As long as you capture some data it will suffice.  We caution you not to shut off the device early - allow it to finish the 1 hour recording subroutine so that it prints useable data."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_1_OFFER_ADVICE_Replacement",
@@ -1165,7 +1209,63 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_4_COMPLETE",
     "type": "talk_topic",
-    "dynamic_line": "The intercom's tray slides open and you deposit the report.  There is a brief silence, and then it opens with your payment.  \"You have our thanks and your payment.  If you're interested in an open contract, please let us know.",
+    "dynamic_line": "The intercom's tray slides open and you deposit the report.  There is a brief silence, and then it opens with your payment.",
+    "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
+    "id": [
+      "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER",
+      "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_DANGERS",
+      "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_FIELD_TEAM",
+      "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_SCAN_LOCATION"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "The recording you brought us suggests that there is some underground source of alien organic volatiles.  We've cross-referenced with our existing geographic data, and we think we've identified several underground structures that may match the signatures you've brought us.  We'd like you and a field team to go to one of these and measure underground atmospheric conditions - with your HEW station, of course.",
+    "responses": [
+      {
+        "text": "Alright, so go underground to specific coordinates, set up the HEW station, and make a recording.  I'm in.",
+        "effect": [
+          { "assign_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_FIELD_TEAM" },
+          { "assign_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE" }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_ACCEPTED"
+      },
+      {
+        "text": "Any idea what I can expect?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_DANGERS"
+      },
+      { "text": "Field team?", "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_FIELD_TEAM" },
+      {
+        "text": "Do I need to scan at these EXACT coordinates?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_SCAN_LOCATION"
+      },
+      { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_DANGERS",
+    "type": "talk_topic",
+    "dynamic_line": "There appear to be lifeforms, alien and otherwise.  We don't know anything about them."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_FIELD_TEAM",
+    "type": "talk_topic",
+    "dynamic_line": "Yes, we've already contracted several others to perform surface reconnaissance.  It may be worth speaking with them to share information."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER_ADVICE_SCAN_LOCATION",
+    "type": "talk_topic",
+    "dynamic_line": "Yes, absolutely.  We think recordings from these exact coordinates will give us the most useful data on these volatile organics.  However, like other recordings, you don't need to be present for the full hour the recording runs - you can set up the station, leave, and come back later for the report."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "Excellent.  You'll meet the advanced team on the surface near your coordinates."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": "The intercom's tray slides open and you deposit the report.  There is a brief silence, and then it opens with your payment.  \"You have our thanks and your payment.  It will take us some time for Research to digest this and the other field data, but perhaps we will have more related contracts for you later.",
     "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   },
   {
@@ -1398,7 +1498,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_1",
     "type": "mission_definition",
     "name": { "str": "Weather Permitting" },
-    "description": "Take the mobile weather station into a portal storm, assemble it, and start a recording.  After 1 hour the station will produce a datasheet to return to Hub 01.",
+    "description": "Assemble and <color_yellow>activate the 1-hour recording subroutine</color> on a <color_yellow>a mobile weather station</color> during an <color_yellow>early</color>, <color_yellow>distant</color>, or <color_yellow>close portal storm</color>.  After 1 hour the station will print some sort of <color_yellow>strange weather datasheet</color> to return to Hub 01.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
@@ -1427,7 +1527,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_2",
     "type": "mission_definition",
     "name": { "str": "System Retrieval" },
-    "description": "Travel to the DARPA research station and find the mobile hazardous environment weather station.  Should I bring a swimsuit?",
+    "description": "Travel to the DARPA research station and find the <color_yellow>mobile hazardous environment weather station</color>.  Should I bring a swimsuit?",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
@@ -1465,7 +1565,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_3",
     "type": "mission_definition",
     "name": { "str": "Storm Chaser" },
-    "description": "Take the mobile HEW station into a portal storm, assemble it, and start a recording.  After 1 hour the station will produce a datasheet to return to Hub 01.",
+    "description": "Take the <color_yellow>mobile hazardous environment weather station</color> into an <color_yellow>early</color>, <color_yellow>distant</color>, or <color_yellow>close portal storm</color>, assemble it, and start a recording.  Return the resulting <color_yellow>HEW anomalous weather printout</color> to Hub 01.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
@@ -1494,15 +1594,76 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_4",
     "type": "mission_definition",
     "name": { "str": "True Weatherperson" },
-    "description": "Record strange things for Hub 01.  They recommend scanning with the HEW system anywhere there is portal activity.",
+    "description": "Record \"atmospheric\" data return a HEW datasheet to Hub 01.  They recommend scanning with the HEW system anywhere there is, or was, portal activity.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
+    "start": { "effect": { "u_add_var": "dialogue_intercom_accepted_robofac_intercom_mws_4", "value": "yes" } },
     "end": {
       "effect": [
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_mws_4", "value": "yes" },
         { "math": [ "u_hub01_completed_missions++" ] }
       ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE",
+    "type": "mission_definition",
+    "name": { "str": "Invasive \"Meteorology\"" },
+    "description": "Go to the <color_yellow>exact underground coordinates</color>, set up a HEW station, and make a recording.  Return the <color_yellow>alien \"atmospheric\" datasheet</color> to Hub 01.  You may wish to rendezvous with the advanced field team, if you can find them.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "corpse_bowels_mid", "om_special": "nether_monster_corpse", "reveal_radius": 1, "random": false }
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "RobofacCoin", "count": 8 },
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_mws_monster_corpse", "value": "yes" },
+        { "math": [ "u_hub01_completed_missions++" ] }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_FIELD_TEAM",
+    "type": "mission_definition",
+    "name": { "str": "Invasive \"Meteorology:\" contact the field team" },
+    "//": "Place the field team here instead of at the entrance, just incase the rare Yrax spawns.  It'd be odd for them to be in the same place.",
+    "description": "A team of Hub 01 contractors is at work near the organic mass.  I can check in with them if I want to, but it isn't essential to my mission.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "corpse_surface",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "corpse_surface", "om_special": "nether_monster_corpse", "reveal_radius": 2, "random": false },
+      "update_mapgen": { "place_nested": [ { "chunks": [ "robofac_monster_corpse_field_team" ], "x": 0, "y": 0 } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,

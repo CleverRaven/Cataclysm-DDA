@@ -247,5 +247,27 @@
       "ter_set": "t_rock_floor",
       "items": [ { "item": "rock", "count": [ 3, 7 ] }, { "item": "chunk_hematite", "count": [ 2, 4 ], "prob": 80 } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_feldspar",
+    "looks_like": "t_rock_blue",
+    "name": "feldspar",
+    "description": "A deposit of feldspar.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
+    "roof": "t_rock_floor",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "rock", "count": [ 3, 7 ] }, { "item": "chunk_feldspar", "count": [ 2, 5 ], "prob": 80 } ]
+    }
   }
 ]

@@ -338,18 +338,24 @@
         "text": "I have some HEW recordings.",
         "condition": {
           "and": [
-            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_accepted_robofac_intercom_mws_4" } ] },
             {
               "or": [
                 { "u_has_items": { "item": "HEW_printout_data_portal_storm", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_vitrified", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_exodii", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_strange_temple", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_lixa", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_highlands", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_labyrinth", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_physics_lab", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_amigara", "count": 1 } },
-                { "u_has_items": { "item": "HEW_printout_data_radiosphere", "count": 1 } }
+                { "u_has_items": { "item": "HEW_printout_data_radiosphere", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_monster_corpse", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_cabin_reverb", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_cabin_reverb_dimension", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_barricaded_church", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_morgantown", "count": 1 } }
               ]
             }
           ]

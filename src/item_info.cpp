@@ -473,14 +473,14 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 faults += colorize( fault.first.str() + string_format( " (%d, %d%%)\n", fault.second,
                                     weight_percent ), has_fault( fault.first ) ? c_yellow : c_white );
             }
-            info.emplace_back( "BASE", string_format( "faults: %s", faults ) );
+            info.emplace_back( "BASE", string_format( _( "faults: %s" ), faults ) );
 
             units::mass sum_of_components_weight;
             for( const item_comp &c : get_uncraft_components() ) {
                 sum_of_components_weight += c.type->weight * c.count;
             }
-            info.emplace_back( "BASE", string_format( "weight of uncraft components: %s grams",
-                               to_gram( sum_of_components_weight ) ) );
+            info.emplace_back( "BASE", string_format( _( "weight of uncraft components: %d grams" ),
+                               static_cast<int>( std::round( to_gram( sum_of_components_weight ) ) ) ) );
         }
     }
 }
@@ -874,11 +874,11 @@ static std::string ammo_by_barrel_info( const islot_ammo &ammo )
 
             info += string_format( "%s;%s;%s;%s\n", _( "Length" ), _( "Point blank damage" ),
                                    _( "Total" ), _( "Dispersion" ) );
-            info += string_format( "%s;<color_c_yellow>%s</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA\n",
+            info += string_format( "%s;<color_c_yellow>%d</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA\n",
                                    small_string, small_damage, small_shot_damage, small_dispersion );
-            info += string_format( "%s;<color_c_yellow>%s</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA\n",
+            info += string_format( "%s;<color_c_yellow>%d</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA\n",
                                    medium_string, medium_damage, medium_shot_damage, medium_dispersion );
-            info += string_format( "%s;<color_c_yellow>%s</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA",
+            info += string_format( "%s;<color_c_yellow>%d</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA",
                                    large_string, large_damage, large_shot_damage, large_dispersion );
         } else {
             info += string_format( "%s;%s;%s\n", _( "Length" ), _( "Damage" ), _( "Dispersion" ) );
@@ -1024,6 +1024,57 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         }
     }
 }
+
+std::string item::print_compatible_mags_or_flags() const
+{
+    std::string display = _( "<bold>Compatible magazines</bold>:" );
+
+    // check magazines
+    std::set<itype_id> mag_compatible = magazine_compatible();
+    if( !mag_compatible.empty() ) {
+        std::set<std::string> compat;
+        std::string mag_names;
+
+        // if variants are on…
+        if( get_option<bool>( "SHOW_GUN_VARIANTS" ) ) {
+            for( const itype_id &i : mag_compatible ) {
+                const std::set<std::string> all_variant_names = i->all_variant_names();
+                // and magazine actually has variants…
+                if( !all_variant_names.empty() ) {
+                    for( const std::string &variant_name : all_variant_names ) {
+                        // print variant names
+                        compat.insert( variant_name );
+                    }
+                } else {
+                    // otherwise print the name of the magazine itself
+                    compat.insert( item::nname( i ) );
+                }
+            }
+            mag_names = enumerate_as_string( compat );
+        } else {
+            // print just item names if variants are turned off
+            const std::vector<itype_id> compat_sorted = sorted_lex( mag_compatible );
+            mag_names = enumerate_as_string( compat_sorted,
+            []( const itype_id & id ) {
+                return item::nname( id );
+            } );
+        }
+        display += _( "\n<bold>Types</bold>: " ) + mag_names;
+    }
+
+    // check flags
+    const std::set<flag_id> flag_restrictions = contents.magazine_flag_restrictions();
+    if( !flag_restrictions.empty() ) {
+        const std::string flag_names = enumerate_as_string( flag_restrictions,
+        []( const flag_id & e ) {
+            return e->name();
+        } );
+        display += _( "\n<bold>Form factors</bold>: " ) + flag_names;
+    }
+
+    return display;
+}
+
 
 void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminfo_query *parts,
                      int /* batch */, bool /* debug */ ) const
@@ -1347,28 +1398,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     if( !magazine_integral() && parts->test( iteminfo_parts::GUN_ALLOWED_MAGAZINES ) ) {
         insert_separation_line( info );
         if( uses_magazine() ) {
-            // Keep this identical with tool magazines in item::tool_info
-            const std::vector<itype_id> compat_sorted = sorted_lex( magazine_compatible() );
-            const std::string mag_names = enumerate_as_string( compat_sorted,
-            []( const itype_id & id ) {
-                return item::nname( id );
-            } );
-
-            const std::set<flag_id> flag_restrictions = contents.magazine_flag_restrictions();
-            const std::string flag_names = enumerate_as_string( flag_restrictions,
-            []( const flag_id & e ) {
-                return e->name();
-            } );
-
-            std::string display = _( "<bold>Compatible magazines</bold>:" );
-            if( !compat_sorted.empty() ) {
-                display += _( "\n<bold>Types</bold>: " ) + mag_names;
-            }
-            if( !flag_restrictions.empty() ) {
-                display += _( "\n<bold>Form factors</bold>: " ) + flag_names;
-            }
-
-            info.emplace_back( "DESCRIPTION", display );
+            info.emplace_back( "DESCRIPTION", print_compatible_mags_or_flags() );
         }
     }
 
@@ -2675,28 +2705,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 
         if( parts->test( iteminfo_parts::TOOL_MAGAZINE_COMPATIBLE ) ) {
             if( uses_magazine() ) {
-                // Keep this identical with gun magazines in item::gun_info
-                const std::vector<itype_id> compat_sorted = sorted_lex( magazine_compatible() );
-                const std::string mag_names = enumerate_as_string( compat_sorted,
-                []( const itype_id & id ) {
-                    return item::nname( id );
-                } );
-
-                const std::set<flag_id> flag_restrictions = contents.magazine_flag_restrictions();
-                const std::string flag_names = enumerate_as_string( flag_restrictions,
-                []( const flag_id & e ) {
-                    return e->name();
-                } );
-
-                std::string display = _( "<bold>Compatible magazines</bold>:" );
-                if( !compat_sorted.empty() ) {
-                    display += _( "\n<bold>Types</bold>: " ) + mag_names;
-                }
-                if( !flag_restrictions.empty() ) {
-                    display += _( "\n<bold>Form factors</bold>: " ) + flag_names;
-                }
-
-                info.emplace_back( "DESCRIPTION", display );
+                info.emplace_back( "DESCRIPTION", print_compatible_mags_or_flags() );
             }
         }
     } else if( !ammo_types().empty() && parts->test( iteminfo_parts::TOOL_CAPACITY ) ) {

@@ -273,6 +273,28 @@ Field group | Description | Example
 `condition` | Dynamic field that takes conditions for spell targeting.  These conditions will apply after more specific targeting criteria, such as "valid_targets" or "ignored_monster_species".  The caster is the alpha talker and the target is the beta talker.  Note: Since targeting the ground will not pass a beta talker, make sure any condition tree from a spell with "ground" as a valid target first checks for the presence of a beta talker if it wants to check against it.
 `magic_type` | Optional field indicating which type of magic this spell is part of.  Separate from spell class, this field links to a magic_type object that can define several shareable parts of spells, such as xp required to level or flags that make the spell not castable.
 
+### Channeled Spell fields
+Channeled spells trigger their effects whenever you manually wait a turn after casting. They interrupt if you do ANYTHING but manually wait.  They also break if you are involved in melee combat.
+
+Example `"channel_data`:
+```
+    "channel_data": {
+      "max_channel_turns": 20,
+      "channel_spell": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+      "channel_interrupt_spell": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+      "channel_end_spell": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+      "channel_uses_energy": true
+    }
+```
+With the values being:
+
+| field | effect |
+|-|-|
+|max_channel_turns| The number of times the spell is channeled. |
+|channel_spell         | The spell that triggers every turn of channeling. |
+|channel_end_spell | The spell that triggers on the last turn of channeling. |
+| channel_uses_energy | The `channel_spell` consumes and requires mana/other energy when it triggers. |
+|channel_interrupt_spell | The spell that triggers when channeling is interrupted. Wether its because the player ran out of mana or because they did something other than wait. (OPTIONAL) |
 
 ### Spell Flags
 
@@ -726,7 +748,7 @@ Identifier                  | Description
 ---                         |---
 `id`                        | Unique ID.  Must be one continuous word, use underscores if necessary.
 `has`                       | How an enchantment determines if it is in the right location in order to qualify for being active.  `WIELD` when wielded in your hand, `WORN` when worn as armor, `HELD` when in your inventory.
-`condition`                 | Determines the environment where the enchantment is active.  `ALWAYS` is active always and forevermore, `ACTIVE` whenever the item, mutation, bionic, or whatever the enchantment is attached to is active, `INACTIVE` whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.  `DIALOG_CONDITION - ACTIVE` whenever the dialog condition in `condition` is true.
+`condition`                 | Determines the environment where the enchantment is active.  `ALWAYS` is active always and forevermore, `ACTIVE` whenever the item, mutation, bionic, or whatever the enchantment is attached to is active, `INACTIVE` whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.  `DIALOG_CONDITION - ACTIVE` whenever the dialog condition in `condition` is true, eg `"condition": { "math": [ "u_effect_intensity('perk_insight') > 9" ] },`
 `hit_you_effect`            | A spell that activates when you `melee_attack` a creature.  The spell is centered on the location of the creature unless `"hit_self": true`, then it is centered on your location.  Follows the template for defining `fake_spell`.
 `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining `fake_spell`
 `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the `fake_spell` template.

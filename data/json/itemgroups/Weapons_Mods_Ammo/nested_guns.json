@@ -227,7 +227,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock_23", "charges": [ 0, 15 ], "ammo-item": "40sw" },
+      { "item": "glock_27", "charges": [ 0, 15 ], "ammo-item": "40sw" },
       { "item": "glock40mag_9", "ammo-item": "40sw" },
       { "item": "glock40mag_9", "ammo-item": "40sw", "prob": 50 },
       { "group": "on_hand_40" }
@@ -1920,7 +1920,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "modular_m27_assault_rifle", "variant": "modular_h&k416a5", "charges": [ 0, 30 ] },
+      { "group": "h&k416a5_any", "charges": [ 0, 30 ] },
       { "item": "stanag30" },
       { "item": "stanag30", "prob": 50 },
       { "group": "on_hand_223" }
@@ -1933,7 +1933,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "modular_m27_assault_rifle", "variant": "modular_m27iar", "charges": [ 0, 30 ] },
+      { "group": "m27iar", "charges": [ 0, 30 ] },
       { "item": "stanag30" },
       { "item": "stanag30", "prob": 50 },
       { "group": "on_hand_223" }
@@ -2404,12 +2404,20 @@
     "entries": [ { "item": "tavor_12", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
   },
   {
+    "id": "nested_benelli_m4",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "benelli_m4", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
+  },
+  {
     "id": "nested_m1014",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "m1014", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
+    "entries": [ { "item": "m1014", "charges": [ 0, 7 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_benelli_m2",

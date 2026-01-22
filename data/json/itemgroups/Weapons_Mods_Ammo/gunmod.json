@@ -72,6 +72,7 @@
       [ "m320_mod", 10 ],
       [ "masterkey", 30 ],
       [ "m26_mass", 35 ],
+      [ "mipim", 10 ],
       [ "sword_bayonet", 10 ]
     ]
   },
@@ -135,13 +136,6 @@
       [ "laser_sight", 15 ],
       [ "offset_sights", 6 ]
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "m38dmr_mods",
-    "//": "Default mods for the m38dmr variant of the NATO assault rifle",
-    "subtype": "collection",
-    "entries": [ { "item": "suppressor" }, { "item": "rifle_scope" }, { "item": "bipod" } ]
   },
   {
     "type": "item_group",

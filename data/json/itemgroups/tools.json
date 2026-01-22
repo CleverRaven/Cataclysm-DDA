@@ -940,9 +940,11 @@
       { "item": "corded_powerdrill", "prob": 30 },
       { "item": "circsaw_off", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "angle_grinder", "prob": 20, "charges": [ 0, 500 ] },
+      { "item": "corded_demolition_hammer", "prob": 20 },
       { "item": "grinder_cutoff_disc", "prob": 10 },
       { "item": "grinder_metal_grinding_disc", "prob": 10 },
       { "item": "masonrysaw_off", "prob": 50, "charges": [ 0, 450 ] },
+      { "item": "heavy_masonrysaw_off", "prob": 50, "charges": [ 0, 450 ] },
       { "item": "electric_masonrysaw_off", "prob": 50, "charges": [ 0, 495 ] }
     ]
   },
@@ -1002,7 +1004,6 @@
     "type": "item_group",
     "id": "pur_tablets_bottle_plastic_small_50",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "pur_tablets", "count": 50 } ]
   },
@@ -1010,7 +1011,6 @@
     "type": "item_group",
     "id": "pur_tablets_bottle_plastic_small_0_50",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "pur_tablets", "count": [ 0, 50 ] } ]
   },
@@ -1018,7 +1018,6 @@
     "type": "item_group",
     "id": "bottle_otc_painkiller_10",
     "subtype": "distribution",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_painkiller",
     "entries": [
       { "item": "aspirin", "container-item": "null", "count": 10 },
@@ -1030,7 +1029,6 @@
     "type": "item_group",
     "id": "bottle_otc_painkiller_0_10",
     "subtype": "distribution",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_painkiller",
     "entries": [
       { "item": "aspirin", "container-item": "null", "count": [ 0, 10 ] },
@@ -1042,7 +1040,6 @@
     "type": "item_group",
     "id": "quikclot_bag_plastic_5",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "quikclot", "container-item": "null", "count": 5 } ]
   },
@@ -1050,7 +1047,6 @@
     "type": "item_group",
     "id": "pur_tablets_bottle_plastic_small_0_9",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "pur_tablets", "count": [ 0, 9 ] } ]
   },
@@ -1058,7 +1054,6 @@
     "type": "item_group",
     "id": "quikclot_bag_plastic_0_5",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "quikclot", "container-item": "null", "count": [ 0, 5 ] } ]
   },
@@ -1066,7 +1061,6 @@
     "type": "item_group",
     "id": "pur_tablets_bottle_plastic_small_75_100",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "pur_tablets", "count": [ 75, 100 ] } ]
   },

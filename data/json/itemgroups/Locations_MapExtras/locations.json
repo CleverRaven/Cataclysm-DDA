@@ -666,6 +666,7 @@
       { "item": "radio", "prob": 25, "charges": [ 0, 15 ] },
       [ "power_supply", 25 ],
       [ "processor", 25 ],
+      [ "laptop_hard_case", 10 ],
       { "item": "mp3", "prob": 20, "charges": [ 0, 15 ] },
       { "group": "used_laptops", "prob": 20, "contents-group": "efiles_scrap" },
       { "item": "hotplate", "prob": 20 },
@@ -1120,7 +1121,9 @@
       { "item": "morningstar", "prob": 2, "damage": [ 2, 4 ] },
       { "item": "morningstar_fake", "prob": 3, "damage": [ 2, 4 ] },
       { "item": "morningstar_inferior", "prob": 4, "damage": [ 2, 4 ] },
-      { "item": "warhammer", "prob": 2, "damage": [ 2, 4 ] },
+      { "item": "warhammer", "prob": 1, "damage": [ 2, 4 ] },
+      { "item": "warhammer_fake", "prob": 2, "damage": [ 2, 4 ] },
+      { "item": "warhammer_inferior", "prob": 3, "damage": [ 2, 4 ] },
       { "item": "scythe_war", "prob": 2, "damage": [ 2, 4 ] },
       { "item": "pike", "prob": 2, "damage": [ 2, 4 ] },
       { "item": "spear_steel", "prob": 2, "damage": [ 2, 4 ] },
@@ -1252,6 +1255,7 @@
       [ "hat_hard", 50 ],
       { "item": "wearable_light", "prob": 15, "charges": [ 0, 100 ] },
       [ "ear_plugs", 50 ],
+      [ "laptop_hard_case", 20 ],
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "group": "used_laptops", "prob": 20, "contents-group": "SUS_efiles_sewage" },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
@@ -1355,6 +1359,7 @@
       [ "rock", 40 ],
       [ "rock_flaking", 10 ],
       [ "flint", 5 ],
+      [ "chunk_feldspar", 1 ],
       [ "rock_large", 5 ],
       [ "sharp_rock", 5 ],
       { "group": "newspaper_recent", "prob": 5 },
@@ -1370,6 +1375,7 @@
       [ "rock_flaking", 5 ],
       [ "flint", 2 ],
       [ "rock_large", 5 ],
+      [ "chunk_feldspar", 1 ],
       [ "stick", 95 ],
       [ "pine_bough", 20 ],
       [ "acorns", 15 ],
@@ -1522,6 +1528,7 @@
       { "item": "claw_bar", "prob": 3 },
       { "item": "crowbar", "prob": 18 },
       { "item": "tazer", "prob": 3, "charges": [ 0, 500 ] },
+      { "item": "laptop_hard_case", "prob": 2 },
       { "group": "charged_laptop", "contents-item": "software_hacking", "prob": 10 },
       { "group": "charged_laptop", "contents-group": "efiles_contraband", "prob": 20 },
       { "item": "spray_can", "prob": 50, "charges": [ 0, 10 ] },
@@ -1565,7 +1572,8 @@
       { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "nylon_holster", "prob": 6 },
       { "item": "survnote", "prob": 10 },
       { "item": "family_photo", "prob": 10 },
-      { "item": "tazer", "prob": 5 }
+      { "item": "tazer", "prob": 5 },
+      { "item": "laptop_hard_case", "prob": 5 }
     ]
   },
   {
@@ -1827,6 +1835,7 @@
       [ "hat_hard", 50 ],
       [ "ear_plugs", 50 ],
       [ "textbook_carpentry", 6 ],
+      { "item": "laptop_hard_case", "prob": 5 },
       [ "mag_mechanics", 25 ],
       [ "decoy_elfa", 8 ],
       { "item": "extinguisher", "prob": 20, "charges": 100 },
@@ -1989,6 +1998,7 @@
       [ "survnote", 1 ],
       [ "magnifying_glass", 2 ],
       [ "thermometer", 3 ],
+      [ "pressure_cooker", 3 ],
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
       [ "sextant", 2 ],
@@ -2120,6 +2130,7 @@
       { "item": "gradcylinder", "prob": 5 },
       { "item": "petri_dish", "prob": 5 },
       { "item": "rack_test_tube", "prob": 5 },
+      { "item": "pressure_cooker", "prob": 5 },
       { "item": "stand_ring", "prob": 5 },
       { "item": "stand_ring_clamps", "prob": 5 },
       { "item": "ether", "prob": 5, "charges": [ 100, -1 ] },
@@ -2432,8 +2443,8 @@
       { "group": "milk_in_container", "prob": 10 },
       { "prob": 20, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_10" },
       [ "can_spam", 30 ],
-      [ "can_tuna", 35 ],
-      [ "can_salmon", 25 ],
+      { "group": "tuna_in_can", "prob": 35 },
+      { "group": "clams_in_can", "prob": 25 },
       [ "can_chowder", 35 ],
       [ "can_chicken", 40 ],
       [ "neccowafers", 40 ],
@@ -2456,7 +2467,7 @@
       { "prob": 75, "group": "calcium_tablet_bottle_plastic_pill_supplement_1_20" },
       { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
       { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
-      { "item": "dayquil", "prob": 70, "charges": [ 1, 5 ] },
+      { "group": "nondrowsy_cough_syrup_in_bottle", "prob": 70 },
       [ "screwdriver", 40 ],
       [ "screwdriver_set", 10 ],
       { "group": "duct_tape_roll_part", "prob": 10 },
@@ -2641,6 +2652,7 @@
         "prob": 50
       },
       { "item": "elbow_pads", "prob": 10 },
+      { "item": "laptop_hard_case", "prob": 2 },
       { "item": "pants_army", "prob": 75 },
       { "group": "loaded_webbing_belt", "prob": 50 },
       { "item": "knee_pads", "prob": 10 },
@@ -2650,6 +2662,9 @@
       { "item": "gloves_tactical", "prob": 10 },
       { "group": "military_ballistic_vest", "prob": 10 },
       { "group": "clothing_tactical_leg", "prob": 5 },
+      { "item": "military_poncho", "prob": 40 },
+      { "item": "military_poncho_heavy", "prob": 40 },
+      { "item": "military_poncho_liner", "prob": 40 },
       {
         "distribution": [
           { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
@@ -2797,7 +2812,7 @@
       [ "still", 20 ],
       [ "thermometer", 20 ],
       [ "brew_moonshine", 5 ],
-      { "prob": 35, "group": "cornbread_bag_plastic_6" },
+      { "prob": 35, "group": "cornbread_in_bag" },
       { "prob": 25, "group": "yeast_bag_plastic" },
       { "prob": 20, "group": "sugar_various" },
       [ "chem_ethanol", 5 ]
@@ -2897,7 +2912,6 @@
     "type": "item_group",
     "id": "tobacco_bag_plastic_20",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "tobacco", "container-item": "null", "count": 20 } ]
   },
@@ -2905,7 +2919,6 @@
     "type": "item_group",
     "id": "lsd_bag_zipper_1_5",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_zipper",
     "entries": [ { "item": "lsd", "count": [ 1, 5 ] } ]
   },
@@ -2913,7 +2926,6 @@
     "type": "item_group",
     "id": "cig_box_cigarette_0_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "box_cigarette",
     "entries": [ { "item": "cig", "container-item": "null", "count": [ 0, 10 ] } ]
   },
@@ -2921,7 +2933,6 @@
     "type": "item_group",
     "id": "quikclot_bag_plastic_6",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "quikclot", "container-item": "null", "count": 6 } ]
   },
@@ -2929,7 +2940,6 @@
     "type": "item_group",
     "id": "antibiotics_bottle_plastic_pill_prescription_15",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "antibiotics", "container-item": "null", "count": 15 } ]
   },
@@ -2945,7 +2955,6 @@
     "type": "item_group",
     "id": "melatonin_tablet_bottle_plastic_pill_supplement_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_supplement",
     "entries": [ { "item": "melatonin_tablet", "container-item": "null", "count": 10 } ]
   }

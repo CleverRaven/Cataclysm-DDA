@@ -4457,7 +4457,7 @@ You or NPC is teleported to `target_var` coordinates
 | "u_teleport", / "npc_teleport" | **mandatory** | [variable object](#variable-object) | location to teleport; should use `target_var`, created previously |
 | "success_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was successful |
 | "fail_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was failed, like if coordinates contained creature or impassable obstacle (like wall) |
-| "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead |
+| "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead. For the vehicle, collision test will be skipped. |
 | "force_safe" | optional | boolean | default false; if true, teleportation cannot^(tm) fail.  If there is a creature or obstacle at the target coordinate, the closest passable point within 5 horizontal tiles is picked instead.  If there is no point, the creature remains where they are. |
 
 ##### Valid talkers:
@@ -5445,7 +5445,7 @@ Subtract this many turns from the alpha talker's moves.
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
-| "turn_cost" | **mandatory** | number, duration, [variable object](#variable-object) or value between two | how long the action takes (can be specified in number of turns (as decimal), or as a duration) |
+| "turn_cost" | **mandatory** | number, duration, [variable object](#variable-object) or value between two | how long the action takes as a duration |
 
 ##### Examples
 
@@ -5453,14 +5453,6 @@ Subtract this many turns from the alpha talker's moves.
 {
   "effect": [
     { "turn_cost": "1 sec" }
-  ]
-}
-```
-
-```jsonc
-{
-  "effect": [
-    { "turn_cost": 0.6 }
   ]
 }
 ```

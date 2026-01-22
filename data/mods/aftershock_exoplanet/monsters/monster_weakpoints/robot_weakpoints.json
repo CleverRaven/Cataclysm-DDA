@@ -13,7 +13,7 @@
         "armor_mult": { "all": 1.5 },
         "effects": [
           {
-            "effect_on_conditions": [ "EOC_AFS_INSTANT_DEATH" ],
+            "instant_death_chance": 100,
             "message": "The %s power plants sparks and smokes.",
             "chance": 100,
             "damage_required": [ 1, 100 ]
@@ -29,7 +29,7 @@
         "armor_mult": { "all": 2 },
         "effects": [
           {
-            "effect_on_conditions": [ "EOC_AFS_INSTANT_DEATH" ],
+            "instant_death_chance": 100,
             "message": "The %s processor is completely destroyed!",
             "chance": 100,
             "damage_required": [ 1, 100 ]
@@ -366,7 +366,7 @@
         "coverage": 60,
         "armor_mult": { "all": 0.1 },
         "condition": { "npc_has_any_effect": [ "maimed_armor" ] },
-        "effects": [ { "effect_on_conditions": [ "EOC_AFS_INSTANT_DEATH" ], "chance": 100, "damage_required": [ 1, 100 ] } ]
+        "effects": [ { "instant_death_chance": 100, "chance": 100, "damage_required": [ 1, 100 ] } ]
       }
     ]
   }

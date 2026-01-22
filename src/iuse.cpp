@@ -46,7 +46,6 @@
 #include "damage.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
-#include "effect_source.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -60,10 +59,10 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
-#include "harvest.h"
 #include "iexamine.h"
 #include "input_context.h"
 #include "input_enums.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -113,7 +112,6 @@
 #include "speech.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "teleport.h"
 #include "text_snippets.h"
 #include "translation.h"
@@ -136,10 +134,8 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
-static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 
 static const addiction_id addiction_marloss_b( "marloss_b" );
 static const addiction_id addiction_marloss_r( "marloss_r" );
@@ -186,7 +182,6 @@ static const efftype_id effect_dazed( "dazed" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_flushot( "flushot" );
 static const efftype_id effect_foodpoison( "foodpoison" );
@@ -255,8 +250,6 @@ static const efftype_id effect_weed_high( "weed_high" );
 
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
 
-static const harvest_drop_type_id harvest_drop_blood( "blood" );
-
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_arcade_machine( "arcade_machine" );
@@ -287,9 +280,11 @@ static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
-static const itype_id itype_molotov( "molotov" );
 static const itype_id itype_multi_cooker( "multi_cooker" );
 static const itype_id itype_multi_cooker_filled( "multi_cooker_filled" );
+static const itype_id
+itype_mws_advanced_weather_sensor_array( "mws_advanced_weather_sensor_array" );
+static const itype_id itype_mws_weather_sensor_array( "mws_weather_sensor_array" );
 static const itype_id itype_nicotine_liquid( "nicotine_liquid" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pot( "pot" );
@@ -305,6 +300,7 @@ static const itype_id itype_spiral_stone( "spiral_stone" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_syringe( "syringe" );
+static const itype_id itype_thermometer( "thermometer" );
 static const itype_id itype_tongs( "tongs" );
 static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_towel( "towel" );
@@ -380,7 +376,6 @@ static const ter_str_id ter_t_utility_light( "t_utility_light" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
-static const trait_id trait_ALCMET( "ALCMET" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_DHAMPIR_TRAIT( "DHAMPIR_TRAIT" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
@@ -519,50 +514,6 @@ std::optional<int> iuse::xanax( Character *p, item *it, const tripoint_bub_ms & 
     p->add_effect( effect_took_xanax, 90_minutes );
     p->add_effect( effect_took_xanax_visible, rng( 70_minutes, 110_minutes ) );
     return 1;
-}
-
-static constexpr time_duration alc_strength( const int strength, const time_duration &weak,
-        const time_duration &medium, const time_duration &strong )
-{
-    return strength == 0 ? weak : strength == 1 ? medium : strong;
-}
-
-static int alcohol( Character &p, const item &it, const int strength )
-{
-    // Weaker characters are cheap drunks
-    /** @EFFECT_STR_MAX reduces drunkenness duration */
-    time_duration duration = alc_strength( strength, 22_minutes, 34_minutes,
-                                           45_minutes ) - ( alc_strength( strength, 36_seconds, 1_minutes, 72_seconds ) * p.str_max );
-    if( p.has_trait( trait_ALCMET ) ) {
-        duration = alc_strength( strength, 6_minutes, 14_minutes, 18_minutes ) - ( alc_strength( strength,
-                   36_seconds, 1_minutes, 1_minutes ) * p.str_max );
-        // Metabolizing the booze improves the nutritional value;
-        // might not be healthy, and still causes Thirst problems, though
-        p.stomach.mod_nutr( -std::abs( it.get_comestible() ? it.type->comestible->stim : 0 ) );
-        // Metabolizing it cancels out the depressant
-        p.mod_stim( std::abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
-    } else if( p.has_trait( trait_TOLERANCE ) ) {
-        duration -= alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
-    } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
-        duration += alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
-    }
-    p.add_effect( effect_drunk, duration );
-    return 1;
-}
-
-std::optional<int> iuse::alcohol_weak( Character *p, item *it, const tripoint_bub_ms & )
-{
-    return alcohol( *p, *it, 0 );
-}
-
-std::optional<int> iuse::alcohol_medium( Character *p, item *it, const tripoint_bub_ms & )
-{
-    return alcohol( *p, *it, 1 );
-}
-
-std::optional<int> iuse::alcohol_strong( Character *p, item *it, const tripoint_bub_ms & )
-{
-    return alcohol( *p, *it, 2 );
 }
 
 /**
@@ -2536,10 +2487,10 @@ std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint_
 std::optional<int> iuse::purify_water( Character *p, item *purifier, item_location &water )
 {
     const double default_ratio = 4; // Existing pur_tablets will not have the var
-    const int max_water_per_tablet = static_cast<int>( purifier->get_var( "water_per_tablet",
-                                     default_ratio ) );
+    double max_water_per_tablet_d = purifier->get_var( "water_per_tablet", default_ratio );
+    const int max_water_per_tablet = static_cast<int>( std::lround( max_water_per_tablet_d ) );
     if( max_water_per_tablet < 1 ) {
-        debugmsg( "ERROR: %s set to purify only %i water each.  Nothing was purified.",
+        debugmsg( _( "ERROR: %s set to purify only %d water each.  Nothing was purified." ),
                   purifier->typeId().str(), max_water_per_tablet );
         return std::nullopt;
     }
@@ -2557,8 +2508,8 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
     const int available = p->crafting_inventory().count_item( itype_pur_tablets );
     if( available * max_water_per_tablet >= charges_of_water ) {
         int to_consume = std::ceil( to_consume_f );
-        p->add_msg_if_player( m_info, _( "Purifying %i water using %i %s" ), charges_of_water, to_consume,
-                              purifier->tname( to_consume ) );
+        p->add_msg_if_player( m_info, _( "Purifying %d water using %d %s" ), charges_of_water,
+                              to_consume, purifier->tname( to_consume ) );
         // Pull from surrounding map first because it will update to_consume
         get_map().use_amount( p->pos_bub(), PICKUP_RANGE, itype_pur_tablets, to_consume );
         // Then pull from inventory
@@ -2567,7 +2518,7 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
         }
     } else {
         p->add_msg_if_player( m_info,
-                              _( "You need %i tablets to purify that.  You only have %i" ),
+                              _( "You need %d tablets to purify that.  You only have %d" ),
                               charges_of_water / max_water_per_tablet,  available );
         return std::nullopt;
     }
@@ -2691,19 +2642,19 @@ std::optional<int> iuse::radio_tick( Character *, item *it, const tripoint_bub_m
         replace_city_tag( message, cityname );
         int static_chance = radio_static_chance( tref );
         add_msg_debug( debugmode::DF_RADIO, "Message: '%s' at %d%% noise", message, static_chance );
-        message = obscure_message( message, [&static_chance]()->int {
+        message = obscure_message( message, [&static_chance]() -> obscure_message_action {
             if( x_in_y( static_chance, 100 ) )
             {
                 // Gradually replace random characters with noise as distance increases
                 if( one_in( 3 ) && static_chance - rng( 0, 25 ) < 50 ) {
                     // Replace with random character
-                    return 0;
+                    return replace_character_randomly{};
                 }
                 // Replace with '#'
-                return '#';
+                return replace_character_with{'#'};
             }
             // Leave unchanged
-            return -1;
+            return do_not_replace_character{};
         } );
 
         std::vector<std::string> segments = foldstring( message, RADIO_PER_TURN );
@@ -3616,80 +3567,6 @@ std::optional<int> iuse::grenade_inc_act( Character *p, item *, const tripoint_b
     return 0;
 }
 
-std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub_ms &pos )
-{
-
-    // This string is stored on the molotov as an item var, to record who's responsible for the resulting fires.
-    // Once the molotov has been thrown/dropped, we no longer have a Character pointer at p. So this serves as a record.
-    const std::string credit_or_blame = "molotov_thrower";
-
-    if( !p ) {
-        // It was thrown or dropped, so burst into flames
-        Character *thrower = nullptr;
-        if( it->has_var( credit_or_blame ) ) {
-            character_id guy_id = character_id( it->get_var( credit_or_blame, 0.0 ) );
-            // Check player
-            if( guy_id == get_player_character().getID() ) {
-                thrower = &get_player_character();
-            }
-            // Check active NPCs (loaded in bubble)
-            for( npc *guy : g->get_npcs_if( [guy_id]( const npc & guy ) {
-            return guy.getID() == guy_id;
-            } ) ) {
-                thrower = guy;
-            }
-            // Check inactive NPCs outside the bubble?!
-            if( !thrower ) {
-                thrower = g->find_npc( guy_id );
-            }
-        }
-        map &here = get_map();
-        // Because fields decay with a half-life, we need to know how long it takes for the field to decay and set the age to slightly before that.
-        // the duration is also used for the effect's timer. It's hilariously lethal regardless.
-        const time_duration target_duration = 1_minutes;
-        const time_duration base_age = ( fd_fire->half_life / 2 ) - target_duration;
-        for( const tripoint_bub_ms &pt : here.points_in_radius( pos, 1, 0 ) ) {
-            Creature *critter = get_creature_tracker().creature_at( pt, true );
-            if( critter && one_in( 2 ) ) {
-                if( thrower ) {
-                    critter->add_effect( effect_source( thrower ), effect_onfire, target_duration,
-                                         critter->random_body_part( true ) );
-                } else {
-                    critter->add_effect( effect_onfire, target_duration, critter->random_body_part( true ) );
-                }
-            } else if( !here.get_field( pt, fd_fire ) && one_in( 2 ) ) {
-                if( thrower ) {
-                    here.add_field( pt, fd_fire, 1, base_age, true, effect_source( thrower ) );
-                } else {
-                    here.add_field( pt, fd_fire, 1, base_age );
-                }
-            }
-        }
-        avatar &player = get_avatar();
-        if( player.has_unfulfilled_pyromania() ) {
-            player.fulfill_pyromania_sees( here, pos, _( "Fire…  Good…" ), false );
-        }
-        return 1;
-    }
-
-    // We're holding the molotov while it's burning. So we're now responsible for what this molotov does.
-    // Note: Requires the game to 'tick' once, meaning that the time to light it should always be longer than 1 second!
-    if( p ) {
-        it->set_var( credit_or_blame, p->getID().get_value() );
-    }
-
-    // 2% chance per turn of going out harmlessly.
-    // This is necessary to prevent a player from lighting a ton of molotovs and stuffing them in their backpack until pulling them out 6 weeks later.
-    // Note that moves are deducted (time is spent) when lighting the molotov, and each turn that passes before the player acts again can possibly succeed at this chance.
-    // That results in the player spending the time to light a molotov, but effectively wasting their time spent. So the chance of that happening should be very low.
-    // With the current (as of this writing) time to light a molotov being 2.5 seconds, this is a ~4% chance for a lit molotov to need to be lit a second time.
-    if( one_in( 50 ) ) {
-        p->add_msg_if_player( _( "Your lit Molotov goes out." ) );
-        it->convert( itype_molotov, p ).active = false;
-    }
-    return 0;
-}
-
 std::optional<int> iuse::firecracker_pack_act( Character *, item *it, const tripoint_bub_ms &pos )
 {
     int seconds_left = to_seconds<int>( it->countdown_point - calendar::turn );
@@ -4399,15 +4276,11 @@ std::optional<int> iuse::hand_crank( Character *p, item *it, const tripoint_bub_
                                   _( "You try to use your %s, but the handle detached, so you reattach it." ), it->tname() );
             return std::nullopt;
         }
-
-        // 1600 minutes. It shouldn't ever run this long, but it's an upper bound.
-        // expectation is it runs until the player is too tired.
-        int moves = to_moves<int>( 1600_minutes );
         if( it->ammo_capacity( ammo_battery ) > it->ammo_remaining( ) ) {
             p->add_msg_if_player( _( "You start cranking the %s to charge its %s." ), it->tname(),
                                   it->magazine_current()->tname() );
-            p->assign_activity( ACT_HAND_CRANK, moves, -1, 0, "hand-cranking" );
-            p->activity.targets.emplace_back( *p, it );
+            // 1 day is an upper bound; expectation is it runs until the player is too tired.
+            p->assign_activity( hand_crank_activity_actor( 1_days, item_location( *p, it ) ) );
         } else {
             p->add_msg_if_player( _( "You could use the %s to charge its %s, but it's already charged." ),
                                   it->tname(), magazine->tname() );
@@ -4575,9 +4448,6 @@ std::optional<int> iuse::call_of_tindalos( Character *p, item *, const tripoint_
 
 std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_ms & )
 {
-    map &here = get_map();
-    const tripoint_bub_ms pos = p->pos_bub( here );
-
     if( p->is_npc() ) {
         return std::nullopt;    // No NPCs for now!
     }
@@ -4594,31 +4464,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_
     bool acid_blood = false;
     bool vampire = false;
     units::temperature blood_temp = units::from_kelvin( -1.0f ); //kelvins
-    for( item &map_it : here.i_at( pos.xy() ) ) {
-        if( map_it.is_corpse() &&
-            query_yn( _( "Draw blood from %s?" ),
-                      colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
-            p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it.tname() );
-            drew_blood = true;
-            blood_temp = map_it.temperature;
-
-            field_type_id bloodtype( map_it.get_mtype()->bloodType() );
-            if( bloodtype.obj().has_acid ) {
-                acid_blood = true;
-            } else {
-                blood.set_mtype( map_it.get_mtype() );
-
-                for( const harvest_entry &entry : map_it.get_mtype()->harvest.obj() ) {
-                    if( entry.type == harvest_drop_blood ) {
-                        blood.convert( itype_id( entry.drop ) );
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    if( !drew_blood && query_yn( _( "Draw your own blood?" ) ) ) {
+    if( query_yn( _( "Draw your own blood?" ) ) ) {
         p->add_msg_if_player( m_info, _( "You drew your own blood…" ) );
         drew_blood = true;
         blood_temp = units::from_celsius( 37 );
@@ -5039,13 +4885,12 @@ std::optional<int> iuse::spray_can( Character *p, item *it, const tripoint_bub_m
 std::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
         map *here, const tripoint_bub_ms &where )
 {
-    string_input_popup popup;
-    std::string message = popup
-                          .description( prefix + " " + _( "(To delete, clear the text and confirm)" ) )
-                          .text( here->has_graffiti_at( where ) ? here->graffiti_at( where ) : std::string() )
-                          .identifier( "graffiti" )
-                          .query_string();
-    if( popup.canceled() ) {
+    string_input_popup_imgui popup( 50,
+                                    here->has_graffiti_at( where ) ? here->graffiti_at( where ) : std::string() );
+    popup.set_description( prefix + " " + _( "(To delete, clear the text and confirm)" ) );
+    popup.set_identifier( "graffiti" );
+    std::string message = popup.query();
+    if( popup.cancelled() ) {
         return std::nullopt;
     }
 
@@ -5521,12 +5366,12 @@ std::optional<int> iuse::seed( Character *p, item *it, const tripoint_bub_ms & )
     return std::nullopt;
 }
 
-bool iuse::robotcontrol_can_target( Character *p, const monster &m )
+bool iuse::robotcontrol_can_target( Character &p, const monster &m )
 {
     return !m.is_dead()
            && m.type->in_species( species_ROBOT )
            && m.friendly == 0
-           && rl_dist( p->pos_bub(), m.pos_bub() ) <= 10;
+           && rl_dist( p.pos_bub(), m.pos_bub() ) <= 10;
 }
 
 std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bub_ms & )
@@ -5587,7 +5432,7 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bu
             std::vector< tripoint_bub_ms > locations;
             int entry_num = 0;
             for( const monster &candidate : g->all_monsters() ) {
-                if( robotcontrol_can_target( p, candidate ) ) {
+                if( robotcontrol_can_target( *p, candidate ) ) {
                     mons.push_back( g->shared_from( candidate ) );
                     pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
                     tripoint_bub_ms seen_loc;
@@ -5617,12 +5462,10 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bu
 
             /** @EFFECT_INT speeds up hacking preparation */
             /** @EFFECT_COMPUTER speeds up hacking preparation */
-            int move_cost = std::max( 100,
-                                      1000 - static_cast<int>( p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 ) );
-            player_activity act( ACT_ROBOT_CONTROL, move_cost );
-            act.monsters.emplace_back( z );
-
-            p->assign_activity( act );
+            const time_duration move_cost = time_duration::from_moves<int>( std::max( 100,
+                                            1000 - static_cast<int>( p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 ) ) );
+            const int monster_temp_id = get_creature_tracker().temporary_id( *z );
+            p->assign_activity( robot_control_activity_actor( move_cost, monster_temp_id ) );
 
             return 1;
         }
@@ -7938,6 +7781,7 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
 
     /* Possibly used twice. Worth spending the time to precalculate. */
     const units::temperature player_local_temp = weather.get_temperature( p->pos_bub() );
+    const float sun_irrad = sun_irradiance( calendar::turn );
 
     if( !it->activation_success() ) {
         p->add_msg_if_player( m_bad, _( "The %s doesn't seem to work.  Try again." ),
@@ -7946,7 +7790,7 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
     }
 
     if( it->typeId() == itype_weather_reader ) {
-        p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
+        p->add_msg_if_player( m_neutral, _( "The system displays a snapshot of atmospheric data:" ),
                               it->tname() );
     }
     if( it->has_flag( flag_THERMOMETER ) ) {
@@ -7957,8 +7801,13 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
         } else {
             temperature_str = print_temperature( player_local_temp );
         }
-        p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
-                              temperature_str );
+        if( it->typeId() == itype_thermometer ) {
+            p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
+                                  temperature_str );
+        } else {
+            p->add_msg_if_player(
+                m_neutral, _( "Temperature: %s." ), temperature_str );
+        }
     }
     if( it->has_flag( flag_HYGROMETER ) ) {
         if( it->typeId() == itype_hygrometer ) {
@@ -7984,7 +7833,9 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
         }
     }
 
-    if( it->typeId() == itype_weather_reader ) {
+    if( ( it->typeId() == itype_weather_reader ) ||
+        ( it->typeId() == itype_mws_weather_sensor_array ) ||
+        ( it->typeId() == itype_mws_advanced_weather_sensor_array ) ) {
         int vehwindspeed = 0;
         if( optional_vpart_position vp = here.veh_at( p->pos_bub() ) ) {
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
@@ -8003,7 +7854,12 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
         std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }
-
+    if( it->typeId() == itype_mws_advanced_weather_sensor_array ) {
+        p->add_msg_if_player( m_neutral, _( "Ambient radiation: %d mSv/h." ),
+                              here.get_radiation( p->pos_bub() ) );
+        p->add_msg_if_player( m_neutral,
+                              _( "Irradiance: %.1f." ), sun_irrad );
+    }
     return 1; //TODO check
 }
 
@@ -8452,10 +8308,19 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
             units::mass not_frozen_weight = 0_gram;
             for( const auto &pair : locs ) {
                 used_volume +=  pair.first->volume( false, true, pair.second );
-                if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
-                    frozen_weight +=  pair.first->weight( false, false ) * pair.second ;
+                units::mass item_weight = 0_gram;
+                if( pair.first->count_by_charges() ) {
+                    const int charges_in_item = pair.first->charges;
+                    if( charges_in_item > 0 ) {
+                        item_weight = pair.first->weight( false, false ) / charges_in_item * pair.second;
+                    }
                 } else {
-                    not_frozen_weight +=  pair.first->weight( false, false ) * pair.second;
+                    item_weight = pair.first->weight( false, false ) * pair.second;
+                }
+                if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
+                    frozen_weight += item_weight;
+                } else {
+                    not_frozen_weight += item_weight;
                 }
             }
             heating_requirements required = heating_requirements_for_weight( frozen_weight, not_frozen_weight,
@@ -8499,10 +8364,19 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     }
     for( const auto &pair : to_heat ) {
         used_volume +=  pair.first->volume( false, true, pair.second );
-        if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
-            frozen_weight +=  pair.first->weight( false, false ) * pair.second ;
+        units::mass item_weight = 0_gram;
+        if( pair.first->count_by_charges() ) {
+            const int charges_in_item = pair.first->charges;
+            if( charges_in_item > 0 ) {
+                item_weight = pair.first->weight( false, false ) / charges_in_item * pair.second;
+            }
         } else {
-            not_frozen_weight +=  pair.first->weight( false, false ) * pair.second;
+            item_weight = pair.first->weight( false, false ) * pair.second;
+        }
+        if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
+            frozen_weight += item_weight;
+        } else {
+            not_frozen_weight += item_weight;
         }
     }
     heating_requirements required = heating_requirements_for_weight( frozen_weight, not_frozen_weight,

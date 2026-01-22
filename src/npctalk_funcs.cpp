@@ -31,13 +31,16 @@
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "json.h"
 #include "magic.h"
 #include "map.h"
+#include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
@@ -50,11 +53,11 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player_activity.h"
 #include "point.h"
+#include "proficiency.h"
 #include "rng.h"
+#include "skill.h"
 #include "simple_pathfinding.h"
-#include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
 #include "uilist.h"
@@ -72,9 +75,6 @@ static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
-static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
-static const activity_id ACT_TRAIN( "ACT_TRAIN" );
-static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
@@ -92,14 +92,12 @@ static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_socialized_recently( "socialized_recently" );
 
 static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );
 
 static const mission_type_id mission_MISSION_REACH_SAFETY( "MISSION_REACH_SAFETY" );
 
-static const morale_type morale_chat( "morale_chat" );
 static const morale_type morale_haircut( "morale_haircut" );
 static const morale_type morale_shave( "morale_shave" );
 
@@ -818,39 +816,7 @@ void talk_function::buy_shave( npc &p )
 void talk_function::morale_chat_activity( npc &p )
 {
     Character &player_character = get_player_character();
-    const int moves = to_moves<int>( 10_minutes );
-    player_character.assign_activity( ACT_SOCIALIZE, moves );
-    player_character.activity.str_values.push_back( p.get_name() );
-    if( one_in( 3 ) ) {
-        p.say( SNIPPET.random_from_category( "npc_socialize" ).value_or( translation() ).translated() );
-    }
-    add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
-    // 50% chance of increasing 1 npc opinion value each social chat after 6hr
-    if( !p.has_effect( effect_socialized_recently ) && p.opinion_values_raised <= 10 ) {
-        int value_change = 0;
-        switch( rng( 1, 3 ) ) {
-            case 1:
-                value_change = rng( 0, 1 );
-                p.op_of_u.trust += value_change;
-                break;
-            case 2:
-                value_change = rng( 0, 1 );
-                p.op_of_u.value += value_change;
-                break;
-            case 3:
-                if( p.op_of_u.anger > 0 ) {
-                    value_change = rng( -1, 0 );
-                    p.op_of_u.anger += value_change;
-                }
-                break;
-        }
-        // we need to check for any non-zero value, e.g. anger change might be negative
-        if( value_change != 0 ) {
-            p.opinion_values_raised++;
-        }
-        p.add_effect( effect_socialized_recently, 6_hours );
-    }
-    player_character.add_morale( morale_chat, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
+    player_character.assign_activity( socialize_activity_actor( 10_minutes, p.getID() ) );
 }
 
 /*
@@ -1098,6 +1064,43 @@ bool npc_trading::pay_npc( npc &np, int cost )
     return npc_trading::trade( np, cost, _( "Pay:" ) );
 }
 
+namespace talk_function
+{
+std::string teach_domain::to_string() const
+{
+    std::string subject_name;
+    if( skill.is_valid() ) {
+        subject_name = skill->name();
+    } else if( prof.is_valid() ) {
+        subject_name = prof->name();
+    } else if( style.is_valid() ) {
+        subject_name = style->name.translated();
+    } else if( spell.is_valid() ) {
+        subject_name = spell->name.translated();
+    }
+    return subject_name;
+}
+
+void teach_domain::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "skill", skill );
+    jsout.member( "prof", prof );
+    jsout.member( "style", style );
+    jsout.member( "spell", spell );
+    jsout.end_object();
+}
+
+void teach_domain::deserialize( const JsonValue &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "skill", skill );
+    data.read( "prof", prof );
+    data.read( "style", style );
+    data.read( "spell", spell );
+}
+} //namespace talk_function
+
 void talk_function::start_training_npc( npc &p )
 {
     teach_domain d;
@@ -1180,7 +1183,6 @@ void talk_function::start_training_gen( Character &teacher, std::vector<Characte
     const matype_id &style = d.style;
     const spell_id &sp_id = d.spell;
     const proficiency_id &proficiency = d.prof;
-    int expert_multiplier = 1;
     bool player_is_student = false;
 
     for( Character *student : students ) {
@@ -1193,25 +1195,17 @@ void talk_function::start_training_gen( Character &teacher, std::vector<Characte
             student->get_knowledge_level( skill ) < teacher.get_knowledge_level( skill ) ) {
             tmp_cost = calc_skill_training_cost_char( teacher, *student, skill );
             tmp_time = calc_skill_training_time_char( teacher, *student, skill );
-            name = skill.str();
         } else if( style != matype_id() &&
                    !student->martial_arts_data->has_martialart( style ) ) {
             tmp_cost = calc_ma_style_training_cost( teacher, *student, style );
             tmp_time = calc_ma_style_training_time( teacher, *student, style );
-            name = style.str();
         } else if( sp_id != spell_id() ) {
             // already checked if can learn this spell in npctalk.cpp
             tmp_cost = calc_spell_training_cost( teacher, *student, sp_id );
             tmp_time = calc_spell_training_time( teacher, *student, sp_id );
-            name = sp_id.str();
-            const spell &temp_spell = teacher.magic->get_spell( sp_id );
-            const bool knows = student->magic->knows_spell( sp_id );
-            expert_multiplier = knows ? temp_spell.get_level() -
-                                student->magic->get_spell( sp_id ).get_level() : 1;
         } else if( proficiency != proficiency_id() ) {
             tmp_cost = calc_proficiency_training_cost( teacher, *student, proficiency );
             tmp_time = calc_proficiency_training_time( teacher, *student, proficiency );
-            name = proficiency.str();
         } else {
             debugmsg( "start_training with no valid skill or style set" );
             return;
@@ -1232,17 +1226,18 @@ void talk_function::start_training_gen( Character &teacher, std::vector<Characte
             return;
         }
     }
-    const int teacher_id = teacher.getID().get_value();
-    player_activity tact( ACT_TRAIN_TEACHER, to_moves<int>( time ), teacher_id, 0, name );
+    std::vector<character_id> student_ids;
+    student_ids.reserve( students.size() );
     for( Character *student : students ) {
-        player_activity act( ACT_TRAIN, to_moves<int>( time ), teacher_id, 0, name );
-        act.values.push_back( expert_multiplier );
-        student->assign_activity( act );
-        tact.values.push_back( student->getID().get_value() );
+        student_ids.emplace_back( student->getID() );
     }
-    teacher.assign_activity( tact );
 
+    const character_id teacher_id = teacher.getID();
+    teacher.assign_activity( training_activity_actor( time, d, student_ids ) );
     teacher.add_effect( effect_asked_to_train, 6_hours );
+    for( Character *student : students ) {
+        student->assign_activity( training_activity_actor( time, d, teacher_id ) );
+    }
 }
 
 npc *pick_follower()
