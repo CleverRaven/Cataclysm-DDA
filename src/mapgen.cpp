@@ -72,7 +72,6 @@
 #include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
-#include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
 #include "options.h"
@@ -109,7 +108,6 @@
 
 static const field_type_str_id field_fd_blood( "fd_blood" );
 static const field_type_str_id field_fd_fire( "fd_fire" );
-static const field_type_str_id field_fd_ice( "fd_ice" );
 
 static const furn_str_id furn_f_ash( "f_ash" );
 static const furn_str_id furn_f_bed( "f_bed" );
