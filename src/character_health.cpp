@@ -1206,7 +1206,17 @@ void Character::regen( int rate_multiplier )
     float rest = rest_quality();
     float heal_rate = healing_rate( rest ) * to_turns<int>( 5_minutes );
     if( heal_rate > 0.0f ) {
-        healall( roll_remainder( rate_multiplier * heal_rate ) );
+        int healing_apply = roll_remainder( rate_multiplier * heal_rate );
+        while ( healing_apply-- > 0 ) {
+            for( const bodypart_id &healed : get_all_body_parts( get_body_part_flags::only_main ) ) {
+                if ( get_part_hp_max( healed ) > get_part_hp_cur( healed ) ) {
+                    heal( healed, 1 );
+                    // Consume 1 "health" for every Hit Point healed via non-medicine healing.
+                    // Using medicine reduces the ratio of health consumed to damage healed.
+                    mod_daily_health( -1, -200 );
+                }
+            }
+        }
     } else if( heal_rate < 0.0f ) {
         int rot_rate = roll_remainder( rate_multiplier * -heal_rate );
         // Has to be in loop because some effects depend on rounding
@@ -1221,9 +1231,6 @@ void Character::regen( int rate_multiplier )
         int healing_apply = roll_remainder( healing );
         mod_part_healed_total( bp, healing_apply );
         heal( bp, healing_apply );
-        // Consume 1 "health" for every Hit Point healed via medicine healing.
-        // This has a significant effect on long-term healing.
-        mod_daily_health( -healing_apply, -200 );
         if( get_part_damage_bandaged( bp ) > 0 ) {
             mod_part_damage_bandaged( bp, -healing_apply );
             if( get_part_damage_bandaged( bp ) <= 0 ) {
