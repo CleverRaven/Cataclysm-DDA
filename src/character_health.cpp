@@ -1207,13 +1207,16 @@ void Character::regen( int rate_multiplier )
     float heal_rate = healing_rate( rest ) * to_turns<int>( 5_minutes );
     if( heal_rate > 0.0f ) {
         int healing_apply = roll_remainder( rate_multiplier * heal_rate );
-        while( healing_apply-- > 0 ) {
-            for( const bodypart_id &healed : get_all_body_parts( get_body_part_flags::only_main ) ) {
-                if( get_part_hp_max( healed ) > get_part_hp_cur( healed ) ) {
-                    heal( healed, 1 );
+        if( healing_apply > 0 ) {
+            for( const bodypart_id &healed_part : get_all_body_parts() ) {
+                int part_healing = std::min( healing_apply,
+                        get_part_hp_max( healed_part ) - get_part_hp_cur( healed_part ) );
+                if( part_healing > 0 ) {
+                    mod_part_healed_total( healed_part, part_healing );
+                    heal( healed_part, part_healing );
                     // Consume 1 "health" for every Hit Point healed via non-medicine healing.
                     // Using medicine reduces the ratio of health consumed to damage healed.
-                    mod_daily_health( -1, -200 );
+                    mod_daily_health( -part_healing, -200 );
                 }
             }
         }
