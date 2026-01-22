@@ -96,18 +96,18 @@
   },
   {
     "type": "fault_fix",
-    "id": "mend_fault_punctured_wheels_kit",
+    "id": "mend_fault_punctured_tires_kit",
     "name": "Plug the hole in tire",
-    "success_msg": "You take the wheel off, localize the hole, and plug it with plug and glue mix.",
+    "success_msg": "You take the wheel off, localize the puncture using soapy water, and plug it with plug and glue mix from repair kit.",
     "time": "90 m",
-    "faults_removed": [ "fault_punctured_wheels" ],
+    "faults_removed": [ "fault_punctured_tires" ],
     "mod_degradation": 1500,
     "skills": { "mechanics": 1 },
     "//TODO": "implement something similar to calc_lift_requirements()? ",
     "requirements": [
       {
-        "qualities": [ { "id": "JACK", "level": 3 }, { "id": "WRENCH", "level": 2 } ],
-        "components": [ [ [ "tire_repair_kit", 1 ] ] ]
+        "qualities": [ { "id": "JACK", "level": 3 }, { "id": "WRENCH", "level": 2 }, { "id": "PRESSURIZATION ", "level": 1 } ],
+        "components": [ [ [ "tire_repair_kit", 1 ] ], [ [ "soapy_water", 1 ] ] ]
       }
     ]
   }

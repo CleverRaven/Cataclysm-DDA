@@ -54,7 +54,7 @@ static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_stunned( "stunned" );
 
-static const fault_id fault_punctured_wheels( "fault_punctured_wheels" );
+static const fault_id fault_punctured_tires( "fault_punctured_tires" );
 
 static const flag_id json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const flag_id json_flag_PUNCTURE_VEHICLE_WHEELS( "PUNCTURE_VEHICLE_WHEELS" );
@@ -1306,7 +1306,7 @@ void vehicle::damage_wheel_on_item( vehicle_part *vp_wheel, const item &it,
     const double chance_to_damage = wheel_damage_chance_vs_item( it, *vp_wheel );
 
     if( chance_to_damage > 0.0 && chance_to_damage >= rng_float( 0.0, 1.0 ) ) {
-        if( vp_wheel->fault_set( fault_punctured_wheels ) ) {
+        if( vp_wheel->fault_set( fault_punctured_tires ) ) {
             messages->emplace_back( string_format(
                                         _( "You hear a loud pop from below, and your vehicle suddenly start to wobble like crazy!" ) ) );
             refresh_pivot( get_map() );
