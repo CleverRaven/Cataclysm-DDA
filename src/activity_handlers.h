@@ -224,7 +224,6 @@ do_turn_functions;
 /** activity_finish functions: */
 void heat_item_finish( player_activity *act, Character *you );
 void mend_item_finish( player_activity *act, Character *you );
-void pull_creature_finish( player_activity *act, Character *you );
 void repair_item_finish( player_activity *act, Character *you );
 void start_fire_finish( player_activity *act, Character *you );
 

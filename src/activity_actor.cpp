@@ -198,6 +198,7 @@ static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
+static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_READ( "ACT_READ" );
@@ -1902,6 +1903,40 @@ void glide_activity_actor::finish( player_activity &act, Character &you )
                                _( "You come to a gentle landing." ),
                                _( "<npcname> comes to a gentle landing." ) );
     finish_gliding( act, you );
+}
+
+void pull_creature_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( initial_moves );
+    act.moves_left = act.moves_total;
+}
+
+void pull_creature_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( who.is_avatar() ) {
+        who.as_avatar()->longpull( who.mutation_name( mutation_pulling ) );
+    } else {
+        const std::optional<tripoint_abs_ms> &last_target = who.last_target_pos;
+        if( !!last_target ) {
+            who.longpull( who.mutation_name( mutation_pulling ), get_map().get_bub( *last_target ) );
+        }
+    }
+    act.set_to_null();
+}
+
+void pull_creature_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "mutation_pulling", mutation_pulling );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> pull_creature_activity_actor::deserialize( JsonValue &jsin )
+{
+    pull_creature_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "mutation_pulling", actor.mutation_pulling );
+    return actor.clone();
 }
 
 bikerack_unracking_activity_actor::bikerack_unracking_activity_actor( const vehicle &parent_vehicle,
@@ -12039,6 +12074,7 @@ deserialize_functions = {
     { ACT_PLANT_SEED, &plant_seed_activity_actor::deserialize },
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_PRYING, &prying_activity_actor::deserialize },
+    { ACT_PULL_CREATURE, &pull_creature_activity_actor::deserialize },
     { ACT_PULP, &pulp_activity_actor::deserialize },
     { ACT_QUARTER, &butchery_activity_actor::deserialize },
     { ACT_READ, &read_activity_actor::deserialize },
