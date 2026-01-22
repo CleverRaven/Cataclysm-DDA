@@ -7670,7 +7670,7 @@ void outfit_swap_actor::finish( player_activity &act, Character &who )
     }
     // Taken-off items are put in this temporary list, then naturally deleted from the world when the function returns.
     std::list<item> it_list;
-    for( item_location &worn_item : who.get_visible_worn_items() ) {
+    for( item_location &worn_item : who.top_items_loc() ) {
         if( !static_cast<bool>( worn_item ) ) {
             //Due to the eoc triggered who.takeoff, the item may become invalid.
             continue;
