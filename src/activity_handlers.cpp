@@ -65,7 +65,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
@@ -142,7 +141,6 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_CHOP_TREES, chop_trees_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
-    { ACT_DISMEMBER, dismember_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },
     { ACT_FERTILIZE_PLOT, fertilize_plot_do_turn }
 };
@@ -1046,11 +1044,6 @@ void activity_handlers::repair_item_do_turn( player_activity *act, Character *yo
         you->mod_moves( -act->moves_left * you->fine_detail_vision_mod() );
         act->moves_left = 0;
     }
-}
-
-void activity_handlers::dismember_do_turn( player_activity * /*act*/, Character *you )
-{
-    you->burn_energy_arms( -20 );
 }
 
 void activity_handlers::find_mount_do_turn( player_activity *act, Character *you )

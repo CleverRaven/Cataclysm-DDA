@@ -194,7 +194,6 @@ void generic_game_turn_handler( player_activity *act, Character *you, int morale
                                 int morale_max_bonus );
 
 /** activity_do_turn functions: */
-void dismember_do_turn( player_activity *act, Character *you );
 void chop_trees_do_turn( player_activity *act, Character *you );
 void fertilize_plot_do_turn( player_activity *act, Character *you );
 void fetch_do_turn( player_activity *act, Character *you );
