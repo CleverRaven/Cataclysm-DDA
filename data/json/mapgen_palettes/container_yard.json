@@ -84,7 +84,17 @@
             [ "shipping_container_wind_instrument_1x1", 5 ],
             [ "shipping_container_string_instrument_1x1", 5 ],
             [ "shipping_container_fertilizer_1x1", 5 ],
-            [ "shipping_container_wine_keg_1x1", 5 ]
+            [ "shipping_container_wine_keg_1x1", 5 ],
+            [ "shipping_container_bedding_1x1", 5 ],
+            [ "shipping_container_stereos_1x1", 5 ],
+            [ "shipping_container_barrels_1x1", 5 ],
+            [ "shipping_container_barstools_1x1", 5 ],
+            [ "shipping_container_wardrobe_1x1", 5 ],
+            [ "shipping_container_television_1x1", 5 ],
+            [ "shipping_container_dentist_1x1", 5 ],
+            [ "shipping_container_vending_1x1", 5 ],
+            [ "shipping_container_gunmod_common_1x1", 2 ],
+            [ "shipping_container_gunmod_rare_1x1", 1 ]
           ]
         }
       },
@@ -798,5 +808,101 @@
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_wine_keg_1x1",
     "object": { "mapgensize": [ 1, 1 ], "items": { " ": { "item": "keg_wine_intact", "chance": 95 } } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_bedding_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "bed", "chance": 95 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_stereos_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "item": { " ": { "item": "stereo", "chance": 85, "amount": [ 1, 2 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_barrels_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "barrels", "chance": 95 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_barstools_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "item": { " ": { "item": "barstool", "chance": 85, "amount": [ 1, 5 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_wardrobe_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_wardrobe" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_utility_shelf_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_utility_shelf" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_television_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_pallet_belted" },
+      "item": { " ": { "item": "television", "chance": 95, "amount": 2 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_dentist_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "dentist_supplies", "chance": 95, "repeat": [ 10, 20 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_vending_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_vending_c_off" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_gunmod_common_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "gunmod_common", "chance": 95, "repeat": [ 5, 10 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_gunmod_rare_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "gunmod_rare", "chance": 95, "repeat": [ 5, 10 ] } }
+    }
   }
 ]
