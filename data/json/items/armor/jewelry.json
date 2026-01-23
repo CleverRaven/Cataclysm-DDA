@@ -962,8 +962,8 @@
     "sided": true,
     "armor": [
       {
-        "encumbrance": 20,
-        "coverage": 0,
+        "encumbrance": 0,
+        "coverage": 20,
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
       }
@@ -5044,7 +5044,7 @@
     "price_postapoc": "10 cent",
     "weight": "42 g",
     "volume": "30 ml",
-    "material": "bone",
+    "material": [ "bone" ],
     "flags": [ "NO_WEAR_EFFECT", "BELTED" ],
     "variants": [
       {
@@ -5060,7 +5060,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "devil horns (pair)" },
-    "description": "A red plastic headband adorned with a pair of cartoonish devil horns.  Delightfully devillish.",
+    "description": "A red plastic headband adorned with a pair of cartoonish devil horns.  Delightfully devilish.",
     "weight": "100 g",
     "volume": "100 ml",
     "price": "15 USD",

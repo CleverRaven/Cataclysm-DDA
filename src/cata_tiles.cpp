@@ -46,6 +46,7 @@
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "input.h"
+#include "sdl_gamepad.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
@@ -1939,6 +1940,18 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
         if( indicator_offset ) {
             draw_from_id_string( "cursor", TILE_CATEGORY::NONE, empty_string,
                                  tripoint_bub_ms( you.pos_bub().xy(), center.z() ) + indicator_offset->xy(),
+                                 0, 0, lit_level::LIT, false );
+        }
+    }
+
+    // Draw gamepad direction indicator
+    if( gamepad::is_active() ) {
+        gamepad::direction dir = gamepad::get_left_stick_direction();
+        if( dir != gamepad::direction::NONE ) {
+            tripoint offset = gamepad::direction_to_offset( dir );
+            tripoint_bub_ms indicator_pos = you.pos_bub() + tripoint_rel_ms( offset.x, offset.y, 0 );
+            draw_from_id_string( "cursor", TILE_CATEGORY::NONE, empty_string,
+                                 tripoint_bub_ms( indicator_pos.xy(), center.z() ),
                                  0, 0, lit_level::LIT, false );
         }
     }

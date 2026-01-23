@@ -1824,7 +1824,6 @@
     "name": { "str_sp": "caffenated whiskey" },
     "weight": "36 g",
     "color": "brown",
-    "use_action": [ "ALCOHOL" ],
     "stim": -12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -1840,7 +1839,7 @@
     "price_postapoc": "2 USD 50 cent",
     "material": [ "alcohol" ],
     "volume": "250 ml",
-    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME", "ALCOHOL" ],
     "freezing_point": -30,
     "phase": "liquid",
     "charges": 7,
@@ -2938,7 +2937,6 @@
     "weight": "36 g",
     "color": "light_red",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL_WEAK" ],
     "stim": -4,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -2954,7 +2952,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "ALCOHOL_WEAK" ],
     "fun": -5,
     "freezing_point": -7
   },
@@ -5445,7 +5443,7 @@
     "description": "Visualize it as your annoying neighbor, if that helps you feel better.",
     "//COMMENT": "Roughly human sized.",
     "volume": "75 L",
-    "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS", "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS", "PUNCTURE_VEHICLE_WHEELS" ],
     "category": "corpses",
     "copy-from": "corpse",
     "looks_like": "corpse_generic_human",
@@ -5457,14 +5455,14 @@
     "id": "corpse_fake_TEST_NODMG",
     "copy-from": "corpse_fake_TEST",
     "name": { "str": "corpse fake TEST NODMG" },
-    "delete": { "flags": [ "DAMAGE_VEHICLE_WHEELS" ] }
+    "delete": { "flags": [ "PUNCTURE_VEHICLE_WHEELS" ] }
   },
   {
     "type": "ITEM",
     "id": "test_squishy_fruit",
     "name": { "str": "test_squishy_fruit_name" },
     "material": [ "fruit" ],
-    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "PUNCTURE_VEHICLE_WHEELS" ],
     "weight": "4518 g",
     "color": "green",
     "symbol": "%",
@@ -5494,7 +5492,7 @@
     "id": "test_guarantee_wheel_dmg",
     "name": { "str": "test_guarantee_wheel_dmg_name" },
     "material": [ "DOOM_MATERIAL" ],
-    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "PUNCTURE_VEHICLE_WHEELS" ],
     "weight": "4518 g",
     "color": "green",
     "symbol": "%",
@@ -5515,7 +5513,7 @@
     "material": [ "cotton" ],
     "weight": "2317 g",
     "volume": "50 L",
-    "flags": [ "SLEEP_AID", "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "SLEEP_AID", "PUNCTURE_VEHICLE_WHEELS" ],
     "category": "other"
   },
   {
@@ -5545,7 +5543,7 @@
             "effect": {
               "run_eocs": "EOC_toolweapon_activate",
               "variables": {
-                "turn_cost": 0.8,
+                "turn_cost": { "math": [ "0.8" ] },
                 "transform_target": "carver_on",
                 "success_message": { "i18n": true, "str": "The electric carver's serrated blades start buzzing!" },
                 "volume": 20,
@@ -5594,5 +5592,28 @@
     "volume": "1500 ml",
     "material_thickness": 1,
     "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ]
+  },
+  {
+    "id": "test_napalm",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str_sp": "test napalm" },
+    "description": "Carbon copy of napalm to use in tests.",
+    "category": "fuel",
+    "weight": "900 mg",
+    "volume": "200ml",
+    "price": "80 USD",
+    "price_postapoc": "10 USD",
+    "count": 250,
+    "stack_size": 200,
+    "phase": "liquid",
+    "container": "pressurized_tank",
+    "material": [ "hydrocarbons" ],
+    "symbol": "=",
+    "color": "light_red",
+    "ammo_type": "test_liquid",
+    "damage": { "damage_type": "heat", "amount": 15, "armor_penetration": 30 },
+    "range": 6,
+    "effects": [ "FLAME", "STREAM_BIG", "IGNITE", "NEVER_MISFIRES" ]
   }
 ]

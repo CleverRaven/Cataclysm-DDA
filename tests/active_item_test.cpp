@@ -1,4 +1,5 @@
 #include <list>
+#include <algorithm>
 #include <memory>
 #include <optional>
 #include <string>
@@ -14,16 +15,21 @@
 #include "map_helpers.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
+#include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 static const itype_id itype_chainsaw_on( "chainsaw_on" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_flashlight_on( "flashlight_on" );
 static const itype_id itype_gasoline_lantern_on( "gasoline_lantern_on" );
 static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
+
+static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart" );
 
 TEST_CASE( "active_items_processed_regularly", "[active_item]" )
 {
@@ -46,7 +52,14 @@ TEST_CASE( "active_items_processed_regularly", "[active_item]" )
     REQUIRE( wield_success );
 
     here.add_item( player_character.pos_bub(), active_item );
-    // TODO: spawn a vehicle and stash a chainsaw in there too.
+
+    tripoint_bub_ms vehicle_pos = player_character.pos_bub() + tripoint::east;
+    REQUIRE( here.add_vehicle( vehicle_prototype_test_shopping_cart, vehicle_pos, 0_degrees, 0, 0 ) );
+    std::optional<vpart_reference> cargo = here.veh_at( here.get_abs( vehicle_pos ) ).cargo();
+    REQUIRE( cargo );
+    item vehicle_active_item( itype_chainsaw_on );
+    vehicle_active_item.active = true;
+    cargo->vehicle().add_item( here, cargo->part(), vehicle_active_item );
 
     // Call item processing entry points.
     here.process_items();
@@ -56,6 +69,12 @@ TEST_CASE( "active_items_processed_regularly", "[active_item]" )
     CHECK( inventory_item->typeId().str() == "chainsaw_off" );
     CHECK( player_character.get_wielded_item()->typeId().str() == "chainsaw_off" );
     CHECK( here.i_at( player_character.pos_bub() ).only_item().typeId().str() == "chainsaw_off" );
+
+    const vehicle_stack &vehicle_items = cargo->vehicle().get_items( cargo->part() );
+    const auto it = std::find_if( vehicle_items.begin(), vehicle_items.end(), []( const item & it ) {
+        return it.typeId().str() == "chainsaw_off";
+    } );
+    CHECK( it != vehicle_items.end() );
 }
 
 TEST_CASE( "non_energy_tool_power_consumption_rate", "[active_item]" )

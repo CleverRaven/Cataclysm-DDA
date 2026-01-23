@@ -10,5 +10,17 @@
     "components": [ [ [ "stick", 4 ], [ "stick_long", 2 ], [ "log", 1 ] ], [ [ "nails", 20, "LIST" ] ], [ [ "pine_bough", 8 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_decorative_tree"
+  },
+  {
+    "type": "construction",
+    "id": "constr_flagpole_indoor_wooden",
+    "group": "build_flagpole_indoor_wooden",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "25 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "stick_long", 1 ] ], [ [ "nails", 8, "LIST" ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_indoor_flagpole_wooden"
   }
 ]

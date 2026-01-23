@@ -282,7 +282,14 @@
     "recurrence": { "math": [ "time_until('sunrise')" ] },
     "global": true,
     "run_for_npcs": true,
-    "condition": { "and": [ "u_is_outside", "u_can_see", { "test_eoc": "EOC_CONDITION_XE_SUNRISE_MORALE_OVERRIDES" } ] },
+    "condition": {
+      "and": [
+        { "current_dimension": "" },
+        "u_is_outside",
+        "u_can_see",
+        { "test_eoc": "EOC_CONDITION_XE_SUNRISE_MORALE_OVERRIDES" }
+      ]
+    },
     "effect": [
       {
         "if": { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] },
@@ -351,7 +358,9 @@
     "recurrence": { "math": [ "time_until('sunset')" ] },
     "global": true,
     "run_for_npcs": true,
-    "condition": { "and": [ "u_is_outside", "u_can_see", { "test_eoc": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES" } ] },
+    "condition": {
+      "and": [ { "current_dimension": "" }, "u_is_outside", "u_can_see", { "test_eoc": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES" } ]
+    },
     "effect": [
       {
         "if": { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] },

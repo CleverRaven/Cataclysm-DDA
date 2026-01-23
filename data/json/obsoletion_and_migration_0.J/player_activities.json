@@ -1,0 +1,56 @@
+[
+  {
+    "id": "ACT_EAT_MENU",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "eating",
+    "rooted": true,
+    "based_on": "time",
+    "ignored_distractions": [ "hunger", "thirst" ],
+    "can_resume": false
+  },
+  {
+    "id": "ACT_CONSUME_FOOD_MENU",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "consuming",
+    "rooted": true,
+    "based_on": "time",
+    "ignored_distractions": [ "hunger", "thirst" ],
+    "can_resume": false
+  },
+  {
+    "id": "ACT_CONSUME_DRINK_MENU",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "drinking",
+    "based_on": "time",
+    "ignored_distractions": [ "hunger", "thirst" ],
+    "can_resume": false
+  },
+  {
+    "id": "ACT_CONSUME_MEDS_MENU",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "using drugs",
+    "based_on": "time",
+    "ignored_distractions": [ "hunger", "thirst" ],
+    "can_resume": false
+  },
+  {
+    "id": "ACT_ARMOR_LAYERS",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "fiddling with your clothes",
+    "based_on": "time",
+    "can_resume": false
+  },
+  {
+    "id": "ACT_TRAIN_TEACHER",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "teaching",
+    "based_on": "speed",
+    "can_resume": false
+  }
+]

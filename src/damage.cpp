@@ -472,6 +472,17 @@ damage_instance damage_instance::di_considering_length( units::length barrel_len
     }
     return di;
 }
+
+bool damage_instance::has_damage_by_barrel() const
+{
+    for( const damage_unit &du : damage_units ) {
+        if( !du.barrels.empty() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void damage_instance::clear()
 {
     damage_units.clear();
@@ -578,7 +589,7 @@ bool damage_instance::handle_proportional( const JsonValue &jval )
         prop_damage.unconditional_res_mult *= read_proportional_entry( jo, "constant_armor_multiplier" );
         prop_damage.unconditional_damage_mult *= read_proportional_entry( jo,
                 "constant_damage_multiplier" );
-        float barrel_mult = read_proportional_entry( jo, "barrels" );
+        float barrel_mult = read_proportional_entry( jo, "amount" );
         for( barrel_desc &bd : prop_damage.barrels ) {
             bd.amount *= barrel_mult;
         }

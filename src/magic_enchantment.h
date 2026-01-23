@@ -73,6 +73,7 @@ enum class mod : int {
     DODGE_CHANCE,
     BONUS_DODGE,
     BONUS_BLOCK,
+    FREE_DODGES,
     MELEE_DAMAGE,
     MELEE_RANGE_MODIFIER,
     MELEE_TO_HIT,
@@ -374,7 +375,7 @@ class enchant_cache : public enchantment
                                     const std::map<TKey, double> &mult_map ) const;
 
         void serialize( JsonOut &jsout ) const;
-        void add_value_add( enchant_vals::mod value, int add_value );
+        void add_value_add( enchant_vals::mod value, float add_value );
 
         void set_has( enchantment::has value );
         void add_value_mult( enchant_vals::mod value, float mult_value );

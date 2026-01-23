@@ -131,9 +131,7 @@
         { "u_near_om_location": "nether_glass_deep", "range": 2 },
         { "u_near_om_location": "nether_glass", "range": 2 },
         { "u_at_om_location": "microlab_portal_elevator_nether_glass" },
-        { "u_near_om_location": "void_spider_lair_entrance", "range": 2 },
-        { "u_near_om_location": "void_spider_lair_a1", "range": 2 },
-        { "u_near_om_location": "void_spider_lair_a2", "range": 2 },
+        { "u_near_om_location": "void_spider_lair", "range": 2 },
         {
           "and": [ { "math": [ "u_val('pos_z') == 6" ] }, { "not": "u_is_outside" }, { "u_is_on_terrain": "t_floor_warped" } ]
         }
@@ -336,9 +334,33 @@
             { "math": [ "u_spell_level('vita_health_power_knack') >= 5" ] },
             { "math": [ "u_spell_level('vita_concentrated_healing_knack') >= 5" ] },
             { "math": [ "u_spell_level('vita_remove_poison_knack') >= 5" ] },
-            { "math": [ "u_spell_level('vita_cure_disease_knack') >= 5" ] }
+            { "math": [ "u_spell_level('vita_cure_disease_knack') >= 5" ] },
+            { "math": [ "u_spell_level('vita_banish_illness_knack') >= 5" ] }
           ]
         }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_MOM_BANNED_EFFECTS_TO_PRACTICE_CONCENTRATION",
+    "condition": {
+      "or": [
+        { "math": [ "u_vitamin('BAC') > 1000" ] },
+        { "u_has_effect": "winded" },
+        { "u_has_effect": "weed_high" },
+        { "u_has_effect": "high" },
+        { "u_has_effect": "datura" },
+        { "u_has_effect": "hallu" },
+        { "u_has_effect": "nausea" },
+        { "u_has_effect": "meth" },
+        { "u_has_effect": "onfire", "bodypart": "head" },
+        { "u_has_effect": "onfire", "bodypart": "torso" },
+        { "u_has_effect": "onfire", "bodypart": "arm_r" },
+        { "u_has_effect": "onfire", "bodypart": "arm_l" },
+        { "u_has_effect": "onfire", "bodypart": "leg_r" },
+        { "u_has_effect": "onfire", "bodypart": "leg_l" }
       ]
     },
     "effect": [  ]

@@ -69,16 +69,12 @@
 
 static const efftype_id effect_amigara( "amigara" );
 
-static const furn_str_id furn_f_centrifuge( "f_centrifuge" );
 static const furn_str_id furn_f_console_broken( "f_console_broken" );
 static const furn_str_id furn_f_counter( "f_counter" );
 static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 
 static const itype_id itype_black_box( "black_box" );
 static const itype_id itype_black_box_transcript( "black_box_transcript" );
-static const itype_id itype_blood( "blood" );
-static const itype_id itype_blood_tainted( "blood_tainted" );
-static const itype_id itype_blood_tainted_human( "blood_tainted_human" );
 static const itype_id itype_c4( "c4" );
 static const itype_id itype_cobalt_60( "cobalt_60" );
 static const itype_id itype_mininuke( "mininuke" );
@@ -86,9 +82,7 @@ static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_radio_repeater_mod( "radio_repeater_mod" );
 static const itype_id itype_sarcophagus_access_code( "sarcophagus_access_code" );
 static const itype_id itype_sewage( "sewage" );
-static const itype_id itype_software_blood_data( "software_blood_data" );
 static const itype_id itype_usb_drive( "usb_drive" );
-static const itype_id itype_vacutainer( "vacutainer" );
 
 static const mission_type_id
 mission_MISSION_OLD_GUARD_NEC_COMMO_2( "MISSION_OLD_GUARD_NEC_COMMO_2" );
@@ -110,9 +104,6 @@ static const oter_type_str_id oter_type_subway( "subway" );
 static const overmap_special_id overmap_special_Crater( "Crater" );
 
 static const skill_id skill_computer( "computer" );
-
-static const species_id species_HUMAN( "HUMAN" );
-static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const ter_str_id ter_t_concrete( "t_concrete" );
 static const ter_str_id ter_t_concrete_wall( "t_concrete_wall" );
@@ -334,7 +325,6 @@ const std::map<computer_action, void ( computer_session::* )()>
 computer_session::computer_action_functions = {
     { COMPACT_AMIGARA_LOG, &computer_session::action_amigara_log },
     { COMPACT_AMIGARA_START, &computer_session::action_amigara_start },
-    { COMPACT_BLOOD_ANAL, &computer_session::action_blood_anal },
     { COMPACT_CASCADE, &computer_session::action_cascade },
     { COMPACT_COMPLETE_DISABLE_EXTERNAL_POWER, &computer_session::action_complete_disable_external_power },
     { COMPACT_CONVEYOR, &computer_session::action_conveyor },
@@ -1030,59 +1020,6 @@ void computer_session::action_download_software()
     query_any();
 }
 
-void computer_session::action_blood_anal()
-{
-    Character &player_character = get_player_character();
-    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.7 );
-    map &here = get_map();
-    for( const tripoint_bub_ms &dest : here.points_in_radius( player_character.pos_bub(), 2 ) ) {
-        if( here.furn( dest ) == furn_f_centrifuge ) {
-            map_stack items = here.i_at( dest );
-            if( items.empty() ) {
-                print_error( _( "ERROR: Please place sample in centrifuge." ) );
-            } else if( items.size() > 1 ) {
-                print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
-            } else if( items.only_item().empty() ) {
-                print_error( _( "ERROR: Please only use container with blood sample." ) );
-            } else if( items.only_item().legacy_front().typeId() != itype_blood &&
-                       items.only_item().legacy_front().typeId() != itype_blood_tainted &&
-                       items.only_item().legacy_front().typeId() != itype_blood_tainted_human ) {
-                print_error( _( "ERROR: Please only use blood samples." ) );
-            } else if( items.only_item().legacy_front().rotten() ) {
-                print_error( _( "ERROR: Please only use fresh blood samples." ) );
-            }  else { // Success!
-                const item &blood = items.only_item().legacy_front();
-                const mtype *mt = blood.get_mtype();
-                if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
-                    print_line( _( "Result: Human blood, no pathogens found." ) );
-                } else if( mt->in_species( species_ZOMBIE ) ) {
-                    if( mt->in_species( species_HUMAN ) ) {
-                        print_line( _( "Result: Human blood.  Unknown pathogen found." ) );
-                    } else {
-                        print_line( _( "Result: Unknown blood type.  Unknown pathogen found." ) );
-                    }
-                    print_line( _( "Pathogen bonded to erythrocytes and leukocytes." ) );
-                    item software( itype_software_blood_data, calendar::turn_zero );
-                    units::ememory downloaded_size = software.ememory_size();
-                    if( query_bool( _( "Download data?" ) ) ) {
-                        if( item *const estorage = pick_estorage( downloaded_size ) ) {
-                            item software( itype_software_blood_data, calendar::turn_zero );
-                            estorage->put_in( software, pocket_type::E_FILE_STORAGE );
-                            print_line( string_format( _( "%s downloaded." ), software.tname() ) );
-                        } else {
-                            print_error( string_format( _( "Electronic storage device with %s free required!" ),
-                                                        units::display( downloaded_size ) ) );
-                        }
-                    }
-                } else {
-                    print_line( _( "Result: Unknown blood type.  Test non-conclusive." ) );
-                }
-            }
-        }
-    }
-    query_any( _( "Press any key…" ) );
-}
-
 void computer_session::action_data_anal()
 {
     Character &player_character = get_player_character();
@@ -1375,7 +1312,7 @@ void computer_session::action_irradiator()
                 }
                 if( !error && platform_exists ) {
                     print_error( _( "PROCESSING…  CYCLE COMPLETE." ) );
-                    print_error( _( "GEIGER COUNTER @ PLATFORM: %s mSv/h." ), here.get_radiation( dest ) );
+                    print_error( _( "GEIGER COUNTER @ PLATFORM: %d mSv/h." ), here.get_radiation( dest ) );
                 }
             }
         }
@@ -1420,13 +1357,13 @@ void computer_session::action_geiger()
                 peak_rad = here.get_radiation( platform );
             }
         }
-        print_error( _( "GEIGER COUNTER @ ZONE:… AVG %s mSv/h." ), sum_rads / tiles_counted );
-        print_error( _( "GEIGER COUNTER @ ZONE:… MAX %s mSv/h." ), peak_rad );
+        print_error( _( "GEIGER COUNTER @ ZONE:… AVG %d mSv/h." ), sum_rads / tiles_counted );
+        print_error( _( "GEIGER COUNTER @ ZONE:… MAX %d mSv/h." ), peak_rad );
         print_newline();
     }
-    print_error( _( "GEIGER COUNTER @ CONSOLE:… %s mSv/h." ),
+    print_error( _( "GEIGER COUNTER @ CONSOLE:… %d mSv/h." ),
                  here.get_radiation( player_character.pos_bub() ) );
-    print_error( _( "PERSONAL DOSIMETRY:… %s mSv." ), player_character.get_rad() );
+    print_error( _( "PERSONAL DOSIMETRY:… %d mSv." ), player_character.get_rad() );
     print_newline();
     query_any( _( "Press any key…" ) );
 }
@@ -1567,7 +1504,6 @@ computer_session::computer_failure_functions = {
     { COMPFAIL_ALARM, &computer_session::failure_alarm },
     { COMPFAIL_AMIGARA, &computer_session::failure_amigara },
     { COMPFAIL_DAMAGE, &computer_session::failure_damage },
-    { COMPFAIL_DESTROY_BLOOD, &computer_session::failure_destroy_blood },
     { COMPFAIL_DESTROY_DATA, &computer_session::failure_destroy_data },
     { COMPFAIL_MANHACKS, &computer_session::failure_manhacks },
     { COMPFAIL_PUMP_EXPLODE, &computer_session::failure_pump_explode },
@@ -1704,34 +1640,6 @@ void computer_session::failure_amigara()
                                   tripoint_bub_ms( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), here.get_abs_sub().z() ), 10, 0.7, false,
                                   10 );
     comp.remove_option( COMPACT_AMIGARA_START );
-}
-
-void computer_session::failure_destroy_blood()
-{
-    print_error( _( "ERROR: Disruptive Spin" ) );
-    map &here = get_map();
-    for( const tripoint_bub_ms &dest : here.points_in_radius( get_player_character().pos_bub(), 2 ) ) {
-        if( here.furn( dest ) == furn_f_centrifuge ) {
-            map_stack items = here.i_at( dest );
-            if( items.empty() ) {
-                print_error( _( "ERROR: Please place sample in centrifuge." ) );
-            } else if( items.size() > 1 ) {
-                print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
-            } else if( items.only_item().typeId() != itype_vacutainer ) {
-                print_error( _( "ERROR: Please use blood-contained samples." ) );
-            } else if( items.only_item().empty() ) {
-                print_error( _( "ERROR: Blood draw kit, empty." ) );
-            } else if( items.only_item().legacy_front().typeId() != itype_blood &&
-                       items.only_item().legacy_front().typeId() != itype_blood_tainted &&
-                       items.only_item().legacy_front().typeId() != itype_blood_tainted_human ) {
-                print_error( _( "ERROR: Please only use blood samples." ) );
-            } else {
-                print_error( _( "ERROR: Blood sample destroyed." ) );
-                here.i_clear( dest );
-            }
-        }
-    }
-    query_any();
 }
 
 void computer_session::failure_destroy_data()

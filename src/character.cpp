@@ -6,7 +6,6 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
-#include <cwctype>
 #include <functional>
 #include <memory>
 #include <numeric>
@@ -111,16 +110,11 @@
 #include "weather.h"
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
-static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
-static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
-static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_READ( "ACT_READ" );
@@ -407,10 +401,15 @@ void Character::queue_effects( const std::vector<effect_on_condition_id> &effect
 void Character::queue_effect( const std::string &name, const time_duration &delay,
                               const time_duration &effect_duration )
 {
+#pragma GCC diagnostic push
+#ifndef __clang__
+# pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#endif
     global_variables::impl_t ctx = {
         { "effect", diag_value{ name } },
         { "duration", diag_value{ to_turns<int>( effect_duration ) } }
     };
+#pragma GCC diagnostic pop
 
     effect_on_conditions::queue_effect_on_condition( delay, effect_on_condition_add_effect, *this,
             ctx );
@@ -534,9 +533,9 @@ Character &Character::operator=( Character && ) noexcept( list_is_noexcept ) = d
 void Character::setID( character_id i, bool force )
 {
     if( id.is_valid() && !force ) {
-        debugmsg( "tried to set id of a npc/player, but has already a id: %d", id.get_value() );
+        debugmsg( "tried to set id of an npc/player, but has already a id: %d", id.get_value() );
     } else if( !i.is_valid() && !force ) {
-        debugmsg( "tried to set invalid id of a npc/player: %d", i.get_value() );
+        debugmsg( "tried to set invalid id of an npc/player: %d", i.get_value() );
     } else {
         id = i;
     }
@@ -1825,6 +1824,8 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
         practice( skill_dodge, difficulty * 2, difficulty );
     }
     martial_arts_data->ma_ondodge_effects( *this );
+
+    magic->break_channeling( *this );
 
     // For adjacent attackers check for techniques usable upon successful dodge
     if( source && square_dist( pos_bub(), source->pos_bub() ) == 1 ) {
@@ -3152,6 +3153,9 @@ void Character::calc_bmi_encumb( std::map<bodypart_id, encumbrance_data> &vals )
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         int penalty = std::floor( elem.second.get_bmi_encumbrance_scalar() * std::max( 0.0f,
                                   get_bmi_fat() - static_cast<float>( elem.second.get_bmi_encumbrance_threshold() ) ) );
+        if( !needs_food() ) {
+            penalty = 0;
+        }
         vals[elem.first.id()].encumbrance += penalty;
     }
 }
@@ -4197,10 +4201,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
 
         const fault_fix &fix = opt.fix;
-        assign_activity( ACT_MEND_ITEM, to_moves<int>( opt.time_to_fix ) );
-        activity.name = opt.fault.str();
-        activity.str_values.emplace_back( fix.id.str() );
-        activity.targets.push_back( std::move( obj ) );
+        assign_activity( mend_item_activity_actor( opt.time_to_fix, obj, opt.fault, fix.id ) );
     }
 }
 
@@ -4377,16 +4378,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
-    if( actually_used->is_comestible() ) {
-        const bool ret = consume_effects( *used );
-        const int consumed = used->activation_consume( charges_used.value(), pt, this );
-        if( consumed == 0 ) {
-            // Nothing was consumed from within the item. "Eat" the item itself away.
-            i_rem( actually_used );
-        }
-        return ret;
-    }
-
     actually_used->activation_consume( charges_used.value(), pt, this );
 
     if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ) {
@@ -4518,9 +4509,7 @@ void Character::shout( std::string msg, bool order )
     constexpr int minimum_noise = 2;
 
     if( noise <= base ) {
-        std::wstring wstr( utf8_to_wstr( msg ) );
-        std::transform( wstr.begin(), wstr.end(), wstr.begin(), towlower );
-        msg = wstr_to_utf8( wstr );
+        msg = to_lower_case( msg );
     }
 
     // Screaming underwater is not good for oxygen and harder to do overall
@@ -5157,6 +5146,7 @@ void Character::assign_activity( const player_activity &act )
         add_msg_if_player( _( "You resume your task." ) );
         activity = backlog.front();
         backlog.pop_front();
+        activity.set_resume_values( act, *this );
     } else {
         if( activity ) {
             backlog.push_front( activity );
@@ -5324,10 +5314,6 @@ bool Character::can_use_floor_warmth() const
            has_activity( ACT_TRY_SLEEP ) ||
            has_activity( ACT_OPERATION ) ||
            has_activity( ACT_TREE_COMMUNION ) ||
-           has_activity( ACT_EAT_MENU ) ||
-           has_activity( ACT_CONSUME_FOOD_MENU ) ||
-           has_activity( ACT_CONSUME_DRINK_MENU ) ||
-           has_activity( ACT_CONSUME_MEDS_MENU ) ||
            has_activity( ACT_STUDY_SPELL );
 }
 
@@ -6184,7 +6170,7 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
     return g->get_creatures_if( [this, range, melee, &here]( const Creature & critter ) -> bool {
         //the call to map.sees is to make sure that even if we can see it through walls
         //via a mutation or cbm we only attack targets with a line of sight
-        bool can_see = ( ( sees( here, critter ) || sees_with_specials( critter ) ) && here.sees( pos_bub( here ), critter.pos_bub( here ), 100 ) );
+        bool can_see = ( ( sees( here, critter ) || sees_with_specials( critter ) ) && !here.find_clear_path( pos_bub( here ), critter.pos_bub( here ), true ).empty( ) );
         if( can_see && melee )  //handles the case where we can see something with glass in the way for melee attacks
         {
             std::vector<tripoint_bub_ms> path = here.find_clear_path( pos_bub( here ),
@@ -8065,6 +8051,7 @@ void Character::pause()
     }
     // on-pause effects for martial arts
     martial_arts_data->ma_onpause_effects( *this );
+    magic->channel_magic( *this );
 
     if( is_npc() ) {
         // The stuff below doesn't apply to NPCs

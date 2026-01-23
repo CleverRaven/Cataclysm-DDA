@@ -322,3 +322,15 @@ A special defense attack, triggered when the monster is attacked.  It should con
 - ```ACIDSPLASH``` Splashes acid on the attacker.
 - ```NONE``` No special attack to the attacker.
 - ```ZAPBACK``` Shocks attacker on hit.
+
+## EOC attack
+
+Triggers the specified `effect_on_condition` with the monster as `alpha_talker` and its target as `beta_talker`, the attack requires vision of the target. 
+
+| Field             | Description                                                                                                |
+| ---               | ---------------------------------------------------------------------------------------------------------- |
+| `range`           | (Required) Float, maximal range of the jump.  Respects circular distance setting!                          |
+| `cooldown`        | Disregard target location entirely when leaping, leading to completely random jumps.                       |
+| `eoc`             | (Required) Array of ids, the effect on condition . See `NPCs.md`                                           |
+| `condition`       | Object, dialogue conditions enabling the attack.  See `NPCs.md` for the possible conditions, `u` refers to the monster.                |
+| `allow_no_target` | Default `false`. If true the script will always run, the beta talker will be discarded.                    |

@@ -36,6 +36,29 @@ target_link_libraries(
         flatbuffers
         )
 
+# fmt
+file(GLOB FMT_HEADERS fmt/*.h)
+file(GLOB FMT_SOURCES fmt/*.cc)
+
+add_library(
+        fmt
+        STATIC
+        ${FMT_HEADERS}
+        ${FMT_SOURCES})
+
+target_include_directories(
+        fmt
+        SYSTEM
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_link_libraries(
+        third-party
+        INTERFACE
+        fmt
+        )
+
+
 # GHC filesystem
 file(GLOB GHC_HEADERS ghc/*.hpp)
 
@@ -110,6 +133,7 @@ if (TILES)
         if (NOT DYNAMIC_LINKING)
             target_link_libraries(imgui PUBLIC
                 SDL2::SDL2-static
+                $<TARGET_NAME_IF_EXISTS:PkgConfig::Freetype>
             )
         else()
             target_link_libraries(imgui PUBLIC

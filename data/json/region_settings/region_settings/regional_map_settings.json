@@ -39,7 +39,7 @@
       "deep_rock"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
-    "feature_flag_settings": { "blacklist": [ "HIGHLANDS" ], "whitelist": [  ] },
+    "feature_flag_settings": { "blacklist": [ "EXTRADIMENSIONAL" ], "whitelist": [  ] },
     "connections": {
       "intra_city_road_connection": "local_road",
       "inter_city_road_connection": "local_road",
@@ -52,7 +52,7 @@
   {
     "type": "region_settings_river",
     "id": "default",
-    "river_scale": 1.0,
+    "river_scale": 1,
     "river_frequency": 1.5,
     "river_branch_chance": 64.0,
     "river_branch_remerge_chance": 2.0,

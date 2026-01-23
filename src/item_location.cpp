@@ -22,6 +22,7 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_pocket.h"
+#include "itype.h"
 #include "json.h"
 #include "line.h"
 #include "magic_enchantment.h"
@@ -37,6 +38,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
@@ -490,6 +492,18 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         item_on_vehicle( const vehicle_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
 
         void serialize( JsonOut &js ) const override {
+            const std::vector<wrapped_vehicle> &vehicles = get_map().get_vehicles();
+            const auto same_veh = [this]( const wrapped_vehicle & wv ) {
+                return wv.v == &cur.veh;
+            };
+            if( std::find_if( vehicles.begin(), vehicles.end(), same_veh ) == vehicles.end() ) {
+                debugmsg( "Could not find vehicle for item_location on vehicle" );
+                // This is intended as a temporary patch, but if you're reading this you know how it goes sometimes.
+                // Serialize exactly like an item_location::nowhere just in case this sticks around long enough for that to change...
+                item_location dummy = item_location::nowhere;
+                dummy.serialize( js );
+                return;
+            }
             js.start_object();
             js.member( "type", "vehicle" );
             js.member( "position", pos_abs() );
@@ -936,6 +950,19 @@ bool item_location::has_parent() const
 bool item_location::is_efile() const
 {
     return parent_item() && parent_item()->is_estorage();
+}
+
+bool item_location::is_invisible_installed_gunmod() const
+{
+    const item_location current_location = *this;
+    if( current_location->is_gunmod() ) {
+        item_location parent = parent_item();
+        const bool installed = parent && parent->is_gun();
+        if( installed && !current_location->type->gunmod->is_visible_when_installed ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 pocket_constraint item_location::get_pocket_constraints_recursive( const item_pocket *pocket ) const

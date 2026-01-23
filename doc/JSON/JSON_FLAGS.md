@@ -503,6 +503,9 @@ These branches are the valid `dreams` from [dreams.json](/data/json/dreams.json)
 ## Comestibles
 
 - ```ACID``` When consumed using the `BLECH` function, penalties are reduced if character has `ACIDPROOF` or `ACIDBLOOD` traits.
+- ```ALCOHOL``` Increases drunkenness.  Adds effect `drunk`.
+- ```ALCOHOL_STRONG``` Greatly increases drunkenness.  Adds effect `drunk`.
+- ```ALCOHOL_WEAK``` Slightly increases drunkenness.  Adds effect `drunk`.
 - ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation at 50% kcal reduction.
 - ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it requires a special mutation.  See `can_heal_with` in mutation.
 - ```CORROSIVE``` when consumed using the `BLECH` function, causes the same penalties as `ACID` but is not affected by `ACIDPROOF` or `ACIDBLOOD` traits.
@@ -559,9 +562,6 @@ These branches are the valid `dreams` from [dreams.json](/data/json/dreams.json)
 
 These flags apply to the `use_action` field, instead of the `flags` field.
 
-- ```ALCOHOL_STRONG``` Greatly increases drunkenness.  Adds disease `drunk`.
-- ```ALCOHOL_WEAK``` Slightly increases drunkenness.  Adds disease `drunk`.
-- ```ALCOHOL``` Increases drunkenness.  Adds disease `drunk`.
 - ```ANTIBIOTIC``` Helps fight infections.  Removes disease `infected` and adds disease `recover`.
 - ```BANDAGE``` Stop bleeding.
 - ```BLECH``` Causes vomiting, adds disease `poison`, adds pain and hurts torso.
@@ -991,6 +991,7 @@ These can be applied to guns or gunmods, adding different effects to the guns.
 - ```NEVER_JAMS``` Never malfunctions.  Unaffected by the `JAMMED_GUN` fault.
 - ```NO_DIRTYING``` Prevents the gun from receiving `fault_gun_dirt` fault.
 - ```NON_FOULING``` Gun does not become dirty or blackpowder fouled.
+- ```OVERHEATS``` Adds a description stating the gun overheats when fired continuously. Purely informational. Does not affect behavior.
 - ```JAMMED_GUN``` Stops burst fire.  Adds delay on next shot.
 - ```UNLUBRICATED``` Randomly causes screeching noise when firing and applies damage when that happens.
 
@@ -1166,7 +1167,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```GROUP_MORALE``` More courageous when near friends.
 - ```GUILT_ANIMAL``` Killing this monster(i.e. a hatchling or a kitten) causes guilt to the player and is counted for the kill thresholds of animals where player experiences progressively less morale penalty. WARNING: Do not use without 'death_guilt' death function or together with other guilt flags.
 - ```GUILT_CHILD``` Killing this monster(i.e. a zombie child or mutant child) causes guilt to the player and is counted for the kill thresholds of children where player experiences progressively less morale penalty. WARNING: Do not use without 'death_guilt' death function or together with other guilt flags.
-- ```GUILT_HUMAN``` Killing this monster(i.e. a panicked person or futile fighter) causes guilt to the player and is counted for the kill thresholds of non-NPC humans where player experiences progressively less morale penalty. WARNING: Do not use without 'death_guilt' death function or together with other guilt flags.
+- ```GUILT_HUMAN``` Killing this monster(i.e. a panicked person or futile fighter) counts as murdering an NPC. This is a special case, and does not require a death_function. (The effect is hardcoded)
 - ```GUILT_OTHERS``` Killing this monster(i.e. a blood sacrifice) causes guilt to the player and is counted for the kill thresholds of monsters that do not fit other categories where player experiences progressively less morale penalty. WARNING: Do not use without 'death_guilt' death function or together with other guilt flags.
 - ```HARDTOSHOOT``` It's one size smaller for ranged attacks, no less than the `TINY` flag.
 - ```HAS_MIND``` Is sapient and capable of reason (mi-go, triffids, cyborgs, etc.).  `HUMAN` assumes `HAS_MIND`.
@@ -1577,7 +1578,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```MATCHBOMB``` Light the matchbomb.
 - ```MILITARYMAP``` Learn of local military installations, and show roads.
 - ```MININUKE``` Set the timer and run.  Or hit with a hammer (not really).
-- ```MOLOTOV_LIT``` Throw it, but don't drop it.
 - ```MOLOTOV``` Light the Molotov cocktail.
 - ```MOP``` Mop up the mess.
 - ```NOISE_EMITTER_OFF``` Turn the noise emitter on.
@@ -1705,6 +1705,8 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```FREEZER``` Can freeze items in below zero degrees Celsius temperature.
 - ```FRIDGE``` Can refrigerate items.
 - ```FUNNEL``` If installed over a vehicle tank, can collect rainwater during rains.
+- ```FURNITURE_LIFT_ASSIST``` This part has bonus effective strength when 'e'xamining it to load furniture onto it. Requires the part to also be FURNITURE_TIEDOWN. Bonus is currently set to 5.
+- ```FURNITURE_TIEDOWN``` This part can have furniture loaded onto it. Requires the part to also be CARGO.
 - ```HALF_CIRCLE_LIGHT``` Projects a directed half-circular radius of light when turned on.
 - ```HANDHELD_BATTERY_MOUNT``` Same as `BATTERY_MOUNT`, but for handheld battery mount.
 - ```HARNESS_bodytype``` Replace bodytype with `any` to accept any type, or with the targeted type.

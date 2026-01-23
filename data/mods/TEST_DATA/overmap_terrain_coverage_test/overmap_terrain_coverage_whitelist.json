@@ -4,6 +4,15 @@
     "overmap_terrain_coverage_whitelist": [
       "ants_lab",
       "ants_lab_stairs",
+      "cabin_3_reverberation",
+      "cabin_roof_3_reverberation",
+      "dls_small_roof",
+      "dls_small_surface",
+      "dls_small_-1",
+      "dls_small_-2",
+      "dls_small_-3",
+      "dls_small_-4",
+      "dls_small_-5",
       "ice_lab",
       "ice_lab_core",
       "ice_lab_finale",
@@ -18,6 +27,16 @@
       "highland_crossroads_temple_above",
       "highland_crossroads_temple_above2",
       "highland_road",
+      "ruined_tower_highlands_basement",
+      "ruined_tower_highlands_ground",
+      "ruined_tower_highlands_z1",
+      "ruined_tower_highlands_z2",
+      "ruined_tower_highlands_z3",
+      "ruined_tower_highlands_z4",
+      "ruined_tower_highlands_z5",
+      "radio_tower_reverberation_mp3",
+      "radiosphere_radio_tower_top",
+      "radiosphere_deletion_plane",
       "rock_border",
       "s_restaurant_deserted_test",
       "gunshow_0",
@@ -54,7 +73,11 @@
       "pottery_cottage_field_2nd",
       "pottery_cottage_field_roof",
       "pottery_cottage_field",
-      "pottery_cottage_basement"
+      "pottery_cottage_basement",
+      "void_spider_lair",
+      "xedra_fishing_shack_0",
+      "xedra_fishing_shack_1",
+      "xedra_fishing_shack_2"
     ]
   }
 ]

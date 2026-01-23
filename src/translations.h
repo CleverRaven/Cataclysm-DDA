@@ -6,6 +6,10 @@
 // so preemptively include it before the gettext overrides.
 #include <locale> // IWYU pragma: keep
 
+// pragma export needed because IWYU gets confused about FMT_STRING
+#include <fmt/format.h> // IWYU pragma: export
+
+#include "string_formatter.h"
 #include "translation.h"
 
 #if !defined(translate_marker)
@@ -94,6 +98,30 @@ inline const char *npgettext( const char *const context, const char *const msgid
 #define npgettext(STRING0, STRING1, STRING2, COUNT) n_gettext(STRING1, STRING2, COUNT)
 
 #endif // LOCALIZE
+
+// Always statically typecheck format strings even if not using localization.
+// type_pack<...>::apply<T> instantiates T<...>
+// We use this trick to instantiate the fmtlib typechecking type in a macro context.
+template<typename ...Ts>
+struct type_pack {
+    template<template<typename ...> typename T> using apply = T<Ts...>;
+};
+
+template<typename ...Ts>
+constexpr static auto make_type_pack( Ts &&... )
+{
+    return type_pack<Ts...> {};
+}
+
+template<typename ...Args>
+// NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
+inline std::string _fmt_inner( std::string_view translation, Args &&...args )
+{
+    return string_vfmt( translation, fmt::make_format_args( args... ) );
+}
+
+#define _fmt( msg, ... ) \
+    (decltype(make_type_pack(__VA_ARGS__))::apply<fmt::format_string>{ FMT_STRING(msg) }, _fmt_inner( _(msg), __VA_ARGS__ ))
 
 // Avoid using these functions from libintl.h which won't work because we have
 // our own implementations with different names.

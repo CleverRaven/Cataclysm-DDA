@@ -855,41 +855,41 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_cats_grace",
-    "//": "Magus spell",
-    "name": { "str": "Scroll of Cat's Grace", "str_pl": "Scrolls of Cat's Grace" },
+    "id": "spell_scroll_technomancer_dexterity_buff_spell",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Steadiness of Hand", "str_pl": "Scrolls of Steadiness of Hand" },
     "description": "You become more graceful, agile, and coordinated.",
-    "use_action": { "type": "learn_spell", "spells": [ "cats_grace" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_dexterity_buff_spell" ] }
   },
   {
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_eagles_sight",
-    "//": "Magus spell",
-    "name": { "str": "Scroll of Eagle's Sight", "str_pl": "Scrolls of Eagle's Sight" },
-    "description": "You gain the perception of an eagle.",
-    "use_action": { "type": "learn_spell", "spells": [ "eagles_sight" ] }
+    "id": "spell_scroll_technomancer_perception_buff_spell",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Keenness of Sight", "str_pl": "Scrolls of Keenness of Sight" },
+    "description": "You senses all sharpen.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_perception_buff_spell" ] }
   },
   {
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_ogres_strength",
-    "//": "Magus spell",
-    "name": { "str": "Scroll of Ogre's Strength", "str_pl": "Scrolls of Ogre's Strength" },
-    "description": "You gain the strength of an ogre.",
-    "use_action": { "type": "learn_spell", "spells": [ "ogres_strength" ] }
+    "id": "spell_scroll_technomancer_strength_buff_spell",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Strength of Arm", "str_pl": "Scrolls of Strength of Arm" },
+    "description": "You gain greatly-increased strength.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_strength_buff_spell" ] }
   },
   {
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_foxs_cunning",
-    "//": "Magus spell",
-    "name": { "str": "Scroll of Fox's Cunning", "str_pl": "Scrolls of Fox's Cunning" },
-    "description": "You become wily like a fox.",
-    "use_action": { "type": "learn_spell", "spells": [ "foxs_cunning" ] }
+    "id": "spell_scroll_technomancer_intelligence_buff_spell",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Clarity of Thought", "str_pl": "Scrolls of Clarity of Thought" },
+    "description": "Your mind clears and your thoughts race.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_intelligence_buff_spell" ] }
   },
   {
     "type": "ITEM",
@@ -1087,29 +1087,29 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_bless",
     "//": "Technomancer spell",
-    "name": { "str": "Scroll of Bless", "str_pl": "Scrolls of Bless" },
-    "description": "A spell of blessing that gives you energy and boosts your abilities.",
+    "name": { "str": "Scroll of Paragon", "str_pl": "Scrolls of Paragon" },
+    "description": "A spell that improves your abilities across a broad spectrum.",
     "use_action": { "type": "learn_spell", "spells": [ "bless" ] }
   },
   {
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_holy_blade",
-    "//": "Technomancer spell",
-    "name": { "str": "Scroll of Holy Blade", "str_pl": "Scrolls of Holy Blade" },
-    "description": "This blade of light will cut through any evil it makes contact with!",
-    "use_action": { "type": "learn_spell", "spells": [ "holy_blade" ] }
+    "id": "spell_scroll_magus_mage_conjured_blade",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Force Blade", "str_pl": "Scrolls of Force Blade" },
+    "description": "Conjure up a sword made of force, sharper than any physical blade.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_mage_conjured_blade" ] }
   },
   {
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_spirit_armor",
-    "//": "Technomancer spell",
-    "name": { "str": "Scroll of Spiritual Armor", "str_pl": "Scrolls of Spiritual Armor" },
-    "description": "Evil will not make it through your defenses if your faith is strong enough!",
-    "use_action": { "type": "learn_spell", "spells": [ "spirit_armor" ] }
+    "id": "spell_scroll_magus_mage_conjured_armor",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Force Armor", "str_pl": "Scrolls of Force Armor" },
+    "description": "Conjure a suit of magical armor made of pure force, when you need armor in a hurry.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_mage_conjured_armor" ] }
   },
   {
     "type": "ITEM",
@@ -1117,8 +1117,8 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_create_atomic_lamp",
     "//": "Technomancer spell",
-    "name": { "str": "Scroll of Lamp", "str_pl": "Scrolls of Lamp" },
-    "description": "Creates a magical lamp.",
+    "name": { "str": "Scroll of Enchanted Lamp", "str_pl": "Scrolls of Enchanted Lamp" },
+    "description": "Enchant a bit of stone or metal to give it an unwavering glow.",
     "use_action": { "type": "learn_spell", "spells": [ "create_atomic_lamp" ] }
   },
   {
@@ -2488,5 +2488,15 @@
     "name": { "str": "Scroll of Monstrous Grasp", "str_pl": "Scrolls of Monstrous Grasp" },
     "description": "Extend a tentacle to grab an item and drag it back to you.  Disgusting but practical.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_pull_items_from_distance" ] }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_arete_buff_spell",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Arete", "str_pl": "Scrolls of Arete" },
+    "description": "Become the best you that it's possible to be.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_arete_buff_spell" ] }
   }
 ]

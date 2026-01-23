@@ -94,7 +94,8 @@
         "collection": [
           { "item": "leather", "prob": 50, "count": [ 2, 4 ] },
           { "item": "tanned_hide", "prob": 30, "count": [ 1, 2 ] },
-          { "item": "glasses_safety", "prob": 40 },
+          { "item": "glasses_safety", "prob": 30 },
+          { "item": "goggles_chem", "prob": 10 },
           { "item": "glasses_bal", "prob": 10 }
         ],
         "prob": 50

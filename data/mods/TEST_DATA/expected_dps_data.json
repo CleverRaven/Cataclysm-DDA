@@ -98,6 +98,9 @@
       "cavalry_sabre": 24.2,
       "mc_cavalry_sabre": 24.233,
       "khopesh": 24.26,
+      "hc_khopesh": 26.33,
+      "ch_khopesh": 27.36,
+      "qt_khopesh": 28.3,
       "hc_wakizashi": 24.6,
       "ch_scimitar": 25.0,
       "ch_cutlass": 25.4,
@@ -223,7 +226,12 @@
       "hammer_sledge": 20.0,
       "2h_club_kanabo_studded": 25.16,
       "2h_club_kanabo_spiked": 25.65,
-      "warhammer": 36.33
+      "warhammer": 36.33,
+      "lc_warhammer": 30.6,
+      "mc_warhammer": 36.33,
+      "hc_warhammer": 37.39,
+      "ch_warhammer": 38.5,
+      "qt_warhammer": 39.44
     }
   },
   {

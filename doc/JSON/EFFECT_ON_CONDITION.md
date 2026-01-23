@@ -2218,7 +2218,7 @@ Second EoC `EOC_I_NEED_AN_AK47` aslo run `EOC_GIVE_A_GUN` with the same variable
 }
 ```
 
-Control a NPC and return to your original body.
+Control an NPC and return to your original body.
 By using `EOC_control_npc`, you can gain control of an NPC, and your original body's character_id will be stored in the global variable `"player_id"`.
 Then, by using `EOC_return_to_player`, you can return to your original body.
 ```jsonc
@@ -2238,12 +2238,12 @@ Then, by using `EOC_return_to_player`, you can return to your original body.
             {
               "if": "npc_is_npc",
               "then": [ "follow", "take_control" ],
-              "else": { "message": "Please select a NPC." }
+              "else": { "message": "Please select an NPC." }
             }
           ]
         },
         "beta_loc": { "context_val": "loc" },
-        "false_eocs": { "id": "_EOC_control_npc_fail_msg", "effect": { "message": "Please select a NPC." } }
+        "false_eocs": { "id": "_EOC_control_npc_fail_msg", "effect": { "message": "Please select an NPC." } }
       },
       "else": { "u_message": "Canceled" }
     }
@@ -2803,6 +2803,7 @@ Search items around you on the map, and run EoC on them
 | "min_radius", "max_radius" | optional | int or [variable object](#variable-object) | radius around the location/talker that would be searched |
 | "title" | optional | string or [variable object](#variable-object) | name of the menu that would be shown, if `manual` or `manual_mult` values are used |
 | "search_data" | optional | `search_data` | sets the condition(s) for the target item; lack of search_data means any item can be picked; see [search_data](#search_data) for syntax |
+| "accessible" | optional | boolean | if true or unspecified then only accessible items are found |
 | "true_eocs", "false_eocs" | optional | string, [variable object](#variable-object), inline EoC, or range of all of them | if item was picked successfully, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run; picked item is returned as npc |
 
 ##### Valid talkers:
@@ -4456,7 +4457,7 @@ You or NPC is teleported to `target_var` coordinates
 | "u_teleport", / "npc_teleport" | **mandatory** | [variable object](#variable-object) | location to teleport; should use `target_var`, created previously |
 | "success_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was successful |
 | "fail_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was failed, like if coordinates contained creature or impassable obstacle (like wall) |
-| "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead |
+| "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead. For the vehicle, collision test will be skipped. |
 | "force_safe" | optional | boolean | default false; if true, teleportation cannot^(tm) fail.  If there is a creature or obstacle at the target coordinate, the closest passable point within 5 horizontal tiles is picked instead.  If there is no point, the creature remains where they are. |
 
 ##### Valid talkers:
@@ -5444,7 +5445,7 @@ Subtract this many turns from the alpha talker's moves.
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
-| "turn_cost" | **mandatory** | number, duration, [variable object](#variable-object) or value between two | how long the action takes (can be specified in number of turns (as decimal), or as a duration) |
+| "turn_cost" | **mandatory** | number, duration, [variable object](#variable-object) or value between two | how long the action takes as a duration |
 
 ##### Examples
 
@@ -5452,14 +5453,6 @@ Subtract this many turns from the alpha talker's moves.
 {
   "effect": [
     { "turn_cost": "1 sec" }
-  ]
-}
-```
-
-```jsonc
-{
-  "effect": [
-    { "turn_cost": 0.6 }
   ]
 }
 ```

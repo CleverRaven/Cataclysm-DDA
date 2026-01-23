@@ -1450,7 +1450,7 @@
         "mutations": [ "FANGS", "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
       },
       {
-        "condition": { "and": [ { "not": "u_can_drop_weapon" } ] },
+        "condition": { "not": "u_can_drop_weapon" },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
       },
@@ -1652,7 +1652,7 @@
           {
             "id": "mentor_vanish",
             "hit_self": true,
-            "message": "You're not supposed to see this.  Open a bug report on Github about having the Mentor's Peace trait.",
+            "message": "You're not supposed to see this.  Open a bug report on GitHub about having the Mentor's Peace trait.",
             "npc_message": "%1$s vanishes in a fine mist."
           }
         ]

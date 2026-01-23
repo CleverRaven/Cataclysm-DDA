@@ -3,7 +3,7 @@
     "type": "region_settings_river",
     "id": "default",
     "copy-from": "default",
-    "river_scale": 1.0,
+    "river_scale": 1,
     "river_frequency": 4.5,
     "river_branch_chance": 128.0,
     "river_branch_remerge_chance": 4.0,
@@ -625,6 +625,6 @@
       "deep_rock"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
-    "feature_flag_settings": { "blacklist": [ "WASP", "BEE", "ANT", "FUNGAL", "TRIFFID", "FARM", "HIGHLANDS" ], "whitelist": [  ] }
+    "feature_flag_settings": { "blacklist": [ "WASP", "BEE", "ANT", "FUNGAL", "TRIFFID", "FARM", "EXTRADIMENSIONAL" ], "whitelist": [  ] }
   }
 ]

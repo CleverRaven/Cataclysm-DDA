@@ -15,6 +15,7 @@
 #include "ammo.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "butchery.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
@@ -2327,7 +2328,13 @@ bool item::ready_to_revive( map &here, const tripoint_bub_ms &pos ) const
         age_in_hours /= ( damage_level() + 1 );
     }
     int rez_factor = 48 - age_in_hours;
-    if( age_in_hours > 6 && ( rez_factor <= 0 || one_in( rez_factor ) ) ) {
+
+    // Arbitrary limit allowing you to take breaks to eat, instruct companions, etc., but not long enough to
+    // easily be abused to keep corpses from rising as a strategy.
+    bool butchery_block = calendar::turn - ( calendar::start_of_cataclysm +
+                          time_duration::from_turns<double>(
+                              get_var( butcher_progress_time_var(), 0.0 ) ) ) < 30_minutes;
+    if( age_in_hours > 6 && !butchery_block && ( rez_factor <= 0 || one_in( rez_factor ) ) ) {
         // If we're a special revival zombie, wait to get up until the player is nearby.
         const bool isReviveSpecial = has_flag( flag_REVIVE_SPECIAL );
         if( isReviveSpecial ) {

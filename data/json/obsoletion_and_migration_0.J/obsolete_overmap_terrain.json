@@ -328,5 +328,23 @@
       "LIXA_road_guard_south": "omt_obsolete",
       "LIXA_road_guard_roof_south": "omt_obsolete"
     }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "Migrated to its own region in 0.J experimental",
+    "oter_ids": {
+      "void_spider_lair_entrance_north": "deep_rock",
+      "void_spider_lair_a1_north": "deep_rock",
+      "void_spider_lair_a2_north": "deep_rock",
+      "void_spider_lair_entrance_east": "deep_rock",
+      "void_spider_lair_a1_east": "deep_rock",
+      "void_spider_lair_a2_east": "deep_rock",
+      "void_spider_lair_entrance_south": "deep_rock",
+      "void_spider_lair_a1_south": "deep_rock",
+      "void_spider_lair_a2_south": "deep_rock",
+      "void_spider_lair_entrance_west": "deep_rock",
+      "void_spider_lair_a1_west": "deep_rock",
+      "void_spider_lair_a2_west": "deep_rock"
+    }
   }
 ]

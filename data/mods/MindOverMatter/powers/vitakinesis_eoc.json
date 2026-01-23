@@ -644,7 +644,7 @@
           "EOC_VITAKIN_BANISH_ILLNESS_SEASONAL_ALLERGIES",
           "EOC_VITAKIN_BANISH_ILLNESS_SEASONAL_AFFECTIVE",
           "EOC_VITAKIN_BANISH_ILLNESS_XE_VAMPIRISM",
-          "EOC_PORTAL_NULL_AWAKENING"
+          "EOC_NONE"
         ],
         "names": [
           "Purge Minor Ailments",
@@ -705,10 +705,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_MINOR_AILMENT_RESULT",
-    "condition": {
-      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
-      "difficulty": 10
-    },
+    "condition": { "math": [ "vita_banish_illness_equation() >= 10" ] },
     "effect": [
       { "u_message": "You feel much better.", "type": "good" },
       { "u_lose_effect": [ "pre_common_cold", "common_cold", "pre_flu", "flu" ] },
@@ -737,10 +734,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA_RESULT",
-    "condition": {
-      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
-      "difficulty": 12
-    },
+    "condition": { "math": [ "vita_banish_illness_equation() >= 12" ] },
     "effect": [
       { "u_message": "You breathe easily once again.", "type": "good" },
       { "u_lose_trait": "ASTHMA" },
@@ -770,10 +764,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE_RESULT",
-    "condition": {
-      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
-      "difficulty": 14
-    },
+    "condition": { "math": [ "vita_banish_illness_equation() >= 14" ] },
     "effect": [
       { "u_message": "You body feels more normal.", "type": "good" },
       { "u_lose_trait": "CHEMIMBALANCE" },
@@ -802,10 +793,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC_RESULT",
-    "condition": {
-      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
-      "difficulty": 16
-    },
+    "condition": { "math": [ "vita_banish_illness_equation() >= 16" ] },
     "effect": [
       { "u_message": "You mind feels more normal.", "type": "good" },
       { "u_lose_trait": "SCHIZOPHRENIC" },
@@ -834,10 +822,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_JITTERY_RESULT",
-    "condition": {
-      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
-      "difficulty": 12
-    },
+    "condition": { "math": [ "vita_banish_illness_equation() >= 12" ] },
     "effect": [
       { "u_message": "You muscles stop trembling.", "type": "good" },
       { "u_lose_trait": "JITTERY" },
@@ -866,10 +851,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS_RESULT",
-    "condition": {
-      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
-      "difficulty": 15
-    },
+    "condition": { "math": [ "vita_banish_illness_equation() >= 15" ] },
     "effect": [
       { "u_message": "You mood calms.", "type": "good" },
       { "u_lose_trait": "MOODSWINGS" },
@@ -883,7 +865,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING",
-    "condition": { "u_has_trait": "WEAKENING" },
+    "condition": { "u_has_trait": "ROT1" },
     "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_WEAKENING", "duration": "480 minutes" } ],
     "false_effect": [ { "u_message": "You don't have a weakening sickness.  There is no need to attempt to cure it.", "type": "mixed" } ]
   },
@@ -898,13 +880,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING_RESULT",
-    "condition": {
-      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
-      "difficulty": 15
-    },
+    "condition": { "math": [ "vita_banish_illness_equation() >= 15" ] },
     "effect": [
       { "u_message": "New vigor fills your body.", "type": "good" },
-      { "u_lose_trait": "WEAKENING" },
+      { "u_lose_trait": "ROT1" },
       { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 45,75 )" ] }
     ],
     "false_effect": [
@@ -930,10 +909,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC_RESULT",
-    "condition": {
-      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
-      "difficulty": 13
-    },
+    "condition": { "math": [ "vita_banish_illness_equation() >= 13" ] },
     "effect": [
       { "u_message": "New vigor fills your body.", "type": "good" },
       { "u_lose_trait": "NARCOLEPTIC" },
@@ -962,10 +938,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_SEASONAL_ALLERGIES_RESULT",
-    "condition": {
-      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
-      "difficulty": 14
-    },
+    "condition": { "math": [ "vita_banish_illness_equation() >= 14" ] },
     "effect": [
       { "u_message": "You take a deep breath and your nose and throat clears.", "type": "good" },
       { "u_lose_trait": "SEASONAL_ALLERGIES" },
@@ -996,10 +969,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_SEASONAL_AFFECTIVE_RESULT",
-    "condition": {
-      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
-      "difficulty": 15
-    },
+    "condition": { "math": [ "vita_banish_illness_equation() >= 15" ] },
     "effect": [
       { "u_message": "You genuinely smile for the first time in a while.  Maybe it won't be so bad.", "type": "good" },
       { "u_lose_trait": "SEASONAL_AFFECTIVE" },

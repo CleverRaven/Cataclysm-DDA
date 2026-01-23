@@ -302,7 +302,7 @@
         "weighted_list_eocs": [
           [ "EOC_PORTAL_TELEPORT_STUCK_START", 2 ],
           [ "EOC_PORTAL_PAIN", 2 ],
-          [ "EOC_PORTAL_HIGHLANDS", 1 ],
+          [ "EOC_PORTAL_DIMENSION_TRAVEL", 1 ],
           [ "EOC_PORTAL_HALLUCINATOR", 2 ],
           [ "EOC_PORTAL_SMOKE", 2 ],
           [ "EOC_PORTAL_YRAX_ATTENTION", 1 ],
@@ -618,6 +618,19 @@
     "effect": [
       { "u_message": "PORTAL_STORM_VOICES_DRAW_ATTENTION", "snippet": true },
       { "u_make_sound": "The voice was loud, it might have drawn attention to you!", "volume": 20, "type": "combat" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DIMENSION_TRAVEL",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_location_variable": { "context_val": "loc" } },
+      {
+        "if": { "map_terrain_with_flag": "SHALLOW_WATER", "loc": { "context_val": "loc" } },
+        "then": { "run_eocs": "EOC_PORTAL_HIGHLANDS" },
+        "else": { "run_eocs": [ "EOC_REVERBERATION_ENTER" ] }
+      }
     ]
   },
   {
@@ -1245,7 +1258,12 @@
             { "is_weather": "close_portal_storm" }
           ]
         },
-        { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+        {
+          "or": [
+            { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+            { "u_has_items": { "item": "robofac_mobile_weather_station", "charges": 1 } }
+          ]
+        },
         "u_is_outside"
       ]
     },
@@ -1293,7 +1311,12 @@
     "type": "effect_on_condition",
     "id": "capture_generic_nre_anomaly",
     "global": true,
-    "condition": { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+    "condition": {
+      "or": [
+        { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+        { "u_has_items": { "item": "robofac_mobile_weather_station", "charges": 1 } }
+      ]
+    },
     "effect": [ { "math": [ "u_generic_nre_anomaly++" ] }, { "u_message": "The NRE recorder emits a sharp beep!", "type": "info" } ]
   },
   {
@@ -1304,7 +1327,12 @@
     "//": "Only add monsters with significant reality altering powers, not just anything in the nether species.",
     "condition": {
       "and": [
-        { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+        {
+          "or": [
+            { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+            { "u_has_items": { "item": "robofac_mobile_weather_station", "charges": 1 } }
+          ]
+        },
         {
           "or": [
             {

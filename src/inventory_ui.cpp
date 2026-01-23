@@ -58,7 +58,6 @@
 #include "uistate.h"
 #include "units.h"
 #include "units_utility.h"
-#include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
@@ -326,12 +325,12 @@ std::string enum_to_string<inventory_selector::uimode>( inventory_selector::uimo
 {
     switch( mode ) {
         case inventory_selector::uimode::hierarchy:
-            return "hierarchy";
+            return translate_marker_context( "inventory ui mode", "hierarchy" );
         case inventory_selector::uimode::last:
         case inventory_selector::uimode::categories:
             break;
     }
-    return "categories";
+    return translate_marker_context( "inventory ui mode", "categories" );
 }
 } // namespace io
 
@@ -403,6 +402,8 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
     json.member( "overmap_fast_travel", overmap_fast_travel );
     json.member( "overmap_fast_scroll", overmap_fast_scroll );
+    json.member( "tileset_zoom", tileset_zoom );
+    json.member( "overmap_tileset_zoom", overmap_tileset_zoom );
     json.member( "distraction_noise", distraction_noise );
     json.member( "distraction_pain", distraction_pain );
     json.member( "distraction_attack", distraction_attack );
@@ -422,6 +423,8 @@ void uistatedata::serialize( JsonOut &json ) const
 
     json.member( "overmap_sidebar_uistate" );
     overmap_sidebar_state.serialize( json );
+    json.member( "consume_menu_uistate" );
+    consume_uistate.serialize( json );
 
     json.member( "input_history" );
     json.start_object();
@@ -470,6 +473,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_show_hordes", overmap_show_hordes );
     jo.read( "overmap_show_revealed_omts", overmap_show_revealed_omts );
     jo.read( "overmap_show_forest_trails", overmap_show_forest_trails );
+    jo.read( "consume_menu_uistate", consume_uistate );
     jo.read( "hidden_recipes", hidden_recipes );
     jo.read( "favorite_recipes", favorite_recipes );
     jo.read( "expanded_recipes", expanded_recipes );
@@ -481,6 +485,8 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
     jo.read( "overmap_fast_travel", overmap_fast_travel );
     jo.read( "overmap_fast_scroll", overmap_fast_scroll );
+    jo.read( "tileset_zoom", tileset_zoom );
+    jo.read( "overmap_tileset_zoom", overmap_tileset_zoom );
     jo.read( "overmap_sidebar_uistate", overmap_sidebar_state );
     jo.read( "distraction_noise", distraction_noise );
     jo.read( "distraction_pain", distraction_pain );
@@ -708,15 +714,8 @@ inventory_selector_preset::inventory_selector_preset()
     } ) );
 }
 
-bool inventory_selector_preset::is_shown( const item_location &loc ) const
+bool inventory_selector_preset::is_shown( const item_location & ) const
 {
-    if( loc->is_gunmod() ) {
-        item_location parent = loc.parent_item();
-        const bool installed = parent && parent->is_gun();
-        if( installed && !loc->type->gunmod->is_visible_when_installed ) {
-            return false;
-        }
-    }
     return true;
 }
 
@@ -2186,6 +2185,20 @@ void inventory_selector::add_map_items( const tripoint_bub_ms &target, bool add_
     }
 }
 
+void inventory_selector::add_inaccessible_map_items( const tripoint_bub_ms &target,
+        bool add_efiles )
+{
+    map &here = get_map();
+    if( !here.accessible_items( target ) ) {
+        map_stack items = here.i_at( target );
+        const std::string name = to_upper_case( here.name( target ) );
+        const item_category map_cat( name, no_translation( name ), translation(), 100 );
+        _add_map_items( target, map_cat, items, [target]( item & it ) {
+            return item_location( map_cursor( tripoint_bub_ms( target ) ), &it );
+        }, add_efiles );
+    }
+}
+
 void inventory_selector::add_vehicle_items( const tripoint_bub_ms &target, bool add_efiles )
 {
     const std::optional<vpart_reference> ovp = get_map().veh_at( target ).cargo();
@@ -3283,7 +3296,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
 
         right_print( w, getmaxy( w ) - border, border + 1, c_light_gray,
                      string_format( "< [%s] %s >", ctxt.get_desc( "VIEW_CATEGORY_MODE" ),
-                                    io::enum_to_string( _uimode ) ) );
+                                    _( io::enum_to_string( _uimode ) ) ) );
         const auto footer = get_footer( mode );
         if( !footer.first.empty() ) {
             const int string_width = utf8_width( footer.first );

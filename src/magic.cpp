@@ -72,6 +72,8 @@ struct species_type;
 
 static const ammo_effect_str_id ammo_effect_MAGIC( "MAGIC" );
 
+static const efftype_id effect_magic_channeling( "magic_channeling" );
+
 static const json_character_flag json_flag_ALLOW_ADVANCED_SPELLS( "ALLOW_ADVANCED_SPELLS" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
@@ -442,6 +444,16 @@ void spell_type::load( const JsonObject &jo, std::string_view src )
         optional( jo_energy, was_loaded, "vitamin", vitamin_energy_source_ );
         optional( jo_energy, was_loaded, "color", energy_color_, nc_color_reader{}, c_cyan );
     }
+
+    if( jo.has_object( "channel_data" ) ) {
+        const JsonObject jo_channel_data = jo.get_object( "channel_data" );
+        mandatory( jo_channel_data, was_loaded, "max_channel_turns", channelling_turns );
+        optional( jo_channel_data, was_loaded, "channel_uses_energy", channel_uses_energy, false );
+        mandatory( jo_channel_data, was_loaded, "channel_spell", channel_spell );
+        mandatory( jo_channel_data, was_loaded, "channel_end_spell", channel_end_spell );
+        optional( jo_channel_data, was_loaded, "channel_interrupt_spell", channel_interrupt_spell, "" );
+    }
+
     optional( jo, was_loaded, "damage_type", dmg_type, dmg_type_default );
     optional( jo, was_loaded, "get_level_formula_id", get_level_formula_id );
     optional( jo, was_loaded, "exp_for_level_formula_id", exp_for_level_formula_id );
@@ -512,6 +524,28 @@ void spell_type::check_consistency()
             sp_t.vitamin_energy_source() != vitamin_id::NULL_ID() ) {
             debugmsg( R"(spell %s specifies "vitamin" field, but doesn't use the vitamin energy source)",
                       sp_t.id.c_str() );
+        }
+
+        if( !sp_t.spell_class.is_valid() && sp_t.spell_class.str() != "NONE" ) {
+            debugmsg( R"(ERROR: %s has invalid spell class "%s"!)", sp_t.id.c_str(), sp_t.spell_class.c_str() );
+        }
+
+        if( !sp_t.targeted_monster_ids.empty() ) {
+            for( const auto &targeted_monster : sp_t.targeted_monster_ids ) {
+                if( !targeted_monster.is_valid() ) {
+                    debugmsg( R"(ERROR: %s target monster with invalid id "%s"!)", sp_t.id.c_str(),
+                              targeted_monster.str() );
+                }
+            }
+        }
+
+        if( !sp_t.targeted_species_ids.empty() ) {
+            for( const auto &targeted_species : sp_t.targeted_species_ids ) {
+                if( !targeted_species.is_valid() ) {
+                    debugmsg( R"(ERROR: %s target species with invalid id "%s"!)", sp_t.id.c_str(),
+                              targeted_species.str() );
+                }
+            }
         }
 
         if( sp_t.exp_for_level_formula_id.has_value() &&
@@ -1009,6 +1043,11 @@ bool spell::no_hands() const
     return ( has_flag( spell_flag::NO_HANDS ) || temp_somatic_difficulty_multiplyer <= 0 );
 }
 
+bool spell::is_channeling_spell() const
+{
+    return type->channelling_turns > 0;
+}
+
 bool spell::is_spell_class( const trait_id &mid ) const
 {
     return mid == type->spell_class;
@@ -1176,7 +1215,7 @@ std::string spell::message() const
         return alt_message.translated();
     }
     if( !type->message.empty() ) {
-        type->message.translated();
+        return type->message.translated();
     }
     return {};
 }
@@ -2081,6 +2120,7 @@ void spell::cast_spell_effect( Creature &source, const tripoint_bub_ms &target )
     type->effect( *this, source, target );
 }
 
+
 void spell::cast_all_effects( const tripoint_bub_ms &target ) const
 {
     map &here = get_map();
@@ -2494,6 +2534,65 @@ std::vector<spell_id> known_magic::spells() const
     return spell_ids;
 }
 
+void known_magic::channel_magic( Character &guy )
+{
+    spell_id sp_id = guy.magic->last_spell;
+    if( !sp_id.is_valid() ) {
+        return;
+    }
+    if( !guy.has_effect( effect_magic_channeling ) ||  !( sp_id->channelling_turns >= 1 ) ) {
+        return;
+    }
+
+    tripoint_bub_ms target = get_map().get_bub( guy.last_magic_target_pos.value() );
+    // choose the spell to channel, use channel_end_spell if the effect intensity is equal to max channelling_turns
+    spell_id channel_spell_id = guy.get_effect_int( effect_magic_channeling ) < sp_id->channelling_turns
+                                ? spell_id( sp_id->channel_spell ) : spell_id( sp_id ->channel_end_spell );
+
+    if( channel_spell_id == sp_id ) {
+        debugmsg( "ERROR: Spell %s channels into itself.", sp_id.c_str() );
+        return;
+    }
+    spell channel_spell( channel_spell_id );
+    channel_spell.set_level( guy, guy.magic->get_spell( sp_id ).get_effective_level() );
+
+    if( sp_id->channel_uses_energy ) {
+        if( channel_spell.can_cast( guy ) ) {
+            channel_spell.consume_spell_cost( guy );
+        } else {
+            break_channeling( guy );
+            return;
+        }
+    }
+    guy.add_effect( effect_magic_channeling,  calendar::INDEFINITELY_LONG_DURATION );
+    channel_spell.cast_all_effects( guy, target );
+
+    if( sp_id->channelling_turns < guy.get_effect_int( effect_magic_channeling ) ) {
+        //channeling completed without triggering the interrupt spell
+        guy.add_msg_if_player( m_good, _( "You finish channeling %s." ), sp_id->name );
+        guy.remove_effect( effect_magic_channeling );
+        return;
+    }
+}
+
+void known_magic::break_channeling( Character &guy )
+{
+    if( guy.has_effect( effect_magic_channeling ) ) {
+        guy.remove_effect( effect_magic_channeling );
+        guy.add_msg_if_player( m_bad, _( "Your concentration falters!" ) );
+        // cast the interrupt spell if it exists
+        spell_id sp_id = guy.magic->last_spell;
+        if( sp_id.is_valid() && spell_id( sp_id->channel_interrupt_spell ).is_valid() ) {
+            guy.add_msg_if_player( m_bad, _( "The disruption causes %s to go off!" ),
+                                   spell_id( sp_id->channel_interrupt_spell )->name );
+            spell interrupt_spell( spell_id( sp_id->channel_interrupt_spell ) );
+            interrupt_spell.set_level( guy, guy.magic->get_spell( sp_id ).get_effective_level() );
+            tripoint_bub_ms target = get_map().get_bub( guy.last_magic_target_pos.value() );
+            interrupt_spell.cast_all_effects( guy, target );
+        }
+    }
+}
+
 // does the Character have enough energy (of the type of the spell) to cast the spell?
 bool known_magic::has_enough_energy( const Character &guy, const spell &sp ) const
 {
@@ -2555,15 +2654,15 @@ void known_magic::evaluate_opens_spellbook_data()
     }
 }
 
-int known_magic::time_to_learn_spell( const Character &guy, const std::string &str ) const
+time_duration known_magic::time_to_learn_spell( const Character &guy, const std::string &str ) const
 {
     return time_to_learn_spell( guy, spell_id( str ) );
 }
 
-int known_magic::time_to_learn_spell( const Character &guy, const spell_id &sp ) const
+time_duration known_magic::time_to_learn_spell( const Character &guy, const spell_id &sp ) const
 {
     const_dialogue d( get_const_talker_for( guy ), nullptr );
-    const int base_time = to_moves<int>( 30_minutes );
+    const time_duration base_time = 30_minutes;
     const double int_modifier = ( guy.get_int() - 8.0 ) / 8.0;
     const double skill_modifier = guy.get_skill_level( sp->skill ) / 10.0;
     return base_time * ( 1.0 + sp->difficulty.evaluate( d ) / ( 1.0 + int_modifier + skill_modifier ) );
@@ -2803,6 +2902,12 @@ void spellcasting_callback::display_spell_info( size_t index )
     }
     ImGui::NewLine();
 
+    if( sp.is_channeling_spell() ) {
+        cataimgui::TextColoredParagraph( c_light_blue,
+                                         _( "Passing turns after casting this spell will actively channel it, causing continued effects." ) );
+        ImGui::NewLine();
+    }
+
     // Calculates temp_level_adjust from EoC, saves it to the spell for later use, and prepares to display the result
     int temp_level_adjust = sp.get_temp_level_adjustment();
     std::string temp_level_adjust_string;
@@ -2924,7 +3029,7 @@ void spellcasting_callback::display_spell_info( size_t index )
             std::string dot_string;
             if( sp.damage_dot( pc ) != 0 ) {
                 //~ amount of damage per second, abbreviated
-                dot_string = string_format( _( ", %d/sec" ), sp.damage_dot( pc ) );
+                dot_string = string_format( _( ", %d/sec" ), static_cast<int>( sp.damage_dot( pc ) ) );
             }
             ImGui::TextColored( sp.damage_type_color(),
                                 "%s: %s %s%s", _( "Damage" ),

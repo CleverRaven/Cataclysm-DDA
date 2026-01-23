@@ -292,6 +292,10 @@ class item : public visitable
         void set_damage( int qty );
 
         /**
+        * Same as set_damage, but bypasses any checks and just sets value to desired level
+        */
+        void force_set_damage( int qty );
+        /**
          * Set item degradation constrained by [0 and @ref max_damage].
          * If item damage is lower it is raised up to @ref degradation.
          */
@@ -426,7 +430,7 @@ class item : public visitable
         nc_color color() const;
         /**
          * Returns the color of the item depending on usefulness for the player character,
-         * e.g. differently if it its an unread book or a spoiling food item etc.
+         * e.g. differently if it is an unread book or a spoiling food item etc.
          * This should only be used for displaying data, it should not affect game play.
          */
         nc_color color_in_inventory( const Character *ch = nullptr ) const;
@@ -516,6 +520,7 @@ class item : public visitable
                             bool debug ) const;
         void ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                         bool debug ) const;
+        std::string print_compatible_mags_or_flags() const;
         void gun_info( const item *mod, std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                        bool debug ) const;
         void gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -597,6 +602,7 @@ class item : public visitable
                 const Character *who = nullptr;
                 item_location target;
                 item_location ammo;
+                bool is_reload_one = false;
 
                 int qty() const {
                     return qty_;

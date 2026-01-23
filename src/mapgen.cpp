@@ -100,6 +100,8 @@
 #include "vehicle_group.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weather.h"
+#include "weather_gen.h"
 #include "weighted_dbl_or_var_list.h"
 #include "weighted_list.h"
 #include "magic_teleporter_list.h"
@@ -223,6 +225,7 @@ static const ter_str_id ter_t_fungus_wall( "t_fungus_wall" );
 static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_marloss( "t_marloss" );
 static const ter_str_id ter_t_metal_floor( "t_metal_floor" );
+static const ter_str_id ter_t_pseudo_phase( "t_pseudo_phase" );
 static const ter_str_id ter_t_radio_tower( "t_radio_tower" );
 static const ter_str_id ter_t_reinforced_door_glass_c( "t_reinforced_door_glass_c" );
 static const ter_str_id ter_t_reinforced_glass( "t_reinforced_glass" );
@@ -839,6 +842,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                     }
                 } else {
                     setsubmap( grid_pos, MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) );
+                    // Apply historical ice conversion for submaps loaded from disk as well
                 }
             }
         }
@@ -6208,6 +6212,96 @@ ret_val<void> jmapgen_objects::has_vehicle_collision( const mapgendata &dat,
     return ret_val<void>::make_success();
 }
 
+void map::temp_based_phase_change_at( const tripoint_bub_ms &p, const weather_generator &wgen )
+{
+    // If we have a recorded original terrain, use its rules to revert or
+    if( has_original_terrain_at( p ) ) {
+        const ter_id orig_id = get_original_terrain_at( p );
+        ter_set( p, orig_id );
+    }
+    const tripoint_abs_ms abs_p = get_abs( p );
+    const ter_str_id cur_id = ter( p ).id();
+    const ter_t &cur_ter = cur_id.obj();
+    // Bail out early if neither this terrain nor a recorded original
+    // terrain declare a phase_method.
+    if( cur_ter.phase_method.empty() && !has_original_terrain_at( p ) ) {
+        return;
+    }
+    units::temperature standard = 0_K;
+    // `phase_method` selects which phase behavior to apply.
+    if( cur_ter.phase_method == "water_freeze" ) {
+        // 10-day average at 08:00.
+        //1103515245u = random
+        unsigned seed = static_cast<unsigned>( g->get_seed() ) ^
+                        static_cast<unsigned>( abs_p.x() * 1103515245u + abs_p.y() );
+        units::temperature sum = 0_K;
+        for( int d = 0; d < 10; d++ ) {
+            time_point base_date = calendar::turn - ( d + 1 ) * 1_days;
+            const time_duration time_of_day = ( base_date - calendar::turn_zero ) % 1_days;
+            const time_point t = base_date - time_of_day + 8_hours;
+            sum += wgen.get_weather_temperature( abs_p, t, seed );
+        }
+        standard = sum / 10.0;
+    } else {
+        return;
+    }
+
+    auto apply_phase_thresholds = [&]( const ter_t & tt, const ter_str_id & base_id ) -> ter_str_id {
+        if( tt.phase_targets.empty() )
+        {
+            return ter_t_pseudo_phase;
+        }
+        const size_t targ_n = tt.phase_targets.size();
+        const size_t temp_n = tt.phase_temps.size();
+        if( temp_n + 1 != targ_n )
+        {
+            debugmsg( "ter %s: phase_targets and phase_temps length mismatch (expected temps == targets-1)",
+                      base_id.str() );
+            return ter_t_pseudo_phase;
+        }
+        std::vector<ter_str_id> targets;
+        targets.reserve( targ_n );
+        for( size_t i = 0; i < targ_n; ++i )
+        {
+            ter_str_id target = tt.phase_targets[i];
+            if( target == ter_t_pseudo_phase ) {
+                target = base_id;
+            }
+            targets.push_back( target );
+        }
+
+        if( standard < tt.phase_temps[0] )
+        {
+            return targets[0];
+        }
+
+        // Intermediate ranges: inclusive upper bound
+        for( size_t i = 0; i + 1 < temp_n; ++i )
+        {
+            if( standard >= tt.phase_temps[i] && standard <= tt.phase_temps[i + 1] ) {
+                return targets[i + 1];
+            }
+        }
+
+        if( standard > tt.phase_temps.back() )
+        {
+            return targets.back();
+        }
+
+        return ter_t_pseudo_phase;
+    };
+
+    // No original recorded: evaluate using the current terrain's rules and
+    // record original before transforming.
+
+    const ter_str_id chosen = apply_phase_thresholds( cur_ter, cur_id );
+    if( chosen != ter_t_pseudo_phase && chosen != cur_id ) {
+        // Record original terrain so it can be reverted later.
+        ter_set( p, chosen );
+        set_original_terrain_at( p, cur_id.id() );
+    }
+}
+
 void map::draw_map( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
@@ -6228,6 +6322,17 @@ void map::draw_map( mapgendata &dat )
     }
 
     resolve_regional_terrain_and_furniture( dat );
+
+    const weather_generator &wgen = get_weather().get_cur_weather_gen();
+    if( abs_sub.z() >= 0 ) {
+        for( int i = 0; i < SEEX * 2; i++ ) {
+            for( int j = 0; j < SEEY * 2; j++ ) {
+                const tripoint_bub_ms p( i, j, abs_sub.z() );
+                temp_based_phase_change_at( p, wgen );
+            }
+        }
+    }
+    // End of draw_map
 }
 
 static const int SOUTH_EDGE = 2 * SEEY - 1;
@@ -7545,7 +7650,8 @@ void map::add_spawn(
                                           data );
 }
 
-vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, const units::angle &dir,
+vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p,
+                           const units::angle &dir,
                            const int veh_fuel, const int veh_status, const bool merge_wrecks,
                            const bool force_status/* = false*/ )
 {
@@ -7554,8 +7660,8 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
         return nullptr;
     }
     if( !inbounds( p ) ) {
-        dbg( D_WARNING ) << string_format( "Out of bounds add_vehicle t=%s d=%d p=%d,%d,%d",
-                                           type.str(), to_degrees( dir ), p.x(), p.y(), p.z() );
+        dbg( D_WARNING ) << string_format( "Out of bounds add_vehicle t=%s d=%f p=%d,%d,%d",
+                                           type.c_str(), to_degrees( dir ), p.x(), p.y(), p.z() );
         return nullptr;
     }
 
@@ -8548,11 +8654,13 @@ void line( tinymap *m, const ter_id &type, const point_omt_ms &p1, const point_o
 {
     m->draw_line_ter( type, p1, p2 );
 }
-void line_furn( map *m, const furn_id &type, const point_bub_ms &p1, const point_bub_ms &p2, int z )
+void line_furn( map *m, const furn_id &type, const point_bub_ms &p1, const point_bub_ms &p2,
+                int z )
 {
     m->draw_line_furn( type, p1, p2, z );
 }
-void line_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1, const point_omt_ms &p2 )
+void line_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1,
+                const point_omt_ms &p2 )
 {
     m->draw_line_furn( type, p1, p2 );
 }
@@ -8568,11 +8676,13 @@ void square( map *m, const ter_id &type, const point_bub_ms &p1, const point_bub
 {
     m->draw_square_ter( type, p1, p2, m->get_abs_sub().z() );
 }
-void square_furn( map *m, const furn_id &type, const point_bub_ms &p1, const point_bub_ms &p2 )
+void square_furn( map *m, const furn_id &type, const point_bub_ms &p1,
+                  const point_bub_ms &p2 )
 {
     m->draw_square_furn( type, p1, p2, m->get_abs_sub().z() );
 }
-void square_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1, const point_omt_ms &p2 )
+void square_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1,
+                  const point_omt_ms &p2 )
 {
     m->draw_square_furn( type, p1, p2 );
 }

@@ -2528,8 +2528,8 @@ it is present to help catch errors.
 
 | Field                      | Purpose |
 | ---                        | ---     |
-| `name`                     | Name of the skill as displayed in the the character info screen. |
-| `description`              | Description of the skill as displayed in the the character info screen. |
+| `name`                     | Name of the skill as displayed in the character info screen. |
+| `description`              | Description of the skill as displayed in the character info screen. |
 | `tags`                     | Identifies special cases. Currently valid tags are: "combat_skill" and "contextual_skill". |
 | `time_to_attack`           | Object used to calculate the movecost for firing a gun. |
 | `display_category`         | Category in the character info screen where this skill is displayed. |

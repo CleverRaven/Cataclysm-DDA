@@ -1,5 +1,5 @@
 #Basic provided soundpack
 #Name of the soundpack
-NAME: basic
+NAME: Menu_Sound_Test
 #Viewing name of the soundpack
-VIEW: Basic
+VIEW: MENU_SOUND_TEST
