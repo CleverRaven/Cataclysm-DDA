@@ -200,7 +200,7 @@ inline int square_dist( const point &loc1, const point &loc2 )
 inline int rl_dist( const tripoint &loc1, const tripoint &loc2 )
 {
     if( trigdist ) {
-        return trig_dist( loc1, loc2 );
+        return std::ceil( trig_dist( loc1, loc2 ) );
     }
     return square_dist( loc1, loc2 );
 }
