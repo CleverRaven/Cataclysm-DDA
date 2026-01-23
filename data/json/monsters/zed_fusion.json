@@ -165,12 +165,12 @@
         "condition": { "u_has_effect": "absorbed_pupating" },
         "damage_max_instance": [ { "damage_type": "pure", "amount": 0 } ],
         "eoc": [ "EOC_DEVOURER_SPAWN_RAPTORS" ],
-        "hit_dmg_u": "A bubo on the side of %s swells and bursts bursts, and gore-smeared winged beasts hurl themselves into the air!",
-        "hit_dmg_npc": "A bubo on the side of %s swells and bursts bursts, and gore-smeared winged beasts hurl themselves into the air!",
-        "no_dmg_msg_u": "A bubo on the side of %s swells and bursts bursts, and gore-smeared winged beasts hurl themselves into the air!",
-        "no_dmg_msg_npc": "A bubo on the side of %s swells and bursts bursts, and gore-smeared winged beasts hurl themselves into the air!",
-        "miss_msg_u": "A bubo on the side of %s swells and bursts bursts, and gore-smeared winged beasts hurl themselves into the air!",
-        "miss_msg_npc": "A bubo on the side of %s swells and bursts bursts, and gore-smeared winged beasts hurl themselves into the air!"
+        "hit_dmg_u": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!",
+        "hit_dmg_npc": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!",
+        "no_dmg_msg_u": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!",
+        "no_dmg_msg_npc": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!",
+        "miss_msg_u": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!",
+        "miss_msg_npc": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!"
       }
     ],
     "death_drops": {
