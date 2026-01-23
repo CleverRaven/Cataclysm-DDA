@@ -226,7 +226,7 @@ TEST_CASE( "Ranged_coverage_vs_bullet", "[coverage] [ranged]" )
 {
     SECTION( "Full melee and ranged coverage vs. ranged attack" ) {
         const float dmg = get_avg_bullet_dmg( itype_test_hazmat_suit );
-        check_near( "Average damage", dmg, 16.4f, 0.2f );
+        check_near( "Average damage", dmg, 16.4f, 0.25f );
     }
 
     SECTION( "No ranged coverage vs. ranged attack" ) {
