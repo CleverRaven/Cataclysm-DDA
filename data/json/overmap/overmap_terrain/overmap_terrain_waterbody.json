@@ -70,6 +70,7 @@
     "id": "ocean_surface",
     "copy-from": "generic_ocean",
     "travel_cost_type": "water",
+    "extras": "ocean_surface",
     "uniform_terrain": "t_swater_dp"
   },
   {

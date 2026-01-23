@@ -112,11 +112,6 @@ bool start_location::can_belong_to_city( const tripoint_om_omt &p, const city &c
     return constraints_.city_distance.contains( cit.get_distance_from( p ) - ( cit.size ) );
 }
 
-const std::set<std::string> &start_location::flags() const
-{
-    return _flags;
-}
-
 void omt_types_parameters::deserialize( const JsonValue &jv )
 {
     if( jv.test_string() ) {
@@ -136,8 +131,24 @@ void start_location::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "terrain", _locations );
     optional( jo, was_loaded, "city_sizes", constraints_.city_size, { 0, INT_MAX } );
     optional( jo, was_loaded, "city_distance", constraints_.city_distance, { 0, INT_MAX } );
-    optional( jo, was_loaded, "allowed_z_levels", constraints_.allowed_z_levels,
-    { -OVERMAP_DEPTH, OVERMAP_HEIGHT} );
+    optional( jo, was_loaded, "allowed_z_levels", constraints_.allowed_z_levels, { -OVERMAP_DEPTH, OVERMAP_HEIGHT} );
+    if( jo.has_string( "ocean_direction" ) ) {
+        mandatory( jo, was_loaded, "ocean_offset", ocean_offset );
+        std::string direction;
+        direction = jo.get_string( "ocean_direction" );
+        if( direction == "random" ) {
+            ocean_dir_random = true;
+        } else {
+            ocean_dir = static_cast<int>( io::string_to_enum<om_direction::type>( direction ) );
+            if( ocean_dir < 0 || ocean_dir > 3 ) {
+                jo.throw_error_at( "ocean_direction", string_format( "Ocean direction %s not recognised.",
+                                   direction ) );
+                ocean_dir = -1;
+            }
+        }
+    } else {
+        optional( jo, was_loaded, "ocean_offset", ocean_offset, INT_MAX );
+    }
     optional( jo, was_loaded, "flags", _flags, auto_flags_reader<> {} );
 }
 
@@ -243,13 +254,40 @@ static void board_up( tinymap &m, const tripoint_range<tripoint_omt_ms> &range )
 void start_location::prepare_map( tinymap &m ) const
 {
     const int z = m.get_abs_sub().z();
-    if( flags().count( "BOARDED" ) > 0 ) {
+    if( has_flag( "BOARDED" ) ) {
         m.build_outside_cache( z );
         const tripoint_range <tripoint_omt_ms> temp = m.points_on_zlevel( z );
         board_up( m, { temp.min(), temp.max() } );
     } else {
         m.translate( ter_t_window_domestic, ter_t_curtains );
     }
+}
+
+bool start_location::offset_search_location( point_abs_om &origin ) const
+{
+    if( ocean_offset != INT_MAX ) {
+        overmap &omap = overmap_buffer.get( origin );
+
+        const auto offset_dir = [&]() {
+            if( om_direction::type{ocean_dir} == om_direction::type::invalid ) {
+                if( ocean_dir_random ) {
+                    return omap.find_dir_random_ocean_origin();
+                } else {
+                    return omap.find_dir_nearest_ocean_origin();
+                }
+            }
+            return om_direction::type{ocean_dir};
+        };
+        const int distance_to_ocean = omap.find_dist_ocean_origin( offset_dir() );
+        if( distance_to_ocean == 0 ) {
+            cata_fatal( string_format( "Start location %s specified a disabled ocean direction", id.c_str() ) );
+        }
+        //BEFOREMERGE: This returns a point_rel_omt instead of the line.cpp raw point one now?
+        origin += point_rel_om( om_direction::displace( offset_dir() ).raw() ) *
+                  ( ocean_offset + distance_to_ocean );
+        return true;
+    }
+    return false;
 }
 
 std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
@@ -376,15 +414,16 @@ void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
  * Maybe TODO: Allow "picking up" items or parts of bashable furniture
  *             and using them to help with bash attempts.
  */
-static int rate_location( map &m, const tripoint_bub_ms &p,
-                          const bool must_be_inside, const bool accommodate_npc,
-                          const int bash_str, const int attempt,
+static int rate_location( map &m, const tripoint_bub_ms &p, const bool must_be_inside,
+                          const bool must_be_controls, const bool accommodate_npc, const int bash_str, const int attempt,
                           cata::mdarray<int, point_bub_ms> &checked )
 {
     const auto invalid_char_pos = [&]( const tripoint_bub_ms & tp ) -> bool {
         return ( must_be_inside && m.is_outside( tp ) ) ||
-        m.impassable( tp ) || m.is_divable( tp ) ||
-        m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, tp );
+        ( must_be_controls && !static_cast<bool>( m.veh_at( tp ).part_with_feature( "CONTROLS", true ) ) ) ||
+        ( !must_be_controls && (
+              m.impassable( tp ) || m.is_divable( tp ) ||
+              m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, tp ) ) );
     };
 
     if( checked[p.x()][p.y()] > 0 || invalid_char_pos( p ) ||
@@ -396,58 +435,63 @@ static int rate_location( map &m, const tripoint_bub_ms &p,
     std::vector<tripoint_bub_ms> st;
     st.reserve( MAPSIZE_X * MAPSIZE_Y );
     st.push_back( p );
-
-    // If not checked yet and either can be moved into, can be bashed down or opened,
-    // add it on the top of the stack.
-    const auto maybe_add = [&]( const point_bub_ms & add_p, const tripoint_bub_ms & from ) {
-        if( checked[add_p.x()][add_p.y()] >= attempt ) {
-            return;
-        }
-
-        const tripoint_bub_ms pt( add_p, p.z() );
-        if( m.passable_through( pt ) ||
-            m.bash_resistance( pt ) <= bash_str ||
-            m.open_door( get_avatar(), pt, !m.is_outside( from ), true ) ) {
-            st.push_back( pt );
-        }
-    };
-
+    const bool underground = p.z() < 0;
+    const bool aboveground = p.z() > 0;
+    avatar &u = get_avatar();
     int area = 0;
     while( !st.empty() ) {
         area++;
         const tripoint_bub_ms cur = st.back();
         st.pop_back();
+        // open_door() technically needs the avatar to be in the right place but setting position here would be expensive
+        //u.setpos( m, cur );
 
         checked[cur.x()][cur.y()] = attempt;
         if( cur.x() == 0 || cur.x() == MAPSIZE_X - 1 ||
             cur.y() == 0 || cur.y() == MAPSIZE_Y - 1 ||
-            m.has_flag( ter_furn_flag::TFLAG_GOES_UP, cur ) ) {
+            ( underground && m.has_flag( ter_furn_flag::TFLAG_GOES_UP, cur ) ) ||
+            ( aboveground && m.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, cur ) ) ) {
             return INT_MAX;
         }
 
-        maybe_add( cur.xy() + point::west, cur );
-        maybe_add( cur.xy() + point::north, cur );
-        maybe_add( cur.xy() + point::east, cur );
-        maybe_add( cur.xy() + point::south, cur );
-        maybe_add( cur.xy() + point::north_west, cur );
-        maybe_add( cur.xy() + point::north_east, cur );
-        maybe_add( cur.xy() + point::south_west, cur );
-        maybe_add( cur.xy() + point::south_east, cur );
+        //BEFOREMERGE: Try to add a "queued" stack so we don't needlessly test every neighbour if we have a fairly clear path (which will be most cases), might be cheaper if it tries to move to the closer edge directions first too
+        for( const tripoint &offset : eight_horizontal_neighbors ) {
+            // If not checked yet and either can be moved into, can be bashed down or opened, add it on the top of the stack.
+            const tripoint_bub_ms neighbor = cur + offset;
+            if( checked[neighbor.x()][neighbor.y()] >= attempt ) {
+                continue;
+            }
+
+            if( m.passable_through( neighbor ) ||
+                m.bash_resistance( neighbor ) <= bash_str ||
+                m.open_door( u, neighbor, !m.is_outside( cur ), true ) ) {
+                st.push_back( neighbor );
+            }
+        }
     }
 
     return area;
 }
 
-void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart ) const
+void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart,
+                                   bool accommodate_npc, bool scen_controlling_vehicle ) const
 {
     // Need the "real" map with it's inside/outside cache and the like.
     map &here = get_map();
     // Start us off somewhere in the center of the map
-    you.set_pos_abs_only( midpoint( project_bounds<coords::ms>( omtstart ) ) );
+    const half_open_rectangle<point_abs_ms> omt_bounds = project_bounds<coords::ms>( omtstart.xy() );
+    const tripoint_abs_ms p_mid( midpoint( omt_bounds ), omtstart.z() );
+    you.set_pos_abs_only( p_mid );
     here.invalidate_map_cache( here.get_abs_sub().z() );
     here.build_map_cache( here.get_abs_sub().z() );
-    const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
-    const bool accommodate_npc = flags().count( "LONE_START" ) == 0;
+    const bool must_be_inside = !has_flag( "ALLOW_OUTSIDE" );
+    const bool must_be_controls = scen_controlling_vehicle ||
+                                  has_flag( "CONTROLLING_VEHICLE" );
+    if( must_be_controls && accommodate_npc ) {
+        //TODO: Relative NPC position is done in a fixed way that doesn't gel well with vehicle starts
+        debugmsg( "start_location %s: Must use LONE_START with CONTROLLING_VEHICLE for now", id.c_str() );
+        accommodate_npc = false;
+    }
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
     // TODO: Allow using items here
     const int bash = you.get_str();
@@ -476,46 +520,38 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
         }
     }
 
-    // Otherwise, find a random starting spot
-
-    int tries = 0;
-    const auto check_spot = [&]( const tripoint_bub_ms & pt ) {
-        ++tries;
-        const int rate = rate_location( here, pt, must_be_inside, accommodate_npc, bash, tries,
-                                        checked );
-        if( best_rate < rate ) {
-            best_rate = rate;
-            best_spot = pt;
-            if( rate == INT_MAX ) {
-                return true;
+    // Otherwise, find a suitable starting spot out from the centre of the omt
+    if( !found_good_spot ) {
+        int tries = 0;
+        // Iterate from one of the four centre tiles of the target omt outwards
+        for( const tripoint_bub_ms &p : closest_points_first( here.get_bub( p_mid ), SEEX ) ) {
+            if( !omt_bounds.contains( here.get_abs( p ).xy() ) ) {
+                // The closest_points_first goes 1 tile over east and south, can't easily do anything about it due to SEEX/SEEY being even
+                continue;
+            }
+            const int rate = rate_location( here, p, must_be_inside, must_be_controls, accommodate_npc, bash,
+                                            ++tries, checked );
+            if( best_rate < rate ) {
+                best_rate = rate;
+                best_spot = p;
+                if( rate == INT_MAX ) {
+                    found_good_spot = true;
+                    break;
+                }
             }
         }
-        return false;
-    };
 
-    while( !found_good_spot && tries < 100 ) {
-        tripoint_bub_ms rand_point( HALF_MAPSIZE_X + rng( 0, SEEX * 2 - 1 ),
-                                    HALF_MAPSIZE_Y + rng( 0, SEEY * 2 - 1 ),
-                                    you.posz() );
-        found_good_spot = check_spot( rand_point );
-    }
-    // If we haven't got a good location by now, screw it and brute force it
-    // This only happens in exotic locations (deep of a science lab), but it does happen
-    if( !found_good_spot ) {
-        tripoint_bub_ms tmp = you.pos_bub();
-        int &x = tmp.x();
-        int &y = tmp.y();
-        for( x = 0; x < MAPSIZE_X; x++ ) {
-            for( y = 0; y < MAPSIZE_Y && !found_good_spot; y++ ) {
-                found_good_spot = check_spot( tmp );
-            }
+        if( !found_good_spot ) {
+            //debugmsg( "Could not find a good starting place for character" );
+            debugmsg( "Could not find a good starting place for character, final score %d", best_rate );
         }
     }
 
     you.setpos( here, best_spot );
 
-    if( !found_good_spot ) {
-        debugmsg( "Could not find a good starting place for character" );
+    if( must_be_controls && !!here.veh_at( best_spot ).part_with_feature( "BOARDABLE", true ) ) {
+        here.board_vehicle( best_spot, you.as_character() );
+        g->control_vehicle();
     }
 }
 
@@ -588,6 +624,11 @@ void start_location::handle_heli_crash( avatar &you ) const
                 break;
         }
     }
+}
+
+bool start_location::has_flag( const std::string &flag ) const
+{
+    return _flags.count( flag ) != 0;
 }
 
 static void add_monsters( const tripoint_abs_omt &omtstart, const mongroup_id &type,

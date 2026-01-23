@@ -1216,6 +1216,7 @@
   {
     "//": "This is a duplicate used for the last delivery starting scenario",
     "id": "food_truck_delivery_mission",
+    "//TODO": "Make an abstract itemless version and use copy-from",
     "type": "vehicle",
     "name": "Food Truck",
     "blueprint": [

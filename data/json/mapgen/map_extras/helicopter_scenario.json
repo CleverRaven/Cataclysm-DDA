@@ -1,0 +1,24 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mx_last_flight_scenario",
+    "object": {
+      "//": "Remove any trees/boulders etc that might be in the way of the vehicle placement (the flag should probably handle this but doesn't the vehicle just gets wrecked)",
+      "terrain": { " ": "t_region_groundcover" },
+      "furniture": { " ": "f_clear" },
+      "place_vehicles": [
+        {
+          "vehicle": "2seater2_scenario",
+          "//": "Intentionally spawn with barely any fuel",
+          "fuel": 1,
+          "status": 2,
+          "rotation": 270,
+          "faction": "your_followers",
+          "x": [ 5, 18 ],
+          "y": [ 5, 18 ]
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]
