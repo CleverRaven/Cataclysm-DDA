@@ -101,9 +101,9 @@ static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_electric( "electric" );
 static const damage_type_id damage_stab( "stab" );
 
-static const efftype_id effect_absorbed_acidic( "absorbed_acidic");
-static const efftype_id effect_absorbed_electric( "absorbed_electric");
-static const efftype_id effect_absorbed_pupating( "absorbed_pupating");
+static const efftype_id effect_absorbed_acidic( "absorbed_acidic" );
+static const efftype_id effect_absorbed_electric( "absorbed_electric" );
+static const efftype_id effect_absorbed_pupating( "absorbed_pupating" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -4571,12 +4571,12 @@ bool mattack::zombie_fuse( monster *z )
                                  ( 80 * ( critter->get_volume() / 62500_ml ) ) )
                        + z->get_effect( effect_grown_of_fuse ).get_intensity() );
     }
-    if ( critter->has_flag (mon_flag_ELECTRIC) ) {
+    if( critter->has_flag( mon_flag_ELECTRIC ) ) {
         z->add_effect( effect_absorbed_electric, 60_days, true );
-    } else if ( critter->has_flag (mon_flag_ACIDTRAIL ) || critter->has_flag (mon_flag_ACID_BLOOD ) ) {
+    } else if( critter->has_flag( mon_flag_ACIDTRAIL ) || critter->has_flag( mon_flag_ACID_BLOOD ) ) {
         z->add_effect( effect_absorbed_acidic, 60_days, true );
         // Use SMALLSLUDGETRAIL because pupating zombies have that in common
-    } else if ( critter->has_flag (mon_flag_SMALLSLUDGETRAIL) ) {
+    } else if( critter->has_flag( mon_flag_SMALLSLUDGETRAIL ) ) {
         z->add_effect( effect_absorbed_pupating, 60_days, true );
     }
 
