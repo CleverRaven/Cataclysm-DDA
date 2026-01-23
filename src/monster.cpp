@@ -3113,19 +3113,32 @@ void monster::die( map *here, Creature *nkiller )
     }
 
     item_location corpse;
+
+    // If this monster dies underwater under thick ice and is aquatic (fish),
+    // do not create a corpse on the ice tile (prevent corpse drop).
+    bool suppress_corpse = false;
+    if( here != nullptr ) {
+        const tripoint_bub_ms death_pos = pos_bub( *here );
+        if( here->has_flag( ter_furn_flag::TFLAG_THICK_ICE, death_pos ) && is_underwater() &&
+            ( swims() || has_flag( mon_flag_AQUATIC ) ) ) {
+            suppress_corpse = true;
+        }
+    }
     // drop a corpse, or not - this needs to happen after the spell, for e.g. revivification effects
-    switch( type->mdeath_effect.corpse_type ) {
-        case mdeath_type::NORMAL:
-            corpse =  mdeath::normal( here, *this );
-            break;
-        case mdeath_type::BROKEN:
-            mdeath::broken( here, *this );
-            break;
-        case mdeath_type::SPLATTER:
-            corpse = mdeath::splatter( here, *this );
-            break;
-        default:
-            break;
+    if( !suppress_corpse ) {
+        switch( type->mdeath_effect.corpse_type ) {
+            case mdeath_type::NORMAL:
+                corpse =  mdeath::normal( here, *this );
+                break;
+            case mdeath_type::BROKEN:
+                mdeath::broken( here, *this );
+                break;
+            case mdeath_type::SPLATTER:
+                corpse = mdeath::splatter( here, *this );
+                break;
+            default:
+                break;
+        }
     }
 
     if( death_drops ) {
