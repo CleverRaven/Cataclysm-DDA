@@ -1158,7 +1158,8 @@
     "material": [ "lc_steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "GRIND", 1 ] ]
+    "qualities": [ [ "GRIND", 1 ] ],
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "knife_sharpener_handheld",
@@ -1174,6 +1175,7 @@
     "material": [ "lc_steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "GRIND", 1 ] ]
+    "qualities": [ [ "GRIND", 1 ] ],
+    "flags": [ "NO_SALVAGE" ]
   }
 ]
