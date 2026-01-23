@@ -618,6 +618,7 @@
     "//2": "/50 HP: +0,5 melee_skill, +5 Speed (bigger steps&more to attack with), +4 bash",
     "//3": "/250 HP: +1 size",
     "max_intensity": 500,
+    "//4": "Effective max intensity is currently 320.",
     "base_mods": { "hit_mod": [ 0.01 ], "bash_mod": [ 0.08 ] },
     "scaling_mods": { "hit_mod": [ 0.01 ], "bash_mod": [ 0.08 ], "size_mod": [ 0.004 ] },
     "int_decay_step": 0,
@@ -625,14 +626,14 @@
       {
         "condition": "ALWAYS",
         "incoming_damage_mod": [
-          { "type": "bash", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -1250" ] } },
-          { "type": "cut", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -2000" ] } },
-          { "type": "stab", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -2000" ] } },
-          { "type": "bullet", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -1000" ] } }
+          { "type": "bash", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -900" ] } },
+          { "type": "cut", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -1500" ] } },
+          { "type": "stab", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -1500" ] } },
+          { "type": "bullet", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -650" ] } }
         ],
         "values": [
-          { "value": "REGEN_HP", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / 50" ] } },
-          { "value": "SPEED", "add": { "math": [ "u_effect_intensity('grown_of_fuse') * 0.05" ] } }
+          { "value": "REGEN_HP", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / 32" ] } },
+          { "value": "SPEED", "add": { "math": [ "u_effect_intensity('grown_of_fuse') * 0.06" ] } }
         ]
       },
       {
