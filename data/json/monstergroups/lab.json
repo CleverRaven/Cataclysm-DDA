@@ -44,8 +44,6 @@
       { "monster": "mon_zombie_thorny", "weight": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_hazmat", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_science_bot", "weight": 50, "cost_multiplier": 15 },
-      { "monster": "mon_grenade_hack", "weight": 200, "cost_multiplier": 0 },
-      { "monster": "mon_grenade_hack", "weight": 45, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
       { "monster": "mon_mutant_experimental", "weight": 50, "cost_multiplier": 3 },
       { "monster": "mon_skitterbot", "weight": 85, "cost_multiplier": 0 },
       { "monster": "mon_skitterbot", "weight": 85, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
