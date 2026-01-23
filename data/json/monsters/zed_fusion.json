@@ -114,7 +114,7 @@
       {
         "id": "stretch_bite",
         "accuracy": 6,
-        "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 300" ] },
+        "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 200" ] },
         "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 10 } ],
         "hit_dmg_u": "A tangle of flesh covered in maws shoots out from %1$s, and its teeth sink into your %2$s!",
         "hit_dmg_npc": "A tangle of flesh covered in maws shoots out from %1$s, and its teeth sink into <npcname>'s %2$s!",
@@ -130,7 +130,7 @@
         "range": 2,
         "cooldown": 30,
         "blockable": false,
-        "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 400" ] },
+        "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 300" ] },
         "hit_dmg_u": "A meaty tendril slams into your %2$s, sending you flying!",
         "hit_dmg_npc": "A meaty tendril slams into <npcname>'s %2$s, sending them flying!",
         "no_dmg_msg_u": "A meaty tendril slams into your %2$s, but does no damage!",
