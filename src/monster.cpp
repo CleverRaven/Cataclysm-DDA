@@ -100,7 +100,7 @@ static const damage_type_id damage_electric( "electric" );
 static const damage_type_id damage_heat( "heat" );
 static const damage_type_id damage_stab( "stab" );
 
-static const efftype_id effect_absorbed_electric( "absorbed_electric");
+static const efftype_id effect_absorbed_electric( "absorbed_electric" );
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bleed( "bleed" );
