@@ -3852,7 +3852,7 @@
       "noise_message": "FWEEEET!",
       "noise_id": "misc",
       "noise_variant": "whistle",
-      "noise": 38,
+      "noise": 100,
       "moves": 100
     },
     "armor": [ { "coverage": 1, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]

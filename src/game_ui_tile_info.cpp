@@ -495,9 +495,9 @@ void game::print_debug_info( const tripoint_bub_ms &lp, const catacurses::window
             mvwprintz( w_look, point( column, ++line ), c_white, "field: " );
             mvwprintz( w_look, point( column + utf8_width( "field: " ), line ), c_yellow, "%s",
                        fd.first.id().c_str() );
-            mvwprintz( w_look, point( column, ++line ), c_white, "age: %s (%s seconds)",
+            mvwprintz( w_look, point( column, ++line ), c_white, "age: %s (%d seconds)",
                        to_string( fd.second.get_field_age() ), to_seconds<int>( fd.second.get_field_age() ) );
-            mvwprintz( w_look, point( column, ++line ), c_white, "intensity: %s",
+            mvwprintz( w_look, point( column, ++line ), c_white, "intensity: %d",
                        fd.second.get_field_intensity() );
             mvwprintz( w_look, point( column, ++line ), c_white, "causer: %s",
                        fd.second.get_causer() == nullptr ? "none" : fd.second.get_causer()->disp_name() );

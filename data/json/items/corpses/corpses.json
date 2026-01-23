@@ -15,7 +15,7 @@
     "//": "most of the properties depend on the monster type and are created at runtime!",
     "price": "0 cent",
     "volume": "0 ml",
-    "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS", "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS", "PUNCTURE_VEHICLE_WHEELS" ],
     "category": "corpses",
     "pocket_data": [
       {

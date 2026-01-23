@@ -483,6 +483,14 @@ void debug_menu::wisheffect( Creature &p )
             descstr << eff.disp_name() << '\n';
         }
 
+        descstr << _( "Current intensity: " );
+        descstr << eff.get_intensity();
+
+        descstr << _( " Max intensity: " );
+        descstr << eff.get_max_intensity();
+
+        descstr << '\n';
+
         descstr << _( "Intensity threshold: " );
         descstr <<  colorize( std::to_string( to_seconds<int>( efft.intensity_duration() ) ),
                               c_yellow );

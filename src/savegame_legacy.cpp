@@ -17,7 +17,6 @@ static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
-static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
@@ -231,7 +230,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id::NULL_ID(), // ACT_OXYTORCH is an actor now
         ACT_CRACKING,
         ACT_REPAIR_ITEM,
-        ACT_MEND_ITEM,
+        activity_id::NULL_ID(), // ACT_MEND_ITEM is an actor now
         activity_id::NULL_ID(), // ACT_GUNMOD_ADD
         activity_id::NULL_ID(), // ACT_WAIT_NPC is an actor now
         activity_id::NULL_ID(), // ACT_CLEAR_RUBBLE

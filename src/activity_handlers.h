@@ -190,11 +190,8 @@ namespace activity_handlers
 {
 
 bool resume_for_multi_activities( Character &you );
-void generic_game_turn_handler( player_activity *act, Character *you, int morale_bonus,
-                                int morale_max_bonus );
 
 /** activity_do_turn functions: */
-void dismember_do_turn( player_activity *act, Character *you );
 void chop_trees_do_turn( player_activity *act, Character *you );
 void fertilize_plot_do_turn( player_activity *act, Character *you );
 void fetch_do_turn( player_activity *act, Character *you );
@@ -224,11 +221,8 @@ do_turn_functions;
 
 /** activity_finish functions: */
 void heat_item_finish( player_activity *act, Character *you );
-void mend_item_finish( player_activity *act, Character *you );
-void pull_creature_finish( player_activity *act, Character *you );
 void repair_item_finish( player_activity *act, Character *you );
 void start_fire_finish( player_activity *act, Character *you );
-void toolmod_add_finish( player_activity *act, Character *you );
 
 int move_cost( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest );
 int move_cost_cart( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest,

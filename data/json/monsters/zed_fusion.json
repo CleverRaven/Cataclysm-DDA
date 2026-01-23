@@ -55,7 +55,124 @@
     "decay": "zombie_decay_bone_human_skull_multiple",
     "//grab": "All these arms to grab you with",
     "grab_strength": 50,
-    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch" }, [ "ZOMBIE_FUSE", 80 ] ],
+    "special_attacks": [
+      { "id": "grab", "cooldown": 7 },
+      { "id": "scratch" },
+      [ "ZOMBIE_FUSE", 80 ],
+      { "id": "grab_2", "accuracy": 5, "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 100" ] } },
+      { "id": "grab_3", "accuracy": 6, "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 250" ] } },
+      {
+        "type": "monster_attack",
+        "attack_type": "bite",
+        "id": "bite_devourer_1",
+        "condition": {
+          "and": [
+            { "u_has_flag": "GRAB_FILTER" },
+            { "npc_has_flag": "GRAB" },
+            { "math": [ "u_effect_intensity('grown_of_fuse') > 75" ] }
+          ]
+        },
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15 } ],
+        "infection_chance": 15,
+        "cooldown": 4,
+        "move_cost": 150
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "bite",
+        "id": "bite_devourer_2",
+        "accuracy": 5,
+        "condition": {
+          "and": [
+            { "u_has_flag": "GRAB_FILTER" },
+            { "npc_has_flag": "GRAB" },
+            { "math": [ "u_effect_intensity('grown_of_fuse') > 150" ] }
+          ]
+        },
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 22, "armor_penetration": 5 } ],
+        "infection_chance": 20,
+        "cooldown": 4,
+        "move_cost": 150
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "bite",
+        "id": "bite_devourer_3",
+        "accuracy": 4,
+        "condition": {
+          "and": [
+            { "u_has_flag": "GRAB_FILTER" },
+            { "npc_has_flag": "GRAB" },
+            { "math": [ "u_effect_intensity('grown_of_fuse') > 250" ] }
+          ]
+        },
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 35, "armor_penetration": 10 } ],
+        "infection_chance": 15,
+        "cooldown": 4,
+        "move_cost": 150
+      },
+      {
+        "id": "stretch_bite",
+        "accuracy": 6,
+        "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 200" ] },
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 10 } ],
+        "hit_dmg_u": "A tangle of flesh covered in maws shoots out from %1$s, and its teeth sink into your %2$s!",
+        "hit_dmg_npc": "A tangle of flesh covered in maws shoots out from %1$s, and its teeth sink into <npcname>'s %2$s!",
+        "no_dmg_msg_u": "A tangle of flesh covered in maws shoots out from %1$s, but glances off your armor.",
+        "no_dmg_msg_npc": "A tangle of flesh covered in maws shoots out from %1$s, but glances off <npcname>'s armor.",
+        "miss_msg_u": "A tangle of flesh covered in maws shoots out from %1$s, but you dodge!",
+        "miss_msg_npc": "A tangle of flesh covered in maws shoots out from %1$s, but <npcname> dodges!"
+      },
+      {
+        "id": "smash",
+        "throw_strength": 70,
+        "accuracy": 7,
+        "range": 2,
+        "cooldown": 30,
+        "blockable": false,
+        "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 300" ] },
+        "hit_dmg_u": "A meaty tendril slams into your %2$s, sending you flying!",
+        "hit_dmg_npc": "A meaty tendril slams into <npcname>'s %2$s, sending them flying!",
+        "no_dmg_msg_u": "A meaty tendril slams into your %2$s, but does no damage!",
+        "no_dmg_msg_npc": "A meaty tendril slams into <npcname>'s %2$s, but does no damage!",
+        "miss_msg_u": "%1$s swings a meaty tendril at you, but you dodge!",
+        "miss_msg_npc": "%1$s swings a meaty tendril at <npcname>, but they dodge!"
+      },
+      {
+        "id": "acid_charge",
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_acid_gland" } }, { "u_has_effect": "absorbed_acidic" } ] }
+      },
+      {
+        "id": "acid_slash",
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "maimed_acid_gland" } },
+            { "not": { "u_has_effect": "maimed_claws" } },
+            { "not": { "u_has_effect": "maimed_arm" } },
+            { "u_has_effect": "absorbed_acidic" },
+            { "u_has_effect": "acid_charged" }
+          ]
+        }
+      },
+      {
+        "type": "monster_attack",
+        "id": "devourer_spawn_raptors",
+        "attack_type": "melee",
+        "range": 8,
+        "cooldown": 180,
+        "blockable": false,
+        "dodgeable": false,
+        "condition": { "u_has_effect": "absorbed_pupating" },
+        "damage_max_instance": [ { "damage_type": "pure", "amount": 0 } ],
+        "eoc": [ "EOC_DEVOURER_SPAWN_RAPTORS" ],
+        "hit_dmg_u": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!",
+        "hit_dmg_npc": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!",
+        "no_dmg_msg_u": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!",
+        "no_dmg_msg_npc": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!",
+        "miss_msg_u": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!",
+        "miss_msg_npc": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!"
+      }
+    ],
     "death_drops": {
       "subtype": "collection",
       "groups": [ "default_zombie_death_drops", "default_zombie_death_drops", "default_zombie_death_drops" ]
@@ -77,6 +194,13 @@
       "FILTHY"
     ],
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 3 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEVOURER_SPAWN_RAPTORS",
+    "effect": [
+      { "u_spawn_monster": "mon_spawn_raptor", "real_count": { "math": [ "2 + rand(2)" ] }, "min_radius": 1, "max_radius": 3 }
+    ]
   },
   {
     "id": "mon_devourer_lab_sec",

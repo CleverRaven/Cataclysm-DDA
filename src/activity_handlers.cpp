@@ -1,7 +1,6 @@
 #include "activity_handlers.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <memory>
@@ -15,7 +14,6 @@
 #include <utility>
 
 #include "activity_actor.h"
-#include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -26,7 +24,6 @@
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
-#include "fault.h"
 #include "flag.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -41,7 +38,6 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "mapdata.h"
-#include "math_parser_diag_value.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
@@ -51,11 +47,9 @@
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "point.h"
-#include "requirements.h"
 #include "ret_val.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uilist.h"
@@ -65,13 +59,11 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
-static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
@@ -84,11 +76,9 @@ static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
-static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
-static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
@@ -143,7 +133,6 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_CHOP_TREES, chop_trees_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
-    { ACT_DISMEMBER, dismember_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },
     { ACT_FERTILIZE_PLOT, fertilize_plot_do_turn }
 };
@@ -152,10 +141,7 @@ const std::map< activity_id, std::function<void( player_activity *, Character * 
 activity_handlers::finish_functions = {
     { ACT_START_FIRE, start_fire_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
-    { ACT_HEATING, heat_item_finish },
-    { ACT_MEND_ITEM, mend_item_finish },
-    { ACT_TOOLMOD_ADD, toolmod_add_finish },
-    { ACT_PULL_CREATURE, pull_creature_finish }
+    { ACT_HEATING, heat_item_finish }
 };
 
 static void assign_multi_activity( Character &you, const player_activity &act )
@@ -920,99 +906,6 @@ void activity_handlers::heat_item_finish( player_activity *act, Character *you )
     }
 }
 
-void activity_handlers::mend_item_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-    if( act->targets.size() != 1 ) {
-        debugmsg( "invalid arguments to ACT_MEND_ITEM" );
-        return;
-    }
-    if( !act->targets[0] ) {
-        debugmsg( "lost targets[0] item location for ACT_MEND_ITEM" );
-        return;
-    }
-    item &target = *act->targets[0];
-    const fault_id fault_id( act->name );
-    if( target.faults.count( fault_id ) == 0 ) {
-        debugmsg( "item %s does not have fault %s", target.tname(), fault_id.str() );
-        return;
-    }
-    if( act->str_values.empty() ) {
-        debugmsg( "missing fault_fix_id for ACT_MEND_ITEM." );
-        return;
-    }
-    const fault_fix_id fix_id( act->str_values[0] );
-    if( !fix_id.is_valid() ) {
-        debugmsg( "invalid fault_fix_id '%s' for ACT_MEND_ITEM.", fix_id.str() );
-        return;
-    }
-    const fault_fix &fix = *fix_id;
-    const requirement_data &reqs = fix.get_requirements();
-    const inventory &inv = you->crafting_inventory();
-    if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
-        add_msg( m_info, _( "You are currently unable to mend the %s." ), target.tname() );
-        return;
-    }
-    for( const auto &e : reqs.get_components() ) {
-        you->consume_items( e );
-    }
-    for( const auto &e : reqs.get_tools() ) {
-        you->consume_tools( e );
-    }
-    you->invalidate_crafting_inventory();
-
-    for( const ::fault_id &id : fix.faults_removed ) {
-        target.remove_fault( id );
-    }
-    for( const ::fault_id &id : fix.faults_added ) {
-        target.set_fault( id, true, false );
-    }
-    for( const auto &[var_name, var_value] : fix.set_variables ) {
-        target.set_var( var_name, var_value );
-    }
-    for( const auto &[var_name, var_value] : fix.adjust_variables_multiply ) {
-        const double var_value_multiplier = var_value;
-        const double var_oldvalue = target.get_var( var_name, 0.0 );
-        target.set_var( var_name, std::round( var_oldvalue * var_value_multiplier ) );
-    }
-
-    const std::string start_durability = target.durability_indicator( true );
-
-    if( fix.mod_damage ) {
-        target.mod_damage( fix.mod_damage );
-    }
-    if( fix.mod_degradation ) {
-        target.set_degradation( target.degradation() + fix.mod_degradation );
-    }
-
-    for( const auto &[skill_id, level] : fix.skills ) {
-        you->practice( skill_id, 10, static_cast<int>( level * 1.25 ) );
-    }
-
-    for( const auto &[proficiency_id, mult] : fix.time_save_profs ) {
-        you->practice_proficiency( proficiency_id, fix.time );
-    }
-
-    add_msg( m_good, fix.success_msg.translated(), target.tname( 1, false ),
-             start_durability, target.durability_indicator( true ) );
-}
-
-void activity_handlers::toolmod_add_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-    if( act->targets.size() != 2 || !act->targets[0] || !act->targets[1] ) {
-        debugmsg( "Incompatible arguments to ACT_TOOLMOD_ADD" );
-        return;
-    }
-    item &tool = *act->targets[0];
-    item &mod = *act->targets[1];
-    you->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
-                            mod.tname(), tool.tname() );
-    tool.put_in( mod, pocket_type::MOD );
-    tool.on_contents_changed();
-    act->targets[1].remove_item();
-}
-
 void activity_handlers::travel_do_turn( player_activity *act, Character *you )
 {
     if( !you->omt_path.empty() ) {
@@ -1064,11 +957,6 @@ void activity_handlers::repair_item_do_turn( player_activity *act, Character *yo
         you->mod_moves( -act->moves_left * you->fine_detail_vision_mod() );
         act->moves_left = 0;
     }
-}
-
-void activity_handlers::dismember_do_turn( player_activity * /*act*/, Character *you )
-{
-    you->burn_energy_arms( -20 );
 }
 
 void activity_handlers::find_mount_do_turn( player_activity *act, Character *you )
@@ -1305,14 +1193,4 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
                                 reject_tile,
                                 fertilize,
                                 _( "You fertilized every plot you could." ) );
-}
-
-void activity_handlers::pull_creature_finish( player_activity *act, Character *you )
-{
-    if( you->is_avatar() ) {
-        you->as_avatar()->longpull( act->name );
-    } else {
-        you->longpull( act->name, get_map().get_bub( act->placement ) );
-    }
-    act->set_to_null();
 }

@@ -51,8 +51,6 @@
 #include "uistate.h"
 #include "weighted_list.h"
 
-static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
-
 static const efftype_id effect_mutation_internal_damage( "mutation_internal_damage" );
 
 static const flag_id json_flag_CANT_HEAL_EVERYONE( "CANT_HEAL_EVERYONE" );
@@ -902,7 +900,7 @@ void Character::activate_cached_mutation( const trait_id &mut )
                mut == trait_GASTROPOD_EXTREMITY2 ||
                mut == trait_GASTROPOD_EXTREMITY3 ) {
         tdata.powered = false;
-        assign_activity( ACT_PULL_CREATURE, to_moves<int>( 1_seconds ), 0, 0, mutation_name( mut ) );
+        assign_activity( pull_creature_activity_actor( 1_seconds, mut ) );
         return;
     } else if( mut == trait_SNAIL_TRAIL ) {
         here.add_field( pos_bub(), fd_sludge, 1 );
