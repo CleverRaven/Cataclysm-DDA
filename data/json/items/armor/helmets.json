@@ -3380,7 +3380,7 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "lamba khud helm" },
-    "description": "An alien-looking conical helm.  The perfectly smooth steel cap covers the top of the head and the ears, forming a tall cone with a spike at the top.  Chainmail covers the rest of the head, leaving only the face open.  It is padded with a modern synthetic fabric.",
+    "description": "An unusual-looking conical helm.  The perfectly smooth steel cap covers the top of the head and the ears, forming a tall cone with a spike at the top.  Chainmail covers the rest of the head, leaving only the face open.  It is padded with a modern synthetic fabric.",
     "weight": "1425 g",
     "volume": "3500 ml",
     "price": "400 USD",
