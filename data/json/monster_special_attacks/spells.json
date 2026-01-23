@@ -1357,18 +1357,5 @@
       { "u_location_variable": { "context_val": "zombie_horde_target" } },
       { "signal_hordes": { "context_val": "zombie_horde_target" }, "signal_power": { "math": [ "_summon_effect" ] } }
     ]
-  },
-  {
-    "type": "SPELL",
-    "id": "devourer_apply_armor_buff_spell",
-    "name": { "str": "Devourer Armor Buff", "//~": "NO_I18N" },
-    "description": { "str": "Adds minor radiation to player.", "//~": "NO_I18N" },
-    "flags": [ "NO_PROJECTILE", "SILENT", "NO_EXPLOSION_SFX" ],
-    "effect": "attack",
-    "effect_str": "effect_devourer_armor_buff",
-    "valid_targets": [ "self" ],
-    "shape": "blast",
-    "min_duration": 86400000,
-    "max_duration": 86400000
   }
 ]

@@ -59,8 +59,8 @@
       { "id": "grab", "cooldown": 7 },
       { "id": "scratch" },
       [ "ZOMBIE_FUSE", 80 ],
-      { "id": "grab_2", "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 100" ] } },
-      { "id": "grab_3", "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 250" ] } },
+      { "id": "grab_2", "accuracy": 5, "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 100" ] } },
+      { "id": "grab_3", "accuracy": 6, "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 250" ] } },
       {
         "type": "monster_attack",
         "attack_type": "bite",
@@ -81,6 +81,7 @@
         "type": "monster_attack",
         "attack_type": "bite",
         "id": "bite_devourer_2",
+        "accuracy": 5,
         "condition": {
           "and": [
             { "u_has_flag": "GRAB_FILTER" },
@@ -88,7 +89,7 @@
             { "math": [ "u_effect_intensity('grown_of_fuse') > 150" ] }
           ]
         },
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 5 } ],
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 22, "armor_penetration": 5 } ],
         "infection_chance": 20,
         "cooldown": 4,
         "move_cost": 150
@@ -97,6 +98,7 @@
         "type": "monster_attack",
         "attack_type": "bite",
         "id": "bite_devourer_3",
+        "accuracy": 4,
         "condition": {
           "and": [
             { "u_has_flag": "GRAB_FILTER" },
@@ -104,15 +106,16 @@
             { "math": [ "u_effect_intensity('grown_of_fuse') > 250" ] }
           ]
         },
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 5 } ],
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 35, "armor_penetration": 10 } ],
         "infection_chance": 15,
         "cooldown": 4,
         "move_cost": 150
       },
       {
         "id": "stretch_bite",
-        "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 350" ] },
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 5 } ],
+        "accuracy": 6,
+        "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 300" ] },
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 10 } ],
         "hit_dmg_u": "A tangle of flesh covered in maws shoots out from %1$s, and its teeth sink into your %2$s!",
         "hit_dmg_npc": "A tangle of flesh covered in maws shoots out from %1$s, and its teeth sink into <npcname>'s %2$s!",
         "no_dmg_msg_u": "A tangle of flesh covered in maws shoots out from %1$s, but glances off your armor.",
@@ -123,10 +126,11 @@
       {
         "id": "smash",
         "throw_strength": 70,
+        "accuracy": 7,
         "range": 2,
         "cooldown": 30,
         "blockable": false,
-        "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 450" ] },
+        "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 400" ] },
         "hit_dmg_u": "A meaty tendril slams into your %2$s, sending you flying!",
         "hit_dmg_npc": "A meaty tendril slams into <npcname>'s %2$s, sending them flying!",
         "no_dmg_msg_u": "A meaty tendril slams into your %2$s, but does no damage!",
@@ -167,15 +171,6 @@
         "no_dmg_msg_npc": "A bubo on the side of %s swells and bursts bursts, and gore-smeared winged beasts hurl themselves into the air!",
         "miss_msg_u": "A bubo on the side of %s swells and bursts bursts, and gore-smeared winged beasts hurl themselves into the air!",
         "miss_msg_npc": "A bubo on the side of %s swells and bursts bursts, and gore-smeared winged beasts hurl themselves into the air!"
-      },
-      {
-        "id": "devourer_apply_armor_buff",
-        "type": "spell",
-        "spell_data": { "id": "devourer_apply_armor_buff_spell", "hit_self": true },
-        "cooldown": 1,
-        "allow_no_target": true,
-        "condition": { "not": { "u_has_effect": "effect_devourer_armor_buff" } },
-        "monster_message": ""
       }
     ],
     "death_drops": {
