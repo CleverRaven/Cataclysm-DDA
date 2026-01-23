@@ -4565,11 +4565,20 @@ bool mattack::zombie_fuse( monster *z )
     add_msg_if_player_sees( *z, _( "The %1$s fuses with the %2$s." ),
                             critter->name(), z->name() );
     z->mod_moves( -to_moves<int>( 2_seconds ) );
+    int hp_or_vlm = std::min( critter->get_hp_max(), ( 80 * ( critter->get_volume() / 62500_ml ) ) );
+    const int existing_intensity = z->has_effect( effect_grown_of_fuse ) ?
+                                   z->get_effect( effect_grown_of_fuse ).get_intensity() :
+                                   0;
+    const int new_intensity = hp_or_vlm + existing_intensity;
+    add_msg_debug( debugmode::DF_MATTACK,
+                   "%s adding %d total grown_of_fuse intensity from %d hp/volume and %d existing intensity",
+                   z->name(),
+                   new_intensity,
+                   hp_or_vlm,
+                   existing_intensity );
+
     if( z->get_size() < creature_size::huge ) {
-        z->add_effect( effect_grown_of_fuse, 60_days, true,
-                       std::min( critter->get_hp_max(),
-                                 ( 80 * ( critter->get_volume() / 62500_ml ) ) )
-                       + z->get_effect( effect_grown_of_fuse ).get_intensity() );
+        z->add_effect( effect_grown_of_fuse, 10_days, true, new_intensity );
     }
     if( critter->has_flag( mon_flag_ELECTRIC ) ) {
         z->add_effect( effect_absorbed_electric, 60_days, true );
