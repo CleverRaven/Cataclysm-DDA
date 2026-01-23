@@ -402,5 +402,10 @@
     "type": "MIGRATION",
     "id": "blueberries_cooked",
     "replace": "blueberries"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "fruit_cooked",
+    "replace": "apple"
   }
 ]
