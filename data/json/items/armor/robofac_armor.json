@@ -458,7 +458,8 @@
         ],
         "covers": [ "head" ],
         "coverage": 95,
-        "encumbrance_modifiers": [ "NONE" ]
+        "encumbrance": 55,
+        "volume_encumber_modifier": 0
       }
     ],
     "techniques": [ "WBLOCK_1" ],
@@ -506,7 +507,8 @@
         ],
         "covers": [ "head" ],
         "coverage": 95,
-        "encumbrance_modifiers": [ "NONE" ]
+        "encumbrance": 50,
+        "volume_encumber_modifier": 0
       },
       {
         "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 2 } ],
