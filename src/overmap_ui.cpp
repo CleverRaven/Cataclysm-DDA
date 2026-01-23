@@ -1962,8 +1962,8 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         params = overmap_path_params::for_player();
         const oter_id dest_ter = overmap_buffer.ter_existing( dest );
         // already in water or going to a water tile
-        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, player_character.pos_bub() ) &&
-            here.has_flag( ter_furn_flag::TFLAG_LIQUID, player_character.pos_bub() ) ||
+        if( ( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, player_character.pos_bub() ) &&
+            here.has_flag( ter_furn_flag::TFLAG_LIQUID, player_character.pos_bub() ) ) ||
             is_water_body( dest_ter ) ) {
             params.set_cost( oter_travel_cost_type::water, 100 );
         }
