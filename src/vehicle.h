@@ -378,6 +378,8 @@ struct vehicle_part {
         /** Does this vehicle part have a fault with this flag */
         bool has_fault_flag( const std::string &searched_flag ) const;
 
+        bool has_fault( const fault_id &fault ) const;
+
         /** Faults which could potentially occur with this part (if any) */
         std::set<fault_id> faults_potential() const;
 
@@ -448,6 +450,8 @@ struct vehicle_part {
         /** Can a player or NPC use this part as a seat? */
         bool is_seat() const;
 
+        bool is_wheel() const;
+
         /* if this is a carried part, what is the name of the carried vehicle */
         std::string carried_name() const;
         /*@}*/
@@ -502,6 +506,11 @@ struct vehicle_part {
         */
         npc &get_targeting_npc( vehicle &veh );
         /*@}*/
+
+        // in cm^2
+        int contact_area() const;
+
+        float rolling_resistance() const;
 
         /** how much blood covers part (in turns). */
         int blood = 0;
@@ -1865,10 +1874,10 @@ class vehicle
         static double hit_probability( const item &it, const vehicle_part *vp_wheel );
 
         // extracted helper for calculating damage chance in damage_wheel_on_item(). Used for tests.
-        double wheel_damage_chance_vs_item( const item &it, vehicle_part &vp_wheel ) const;
+        double wheel_damage_chance_vs_item( const item &it, const vehicle_part &vp_wheel ) const;
 
         // Calculates damage on the wheel from running over item and adds damage levels and messages to the vector if needed.
-        void damage_wheel_on_item( vehicle_part *vp_wheel, const item &it, int *damage_levels,
+        void damage_wheel_on_item( vehicle_part *vp_wheel, const item &it,
                                    std::vector<std::string> *messages ) const;
 
         // Process the trap beneath

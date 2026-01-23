@@ -40,6 +40,8 @@ static const damage_type_id damage_pure( "pure" );
 
 static const efftype_id effect_grabbed( "grabbed" );
 
+static const flag_id json_flag_PUNCTURE_VEHICLE_WHEELS( "PUNCTURE_VEHICLE_WHEELS" );
+
 static const itype_id itype_corpse_fake_TEST( "corpse_fake_TEST" );
 static const itype_id itype_corpse_fake_TEST_NODMG( "corpse_fake_TEST_NODMG" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
@@ -903,6 +905,18 @@ static vehicle_part *setup_squish_test_return_wheel( map &here, const tripoint_b
     return vp_wheel;
 }
 
+// wrapper around wheel_damage_chance_vs_item(), but also checks
+// if item has flag needed to damage wheel (part of damage_wheel_on_item() now)
+static double wheel_damage_chance_vs_item_test( const vehicle *veh_ptr, const item &test_item,
+        const vehicle_part *vp_wheel )
+{
+    if( !test_item.has_flag( json_flag_PUNCTURE_VEHICLE_WHEELS ) ) {
+        return 0.0;
+    }
+
+    return veh_ptr->wheel_damage_chance_vs_item( test_item, *vp_wheel );
+}
+
 static void run_squish_test( const std::map<itype_id, double> &to_squish,
                              const tripoint_bub_ms &test_point, map &here,
                              vehicle *veh_ptr, vehicle_part *vp_wheel )
@@ -914,7 +928,7 @@ static void run_squish_test( const std::map<itype_id, double> &to_squish,
         here.i_clear( test_point );
         const item &test_item = here.add_item_or_charges( test_point, item( test_data.first ) );
         REQUIRE( here.i_at( test_point ).size() == 1 );
-        const double damage_chance = veh_ptr->wheel_damage_chance_vs_item( test_item, *vp_wheel );
+        const double damage_chance = wheel_damage_chance_vs_item_test( veh_ptr, test_item, vp_wheel );
         CAPTURE( test_item.typeId().c_str() );
         CAPTURE( expected_chance );
         CAPTURE( damage_chance );
