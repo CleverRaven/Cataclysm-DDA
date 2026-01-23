@@ -3675,7 +3675,8 @@ bool monster::is_hallucination() const
 
 bool monster::is_electrical() const
 {
-    return in_species( species_ROBOT ) || has_flag( mon_flag_ELECTRIC ) || in_species( species_CYBORG ) || has_effect( effect_absorbed_electric );
+    return in_species( species_ROBOT ) || has_flag( mon_flag_ELECTRIC ) ||
+           in_species( species_CYBORG ) || has_effect( effect_absorbed_electric );
 }
 
 bool monster::is_fae() const
