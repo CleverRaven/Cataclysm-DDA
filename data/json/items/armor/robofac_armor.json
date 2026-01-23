@@ -413,7 +413,12 @@
       "E_FILE_DEVICE"
     ],
     "pocket_data": [
-      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 500 } },
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      },
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
@@ -433,7 +438,7 @@
         "ememory_max": "1 TB"
       }
     ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED", "OUTER", "RAINPROOF", "SOFT", "MUNDANE", "ELECTRONIC", "CAN_USE_IN_DARK", "USE_UPS", "NO_UNLOAD" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED", "OUTER", "RAINPROOF", "SOFT", "MUNDANE", "ELECTRONIC", "CAN_USE_IN_DARK" ],
     "armor": [
       {
         "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 }, { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 } ],

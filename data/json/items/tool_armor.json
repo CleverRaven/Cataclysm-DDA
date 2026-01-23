@@ -4798,13 +4798,13 @@
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 30, "rigid_layer_only": true },
       {
         "covers": [ "head" ],
-        "encumbrance": 30,
+        "encumbrance": 20,
         "coverage": 80,
         "specifically_covers": [ "head_forehead" ]
       },
       {
         "covers": [ "head" ],
-        "encumbrance": 15,
+        "encumbrance": 5,
         "coverage": 40,
         "specifically_covers": [ "head_crown" ]
       }
@@ -4837,13 +4837,13 @@
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5, "rigid_layer_only": true },
       {
         "covers": [ "head" ],
-        "encumbrance": 30,
+        "encumbrance": 20,
         "coverage": 80,
         "specifically_covers": [ "head_forehead" ]
       },
       {
         "covers": [ "head" ],
-        "encumbrance": 15,
+        "encumbrance": 5,
         "coverage": 40,
         "specifically_covers": [ "head_crown" ]
       }
