@@ -391,7 +391,7 @@
     "category": "armor",
     "name": { "str_sp": "Hub 01 visual augmentation headgear" },
     "looks_like": "tac_helmet",
-    "description": "Heavy duty hooded headwear for the true frontier explorer, made with robust Nylon sheeting reinforced with Kevlar fibers.  The top consists of a series of plastic plates with hooks and velcro strips, perhaps for attaching additional parts, and an integrated camera array.  A multi-faceted augmented reality headset rests of the forehead like a pair of slim, boxy ski goggles, with side plugs for auxillary devices.  The AR lenses are equipped with adaptive light correction, light amplification and thermal imaging, and an augmented reality overlay equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  Activate it to turn on all systems.",
+    "description": "Heavy duty hooded headwear for the true frontier explorer, made with robust Nylon sheeting reinforced with Kevlar fibers.  The top consists of a series of plastic plates with hooks and velcro strips, perhaps for attaching additional parts, and an integrated camera array.  A multi-faceted augmented reality headset rests of the forehead like a pair of slim, boxy ski goggles, with side plugs for auxiliary devices.  The AR lenses are equipped with adaptive light correction, light amplification and thermal imaging, and an augmented reality overlay equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  Activate it to turn on all systems.",
     "weight": "1400 g",
     "volume": "1200 ml",
     "price": "200 USD",
@@ -470,7 +470,7 @@
     "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "copy-from": "robofac_head_rig_ar",
     "name": { "str_sp": "Hub 01 visual augmentation headgear (on)" },
-    "description": "Heavy duty hooded headwear for the true frontier explorer, made with robust Nylon sheeting reinforced with Kevlar fibers.  The top consists of a series of plastic plates with hooks and velcro strips, perhaps for attaching additional parts, and an integrated camera array.  A multi-faceted augmented reality headset rests of the forehead like a pair of slim, boxy ski goggles, with side plugs for auxillary devices.  The AR lenses are equipped with adaptive light correction, light amplification and thermal imaging, and an augmented reality overlay equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  The AR system is currently turned on, and continually draining batteries.  Use it to turn it off.",
+    "description": "Heavy duty hooded headwear for the true frontier explorer, made with robust Nylon sheeting reinforced with Kevlar fibers.  The top consists of a series of plastic plates with hooks and velcro strips, perhaps for attaching additional parts, and an integrated camera array.  A multi-faceted augmented reality headset rests of the forehead like a pair of slim, boxy ski goggles, with side plugs for auxiliary devices.  The AR lenses are equipped with adaptive light correction, light amplification and thermal imaging, and an augmented reality overlay equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  The AR system is currently turned on, and continually draining batteries.  Use it to turn it off.",
     "extend": {
       "flags": [
         "SPAWN_ACTIVE",
