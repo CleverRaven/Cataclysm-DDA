@@ -101,9 +101,9 @@ static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_electric( "electric" );
 static const damage_type_id damage_stab( "stab" );
 
-static const efftype_id effect_absorbed_acidic( "absorbed_acidic");
-static const efftype_id effect_absorbed_electric( "absorbed_electric");
-static const efftype_id effect_absorbed_pupating( "absorbed_pupating");
+static const efftype_id effect_absorbed_acidic( "absorbed_acidic" );
+static const efftype_id effect_absorbed_electric( "absorbed_electric" );
+static const efftype_id effect_absorbed_pupating( "absorbed_pupating" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
