@@ -4576,7 +4576,7 @@ bool mattack::zombie_fuse( monster *z )
     } else if( critter->has_flag( mon_flag_ACIDTRAIL ) || critter->has_flag( mon_flag_ACID_BLOOD ) ) {
         z->add_effect( effect_absorbed_acidic, 60_days, true );
         // Use SMALLSLUDGETRAIL because pupating zombies have that in common
-    } else if ( critter->has_flag (mon_flag_SMALLSLUDGETRAIL) ) {
+    } else if( critter->has_flag( mon_flag_SMALLSLUDGETRAIL ) ) {
         z->add_effect( effect_absorbed_pupating, 60_days, true );
     }
 
