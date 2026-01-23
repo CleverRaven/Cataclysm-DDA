@@ -848,18 +848,12 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_wardrobe_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "furniture": { " ": "f_wardrobe" }
-    }
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_wardrobe" } }
   },
   {
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_utility_shelf_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "furniture": { " ": "f_utility_shelf" }
-    }
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_utility_shelf" } }
   },
   {
     "type": "mapgen",
@@ -882,10 +876,7 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_vending_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "furniture": { " ": "f_vending_c_off" }
-    }
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_vending_c_off" } }
   },
   {
     "type": "mapgen",
