@@ -241,9 +241,16 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_IVAS" } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_ivas" } ] } },
-            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_monster_corpse" } ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ] }
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_ivas" } ] }
+            },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ] },
+            {
+              "or": [
+                { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] },
+                { "math": [ "u_portal_storm_recordings_sold > 2" ] }
+              ]
+            }
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_IVAS_OFFER"
@@ -1295,22 +1302,16 @@
     "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   },
   {
-    "id": [
-      "MISSION_ROBOFAC_INTERCOM_IVAS_OFFER",
-      "MISSION_ROBOFAC_INTERCOM_IVAS_ADVICE_ANDURIL"
-    ],
+    "id": [ "MISSION_ROBOFAC_INTERCOM_IVAS_OFFER", "MISSION_ROBOFAC_INTERCOM_IVAS_ADVICE_ANDURIL" ],
     "type": "talk_topic",
     "dynamic_line": "It has become clear that you and other agents required improved equipment for data collection and reconnaissance.  One of our surveillance teams has identified an Anduril Industries testing facility that we believe houses, or at least, housed, a prototype Military Visual Augmentation System.  It will resemble a consumer virtual reality headset, but has valuable hardware and software that we can use to develop useful tech for you and other mercenaries.  We want you to retrieve it and return it to us.\"\n\n\"We offer the standard hazard pay of 4 HGC for this contract, and we will grant you the honor of prototyping the first device, after we have studied it.",
     "responses": [
       {
-        "text": "I'll take it.  Where's the convoy?",
-        "effect": { "assign_mission": "MISSION_ROBOFAC_INTERCOM_IVAS" },
+        "text": "I'll find it.  Where's this building?",
+        "effect": [ { "assign_mission": "MISSION_ROBOFAC_INTERCOM_IVAS" }, { "u_spawn_item": "id_anduril_ar", "count": 1 } ],
         "topic": "MISSION_ROBOFAC_INTERCOM_IVAS_ACCEPTED"
       },
-      {
-        "text": "What is Anduril Industries?",
-        "topic": "MISSION_ROBOFAC_INTERCOM_IVAS_ADVICE_ANDURIL"
-      },
+      { "text": "What is Anduril Industries?", "topic": "MISSION_ROBOFAC_INTERCOM_IVAS_ADVICE_ANDURIL" },
       { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
     ]
   },
@@ -1751,7 +1752,12 @@
     "difficulty": 5,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "office_warehouse_anduril", "om_special": "office_warehouse_anduril", "reveal_radius": 2, "random": false }
+      "assign_mission_target": {
+        "om_terrain": "office_warehouse_anduril",
+        "om_special": "office_warehouse_anduril",
+        "reveal_radius": 2,
+        "random": false
+      }
     },
     "end": {
       "effect": [

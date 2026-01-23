@@ -438,10 +438,24 @@
         "ememory_max": "1 TB"
       }
     ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED", "OUTER", "RAINPROOF", "SOFT", "MUNDANE", "ELECTRONIC", "CAN_USE_IN_DARK" ],
+    "flags": [
+      "VARSIZE",
+      "WATERPROOF",
+      "STURDY",
+      "PADDED",
+      "OUTER",
+      "RAINPROOF",
+      "SOFT",
+      "MUNDANE",
+      "ELECTRONIC",
+      "CAN_USE_IN_DARK"
+    ],
     "armor": [
       {
-        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 }, { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
         "covers": [ "head" ],
         "coverage": 95,
         "encumbrance_modifiers": [ "NONE" ]
@@ -457,7 +471,19 @@
     "copy-from": "robofac_head_rig_ar",
     "name": { "str_sp": "Hub 01 visual augmentation headgear (on)" },
     "description": "Heavy duty hooded headwear for the true frontier explorer, made with robust Nylon sheeting reinforced with Kevlar fibers.  The top consists of a series of plastic plates with hooks and velcro strips, perhaps for attaching additional parts, and an integrated camera array.  A multi-faceted augmented reality headset rests of the forehead like a pair of slim, boxy ski goggles, with side plugs for auxillary devices.  The AR lenses are equipped with adaptive light correction, light amplification and thermal imaging, and an augmented reality overlay equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  The AR system is currently turned on, and continually draining batteries.  Use it to turn it off.",
-    "extend": { "flags": [ "SPAWN_ACTIVE", "ZOOM", "THERMOMETER", "HYGROMETER", "BAROMETER", "TWO_WAY_RADIO", "WATCH", "ALARMCLOCK", "SUN_GLASSES" ] },
+    "extend": {
+      "flags": [
+        "SPAWN_ACTIVE",
+        "ZOOM",
+        "THERMOMETER",
+        "HYGROMETER",
+        "BAROMETER",
+        "TWO_WAY_RADIO",
+        "WATCH",
+        "ALARMCLOCK",
+        "SUN_GLASSES"
+      ]
+    },
     "power_draw": "320 mW",
     "revert_to": "robofac_head_rig_ar",
     "use_action": [
@@ -473,8 +499,11 @@
       "E_FILE_DEVICE"
     ],
     "armor": [
-      { 
-        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 }, { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 } ],
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
         "covers": [ "head" ],
         "coverage": 95,
         "encumbrance_modifiers": [ "NONE" ]
@@ -488,7 +517,11 @@
         "volume_encumber_modifier": 0
       }
     ],
-    "passive_effects": [ { "id": "nvg_great" }, { "id": "THERMAL_VISION_GOOD" }, { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -0.25 } ] } ]
+    "passive_effects": [
+      { "id": "nvg_great" },
+      { "id": "THERMAL_VISION_GOOD" },
+      { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -0.25 } ] }
+    ]
   },
   {
     "id": "robofac_robotrig",
