@@ -2064,10 +2064,14 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
             const float skill = std::max( 1.0f, get_player_character().get_skill_level( skill_mechanics ) );
             const time_duration required_time = 6000_seconds / skill;
             const std::string time_string = colorize( to_string( required_time, true ), c_light_gray );
+            std::string description = _( "Attempt to hotwire the car using a screwdriver." );
+            description += "\n";
+            description += _( "Time to complete: " );
+            description += time_string;
 
             menu.add( _( "Hotwire" ) )
             .enable( get_player_character().crafting_inventory().has_quality( qual_SCREW ) )
-            .desc( _( "Attempt to hotwire the car using a screwdriver.\nTime to complete: " ) + time_string )
+            .desc( description )
             .skip_locked_check()
             .hotkey( "HOTWIRE" )
             .on_submit( [this, required_time] {
