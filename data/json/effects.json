@@ -633,6 +633,35 @@
     "//": "This tells a devourer that it has absorbed an electric monster (one with the flag ELECTRIC)"
   },
   {
+    "type": "effect_type",
+    "id": "absorbed_pupating",
+    "//": "This tells a devourer that it has absorbed a pupating zombie and can now produce flesh raptors"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_devourer_armor_buff",
+    "//": "This gives the devourer an armor buff based on how many zombies it has absorbed",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -1250" ] } },
+          { "type": "cut", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -2000" ] } },
+          { "type": "stab", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -2000" ] } },
+          { "type": "bullet", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -1000" ] } }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "absorbed_electric" },
+        "incoming_damage_mod": [ { "type": "electric", "multiply": -1 } ]
+      },
+      {
+        "condition": { "u_has_effect": "absorbed_acidic" },
+        "incoming_damage_mod": [ { "type": "acid", "multiply": -1 } ]
+      }
+    ]
+  },
+  {
     "id": "Shadow_Reveal",
     "type": "effect_type",
     "max_duration": "60 s",
