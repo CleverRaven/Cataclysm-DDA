@@ -199,7 +199,18 @@
     "type": "effect_on_condition",
     "id": "EOC_DEVOURER_SPAWN_RAPTORS",
     "effect": [
-      { "u_spawn_monster": "mon_spawn_raptor", "real_count": { "math": [ "2 + rand(2)" ] }, "min_radius": 1, "max_radius": 3 }
+      { "math": [ "_raptor_spawn_lower = max( (u_effect_intensity('grown_of_fuse') / 160 ), 1 )" ] },
+      { "math": [ "_raptor_spawn_upper = max( (u_effect_intensity('grown_of_fuse') / 80 ), 1 )" ] },
+      {
+        "message": "Devourer can spawn between <context_val:raptor_spawn_lower> and <context_val:raptor_spawn_upper> flesh raptors.",
+        "type": "debug"
+      },
+      {
+        "u_spawn_monster": "mon_spawn_raptor",
+        "real_count": { "math": [ "rng(_raptor_spawn_lower, _raptor_spawn_upper)" ] },
+        "min_radius": 1,
+        "max_radius": 3
+      }
     ]
   },
   {
