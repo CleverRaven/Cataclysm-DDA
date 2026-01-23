@@ -6813,7 +6813,8 @@ std::optional<int> iuse::view_recipes( Character *p, item *it, const tripoint_bu
 
 std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint_bub_ms &pos )
 {
-    if( get_map().has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos.xy() ) ) {
+    if( get_map().has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos.xy() ) &&
+        get_map().has_flag( ter_furn_flag::TFLAG_LIQUID, pos.xy() ) ) {
         it->unset_flag( flag_NO_UNWIELD );
         it->ammo_unset();
         it->active = false;

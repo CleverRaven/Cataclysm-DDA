@@ -179,7 +179,7 @@ bool monster::will_move_to( map *here, const tripoint_bub_ms &p ) const
     }
 
     if( has_flag( mon_flag_AQUATIC ) && (
-            ! here->has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ||
+            !( here->has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) ||
             // AQUATIC (confined to water) monster avoid vehicles, unless they are already underneath one
             ( here->veh_at( p ) && !here->veh_at( pos_bub() ) )
         ) ) {
@@ -1163,8 +1163,10 @@ void monster::move()
                 // This prevents non-climb/fly enemies running up walls
                 if( candidate.z() > pos_abs().z() && !( via_ramp || flies() ) ) {
                     if( !can_climb() || !here.has_floor_or_support( candidate ) ) {
-                        if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ||
-                            !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, candidate ) ) {
+                        if( !( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) &&
+                               here.has_flag( ter_furn_flag::TFLAG_LIQUID, pos_bub() ) ) ||
+                            !( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, candidate ) &&
+                               here.has_flag( ter_furn_flag::TFLAG_LIQUID, candidate ) ) ) {
                             // Can't "jump" up a whole z-level
                             can_z_move = false;
                         }
@@ -1587,7 +1589,8 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
 
         // flying creatures ignore all terrain/furniture. Birds that swim prefer to swim if possible.
         if( flies() &&
-            !( swims() && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIMMABLE, where ) ) ) {
+            !( swims() && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIMMABLE, where ) &&
+               here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUID, where ) ) ) {
             cost += 2;
             continue;
         }
@@ -2141,7 +2144,7 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
     }
 
     // Don't leave any kind of liquids on water tiles
-    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, destination ) ) {
+    if( !( here.has_flag( ter_furn_flag::TFLAG_LIQUID, destination ) ) ) {
         if( has_flag( mon_flag_DRIPS_NAPALM ) ) {
             if( one_in( 10 ) ) {
                 // if it has more napalm, drop some and reduce ammo in tank

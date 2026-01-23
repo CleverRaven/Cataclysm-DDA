@@ -5015,7 +5015,8 @@ void game::moving_vehicle_dismount( const tripoint_bub_ms &dest_loc )
     // Dive three tiles in the direction of tox and toy
     fling_creature( &u, d, 30, true, true );
     // Hit the ground according to vehicle speed
-    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos ) ) {
+    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos ) &&
+        !here.has_flag( ter_furn_flag::TFLAG_LIQUID, pos ) ) {
         if( veh->velocity > 0 ) {
             fling_creature( &u, veh->face.dir(), veh->velocity / static_cast<float>( 100 ), false, true );
         } else {
@@ -8839,6 +8840,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
 
         ///\EFFECT_INT decreases chance of tentacles getting stuck to the ground
         if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) &&
+            !here.has_flag( ter_furn_flag::TFLAG_LIQUID, dest_loc ) &&
             one_in( 80 + u.dex_cur + u.int_cur ) ) {
             add_msg( _( "Your tentacles stick to the ground, but you pull them free." ) );
             u.mod_sleepiness( 1 );
@@ -9176,7 +9178,8 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
     }
 
     // If we moved out of the nonant, we need update our map data
-    if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) && u.has_effect( effect_onfire ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) &&
+        here.has_flag( ter_furn_flag::TFLAG_LIQUID, dest_loc ) && u.has_effect( effect_onfire ) ) {
         add_msg( _( "The water puts out the flames!" ) );
         u.remove_effect( effect_onfire );
         if( u.is_mounted() ) {
@@ -9326,7 +9329,8 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
         here.creature_on_trap( u );
     }
     // Drench the player if swimmable
-    if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos_bub() ) &&
+    if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos_bub() )  &&
+        here.has_flag( ter_furn_flag::TFLAG_LIQUID, u.pos_bub() ) &&
         !here.has_flag_furn( "BRIDGE", u.pos_bub() ) &&
         !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float( here ) ) ) &&
         !u.has_flag( json_flag_WATERWALKING ) ) {
@@ -9661,7 +9665,7 @@ int game::grabbed_furn_move_time( const tripoint_rel_ms &dp )
     } );
 
     const bool dst_item_ok = !here.has_flag( ter_furn_flag::TFLAG_NOITEM, fdest ) &&
-                             !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, fdest ) &&
+                             !here.has_flag( ter_furn_flag::TFLAG_LIQUID, fdest ) &&
                              !here.has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, fdest ) &&
                              only_liquid_items;
     const furn_t &fo = here.furn( fpos ).obj();
@@ -9754,7 +9758,7 @@ bool game::grabbed_furn_move( const tripoint_rel_ms &dp )
     } );
 
     const bool dst_item_ok = !here.has_flag( ter_furn_flag::TFLAG_NOITEM, fdest ) &&
-                             !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, fdest ) &&
+                             !here.has_flag( ter_furn_flag::TFLAG_LIQUID, fdest ) &&
                              !here.has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, fdest );
 
     const furn_t &fo = here.furn( fpos ).obj();
@@ -10180,7 +10184,7 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
     }
 
     // Fall down to the ground - always on the last reached tile
-    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos ) ) {
+    if( !here.has_flag( ter_furn_flag::TFLAG_LIQUID, pos ) ) {
         // Didn't smash into a wall or a floor so only take the fall damage
         if( thru && here.is_open_air( pos ) ) {
             here.creature_on_trap( *c, false );
@@ -10450,7 +10454,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
     bool surfacing = false;
     bool submerging = false;
     // > and < are used for diving underwater.
-    if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos ) &&
+        here.has_flag( ter_furn_flag::TFLAG_LIQUID, pos ) ) {
         if( !u.has_flag( json_flag_WATERWALKING ) ) {
             swimming = true;
         }

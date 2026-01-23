@@ -896,7 +896,8 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
             return ret;
         }
         // we just ran into a fish, so move it out of the way
-        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, critter->pos_bub() ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, critter->pos_bub() ) &&
+            here.has_flag( ter_furn_flag::TFLAG_LIQUID, critter->pos_bub() ) ) {
             tripoint_abs_ms end_pos = critter->pos_abs();
             tripoint_abs_ms start_pos;
             const std::set<tripoint_abs_ms> projected_points = get_projected_part_points();
@@ -2166,7 +2167,8 @@ void vehicle::check_falling_or_floating()
         }
         // water counts as support if we're swimming and checking to see if we're falling, but
         // not to see if the wheels are supported at all
-        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIMMABLE, position ) ) {
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIMMABLE, position ) &&
+            here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUID, position ) ) {
             return water_supports;
         }
         if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, position ) ) {
@@ -2208,7 +2210,8 @@ void vehicle::check_falling_or_floating()
     for( const tripoint_abs_ms &position : pts ) {
         const tripoint_bub_ms pos = here.get_bub( position );
         deep_water_tiles += here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos ) ? 1 : 0;
-        water_tiles += here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos ) ? 1 : 0;
+        water_tiles += here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos ) &&
+                       here.has_flag( ter_furn_flag::TFLAG_LIQUID, pos ) ? 1 : 0;
         if( !is_falling ) {
             continue;
         }

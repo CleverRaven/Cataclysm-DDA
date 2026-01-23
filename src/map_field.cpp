@@ -517,7 +517,8 @@ static void field_processor_underwater_dissipation( const tripoint_bub_ms &, fie
         field_proc_data &pd )
 {
     // Dissipate faster in water
-    if( pd.map_tile.get_ter_t().has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) ) {
+    if( pd.map_tile.get_ter_t().has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) &&
+        pd.map_tile.get_ter_t().has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
         cur.mod_field_age( pd.cur_fd_type->underwater_age_speedup );
     }
 }
@@ -1042,7 +1043,8 @@ void field_processor_fd_fire( const tripoint_bub_ms &p, field_entry &cur, field_
         // Damage the vehicle in the fire.
     }
     if( can_burn ) {
-        if( ter.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) ) {
+        if( ter.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) &&
+            ter.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
             // Flames die quickly on water
             cur.set_field_age( cur.get_field_age() + 4_minutes );
         }

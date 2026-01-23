@@ -2677,7 +2677,8 @@ bool map::valid_move( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
     }
 
     if( !flying && !down_ter.has_flag( ter_furn_flag::TFLAG_GOES_UP ) &&
-        !down_ter.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) &&
+        !( down_ter.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) &&
+           down_ter.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) &&
         !down_ter.has_flag( ter_furn_flag::TFLAG_RAMP ) &&
         !up_is_ledge && !via_ramp ) {
         // Can't safely reach the lower tile
@@ -5302,10 +5303,10 @@ std::vector<item *> map::spawn_items( const tripoint_bub_ms &p, const std::vecto
     if( !inbounds( p ) || has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, p ) ) {
         return ret;
     }
-    const bool swimmable = has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p );
+    const bool liquid = has_flag( ter_furn_flag::TFLAG_LIQUID, p );
     for( const item &new_item : new_items ) {
 
-        if( new_item.made_of( phase_id::LIQUID ) && swimmable ) {
+        if( new_item.made_of( phase_id::LIQUID ) && liquid ) {
             continue;
         }
         item &it = add_item_or_charges( p, new_item );
@@ -5360,7 +5361,7 @@ void map::spawn_item( const tripoint_bub_ms &p, const itype_id &type_id, const u
     }
     new_item = new_item.in_its_container();
     new_item.set_owner( faction_id( faction ) ); // Set faction to the container as well
-    if( ( new_item.made_of( phase_id::LIQUID ) && has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) ||
+    if( new_item.made_of( phase_id::LIQUID )  ||
         has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, p ) ) {
         return;
     }
@@ -5429,7 +5430,7 @@ std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub
         }
 
         // Cannot drop liquids into tiles that are comprised of liquid
-        if( obj.made_of_from_type( phase_id::LIQUID ) && has_flag( ter_furn_flag::TFLAG_SWIMMABLE, e ) ) {
+        if( obj.made_of_from_type( phase_id::LIQUID ) && has_flag( ter_furn_flag::TFLAG_LIQUID, e ) ) {
             return false;
         }
 
@@ -5577,7 +5578,7 @@ item &map::add_item( const tripoint_bub_ms &p, item new_item, int copies )
         new_item.process( *this, nullptr, p );
     }
 
-    if( new_item.made_of( phase_id::LIQUID ) && has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
+    if( new_item.made_of( phase_id::LIQUID ) && has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ) {
         return null_item_reference();
     }
 
@@ -6927,7 +6928,7 @@ bool map::add_field( const tripoint_bub_ms &p, const field_type_id &type_id, int
     }
 
     // Don't spawn liquid fields on water tiles
-    if( has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) && type_id.obj().phase == phase_id::LIQUID ) {
+    if( has_flag( ter_furn_flag::TFLAG_LIQUID, p ) && type_id.obj().phase == phase_id::LIQUID ) {
         return false;
     }
 

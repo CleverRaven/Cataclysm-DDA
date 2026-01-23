@@ -1865,7 +1865,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
         if( technique.knockback_follow ) {
             const optional_vpart_position vp0 = here.veh_at( pos );
             vehicle *const veh0 = veh_pointer_or_null( vp0 );
-            bool to_swimmable = here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, prev_pos );
+            bool to_swimmable = here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, prev_pos ) &&
+                                here.has_flag( ter_furn_flag::TFLAG_LIQUID, prev_pos );
             bool to_deepwater = here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, prev_pos );
 
             // Check if it's possible to move to the new tile

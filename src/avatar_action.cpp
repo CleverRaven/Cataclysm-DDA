@@ -473,10 +473,13 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         }
     }
     bool toSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) &&
-                       !m.has_flag_furn( "BRIDGE", dest_loc );
+                       m.has_flag( ter_furn_flag::TFLAG_LIQUID, dest_loc ) &&
+                       !m.has_flag_furn( "BRIDGE", dest_loc ) &&
+                       m.has_flag( ter_furn_flag::TFLAG_LIQUID, you.pos_bub() );
     bool toDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc ) &&
                        !m.has_flag_furn( "BRIDGE", dest_loc );
-    bool fromSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, you.pos_bub() );
+    bool fromSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, you.pos_bub() ) &&
+                         m.has_flag( ter_furn_flag::TFLAG_LIQUID, you.pos_bub() );
     bool fromDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos_bub() );
     bool waterWalking = you.has_flag( json_flag_WATERWALKING );
     bool fromBoat = veh0 != nullptr;
@@ -633,7 +636,8 @@ void avatar_action::swim( map &m, avatar &you, const tripoint_bub_ms &p )
 {
     map &here = get_map();
 
-    if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
+    if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
+        !m.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ) {
         dbg( D_ERROR ) << "game:plswim: Tried to swim in "
                        << m.tername( p ) << "!";
         debugmsg( "Tried to swim in %s!", m.tername( p ) );

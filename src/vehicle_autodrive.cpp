@@ -795,7 +795,8 @@ bool vehicle::autodrive_controller::check_drivable( map &here, const tripoint_bu
     }
     const ter_t &terrain_type = terrain.obj();
     // watercraft can drive on water
-    if( data.water_ok && terrain_type.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) ) {
+    if( data.water_ok && terrain_type.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) &&
+        terrain_type.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
         return true;
     }
     // remaining checks are for land-based navigation

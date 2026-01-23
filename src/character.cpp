@@ -7611,7 +7611,8 @@ int Character::impact( const int force, const tripoint_bub_ms &p )
         mod = slam ? 1.0f : fall_damage_mod();
         if( here.has_furn( p ) ) {
             effective_force = std::max( 0, effective_force - here.furn( p )->fall_damage_reduction );
-        } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
+        } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
+                   here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ) {
             const float swim_skill = get_skill_level( skill_swimming );
             effective_force /= 4.0f + 0.1f * swim_skill;
             if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
@@ -7620,7 +7621,7 @@ int Character::impact( const int force, const tripoint_bub_ms &p )
             }
         }
         //checking for items on floor
-        if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
+        if( !here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) &&
         !here.items_with( p, [&]( item const & it ) {
         return it.affects_fall();
         } ).empty() ) {
@@ -7636,7 +7637,7 @@ int Character::impact( const int force, const tripoint_bub_ms &p )
         }
     }
     //for wielded items
-    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
+    if( !here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) &&
         weapon.affects_fall() ) {
         effective_force = std::max( 0, effective_force - weapon.fall_damage_reduction() );
 
@@ -7982,7 +7983,8 @@ void Character::pause()
             // TODO: gain "swimming" proficiency but not "athletics" skill
             // Same as above, except no head/eyes/mouth
             drench( 100, get_drenching_body_parts( false ), false );
-        } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ) {
+        } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) &&
+                   here.has_flag( ter_furn_flag::TFLAG_LIQUID, pos_bub() ) ) {
             drench( 80, get_drenching_body_parts( false, false ),
                     false );
         }
