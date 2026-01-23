@@ -286,6 +286,11 @@
     "info": "You could probably use this to get into a secure industrial facility."
   },
   {
+    "id": "ANDURIL_AR_CARD",
+    "type": "json_flag",
+    "info": "You could probably use this to get into a secure Anduril Industries facility."
+  },
+  {
     "id": "COOP_CARD",
     "type": "json_flag",
     "info": "Gives you access to the artisans workshop."

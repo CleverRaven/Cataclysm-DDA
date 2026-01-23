@@ -1,0 +1,130 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "office_warehouse_anduril" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "ssssssssssssssssssssssss",
+        "ss###++++++7####--####ss",
+        "ss#           #C  dcF#ss",
+        "ss# yyyyyyyyy #C  dd #ss",
+        "ss# y       y #C    p#ss",
+        "ss# y       y ###+6###ss",
+        "ss# y       y        #ss",
+        "ss# y       y        #ss",
+        "ss# y       y   cd   #ss",
+        "ss# y       y   dd   #ss",
+        "ss# y       y       F#ss",
+        "ss# yyyyyyyyy  dc   F#ss",
+        "ss#            dd   F#ss",
+        "ss# ddd             F#ss",
+        "ss#  c           cd  #ss",
+        "ss#     WWWW^    dd  #ss",
+        "ss#**********        #ss",
+        "ss#         *        #ss",
+        "ss# SSSSSS  6        #ss",
+        "ss#         +     *-*#ss",
+        "ss# SSSSSS  *     * u#ss",
+        "ss#         *     *Tt#ss",
+        "ss####################ss",
+        "ssssssssssssssssssssssss"
+      ],
+      "terrain": {
+        "s": "t_sidewalk",
+        "y": "t_thconc_y",
+        "C": "t_thconc_floor_no_roof",
+        "c": "t_thconc_floor_no_roof",
+        "d": "t_thconc_floor_no_roof",
+        "W": "t_thconc_floor_no_roof",
+        "u": "t_thconc_floor_no_roof",
+        "t": "t_thconc_floor_no_roof",
+        "T": "t_thconc_floor_no_roof",
+        "F": "t_thconc_floor_no_roof",
+        "p": "t_thconc_floor_no_roof",
+        "!": "t_thconc_floor_no_roof",
+        "+": "t_door_metal_locked",
+        "-": "t_door_c",
+        "*": "t_wall",
+        "#": "t_strconc_wall",
+        "6": "t_card_office_warehouse_anduril",
+        "7": "t_card_reader_broken",
+        "^": "t_thconc_floor_no_roof",
+        "S": "t_thconc_floor_no_roof"
+      },
+      "furniture": {
+        "d": "f_desk",
+        "c": "f_chair_folding",
+        "F": "f_filing_cabinet",
+        "C": "f_sofa",
+        "t": "f_trashcan",
+        "u": "f_sink",
+        "W": "f_workbench",
+        "^": "f_workbench",
+        "p": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "S": "f_server"
+      },
+      "toilets": { "T": {  } },
+      "items": {
+        "d": { "item": "SUS_office_desk", "chance": 20 },
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 80 },
+        "t": { "item": "SUS_trash_trashcan_public", "chance": 60 },
+        "T": { "item": "SUS_toilet", "chance": 50 },
+        "^": { "item": "SUS_coffee_cupboard" }
+      },
+      "place_loot": [ { "item": "military_vis_aug_system", "x": 9, "y": 15 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "office_warehouse_anduril_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        " ---------------------  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -.U................-  ",
+        "  -..................-  ",
+        "  -...............K..-  ",
+        "  -.Z................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -.................o-  ",
+        "  --------------------- ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": {
+        "U": { "chunks": [ "roof_2x2_infrastructure" ] },
+        "K": { "chunks": [ "roof_2x2_infrastructure_1" ] },
+        "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
+      },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 17 ],
+          "y": [ 10, 19 ]
+        }
+      ]
+    }
+  }
+]

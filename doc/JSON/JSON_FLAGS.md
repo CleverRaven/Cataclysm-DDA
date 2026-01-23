@@ -776,6 +776,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 
 - ```ACT_IN_FIRE``` This item would be activated if dropped on a tile with fire.
 - ```ALLERGEN_MILK``` This item contain milk, which make it inedible for person with lactose intolerance.
+- ```ANDURIL_AR_CARD``` This item grants access to doors in the Anduril Industries IVAS testing warehouse.
 - ```ANIMAL_PRODUCT``` This item can't be worn or eaten by vegan, despite it's materials is not blacklisted or it has no another flags, that restrict it.
 - ```BAD_TASTE``` This comestible gives -5 to taste, that can't be covered through cooking.
 - ```BANK_NOTE_SHAPED``` This item fits into the folded sleeve of wallets, like a bank note.
