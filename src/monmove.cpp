@@ -179,7 +179,8 @@ bool monster::will_move_to( map *here, const tripoint_bub_ms &p ) const
     }
 
     if( has_flag( mon_flag_AQUATIC ) && (
-            ! here->has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ||
+            !( here->has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ||
+               here->has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, p ) ) ||
             // AQUATIC (confined to water) monster avoid vehicles, unless they are already underneath one
             ( here->veh_at( p ) && !here->veh_at( pos_bub() ) )
         ) ) {
@@ -1629,7 +1630,8 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
                       get_name(), veh ? veh->disp_name() : terrain.name() );
             return 0;
 
-        } else if( terrain.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) ) {
+        } else if( terrain.has_flag( ter_furn_flag::TFLAG_SWIMMABLE )  ||
+                   terrain.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER ) ) {
             if( swims() ) {
                 // swimmers dont care about terraincost/other effects.
                 // fish move as quickly as possible with a swimmod of 0.
@@ -2141,7 +2143,8 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
     }
 
     // Don't leave any kind of liquids on water tiles
-    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, destination ) ) {
+    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, destination ) ||
+        !here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) ) {
         if( has_flag( mon_flag_DRIPS_NAPALM ) ) {
             if( one_in( 10 ) ) {
                 // if it has more napalm, drop some and reduce ammo in tank
