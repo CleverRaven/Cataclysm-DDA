@@ -58,6 +58,8 @@
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
 
+static const efftype_id effect_absorbed_acidic( "absorbed_acidic" );
+static const efftype_id effect_absorbed_electric( "absorbed_electric" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_countdown( "countdown" );
 static const efftype_id effect_cramped_space( "cramped_space" );
@@ -122,13 +124,13 @@ bool monster::is_immune_field( const field_type_id &fid ) const
         return has_flag( mon_flag_NO_BREATHE );
     }
     if( ft.has_acid ) {
-        return has_flag( mon_flag_ACIDPROOF ) || flies();
+        return has_flag( mon_flag_ACIDPROOF ) || flies() || has_effect( effect_absorbed_acidic );
     }
     if( ft.has_fire ) {
         return has_flag( mon_flag_FIREPROOF );
     }
     if( ft.has_elec ) {
-        return has_flag( mon_flag_ELECTRIC );
+        return has_flag( mon_flag_ELECTRIC ) || has_effect( effect_absorbed_electric );
     }
     if( ft.immune_mtypes.count( type->id ) > 0 ) {
         return true;
