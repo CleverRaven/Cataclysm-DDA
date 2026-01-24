@@ -62,6 +62,7 @@
 #include "string_formatter.h"
 #include "talker.h"
 #include "text.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "uilist.h"
 #include "units.h"
@@ -1223,10 +1224,10 @@ std::string spell::name() const
 std::string spell::message() const
 {
     if( !alt_message.empty() ) {
-        return alt_message.translated();
+        return SNIPPET.expand( alt_message.translated() );
     }
     if( !type->message.empty() ) {
-        return type->message.translated();
+        return SNIPPET.expand( type->message.translated() );
     }
     return {};
 }
