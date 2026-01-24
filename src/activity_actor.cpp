@@ -10473,29 +10473,30 @@ void heat_activity_actor::do_turn( player_activity &act, Character &p )
     map &here = get_map();
 
     // use a hack in use_vehicle_tool vehicle_use.cpp
+    // this is to update the heater vehicle part position per-turn
     if( !act.coords.empty() ) {
-        h.vpt = act.coords[0];
+        heater_data.vpt = act.coords[0];
     }
-    std::optional<vpart_position> vp = here.veh_at( h.vpt );
-    if( h.pseudo_flag ) {
+    std::optional<vpart_position> vp = here.veh_at( heater_data.vpt );
+    if( heater_data.pseudo_flag ) {
         if( !vp ) {
             p.add_msg_if_player( _( "You can't find the appliance any more." ) );
             act.set_to_null();
             return;
         }
         if( vp.value().vehicle().connected_battery_power_level( here ).first < requirements.ammo *
-            h.heating_effect ) {
+            heater_data.heating_effect ) {
             p.add_msg_if_player( _( "You need more energy to heat these items." ) );
             act.set_to_null();
             return;
         }
     } else {
-        if( !h.loc ) {
+        if( !heater_data.loc ) {
             p.add_msg_if_player( _( "You can't find the heater any more." ) );
             act.set_to_null();
             return;
         }
-        if( get_available_heater( p, h.loc ) < requirements.ammo * h.heating_effect ) {
+        if( get_available_heater( p, heater_data.loc ) < requirements.ammo * heater_data.heating_effect ) {
             p.add_msg_if_player( _( "You need more energy to heat these items." ) );
             act.set_to_null();
             return;
@@ -10539,12 +10540,12 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
             }
         }
     }
-    if( h.consume_flag ) {
-        if( h.pseudo_flag ) {
-            here.veh_at( h.vpt ).value().vehicle().discharge_battery( here, requirements.ammo *
-                    h.heating_effect );
+    if( heater_data.consume_flag ) {
+        if( heater_data.pseudo_flag ) {
+            here.veh_at( heater_data.vpt ).value().vehicle().discharge_battery( here, requirements.ammo *
+                    heater_data.heating_effect );
         } else {
-            h.loc->activation_consume( requirements.ammo, h.loc.pos_bub( here ), &p );
+            heater_data.loc->activation_consume( requirements.ammo, heater_data.loc.pos_bub( here ), &p );
         }
     }
     p.add_msg_if_player( m_good, _( "You heated your items." ) );
@@ -10558,13 +10559,9 @@ void heat_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "to_heat", to_heat );
-    jsout.member( "heating_effect", h.heating_effect );
-    jsout.member( "loc", h.loc );
-    jsout.member( "consume_flag", h.consume_flag );
-    jsout.member( "pseudo_flag", h.pseudo_flag );
     jsout.member( "time", requirements.time );
     jsout.member( "ammo", requirements.ammo );
-    jsout.member( "vpt", h.vpt );
+    jsout.member( "heater_data", heater_data );
     jsout.end_object();
 }
 
@@ -10573,13 +10570,22 @@ std::unique_ptr<activity_actor> heat_activity_actor::deserialize( JsonValue &jsi
     heat_activity_actor actor;
     JsonObject data = jsin.get_object();
     data.read( "to_heat", actor.to_heat );
-    data.read( "heating_effect", actor.h.heating_effect );
-    data.read( "loc", actor.h.loc );
-    data.read( "consume_flag", actor.h.consume_flag );
-    data.read( "pseudo_flag", actor.h.pseudo_flag );
     data.read( "time", actor.requirements.time );
     data.read( "ammo", actor.requirements.ammo );
-    data.read( "vpt", actor.h.vpt );
+
+
+    if( data.has_member( "heater_data" ) ) {
+        data.read( "heater_data", actor.heater_data );
+    } else {
+        // Remove after 0.J, migration for heater_data struct
+        heater legacy_heater_data;
+        data.read( "heating_effect", legacy_heater_data.heating_effect );
+        data.read( "loc", legacy_heater_data.loc );
+        data.read( "consume_flag", legacy_heater_data.consume_flag );
+        data.read( "pseudo_flag", legacy_heater_data.pseudo_flag );
+        data.read( "vpt", legacy_heater_data.vpt );
+        actor.heater_data = legacy_heater_data;
+    }
     return actor.clone();
 }
 

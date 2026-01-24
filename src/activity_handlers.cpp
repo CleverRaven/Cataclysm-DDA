@@ -63,7 +63,6 @@ static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
-static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
@@ -140,8 +139,7 @@ activity_handlers::do_turn_functions = {
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 activity_handlers::finish_functions = {
     { ACT_START_FIRE, start_fire_finish },
-    { ACT_REPAIR_ITEM, repair_item_finish },
-    { ACT_HEATING, heat_item_finish }
+    { ACT_REPAIR_ITEM, repair_item_finish }
 };
 
 static void assign_multi_activity( Character &you, const player_activity &act )
@@ -874,39 +872,6 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
     }
     // Otherwise keep retrying
     act->moves_left = actor->move_cost;
-}
-
-void activity_handlers::heat_item_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-    if( act->targets.size() != 1 ) {
-        debugmsg( "invalid arguments to ACT_HEATING" );
-        return;
-    }
-    item_location &loc = act->targets[ 0 ];
-    item *const heat = loc.get_item();
-    if( heat == nullptr ) {
-        return;
-    }
-    if( !heat->has_temperature() ) {
-        debugmsg( "item %s is not heatable", heat->typeId().str() );
-        return;
-    }
-    item &target = *heat;
-    if( target.has_own_flag( flag_FROZEN ) ) {
-        target.apply_freezerburn();
-        if( target.has_flag( flag_EATEN_COLD ) ) {
-            target.cold_up();
-            you->add_msg_if_player( m_info,
-                                    _( "You defrost the food, but don't heat it up, since you enjoy it cold." ) );
-        } else {
-            target.heat_up();
-            you->add_msg_if_player( m_info, _( "You defrost and heat up the food." ) );
-        }
-    } else {
-        target.heat_up();
-        you->add_msg_if_player( m_info, _( "You heat up the food." ) );
-    }
 }
 
 void activity_handlers::travel_do_turn( player_activity *act, Character *you )
