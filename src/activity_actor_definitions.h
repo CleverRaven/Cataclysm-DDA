@@ -867,9 +867,9 @@ class lockpick_activity_actor : public activity_actor
     public:
         /** Use regular lockpick. */
         static lockpick_activity_actor use_item(
-            int moves_total,
             const item_location &lockpick,
-            const tripoint_abs_ms &target
+            const tripoint_abs_ms &target,
+            Character &who
         );
 
         /** Use bionic lockpick. */
@@ -877,7 +877,7 @@ class lockpick_activity_actor : public activity_actor
             const tripoint_abs_ms &target
         );
 
-        static time_duration lockpicking_time( Character &who, item &lockpick );
+        static int lockpicking_moves(const item &lockpick, Character &who );
 
         const activity_id &get_type() const override {
             static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );

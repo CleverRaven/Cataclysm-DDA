@@ -3190,10 +3190,10 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint_bub_m
         return std::nullopt;
     }
 
-    time_duration duration = lockpick_activity_actor::lockpicking_time( you, *it );
-
-    you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
-                         item_location( you, it ), get_map().get_abs( *target ) ) );
+    you.assign_activity( lockpick_activity_actor::use_item( item_location( you, it ),
+                                                                get_map().get_abs( *target ),
+                                                                you
+                                                                ) );
     return 1;
 }
 

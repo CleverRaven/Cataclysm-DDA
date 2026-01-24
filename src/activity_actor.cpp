@@ -3196,13 +3196,13 @@ std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonVal
 }
 
 lockpick_activity_actor lockpick_activity_actor::use_item(
-    int moves_total,
     const item_location &lockpick,
-    const tripoint_abs_ms &target
+    const tripoint_abs_ms &target,
+    Character &who
 )
 {
     return lockpick_activity_actor {
-        moves_total,
+        lockpicking_moves( item( *lockpick ), who ),
         lockpick,
         std::nullopt,
         target
@@ -3221,7 +3221,7 @@ lockpick_activity_actor lockpick_activity_actor::use_bionic(
     };
 }
 
-time_duration lockpick_activity_actor::lockpicking_time( Character &who, item &lockpick )
+int lockpick_activity_actor::lockpicking_moves( const item &lockpick, Character &who )
 {
     int qual = lockpick.get_quality( qual_LOCKPICK );
     if( qual < 1 ) {
@@ -3244,12 +3244,13 @@ time_duration lockpick_activity_actor::lockpicking_time( Character &who, item &l
             skill_traps ) + who.get_skill_level( skill_mechanics ) ) / 4.0f;
 
     if( lockpick.has_flag( flag_PERFECT_LOCKPICK ) ) {
-        return 5_seconds;
+        return to_moves<int>( 5_seconds );
     } else {
         /** @EFFECT_DEX speeds up door lock picking */
-        return std::max( 30_seconds,
-                         ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( who.dex_cur ) / 4.0f +
-                                 weighted_skill_average ) ) * duration_proficiency_factor );
+        return to_moves<int>(
+                   std::max( 30_seconds,
+                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( who.dex_cur ) / 4.0f +
+                                 weighted_skill_average ) ) * duration_proficiency_factor ) );
     }
 }
 
