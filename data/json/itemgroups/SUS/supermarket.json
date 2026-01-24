@@ -351,7 +351,7 @@
     "id": "commercial_oil_vinegar",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ {"item": "cooking_oil", "prob": 1, "count": 1 , "container-item": "jug_plastic" }, [ "vinegar", 1 ] ]
+    "items": [ { "item": "cooking_oil", "prob": 1, "count": 1, "container-item": "jug_plastic" }, [ "vinegar", 1 ] ]
   },
   {
     "id": "SUS_shelf_commercial_oil_vinegar",
@@ -414,10 +414,7 @@
     "id": "commercial_pasta",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [
-    { "group": "spaghetti_raw_bag_30", "prob": 1 },
-    { "group": "lasagne_raw_bag_30", "prob": 1 }
-  ]
+    "items": [ { "group": "spaghetti_raw_bag_30", "prob": 1 }, { "group": "lasagne_raw_bag_30", "prob": 1 } ]
   },
   {
     "id": "SUS_shelf_commercial_pasta",
@@ -576,10 +573,7 @@
     "id": "commercial_butter_cream",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [
-      { "group": "butter_wrapper_32", "prob": 10 },
-      { "group": "milk_cream_bottle_2", "prob": 10 }
-    ]
+    "items": [ { "group": "butter_wrapper_32", "prob": 10 }, { "group": "milk_cream_bottle_2", "prob": 10 } ]
   },
   {
     "id": "SUS_shelf_commercial_butter_cream",
