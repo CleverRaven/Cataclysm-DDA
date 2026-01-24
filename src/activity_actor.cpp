@@ -3231,12 +3231,12 @@ time_duration lockpick_activity_actor::lockpicking_time( Character &who, item &l
     }
 
     /** @EFFECT_LOCKPICK speeds up door lock picking */
-    int duration_proficiency_factor = 10;
-    if( who.has_proficiency( proficiency_prof_lockpicking ) ) {
-        duration_proficiency_factor = 5;
+    int duration_proficiency_factor = 1;
+    if( !who.has_proficiency( proficiency_prof_lockpicking ) ) {
+        duration_proficiency_factor *= proficiency_prof_lockpicking->default_time_multiplier();
     }
-    if( who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
-        duration_proficiency_factor = 1;
+    if( !who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
+        duration_proficiency_factor *= proficiency_prof_lockpicking_expert->default_time_multiplier();
     }
 
     // Weighting of skills that matches success calculations in finish()
