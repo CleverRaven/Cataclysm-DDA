@@ -42,16 +42,9 @@ void help::reset_instance()
 {
     current_order_start = 0;
     current_src = "";
-    help_categories.clear();
-    read_categories.clear();
+    _help_categories.clear();
+    _read_categories.clear();
 }
-
-enum message_modifier {
-    MM_NORMAL = 0, // Normal message
-    MM_SUBTITLE, // Formatted subtitle
-    MM_MONOFONT, // Forced monofont for fixed space diagrams
-    MM_SEPERATOR // ImGui seperator, value is the color to use
-};
 
 void help::load_object( const JsonObject &jo, const std::string &src )
 {
@@ -60,7 +53,7 @@ void help::load_object( const JsonObject &jo, const std::string &src )
                                        PATH_INFO::jsondir().generic_u8string() ) );
     }
     if( src != current_src ) {
-        current_order_start = help_categories.empty() ? 0 : help_categories.crbegin()->first + 1;
+        current_order_start = _help_categories.empty() ? 0 : _help_categories.crbegin()->first + 1;
         current_src = src;
     }
 
@@ -100,7 +93,7 @@ void help::load_object( const JsonObject &jo, const std::string &src )
 
 
     const int modified_order = jo.get_int( "order" ) + current_order_start;
-    if( !help_categories.try_emplace( modified_order, category ).second ) {
+    if( !_help_categories.try_emplace( modified_order, category ).second ) {
         jo.throw_error_at( "order", "\"order\" must be unique per source" );
     }
 }
@@ -129,8 +122,9 @@ help_window::help_window() : cataimgui::window( "help",
     ctxt.register_action( "HELP_KEYBINDINGS" );
     const hotkey_queue &hkq = hotkey_queue::alphabets();
     input_event next_hotkey = ctxt.first_unassigned_hotkey( hkq );
-    for( const auto &text : data.help_categories ) {
-        hotkeys.emplace( text.first, next_hotkey );
+    const std::map<const int, const help_category> &cats = data.get_help_categories();
+    for( const std::pair<const int, const help_category> &option_category : cats ) {
+        hotkeys.emplace( option_category.first, next_hotkey );
         next_hotkey = ctxt.next_unassigned_hotkey( hkq, next_hotkey );
     }
 }
@@ -149,23 +143,24 @@ void help_window::draw_category_selection()
     //TODO: Add one column display for tiny screens and screen reader users
     selected_option = -1;
     format_title();
+    const std::map<const int, const help_category> &cats = data.get_help_categories();
     // Split the categories in half
     if( ImGui::BeginTable( "Category Options", 2, ImGuiTableFlags_None ) ) {
         ImGui::TableSetupColumn( "Left Column", ImGuiTableColumnFlags_WidthStretch, 1.0f );
         ImGui::TableSetupColumn( "Right Column", ImGuiTableColumnFlags_WidthStretch, 1.0f );
-        int half_size = data.help_categories.size() / 2;
-        if( data.help_categories.size() % 2 != 0 ) {
+        int half_size = cats.size() / 2;
+        if( cats.size() % 2 != 0 ) {
             half_size++;
         }
-        auto half_it = data.help_categories.begin();
+        auto half_it = cats.begin();
         std::advance( half_it, half_size );
-        auto jt = data.help_categories.begin();
+        auto jt = cats.begin();
         std::advance( jt, half_size - 1 );
-        for( auto it = data.help_categories.begin(); it != half_it; it++ ) {
+        for( auto it = cats.begin(); it != half_it; it++ ) {
             ImGui::TableNextColumn();
             draw_category_option( it->first, it->second );
             ImGui::TableNextColumn();
-            if( jt != std::prev( data.help_categories.end() ) ) {
+            if( jt != std::prev( cats.end() ) ) {
                 jt++;
                 draw_category_option( jt->first, jt->second );
             }
@@ -183,7 +178,7 @@ void help_window::draw_category_option( const int &option, const help_category &
         cat_name += ": ";
     }
     cat_name += category.name.translated();
-    if( data.read_categories.find( option ) != data.read_categories.end() ) {
+    if( data.is_read( option ) ) {
         if( screen_reader ) {
             //~ Prefix for options that has already been viewed when using a screen reader
             cat_name = _( "(read) " ) + cat_name;
@@ -296,7 +291,7 @@ void help_window::format_subtitle( const help_category &category,
 
 void help_window::draw_category()
 {
-    const help_category &cat = data.help_categories[loaded_option];
+    const help_category &cat = data.get_help_category( loaded_option );
     format_title( cat );
     // Use a table so we can scroll the category paragraphs without the title
     //TODO: Consider not keeping the title seperate on tiny screens
@@ -305,7 +300,7 @@ void help_window::draw_category()
         cataimgui::set_scroll( s );
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
-        for( const std::pair<std::string, int> &translated_paragraph :
+        for( const std::pair<std::string, message_modifier> &translated_paragraph :
              translated_paragraphs ) {
             switch( translated_paragraph.second ) {
                 case MM_NORMAL:
@@ -353,6 +348,7 @@ float help_window::get_wrap_width()
 
 void help_window::show()
 {
+    const std::map<const int, const help_category> &cats = data.get_help_categories();
     while( true ) {
         while( !has_selected_category ) {
             ui_manager::redraw_invalidated();
@@ -368,11 +364,11 @@ void help_window::show()
             }
 
             if( selected_option != -1 && ( action == "SELECT" || action == "CONFIRM" ) ) {
-                has_selected_category = data.help_categories.find( selected_option ) != data.help_categories.end();
+                has_selected_category = cats.find( selected_option ) != cats.end();
                 if( has_selected_category ) {
                     loaded_option = selected_option;
                     swap_translated_paragraphs();
-                    data.read_categories.insert( loaded_option );
+                    data.mark_read( loaded_option );
                 } else {
                     debugmsg( "Category not found: option %s", selected_option );
                 }
@@ -395,17 +391,17 @@ void help_window::show()
             } else if( action == "CONFIRM" || action == "QUIT" ) {
                 has_selected_category = false;
             } else if( action == "LEFT" || action == "PREV_TAB" ) {
-                auto it = data.help_categories.find( loaded_option );
-                loaded_option = it != data.help_categories.begin() ? ( --it )->first :
-                                data.help_categories.rbegin()->first;
+                auto it = cats.find( loaded_option );
+                loaded_option = it != cats.begin() ? ( --it )->first :
+                                cats.rbegin()->first;
                 swap_translated_paragraphs();
-                data.read_categories.insert( loaded_option );
+                data.mark_read( loaded_option );
             } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
-                auto it = data.help_categories.find( loaded_option );
+                auto it = cats.find( loaded_option );
                 it++;
-                loaded_option = it != data.help_categories.end() ? it->first : data.help_categories.begin()->first;
+                loaded_option = it != cats.end() ? it->first : cats.begin()->first;
                 swap_translated_paragraphs();
-                data.read_categories.insert( loaded_option );
+                data.mark_read( loaded_option );
             }
         }
     }
@@ -413,12 +409,14 @@ void help_window::show()
 
 void help_window::swap_translated_paragraphs()
 {
+    Character &u = get_player_character();
     translated_paragraphs.clear();
-    const help_category &cat = data.help_categories[loaded_option];
-    for( const std::pair<translation, int> &paragraph : cat.paragraphs ) {
-        auto &translated_paragraph = translated_paragraphs.emplace_back(
-                                         paragraph.first.translated(), paragraph.second );
-        parse_tags( translated_paragraph.first, get_player_character(), get_player_character() );
+    const help_category &cat = data.get_help_category( loaded_option );
+
+    for( const auto &[untranslated_paragraph, modifier] : cat.paragraphs ) {
+        std::string &translated_paragraph = translated_paragraphs.emplace_back(
+                                                untranslated_paragraph.translated(), modifier ).first;
+        parse_tags( translated_paragraph, u, u );
     }
 }
 

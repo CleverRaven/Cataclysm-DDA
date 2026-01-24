@@ -19,10 +19,17 @@
 
 class JsonObject;
 
+enum message_modifier {
+    MM_NORMAL = 0, // Normal message
+    MM_SUBTITLE, // Formatted subtitle
+    MM_MONOFONT, // Forced monofont for fixed space diagrams
+    MM_SEPERATOR // ImGui seperator, value is the color to use
+};
+
 struct help_category {
     translation name;
     nc_color color = c_light_blue;
-    std::vector<std::pair<translation, int>> paragraphs;
+    std::vector<std::pair<translation, message_modifier>> paragraphs;
 };
 
 class help
@@ -30,12 +37,23 @@ class help
     public:
         static void load( const JsonObject &jo, const std::string &src );
         static void reset();
-        //TODO: Shouldn't be public
-        std::map<const int, const help_category> help_categories;
-        // Only persists per load (eg resets on menu -> game, game -> menu)
-        std::unordered_set<int> read_categories;
+        bool is_read( const int &option ) {
+            return _read_categories.find( option ) != _read_categories.end();
+        }
+        void mark_read( const int &option ) {
+            _read_categories.insert( option );
+        }
+        const help_category &get_help_category( const int &option ) {
+            return _help_categories[option];
+        }
+        const std::map<const int, const help_category> &get_help_categories() {
+            return _help_categories;
+        }
     private:
         void load_object( const JsonObject &jo, const std::string &src );
+        std::map<const int, const help_category> _help_categories;
+        // Only persists per load, intentionally resets on menu -> game, game -> menu
+        std::unordered_set<int> _read_categories;
         void reset_instance();
         // Modifier for each mods order
         int current_order_start = 0;
@@ -70,8 +88,9 @@ class help_window : public cataimgui::window
         bool has_selected_category = false;
         int loaded_option;
 
+        // Save currently displayed parsed tag + translated paragraphs so they don't need to be recalced every frame
         void swap_translated_paragraphs();
-        std::vector<std::pair<std::string, int>> translated_paragraphs;
+        std::vector<std::pair<std::string, message_modifier>> translated_paragraphs;
 
         void draw_category();
         cataimgui::scroll s;
