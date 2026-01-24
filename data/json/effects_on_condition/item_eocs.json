@@ -374,33 +374,39 @@
     "type": "effect_on_condition",
     "id": "EOC_pat_AR_scan",
     "condition": {
-      "or": [
-        { "u_near_om_location": "unvitrified_orchard", "range": 3 },
-        { "u_near_om_location": "LIXA_surface_1a", "range": 3 },
-        { "u_near_om_location": "temple_stairs", "range": 3 },
-        { "u_near_om_location": "mine_amigara_finale_central", "range": 3 },
-        { "u_near_om_location": "highlands", "range": 3 },
-        { "u_near_om_location": "exodii_base_x0y0z0", "range": 5 },
-        { "u_near_om_location": "microlab_portal_security1", "range": 3 },
-        { "u_near_om_location": "labyrinth_entrance", "range": 3 },
-        { "u_near_om_location": "corpse_surface", "range": 3 },
-        { "u_near_om_location": "xedra_rural_church", "range": 3 },
-        { "u_near_om_location": "morgantown_2b", "range": 10 },
-        { "u_near_om_location": "cabin_3_reverberation", "range": 3 },
-        { "u_near_om_location": "cabin_3_reverberation_hint", "range": 3 },
-        { "u_near_om_location": "radiosphere_radio_tower_top", "range": 3 },
-        { "u_near_om_location": "radio_tower_reverberation_mp3", "range": 3 },
-        { "math": [ "robofac_pat_lost_signal_highlands == 1" ] },
-        { "math": [ "robofac_pat_lost_signal_radiosphere == 1" ] },
-        { "math": [ "robofac_pat_lost_signal_cabin_reverb == 1" ] },
-        { "math": [ "robofac_pat_lost_signal_labyrinth == 1" ] }
+      "and": [
+        "u_exists",
+        "u_is_avatar",
+        {
+          "or": [
+            { "npc_near_om_location": "unvitrified_orchard", "range": 3 },
+            { "npc_near_om_location": "LIXA_surface_1a", "range": 3 },
+            { "npc_near_om_location": "temple_stairs", "range": 3 },
+            { "npc_near_om_location": "mine_amigara_finale_central", "range": 3 },
+            { "npc_near_om_location": "highlands", "range": 3 },
+            { "npc_near_om_location": "exodii_base_x0y0z0", "range": 5 },
+            { "npc_near_om_location": "microlab_portal_security1", "range": 3 },
+            { "npc_near_om_location": "labyrinth_entrance", "range": 3 },
+            { "npc_near_om_location": "corpse_surface", "range": 3 },
+            { "npc_near_om_location": "xedra_rural_church", "range": 3 },
+            { "npc_near_om_location": "morgantown_2b", "range": 10 },
+            { "npc_near_om_location": "cabin_3_reverberation", "range": 3 },
+            { "npc_near_om_location": "cabin_3_reverberation_hint", "range": 3 },
+            { "npc_near_om_location": "radiosphere_radio_tower_top", "range": 3 },
+            { "npc_near_om_location": "radio_tower_reverberation_mp3", "range": 3 },
+            { "math": [ "robofac_pat_lost_signal_highlands == 1" ] },
+            { "math": [ "robofac_pat_lost_signal_radiosphere == 1" ] },
+            { "math": [ "robofac_pat_lost_signal_cabin_reverb == 1" ] },
+            { "math": [ "robofac_pat_lost_signal_labyrinth == 1" ] }
+          ]
+        }
       ]
     },
     "effect": [
       {
         "if": {
           "and": [
-            { "u_near_om_location": "unvitrified_orchard", "range": 3 },
+            { "npc_near_om_location": "unvitrified_orchard", "range": 3 },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_vitrified" } ] } }
           ]
         },
@@ -415,7 +421,7 @@
       {
         "if": {
           "and": [
-            { "u_near_om_location": "LIXA_surface_1a", "range": 3 },
+            { "npc_near_om_location": "LIXA_surface_1a", "range": 3 },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_lixa" } ] } }
           ]
         },
@@ -430,7 +436,7 @@
       {
         "if": {
           "and": [
-            { "u_near_om_location": "temple_stairs", "range": 3 },
+            { "npc_near_om_location": "temple_stairs", "range": 3 },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_strange_temple" } ] } }
           ]
         },
@@ -445,7 +451,7 @@
       {
         "if": {
           "and": [
-            { "u_near_om_location": "mine_amigara_finale_central", "range": 3 },
+            { "npc_near_om_location": "mine_amigara_finale_central", "range": 3 },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_amigara" } ] } }
           ]
         },
@@ -460,7 +466,7 @@
       {
         "if": {
           "and": [
-            { "u_near_om_location": "highlands", "range": 3 },
+            { "npc_near_om_location": "highlands", "range": 3 },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_highlands" } ] } }
           ]
         },
@@ -473,7 +479,7 @@
       {
         "if": {
           "and": [
-            { "u_near_om_location": "exodii_base_x0y0z0", "range": 5 },
+            { "npc_near_om_location": "exodii_base_x0y0z0", "range": 5 },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_exodii" } ] } }
           ]
         },
@@ -488,7 +494,7 @@
       {
         "if": {
           "and": [
-            { "u_near_om_location": "microlab_portal_security1", "range": 3 },
+            { "npc_near_om_location": "microlab_portal_security1", "range": 3 },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_physics_lab" } ] } }
           ]
         },
@@ -503,7 +509,7 @@
       {
         "if": {
           "and": [
-            { "u_near_om_location": "labyrinth_entrance", "range": 3 },
+            { "npc_near_om_location": "labyrinth_entrance", "range": 3 },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_labyrinth" } ] } }
           ]
         },
@@ -516,7 +522,7 @@
       {
         "if": {
           "and": [
-            { "u_near_om_location": "corpse_surface", "range": 3 },
+            { "npc_near_om_location": "corpse_surface", "range": 3 },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_monster_corpse" } ] } }
           ]
         },
@@ -531,7 +537,7 @@
       {
         "if": {
           "and": [
-            { "u_near_om_location": "xedra_rural_church", "range": 3 },
+            { "npc_near_om_location": "xedra_rural_church", "range": 3 },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_rural_church" } ] } }
           ]
         },
@@ -546,7 +552,7 @@
       {
         "if": {
           "and": [
-            { "u_near_om_location": "morgantown_2b", "range": 10 },
+            { "npc_near_om_location": "morgantown_2b", "range": 10 },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_morgantown" } ] } }
           ]
         },
@@ -561,7 +567,7 @@
       {
         "if": {
           "and": [
-            { "u_near_om_location": "morgantown_2b", "range": 2 },
+            { "npc_near_om_location": "morgantown_2b", "range": 2 },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_morgantown_2" } ] } }
           ]
         },
@@ -576,7 +582,7 @@
       {
         "if": {
           "and": [
-            { "u_near_om_location": "cabin_3_reverberation", "range": 3 },
+            { "npc_near_om_location": "cabin_3_reverberation", "range": 3 },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_cabin_reverb" } ] } }
           ]
         },
@@ -589,7 +595,7 @@
       {
         "if": {
           "and": [
-            { "u_near_om_location": "radio_tower_reverberation_mp3", "range": 10 },
+            { "npc_near_om_location": "radio_tower_reverberation_mp3", "range": 10 },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_radio_tower_reverberation_mp3" } ] } }
           ]
         },
@@ -604,7 +610,7 @@
       {
         "if": {
           "and": [
-            { "u_near_om_location": "cabin_3_reverberation_hint", "range": 10 },
+            { "npc_near_om_location": "cabin_3_reverberation_hint", "range": 10 },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_cabin_reverb_hint" } ] } }
           ]
         },
@@ -619,7 +625,7 @@
       {
         "if": {
           "and": [
-            { "u_near_om_location": "radiosphere_radio_tower_top", "range": 3 },
+            { "npc_near_om_location": "radiosphere_radio_tower_top", "range": 3 },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_radiosphere" } ] } }
           ]
         },
@@ -630,7 +636,7 @@
         ]
       },
       {
-        "if": { "and": [ { "u_near_om_location": "field", "range": 10 }, { "math": [ "robofac_pat_lost_signal_highlands == 1" ] } ] },
+        "if": { "and": [ { "npc_near_om_location": "field", "range": 10 }, { "math": [ "robofac_pat_lost_signal_highlands == 1" ] } ] },
         "then": [
           {
             "u_message": "You hear a chirp in your earpiece and Pat's voice comes over the line: \"Holy shit, I'm slowly gettin' pictures now.  What the fuck happened to you?  One second you're walking through that water like a moron, and the next second, you're gone!  I'll look over the images as they come through.  You take it easy.  Over.\"",
@@ -641,7 +647,7 @@
       },
       {
         "if": {
-          "and": [ { "u_near_om_location": "field", "range": 10 }, { "math": [ "robofac_pat_lost_signal_radiosphere == 1" ] } ]
+          "and": [ { "npc_near_om_location": "field", "range": 10 }, { "math": [ "robofac_pat_lost_signal_radiosphere == 1" ] } ]
         },
         "then": [
           {
@@ -652,7 +658,7 @@
         ]
       },
       {
-        "if": { "and": [ { "u_near_om_location": "field", "range": 10 }, { "math": [ "robofac_pat_lost_signal_labyrinth == 1" ] } ] },
+        "if": { "and": [ { "npc_near_om_location": "field", "range": 10 }, { "math": [ "robofac_pat_lost_signal_labyrinth == 1" ] } ] },
         "then": [
           {
             "u_message": "You hear a chirp in your earpiece and Pat's voice comes over the line: \"Well, welcome back.  I guess that robot wasn't kidding.  Your radio signal vanished.  I'll record all the data as it comes through.\"",
@@ -663,7 +669,7 @@
       },
       {
         "if": {
-          "and": [ { "u_near_om_location": "field", "range": 10 }, { "math": [ "robofac_pat_lost_signal_cabin_reverb == 1" ] } ]
+          "and": [ { "npc_near_om_location": "field", "range": 10 }, { "math": [ "robofac_pat_lost_signal_cabin_reverb == 1" ] } ]
         },
         "then": [
           {
