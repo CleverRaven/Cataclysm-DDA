@@ -179,6 +179,29 @@ bool monster::will_move_to( map *here, const tripoint_bub_ms &p ) const
         !here->has_flag( ter_furn_flag::TFLAG_BURROWABLE, p ) ) {
         return false;
     }
+    // one dimensional creatures can ONLY move in their home dimension
+    if( has_flag( mon_flag_ONE_DIMENSIONAL_X ) && (
+            !here->has_flag( ter_furn_flag::TFLAG_ONE_DIMENSIONAL_X, p ) ||
+            // In the off chance a multidimensional vehicle enters a one dimensional tile
+            ( here->veh_at( p ) && !here->veh_at( pos_bub() ) )
+        ) ) {
+        return false;
+    }
+
+    if( has_flag( mon_flag_ONE_DIMENSIONAL_Y ) && (
+            !here->has_flag( ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Y, p ) ||
+            // In the off chance a multidimensional vehicle enters a one dimensional tile
+            ( here->veh_at( p ) && !here->veh_at( pos_bub() ) )
+        ) ) {
+        return false;
+    }
+    if( has_flag( mon_flag_ONE_DIMENSIONAL_Z ) && (
+            !here->has_flag( ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Z, p ) ||
+            // In the off chance a multidimensional vehicle enters a one dimensional tile
+            ( here->veh_at( p ) && !here->veh_at( pos_bub() ) )
+        ) ) {
+        return false;
+    }
 
     if( has_flag( mon_flag_AQUATIC ) && (
             !( here->has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ||
