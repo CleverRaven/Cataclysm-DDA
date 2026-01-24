@@ -197,6 +197,8 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 | `dodgeable`                 | Boolean, default true. The attack can be dodged normally.
 | `uncanny_dodgeable`         | Boolean, defaults to the value of `dodgeable`. The attack can be dodged by the Uncanny Dodge bionic or by characters having the `UNCANNY_DODGE` character flag.  Uncanny dodging takes precedence over normal dodging.
 | `blockable`                 | Boolean, default true.  The attack can be blocked (after the dodge checks).
+| `attack_amount`             | Pair of integers, default 1.  Specifies if this attack will hit you once, or multiple times, in multiple limbs (or multiple times in the same limb, if you are unlucky). The total damage of attack will be split evenly across all hits.
+| `spread_damage`             | Boolean, default false.  If true, attack will damage all the limbs of character; The total damage of attack will be split evenly across all limbs
 | `effects_require_dmg`       | Boolean, default true.  Effects will only be applied if the attack successfully damaged the target.
 | `effects`				      | Array, defines additional effects for the attack to add.  See [MONSTERS.md](MONSTERS.md#attack_effs) for the exact syntax. Duration is in turns, not in movement points
 | `self_effects_always`        | Array of `effects` the monster applies to itself when doing this attack.

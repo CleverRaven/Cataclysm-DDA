@@ -163,6 +163,8 @@ class melee_actor : public mattack_actor
         bool attack_upper = true;
         grab grab_data;
         bool is_grab = false;
+        std::pair<int, int> attack_amount = {1, 1};
+        bool spread_damage = false;
 
         std::vector<effect_on_condition_id> eoc;
 
