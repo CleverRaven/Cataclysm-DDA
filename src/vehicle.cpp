@@ -5192,6 +5192,9 @@ float vehicle::steering_effectiveness( map &here ) const
         float part_steer_capacity = 1.0f - vp.damage_percent();
         // TODO: Wheel faults modify steering in a json way, and not this hardcoded check
         if( vp.get_base().has_fault( fault_punctured_tires ) ) {
+            part_steer_capacity *= 0.5f;
+        }
+        if( vp.get_base().has_fault( fault_flat_tire_riding_on_rims ) ) {
             part_steer_capacity *= 0.1f;
         }
         if( !vp.is_available() ) {
