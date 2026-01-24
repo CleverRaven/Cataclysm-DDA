@@ -25,7 +25,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Chiropteran Signal CBM" },
-    "description": "A jar-like container that includes a set of vocal cords with a large hood at the top of them and rootlike tendrils at the base connecting to a microchip.",
+    "description": "A jar-like container that includes a set of vocal cords with a large hood at the top of them and rootlike tendrils at the base connectied to a microchip.",
     "price": "3 kUSD 500 USD",
     "difficulty": 8
   },
@@ -35,7 +35,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Desmodontinae Gargantua Vocalizer" },
-    "description": "A jar-like container that includes a set of oversized and reinforced vocal cords with a large hood at the top of them and rootlike tendrils at the base connecting to a microchip.",
+    "description": "A jar-like container that includes a set of oversized and reinforced vocal cords with a large hood at the top of them and rootlike tendrils at the base connected to a microchip.",
     "price": "3 kUSD 500 USD",
     "difficulty": 2
   },
