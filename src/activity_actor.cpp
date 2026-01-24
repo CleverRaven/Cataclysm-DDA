@@ -3221,6 +3221,38 @@ lockpick_activity_actor lockpick_activity_actor::use_bionic(
     };
 }
 
+time_duration lockpick_activity_actor::lockpicking_time( Character &who, item &lockpick )
+{
+    int qual = lockpick.get_quality( qual_LOCKPICK );
+    if( qual < 1 ) {
+        debugmsg( "Item %s with 'PICK_LOCK' use action requires LOCKPICK quality of at least 1.",
+                  lockpick.typeId().c_str() );
+        qual = 1;
+    }
+
+    /** @EFFECT_LOCKPICK speeds up door lock picking */
+    int duration_proficiency_factor = 10;
+    if( who.has_proficiency( proficiency_prof_lockpicking ) ) {
+        duration_proficiency_factor = 5;
+    }
+    if( who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
+        duration_proficiency_factor = 1;
+    }
+
+    // Weighting of skills that matches success calculations in finish()
+    const float weighted_skill_average = ( 3.0f * who.get_skill_level(
+            skill_traps ) + who.get_skill_level( skill_mechanics ) ) / 4.0f;
+
+    if( lockpick.has_flag( flag_PERFECT_LOCKPICK ) ) {
+        return 5_seconds;
+    } else {
+        /** @EFFECT_DEX speeds up door lock picking */
+        return std::max( 30_seconds,
+                         ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( who.dex_cur ) / 4.0f +
+                                weighted_skill_average ) ) * duration_proficiency_factor );
+    }
+}
+
 void lockpick_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_left = moves_total;

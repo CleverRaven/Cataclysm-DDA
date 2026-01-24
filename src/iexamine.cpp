@@ -2012,8 +2012,14 @@ void iexamine::locked_object_pickable( Character &you, const tripoint_bub_ms &ex
     } );
 
     for( item *it : picklocks ) {
-        if( !query_yn( _( "Pick the lock of %1$s using your %2$s?" ),
-                       target_name, it->tname() ) ) {
+        time_duration required_time = lockpick_activity_actor::lockpicking_time( you, *it );
+        const std::string time_string = colorize( to_string( required_time, true ), c_light_gray );
+        std::string query = string_format( _( "Pick the lock of %1$s using your %2$s?" ),
+                       target_name, it->tname() );
+        query += "\n";
+        query += _( "Time to complete: ");
+        query += time_string;
+        if( !query_yn( query ) ) {
             return;
         }
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );

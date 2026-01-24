@@ -877,6 +877,8 @@ class lockpick_activity_actor : public activity_actor
             const tripoint_abs_ms &target
         );
 
+        static time_duration lockpicking_time( Character &who, item &lockpick );
+
         const activity_id &get_type() const override {
             static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
             return ACT_LOCKPICK;
