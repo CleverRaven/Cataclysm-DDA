@@ -1,16 +1,53 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Item migration](#item-migration)
+- [Charge and temperature removal](#charge-and-temperature-removal)
+- [Vehicle migration](#vehicle-migration)
+- [Vehicle part migration](#vehicle-part-migration)
+- [Bionic migration](#bionic-migration)
+- [Trait migration](#trait-migration)
+- [Monster migration](#monster-migration)
+- [Recipe migration](#recipe-migration)
+- [Terrain and furniture migration](#terrain-and-furniture-migration)
+  - [Examples](#examples)
+- [Trap migration](#trap-migration)
+  - [Examples](#examples-1)
+- [Field migration](#field-migration)
+  - [Examples](#examples-2)
+- [Overmap terrain migration](#overmap-terrain-migration)
+- [Overmap specials migration](#overmap-specials-migration)
+- [Dialogue / EoC variable migration](#dialogue--eoc-variable-migration)
+- [Activity Migration](#activity-migration)
+- [Ammo types](#ammo-types)
+- [Spells](#spells)
+- [city_building](#city_building)
+- [Item groups](#item-groups)
+- [Monster groups](#monster-groups)
+- [body_part migration](#body_part-migration)
+- [Mods](#mods)
+  - [Obsoletion](#obsoletion)
+    - [Example](#example)
+  - [Migration](#migration)
+  - [Removal](#removal)
+    - [Example](#example-1)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 If you want to remove some item, it is rarely as straightforward as "remove the item json and call it a day". Everything that is stored in save file (like furniture, monsters or items, but not item or monstergroups) may cause harmless, but annoying errors when thing is removed. This document describe how to properly obsolete most `type`s of json we have in the game.
 
 Migration is used, when we want to remove one item by replacing it with another item, that do exist in the game, or to maintain a consistent list of item type ids. After migration, the item can be safely removed - remember to remove all mentions of entity elsewhere
 
-Migration and obsoletion should happen in `\data\json\obsoletion_and_migration_<current_stable_version>` folder
+Migration and obsoletion should happen in `\data\json\obsoletion_and_migration_<current_stable_version>` folder except for mod migration which is handled in `\data\core\`
 
 # Item migration
 
 Any of item types (AMMO, GUN, ARMOR, PET_ARMOR, TOOL, TOOLMOD, TOOL_ARMOR, BOOK, COMESTIBLE, ENGINE, WHEEL, GUNMOD, MAGAZINE, GENERIC, BIONIC_ITEM) should be migrated to another item, then it can be removed with no issues
-AMMO and COMESTIBLE types require additional handling, explained in [Charge and temperature removal](#Charge_and_temperature_removal)
+AMMO and COMESTIBLE types require additional handling, explained in [Charge and temperature removal](#Charge-and-temperature-removal)
 
-```json
+```jsonc
 {
   "type": "MIGRATION", // type, mandatory
   "id": "arrowhead",  // id of item, that you want to migrate, mandatory
@@ -53,7 +90,7 @@ Migrating vehicle parts is done using `vehicle_part_migration` type, in the exam
 For `VEH_TOOLS` parts only - `add_veh_tools` is a list of itype_ids to add to the vehicle tools after migrating the part.
 Vehicle part can be removed safely afterwards
 
-```json
+```jsonc
   {
     "type": "vehicle_part_migration",
     "//": "migration to VEH_TOOLS, remove after 0.H release",
@@ -63,10 +100,25 @@ Vehicle part can be removed safely afterwards
   }
 ```
 
+# Effect migration
+For effects, `effect_migration` type should be used.
+
+```jsonc
+  {
+    "type": "effect_migration",
+    "from": "yrax_overcharged",   // effect that needs to be migrated
+    "to": "drunk"                 // old effect will be replaced with this one. Can be omitted, in which case effect will be deleted
+  }
+  {
+    "type": "effect_migration",
+    "from": "foobar_effect",
+  }
+```
+
 # Bionic migration
 For bionics, you should use `bionic_migration` type. The migration happens when character is loaded; if `to` is `null` or is not defined, the bionic is removed, if `to` is not null the id will be changed to the provided value.
 
-```json
+```jsonc
   {
     "type": "bionic_migration",
     "from": "bio_tools_extend",
@@ -82,7 +134,7 @@ For bionics, you should use `bionic_migration` type. The migration happens when 
 
 A mutation migration can be used to migrate a mutation that formerly existed gracefully into a proficiency, another mutation (potentially a specific variant), or to simply remove it without any fuss.
 
-```json
+```jsonc
   {
     "type": "TRAIT_MIGRATION",      // Mandatory. String. Must be "TRAIT_MIGRATION"
     "id": "hair_red_mohawk",        // Mandatory. String. Id of the trait that has been removed.
@@ -110,6 +162,38 @@ A mutation migration can be used to migrate a mutation that formerly existed gra
   }
 ```
 
+# Proficiency migration
+
+Prof migration can be migrated to new prof (with progress being transferred) or to null
+
+```jsonc
+  {
+    "type": "proficiency_migration",
+    "from": "prof_wp_slime_basic",  // Mandatory. Id of the prof that has been removed.
+    "to": "prof_wp_mi-go_basic"     // Optional. Id of the new prof that will be set instead. can be omitted to remove the prof
+  },
+  {
+    "type": "proficiency_migration",
+    "from": "prof_wp_slime_advanced"
+  }
+```
+
+# Spell migration
+
+The only spells that require migration are one that are actual spells that character/player learned, so this section is more applicable to magic mods, and not applicable to, for example, a monster spells (monsters do not store it anywhere, just picking it up fron definition when needed)
+
+```jsonc
+  {
+    "type": "spell_migration",
+    "from": "spell_foo",  // Mandatory. Id of the spell that has been removed.
+    "to": "spell_bar"     // Optional. Id of the new spell that will be set instead. Can be omitted to remove the spell completely. If character already has this spell learned, it will not be modified
+  },
+  {
+    "type": "spell_migration",
+    "from": "spell_bar",
+  },
+```
+
 # Monster migration
 
 Monster can be removed without migration, the game replace all critters without matched monster id with mon_breather when loaded
@@ -122,7 +206,7 @@ Recipes can be removed without migration, the game will simply delete the recipe
 
 Terrain and furniture migration replace the provided id as submaps are loaded. You can use `f_null` with `to_furn` to remove furniture entirely without creating errors, however `from_ter` must specify a non null `to_ter`.
 
-```json
+```jsonc
 {
     "type": "ter_furn_migration",   // Mandatory. String. Must be "ter_furn_migration"
     "from_ter": "t_old_ter",        // Optional*. String. Id of the terrain to replace.
@@ -137,7 +221,7 @@ Terrain and furniture migration replace the provided id as submaps are loaded. Y
 
 Replace a fence that bashes into t_dirt into a furniture that can be used seamlessly over all terrains
 
-```json
+```jsonc
   {
     "type": "ter_furn_migration",
     "from_ter": "t_fence_dirt",
@@ -148,7 +232,7 @@ Replace a fence that bashes into t_dirt into a furniture that can be used seamle
 
 Move multiple ids that don't need to be unique any more to a single id
 
-```json
+```jsonc
   {
     "type": "ter_furn_migration",
     "from_furn": "f_underbrush_harvested_spring",
@@ -156,7 +240,7 @@ Move multiple ids that don't need to be unique any more to a single id
   }
 ```
 ...
-```json
+```jsonc
   {
     "type": "ter_furn_migration",
     "from_furn": "f_underbrush_harvested_winter",
@@ -168,7 +252,7 @@ Move multiple ids that don't need to be unique any more to a single id
 
 Trap migration replaces the provided id as submaps are loaded. You can use `tr_null` with `to_trap` to remove the trap entirely without creating errors.
 
-```json
+```jsonc
 {
     "type": "trap_migration",   // Mandatory. String. Must be "trap_migration"
     "from_trap": "tr_old_trap",        // Mandatory. String. Id of the trap to replace.
@@ -180,7 +264,7 @@ Trap migration replaces the provided id as submaps are loaded. You can use `tr_n
 
 Migrate an id
 
-```json
+```jsonc
   {
     "type": "trap_migration",
     "from_trap": "tr_being_migrated_id",
@@ -190,7 +274,7 @@ Migrate an id
 
 Errorlessly obsolete an id
 
-```json
+```jsonc
   {
     "type": "trap_migration",
     "from_trap": "tr_being_obsoleted_id",
@@ -202,7 +286,7 @@ Errorlessly obsolete an id
 
 Field migration replaces the provided id as submaps are loaded. You can use `fd_null` with `to_field` to remove the field entirely without creating errors.
 
-```json
+```jsonc
 {
     "type": "field_type_migration",   // Mandatory. String. Must be "field_type_migration"
     "from_field": "fd_old_field",        // Mandatory. String. Id of the field to replace.
@@ -214,7 +298,7 @@ Field migration replaces the provided id as submaps are loaded. You can use `fd_
 
 Migrate an id
 
-```json
+```jsonc
   {
     "type": "field_type_migration",
     "from_field": "fd_being_migrated_id",
@@ -224,7 +308,7 @@ Migrate an id
 
 Errorlessly obsolete an id
 
-```json
+```jsonc
   {
     "type": "field_type_migration",
     "from_field": "fd_being_obsoleted_id",
@@ -237,7 +321,7 @@ Errorlessly obsolete an id
 Overmap terrain migration replaces the location, if it's not generated, and replaces the entry shown on your map even if it's already generated.
 If you need the map to be removed without alternative, use `omt_obsolete`. Mods can override replacement ids by specifying different new ids or cancel them entirely by making the new id the same as the old one.
 
-```json
+```jsonc
   {
     "type": "oter_id_migration",
     "oter_ids": {
@@ -252,7 +336,7 @@ If you need the map to be removed without alternative, use `omt_obsolete`. Mods 
 
 Overmap special can be either migrated to another overmap special, or just removed, using overmap_special_migration
 
-```json
+```jsonc
   {
     "type": "overmap_special_migration",
     "id": "Farm with silo",
@@ -267,7 +351,7 @@ Overmap special can be either migrated to another overmap special, or just remov
 # Dialogue / EoC variable migration
 For EOC/dialogue variables you can use `var_migration`. This currently only migrates **Character**, and **Global** vars. If "to" isn't provided the variable will be migrated to a key of "NULL_VALUE".
 
-```json
+```jsonc
 {
     "type": "var_migration",
     "from": "temp_var",
@@ -308,11 +392,28 @@ Don't need any migration
 
 body_part have no infrastructure to migrate them, just copy the entire json of body_part to the obsoletion folder
 
-# Mod obsoletion
+# Mods
 
-For mods, you need to add an `"obsolete": true,` boolean into MOD_INFO, which prevent the mod from showing into the mod list.
+## Obsoletion
 
-```json
+To obsolete a mod, you need to add an `"obsolete": true,` boolean into MOD_INFO, which prevents the mod from showing in the mod list when creating a new world but won't affect existing worlds.
+
+When declaring a mod obsolete, consider also adding its directory to the `lang/update_pot.sh` file via the `-D` argument to `extract_json_strings.py` so it's no longer exposed to translation.
+
+```diff
+echo "> Extracting strings from JSON"
+if ! lang/extract_json_strings.py \
+        -i data \
+        ...
++       -D data/mods/YOUR_DEPRECATED_MOD \
+        -n "$package $version" \
+        -r lang/po/gui.pot \
+        -o lang/po/json.pot
+```
+
+### Example
+
+```jsonc
   {
     "type": "MOD_INFO",
     "id": "military_professions",
@@ -324,17 +425,39 @@ For mods, you need to add an `"obsolete": true,` boolean into MOD_INFO, which pr
   }
 ```
 
-When declaring a mod obsolete, also consider adding its directory to the `lang/update_pot.sh` file via the `-D` argument to `extract_json_strings.py`:
 
-```diff
-echo "> Extracting strings from JSON"
-if ! lang/extract_json_strings.py \
-        -i data \
-        ...
-        -D data/mods/BlazeIndustries \
-        -D data/mods/desert_region \
-+       -D data/mods/YOUR_DEPRECATED_MOD \
-        -n "$package $version" \
-        -r lang/po/gui.pot \
-        -o lang/po/json.pot
+## Migration
+
+Mod migrations should be located in the `\data\core\` folder and enable a no longer existing `id` to be silently migrated to a new id when loading a world where the old mod is present.
+
+```json
+  {
+    "type": "mod_migration",
+    "//": "Migrated in 0.X experimental meaning this can be removed after 0.X stable",
+    "id": "old_mod_id",
+    "new_id": "new_mod_id"
+  }
 ```
+
+## Removal
+
+Mod removals should be located in the `\data\core\` folder and must include a message that will appear when querying the player what to do when loading a world where the old mod is present.
+
+### Example
+
+```json
+  {
+    "type": "mod_migration",
+    "//": "Removed in 0.X experimental meaning this can be removed after 0.X stable",
+    "id": "old_mod_id",
+    "removal_message": "Removed because it hasn't been maintained in a decade."
+  }
+```
+
+The above would lead to this (translated) query:
+
+```
+Mod old_mod_id has been removed with reason: Removed because it hasn't been maintained in a decade.
+Remove it from this world's modlist?
+```
+

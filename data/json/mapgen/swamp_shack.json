@@ -7,7 +7,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cattail",
     "object": { "rows": [ "i" ], "furniture": { "i": "f_cattails" }, "mapgensize": [ 1, 1 ] }
   },
@@ -95,7 +94,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "hunter_shack" ],
     "object": {
       "predecessor_mapgen": "forest_water",
@@ -133,7 +131,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "hunter_shack_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -170,7 +167,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "hunter_shack_1" ],
     "object": {
       "predecessor_mapgen": "forest_water",
@@ -207,7 +203,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "hunter_shack_roof_1",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

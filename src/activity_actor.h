@@ -31,6 +31,16 @@ class activity_actor
             return false;
         }
 
+        /**
+         * Updates stored values used for activity with values from another
+         * activity of the same type.
+         * Nothing is updated by default. Each activity_actor type should handle
+         * its own values if required.
+         * @pre @p other is the same type of actor as `this`
+         */
+        virtual void set_resume_values_internal( const activity_actor &,
+                const Character & ) { }
+
     public:
         virtual ~activity_actor() = default;
 
@@ -80,7 +90,20 @@ class activity_actor
         }
 
         /**
+         * Called in player_activity::set_resume_values when this activity is resumed
+         * with another one.
+         * Checks that @p other has the same type as `this` so that
+         * `set_resume_values_internal` can safely `static_cast` @p other.
+         */
+        void set_resume_values( const activity_actor &other, const Character &who ) {
+            if( other.get_type() == get_type() ) {
+                set_resume_values_internal( other, who );
+            }
+        }
+
+        /**
          * Used to generate the progress display at the top of the screen
+         * See player_activity::get_progress_message()
          */
         virtual std::string get_progress_message( const player_activity &act ) const;
 

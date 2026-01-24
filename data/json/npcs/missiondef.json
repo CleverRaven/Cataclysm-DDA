@@ -20,7 +20,7 @@
       "advice": "If there is a military team down there then we better go in prepared if we want to impress them.  Carry as much ammo as you can and prepare to ditch this place if they have a second bird coming to pick them up.",
       "inquire": "Having any trouble following the map?  Remember to search underground.",
       "success": "Maybe these things are what remains of the team we were searching for…",
-      "success_lie": "What?!  I out'ta whip your ass.",
+      "success_lie": "What?!  I oughta whip your ass.",
       "failure": "Damn, we were so close."
     }
   },
@@ -34,7 +34,7 @@
     "value": 150000,
     "urgent": true,
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
-    "deadline": [ "30 days", "48 days" ],
+    "deadline": [ "2 days", "3 days" ],
     "dialogue": {
       "describe": "I'm… short… of breath…",
       "offer": "I'm asthmatic.  I need you to get an inhaler for me…",
@@ -67,7 +67,7 @@
     "urgent": true,
     "goal_condition": { "or": [ { "u_has_item": "antibiotics" }, { "u_has_item": "strong_antibiotic" }, { "u_has_item": "panacea" } ] },
     "origins": [ "ORIGIN_OPENER_NPC" ],
-    "deadline": [ "24 days", "48 days" ],
+    "deadline": "1 day",
     "dialogue": {
       "describe": "This infection is bad, totally bad…",
       "offer": "I'm infected.  Badly.  I need you to get some good antibiotics for me…",
@@ -811,7 +811,7 @@
     "id": "MISSION_LEARN_ABOUT_CATTAIL_JELLY",
     "type": "mission_definition",
     "name": { "str": "Gather cattail stalks to create cattail jelly" },
-    "description": "Gather <color_light_blue>60 cattail stalks</color> from the swamp and bring them back to <color_light_red>learn how to craft cattail jelly</color>.  Raise your <color_light_blue>survival skill to at least 1</color> by harvesting cattail stalks.  <color_light_blue>Bring back the provided bag with the 60 cattail stalks in them</color> as well.",
+    "description": "Gather <color_yellow>60 cattail stalks</color> from the swamp and bring them back to <color_light_red>learn how to craft cattail jelly</color>.  Raise your <color_yellow>survival skill to at least 1</color> by harvesting cattail stalks.  <color_yellow>Bring back the provided bag with the 60 cattail stalks in them</color> as well.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": {
       "and": [
@@ -886,7 +886,6 @@
     "//": "For MISSION_PYROMANIAC. Will spawn fire on tile where PC is standing.",
     "type": "mapgen",
     "update_mapgen_id": "MISSION_PYROMANIAC_BURN",
-    "method": "json",
     "object": {
       "place_liquids": [ { "liquid": "gasoline", "x": [ 5, 20 ], "y": [ 5, 20 ], "amount": 5, "repeat": 40 } ],
       "place_fields": [ { "field": "fd_fire", "x": [ 5, 20 ], "y": [ 5, 20 ], "repeat": 40 } ]
@@ -985,7 +984,7 @@
         "u_message": "You've been badly wounded.  It might be better to rest for a while and let someone else scavenge.  (Changing characters is now available at any camp board.)",
         "type": "mixed"
       },
-      { "math": [ "u_timer_time_of_last_succession", "-=", "time_between_succession" ] }
+      { "math": [ "u_timer_time_of_last_succession -= time_between_succession" ] }
     ]
   }
 ]

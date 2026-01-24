@@ -782,7 +782,7 @@
     "subtype": "distribution",
     "id": "boxed_57",
     "container-item": "57_ammo_box_50",
-    "items": [ { "item": "57mm", "charges": 50 } ]
+    "items": [ { "item": "57mm_lf", "charges": 50 } ]
   },
   {
     "type": "item_group",
@@ -832,6 +832,13 @@
     "id": "boxed_458",
     "container-item": { "item": "300_ammo_box_20", "variant": "458_ammo_box_20" },
     "items": [ { "item": "458wm", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_3030",
+    "container-item": "3030_ammo_box_20",
+    "items": [ { "item": "3030", "charges": 20 } ]
   },
   {
     "type": "item_group",
@@ -1780,7 +1787,7 @@
     "id": "boxed_57_used",
     "on_overflow": "spill",
     "container-item": "57_ammo_box_50",
-    "items": [ { "item": "57mm", "charges": 1, "count": [ 25, 75 ] } ]
+    "items": [ { "item": "57mm_lf", "charges": 1, "count": [ 25, 75 ] } ]
   },
   {
     "type": "item_group",
@@ -1843,6 +1850,14 @@
     "on_overflow": "spill",
     "container-item": { "item": "300_ammo_box_20", "variant": "458_ammo_box_20" },
     "items": [ { "item": "458wm", "charges": 1, "count": [ 10, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_3030_used",
+    "on_overflow": "spill",
+    "container-item": "3030_ammo_box_20",
+    "items": [ { "item": "3030", "charges": 1, "count": [ 10, 30 ] } ]
   },
   {
     "type": "item_group",
@@ -2645,7 +2660,7 @@
     "subtype": "distribution",
     "id": "boxed_57_looted",
     "container-item": "57_ammo_box_50",
-    "items": [ { "item": "57mm", "charges": [ 0, 10 ] } ]
+    "items": [ { "item": "57mm_lf", "charges": [ 0, 10 ] } ]
   },
   {
     "type": "item_group",
@@ -2698,5 +2713,12 @@
     "id": "boxed_458_looted",
     "container-item": { "item": "300_ammo_box_20", "variant": "458_ammo_box_20" },
     "items": [ { "item": "458wm", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_3030_looted",
+    "container-item": "3030_ammo_box_20",
+    "items": [ { "item": "3030", "charges": [ 0, 4 ] } ]
   }
 ]

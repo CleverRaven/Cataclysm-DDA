@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "mall_a_56_basement",
@@ -61,7 +60,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "mall_a_65_basement",
@@ -120,7 +118,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mall_a_67_sub_basement", "mall_a_68_sub_basement", "mall_a_69_sub_basement" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",

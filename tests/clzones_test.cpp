@@ -22,8 +22,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
-
 static const faction_id faction_your_followers( "your_followers" );
 
 static const itype_id itype_556( "556" );
@@ -36,13 +34,12 @@ static const itype_id
 itype_test_watertight_open_sealed_container_250ml( "test_watertight_open_sealed_container_250ml" );
 static const itype_id itype_test_wine( "test_wine" );
 
-static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
+static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart" );
 
 static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
 static const zone_type_id zone_type_LOOT_PDRINK( "LOOT_PDRINK" );
 static const zone_type_id zone_type_LOOT_PFOOD( "LOOT_PFOOD" );
-static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 
 namespace
@@ -89,18 +86,16 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
     clear_map();
 
     tripoint_abs_ms const start = here.get_abs( tripoint_bub_ms::zero + tripoint::east );
-    bool const move_act = GENERATE( true, false );
     dummy.set_pos_abs_only( start );
 
     if( in_vehicle ) {
-        REQUIRE( here.add_vehicle( vehicle_prototype_shopping_cart, tripoint_bub_ms::zero + tripoint::east,
-                                   0_degrees, 0, 0 ) );
+        REQUIRE( here.add_vehicle( vehicle_prototype_test_shopping_cart,
+                                   tripoint_bub_ms::zero + tripoint::east, 0_degrees, 0, 0 ) );
         vp = here.veh_at( start ).cargo();
         REQUIRE( vp );
         vp->vehicle().set_owner( dummy );
     }
 
-    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start, in_vehicle );
     create_tile_zone( "Unload All", zone_type_UNLOAD_ALL, start, in_vehicle );
 
     item ammo_belt = item( itype_belt223, calendar::turn );
@@ -115,11 +110,7 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
         } else {
             here.add_item_or_charges( tripoint_bub_ms( tripoint::east ), ammo_belt );
         }
-        if( move_act ) {
-            dummy.assign_activity( player_activity( ACT_MOVE_LOOT ) );
-        } else {
-            dummy.assign_activity( unload_loot_activity_actor() );
-        }
+        dummy.assign_activity( unload_loot_activity_actor() );
         CAPTURE( dummy.activity.id() );
         process_activity( dummy );
 
@@ -219,7 +210,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
                 item container( itype_test_watertight_open_sealed_container_250ml );
                 REQUIRE( container.put_in( nonperishable_food, pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
-                REQUIRE( container.get_all_contained_pockets().front()->spoil_multiplier() ==
+                REQUIRE( container.get_container_pockets().front()->spoil_multiplier() ==
                          0.0f );
                 REQUIRE( container.all_pockets_sealed() );
 
@@ -253,7 +244,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
                 item container( itype_test_watertight_open_sealed_container_250ml );
                 REQUIRE( container.put_in( nonperishable_drink, pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
-                REQUIRE( container.get_all_contained_pockets().front()->spoil_multiplier() ==
+                REQUIRE( container.get_container_pockets().front()->spoil_multiplier() ==
                          0.0f );
                 REQUIRE( container.all_pockets_sealed() );
 
@@ -287,7 +278,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
                 item container( itype_test_watertight_open_sealed_container_250ml );
                 REQUIRE( container.put_in( perishable_food, pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
-                REQUIRE( container.get_all_contained_pockets().front()->spoil_multiplier() ==
+                REQUIRE( container.get_container_pockets().front()->spoil_multiplier() ==
                          0.0f );
                 REQUIRE( container.all_pockets_sealed() );
 
@@ -321,7 +312,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
                 item container( itype_test_watertight_open_sealed_container_250ml );
                 REQUIRE( container.put_in( perishable_drink, pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
-                REQUIRE( container.get_all_contained_pockets().front()->spoil_multiplier() ==
+                REQUIRE( container.get_container_pockets().front()->spoil_multiplier() ==
                          0.0f );
                 REQUIRE( container.all_pockets_sealed() );
 

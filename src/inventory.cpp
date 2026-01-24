@@ -30,7 +30,6 @@
 #include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
-#include "ret_val.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
@@ -556,7 +555,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const C
                     }
                     if( amount > 0 ) {
                         item furn_ammo( ammo_id, calendar::turn, amount );
-                        furn_item->put_in( furn_ammo, pocket_type::MAGAZINE );
+                        furn_item->force_insert_item( furn_ammo, pocket_type::MAGAZINE );
                     }
                 }
             }

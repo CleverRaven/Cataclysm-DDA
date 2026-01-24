@@ -1,16 +1,17 @@
 [
   {
     "id": "force_blade",
+    "//": "id retained for legacy reasons",
     "type": "SPELL",
-    "name": "Force Blade",
-    "description": "You shoot a blade of concentrated force in a straight line, cutting everything in its path.",
+    "name": "Storm of Force",
+    "description": "You shoot blasts of of concentrated force in a straight line, cutting everything in their path.",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "effect": "attack",
     "shape": "line",
     "spell_class": "FORCE_MAGE",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "base_casting_time": 250,
     "base_energy_cost": 350,
     "difficulty": 4,
@@ -26,30 +27,17 @@
   },
   {
     "id": "force_magical_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "Force Shield" },
     "description": "A shield of pure force that protects you from most types of physical damage.",
-    "weight": "1 g",
+    "weight": "500 mg",
     "volume": "1 ml",
     "to_hit": -10,
     "symbol": "[",
     "color": "brown",
     "material": [ "magical_material" ],
     "environmental_protection": 2,
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "incoming_damage_mod": [
-            { "type": "bash", "multiply": -0.3 },
-            { "type": "stab", "multiply": -0.3 },
-            { "type": "cut", "multiply": -0.3 },
-            { "type": "bullet", "multiply": -0.3 }
-          ]
-        }
-      ]
-    },
     "flags": [ "WATERPROOF", "TRADER_AVOID", "SEMITANGIBLE", "OVERSIZE", "AURA", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
     "max_worn": 1,
     "armor": [
@@ -57,6 +45,18 @@
         "encumbrance": 0,
         "coverage": 100,
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.3 },
+          { "type": "stab", "multiply": -0.3 },
+          { "type": "cut", "multiply": -0.3 },
+          { "type": "bullet", "multiply": -0.3 }
+        ]
       }
     ]
   },
@@ -72,7 +72,7 @@
     "effect_str": "force_magical_armor",
     "shape": "blast",
     "spell_class": "FORCE_MAGE",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "base_casting_time": 500,
     "base_energy_cost": 500,
     "max_level": 35,

@@ -1,5 +1,27 @@
 [
   {
+    "id": "SUS_office_supplies",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a storage furniture containing supplies for an office.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "used_eink_tablet_pcs", "prob": 30, "contents-group": "SUS_efiles_office", "count": [ 1, 2 ] },
+      { "group": "used_laptops", "prob": 60, "contents-group": "SUS_efiles_office", "count": [ 1, 4 ] },
+      { "group": "used_usb_drives", "prob": 60, "contents-group": "SUS_efiles_office", "count": [ 3, 8 ] },
+      { "group": "used_memory_cards", "prob": 60, "contents-group": "SUS_efiles_office", "count": [ 2, 7 ] },
+      { "item": "battery_charger", "prob": 80 },
+      { "item": "rubber_band", "prob": 60, "count": [ 8, 20 ] },
+      { "item": "file", "count": [ 8, 20 ], "prob": 80 },
+      { "item": "paper", "count": [ 40, 90 ], "prob": 80 },
+      { "group": "writing_utensils", "count": [ 40, 100 ], "prob": 80, "charges": [ 80, 100 ] },
+      { "item": "book_binder", "prob": 90, "count": [ 1, 5 ] },
+      { "item": "stapler", "prob": 60, "count": [ 3, 10 ] },
+      { "item": "office_holepunch", "prob": 35, "count": [ 2, 10 ] },
+      { "item": "scissors", "prob": 35, "count": [ 4, 10 ] }
+    ]
+  },
+  {
     "id": "SUS_office_desk",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
@@ -14,6 +36,7 @@
       { "item": "file", "count": [ 1, 8 ], "prob": 50 },
       { "item": "paper", "count": [ 2, 9 ], "prob": 60 },
       { "group": "pens", "count": [ 1, 10 ], "prob": 95, "charges": [ 0, 100 ] },
+      { "item": "rubber_band", "prob": 20 },
       { "item": "book_binder", "prob": 90 },
       { "item": "stapler", "prob": 60 },
       { "item": "office_holepunch", "prob": 35 },
@@ -22,6 +45,42 @@
       { "item": "family_photo", "prob": 10 },
       { "item": "coin_quarter", "prob": 10 },
       { "group": "oa_discarded_news", "count": [ 2, 12 ], "prob": 20 }
+    ]
+  },
+  {
+    "id": "SUS_office_mess",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a messy assortment of items around an office desk.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "used_eink_tablet_pcs", "prob": 2, "contents-group": "SUS_efiles_office" },
+      { "group": "used_laptops", "prob": 6, "contents-group": "SUS_efiles_office" },
+      { "group": "used_usb_drives", "prob": 5, "contents-group": "SUS_efiles_office" },
+      { "group": "used_memory_cards", "prob": 3, "contents-group": "SUS_efiles_office" },
+      { "item": "battery_charger", "prob": 8 },
+      { "item": "file", "count": [ 1, 8 ], "prob": 20 },
+      { "item": "paper", "count": [ 2, 9 ], "prob": 20 },
+      { "group": "pens", "count": [ 1, 10 ], "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "stapler", "prob": 5 },
+      { "item": "office_holepunch", "prob": 2 },
+      { "item": "scissors", "prob": 5 },
+      { "item": "phonebook", "prob": 1 },
+      { "item": "family_photo", "prob": 10 },
+      { "group": "oa_discarded_news", "prob": 20 },
+      { "item": "inhaler", "prob": 3, "charges": [ 10, 75 ] },
+      { "item": "mbag", "prob": 5 },
+      { "item": "rubber_band", "prob": 20, "count": [ 2, 10 ] },
+      { "item": "coin_quarter", "prob": 10, "count": [ 1, 8 ] },
+      { "group": "duct_tape_roll_part", "prob": 5 },
+      { "group": "glue_weak_domestic", "prob": 5 },
+      { "item": "umbrella", "prob": 5 },
+      { "item": "teleumbrella", "prob": 5 },
+      { "item": "survnote", "prob": 1 },
+      { "item": "cola", "prob": 6, "count": [ 1, 3 ] },
+      { "item": "can_drink", "prob": 15, "count": [ 1, 4 ] },
+      { "group": "cig_box_cigarette_1_20", "prob": 5 },
+      { "item": "fan", "prob": 8 }
     ]
   },
   {
@@ -60,7 +119,8 @@
       { "item": "apron_plastic", "prob": 40 },
       { "item": "chem_hydrogen_peroxide", "prob": 40, "charges": [ 4, -1 ] },
       { "item": "soap", "count": [ 1, 2 ], "prob": 70 },
-      { "item": "detergent", "count": [ 1, 2 ], "prob": 80 },
+      { "item": "detergent", "count": [ 1, 2 ], "prob": 40 },
+      { "item": "chem_borax", "charges": [ 100, 500 ], "prob": 40 },
       { "item": "paper", "count": [ 1, 2 ], "prob": 90 }
     ]
   },

@@ -1,14 +1,14 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wind_turbine",
     "name": { "str": "wind turbine" },
     "description": "A small turbine that can convert wind into electric power.",
     "weight": "50000 g",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "color": "yellow",
     "symbol": "T",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "volume": "20 L",
     "category": "veh_parts",
     "price": "600 USD",
@@ -16,12 +16,12 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "xl_wind_turbine",
     "name": { "str": "large wind turbine" },
     "description": "A large turbine that can convert wind into electric power.",
     "weight": "150000 g",
-    "to_hit": -7,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "symbol": "Y",
     "volume": "60 L",
     "price": "1 kUSD 500 USD",
@@ -29,12 +29,12 @@
     "copy-from": "wind_turbine"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "water_wheel",
     "name": { "str": "water wheel" },
     "description": "A water wheel that will slowly recharge electrical power when built over shallow moving water.",
     "weight": "80000 g",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "symbol": "*",
     "material": [ "wood" ],
     "volume": "30 L",
@@ -44,7 +44,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "xl_water_wheel",
     "name": { "str": "large water wheel" },
     "description": "A large water wheel with wooden supports.  It will recharge electrical power when built over shallow moving water.",

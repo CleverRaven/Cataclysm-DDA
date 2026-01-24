@@ -1,6 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [JSON Style Guide](#json-style-guide)
+  - [JSON Example](#json-example)
+  - [Formatting tool](#formatting-tool)
+    - [Visual Studio Code](#visual-studio-code)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # JSON Style Guide
 
-Like in [CODE_STYLE.md](CODE_STYLE.md), the JSON styling policy is to update JSON as it is added or edited, and in relatively small chunks otherwise in order to prevent undue disruption to development.
+Like in [CODE_STYLE.md](/doc/c++/CODE_STYLE.md), the JSON styling policy is to update JSON as it is added or edited, and in relatively small chunks otherwise in order to prevent undue disruption to development.
 
 We haven't been able to find a decent JSON styling tool, so we wrote our own.  It lives in tools/format/format.cpp and it leverages src/json.cpp to parse and emit JSON.
 `json_formatter.cgi` can be found in any released build and is already compiled, see [Formatting tool](#Formatting tool).
@@ -9,7 +20,7 @@ We haven't been able to find a decent JSON styling tool, so we wrote our own.  I
 
 This example outlines most of the styling features:
 
-```json
+```jsonc
 [
   {
     "type": "foo",
@@ -92,4 +103,4 @@ position of your command in the list (e.g. `Tools.ExternalCommand1` if it's the
 top item in the list) and then assign shortcut keys to it.
 
 ### Visual Studio Code
-If you install the recommended extensions you should have access to the the cdda-toys.cdda-json-formatter which will auto format your json.
+If you install the recommended extensions you should have access to the cdda-toys.cdda-json-formatter which will auto format your json.

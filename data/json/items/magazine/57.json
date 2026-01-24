@@ -2,8 +2,9 @@
   {
     "id": "fn57mag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
-    "name": { "str": "FN 5.7mm 20-round pistol magazine" },
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "FN 5.7mm pistol 20-round magazine" },
     "description": "A 20-round box magazine, for use with handguns chambering the proprietary 5.7x28mm cartridge.",
     "variant_type": "gun",
     "variants": [
@@ -28,10 +29,28 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "57": 20 } } ]
   },
   {
+    "id": "fn57mag_10rd",
+    "copy-from": "fn57mag",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "FN 5.7mm pistol 10-round magazine" },
+    "description": "A 10-round box magazine, for use with handguns chambering the proprietary 5.7x28mm cartridge.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "fn57mag",
+        "name": { "str": "Five-seveN 10-round magazine" },
+        "description": "A restricted magazine for use with the FN Five-seveN."
+      }
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "57": 10 } } ]
+  },
+  {
     "id": "fnp90mag",
     "//": "Audited with IRL measuring of OEM mag, no displacement test.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "P90 50-round magazine" },
     "description": "A factory issue translucent polymer box magazine that fits with the frame of the FN P90.",
     "weight": "143 g",
@@ -47,10 +66,20 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "57": 50 } } ]
   },
   {
+    "id": "fnp90mag_10rd",
+    "copy-from": "fnp90mag",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "P90 10-round magazine" },
+    "description": "A factory issue translucent polymer box magazine that fits with the frame of the FN P90, limited to 10 rounds to follow state regulations.",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "57": 10 } } ]
+  },
+  {
     "id": "ruger_57mag",
     "//": "Audited with ImageJ, weight is comparative with Fn57.",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Ruger-57 20-round magazine" },
     "description": "A standard capacity 20-round 5.7x28mm magazine for use with the Ruger-57.",
     "weight": "30 g",
@@ -69,7 +98,8 @@
     "id": "ruger_57_10_round_mag",
     "//": "Magazine is almost identical to 20 round.",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Ruger-57 10-round magazine" },
     "description": "A small capacity 10-round magazine for use with the Ruger-57, developed for use in states in which standard capacity magazines are prohibited.",
     "weight": "24 g",

@@ -82,6 +82,6 @@
       [ [ "chem_methanol", 3 ] ],
       [ [ "lye_powder", 5 ], [ "chem_potassium_hydroxide", 25 ], [ "lye", 1 ], [ "lye_potassium", 1 ] ]
     ],
-    "charges": 6
+    "charges": 180
   }
 ]

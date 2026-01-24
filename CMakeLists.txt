@@ -135,8 +135,7 @@ message(STATUS "${PROJECT_NAME} build options --")
 
 # Preset variables
 if (NOT LANGUAGES)
-    set(LANGUAGES ar cs da de el es_AR es_ES fil_PH fr ga_IE hu id is it_IT ja ko nb nl pl pt_BR ro
-    ru sr tr uk_UA zh_CN zh_TW)
+    set(LANGUAGES "")
 endif ()
 
 if (GIT_BINARY)
@@ -229,7 +228,6 @@ if (NOT MSVC)
              -Wsuggest-override \
              -Wunused-macros \
              -Wzero-as-null-pointer-constant \
-             -Wno-unknown-warning-option \
              -Wno-dangling-reference \
              -Wno-c++20-compat")
     if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
@@ -372,6 +370,9 @@ endif ()
 if (SOUND)
     # Sound requires SDL_mixer library
     message(STATUS "Searching for SDL2_mixer library --")
+    if (VCPKG_MANIFEST_MODE)
+        find_package(Vorbis CONFIG REQUIRED)
+    endif()
     find_package(SDL2_mixer)
     if (NOT (SDL2_MIXER_FOUND OR TARGET SDL2_mixer::SDL2_mixer
                               OR TARGET SDL2_mixer::SDL2_mixer-static))
@@ -417,12 +418,28 @@ if (USE_XDG_DIR)
     add_definitions(-DUSE_XDG_DIR)
 endif ()
 
-find_program(CCACHE_FOUND ccache)
+find_program(CCACHE_FOUND ccache HINTS ${CMAKE_CURRENT_SOURCE_DIR}/ccache)
 if (CCACHE_FOUND AND CATA_CCACHE)
     set(CMAKE_C_COMPILER_LAUNCHER ${CCACHE_FOUND})
     set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE_FOUND})
     set(CMAKE_C_LINKER_LAUNCHER ${CCACHE_FOUND})
     set(CMAKE_CXX_LINKER_LAUNCHER ${CCACHE_FOUND})
+    if (MSVC)
+        string(REPLACE /Zi /Z7 CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
+        string(REPLACE /Zi /Z7 CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+        string(REPLACE /Zi /Z7 CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO}")
+        string(REPLACE /Zi /Z7 CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
+        cmake_path(GET CCACHE_FOUND PARENT_PATH ClToolPath)
+        file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/Directory.Build.props "
+<Project>
+    <PropertyGroup>
+        <ClToolPath>${ClToolPath}</ClToolPath>
+        <TrackFileAccess>false</TrackFileAccess>
+        <UseMultiToolTask>true</UseMultiToolTask>
+    </PropertyGroup>
+</Project>
+        ")
+    endif ()
 endif ()
 
 add_subdirectory(src)
@@ -432,6 +449,8 @@ if (NOT MSVC)
 endif()
 
 if(TESTS)
+    list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/tests/catch/contrib)
+    include(Catch)
     add_subdirectory(tests)
 endif()
 

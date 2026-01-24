@@ -15,6 +15,7 @@
 
 #include "body_part_set.h"
 #include "bodypart.h"
+#include "color.h"
 #include "coordinates.h"
 #include "damage.h"
 #include "dialogue_helpers.h"
@@ -31,9 +32,10 @@ class Character;
 class Creature;
 class JsonObject;
 class JsonOut;
-class nc_color;
 class spell;
 class time_duration;
+class vehicle;
+struct const_dialogue;
 struct dealt_projectile_attack;
 struct requirement_data;
 
@@ -83,6 +85,7 @@ enum class spell_flag : int {
     NON_MAGICAL, // ignores spell resistance
     PSIONIC, // psychic powers instead of traditional magic
     RECHARM, // charm_monster spell adds to duration of existing charm_monster effect
+    CHARM_PET, // Applies the pet friendliness adjustment to a monster when charming them
     EVOCATION_SPELL, // Evocation spell category, used for Magiclysm proficiencies
     CHANNELING_SPELL, // Channeling spell category, used for Magiclysm proficiencies
     CONJURATION_SPELL, // Conjuration spell category, used for Magiclysm proficiencies
@@ -102,6 +105,7 @@ enum class spell_target : int {
     none,
     item,
     field,
+    vehicle,
     num_spell_targets
 };
 
@@ -186,6 +190,7 @@ class spell_events : public event_subscriber
         void notify( const cata::event & ) override;
 };
 
+// NOLINTNEXTLINE(clang-analyzer-optin.performance.Padding)
 class spell_type
 {
     public:
@@ -230,6 +235,12 @@ class spell_type
         std::string effect_str;
         // list of additional "spell effects"
         std::vector<fake_spell> additional_spells;
+
+        int channelling_turns = 0;
+        std::string channel_spell;
+        std::string channel_end_spell;
+        std::string channel_interrupt_spell;
+        bool channel_uses_energy = true;
 
         // if the spell has a field name defined, this is where it is
         std::optional<field_type_id> field = std::nullopt;
@@ -340,10 +351,28 @@ class spell_type
         // what energy do you use to cast this spell
         magic_energy_type get_energy_source() const;
 
+        // what energy do you use to cast this spell
+        vitamin_id vitamin_energy_source() const;
+
+        // if vitamin is used, specifies the color of an energy
+        nc_color energy_color() const;
+
         damage_type_id dmg_type = damage_type_id::NULL_ID();
 
         // list of valid targets enum
         enum_bitset<spell_target> valid_targets;
+
+        // checks only caster/alpha
+        std::function<bool( const_dialogue const & )> caster_condition; // NOLINT(cata-serialize)
+        bool has_caster_condition = false; // NOLINT(cata-serialize)
+
+        translation caster_condition_fail_message_; // NOLINT(cata-serialize)
+
+        // checks both caster/alpha and victim/beta
+        std::function<bool( const_dialogue const & )> target_condition; // NOLINT(cata-serialize)
+        bool has_target_condition = false; // NOLINT(cata-serialize)
+
+        translation target_condition_fail_message_; // NOLINT(cata-serialize)
 
         std::set<mtype_id> targeted_monster_ids;
 
@@ -361,12 +390,12 @@ class spell_type
 
         static void load_spell( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, std::string_view src );
-        void serialize( JsonOut &json ) const;
         /**
          * All spells in the game.
          */
         static const std::vector<spell_type> &get_all();
         static void check_consistency();
+        static void finalize_all();
         static void reset_all();
         bool is_valid() const;
 
@@ -435,6 +464,8 @@ class spell_type
         static const float casting_time_increment_default;
 
         std::optional<magic_energy_type> energy_source;
+        std::optional<vitamin_id> vitamin_energy_source_; // NOLINT(cata-serialize)
+        std::optional<nc_color> energy_color_; // NOLINT(cata-serialize)
         std::optional<jmath_func_id> get_level_formula_id;
         std::optional<jmath_func_id> exp_for_level_formula_id;
         std::optional<int> max_book_level;
@@ -562,7 +593,7 @@ class spell
         bool has_components() const;
         // can the Character cast this spell?
         bool can_cast( const Character &guy ) const;
-        bool can_cast( const Character &guy, std::set<std::string> &failure_messages );
+        bool can_cast( const Character &guy, std::map<magic_type_id, bool> &success_tracker );
         // can the Character learn this spell?
         bool can_learn( const Character &guy ) const;
         // if spell shoots more than one projectile
@@ -576,6 +607,7 @@ class spell
         bool has_flag( const spell_flag &flag ) const;
         bool has_flag( const std::string &flag ) const;
         bool no_hands() const;
+        bool is_channeling_spell() const;
         // check if the spell's class is the same as input
         bool is_spell_class( const trait_id &mid ) const;
 
@@ -626,6 +658,8 @@ class spell
 
         // magic energy source enum
         magic_energy_type energy_source() const;
+        std::optional<vitamin_id> vitamin_energy_source() const;
+        nc_color energy_color() const;
         // the color that's representative of the damage type
         nc_color damage_type_color() const;
         std::string damage_type_string() const;
@@ -678,6 +712,13 @@ class spell
         bool target_by_monster_id( const tripoint_bub_ms &p ) const;
         bool target_by_species_id( const tripoint_bub_ms &p ) const;
         bool ignore_by_species_id( const tripoint_bub_ms &p ) const;
+        bool valid_caster_condition( const Creature &caster ) const;
+        bool valid_target_condition( const Creature &caster, const Creature &target ) const;
+        bool valid_target_condition( const Creature &caster, const vehicle &veh ) const;
+
+
+        std::string failed_caster_condition_message() const;
+        std::string failed_target_condition_message() const;
 
         // picks a random valid tripoint from @area
         std::optional<tripoint_bub_ms> random_valid_target( const Creature &caster,
@@ -689,8 +730,10 @@ class known_magic
     private:
         // list of spells known
         std::map<spell_id, spell> spellbook;
-        // invlets assigned to spell_id
-        std::map<spell_id, int> invlets;
+        // Map of spell_id to invlets.
+        std::map<spell_id, int> spells_to_invlets;
+        // Map of invlets to spell_id. Created from spells_to_invlets on load.
+        std::map<int, spell_id> invlets_to_spells; // NOLINT(cata-serialize)
         // list of favorite spells
         std::unordered_set<spell_id> favorites;
         // the base mana a Character would start with
@@ -711,10 +754,10 @@ class known_magic
         void forget_spell( const spell_id &sp );
         void set_spell_level( const spell_id &, int, const Character * );
         void set_spell_exp( const spell_id &, int, const Character * );
-        // time in moves for the Character to memorize the spell
-        int time_to_learn_spell( const Character &guy, const spell_id &sp ) const;
-        int time_to_learn_spell( const Character &guy, const std::string &str ) const;
-        bool can_learn_spell( const Character &guy, const spell_id &sp ) const;
+        // time for the Character to memorize the spell
+        time_duration time_to_learn_spell( const Character &guy, const spell_id &sp ) const;
+        time_duration time_to_learn_spell( const Character &guy, const std::string &str ) const;
+        bool can_learn_spell( const Character &guy, const spell_id &sp, bool improved_spell = false ) const;
         bool knows_spell( const std::string &sp ) const;
         bool knows_spell( const spell_id &sp ) const;
         // does the Character know a spell?
@@ -748,6 +791,8 @@ class known_magic
         void clear_opens_spellbook_data();
         // uses data received from EoC
         void evaluate_opens_spellbook_data();
+        void channel_magic( Character &guy );
+        void break_channeling( Character &guy );
 
         void on_mutation_gain( const trait_id &mid, Character &guy );
         void on_mutation_loss( const trait_id &mid, Character &guy );
@@ -760,19 +805,24 @@ class known_magic
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
 
+        // gets invlet if assigned, or assigns first available letter if not.
+        // Returns 0 if no letters available.
+        int get_invlet( const spell_id &sp );
         // returns false if invlet is already used
-        bool set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets );
+        bool set_invlet( const spell_id &sp, int invlet );
+        // swaps hotkeys of new_sp and spell currently using invlet.
+        void swap_invlet( const spell_id &new_sp, int invlet );
         void rem_invlet( const spell_id &sp );
-        // returns which invlets are already in use
-        void update_used_invlets( std::set<int> &used_invlets );
 
         void toggle_favorite( const spell_id &sp );
         bool is_favorite( const spell_id &sp );
+
+        void migrate_spells();
     private:
         // gets length of longest spell name
         int get_spellname_max_width();
-        // gets invlet if assigned, or 0 if not
-        int get_invlet( const spell_id &sp, std::set<int> &used_invlets );
+        // builds invlets_to_spells after loading a save.
+        void build_invlets_to_spells();
 };
 
 namespace spell_effect
@@ -845,6 +895,7 @@ void emit( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 void fungalize( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 void remove_field( const spell &sp, Creature &caster, const tripoint_bub_ms &center );
 void effect_on_condition( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
+void pickup( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 void none( const spell &sp, Creature &, const tripoint_bub_ms &target );
 void slime_split_on_death( const spell &sp, Creature &, const tripoint_bub_ms &target );
 
@@ -896,6 +947,7 @@ effect_map{
     { "fungalize", spell_effect::fungalize },
     { "remove_field", spell_effect::remove_field },
     { "effect_on_condition", spell_effect::effect_on_condition },
+    { "pickup", spell_effect::pickup },
     { "slime_split", spell_effect::slime_split_on_death },
     { "none", spell_effect::none }
 };
@@ -961,6 +1013,21 @@ struct area_expander {
     void sort_ascending();
 
     void sort_descending();
+};
+
+class spell_migration
+{
+    public:
+        spell_id id_old;
+        std::optional<spell_id> id_new;
+
+        static void load( const JsonObject &jo );
+
+        static void reset();
+
+        static void check();
+
+        static const spell_migration *find_migration( const spell_id &original );
 };
 
 #endif // CATA_SRC_MAGIC_H

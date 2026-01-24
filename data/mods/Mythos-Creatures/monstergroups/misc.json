@@ -14,10 +14,10 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {

@@ -1,0 +1,439 @@
+[
+  {
+    "type": "region_settings_ravine",
+    "id": "default_aftershock",
+    "copy-from": "default",
+    "num_ravines": 15,
+    "ravine_width": 3,
+    "ravine_range": 45,
+    "ravine_depth": -3
+  },
+  {
+    "type": "region_settings_forest",
+    "id": "default_aftershock",
+    "copy-from": "default",
+    "noise_threshold_forest": 0.5,
+    "noise_threshold_forest_thick": 0.55,
+    "noise_threshold_swamp_adjacent_water": 0.3,
+    "noise_threshold_swamp_isolated": 0.6,
+    "river_floodplain_buffer_distance_min": 3,
+    "river_floodplain_buffer_distance_max": 15
+  },
+  {
+    "type": "region_settings_forest_trail",
+    "id": "default_aftershock",
+    "copy-from": "default",
+    "chance": 2,
+    "border_point_chance": 2,
+    "minimum_forest_size": 100,
+    "random_point_min": 4,
+    "random_point_max": 50,
+    "random_point_size_scalar": 100,
+    "trailhead_chance": 1,
+    "trailhead_road_distance": 6,
+    "trailheads": [ [ "trailhead_basic", 1 ], [ "trailhead_outhouse", 1 ], [ "trailhead_shack", 1 ] ]
+  },
+  {
+    "type": "region_settings_city",
+    "id": "default_aftershock",
+    "copy-from": "default",
+    "name_snippet": "<afs_city>",
+    "shop_radius": 30,
+    "shop_sigma": 80,
+    "park_radius": 20,
+    "park_sigma": 80,
+    "houses": [
+      [ "afs_city_ruinfield", 400 ],
+      [ "afs_formless_ruins_dynamic", 600 ],
+      [ "afs_house_1", 300 ],
+      [ "afs_habitat_block_1", 200 ],
+      [ "afs_habitat_block_2", 100 ],
+      [ "afs_habitat_block_3", 200 ]
+    ],
+    "parks": [ [ "afs_city_ruinfield", 70 ], [ "afs_shuttle_pad", 10 ], [ "afs_enclosed_park", 30 ], [ "afs_vehicle_bay", 50 ] ],
+    "shops": [
+      [ "afs_augmentation_clinic_1", 400 ],
+      [ "afs_gene_clinic_1", 400 ],
+      [ "afs_astrobiology_lab", 400 ],
+      [ "afs_general_store_1", 400 ],
+      [ "afs_grocer", 400 ],
+      [ "afs_clothing_store", 400 ],
+      [ "afs_sporting_goods_store", 400 ],
+      [ "afs_clinic_1", 400 ],
+      [ "afs_city_urban_farm_small", 300 ],
+      [ "afs_small_urban_farm_ground", 300 ],
+      [ "afs_small_office", 300 ],
+      [ "afs_cafe_1", 300 ],
+      [ "afs_saloon_1", 300 ],
+      [ "afs_enforcer_station_1", 100 ],
+      [ "afs_garage_1", 100 ],
+      [ "afs_garage_2", 100 ],
+      [ "afs_ev_station", 100 ],
+      [ "afs_aerodrone_landing_pad", 100 ],
+      [ "afs_exosuit_garage_1", 100 ],
+      [ "afs_exosuit_garage_2", 100 ]
+    ]
+  },
+  {
+    "type": "weather_generator",
+    "id": "default_aftershock",
+    "copy-from": "default",
+    "base_temperature": -50.0,
+    "base_humidity": 80.0,
+    "base_pressure": 1015.0,
+    "base_wind": 9.0,
+    "base_wind_distrib_peaks": 80,
+    "base_wind_season_variation": 50,
+    "weather_white_list": [ "clear", "sunny", "cloudy", "afs_whiteout", "afs_thunder", "afs_lightning", "afs_flurries", "afs_snowing" ]
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "road_aftershock",
+    "chance": 75,
+    "extras": [ [ "mx_wraitheon_droneswarm", 10 ] ]
+  },
+  {
+    "type": "region_settings_map_extras",
+    "id": "default_aftershock",
+    "copy-from": "default",
+    "extras": [ "road_aftershock" ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover",
+    "ter_id": "t_region_groundcover",
+    "replace_with_terrain": [ [ "t_snow", 32000 ], [ "t_ice", 2000 ], [ "t_deaddirt", 5000 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover_urban",
+    "ter_id": "t_region_groundcover_urban",
+    "replace_with_terrain": [ [ "t_snow", 20 ], [ "t_ice", 3 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover_forest",
+    "ter_id": "t_region_groundcover_forest",
+    "replace_with_terrain": [ [ "t_snow", 410 ], [ "t_lichen", 300 ], [ "t_lichendirt", 300 ], [ "t_fuma_ice", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover_swamp",
+    "ter_id": "t_region_groundcover_swamp",
+    "replace_with_terrain": [ [ "t_snow", 410 ], [ "t_lichen", 300 ], [ "t_lichendirt", 300 ], [ "t_fuma_ice", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover_barren",
+    "ter_id": "t_region_groundcover_barren",
+    "replace_with_terrain": [ [ "t_snow", 20 ], [ "t_ice", 3 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_grass",
+    "ter_id": "t_region_grass",
+    "replace_with_terrain": [ [ "t_lichen", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_soil",
+    "ter_id": "t_region_soil",
+    "replace_with_terrain": [ [ "t_deaddirt", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_shrub",
+    "ter_id": "t_region_shrub",
+    "replace_with_terrain": [ [ "t_lichen", 30 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_shrub_plains",
+    "ter_id": "t_region_shrub_plains",
+    "replace_with_terrain": [ [ "t_region_shrub", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_shrub_fruit",
+    "ter_id": "t_region_shrub_fruit",
+    "replace_with_terrain": [ [ "t_lichenyum", 30 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_shrub_decorative",
+    "ter_id": "t_region_shrub_decorative",
+    "replace_with_terrain": [ [ "t_lichenyum", 3 ], [ "t_lichendirt", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree",
+    "ter_id": "t_region_tree",
+    "replace_with_terrain": [ [ "t_tree_worm", 30 ], [ "t_tree_lichen", 15 ], [ "t_tree_xenoinfested", 10 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree_fruit",
+    "ter_id": "t_region_tree_fruit",
+    "replace_with_terrain": [ [ "t_lichenyum", 30 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree_nut",
+    "ter_id": "t_region_tree_nut",
+    "replace_with_terrain": [ [ "t_tree_worm", 30 ], [ "t_tree_xenoinfested", 15 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree_evergreen",
+    "ter_id": "t_region_tree_evergreen",
+    "replace_with_terrain": [ [ "t_tree_xenoinfested", 32 ], [ "t_tree_xeno", 16 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_f_region_flower",
+    "furn_id": "f_region_flower",
+    "replace_with_furniture": [ [ "f_shrub_moss", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_f_region_flower_decorative",
+    "furn_id": "f_region_flower_decorative",
+    "replace_with_furniture": [
+      [ "f_lily", 4 ],
+      [ "f_flower_tulip", 4 ],
+      [ "f_black_eyed_susan", 3 ],
+      [ "f_dahlia", 2 ],
+      [ "f_bluebell", 2 ],
+      [ "f_flower_spurge", 1 ],
+      [ "f_chicory", 1 ],
+      [ "f_sunflower", 1 ]
+    ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_f_region_weed",
+    "furn_id": "f_region_weed",
+    "replace_with_furniture": [ [ "f_shrub_moss", 2300 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_f_region_water_plant",
+    "furn_id": "f_region_water_plant",
+    "replace_with_furniture": [ [ "f_shrub_moss", 15 ] ]
+  },
+  {
+    "type": "region_settings_terrain_furniture",
+    "id": "default_aftershock",
+    "copy-from": "default",
+    "ter_furn": [
+      "default_t_region_groundcover",
+      "default_t_region_groundcover_urban",
+      "default_t_region_groundcover_forest",
+      "default_t_region_groundcover_swamp",
+      "default_t_region_groundcover_barren",
+      "default_t_region_grass",
+      "default_t_region_soil",
+      "default_t_region_shrub",
+      "default_t_region_shrub_plains",
+      "default_t_region_shrub_fruit",
+      "default_t_region_shrub_decorative",
+      "default_t_region_tree",
+      "default_t_region_tree_fruit",
+      "default_t_region_tree_nut",
+      "default_t_region_tree_evergreen",
+      "default_f_region_flower",
+      "default_f_region_flower_decorative",
+      "default_f_region_weed",
+      "default_f_region_water_plant"
+    ]
+  },
+  {
+    "type": "forest_biome_mapgen",
+    "id": "biome_forest_aftershock",
+    "copy-from": "biome_forest_default",
+    "sparseness_adjacency_factor": 9,
+    "item_group": "forest",
+    "item_group_chance": 60,
+    "item_spawn_iterations": 1,
+    "groundcover": { "t_region_groundcover_forest": 1 },
+    "components": [
+      "trees_forest_aftershock",
+      "shrubs_and_flowers_forest_aftershock",
+      "clutter_forest_aftershock",
+      "water_forest_aftershock"
+    ],
+    "terrain_furniture": {  }
+  },
+  {
+    "type": "forest_biome_component",
+    "id": "trees_forest_aftershock",
+    "copy-from": "trees_forest",
+    "types": [ [ "t_region_tree", 128 ] ]
+  },
+  {
+    "type": "forest_biome_component",
+    "id": "shrubs_and_flowers_forest_aftershock",
+    "copy-from": "shrubs_and_flowers_forest",
+    "types": [ [ "t_region_shrub", 100 ], [ "f_region_weed", 20 ] ]
+  },
+  {
+    "type": "forest_biome_component",
+    "id": "clutter_forest_aftershock",
+    "copy-from": "clutter_forest",
+    "types": [
+      [ "f_geo_vent", 128 ],
+      [ "t_dirtmound", 128 ],
+      [ "f_boulder_small", 128 ],
+      [ "f_rubble_rock", 32 ],
+      [ "f_boulder_medium", 8 ],
+      [ "f_boulder_large", 1 ],
+      [ "t_pit", 1 ],
+      [ "t_pit_shallow", 1 ]
+    ]
+  },
+  {
+    "type": "forest_biome_component",
+    "id": "water_forest_aftershock",
+    "copy-from": "water_forest",
+    "types": [ [ "t_water_sh", 1 ] ]
+  },
+  {
+    "type": "forest_biome_mapgen",
+    "id": "biome_forest_thick_aftershock",
+    "copy-from": "biome_forest_thick_default",
+    "sparseness_adjacency_factor": 4,
+    "item_group": "forest",
+    "item_group_chance": 60,
+    "item_spawn_iterations": 1,
+    "groundcover": { "t_region_groundcover_forest": 1 },
+    "components": [
+      "trees_forest_thick_aftershock",
+      "shrubs_and_flowers_forest_thick_aftershock",
+      "clutter_forest_thick_aftershock",
+      "water_forest_thick_aftershock"
+    ],
+    "terrain_furniture": {  }
+  },
+  {
+    "type": "forest_biome_component",
+    "id": "trees_forest_thick_aftershock",
+    "copy-from": "trees_forest_thick",
+    "types": [ [ "t_region_tree", 100 ] ]
+  },
+  {
+    "type": "forest_biome_component",
+    "id": "shrubs_and_flowers_forest_thick_aftershock",
+    "copy-from": "shrubs_and_flowers_forest_thick",
+    "types": [ [ "t_region_shrub", 100 ], [ "f_region_weed", 20 ] ]
+  },
+  {
+    "type": "forest_biome_component",
+    "id": "clutter_forest_thick_aftershock",
+    "copy-from": "clutter_forest_thick",
+    "types": [
+      [ "f_geo_vent", 14 ],
+      [ "t_dirtmound", 24 ],
+      [ "f_boulder_small", 32 ],
+      [ "f_rubble_rock", 32 ],
+      [ "f_boulder_medium", 16 ],
+      [ "f_boulder_large", 4 ],
+      [ "t_pit", 1 ],
+      [ "t_pit_shallow", 1 ]
+    ]
+  },
+  {
+    "type": "forest_biome_component",
+    "id": "water_forest_thick_aftershock",
+    "copy-from": "water_forest_thick",
+    "types": [ [ "t_water_sh", 1 ] ]
+  },
+  {
+    "type": "forest_biome_mapgen",
+    "id": "biome_forest_water_aftershock",
+    "copy-from": "biome_forest_water_default",
+    "sparseness_adjacency_factor": 2,
+    "item_group": "forest",
+    "item_group_chance": 60,
+    "item_spawn_iterations": 1,
+    "groundcover": { "t_region_groundcover_swamp": 1 },
+    "components": [
+      "trees_forest_water_aftershock",
+      "shrubs_and_flowers_forest_water_aftershock",
+      "clutter_forest_water_aftershock",
+      "water_forest_water_aftershock"
+    ],
+    "terrain_furniture": { "t_water_hot": { "chance": 2, "furniture": { "f_region_water_plant": 1 } } }
+  },
+  {
+    "type": "forest_biome_component",
+    "id": "trees_forest_water_aftershock",
+    "copy-from": "trees_forest_water",
+    "types": [ [ "f_geo_vent", 40 ] ]
+  },
+  {
+    "type": "forest_biome_component",
+    "id": "shrubs_and_flowers_forest_water_aftershock",
+    "copy-from": "shrubs_and_flowers_forest_water",
+    "types": [ [ "t_region_shrub", 80 ], [ "f_region_weed", 30 ] ]
+  },
+  {
+    "type": "forest_biome_component",
+    "id": "clutter_forest_water_aftershock",
+    "copy-from": "clutter_forest_water",
+    "types": [ [ "t_trunk", 1 ], [ "f_boulder_small", 2 ], [ "f_boulder_medium", 1 ] ]
+  },
+  {
+    "type": "forest_biome_component",
+    "id": "water_forest_water_aftershock",
+    "copy-from": "water_forest_water",
+    "types": [ [ "t_water_hot", 12 ] ]
+  },
+  {
+    "type": "region_settings_forest_mapgen",
+    "id": "default_aftershock",
+    "copy-from": "default",
+    "biomes": [ "biome_forest_aftershock", "biome_forest_thick_aftershock", "biome_forest_water_aftershock" ]
+  },
+  {
+    "type": "region_settings",
+    "id": "default_aftershock",
+    "copy-from": "default",
+    "rivers": null,
+    "lakes": null,
+    "ocean": null,
+    "forests": "default_aftershock",
+    "ravines": "default_aftershock",
+    "forest_trails": "default_aftershock",
+    "forest_composition": "default_aftershock",
+    "highways": null,
+    "cities": "default_aftershock",
+    "map_extras": "default_aftershock",
+    "terrain_furniture": "default_aftershock",
+    "weather": "default_aftershock",
+    "default_oter": [
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "field",
+      "solid_glacier",
+      "solid_glacier",
+      "solid_glacier",
+      "solid_glacier",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock"
+    ],
+    "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "EXOPLANET" ] }
+  }
+]

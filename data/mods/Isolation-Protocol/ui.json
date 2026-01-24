@@ -4,35 +4,42 @@
     "copy-from": "legacy_classic_sidebar",
     "type": "widget",
     "id": "legacy_classic_sidebar",
-    "extend": { "widgets": [ "iso_danger" ] }
+    "extend": { "widgets": [ "iso_danger", "mana_for_last_scion" ] }
   },
   {
     "//": "Extend with the danger widget",
     "copy-from": "legacy_compact_sidebar",
     "type": "widget",
     "id": "legacy_compact_sidebar",
-    "extend": { "widgets": [ "iso_danger" ] }
+    "extend": { "widgets": [ "iso_danger", "mana_for_last_scion" ] }
   },
   {
     "//": "Extend with the danger widget",
     "copy-from": "legacy_labels_narrow_sidebar",
     "type": "widget",
     "id": "legacy_labels_narrow_sidebar",
-    "extend": { "widgets": [ "iso_danger" ] }
+    "extend": { "widgets": [ "iso_danger", "mana_for_last_scion" ] }
   },
   {
     "//": "Extend with the danger widget",
     "copy-from": "legacy_labels_sidebar",
     "type": "widget",
     "id": "legacy_labels_sidebar",
-    "extend": { "widgets": [ "iso_danger" ] }
+    "extend": { "widgets": [ "iso_danger", "mana_for_last_scion" ] }
   },
   {
     "//": "Extend with the danger widget",
     "copy-from": "structured_sidebar",
     "type": "widget",
     "id": "structured_sidebar",
-    "extend": { "widgets": [ "iso_danger" ] }
+    "extend": { "widgets": [ "iso_danger", "mana_for_last_scion" ] }
+  },
+  {
+    "//": "Extend with the danger widget",
+    "copy-from": "spacebar",
+    "type": "widget",
+    "id": "spacebar",
+    "extend": { "widgets": [ "iso_danger", "spacebar_last_scion_mana_bar_block" ] }
   },
   {
     "id": "iso_danger",
@@ -79,5 +86,29 @@
         "condition": { "and": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER >= 25" ] } ] }
       }
     ]
+  },
+  {
+    "id": "spacebar_last_scion_mana_bar_block",
+    "type": "widget",
+    "style": "layout",
+    "label": "mana_bar",
+    "arrange": "minimum_columns",
+    "widgets": [ "spacebar_separator_2", "mana_for_last_scion" ]
+  },
+  {
+    "id": "mana_for_last_scion",
+    "type": "widget",
+    "style": "text",
+    "label": "Mana",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "clauses": [
+      {
+        "id": "mana_numbers",
+        "text": "<color_pink><u_val:last_scion_mana></color>         Max: <color_pink><u_val:last_scion_max_mana></color>        %: <color_pink><u_val:last_scion_max_percent></color>",
+        "parse_tags": true,
+        "condition": { "u_has_trait": "iso_eldritch_sorcery" }
+      }
+    ],
+    "padding": 0
   }
 ]

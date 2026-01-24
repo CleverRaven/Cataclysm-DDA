@@ -14,7 +14,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "debug_npc_rules_test_avoid_doors",
     "object": {
       "rows": [
@@ -49,7 +48,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "debug_npc_rules_test_close_doors",
     "object": {
       "rows": [

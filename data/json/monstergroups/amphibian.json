@@ -30,12 +30,12 @@
       { "monster": "mon_green_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_wood_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_spade_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_pattern_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_strange_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_foul_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_odd_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_vocal_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_shift_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" }
+      { "monster": "mon_pattern_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" },
+      { "monster": "mon_strange_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" },
+      { "monster": "mon_foul_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" },
+      { "monster": "mon_odd_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" },
+      { "monster": "mon_vocal_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" },
+      { "monster": "mon_shift_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" }
     ]
   },
   {
@@ -50,10 +50,10 @@
       { "monster": "mon_mink_tadpole", "weight": 60, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_pickerel_tadpole", "weight": 60, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_green_tadpole", "weight": 60, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_pattern_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_strange_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_foul_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_odd_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" }
+      { "monster": "mon_pattern_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" },
+      { "monster": "mon_strange_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" },
+      { "monster": "mon_foul_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" },
+      { "monster": "mon_odd_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" }
     ]
   },
   {
@@ -70,8 +70,8 @@
       },
       { "monster": "mon_mink_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_green_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_pattern_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_strange_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" }
+      { "monster": "mon_pattern_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" },
+      { "monster": "mon_strange_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" }
     ]
   },
   {
@@ -100,12 +100,12 @@
       { "monster": "mon_green_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_wood_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_spade_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_pattern_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_strange_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_foul_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_odd_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_vocal_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_shift_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" }
+      { "monster": "mon_pattern_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" },
+      { "monster": "mon_strange_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" },
+      { "monster": "mon_foul_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" },
+      { "monster": "mon_odd_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" },
+      { "monster": "mon_vocal_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" },
+      { "monster": "mon_shift_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "112 days" }
     ]
   },
   {
@@ -118,7 +118,7 @@
         "monster": "mon_pattern_frog",
         "weight": 20,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -131,7 +131,7 @@
         "monster": "mon_strange_frog",
         "weight": 20,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -144,7 +144,7 @@
         "monster": "mon_foul_toad",
         "weight": 20,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -157,7 +157,7 @@
         "monster": "mon_odd_toad",
         "weight": 20,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -170,7 +170,7 @@
         "monster": "mon_vocal_frog",
         "weight": 20,
         "pack_size": [ 2, 6 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -183,7 +183,7 @@
         "monster": "mon_shift_frog",
         "weight": 20,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -196,7 +196,7 @@
         "monster": "mon_tail_frog",
         "weight": 20,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -209,7 +209,7 @@
         "monster": "mon_palette_frog",
         "weight": 20,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -234,21 +234,21 @@
         "monster": "mon_leo_worm",
         "weight": 2,
         "pack_size": [ 1, 2 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_green_worm",
         "weight": 2,
         "pack_size": [ 1, 2 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wood_worm",
         "weight": 2,
         "pack_size": [ 1, 2 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       }
     ]
@@ -331,7 +331,7 @@
         "monster": "mon_pattern_frog",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -344,7 +344,7 @@
         "monster": "mon_strange_frog",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -357,7 +357,7 @@
         "monster": "mon_foul_toad",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -370,7 +370,7 @@
         "monster": "mon_odd_toad",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -383,7 +383,7 @@
         "monster": "mon_tail_frog",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -396,7 +396,7 @@
         "monster": "mon_palette_frog",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -435,7 +435,7 @@
         "monster": "mon_pattern_frog",
         "weight": 20,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -448,7 +448,7 @@
         "monster": "mon_strange_frog",
         "weight": 20,
         "pack_size": [ 1, 2 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -461,7 +461,7 @@
         "monster": "mon_foul_toad",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -474,7 +474,7 @@
         "monster": "mon_odd_toad",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -487,7 +487,7 @@
         "monster": "mon_vocal_frog",
         "weight": 40,
         "pack_size": [ 2, 6 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -500,7 +500,7 @@
         "monster": "mon_shift_frog",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -513,7 +513,7 @@
         "monster": "mon_palette_frog",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -538,21 +538,21 @@
         "monster": "mon_leo_worm",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_green_worm",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wood_worm",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       }
     ]
@@ -567,7 +567,7 @@
         "monster": "mon_pattern_frog",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -580,7 +580,7 @@
         "monster": "mon_strange_frog",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -593,7 +593,7 @@
         "monster": "mon_foul_toad",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -606,7 +606,7 @@
         "monster": "mon_odd_toad",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -619,7 +619,7 @@
         "monster": "mon_vocal_frog",
         "weight": 40,
         "pack_size": [ 2, 6 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -632,7 +632,7 @@
         "monster": "mon_shift_frog",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -645,7 +645,7 @@
         "monster": "mon_tail_frog",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -658,7 +658,7 @@
         "monster": "mon_palette_frog",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -671,28 +671,28 @@
         "monster": "mon_wood_frog",
         "weight": 60,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_leo_worm",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_green_worm",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wood_worm",
         "weight": 40,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       }
     ]
@@ -707,7 +707,7 @@
         "monster": "mon_pattern_frog",
         "weight": 50,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -720,7 +720,7 @@
         "monster": "mon_strange_frog",
         "weight": 50,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -733,7 +733,7 @@
         "monster": "mon_tail_frog",
         "weight": 50,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -746,14 +746,14 @@
         "monster": "mon_leo_worm",
         "weight": 50,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_green_worm",
         "weight": 50,
         "pack_size": [ 1, 4 ],
-        "starts": "14 days",
+        "starts": "56 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       }
     ]
@@ -763,20 +763,20 @@
     "type": "monstergroup",
     "default": "mon_strange_bigfrog",
     "monsters": [
-      { "monster": "mon_pattern_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" },
-      { "monster": "mon_pattern_giganfrog", "weight": 30, "pack_size": [ 1, 2 ], "starts": "30 days" },
-      { "monster": "mon_strange_bigfrog", "weight": 100, "pack_size": [ 1, 4 ], "starts": "16 days" },
-      { "monster": "mon_strange_giganfrog", "weight": 40, "pack_size": [ 1, 3 ], "starts": "30 days" },
-      { "monster": "mon_strange_megafrog", "weight": 10, "starts": "120 days" },
-      { "monster": "mon_foul_bigfrog", "weight": 100, "pack_size": [ 1, 4 ], "starts": "15 days" },
-      { "monster": "mon_foul_giganfrog", "weight": 40, "pack_size": [ 1, 4 ], "starts": "30 days" },
-      { "monster": "mon_foul_megafrog", "weight": 20, "pack_size": [ 1, 2 ], "starts": "60 days" },
-      { "monster": "mon_odd_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" },
-      { "monster": "mon_odd_giganfrog", "weight": 40, "pack_size": [ 1, 2 ], "starts": "30 days" },
-      { "monster": "mon_odd_megafrog", "weight": 10, "starts": "60 days" },
-      { "monster": "mon_jumbo_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" },
-      { "monster": "mon_vocal_bigfrog", "weight": 100, "pack_size": [ 1, 5 ], "starts": "15 days" },
-      { "monster": "mon_shift_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" }
+      { "monster": "mon_pattern_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "60 days" },
+      { "monster": "mon_pattern_giganfrog", "weight": 30, "pack_size": [ 1, 2 ], "starts": "120 days" },
+      { "monster": "mon_strange_bigfrog", "weight": 100, "pack_size": [ 1, 4 ], "starts": "64 days" },
+      { "monster": "mon_strange_giganfrog", "weight": 40, "pack_size": [ 1, 3 ], "starts": "120 days" },
+      { "monster": "mon_strange_megafrog", "weight": 10, "starts": "480 days" },
+      { "monster": "mon_foul_bigfrog", "weight": 100, "pack_size": [ 1, 4 ], "starts": "60 days" },
+      { "monster": "mon_foul_giganfrog", "weight": 40, "pack_size": [ 1, 4 ], "starts": "120 days" },
+      { "monster": "mon_foul_megafrog", "weight": 20, "pack_size": [ 1, 2 ], "starts": "240 days" },
+      { "monster": "mon_odd_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "60 days" },
+      { "monster": "mon_odd_giganfrog", "weight": 40, "pack_size": [ 1, 2 ], "starts": "120 days" },
+      { "monster": "mon_odd_megafrog", "weight": 10, "starts": "240 days" },
+      { "monster": "mon_jumbo_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "60 days" },
+      { "monster": "mon_vocal_bigfrog", "weight": 100, "pack_size": [ 1, 5 ], "starts": "60 days" },
+      { "monster": "mon_shift_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "60 days" }
     ]
   },
   {
@@ -784,13 +784,13 @@
     "type": "monstergroup",
     "default": "mon_strange_bigfrog",
     "monsters": [
-      { "monster": "mon_pattern_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" },
-      { "monster": "mon_strange_bigfrog", "weight": 100, "pack_size": [ 1, 4 ], "starts": "15 days" },
-      { "monster": "mon_foul_bigfrog", "weight": 100, "pack_size": [ 1, 4 ], "starts": "15 days" },
-      { "monster": "mon_odd_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" },
-      { "monster": "mon_jumbo_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" },
-      { "monster": "mon_vocal_bigfrog", "weight": 100, "pack_size": [ 1, 5 ], "starts": "15 days" },
-      { "monster": "mon_shift_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" }
+      { "monster": "mon_pattern_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "60 days" },
+      { "monster": "mon_strange_bigfrog", "weight": 100, "pack_size": [ 1, 4 ], "starts": "60 days" },
+      { "monster": "mon_foul_bigfrog", "weight": 100, "pack_size": [ 1, 4 ], "starts": "60 days" },
+      { "monster": "mon_odd_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "60 days" },
+      { "monster": "mon_jumbo_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "60 days" },
+      { "monster": "mon_vocal_bigfrog", "weight": 100, "pack_size": [ 1, 5 ], "starts": "60 days" },
+      { "monster": "mon_shift_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "60 days" }
     ]
   },
   {
@@ -798,10 +798,10 @@
     "type": "monstergroup",
     "default": "mon_strange_giganfrog",
     "monsters": [
-      { "monster": "mon_pattern_giganfrog", "weight": 30, "pack_size": [ 1, 2 ], "starts": "30 days" },
-      { "monster": "mon_strange_giganfrog", "weight": 40, "pack_size": [ 1, 3 ], "starts": "30 days" },
-      { "monster": "mon_foul_giganfrog", "weight": 40, "pack_size": [ 1, 4 ], "starts": "30 days" },
-      { "monster": "mon_odd_giganfrog", "weight": 40, "pack_size": [ 1, 2 ], "starts": "30 days" }
+      { "monster": "mon_pattern_giganfrog", "weight": 30, "pack_size": [ 1, 2 ], "starts": "120 days" },
+      { "monster": "mon_strange_giganfrog", "weight": 40, "pack_size": [ 1, 3 ], "starts": "120 days" },
+      { "monster": "mon_foul_giganfrog", "weight": 40, "pack_size": [ 1, 4 ], "starts": "120 days" },
+      { "monster": "mon_odd_giganfrog", "weight": 40, "pack_size": [ 1, 2 ], "starts": "120 days" }
     ]
   },
   {
@@ -809,9 +809,9 @@
     "type": "monstergroup",
     "default": "mon_strange_megafrog",
     "monsters": [
-      { "monster": "mon_strange_megafrog", "weight": 10, "starts": "60 days" },
-      { "monster": "mon_foul_megafrog", "weight": 20, "pack_size": [ 1, 2 ], "starts": "60 days" },
-      { "monster": "mon_odd_megafrog", "weight": 10, "starts": "60 days" }
+      { "monster": "mon_strange_megafrog", "weight": 10, "starts": "240 days" },
+      { "monster": "mon_foul_megafrog", "weight": 20, "pack_size": [ 1, 2 ], "starts": "240 days" },
+      { "monster": "mon_odd_megafrog", "weight": 10, "starts": "240 days" }
     ]
   },
   {
@@ -819,8 +819,8 @@
     "type": "monstergroup",
     "default": "mon_pattern_bigfrog",
     "monsters": [
-      { "monster": "mon_pattern_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" },
-      { "monster": "mon_pattern_giganfrog", "weight": 30, "pack_size": [ 1, 2 ], "starts": "30 days" }
+      { "monster": "mon_pattern_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "60 days" },
+      { "monster": "mon_pattern_giganfrog", "weight": 30, "pack_size": [ 1, 2 ], "starts": "120 days" }
     ]
   },
   {
@@ -828,9 +828,9 @@
     "type": "monstergroup",
     "default": "mon_strange_bigfrog",
     "monsters": [
-      { "monster": "mon_strange_bigfrog", "weight": 100, "pack_size": [ 1, 4 ], "starts": "15 days" },
-      { "monster": "mon_strange_giganfrog", "weight": 40, "pack_size": [ 1, 3 ], "starts": "30 days" },
-      { "monster": "mon_strange_megafrog", "weight": 10, "starts": "60 days" }
+      { "monster": "mon_strange_bigfrog", "weight": 100, "pack_size": [ 1, 4 ], "starts": "60 days" },
+      { "monster": "mon_strange_giganfrog", "weight": 40, "pack_size": [ 1, 3 ], "starts": "120 days" },
+      { "monster": "mon_strange_megafrog", "weight": 10, "starts": "240 days" }
     ]
   },
   {
@@ -838,9 +838,9 @@
     "type": "monstergroup",
     "default": "mon_foul_bigfrog",
     "monsters": [
-      { "monster": "mon_foul_bigfrog", "weight": 100, "pack_size": [ 1, 4 ], "starts": "15 days" },
-      { "monster": "mon_foul_giganfrog", "weight": 40, "pack_size": [ 1, 4 ], "starts": "30 days" },
-      { "monster": "mon_foul_megafrog", "weight": 20, "pack_size": [ 1, 2 ], "starts": "60 days" }
+      { "monster": "mon_foul_bigfrog", "weight": 100, "pack_size": [ 1, 4 ], "starts": "60 days" },
+      { "monster": "mon_foul_giganfrog", "weight": 40, "pack_size": [ 1, 4 ], "starts": "120 days" },
+      { "monster": "mon_foul_megafrog", "weight": 20, "pack_size": [ 1, 2 ], "starts": "240 days" }
     ]
   },
   {
@@ -848,9 +848,9 @@
     "type": "monstergroup",
     "default": "mon_odd_bigfrog",
     "monsters": [
-      { "monster": "mon_odd_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" },
-      { "monster": "mon_odd_giganfrog", "weight": 40, "pack_size": [ 1, 2 ], "starts": "30 days" },
-      { "monster": "mon_odd_megafrog", "weight": 10, "starts": "60 days" }
+      { "monster": "mon_odd_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "60 days" },
+      { "monster": "mon_odd_giganfrog", "weight": 40, "pack_size": [ 1, 2 ], "starts": "120 days" },
+      { "monster": "mon_odd_megafrog", "weight": 10, "starts": "240 days" }
     ]
   },
   {
@@ -858,8 +858,8 @@
     "type": "monstergroup",
     "default": "mon_jumbo_bigfrog",
     "monsters": [
-      { "monster": "mon_jumbo_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" },
-      { "monster": "mon_vocal_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" }
+      { "monster": "mon_jumbo_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "60 days" },
+      { "monster": "mon_vocal_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "60 days" }
     ]
   },
   {
@@ -883,7 +883,7 @@
       { "group": "GROUP_MUTAFROGS_FOUL", "weight": 100 },
       { "group": "GROUP_MUTAFROGS_ODD", "weight": 100 },
       { "group": "GROUP_MUTAFROGS_VOCAL", "weight": 100 },
-      { "monster": "mon_shift_bigfrog", "weight": 30, "pack_size": [ 1, 3 ], "starts": "15 days" }
+      { "monster": "mon_shift_bigfrog", "weight": 30, "pack_size": [ 1, 3 ], "starts": "60 days" }
     ]
   },
   {
@@ -896,7 +896,7 @@
       { "group": "GROUP_MUTAFROGS_FOUL", "weight": 100 },
       { "group": "GROUP_MUTAFROGS_ODD", "weight": 100 },
       { "group": "GROUP_MUTAFROGS_VOCAL", "weight": 100 },
-      { "monster": "mon_shift_bigfrog", "weight": 30, "pack_size": [ 1, 3 ], "starts": "15 days" }
+      { "monster": "mon_shift_bigfrog", "weight": 30, "pack_size": [ 1, 3 ], "starts": "60 days" }
     ]
   },
   {

@@ -20,6 +20,7 @@
       { "group": "boxed_44", "prob": 993 },
       { "group": "boxed_3006", "prob": 378 },
       { "group": "boxed_45colt", "prob": 340 },
+      { "group": "boxed_3030", "prob": 334 },
       { "group": "boxed_762R", "prob": 175 },
       { "group": "boxed_270", "prob": 167 },
       { "group": "boxed_410", "prob": 678 },
@@ -67,6 +68,7 @@
       { "group": "boxed_44_used", "prob": 993 },
       { "group": "boxed_3006_used", "prob": 378 },
       { "group": "boxed_45colt_used", "prob": 340 },
+      { "group": "boxed_3030_used", "prob": 334 },
       { "group": "boxed_762R_used", "prob": 175 },
       { "group": "boxed_270_used", "prob": 167 },
       { "group": "boxed_410_used", "prob": 678 },
@@ -114,6 +116,7 @@
       { "group": "boxed_44_looted", "prob": 993 },
       { "group": "boxed_3006_looted", "prob": 378 },
       { "group": "boxed_45colt_looted", "prob": 340 },
+      { "group": "boxed_3030_looted", "prob": 334 },
       { "group": "boxed_762R_looted", "prob": 175 },
       { "group": "boxed_270_looted", "prob": 167 },
       { "group": "boxed_410_looted", "prob": 678 },
@@ -161,6 +164,7 @@
       { "group": "44_loose", "prob": 15 },
       { "group": "3006_loose", "prob": 8 },
       { "group": "45colt_loose", "prob": 8 },
+      { "item": "3030", "charges": [ 1, 10 ], "prob": 5 },
       { "item": "762_54R", "charges": [ 1, 10 ], "prob": 4 },
       { "item": "270win_jsp", "charges": [ 1, 10 ], "prob": 3 },
       { "group": "410_loose", "prob": 3 },
@@ -177,7 +181,7 @@
       { "group": "4570_loose", "prob": 1 },
       { "item": "500_Magnum", "charges": [ 1, 10 ], "prob": 1 },
       { "item": "545", "charges": [ 1, 10 ], "prob": 1 },
-      { "item": "57mm", "charges": [ 1, 10 ], "prob": 1 },
+      { "item": "57mm_lf", "charges": [ 1, 10 ], "prob": 1 },
       { "item": "762_25", "charges": [ 1, 10 ], "prob": 1 },
       { "item": "300blk", "charges": [ 1, 10 ], "prob": 1 },
       { "item": "9x18mm", "charges": [ 1, 10 ], "prob": 1 },
@@ -201,6 +205,7 @@
       { "group": "boxed_308", "prob": 742 },
       { "group": "boxed_44", "prob": 993 },
       { "group": "boxed_3006", "prob": 378 },
+      { "group": "boxed_3030", "prob": 334 },
       { "group": "boxed_762R", "prob": 175 },
       { "group": "boxed_270", "prob": 167 },
       { "group": "boxed_410", "prob": 678 },
@@ -223,7 +228,7 @@
     "id": "ammo_pistol_milspec",
     "//": "Military specification pistol ammo found at military sites.",
     "subtype": "distribution",
-    "entries": [ { "item": "46mm", "prob": 70 }, { "item": "9mmfmj", "prob": 100 } ]
+    "entries": [ { "item": "9mmfmj", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -270,7 +275,7 @@
     "id": "ammo_shotgun_milspec",
     "//": "Military specification shotgun ammo found at military sites.",
     "subtype": "distribution",
-    "entries": [ { "item": "shot_he", "prob": 10 } ]
+    "entries": [ { "group": "ammo_can_shot_full", "prob": 10 }, { "group": "ammo_can_slug_full", "prob": 2 } ]
   },
   {
     "type": "item_group",
@@ -324,20 +329,16 @@
     "//": "Raw materials for assembling ammo excluding casings.",
     "subtype": "distribution",
     "entries": [
-      { "item": "gunpowder_shotgun", "prob": 20 },
-      { "item": "gunpowder_pistol", "prob": 105 },
-      { "item": "gunpowder_magnum_pistol", "prob": 60 },
-      { "item": "gunpowder_rifle", "prob": 85 },
-      { "item": "gunpowder_large_rifle", "prob": 40 },
-      { "item": "gunpowder_artillery", "prob": 5 },
+      { "item": "gunpowder_shotgun", "prob": 20, "charges": [ 200, 4540 ], "container-item": "bottle_plastic" },
+      { "item": "gunpowder_pistol", "prob": 105, "charges": [ 200, 4540 ], "container-item": "bottle_plastic" },
+      { "item": "gunpowder_magnum_pistol", "prob": 60, "charges": [ 200, 4540 ], "container-item": "bottle_plastic" },
+      { "item": "gunpowder_rifle", "prob": 85, "charges": [ 200, 4540 ], "container-item": "bottle_plastic" },
+      { "item": "gunpowder_large_rifle", "prob": 40, "charges": [ 200, 4540 ], "container-item": "bottle_plastic" },
+      { "item": "gunpowder_artillery", "prob": 5, "charges": [ 200, 4540 ], "container-item": "bottle_plastic" },
       { "item": "incendiary", "prob": 20 },
       { "item": "copper", "prob": 160 },
       { "item": "lead", "prob": 160 },
-      { "item": "shotgun_primer", "prob": 80 },
-      { "item": "smpistol_primer", "prob": 80 },
-      { "item": "smrifle_primer", "prob": 80 },
-      { "item": "lgpistol_primer", "prob": 40 },
-      { "item": "lgrifle_primer", "prob": 40 }
+      { "group": "boxed_primers_full", "prob": 320 }
     ]
   },
   {
@@ -370,115 +371,6 @@
       { "item": "40x46mm_m651", "prob": 20, "charges": [ 1, 6 ] },
       { "item": "556", "prob": 10, "charges": [ 1, 30 ] },
       { "item": "shot_slug", "prob": 20, "charges": [ 1, 20 ] }
-    ]
-  },
-  {
-    "id": "ammo_casings",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "10mm_casing", "prob": 60 },
-      { "item": "22_casing", "prob": 80 },
-      { "item": "223_casing", "prob": 100 },
-      { "item": "270win_casing", "prob": 60 },
-      { "item": "300_casing", "prob": 80 },
-      { "item": "3006_casing", "prob": 80 },
-      { "item": "308_casing", "prob": 80 },
-      { "item": "32_casing", "prob": 80 },
-      { "item": "357mag_casing", "prob": 80 },
-      { "item": "357sig_casing", "prob": 60 },
-      { "item": "38_casing", "prob": 80 },
-      { "item": "38super_casing", "prob": 80 },
-      { "item": "380_casing", "prob": 80 },
-      { "item": "40_casing", "prob": 80 },
-      { "item": "410shot_hull", "prob": 60 },
-      { "item": "44_casing", "prob": 80 },
-      { "item": "45_casing", "prob": 80 },
-      { "item": "454_casing", "prob": 60 },
-      { "item": "4570_casing", "prob": 60 },
-      { "item": "46mm_casing", "prob": 60 },
-      { "item": "50_casing", "prob": 60 },
-      { "item": "500_casing", "prob": 60 },
-      { "item": "50ae_casing", "prob": 60 },
-      { "item": "545_casing", "prob": 60 },
-      { "item": "50beowulf_casing", "prob": 45 },
-      { "item": "450_casing", "prob": 45 },
-      { "item": "338lapua_casing", "prob": 45 },
-      { "item": "303_casing", "prob": 45 },
-      { "item": "77arisaka_casing", "prob": 45 },
-      { "item": "57mm_casing", "prob": 60 },
-      { "item": "458wm_casing", "prob": 40 },
-      { "item": "762_casing", "prob": 80 },
-      { "item": "762_25_casing", "prob": 60 },
-      { "item": "762_51_casing", "prob": 80 },
-      { "item": "762R_casing", "prob": 60 },
-      { "item": "9mm_casing", "prob": 100 },
-      { "item": "9x18mm_casing", "prob": 80 },
-      { "item": "shot_hull", "prob": 100 },
-      { "item": "300blk_casing", "prob": 80 },
-      { "item": "30carbine_casing", "prob": 60 }
-    ]
-  },
-  {
-    "id": "ammo_casings_milspec",
-    "//": "Casings for setpieces implying military shootouts",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "9mm_casing", "prob": 50, "count": [ 1, 8 ] },
-      { "item": "46mm_casing", "prob": 10, "count": [ 1, 8 ] },
-      { "item": "223_casing", "prob": 300, "count": [ 1, 30 ] },
-      { "item": "762_51_casing", "prob": 25, "count": [ 1, 30 ] },
-      { "item": "762_casing", "prob": 25, "count": [ 1, 30 ] },
-      { "item": "50_casing", "prob": 25, "count": [ 1, 3 ] },
-      { "item": "shot_hull", "prob": 50, "count": [ 1, 3 ] }
-    ]
-  },
-  {
-    "id": "ammo_casings_gunsmith",
-    "//": "Casings found in prepper/gunsmith locations, including primed casings",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "group": "ammo_casings", "prob": 98 }, { "item": "22_casing_new", "prob": 2 } ]
-  },
-  {
-    "id": "casings",
-    "//": "casings list for shooting range.",
-    "type": "item_group",
-    "items": [
-      [ "9mm_casing", 100 ],
-      [ "22_casing", 95 ],
-      [ "38_casing", 75 ],
-      [ "40_casing", 80 ],
-      [ "44_casing", 35 ],
-      [ "45_casing", 65 ],
-      [ "454_casing", 10 ],
-      [ "500_casing", 10 ],
-      [ "50ae_casing", 10 ],
-      [ "57mm_casing", 10 ],
-      [ "46mm_casing", 10 ],
-      [ "762_casing", 85 ],
-      [ "762_51_casing", 50 ],
-      [ "223_casing", 85 ],
-      [ "3006_casing", 40 ],
-      [ "308_casing", 50 ],
-      [ "50_casing", 30 ],
-      [ "458wm_casing", 10 ],
-      [ "300_casing", 60 ],
-      [ "762R_casing", 10 ],
-      [ "32_casing", 70 ],
-      [ "30carbine_casing", 40 ]
-    ]
-  },
-  {
-    "id": "ammo_casings_gunsmith_bulk",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "group": "ammo_casings_gunsmith", "prob": 25, "charges": 50 },
-      { "group": "ammo_casings_gunsmith", "prob": 10, "charges": 100 },
-      { "group": "ammo_casings_gunsmith", "prob": 2, "charges": 250 },
-      { "group": "ammo_casings_gunsmith", "prob": 1, "charges": 500 }
     ]
   },
   {

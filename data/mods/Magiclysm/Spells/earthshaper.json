@@ -12,7 +12,7 @@
     "effect_str": "stonefist",
     "shape": "blast",
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "difficulty": 2,
     "max_level": 15,
     "base_casting_time": 200,
@@ -36,7 +36,7 @@
     "effect_str": "stonefist",
     "shape": "blast",
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "difficulty": 2,
     "max_level": 25,
     "base_casting_time": 200,
@@ -73,7 +73,7 @@
     "spell_class": "EARTHSHAPER",
     "base_casting_time": 100,
     "base_energy_cost": 250,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 2,
     "damage_type": "bash"
   },
@@ -94,7 +94,7 @@
     "base_casting_time": 500,
     "final_casting_time": 300,
     "casting_time_increment": -17,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_restoration_magic",
     "base_energy_cost": 150,
     "energy_increment": 75,
     "final_energy_cost": 1000,
@@ -113,7 +113,7 @@
     "effect": "attack",
     "shape": "cone",
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 3,
     "base_casting_time": 100,
     "base_energy_cost": 100,
@@ -142,7 +142,7 @@
     "effect": "attack",
     "shape": "blast",
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "base_casting_time": 100,
     "base_energy_cost": 115,
     "difficulty": 2,
@@ -174,7 +174,7 @@
     "difficulty": 4,
     "max_level": 20,
     "base_casting_time": 100,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "shape": "blast",
     "effect": "attack"
   },
@@ -197,7 +197,7 @@
     "difficulty": 1,
     "max_level": 20,
     "base_casting_time": 100,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "shape": "blast",
     "effect": "attack"
   },
@@ -224,7 +224,7 @@
     "base_casting_time": 1200,
     "final_casting_time": 200,
     "casting_time_increment": -50,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "shape": "blast",
     "effect": "ter_transform",
     "effect_str": "move_earth"
@@ -249,7 +249,7 @@
     "difficulty": 0,
     "max_level": 0,
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "flags": [ "CHANNELING_SPELL", "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   },
   {
@@ -269,9 +269,11 @@
     "spell_class": "EARTHSHAPER",
     "base_casting_time": 350,
     "base_energy_cost": 750,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "difficulty": 4,
     "field_id": "fd_clairvoyant",
+    "min_duration": 100,
+    "max_duration": 100,
     "min_field_intensity": 1,
     "max_field_intensity": 1
   },
@@ -286,7 +288,7 @@
     "shape": "blast",
     "flags": [ "CONJURATION_SPELL", "SOMATIC", "LOUD" ],
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "difficulty": 4,
     "base_casting_time": 300,
     "base_energy_cost": 300,
@@ -310,7 +312,7 @@
     "shape": "blast",
     "flags": [ "CONJURATION_SPELL", "SOMATIC", "LOUD", "NO_FAIL" ],
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "difficulty": 6,
     "base_casting_time": 300,
     "final_casting_time": 100,
@@ -338,7 +340,7 @@
     "extra_effects": [ { "id": "earthshaper_pillar_side_effect" }, { "id": "eoc_channeling_setup", "hit_self": true } ],
     "flags": [ "CHANNELING_SPELL", "SOMATIC", "LOUD", "NO_PROJECTILE" ],
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "difficulty": 3,
     "base_casting_time": 30000,
     "final_casting_time": 6000,
@@ -392,7 +394,7 @@
     "final_casting_time": 40,
     "casting_time_increment": -6,
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION" ]
   },
   {
@@ -422,7 +424,7 @@
     "base_energy_cost": 350,
     "final_energy_cost": 250,
     "energy_increment": -5,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 5,
     "damage_type": "stab"
   },
@@ -448,7 +450,7 @@
     "spell_class": "EARTHSHAPER",
     "base_casting_time": 200,
     "base_energy_cost": 300,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 5,
     "damage_type": "stab",
     "extra_effects": [ { "id": "eshaper_impalement_moves" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
@@ -483,7 +485,7 @@
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "shape": "blast",
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "difficulty": 2,
     "max_level": 14,
     "base_casting_time": 360000,
@@ -631,7 +633,7 @@
     "shape": "blast",
     "flags": [ "ENHANCEMENT_SPELL", "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX" ],
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "difficulty": 6,
     "base_casting_time": 1500,
@@ -656,7 +658,7 @@
     "shape": "blast",
     "flags": [ "CONJURATION_SPELL", "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX" ],
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "difficulty": 6,
     "base_casting_time": 1500,
@@ -697,7 +699,7 @@
     "components": "spell_components_shape_of_dust",
     "shape": "blast",
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "difficulty": 7,
     "max_level": 25,
     "base_casting_time": 500,
@@ -721,7 +723,7 @@
     "effect": "summon",
     "effect_str": "mon_eshaper_golem",
     "shape": "blast",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "base_energy_cost": 750,
     "final_energy_cost": 400,
     "energy_increment": -12,
@@ -747,7 +749,7 @@
     "shape": "blast",
     "flags": [ "CONJURATION_SPELL", "SOMATIC", "NO_PROJECTILE" ],
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "difficulty": 3,
     "base_casting_time": 360000,
     "final_casting_time": 120000,
@@ -772,7 +774,7 @@
     "max_level": 15,
     "spell_class": "EARTHSHAPER",
     "base_casting_time": 6000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "base_energy_cost": 1000,
     "difficulty": 8
   },
@@ -913,7 +915,7 @@
     "effect_str": "EOC_EARTHSHAPER_DANGERSENSE",
     "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "shape": "blast",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "difficulty": 3,
     "max_level": 10,
     "base_casting_time": 400,
@@ -956,7 +958,7 @@
     "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "SOMATIC", "VERBAL" ],
     "valid_targets": [ "self" ],
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "effect": "attack",
     "effect_str": "earthshaper_fortitude_of_stone",
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
@@ -979,7 +981,7 @@
     "valid_targets": [ "ground" ],
     "max_level": 12,
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "shape": "line",
     "difficulty": 2,
     "effect": "ter_transform",
@@ -1002,7 +1004,7 @@
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "max_level": 10,
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "shape": "blast",
     "difficulty": 9,
     "effect": "effect_on_condition",
@@ -1104,7 +1106,7 @@
     "min_range": 2,
     "max_range": 20,
     "range_increment": 1,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "base_energy_cost": 200,
     "base_casting_time": 1500
   },
@@ -1121,7 +1123,7 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_EARTHSHAPER_SLEEP_IN_EARTH",
     "shape": "blast",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_casting_time": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : (6000 * (1 / enhancement_proficiency_modifier() ) )" ] },
     "base_energy_cost": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : (800 * (1 / enhancement_proficiency_modifier() ) )" ] }
@@ -1182,7 +1184,7 @@
                   "u_message": "As you nearly complete the spell, you stop in your tracks.  There's something odd about the ground below you, and sinking into it would be too dangerous.",
                   "type": "mixed"
                 },
-                { "math": [ "u_val('mana')", "+=", "(800 * (1 / enhancement_proficiency_modifier() ) )" ] }
+                { "math": [ "u_val('mana') += (800 * (1 / enhancement_proficiency_modifier() ) )" ] }
               ]
             }
           ],
@@ -1222,7 +1224,7 @@
     "shape": "blast",
     "difficulty": 4,
     "max_level": 20,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "base_energy_cost": 600,
     "base_casting_time": 360000,
     "final_casting_time": 90000,
@@ -1282,7 +1284,7 @@
     "spell_class": "EARTHSHAPER",
     "teachable": false,
     "max_level": 20,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conveyance_magic",
     "base_energy_cost": 650,
     "base_casting_time": 250
   },
@@ -1314,6 +1316,68 @@
           }
         ],
         "else": { "u_message": "You must be on the living earth to use Earth Gate.", "type": "bad" }
+      }
+    ]
+  },
+  {
+    "id": "earthshaper_remove_corpses",
+    "type": "SPELL",
+    "name": "The Last Embrace",
+    "description": "A truly ancient spell, its use attested in funeral rites from prehistoric times, The Last Embrace causes all bodies within its area of effect to sink within the living earth, coming to rest in a natural tomb.  It only works on earth or stone.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CHANNELING_SPELL", "SOMATIC", "LOUD", "NO_PROJECTILE" ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EARTHSHAPER_REMOVE_CORPSES",
+    "shape": "blast",
+    "difficulty": 4,
+    "spell_class": "EARTHSHAPER",
+    "teachable": false,
+    "max_level": 15,
+    "magic_type": "magiclysm_channeling_magic",
+    "base_energy_cost": 150,
+    "final_energy_cost": 50,
+    "energy_increment": -7,
+    "base_casting_time": 1200
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_REMOVE_CORPSES",
+    "effect": [
+      {
+        "u_query_tile": "line_of_sight",
+        "target_var": { "context_val": "earthshaper_target_point" },
+        "range": { "math": [ "(u_spell_level('earthshaper_remove_corpses') + 3)" ] },
+        "z_level": false,
+        "message": "Select diggable ground."
+      },
+      {
+        "u_map_run_eocs": [
+          {
+            "id": "EOC_EARTHSHAPER_REMOVE_CORPSES_PER_TILE",
+            "effect": [
+              {
+                "u_map_run_item_eocs": "all",
+                "loc": { "context_val": "earthshaper_digging_point" },
+                "min_radius": 0,
+                "max_radius": 0,
+                "search_data": [ { "flags": [ "CORPSE" ] } ],
+                "true_eocs": [ { "id": "EOC_EARTHSHAPER_REMOVE_CORPSES_HIT_CORPSES", "effect": [ "npc_die" ] } ]
+              }
+            ]
+          }
+        ],
+        "range": { "math": [ "( (u_spell_level('earthshaper_remove_corpses') * 0.15) + 1)" ] },
+        "store_coordinates_in": { "context_val": "earthshaper_digging_point" },
+        "stop_at_first": false,
+        "target_var": { "context_val": "earthshaper_target_point" },
+        "condition": {
+          "or": [
+            { "map_terrain_id": "t_rock_floor_no_roof", "loc": { "context_val": "earthshaper_target_point" } },
+            { "map_terrain_id": "t_rock_floor", "loc": { "context_val": "earthshaper_target_point" } },
+            { "map_terrain_with_flag": "DIGGABLE", "loc": { "context_val": "earthshaper_target_point" } }
+          ]
+        }
       }
     ]
   }

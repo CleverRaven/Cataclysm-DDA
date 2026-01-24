@@ -18,8 +18,16 @@
       "TALK_meteorologist_1",
       "TALK_NPC_HOMELESS_SURVIVOR",
       "TALK_NPC_APARTMENT_SURVIVOR",
-      "TALK_NPC_CAMPER",
-      "TALK_CITY_COP_INTRO"
+      "TALK_CITY_COP",
+      "TALK_FRIEND_Liam",
+      "TALK_FRIEND_Luo",
+      "TALK_NPC_EVAC_SURVIVOR",
+      "TALK_NPC_CAMPER_SURVIVOR",
+      "TALK_CARAVAN_REFUGEE_B1",
+      "TALK_CARAVAN_REFUGEE_B2",
+      "TALK_MI-GO_PRISONER1",
+      "TALK_COWBOYN_MAIN",
+      "TALK_COWBOYFR_MAIN"
     ],
     "//": "This should include all NPCs the player can immediately ask to follow them for free, and those who already follow.",
     "type": "talk_topic",
@@ -48,21 +56,41 @@
         "text": "[Spend a little blood to make them like you a bit more]",
         "topic": "TALK_NONE",
         "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -501" ] },
-        "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] } ],
+        "effect": [
+          {
+            "if": { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND_UPGRADE" },
+            "then": { "math": [ "u_vitamin('human_blood_vitamin') -= 50" ] },
+            "else": { "math": [ "u_vitamin('human_blood_vitamin') -= 100" ] }
+          }
+        ],
         "opinion": { "trust": 1, "value": 1 }
       },
       {
         "text": "[Spend a moderate amount of blood to make them your friend]",
         "topic": "TALK_NONE",
         "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -501" ] },
-        "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "500" ] } ],
+        "effect": [
+          {
+            "if": { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND_UPGRADE" },
+            "then": { "math": [ "u_vitamin('human_blood_vitamin') -= 250" ] },
+            "else": { "math": [ "u_vitamin('human_blood_vitamin') -= 500" ] }
+          }
+        ],
         "opinion": { "trust": 3, "value": 3, "anger": -2, "fear": -1 }
       },
       {
         "text": "[Spend a massive amount of blood to make them your renfield]",
         "topic": "TALK_YOUR_NEW_RENFIELD",
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -501" ] },
-        "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] }, { "npc_add_trait": "RENFIELD" }, "follow" ],
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') > 2501" ] },
+        "effect": [
+          {
+            "if": { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND_UPGRADE" },
+            "then": { "math": [ "u_vitamin('human_blood_vitamin') -= 1500" ] },
+            "else": { "math": [ "u_vitamin('human_blood_vitamin') -= 3000" ] }
+          },
+          { "npc_add_trait": "RENFIELD" },
+          "follow"
+        ],
         "opinion": { "trust": 30, "value": 30, "anger": -30, "fear": -5 }
       },
       {

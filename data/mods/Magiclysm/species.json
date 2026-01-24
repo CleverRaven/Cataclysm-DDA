@@ -6,6 +6,11 @@
   },
   {
     "type": "SPECIES",
+    "id": "SUMMONED_CREATURE",
+    "description": "a creature summoned by magic"
+  },
+  {
+    "type": "SPECIES",
     "id": "DRAGON",
     "description": "a dragon",
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK" ]
@@ -52,6 +57,12 @@
     "type": "SPECIES",
     "id": "GOLEM",
     "description": "an automaton, animated by magical forces",
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "IRON_GOLEM",
+    "description": "an iron golem, hated by rust monsters",
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ]
   },
   {
@@ -106,6 +117,13 @@
     "type": "SPECIES",
     "id": "EARTH_SPIRIT",
     "description": "A magical being of rock and stone.",
+    "flags": [ "NEVER_WANDER", "NO_FUNG_DMG" ],
+    "anger_triggers": [ "FRIEND_ATTACKED" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "WIND_SPIRIT",
+    "description": "A magical being of wind and gale.",
     "flags": [ "NEVER_WANDER", "NO_FUNG_DMG" ],
     "anger_triggers": [ "FRIEND_ATTACKED" ]
   }

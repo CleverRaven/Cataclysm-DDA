@@ -33,6 +33,10 @@
       { "group": "pillbox_any_empty", "prob": 1, "count": [ 1, 2 ] },
       { "item": "bag_canvas_small", "prob": 2 },
       { "item": "box_cigarette", "prob": 10 },
+      { "item": "nic_pouch_can", "prob": 7 },
+      { "item": "ifak_pouch", "prob": 5 },
+      { "item": "bag_paper_powder", "prob": 5 },
+      { "item": "bottle_glass_seasoning", "prob": 1 },
       { "//": "Loose items" },
       { "item": "bubblewrap", "prob": 5 },
       { "item": "lc_wire", "prob": 1 },
@@ -49,6 +53,8 @@
       { "item": "ceramic_mug", "prob": 1 },
       { "item": "coin_nickel", "prob": 1 },
       { "item": "coin_quarter", "prob": 1 },
+      { "item": "glowstick", "prob": 1, "charges": 0 },
+      { "item": "duct_tape", "prob": 1, "charges": 0 },
       { "//": "Small trash" },
       { "item": "splinter", "prob": 5, "count": [ 3, 6 ] },
       { "item": "scrap", "prob": 5 },
@@ -56,8 +62,10 @@
       { "item": "cotton_patchwork", "prob": 5, "custom-flags": [ "FILTHY" ] },
       { "item": "cig_butt", "prob": 10, "count": [ 1, 5 ] },
       { "//": "Lore items" },
-      { "item": "mag_news", "prob": 5 },
-      { "item": "flyer", "prob": 5 }
+      { "group": "SUS_book_nonf_zine_news", "prob": 5 },
+      { "item": "flyer", "prob": 5 },
+      { "item": "flyer_evac", "prob": 10 },
+      { "item": "survnote", "prob": 1 }
     ]
   },
   {
@@ -86,6 +94,11 @@
       { "item": "box_small", "prob": 30 },
       { "group": "pillbox_any_empty", "prob": 10, "count": [ 1, 3 ] },
       { "item": "bag_canvas_small", "prob": 10 },
+      { "item": "box_cigarette", "prob": 10 },
+      { "item": "nic_pouch_can", "prob": 10 },
+      { "item": "ifak_pouch", "prob": 15 },
+      { "item": "bag_paper_powder", "prob": 15 },
+      { "item": "bottle_glass_seasoning", "prob": 5 },
       { "//": "Loose items" },
       { "item": "bubblewrap", "prob": 15 },
       { "item": "lc_wire", "prob": 10, "count": [ 1, 4 ] },
@@ -104,6 +117,8 @@
       { "item": "mask_dust", "prob": 2 },
       { "item": "coin_nickel", "prob": 1 },
       { "item": "coin_quarter", "prob": 1 },
+      { "item": "glowstick", "prob": 5, "charges": 0 },
+      { "item": "duct_tape", "prob": 5, "charges": 0 },
       { "//": "Small trash" },
       { "item": "splinter", "prob": 20, "count": [ 5, 20 ] },
       { "item": "scrap", "prob": 20, "count": [ 1, 2 ] },
@@ -111,8 +126,9 @@
       { "item": "cotton_patchwork", "prob": 20, "custom-flags": [ "FILTHY" ] },
       { "item": "cig_butt", "prob": 20, "count": [ 3, 6 ] },
       { "//": "Lore items" },
-      { "item": "mag_news", "prob": 20 },
-      { "item": "flyer", "prob": 20, "count": [ 1, 3 ] }
+      { "group": "SUS_book_nonf_zine_news", "prob": 20 },
+      { "item": "flyer", "prob": 20, "count": [ 1, 3 ] },
+      { "item": "flyer_evac", "prob": 20, "count": [ 1, 3 ] }
     ]
   },
   {
@@ -120,8 +136,8 @@
     "id": "trash_junkyard",
     "items": [
       { "item": "scrap", "prob": 50 },
-      { "item": "steel_lump", "prob": 30 },
-      { "item": "steel_chunk", "prob": 30 },
+      { "item": "lc_steel_lump", "prob": 30 },
+      { "item": "lc_steel_chunk", "prob": 30 },
       { "item": "chain", "prob": 10 },
       { "item": "spring", "prob": 10 },
       { "item": "hose", "prob": 10 }
@@ -152,7 +168,6 @@
       { "group": "SUS_trash_hardware", "prob": 20, "count": [ 1, 5 ] },
       { "group": "SUS_trash_sewing", "prob": 10, "count": [ 1, 2 ] },
       { "group": "civilian_memory_cards", "prob": 6 },
-      { "group": "used_ifak", "prob": 10, "count": [ 1, 2 ] },
       { "item": "bum_wine", "prob": 5 },
       { "item": "chain", "prob": 10, "count": [ 1, 5 ] },
       { "item": "glass_sheet", "prob": 5 },
@@ -175,6 +190,7 @@
       { "item": "jar_3l_glass_sealed", "prob": 8 },
       { "item": "handflare_dead", "prob": 3 },
       { "item": "creepy_doll", "prob": 1, "charges": [ 0, 2 ] },
+      { "group": "SUS_book_nonf_pulp_newage", "prob": 2 },
       { "item": "razor_blade", "prob": 10 },
       { "item": "survnote", "prob": 5 },
       { "item": "balloon", "prob": 5, "count": [ 5, 10 ] },
@@ -188,7 +204,8 @@
       { "item": "family_photo", "prob": 2 },
       { "item": "eraser", "prob": 5 },
       { "item": "cotton_ball", "prob": 10, "count": [ 3, 7 ], "custom-flags": [ "FILTHY" ] },
-      { "group": "used_toy_box", "prob": 8 }
+      { "group": "used_toy_box", "prob": 8 },
+      { "group": "superglue_bottles", "prob": 8, "count": [ 1, 3 ] }
     ]
   },
   {
@@ -204,7 +221,6 @@
       { "group": "SUS_trash_hardware", "prob": 20, "count": [ 0, 2 ] },
       { "group": "SUS_trash_sewing", "prob": 10 },
       { "group": "civilian_memory_cards", "prob": 6 },
-      { "group": "used_ifak", "prob": 5 },
       { "item": "bum_wine", "prob": 5 },
       { "item": "chain", "prob": 10, "count": [ 1, 2 ] },
       { "item": "glass_sheet", "prob": 5 },
@@ -227,6 +243,7 @@
       { "item": "jar_3l_glass_sealed", "prob": 4 },
       { "item": "handflare_dead", "prob": 3 },
       { "item": "creepy_doll", "prob": 1, "charges": [ 0, 2 ] },
+      { "group": "SUS_book_nonf_pulp_newage", "prob": 1 },
       { "item": "razor_blade", "prob": 5 },
       { "item": "survnote", "prob": 5 },
       { "item": "box_medium_folded", "prob": 15 },
@@ -237,7 +254,8 @@
       { "item": "book_ruined", "prob": 5 },
       { "item": "candle", "prob": 10, "count": [ 1, 2 ], "charges": [ 0, 8 ] },
       { "item": "cotton_ball", "prob": 5, "count": [ 3, 7 ], "custom-flags": [ "FILTHY" ] },
-      { "group": "used_toy_box", "prob": 8 }
+      { "group": "used_toy_box", "prob": 8 },
+      { "group": "superglue_bottles", "prob": 8 }
     ]
   },
   {
@@ -316,8 +334,8 @@
       { "item": "box_medium_folded", "prob": 3 },
       { "item": "box_large_folded", "prob": 3 },
       { "item": "box_oversize_folded", "prob": 3 },
-      { "item": "steel_lump", "prob": 3 },
-      { "item": "steel_chunk", "prob": 3 },
+      { "item": "lc_steel_lump", "prob": 3 },
+      { "item": "lc_steel_chunk", "prob": 3 },
       { "item": "wire_barbed", "prob": 3 },
       { "item": "syringe", "prob": 3 },
       { "item": "spike", "prob": 3 },
@@ -332,6 +350,12 @@
     "//2": "This group is for metal trash, for use in other item groups or around metalworking areas",
     "subtype": "collection",
     "items": [
+      { "item": "lc_wire", "prob": 5 },
+      { "item": "mc_wire", "prob": 5 },
+      { "item": "hc_wire", "prob": 5 },
+      { "item": "ch_wire", "prob": 3 },
+      { "item": "qt_wire", "prob": 3 },
+      { "item": "sheet_metal_small", "prob": 2 },
       { "item": "pipe", "prob": 5 },
       { "item": "nuts_bolts", "prob": 10, "charges": [ 1, 15 ] },
       { "item": "scrap", "prob": 5, "count": [ 1, 2 ] },
@@ -392,6 +416,7 @@
       { "item": "button_plastic", "charges": [ 1, 5 ], "prob": 5 },
       { "item": "button_steel", "charges": [ 1, 5 ], "prob": 5 },
       { "item": "button_wood", "charges": [ 1, 5 ], "prob": 5 },
+      { "item": "button_bone", "charges": [ 1, 5 ], "prob": 5 },
       { "item": "thread", "charges": [ 2, 7 ], "prob": 5 },
       { "item": "thread_nomex", "charges": [ 1, 2 ], "prob": 2 },
       { "item": "thread_kevlar", "charges": [ 1, 3 ], "prob": 2 },
@@ -412,7 +437,13 @@
     "subtype": "collection",
     "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
     "//2": "This group is for curbside trashcans, contained within multiple garbage bags",
-    "items": [ { "group": "SUS_trash_trashcan_full", "count": [ 0, 4 ] } ]
+    "items": [
+      { "group": "SUS_trash_trashcan_full", "count": [ 0, 4 ] },
+      { "item": "box_small_folded", "prob": 20, "count": [ 0, 2 ] },
+      { "item": "box_medium_folded", "prob": 10, "count": [ 0, 1 ] },
+      { "item": "box_large_folded", "prob": 15, "count": [ 0, 1 ] },
+      { "item": "box_oversize_folded", "prob": 5, "count": [ 0, 1 ] }
+    ]
   },
   {
     "id": "SUS_trash_dumpster",
@@ -420,7 +451,17 @@
     "subtype": "collection",
     "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
     "//2": "This group is for dumpsters, contained within multiple garbage bags",
-    "items": [ { "group": "SUS_trash_trashcan_full", "count": [ 0, 12 ] } ]
+    "items": [
+      { "group": "SUS_trash_trashcan_full", "count": [ 0, 8 ] },
+      { "item": "box_small", "prob": 20, "count": [ 0, 5 ] },
+      { "item": "box_medium", "prob": 10, "count": [ 0, 4 ] },
+      { "item": "box_large", "prob": 15, "count": [ 0, 4 ] },
+      { "item": "box_oversize", "prob": 5, "count": [ 0, 2 ] },
+      { "item": "box_small_folded", "prob": 20, "count": [ 0, 5 ] },
+      { "item": "box_medium_folded", "prob": 10, "count": [ 0, 4 ] },
+      { "item": "box_large_folded", "prob": 15, "count": [ 0, 4 ] },
+      { "item": "box_oversize_folded", "prob": 5, "count": [ 0, 2 ] }
+    ]
   },
   {
     "id": "SUS_trash_trashcan_public",
@@ -480,6 +521,37 @@
       { "item": "bottle_glass", "prob": 2, "count": [ 1, 2 ] },
       { "item": "jar_glass_sealed", "prob": 2 },
       { "item": "jar_3l_glass_sealed", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SUS_trash_highway_shoulder",
+    "//": "Trash that's often found on the side of the highway.",
+    "subtype": "distribution",
+    "items": [
+      [ "rubber_tire_chunk", 300 ],
+      [ "wrapper", 100 ],
+      [ "plastic_shopping_bag", 100 ],
+      { "group": "SUS_trash_trashcan", "prob": 50 },
+      [ "plastic_chunk", 50 ],
+      { "item": "cup_plastic", "prob": 50, "count": [ 1, 3 ] },
+      [ "jug_plastic", 5 ],
+      { "item": "bottle_plastic", "prob": 50, "count": [ 1, 3 ] },
+      { "item": "bottle_plastic_small", "prob": 10, "count": [ 1, 5 ] },
+      [ "can_drink", 50 ],
+      [ "can_food", 50 ],
+      [ "box_cigarette", 50 ],
+      [ "bubblewrap", 5 ],
+      [ "flyer", 5 ],
+      [ "lc_steel_lump", 50 ],
+      [ "lc_steel_chunk", 50 ],
+      [ "cardboard", 25 ],
+      [ "bag_zipper", 25 ],
+      [ "box_snack", 25 ],
+      [ "box_small", 10 ],
+      [ "box_small_folded", 10 ],
+      [ "box_medium_folded", 5 ],
+      [ "box_large_folded", 5 ]
     ]
   }
 ]

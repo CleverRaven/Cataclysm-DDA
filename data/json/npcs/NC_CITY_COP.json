@@ -46,7 +46,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "dress_shirt", "prob": 50 },
-      { "item": "sheriffshirt", "prob": 45 },
+      { "item": "postman_shirt", "variant": "sheriff", "prob": 45 },
       { "item": "jacket_light", "prob": 40 }
     ]
   },
@@ -165,7 +165,7 @@
       { "item": "mp3", "prob": 6, "charges": [ 0, -1 ] },
       { "item": "portable_game", "prob": 12, "charges": [ 0, -1 ] },
       { "item": "game_watch", "prob": 3, "charges": [ 0, -1 ] },
-      { "item": "vibrator", "prob": 10, "charges": [ 0, -1 ] },
+      { "group": "sex_accessories_domestic", "prob": 10 },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 10, "charges": [ 0, 300 ] },
       { "item": "radio", "prob": 20, "charges": [ 0, -1 ] },
@@ -179,7 +179,7 @@
       { "item": "recipe_augs", "prob": 4 },
       { "item": "cable", "prob": 60 },
       { "item": "vac_sealer", "prob": 10 },
-      { "item": "smart_phone", "prob": 50, "charges": [ 0, -1 ] },
+      { "group": "civilian_phones", "prob": 50, "charges": [ 0, -1 ] },
       { "item": "eink_tablet_pc", "prob": 15 },
       { "item": "memory_card_unread", "prob": 15 },
       { "item": "camera", "prob": 15, "charges": [ 0, 150 ] },
@@ -198,7 +198,6 @@
     "type": "item_group",
     "id": "xanax_bottle_plastic_pill_prescription_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "xanax", "container-item": "null", "count": 10 } ]
   },
@@ -206,7 +205,6 @@
     "type": "item_group",
     "id": "prozac_bottle_plastic_pill_prescription_15",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "prozac", "container-item": "null", "count": 15 } ]
   },
@@ -214,7 +212,6 @@
     "type": "item_group",
     "id": "diazepam_bottle_plastic_pill_prescription_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "diazepam", "container-item": "null", "count": 10 } ]
   },
@@ -222,7 +219,6 @@
     "type": "item_group",
     "id": "coke_bag_zipper_8",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_zipper",
     "entries": [ { "item": "coke", "container-item": "null", "count": 8 } ]
   },
@@ -230,7 +226,6 @@
     "type": "item_group",
     "id": "crack_bag_zipper_4",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_zipper",
     "entries": [ { "item": "crack", "container-item": "null", "count": 4 } ]
   }

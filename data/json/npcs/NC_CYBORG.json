@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "NC_CYBORG_worn",
     "subtype": "collection",
-    "entries": [ { "item": "briefs" }, { "item": "footrags" }, { "item": "subsuit_xl" } ]
+    "entries": [ { "item": "briefs" }, { "item": "footrags" }, { "item": "jumpsuit_pocketless", "variant": "orange" } ]
   },
   {
     "type": "item_group",

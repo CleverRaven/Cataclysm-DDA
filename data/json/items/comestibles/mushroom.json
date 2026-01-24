@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mushroom_cooked",
     "name": { "str": "cooked mushroom" },
     "copy-from": "mushroom",
@@ -13,7 +14,8 @@
     "flags": [ "FREEZERBURN" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mushroom_ketchup",
     "name": { "str_sp": "mushroom ketchup" },
     "description": "A savory condiment made from mushrooms.",
@@ -35,7 +37,8 @@
     "vitamins": [ [ "vitC", 1 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mushroom_morel",
     "name": { "str": "morel mushroom" },
     "weight": "78 g",
@@ -52,12 +55,13 @@
     "material": [ "mushroom" ],
     "volume": "250 ml",
     "fun": 1,
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN" ],
     "smoking_result": "dry_mushroom",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "morel_cooked",
     "name": { "str": "cooked morel mushroom" },
     "copy-from": "mushroom_morel",
@@ -71,7 +75,8 @@
     "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "morel_fried",
     "name": { "str": "fried morel mushroom" },
     "copy-from": "mushroom_morel",
@@ -86,7 +91,8 @@
     "volume": "125 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_mushroom",
     "name": { "str": "dried mushroom" },
     "weight": "7 g",
@@ -107,7 +113,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mushroom",
     "name": { "str": "mushroom" },
     "weight": "69 g",
@@ -122,7 +129,7 @@
     "material": [ "mushroom" ],
     "volume": "250 ml",
     "fun": -3,
-    "flags": [ "FREEZERBURN", "SMOKABLE", "FORAGE_POISON", "FORAGE_HALLU", "RAW" ],
+    "flags": [ "FREEZERBURN", "FORAGE_POISON", "FORAGE_HALLU", "RAW" ],
     "smoking_result": "dry_mushroom",
     "vitamins": [ [ "vitC", 2 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   }

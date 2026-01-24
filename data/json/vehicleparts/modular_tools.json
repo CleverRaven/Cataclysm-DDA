@@ -1,8 +1,8 @@
 [
   {
     "abstract": "veh_tools_abstract",
-    "type": "GENERIC",
-    "name": { "str": "vehicle tool station" },
+    "type": "ITEM",
+    "name": { "str": "vehicle tool station", "//~": "NO_I18N" },
     "category": "veh_parts",
     "weight": "40000 g",
     "volume": "20 L",
@@ -13,18 +13,18 @@
     "color": "light_cyan"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "veh_tools_kitchen",
     "copy-from": "veh_tools_abstract",
-    "name": { "str": "mounted kitchen" },
+    "name": { "str": "kitchen station" },
     "description": "A table rig with a faucet for water tank access, fume hood, drawers and fixtures for storing tools, low power electric connectors and valves for fuel tank connections.",
     "looks_like": "kitchen_unit"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "veh_tools_workshop",
     "copy-from": "veh_tools_abstract",
-    "name": { "str": "mounted workshop" },
+    "name": { "str": "workshop station" },
     "description": "A table rig with drawers and fixtures for storing tools, wiring for high power electric connectors and valves for fuel tank connections.",
     "looks_like": "welding_rig"
   },
@@ -86,8 +86,8 @@
     "abstract": "veh_tools_part_abstract",
     "type": "vehicle_part",
     "breaks_into": [
-      { "count": [ 4, 6 ], "item": "steel_lump" },
-      { "count": [ 4, 6 ], "item": "steel_chunk" },
+      { "count": [ 4, 6 ], "item": "lc_steel_lump" },
+      { "count": [ 4, 6 ], "item": "lc_steel_chunk" },
       { "count": [ 4, 6 ], "item": "scrap" }
     ],
     "broken_color": "light_cyan",
@@ -97,12 +97,12 @@
     "damage_reduction": { "all": 30 },
     "durability": 80,
     "size": "50 L",
-    "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "VEH_TOOLS" ],
+    "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH", "CABLE_PORTS", "VEH_TOOLS" ],
+    "workbench": { "multiplier": 1.1, "mass": "150 kg", "volume": "20 L" },
     "//": "allow tools common for both kitchen unit and workshop; unpowered or low-power and no fume hood required",
     "allowed_tools": [
       "aluminum_pan",
       "angle_grinder",
-      "atomic_coffeepot",
       "coffeemaker",
       "copper_pan",
       "cordless_drill",
@@ -118,6 +118,11 @@
       "pan",
       "polisher",
       "pot",
+      "pot_aluminum",
+      "pot_copper",
+      "pot_makeshift",
+      "pot_makeshift_copper",
+      "iron_pot",
       "press",
       "puller",
       "small_repairkit",

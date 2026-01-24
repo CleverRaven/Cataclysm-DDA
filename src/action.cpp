@@ -37,7 +37,6 @@
 #include "point.h"
 #include "popup.h"
 #include "ret_val.h"
-#include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uilist.h"
@@ -339,22 +338,6 @@ std::string action_ident( action_id act )
             return "help";
         case ACTION_DEBUG:
             return "debug";
-        case ACTION_DISPLAY_SCENT:
-            return "debug_scent";
-        case ACTION_DISPLAY_SCENT_TYPE:
-            return "debug_scent_type";
-        case ACTION_DISPLAY_TEMPERATURE:
-            return "debug_temp";
-        case ACTION_DISPLAY_VEHICLE_AI:
-            return "debug_vehicle_ai";
-        case ACTION_DISPLAY_VISIBILITY:
-            return "debug_visibility";
-        case ACTION_DISPLAY_TRANSPARENCY:
-            return "debug_transparency";
-        case ACTION_DISPLAY_LIGHTING:
-            return "debug_lighting";
-        case ACTION_DISPLAY_RADIATION:
-            return "debug_radiation";
         case ACTION_DISPLAY_NPC_ATTACK_POTENTIAL:
             return "debug_npc_attack_potential";
         case ACTION_TOGGLE_HOUR_TIMER:
@@ -389,6 +372,8 @@ std::string action_ident( action_id act )
             return "toggle_prevent_occlusion";
         case ACTION_ACTIONMENU:
             return "action_menu";
+        case ACTION_INTERACT:
+            return "interact";
         case ACTION_ITEMACTION:
             return "item_action_menu";
         case ACTION_SELECT:
@@ -469,15 +454,10 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_COLOR:
         case ACTION_WORLD_MODS:
         case ACTION_DISTRACTION_MANAGER:
+        case ACTION_EXPORT_BUG_REPORT_ARCHIVE:
         // Debug Functions
         case ACTION_TOGGLE_FULLSCREEN:
         case ACTION_DEBUG:
-        case ACTION_DISPLAY_SCENT:
-        case ACTION_DISPLAY_SCENT_TYPE:
-        case ACTION_DISPLAY_TEMPERATURE:
-        case ACTION_DISPLAY_VEHICLE_AI:
-        case ACTION_DISPLAY_VISIBILITY:
-        case ACTION_DISPLAY_LIGHTING:
         case ACTION_DISPLAY_RADIATION:
         case ACTION_DISPLAY_NPC_ATTACK_POTENTIAL:
         case ACTION_DISPLAY_TRANSPARENCY:
@@ -754,11 +734,60 @@ bool can_interact_at( action_id action, map &here, const tripoint_bub_ms &p )
             return can_examine_at( here, p, true );
         case ACTION_PICKUP:
             return can_pickup_at( here, p );
+        case ACTION_SMASH:
+            return here.is_bashable( p );
+        case ACTION_CHAT: {
+            Creature *c = get_creature_tracker().creature_at( p );
+            return c != nullptr && !c->is_avatar() && get_avatar().sees( here, p );
+        }
         default:
             return false;
     }
+}
 
-    return can_interact_at( action, here, p );
+action_id handle_interact( map &here, const tripoint_bub_ms &pos )
+{
+    const input_context ctxt = get_default_mode_input_context();
+
+    std::vector<action_id> valid_actions;
+    static const std::vector<action_id> check_actions = {
+        ACTION_EXAMINE,
+        ACTION_PICKUP,
+        ACTION_OPEN,
+        ACTION_CLOSE,
+        ACTION_BUTCHER,
+        ACTION_CHAT,
+        ACTION_MOVE_UP,
+        ACTION_MOVE_DOWN
+    };
+
+    for( action_id act : check_actions ) {
+        if( can_interact_at( act, here, pos ) ) {
+            valid_actions.push_back( act );
+        }
+    }
+
+    if( valid_actions.empty() ) {
+        return ACTION_NULL;
+    }
+
+    if( valid_actions.size() == 1 ) {
+        return valid_actions.front();
+    }
+
+    uilist tmenu;
+    tmenu.settext( _( "Actions for this tile" ) );
+    for( action_id act : valid_actions ) {
+        tmenu.addentry( act, true, hotkey_for_action( act, 1 ),
+                        ctxt.get_action_name( action_ident( act ) ) );
+    }
+
+    tmenu.query();
+    if( tmenu.ret < 0 ) {
+        return ACTION_NULL;
+    }
+
+    return static_cast<action_id>( tmenu.ret );
 }
 
 action_id handle_action_menu( map &here )
@@ -838,6 +867,10 @@ action_id handle_action_menu( map &here )
                 action_weightings[ACTION_MOVE_DOWN] = 200;
             }
         }
+    }
+
+    if( player_character.hauling ) {
+        action_weightings[ACTION_HAUL_TOGGLE] = 300;
     }
 
     // sort the map by its weightings
@@ -1090,7 +1123,13 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_ACTIONMENU );
     REGISTER_ACTION( ACTION_QUICKSAVE );
     REGISTER_ACTION( ACTION_SAVE );
-    REGISTER_ACTION( ACTION_DEBUG, 'd' );
+    if( hotkey_for_action( ACTION_DEBUG, /*maximum_modifier_count=*/1, false ).has_value() ) {
+        REGISTER_ACTION( ACTION_DEBUG, 'D' );
+    }
+
+    // Special handling: This one is not a keybind, so we emplace it manually with a descriptive name.
+    entries.emplace_back( ACTION_EXPORT_BUG_REPORT_ARCHIVE, true, 'd',
+                          _( "Export save archive for github bug report" ) );
 
     uilist smenu;
     smenu.settext( _( "MAIN MENU" ) );

@@ -95,28 +95,24 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_RC_Shoppers_add",
     "//": "Adds a random NPC to the refugee center, placed somewhere it won't intersect with beggars or other random NPCs.",
     "object": { "place_npcs": [ { "class": "RC_survivor_visiting", "x": 20, "y": 23 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_RC_Shoppers_remove",
     "//": "Adds a random NPC to the refugee center, placed somewhere it won't intersect with beggars or other random NPCs.",
     "object": { "remove_npcs": [ { "class": "RC_survivor_visiting", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_RC_JohnBailey_add",
     "//": "Adds a random NPC to the refugee center, placed somewhere it won't intersect with beggars or other random NPCs.",
     "object": { "place_npcs": [ { "class": "RC_John_Bailey_visiting", "x": 19, "y": 21, "unique_id": "John_Bailey" } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_RC_JohnBailey_remove",
     "//": "Adds a random NPC to the refugee center, placed somewhere it won't intersect with beggars or other random NPCs.",
     "object": { "remove_npcs": [ { "class": "RC_John_Bailey_visiting", "x": 0, "y": 0, "unique_id": "John_Bailey" } ] }

@@ -2,14 +2,16 @@
 #ifndef CATA_SRC_COMPUTER_H
 #define CATA_SRC_COMPUTER_H
 
+#include <functional>
 #include <memory>
-#include <optional>
 #include <string>
-#include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "coordinates.h"
+#include "math_parser_diag_value.h"
+#include "global_vars.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -161,11 +163,15 @@ class computer
         std::vector<std::string> chat_topics; // What it has to say.
         std::vector<effect_on_condition_id> eocs; // Effect on conditions to run when accessed.
         // Miscellaneous key/value pairs.
-        std::unordered_map<std::string, std::string> values;
+        global_variables::impl_t values;
         // Methods for setting/getting misc key/value pairs.
-        void set_value( const std::string &key, const std::string &value );
+        void set_value( const std::string &key, diag_value value );
+        template <typename... Args>
+        void set_value( const std::string &key, Args... args ) {
+            set_value( key, diag_value{ std::forward<Args>( args )... } );
+        }
         void remove_value( const std::string &key );
-        std::optional<std::string> maybe_get_value( const std::string &key ) const;
+        diag_value const *maybe_get_value( const std::string &key ) const;
 
         void remove_option( computer_action action );
 };

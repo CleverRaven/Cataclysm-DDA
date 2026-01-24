@@ -127,7 +127,6 @@
       [ "bat_metal", 5 ],
       [ "bwirebat", 20 ],
       [ "crowbar", 5 ],
-      [ "homewrecker", 5 ],
       [ "nailboard", 25 ],
       [ "makeshift_crowbar", 35 ],
       [ "nailbat", 25 ],
@@ -171,7 +170,7 @@
           },
           { "group": "grenades", "prob": 10 },
           { "group": "launchers", "prob": 1 },
-          { "group": "stash_food", "prob": 40 },
+          { "group": "stash_food", "prob": 10 },
           { "group": "ammo_common_boxed_used", "prob": 26 },
           { "group": "stash_drugs", "prob": 28 },
           { "group": "gear_survival", "prob": 18 },
@@ -219,6 +218,7 @@
     "items": [
       [ "gasbomb_makeshift", 30 ],
       [ "molotov", 100 ],
+      [ "gelled_molotov", 5 ],
       [ "pipebomb", 30 ],
       [ "small_homemade_grenade", 30 ],
       [ "40x46mm_hornets_nest_22lr", 5 ],
@@ -232,7 +232,6 @@
     "items": [
       [ "spear_copper", 1 ],
       [ "spear_steel", 1 ],
-      [ "spear_forked", 15 ],
       [ "spear_knife", 15 ],
       [ "spear_pipe", 10 ],
       [ "spear_spike", 15 ],
@@ -268,7 +267,6 @@
       { "item": "mossberg_500", "prob": 5, "charges": [ 0, 6 ] },
       { "item": "remington_870", "prob": 5, "charges": [ 0, 5 ] },
       { "item": "ruger_1022", "prob": 15, "charges": [ 0, 10 ] },
-      { "item": "shotgun_410", "prob": 10, "charges": [ 0, 1 ] },
       { "item": "shotgun_s", "prob": 10, "charges": [ 0, 1 ] },
       { "item": "shotgun_d", "prob": 10, "charges": [ 0, 2 ] },
       { "item": "sten", "prob": 20, "charges": [ 0, 32 ] },
@@ -346,13 +344,15 @@
     "type": "item_group",
     "//": "Anything a survivor looted or cobbled together to wear on their face",
     "items": [
-      [ "glasses_safety", 15 ],
+      [ "glasses_safety", 10 ],
+      [ "goggles_chem", 5 ],
       [ "goggles_swim", 5 ],
       [ "goggles_ski", 10 ],
       { "item": "mask_gas", "prob": 60, "charges": [ 0, 100 ] },
       { "item": "mask_gas_half", "prob": 60, "charges": [ 0, 100 ] },
       [ "mask_hockey", 10 ],
       [ "mask_bal", 1 ],
+      [ "balaclava_cut_resistant", 1 ],
       [ "mask_rioter", 5 ]
     ]
   },
@@ -376,6 +376,7 @@
       [ "carpet_armguards", 8 ],
       [ "improvised_armguard_tire", 4 ],
       [ "elbow_pads", 20 ],
+      [ "armguard_cut_resistant", 2 ],
       [ "chainmail_junk_arms", 1 ]
     ]
   },
@@ -401,6 +402,7 @@
       [ "vest_jean_mod", 2 ],
       [ "soft_3a_vest", 3 ],
       [ "level_3_vest", 3 ],
+      [ "apron_cut_resistant", 3 ],
       [ "lame_foil", 1 ],
       [ "sleeveless_trenchcoat_leather", 12 ],
       [ "sleeveless_trenchcoat", 12 ]

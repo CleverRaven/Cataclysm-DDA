@@ -20,7 +20,7 @@ See [DEVELOPER_TOOLING.md](DEVELOPER_TOOLING.md) for other environments.
 
 Here's an example that illustrates the most common points of style:
 
-````c++
+```cpp
 int foo( int arg1, int *arg2 )
 {
     if( arg1 < 5 ) {
@@ -44,7 +44,7 @@ int foo( int arg1, int *arg2 )
     }
     return 0;
 }
-````
+```
 
 ## Code Guidelines
 

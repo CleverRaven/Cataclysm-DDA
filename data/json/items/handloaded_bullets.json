@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "blun_slug",
     "price": "45 USD",
     "price_postapoc": "50 cent",
@@ -20,7 +21,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "blun_shot",
     "price": "45 USD",
     "price_postapoc": "50 cent",
@@ -42,7 +44,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "blun_lead_shot",
     "price": "45 USD",
     "price_postapoc": "50 cent",
@@ -64,7 +67,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "blun_flechette",
     "price": "45 USD",
     "price_postapoc": "50 cent",

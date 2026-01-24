@@ -1,0 +1,8 @@
+[
+  {
+    "type": "forest_biome_mapgen",
+    "id": "biome_forest_thick_default",
+    "copy-from": "biome_forest_thick_default",
+    "extend": { "terrains": [ "druid_giant_tree_empty_z0" ] }
+  }
+]

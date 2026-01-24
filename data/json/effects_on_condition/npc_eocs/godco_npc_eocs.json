@@ -100,7 +100,7 @@
     "id": "GODCO_TRADER_MISSION_DEATHFAIL",
     "eoc_type": "NPC_DEATH",
     "effect": [
-      { "math": [ "godco_freemerch_representative_dead = 0" ] },
+      { "math": [ "godco_freemerch_representative_dead = 1" ] },
       { "u_lose_var": "general_trade_u_think_suspicious_price" },
       { "finish_mission": "MISSION_INVESTIGATE_TRADER", "success": false }
     ]

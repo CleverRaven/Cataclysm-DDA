@@ -2,7 +2,6 @@
   {
     "id": "battery_car",
     "type": "vehicle_part",
-    "name": { "str": "car battery" },
     "item": "battery_car",
     "fuel_type": "battery",
     "categories": [ "energy" ],
@@ -31,7 +30,6 @@
     "id": "battery_motorbike",
     "copy-from": "battery_car",
     "type": "vehicle_part",
-    "name": { "str": "motorbike battery" },
     "item": "battery_motorbike",
     "durability": 100,
     "folded_volume": "1500 ml",
@@ -47,7 +45,6 @@
     "id": "battery_motorbike_small",
     "copy-from": "battery_car",
     "type": "vehicle_part",
-    "name": { "str": "motorbike battery, small" },
     "item": "battery_motorbike_small",
     "durability": 30,
     "folded_volume": "750 ml",
@@ -63,12 +60,11 @@
     "id": "large_storage_battery",
     "copy-from": "storage_battery",
     "type": "vehicle_part",
-    "name": { "str": "very large storage battery" },
     "item": "large_storage_battery",
     "durability": 600,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 10, 20 ] },
-      { "item": "steel_chunk", "count": [ 5, 10 ] },
+      { "item": "lc_steel_lump", "count": [ 10, 20 ] },
+      { "item": "lc_steel_chunk", "count": [ 5, 10 ] },
       { "item": "scrap", "count": [ 5, 10 ] },
       { "item": "storage_battery", "count": [ 0, 1 ] }
     ]
@@ -90,7 +86,6 @@
     "id": "medium_storage_battery",
     "copy-from": "storage_battery",
     "type": "vehicle_part",
-    "name": { "str": "medium storage battery" },
     "item": "medium_storage_battery",
     "durability": 250,
     "folded_volume": "5 L",
@@ -104,7 +99,6 @@
     "id": "small_storage_battery",
     "copy-from": "storage_battery",
     "type": "vehicle_part",
-    "name": { "str": "small storage battery" },
     "item": "small_storage_battery",
     "durability": 100,
     "folded_volume": "500 ml",
@@ -117,7 +111,6 @@
   {
     "id": "storage_battery",
     "type": "vehicle_part",
-    "name": { "str": "large storage battery" },
     "categories": [ "energy" ],
     "item": "storage_battery",
     "location": "fuel_source",
@@ -128,8 +121,8 @@
     "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.",
     "damage_modifier": 80,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 5, 10 ] },
-      { "item": "steel_chunk", "count": [ 5, 10 ] },
+      { "item": "lc_steel_lump", "count": [ 5, 10 ] },
+      { "item": "lc_steel_chunk", "count": [ 5, 10 ] },
       { "item": "scrap", "count": [ 5, 10 ] },
       { "item": "medium_storage_battery", "count": [ 1, 2 ] }
     ],
@@ -159,7 +152,6 @@
     "id": "car_light_minus_battery_cell",
     "copy-from": "battery_car",
     "type": "vehicle_part",
-    "name": { "str": "ultra-light battery" },
     "item": "light_minus_battery_cell",
     "location": "on_battery_mount",
     "requirements": {
@@ -175,7 +167,6 @@
     "id": "car_light_battery_cell",
     "copy-from": "battery_car",
     "type": "vehicle_part",
-    "name": { "str": "light battery" },
     "item": "light_battery_cell",
     "location": "on_battery_mount",
     "requirements": {
@@ -191,7 +182,6 @@
     "id": "car_medium_battery_cell",
     "copy-from": "battery_car",
     "type": "vehicle_part",
-    "name": { "str": "medium battery" },
     "item": "medium_battery_cell",
     "location": "on_battery_mount",
     "requirements": {
@@ -207,7 +197,6 @@
     "id": "car_heavy_battery_cell",
     "copy-from": "battery_car",
     "type": "vehicle_part",
-    "name": { "str": "heavy battery" },
     "item": "heavy_battery_cell",
     "location": "on_battery_mount",
     "requirements": {
@@ -223,7 +212,6 @@
     "id": "car_heavy_plus_battery_cell",
     "copy-from": "battery_car",
     "type": "vehicle_part",
-    "name": { "str": "heavy battery (high-capacity)" },
     "item": "heavy_plus_battery_cell",
     "location": "on_battery_mount",
     "requirements": {

@@ -1,3 +1,21 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Item spawn system](#item-spawn-system)
+  - [Collection or Distribution](#collection-or-distribution)
+  - [Format](#format)
+    - [Entries array](#entries-array)
+    - [Ammo and Magazines](#ammo-and-magazines)
+  - [Shortcuts](#shortcuts)
+  - [Adding to item groups](#adding-to-item-groups)
+  - [Inlined item groups](#inlined-item-groups)
+    - [Notes](#notes)
+      - [Testing](#testing)
+      - [SUS](#sus)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Item spawn system
 
 ## Collection or Distribution
@@ -22,7 +40,7 @@ An example: Suppose item A has a probability of 30 and item B has a probability 
 
 The format is this:
 
-```json
+```jsonc
   {
     "type": "item_group",
     "subtype": "<subtype>",
@@ -41,7 +59,7 @@ The format is this:
 to deal with the overflow by setting `on_overflow` to either `discard` to discard items at random until they fit, or `spill` to have the excess items be spawned alongside the container.
 `container-item` can also be an object containing an `item` field specifying the container and a `variant` field specifying said container's variant. Eg.
 
-```json
+```jsonc
     "container-item": { "item": "<container-item-id>", "variant": "<container-item-variant-id>" },
 ```
 
@@ -52,7 +70,7 @@ There are [some caveats](#ammo-and-magazines) to watch out for when using `ammo`
 The `entries` list contains entries, each of which can be one of the following:
 
 1. Item
-    ```json
+    ```jsonc
     { "item": "<item-id>", ... }
     ```
 
@@ -62,14 +80,14 @@ The `entries` list contains entries, each of which can be one of the following:
     ```
 
 3. Distribution
-    ```json
+    ```jsonc
     { "distribution": [
         "An array of entries, each of which can match any of these 4 formats"
     ] }
     ```
 
 4. Collection
-    ```json
+    ```jsonc
     { "collection": [
         "An array of entries, each of which can match any of these 4 formats"
     ] }
@@ -79,7 +97,7 @@ The game decides based on the existence of either the `item` or the `group` valu
 
 Each entry can have more values (shown above as `...`).  They allow further properties of the item(s):
 
-```json
+```jsonc
 "damage": <number>|<array>,
 "count": <number>|<array>,
 "charges": <number>|<array>,
@@ -97,13 +115,15 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 "artifact": <object>
 "event": <string>
 "snippets": <string>
+"faults": <array>
+"variables": <global_variables:impl_t> (either string and string, or string and double)
 ```
 
 `contents` is added as contents of the created item.  It is not checked if they can be put into the item.  This allows water, that contains a book, that contains a steel frame, that contains a corpse.
 
-`count` makes the item spawn repeat, each time creating a new item.
+`count` makes the item spawn repeat, each time creating a new item. Setting to -1 fills the container if there's one and spawns 1 if not.
 
-`charges`: Setting only min and not max will make the game calculate the max charges based on container or ammo/magazine capacity. Setting max too high will decrease it to the maximum capacity. Not setting min will set it to 0 when max is set.
+`charges`: Setting only min and not max will make the game calculate the max charges based on container or ammo/magazine capacity. Setting max too high will decrease it to the maximum capacity. Setting to -1 fills the container if there's one and spawns the maximum of charges if not.
 
 `sealed`: If true, a container will be sealed when the item spawns.  Default is `true`.
 
@@ -117,8 +137,6 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 
 `event`: A reference to a holiday in the `holiday` enum. If specified, the entry only spawns during the specified real holiday. This works the same way as the seasonal title screens, where the holiday is checked against the current system's time. If the holiday matches, the item's spawn probability is taken from the `prob` field. Otherwise, the spawn probability becomes 0.
 
-`snippets`: If item uses `snippet_category` instead of description, and snippets contain ids, allow to pick a specific description of an item to spawn; see [JSON_INFO.md#snippets](JSON_INFO.md#snippets)
-
 Current possible values are:
 - "none" (Not event-based. Same as omitting the "event" field.)
 - "new_year"
@@ -128,13 +146,29 @@ Current possible values are:
 - "thanksgiving"
 - "christmas"
 
-`artifact`: This object determines that the item or group that is spawned by this entry will become an artifact. Here is an example:
+`snippets`: If item uses `snippet_category` instead of description, and snippets contain ids, allow to pick a specific description of an item to spawn; see [JSON_INFO.md#snippets](JSON_INFO.md#snippets)
+
+`faults`: If item can have this fault or faults, it would be spawned with it applied. Possible values are:
+  `id`: array of fault id that should be applied, if possible
+  `chance`: chance to apply any of the faults. Default is 100, always apply
+For example:
 ```json
+  { "group": "nested_ar10", "prob": 89, "faults": [ { "id": [ "fault_stovepipe" ], "chance": 50 } ] },
+```
+
+`variables`: Variables can be loaded into item at itemgroup level, if necessary:
+For example:
+```json
+  { "group": "used_usb_drives", "prob": 60, "variables": [ { "browsed": "true" } ] },
+```
+
+`artifact`: This object determines that the item or group that is spawned by this entry will become an artifact. Here is an example:
+```jsonc
 "artifact": { "procgen_id": "cult", "rules": { "power_level": 1000, "max_attributes": 5, "max_negative_power": -2000 } }
 ```
 The procgen_id relates directly to a `relic_procgen_data` object's id. The `rules` object has three parts.  The first is `power_level`, which is the target power level of the spawned artifact; an artifact's power level is the sum of the power levels of all the parts.  The second, `max_negative_power`, is the sum of only negative power levels of the parts.  The third, `max_attributes`, is the number of parts.
 
-```json
+```jsonc
 "damage": [ 0, 3 ],
 "count": 4
 "charges": [ 10, 100 ]
@@ -166,13 +200,13 @@ be specified for guns and magazines in the entries array to use a non-default am
 
 This:
 
-```json
+```jsonc
 "items": [ "<id-1>", [ "<id-2>", 10 ] ]
 ```
 
 means the same as:
 
-```json
+```jsonc
 "entries": [ { "item": "<id-1>" }, { "item": "<id-2>", "prob": 10 } ]
 ```
 
@@ -180,7 +214,7 @@ In other words: a single string denotes an item id; an array (which must contain
 
 This is true for groups as well:
 
-```json
+```jsonc
 "groups": [ "<id-1>", [ "<id-2>", 10 ] ]
 ```
 
@@ -188,7 +222,7 @@ This format does not support further properties of the created items - the proba
 
 The content of "entries", "items" and "groups" are all added if those members exist.  This will have the item `<id-1>` appear twice in the item group:
 
-```json
+```jsonc
   {
     "items": [ "<id-1>" ],
     "entries": [ { "item": "<id-1>" } ]
@@ -197,7 +231,7 @@ The content of "entries", "items" and "groups" are all added if those members ex
 
 Another example: The group "milk" spawns a container (taken from milk_containers) that contains milk (the maximal amount that fits into the container, because there is no defined charges value).
 
-```json
+```jsonc
   {
     "type" : "item_group",
     "id": "milk_containers",
@@ -221,7 +255,7 @@ Another example: The group "milk" spawns a container (taken from milk_containers
 
 Mods can add entries to item groups by specifying a group with the same id that copies-from the previous group (`"copy-from": group_id`), and encompassing the added items within an `extend` block, like so:
 
-```json
+```jsonc
   {
     "type" : "item_group",
     "id": "milk_containers",
@@ -251,11 +285,11 @@ Mods can add entries to item groups by specifying a group with the same id that 
 
 In some places one can define an item group directly instead of giving the id of a group.  One cannot refer to that group elsewhere - it has no visible id (it has an unspecific/random id internally).  This is most useful when the group is very specific to the place it is used and won't ever appear anywhere else.
 
-As an example: monster death drops (`death_drops` entry in the `MONSTER` object, see [MONSTERS.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/MONSTERS.md) can do this.  If the monster is very specific (e.g. a special robot, a unique endgame monster), the item spawned upon its death won't (in that form) appear in any other group.
+As an example: monster death drops (`death_drops` entry in the `MONSTER` object, see [MONSTERS.md](MONSTERS.md) can do this.  If the monster is very specific (e.g. a special robot, a unique endgame monster), the item spawned upon its death won't (in that form) appear in any other group.
 
 Therefore, this snippet:
 
-```json
+```jsonc
   {
     "type": "item_group",
     "id": "specific_group_id",
@@ -269,7 +303,7 @@ Therefore, this snippet:
 
 is equivalent to:
 
-```json
+```jsonc
   {
     "death_drops": {
       "subtype": "distribution",
@@ -282,7 +316,7 @@ The inline group is read like any other group and one can use all the properties
 
 Instead of a full JSON object, one can also write a JSON array.  The default subtype is used and the array is read like the "entries" array (see above).  Each entry of that array must be a JSON object. Example:
 
-```json
+```jsonc
   {
     "death_drops": [
       { "item": "sheet_cotton", "damage": 2 }, { "item": "bowling_ball" }

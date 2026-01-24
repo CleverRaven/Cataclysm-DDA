@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "log",
     "symbol": "/",
     "color": "brown",
@@ -18,7 +18,7 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "splinter",
     "symbol": "/",
     "color": "brown",
@@ -36,7 +36,7 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "stick",
     "symbol": "/",
     "color": "brown",
@@ -54,7 +54,7 @@
     "melee_damage": { "bash": 14 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "stick_long",
     "symbol": "/",
     "color": "brown",
@@ -73,7 +73,7 @@
     "melee_damage": { "bash": 18 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "soaking_long_pole",
     "name": { "str": "soaking long pole" },
     "description": "A stout, ten-foot pole.  Could be used similarly to a spear.  It's currently soaked with oil and quite slippery.  Once the oil penetrates the wood it can be wiped down and used for further projects.",
@@ -103,7 +103,7 @@
     "melee_damage": { "bash": 14 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "long_pole",
     "name": { "str": "long pole" },
     "description": "A stout, ten-foot pole.  Could be used similarly to a spear.  The Cataclysm gives fresh meaning to walking softly and carrying a big stick.",
@@ -124,7 +124,7 @@
     "melee_damage": { "bash": 19 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "soaking_spear_shaft",
     "symbol": "/",
     "color": "brown",
@@ -153,7 +153,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_shaft",
     "symbol": "/",
     "color": "brown",
@@ -174,7 +174,7 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "2x4",
     "name": { "str": "plank" },
     "description": "A flat, thick plank of wood, like a 2 by 4 or similar piece of dimensional lumber.  Makes a decent melee weapon if you're desperate, and can be used for all kinds of construction projects.",
@@ -193,7 +193,7 @@
     "melee_damage": { "bash": 16 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tonewood",
     "name": { "str": "tonewood", "str_pl": "blocks of tonewood" },
     "description": "A block of tonally appropriate wood that has been air dried for a year in preparation for being turned into a musical instrument.",
@@ -211,7 +211,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tuning_pegs",
     "name": { "str": "tuning peg" },
     "description": "Tuning pegs go on stringed instruments to both provide an anchor for the strings and to control the tightness of the wire which in turn controls the tune of the notes produced.",
@@ -228,7 +228,7 @@
     "flags": [ "FIREWOOD" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "plank_short",
     "name": { "str": "short plank" },
     "description": "A short 2 by 4 plank of wood.  While less common and smaller than its 4 foot cousin it can still be very useful in carpentry.",
@@ -246,7 +246,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "plank_long",
     "name": { "str": "long plank" },
     "description": "A long 2 by 4 plank of wood.  While not as common as the 4 foot variant, still makes a decent melee weapon, and can be used for all kinds construction.",
@@ -265,7 +265,7 @@
     "melee_damage": { "bash": 26 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wood_beam",
     "name": { "str": "heavy wooden beam" },
     "description": "An enormous beam of solid wood, very heavy and hard to lug around, but also very sturdy for construction.  You could saw or chop it into smaller pieces, like planks or panels.",
@@ -282,7 +282,7 @@
     "melee_damage": { "bash": 16 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wooden_post",
     "name": { "str": "wooden post" },
     "description": "A wooden post with a 4 by 4 square base.  Posts with a length similar to this are commonly used in mailboxes or as table legs.",
@@ -301,7 +301,7 @@
     "melee_damage": { "bash": 26 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wooden_post_short",
     "name": { "str": "short wooden post" },
     "description": "A wooden post with a 4 by 4 square base.  Posts with a length similar to this are commonly used as chair legs.",
@@ -319,7 +319,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wooden_post_long",
     "name": { "str": "long wooden post" },
     "description": "A wooden post with a 4 by 4 square base.  Posts with a length similar to this are commonly used in the construction of walls and floors.",
@@ -338,7 +338,7 @@
     "melee_damage": { "bash": 26 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wood_block",
     "name": { "str": "small wood block" },
     "description": "A small 2x2x5 inches block of wood, primarily used for carving out small wooden objects.",
@@ -355,7 +355,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wood_panel",
     "name": { "str": "wooden panel" },
     "description": "A wide, thin wooden board - plywood, OSB, MDF, tongue-in-groove boards, or similar, already cut to shape.  Good for all kinds of construction, but for really big projects you'd need a proper sheet of uncut plywood or the like.",
@@ -376,7 +376,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wood_sheet",
     "name": { "str": "large wooden sheet" },
     "description": "A standard 4 by 8 sheet of flat wood - usually plywood, OSB, or MDF.  Heavy and bulky, it is extremely useful for all manner of construction, but you might have to cut it to size before doing smaller projects.",
@@ -396,7 +396,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "giant_wood_screw",
     "name": { "str": "giant wooden screw" },
     "description": "A giant screw carved out of solid wood, a simple component used to convert rotational energy into a downward movement of greater force.",

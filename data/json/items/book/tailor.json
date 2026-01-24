@@ -2,7 +2,8 @@
   {
     "id": "mag_animecon",
     "copy-from": "mag_tailor",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Boston AnimeCon magazine" },
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "time_factor": 0.1, "fail_factor": 0.1 },
@@ -13,7 +14,8 @@
   },
   {
     "id": "mag_beauty",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Beauty Magazine" },
     "description": "A full-size glossy women's magazine.  There are a few simple patterns and basic sewing tips somewhere in between the fashion photos and the makeup advertisements.",
@@ -25,15 +27,16 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "tailor",
     "max_level": 1,
     "intelligence": 5,
     "time": "24 m",
-    "fun": 1
+    "read_skill": "tailor",
+    "read_fun": 1
   },
   {
     "id": "mag_tailor",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Sew Awesome Monthly", "str_pl": "Sew Awesome Monthlies" },
     "description": "A well presented monthly magazine all about knitting, crocheting, and needlepoint.  Filled with ideas and project patterns.",
@@ -45,7 +48,6 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "tailor",
     "max_level": 1,
     "proficiencies": [
       { "proficiency": "prof_knitting", "time_factor": 0.15, "fail_factor": 0.1 },
@@ -53,11 +55,13 @@
     ],
     "intelligence": 5,
     "time": "8 m",
-    "fun": 2
+    "read_skill": "tailor",
+    "read_fun": 2
   },
   {
     "id": "manual_tailor",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Sew What? Clothing!", "str_pl": "copies of Sew What? Clothing!" },
     "description": "A colorful book about tailoring.",
@@ -69,18 +73,19 @@
     "symbol": "?",
     "looks_like": "manual_driving",
     "color": "green",
-    "skill": "tailor",
     "max_level": 3,
     "proficiencies": [
       { "proficiency": "prof_closures", "time_factor": 0.2, "fail_factor": 0.25 },
       { "proficiency": "prof_elastics", "time_factor": 0.2, "fail_factor": 0.15 }
     ],
     "intelligence": 4,
-    "time": "18 m"
+    "time": "18 m",
+    "read_skill": "tailor"
   },
   {
     "id": "tailor_portfolio",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "clothing designer's portfolio" },
     "description": "A leather bound portfolio that once belonged to a clothing designer.  Filled with sketches and notes, a skilled tailor could learn a lot from this volume.",
@@ -92,17 +97,18 @@
     "symbol": "?",
     "looks_like": "isherwood_herbal_remedies",
     "color": "light_gray",
-    "skill": "tailor",
     "required_level": 5,
     "max_level": 8,
     "intelligence": 10,
     "time": "55 m",
-    "fun": -1,
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "read_skill": "tailor",
+    "read_fun": -1
   },
   {
     "id": "tailor_japanese",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Traditional Japanese Kimono", "str_pl": "copies of Traditional Japanese Kimono" },
     "description": "An illustrated textbook on the crafting of Japanese traditional garb.",
@@ -114,16 +120,17 @@
     "symbol": "?",
     "looks_like": "glassblowing_book",
     "color": "red",
-    "skill": "tailor",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
     "time": "40 m",
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "read_skill": "tailor"
   },
   {
     "id": "recipe_fauxfur",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Friendly, Humane Fashion", "str_pl": "copies of Friendly, Humane Fashion" },
     "description": "An educational book detailing the uses of fake fur, as well as its benefits and disadvantages.  The prose is rather passionate, and a disclaimer on the cover proudly states that the book is printed and distributed by the Gryphon Animal Rights Organization.",
@@ -135,18 +142,19 @@
     "symbol": "?",
     "looks_like": "glassblowing_book",
     "color": "green",
-    "skill": "tailor",
     "required_level": 2,
     "max_level": 5,
     "proficiencies": [ { "proficiency": "prof_furriery", "time_factor": 0.2, "fail_factor": 0.2, "include_prereqs": false } ],
     "intelligence": 7,
     "time": "20 m",
-    "fun": 1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "tailor",
+    "read_fun": 1
   },
   {
     "id": "textbook_tailor",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Sewing Techniques for Designers", "str_pl": "copies of Sewing Techniques for Designers" },
     "description": "A massive, hardbound book full of a wealth of information for the professional clothing designer.",
@@ -158,7 +166,6 @@
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "blue",
-    "skill": "tailor",
     "proficiencies": [
       { "proficiency": "prof_closures", "time_factor": 0.1, "fail_factor": 0.25 },
       { "proficiency": "prof_elastics", "time_factor": 0.1, "fail_factor": 0.25 }
@@ -167,11 +174,13 @@
     "max_level": 6,
     "intelligence": 8,
     "time": "30 m",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "tailor"
   },
   {
     "id": "scots_tailor",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Ye Scots Beuk o Tailorin'", "str_pl": "copies of Ye Scots Beuk o Tailorin'" },
     "description": "A translated Gaelic book from Scotland.  While boring to read due to its technical tone, it provides insights into Scottish culture and information about tailoring.",
@@ -183,17 +192,18 @@
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "green",
-    "skill": "tailor",
     "required_level": 2,
     "max_level": 5,
     "intelligence": 8,
     "time": "30 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "tailor",
+    "read_fun": -1
   },
   {
     "id": "dieselpunk_tailor",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Dieselpunk Designs", "str_pl": "copies of Dieselpunk Designs" },
     "description": "A large, leatherbound book containing a number of leather and rubber recipes for the fashionable dieselpunk.",
@@ -205,7 +215,6 @@
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "dark_gray",
-    "skill": "tailor",
     "proficiencies": [
       { "proficiency": "prof_closures", "time_factor": 0.1, "fail_factor": 0.25 },
       { "proficiency": "prof_leatherworking_basic", "time_factor": 0.1, "fail_factor": 0.25 }
@@ -214,11 +223,13 @@
     "max_level": 5,
     "intelligence": 8,
     "time": "30 m",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "tailor"
   },
   {
     "id": "bp_nomad_cowl",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "nomad cowl blueprint" },
     "description": "A simple printed pamphlet with clear illustrations and very few words describing how to make what appears to be a well-designed and comfortable cowl offering protection from the elements and physical injury.  The directions do not offer much guidance beyond the plans themselves; this will take a little skill to interpret.",
     "copy-from": "exodii_blueprint",
@@ -230,7 +241,8 @@
   },
   {
     "id": "bp_nomad_bodyglove",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "nomad bodyglove blueprint" },
     "description": "A simple printed pamphlet with clear illustrations and very few words describing how to make what appears to be a tight-fitting but protective bodysuit, with options to reinforce it with Kevlar threads.  The directions do not offer much guidance beyond the plans themselves; this will take a little skill to interpret.",
     "copy-from": "exodii_blueprint",
@@ -242,7 +254,8 @@
   },
   {
     "id": "bp_nomad_jumpsuit",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "nomad jumpsuit blueprint" },
     "description": "A simple printed pamphlet with clear illustrations and very few words describing how to make what appears to be a jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland, with a lot of storage capacity.  The directions do not offer much guidance beyond the plans themselves; this will take a little skill to interpret.  There seems to be room within the directions to make a simpler, lighter version, or a leather-reinforced version.",
     "copy-from": "exodii_blueprint",

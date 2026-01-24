@@ -2,7 +2,7 @@
 
 ## example definition
 
-```JSON
+```jsonc
 {
   "type": "climbing_aid",
   "id": "item_stepladder",

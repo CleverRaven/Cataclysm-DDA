@@ -19,10 +19,12 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
 #include "advanced_inv_pagination.h"
 #include "auto_pickup.h"
 #include "avatar.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_imgui.h"
@@ -323,12 +325,12 @@ void advanced_inventory::print_items( side p, bool active )
         if( pane.get_area() == AIM_CONTAINER ) {
             weight_carried = convert_weight( pane.container->get_total_contained_weight() );
             weight_capacity = convert_weight( pane.container->get_total_weight_capacity() );
-            volume_carried = pane.container->get_total_contained_volume();
-            volume_capacity = pane.container->get_total_capacity();
+            volume_carried = pane.container->get_contents_volume();
+            volume_capacity = pane.container->get_volume_capacity();
         } else {
             weight_carried = convert_weight( player_character.weight_carried() );
             weight_capacity = convert_weight( player_character.weight_capacity() );
-            volume_carried = player_character.volume_carried();
+            volume_carried = player_character.volume_capacity() - player_character.free_space();
             volume_capacity = player_character.volume_capacity();
         }
         // align right, so calculate formatted head length
@@ -358,7 +360,7 @@ void advanced_inventory::print_items( side p, bool active )
             units::volume maxvolume = 0_ml;
             advanced_inv_area &s = squares[pane.get_area()];
             if( pane.get_area() == AIM_CONTAINER && pane.container ) {
-                maxvolume = pane.container->get_total_capacity();
+                maxvolume = pane.container->get_volume_capacity();
             } else if( pane.in_vehicle() ) {
                 maxvolume = s.get_vehicle_stack().max_volume();
             } else {
@@ -712,7 +714,7 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
                             data_location <= AIM_NORTHEAST );
         nc_color bcolor = c_red;
         nc_color kcolor = c_red;
-        // Highlight location [#] if it can recieve items,
+        // Highlight location [#] if it can receive items,
         // or highlight container [C] if container mode is active.
         if( can_put_items ) {
             bcolor = in_vehicle ? c_light_blue :
@@ -875,7 +877,8 @@ void advanced_inventory::redraw_pane( side p )
         int itemcount = square.get_item_count();
         int fmtw = 7 + ( itemcount > 99 ? 3 : itemcount > 9 ? 2 : 1 ) +
                    ( max > 99 ? 3 : max > 9 ? 2 : 1 );
-        mvwprintw( w, point( w_width / 2 - fmtw, 0 ), "< %d/%d >", itemcount, max );
+        mvwprintz( w, point( w_width / 2 - fmtw, 0 ), active ? c_white : c_dark_gray, "< %d/%d >",
+                   itemcount, max );
     }
 
     std::string fprefix = string_format( _( "[%s] Filter" ), ctxt.get_desc( "FILTER" ) );
@@ -1037,6 +1040,11 @@ bool advanced_inventory::move_all_items()
             popup_getkey( _( "You already have everything in that container." ) );
             return false;
         }
+    }
+    if( spane.get_area() == AIM_CONTAINER &&
+        spane.container.get_item() == nullptr ) {
+        popup_getkey( _( "Source container isn't valid." ) );
+        return false;
     }
     if( spane.get_area() == AIM_CONTAINER &&
         spane.container.get_item()->has_flag( json_flag_NO_UNLOAD ) ) {
@@ -1575,7 +1583,7 @@ void advanced_inventory::start_activity(
             }
         }
 
-        const insert_item_activity_actor act( panes[dest].container, target_inserts );
+        const insert_item_activity_actor act( panes[dest].container, target_inserts, false, false );
         player_character.assign_activity( act );
     }
 }
@@ -1838,8 +1846,6 @@ bool advanced_inventory::action_unload( advanced_inv_listitem *sitem,
 
 void advanced_inventory::process_action( const std::string &input_action )
 {
-    dest = src == advanced_inventory::side::left ? advanced_inventory::side::right :
-           advanced_inventory::side::left;
     recalc = false;
     // source and destination pane
     advanced_inventory_pane &spane = panes[src];
@@ -1999,6 +2005,8 @@ void advanced_inventory::process_action( const std::string &input_action )
             popup_getkey( _( "There's no vehicle storage space there." ) );
         }
     }
+    dest = src == advanced_inventory::side::left ? advanced_inventory::side::right :
+           advanced_inventory::side::left;
 }
 
 void advanced_inventory::display()
@@ -2025,9 +2033,8 @@ void advanced_inventory::display()
                                     TERMX - 2 * ( panel_manager::get_manager().get_width_right() +
                                                   panel_manager::get_manager().get_width_left() ) );
 
-            w_height = TERMY < min_w_height + head_height ? min_w_height : TERMY - head_height;
-            w_width = TERMX < min_w_width ? min_w_width : TERMX > max_w_width ? max_w_width :
-                      static_cast<int>( TERMX );
+            w_height = std::max( min_w_height, TERMY - head_height );
+            w_width = std::clamp( TERMX, min_w_width, max_w_width );
 
             //(TERMY>w_height)?(TERMY-w_height)/2:0;
             headstart = 0;
@@ -2087,7 +2094,6 @@ void advanced_inventory::display()
             do_return_entry();
             return;
         }
-
 
         if( ui ) {
             ui->invalidate_ui();
@@ -2247,19 +2253,25 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         popup_getkey( _( "Spilt gasses cannot be picked up.  They will disappear over time." ) );
         return false;
     }
-
-    // Check volume, this should work the same for inventory, map and vehicles, but not for worn
-    if( destarea != AIM_WORN && destarea != AIM_WIELD ) {
+    Character &player_character = get_player_character();
+    // Check how many items you can stash. extra check because free_volume() doesn't account for pockets the item would not fit .
+    if( destarea == AIM_INVENTORY ) {
+        int copies_remaining = amount;
+        player_character.can_stash_partial( it, copies_remaining, /*ignore_pkt_settings=*/false );
+        amount -= copies_remaining;
+        if( amount <= 0 ) {
+            popup_getkey( _( "No pocket can contain the %s." ), it.tname() );
+            return false;
+        }
+    }
+    // Check volume, this should work the same map and vehicles, but not for worn
+    else if( destarea != AIM_WIELD && destarea != AIM_WORN ) {
         const units::volume free_volume = panes[dest].free_volume( squares[destarea] );
         const units::mass free_mass = panes[dest].free_weight_capacity();
         const int room_for = std::min( it.charges_per_volume( free_volume ),
                                        it.charges_per_weight( free_mass ) );
         if( room_for <= 0 ) {
-            if( destarea == AIM_INVENTORY ) {
-                popup_getkey( _( "You have no space for the %s." ), it.tname() );
-            } else {
-                popup_getkey( _( "Destination area is full.  Remove some items first." ) );
-            }
+            popup_getkey( _( "Destination area is full.  Remove some items first." ) );
             return false;
         }
         amount = std::min( room_for, amount );
@@ -2287,11 +2299,11 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
             amount = std::min( cntmax, amount );
         }
     }
-    Character &player_character = get_player_character();
+
     // Inventory has a weight capacity, map and vehicle don't have that
     if( destarea == AIM_INVENTORY || destarea == AIM_WORN || destarea == AIM_WIELD ) {
         const units::mass unitweight = it.weight() / ( by_charges ? it.charges : 1 );
-        const units::mass max_weight = player_character.weight_capacity() * 4 -
+        const units::mass max_weight = player_character.max_pickup_capacity() -
                                        player_character.weight_carried();
         if( unitweight > 0_gram && unitweight * amount > max_weight ) {
             const int weightmax = max_weight / unitweight;
@@ -2327,18 +2339,14 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         if( amount <= 0 ) {
             popup_getkey( _( "The destination is already full." ) );
         } else {
-            amount = string_input_popup()
-                     .title( popupmsg )
-                     .width( 20 )
-                     .only_digits( true )
-                     .query_int();
+            // In test_mode always use max possible
+            // TODO: maybe a way to provide a custom amount?
+            test_mode ? amount = possible_max : query_int( amount, false, popupmsg );
         }
         if( amount <= 0 ) {
             return false;
         }
-        if( amount > possible_max ) {
-            amount = possible_max;
-        }
+        amount = std::min( amount, possible_max );
     }
     return true;
 }

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "teleport_damage_type_blink",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Blink", "//~": "NO_I18N" },
+    "description": { "str": "Blink used by Teleporter damage.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "none" ],
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_AOE" ],
+    "max_level": 20,
+    "effect": "short_range_teleport",
+    "shape": "blast",
+    "min_aoe": 1,
+    "max_aoe": 5,
+    "aoe_increment": 0.25,
+    "min_range": 5,
+    "max_range": 15,
+    "range_increment": 1
+  }
+]

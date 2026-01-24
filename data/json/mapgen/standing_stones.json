@@ -27,7 +27,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "standing_stones" ],
     "object": {
       "predecessor_mapgen": "forest",
@@ -44,7 +43,7 @@
         " ..........ss...O.....  ",
         " ........ossssss....... ",
         "     ..sssssssss.....   ",
-        "   ..Ossss#sOsss.o..... ",
+        "   ..Ossss#!Osss.o..... ",
         " ......sssssssss.....o. ",
         " .o.....ossssssO....... ",
         " .......ss..ss.......   ",
@@ -63,14 +62,60 @@
         ".": [ "t_region_soil", "t_region_groundcover" ],
         "O": "t_region_soil",
         "o": "t_region_soil",
-        "s": "t_region_soil"
+        "s": "t_region_soil",
+        "!": "t_region_soil"
       },
       "furniture": { "#": "f_brazier", "O": "f_boulder_large", "o": "f_boulder_small" },
       "place_items": [
         { "item": "standing_stones_accident", "x": [ 9, 14 ], "y": [ 13, 15 ], "chance": 50, "repeat": [ 3, 6 ] },
         { "item": "standing_stones_libation", "x": 11, "y": 11, "chance": 100 }
       ],
+      "nested": { "!": { "chunks": [ [ "void_spider_webs", 1 ], [ "null", 19 ] ] } },
       "items": { "#": { "item": "fireplace_fill", "repeat": [ 1, 3 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "standing_stones_highlands" ],
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "               ...      ",
+        "               .o...    ",
+        "    ....        ....    ",
+        "    .o.......   ....    ",
+        " .....   ....     ....  ",
+        " ...... ......  ........",
+        "  ....................o.",
+        "  .o........o...........",
+        " ..........ss...O.....  ",
+        " ........ossssss....... ",
+        "     ..sssssssss.....   ",
+        "   ..Osssss!Osss.o..... ",
+        " ......sssssssss.....o. ",
+        " .o.....ossssssO....... ",
+        " .......ss..ss.......   ",
+        "   .......o.......      ",
+        "  ..................    ",
+        "   .................... ",
+        "  ...o..  ...........o. ",
+        "   .....   ......   ... ",
+        "           ....o..      ",
+        "             .....      ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "#": "t_dirt",
+        ".": [ "t_dirt", "t_highland_groundcover" ],
+        "O": "t_dirt",
+        "o": "t_dirt",
+        "s": "t_dirt",
+        "!": "t_dirt"
+      },
+      "furniture": { "O": "f_boulder_large", "o": "f_boulder_small" },
+      "nested": { "!": { "chunks": [ [ "void_spider_webs", 1 ] ] } }
     }
   }
 ]

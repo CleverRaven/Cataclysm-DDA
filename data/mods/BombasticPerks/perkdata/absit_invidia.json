@@ -6,14 +6,16 @@
   },
   {
     "id": "holy_symbol",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "holy_symbol",
     "name": { "str": "holy symbol" },
     "extend": { "flags": [ "ANTI_EVIL_EYE_GEAR" ] }
   },
   {
     "id": "holy_symbol_wood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "holy_symbol_wood",
     "name": { "str": "handmade holy symbol" },
     "extend": { "flags": [ "ANTI_EVIL_EYE_GEAR" ] }
@@ -34,7 +36,8 @@
   },
   {
     "id": "salt",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "salt",
     "name": { "str_sp": "salt" },
     "use_action": {
@@ -46,12 +49,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PERK_ABSIT_INVIDIA_SALT",
+    "condition": { "u_has_trait": "perk_absit_invidia" },
     "effect": [
       { "u_lose_effect": "taint" },
       {
         "u_message": "You toss the salt over your shoulder and mutter under your breath the words that you remember from your childhood.",
         "type": "mixed"
       }
-    ]
+    ],
+    "false_effect": [ { "u_message": "You toss the salt over your shoulder.  Hey, any luck you can get, right?", "type": "mixed" } ]
   }
 ]

@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <functional>
 #include <memory>
+#include <numeric>
 #include <optional>
 #include <queue>
 #include <utility>
@@ -14,6 +15,7 @@
 #include "cata_utility.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "damage.h"
 #include "debug.h"
 #include "game.h"
 #include "line.h"
@@ -227,7 +229,7 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
         return PF_IMPASSABLE;
     }
 
-    const int bash = settings.bash_strength;
+    const std::map<damage_type_id, int> &bash = settings.bash_strength;
     const bool allow_open_doors = settings.allow_open_doors;
     const bool allow_unlock_doors = settings.allow_unlock_doors;
     const int climb_cost = settings.climb_cost;
@@ -262,19 +264,23 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
                 return 10; // One turn to open, 4 to move there
             } else if( allow_unlock_doors && veh->next_part_to_unlock( part, is_outside_veh ) != -1 ) {
                 return 12; // 2 turns to open, 4 to move there
-            } else if( bash > 0 ) {
+            } else if( !bash.empty() ) {
+                int damage = std::accumulate( bash.begin(), bash.end(), 0, []( int so_far,
+                const std::pair<damage_type_id, int> &pr ) {
+                    return so_far + static_cast<int>( pr.second * pr.first->bash_conversion_factor );
+                } );
                 // Car obstacle that isn't a door
                 // TODO: Account for armor
                 int hp = veh->part( part ).hp();
-                if( hp / 20 > bash ) {
+                if( hp / 20 > damage ) {
                     // Threshold damage thing means we just can't bash this down
                     return PF_IMPASSABLE;
-                } else if( hp / 10 > bash ) {
+                } else if( hp / 10 > damage ) {
                     // Threshold damage thing means we will fail to deal damage pretty often
                     hp *= 2;
                 }
 
-                return 2 * hp / bash + 8 + 4;
+                return 2 * hp / damage + 8 + 4;
             } else {
                 const vehicle_part &vp = veh->part( part );
                 if( allow_open_doors && vp.info().has_flag( VPFLAG_OPENABLE ) ) {
@@ -317,7 +323,7 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
     }
 
     // Otherwise, if we can bash, we'll consider that.
-    if( bash > 0 ) {
+    if( !bash.empty() ) {
         const int rating = bash_rating_internal( bash, furniture, terrain, false, veh, part );
 
         if( rating > 1 ) {
@@ -380,7 +386,14 @@ int map::extra_cost( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
     return pass_cost + avoid_cost;
 }
 
-std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+std::vector<tripoint_bub_ms> map::route( const Creature &who,
+        const pathfinding_target &target ) const
+{
+    return route( who.pos_bub(), target, who.get_pathfinding_settings(), who.get_path_avoid() );
+}
+
+std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f,
+        const pathfinding_target &target,
         const pathfinding_settings &settings,
         const std::function<bool( const tripoint_bub_ms & )> &avoid ) const
 {
@@ -388,6 +401,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
      * in-bounds point and go to that, then to the real origin/destination.
      */
     std::vector<tripoint_bub_ms> ret;
+    const tripoint_bub_ms &t = target.center;
 
     if( f == t || !inbounds( f ) ) {
         return ret;
@@ -396,14 +410,27 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
     if( !inbounds( t ) ) {
         tripoint_bub_ms clipped = t;
         clip_to_bounds( clipped );
-        return route( f, clipped, settings, avoid );
+        const pathfinding_target clipped_target = { clipped, target.r };
+        return route( f, clipped_target, settings, avoid );
     }
     // First, check for a simple straight line on flat ground
     // Except when the line contains a pre-closed tile - we need to do regular pathing then
     if( f.z() == t.z() ) {
         auto line_path = straight_route( f, t );
         if( !line_path.empty() ) {
-            if( std::none_of( line_path.begin(), line_path.end(), avoid ) ) {
+            const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( f.z() );
+            auto should_avoid = [&avoid, &pf_cache]( const tripoint_bub_ms & p ) {
+                PathfindingFlags flags_copy = PathfindingFlags( pf_cache.special[p.xy()] );
+                flags_copy.set_clear( PathfindingFlag::Ground );
+                if( flags_copy.is_any_set() ) {
+                    // If the straight line goes through any tile with any sort of special, then we
+                    // don't use the straight-line optimization. Instead, we fall back to regular
+                    // pathfinding. The costs might make the pathfinder pick a different path.
+                    return true;
+                }
+                return avoid( p );
+            };
+            if( std::none_of( line_path.begin(), line_path.end(), should_avoid ) ) {
                 return line_path;
             }
         }
@@ -429,6 +456,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
     pf.add_point( 0, 0, f, f );
 
     bool done = false;
+    tripoint_bub_ms found_target;
 
     do {
         tripoint_bub_ms cur( pf.get_next() );
@@ -444,8 +472,9 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
             return std::vector<tripoint_bub_ms>();
         }
 
-        if( cur == t ) {
+        if( target.contains( cur ) ) {
             done = true;
+            found_target = cur;
             break;
         }
 
@@ -468,7 +497,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
                 continue;
             }
 
-            if( p != t && avoid( p ) ) {
+            if( !target.contains( p ) && avoid( p ) ) {
                 layer.closed[index] = true;
                 continue;
             }
@@ -610,8 +639,8 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
     } while( !done && !pf.empty() );
 
     if( done ) {
-        ret.reserve( rl_dist( f, t ) * 2 );
-        tripoint_bub_ms cur = t;
+        ret.reserve( rl_dist( f, found_target ) * 2 );
+        tripoint_bub_ms cur = found_target;
         // Just to limit max distance, in case something weird happens
         for( int fdist = max_length; fdist != 0; fdist-- ) {
             const int cur_index = flat_index( cur.xy() );
@@ -637,4 +666,12 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
     }
 
     return ret;
+}
+
+bool pathfinding_target::contains( const tripoint_bub_ms &p ) const
+{
+    if( r == 0 ) {
+        return center == p;
+    }
+    return square_dist( center, p ) <= r;
 }

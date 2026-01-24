@@ -5,7 +5,6 @@
     "default": "mon_dog",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_llama", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 8 ] },
       { "monster": "mon_camel", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 4 ] },
       { "monster": "mon_guinea_pig", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] }
     ]
@@ -28,12 +27,11 @@
   {
     "type": "monstergroup",
     "id": "GROUP_SUBWAY",
-    "//": "Z-2 subways, some lost nether things but otherwise mostly normal mobs",
     "default": "mon_spider_cellar_giant",
     "monsters": [
-      { "monster": "mon_caecilian", "weight": 180, "ends": "180 hours" },
-      { "monster": "mon_caecilian_small", "weight": 180, "starts": "180 hours", "ends": "360 hours" },
-      { "monster": "mon_minhocao", "weight": 180, "starts": "360 hours" },
+      { "monster": "mon_caecilian", "weight": 180, "ends": "30 days" },
+      { "monster": "mon_caecilian_small", "weight": 180, "starts": "30 days", "ends": "60 days" },
+      { "monster": "mon_minhocao", "weight": 180, "starts": "60 days" },
       { "group": "GROUP_ONICOPHORE", "weight": 180 }
     ]
   }

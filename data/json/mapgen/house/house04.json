@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_04" ],
     "object": {
       "fill_ter": "t_floor",
@@ -23,7 +22,7 @@
         ".#@@  +     y     ||||#.",
         ".#@@  ||||+||      YAL#-",
         ".oy   +D|Q S|   h     *-",
-        ".#dsd |||  8| hff     #-",
+        ".#dsd |||  8| hff    é#-",
         ".#||| +    8|  ffh   4#.",
         ".#I Y |||   |6 h     F#.",
         ".oIh  +D|  t|6       2#.",
@@ -55,7 +54,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_04_roof",
     "//": "roof for house 04, 06, 07",
     "object": {

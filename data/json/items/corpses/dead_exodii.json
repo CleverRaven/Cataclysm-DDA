@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_exodii_worker",
     "symbol": ",",
     "color": "light_gray",
@@ -8,13 +8,13 @@
     "category": "other",
     "description": "A broken Exodii worker.  It's possible it could be gutted for parts.",
     "price": "10 USD",
-    "material": [ "steel" ],
+    "material": [ "qt_steel" ],
     "volume": "119 L",
     "weight": "221 kg",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_exodii_quad",
     "symbol": ",",
     "color": "light_gray",
@@ -22,13 +22,13 @@
     "category": "other",
     "description": "A broken Exodii walker.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
     "price": "10 USD",
-    "material": [ "steel" ],
+    "material": [ "qt_steel" ],
     "volume": "410 L",
     "weight": "498 kg",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_exodii_turret",
     "symbol": ",",
     "color": "yellow",
@@ -36,13 +36,13 @@
     "category": "other",
     "description": "A broken Exodii turret.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
     "price": "10 USD",
-    "material": [ "steel" ],
+    "material": [ "qt_steel" ],
     "weight": "206 kg",
     "volume": "105 L",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_exodii_sniper_drone",
     "symbol": ",",
     "color": "yellow",
@@ -50,7 +50,7 @@
     "category": "other",
     "description": "A broken balloon drone.  The balloon has been shredded, but most of the chassis is still intact.  Could be gutted for parts.",
     "price": "10 USD",
-    "material": [ "steel" ],
+    "material": [ "qt_steel" ],
     "volume": "70 L",
     "weight": "150 kg",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]

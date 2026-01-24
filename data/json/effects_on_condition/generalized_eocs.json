@@ -27,11 +27,8 @@
         "target_params": { "om_terrain": { "context_val": "omt" } }
       },
       { "math": [ "RandEnc = 1" ] },
-      { "set_string_var": { "context_val": "omt" }, "target_var": { "global_val": "random_encounter_omt" } },
-      {
-        "set_string_var": { "context_val": "map_removal" },
-        "target_var": { "global_val": "random_encounter_map_remove" }
-      }
+      { "copy_var": { "context_val": "omt" }, "target_var": { "global_val": "random_encounter_omt" } },
+      { "copy_var": { "context_val": "map_removal" }, "target_var": { "global_val": "random_encounter_map_remove" } }
     ]
   },
   {

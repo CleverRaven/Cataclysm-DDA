@@ -1,7 +1,8 @@
 [
   {
     "id": "c4",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "C-4 explosive" },
     "description": "A block of military-grade RDX composition explosive.  A label reads: \"Highly explosive, use with extreme caution!\" It comes with a small timer.",
@@ -13,12 +14,13 @@
     "material": [ "rdx" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": [ "C4" ],
+    "use_action": { "target": "c4armed", "set_timer": true, "menu_text": "Activate", "type": "transform" },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "c4armed",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "C-4 explosive (armed)", "str_pl": "C-4 explosives (armed)" },
     "description": "A block of military-grade RDX composition explosive.  A label reads: \"Highly explosive, use with extreme caution!\" It comes with a small timer, which is currently ticking down.",
@@ -32,11 +34,12 @@
     "use_action": { "type": "message", "message": "You've already set the %s's timer, you might want to get away from it." },
     "countdown_action": { "type": "explosion", "explosion": { "power": 2000 } },
     "countdown_interval": "6 seconds",
-    "flags": [ "NPC_THROW_NOW" ]
+    "flags": [ "NPC_THROW_NOW", "SPAWN_ACTIVE" ]
   },
   {
     "id": "dynamite",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "dynamite" },
     "description": "Several sticks of explosives, bundled together with a fuse attached.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
@@ -55,7 +58,6 @@
       "target": "dynamite_act",
       "msg": "You light the dynamite.",
       "target_timer": "20 seconds",
-      "active": true,
       "need_fire": 1,
       "menu_text": "Light fuse",
       "type": "transform"
@@ -65,19 +67,21 @@
   },
   {
     "id": "dynamite_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "dynamite (lit)", "str_pl": "dynamites (lit)" },
     "description": "The fuse on this dynamite is lit and hissing.  It'll explode any moment now.",
     "copy-from": "dynamite",
     "symbol": "*",
     "color": "red",
     "use_action": { "type": "message", "message": "You've already lit the %s, try throwing it instead.", "name": "Light fuse" },
-    "flags": [ "TRADER_AVOID", "BOMB" ],
+    "flags": [ "TRADER_AVOID", "BOMB", "SPAWN_ACTIVE" ],
     "countdown_action": { "type": "explosion", "explosion": { "power": 938 } }
   },
   {
     "id": "dynamite_bomb",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "dynamite bomb" },
     "description": "Several sticks of explosives stuffed inside a metal container and surrounded with shrapnel.  The fuse is sticking out through a small hole.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
@@ -105,19 +109,21 @@
   },
   {
     "id": "dynamite_bomb_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "dynamite bomb (lit)", "str_pl": "dynamite bombs (lit)" },
     "description": "The fuse on this dynamite bomb is lit and hissing.  It'll explode any moment now.",
     "copy-from": "dynamite_bomb",
     "symbol": "*",
     "color": "red",
     "use_action": { "type": "message", "message": "You've already lit the %s, try throwing it instead.", "name": "Pull pin" },
-    "flags": [ "TRADER_AVOID", "BOMB" ],
+    "flags": [ "TRADER_AVOID", "BOMB", "SPAWN_ACTIVE" ],
     "countdown_action": { "type": "explosion", "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 0.5 } } }
   },
   {
     "id": "EMPbomb",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "EMP bomb" },
     "description": "This substantial device is a bomb that generates an electromagnetic pulse.  When activated, the plutonium fuel cell is drained into a flux compression generator, the detonation of which creates a strong magnetic field.  When this magnetic field is fed into the antenna, it creates a strong electro-magnetic pulse.",
@@ -144,7 +150,8 @@
   },
   {
     "id": "EMPbomb_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active EMP bomb" },
     "description": "This EMP bomb is active and will shortly detonate, creating a large EMP field that damages robots and drains bionic energy, as well as a sizeable explosion.  You may not want to be holding it much longer.",
@@ -166,12 +173,13 @@
       "emp_blast_radius": 10,
       "explosion": { "power": 600, "shrapnel": { "casing_mass": 3214, "fragment_mass": 0.5 } }
     },
-    "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 12 }
   },
   {
     "id": "firecracker",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "firecracker" },
     "description": "A solitary firecracker with a short fuse.  Use this item to light the fuse.  Of course, you will need a lighter or some matches to do so.  Shortly after you light the fuse it will explode, so throw it quickly!",
     "weight": "3 g",
@@ -181,11 +189,20 @@
     "material": [ "paper" ],
     "symbol": ";",
     "color": "red",
-    "use_action": [ "FIRECRACKER" ]
+    "use_action": {
+      "type": "transform",
+      "need_fire_msg": "You need a source of fire!",
+      "target": "firecracker_act",
+      "target_timer": "2 seconds",
+      "msg": "You light the firecracker.",
+      "need_fire": 1,
+      "menu_text": "Light up"
+    }
   },
   {
     "id": "firecracker_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "firecracker (lit)", "str_pl": "firecrackers (lit)" },
     "description": "A firecracker that has been lit; the fuse is hissing.  Throw it quickly before it explodes.",
     "weight": "3 g",
@@ -197,11 +214,12 @@
     "color": "red",
     "tick_action": [ { "type": "sound", "sound_message": "ssss…", "sound_volume": 0, "sound_id": "misc", "sound_variant": "lit_fuse" } ],
     "countdown_action": { "type": "sound", "sound_message": "Bang!", "sound_volume": 20, "sound_id": "explosion", "sound_variant": "small" },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "firecracker_pack",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pack of firecrackers", "str_pl": "packs of firecrackers" },
     "description": "A pack of 25 firecrackers with a starter fuse.  Use this item to light the fuse.  Of course, you will need a lighter or some matches to do so.  Shortly after you light the fuse they will begin to explode, so throw them quickly!",
     "weight": "75 g",
@@ -211,11 +229,20 @@
     "material": [ "paper" ],
     "symbol": "*",
     "color": "red",
-    "use_action": [ "FIRECRACKER_PACK" ]
+    "use_action": {
+      "type": "transform",
+      "need_fire_msg": "You need a source of fire!",
+      "target": "firecracker_pack_act",
+      "target_timer": "27 seconds",
+      "msg": "You light the pack of firecrackers.",
+      "need_fire": 1,
+      "menu_text": "Light up"
+    }
   },
   {
     "id": "firecracker_pack_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pack of firecrackers (lit)", "str_pl": "packs of firecrackers (lit)" },
     "description": "A pack of 25 firecrackers that has been lit; the fuse is hissing.  Throw them quickly before they start to explode.",
     "weight": "75 g",
@@ -226,16 +253,19 @@
     "symbol": "*",
     "color": "red",
     "tick_action": [ "FIRECRACKER_PACK_ACT" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "flashbang",
-    "type": "TOOL",
+    "//": "Based on the M84 stun grenade",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "flashbang" },
-    "description": "A military police-style flashbang.  Use this item to pull the pin and start the fuse.  You will then have five seconds before it detonates with intense light and sound, blinding, deafening, and disorienting anyone nearby.",
-    "weight": "236 g",
-    "volume": "270 ml",
+    "description": "A military police-style flashbang.  Use this item to pull the pin and start the fuse.  You will then have two seconds before it detonates with intense light and sound, blinding, deafening, and disorienting anyone nearby.",
+    "weight": "425 g",
+    "volume": "207 ml",
+    "longest_side": "141 mm",
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
@@ -246,16 +276,17 @@
       "need_wielding": true,
       "target": "flashbang_act",
       "msg": "You pull the pin on the flashbang.",
-      "target_timer": "5 seconds",
+      "target_timer": "2 seconds",
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "CYLINDER_GRENADE" ],
     "melee_damage": { "bash": 1 }
   },
   {
     "id": "flashbang_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "flashbang",
     "name": { "str": "active flashbang" },
     "description": "This flashbang is active, and will soon detonate with intense light and sound, blinding, deafening, and disorienting anyone nearby.  It may be a good idea to throw it!",
@@ -263,12 +294,12 @@
     "price_postapoc": "0 cent",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "do_flashbang": true },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "fungicidalbomb",
     "copy-from": "gasbomb",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "fungicidal gas grenade" },
     "price": "36 USD",
     "price_postapoc": "7 USD 50 cent",
@@ -285,7 +316,7 @@
   {
     "id": "fungicidalbomb_act",
     "copy-from": "gasbomb_act",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "armed fungicidal gas canister" },
     "description": "This fungicidal bomb has had its pin removed and is (or will shortly be) expelling highly toxic gas.",
     "emits": [ "emit_fungicidal_stream" ]
@@ -293,7 +324,7 @@
   {
     "id": "fungicidalbomb_makeshift",
     "copy-from": "gasbomb",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "makeshift fungicidal gas grenade" },
     "price": "36 USD",
     "price_postapoc": "5 USD",
@@ -310,7 +341,7 @@
   {
     "id": "fungicidalbomb_makeshift_act",
     "copy-from": "gasbomb_act",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "armed makeshift fungicidal gas canister" },
     "description": "This makeshift fungicidal bomb has had its pin removed and is (or will shortly be) expelling highly toxic gas.",
     "emits": [ "emit_small_fungicidal_stream" ]
@@ -318,7 +349,7 @@
   {
     "id": "gasbomb_makeshift",
     "copy-from": "gasbomb",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "makeshift gas canister" },
     "description": "A crude gas bomb made using household chemicals.  Use this item to arm it.  In three seconds it will begin to expel a highly toxic gas for a short time.  This gas poisons those exposed to it, in addition to obscuring vision and scent.",
     "weight": "1264 g",
@@ -333,11 +364,12 @@
       "menu_text": "Arm",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "CYLINDER_GRENADE" ]
   },
   {
     "id": "gasbomb_makeshift_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active makeshift gas canister" },
     "description": "This homemade canister of poison gas has been unsealed, and is (or will shortly be) expelling highly toxic gas.  You should consider getting rid of it soon.",
@@ -358,17 +390,20 @@
       "fields_min_intensity": 1,
       "fields_max_intensity": 3
     },
-    "flags": [ "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 6 }
   },
   {
     "id": "grenade",
-    "type": "TOOL",
+    "//": "Based off of the M67 grenade",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "grenade" },
     "description": "A military-grade fragmentation hand grenade.  Use this item to pull the pin and start the fuse.  You will then have five seconds before it explodes; throwing it would be a good idea.",
     "weight": "397 g",
     "volume": "540 ml",
+    "longest_side": "110 mm",
     "price": "15 USD",
     "price_postapoc": "10 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
@@ -388,7 +423,8 @@
   },
   {
     "id": "grenade_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active grenade" },
     "description": "This fragmentation grenade is active, and will explode any second now.  Better throw it!",
@@ -403,12 +439,13 @@
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.02 } } },
     "countdown_interval": "5 seconds",
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 2 }
   },
   {
     "id": "grenade_emp",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "EMP grenade" },
     "description": "A grenade that generates an electromagnetic pulse with a low-inductance capacitor bank discharged into a single-loop antenna.  It also produces a mild electric shock cloud.  Use this item to pull the pin and light the fuse, turning it into an active EMP grenade.  You will then have three seconds before it detonates, creating an EMP field that damages robots and drains bionic energy.",
@@ -435,7 +472,8 @@
   },
   {
     "id": "grenade_emp_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active EMP grenade" },
     "description": "This EMP grenade is active and will shortly detonate, creating a large EMP field that damages robots and drains bionic energy, as well as a mild electric shock cloud.  You may not want to be holding it much longer.",
@@ -456,12 +494,13 @@
       "fields_max_intensity": 10,
       "emp_blast_radius": 4
     },
-    "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 2 }
   },
   {
     "id": "grenade_inc",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "incendiary grenade" },
     "description": "A military-grade incendiary hand grenade.  Use this item to pull the pin and start the fuse.  You will then have five seconds before it explodes into a raging inferno; throwing it would be a good idea.",
@@ -481,12 +520,13 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE", "GRENADE" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE", "GRENADE", "CYLINDER_GRENADE" ],
     "melee_damage": { "bash": 1 }
   },
   {
     "id": "grenade_inc_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active incendiary grenade" },
     "description": "An active incendiary grenade, likely to burst into an inferno any second now.  Better throw it!",
@@ -500,17 +540,19 @@
     "color": "light_red",
     "revert_to": "canister_empty",
     "countdown_action": "GRENADE_INC_ACT",
-    "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 1 }
   },
   {
     "id": "gasbomb",
     "looks_like": "smokebomb",
-    "type": "GENERIC",
+    "//": "Based on the M73A riot grenade",
+    "type": "ITEM",
     "category": "weapons",
     "name": { "str": "tear gas grenade" },
-    "weight": "1058 g",
-    "volume": "270 ml",
+    "weight": "431 g",
+    "volume": "459 ml",
+    "longest_side": "158 mm",
     "material": [ "steel" ],
     "symbol": "*",
     "color": "dark_gray",
@@ -525,24 +567,25 @@
       "target_timer": "50 seconds",
       "target": "gasbomb_act"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "CYLINDER_GRENADE" ]
   },
   {
     "id": "gasbomb_act",
     "copy-from": "gasbomb",
     "looks_like": "smokebomb_act",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "armed tear gas grenade" },
     "price_postapoc": "0 cent",
     "description": "This tear gas grenade has had its pin removed and is (or will shortly be) expelling highly noxious gas.",
+    "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
     "emits": [ "emit_tear_gas_stream" ],
     "revert_to": "canister_empty",
-    "flags": [ "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "insecticidalbomb",
     "copy-from": "gasbomb",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "insecticidal gas grenade" },
     "price": "36 USD",
     "price_postapoc": "7 USD 50 cent",
@@ -559,7 +602,7 @@
   {
     "id": "insecticidalbomb_act",
     "copy-from": "gasbomb_act",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "armed insecticidal gas canister" },
     "description": "This insecticidal grenade has had its pin removed and is (or will shortly be) expelling highly toxic gas.",
     "emits": [ "emit_insecticidal_stream" ]
@@ -567,7 +610,7 @@
   {
     "id": "insecticidalbomb_makeshift",
     "copy-from": "gasbomb",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "makeshift insecticidal gas grenade" },
     "price": "36 USD",
     "price_postapoc": "5 USD",
@@ -584,14 +627,14 @@
   {
     "id": "insecticidalbomb_makeshift_act",
     "copy-from": "gasbomb_act",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "armed makeshift insecticidal gas grenade" },
     "description": "This makeshift insecticidal grenade has had its pin removed and is (or will shortly be) expelling highly toxic gas.",
     "emits": [ "emit_small_insecticidal_stream" ]
   },
   {
     "id": "LAW_Packed",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "guns",
     "name": { "str": "packed disposable rocket launcher" },
     "description": "A packed, disposable light anti-tank rocket launcher.  Once fired, it cannot be reloaded and must be disposed of.  Activate it to pop it out and make it ready to fire.",
@@ -624,7 +667,8 @@
   },
   {
     "id": "mininuke",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "weapons",
     "name": { "str": "SADM mininuke" },
     "//": "This is based on the B54 Mod 1, all other man-portable nuclear weapons have far too high a yield.",
@@ -654,7 +698,8 @@
   {
     "id": "mininuke_act",
     "copy-from": "mininuke",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "active SADM mininuke" },
     "description": "The nuclear bomb looks no different from the outside, yet you know that the device is armed and counting down.  You should probably get far, far away from it.",
     "price": "0 cent",
@@ -668,58 +713,108 @@
       "fields_max_intensity": 3,
       "explosion": { "power": 9000000 }
     },
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "molotov",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Molotov cocktail" },
     "description": "A bottle of flammable liquid with a rag inserted.  Use this item to light the rag.  You will, of course, need a lighter or matches in your inventory to do this.  After lighting it, throw it to cause fires.",
-    "weight": "1000 g",
-    "volume": "960 ml",
-    "longest_side": "276 mm",
-    "price": "5 USD",
-    "price_postapoc": "5 USD",
+    "weight": "889 g",
+    "volume": "1085 ml",
+    "longest_side": "29 cm",
+    "price": "0 USD",
+    "price_postapoc": "4 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "glass", "cotton" ],
     "symbol": "*",
     "color": "light_gray",
+    "//COMMENT": "The moves action cost should always be at least 100 (one full second) so that the molotov can properly know who's throwing it. See iuse::molotov_lit() for more details.",
     "use_action": {
       "need_wielding": true,
       "target": "molotov_lit",
       "msg": "You light the Molotov cocktail!",
-      "active": true,
-      "moves": 75,
+      "moves": 250,
       "need_fire": 1,
       "menu_text": "Light rag",
       "type": "transform"
     },
-    "flags": [ "NPC_ACTIVATE", "NO_REPAIR" ],
+    "flags": [ "NPC_ACTIVATE", "NO_REPAIR", "CYLINDER_GRENADE" ],
     "melee_damage": { "bash": 5 }
   },
   {
     "id": "molotov_lit",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": { "str": "Molotov cocktail" },
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "molotov",
     "description": "A bottle of flammable liquid with a flaming rag stoppered in its neck.  Throwing it will shatter the bottle on impact and ignite a fireball.  Dropping it will set you on fire, so don't do that unless you want to burn to death.",
-    "weight": "1000 g",
-    "volume": "960 ml",
-    "longest_side": "276 mm",
-    "price": "0 cent",
-    "price_postapoc": "0 cent",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
-    "material": [ "glass", "cotton" ],
-    "symbol": "*",
-    "color": "light_gray",
-    "tick_action": [ "MOLOTOV_LIT" ],
-    "flags": [ "LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH" ],
-    "melee_damage": { "bash": 5 }
+    "use_action": { "type": "explosion", "explosion": { "power": 0 }, "effects": [ "MOLOTOV" ] },
+    "//": [
+      "2% chance per turn of going out harmlessly.",
+      "This is necessary to prevent a player from lighting a ton of molotovs and stuffing them in their backpack until pulling them out 6 weeks later."
+    ],
+    "tick_action": [ { "type": "transform", "ammo_scale": 0, "target": "molotov", "chance": 2, "msg": "Your lit Molotov goes out." } ],
+    "light": 15,
+    "flags": [
+      "TRADER_AVOID",
+      "NPC_THROW_NOW",
+      "NO_REPAIR",
+      "WATER_EXTINGUISH",
+      "DESTROY_ON_CHARGE_USE",
+      "SPAWN_ACTIVE",
+      "ACT_ON_RANGED_HIT"
+    ]
+  },
+  {
+    "id": "gelled_molotov",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "molotov",
+    "name": { "str": "gelled Molotov" },
+    "description": "An older brother of the generic Molotov cocktail, this wicked beverage uses thickened gasoline or straight napalm.  It, surprisingly, does not make for a fire of much higher temperature, but what it does is make the burning mixture ever more sticky.",
+    "price_postapoc": "6 USD",
+    "use_action": {
+      "need_wielding": true,
+      "target": "gelled_molotov_lit",
+      "msg": "You light the gelled Molotov!",
+      "moves": 250,
+      "need_fire": 1,
+      "menu_text": "Light rag",
+      "type": "transform"
+    }
+  },
+  {
+    "id": "gelled_molotov_lit",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "gelled_molotov",
+    "light": 15,
+    "use_action": { "type": "explosion", "explosion": { "power": 0 }, "effects": [ "GELLED_MOLOTOV" ] },
+    "tick_action": [
+      {
+        "type": "transform",
+        "ammo_scale": 0,
+        "target": "gelled_molotov",
+        "chance": 2,
+        "msg": "Your lit gelled Molotov goes out."
+      }
+    ],
+    "flags": [
+      "TRADER_AVOID",
+      "NPC_THROW_NOW",
+      "NO_REPAIR",
+      "WATER_EXTINGUISH",
+      "DESTROY_ON_CHARGE_USE",
+      "SPAWN_ACTIVE",
+      "ACT_ON_RANGED_HIT"
+    ]
   },
   {
     "id": "scrambler",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "scrambler grenade" },
     "description": "A specialized grenade designed to scramble robots' IFF control chips.  This converts the robot to your side for a short time, before the backup systems kick in.  Use this item to pull the pin and start the fuse, turning it into an active scrambler grenade.",
@@ -745,7 +840,8 @@
   },
   {
     "id": "scrambler_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active scrambler grenade" },
     "description": "This scrambler grenade is active and will soon detonate, releasing a control wave that temporarily converts robots to your side.",
@@ -759,33 +855,43 @@
     "color": "yellow",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "draw_explosion_radius": 4, "draw_explosion_color": "cyan", "scrambler_blast_radius": 4 },
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 2 }
   },
   {
     "id": "smokebomb",
+    "//": "Based on AN-M8 grenade",
     "copy-from": "gasbomb",
-    "type": "GENERIC",
-    "name": { "str": "smoke bomb" },
-    "description": "A canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and start the fuse, turning it into an active smoke bomb.  Five seconds after you do that, it will begin to expel a thick black smoke.  This smoke will slow those who enter it, as well as obscuring vision and scent.",
+    "type": "ITEM",
+    "name": { "str": "smoke grenade" },
+    "description": "A canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and start the fuse, turning it into an active smoke bomb.  Five seconds after you do that, it will begin to expel a thick white smoke.  This smoke will obscure vision and scent, and choke out those who enter it.",
+    "weight": "680 g",
     "price": "18 USD",
-    "price_postapoc": "0 cent",
-    "weight": "569 g",
-    "use_action": { "need_wielding": true, "type": "transform", "target_timer": "100 seconds", "target": "smokebomb_act" }
+    "price_postapoc": "1 USD",
+    "use_action": {
+      "need_wielding": true,
+      "menu_text": "Pull pin",
+      "msg": "You pull the pin on the %s.",
+      "type": "transform",
+      "target_timer": "100 seconds",
+      "target": "smokebomb_act"
+    }
   },
   {
     "id": "smokebomb_act",
     "copy-from": "smokebomb",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "armed smoke bomb" },
     "description": "This smoke bomb has had its pin removed and is (or will shortly be) expelling thick smoke.",
     "emits": [ "emit_smoke_stream" ],
     "revert_to": "canister_empty",
-    "flags": [ "TRADER_AVOID" ]
+    "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "tool_rocket_candy",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "rocket candy", "str_pl": "rocket candies" },
     "description": "A pear-shaped chunk of rocket candy obtained by heating saltpeter with sugar and casting the obtained liquid.  Can serve as a rocket fuel, but also as a smokescreen - if you light the narrow end, you should be able to throw it before the flame reaches the broad end.",
@@ -809,7 +915,8 @@
   },
   {
     "id": "tool_rocket_candy_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "burning rocket candy", "str_pl": "burning rocket candies" },
     "description": "A chunk of rocket candy that has been lit on fire and burns with a loud hiss, spewing forth large amounts of smoke.",
@@ -829,13 +936,14 @@
       "fields_max_intensity": 3,
       "explosion": { "power": 1 }
     },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 1 }
   },
   {
     "id": "military_explosive_small_grenade",
     "copy-from": "grenade",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "military explosive small homemade grenade" },
     "looks_like": "grenade",
     "description": "An improvised explosive device cobbled together from parts.  Use this item to light the fuse.  You will then have five seconds before it explodes; throwing it would be a good idea.",
@@ -861,18 +969,20 @@
   {
     "id": "military_explosive_small_grenade_act",
     "copy-from": "military_explosive_small_grenade",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "active military explosive small homemade grenade" },
     "description": "The fuse on this improvised grenade is lit, and it will explode any second now.  Better throw it!",
     "price": "0 cent",
     "use_action": { "type": "message", "message": "You've already lit the %s's fuse, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 460, "shrapnel": { "casing_mass": 200, "fragment_mass": 0.4 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "military_explosive_grenade",
     "copy-from": "grenade",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "military explosive homemade grenade" },
     "looks_like": "grenade",
     "description": "An improvised explosive device cobbled together from parts.  Use this item to light the fuse.  You will then have five seconds before it explodes; throwing it would be a good idea.",
@@ -893,23 +1003,25 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE", "CYLINDER_GRENADE" ]
   },
   {
     "id": "military_explosive_grenade_act",
     "copy-from": "military_explosive_grenade",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "active military explosive homemade grenade" },
     "description": "The fuse on this improvised grenade is lit, and it will explode any second now.  Better throw it!",
     "price": "0 cent",
     "use_action": { "type": "message", "message": "You've already lit the %s's fuse, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 920, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.4 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "military_explosive_pipebomb",
     "copy-from": "grenade",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "military explosive pipebomb" },
     "looks_like": "pipebomb",
     "description": "A section of steel pipe filled with military explosives.  Use this item to pull the pin, giving you six seconds to get away from it before it detonates.",
@@ -931,13 +1043,14 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE", "CYLINDER_GRENADE" ],
     "melee_damage": { "bash": 4 }
   },
   {
     "id": "military_explosive_pipebomb_act",
     "copy-from": "military_explosive_pipebomb",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "active military explosive pipebomb" },
     "looks_like": "pipebomb_act",
     "description": "This pipebomb's pin is pulled, and it will explode any second now.  Throw it immediately!",
@@ -945,11 +1058,12 @@
     "color": "light_gray",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 920, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "military_explosive_bomb",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "military explosive bomb" },
     "looks_like": "homemade_bomb",
@@ -973,7 +1087,8 @@
   {
     "id": "military_explosive_bomb_act",
     "copy-from": "military_explosive_bomb",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "active military explosive bomb" },
     "looks_like": "homemade_bomb_act",
     "description": "A homemade explosive device, consisting of a large plastic jug filled with military explosives and scrap metal.  Its fuse has been lit, its final countdown starting.",
@@ -984,11 +1099,12 @@
       "type": "explosion",
       "explosion": { "power": 6970, "shrapnel": { "casing_mass": 3000, "fragment_mass": 0.5, "drop": "scrap", "recovery": 20 } }
     },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "military_explosive_half_barrel_bomb",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "military explosive 50 L barrel bomb" },
     "looks_like": "half_barrel_bomb",
@@ -1004,7 +1120,7 @@
     "explosion": { "power": 100000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
     "use_action": {
       "target": "military_explosive_half_barrel_bomb_act",
-      "msg": "You activate the fuze on the barrel bomb.  Clear the area!",
+      "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
       "target_timer": "100 seconds",
       "menu_text": "Activate fuze",
       "type": "transform"
@@ -1014,7 +1130,8 @@
   },
   {
     "id": "military_explosive_half_barrel_bomb_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active military explosive 50 L barrel bomb" },
     "looks_like": "half_barrel_bomb_act",
@@ -1030,12 +1147,13 @@
     "explode_in_fire": true,
     "explosion": { "power": 100000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 100000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 20 }
   },
   {
     "id": "military_explosive_full_barrel_bomb",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "military explosive 100 L barrel bomb" },
     "description": "A 100 L metal barrel filled with military explosives.  Once it has been activated it will explode after 100 seconds, raining fire and steel on everything in sight.",
@@ -1050,7 +1168,7 @@
     "explosion": { "power": 200000, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } },
     "use_action": {
       "target": "military_explosive_full_barrel_bomb_act",
-      "msg": "You activate the fuze on the barrel bomb.  Clear the area!",
+      "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
       "target_timer": "100 seconds",
       "menu_text": "Activate fuze",
       "type": "transform"
@@ -1060,7 +1178,8 @@
   },
   {
     "id": "military_explosive_full_barrel_bomb_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active military explosive 100 L barrel bomb" },
     "description": "A 100 L metal barrel filled with military explosives.  It has been activated and will soon explode, delivering its entire destructive power to everything in sight.",
@@ -1075,13 +1194,14 @@
     "explode_in_fire": true,
     "explosion": { "power": 200000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 200000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 20 }
   },
   {
     "id": "small_homemade_grenade",
     "copy-from": "grenade",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "small homemade grenade" },
     "looks_like": "homemade_grenade",
     "description": "An improvised explosive device cobbled together from spare parts.  Use this item to light the fuse.  You will then have 5 seconds before it explodes; throwing it would be a good idea.",
@@ -1107,18 +1227,20 @@
   {
     "id": "small_homemade_grenade_act",
     "copy-from": "small_homemade_grenade",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "active small homemade grenade" },
     "description": "The fuse on this improvised grenade is lit, and it will explode any second now.  Better throw it!",
     "price": "0 cent",
     "use_action": { "type": "message", "message": "You've already lit the %s's fuse, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 150, "shrapnel": { "casing_mass": 200, "fragment_mass": 0.4 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "homemade_grenade",
     "copy-from": "grenade",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "homemade grenade" },
     "description": "An improvised explosive device cobbled together from spare parts.  Use this item to light the fuse.  You will then have 5 seconds before it explodes; throwing it would be a good idea.",
     "weight": "900 g",
@@ -1137,22 +1259,24 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE", "CYLINDER_GRENADE" ]
   },
   {
     "id": "homemade_grenade_act",
     "copy-from": "homemade_grenade",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "active homemade grenade" },
     "description": "The fuse on this improvised grenade is lit, and it will explode any second now.  Better throw it!",
     "price": "0 cent",
     "use_action": { "type": "message", "message": "You've already lit the %s's fuse, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.4 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "pipebomb",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "pipebomb" },
     "looks_like": "pipebomb",
@@ -1177,12 +1301,13 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE", "CYLINDER_GRENADE" ],
     "melee_damage": { "bash": 3 }
   },
   {
     "id": "pipebomb_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active pipebomb" },
     "looks_like": "pipebomb",
@@ -1199,12 +1324,13 @@
     "explode_in_fire": true,
     "explosion": { "power": 300, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 300, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 3 }
   },
   {
     "id": "homemade_bomb",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "homemade bomb" },
     "description": "A homemade explosive device, consisting of a large plastic jug filled with stable explosives and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Once you do, it should explode after about 20 seconds.",
@@ -1228,7 +1354,8 @@
   },
   {
     "id": "homemade_bomb_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "homemade bomb" },
     "description": "A homemade explosive device, consisting of a large plastic jug filled with stable explosives and scrap metal.  Its fuse has been lit, its final countdown starting.",
@@ -1245,11 +1372,12 @@
       "type": "explosion",
       "explosion": { "power": 2320, "shrapnel": { "casing_mass": 3000, "fragment_mass": 0.5, "drop": "scrap", "recovery": 20 } }
     },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "homemade_demolition_charge",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "homemade demolition charge" },
     "description": "An improvised demolition charge.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  20 seconds after lighting the fuse, it will explode, so get away!",
@@ -1275,7 +1403,8 @@
   },
   {
     "id": "homemade_demolition_charge_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "homemade demolition charge (lit)", "str_pl": "homemade demolition charges (lit)" },
     "description": "The fuse on this primitive demolition charge is lit and hissing.  It'll explode any moment now.",
@@ -1291,12 +1420,13 @@
     "explode_in_fire": true,
     "explosion": { "power": 2590 },
     "countdown_action": { "type": "explosion", "explosion": { "power": 2590 } },
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 4 }
   },
   {
     "id": "half_barrel_bomb",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "50 L barrel bomb" },
     "description": "A metal keg filled with stable explosives.  Contains a volatile explosive core, so 100 seconds after the fuse has been lit the charge will detonate completely, delivering its entire destructive power to everything in sight.",
@@ -1321,7 +1451,8 @@
   },
   {
     "id": "half_barrel_bomb_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active 50 L barrel bomb" },
     "description": "A metal keg filled with stable explosives.  The fuse has been lit and once it ignites the primary explosive, the bomb will detonate and rain fire and steel on everything in sight.",
@@ -1340,12 +1471,13 @@
     "explode_in_fire": true,
     "explosion": { "power": 34400, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 34400, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 20 }
   },
   {
     "id": "full_barrel_bomb",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "100 L barrel bomb" },
     "description": "A 100 L metal barrel filled with military explosives.  Once it has been activated it will explode after 100 seconds, raining fire and steel on everything in sight.",
@@ -1370,7 +1502,8 @@
   },
   {
     "id": "full_barrel_bomb_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active 100 L barrel bomb" },
     "description": "A 100 L metal barrel filled with military explosives.  It has been activated and will soon explode, delivering its entire destructive power to everything in sight.",
@@ -1389,7 +1522,23 @@
     "explode_in_fire": true,
     "explosion": { "power": 69200, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 69200, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 20 }
+  },
+  {
+    "id": "60mm_propellant",
+    "type": "ITEM",
+    "name": { "str": "60 mm mortar propellant charge" },
+    "description": "Small explosive in a form of donut without a piece, this thing is designed to be attached on the mortar shell tail, to increase the projectile velocity and, therefore, its range.  Since the projectile it was connected to was already shot, you can only cut it for its content.",
+    "weight": "50 g",
+    "//": "8 g of some unknown to me explosive material, let's assume comp b for simplicity",
+    "volume": "70 ml",
+    "longest_side": "45 mm",
+    "price": "14 USD",
+    "price_postapoc": "2 USD",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ { "type": "plastic", "portion": 80 }, { "type": "powder", "portion": 20 } ],
+    "symbol": "=",
+    "color": "dark_gray"
   }
 ]

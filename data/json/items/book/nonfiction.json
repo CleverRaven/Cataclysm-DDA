@@ -1,7 +1,8 @@
 [
   {
     "id": "book_nonf_hard_homemk_anythingcan",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Anything Can Be Beautiful", "str_pl": "copies of Anything Can Be Beautiful" },
     "description": "Stylist, designer, and glitter goddess Tiffynie Blust looks at the world with one mantra in mind: anything can be beautiful.",
     "weight": "771 g",
@@ -9,7 +10,8 @@
   },
   {
     "id": "book_nonf_hard_homemk_grtrms",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Greatest Rooms of the Century", "str_pl": "copies of The Greatest Rooms of the Century" },
     "description": "A stunning collection of the best living spaces created and commissioned by the most influential people in interior design.",
     "weight": "3016 g",
@@ -18,7 +20,8 @@
   },
   {
     "id": "book_nonf_hard_homemk_handshome",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Hands-On Home", "str_pl": "copies of The Hands-On Home" },
     "description": "An ecologically-minded take on modern homemaking, a practical guide to maximizing your time in the kitchen and beyond.",
     "weight": "1334 g",
@@ -26,7 +29,8 @@
   },
   {
     "id": "book_nonf_hard_homemk_loverms",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Rooms We Love", "str_pl": "copies of Rooms We Love" },
     "description": "A guide on how to affordably decorate rooms to suit your personality.  In the book, we visit rooms inspired by the needs of each homeowner and will see how they transformed their rooms.",
     "weight": "699 g",
@@ -34,16 +38,18 @@
   },
   {
     "id": "book_nonf_hard_homemk_nyparti",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "New York Parties", "str_pl": "copies of New York Parties" },
     "description": "Visit the homes of savvy tastemakers from the worlds of fashion, finance, and design, with this book of lavish photography.",
     "weight": "1606 g",
     "copy-from": "book_nonf_hard_homemk_tpl",
-    "fun": 1
+    "read_fun": 1
   },
   {
     "id": "book_nonf_hard_homemk_outkitchn",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Best Signature Outdoor Kitchens", "str_pl": "copies of Best Signature Outdoor Kitchens" },
     "description": "Outdoor space is one of the hottest amenities being considered by new and existing homeowners.  This book will show you how to turn any deck, patio, or other outside area into a great place to cook.",
     "weight": "617 g",
@@ -51,7 +57,8 @@
   },
   {
     "id": "book_nonf_hard_homemk_plantshome",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": {
       "str": "The Art of Using Plants to Transform Your Home",
       "str_pl": "copies of The Art of Using Plants to Transform Your Home"
@@ -62,17 +69,19 @@
   },
   {
     "id": "book_nonf_hard_homemk_wmencolor",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Woman of Color", "str_pl": "copies of Woman of Color" },
     "description": "A collection of essays and advice on style, beauty, and motherhood.  Part memoir, part lifestyle guide, this book reflects the author's experience growing up as a woman of color in Brooklyn.",
     "weight": "658 g",
     "copy-from": "book_nonf_hard_homemk_tpl",
-    "fun": 1,
-    "relative": { "chapters": -14 }
+    "relative": { "chapters": -14 },
+    "read_fun": 1
   },
   {
     "id": "book_nonf_soft_wedding_coolring",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "10 Cool Things About Being A Ring Bearer", "str_pl": "copies of 10 Cool Things About Being A Ring Bearer" },
     "//": "This book belongs to two genres: wedding and kids",
     "description": "This book is for the delightful little ring bearer in your wedding.  The author depicts the responsibility and honor in being a ring bearer.  Your little angel will cherish this book as he or she learns how to behave on your perfect day.",
@@ -82,7 +91,8 @@
   },
   {
     "id": "book_nonf_soft_parent_howtogen",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": {
       "str": "How to Raise a Gentleman: A Civilized Guide to Parenting",
       "str_pl": "copies of How to Raise a Gentleman: A Civilized Guide to Parenting"
@@ -94,7 +104,8 @@
   },
   {
     "id": "book_nonf_soft_safety_radiaea",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": {
       "str": "International Approaches to Securing Radioactive Sources Against Terrorism",
       "str_pl": "copies of International Approaches to Securing Radioactive Sources Against Terrorism"
@@ -106,19 +117,21 @@
   },
   {
     "id": "book_nonf_hard_psych_forpsych",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Principles of Forensic Psychiatry", "str_pl": "copies of Principles of Forensic Psychiatry" },
     "description": "This text addresses standards in the assessment and treatment of aggression and violence as well as psychological and neuroimaging assessments.",
     "weight": "2835 g",
     "volume": "3673 ml",
-    "fun": -2,
     "time": "22 m",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "chapters": -9, "intelligence": 2 }
+    "relative": { "chapters": -9, "intelligence": 2 },
+    "read_fun": -2
   },
   {
     "id": "book_nonf_hard_psych_grconres",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": {
       "str": "The Guide to Reflective Conflict Resolution",
       "str_pl": "copies of The Guide to Reflective Conflict Resolution"
@@ -132,7 +145,8 @@
   },
   {
     "id": "book_nonf_hard_psych_moodalm",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Oxbridge Handbook of Mood Ailments", "str_pl": "copies of The Oxbridge Handbook of Mood Ailments" },
     "description": "The Oxbridge Handbook of Mood Ailments provides detailed coverage of the characterization, understanding, and treatment of affective disorders.  It provides coverage of unipolar depression, bipolar disorder, and known variants of these illnesses.",
     "weight": "1152 g",
@@ -143,7 +157,8 @@
   },
   {
     "id": "book_nonf_hard_psych_phonodis",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Phonological Acquisition and Disorders", "str_pl": "copies of Phonological Acquisition and Disorders" },
     "description": "Studying the phonologies of children with non-organic speech disorders, this volume details the latest findings in optimality theory, phonological acquisition and disorders.  It is intended for linguists and psychologists.",
     "weight": "730 g",
@@ -154,7 +169,8 @@
   },
   {
     "id": "book_nonf_hard_psych_thergar",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Therapeutic Gardens and Healing Spaces", "str_pl": "copies of Therapeutic Gardens and Healing Spaces" },
     "//": "An example of book that belongs in two genres: homemk and psych",
     "description": "This book addresses how to design therapeutic gardens.  It illustrates a variety of landscape designs appropriate for public spaces that promote mental health.",
@@ -166,7 +182,8 @@
   },
   {
     "id": "book_nonf_soft_psych_adrugds",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Advances in Drug Delivery Systems", "str_pl": "copies of Advances in Drug Delivery Systems" },
     "description": "This softcover reprint covers an array of topics in pharmacology.  The physicochemical concepts of the refinement of bioresponsive drug delivery are presented in detail alongside a variety of current approaches employed in the development of zero order release systems.",
     "weight": "773 g",
@@ -177,7 +194,8 @@
   },
   {
     "id": "book_nonf_soft_psych_arteatds",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Using Art to Treat Eating Disorders", "str_pl": "copies of Using Art to Treat Eating Disorders" },
     "description": "An introductory guide for those wanting to explore the use of art to address eating disorders.  Art therapy is a particularly effective therapeutic intervention, as it allows people to express uncomfortable thoughts and feelings nonverbally.",
     "weight": "340 g",
@@ -187,7 +205,8 @@
   },
   {
     "id": "book_nonf_soft_psych_cggamers",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "A Clinical Guide to Video Gamers", "str_pl": "copies of A Clinical Guide to Video Gamers" },
     "description": "This scholarly work considers the role that games play in psychological experiences and mental health.  Chapters examine the factors that compel individual gamers to select and identify with particular games and characters, as well as the different play styles, genres, and archetypes common in video games.",
     "weight": "295 g",
@@ -198,7 +217,8 @@
   },
   {
     "id": "book_nonf_soft_psych_paranoia",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Paranoia and the History of Madness", "str_pl": "copies of Paranoia and the History of Madness" },
     "description": "This book is an analysis of the use and misuse of paranoia throughout history and in contemporary society.  The impact of paranoia on societies is explored in detail.",
     "weight": "522 g",
@@ -209,7 +229,8 @@
   },
   {
     "id": "book_nonf_soft_psych_psycolo",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Psychoanalysis and Colonialism", "str_pl": "copies of Psychoanalysis and Colonialism" },
     "description": "Freud referred to women's sexuality as a \"dark continent\" for psychoanalysis, drawing on colonial use of the same phrase to refer to Africa.  This book details how the problematic universalism of psychoanalysis led theorists to reject its relevance for postcolonial critique.",
     "weight": "454 g",
@@ -220,7 +241,8 @@
   },
   {
     "id": "book_nonf_soft_psych_psycstlk",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Psychology of Stalking", "str_pl": "copies of The Psychology of Stalking" },
     "description": "This book explores stalking from social, psychiatric, psychological and behavioral perspectives.  Topics include psychiatric diagnoses, offender-victim typologies, cyberstalking, false victimization syndrome, erotomania, domestic violence, the stalking of public figures, and many other aspects of stalking.",
     "weight": "400 g",

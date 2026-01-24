@@ -11,10 +11,10 @@
     "effect": [
       { "u_message": "Your experience with martial arts has increased!" },
       { "run_eocs": "EOC_give_ma_perk_point" },
-      { "math": [ "u_ma_used_exp", "+=", "u_ma_exp_to_perk" ] },
-      { "math": [ "u_ma_available_exp = u_val('exp') - u_ma_used_exp" ] },
-      { "math": [ "u_ma_exp_to_perk", "+=", "u_ma_exp_per_level" ] },
-      { "math": [ "u_ma_current_level", "+=", "1" ] }
+      { "math": [ "u_ma_used_exp += u_ma_exp_to_perk" ] },
+      { "math": [ "u_ma_available_exp = u_val('exp') + u_bonus_exp - u_ma_used_exp" ] },
+      { "math": [ "u_ma_exp_to_perk += u_ma_exp_per_level" ] },
+      { "math": [ "u_ma_current_level += 1" ] }
     ]
   },
   {
@@ -28,7 +28,10 @@
     "id": "EOC_perk_ma_kill_check_exp",
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
-    "effect": [ { "math": [ "u_ma_available_exp = u_val('exp') - u_ma_used_exp" ] }, { "run_eocs": "EOC_perk_ma_level_up" } ]
+    "effect": [
+      { "math": [ "u_ma_available_exp = u_val('exp') + u_bonus_exp - u_ma_used_exp" ] },
+      { "run_eocs": "EOC_perk_ma_level_up" }
+    ]
   },
   {
     "type": "effect_on_condition",

@@ -1,25 +1,34 @@
-# How to add special attacks to monsters
-- [Monster special Attacks](#monster-special-attacks)
-    - [TODO](#todo)
-    - [Adding `special_attacks` to monsters](#adding-special_attacks-to-monsters)
-      - [Old style array](#old-style-array)
-      - [New style object](#new-style-object)
-      - [Combination](#combination)
-    - [Hardcoded special attacks](#hardcoded-special-attacks)
-    - [JSON special attacks](#json-special-attacks)
-        - [`bite`](#bite)
-        - [`grab`](#grab-attacks)
-    - [Non-melee special attacks](#non-melee-special-attacks)
-        - [`gun`](#gun)
-        - [`spell`](#spell)
-        - [`leap`](#leap)
-    - [Monster defensive attacks](#monster-defensive-attacks)        
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Monster special attacks](#monster-special-attacks)
+  - [Special attack selection logic](#special-attack-selection-logic)
+  - [TODO](#todo)
+  - [Adding `special_attacks` to monsters](#adding-special_attacks-to-monsters)
+    - [Old style array](#old-style-array)
+    - [New style object](#new-style-object)
+    - [Combination](#combination)
+  - [Hardcoded special attacks](#hardcoded-special-attacks)
+  - [JSON special attacks](#json-special-attacks)
+    - [`bite`](#bite)
+    - [Grab attacks](#grab-attacks)
+    - [`gun`](#gun)
+    - ["spell" Monster Spells](#spell-monster-spells)
+    - ["leap"](#leap)
+  - [Monster defensive attacks](#monster-defensive-attacks)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Monster special attacks
 
 Monster creatures in C:DDA not only can do simple melee attacks, they have a wide array of attack-type actions.  
 
 Depending on the intended effect, these can be valid `use_actions` for tools and weapons, hardcoded special attacks, any normal physical attack or even spells.  Also, depending on the kind of attack, these can be cooldown-based, conditioned or occur on death.
+
+## Special attack selection logic
+
+On each action the monster evaluates each special attack in alphabetical order, attempting to trigger each attack that is not in cooldown in turn until one is found whose preconditions are met or the monster runs out of candidates. This means "Early" attacks with low, or especially zero cooldowns will trigger very frequently unless they have preconditions preventing this. The cooldown is not set unless the attack is triggered.  Early attacks with low cooldowns can effecctively "starve" later special attacks and even the monster's default melee attack.
 
 
 ## TODO
@@ -36,7 +45,7 @@ Monster special attacks can be defined either as old style arrays, new style obj
 
 Generally [hardcoded special attacks](#hardcoded-special-attacks) are declared this way, although it can also be used for [JSON-declared attacks](/data/json/monster_special_attacks) too.  It contains 2 elements, the `id` of the attack and the cooldown:
 
-```JSON
+```jsonc
 "special_attacks": [ [ "ACID", 10 ] ]
 ```
 
@@ -49,14 +58,14 @@ It contains either:
 
 Depending on the kind of attack, it may contain additional required members.  Example:
 
-```JSON
+```jsonc
 "special_attacks": [
     { "type": "leap", "cooldown": 10, "max_range": 4 }
 ]
 ```
 In the case of separately defined attacks the object has to contain at least an `id` member.  In this case the attack will use the default attack data defined in `monster_attacks.json`, if a field is additionally defined it will overwrite those defaults.  These attacks have the common type `monster_attack`.  Example:
 
-```JSON
+```jsonc
 "special_attacks": [
     { "id": "impale" }
 ]
@@ -67,7 +76,7 @@ In the case of separately defined attacks the object has to contain at least an 
 
 `special_attacks` may contain a mixture of the old and new style:
 
-```JSON
+```jsonc
 "special_attacks": [
     [ "ACID", 10 ],
     { "type": "leap", "cooldown": 8, "max_range": 4 },
@@ -90,8 +99,6 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```BIO_OP_IMPALE``` Stabbing attack, deals heavy damage and has a chance to cause bleeding.
 - ```BIO_OP_TAKEDOWN``` Takedown attack, bashes either the target's head or torso and inflicts `downed`.
 - ```BLOW_WHISTLE``` Blow a whistle creating a sound of volume 40 from the position of the monster.
-- ```BOOMER_GLOW``` Spits glowing bile.
-- ```BOOMER``` Spits bile.
 - ```BRANDISH``` Brandishes a knife at the player.
 - ```BROWSE``` The monster will eat harvestable foods from BROWSABLE trees and plants when they're in season.
 - ```BREATHE``` Spawns a `breather`.  Note: `breather hub` only!
@@ -167,7 +174,7 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 
 ## JSON special attacks
 
-These special attacks are defined in [JSON](/data/json/monster_special_attacks), and belong to the `monster_attack` type, `melee` attack_type.  These don't have to be declared in the monster's attack data, the `id` of the desired attack can be used instead.  All fields beyond `id` are optional.
+These special attacks are defined in [JSON](/data/json/monster_special_attacks), and belong to the `monster_attack` type, `melee` attack_type.  These don't have to be declared in the monster's attack data, the `id` of the desired attack can be used instead.  All fields beyond `id` and `cooldown` are optional.
 
 | field                       | description
 | ---                         | ---
@@ -308,10 +315,22 @@ Makes the monster leap a few tiles over passable terrain as long as it can see i
 
 A special defense attack, triggered when the monster is attacked.  It should contain an array with the `id` of the defense (see a full list below) and the chance for that defense to be actually triggered.  Example:
 
-```JSON
+```jsonc
 "special_when_hit": [ "ZAPBACK", 100 ]
 ```
 
 - ```ACIDSPLASH``` Splashes acid on the attacker.
 - ```NONE``` No special attack to the attacker.
 - ```ZAPBACK``` Shocks attacker on hit.
+
+## EOC attack
+
+Triggers the specified `effect_on_condition` with the monster as `alpha_talker` and its target as `beta_talker`, the attack requires vision of the target. 
+
+| Field             | Description                                                                                                |
+| ---               | ---------------------------------------------------------------------------------------------------------- |
+| `range`           | (Required) Float, maximal range of the jump.  Respects circular distance setting!                          |
+| `cooldown`        | Disregard target location entirely when leaping, leading to completely random jumps.                       |
+| `eoc`             | (Required) Array of ids, the effect on condition . See `NPCs.md`                                           |
+| `condition`       | Object, dialogue conditions enabling the attack.  See `NPCs.md` for the possible conditions, `u` refers to the monster.                |
+| `allow_no_target` | Default `false`. If true the script will always run, the beta talker will be discarded.                    |

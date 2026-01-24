@@ -143,6 +143,35 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_mind_cry" } },
+        "text": "Gain [<trait_name:perk_mind_cry>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_mind_cry>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_mind_cry>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_mind_cry", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the telepathic power Synaptic Blast at level 9+, the telepathic power Psychic Scream at level 4+, or the knack version of either of those powers.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "or": [
+                { "math": [ "u_spell_level('telepathic_blast') >= 5" ] },
+                { "math": [ "u_spell_level('telepathic_blast_radius') >= 5" ] },
+                { "math": [ "u_spell_level('telepathic_blast_knack') >= 5" ] },
+                { "math": [ "u_spell_level('telepathic_blast_radius_knack') >= 5" ] }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_mastery_of_form" } },
         "text": "Gain [<trait_name:perk_mastery_of_form>]",
         "effect": [
@@ -201,6 +230,28 @@
           {
             "set_condition": "perk_condition",
             "condition": { "math": [ "u_spell_level_sum('school': 'PYROKINETIC') >= 30" ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_wary_sleeper" } },
+        "text": "Gain [<trait_name:perk_wary_sleeper>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_wary_sleeper>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_wary_sleeper>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_wary_sleeper", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the Clairsentience power Premonition 5+.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 5" ] }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"

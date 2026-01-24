@@ -180,7 +180,4 @@ constexpr std::array<math_const, 5> constants{
     math_const{ "false", 0 },
 };
 
-std::vector<std::string_view> tokenize( std::string_view str, std::string_view separators,
-                                        bool include_seps = true );
-
 #endif // CATA_SRC_MATH_PARSER_FUNC_H

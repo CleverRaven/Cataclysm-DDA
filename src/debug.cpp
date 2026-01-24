@@ -208,6 +208,7 @@ bool debug_has_error_been_observed()
     return error_observed;
 }
 
+// saved in game::serialize
 bool debug_mode = false;
 
 namespace debugmode
@@ -240,6 +241,7 @@ std::string filter_name( debug_filter value )
         case DF_EXPLOSION: return "DF_EXPLOSION";
         case DF_FOOD: return "DF_FOOD";
         case DF_GAME: return "DF_GAME";
+        case DF_HIGHWAY: return "DF_HIGHWAY";
         case DF_IEXAMINE: return "DF_IEXAMINE";
         case DF_IUSE: return "DF_IUSE";
         case DF_MAP: return "DF_MAP";
@@ -333,40 +335,45 @@ static void debug_error_prompt(
         );
 #endif
 
+    const std::string error_message = string_format(
+                                          "\n\n" // Looks nicer with some space
+                                          " %s\n" // translated user string: error notification
+                                          " -----------------------------------------------------------\n"
+                                          "%s"
+                                          " -----------------------------------------------------------\n"
+#if defined(BACKTRACE)
+                                          " %s\n" // translated user string: where to find backtrace
+#endif
+                                          , _( "An error has occurred!  Written below is the error report:" ),
+                                          formatted_report
+#if defined(BACKTRACE)
+                                          , backtrace_instructions
+#endif
+                                      );
+    const std::string instructions = string_format(
+                                         " %s\n" // translated user string: space to continue
+                                         " %s\n" // translated user string: ignore key
+#if defined(TILES)
+                                         " %s\n" // translated user string: copy
+#endif // TILES
+                                         , _( "Press <color_white>space bar</color> to continue the game." )
+                                         , _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
+#if defined(TILES)
+                                         , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to the clipboard." )
+#endif // TILES
+                                     );
+    std::string message = error_message + instructions;
+
     // Create a special debug message UI that does various things to ensure
     // the graphics are correct when the debug message is displayed during a
     // redraw callback.
-    ui_adaptor ui( ui_adaptor::debug_message_ui {} );
+    ui_adaptor ui( ui_adaptor::debug_message_ui{} );
     const auto init_window = []( ui_adaptor & ui ) {
         ui.position_from_window( catacurses::stdscr );
     };
     init_window( ui );
     ui.on_screen_resize( init_window );
-    const std::string message = string_format(
-                                    "\n\n" // Looks nicer with some space
-                                    " %s\n" // translated user string: error notification
-                                    " -----------------------------------------------------------\n"
-                                    "%s"
-                                    " -----------------------------------------------------------\n"
-#if defined(BACKTRACE)
-                                    " %s\n" // translated user string: where to find backtrace
-#endif
-                                    " %s\n" // translated user string: space to continue
-                                    " %s\n" // translated user string: ignore key
-#if defined(TILES)
-                                    " %s\n" // translated user string: copy
-#endif // TILES
-                                    , _( "An error has occurred!  Written below is the error report:" ),
-                                    formatted_report,
-#if defined(BACKTRACE)
-                                    backtrace_instructions,
-#endif
-                                    _( "Press <color_white>space bar</color> to continue the game." ),
-                                    _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
-#if defined(TILES)
-                                    , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to the clipboard." )
-#endif // TILES
-                                );
+
     ui.on_redraw( [&]( const ui_adaptor & ) {
         catacurses::erase();
         fold_and_print( catacurses::stdscr, point::zero, getmaxx( catacurses::stdscr ), c_light_red,
@@ -395,6 +402,8 @@ static void debug_error_prompt(
                 [[fallthrough]];
             case ' ':
                 stop = true;
+                message = error_message;
+                ui_manager::redraw();
                 break;
         }
     }

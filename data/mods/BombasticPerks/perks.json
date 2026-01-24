@@ -1,9 +1,5 @@
 [
   {
-    "type": "mutation_type",
-    "id": "perk"
-  },
-  {
     "type": "mutation",
     "id": "perk_perk_menu",
     "name": { "str": "Open Perk Menu" },
@@ -147,6 +143,15 @@
   },
   {
     "type": "mutation",
+    "id": "perk_percussive_entry",
+    "name": { "str": "Percussive Entry" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "If one kick doesn't open the door, just try another.  Or a few more.  How about another dozen or so?  You can up to double your strength for the purposes of smashing terrain; this bonus gradually increases over the course of multiple smashes."
+  },
+  {
+    "type": "mutation",
     "id": "perk_holdout_pocket",
     "name": { "str": "Holdout Pocket" },
     "points": 0,
@@ -164,6 +169,18 @@
     "valid": false,
     "description": "You're like a walking tank!  Take 5% less damage from all sources.",
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARMOR_ALL", "multiply": -0.05 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_thick_skin",
+    "name": { "str": "Thick Skin" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "All the beatings you've taken have toughened you up.  You can walk barefoot with no penalty, develop blisters in heat much more slowly, and take slightly less bash damage.",
+    "//": "The flesh material also protects against cut and bullets, so we need an enchant to do bash only",
+    "enchantments": [ { "condition": "ALWAYS", "incoming_damage_mod_post_absorbed": [ { "type": "bash", "add": -2 } ] } ],
+    "flags": [ "BARKY", "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -218,8 +235,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You're very good at the follow-through when your enemies are reeling.  When in melee combat with an enemy that is dazed or stunned, you do +33% extra bash damage.",
-    "category": [ "perk" ]
+    "description": "You're very good at the follow-through when your enemies are reeling.  When in melee combat with an enemy that is dazed or stunned, you do +33% extra bash damage."
   },
   {
     "type": "mutation",
@@ -273,6 +289,16 @@
   },
   {
     "type": "mutation",
+    "id": "perk_animal_friend",
+    "name": { "str": "Animal Friend" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Even with everything that's happened, you still find solace in nature.  Natural animals are less likely to attack you.",
+    "flags": [ "ANIMALEMPATH" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_vengeful",
     "name": { "str": "Vengeful" },
     "points": 0,
@@ -280,6 +306,15 @@
     "valid": false,
     "description": "Oh, they're not getting away with THAT.  You do +15% damage for two turns after you're hit.",
     "enchantments": [ "perk_ench_vengeful" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_twice_shy",
+    "name": { "str": "Twice Shy" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Pain is really painful; best to avoid it.  For five turns after you are hit, you gain +1 bonus dodge and +2 dodge skill."
   },
   {
     "type": "mutation",
@@ -291,8 +326,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You inspire your allies to protect you when you're seriously injured.  If attacked when your head or torso health are at 50% or lower, all allies within 15 meters will take 20% reduced damage for one minute.  This effect can only trigger once every five minutes.",
-    "category": [ "perk" ]
+    "description": "You inspire your allies to protect you when you're seriously injured.  If attacked when your head or torso health are at 50% or lower, all allies within 15 meters will take 20% reduced damage for one minute.  This effect can only trigger once every five minutes."
   },
   {
     "type": "mutation",
@@ -335,6 +369,16 @@
   },
   {
     "type": "mutation",
+    "id": "perk_reduced_falling_damage",
+    "name": { "str": "Catfall" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You always land on your feet and look graceful when doing it.  Reduce the number of stories by 1 when calculating fall damage.",
+    "flags": [ "ONE_STORY_FALL" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_grit_your_teeth",
     "name": { "str": "Grit Your Teeth" },
     "points": 0,
@@ -344,6 +388,19 @@
     "active": true,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_PERK_GRIT_YOUR_TEETH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_slippery_escape",
+    "name": { "str": "Slippery Escape" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your joints are flexible enough that you can twist out of nearly anything when given a mind, though that doesn't make it hurt any less.  At the cost of some pain, you can twist out of enemy grabs.",
+    "active": true,
+    "activated_is_setup": false,
+    "activation_msg": "You twist out of the grab with a wrench!",
+    "activated_eocs": [ "EOC_PERK_SLIPPERY_ESCAPE" ]
   },
   {
     "type": "mutation",
@@ -384,6 +441,35 @@
     "valid": false,
     "description": "You have a persistent sense of how to move around in sharp and rough terrain.  You'll never accidently snag or cut yourself on protrusions from the ground.",
     "flags": [ "ALL_TERRAIN_NAVIGATION" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_situational_uncanny_dodge",
+    "name": { "str": "Evasion" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You're so good at dodging that almost nothing can touch you as long as you're on your game.  You have passive Uncanny Dodge until you take damage, after which it takes a few minutes for you to recover your poise.",
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_effect": "effect_perk_situational_uncanny_dodge_remover" } },
+        "ench_effects": [ { "effect": "effect_perk_situational_uncanny_dodge", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_safety_squint",
+    "name": { "str": "The Safety Squint" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "They told it to you as a joke, but you always knew it was real and now you've figured out how to do it.  With the proper squinting technique, you can safely weld without any external protection, though you won't be able to see much of your surroundings.  Activate to toggle.",
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You squint your eyes just right.",
+    "activated_eocs": [ "EOC_safety_squint_on" ],
+    "deactivated_eocs": [ "EOC_safety_squint_off" ]
   },
   {
     "type": "mutation",
@@ -478,8 +564,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You get knocked down, but you get up again.  There is a 75% chance when you are downed that you will stand up again immediately.",
-    "category": [ "perk" ]
+    "description": "You get knocked down, but you get up again.  There is a 75% chance when you are downed that you will stand up again immediately."
   },
   {
     "type": "mutation",
@@ -498,8 +583,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "That health, wealth, and wisdom is coming any day now.  When you wake up between 4 and 7 a.m., you gain a mood boost for that morning.",
-    "category": [ "perk" ]
+    "description": "That health, wealth, and wisdom is coming any day now.  When you wake up between 4 and 7 a.m., you gain a mood boost for that morning."
   },
   {
     "type": "mutation",
@@ -508,8 +592,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Run without rhythm.  After a short wind-up period, you gain 5 effective dodge and +1 bonus dodge attempt as long as you keep running.",
-    "category": [ "perk" ]
+    "description": "Run without rhythm.  After a short wind-up period, you gain 5 effective dodge and +1 bonus dodge attempt as long as you keep running."
   },
   {
     "type": "mutation",
@@ -594,7 +677,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "As if the apocalypse itself wasn't enough, you are constantly looking for some trouble.  Zombies will sometimes appear out of nowhere to attack you.  Fortunately, they always appear at a good distance from you.  Activate to toggle.",
+    "description": "As if the apocalypse itself wasn't enough, you are constantly looking for some trouble.  Zombies somehow sometimes sense your presence and approach you.  Fortunately, they always appear at a good distance from you.  Activate to toggle.",
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_troubleseek_on" ],
@@ -619,8 +702,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Drinking blood makes you feel really good.  REALLY good.  So good that all your aches and pains just seem to fade away.  Every time you drink blood, you heal a bit of damage and lose a bit of pain.",
-    "category": [ "perk" ]
+    "description": "Drinking blood makes you feel really good.  REALLY good.  So good that all your aches and pains just seem to fade away.  Every time you drink blood, you heal a bit of damage and lose a bit of pain."
   },
   {
     "type": "mutation",
@@ -632,6 +714,28 @@
     "description": "You spent several years on the high sea and now your muscles visibly swell and clench when you eat raw spinach.",
     "active": true,
     "activated_eocs": [ "EOC_spinach_consumption" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_artifact_resonance_detection",
+    "name": { "str": "Nether Resonator" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You get a tingling feeling when you hold the objects that the Cataclysm seems to have given anomalous properties to.  Activate to determine roughly how much resonance an artifact has.",
+    "active": true,
+    "activation_msg": "You close your eyes for a moment and look for the inner hum.",
+    "activated_eocs": [ "EOC_perk_artifact_resonance_detection" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_artifact_resonance_reduction",
+    "name": { "str": "Relic Wielder" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your frequent handling of artifacts has allowed you to bleed off some of the side effects of their presence.  Your accumulated artifact resonance is reduced by 1500.",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": -1500 } ] } ]
   },
   {
     "type": "mutation",
@@ -657,7 +761,7 @@
   {
     "type": "mutation",
     "id": "perk_lucky_dodge",
-    "name": { "str": "Lucky dodge" },
+    "name": { "str": "Lucky Dodge" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -696,8 +800,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Your Nana told you about the evil eye and how to protect yourself when you were a small child.  You don't remember her telling you the evil eye was giant, disembodied, and on fire, but some of the things she taught you work all the same.  You are immune to the Tainted Mind effect as long as you're wearing a holy symbol necklace, and can use some salt to remove it if you do acquire it.",
-    "category": [ "perk" ]
+    "description": "Your Nana told you about the evil eye and how to protect yourself when you were a small child.  You don't remember her telling you the evil eye was giant, disembodied, and on fire, but some of the things she taught you work all the same.  You are immune to the Tainted Mind effect as long as you're wearing a holy symbol necklace, and can use some salt to remove it if you do acquire it."
   },
   {
     "type": "mutation",
@@ -708,7 +811,10 @@
     "valid": false,
     "description": "You have learned to cast spells in a way that is much quicker, but also more wasteful.  -95% cast time, +100% cast cost.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
     "active": true,
-    "activated_eocs": [ "EOC_metamagic_toggle_quicken" ]
+    "activated_is_setup": true,
+    "activation_msg": "You activate your quicken metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_quicken_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_quicken_off" ]
   },
   {
     "type": "mutation",
@@ -719,7 +825,10 @@
     "valid": false,
     "description": "You have learned to cast spells that affects a larger area.  +100% area of effect, +50% cast cost.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
     "active": true,
-    "activated_eocs": [ "EOC_metamagic_toggle_widen" ]
+    "activated_is_setup": true,
+    "activation_msg": "You activate your widen metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_widen_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_widen_off" ]
   },
   {
     "type": "mutation",
@@ -730,7 +839,10 @@
     "valid": false,
     "description": "You have learned to cast spells from a longer distance.  +100% reach, +50% cast cost.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
     "active": true,
-    "activated_eocs": [ "EOC_metamagic_toggle_reach" ]
+    "activated_is_setup": true,
+    "activation_msg": "You activate your reach metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_reach_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_reach_off" ]
   },
   {
     "type": "mutation",
@@ -741,7 +853,10 @@
     "valid": false,
     "description": "You have learned to cast spells quietly.  -100% noise, +20% cast cost, ignores mouth encumbrance.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
     "active": true,
-    "activated_eocs": [ "EOC_metamagic_toggle_silent" ]
+    "activated_is_setup": true,
+    "activation_msg": "You activate your silent metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_silent_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_silent_off" ]
   },
   {
     "type": "mutation",
@@ -752,7 +867,10 @@
     "valid": false,
     "description": "You have learned to cast spells without moving.  +20% cast cost, ignores arm, leg, and hand encumbrance.  Can cast spells while holding items.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
     "active": true,
-    "activated_eocs": [ "EOC_metamagic_toggle_still" ]
+    "activated_is_setup": true,
+    "activation_msg": "You activate your still metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_still_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_still_off" ]
   },
   {
     "type": "mutation",
@@ -763,7 +881,24 @@
     "valid": false,
     "description": "You take your time when casting spells in order to get it right.  +200% cast time, -5 difficulty.  Can be toggled on or of by activating this trait.",
     "active": true,
-    "activated_eocs": [ "EOC_metamagic_toggle_careful" ]
+    "activated_is_setup": true,
+    "activation_msg": "You activate your careful metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_careful_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_careful_off" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_metamagic_efficient",
+    "name": { "str": "Metamagic: Efficient Spell" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You can cast your spells more efficiently at the cost of a more difficult cast.  *75% casting cost, +5 difficulty.  Can be toggled on or of by activating this trait.",
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You activate your efficient metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_efficient_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_efficient_off" ]
   },
   {
     "type": "mutation",
@@ -774,7 +909,10 @@
     "valid": false,
     "description": "Casting spells comes more naturally for you.  You don't have to think as much when casting.  Focus no longer affects casting, +20% cast cost.  Can be toggled on or of by activating this trait.  Only affects spells that are affected by focus.  Does not work on spells that consumes runes.",
     "active": true,
-    "activated_eocs": [ "EOC_metamagic_toggle_intuitive" ]
+    "activated_is_setup": true,
+    "activation_msg": "You activate your intuitive metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_intuitive_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_intuitive_off" ]
   },
   {
     "type": "mutation",
@@ -806,8 +944,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "The way you take care of the enemies is commendable, so much so that someone or something seems to praise your ways of fighting.  For every kills you have made, a praise may be given in the message log.",
-    "category": [ "perk" ]
+    "description": "The way you take care of the enemies is commendable, so much so that someone or something seems to praise your ways of fighting.  For every kills you have made, a praise may be given in the message log."
   },
   {
     "type": "mutation",
@@ -816,8 +953,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "After some time surviving in the apocalypse, you realized that you don't have to fight fair in melee combat.  Now you can hit below the belt on most humanoid monsters.",
-    "category": [ "perk" ]
+    "description": "After some time surviving in the apocalypse, you realized that you don't have to fight fair in melee combat.  Now you can hit below the belt on most humanoid monsters."
   },
   {
     "type": "mutation",
@@ -826,8 +962,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You've always had a passion for people, and a deep understanding of their thoughts and feelings.  Now that almost everyone's dead that has to extend to other things too!  When you kill a creature gain some of its abilities temporarily.",
-    "category": [ "perk" ]
+    "description": "You've always had a passion for people, and a deep understanding of their thoughts and feelings.  Now that almost everyone's dead that has to extend to other things too!  When you kill a creature gain some of its abilities temporarily."
   },
   {
     "type": "mutation",
@@ -840,7 +975,7 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "u_armor('bash', 'arm_r') * u_attack_speed() / 200" ] } } ]
+        "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "min( 15, u_armor('bash', 'arm_r') * u_attack_speed() / 200 )" ] } } ]
       }
     ]
   },
@@ -907,13 +1042,21 @@
   },
   {
     "type": "mutation",
+    "id": "perk_dice_addition_damage",
+    "name": { "str": "Damage dice" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Before Cataclysm, you always used dice to determine the damage in the game.  Now, the power of fate allows you to use dice to deal additional mysterious damage.  Throwing dice using a sling or similar weapon deals additional damage, which depends on the number of sides of the dice."
+  },
+  {
+    "type": "mutation",
     "id": "perk_moonstruck",
     "name": { "str": "Moonstruck" },
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You've always been greatly affected by the phases of the moon.  During a full moon, you gain a +3 bonus to all stats.  During a waxing moon, you gain a +1 bonus to all stats, and during a new moon, you suffer a -2 penalty to all stats.",
-    "category": [ "perk" ]
+    "description": "You've always been greatly affected by the phases of the moon.  During a full moon, you gain a +3 bonus to all stats.  During a waxing moon, you gain a +1 bonus to all stats, and during a new moon, you suffer a -2 penalty to all stats."
   },
   {
     "type": "mutation",
@@ -937,6 +1080,15 @@
   },
   {
     "type": "mutation",
+    "id": "perk_soup_healing",
+    "name": { "str": "Soup for the Soul" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Just like mama used to make and it tastes just as good too.  When you eat chicken noodle soup, you heal a small amount of HP on all limbs and cure any cold, flu, and poisoning you're suffering from."
+  },
+  {
+    "type": "mutation",
     "id": "perk_nocturnal",
     "name": { "str": "Nocturnal" },
     "points": 0,
@@ -951,6 +1103,15 @@
       { "condition": "is_day", "values": [ { "value": "SLEEPY", "add": 50 } ] },
       { "condition": { "and": [ "is_day", "u_is_outside" ] }, "values": [ { "value": "PERCEPTION", "add": -2 } ] }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_second_chance",
+    "name": { "str": "Second Chance" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Something is watching over you, though whether for good or ill you cannot tell.  The first time you suffer fatal damage, you will heal slightly, remove all pain, and gain a speed bonus, temperature immunity, and immunity to damage for a very short time.  After that expires, though, you're on your own to resolve whatever problem you're in.  This perk <color_red>only works once</color>."
   },
   {
     "type": "mutation",
@@ -1017,7 +1178,6 @@
     "purifiable": false,
     "valid": false,
     "description": "Your blood has always been thicker than most, making you lose less of it when bleeding.",
-    "category": [ "perk" ],
     "flags": [ "BLEEDSLOW" ]
   },
   {
@@ -1028,7 +1188,6 @@
     "purifiable": false,
     "valid": false,
     "description": "People often say that they feel safer when they sleep, but in your case you are literally safer when asleep.  As long as you sleep, most attacks won't injure you.",
-    "category": [ "perk" ],
     "enchantments": [ { "condition": { "u_has_effect": "sleep" }, "values": [ { "value": "ARMOR_ALL", "add": -100 } ] } ]
   },
   {
@@ -1039,7 +1198,6 @@
     "purifiable": false,
     "valid": false,
     "description": "You hate the feeling of your blood leaking so much that it empowers you.  Deal more melee damage the more you are bleeding.",
-    "category": [ "perk" ],
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -1055,7 +1213,6 @@
     "purifiable": false,
     "valid": false,
     "description": "You know how to leverage your allies' presence when talking with others, granting you a small boost to lying, persuading and intimidating for each nearby ally.",
-    "category": [ "perk" ],
     "enchantments": [
       {
         "values": [
@@ -1080,7 +1237,6 @@
     "purifiable": false,
     "valid": false,
     "description": "Poisons tend to make you feel numb.  When poisoned, feel 80% less pain.",
-    "category": [ "perk" ],
     "enchantments": [
       {
         "condition": {
@@ -1105,7 +1261,6 @@
     "purifiable": false,
     "valid": false,
     "description": "After being stolen the things you held in your hands countless times, your grip became strong enough to keep anything in your hands as long as you will it.  Activate to toggle the ability to drop your held item.",
-    "category": [ "perk" ],
     "active": true,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_unopenable_grip" ]
@@ -1118,7 +1273,6 @@
     "purifiable": false,
     "valid": false,
     "description": "You somehow learned to focus on an item to make it emit radiation forever.  You still have trouble understanding how this could ever be useful, but maybe you might find a use for it.  Activate to use.",
-    "category": [ "perk" ],
     "active": true,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_radio_infusion" ]
@@ -1131,7 +1285,6 @@
     "purifiable": false,
     "valid": false,
     "description": "You love the rush of taking different drugs at once, and now this rush is much more impactful than before.  You gain +3 speed for each recreational or combat-enhancing drug currently affecting you.",
-    "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": { "math": [ "speedball_counter()" ] } } ] } ]
   },
   {
@@ -1142,7 +1295,6 @@
     "purifiable": false,
     "valid": false,
     "description": "You cannot forget anything at all, ever.  This grants you the ability to memorize books for you to read in your head later and makes you able to store mental images so detailled it's almost as if you were taking pictures with your mind.",
-    "category": [ "perk" ],
     "integrated_armor": [ "integrated_memory" ]
   },
   {
@@ -1153,10 +1305,28 @@
     "purifiable": false,
     "valid": false,
     "description": "Your blood might not be able to make weapons, but it still can make anything coated with sturdier but unable to be repaired.  Activate to use.",
-    "category": [ "perk" ],
     "active": true,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_forge_blood" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_dexterous_speed",
+    "name": { "str": "Dexterous Speed" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You've found that you can move just a little bit quicker the more dexterous you are.  Unfortunately, this applies comes at a loss to your max carry weight.  Gain 2 speed for every point of DEX away from 8 and lose 4 kg of carry weight.",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "SPEED", "add": { "math": [ "max( 0, u_val('dexterity') - 8 ) * 2" ] } } ]
+      },
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CARRY_WEIGHT", "add": { "math": [ "min( 0, 8 - u_val('dexterity') ) * 4000" ] } } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -1165,8 +1335,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
-    "category": [ "perk" ]
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
   },
   {
     "type": "mutation",
@@ -1175,8 +1344,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
-    "category": [ "perk" ]
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
   },
   {
     "type": "mutation",
@@ -1185,8 +1353,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
-    "category": [ "perk" ]
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
   },
   {
     "type": "mutation",
@@ -1195,8 +1362,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
-    "category": [ "perk" ]
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
   },
   {
     "type": "mutation",
@@ -1205,8 +1371,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
-    "category": [ "perk" ]
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
   },
   {
     "type": "mutation",
@@ -1215,8 +1380,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
-    "category": [ "perk" ]
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
   },
   {
     "type": "mutation",
@@ -1226,7 +1390,6 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "category": [ "perk" ],
     "enchantments": [
       {
         "condition": { "and": [ { "u_has_wielded_with_flag": "RELOAD_ONE" }, { "u_has_wielded_with_skill": "pistol" } ] },
@@ -1246,12 +1409,36 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "category": [ "perk" ],
     "enchantments": [
       {
         "condition": { "u_has_wielded_with_ammotype": "22" },
         "values": [ { "value": "RANGED_ARMOR_PENETRATION", "add": 5 }, { "value": "WEAKPOINT_ACCURACY", "multiply": 3 } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_secret_closet_storage",
+    "name": { "str": "Closetland" },
+    "description": "When you were little you remember thinking that your closet was a portal to a secret realm and if you just knew the way to open the path, you could find your way through to another world.  Well, you've found the way.\n\nWhen in a closet (walls on all sides except for one closed door), activate this perk to transport you to a secret realm.  Deactivate this perk to transport you back to your entrance point.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND" ],
+    "processed_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_SLEEP_DEPRIVATION_COST_IN_CLOSETLAND" ],
+    "deactivated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_BACK_FROM_CLOSETLAND" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_secret_closet_teleporter_paths",
+    "name": { "str": "Closetland Paths" },
+    "description": "Your experience with Closetland has grown and you think you can find your way back to other places you've been, not just the most recent place you left from\n\nWhen in a closet, you can memorize it and, when in Closetland, return there instead of the place you left from.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_DIFFERENT_PATHS_OF_CLOSETLAND" ]
   }
 ]

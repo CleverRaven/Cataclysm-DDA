@@ -1,13 +1,62 @@
 # TILESETS
 
-*Content*
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
 
 - [Terminology](#terminology)
+      - [Tileset](#tileset)
+      - [Sprite](#sprite)
+      - [Root name](#root-name)
+      - [Tile](#tile)
+      - [Tilesheet](#tilesheet)
+      - [`tile_config.json` file](#tile_configjson-file)
+      - [`tileset.txt` file](#tilesettxt-file)
+      - [Tile entry](#tile-entry)
+      - [Compositing Tileset](#compositing-tileset)
+      - [`compose.py` script](#composepy-script)
+      - [Tilesheet directory](#tilesheet-directory)
+      - [`tile_info.json` file](#tile_infojson-file)
 - [JSON Schema](#json-schema)
+  - [Tile entry](#tile-entry-1)
+    - [Hardcoded IDs](#hardcoded-ids)
+    - [Complex IDs](#complex-ids)
+    - [Optional gendered variants](#optional-gendered-variants)
+    - [Optional seasonal variants](#optional-seasonal-variants)
+    - [Optional transparent variant](#optional-transparent-variant)
+    - [Item/Mutation variant sprite variants](#itemmutation-variant-sprite-variants)
+    - [Rotations](#rotations)
+    - [Random variations](#random-variations)
+    - [Multitile](#multitile)
+    - [Connecting terrain and furniture - `connect_groups` and `connects_to`](#connecting-terrain-and-furniture---connect_groups-and-connects_to)
+    - [Auto-rotating terrain and furniture - `rotates_to`](#auto-rotating-terrain-and-furniture---rotates_to)
+      - [Windows and doors](#windows-and-doors)
+      - [Unconnected `rotates_to`](#unconnected-rotates_to)
+      - [Full `rotates_to` template](#full-rotates_to-template)
+    - [Multiple tile entries in the same file](#multiple-tile-entries-in-the-same-file)
+    - [Graffitis](#graffitis)
+      - [Graffitis for specific texts](#graffitis-for-specific-texts)
+  - [`tile_info.json`](#tile_infojson)
+  - [Expansion tile entries](#expansion-tile-entries)
+  - [layering.json](#layeringjson)
+      - [Items](#items)
+      - [Fields](#fields)
 - [`compose.py`](#composepy)
+  - [Usage](#usage)
 - [pyvips](#pyvips)
+  - [Windows](#windows)
+    - [Python and pyvips](#python-and-pyvips)
+    - [libvips](#libvips)
+    - [Launching scripts](#launching-scripts)
+  - [Linux](#linux)
+  - [MacOS](#macos)
 - [Including tilesets with the distribution](#including-tilesets-with-the-distribution)
 - [Legacy tilesets](#legacy-tilesets)
+  - [tilesheets](#tilesheets)
+  - [`tile_config`](#tile_config)
+  - [decompose.py](#decomposepy)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 >[!NOTE]
 >If you are looking for specific tileset information or style guides, try the tileset repository:
@@ -57,7 +106,7 @@ Describes tilesheet directories for `compose.py`
 ## JSON Schema
 
 ### Tile entry
-```C++
+```jsonc
 {                                           // The simplest version
     "id": "mon_cat",                        // a game entity ID
     "fg": "mon_cat_black",                  // a sprite root name that will be put on foreground
@@ -138,7 +187,7 @@ You can add `"rotates": true` to allow sprites to be rotated by the game automat
 #### Random variations
 
 `fg` and `bg` can also be an array of objects of weighted, randomly chosen options, any of which can also be an array of rotations:
-```C++
+```jsonc
     "fg": [
         { "weight": 50, "sprite": "t_dirt_brown"},       // appears approximately 50 times in 53 tiles
         { "weight": 1, "sprite": "t_dirt_black_specks"}, // appears 1 time in 53 tiles
@@ -155,7 +204,7 @@ You can add `"rotates": true` to allow sprites to be rotated by the game automat
 
 For terrain or furniture that is intended to auto-connect using multitiles, set the properties `connect_groups` and `connects_to` in the object definition (not in the tileset!) to an appropriate group:
 
-```json
+```jsonc
 {
     "type": "terrain",
     "id": "t_brick_wall",
@@ -184,7 +233,7 @@ For the full multitile, the 16 sprite variants of this template are required:
 
 In JSON, the multitile would be defined like this:
 
-```json
+```jsonc
 {
     ...
     "multitile": true,
@@ -258,7 +307,7 @@ For each of the two basic `edge` and `end_piece` directions (north-south, east-w
 
 The full multitile would be defined like this:
 
-```json
+```jsonc
 {
   "id": [ "t_window", "t_window_domestic" ],
   "fg": "w_undefined",
@@ -297,15 +346,13 @@ The full multitile would be defined like this:
 
 The order of sprites ensures that the multitile also works with only the first 4 instead of all 8 sprites. It also makes it compatible with tilesets that don't use the `rotates_to` feature.
 
-Doors and windows work out of the box without modifying terrain definitions, as the required group `INDOORFLOOR` is implied by the flags `WINDOW`, `DOOR` (active) and `INDOORS` (target/passive).
-
 ##### Unconnected `rotates_to`
 
 For unconnected tiles, `rotates_to` requires either 4 or 16 sprites.
 To create these sprites, the normal multitile template can be used with `slice_multitile.py`.
 The generated JSON needs to be re-arranged like this (names as generated by the script):
 
-```json
+```jsonc
 {
   "id": "f_street_light",
   "fg": "f_street_light_unconnected",
@@ -338,7 +385,7 @@ The generated JSON needs to be re-arranged like this (names as generated by the 
 
 A minimal version using only the 4 cardinal directions can be achieved with only 4 sprites:
 
-```json
+```jsonc
 {
   ...
   "additional_tiles": [
@@ -370,7 +417,7 @@ As for normal autotiles, the script also generates the requires JSON file. See t
 #### Multiple tile entries in the same file
 
 Each JSON file can have either a single object or an array of one or more objects:
-```C++
+```jsonc
 [
     { "id": "mon_zombie", "fg": "mon_zombie", "bg": "mon_zombie_bg" },
     { "id": "corpse_mon_zombie", "fg": "mon_zombie_corpse", "bg": "mon_zombie_bg" },
@@ -382,7 +429,7 @@ Each JSON file can have either a single object or an array of one or more object
 
 For graffitis, rotation can be used to distinguish between wall and floor drawings:
 
-```json
+```jsonc
 {
   "id": "graffiti",
   "fg": [ "graffiti_wall", "graffiti_floor" ],
@@ -391,7 +438,7 @@ For graffitis, rotation can be used to distinguish between wall and floor drawin
 
 Weighted variations are also possible, and can be combined with rotation:
 
-```json
+```jsonc
 {
   "id": "graffiti",
   "fg": [
@@ -420,7 +467,7 @@ So, e.g. all these texts would result in lookup for `graffiti_NO_FUTURE`: "no fu
 "Escape Pods & Vehicle Bay" becomes `graffiti_ESCAPE_PODS__VEHICLE_BAY`
 
 ### `tile_info.json`
-```c++
+```jsonc
 [
   {                         // default sprite size
     "width": 32,
@@ -470,7 +517,7 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 
 An optional file called `layering.json` can be provided. This file defines "layer contexts" (referred to in JSON as "layer variants"), or entries for drawing items/fields differently based on furniture/terrain they're placed on. A default `layering.json` is provided with the repository.
 
-```c++
+```jsonc
 {
 "variants": [
   {
@@ -513,7 +560,7 @@ In this example, we provide the context tile `f_desk` and multiple items that wi
 Example: `american_flag_hoisted` or `national_flag_var_indian_flag_postup`
 
 Example usage of flag `context` and `append_variants`:
-```JSON
+```jsonc
 {
   "variants": [
     {
@@ -557,7 +604,7 @@ Example usage of flag `context` and `append_variants`:
 `output_dir` will be set to the `source_dir` unless provided separately. Expected to have `tileset.txt` and `fallback.png`.
 
 `--use-all`: instead of warning about unused sprites, will treat their [root name](#root-name) as the `id` value to use them as `fg` for. In other words, just naming your sprite `overlay_wielded_spear_survivor.png` will imply this tile entry **unless** any tile entry already references `overlay_wielded_spear_survivor` in a `fg` or `bg` value:
-```JSON
+```jsonc
 {
     "id": "overlay_wielded_spear_survivor",
     "fg": "overlay_wielded_spear_survivor"
@@ -630,7 +677,7 @@ Each tilesheet contains 1 or more sprites with the same width and height.  Each 
 ### `tile_config`
 Each legacy tileset has a `tile_config.json` describing how to map the contents of a sprite sheet to various tile identifiers, different orientations, etc. The ordering of the overlays used for displaying mutations can be controlled as well. The ordering can be used to override the default ordering provided in `mutation_ordering.json`. Example:
 
-```C++
+```jsonc
   {                                             // whole file is a single object
     "tile_info": [                              // tile_info is mandatory
       {

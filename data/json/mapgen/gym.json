@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "gym_fitness" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -73,7 +72,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "gym_fitness_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -127,7 +125,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "gym_fitness_1" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -200,7 +197,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "gym_fitness_2ndFloor_1",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -266,7 +262,7 @@
       ],
       "place_monster": [ { "group": "GROUP_SEARCH_FITNESS", "x": [ 4, 20 ], "y": [ 4, 14 ], "chance": 75, "repeat": [ 3, 8 ] } ],
       "items": {
-        "F": { "item": "office_paper", "chance": 30 },
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "I": { "item": "softdrugs", "chance": 20, "repeat": [ 2, 4 ] },
         "&": { "item": "SUS_toilet", "chance": 50 }
       }
@@ -274,7 +270,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "gym_fitness_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

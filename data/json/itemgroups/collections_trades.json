@@ -55,8 +55,7 @@
       { "group": "plumbing_clothing", "prob": 100 },
       { "group": "tools_plumbing", "prob": 100 },
       { "group": "supplies_plumbing", "prob": 50 },
-      [ "survnote", 1 ],
-      [ "pipe_fittings", 70 ]
+      [ "survnote", 1 ]
     ]
   },
   {
@@ -72,6 +71,7 @@
       [ "goggles_welding", 50 ],
       [ "welding_book", 10 ],
       [ "welding_mask", 30 ],
+      [ "throat_guard_cut_resistant", 8 ],
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
       { "item": "polycarbonate_sheet", "prob": 35 },
@@ -82,8 +82,51 @@
       { "item": "55gal_drum_aluminum", "prob": 1 },
       { "item": "30gal_drum_aluminum", "prob": 2 },
       [ "cu_pipe", 5 ],
-      [ "steroid_eyedrops", 10 ],
       [ "survnote", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "dentist_supplies",
+    "subtype": "collection",
+    "entries": [
+      { "item": "dental_tools", "count": [ 1, 2 ], "prob": 80 },
+      { "item": "string_floss", "count": [ 1, 3 ], "prob": 75 },
+      { "item": "toothbrush_plain", "count": [ 1, 4 ], "prob": 75 },
+      { "item": "toothbrush_electric", "prob": 20 },
+      { "item": "dentures", "count": [ 1, 2 ], "prob": 40 },
+      { "item": "medical_gauze", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "syringe", "prob": 30 },
+      { "item": "mask_dust", "prob": 60 },
+      { "item": "gloves_medical", "prob": 70 },
+      { "item": "disinfectant", "prob": 30, "charges": [ 1, 10 ] },
+      { "item": "anesthetic_kit", "prob": 10, "charges": [ 0, -1 ] },
+      { "item": "gold_dental_grill", "prob": 1 }
+    ]
+  },
+  {
+    "id": "farrier_tools",
+    "type": "item_group",
+    "//": "Set of mostly fluff farrier tools.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hoof_pick", "prob": 75 },
+      { "item": "horseshoe_pliers", "prob": 75 },
+      { "item": "nail_puller", "prob": 75 },
+      { "item": "hoof_tester", "prob": 75 },
+      { "item": "hoof_nippers", "prob": 75 },
+      { "item": "pockknife", "prob": 65 },
+      { "item": "hoof_rasp", "prob": 65 },
+      { "item": "hammer_peen", "variant": "peen_ball", "prob": 65 },
+      { "item": "hammer_peen", "variant": "peen_straight", "prob": 65 },
+      { "item": "hammer_peen", "variant": "peen_cross", "prob": 65 },
+      { "item": "hammer_peen", "variant": "rounding", "prob": 65 },
+      { "item": "hammer", "prob": 65 },
+      { "item": "pritchel", "prob": 65 },
+      { "item": "clinch_block", "prob": 65 },
+      { "item": "clinch_pliers", "prob": 65 },
+      { "item": "clinch_cutter", "prob": 65 },
+      { "item": "hoof_stand", "prob": 65 }
     ]
   }
 ]

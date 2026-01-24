@@ -91,7 +91,6 @@ class material_type
         float _specific_heat_solid = 2.108f;
         float _latent_heat = 334.0f;
         float _freeze_point = 0; // Celsius
-        bool _edible = false;
         bool _rotting = false;
         bool _soft = false;
         bool _uncomfortable = false;
@@ -121,6 +120,7 @@ class material_type
 
         void load( const JsonObject &jsobj, std::string_view src );
         static void finalize_all();
+        void finalize();
         void check() const;
 
         material_id ident() const;
@@ -157,7 +157,6 @@ class material_type
         static int breathability_to_rating( breathability_rating breathability );
         int breathability() const;
         std::optional<int> wind_resist() const;
-        bool edible() const;
         bool rotting() const;
         bool soft() const;
         bool uncomfortable() const;

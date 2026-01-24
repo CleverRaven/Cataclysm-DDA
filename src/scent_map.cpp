@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <cstdlib>
 
-#include "assign.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "color.h"
@@ -141,13 +140,15 @@ scenttype_id scent_map::get_type( const tripoint_bub_ms &p ) const
 
 bool scent_map::inbounds( const tripoint_bub_ms &p ) const
 {
+    map &here = get_map();
+
     // HACK: This weird long check here is a hack around the fact that scentmap is 2D
     // A z-level can access scentmap if it is within SCENT_MAP_Z_REACH flying z-level move from player's z-level
     // That is, if a flying critter could move directly up or down (or stand still) and be on same z-level as player
-    const int levz = get_map().get_abs_sub().z();
+    const int levz = here.get_abs_sub().z();
     const bool scent_map_z_level_inbounds = ( p.z() == levz ) ||
                                             ( std::abs( p.z() - levz ) == SCENT_MAP_Z_REACH &&
-                                                    get_map().valid_move( p, tripoint_bub_ms( p.xy(), levz ), false, true ) );
+                                                    here.valid_move( p, tripoint_bub_ms( p.xy(), levz ), false, true ) );
     if( !scent_map_z_level_inbounds ) {
         return false;
     }
@@ -287,10 +288,14 @@ void scent_type::load_scent_type( const JsonObject &jo, const std::string &src )
     scent_factory.load( jo, src );
 }
 
-void scent_type::load( const JsonObject &jo, const std::string_view )
+void scent_type::finalize_all()
 {
-    assign( jo, "id", id );
-    assign( jo, "receptive_species", receptive_species );
+    scent_factory.finalize();
+}
+
+void scent_type::load( const JsonObject &jo, std::string_view )
+{
+    mandatory( jo, was_loaded, "receptive_species", receptive_species );
 }
 
 const std::vector<scent_type> &scent_type::get_all()

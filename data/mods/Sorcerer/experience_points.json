@@ -1,0 +1,42 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_check_level_up_sorcerer",
+    "condition": { "math": [ "u_available_exp_sorcerer > u_exp_to_sorcerer_level" ] },
+    "effect": [
+      { "math": [ "u_used_exp_sorcerer += u_exp_to_sorcerer_level" ] },
+      { "math": [ "u_available_exp_sorcerer = u_val('exp') + u_bonus_exp - u_used_exp_sorcerer" ] },
+      { "math": [ "u_exp_to_sorcerer_level += u_exp_per_sorcerer_level" ] },
+      { "run_eocs": "EOC_level_up_sorcerer" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_on_kill_check_exp_sorcerer",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": { "u_has_trait": "SORCERER" },
+    "effect": [
+      { "math": [ "u_available_exp_sorcerer = u_val('exp') + u_bonus_exp - u_used_exp_sorcerer" ] },
+      { "run_eocs": "EOC_check_level_up_sorcerer" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_level_up_sorcerer",
+    "effect": [
+      { "math": [ "u_current_sorcerer_level++" ] },
+      {
+        "run_eocs": {
+          "id": "sorcerer_grant_forget_spell_charge",
+          "condition": { "math": [ "u_current_sorcerer_level > 1" ] },
+          "effect": [ { "math": [ "u_sorcerer_forget_spell_charge = 1" ] } ]
+        }
+      },
+      { "run_eocs": "EOC_level_up_sorcerer_spell_slots_known" },
+      { "run_eocs": "EOC_level_up_sorcerer_spells" },
+      { "run_eocs": "EOC_open_sorcerer_menu" },
+      { "math": [ "u_skill('spellcraft') = max(u_skill('spellcraft'), u_current_sorcerer_level)" ] }
+    ]
+  }
+]

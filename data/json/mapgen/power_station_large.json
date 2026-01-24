@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "pwr_large_3", "pwr_large_4" ], [ "pwr_large_2", "pwr_large_entrance" ] ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
@@ -104,7 +103,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "pwr_large_2_roof", "pwr_large_entrance_roof" ] ],
     "object": {
       "fill_ter": "t_tar_flat_roof",

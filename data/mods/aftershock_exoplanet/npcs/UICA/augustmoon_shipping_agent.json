@@ -1,0 +1,123 @@
+[
+  {
+    "type": "npc",
+    "id": "augustmoon_shipping_chief",
+    "class": "NC_AUGUSTMOON_shipping_chief",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_AUGUSTMOON_SHIPPING_CHIEF",
+    "name_suffix": "Portmaster",
+    "faction": "UICA"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_AUGUSTMOON_shipping_chief",
+    "name": { "str": "Portmaster" },
+    "job_description": "I manage incoming and outgoing ships and shuttlecraft.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_int": { "rng": [ 5, 7 ] },
+    "worn_override": "NC_UICA_PORT_CREW_worn",
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
+    "shopkeeper_item_group": [ { "group": "NC_AUGUSTMOON_shipping_stock", "rigid": true } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_AUGUSTMOON_shipping_stock",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "afs_shuttle_radiobeacon", "count": [ 4, 10 ] }, { "group": "augustmoon_shop_money" } ]
+  },
+  {
+    "id": "TALK_AUGUSTMOON_SHIPPING_CHIEF",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "dialogue_augustmoon_shipping_chief_first_meet" } ],
+      "yes": [ "Interested in booking passage planetside?" ],
+      "no": "Let me be first to welcome you to Salus IV orbit.  I'm the portmaster representative for this section of the station, and I can help you with booking passage planetside for you and any cargo.\"  They glance briefly to a desk console before continuing with a well trained smile.  \"Oh it seems system flagged you as a new arrival, are you familiar with local planetary conditions?  If not, I can provide you with a starting kit that will help you survive the first few days planetside."
+    },
+    "speaker_effect": {
+      "effect": [ { "u_add_var": "dialogue_augustmoon_shipping_chief_first_meet", "value": "yes" } ],
+      "sentinel": "longshoreman_meet"
+    },
+    "responses": [
+      {
+        "truefalsetext": {
+          "true": "That's why I'm here",
+          "false": "Alright, let see about passage planetside.",
+          "condition": { "math": [ "has_var(know_spaceport)" ] }
+        },
+        "topic": "TALK_AUGUSTMOON_LANDING"
+      },
+      {
+        "text": "I want to contract a drone shuttle.",
+        "topic": "TALK_AUGUSTMOON_SHIPPING_CHIEF",
+        "effect": "start_trade"
+      },
+      {
+        "text": "I'm interested in that starting kit.",
+        "topic": "TALK_AUGUSTMOON_KIT",
+        "condition": {
+          "and": [ { "not": { "math": [ "has_var(know_spaceport)" ] } }, { "not": { "math": [ "has_var(u_augustmoon_kit)" ] } } ]
+        }
+      },
+      { "text": "Not right now", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_AUGUSTMOON_LANDING",
+    "type": "talk_topic",
+    "dynamic_line": "Excellent, the current price for a passage down is 1000 USD.  If there's any cargo you wish to transfer planetside please place it in the nearby container.  Additionally, I'm obliged to inform you that a return passage is considerably more expensive, having a current price of 12500 USD.  Do you wish to book passage?",
+    "responses": [
+      {
+        "text": "I'm ready, book me in the next ship down.",
+        "effect": [ { "u_spend_cash": 100000, "true_eocs": "EOC_PORT_TO_LANDING_PAD_TP" } ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "I need to settle a few things first", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_AUGUSTMOON_KIT",
+    "type": "talk_topic",
+    "dynamic_line": "The kit is available as a one-time purchase for 3660 USD.  It includes a basic set of thermal clothing for survival, a backpack, basic cooking implements and supplies, a self-defense weapon and some basic medical supplies.  It is designed to help you survive the first few days planetside, but it is not a complete solution for long-term survival.",
+    "responses": [
+      {
+        "text": "I'll take it.",
+        "effect": [ { "u_spend_cash": 366000, "true_eocs": "EOC_GET_AUGUSTMOON_KIT" } ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Let me think about it.", "topic": "TALK_AUGUSTMOON_SHIPPING_CHIEF" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GET_AUGUSTMOON_KIT",
+    "effect": [
+      { "u_spawn_item": "augustmoon_kit", "count": 1, "use_item_group": true },
+      { "u_add_var": "augustmoon_kit", "value": "yes" }
+    ]
+  },
+  {
+    "id": "augustmoon_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "afs_augustmoon_kit_box",
+    "on_overflow": "spill",
+    "ammo": 100,
+    "magazine": 100,
+    "entries": [
+      { "item": "knife_folding" },
+      { "count": 2, "group": "afs_escapepod_ration_bag_plastic_4" },
+      { "item": "flashlight" },
+      { "item": "afs_frontier_cryomask", "custom-flags": [ "FIT" ] },
+      { "item": "afs_frontier_cryo", "custom-flags": [ "FIT" ] },
+      { "item": "backpack" },
+      { "item": "afs_thermos" },
+      { "item": "multi_cooker" },
+      { "item": "afs_seyfert_84K", "container-item": "holster" },
+      { "item": "afs_10mm_caseless_FMJ" }
+    ]
+  }
+]

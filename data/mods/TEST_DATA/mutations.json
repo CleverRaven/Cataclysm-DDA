@@ -443,5 +443,18 @@
     "points": 1,
     "description": "You see exactly 3 overmap afar (smallest value).",
     "enchantments": [ { "values": [ { "value": "OVERMAP_SIGHT", "add": -10 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "200_MOVE_COST_REDUCTION",
+    "name": { "str": "Debug 200% move cost reduction" },
+    "points": 0,
+    "vitamin_cost": 210,
+    "visibility": 8,
+    "ugliness": 4,
+    "mixed_effect": true,
+    "description": "",
+    "types": [ "LEGS", "FEET", "SOLES" ],
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -2.0 } ] } ]
   }
 ]

@@ -9,6 +9,7 @@
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
+#include "enums.h"
 #include "flag.h"
 #include "generic_factory.h"
 #include "messages.h"
@@ -51,7 +52,7 @@ void anatomy::load_anatomy( const JsonObject &jo, const std::string &src )
     anatomy_factory.load( jo, src );
 }
 
-void anatomy::load( const JsonObject &jo, const std::string_view )
+void anatomy::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "parts", unloaded_bps );
@@ -64,11 +65,7 @@ void anatomy::reset()
 
 void anatomy::finalize_all()
 {
-    // For some weird reason, generic_factory::finalize doesn't call finalize
     anatomy_factory.finalize();
-    for( const anatomy &an : anatomy_factory.get_all() ) {
-        const_cast<anatomy &>( an ).finalize();
-    }
 }
 
 void anatomy::finalize()
@@ -241,8 +238,8 @@ bodypart_id anatomy::select_body_part( int min_hit, int max_hit, bool can_attack
     }
 
     // Debug for seeing weights.
-    for( const weighted_object<double, bodypart_id> &pr : hit_weights ) {
-        add_msg_debug( debugmode::DF_ANATOMY_BP, "%s = %.3f", pr.obj.obj().name, pr.weight );
+    for( const std::pair<bodypart_id, double> &pr : hit_weights ) {
+        add_msg_debug( debugmode::DF_ANATOMY_BP, "%s = %.3f", pr.first.obj().name, pr.second );
     }
 
     const bodypart_id *ret = hit_weights.pick();
@@ -262,7 +259,7 @@ bodypart_id anatomy::select_blocking_part( const Creature *blocker, bool arm, bo
     for( const bodypart_id &bp : cached_bps ) {
         float block_score = bp->get_limb_score( limb_score_block );
         if( const Character *u = dynamic_cast<const Character *>( blocker ) ) {
-            block_score = u->get_part( bp )->get_limb_score( limb_score_block );
+            block_score = u->get_part( bp )->get_limb_score( *blocker, limb_score_block );
             // Weigh shielded bodyparts higher
             block_score *= u->worn_with_flag( flag_BLOCK_WHILE_WORN, bp ) ? 5 : 1;
         }
@@ -283,20 +280,20 @@ bodypart_id anatomy::select_blocking_part( const Creature *blocker, bool arm, bo
         }
 
         // Can we block with our normal boring arm?
-        if( bp->has_type( body_part_type::type::arm ) && !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
+        if( bp->has_type( bp_type::arm ) && !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
             !arm ) {
             add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no arm blocks allowed",
                            body_part_name( bp ) );
             continue;
             // Can we block with our normal boring legs?
-        } else if( bp->has_type( body_part_type::type::leg ) &&
+        } else if( bp->has_type( bp_type::leg ) &&
                    !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) && !leg ) {
             add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no leg blocks allowed",
                            body_part_name( bp ) );
             continue;
             // Can we block with our non-normal non-arms/non-legs?
-        } else if( ( ( !bp->has_type( body_part_type::type::arm ) &&
-                       !bp->has_type( body_part_type::type::leg ) ) || bp->has_flag( json_flag_NONSTANDARD_BLOCK ) ) &&
+        } else if( ( ( !bp->has_type( bp_type::arm ) &&
+                       !bp->has_type( bp_type::leg ) ) || bp->has_flag( json_flag_NONSTANDARD_BLOCK ) ) &&
                    !nonstandard ) {
             add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no nonstandard blocks allowed",
                            body_part_name( bp ) );
@@ -307,8 +304,8 @@ bodypart_id anatomy::select_blocking_part( const Creature *blocker, bool arm, bo
     }
 
     // Debug for seeing weights.
-    for( const weighted_object<double, bodypart_id> &pr : block_scores ) {
-        add_msg_debug( debugmode::DF_MELEE, "%s = %.3f", pr.obj.obj().name, pr.weight );
+    for( const std::pair<bodypart_id, double > &pr : block_scores ) {
+        add_msg_debug( debugmode::DF_MELEE, "%s = %.3f", pr.first.obj().name, pr.second );
     }
 
     const bodypart_id *ret = block_scores.pick();

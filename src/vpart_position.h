@@ -57,6 +57,11 @@ class vpart_position
         bool is_inside() const;
 
         /**
+         * @returns Movement difficulty. 0 for impassable.
+         */
+        int get_movecost() const;
+
+        /**
          * Sets the label at this part of the vehicle. Removes the label if @p text is empty.
          */
         void set_label( const std::string &text ) const;
@@ -93,6 +98,9 @@ class vpart_position
         std::map<item, int> get_tools( map &here ) const;
         // Forms inventory for inventory::form_from_map
         void form_inventory( map &here, inventory &inv ) const;
+
+        bool can_load_furniture() const;
+        bool has_loaded_furniture() const;
 
         tripoint_bub_ms pos_bub( const map &here ) const;
         tripoint_abs_ms pos_abs() const;

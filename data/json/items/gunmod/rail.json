@@ -1,56 +1,21 @@
 [
   {
-    "id": "gun_crossbow",
-    "type": "GUNMOD",
-    "name": { "str": "rail-mounted crossbow" },
-    "description": "A kit to attach a pair of crossbow arms and a firing rail to the barrel of a long firearm.  It allows crossbow bolts to be fired.",
-    "weight": "1450 g",
-    "volume": "500 ml",
-    "price": "500 USD",
-    "price_postapoc": "15 USD",
-    "install_time": "30 m",
-    "material": [ "steel", "wood" ],
-    "symbol": ":",
-    "color": "light_red",
-    "location": "rail",
-    "mod_targets": [ "shotgun", "rifle", "crossbow" ],
-    "gun_data": {
-      "ammo": [ "bolt" ],
-      "skill": "rifle",
-      "range": 8,
-      "ranged_damage": { "damage_type": "stab", "amount": 3 },
-      "dispersion": 180,
-      "durability": 10,
-      "clip_size": 1
-    },
-    "dispersion_modifier": 60,
-    "min_skills": [ [ "weapon", 2 ], [ "rifle", 1 ] ],
-    "flags": [ "NON_FOULING" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
-  },
-  {
     "id": "offset_sights",
     "copy-from": "improve_sights",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str_sp": "offset iron sights" },
     "description": "An alternative set of iron sights mounted at 45° for use when a scope or other modification prevents use of the primary sights.",
     "location": "rail",
-    "mod_targets": [ "smg", "rifle", "shotgun" ],
+    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher" ],
     "min_skills": [ [ "weapon", 3 ], [ "gun", 4 ] ],
     "proportional": { "sight_dispersion": 1.25 },
     "delete": { "flags": [ "DISABLE_SIGHTS" ] }
   },
   {
-    "id": "offset_sights_mod",
-    "copy-from": "offset_sights",
-    "type": "GUNMOD",
-    "name": { "str_sp": "modified offset iron sights" },
-    "description": "An alternative set of iron sights mounted at 45° for use when a scope or other modification prevents use of the primary sights.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ]
-  },
-  {
     "id": "offset_sight_rail",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "offset sight rail" },
     "description": "An additional rail set at 45° for attaching a secondary optic.",
     "weight": "40 g",
@@ -62,21 +27,14 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "rail",
-    "mod_targets": [ "shotgun", "smg", "rifle" ],
+    "mod_targets": [ "shotgun", "smg", "rifle", "launcher" ],
     "min_skills": [ [ "gun", 1 ] ],
     "add_mod": [ [ "sights", 1 ] ]
   },
   {
-    "id": "offset_sight_rail_mod",
-    "copy-from": "offset_sight_rail",
-    "type": "GUNMOD",
-    "name": { "str": "modified offset sight rail" },
-    "description": "An additional rail set at 45° for attaching a secondary optic.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ]
-  },
-  {
     "id": "rail_laser_sight",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "rail laser sight" },
     "description": "A small visible-light laser that mounts on a firearm's accessory rail to enhance ease and speed of target acquisition.  Aside from increased weight, there are no drawbacks.",
     "weight": "120 g",
@@ -97,8 +55,66 @@
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
   },
   {
+    "id": "mipim",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "GUNMOD" ],
+    "name": { "str": "army flashlight-laser module" },
+    "description": "Officially designated as Mini Integrated Pointing Illumination Module (MIPIM), also known as AN/PEQ-16, it is a little squarey box, mounted on a firearm side rail, that combines both laser sight and flashlight.",
+    "weight": "68 g",
+    "volume": "360 ml",
+    "longest_side": "104 mm",
+    "price": "2200 USD",
+    "price_postapoc": "15 USD",
+    "install_time": "10 m",
+    "material": [ "steel", "plastic" ],
+    "symbol": ":",
+    "color": "brown",
+    "location": "rail",
+    "mod_targets": [ "pistol", "shotgun", "smg", "rifle", "crossbow", "launcher" ],
+    "min_skills": [ [ "weapon", 1 ] ],
+    "charges_per_use": 1,
+    "is_visible_when_installed": true,
+    "flags": [ "LASER_SIGHT" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the army flashlight-laser module flashlight on.",
+      "target": "mipim_on",
+      "need_charges": 1,
+      "need_charges_msg": "The mounted flashlight's batteries are dead."
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "mipim_on",
+    "copy-from": "mipim",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "GUNMOD" ],
+    "name": { "str": "army flashlight-laser module (on)", "str_pl": "army flashlight-laser modules (on)" },
+    "//": "about 30 m of work off a single battery",
+    "power_draw": "31 W",
+    "revert_to": "mipim",
+    "use_action": {
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You turn the army flashlight-laser module off.",
+      "target": "mipim",
+      "ammo_scale": 0
+    },
+    "light": 160,
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "SPAWN_ACTIVE" ] }
+  },
+  {
     "id": "offset_grip",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "offset grip" },
     "description": "An angled grip set at 45° that attaches to a side rail, allowing for a grip while leaving the underbarrel rail free, or on guns that have integral bipods.",
     "weight": "125 g",
@@ -121,7 +137,6 @@
       "m203_mod",
       "m320_mod",
       "m320_mod_mod",
-      "M6_shotgun",
       "masterkey",
       "masterkey_mod",
       "m26_mass",
@@ -129,7 +144,6 @@
       "rm121aux",
       "rm121aux_mod",
       "u_shotgun",
-      "u_shotgun_mod",
       "robofac_handguard"
     ],
     "min_skills": [ [ "gun", 2 ] ]

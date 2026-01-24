@@ -1,72 +1,45 @@
 [
   {
-    "//": "Maximum mana points, in light blue color.",
-    "id": "xe_max_mana_num",
-    "type": "widget",
-    "label": "Max Mana",
-    "style": "number",
-    "var": "max_mana",
-    "colors": [ "c_pink" ]
+    "id": "blood_ruach_blank_line",
+    "string": "",
+    "style": "text",
+    "type": "widget"
   },
   {
-    "//": "Base widget for other mana widgets to copy-from.  Sets var and colors.",
-    "id": "xe_mana_base",
-    "type": "widget",
-    "var": "mana",
-    "colors": [ "c_red", "c_light_red", "c_yellow", "c_pink" ]
-  },
-  {
-    "//": "Current number of mana points, with color.",
-    "id": "xe_mana_num",
-    "type": "widget",
-    "copy-from": "xe_mana_base",
-    "label": "Mana",
-    "style": "number"
-  },
-  {
-    "//": "Wide bar-graph of current mana level, using the default 'bucket' fill.",
-    "id": "xe_mana_graph",
-    "type": "widget",
-    "copy-from": "xe_mana_base",
-    "label": "Mana",
-    "style": "graph",
-    "width": 25,
-    "symbols": ".-=#",
-    "fill": "bucket"
-  },
-  {
-    "//": "Like the mana graph, but using a 'pool' fill.",
-    "id": "xe_mana_pool",
-    "type": "widget",
-    "copy-from": "xe_mana_graph",
-    "fill": "pool"
-  },
-  {
-    "//": "Both current and maximum mana numbers, side by side",
-    "id": "xe_current_max_mana_nums_layout",
-    "type": "widget",
-    "label": "Xedra Current/Max Mana",
+    "clauses": [
+      { "condition": { "u_has_effect": "vampire_virus" }, "id": "content", "widgets": "vampire_blood_levels" },
+      { "condition": { "u_has_trait": "LILIN_TRAITS" }, "id": "content", "widgets": "ruach_counter_meter" }
+    ],
+    "default_clause": { "widgets": "blood_ruach_blank_line" },
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "label": "Blood/Ruach Descriptor",
+    "id": "blood_ruach_descriptor",
     "style": "layout",
-    "arrange": "columns",
-    "widgets": [ "xe_mana_num", "xe_max_mana_num" ]
+    "type": "widget"
   },
   {
-    "//": "Bar graph of current mana, with 'bucket' fill.",
-    "id": "xe_mana_graph_layout",
-    "type": "widget",
+    "clauses": [
+      { "condition": { "u_has_effect": "vampire_virus" }, "id": "content", "widgets": "vampire_blood_levels_numbers" },
+      { "condition": { "u_has_trait": "LILIN_TRAITS" }, "id": "content", "widgets": "ruach_counter_numbers" }
+    ],
+    "default_clause": { "widgets": "blood_ruach_blank_line" },
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "label": "Blood/Ruach Numbers",
+    "id": "blood_ruach_numbers",
     "style": "layout",
-    "label": "Xedra Mana Graph",
-    "arrange": "columns",
-    "widgets": [ "xe_mana_graph" ]
+    "type": "widget"
   },
   {
-    "//": "Bar graph of current mana, with 'pool' fill.",
-    "id": "xe_mana_pool_layout",
-    "type": "widget",
+    "clauses": [
+      { "condition": { "u_has_effect": "vampire_virus" }, "id": "content", "widgets": "vampire_blood_levels_graph" },
+      { "condition": { "u_has_trait": "LILIN_TRAITS" }, "id": "content", "widgets": "ruach_counter_graph" }
+    ],
+    "default_clause": { "widgets": "blood_ruach_blank_line" },
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "label": "Blood/Ruach Graph",
+    "id": "blood_ruach_graph",
     "style": "layout",
-    "label": "Xedra Mana Pool",
-    "arrange": "columns",
-    "widgets": [ "xe_mana_pool" ]
+    "type": "widget"
   },
   {
     "//": "Extend the custom sidebar with Xedra-specific sections",
@@ -78,10 +51,9 @@
         "xe_current_max_mana_nums_layout",
         "xe_mana_graph_layout",
         "xe_mana_pool_layout",
-        "vampire_blood_levels",
-        "ruach_counter_meter_block",
-        "ruach_counter_numbers_block",
-        "ruach_counter_graph_block"
+        "blood_ruach_descriptor",
+        "blood_ruach_numbers",
+        "blood_ruach_graph"
       ]
     }
   },
@@ -95,10 +67,9 @@
         "xe_current_max_mana_nums_layout",
         "xe_mana_graph_layout",
         "xe_mana_pool_layout",
-        "vampire_blood_levels",
-        "ruach_counter_meter_block",
-        "ruach_counter_numbers_block",
-        "ruach_counter_graph_block"
+        "blood_ruach_descriptor",
+        "blood_ruach_numbers",
+        "blood_ruach_graph"
       ]
     }
   },
@@ -112,10 +83,9 @@
         "xe_current_max_mana_nums_layout",
         "xe_mana_graph_layout",
         "xe_mana_pool_layout",
-        "vampire_blood_levels",
-        "ruach_counter_meter_block",
-        "ruach_counter_numbers_block",
-        "ruach_counter_graph_block"
+        "blood_ruach_descriptor",
+        "blood_ruach_numbers",
+        "blood_ruach_graph"
       ]
     }
   },
@@ -129,10 +99,9 @@
         "xe_current_max_mana_nums_layout",
         "xe_mana_graph_layout",
         "xe_mana_pool_layout",
-        "vampire_blood_levels",
-        "ruach_counter_meter_block",
-        "ruach_counter_numbers_block",
-        "ruach_counter_graph_block"
+        "blood_ruach_descriptor",
+        "blood_ruach_numbers",
+        "blood_ruach_graph"
       ]
     }
   },
@@ -146,23 +115,91 @@
         "xe_current_max_mana_nums_layout",
         "xe_mana_graph_layout",
         "xe_mana_pool_layout",
-        "vampire_blood_levels",
-        "ruach_counter_meter_block",
-        "ruach_counter_numbers_block",
-        "ruach_counter_graph_block"
+        "blood_ruach_descriptor",
+        "blood_ruach_numbers",
+        "blood_ruach_graph"
       ]
     }
   },
   {
-    "//": "spacebar Wide bar-graph of current mana level, using the default 'bucket' fill.",
-    "id": "xe_spacebar_mana_graph",
+    "//": "spacebar Extend the custom sidebar with Xedra-specific sections",
+    "copy-from": "spacebar",
     "type": "widget",
-    "copy-from": "xe_mana_base",
-    "label": "Mana",
-    "style": "graph",
-    "width": 36,
-    "symbols": ".oO",
-    "fill": "bucket"
+    "id": "spacebar",
+    "extend": {
+      "widgets": [
+        "xe_current_max_mana_nums_layout",
+        "xe_mana_graph_layout",
+        "xe_mana_pool_layout",
+        "blood_ruach_descriptor",
+        "blood_ruach_numbers",
+        "blood_ruach_graph"
+      ]
+    }
+  },
+  {
+    "//": "Extend the custom sidebar with Xedra-specific sections",
+    "copy-from": "my_labels_sidebar",
+    "type": "widget",
+    "id": "my_labels_sidebar",
+    "extend": {
+      "widgets": [
+        "xe_current_max_mana_nums_layout",
+        "xe_mana_graph_layout",
+        "xe_mana_pool_layout",
+        "blood_ruach_descriptor",
+        "blood_ruach_numbers",
+        "blood_ruach_graph"
+      ]
+    }
+  },
+  {
+    "//": "Extend the custom sidebar with Xedra-specific sections",
+    "copy-from": "legacy_classic_sidebar_one_padding",
+    "type": "widget",
+    "id": "legacy_classic_sidebar_one_padding",
+    "extend": {
+      "widgets": [
+        "xe_current_max_mana_nums_layout",
+        "xe_mana_graph_layout",
+        "xe_mana_pool_layout",
+        "blood_ruach_descriptor",
+        "blood_ruach_numbers",
+        "blood_ruach_graph"
+      ]
+    }
+  },
+  {
+    "//": "Extend the custom sidebar with Xedra-specific sections",
+    "copy-from": "my_labels_sidebar_cleaner",
+    "type": "widget",
+    "id": "my_labels_sidebar_cleaner",
+    "extend": {
+      "widgets": [
+        "xe_current_max_mana_nums_layout",
+        "xe_mana_graph_layout",
+        "xe_mana_pool_layout",
+        "blood_ruach_descriptor",
+        "blood_ruach_numbers",
+        "blood_ruach_graph"
+      ]
+    }
+  },
+  {
+    "//": "Extend the custom sidebar with Xedra-specific sections",
+    "copy-from": "custom_sidebar",
+    "type": "widget",
+    "id": "custom_sidebar",
+    "extend": {
+      "widgets": [
+        "xe_current_max_mana_nums_layout",
+        "xe_mana_graph_layout",
+        "xe_mana_pool_layout",
+        "blood_ruach_descriptor",
+        "blood_ruach_numbers",
+        "blood_ruach_graph"
+      ]
+    }
   },
   {
     "id": "vampire_needs_desc_layout_label",
@@ -174,91 +211,13 @@
       "hunger_desc_label",
       "thirst_desc_label",
       "vampire_blood_levels",
+      "vampire_blood_levels_numbers",
+      "vampire_blood_levels_graph",
       "weight_desc_label",
       "sleepiness_desc_label",
       "pain_desc_label",
       "body_temp_desc_label"
     ]
-  },
-  {
-    "//": "spacebar Current number of mana points, with color.",
-    "id": "xe_spacebar_mana_num",
-    "type": "widget",
-    "copy-from": "xe_mana_base",
-    "label": "Mana",
-    "width": 28,
-    "style": "number",
-    "colors": [ "c_pink" ]
-  },
-  {
-    "//": "spacebar Maximum mana points, in light blue color.",
-    "id": "xe_spacebar_max_mana_num",
-    "type": "widget",
-    "label": "Max Mana",
-    "style": "number",
-    "var": "max_mana",
-    "width": 28,
-    "colors": [ "c_pink" ]
-  },
-  {
-    "//": "spacebar Both current and maximum mana numbers, side by side",
-    "id": "xe_spacebar_current_max_mana_nums_layout",
-    "type": "widget",
-    "label": "Xedra Current/Max Mana",
-    "style": "layout",
-    "arrange": "minimum_columns",
-    "width": 56,
-    "widgets": [ "xe_spacebar_mana_num", "xe_spacebar_max_mana_num", "vampire_blood_levels" ]
-  },
-  {
-    "id": "xe_spacebar_mana_bar_block",
-    "type": "widget",
-    "style": "layout",
-    "label": "xe_mana_bar",
-    "arrange": "minimum_columns",
-    "widgets": [ "spacebar_separator_2", "xe_spacebar_mana_graph", "vampire_blood_levels" ]
-  },
-  {
-    "id": "xe_spacebar_mana_numbers_block",
-    "type": "widget",
-    "style": "layout",
-    "label": "xe_mana_number",
-    "arrange": "minimum_columns",
-    "widgets": [ "spacebar_separator_2", "xe_spacebar_current_max_mana_nums_layout", "vampire_blood_levels" ]
-  },
-  {
-    "//": "spacebar Extend the custom sidebar with Xedra-specific sections",
-    "copy-from": "spacebar",
-    "type": "widget",
-    "id": "spacebar",
-    "extend": {
-      "widgets": [
-        "xe_spacebar_mana_numbers_block",
-        "xe_spacebar_mana_bar_block",
-        "vampire_blood_levels",
-        "spacebar_ruach_counter_block",
-        "spacebar_ruach_numbers_block",
-        "spacebar_ruach_graph_block"
-      ]
-    }
-  },
-  {
-    "//": "Extend the custom sidebar with Xedra-specific sections",
-    "copy-from": "my_labels_sidebar",
-    "type": "widget",
-    "id": "my_labels_sidebar",
-    "extend": {
-      "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout", "vampire_blood_levels" ]
-    }
-  },
-  {
-    "//": "Extend the custom sidebar with Xedra-specific sections",
-    "copy-from": "legacy_classic_sidebar_one_padding",
-    "type": "widget",
-    "id": "legacy_classic_sidebar_one_padding",
-    "extend": {
-      "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout", "vampire_blood_levels" ]
-    }
   },
   {
     "id": "vampire_sidebar",

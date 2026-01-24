@@ -53,33 +53,32 @@
     "skill_used": "tailor",
     "difficulty": 5,
     "skills_required": [ [ "fabrication", 3 ] ],
-    "time": "390 m",
+    "time": "250 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_arthropod", 4 ] ],
     "byproducts": [ [ "scrap_leather", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_chitinworking" },
-      { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_articulation" }
+      { "proficiency": "prof_leatherworking" }
     ],
-    "using": [ [ "armor_chitin", 3 ], [ "tailoring_leather_small", 2 ] ]
+    "using": [ [ "armor_chitin", 14 ], [ "strap_large", 8 ], [ "tailoring_leather_patchwork", 1 ] ]
   },
   {
     "result": "xs_armguard_chitin",
     "type": "recipe",
     "copy-from": "armguard_chitin",
-    "time": "390 m",
+    "time": "220 m",
     "byproducts": [ [ "scrap_leather", 4 ] ],
-    "using": [ [ "armor_chitin", 2 ], [ "tailoring_leather_small", 1 ] ]
+    "using": [ [ "armor_chitin", 11 ], [ "strap_large", 8 ], [ "tailoring_leather_patchwork", 1 ] ]
   },
   {
     "result": "xl_armguard_chitin",
     "type": "recipe",
     "copy-from": "armguard_chitin",
-    "time": "440 m",
+    "time": "300 m",
     "byproducts": [ [ "scrap_leather", 4 ] ],
-    "using": [ [ "armor_chitin", 4 ], [ "tailoring_leather_small", 3 ] ]
+    "using": [ [ "armor_chitin", 18 ], [ "strap_large", 8 ], [ "tailoring_leather_patchwork", 1 ] ]
   },
   {
     "result": "armguard_acidchitin",
@@ -179,46 +178,6 @@
     "time": "8 h",
     "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 1 ] ],
     "using": [ [ "tailoring_leather_patchwork", 5 ] ]
-  },
-  {
-    "result": "armguard_lightplate",
-    "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_ARMS",
-    "skill_used": "fabrication",
-    "difficulty": 7,
-    "skills_required": [ [ "tailor", 3 ] ],
-    "time": "900 m",
-    "book_learn": [ [ "textbook_armwest", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ], [ "tailoring_leather_patchwork", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 },
-      { "proficiency": "prof_articulation" }
-    ]
-  },
-  {
-    "result": "xs_armguard_lightplate",
-    "type": "recipe",
-    "copy-from": "armguard_lightplate",
-    "time": "900 m",
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ], [ "tailoring_leather_patchwork", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
-  },
-  {
-    "result": "xl_armguard_lightplate",
-    "type": "recipe",
-    "copy-from": "armguard_lightplate",
-    "time": "1010 m",
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ], [ "tailoring_leather_patchwork", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
     "result": "carpet_armguards",
@@ -797,8 +756,9 @@
     "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_redsmithing" },
-      { "proficiency": "prof_articulation" }
+      { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_redsmithing_adv" },
+      { "proficiency": "prof_articulation", "required": true }
     ],
     "components": [ [ [ "scrap_bronze", 10 ] ] ]
   },

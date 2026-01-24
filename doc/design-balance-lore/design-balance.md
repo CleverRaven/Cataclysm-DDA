@@ -1,8 +1,31 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Design - Overview of game balance principles](#design---overview-of-game-balance-principles)
+  - [Balance around general game concepts](#balance-around-general-game-concepts)
+    - [Overall combat balance](#overall-combat-balance)
+    - [Sound](#sound)
+    - [Light](#light)
+    - [Time](#time)
+    - [Crafting vs Looting](#crafting-vs-looting)
+    - [NPC interactions and non-linear plotting](#npc-interactions-and-non-linear-plotting)
+    - [Monster design considerations](#monster-design-considerations)
+  - [Balance of specific gameplay elements](#balance-of-specific-gameplay-elements)
+    - [Melee](#melee)
+    - [Guns](#guns)
+      - [Enemies using guns](#enemies-using-guns)
+    - [Armour](#armour)
+    - [Vehicles](#vehicles)
+    - [Food and Food Preparation](#food-and-food-preparation)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Design - Overview of game balance principles
 
 **Summary**
 
-The driving goal of balance in DDA is to support **versimilitude in the scenario**.  In other words we want the right *things* to be present to match reality, but also when those things are used to accomplish goals, they should be appoximately as effective at doing so as their real-world counterparts.  Of note, this is not the same as pursuing all aspects of realism.  New features added should have the goal of improving verissimilitude rather than complexity for complexity's sake.
+The driving goal of balance in DDA is to support **verisimilitude in the scenario**.  In other words we want the right *things* to be present to match reality, but also when those things are used to accomplish goals, they should be appoximately as effective at doing so as their real-world counterparts.  Of note, this is not the same as pursuing all aspects of realism.  New features added should have the goal of improving verissimilitude rather than complexity for complexity's sake.
 
 This means that *solutions to problems* should come from the same angle.  If something is not working as it should, the answer is to assess how it should work in reality, and figure out a way to better simulate that.  We find that reality tends to be quite balanced, and having things work as one would expect makes for a fun game.  
 

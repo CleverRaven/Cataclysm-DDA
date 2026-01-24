@@ -236,21 +236,6 @@
   },
   {
     "type": "item_action",
-    "id": "ALCOHOL",
-    "name": { "str": "Drink" }
-  },
-  {
-    "type": "item_action",
-    "id": "ALCOHOL_STRONG",
-    "name": { "str": "Drink" }
-  },
-  {
-    "type": "item_action",
-    "id": "ALCOHOL_WEAK",
-    "name": { "str": "Drink" }
-  },
-  {
-    "type": "item_action",
     "id": "ANTIBIOTIC",
     "name": { "str": "Take" }
   },
@@ -278,11 +263,6 @@
     "type": "item_action",
     "id": "BLECH_BECAUSE_UNCLEAN",
     "name": { "str": "Drink" }
-  },
-  {
-    "type": "item_action",
-    "id": "C4",
-    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
@@ -403,16 +383,6 @@
     "type": "item_action",
     "id": "FILL_PIT",
     "name": { "str": "Fill pit / tamp ground" }
-  },
-  {
-    "type": "item_action",
-    "id": "FIRECRACKER",
-    "name": { "str": "Light up" }
-  },
-  {
-    "type": "item_action",
-    "id": "FIRECRACKER_PACK",
-    "name": { "str": "Light up" }
   },
   {
     "type": "item_action",
@@ -571,23 +541,13 @@
   },
   {
     "type": "item_action",
-    "id": "MOLOTOV_LIT",
-    "name": { "str": "Light up" }
-  },
-  {
-    "type": "item_action",
     "id": "MOP",
     "name": { "str": "Mop" }
   },
   {
+    "//": "hardcoded name",
     "type": "item_action",
-    "id": "MP3",
-    "name": { "str": "Play music" }
-  },
-  {
-    "type": "item_action",
-    "id": "MP3_DEACTIVATE",
-    "name": { "str": "Turn off music" }
+    "id": "mp3"
   },
   {
     "type": "item_action",
@@ -721,11 +681,6 @@
   },
   {
     "type": "item_action",
-    "id": "RADIOCARON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
     "id": "RADIOCONTROL",
     "name": { "str": "Control an RC car" }
   },
@@ -733,11 +688,6 @@
     "type": "item_action",
     "id": "RADIO_MOD",
     "name": { "str": "Modify an item" }
-  },
-  {
-    "type": "item_action",
-    "id": "RADIO_OFF",
-    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -763,16 +713,6 @@
     "type": "item_action",
     "id": "SEWAGE",
     "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
-    "id": "SHOCKTONFA_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "SHOCKTONFA_ON",
-    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",

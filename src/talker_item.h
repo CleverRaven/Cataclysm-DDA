@@ -40,7 +40,7 @@ class talker_item_const: public const_talker_cloner<talker_item_const>
         tripoint_abs_ms pos_abs() const override;
         tripoint_abs_omt pos_abs_omt() const override;
 
-        std::optional<std::string> maybe_get_value( const std::string &var_name ) const override;
+        diag_value const *maybe_get_value( const std::string &var_name ) const override;
 
         bool has_flag( const flag_id &f ) const override;
 
@@ -52,6 +52,7 @@ class talker_item_const: public const_talker_cloner<talker_item_const>
         int get_hp_max( const bodypart_id & ) const override;
         units::energy power_cur() const override;
         units::energy power_max() const override;
+        int get_artifact_resonance() const override;
 
         int get_count() const override;
         int coverage_at( bodypart_id & ) const override;
@@ -80,13 +81,15 @@ class talker_item: public talker_item_const, public talker_cloner<talker_item>
             return me_it;
         }
 
-        void set_value( const std::string &var_name, const std::string &value ) override;
+        void set_value( const std::string &var_name, diag_value const &value ) override;
         void remove_value( const std::string & ) override;
 
         void set_power_cur( units::energy value ) override;
         void set_all_parts_hp_cur( int ) override;
         void set_degradation( int ) override;
         void die( map *here ) override;
+        void set_fault( const fault_id &fault_id, bool force, bool message ) override;
+        void set_random_fault_of_type( const std::string &fault_type, bool force, bool message ) override;
 
     private:
         item_location *me_it{};

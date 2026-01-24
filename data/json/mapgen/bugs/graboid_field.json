@@ -2,7 +2,6 @@
   {
     "om_terrain": "field_graboid",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "predecessor_mapgen": "field",
       "place_monster": [ { "monster": "mon_graboid", "name": "Little Guy", "x": 12, "y": 12 } ]

@@ -104,7 +104,11 @@
       { "item": "book_fict_soft_scifi_zamwe", "prob": 100 },
       { "item": "book_fict_soft_scifi_cybrd", "prob": 100 },
       { "item": "book_fict_soft_scifi_brave", "prob": 100 },
-      { "item": "book_fict_soft_scifi_f451", "prob": 100 }
+      { "item": "book_fict_soft_scifi_f451", "prob": 100 },
+      { "item": "book_anthology_htloop", "prob": 1 },
+      { "item": "book_anthology_an", "prob": 1 },
+      { "item": "book_anthology_sunvault", "prob": 1 },
+      { "item": "book_anthology_moataatgb", "prob": 1 }
     ]
   },
   {
@@ -153,7 +157,7 @@
   {
     "id": "TALK_FORGE_LORD_ASK_INTERVAL",
     "type": "talk_topic",
-    "dynamic_line": "My minions are busy putting the final touches on a few exciting projects, check back in <interval> and see what's new.",
+    "dynamic_line": "My minions are busy putting the final touches on a few exciting projects, check back on <restock_time_point> and see what's new.",
     "responses": [ { "text": "May your hammers be accurate.", "topic": "TALK_FORGE_LORD" } ]
   }
 ]

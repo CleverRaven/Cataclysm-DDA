@@ -12,7 +12,7 @@
     "flags": [ "FULL_MAGAZINE" ],
     "tools": [ [ [ "lighter", 5 ], [ "ref_lighter", 5 ], [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
-      [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 8, "LIST" ], [ "edible_lard", 8, "LIST" ] ],
+      [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 20, "LIST" ], [ "edible_tallow", 20, "LIST" ] ],
       [ [ "cordage_short", 1, "LIST" ] ]
     ]
   },
@@ -47,31 +47,6 @@
     "using": [ [ "soldering_standard", 7 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "cable", 8 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "circuit", 2 ] ], [ [ "e_scrap", 2 ] ], [ [ "amplifier", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "smart_lamp",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_LIGHTING",
-    "skill_used": "electronics",
-    "skills_required": [ "fabrication", 2 ],
-    "difficulty": 4,
-    "time": "50 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "book_learn": [ [ "advanced_electronics", 3 ], [ "mag_electronics", 4 ], [ "textbook_electronics", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 }, { "proficiency": "prof_elec_soldering" } ],
-    "using": [ [ "soldering_standard", 12 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "cable", 10 ] ],
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "circuit", 2 ] ],
-      [ [ "e_scrap", 2 ] ],
-      [ [ "amplifier", 2 ] ],
-      [ [ "antenna", 1 ] ]
-    ]
   },
   {
     "type": "recipe",
@@ -114,7 +89,7 @@
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 2 ] ],
     "components": [
       [ [ "amplifier", 4 ] ],
-      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
+      [ [ "steel_chunk_any", 2, "LIST" ], [ "scrap", 6 ] ],
       [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -134,7 +109,7 @@
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 2 ] ],
     "components": [
       [ [ "amplifier", 4 ] ],
-      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
+      [ [ "steel_chunk_any", 2, "LIST" ], [ "scrap", 6 ] ],
       [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -184,28 +159,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "atomic_light",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_LIGHTING",
-    "skill_used": "electronics",
-    "difficulty": 2,
-    "time": "30 m",
-    "reversible": true,
-    "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_caseless", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "using": [ [ "glue_any", 1 ] ],
-    "components": [
-      [ [ "plastic_chunk", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "cable", 1 ] ],
-      [ [ "light_bulb", 1 ], [ "e_scrap", 1 ] ],
-      [ [ "betavoltaic", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "wearable_light",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -242,36 +195,6 @@
     "book_learn": [ [ "textbook_fabrication", 0 ], [ "manual_fabrication", 0 ], [ "mag_electronics", 0 ] ],
     "components": [
       [ [ "heavy_flashlight", 1 ] ],
-      [
-        [ "cotton_patchwork", 4 ],
-        [ "leather", 4 ],
-        [ "duct_tape", 20 ],
-        [ "medical_tape", 40 ],
-        [ "cordage", 1, "LIST" ]
-      ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "wearable_atomic_light",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "electronics",
-    "skills_required": [ "survival", 3 ],
-    "difficulty": 2,
-    "time": "20 m",
-    "reversible": true,
-    "autolearn": true,
-    "using": [ [ "soldering_standard", 10 ] ],
-    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "betavoltaic", 4 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "any_wire", 2, "LIST" ] ],
-      [ [ "lens", 1 ], [ "lens_small", 1 ] ],
       [
         [ "cotton_patchwork", 4 ],
         [ "leather", 4 ],
@@ -383,21 +306,5 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "car_wide_headlight", 1 ] ], [ [ "mc_wire", 3 ], [ "hc_wire", 3 ], [ "ch_wire", 3 ], [ "qt_wire", 3 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "atomic_lamp",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_LIGHTING",
-    "skill_used": "electronics",
-    "difficulty": 3,
-    "time": "45 m",
-    "reversible": true,
-    "book_learn": [ [ "textbook_electronics", 4 ], [ "advanced_electronics", 4 ], [ "recipe_caseless", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "using": [ [ "glue_any", 1 ] ],
-    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "cable", 2 ] ], [ [ "betavoltaic", 4 ] ] ]
   }
 ]

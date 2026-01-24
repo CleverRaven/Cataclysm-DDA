@@ -1,14 +1,12 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "bandits_hideout",
     "//": "TODO: Add more variations",
     "object": { "place_nested": [ { "chunks": [ "bandits_hideout" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "TODO: I think translate_ter is legacy and should be replaced with ter_furn_transform",
     "nested_mapgen_id": "bandits_hideout",
     "object": {

@@ -20,7 +20,7 @@ permissions:
 
 jobs:
   analyze-text-changes:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: "Install dependencies"
         run: |
@@ -53,9 +53,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ steps.get-commit-hash.outputs.test_merge_commit }}
-      - name: "List text changes"
-        run: |
-          python3 ./tools/pot_diff.py ~/base.pot ~/merge.pot
       - name: "Write text changes"
         run: |
           python3 ./tools/pot_diff.py ~/base.pot ~/merge.pot -j ~/pot_diff.json

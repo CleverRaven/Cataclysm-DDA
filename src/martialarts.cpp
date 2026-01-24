@@ -97,7 +97,7 @@ void attack_vector::reset()
     attack_vector_factory.reset();
 }
 
-void attack_vector::load( const JsonObject &jo, const std::string_view )
+void attack_vector::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "weapon", weapon, false );
@@ -130,12 +130,17 @@ void weapon_category::load_weapon_categories( const JsonObject &jo, const std::s
     weapon_category_factory.load( jo, src );
 }
 
+void weapon_category::finalize_all()
+{
+    weapon_category_factory.finalize();
+}
+
 void weapon_category::reset()
 {
     weapon_category_factory.reset();
 }
 
-void weapon_category::load( const JsonObject &jo, const std::string_view )
+void weapon_category::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
     optional( jo, was_loaded, "proficiencies", proficiencies_ );
@@ -178,6 +183,11 @@ matype_id martial_art_learned_from( const itype &type )
 void load_technique( const JsonObject &jo, const std::string &src )
 {
     ma_techniques.load( jo, src );
+}
+
+void ma_technique::finalize_all()
+{
+    ma_techniques.finalize();
 }
 
 // To avoid adding empty entries
@@ -245,7 +255,7 @@ class tech_effect_reader : public generic_typed_reader<tech_effect_reader>
         }
 };
 
-void ma_requirements::load( const JsonObject &jo, const std::string_view )
+void ma_requirements::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
@@ -273,7 +283,7 @@ void ma_requirements::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
 }
 
-void ma_technique::load( const JsonObject &jo, const std::string_view src )
+void ma_technique::load( const JsonObject &jo, std::string_view src )
 {
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "description", description, translation() );
@@ -360,7 +370,7 @@ bool string_id<ma_technique>::is_valid() const
     return ma_techniques.is_valid( *this );
 }
 
-void ma_buff::load( const JsonObject &jo, const std::string_view src )
+void ma_buff::load( const JsonObject &jo, std::string_view src )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -370,6 +380,7 @@ void ma_buff::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "persists", persists, false );
 
     optional( jo, was_loaded, "bonus_dodges", dodges_bonus, 0 );
+    optional( jo, was_loaded, "free_dodges", free_dodges, 0 );
     optional( jo, was_loaded, "bonus_blocks", blocks_bonus, 0 );
 
     optional( jo, was_loaded, "quiet", quiet, false );
@@ -404,6 +415,11 @@ void load_martial_art( const JsonObject &jo, const std::string &src )
     martialarts.load( jo, src );
 }
 
+void martialart::finalize_all()
+{
+    martialarts.finalize();
+}
+
 class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
 {
     public:
@@ -417,7 +433,7 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
         }
 };
 
-void martialart::load( const JsonObject &jo, const std::string_view src )
+void martialart::load( const JsonObject &jo, std::string_view src )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -630,6 +646,7 @@ void finalize_martial_arts()
         effect_type::register_ma_buff_effect( new_eff );
     }
     attack_vector_factory.finalize();
+    ma_buffs.finalize();
     for( const attack_vector &vector : attack_vector_factory.get_all() ) {
         // Check if this vector allows substitutions in the first place
         if( vector.strict_limb_definition ) {
@@ -963,6 +980,7 @@ ma_buff::ma_buff()
     max_stacks = 1; // total number of stacks this buff can have
 
     dodges_bonus = 0; // extra dodges, like karate
+    free_dodges = 0; // number of dodges that won't consume stamina
     blocks_bonus = 0; // extra blocks, like karate
 
 }
@@ -994,8 +1012,11 @@ bool ma_buff::is_valid_character( const Character &u ) const
 
 void ma_buff::apply_character( Character &u ) const
 {
+    // Note: MAs typically have multiple buffs, using a setter here is probably a mistake!
     u.mod_num_dodges_bonus( dodges_bonus );
+    // This uses a setter, but it's actually just mod() because it unnecessarily gets the existing bonus.
     u.set_num_blocks_bonus( u.get_num_blocks_bonus() + blocks_bonus );
+    u.mod_free_dodges( free_dodges );
 }
 
 int ma_buff::hit_bonus( const Character &u ) const
@@ -1093,31 +1114,24 @@ std::string ma_buff::get_description( bool passive ) const
     }
 
     if( dodges_bonus > 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <good>+%s</good> bonus to <info>dodge</info> for the stack",
-                               "* Will give a <good>+%s</good> bonus to <info>dodge</info> per stack",
-                               max_stacks ),
-                    dodges_bonus ) + "\n";
+        dump += string_format( _( "* Can dodge <good>+%d</good> extra times per turn" ),
+                               dodges_bonus ) + "\n";
     } else if( dodges_bonus < 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <bad>%s</bad> penalty to <info>dodge</info> for the stack",
-                               "* Will give a <bad>%s</bad> penalty to <info>dodge</info> per stack",
-                               max_stacks ),
-                    dodges_bonus ) + "\n";
+        dump += string_format( _( "* Can dodge <bad>+%d</bad> fewer times per turn" ),
+                               dodges_bonus ) + "\n";
+    }
+
+    if( free_dodges > 0 ) {
+        dump += string_format( _( "* <good>+%d</good> dodges each turn will not consume stamina" ),
+                               free_dodges ) + "\n";
     }
 
     if( blocks_bonus > 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <good>+%s</good> bonus to <info>block</info> for the stack",
-                               "* Will give a <good>+%s</good> bonus to <info>block</info> per stack",
-                               max_stacks ),
-                    blocks_bonus ) + "\n";
+        dump += string_format( _( "* Can block <good>+%d</good> extra times per turn" ),
+                               blocks_bonus ) + "\n";
     } else if( blocks_bonus < 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <bad>%s</bad> penalty to <info>block</info> for the stack",
-                               "* Will give a <bad>%s</bad> penalty to <info>block</info> per stack",
-                               max_stacks ),
-                    blocks_bonus ) + "\n";
+        dump += string_format( _( "* Can block <bad>+%d</bad> fewer times per turn" ),
+                               blocks_bonus ) + "\n";
     }
 
     if( quiet ) {
@@ -1304,11 +1318,8 @@ void martialart::activate_eocs( Character &u,
 {
     for( const effect_on_condition_id &eoc : eocs ) {
         dialogue d( get_talker_for( u ), nullptr );
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a martial art activation.  If you don't want the effect_on_condition to happen on its own (without the martial art being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this martial art with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a martial art activation", "martial art being activated",
+                                       "martial art" );
     }
 }
 
@@ -1502,7 +1513,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
         }
         // Check if we have the required limbs
         bool reqs = true;
-        for( const std::pair<body_part_type::type, int> &req : vec->limb_req ) {
+        for( const std::pair<bp_type, int> &req : vec->limb_req ) {
             int count = 0;
             for( const bodypart_id &bp : user.get_all_body_parts_of_type( req.first ) ) {
                 if( user.get_part_hp_cur( bp ) > bp->health_limit ) {
@@ -1558,7 +1569,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
                 int bp_hp_max = bp->main_part == bp ? user.get_part_hp_max( bp ) : user.get_part_hp_max(
                                     bp->main_part );
                 if( ( 100 * bp_hp_cur / bp_hp_max ) > vec->bp_hp_limit &&
-                    user.get_part_encumbrance_data( bp ).encumbrance < vec->encumbrance_limit ) {
+                    user.get_part_encumbrance( bp ) < vec->encumbrance_limit ) {
                     sub_bodypart_str_id current_contact;
                     for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
                         if( std::find( vec->contact_area.begin(), vec->contact_area.end(),
@@ -1668,13 +1679,13 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
     // Do we have boring human anatomy? Use the basic calculation
     // Legs are harder to block with, so the score thresholds stay the same
     if( !owner.has_flag( json_flag_NONSTANDARD_BLOCK ) ) {
-        return owner.get_limb_score( limb_score_block, body_part_type::type::leg ) >= 0.5f;
+        return owner.get_limb_score( limb_score_block, bp_type::leg ) >= 0.5f;
     } else {
         // Check all standard legs for the score threshold
-        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::leg ) ) {
+        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( bp_type::leg ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
-                owner.get_part( bp )->get_limb_score( limb_score_block ) * bp->limbtypes.at(
-                    body_part_type::type::leg ) >= 0.25f ) {
+                owner.get_part( bp )->get_limb_score( owner, limb_score_block ) * bp->limbtypes.at(
+                    bp_type::leg ) >= 0.25f ) {
                 return true;
             }
         }
@@ -1702,13 +1713,13 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
     // Success conditions.
     // Do we have boring human anatomy? Use the basic calculation
     if( !owner.has_flag( json_flag_NONSTANDARD_BLOCK ) ) {
-        return owner.get_limb_score( limb_score_block, body_part_type::type::arm ) >= 0.5f;
+        return owner.get_limb_score( limb_score_block, bp_type::arm ) >= 0.5f;
     } else {
         // Check all standard arms for the score threshold
-        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( bp_type::arm ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
-                owner.get_part( bp )->get_limb_score( limb_score_block ) * bp->limbtypes.at(
-                    body_part_type::type::arm ) >= 0.25f ) {
+                owner.get_part( bp )->get_limb_score( owner, limb_score_block ) * bp->limbtypes.at(
+                    bp_type::arm ) >= 0.25f ) {
                 return true;
             }
         }
@@ -1736,7 +1747,7 @@ bool character_martial_arts::can_nonstandard_block( const Character &owner ) con
     // Return true if the limbs which would always block can block
     if( owner.has_flag( json_flag_ALWAYS_BLOCK ) ) {
         for( const bodypart_id &bp : owner.get_all_body_parts_with_flag( json_flag_ALWAYS_BLOCK ) ) {
-            if( owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+            if( owner.get_part( bp )->get_limb_score( owner, limb_score_block ) >= 0.25f ) {
                 return true;
             }
         }
@@ -1744,7 +1755,7 @@ bool character_martial_arts::can_nonstandard_block( const Character &owner ) con
     // Return true if we're skilled enough to block and we have at least one limb ready to block
     if( block_with_skill ) {
         for( const bodypart_id &bp : owner.get_all_body_parts_with_flag( json_flag_NONSTANDARD_BLOCK ) ) {
-            if( owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+            if( owner.get_part( bp )->get_limb_score( owner, limb_score_block ) >= 0.25f ) {
                 return true;
             }
         }
@@ -2346,7 +2357,8 @@ void ma_details_ui_impl::init_data()
                     buffs_total++;
                     std::vector<std::string> buff_lines =
                         string_split( replace_colors( buff->get_description( passive ) ), '\n' );
-                    buffs_text[title] = buff_lines;
+                    // Merge our accumulated text into the existing one. There might be more than one buff of this type, so we want to display all of them.
+                    buffs_text[title].insert( buffs_text[title].end(), buff_lines.begin(), buff_lines.end() );
                 }
             }
         };

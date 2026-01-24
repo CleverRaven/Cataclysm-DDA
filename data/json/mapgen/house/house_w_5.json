@@ -1,33 +1,32 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_w_5",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
         "...[....``G......``.``..",
         ".[...%µ````µ%..[.``.``..",
-        "....%````````%...``.``u.",
+        "....%````````%...``.``ë.",
         "..##oo##*####o###£££££##",
-        "..#è      |yà  #~~~~~~u#",
+        "..#è      |yà  #~~~~~~ë#",
         "..#            #~~~~~~U#",
         "..#        Y   #~~~~~~~o",
         "..#       |||||#~~~~~~U#",
         "..#       +w|>w#~~~~~~~o",
         "..#|||||  |||+|#~~~~~~U#",
-        "..#é           *~~~~~UU#",
+        "..#ä           *~~~~éUU#",
         ".%o      ||||||##~#o####",
-        ".po      | &   #```````.",
-        ".%o      |     o%`p[p``.",
-        ".^#      |     op``````.",
+        ".%o      | &   #```````.",
+        ".%o      |     o%`%[%``.",
+        ".^#      |     o%``````.",
         "### |||  |     #........",
         "#F1      |+|||+#........",
         "o2   1|    |D|D#........",
         "o5   O||+|+|+||#........",
         "#3 4y |t |ç    #........",
-        "#| || |T |   § o........",
-        "#6s6| |Tj|     #........",
+        "#| || |B |   § o........",
+        "#6s6| |Bi|     #........",
         "##o##*##o###o###........",
         "..%.````................"
       ],
@@ -37,7 +36,10 @@
         "£": "t_door_metal_locked",
         "U": "t_thconc_floor",
         "~": "t_thconc_floor",
-        "ù": "t_region_groundcover_urban"
+        "é": "t_thconc_floor",
+        "ù": "t_region_groundcover_urban",
+        "G": "t_region_groundcover_urban",
+        "ë": "t_gates_control_concrete"
       },
       "furniture": { "ù": "f_region_weed" },
       "place_vehicles": [
@@ -53,7 +55,7 @@
             [ "bedroom_4x4_adult_2_N", 20 ]
           ]
         },
-        "é": { "chunks": [ [ "diningroom_5x5_N_S", 50 ], [ "diningroom_5x5_E_W", 50 ] ] },
+        "ä": { "chunks": [ [ "diningroom_5x5_N_S", 50 ], [ "diningroom_5x5_E_W", 50 ] ] },
         "§": {
           "chunks": [ [ "bonus_room_2x2_2", 50 ], [ "bonus_room_2x2_3", 50 ], [ "bonus_room_2x2_4_S", 50 ], [ "bonus_room_2x2_4_E", 50 ] ]
         },
@@ -98,7 +100,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_w_5_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -108,7 +109,7 @@
         "      ......            ",
         "  ----------------------",
         "  -....................-",
-        "  -.X..................-",
+        "  -.X...........1......-",
         "  -....................-",
         "  -.........&..........-",
         "  -....................-",
@@ -134,7 +135,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_w_5_basement",
     "object": {
       "fill_ter": "t_thconc_floor",

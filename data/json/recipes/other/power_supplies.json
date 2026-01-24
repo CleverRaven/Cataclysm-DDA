@@ -601,7 +601,7 @@
       [ [ "cu_pipe", 3 ] ],
       [ [ "motor_micro", 1 ] ],
       [ [ "sheet_metal_small", 5 ] ],
-      [ [ "scrap", 12 ], [ "steel_chunk", 4 ] ]
+      [ [ "scrap", 12 ], [ "steel_chunk_any", 4, "LIST" ] ]
     ]
   },
   {
@@ -638,7 +638,7 @@
       [ [ "chem_potassium_hydroxide", 7 ], [ "lye_powder", 2 ] ],
       [ [ "duct_tape", 1 ] ],
       [ [ "water_clean", 1 ] ],
-      [ [ "steel_chunk", 1 ], [ "scrap", 2 ] ]
+      [ [ "steel_chunk_any", 1, "LIST" ], [ "scrap", 2 ] ]
     ]
   },
   {

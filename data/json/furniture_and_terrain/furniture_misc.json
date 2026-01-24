@@ -15,8 +15,8 @@
     "deconstruct": {
       "items": [
         { "item": "small_lcd_screen", "count": 1 },
-        { "item": "lc_steel_lump", "count": 77 },
-        { "item": "steel_chunk", "count": 302 },
+        { "item": "ch_steel_chunk", "count": 77 },
+        { "item": "lc_steel_lump", "count": 302 },
         { "item": "sheet_metal", "count": 8 },
         { "item": "sheet_metal_small", "count": 40 },
         { "item": "scrap", "count": 890 },
@@ -40,8 +40,8 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "small_lcd_screen", "count": 1 },
-        { "item": "lc_steel_lump", "count": 77 },
-        { "item": "steel_chunk", "count": [ 250, 300 ] },
+        { "item": "ch_steel_chunk", "count": 77 },
+        { "item": "lc_steel_lump", "count": [ 250, 300 ] },
         { "item": "sheet_metal", "count": [ 2, 8 ] },
         { "item": "sheet_metal_small", "count": [ 3, 40 ] },
         { "item": "scrap", "count": [ 400, 890 ] },
@@ -75,8 +75,8 @@
     "deconstruct": {
       "items": [
         { "item": "small_lcd_screen", "count": 1 },
-        { "item": "lc_steel_lump", "count": 77 },
-        { "item": "steel_chunk", "count": 302 },
+        { "item": "ch_steel_chunk", "count": 77 },
+        { "item": "lc_steel_lump", "count": 302 },
         { "item": "sheet_metal", "count": 8 },
         { "item": "sheet_metal_small", "count": 40 },
         { "item": "scrap", "count": 890 },
@@ -100,8 +100,8 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "small_lcd_screen", "count": 1 },
-        { "item": "lc_steel_lump", "count": 77 },
-        { "item": "steel_chunk", "count": [ 250, 300 ] },
+        { "item": "ch_steel_chunk", "count": 77 },
+        { "item": "lc_steel_lump", "count": [ 250, 300 ] },
         { "item": "sheet_metal", "count": [ 2, 8 ] },
         { "item": "sheet_metal_small", "count": [ 3, 40 ] },
         { "item": "scrap", "count": [ 400, 890 ] },

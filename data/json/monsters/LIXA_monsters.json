@@ -1,7 +1,17 @@
 [
   {
+    "id": "mon_zombie_soldier_lixa_police",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_soldier",
+    "looks_like": "mon_zombie_soldier",
+    "name": { "str": "military police zombie" },
+    "description": "Once a soldier, it is dressed head to toe in combat gear and carries itself rather steadily for a zombie.  Over its uniform is a vest reading \"military police\".",
+    "death_drops": "mon_zombie_soldier_lixa_police_death_drops"
+  },
+  {
     "id": "LIXA_spit_light",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "fake_item",
     "name": { "str": "photonic gun", "//~": "NO_I18N" },
     "description": { "str": "Horks up a glob of congealed light.", "//~": "NO_I18N" },
@@ -69,7 +79,8 @@
   },
   {
     "id": "LIXA_vector_volley",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "fake_item",
     "name": { "str": "coordinate rotation volley", "//~": "NO_I18N" },
     "description": { "str": "Fake gun that fires, uh.  Coordinate transform matrices?", "//~": "NO_I18N" },

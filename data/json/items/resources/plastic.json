@@ -1,7 +1,8 @@
 [
   {
     "id": "thermo_resin_chunk",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "thermoplastic resin chunk" },
     "description": "A piece of tough thermoplastic resin that could be used to craft, repair, or reinforce items.",
@@ -16,7 +17,8 @@
   },
   {
     "id": "epoxy_chunk",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "epoxy chunk" },
     "description": "A hardy and durable piece of epoxy.  You could potentially craft items with it.",
@@ -31,7 +33,8 @@
   },
   {
     "id": "polycarbonate_chunk",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "polycarbonate chunk" },
     "description": "A hardy and durable piece of polycarbonate.  You could potentially craft items with it.",
@@ -46,7 +49,8 @@
   },
   {
     "id": "10l_plastic",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "10 L plastic block" },
     "description": "A ten-liter block of solid plastic.",
@@ -61,7 +65,8 @@
   },
   {
     "id": "5l_plastic",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "5 L plastic block" },
     "description": "A five-liter block of solid plastic.",
@@ -76,7 +81,8 @@
   },
   {
     "id": "plastic_chunk",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "plastic chunk" },
     "description": "A piece of plastic.  It could be used to fabricate, repair, or reinforce plastic items.",
@@ -92,7 +98,8 @@
   },
   {
     "id": "nylon",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "synthetic fabric patch", "str_pl": "synthetic fabric patches" },
     "description": "A six-inch square patch of synthetic fabric.  Unlike you and other natural materials, it won't degrade much with age.  Maybe that's less of a bad thing now.",
@@ -108,7 +115,8 @@
   },
   {
     "id": "lycra_patch",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "Lycra patch", "str_pl": "Lycra patches" },
     "description": "A six-inch square patch of synthetic fabric blended with stretchy Lycra fibers.  It could be used to make flexible yet strong clothing.  Stylish, but bad for the environment; at least you're recycling it.",
@@ -124,7 +132,7 @@
   },
   {
     "id": "plastic_sheet",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "large plastic sheet" },
     "description": "A large sheet of flexible plastic, the sort that might have been used for commercial wrapping or for weather-sealing a home.",
@@ -142,7 +150,7 @@
   },
   {
     "id": "plastic_sheet_small",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "plastic sheet" },
     "description": "A small sheet of flexible plastic, like a cut-up garbage bag.  It might be useful for waterproofing clothes.",
@@ -156,7 +164,8 @@
   },
   {
     "id": "polycarbonate_sheet",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "ammo_type": "NULL",
     "category": "spare_parts",
     "name": { "str": "polycarbonate sheet" },
@@ -175,7 +184,7 @@
   },
   {
     "id": "rigid_plastic_sheet",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "rigid plastic sheet" },
     "description": "A large, rigid sheet of transparent polycarbonate, useful for all manner of things; from construction to art, or even amateur snowboarding.",
@@ -190,7 +199,7 @@
   },
   {
     "id": "panoramic_eyepiece",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "panoramic lens", "str_pl": "panoramic lenses" },
     "description": "A relatively broad strip of chemical and impact-resistant polycarbonate plastic, most commonly used for the construction of wide-view visors and single-element eye pieces that offer maximal vision.",
@@ -207,7 +216,7 @@
   },
   {
     "id": "inhalation_valve",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "inhalation valve" },
     "description": "An essential component of any gas mask, this is a small one-way valve that allows purified air to pass from a gas respirator's filter element to the mask's interior, delivering safe, breathable air to one's lungs.",
@@ -223,7 +232,7 @@
   },
   {
     "id": "filter_port_40mm",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "40mm filter port" },
     "description": "A compact plastic and metal housing with a threaded exterior, designed to retain a screwed-on 40-mm canister filter and allow the airtight passage of air from the filter media to a gas mask's inhalation valve.",

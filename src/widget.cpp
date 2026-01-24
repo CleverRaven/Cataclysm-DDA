@@ -24,7 +24,6 @@
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "global_vars.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "npc.h"
@@ -422,30 +421,27 @@ nc_color widget_clause::get_color_for_id( const std::string &clause_id, const wi
 
 void widget_custom_var::deserialize( const JsonObject &jo )
 {
-    if( jo.has_member( "value" ) ) {
-        value = get_dbl_or_var_part( jo.get_member( "value" ), "value" );
-    } else {
-        jo.throw_error( "missing mandatory member \"value\"" );
-    }
+    mandatory( jo, false, "value", value );
 
     if( jo.has_array( "range" ) ) {
         JsonArray range = jo.get_array( "range" );
         switch( range.size() ) {
             case 2:
-                min = get_dbl_or_var_part( range.next_value(), "range" );
-                norm = std::make_pair( dbl_or_var_part( INT_MIN ), dbl_or_var_part( INT_MAX ) );
-                max = get_dbl_or_var_part( range.next_value(), "range" );
+                min.deserialize( range.next_value() );
+                norm = std::make_pair( dbl_or_var::part_t( INT_MIN ), dbl_or_var::part_t( INT_MAX ) );
+                max.deserialize( range.next_value() );
                 break;
             case 3:
-                min = get_dbl_or_var_part( range.next_value(), "range" );
-                norm.first = norm.second = get_dbl_or_var_part( range.next_value(), "range" );
-                max = get_dbl_or_var_part( range.next_value(), "range" );
+                min.deserialize( range.next_value() );
+                norm.first.deserialize( range.next_value() );
+                norm.second = norm.first;
+                max.deserialize( range.next_value() );
                 break;
             case 4:
-                min = get_dbl_or_var_part( range.next_value(), "range" );
-                norm.first = get_dbl_or_var_part( range.next_value(), "range" );
-                norm.second = get_dbl_or_var_part( range.next_value(), "range" );
-                max = get_dbl_or_var_part( range.next_value(), "range" );
+                min.deserialize( range.next_value() );
+                norm.first.deserialize( range.next_value() );
+                norm.second.deserialize( range.next_value() );
+                max.deserialize( range.next_value() );
                 break;
             default:
                 jo.throw_error( "invalid number of elements in \"range\", must have 2~4" );
@@ -471,7 +467,7 @@ int widget_custom_var::get_var_value( const avatar &ava ) const
     return static_cast<int>( value.evaluate( d ) );
 }
 
-void widget::load( const JsonObject &jo, const std::string_view )
+void widget::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "width", _width, 0 );
     optional( jo, was_loaded, "height", _height_max, 1 );
@@ -643,15 +639,19 @@ void widget::finalize_inherited_fields_recursive( const widget_id &id,
     }
 }
 
-void widget::finalize()
+void widget::finalize_all()
 {
     widget_factory.finalize();
+}
 
-    for( const widget &wgt : widget::get_all() ) {
-        if( wgt._style == "sidebar" ) {
-            widget::finalize_inherited_fields_recursive( wgt.getId(), wgt._separator, wgt._padding );
-            widget::finalize_label_width_recursive( wgt.getId() );
-        }
+// finalize functions are allowed to mutate data, even if this one doesn't
+// in fact, the functions below just do a const-cast inside, so it shouldn't be const
+// NOLINTNEXTLINE(readability-make-member-function-const)
+void widget::finalize()
+{
+    if( _style == "sidebar" ) {
+        widget::finalize_inherited_fields_recursive( getId(), _separator, _padding );
+        widget::finalize_label_width_recursive( getId() );
     }
 }
 
@@ -943,7 +943,7 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::bp_encumb:
             // Encumbrance for body part
-            value = ava.get_part_encumbrance_data( only_bp() ).encumbrance;
+            value = ava.get_part_encumbrance( only_bp() );
             break;
         case widget_var::cardio_fit:
             value = ava.get_cardiofit();
@@ -1663,20 +1663,20 @@ std::string widget::graph( int value ) const
     int quot;
     int rem;
 
-    const std::wstring syms = utf8_to_wstr( _symbols );
-    std::wstring ret;
+    const std::u32string syms = utf8_to_utf32( _symbols );
+    std::u32string ret;
     if( _fill == "bucket" ) {
         quot = value / depth; // number of full cells/buckets
         rem = value % depth;  // partly full next cell, maybe
         // Full cells at the front
-        ret += std::wstring( quot, syms.back() );
+        ret += std::u32string( quot, syms.back() );
         // Any partly-full cells?
         if( w > quot ) {
             // Current partly-full cell
             ret += syms[rem];
             // Any more zero cells at the end
             if( w > quot + 1 ) {
-                ret += std::wstring( w - quot - 1, syms[0] );
+                ret += std::u32string( w - quot - 1, syms[0] );
             }
         }
     } else if( _fill == "pool" ) {
@@ -1684,14 +1684,14 @@ std::string widget::graph( int value ) const
         rem = value % w;  // number of cells at next depth
         // Most-filled cells come first
         if( rem > 0 ) {
-            ret += std::wstring( rem, syms[quot + 1] );
+            ret += std::u32string( rem, syms[quot + 1] );
             // Less-filled cells may follow
             if( w > rem ) {
-                ret += std::wstring( w - rem, syms[quot] );
+                ret += std::u32string( w - rem, syms[quot] );
             }
         } else {
             // All cells at the same level
-            ret += std::wstring( w, syms[quot] );
+            ret += std::u32string( w, syms[quot] );
         }
     } else {
         debugmsg( "Unknown widget fill type %s", _fill );
@@ -1700,7 +1700,7 @@ std::string widget::graph( int value ) const
 
     // Re-arrange characters to a vertical bar graph
     if( _arrange == "rows" ) {
-        std::wstring temp = ret;
+        std::u32string temp = ret;
         ret.clear();
         for( int i = temp.size() - 1; i >= 0; i-- ) {
             ret += temp[i];
@@ -1710,7 +1710,7 @@ std::string widget::graph( int value ) const
         }
     }
 
-    return wstr_to_utf8( ret );
+    return utf32_to_utf8( ret );
 }
 
 // For widget::layout, process each row to append to the layout string
@@ -1773,13 +1773,13 @@ static std::string append_line( const std::string &line, bool first_row, int max
     // If the text is too long, start eating the free space next to the label.
     // This only works because labels are not colorized (no color tags).
     if( txt_w + lbl_w > max_width ) {
-        std::wstring tmplbl = utf8_to_wstr( lbl );
+        std::u32string tmplbl = utf8_to_utf32( lbl );
         for( int i = tmplbl.size() - 1; txt_w + lbl_w > max_width && i > 0 && tmplbl[i] == ' ' &&
              tmplbl[i - 1] != ':'; i-- ) {
             tmplbl.pop_back();
             lbl_w--;
         }
-        lbl = wstr_to_utf8( tmplbl );
+        lbl = utf32_to_utf8( tmplbl );
     }
 
     // Text padding

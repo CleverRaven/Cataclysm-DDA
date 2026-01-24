@@ -16,15 +16,16 @@
 #include "damage.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
 #include "game.h"
-#include "global_vars.h"
 #include "item.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
+#include "mapdata.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "messages.h"
@@ -148,6 +149,47 @@ bool trapfunc::bubble( const tripoint_bub_ms &p, Creature *c, item * )
     return true;
 }
 
+bool trapfunc::thin_ice( const tripoint_bub_ms &p, Creature *c, item * )
+{
+    map &here = get_map();
+
+    if( c == nullptr ) {
+        return false;
+    }
+    // tiny animals aren't affected specially
+    if( c->get_size() == creature_size::tiny ) {
+        return false;
+    }
+
+    // If this tile has an original terrain recorded (from a phase change),
+    // restore that instead of blindly switching to water based on ice flags.
+    if( here.has_original_terrain_at( p ) ) {
+        const ter_id orig = here.get_original_terrain_at( p );
+        here.ter_set( p, orig );
+        here.remove_trap( p );
+    } else if( here.ter( p ).obj().bash->ter_set ) {
+        here.ter_set( p, here.ter( p ).obj().bash->ter_set );
+        here.remove_trap( p );
+    } else {
+        return false;
+    }
+    // Apply appropriate effects depending on what the restored terrain is.
+    Character *you = dynamic_cast<Character *>( c );
+    if( you != nullptr ) {
+        const ter_t &cur = here.ter( p ).obj();
+        if( cur.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) {
+            you->set_underwater( true );
+            g->water_affect_items( *you );
+            you->add_msg_if_player( m_bad, _( "You are underwater and struggling to stay afloat!" ) );
+        } else if( cur.has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER ) ) {
+            g->water_affect_items( *you );
+            you->add_msg_if_player( m_bad, _( "You're wet and cold from the water." ) );
+        }
+    }
+
+    return true;
+}
+
 bool trapfunc::glass( const tripoint_bub_ms &p, Creature *c, item * )
 {
     map &here = get_map();
@@ -169,7 +211,7 @@ bool trapfunc::glass( const tripoint_bub_ms &p, Creature *c, item * )
                         damage_instance( damage_cut, dmg ) );
     }
     sounds::sound( p, 8, sounds::sound_t::combat, _( "glass cracking!" ), false, "trap", "glass" );
-    get_map().remove_trap( p );
+    here.remove_trap( p );
     c->check_dead_state( &here );
     return true;
 }
@@ -387,15 +429,11 @@ bool trapfunc::eocs( const tripoint_bub_ms &p, Creature *critter, item * )
     }
     map &here = get_map();
     trap tr = here.tr_at( p );
-    const tripoint_abs_ms trap_location = get_map().get_abs( p );
+    const tripoint_abs_ms trap_location = here.get_abs( p );
     for( const effect_on_condition_id &eoc : tr.eocs ) {
         dialogue d( get_talker_for( critter ), nullptr );
-        write_var_value( var_type::context, "trap_location", &d, trap_location.to_string() );
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for activation.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
-        }
+        write_var_value( var_type::context, "trap_location", &d, trap_location );
+        eoc->activate_activation_only( d, "activation", "item's involvement", "item" );
     }
     here.remove_trap( p );
     return true;
@@ -795,7 +833,7 @@ bool trapfunc::snare_species( const tripoint_bub_ms &p, Creature *critter, item 
     }
 
     if( critter ) {
-        const bodypart_id hit = critter->get_random_body_part_of_type( body_part_type::type::leg );
+        const bodypart_id hit = critter->get_random_body_part_of_type( bp_type::leg );
 
         critter->add_msg_if_player( m_bad, _( "A %1$s catches your %2$s!" ),
                                     laid_trap.name(), hit->name.translated() );
@@ -833,6 +871,8 @@ bool trapfunc::landmine( const tripoint_bub_ms &p, Creature *c, item * )
 
 bool trapfunc::boobytrap( const tripoint_bub_ms &p, Creature *c, item * )
 {
+    map &here = get_map();
+
     if( c != nullptr ) {
         c->add_msg_player_or_npc( m_bad, _( "You trigger a booby trap!" ),
                                   _( "<npcname> triggers a booby trap!" ) );
@@ -840,9 +880,9 @@ bool trapfunc::boobytrap( const tripoint_bub_ms &p, Creature *c, item * )
 
     item grenade( itype_grenade_act );
     grenade.active = true;
-    get_map().add_item( p, grenade );
+    here.add_item( p, grenade );
 
-    get_map().remove_trap( p );
+    here.remove_trap( p );
     return true;
 }
 
@@ -1193,7 +1233,7 @@ bool trapfunc::lava( const tripoint_bub_ms &p, Creature *c, item * )
         return false;
     }
     c->add_msg_player_or_npc( m_bad, _( "The %s burns you horribly!" ), _( "The %s burns <npcname>!" ),
-                              get_map().tername( p ) );
+                              here.tername( p ) );
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
     if( you != nullptr ) {
@@ -1262,7 +1302,7 @@ static bool sinkhole_safety_roll( Character &you, const itype_id &itemname, cons
 
     std::vector<tripoint_bub_ms> safe;
     for( const tripoint_bub_ms &tmp : here.points_in_radius( you.pos_bub(), 1 ) ) {
-        if( here.passable( tmp ) && here.tr_at( tmp ) != tr_pit ) {
+        if( here.passable_through( tmp ) && here.tr_at( tmp ) != tr_pit ) {
             safe.push_back( tmp );
         }
     }
@@ -1672,6 +1712,7 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "pit", trapfunc::pit },
             { "pit_spikes", trapfunc::pit_spikes },
             { "pit_glass", trapfunc::pit_glass },
+            { "thin_ice", trapfunc::thin_ice },
             { "lava", trapfunc::lava },
             { "boobytrap", trapfunc::boobytrap },
             { "temple_flood", trapfunc::temple_flood },

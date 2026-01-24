@@ -2,12 +2,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SLEEP",
-    "effect": [ { "u_message": "You feel very sleepy…" }, { "math": [ "u_val('sleepiness')", "+=", "40" ] } ]
+    "effect": [ { "u_message": "You feel very sleepy…" }, { "math": [ "u_val('sleepiness') += 40" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_MINOR_SLEEP",
-    "effect": [ { "u_message": "You feel sleepy…" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+    "effect": [ { "u_message": "You feel sleepy…" }, { "math": [ "u_val('sleepiness') += 20" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -121,41 +121,6 @@
     "id": "EOC_discover_zomborg",
     "condition": { "math": [ "u_monsters_nearby('mon_zomborg') >= 1" ] },
     "effect": [ { "u_add_var": "dialogue_exodii_seen_zomborg", "value": "yes" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "yrax_trifacet_activation",
-    "effect": [
-      { "u_spawn_monster": "mon_yrax_trifacet", "real_count": 1, "min_radius": 1, "max_radius": 2 },
-      { "u_message": "The hostile trifacet violently unfolds just clear of your hand!", "type": "bad" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "yrax_triakis_activation",
-    "effect": [
-      { "u_spawn_monster": "mon_yrax_triakis", "real_count": 1, "min_radius": 1, "max_radius": 2 },
-      { "u_message": "The hostile triakis violently unfolds just clear of your hand!", "type": "bad" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "yrax_golden_monolith_activation",
-    "effect": [
-      { "u_spawn_monster": "mon_golden_monolith", "real_count": 1, "min_radius": 1, "max_radius": 2 },
-      {
-        "u_message": "You notice a brief lull in the ambient noise around you, but its otherwise impossible to know if you allowed something to happen.",
-        "type": "bad"
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "yrax_delta_activation",
-    "effect": [
-      { "u_spawn_monster": "mon_yrax_delta", "real_count": 1, "min_radius": 1, "max_radius": 2 },
-      { "u_message": "The hostile delta starts flying just as you release it!", "type": "bad" }
-    ]
   },
   {
     "type": "effect_on_condition",
@@ -284,7 +249,7 @@
               "u_effect_duration('bile_irritant') > 0 ? u_effect_duration('bile_irritant') + 120 + rand(90) : 240 + rand(180)"
             ]
           },
-          { "math": [ "MORALE_MULTIPLIER", "*=", "u_has_trait('SQUEAMISH') ? 4 : 2" ] },
+          { "math": [ "MORALE_MULTIPLIER *= u_has_trait('SQUEAMISH') ? 4 : 2" ] },
           { "u_add_effect": "bile_irritant", "duration": { "global_val": "BILE_IRRITANT_DURATION" } }
         ]
       },
@@ -304,7 +269,7 @@
             "u_add_morale": "morale_bile",
             "bonus": { "math": [ "MORALE_MULTIPLIER" ] },
             "max_bonus": { "math": [ "MORALE_MULTIPLIER * 2" ] },
-            "duration": { "global_val": "BILE_STINK_DURATION / 2" },
+            "duration": { "math": [ "BILE_STINK_DURATION / 2" ] },
             "decay_start": { "math": [ "BILE_STINK_DURATION / 4" ] }
           }
         ]
@@ -317,7 +282,14 @@
     "recurrence": { "math": [ "time_until('sunrise')" ] },
     "global": true,
     "run_for_npcs": true,
-    "condition": { "and": [ "u_is_outside", "u_can_see" ] },
+    "condition": {
+      "and": [
+        { "current_dimension": "" },
+        "u_is_outside",
+        "u_can_see",
+        { "test_eoc": "EOC_CONDITION_XE_SUNRISE_MORALE_OVERRIDES" }
+      ]
+    },
     "effect": [
       {
         "if": { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] },
@@ -376,11 +348,19 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONDITION_XE_SUNRISE_MORALE_OVERRIDES",
+    "condition": { "math": [ "0 == 0" ] },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "sunset_morale_buff",
     "recurrence": { "math": [ "time_until('sunset')" ] },
     "global": true,
     "run_for_npcs": true,
-    "condition": { "and": [ "u_is_outside", "u_can_see" ] },
+    "condition": {
+      "and": [ { "current_dimension": "" }, "u_is_outside", "u_can_see", { "test_eoc": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES" } ]
+    },
     "effect": [
       {
         "if": { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] },
@@ -436,5 +416,50 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES",
+    "condition": { "math": [ "0 == 0" ] },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "target_valid_drink",
+    "condition": {
+      "and": [
+        { "not": { "npc_has_flag": "BLEED_IMMUNE" } },
+        { "not": { "npc_has_trait": "ACIDBLOOD" } },
+        { "not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
+        { "not": { "npc_has_trait": "THRESH_INSECT" } },
+        { "not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
+        { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
+        { "not": { "npc_has_species": "ZOMBIE" } },
+        { "not": { "npc_has_species": "MAMMAL" } },
+        { "not": { "npc_has_species": "AMPHIBIAN" } },
+        { "not": { "npc_has_species": "BIRD" } },
+        { "not": { "npc_has_species": "CYBORG" } },
+        { "not": { "npc_has_species": "REPTILE" } },
+        { "not": { "npc_has_species": "FISH" } },
+        { "not": { "npc_has_species": "KRAKEN" } },
+        { "not": { "npc_has_species": "MUTANT" } },
+        { "not": { "npc_has_species": "NETHER" } },
+        { "not": { "npc_has_species": "MIGO" } },
+        { "not": { "npc_has_species": "FUNGUS" } },
+        { "not": { "npc_has_species": "SLIME" } },
+        { "not": { "npc_has_species": "LEECH_PLANT" } },
+        { "not": { "npc_has_species": "INSECT" } },
+        { "not": { "npc_has_species": "CENTIPEDE" } },
+        { "not": { "npc_has_species": "INSECT_FLYING" } },
+        { "not": { "npc_has_species": "SPIDER" } },
+        { "not": { "npc_has_species": "PLANT" } },
+        { "not": { "npc_has_species": "MOLLUSK" } },
+        { "not": { "npc_has_species": "WORM" } },
+        { "not": { "npc_has_species": "ROBOT" } },
+        { "not": { "npc_has_species": "HORROR" } },
+        { "not": { "npc_has_species": "PLANT" } },
+        { "not": { "npc_has_species": "ABERRATION" } }
+      ]
+    }
   }
 ]

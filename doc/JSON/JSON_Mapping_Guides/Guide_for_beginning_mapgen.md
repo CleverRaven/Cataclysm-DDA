@@ -1,3 +1,25 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Guide for basic mapgen](#guide-for-basic-mapgen)
+    - [General comments:](#general-comments)
+    - [Specials vs. city buildings:](#specials-vs-city-buildings)
+    - [The Files & their purpose:](#the-files--their-purpose)
+    - [Starting the mapgen entry:](#starting-the-mapgen-entry)
+    - [The mapgen map:](#the-mapgen-map)
+      - [The metadata:](#the-metadata)
+      - [The object data:](#the-object-data)
+    - [Adding the roof!](#adding-the-roof)
+    - [Linking various mapgen maps using multitile_city_buildings.json](#linking-various-mapgen-maps-using-multitile_city_buildingsjson)
+    - [Setting overmap spawns using regional_map_settings.json](#setting-overmap-spawns-using-regional_map_settingsjson)
+    - [Linking and spawning specials:](#linking-and-spawning-specials)
+    - [Overmap_terrain entries:](#overmap_terrain-entries)
+    - [Palettes:](#palettes)
+    - [Final comments:](#final-comments)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Guide for basic mapgen
 
 This guide will cover the basics of mapgen, which files you need to edit, the tags in each file and the differences in creating specials or regular city buildings.  For full technical information about mapgen entries refer to: [doc/JSON/MAPGEN.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/JSON/MAPGEN.md).
@@ -61,11 +83,10 @@ the mapgen file has some meta data tags and the `"object"` data which defines ev
 Sample:
 ```
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_restaurant_coffee",
     "weight": 250,
 ```
-1. `"type"` will always be mapgen (we'll cover other map types in future tutorials), the `"method"` will always be JSON.  This data tells the program how to treat this file.
+1. `"type"` will always be mapgen (we'll cover other map types in future tutorials).  This data tells the program how to treat this file.
 
 2. `"om_terrain"`: this is basically your internal name for the map (not the name that shows up on the overmap).  It should usually be unique unless you plan on having multiple variants of the same map which **share the same building foundation shape** (note: I mean the actual shape of the building's foundation).
 
@@ -179,7 +200,7 @@ Sample:
         "C": { "item": "SUS_office_desk", "chance": 33 },
         "D": { "item": "coffee_trash", "chance": 75 },
         "F": { "item": "coffee_fridge", "chance": 80, "repeat": [ 1, 8 ] },
-        "G": { "item": "oven", "chance": 35 },
+        "G": { "item": "SUS_oven", "chance": 35 },
         "L": { "item": "coffee_locker", "chance": 75 },
         "U": { "item": "coffee_dishes", "chance": 75 },
         "X": { "item": "coffee_newsstand", "chance": 90, "repeat": [ 1, 8 ] },
@@ -331,7 +352,6 @@ sample roof:
 ```
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_01_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -405,7 +425,7 @@ I have a separate roof document at: [JSON_ROOF_MAPGEN.md](JSON_ROOF_MAPGEN.md).
 
 #### Setting overmap spawns using regional_map_settings.json
 
-[data/json/regional_map_settings.json](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/json/regional_map_settings.json)
+[data/json/region_settings/region_settings/regional_map_settings.json](/data/json/region_settings/region_settings/regional_map_settings.json)
 
 1. For city buildings and houses you'll scroll down to the `"city":` flag.
 2. Find your appropriate subtag, `"houses"` or `"shops"` usually.

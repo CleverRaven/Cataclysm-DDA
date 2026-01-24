@@ -14,7 +14,8 @@
             "TELEKINETIC",
             "TELEPATH",
             "TELEPORTER",
-            "VITAKINETIC"
+            "VITAKINETIC",
+            "PSYCHIC_KNACK"
           ]
         },
         {
@@ -27,7 +28,8 @@
             { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
             { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
-            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
+            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PSYCHIC_KNACK", { "context_val": "school" } ] }
           ]
         }
       ]
@@ -129,9 +131,7 @@
         { "u_near_om_location": "nether_glass_deep", "range": 2 },
         { "u_near_om_location": "nether_glass", "range": 2 },
         { "u_at_om_location": "microlab_portal_elevator_nether_glass" },
-        { "u_near_om_location": "void_spider_lair_entrance", "range": 2 },
-        { "u_near_om_location": "void_spider_lair_a1", "range": 2 },
-        { "u_near_om_location": "void_spider_lair_a2", "range": 2 },
+        { "u_near_om_location": "void_spider_lair", "range": 2 },
         {
           "and": [ { "math": [ "u_val('pos_z') == 6" ] }, { "not": "u_is_outside" }, { "u_is_on_terrain": "t_floor_warped" } ]
         }
@@ -182,7 +182,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE",
-    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } },
+    "condition": { "x_in_y_chance": { "x": { "math": [ "u_awakening_reducer" ] }, "y": 100 } },
     "effect": [  ]
   },
   {
@@ -197,7 +197,7 @@
               { "u_has_effect": "effect_telepathic_psi_armor" },
               {
                 "math": [
-                  "u_spell_level('telepathic_shield')",
+                  "u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack')",
                   ">=",
                   "(u_vitamin('vitamin_psionic_drain') / 10) + (max(u_school_level('BIOKINETIC'), u_school_level('CLAIRSENTIENT'), u_school_level('ELECTROKINETIC'), u_school_level('PHOTOKINETIC'), u_school_level('PYROKINETIC'), u_school_level('TELEPATH'), u_school_level('TELEKINETIC'), u_school_level('TELEPORTER'), u_school_level('VITAKINETIC')) / 3) + (u_awakening_countup / 3)"
                 ]
@@ -254,6 +254,113 @@
         },
         { "not": { "npc_has_effect": "eff_monster_immune_to_telepathy" } },
         { "not": { "npc_has_flag": "TEEP_IMMUNE" } }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_MONSTER_MAINTAINING_PSI_POWER",
+    "condition": {
+      "u_has_any_effect": [
+        "effect_monster_hardened_skin",
+        "effect_monster_heightened_reflex",
+        "effect_monster_heightened_reflex_enhanced",
+        "effect_psi_biokin3_hurricane_blows",
+        "effect_feral_heightened_senses",
+        "effect_feral_heightened_senses_2",
+        "effect_feral_combat_sense_2",
+        "effect_feral_combat_sense_3",
+        "effect_feral_heightened_senses_3",
+        "effect_feral_regeneration",
+        "effect_pattern_screamer_rock_thrower",
+        "effect_monster_neuro_acceleration",
+        "effect_monster_neuro_acceleration_enhanced",
+        "effect_monster_pyrokinetic_fire_immunity",
+        "effect_monster_momentum_alteration",
+        "effect_monster_inertial_barrier",
+        "effect_monster_inertial_barrier_improved",
+        "effect_telepath_network_monster_effect"
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_MOM_QUALIFY_FOR_BIOKINETIC_KNACK_CRAFTING",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PSYCHIC_KNACK" },
+        {
+          "or": [
+            { "math": [ "u_spell_level('biokin_flexibility_knack') >= 5" ] },
+            { "math": [ "u_spell_level('biokin_adrenaline_knack') >= 5" ] }
+          ]
+        }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_MOM_QUALIFY_FOR_PYROKINETIC_KNACK_CRAFTING",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PSYCHIC_KNACK" },
+        {
+          "or": [
+            { "math": [ "u_spell_level('pyrokinetic_flash_knack') >= 5" ] },
+            { "math": [ "u_spell_level('pyrokinetic_intensify_flames_knack') >= 5" ] },
+            { "math": [ "u_spell_level('pyrokinetic_eruption_knack') >= 5" ] },
+            { "math": [ "u_spell_level('pyrokinetic_call_flames_knack') >= 5" ] },
+            { "math": [ "u_spell_level('pyrokinetic_cloak_knack') >= 5" ] },
+            { "math": [ "u_spell_level('pyrokinetic_flamethrower_knack') >= 5" ] },
+            { "math": [ "u_spell_level('pyrokinetic_aura_knack') >= 5" ] },
+            { "math": [ "u_spell_level('pyrokinetic_blast_knack') >= 5" ] }
+          ]
+        }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_MOM_QUALIFY_FOR_VITAKINETIC_KNACK_CRAFTING",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PSYCHIC_KNACK" },
+        {
+          "or": [
+            { "math": [ "u_spell_level('vita_health_power_knack') >= 5" ] },
+            { "math": [ "u_spell_level('vita_concentrated_healing_knack') >= 5" ] },
+            { "math": [ "u_spell_level('vita_remove_poison_knack') >= 5" ] },
+            { "math": [ "u_spell_level('vita_cure_disease_knack') >= 5" ] },
+            { "math": [ "u_spell_level('vita_banish_illness_knack') >= 5" ] }
+          ]
+        }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_MOM_BANNED_EFFECTS_TO_PRACTICE_CONCENTRATION",
+    "condition": {
+      "or": [
+        { "math": [ "u_vitamin('BAC') > 1000" ] },
+        { "u_has_effect": "winded" },
+        { "u_has_effect": "weed_high" },
+        { "u_has_effect": "high" },
+        { "u_has_effect": "datura" },
+        { "u_has_effect": "hallu" },
+        { "u_has_effect": "nausea" },
+        { "u_has_effect": "meth" },
+        { "u_has_effect": "onfire", "bodypart": "head" },
+        { "u_has_effect": "onfire", "bodypart": "torso" },
+        { "u_has_effect": "onfire", "bodypart": "arm_r" },
+        { "u_has_effect": "onfire", "bodypart": "arm_l" },
+        { "u_has_effect": "onfire", "bodypart": "leg_r" },
+        { "u_has_effect": "onfire", "bodypart": "leg_l" }
       ]
     },
     "effect": [  ]

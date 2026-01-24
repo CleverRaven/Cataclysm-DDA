@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "human_corpse",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -13,7 +12,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "pet_corpse",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -25,19 +23,17 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "grave_easter_egg",
     "object": {
       "mapgensize": [ 2, 2 ],
       "place_terrain": [ { "ter": "t_grave_new", "x": 0, "y": 1 }, { "ter": "t_grave_new", "x": 1, "y": 1 } ],
-      "place_item": [ { "item": "sw_619", "x": 0, "y": 1, "chance": 100 }, { "item": "katana", "x": 1, "y": 1, "chance": 100 } ],
+      "place_item": [ { "item": "sw_619", "x": 0, "y": 1, "chance": 100 } ],
       "place_signs": [ { "signage": "R.", "x": 0, "y": 0 }, { "signage": "M.", "x": 1, "y": 0 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "grave_easter_egg",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -53,7 +49,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "grave_easter_egg",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -69,7 +64,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "grave_easter_egg",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -81,7 +75,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "grave_easter_egg",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -89,7 +82,7 @@
       "place_item": [
         { "item": "machete", "x": 0, "y": 1, "chance": 100 },
         { "item": "usp_45", "x": 0, "y": 1, "chance": 100 },
-        { "item": "remington_870_breacher", "x": 0, "y": 1, "chance": 100 },
+        { "item": "mossberg_590_shockwave", "x": 0, "y": 1, "chance": 100 },
         { "item": "holybook_bible1", "x": 0, "y": 1, "chance": 100 },
         { "item": "sunglasses", "x": 0, "y": 1, "chance": 100 }
       ],
@@ -99,14 +92,12 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "grave_easter_egg",
     "object": {
       "mapgensize": [ 2, 2 ],
       "place_terrain": [ { "ter": "t_grave_new", "x": 0, "y": 1 } ],
       "place_item": [
         { "item": "glasses_eye", "x": 0, "y": 1, "chance": 100 },
-        { "item": "katana", "x": 0, "y": 1, "chance": 100 },
         { "item": "acoustic_guitar", "x": 0, "y": 1, "chance": 100 },
         { "item": "umbrella", "x": 0, "y": 1, "chance": 100 },
         { "item": "tux", "x": 0, "y": 1, "chance": 100 }
@@ -123,19 +114,17 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "grave_easter_egg",
     "object": {
       "mapgensize": [ 2, 2 ],
       "place_terrain": [ { "ter": "t_grave_new", "x": 0, "y": 1 } ],
-      "place_item": [ { "item": "touring_suit", "x": 0, "y": 1, "chance": 100 }, { "item": "katana", "x": 0, "y": 1, "chance": 100 } ],
+      "place_item": [ { "item": "touring_suit", "x": 0, "y": 1, "chance": 100 } ],
       "place_signs": [ { "signage": "Wiggle your big toe.", "x": 0, "y": 0 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_grave",
     "object": {
       "place_nested": [

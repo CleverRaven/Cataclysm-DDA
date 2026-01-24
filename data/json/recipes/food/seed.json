@@ -1,5 +1,50 @@
 [
   {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "seed_lotus_boiled",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 80, 1 ],
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "seed_lotus", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "fried_seeds",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "8 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 6, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
+    "components": [ [ [ "seed_weed", 1 ], [ "seed_poppy_bud", 1 ], [ "seed_sunflower", 1 ], [ "seed_pumpkin", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "roasted_coffee_bean",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "6 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [ [ [ "coffee_bean", 1 ] ] ]
+  },
+  {
     "abstract": "seed_extraction_base",
     "type": "recipe",
     "//": "For things that are plantable as they are, and you only maybe need to do a cursory inspection of fitness.",
@@ -20,6 +65,7 @@
     "subcategory": "CSC_FOOD_SEEDS",
     "skill_used": "survival",
     "time": "1 s",
+    "batch_time_factors": { "mode": "logistic", "percent": 99, "at": 1 },
     "autolearn": true
   },
   {
@@ -28,57 +74,64 @@
     "//": "For things where some sort of seed extraction is necessary",
     "copy-from": "seed_extraction_base",
     "time": "2m",
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "//qualities": [ { "id": "CUT", "level": 1 } ],
+    "//1": "qualities cannot be inherited, so this is what should be copied into the real recipes"
   },
   {
     "result": "seed_pumpkin",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "//p": "about 450-500 seeds per pumpkin, which is about a cup. these are fairly small pumpkins.",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "pumpkin", 1 ] ] ],
     "byproducts": [ [ "pumpkin_cut", 4 ] ],
-    "charges": 6
+    "result_mult": 6
   },
   {
     "result": "seed_watermelon",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "watermelon", 1 ] ] ],
     "byproducts": [ [ "watermelon_wedge", 16 ] ],
-    "charges": 5
+    "result_mult": 5
   },
   {
     "result": "seed_melon",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "melon", 1 ] ] ],
     "byproducts": [ [ "melon_chunks", 4 ] ],
-    "charges": 3
+    "result_mult": 3
   },
   {
     "result": "seed_cucumber",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "byproducts": [ [ "cucumber_cut", 1 ] ],
     "components": [ [ [ "cucumber", 1 ] ] ],
-    "charges": 2
+    "result_mult": 2
   },
   {
     "result": "seed_gherkin",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "byproducts": [ [ "gherkin_cut", 1 ] ],
     "components": [ [ [ "gherkin", 1 ] ] ],
-    "charges": 2
+    "result_mult": 2
   },
   {
     "result": "seed_eggplant",
     "id_suffix": "with_cutting_tool",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "byproducts": [ [ "eggplant_cut", 2 ] ],
     "components": [ [ [ "eggplant", 1 ] ] ],
-    "charges": 2
+    "result_mult": 2
   },
   {
     "result": "seed_oats",
@@ -87,16 +140,36 @@
     "components": [ [ [ "oats", 1 ] ] ]
   },
   {
+    "result": "seed_oats",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "oats", 10 ] ] ]
+  },
+  {
     "result": "oats",
     "type": "recipe",
     "id_suffix": "seed_designation",
+    "name": "%s from seeds",
     "copy-from": "seed_extraction_designation",
     "components": [ [ [ "seed_oats", 1 ] ] ]
+  },
+  {
+    "result": "oats",
+    "type": "recipe",
+    "id_suffix": "bulk_seed_designation",
+    "name": "bulk %s from seeds",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "seed_oats", 10 ] ] ]
   },
   {
     "result": "seed_cattail",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cattail_stalk", 1 ] ] ]
   },
   {
@@ -106,11 +179,30 @@
     "components": [ [ [ "dry_corn", 1 ] ] ]
   },
   {
+    "result": "seed_corn",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "dry_corn", 10 ] ] ]
+  },
+  {
     "result": "dry_corn",
     "type": "recipe",
+    "name": "%s from seeds",
     "id_suffix": "seed_designation",
     "copy-from": "seed_extraction_designation",
     "components": [ [ [ "seed_corn", 1 ] ] ]
+  },
+  {
+    "result": "dry_corn",
+    "type": "recipe",
+    "id_suffix": "bulk_seed_designation",
+    "name": "bulk %s from seeds",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "seed_corn", 10 ] ] ]
   },
   {
     "result": "seed_popcorn",
@@ -119,19 +211,39 @@
     "components": [ [ [ "kernels", 1 ] ] ]
   },
   {
+    "result": "seed_popcorn",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "kernels", 10 ] ] ]
+  },
+  {
     "result": "kernels",
     "type": "recipe",
     "id_suffix": "seed_designation",
+    "name": "%s from seeds",
     "copy-from": "seed_extraction_designation",
     "components": [ [ [ "seed_popcorn", 1 ] ] ]
+  },
+  {
+    "result": "kernels",
+    "type": "recipe",
+    "id_suffix": "bulk_seed_designation",
+    "name": "bulk %s from seeds",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "seed_popcorn", 10 ] ] ]
   },
   {
     "result": "seed_zucchini",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "byproducts": [ [ "zucchini_cut", 1 ] ],
     "components": [ [ [ "zucchini", 1 ] ] ],
-    "charges": 2
+    "result_mult": 2
   },
   {
     "result": "seed_barley",
@@ -140,16 +252,36 @@
     "components": [ [ [ "barley", 1 ] ] ]
   },
   {
+    "result": "seed_barley",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "barley", 10 ] ] ]
+  },
+  {
     "result": "barley",
     "type": "recipe",
     "id_suffix": "seed_designation",
+    "name": "%s from seeds",
     "copy-from": "seed_extraction_designation",
     "components": [ [ [ "seed_barley", 1 ] ] ]
+  },
+  {
+    "result": "barley",
+    "type": "recipe",
+    "id_suffix": "bulk_seed_designation",
+    "name": "bulk %s from seeds",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "seed_barley", 10 ] ] ]
   },
   {
     "result": "seed_tomato",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "byproducts": [ [ "tomato_cut", 1 ] ],
     "components": [ [ [ "tomato", 1 ] ] ]
   },
@@ -157,19 +289,30 @@
     "result": "seed_cranberries",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cranberries", 1 ] ] ]
   },
   {
     "result": "seed_blackberries",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "blackberries", 1 ] ] ]
   },
   {
     "result": "seed_blueberries",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "blueberries", 1 ] ] ]
+  },
+  {
+    "result": "seed_poppy_bud",
+    "type": "recipe",
+    "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "poppy_bud", 4 ] ] ],
+    "result_mult": 2
   },
   {
     "result": "seed_salsify_raw",
@@ -178,10 +321,30 @@
     "components": [ [ [ "salsify_raw", 1 ] ] ]
   },
   {
+    "result": "seed_salsify_raw",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "time": "5 m",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_base",
+    "components": [ [ [ "salsify_raw", 10 ] ] ]
+  },
+  {
     "result": "seed_chicory",
     "type": "recipe",
     "copy-from": "seed_extraction_base",
     "components": [ [ [ "chicory_raw", 1 ] ] ]
+  },
+  {
+    "result": "seed_chicory",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "time": "5 m",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_base",
+    "components": [ [ [ "chicory_raw", 10 ] ] ]
   },
   {
     "result": "seed_wildcarrot",
@@ -190,45 +353,62 @@
     "components": [ [ [ "carrot_wild", 3 ] ] ]
   },
   {
+    "result": "seed_wildcarrot",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "time": "5 m",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_base",
+    "components": [ [ [ "carrot_wild", 30 ] ] ]
+  },
+  {
     "result": "seed_raspberries",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "raspberries", 1 ] ] ]
   },
   {
     "result": "seed_strawberries",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "strawberries", 1 ] ] ]
   },
   {
     "result": "seed_elderberries",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "elderberries", 1 ] ] ]
   },
   {
     "result": "seed_mulberries",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "mulberries", 1 ] ] ]
   },
   {
     "result": "seed_huckleberries",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "huckleberries", 1 ] ] ]
   },
   {
     "result": "seed_grapes",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "grapes", 1 ] ] ]
   },
   {
     "result": "seed_rose",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rose_hips", 1 ] ] ],
     "byproducts": [ [ "rose_hips_cut", 1 ] ]
   },
@@ -236,17 +416,19 @@
     "result": "seed_chili_pepper",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "chili_pepper", 1 ] ] ],
     "byproducts": [ [ "chili_pepper_cut", 1 ] ],
-    "charges": 2
+    "result_mult": 2
   },
   {
     "result": "seed_bell_pepper",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "bell_pepper", 1 ] ] ],
     "byproducts": [ [ "bell_pepper_cut", 1 ] ],
-    "charges": 2
+    "result_mult": 2
   },
   {
     "result": "seed_wheat",
@@ -255,16 +437,36 @@
     "components": [ [ [ "wheat", 1 ] ] ]
   },
   {
+    "result": "seed_wheat",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "wheat", 10 ] ] ]
+  },
+  {
     "result": "wheat",
     "type": "recipe",
     "id_suffix": "seed_designation",
+    "name": "%s from seeds",
     "copy-from": "seed_extraction_designation",
     "components": [ [ [ "seed_wheat", 1 ] ] ]
+  },
+  {
+    "result": "wheat",
+    "type": "recipe",
+    "id_suffix": "bulk_seed_designation",
+    "name": "bulk %s from seeds",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "seed_wheat", 10 ] ] ]
   },
   {
     "result": "seed_bee_balm",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "bee_balm", 1 ] ] ]
   },
   {
@@ -274,36 +476,77 @@
     "components": [ [ [ "buckwheat", 1 ] ] ]
   },
   {
+    "result": "seed_buckwheat",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "buckwheat", 10 ] ] ]
+  },
+  {
     "result": "buckwheat",
     "type": "recipe",
     "id_suffix": "seed_designation",
+    "name": "%s from seeds",
     "copy-from": "seed_extraction_designation",
     "components": [ [ [ "seed_buckwheat", 1 ] ] ]
+  },
+  {
+    "result": "buckwheat",
+    "type": "recipe",
+    "id_suffix": "bulk_seed_designation",
+    "name": "bulk %s from seeds",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "seed_buckwheat", 10 ] ] ]
   },
   {
     "result": "seed_dogbane",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "dogbane", 1 ] ] ]
   },
   {
     "result": "seed_garlic_clove",
     "type": "recipe",
-    "copy-from": "seed_extraction_designation",
+    "copy-from": "seed_extraction_base",
     "components": [ [ [ "garlic_clove", 6 ] ] ]
+  },
+  {
+    "result": "seed_garlic_clove",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "time": "5 m",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_base",
+    "components": [ [ [ "garlic_clove", 60 ] ] ]
   },
   {
     "result": "garlic_clove",
     "type": "recipe",
     "id_suffix": "seed_designation",
+    "name": "%s from seeds",
     "copy-from": "seed_extraction_designation",
     "components": [ [ [ "seed_garlic_clove", 1 ] ] ],
-    "charges": 6
+    "result_mult": 6
+  },
+  {
+    "result": "garlic_clove",
+    "type": "recipe",
+    "id_suffix": "bulk_seed_designatin",
+    "name": "bulk %s from seeds",
+    "result_mult": 60,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "seed_garlic_clove", 10 ] ] ]
   },
   {
     "result": "seed_mugwort",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "mugwort", 1 ] ] ]
   },
   {
@@ -311,6 +554,7 @@
     "type": "recipe",
     "difficulty": 4,
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "mushroom", 1 ] ] ]
   },
   {
@@ -318,19 +562,22 @@
     "type": "recipe",
     "difficulty": 5,
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "mushroom_morel", 1 ] ] ]
   },
   {
     "result": "seed_raw_dandelion",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "raw_dandelion", 1 ] ] ],
-    "charges": 2
+    "result_mult": 2
   },
   {
     "result": "seed_raw_burdock",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "raw_burdock", 1 ] ] ]
   },
   {
@@ -340,82 +587,122 @@
     "components": [ [ [ "japanese_knotweed_stem", 1 ] ] ]
   },
   {
+    "result": "seed_japanese_knotweed",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "time": "5 m",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_base",
+    "components": [ [ [ "japanese_knotweed_stem", 10 ] ] ]
+  },
+  {
     "result": "seed_wild_rice",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
     "components": [ [ [ "wild_rice", 1 ] ] ]
   },
   {
+    "result": "seed_wild_rice",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "wild_rice", 10 ] ] ]
+  },
+  {
     "result": "wild_rice",
     "type": "recipe",
     "id_suffix": "seed_designation",
+    "name": "%s from seeds",
     "copy-from": "seed_extraction_designation",
     "components": [ [ [ "seed_wild_rice", 1 ] ] ]
+  },
+  {
+    "result": "wild_rice",
+    "type": "recipe",
+    "id_suffix": "bulk_seed_designation",
+    "name": "bulk %s from seeds",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "seed_wild_rice", 10 ] ] ]
   },
   {
     "result": "seed_jerusalem_artichoke",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "jerusalem_artichoke", 1 ] ] ]
   },
   {
     "result": "seed_maianthemum_stellatum",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "m_stellatum_berries", 1 ] ] ]
   },
   {
     "result": "seed_wild_sarsaparilla",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "wild_sarsaparilla_root", 1 ] ] ]
   },
   {
     "result": "seed_mayapple",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "mayapple", 1 ] ] ]
   },
   {
     "result": "seed_wintergreen",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "wintergreen_berry", 1 ] ] ]
   },
   {
     "result": "seed_groundnut",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "groundnut", 1 ] ] ]
   },
   {
     "result": "seed_wild_garlic",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "wild_garlic", 1 ] ] ]
   },
   {
     "result": "seed_rhubarb",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rhubarb", 1 ] ] ]
   },
   {
     "result": "seed_thyme",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "thyme", 1 ] ] ]
   },
   {
     "result": "seed_veggy_wild",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "veggy_wild", 1 ] ] ]
   },
   {
     "result": "seed_wild_herbs",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "wild_herbs", 10 ] ] ]
   },
   {
@@ -425,11 +712,31 @@
     "components": [ [ [ "potato", 1 ] ] ]
   },
   {
+    "result": "seed_potato_raw",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "time": "5 m",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_base",
+    "components": [ [ [ "potato", 10 ] ] ]
+  },
+  {
     "result": "seed_sunflower",
     "type": "recipe",
     "copy-from": "seed_extraction_base",
     "components": [ [ [ "sunflower", 1 ] ] ],
-    "charges": 6
+    "result_mult": 6
+  },
+  {
+    "result": "seed_sunflower",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "time": "5 m",
+    "result_mult": 60,
+    "copy-from": "seed_extraction_base",
+    "components": [ [ [ "sunflower", 10 ] ] ]
   },
   {
     "result": "seed_beans",
@@ -438,11 +745,30 @@
     "components": [ [ [ "dry_beans", 1 ] ] ]
   },
   {
+    "result": "seed_beans",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "dry_beans", 10 ] ] ]
+  },
+  {
     "result": "dry_beans",
     "id_suffix": "seed_designation",
+    "name": "%s from seeds",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
     "components": [ [ [ "seed_beans", 1 ] ] ]
+  },
+  {
+    "result": "dry_beans",
+    "type": "recipe",
+    "id_suffix": "bulk_seed_designation",
+    "name": "bulk %s from seeds",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "seed_beans", 10 ] ] ]
   },
   {
     "result": "soybean_seed",
@@ -451,11 +777,30 @@
     "components": [ [ [ "dry_soybean", 1 ] ] ]
   },
   {
+    "result": "soybean_seed",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "dry_soybean", 10 ] ] ]
+  },
+  {
     "result": "dry_soybean",
     "id_suffix": "seed_designation",
+    "name": "%s from seeds",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
     "components": [ [ [ "soybean_seed", 1 ] ] ]
+  },
+  {
+    "result": "dry_soybean",
+    "type": "recipe",
+    "id_suffix": "bulk_seed_designation",
+    "name": "bulk %s from seeds",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "soybean_seed", 10 ] ] ]
   },
   {
     "result": "seed_lentils",
@@ -464,16 +809,36 @@
     "components": [ [ [ "dry_lentils", 1 ] ] ]
   },
   {
+    "result": "seed_lentils",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "dry_lentils", 10 ] ] ]
+  },
+  {
     "result": "dry_lentils",
     "id_suffix": "seed_designation",
+    "name": "%s from seeds",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
     "components": [ [ [ "seed_lentils", 1 ] ] ]
   },
   {
+    "result": "dry_lentils",
+    "type": "recipe",
+    "id_suffix": "bulk_seed_designation",
+    "name": "bulk %s from seeds",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "seed_lentils", 10 ] ] ]
+  },
+  {
     "result": "seed_chamomile",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "chamomile", 1 ] ] ]
   },
   {
@@ -483,9 +848,29 @@
     "components": [ [ [ "sugar_beet", 1 ] ] ]
   },
   {
+    "result": "seed_sugar_beet",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "time": "5 m",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_base",
+    "components": [ [ [ "sugar_beet", 10 ] ] ]
+  },
+  {
     "result": "seed_bottle_gourd",
     "type": "recipe",
     "copy-from": "seed_extraction_base",
     "components": [ [ [ "raw_bottle_gourd", 3 ] ] ]
+  },
+  {
+    "result": "seed_bottle_gourd",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "time": "5 m",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_base",
+    "components": [ [ [ "raw_bottle_gourd", 30 ] ] ]
   }
 ]

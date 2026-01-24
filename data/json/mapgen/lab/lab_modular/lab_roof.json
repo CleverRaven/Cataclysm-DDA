@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "lab_security_z0N_roof",
     "type": "mapgen",
     "object": {
@@ -35,7 +34,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "full_basic_lab_roof", "full_mutagen_lab_roof" ],
     "type": "mapgen",
     "object": {
@@ -70,7 +68,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_security_z0S_roof",
     "type": "mapgen",
     "object": {
@@ -105,7 +102,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_surface_parking_blockA2_roof",
     "type": "mapgen",
     "object": {
@@ -140,7 +136,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_surface_parking_blockE2_roof",
     "type": "mapgen",
     "object": {
@@ -176,7 +171,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_surface_parking_blockC0_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",

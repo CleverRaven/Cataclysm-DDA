@@ -20,16 +20,19 @@
 #include "flag.h"
 #include "game.h"
 #include "game_inventory.h"
+#include "handle_liquid.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "map.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
 #include "output.h"
+#include "pathfinding.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -102,24 +105,26 @@ void bandage_animal( monster &z )
     }
     item_location wieldede_item = get_player_character().get_wielded_item();
     if( !wieldede_item ) {
-        add_msg( _( "I need to have in hand something to stop the bleeding of %s" ), z.name() );
+        add_msg( _( "You need to wield something to stop the %s's bleeding." ), z.name() );
         return;
     }
     const use_function *usage = wieldede_item.get_item()->type->get_use( "heal" );
     if( usage == nullptr ) {
-        add_msg( _( "I'm not going to stop %s bleeding with this %s " ), z.name(),
-                 wieldede_item.get_item()->display_name() );
+        //~ %1$s - item name, %2$s - animal name
+        add_msg( _( "This %1$s won't help you stop the %2$s's bleeding." ),
+                 wieldede_item.get_item()->display_name(), z.name() );
         return;
     }
     const heal_actor *actor = dynamic_cast<const heal_actor *>( usage->get_actor_ptr() );
     if( actor->bleed ) {
         z.remove_effect( effect_bleed );
         wieldede_item.remove_item();
-        add_msg( _( "The bleeding of %s stopped" ), z.name() );
+        add_msg( _( "You stop the %s's bleeding." ), z.name() );
 
     } else {
-        add_msg( _( "I'm not going to stop %s bleeding with this %s " ), z.name(),
-                 wieldede_item.get_item()->display_name() );
+        //~ %1$s - item name, %2$s - animal name
+        add_msg( _( "This %1$s won't help you stop the %2$s's bleeding." ),
+                 wieldede_item.get_item()->display_name(), z.name() );
     }
 }
 
@@ -201,7 +206,7 @@ void attach_bag_to( monster &z )
     std::string pet_name = z.get_name();
 
     auto filter = []( const item & it ) {
-        return it.is_armor() && it.get_total_capacity() > 0_ml && !it.has_flag( flag_INTEGRATED );
+        return it.is_armor() && it.get_volume_capacity() > 0_ml && !it.has_flag( flag_INTEGRATED );
     };
 
     avatar &player_character = get_avatar();
@@ -278,7 +283,7 @@ bool give_items_to( monster &z )
 
     item &storage = *z.storage_item;
     units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
-    units::volume max_volume = storage.get_total_capacity() - z.get_carried_volume();
+    units::volume max_volume = storage.get_volume_capacity() - z.get_carried_volume();
     units::length max_length = storage.max_containable_length();
     avatar &player_character = get_avatar();
     drop_locations items = game_menus::inv::multidrop( player_character );
@@ -502,6 +507,7 @@ void stop_leading( monster &z )
  */
 void milk_source( monster &source_mon )
 {
+    map &here = get_map();
 
     itype_id milked_item = source_mon.type->starting_ammo.begin()->first;
     auto milkable_ammo = source_mon.ammo.find( milked_item );
@@ -511,25 +517,63 @@ void milk_source( monster &source_mon )
     }
 
     else if( milkable_ammo->second > 0 ) {
-        const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
-        std::vector<tripoint_abs_ms> coords{};
-        std::vector<std::string> str_values{};
+        // This could be expanded upon by taking species and actor skills into consideration.
+        const int moves_per_unit = to_moves<int>( time_duration::from_minutes( 1.0 / 2 ) );
+        int moves = milkable_ammo->second * moves_per_unit;
+        tripoint_abs_ms coords;
         Character &player_character = get_player_character();
-        coords.push_back( get_map().get_abs( source_mon.pos_bub() ) );
+        coords = source_mon.pos_abs();
         // pin the cow in place if it isn't already
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {
             source_mon.add_effect( effect_tied, 1_turns, true );
-            str_values.emplace_back( "temp_tie" );
         }
-        player_character.assign_activity( milk_activity_actor( moves, coords, str_values ) );
+
+        item milk( milked_item, calendar::turn, milkable_ammo->second );
+        liquid_dest_opt liquid_target = liquid_handler::select_liquid_target( milk, 1 );
+
+        if( liquid_target.dest_opt == LD_NULL ) {
+            return;
+        }
+
+        units::volume target_volume;
+
+        switch( liquid_target.dest_opt ) {
+            case LD_ITEM:
+                target_volume = liquid_target.item_loc.get_item()->max_containable_volume() -
+                                liquid_target.item_loc.get_item()->get_contents_volume();
+
+                if( target_volume < milk.volume() ) {
+                    const item single_unit( milked_item, calendar::turn, 1 );
+                    int target_units = target_volume / single_unit.volume();
+                    moves = target_units * moves_per_unit;
+                }
+                break;
+
+            case LD_KEG:
+                target_volume = here.furn( liquid_target.pos ).obj().keg_capacity;
+
+                if( target_volume < milk.volume() ) {
+                    const item single_unit( milked_item, calendar::turn, 1 );
+                    int target_units = target_volume / single_unit.volume();
+                    moves = target_units * moves_per_unit;
+                }
+                break;
+
+            // None of these should happen
+            case LD_NULL:
+            case LD_CONSUME:
+            case LD_GROUND:
+            case LD_VEH:
+                break;
+        }
+
+        player_character.assign_activity( milk_activity_actor( moves, moves_per_unit, coords, liquid_target,
+                                          temp_tie ) );
 
         add_msg( _( "You milk the %s." ), source_mon.get_name() );
     } else {
         add_msg( _( "The %s has no more milk." ), source_mon.get_name() );
-        if( !source_mon.has_eaten_enough() ) {
-            add_msg( _( "It might not be getting enough to eat." ) );
-        }
     }
 }
 
@@ -592,9 +636,7 @@ void insert_battery( monster &z )
 
 bool Character::can_mount( const monster &critter ) const
 {
-    const auto &avoid = get_path_avoid();
-    auto route = get_map().route( pos_bub(), critter.pos_bub(), get_pathfinding_settings(), avoid );
-
+    auto route = get_map().route( *this, pathfinding_target::point( critter.pos_bub() ) );
     if( route.empty() ) {
         return false;
     }
@@ -645,8 +687,7 @@ bool monexamine::pet_menu( monster &z )
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
     if( z.has_flag( mon_flag_EATS ) ) {
-        amenu.text = string_format( _( "What to do with your %s?\n" "Fullness: %i%%" ), pet_name,
-                                    z.get_stomach_fullness_percent() );
+        amenu.text = string_format( _( "What to do with your %s?\n" ), pet_name );
     }
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push the %s" ), pet_name );
@@ -907,14 +948,8 @@ bool monexamine::mech_hack( monster &z )
 
 static int prompt_for_amount( const char *const msg, const int max )
 {
-    const std::string formatted = string_format( msg, max );
-    const int amount = string_input_popup()
-                       .title( formatted )
-                       .width( 20 )
-                       .text( std::to_string( max ) )
-                       .only_digits( true )
-                       .query_int();
-
+    int amount = max;
+    query_int( amount, true, msg, max );
     return clamp( amount, 0, max );
 }
 
@@ -975,8 +1010,7 @@ bool monexamine::mfriend_menu( monster &z )
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
     if( z.has_flag( mon_flag_EATS ) ) {
-        amenu.text = string_format( _( "What to do with your %s?\n" "Fullness: %i%%" ), pet_name,
-                                    z.get_stomach_fullness_percent() );
+        amenu.text = string_format( _( "What to do with your %s?\n" ), pet_name );
     }
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );

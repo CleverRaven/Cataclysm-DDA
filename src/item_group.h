@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "enums.h"
+#include "global_vars.h"
 #include "item.h"
 #include "relic.h"
 #include "type_id.h"
@@ -277,6 +278,16 @@ class Item_modifier
          * gun variant id, for guns with variants
          */
         std::string variant;
+
+        /**
+        * add this faults to item, if possible
+        */
+        std::vector<std::pair<fault_id, int>> faults;
+
+        /**
+        * add this variables to item
+        */
+        global_variables::impl_t item_vars;
 
         /**
          * Custom sub set of snippets to be randomly chosen from and then applied to the item.

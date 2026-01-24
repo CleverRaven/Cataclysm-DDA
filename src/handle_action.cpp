@@ -11,7 +11,6 @@
 
 #include "action.h"
 #include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "advanced_inv.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
@@ -22,6 +21,7 @@
 #include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
@@ -51,44 +51,48 @@
 #include "help.h"
 #include "input_context.h"
 #include "input_enums.h"
+#include "input_popup.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
 #include "iuse.h"
 #include "level_cache.h"
-#include "line.h"
 #include "magic.h"
-#include "make_static.h"
+#include "magic_enchantment.h"
+#include "magic_type.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mapsharing.h"
+#include "math_parser_diag_value.h"
 #include "mdarray.h"
 #include "messages.h"
 #include "monster.h"
 #include "move_mode.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
 #include "panels.h"
-#include "player_activity.h"
+#include "pathfinding.h"
+#include "point.h"
 #include "popup.h"
 #include "ranged.h"
 #include "rng.h"
 #include "safemode_ui.h"
+#if defined(TILES)
+#include "sdl_gamepad.h"
+#endif
 #include "sleep.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "timed_event.h"
 #include "translation.h"
 #include "translations.h"
-#include "uilist.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -100,13 +104,14 @@
 #include "weather_type.h"
 #include "worldfactory.h"
 
+enum class direction : unsigned int;
+
 #if defined(TILES)
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 #include "sdltiles.h"
 #endif
 
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
-static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
@@ -115,12 +120,9 @@ static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
-static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
+static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
-static const activity_id ACT_WAIT( "ACT_WAIT" );
-static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
-static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -131,7 +133,9 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const flag_id json_flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 static const flag_id json_flag_MOP( "MOP" );
+static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 static const gun_mode_id gun_mode_BURST( "BURST" );
@@ -140,9 +144,13 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_BIONIC_SLEEP_FRIENDLY( "BIONIC_SLEEP_FRIENDLY" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
+static const json_character_flag json_flag_PHASE_MOVEMENT( "PHASE_MOVEMENT" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
+static const json_character_flag
+json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 
 static const material_id material_glass( "glass" );
 
@@ -168,6 +176,7 @@ static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_MOPPING( "MOPPING" );
 static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
+static const zone_type_id zone_type_STUDY_ZONE( "STUDY_ZONE" );
 static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
@@ -236,7 +245,7 @@ class user_turn
 
 input_context game::get_player_input( std::string &action )
 {
-    const map &here = get_map();
+    map &here = get_map();
 
     const tripoint_bub_ms pos = u.pos_bub( here );
 
@@ -268,9 +277,9 @@ input_context game::get_player_input( std::string &action )
         ctxt = get_default_mode_input_context();
     }
 
-    m.update_visibility_cache( pos.z() );
-    const visibility_variables &cache = m.get_visibility_variables_cache();
-    const level_cache &map_cache = m.get_cache_ref( pos.z() );
+    here.update_visibility_cache( pos.z() );
+    const visibility_variables &cache = here.get_visibility_variables_cache();
+    const level_cache &map_cache = here.get_cache_ref( pos.z() );
     const auto &visibility_cache = map_cache.visibility_cache;
 #if defined(TILES)
     // Mark cata_tiles draw caches as dirty
@@ -354,9 +363,10 @@ input_context game::get_player_input( std::string &action )
                     const point map( iRand + offset );
 
                     const tripoint_bub_ms mapp( map.x, map.y, pos.z() );
-
-                    if( m.inbounds( mapp ) && m.is_outside( mapp ) &&
-                        m.get_visibility( visibility_cache[mapp.x()][mapp.y()], cache ) ==
+                    const bool no_roof_above = here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, mapp + tripoint::above );
+                    if( here.inbounds( mapp ) && here.is_outside( mapp ) &&
+                        no_roof_above &&
+                        here.get_visibility( visibility_cache[mapp.x()][mapp.y()], cache ) ==
                         visibility_type::CLEAR &&
                         !creatures.creature_at( mapp, true ) ) {
                         // Suppress if a critter is there
@@ -448,15 +458,15 @@ static void rcdrive( const point_rel_ms &d )
 {
     Character &player_character = get_player_character();
     map &here = get_map();
-    std::stringstream car_location_string( player_character.get_value( "remote_controlling" ) );
+    diag_value const *car_location = player_character.maybe_get_value( "remote_controlling" );
 
-    if( car_location_string.str().empty() ) {
+    if( !car_location ) {
         //no turned radio car found
         add_msg( m_warning, _( "No radio car connected." ) );
         return;
     }
-    tripoint_bub_ms c;
-    car_location_string >> c.x() >> c.y() >> c.z();
+    // FIXME: migrate to abs
+    tripoint_bub_ms c{ car_location->tripoint().raw() };
 
     auto rc_pairs = here.get_rc_items( c );
     auto rc_pair = rc_pairs.begin();
@@ -484,9 +494,8 @@ static void rcdrive( const point_rel_ms &d )
         sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
         player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
         here.i_rem( src, rc_car );
-        car_location_string.clear();
-        car_location_string << dest.x() << ' ' << dest.y() << ' ' << dest.z();
-        player_character.set_value( "remote_controlling", car_location_string.str() );
+        // FIXME: migrate to abs
+        player_character.set_value( "remote_controlling", tripoint_abs_ms{ dest.raw() } );
         return;
     }
 }
@@ -576,14 +585,17 @@ static void pldrive( point_rel_ms d )
     pldrive( tripoint_rel_ms( d, 0 ) );
 }
 
-static void open()
+static void open( const std::optional<tripoint_bub_ms> &p = std::nullopt )
 {
     map &here = get_map();
 
     avatar &player_character = get_avatar();
-    const std::optional<tripoint_bub_ms> openp_ = choose_adjacent_highlight( here, _( "Open where?" ),
-            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
-            ACTION_OPEN, false );
+    std::optional<tripoint_bub_ms> openp_ = p;
+    if( !openp_ ) {
+        openp_ = choose_adjacent_highlight( here, _( "Open where?" ),
+                                            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
+                                            ACTION_OPEN, false );
+    }
 
     if( !openp_ ) {
         return;
@@ -654,7 +666,7 @@ static void open()
             return;
         } else if( tid.obj().close ) {
             // if the following message appears unexpectedly, the prior check was for t_door_o
-            add_msg( m_info, _( "That door is already open." ) );
+            add_msg( m_info, _( "The door is already open." ) );
             player_character.mod_moves( to_moves<int>( 1_seconds ) );
             return;
         }
@@ -663,15 +675,20 @@ static void open()
     }
 }
 
-static void close()
+static void close( const std::optional<tripoint_bub_ms> &p = std::nullopt )
 {
     map &here = get_map();
 
-    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_highlight(
-                here, _( "Close where?" ),
-                pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
-                ACTION_CLOSE, false ) ) {
-        doors::close_door( get_map(), get_player_character(), *pnt );
+    std::optional<tripoint_bub_ms> pnt = p;
+    if( !pnt ) {
+        pnt = choose_adjacent_highlight(
+                  here, _( "Close where?" ),
+                  pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
+                  ACTION_CLOSE, false );
+    }
+
+    if( pnt ) {
+        doors::close_door( here, get_player_character(), *pnt );
     }
 }
 
@@ -698,7 +715,7 @@ static void auto_features_warn()
 }
 
 // Establish or release a grab on a vehicle
-static void grab()
+static void grab( const std::optional<tripoint_bub_ms> &p = std::nullopt )
 {
     avatar &you = get_avatar();
     map &here = get_map();
@@ -714,7 +731,10 @@ static void grab()
         return;
     }
 
-    const std::optional<tripoint_bub_ms> grabp_ = choose_adjacent( _( "Grab where?" ) );
+    std::optional<tripoint_bub_ms> grabp_ = p;
+    if( !grabp_ ) {
+        grabp_ = choose_adjacent( _( "Grab where?" ) );
+    }
     if( !grabp_ ) {
         add_msg( _( "Never mind." ) );
         return;
@@ -761,6 +781,16 @@ static void grab()
                 veh_name = split_vp->vehicle().name;
             } else {
                 debugmsg( "Lost the part to drag after splitting power grid!" );
+                return;
+            }
+        }
+        if( vp->has_loaded_furniture() ) {
+            furn_str_id furn( vp->part_with_feature( "FURNITURE_TIEDOWN",
+                              true )->part().get_base().get_var( "tied_down_furniture" ) );
+            //~ %1$s - furniture name, %2$s - vehicle name
+            if( query_yn( _( "Grab %1$s on %2$s?" ), furn->name(), veh_name ) ) {
+                you.grab( object_type::FURNITURE_ON_VEHICLE, grabp - you.pos_bub() );
+                add_msg( m_info, _( "You grab the %1$s loaded on the %2$s." ), furn->name(), veh_name );
                 return;
             }
         }
@@ -874,7 +904,7 @@ static void haul()
             selector.add_map_items( player_character.pos_bub() );
             selector.apply_selection( player_character.haul_list );
             selector.set_title( _( "Select items to haul" ) );
-            selector.set_hint( _( "To select x items, type a number before selecting." ) );
+            selector.set_hint( _( "To select items, type a number before selecting." ) );
             drop_locations result = selector.execute( true );
             haulable_items.clear();
             for( const drop_location &dl : result ) {
@@ -889,16 +919,14 @@ static void haul()
         case 3:
             autohaul ? player_character.stop_autohaul() : player_character.start_autohaul();
             break;
-        case 4:
-            string_input_popup()
-            .title( _( "Filter:" ) )
-            .width( 55 )
-            .description( item_filter_rule_string( item_filter_type::FILTER ) )
-            .desc_color( c_white )
-            .identifier( "item_filter" )
-            .max_length( 256 )
-            .edit( player_character.hauling_filter );
-            break;
+        case 4: {
+            string_input_popup_imgui filter_popup( 50, player_character.hauling_filter );
+            filter_popup.set_label( _( "Filter:" ) );
+            filter_popup.set_description( item_filter_rule_string( item_filter_type::FILTER ), c_white, true );
+            filter_popup.set_identifier( "item_filter" );
+            player_character.hauling_filter = filter_popup.query();
+        }
+        break;
         case 9:
         default:
             break;
@@ -910,11 +938,14 @@ static void haul_toggle()
     get_avatar().toggle_hauling();
 }
 
-static void smash()
+static void smash( const std::optional<tripoint_bub_ms> &p = std::nullopt )
 {
     const bool allow_floor_bash = debug_mode; // Should later become "true"
-    const std::optional<tripoint_bub_ms> smashp_ = choose_adjacent( _( "Smash where?" ),
-            allow_floor_bash );
+    std::optional<tripoint_bub_ms> smashp_ = p;
+    if( !smashp_ ) {
+        smashp_ = choose_adjacent( _( "Smash where?" ),
+                                   allow_floor_bash );
+    }
     if( !smashp_ ) {
         return;
     }
@@ -936,8 +967,7 @@ static void smash()
 
     avatar &player_character = get_avatar();
     avatar::smash_result res = player_character.smash( smashp );
-    if( res.did_smash && !res.success &&
-        res.resistance > 0 && res.skill >= res.resistance &&
+    if( res.did_smash && !res.success && res.can_smash &&
         query_yn( _( "Keep smashing until destroyed?" ) ) ) {
         player_character.assign_activity( bash_activity_actor( smashp ) );
     }
@@ -946,10 +976,9 @@ static void smash()
 avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
 {
     avatar::smash_result ret;
+    ret.can_smash = false;
     ret.did_smash = false;
     ret.success = false;
-    ret.skill = -1;
-    ret.resistance = -1;
 
     map &here = get_map();
     if( is_mounted() ) {
@@ -965,8 +994,6 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
     const int move_cost = !is_armed() ? 80 :
                           get_wielded_item()->attack_time( *this ) * 0.8;
     bool mech_smash = false;
-    int smashskill = smash_ability();
-    ret.skill = smashskill;
     if( is_mounted() ) {
         mech_smash = true;
     }
@@ -990,35 +1017,41 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
             crit->use_mech_power( 3_kJ );
         }
     }
+    std::map<damage_type_id, int> smash_damage = smash_ability();
     for( std::pair<const field_type_id, field_entry> &fd_to_smsh : here.field_at( smashp ) ) {
         const std::optional<map_fd_bash_info> &bash_info = fd_to_smsh.first->bash_info;
         if( !bash_info ) {
             continue;
         }
-        if( ( smashskill < bash_info->str_min && one_in( 10 ) ) || fd_to_smsh.first->indestructible ) {
+        int damage = bash_info->damage_to( smash_damage );
+        if( ( damage <= 0 && one_in( 10 ) ) || fd_to_smsh.first->indestructible ) {
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
             ret.did_smash = true;
-            return ret;
-        } else if( smashskill >= rng( bash_info->str_min, bash_info->str_max ) ) {
+        } else if( damage > 0 && x_in_y( damage, bash_info->hp() ) ) {
             sounds::sound( smashp, bash_info->sound_vol, sounds::sound_t::combat, bash_info->sound, true,
                            "smash",
                            "field" );
             here.remove_field( smashp, fd_to_smsh.first );
             here.spawn_items( smashp, item_group::items_from( bash_info->drop_group, calendar::turn ) );
+            if( !bash_info->destroyed_field.first.is_null() ) {
+                here.add_field( smashp, bash_info->destroyed_field.first, bash_info->destroyed_field.second );
+            }
             mod_moves( - bash_info->fd_bash_move_cost );
             add_msg( m_info, bash_info->field_bash_msg_success.translated() );
             ret.did_smash = true;
             ret.success = true;
-            return ret;
         } else {
             sounds::sound( smashp, bash_info->sound_fail_vol, sounds::sound_t::combat, bash_info->sound_fail,
                            true, "smash",
                            "field" );
 
-            ret.resistance = bash_info->str_min;
+            ret.can_smash = bash_info->damage_to( smash_damage ) > 0;
             ret.did_smash = true;
-            return ret;
         }
+        if( ret.did_smash && !bash_info->hit_field.first.is_null() ) {
+            here.add_field( smashp, bash_info->hit_field.first, bash_info->hit_field.second );
+        }
+        return ret;
     }
 
     bool should_pulp = false;
@@ -1052,13 +1085,15 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
             if( !best_part_to_smash.first->smash_message.empty() ) {
                 add_msg( best_part_to_smash.first->smash_message, name_to_bash );
             } else {
-                add_msg( _( "You use your %s to smash the %s." ),
+                //~ %1$s - bodypart name in accusative, %2$s - furniture/terrain name
+                add_msg( _( "You use your %1$s to smash the %2$s." ),
                          body_part_name_accusative( best_part_to_smash.first ), name_to_bash );
             }
         }
     }
 
-    const bash_params bash_result = here.bash( smashp, smashskill, false, false, smash_floor );
+    const bash_params bash_result = here.bash( smashp, smash_damage, false, false, smash_floor );
+    ret.can_smash = bash_result.can_bash;
     // Weariness scaling
     float weary_mult = 1.0f;
     item_location weapon = used_weapon();
@@ -1107,9 +1142,8 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
             ret.success = true;
             // Bash results in destruction of target
             g->draw_async_anim( smashp, "bash_complete", "X", c_light_gray );
-        } else if( smashskill >= here.bash_resistance( smashp ) ) {
+        } else if( bash_result.did_bash ) {
             // Bash effective but target not yet destroyed
-            ret.resistance = here.bash_resistance( smashp );
             g->draw_async_anim( smashp, "bash_effective", "/", c_light_gray );
         } else {
             // Bash not effective
@@ -1214,6 +1248,10 @@ static void wait()
             as_m.addentry( 14, true, 'w', _( "Wait until you catch your breath" ) );
             durations.emplace( 14, 15_minutes ); // to hide it from showing
         }
+        if( !wait_followers_activity_actor::get_absent_followers( player_character ).empty() ) {
+            as_m.addentry( 15, true, 'f', _( "Wait for followers to catch up" ) );
+            durations.emplace( 15, 15_minutes ); // to hide it from showing(?)
+        }
         add_menu_item( 1, '1', !has_watch ? _( "Wait 20 heartbeats" ) : "", 20_seconds );
         add_menu_item( 2, '2', !has_watch ? _( "Wait 60 heartbeats" ) : "", 1_minutes );
         add_menu_item( 3, '3', !has_watch ? _( "Wait 300 heartbeats" ) : "", 5_minutes );
@@ -1285,18 +1323,13 @@ static void wait()
         // Waiting
         activity_id actType;
         if( as_m.ret == 13 ) {
-            actType = ACT_WAIT_WEATHER;
+            player_character.assign_activity( wait_weather_activity_actor() );
         } else if( as_m.ret == 14 ) {
-            actType = ACT_WAIT_STAMINA;
-        } else {
-            actType = ACT_WAIT;
-        }
-
-        if( actType == ACT_WAIT_STAMINA ) {
             player_character.assign_activity( wait_stamina_activity_actor() );
+        } else if( as_m.ret == 15 ) {
+            player_character.assign_activity( wait_followers_activity_actor() );
         } else {
-            player_activity new_act( actType, 100 * to_turns<int>( time_to_wait ), 0 );
-            player_character.assign_activity( new_act );
+            player_character.assign_activity( wait_activity_actor( time_to_wait ) );
         }
     }
 }
@@ -1357,7 +1390,7 @@ static void sleep()
 
         // some bionics
         // bio_alarm is useful for waking up during sleeping
-        if( bio.info().has_flag( STATIC( json_character_flag( "BIONIC_SLEEP_FRIENDLY" ) ) ) ) {
+        if( bio.info().has_flag( json_flag_BIONIC_SLEEP_FRIENDLY ) ) {
             continue;
         }
 
@@ -1465,6 +1498,7 @@ static void loot()
         MultiMining = 8192,
         MultiDis = 16384,
         MultiMopping = 32768,
+        MultiStudy = 131072,
         UnloadLoot = 65536
     };
 
@@ -1482,7 +1516,7 @@ static void loot()
     }
 
     // Manually update vehicle cache.
-    // In theory this would be handled by the related activity (activity_on_turn_move_loot())
+    // In theory this would be handled by the related activity (zone_sort_activity_actor())
     // but with a stale cache we never get that far.
     mgr.cache_vzones();
 
@@ -1511,6 +1545,7 @@ static void loot()
     flags |= g->check_near_zone( zone_type_DISASSEMBLE,
                                  player_character.pos_bub() ) ? MultiDis : 0;
     flags |= g->check_near_zone( zone_type_MOPPING, player_character.pos_bub() ) ? MultiMopping : 0;
+    flags |= g->check_near_zone( zone_type_STUDY_ZONE, player_character.pos_bub() ) ? MultiStudy : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1587,6 +1622,10 @@ static void loot()
     if( flags & MultiMopping ) {
         menu.addentry_desc( MultiMopping, true, 'p', _( "Mop area" ), _( "Mop clean the area." ) );
     }
+    if( flags & MultiStudy ) {
+        menu.addentry_desc( MultiStudy, true, 's', _( "Study from books in study zones" ),
+                            wrap60( _( "Find and read books from study zones." ) ) );
+    }
 
     menu.query();
     flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -1597,7 +1636,7 @@ static void loot()
             add_msg( _( "Never mind." ) );
             break;
         case SortLoot:
-            player_character.assign_activity( ACT_MOVE_LOOT );
+            player_character.assign_activity( zone_sort_activity_actor() );
             break;
         case SortLootStatic:
             //temporarily disable personal zones
@@ -1612,7 +1651,7 @@ static void loot()
             if( recache ) {
                 mgr.cache_data();
             }
-            player_character.assign_activity( ACT_MOVE_LOOT );
+            player_character.assign_activity( zone_sort_activity_actor() );
             break;
         case SortLootPersonal:
             //temporarily disable non personal zones
@@ -1627,7 +1666,7 @@ static void loot()
             if( recache ) {
                 mgr.cache_data();
             }
-            player_character.assign_activity( ACT_MOVE_LOOT );
+            player_character.assign_activity( zone_sort_activity_actor() );
             break;
         case UnloadLoot:
             player_character.assign_activity( unload_loot_activity_actor() );
@@ -1664,6 +1703,9 @@ static void loot()
             break;
         case MultiMopping:
             player_character.assign_activity( ACT_MULTIPLE_MOP );
+            break;
+        case MultiStudy:
+            player_character.assign_activity( ACT_MULTIPLE_STUDY );
             break;
         default:
             debugmsg( "Unsupported flag" );
@@ -1704,13 +1746,25 @@ static void read()
     if( loc ) {
         item the_book = *loc.get_item();
         if( avatar_action::check_stealing( get_player_character(), the_book ) ) {
+            item_location parent_loc = loc.parent_item();
             if( loc->type->can_use( "learn_spell" ) ) {
                 the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos_bub() );
+            } else if( loc.is_efile() ) {
+                // obtain e-storage device if not allowed to use remotely
+                if( !parent_loc->has_flag( json_flag_ALLOWS_REMOTE_USE ) ) {
+                    parent_loc = parent_loc.obtain( player_character );
+                    item *newit = parent_loc->get_item_with( [&]( const item & it ) {
+                        return it.typeId() == the_book.typeId();
+                    } );
+                    loc = item_location( parent_loc, &*newit );
+                }
+                player_character.read( loc, parent_loc );
             } else {
+                if( ( parent_loc && parent_loc->has_flag( json_flag_NO_UNLOAD ) ) || loc.is_efile() ) {
+                    debugmsg( "tried to get an item you shouldn't obtain." );
+                }
                 loc = loc.obtain( player_character );
-                item_location parent_loc = loc.parent_item();
-                ( parent_loc && parent_loc->is_estorage() ) ?
-                player_character.read( loc, parent_loc ) : player_character.read( loc );
+                player_character.read( loc );
             }
         }
     } else {
@@ -1852,17 +1906,17 @@ static void cast_spell( bool recast_spell = false )
         return;
     }
 
-    std::set<std::string> failure_messages = {};
+    std::map<magic_type_id, bool> success_tracker = {};
     for( const spell_id &sp : spells ) {
         spell &temp_spell = player_character.magic->get_spell( sp );
-        if( temp_spell.can_cast( player_character, failure_messages ) ) {
-            break;
-        }
+        temp_spell.can_cast( player_character, success_tracker );
     }
 
-    for( const std::string &failure_message : failure_messages ) {
-        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                 failure_message );
+    for( auto const& [m_type, any_success] : success_tracker ) {
+        if( !any_success && m_type->cannot_cast_message.has_value() ) {
+            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                     m_type->cannot_cast_message.value() );
+        }
     }
 
     if( recast_spell && player_character.magic->last_spell.is_null() ) {
@@ -1892,6 +1946,11 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
         return false;
     }
 
+    if( !sp.valid_caster_condition( *this ) ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown }, sp.failed_caster_condition_message() );
+        return false;
+    }
+
     if( !magic->has_enough_energy( *this, sp ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You don't have enough %s to cast the spell." ),
@@ -1912,39 +1971,18 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
         return false;
     }
 
-    player_activity spell_act( ACT_SPELLCASTING, sp.casting_time( *this ) );
-    // [0] this is used as a spell level override for items casting spells
+    std::optional<int> fake_spell_level;
     if( fake_spell ) {
-        spell_act.values.emplace_back( sp.get_level() );
-    } else {
-        spell_act.values.emplace_back( -1 );
+        fake_spell_level = sp.get_level();
     }
-    // [1] if this value is 1, the spell never fails
-    spell_act.values.emplace_back( 0 );
-    // [2] this value overrides the mana cost if set to 0
-    spell_act.values.emplace_back( 1 );
-    spell_act.name = sp.id().c_str();
-    if( magic->casting_ignore ) {
-        const std::vector<distraction_type> ignored_distractions = {
-            distraction_type::noise,
-            distraction_type::pain,
-            distraction_type::attacked,
-            distraction_type::hostile_spotted_near,
-            distraction_type::hostile_spotted_far,
-            distraction_type::talked_to,
-            distraction_type::asthma,
-            distraction_type::motion_alarm,
-            distraction_type::weather_change,
-            distraction_type::mutation
-        };
-        for( const distraction_type ignored : ignored_distractions ) {
-            spell_act.ignore_distraction( ignored );
-        }
-    }
+    std::optional<tripoint_abs_ms> abs_target;
     if( target ) {
-        spell_act.coords.emplace_back( get_map().get_abs( *target ) );
+        abs_target = get_map().get_abs( *target );
     }
-    assign_activity( spell_act );
+
+    assign_activity( spellcasting_activity_actor(
+                         time_duration::from_moves<int>( sp.casting_time( *this ) ),
+                         sp.id(), abs_target, fake_spell_level ) );
     return true;
 }
 
@@ -1970,23 +2008,13 @@ void game::open_consume_item_menu()
     as_m.entries.emplace_back( 2, true, 'm', _( "Medication" ) );
     as_m.query();
 
-    avatar &player_character = get_avatar();
-    switch( as_m.ret ) {
-        case 0: {
-            item_location loc = game_menus::inv::consume_food();
-            avatar_action::eat( player_character, loc );
-            break;
-        }
-        case 1: {
-            item_location loc = game_menus::inv::consume_drink();
-            avatar_action::eat( player_character, loc );
-            break;
-        }
-        case 2:
-            avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds() );
-            break;
-        default:
-            break;
+    const int query_returned_index = as_m.ret;
+    if( query_returned_index >= 0 && query_returned_index < 3 ) {
+        const std::array<std::string, 3> comestype_strings = { "FOOD", "DRINK", "MED" };
+        const std::string &selected_comestype = comestype_strings[query_returned_index];
+        uistate.open_menu = [selected_comestype = selected_comestype]() {
+            avatar_action::eat_or_use( get_avatar(), game_menus::inv::consume( selected_comestype ) );
+        };
     }
 }
 
@@ -2011,15 +2039,6 @@ static void handle_debug_mode()
             entry.text_color = c_light_gray;
         }
     };
-
-    static bool first_time = true;
-    if( first_time ) {
-        first_time = false;
-        debugmode::enabled_filters.clear();
-        for( int i = 0; i < debugmode::DF_LAST; ++i ) {
-            debugmode::enabled_filters.emplace( static_cast<debugmode::debug_filter>( i ) );
-        }
-    }
 
     input_context ctxt( "DEFAULTMODE" );
     ctxt.register_action( "debug_mode" );
@@ -2209,6 +2228,8 @@ static const std::set<action_id> actions_disabled_in_incorporeal {
     ACTION_ADVANCEDINV,
     ACTION_PICKUP,
     ACTION_PICKUP_ALL,
+    ACTION_DROP,
+    ACTION_DIR_DROP,
     ACTION_GRAB,
     ACTION_HAUL,
     ACTION_HAUL_TOGGLE,
@@ -2220,6 +2241,29 @@ static const std::set<action_id> actions_disabled_in_incorporeal {
     ACTION_CONSTRUCT,
     ACTION_CONTROL_VEHICLE,
 };
+
+static std::map<action_id, std::string> get_actions_disabled_in_handless_temporary_shapeshift()
+{
+    return std::map<action_id, std::string> {
+        { ACTION_OPEN,               _( "You can't open things while shapeshifted." ) },
+        { ACTION_CLOSE,              _( "You can't close things while shapeshifted." ) },
+        { ACTION_ADVANCEDINV,        _( "You can't move mass quantities while shapeshifted." ) },
+        { ACTION_PICKUP,             _( "You can't pick anything up while shapeshifted." ) },
+        { ACTION_PICKUP_ALL,         _( "You can't pick anything up while shapeshifted." ) },
+        { ACTION_GRAB,               _( "You can't grab things while shapeshifted." ) },
+        { ACTION_HAUL,               _( "You can't haul things while shapeshifted." ) },
+        { ACTION_HAUL_TOGGLE,        _( "You can't haul things while shapeshifted." ) },
+        { ACTION_BUTCHER,            _( "You can't butcher while shapeshifted." ) },
+        { ACTION_DROP,               _( "You can't drop things while shapeshifted." ) },
+        { ACTION_DIR_DROP,           _( "You can't drop things while shapeshifted." ) },
+        { ACTION_CRAFT,              _( "You can't craft while shapeshifted." ) },
+        { ACTION_RECRAFT,            _( "You can't craft while shapeshifted." ) },
+        { ACTION_LONGCRAFT,          _( "You can't craft while shapeshifted." ) },
+        { ACTION_DISASSEMBLE,        _( "You can't disassemble while shapeshifted." ) },
+        { ACTION_CONSTRUCT,          _( "You can't construct while shapeshifted." ) },
+        { ACTION_CONTROL_VEHICLE,    _( "You can't operate a vehicle while shapeshifted." ) },
+    };
+}
 
 static std::map<action_id, std::string> get_actions_disabled_mounted()
 {
@@ -2252,6 +2296,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
     const std::map<action_id, std::string> actions_disabled_mounted = get_actions_disabled_mounted();
     const std::map<action_id, std::string> actions_disabled_in_shell = get_actions_disabled_in_shell();
+    const std::map<action_id, std::string> actions_disabled_while_handless_shapeshifted =
+        get_actions_disabled_in_handless_temporary_shapeshift();
 
     if( in_shell && actions_disabled_in_shell.count( act ) > 0 ) {
         add_msg( m_info, actions_disabled_in_shell.at( act ) );
@@ -2260,6 +2306,12 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
     if( u.has_effect( effect_incorporeal ) && actions_disabled_in_incorporeal.count( act ) > 0 ) {
         add_msg( m_info, _( "You lack the substance to affect anything." ) );
+        return true;
+    }
+
+    if( u.has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) &&
+        actions_disabled_while_handless_shapeshifted.count( act ) > 0 ) {
+        add_msg( m_info, _( "You can't do that while shapeshifted." ) );
         return true;
     }
 
@@ -2324,7 +2376,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_MOVE_BACK_LEFT:
         case ACTION_MOVE_LEFT:
         case ACTION_MOVE_FORTH_LEFT:
-            if( !player_character.get_value( "remote_controlling" ).empty() &&
+            if( player_character.maybe_get_value( "remote_controlling" ) &&
                 ( player_character.has_active_item( itype_radiocontrol ) ||
                   player_character.has_active_bionic( bio_remote ) ) ) {
                 rcdrive( get_delta_from_movement_action( act, iso_rotate::yes ) );
@@ -2339,9 +2391,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                         tripoint_bub_ms auto_travel_destination =
                             player_character.pos_bub() + dest_delta * ( SEEX - i );
                         destination_preview =
-                            m.route( player_character.pos_bub(), auto_travel_destination,
-                                     player_character.get_pathfinding_settings(),
-                                     player_character.get_path_avoid() );
+                            here.route( player_character, pathfinding_target::point( auto_travel_destination ) );
                         if( !destination_preview.empty() ) {
                             destination_preview.erase(
                                 destination_preview.begin() + 1, destination_preview.end() );
@@ -2356,7 +2406,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     }
                     dest_delta = dest_next;
                 }
-                if( !avatar_action::move( player_character, m, tripoint_rel_ms( dest_delta, 0 ) ) ) {
+                if( !avatar_action::move( player_character, here, tripoint_rel_ms( dest_delta, 0 ) ) ) {
                     // auto-move should be canceled due to a failed move or obstacle
                     player_character.abort_automove();
                 }
@@ -2403,19 +2453,20 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
             if( !player_character.in_vehicle ) {
                 // We're NOT standing on tiles with stairs, ropes, ladders etc
-                if( !m.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) ) {
+                if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) &&
+                    !u.has_flag( json_flag_PHASE_MOVEMENT ) ) {
                     std::vector<tripoint_bub_ms> pts;
 
                     // If levitating, just move straight down if possible.
                     if( player_character.has_flag( json_flag_LEVITATION ) &&
-                        m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, player_character.pos_bub() ) ) {
+                        here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, player_character.pos_bub() ) ) {
                         pts.push_back( player_character.pos_bub() );
                     }
 
                     if( pts.empty() ) {
                         // Check tiles around player character for open air
-                        for( const tripoint_bub_ms &p : m.points_in_radius( player_character.pos_bub(), 1 ) ) {
-                            if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+                        for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
+                            if( here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
                                 pts.push_back( p );
                             }
                         }
@@ -2436,7 +2487,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
                 // If we're here, we might or might not be standing on tiles with stairs, ropes, ladders etc
                 // In any case, attempt a descend
-                vertical_move( -1, false );
+                vertical_move( -1, u.has_flag( json_flag_PHASE_MOVEMENT ) );
             }
             break;
         }
@@ -2450,7 +2501,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 }
             }
             if( !player_character.in_vehicle ) {
-                vertical_move( 1, false );
+                vertical_move( 1, u.has_flag( json_flag_PHASE_MOVEMENT ) );
             } else if( has_vehicle_control( player_character ) ) {
                 const optional_vpart_position vp = here.veh_at( player_character.pos_bub() );
                 if( vp->vehicle().is_rotorcraft( here ) ) {
@@ -2460,7 +2511,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_OPEN:
-            open();
+            open( mouse_target );
             break;
 
         case ACTION_CLOSE:
@@ -2469,10 +2520,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 if( !mon->has_flag( mon_flag_RIDEABLE_MECH ) ) {
                     add_msg( m_info, _( "You can't close things while you're riding." ) );
                 }
-            } else if( mouse_target ) {
-                doors::close_door( m, player_character, *mouse_target );
             } else {
-                close();
+                close( mouse_target );
             }
             break;
 
@@ -2480,7 +2529,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( has_vehicle_control( player_character ) ) {
                 handbrake( here );
             } else {
-                smash();
+                smash( mouse_target );
             }
             break;
 
@@ -2512,7 +2561,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_GRAB:
-            grab();
+            grab( mouse_target );
             break;
 
         case ACTION_HAUL:
@@ -2524,15 +2573,19 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_BUTCHER:
-            butcher();
+            butcher( mouse_target );
             break;
 
         case ACTION_CHAT:
-            chat();
+            chat( mouse_target );
             break;
 
         case ACTION_PEEK:
-            peek();
+            if( mouse_target ) {
+                peek( *mouse_target );
+            } else {
+                peek();
+            }
             break;
 
         case ACTION_LIST_ITEMS:
@@ -2540,7 +2593,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_ZONES:
-            zones_manager();
+            zone_manager_ui::display_zone_manager();
             break;
 
         case ACTION_LOOT:
@@ -2696,14 +2749,18 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_UNLOAD_CONTAINER:
             // You CAN drop things to your own tile while in the shell.
-            unload_container();
+            unload_container( mouse_target );
             break;
 
         case ACTION_DROP:
             drop_in_direction( player_character.pos_bub() );
             break;
-        case ACTION_DIR_DROP:
-            if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
+        case ACTION_DIR_DROP: {
+            std::optional<tripoint_bub_ms> pnt = mouse_target;
+            if( !pnt ) {
+                pnt = choose_adjacent( _( "Drop where?" ) );
+            }
+            if( pnt ) {
                 if( *pnt != player_character.pos_bub() && in_shell ) {
                     add_msg( m_info, _( "You can't drop things to another tile while you're in your shell." ) );
                 } else {
@@ -2711,6 +2768,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 }
             }
             break;
+        }
         case ACTION_BIONICS:
             player_character.power_bionics();
             break;
@@ -2750,9 +2808,6 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( player_character.in_vehicle ) {
                 add_msg( m_info, _( "You can't construct while in a vehicle." ) );
             } else {
-                if( !g->warn_player_maybe_anger_local_faction( true ) ) {
-                    break; // player declined to mess with faction's stuff
-                }
                 construction_menu( false );
             }
             break;
@@ -2767,7 +2822,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else if( player_character.has_trait( trait_WAYFARER ) ) {
                 add_msg( m_info, _( "You refuse to take control of this vehicle." ) );
             } else {
-                control_vehicle();
+                control_vehicle( mouse_target );
             }
             break;
 
@@ -2849,6 +2904,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 if( save() ) {
                     player_character.set_moves( 0 );
                     uquit = QUIT_SAVED;
+                } else if( save_is_dirty && query_yn( _( "Unable to save, quit anyway?" ) ) ) {
+                    // Game refused to save because of unsupported game state. But we don't want to trap them here, so at least let give them the option.
+                    player_character.set_moves( 0 );
+                    uquit = QUIT_NOSAVED;
                 }
             }
             break;
@@ -2859,6 +2918,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_QUICKLOAD:
             quickload();
+            g->save_is_dirty = true;
             return false;
 
         case ACTION_PL_INFO:
@@ -2866,10 +2926,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_MAP:
-            if( !m.is_outside( player_character.pos_bub() ) ) {
+            if( !here.is_outside( player_character.pos_bub() ) ) {
                 uistate.overmap_visible_weather = false;
             }
-            if( !get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
+            if( you_know_where_you_are() ) {
                 ui::omap::display();
             } else {
                 add_msg( m_info, _( "You have no idea where you are." ) );
@@ -2877,7 +2937,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_SKY:
-            if( m.is_outside( player_character.pos_bub() ) ) {
+            if( here.is_outside( player_character.pos_bub() ) ) {
                 ui::omap::display_visible_weather();
             } else {
                 add_msg( m_info, _( "You can't see the sky from here." ) );
@@ -2944,6 +3004,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             world_generator->show_active_world_mods( world_generator->active_world->active_mod_order );
             break;
 
+        case ACTION_EXPORT_BUG_REPORT_ARCHIVE:
+            debug_menu::export_save_archive_and_game_report();
+            break;
+
         case ACTION_DEBUG:
             if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                 break;    //don't do anything when sharing and not debugger
@@ -2985,17 +3049,17 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_TOGGLE_THIEF_MODE:
-            if( player_character.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+            if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
                 player_character.set_value( "THIEF_MODE", "THIEF_HONEST" );
                 player_character.set_value( "THIEF_MODE_KEEP", "YES" );
                 //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                 add_msg( _( "You will not pick up other peoples belongings." ) );
-            } else if( player_character.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+            } else if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
                 player_character.set_value( "THIEF_MODE", "THIEF_STEAL" );
                 player_character.set_value( "THIEF_MODE_KEEP", "YES" );
                 //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                 add_msg( _( "You will pick up also those things that belong to others!" ) );
-            } else if( player_character.get_value( "THIEF_MODE" ) == "THIEF_STEAL" ) {
+            } else if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_STEAL" ) {
                 player_character.set_value( "THIEF_MODE", "THIEF_ASK" );
                 player_character.set_value( "THIEF_MODE_KEEP", "NO" );
                 //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
@@ -3003,7 +3067,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else {
                 // ERROR
                 add_msg( _( "THIEF_MODE CONTAINED BAD VALUE [ %s ]!" ),
-                         player_character.get_value( "THIEF_MODE" ) );
+                         player_character.get_value( "THIEF_MODE" ).to_string() );
             }
             break;
 
@@ -3018,56 +3082,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             set_next_option( "AUTO_PICKUP" );
             break;
 
-        case ACTION_DISPLAY_SCENT:
-        case ACTION_DISPLAY_SCENT_TYPE:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_scent();
-            break;
-
-        case ACTION_DISPLAY_TEMPERATURE:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_temperature();
-            break;
-        case ACTION_DISPLAY_VEHICLE_AI:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_vehicle_ai();
-            break;
-        case ACTION_DISPLAY_VISIBILITY:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_visibility();
-            break;
-
-        case ACTION_DISPLAY_LIGHTING:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_lighting();
-            break;
-
-        case ACTION_DISPLAY_RADIATION:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_radiation();
-            break;
-
         case ACTION_TOGGLE_HOUR_TIMER:
             toggle_debug_hour_timer();
-            break;
-
-        case ACTION_DISPLAY_TRANSPARENCY:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_transparency();
             break;
 
         case ACTION_TOGGLE_DEBUG_MODE:
@@ -3096,7 +3112,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_AUTOATTACK:
-            avatar_action::autoattack( player_character, m );
+            avatar_action::autoattack( player_character, here );
             break;
 
         default:
@@ -3182,6 +3198,22 @@ bool game::handle_action()
             }
         }
 
+#if defined(TILES)
+        if( gamepad::is_active() ) {
+            gamepad::direction dir = gamepad::get_left_stick_direction();
+            if( dir != gamepad::direction::NONE ) {
+                // List of actions that can use the directional cursor
+                if( act == ACTION_INTERACT || act == ACTION_SMASH || act == ACTION_GRAB ||
+                    act == ACTION_PEEK || act == ACTION_UNLOAD_CONTAINER || act == ACTION_DIR_DROP ||
+                    act == ACTION_EXAMINE || act == ACTION_EXAMINE_AND_PICKUP ||
+                    act == ACTION_PICKUP || act == ACTION_PICKUP_ALL || act == ACTION_CONTROL_VEHICLE ) {
+                    tripoint offset = gamepad::direction_to_offset( dir );
+                    mouse_target = player_character.pos_bub() + tripoint_rel_ms( offset.x, offset.y, 0 );
+                }
+            }
+        }
+#endif
+
         if( act == ACTION_ACTIONMENU ) {
             if( uquit == QUIT_WATCH ) {
                 return false;
@@ -3198,6 +3230,16 @@ bool game::handle_action()
                 add_best_key_for_action_to_quick_shortcuts( act, ctxt.get_category(), false );
             }
 #endif
+        }
+
+        if( act == ACTION_INTERACT ) {
+            if( !mouse_target ) {
+                mouse_target = player_character.pos_bub();
+            }
+            act = handle_interact( here, *mouse_target );
+            if( act == ACTION_NULL ) {
+                return false;
+            }
         }
 
         if( act == ACTION_KEYBINDINGS ) {
@@ -3304,6 +3346,10 @@ bool game::handle_action()
     if( act != ACTION_TIMEOUT ) {
         player_character.mod_moves( -current_turn.moves_elapsed() );
     }
+    if( act != ACTION_PAUSE ) {
+        player_character.magic->break_channeling( player_character );
+    }
+
     gamemode->post_action( act );
 
     player_character.movecounter = ( !player_character.is_dead_state() ? ( before_action_moves -

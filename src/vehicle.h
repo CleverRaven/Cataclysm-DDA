@@ -29,13 +29,17 @@
 #include "color.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "effect.h"
 #include "enums.h"
+#include "global_vars.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "item_stack.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
+#include "math_parser_diag_value.h"
 #include "npc.h"
 #include "point.h"
 #include "ret_val.h"
@@ -50,6 +54,7 @@
 // IWYU pragma: no_forward_declare npc // behind unique_ptr
 class Character;
 class Creature;
+class effect_source;
 class JsonArray;
 class JsonObject;
 class JsonOut;
@@ -181,6 +186,7 @@ class vehicle_stack : public item_stack
         void insert( map &here, const item &newitem ) override;
         int count_limit() const override;
         units::volume max_volume() const override;
+        units::volume stored_volume() const override;
 };
 
 enum towing_point_side : int {
@@ -254,6 +260,7 @@ class turret_cpu
 struct vehicle_part {
         friend vehicle;
         friend class veh_interact;
+        friend class vehicle_activity_actor;
         friend class vehicle_cursor;
         friend class vehicle_stack;
         friend item_location;
@@ -371,11 +378,16 @@ struct vehicle_part {
         /** Does this vehicle part have a fault with this flag */
         bool has_fault_flag( const std::string &searched_flag ) const;
 
+        bool has_fault( const fault_id &fault ) const;
+
         /** Faults which could potentially occur with this part (if any) */
         std::set<fault_id> faults_potential() const;
 
         /** Try to set fault returning false if specified fault cannot occur with this item */
         bool fault_set( const fault_id &f );
+
+        void load_furniture( map &here, const tripoint_bub_ms &from );
+        void unload_furniture( map &here, const tripoint_bub_ms &to );
 
         /**
          *  Get NPC currently assigned to this part (seat, turret etc)?
@@ -438,6 +450,8 @@ struct vehicle_part {
         /** Can a player or NPC use this part as a seat? */
         bool is_seat() const;
 
+        bool is_wheel() const;
+
         /* if this is a carried part, what is the name of the carried vehicle */
         std::string carried_name() const;
         /*@}*/
@@ -492,6 +506,11 @@ struct vehicle_part {
         */
         npc &get_targeting_npc( vehicle &veh );
         /*@}*/
+
+        // in cm^2
+        int contact_area() const;
+
+        float rolling_resistance() const;
 
         /** how much blood covers part (in turns). */
         int blood = 0;
@@ -724,6 +743,7 @@ class vpart_display
         const vpart_id &id;
         const vpart_variant &variant;
         nc_color color = c_black;
+        std::string carried_furn;
         char32_t symbol = ' '; // symbol in unicode
         int symbol_curses = ' '; // symbol converted to curses ACS encoding if needed
         bool is_broken = false;
@@ -810,7 +830,7 @@ class vehicle
     private:
         // TODO: Get rid of untyped overload.
         // Miscellaneous key/value pairs.
-        std::unordered_map<std::string, std::string> values;
+        global_variables::impl_t values;
         bool has_structural_part( const point &dp ) const;
         bool has_structural_part( const point_rel_ms &dp ) const;
         bool is_structural_part_removed() const;
@@ -819,10 +839,12 @@ class vehicle
         bool is_connected( const vehicle_part &to, const vehicle_part &from,
                            const vehicle_part &excluded ) const;
 
+    public:
         // direct damage to part (armor protection and internals are not counted)
         // @returns damage still left to apply
         int damage_direct( map &here, vehicle_part &vp, int dmg,
                            const damage_type_id &type = damage_type_id( "pure" ) );
+    private:
         // Removes the part, breaks it into pieces and possibly removes parts attached to it
         int break_off( map &here, vehicle_part &vp, int dmg );
         // Returns if it did actually explode
@@ -875,14 +897,29 @@ class vehicle
         static std::map<Vehicle *, float> search_connected_vehicles( const map &here, Vehicle *start );
     public:
         std::vector<std::string> chat_topics; // What it has to say.
-        void set_value( const std::string &key, const std::string &value );
+        void set_value( const std::string &key, diag_value value );
+        template <typename... Args>
+        void set_value( const std::string &key, Args... args ) {
+            set_value( key, diag_value{ std::forward<Args>( args )... } );
+        }
         void remove_value( const std::string &key );
-        std::string get_value( const std::string &key ) const;
-        std::optional<std::string> maybe_get_value( const std::string &key ) const;
+        diag_value const &get_value( const std::string &key ) const;
+        diag_value const *maybe_get_value( const std::string &key ) const;
         void clear_values();
         void add_chat_topic( const std::string &topic );
         int get_passenger_count( bool hostile ) const;
-
+        enchant_cache enchantment_cache; //NOLINT(cata-serialize)
+        void recalculate_enchantment_cache();
+        std::map<efftype_id, effect> effects;
+        void process_effects();
+        void remove_effect( const efftype_id &eff_id );
+        bool has_effect( const efftype_id &eff_id ) const;
+        std::vector<std::reference_wrapper<const effect>> get_effects() const;
+        /** Adds or modifies an effect. If intensity is given it will set the effect intensity
+            to the given value, or as close as max_intensity values permit. */
+        void add_effect( const effect_source &source, const efftype_id &eff_id, const time_duration &dur,
+                         bool permanent = false, int intensity = 0 );
+        bool has_visible_effect();
         /**
          * Find a possibly off-map vehicle. If necessary, loads up its submap through
          * the global MAPBUFFER and pulls it from there. For this reason, you should only
@@ -1365,7 +1402,7 @@ class vehicle
         int next_part_to_unlock( int p, bool outside = false ) const;
 
         // returns indices of all parts in the given location slot
-        std::vector<int> all_parts_at_location( const std::string &location ) const;
+        std::vector<int> all_parts_at_location( const vpart_location_id &location ) const;
         // shifts an index to next available of that type for NPC activities
         int get_next_shifted_index( int original_index, Character &you ) const;
         // Given a part and a flag, returns the indices of all contiguously adjacent parts
@@ -1833,6 +1870,16 @@ class vehicle
         veh_collision part_collision( map &here, int part, const tripoint_abs_ms &p,
                                       bool just_detect, bool bash_floor );
 
+        // Probability that the wheel will hit the item.
+        static double hit_probability( const item &it, const vehicle_part *vp_wheel );
+
+        // extracted helper for calculating damage chance in damage_wheel_on_item(). Used for tests.
+        double wheel_damage_chance_vs_item( const item &it, const vehicle_part &vp_wheel ) const;
+
+        // Calculates damage on the wheel from running over item and adds damage levels and messages to the vector if needed.
+        void damage_wheel_on_item( vehicle_part *vp_wheel, const item &it,
+                                   std::vector<std::string> *messages ) const;
+
         // Process the trap beneath
         void handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp_wheel );
         void activate_magical_follow();
@@ -2094,6 +2141,7 @@ class vehicle
         void toggle_autopilot( map &here );
         void enable_patrol( map &here );
         void toggle_tracking();
+        void display_effects();
         //scoop operation,pickups, battery drain, etc.
         void operate_scoop( map &here );
         void operate_reaper( map &here );
@@ -2168,10 +2216,13 @@ class vehicle
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
         void set_submap_moved( map *here, const tripoint_bub_sm &p );
+        void translate_cables( const tripoint_rel_ms &offset );
         void use_autoclave( map &here, int p );
         void use_washing_machine( map &here, int p );
         void use_dishwasher( map &here, int p );
+        void use_mws( map &here, int p );
         void use_monster_capture( int part, map *here, const tripoint_bub_ms &pos );
+        void use_tiedown_furniture( int part, map *here, const tripoint_bub_ms & );
         void use_harness( int part, map *here, const tripoint_bub_ms &pos );
 
         void build_electronics_menu( map &here, veh_menu &menu );

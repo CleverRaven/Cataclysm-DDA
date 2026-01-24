@@ -57,7 +57,7 @@
     "required_skills": [ [ "fabrication", 7 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "spike", 8 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ],
+    "components": [ [ [ "spike", 8 ] ], [ [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_m_frame"
   },
@@ -841,6 +841,26 @@
   },
   {
     "type": "construction",
+    "id": "constr_window_boarded_shutters",
+    "group": "wooden_shutters",
+    "//": "Bolt sturdy wood shutters onto a window",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "qualities": [
+      [
+        { "id": "HAMMER", "level": 2 },
+        { "id": "WRENCH", "level": 1 },
+        { "id": "DRILL", "level": 1 },
+        { "id": "SAW_W", "level": 2 }
+      ]
+    ],
+    "components": [ [ [ "2x4", 7 ] ], [ [ "wood_panel", 4 ] ], [ [ "hinge", 4 ] ], [ [ "nuts_bolts", 8 ] ], [ [ "nails", 16, "LIST" ] ] ],
+    "pre_flags": "BARRICADABLE_WINDOW",
+    "post_terrain": "t_window_boarded_shutters_closed"
+  },
+  {
+    "type": "construction",
     "id": "constr_window_boarded_curtains",
     "group": "board_up_window",
     "//": "Board up window with curtains",
@@ -1017,5 +1037,28 @@
     "components": [ [ [ "nails", 4, "LIST" ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ], [ "cordage_36", 1 ] ] ],
     "pre_terrain": "t_window_empty",
     "post_terrain": "t_window_empty_curtains_closed"
+  },
+  {
+    "type": "construction",
+    "id": "constr_window_bars_add_glass",
+    "group": "install_glass_onto_window_bars",
+    "category": "WINDOWS",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "30 m",
+    "components": [ [ [ "glass_sheet", 1 ] ] ],
+    "pre_terrain": "t_window_bars_noglass",
+    "post_terrain": "t_window_bars"
+  },
+  {
+    "type": "construction",
+    "id": "constr_window_galass_bars_add_curtains",
+    "group": "install_glass_onto_window_bars",
+    "category": "WINDOWS",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nails", 4, "LIST" ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ], [ "cordage_36", 1 ] ] ],
+    "pre_terrain": "t_window_bars",
+    "post_terrain": "t_window_bars_curtains"
   }
 ]

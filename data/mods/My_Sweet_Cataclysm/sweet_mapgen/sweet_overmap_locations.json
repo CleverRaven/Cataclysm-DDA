@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "pond_swamp_chocolate" ],
     "weight": 100,
     "object": {
@@ -89,7 +88,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "pond_swamp_chocolate" ],
     "weight": 200,
     "object": {

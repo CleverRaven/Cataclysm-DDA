@@ -2,7 +2,8 @@
   {
     "id": "debug_belt_tail",
     "repairs_like": "scarf",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "debug tail belt" },
     "description": "An example armor for testing custom limb/armor interactions.  100 coverage on the first sublimb of your debug tail with little encumbrance",
     "weight": "200 g",
@@ -20,7 +21,8 @@
   },
   {
     "id": "debug_belt_tail_weighted",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "debug_belt_tail",
     "name": { "str": "first weighted debug tail belt" },
     "description": "An example armor for testing custom limb/armor interactions.  100 coverage on the first sublimb of your debug tail with extreme encumbrance",
@@ -34,7 +36,8 @@
     ]
   },
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "debug_helmet_dragonfly",
     "name": { "str": "debug dragonfly helmet" },
     "description": "An example helmet to test on custom heads.  Should blind you.",
@@ -49,7 +52,8 @@
     ]
   },
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "integrated_feathers",
     "copy-from": "integrated_feathers",
     "name": { "str_sp": "feathers" },
@@ -79,7 +83,8 @@
   },
   {
     "id": "armor_bio_arms_basic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "bionic plating - arms" },
     "description": "The durable alloy armor which protects the sensitive components that operate your bionic arms.",
@@ -127,7 +132,8 @@
   },
   {
     "id": "armor_bio_arm_l",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "bionic plating - left arm" },
     "copy-from": "armor_bio_arms_basic",
     "armor": [
@@ -155,7 +161,8 @@
   },
   {
     "id": "armor_bio_arm_r",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "bionic plating - right arm" },
     "copy-from": "armor_bio_arms_basic",
     "armor": [
@@ -183,7 +190,8 @@
   },
   {
     "id": "armor_bio_legs_basic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "bionic plating - legs" },
     "description": "The durable alloy armor which protects the sensitive components that operate your bionic legs.",
@@ -233,7 +241,8 @@
   },
   {
     "id": "armor_bio_leg_l",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "bionic plating - left leg" },
     "copy-from": "armor_bio_legs_basic",
     "armor": [
@@ -262,7 +271,8 @@
   },
   {
     "id": "armor_bio_leg_r",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "bionic plating - right leg" },
     "copy-from": "armor_bio_legs_basic",
     "armor": [
@@ -291,7 +301,8 @@
   },
   {
     "id": "armor_bio_treads",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "bionic plating - tank treads" },
     "description": "The protective armor for the bionic tank treads which replace the legs.",

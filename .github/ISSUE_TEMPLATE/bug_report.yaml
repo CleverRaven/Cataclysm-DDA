@@ -22,7 +22,7 @@ body:
     attributes:
       label: Attach save file
       description: |
-        `ESC`Main Menu -> `d`Debug Menu -> `i`Info -> `!`Generate minimized save archive
+        `ESC`Main Menu -> `d`Export save archive for github bug report
       placeholder: |
         Write N/A if not applicable.
 
@@ -75,7 +75,7 @@ body:
     attributes:
       label: Versions and configuration
       description: |
-        `ESC`Main Menu -> `d`Debug Menu -> `i`Info -> `r`Generate game report
+        `ESC`Main Menu -> `d`Export save archive for github bug report -> Follow the on-screen instructions
       placeholder: |
         - OS: [e.g. iOS 8 or Windows 10 or Ubuntu 18.04]
         - Game Version: [e.g. d6ec466 (64-bit) ]

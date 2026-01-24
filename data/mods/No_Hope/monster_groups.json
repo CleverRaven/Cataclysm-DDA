@@ -116,7 +116,7 @@
     "//": "Lots of hazmats and burners.",
     "monsters": [
       { "monster": "mon_zombie_soldier", "weight": 10 },
-      { "monster": "mon_zombie_flamer", "weight": 20, "starts": "5 days" },
+      { "monster": "mon_zombie_flamer", "weight": 20, "starts": "20 days" },
       { "monster": "mon_zombie_hazmat", "weight": 20 }
     ]
   },

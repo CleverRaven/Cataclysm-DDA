@@ -54,6 +54,31 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "papr_kit",
+    "items": [
+      { "item": "basic_papr_helmet" },
+      { "item": "basic_papr_belt_off" },
+      { "group": "wrapped_gasmask_filter" },
+      { "item": "medium_battery_cell" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "military_papr_kit",
+    "items": [ { "item": "military_papr_mask" }, { "item": "military_papr_blower_off" }, { "group": "wrapped_gasmask_filter" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "molle_papr_kit",
+    "items": [
+      { "item": "military_papr_mask" },
+      { "item": "molle_papr_blower_off" },
+      { "group": "wrapped_gasmask_filter" },
+      { "item": "modular_papr_strap" }
+    ]
+  },
+  {
     "id": "gasmask_bag_used",
     "type": "item_group",
     "subtype": "collection",
@@ -89,7 +114,7 @@
       { "item": "goggles_nv", "prob": 10, "charges": [ 0, 100 ] },
       [ "helmet_riot", 5 ],
       [ "holo_sight", 20 ],
-      [ "balclava", 10 ],
+      { "item": "balclava", "variant": "black", "prob": 10 },
       [ "balaclava_cut_resistant", 5 ],
       [ "nylon_holster", 10 ],
       [ "holster", 5 ],
@@ -170,9 +195,10 @@
       { "group": "tools_lighting", "prob": 50 },
       { "group": "tools_survival", "prob": 100 },
       { "group": "tools_tailor", "prob": 20 },
-      { "group": "ammo_pocket_batteries_full", "prob": 10 },
-      [ "duct_tape", 10 ],
-      { "group": "superglue", "prob": 5 },
+      { "group": "box_of_batteries_random", "prob": 10 },
+      { "group": "duct_tape_roll", "prob": 10 },
+      { "group": "glue_weak_domestic", "prob": 5 },
+      { "group": "glue_strong_domestic", "prob": 5 },
       [ "plastichoboreel", 5 ],
       [ "survivormap", 5 ],
       { "item": "teargas_sprayer", "prob": 25, "charges": [ 9, 10 ] }
@@ -297,7 +323,6 @@
       { "group": "tools_toolbox", "prob": 1 },
       { "item": "smoxygen_tank", "prob": 35, "charges": [ 4, -1 ] },
       { "item": "watercannon", "prob": 10, "charges": [ 0, -1 ] },
-      [ "solarpack", 2 ],
       [ "bag_body_bag", 5 ]
     ]
   },
@@ -365,7 +390,17 @@
     "type": "item_group",
     "//": "This group is for lockers storing safety gear for woodcrafts. SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "subtype": "collection",
-    "items": [ [ "glasses_safety", 95 ], [ "mask_dust", 30 ], [ "gloves_work", 30 ], [ "apron_leather", 95 ] ]
+    "items": [
+      [ "glasses_safety", 95 ],
+      [ "mask_dust", 30 ],
+      [ "gloves_work", 30 ],
+      [ "apron_leather", 95 ],
+      [ "apron_cut_resistant", 15 ],
+      [ "chaps_cut_resistant", 25 ],
+      [ "armguard_cut_resistant", 25 ],
+      [ "balaclava_cut_resistant", 5 ],
+      [ "throat_guard_cut_resistant", 2 ]
+    ]
   },
   {
     "type": "item_group",

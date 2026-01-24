@@ -40,7 +40,7 @@ env:
   # Enable pretty backtraces
   BACKTRACE: 1
   # Compressed size ~1GB based on observations
-  CCACHE_LIMIT: 9GB
+  CCACHE_LIMIT: 10GB
   CDDA_CCACHE_PATH: ${{ github.workspace }}\ccache\
   CDDA_USE_CCACHE: true
   # There's not enough disk space to build both release and debug versions of
@@ -49,13 +49,12 @@ env:
   VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
   # Also conveniently disable ccache internal compression
   CCACHE_HARDLINK: true
-  # vcpkg with object_creator deps totals ~500MB at this compression level
   ZSTD_CLEVEL: 17
 
 jobs:
   build_catatclysm:
     name: Build
-    runs-on: windows-2019
+    runs-on: windows-2022
     if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
 
     steps:
@@ -80,13 +79,16 @@ jobs:
 
     - name: Install stable CMake
       uses: lukka/get-cmake@latest
+      with:
+        # 4.0.0 has issues compiling old packages
+        cmakeVersion: 3.31.6
 
     - name: Install vcpkg
       uses: lukka/run-vcpkg@v11
       id: runvcpkg
       with:
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-        vcpkgGitCommitId: '3b57fb2e1ff55613db14d2aaf0a30529289c7050'
+        vcpkgGitCommitId: '1b6e030cf096faf4f82d7b7025de8b2abee3e3df'
 
     - name: Integrate vcpkg
       run: |
@@ -137,21 +139,21 @@ jobs:
 
     - name: Build
       run: |
-          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features/Cataclysm-vcpkg-static.sln
+          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static;zzip" msvc-full-features/Cataclysm-vcpkg-static.sln
 
     - name: Get ccache cache age cutoff
       id: get-cache-age
       run: |
         NOW=`/bin/date +%s`
         DELTA=$(( $NOW - ${{ steps.get-vars.outputs.datetime-seconds }} ))
-        echo "ccache-age=$(( $NOW - ${{ steps.get-vars.outputs.datetime-seconds }} ))" >> $GITHUB_OUTPUT
+        echo "ccache-age=${DELTA}" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Post-build ccache manipulation
       if: ${{ !failure() }}
       run: |
         ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -s -v
-        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe --evict-older-than ${{ steps.get-ccache-age.outputs.ccache-age }}
+        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe --evict-older-than ${{ steps.get-cache-age.outputs.ccache-age }}s
         ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -s -v
         ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -M ${{ env.CCACHE_LIMIT }}
         ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -c

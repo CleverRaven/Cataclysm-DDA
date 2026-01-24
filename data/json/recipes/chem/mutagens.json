@@ -29,8 +29,10 @@
       [
         [ "tallow_tainted", 2 ],
         [ "meat_tainted", 3 ],
+        [ "meat_tainted_human", 3 ],
         [ "dry_meat_tainted", 3 ],
         [ "tainted_innards", 4 ],
+        [ "tainted_innards_human", 4 ],
         [ "fetus", 1 ],
         [ "arm", 2 ],
         [ "leg", 2 ]
@@ -548,7 +550,7 @@
     "components": [
       [ [ "mutagen", 1 ] ],
       [ [ "ursine_sample", 1 ] ],
-      [ [ "mutant_lard", 5 ], [ "honey_bottled", 1 ] ],
+      [ [ "honey_bottled", 1 ] ],
       [ [ "honeycomb", 2 ], [ "ursine_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]

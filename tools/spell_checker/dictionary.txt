@@ -4,6 +4,8 @@ AAC
 AAR
 AB
 Abanaderly
+abaya
+abayas
 Abbie
 Abby
 ABC
@@ -178,6 +180,7 @@ Andover
 Andre
 Andrea
 Andrew
+Anduril
 Andy
 anemoi
 ANFO
@@ -635,6 +638,7 @@ bioblaster
 bioblasters
 biocompatibility
 biodiesel
+bioelectric
 bioelectricity
 bioforms
 biofuel
@@ -703,6 +707,7 @@ bloodhunting
 bloodletter
 bloodlust
 bloodthirst
+Bloodthorne
 bloomeries
 blowback
 BLR
@@ -869,6 +874,7 @@ bufo
 bufos
 bugfixes
 bugout
+Buildable
 Bukharin
 bulette
 bulettes
@@ -1072,6 +1078,8 @@ Chelmsford
 Chelsea
 chemtrails
 Chen
+cheongsam
+cheongsams
 Cherokee
 Cheshire
 Chester
@@ -1494,6 +1502,8 @@ devs
 dex
 Dhamma
 Dhammapada
+dhampir
+dhampirs
 dharmachakra
 diaspora
 dichloroisocyanurate
@@ -1574,6 +1584,7 @@ dokie
 Dolichovespula
 dollkin
 dolm
+dolmas
 domestica
 Donatello
 donburi
@@ -1919,6 +1930,7 @@ Fabrique
 Fabritechnics
 Facebook
 facemasks
+facsimile
 facto
 faders
 fae
@@ -2043,6 +2055,8 @@ flatbread
 FlatCoin
 FlatCoins
 flatjaw
+flailer
+flailers
 flatlander
 flatlanders
 Flavio
@@ -2050,6 +2064,8 @@ FLDSMDFR
 flechette
 flechettes
 flensing
+fleshborg
+fleshborgs
 Fleshmender
 fleshmonger
 fleshwarp
@@ -2066,6 +2082,7 @@ Florida
 Florunner
 fluffernutter
 fluffies
+Fluffycats
 fluidic
 fluorescents
 fluoxetine
@@ -2250,6 +2267,8 @@ genecraft
 genemod
 genemoded
 Genghis
+genset
+gensets
 Geoffrey
 geokinesis
 George
@@ -2320,6 +2339,8 @@ godesses
 Godfrey
 Godot
 Godwin
+goedendag
+goedendags
 Goethe
 Goldberg
 Goldstein
@@ -2346,6 +2367,7 @@ gozu
 gozus
 GPMG
 GPNVG
+GPS
 GR
 gr
 graboid
@@ -2554,6 +2576,9 @@ Heartfires
 heartlike
 Heartseed
 Heartseeds
+heartvine
+heartvines
+heartwhip
 Heathrow
 heatsink
 heatsinks
@@ -2618,6 +2643,7 @@ Hiep
 Higgins
 highschool
 hijab
+hijabs
 Himalayan
 Hindu
 Hinduism
@@ -2644,6 +2670,7 @@ hnefatafl
 Hobbes
 hobblebush
 hobbleberries
+hobbleberry
 hoc
 Hockomock
 hodag
@@ -3065,6 +3092,7 @@ Justo
 Justus
 Kabura
 kabuto
+kabutos
 Kaczynski
 Kadambawa
 Kafka
@@ -3435,6 +3463,8 @@ Lilit
 lilypad
 Lima
 limbed
+limnology
+limnological
 Lincoln
 Linda
 Lindbergh
@@ -3827,6 +3857,7 @@ Mesopotamian
 meta
 metalcutting
 metallics
+metallized
 metalsmithing
 metamagic
 metamaterial
@@ -4020,6 +4051,7 @@ Moreau
 Moreauburger
 Moreauburgers
 Morgan
+Morgantown
 Mori
 Mormon
 morningstar
@@ -4062,6 +4094,7 @@ Moyer
 Mozart
 Mozilla
 MP
+MPET
 mph
 MR
 Mr
@@ -4087,6 +4120,7 @@ Mulroy
 multi
 multiclean
 multidrop
+multifuel
 multimeters
 multiplayer
 multipool
@@ -4115,6 +4149,7 @@ mutagenically
 mutagenicity
 mutus
 muzzleloaders
+MVAS
 mW
 Mx
 Myanma
@@ -4158,11 +4193,13 @@ nanomesh
 nanoprinted
 nanoribbon
 nanoribbons
+nanos
 nanosaurus
 nanoskirt
 nanoskirts
 nanotech
 nanotubes
+nanotyrannus
 nanowire
 Nantucket
 nanuqsaurus
@@ -4309,6 +4346,8 @@ Ninhursag
 ninjutsu
 niño
 Nipâta
+niqab
+niqabs
 Nishan
 Niten
 Nitron
@@ -4475,6 +4514,7 @@ Orleans
 Orley
 ornithomimid
 ornithomimus
+ouroboros
 Orpheus
 Orphic
 Orson
@@ -4590,6 +4630,8 @@ papalotl
 Papaver
 paperclipped
 papier
+PAPR
+PAPRs
 Papuan
 papyrifera
 parabellum
@@ -4785,6 +4827,7 @@ Plympton
 PM
 pm
 PMC
+pocketless
 podling
 podlings
 pokeball
@@ -4852,6 +4895,7 @@ precombined
 predatorially
 premade
 premeasured
+premotion
 preoptic
 prepended
 PrepNet
@@ -4929,6 +4973,7 @@ Qatari
 QDSS
 qiang
 qianzhousaurus
+qipao
 QOL
 Qolastā
 QR
@@ -5303,6 +5348,7 @@ Samoyed
 Samoyeds
 Samuel
 Samuels
+Samurais
 Sanatsugâtîya
 Sanchez
 sanctacaris
@@ -5502,6 +5548,7 @@ shantak
 Shaolin
 shapechangers
 shapeshift
+shapeshifted
 shapeshifting
 shapeshifts
 shapeshifter
@@ -5620,6 +5667,7 @@ Sikh
 Sikhism
 Sikorsky
 Silat
+SilentEagle
 siloed
 siloing
 silverberry
@@ -5877,6 +5925,8 @@ Steyr
 STI
 Stig
 Stillwater
+stiltwalker
+stiltwalkers
 stim
 stimpack
 stims
@@ -6254,6 +6304,7 @@ Thumper
 thunderball
 Thunderdome
 thunk
+thunks
 Thursday
 thyreophoran
 Tiamat
@@ -6364,6 +6415,7 @@ travelpack
 travelpacks
 Travers
 travois
+treaded
 treecutting
 treefrog
 treefrogs
@@ -6510,6 +6562,7 @@ uncategorized
 uncontacted
 uncontrol
 uncorded
+uncrafted
 undeath
 underbarrel
 underbrushes
@@ -6536,6 +6589,7 @@ Unicode
 unitard
 unitards
 unjacketed
+unknowable
 unlife
 unlively
 unlockable
@@ -6636,6 +6690,7 @@ valhallists
 valknut
 valkyries
 Valzain
+vampiric
 VanBuren
 Vancian
 Vaneigem
@@ -6816,6 +6871,7 @@ weaponized
 weaponizing
 weaponsmith
 weaponsmiths
+wearables
 Weatherby
 Webber
 WebbStar
@@ -6933,6 +6989,7 @@ Woburn
 Wolfi
 wolfmen
 wolfshead
+woobie
 woodbow
 woodbows
 woodchip
@@ -7155,4 +7212,5 @@ zweihänders
 zweitimber
 zweitimbers
 zygomaticus
+zzip
 zzz

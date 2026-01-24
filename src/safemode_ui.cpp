@@ -32,6 +32,7 @@
 #include "translations.h"
 #include "uilist.h"
 #include "ui_manager.h"
+#include "worldfactory.h"
 
 safemode &get_safemode()
 {
@@ -616,7 +617,7 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
     }
 }
 
-bool safemode::has_rule( const std::string_view rule_in, const Creature::Attitude attitude_in )
+bool safemode::has_rule( std::string_view rule_in, const Creature::Attitude attitude_in )
 {
     for( safemode::rules_class &elem : character_rules ) {
         if( rule_in.length() == elem.rule.length()
@@ -628,7 +629,7 @@ bool safemode::has_rule( const std::string_view rule_in, const Creature::Attitud
     return false;
 }
 
-void safemode::remove_rule( const std::string_view rule_in, const Creature::Attitude attitude_in )
+void safemode::remove_rule( std::string_view rule_in, const Creature::Attitude attitude_in )
 {
     for( auto it = character_rules.begin();
          it != character_rules.end(); ++it ) {
@@ -788,7 +789,8 @@ bool safemode::save( const bool is_character_in )
 
     if( is_character ) {
         file = PATH_INFO::player_base_save_path() + ".sfm.json";
-        if( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
+        if( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ||
+            !file_exist( PATH_INFO::player_base_save_path() + ".sav" + zzip_suffix ) ) {
             return true; //Character not saved yet.
         }
     }

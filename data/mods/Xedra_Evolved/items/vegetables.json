@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "triffid_heart_chunk",
     "name": { "str": "triffid heart chunk" },
@@ -13,7 +14,7 @@
     "price": "0 USD",
     "price_postapoc": "0 USD",
     "material": [ "veggy", "wood" ],
-    "volume": "1 L",
+    "volume": "5 L",
     "fun": -25
   }
 ]

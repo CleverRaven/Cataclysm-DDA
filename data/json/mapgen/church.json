@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "church" ],
     "//": "New England Church",
     "weight": 1000,
@@ -43,7 +42,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "church_roof",
     "object": {
       "fill_ter": "t_open_air",
@@ -79,7 +77,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "church_steeple",
     "object": {
       "fill_ter": "t_floor",
@@ -115,7 +112,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "church_steeple_end",
     "object": {
       "fill_ter": "t_floor",
@@ -151,7 +147,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "church_steeple_roof",
     "object": {
       "rows": [
@@ -186,7 +181,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "church_1" ],
     "//": "Gothic Church",
     "object": {
@@ -238,7 +232,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "church_2ndfloor_1",
     "object": {
       "fill_ter": "t_floor",
@@ -286,7 +279,7 @@
       "items": {
         "d": { "item": "SUS_office_desk", "chance": 50 },
         "H": { "item": "religious_books", "chance": 50, "repeat": [ 1, 4 ] },
-        "f": { "item": "office_paper", "chance": 70, "repeat": [ 2, 4 ] }
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 2, 4 ] }
       },
       "nested": {
         "U": {
@@ -302,7 +295,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "church_3rdfloor_1",
     "object": {
       "fill_ter": "t_floor",
@@ -361,7 +353,6 @@
         ],
         "e": { "item": "SUS_oven", "chance": 100 },
         "j": { "item": "bed", "chance": 70, "repeat": [ 2, 4 ] },
-        "f": { "item": "office_paper", "chance": 70, "repeat": [ 2, 4 ] },
         "F": { "item": "SUS_fridge", "chance": 60, "repeat": [ 2, 4 ] },
         "0": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
         "d": { "item": "SUS_cookware", "chance": 100 },
@@ -372,7 +363,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "church_roof_1",
     "object": {
       "fill_ter": "t_concrete",

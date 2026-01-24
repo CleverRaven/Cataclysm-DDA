@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lake_bed" ],
     "weight": { "global_val": "vanilla_lake_weight", "default": 1000 },
     "object": { "fill_ter": "t_lake_bed", "furniture": { " ": [ [ "f_region_lake_bed", 1 ], [ "f_null", 199 ] ] } }

@@ -10,7 +10,7 @@
     "ammo": 75,
     "magazine": 100,
     "items": [
-      { "group": "ammo_any_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_unopened", "prob": 50 },
       { "item": "radio", "prob": 30, "charges": 100 },
       { "item": "mp3", "prob": 25, "charges": 100 },
       { "item": "pride_flag", "prob": 1 },
@@ -36,8 +36,8 @@
       { "group": "melatonin_bottle_full", "prob": 30 },
       [ "disinfectant", 15 ],
       { "group": "protein_bottle_full", "prob": 40 },
-      { "item": "caff_gum", "prob": 30, "count": 5 },
-      { "item": "nic_gum", "prob": 25, "count": 5 },
+      { "group": "chewing_gum_full_caff", "prob": 30 },
+      { "group": "chewing_gum_full_nic", "prob": 25 },
       [ "bathroom_scale", 20 ],
       { "group": "pillbox_any_empty", "prob": 20 }
     ]
@@ -52,7 +52,8 @@
       { "item": "portable_game", "prob": 60, "charges": 100 },
       [ "bat", 60 ],
       [ "pom_poms", 40 ],
-      [ "backpack", 40 ],
+      [ "backpack_small", 40 ],
+      [ "backpack", 5 ],
       [ "backpack_denim", 5 ],
       { "item": "backpack_giant", "prob": 1 },
       [ "pockknife", 5 ],
@@ -69,9 +70,9 @@
       [ "cowboy_hat", 25 ],
       [ "fursuit", 5 ],
       { "item": "mp3", "prob": 20, "charges": 100 },
-      [ "wolfsuit", 5 ],
-      [ "dinosuit", 5 ],
-      { "item": "gum", "prob": 10, "count": [ 1, 10 ] },
+      { "item": "fursuit", "variant": "wolfsuit", "prob": 5 },
+      { "item": "fursuit", "variant": "dinosuit", "prob": 5 },
+      { "group": "chewing_gum_full", "prob": 10 },
       [ "shuttlecock", 10 ],
       [ "baseball", 40 ],
       [ "football", 40 ],
@@ -218,7 +219,7 @@
     "items": [
       { "item": "portable_game", "prob": 20, "charges": 100 },
       [ "antenna", 25 ],
-      { "group": "ammo_any_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_unopened", "prob": 50 },
       { "item": "mp3", "prob": 30, "charges": 100 },
       { "group": "new_phones", "prob": 90 },
       { "group": "new_usb_drives", "prob": 10 },
@@ -248,7 +249,7 @@
       { "item": "candle", "prob": 50, "charges": 100 },
       [ "scissors", 30 ],
       [ "soap", 45 ],
-      [ "moisturizer", 45 ],
+      { "item": "moisturizer", "prob": 60, "charges": [ 1, -1 ], "container-item": "bottle_plastic_small" },
       { "item": "tailors_kit", "prob": 25, "charges": 400 },
       { "item": "shavingkit", "prob": 20, "charges": 10 },
       { "item": "elec_hairtrimmer", "prob": 20, "charges": 50 },
@@ -265,7 +266,6 @@
     "type": "item_group",
     "id": "chaw_wrapper_20",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "wrapper",
     "entries": [ { "item": "chaw", "container-item": "null", "count": 20 } ]
   }

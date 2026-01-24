@@ -37,6 +37,11 @@ const std::vector<item_category> &item_category::get_all()
     return item_category_factory.get_all();
 }
 
+void item_category::finalize_all()
+{
+    item_category_factory.finalize();
+}
+
 void item_category::load_item_cat( const JsonObject &jo, const std::string &src )
 {
     item_category_factory.load( jo, src );
@@ -47,7 +52,7 @@ void item_category::reset()
     item_category_factory.reset();
 }
 
-void item_category::load( const JsonObject &jo, const std::string_view )
+void item_category::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name_header", name_header_ );

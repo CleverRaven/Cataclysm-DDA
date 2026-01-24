@@ -3,17 +3,19 @@ from .effect import parse_effect_on_condition
 
 
 def parse_examine_action(json, origin, name):
-    if "query_msg" in json:
-        write_text(json["query_msg"], origin,
-                   comment="Query message of {}".format(name))
-    if "success_msg" in json:
-        write_text(json["success_msg"], origin,
-                   comment="Success message of {}".format(name))
-    if "redundant_msg" in json:
-        write_text(json["redundant_msg"], origin,
-                   comment="Redundant message of {}".format(name))
-    if "effect_on_conditions" in json:
-        for eoc in json["effect_on_conditions"]:
-            if type(eoc) is dict:
-                parse_effect_on_condition(eoc, origin,
-                                          "examine action of {}".format(name))
+    if not (json and type(json) is dict):
+        return
+
+    ename = f"examine action of {name}"
+
+    write_text(json.get("query_msg"), origin,
+               comment=f"Query message for {ename}")
+    write_text(json.get("success_msg"), origin,
+               comment=f"Message when {ename} succeeds")
+    write_text(json.get("redundant_msg"), origin,
+               comment=f"Message when {ename} would be redundant")
+    write_text(json.get("condition_fail_msg"), origin,
+               comment=f"Message when {ename} fails its condition")
+
+    for eoc in json.get("effect_on_conditions", []):
+        parse_effect_on_condition(eoc, origin, ename)

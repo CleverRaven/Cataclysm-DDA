@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_barter",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Car Buyer's Guide", "str_pl": "copies of Car Buyer's Guide" },
     "description": "Normally this glossy, ad-filled magazine about cars would be pointless, but it has a series of articles on haggling techniques.",
@@ -13,14 +14,15 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "speech",
     "max_level": 1,
     "intelligence": 5,
-    "time": "8 m"
+    "time": "8 m",
+    "read_skill": "speech"
   },
   {
     "id": "manual_business",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "How to Succeed in Business", "str_pl": "copies of How to Succeed in Business" },
     "description": "Useful if you want to get a good deal when purchasing goods.",
@@ -51,15 +53,16 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "green",
-    "skill": "speech",
     "max_level": 3,
     "intelligence": 6,
     "time": "25 m",
-    "fun": -1
+    "read_skill": "speech",
+    "read_fun": -1
   },
   {
     "id": "textbook_business",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Advanced Economics", "str_pl": "copies of Advanced Economics" },
     "//": "Biz majors can afford it.  Surely you're gonna make US$60K/yr out of school, and twice that in five years?",
@@ -91,12 +94,12 @@
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "blue",
-    "skill": "speech",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 9,
     "time": "30 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "speech",
+    "read_fun": -1
   }
 ]

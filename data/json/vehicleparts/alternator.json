@@ -6,7 +6,6 @@
     "color": "yellow",
     "broken_color": "red",
     "categories": [ "energy" ],
-    "description": "An alternator.",
     "flags": [ "ALTERNATOR" ],
     "variants": [ { "symbols": "*", "symbols_broken": "#" } ]
   },
@@ -14,9 +13,9 @@
     "id": "alternator_bicycle",
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
-    "name": { "str": "bicycle alternator" },
     "//": "3.0 A @ 12 VDC ~ 0.1 HP drain @ 48% efficiency",
     "item": "alternator_bicycle",
+    "description": "A very lightweight alternator used to power a bicycle's headlights.",
     "looks_like": "alternator_motorbike",
     "durability": 250,
     "power": "-75 W",
@@ -24,8 +23,8 @@
     "damage_modifier": 80,
     "folded_volume": "1250 ml",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 5 ] },
-      { "item": "steel_chunk", "count": [ 2, 5 ] },
+      { "item": "mc_steel_lump", "count": [ 2, 5 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 5 ] },
       { "item": "scrap", "count": [ 2, 5 ] }
     ],
     "requirements": {
@@ -39,17 +38,17 @@
     "id": "alternator_motorbike",
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
-    "name": { "str": "motorbike alternator" },
     "//": "30 A @ 12 VDC ~ 1 HP drain @ 48% efficiency",
     "item": "alternator_motorbike",
+    "description": "A compact, lightweight alternator used to power small vehicle electrical systems.",
     "durability": 250,
     "power": "-746 W",
     "epower": "360 W",
     "damage_modifier": 80,
     "folded_volume": "1250 ml",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 5 ] },
-      { "item": "steel_chunk", "count": [ 2, 5 ] },
+      { "item": "mc_steel_lump", "count": [ 2, 5 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 5 ] },
       { "item": "scrap", "count": [ 2, 5 ] }
     ],
     "requirements": {
@@ -67,17 +66,17 @@
     "id": "alternator_car",
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
-    "name": { "str": "car alternator" },
     "//": "65 A @ 12 VDC ~ 2 HP drain @ 52% efficiency",
     "item": "alternator_car",
+    "description": "A standard alternator used to power vehicle electrical systems.",
     "durability": 275,
     "power": "-1492 W",
     "epower": "780 W",
     "damage_modifier": 80,
     "//1": "20 cm weld to repair per damage quadrant",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 3, 6 ] },
-      { "item": "steel_chunk", "count": [ 3, 6 ] },
+      { "item": "mc_steel_lump", "count": [ 3, 6 ] },
+      { "item": "mc_steel_chunk", "count": [ 3, 6 ] },
       { "item": "scrap", "count": [ 3, 6 ] }
     ],
     "requirements": {
@@ -95,17 +94,17 @@
     "id": "alternator_truck",
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
-    "name": { "str": "truck alternator" },
     "//": "110 A @ 12 VDC ~ 3 HP drain @ 60% efficiency",
     "item": "alternator_truck",
+    "description": "A larger and more powerful alternator used to power vehicle electrical systems.",
     "durability": 325,
     "power": "-2238 W",
     "epower": "1320 W",
     "damage_modifier": 80,
     "//1": "20 cm weld to repair per damage quadrant",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 4, 7 ] },
+      { "item": "mc_steel_lump", "count": [ 4, 7 ] },
+      { "item": "mc_steel_chunk", "count": [ 4, 7 ] },
       { "item": "scrap", "count": [ 4, 7 ] }
     ],
     "requirements": {

@@ -1,7 +1,8 @@
 [
   {
     "id": "integrated_thick_skull",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "thick skull" },
     "description": "You've taken so many hits to the head that your skull's gotten thicker.",

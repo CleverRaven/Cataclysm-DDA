@@ -1,7 +1,8 @@
 [
   {
     "id": "masonrysaw_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "masonry saw (off)", "str_pl": "masonry saws (off)" },
     "description": "A construction tool for cutting through concrete or other surfaces.  It runs on gasoline.  Using this item will cause it to turn on, turning it into a very powerful but unwieldy melee weapon or a terrible chainsaw.",
     "weight": "4500 g",
@@ -13,7 +14,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "blue",
-    "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 450 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
@@ -27,10 +27,10 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_activate",
             "variables": {
-              "turn_cost": "0.8",
+              "turn_cost": { "math": [ "0.8" ] },
               "transform_target": "masonrysaw_on",
               "success_message": { "i18n": true, "str": "With a roar, the <npc_name> screams to life!" },
-              "volume": "20",
+              "volume": 20,
               "failure_message": { "i18n": true, "str": "You yank the cord, but nothing happens." }
             }
           },
@@ -39,12 +39,14 @@
       ]
     },
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "masonrysaw_on",
     "copy-from": "masonrysaw_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "masonry saw (on)", "str_pl": "masonry saws (on)" },
     "description": "This masonry saw is on and making a lot of noise.  Use it to turn it off.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
@@ -53,17 +55,7 @@
     "revert_to": "masonrysaw_off",
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -100 ] ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "menu_text": "Turn off",
-      "ammo_scale": 0,
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_deactivate__masonrysaw",
-          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "masonrysaw_off" } }
-        }
-      ]
-    },
+    "use_action": { "target": "masonrysaw_off", "msg": "Your %s goes quiet.", "menu_text": "Turn off", "type": "transform" },
     "tick_action": {
       "type": "effect_on_conditions",
       "effect_on_conditions": [
@@ -72,21 +64,22 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "15",
+              "sound_chance": 15,
               "sound_message": { "i18n": true, "str": "Your masonry saw buzzes." },
-              "volume": "7",
+              "volume": 7,
               "revert_to": "masonrysaw_off"
             }
           }
         }
       ]
     },
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 4, "cut": 70 }
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE", "SPAWN_ACTIVE" ],
+    "melee_damage": { "bash": 4, "cut": 10 }
   },
   {
     "id": "electric_masonrysaw_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "electric masonry saw (off)", "str_pl": "electric masonry saws (off)" },
     "description": "A construction tool for cutting through concrete or other surfaces.  It uses electric motor with integrated battery and is compatible with a UPS.  Using this item will cause it to turn on, turning it into a very powerful but unwieldy melee weapon or a terrible chainsaw.",
     "weight": "4500 g",
@@ -98,12 +91,11 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "blue",
-    "ammo": [ "battery" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 2970 }, "rigid": true } ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
     "use_action": [
-      { "target": "electric_masonrysaw_on", "msg": "You turn on the masonry saw.", "active": true, "type": "transform" },
+      { "target": "electric_masonrysaw_on", "msg": "You turn on the masonry saw.", "type": "transform" },
       {
         "type": "link_up",
         "menu_text": "Plug in / Unplug",
@@ -113,12 +105,15 @@
       }
     ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
-    "melee_damage": { "bash": 4 }
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "electric_masonrysaw_on",
     "copy-from": "electric_masonrysaw_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "electric masonry saw (on)", "str_pl": "electric masonry saws (on)" },
     "description": "This electric masonry saw is on and making a lot of noise.  Use it to turn it off.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
@@ -130,17 +125,7 @@
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -100 ] ],
     "use_action": [
-      {
-        "type": "effect_on_conditions",
-        "menu_text": "Turn off",
-        "ammo_scale": 0,
-        "effect_on_conditions": [
-          {
-            "id": "EOC_toolweapon_deactivate__electric_masonrysaw",
-            "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "electric_masonrysaw_off" } }
-          }
-        ]
-      },
+      { "target": "electric_masonrysaw_off", "msg": "Your %s goes quiet.", "menu_text": "Turn off", "type": "transform" },
       {
         "type": "link_up",
         "menu_text": "Plug in / Unplug",
@@ -157,9 +142,9 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "15",
+              "sound_chance": 15,
               "sound_message": { "i18n": true, "str": "Your electric masonry saw buzzes." },
-              "volume": "7",
+              "volume": 7,
               "revert_to": "electric_masonrysaw_off"
             }
           }
@@ -176,12 +161,14 @@
       "NO_UNLOAD",
       "NO_RELOAD",
       "WATER_BREAK",
-      "ELECTRONIC"
+      "ELECTRONIC",
+      "SPAWN_ACTIVE"
     ],
-    "melee_damage": { "bash": 4, "cut": 70 }
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "melee_damage": { "bash": 4, "cut": 10 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "grinder_blade",
     "symbol": "/",
     "color": "dark_gray",
@@ -196,5 +183,84 @@
     "flags": [ "HURT_WHEN_WIELDED" ],
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "neutral" },
     "melee_damage": { "cut": 14 }
+  },
+  {
+    "id": "heavy_masonrysaw_off",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "heavy masonry saw (off)", "str_pl": "heavy masonry saws (off)" },
+    "//": "based on Hilti DSH 900-X 16 inch Gas cut-off saw",
+    "description": "A heavy construction tool for cutting demolishing concrete.  It runs on gasoline.  Using this item will cause it to turn on, turning it into a formidable demolition tool, a terrible chainsaw, and an unwieldy melee weapon.",
+    "weight": "12400 g",
+    "volume": "20000 ml",
+    "longest_side": "86 cm",
+    "price": "2000 USD",
+    "price_postapoc": "10 USD",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
+    "material": [ "steel", "plastic" ],
+    "symbol": "/",
+    "color": "blue",
+    "looks_like": "masonrysaw_off",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 450 }, "watertight": true, "rigid": true } ],
+    "charges_per_use": 5,
+    "techniques": [ "SWEEP" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_activate_heavy_masonrysaw",
+          "condition": { "math": [ "rng(0, 10) - n_damage_level() > 5" ] },
+          "effect": {
+            "run_eocs": "EOC_toolweapon_activate",
+            "variables": {
+              "turn_cost": 0.8,
+              "transform_target": "heavy_masonrysaw_on",
+              "success_message": { "i18n": true, "str": "With a roar, the <npc_name> screams to life!" },
+              "volume": 20,
+              "failure_message": { "i18n": true, "str": "You yank the cord, but nothing happens." }
+            }
+          },
+          "false_effect": { "u_message": "You yank the cord, but nothing happens." }
+        }
+      ]
+    },
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 6 },
+    "tool_ammo": [ "gasoline" ]
+  },
+  {
+    "id": "heavy_masonrysaw_on",
+    "copy-from": "heavy_masonrysaw_off",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "heavy masonry saw (on)", "str_pl": "heavy masonry saws (on)" },
+    "description": "This masonry saw is on and making a lot of noise.  Use it to turn it off.",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
+    "turns_per_charge": 4,
+    "charges_per_use": 0,
+    "revert_to": "heavy_masonrysaw_off",
+    "techniques": [ "SWEEP" ],
+    "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -100 ] ],
+    "use_action": { "target": "heavy_masonrysaw_off", "msg": "Your %s goes quiet.", "menu_text": "Turn off", "type": "transform" },
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__heavy_masonrysaw",
+          "effect": {
+            "run_eocs": "EOC_toolweapon_running",
+            "variables": {
+              "sound_chance": 15,
+              "sound_message": { "i18n": true, "str": "Your heavy masonry saw buzzes." },
+              "volume": 7,
+              "revert_to": "heavy_masonrysaw_off"
+            }
+          }
+        }
+      ]
+    },
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE", "SPAWN_ACTIVE" ],
+    "melee_damage": { "bash": 4, "cut": 10 }
   }
 ]

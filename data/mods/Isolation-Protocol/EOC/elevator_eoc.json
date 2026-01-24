@@ -13,8 +13,11 @@
     "effect": [
       { "math": [ "ISO_CURRENT_LEVEL++" ] },
       { "math": [ "u_ISO_CURRENT_LEVEL_DANGER = 0" ] },
+      { "math": [ "iso_balthazar_aid_value = iso_balthazar_aid(5)" ] },
+      { "math": [ "u_bossfight_complete = 0" ] },
       { "u_message": "The elevator starts moving before you can touch the panel.", "popup": true },
-      { "run_eocs": [ "EOC_ISO_DECIDE_LEVEL" ] }
+      { "run_eocs": [ "EOC_ISO_DECIDE_LEVEL" ] },
+      { "run_eocs": "EOC_LAST_SCION_RETURN_STAFF", "time_in_future": 1 }
     ]
   },
   {
@@ -23,16 +26,30 @@
     "condition": { "math": [ "ISO_CURRENT_LEVEL % SAFEPOINT_INTERVAL == 0" ] },
     "effect": [ { "run_eocs": [ "EOC_ISO_MICROLAB_SAFE_TP", "EOC_ISO_BIONIC_VAMPIRE_POWER_RESTORE" ] } ],
     "false_effect": [
+      { "run_eocs": [ "EOC_ISO_LAST_SCION_LEVEL_SPELLS", "EOC_ISO_LAST_SCION_STORE_SPELL_LEVELS" ] },
       {
-        "if": { "math": [ "ISO_CURRENT_LEVEL < 4" ] },
+        "if": { "math": [ "ISO_CURRENT_LEVEL < 5" ] },
         "then": { "run_eocs": [ "EOC_ISO_MICROLAB_OFFICE_TP" ] },
         "else": {
-          "switch": { "math": [ "rand(1)" ] },
+          "switch": { "math": [ "ISO_CURRENT_LEVEL" ] },
           "cases": [
-            { "case": 0, "effect": { "run_eocs": [ "EOC_ISO_MICROLAB_TP" ] } },
-            { "case": 1, "effect": { "run_eocs": [ "EOC_ISO_MICROLAB_EMBED_TP" ] } }
+            { "case": 6, "effect": { "run_eocs": [ "EOC_ISO_BOSSFIGHT1_TP" ] } },
+            { "case": 7, "effect": { "run_eocs": [ "EOC_ISO_GENERIC_LEVEL_TP" ] } }
           ]
         }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_GENERIC_LEVEL_TP",
+    "effect": [
+      {
+        "switch": { "math": [ "rand(1)" ] },
+        "cases": [
+          { "case": 0, "effect": { "run_eocs": [ "EOC_ISO_MICROLAB_TP" ] } },
+          { "case": 1, "effect": { "run_eocs": [ "EOC_ISO_MICROLAB_EMBED_TP" ] } }
+        ]
       }
     ]
   },
@@ -42,7 +59,7 @@
     "effect": [
       {
         "u_location_variable": { "global_val": "new_map" },
-        "target_params": { "om_terrain": "iso_elevator_office", "z": -1, "random": true, "cant_see": true, "search_range": 180 },
+        "target_params": { "om_terrain": "iso_elevator_office", "z": -1, "random": true, "cant_see": true, "search_range": 600 },
         "terrain": "t_elevator",
         "target_max_radius": 30
       },
@@ -85,6 +102,29 @@
         "terrain": "t_elevator",
         "target_max_radius": 30
       },
+      { "u_teleport": { "global_val": "new_map" }, "force": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_BOSSFIGHT1_TP",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "new_map" },
+        "target_params": {
+          "om_terrain": "iso_elevator",
+          "om_special": "iso_bossfight_arena_1",
+          "z": -1,
+          "random": true,
+          "cant_see": true,
+          "search_range": 180
+        },
+        "terrain": "t_elevator",
+        "target_max_radius": 30
+      },
+      { "math": [ "bossfight_active = 1" ] },
+      { "u_message": "Something dangerous stirs beyond the elevator doors.", "popup": true },
+      { "run_eocs": "EOC_ISO_IN_BOSSFIGHT", "time_in_future": 1 },
       { "u_teleport": { "global_val": "new_map" }, "force": true }
     ]
   }

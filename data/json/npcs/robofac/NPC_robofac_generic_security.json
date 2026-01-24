@@ -38,7 +38,7 @@
       { "item": "under_armor" },
       { "item": "under_armor_shorts" },
       { "item": "socks" },
-      { "item": "robofac_jumpsuit" },
+      { "item": "jumpsuit", "variant": "robofac" },
       { "item": "tac_helmet" },
       { "group": "military_ballistic_vest_pristine" },
       { "group": "clothing_watch" },
@@ -74,14 +74,7 @@
     "type": "item_group",
     "id": "NC_robofac_security_weapon",
     "subtype": "collection",
-    "entries": [
-      {
-        "item": "modular_m27_assault_rifle",
-        "variant": "modular_m38dmr",
-        "contents-group": "robofac_sec_weapon_mods",
-        "charges": 30
-      }
-    ]
+    "entries": [ { "group": "h&k416a5_default_or_short", "contents-group": "robofac_sec_weapon_mods", "charges": 30 } ]
   },
   {
     "type": "item_group",

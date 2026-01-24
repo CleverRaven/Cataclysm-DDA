@@ -1,6 +1,7 @@
 [
   {
     "type": "terrain",
+    "//": "Remove after 0.J",
     "id": "t_nether_crystal_structure",
     "name": "glowing crystal",
     "description": "An irregular chunk of glowing crystal.  The fitful glow sheds no illumination on the nearby terrain.",

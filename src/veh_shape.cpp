@@ -6,11 +6,11 @@
 #include <utility>
 
 #include "avatar.h"
-#include "cached_options.h"
 #include "cata_scope_helpers.h"
 #include "color.h"
 #include "debug.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input_enums.h"
 #include "map.h"
 #include "map_scale_constants.h"

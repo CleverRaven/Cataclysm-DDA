@@ -2,7 +2,8 @@
   {
     "id": "mutagen_earthkin",
     "copy-from": "mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": "Ierde destiny draught",
     "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
     "price": "5 kUSD",
@@ -15,7 +16,8 @@
   {
     "id": "mutagen_plantkin",
     "copy-from": "mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": "Arvore destiny draught",
     "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
     "price": "5 kUSD",
@@ -28,7 +30,8 @@
   {
     "id": "mutagen_waterkin",
     "copy-from": "mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": "Undine destiny draught",
     "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
     "price": "5 kUSD",
@@ -41,7 +44,8 @@
   {
     "id": "mutagen_flamekin",
     "copy-from": "mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": "Salamander destiny draught",
     "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
     "price": "5 kUSD",
@@ -54,7 +58,8 @@
   {
     "id": "mutagen_dollkin",
     "copy-from": "mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": "Homullus destiny draught",
     "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
     "price": "5 kUSD",
@@ -67,7 +72,8 @@
   {
     "id": "mutagen_airkin",
     "copy-from": "mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": "Sylph destiny draught",
     "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
     "price": "5 kUSD",

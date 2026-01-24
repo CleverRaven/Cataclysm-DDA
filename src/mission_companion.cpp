@@ -28,6 +28,7 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "current_map.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -36,6 +37,8 @@
 #include "faction_camp.h"
 #include "flexbuffer_json.h"
 #include "game.h"
+#include "horde_entity.h"
+#include "horde_map.h"
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
@@ -46,6 +49,7 @@
 #include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"
+#include "math_parser_diag_value.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
@@ -56,6 +60,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -605,7 +610,7 @@ void talk_function::companion_mission( npc &p )
         }
 
         Character &player_character = get_player_character();
-        if( player_character.get_value( var_SCAVENGER_HOSPITAL_RAID ) == "yes" ) {
+        if( player_character.get_value( var_SCAVENGER_HOSPITAL_RAID ).str() == "yes" ) {
             hospital_raid( mission_key, p );
         }
     } else if( role_id == "COMMUNE CROPS" ) {
@@ -703,7 +708,7 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
 void talk_function::hospital_raid( mission_data &mission_key, npc &p )
 {
     const mission_id miss_id = {Hospital_Raid_Job, "", {}, std::nullopt};
-    if( get_player_character().get_value( var_SCAVENGER_HOSPITAL_RAID_STARTED ) != "yes" ) {
+    if( get_player_character().get_value( var_SCAVENGER_HOSPITAL_RAID_STARTED ).str() != "yes" ) {
         const std::string entry_assign =
             _( "Profit: hospital equipment, some items\nDanger: High\nTime: 20 hour mission\n\n"
                "Scavenging raid targeting a hospital to search for hospital equipment and as many "
@@ -1419,7 +1424,7 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const missi
             popup( _( "A bandit party approaches the caravan in the open!" ) );
             force_on_force( caravan_party, "caravan", bandit_party, "band", 1 );
         } else if( one_in( 3 ) ) {
-            popup( _( "A bandit party attacks the caravan while it it's camped!" ) );
+            popup( _( "A bandit party attacks the caravan while it's camped!" ) );
             force_on_force( caravan_party, "caravan", bandit_party, "band", 2 );
         } else {
             popup( _( "The caravan walks into a bandit ambush!" ) );
@@ -1431,7 +1436,7 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const missi
     for( const auto &elem : caravan_party ) {
         //Scrub temporary party members and the dead
         if( elem->get_part_hp_cur( bodypart_id( "torso" ) ) == 0 && elem->has_companion_mission() ) {
-            overmap_buffer.remove_npc( comp->getID() );
+            overmap_buffer.remove_npc( elem->getID() );
             merch_amount += ( time / 600 ) * 4;
         } else if( elem->has_companion_mission() ) {
             merch_amount += ( time / 600 ) * 7;
@@ -1527,7 +1532,7 @@ int talk_function::combat_score( const std::vector< monster * > &group )
     int score = 0;
     for( monster * const &elem : group ) {
         if( elem->get_hp() > 0 ) {
-            score += elem->type->difficulty;
+            score += elem->type->get_total_difficulty();
         }
     }
     return score;
@@ -1544,16 +1549,12 @@ npc_ptr talk_function::temp_npc( const string_id<npc_template> &type )
 void talk_function::field_plant( npc &p, const std::string &place )
 {
     Character &player_character = get_player_character();
-    if( !warm_enough_to_plant( player_character.pos_bub() ) ) {
-        popup( _( "It is too cold to plant anything now." ) );
-        return;
-    }
     std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed,
     []( const item & itm ) {
         return itm.typeId() != itype_marloss_seed && itm.typeId() != itype_fungal_seeds;
     } );
     if( seed_inv.empty() ) {
-        popup( _( "You have no seeds to plant!" ) );
+        popup( _( "You have no seeds to plant." ) );
         return;
     }
 
@@ -1576,7 +1577,12 @@ void talk_function::field_plant( npc &p, const std::string &place )
         return;
     }
 
-    const auto &seed_id = seed_types[seed_index];
+    const itype_id &seed_id = seed_types[seed_index];
+    ret_val<void>can_plant = warm_enough_to_plant( player_character.pos_bub(), seed_id );
+    if( !can_plant.success() ) {
+        popup( can_plant.c_str() );
+        return;
+    }
     if( item::count_by_charges( seed_id ) ) {
         free_seeds = player_character.charges_of( seed_id );
     } else {
@@ -1588,6 +1594,9 @@ void talk_function::field_plant( npc &p, const std::string &place )
                                       player_character.pos_abs_omt(), place, 20, false );
     tinymap bay;
     bay.load( site, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+
+    swap_map swap( *bay.cast_to_map() );
     for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         if( bay.ter( plot ) == ter_t_dirtmound ) {
             empty_plots++;
@@ -1660,6 +1669,9 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
     bay.load( site, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *bay.cast_to_map() );
+
     for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         map_stack items = bay.i_at( plot );
         if( bay.furn( plot ) == furn_f_plant_harvest && !items.empty() ) {
@@ -1703,7 +1715,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     int number_seeds = 0;
     int skillLevel = 2;
     if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ||
-        p.get_value( var_PURCHASED_FIELD_1_FENCE ) == "yes" ) {
+        p.get_value( var_PURCHASED_FIELD_1_FENCE ).str() == "yes" ) {
         skillLevel += 2;
     }
 
@@ -2240,25 +2252,27 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
         //return true;
     }
 
-    tripoint_abs_sm sm_tgt = project_to<coords::sm>( om_tgt );
-
     tinymap target_bay;
     target_bay.load( om_tgt, false );
     std::vector< monster * > monsters_around;
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
-            tripoint_abs_sm sm = sm_tgt + point( x, y );
             point_abs_om omp;
-            tripoint_om_sm local_sm;
-            std::tie( omp, local_sm ) = project_remain<coords::om>( sm );
+            tripoint_om_omt local_omt;
+            std::tie( omp, local_omt ) = project_remain<coords::om>( om_tgt );
             overmap &omi = overmap_buffer.get( omp );
 
-            auto monster_bucket = omi.monster_map.equal_range( local_sm );
-            std::for_each( monster_bucket.first,
-            monster_bucket.second, [&]( std::pair<const tripoint_om_sm, monster> &monster_entry ) {
-                monster &this_monster = monster_entry.second;
-                monsters_around.push_back( &this_monster );
-            } );
+            // TODO: Interact with dormant horde monsters as well?
+            for( std::unordered_map<tripoint_abs_ms, horde_entity> *bucket :
+                 omi.hordes.entity_group_at( local_omt ) ) {
+                for( std::pair<const tripoint_abs_ms, horde_entity> &monster_entry : *bucket ) {
+                    // TODO: figure out hwat to do if this involves lightweight horde entities?
+                    if( monster_entry.second.monster_data ) {
+                        monster &this_monster = *monster_entry.second.monster_data;
+                        monsters_around.push_back( &this_monster );
+                    }
+                }
+            }
         }
     }
     float avg_survival = 0.0f;
@@ -2274,7 +2288,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
         if( mons->get_hp() <= 0 ) {
             continue;
         }
-        int d_modifier = avg_survival - mons->type->difficulty;
+        int d_modifier = avg_survival - mons->type->get_total_difficulty();
         int roll = rng( 1, 20 ) + d_modifier;
         if( roll > 10 ) {
             if( try_engage ) {
@@ -2313,7 +2327,7 @@ bool talk_function::force_on_force( const std::vector<npc_ptr> &defender,
     faction *yours = player_character.get_faction();
     //Find out why your followers don't have your faction...
     popup( _( "Engagement between %d members of %s %s and %d %s%s!" ), defender.size(),
-           yours->name, def_desc, monsters_fighting.size(), att_desc, adv );
+           yours->get_name(), def_desc, monsters_fighting.size(), att_desc, adv );
     int defense = 0;
     int attack = 0;
     int att_init = 0;
@@ -2339,10 +2353,10 @@ bool talk_function::force_on_force( const std::vector<npc_ptr> &defender,
             attack_random( remaining_mon, remaining_def );
             if( defense == 0 || ( remaining_def.size() == 1 && remaining_def[0]->is_dead() ) ) {
                 //Here too...
-                popup( _( "%s forces are destroyed!" ), yours->name );
+                popup( _( "%s forces are destroyed!" ), yours->get_name() );
             } else {
                 //Again, no faction for your followers
-                popup( _( "%s forces retreat from combat!" ), yours->name );
+                popup( _( "%s forces retreat from combat!" ), yours->get_name() );
             }
             return false;
         } else if( attack * 3 < defense ) {
@@ -2378,8 +2392,8 @@ void talk_function::force_on_force( const std::vector<npc_ptr> &defender,
         adv = ", defender advantage";
     }
     popup( _( "Engagement between %d members of %s %s and %d members of %s %s%s!" ),
-           defender.size(), defender[0]->get_faction()->name, def_desc, attacker.size(),
-           attacker[0]->get_faction()->name, att_desc, adv );
+           defender.size(), defender[0]->get_faction()->get_name(), def_desc, attacker.size(),
+           attacker[0]->get_faction()->get_name(), att_desc, adv );
     int defense = 0;
     int attack = 0;
     int att_init = 0;
@@ -2404,18 +2418,18 @@ void talk_function::force_on_force( const std::vector<npc_ptr> &defender,
             attack_random( remaining_att, remaining_def );
             if( defense == 0 || ( remaining_def.size() == 1 &&
                                   remaining_def[0]->get_part_hp_cur( bodypart_id( "torso" ) ) == 0 ) ) {
-                popup( _( "%s forces are destroyed!" ), defender[0]->get_faction()->name );
+                popup( _( "%s forces are destroyed!" ), defender[0]->get_faction()->get_name() );
             } else {
-                popup( _( "%s forces retreat from combat!" ), defender[0]->get_faction()->name );
+                popup( _( "%s forces retreat from combat!" ), defender[0]->get_faction()->get_name() );
             }
             return;
         } else if( attack * 3 < defense ) {
             attack_random( remaining_def, remaining_att );
             if( attack == 0 || ( remaining_att.size() == 1 &&
                                  remaining_att[0]->get_part_hp_cur( bodypart_id( "torso" ) ) == 0 ) ) {
-                popup( _( "%s forces are destroyed!" ), attacker[0]->get_faction()->name );
+                popup( _( "%s forces are destroyed!" ), attacker[0]->get_faction()->get_name() );
             } else {
-                popup( _( "%s forces retreat from combat!" ), attacker[0]->get_faction()->name );
+                popup( _( "%s forces retreat from combat!" ), attacker[0]->get_faction()->get_name() );
             }
             return;
         } else {
@@ -2805,6 +2819,8 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
 {
     tinymap bay;
     bay.load( site, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *bay.cast_to_map() );
     creature_tracker &creatures = get_creature_tracker();
     std::set<item> return_items;
     for( const tripoint_omt_ms &p : bay.points_on_zlevel() ) {

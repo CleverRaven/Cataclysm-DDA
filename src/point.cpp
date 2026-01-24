@@ -8,6 +8,7 @@
 
 #include "cata_assert.h"
 #include "debug.h"
+#include "map_scale_constants.h"
 
 point point::from_string( const std::string &s )
 {
@@ -39,9 +40,29 @@ point point::rotate( int turns, const point &dim ) const
     return *this;
 }
 
+point point::rotate_in_map( int turns ) const
+{
+    cata_assert( turns >= 0 );
+    cata_assert( turns <= 4 );
+
+    switch( turns ) {
+        case 1:
+            return { SEEY * 2 - 1 - y, x };
+        case 2:
+            return { SEEX * 2 - 1 - x, SEEY * 2 - 1 - y };
+        case 3:
+            return { y, SEEX * 2 - 1 - x };
+    }
+
+    return *this;
+}
+
+
 float point::distance( const point &rhs ) const
 {
-    return std::sqrt( static_cast<float>( std::pow( x - rhs.x, 2 ) + std::pow( y - rhs.y, 2 ) ) );
+    float dx = x - rhs.x;
+    float dy = y - rhs.y;
+    return std::sqrt( dx * dx + dy * dy );
 }
 
 int point::distance_manhattan( const point &rhs ) const
@@ -105,16 +126,17 @@ std::ostream &operator<<( std::ostream &os, const tripoint &pos )
 std::istream &operator>>( std::istream &is, point &pos )
 {
     char c;
-    is.get( c ) &&c == '(' &&is >> pos.x &&is.get( c ) &&c == ',' &&is >> pos.y &&
-                                is.get( c ) &&c == ')';
+    // silence -Wunused-value
+    static_cast<void>( is.get( c ) && c == '(' && is >> pos.x && is.get( c ) && c == ',' &&
+                       is >> pos.y && is.get( c ) && c == ')' );
     return is;
 }
 
 std::istream &operator>>( std::istream &is, tripoint &pos )
 {
     char c;
-    is.get( c ) &&c == '(' &&is >> pos.x &&is.get( c ) &&c == ',' &&is >> pos.y &&
-                                is.get( c ) &&c == ',' &&is >> pos.z &&is.get( c ) &&c == ')';
+    static_cast<void>( is.get( c ) && c == '(' && is >> pos.x && is.get( c ) && c == ',' &&
+                       is >> pos.y && is.get( c ) && c == ',' && is >> pos.z && is.get( c ) && c == ')' );
     return is;
 }
 

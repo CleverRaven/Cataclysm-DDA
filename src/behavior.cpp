@@ -130,7 +130,7 @@ void behavior::load_behavior( const JsonObject &jo, const std::string &src )
     behavior_factory.load( jo, src );
 }
 
-void node_t::load( const JsonObject &jo, const std::string_view )
+void node_t::load( const JsonObject &jo, std::string_view )
 {
     // We don't initialize the node unless it has no children (opportunistic optimization).
     // Instead we initialize a parallel struct that holds the labels until finalization.
@@ -193,6 +193,7 @@ void behavior::reset()
 
 void behavior::finalize()
 {
+    behavior_factory.finalize();
     for( const node_data &new_node : temp_node_data ) {
         for( const std::string &child : new_node.children ) {
             const_cast<node_t &>( new_node.id.obj() ).

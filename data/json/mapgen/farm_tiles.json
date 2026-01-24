@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farmland_straight", "farmland_turn", "farmland_U", "farmland_turn_inside" ] ],
     "object": {
       "fill_ter": "t_region_soil",
@@ -37,7 +36,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "hayfield_straight", "hayfield_turnL", "hayfield_end", "hayfield_turnR" ] ],
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -78,7 +76,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "2silos" ],
     "weight": 100,
     "object": {
@@ -123,7 +120,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "2silos" ],
     "weight": 100,
     "object": {
@@ -168,7 +164,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "2silos_1" ],
     "object": {
       "fill_ter": "t_region_soil",
@@ -203,7 +198,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "2silos_2" ],
     "object": {
       "fill_ter": "t_region_soil",
@@ -238,7 +232,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "2silos_roof" ],
     "object": {
       "fill_ter": "t_region_soil",
@@ -273,7 +266,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "coop_chicken_roof",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -308,7 +300,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "coop_chicken" ],
     "object": {
       "predecessor_mapgen": "field",
@@ -347,7 +338,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "yard" ],
     "weight": 100,
     "object": {
@@ -390,7 +380,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "yard" ],
     "weight": 100,
     "object": {
@@ -444,7 +433,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "yard" ],
     "weight": 150,
     "object": {
@@ -501,7 +489,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_farm" ],
     "weight": 100,
     "object": {
@@ -554,7 +541,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_farm" ],
     "weight": 100,
     "object": {
@@ -607,7 +593,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_farm" ],
     "weight": 100,
     "object": {
@@ -659,7 +644,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_farm" ],
     "weight": 100,
     "object": {
@@ -712,7 +696,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_farm" ],
     "weight": 100,
     "object": {
@@ -765,7 +748,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_farm_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

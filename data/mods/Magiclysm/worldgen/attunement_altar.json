@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "attunement_altar_NW", "attunement_altar_NE" ], [ "attunement_altar_SW", "attunement_altar_SE" ] ],
     "object": {
       "fill_ter": "t_region_groundcover_urban",
@@ -82,7 +81,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "attunement_altar_NW_roof", "attunement_altar_NE_roof" ],
       [ "attunement_altar_SW_roof", "attunement_altar_SE_roof" ]

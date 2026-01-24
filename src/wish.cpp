@@ -17,6 +17,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_imgui.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
 #include "color.h"
 #include "coordinates.h"
@@ -176,7 +177,8 @@ class wish_mutate_callback: public uilist_callback
         }
 
         float desired_extra_space_right( ) override {
-            return 40 * ImGui::CalcTextSize( "X" ).x;
+            return std::min( ImGui::GetMainViewport()->Size.x / 2.0f,
+                             std::max( TERMX / 2, TERMX - 50 ) * ImGui::CalcTextSize( "X" ).x );
         }
 
         void refresh( uilist *menu ) override {
@@ -232,7 +234,7 @@ class wish_mutate_callback: public uilist_callback
                              mdata.visibility,
                              mdata.ugliness );
                 ImGui::NewLine();
-                ImGui::TextWrapped( "%s", mdata.desc().c_str() );
+                ImGui::TextWrapped( "%s", you->mutation_desc( mdata.id ).c_str() );
             }
 
             float y = ImGui::GetContentRegionMax().y - 3 * ImGui::GetTextLineHeightWithSpacing();
@@ -242,14 +244,15 @@ class wish_mutate_callback: public uilist_callback
             ImGui::TextColored( c_green, "%s", msg.c_str() );
             msg.clear();
             input_context ctxt( menu->input_category, keyboard_mode::keycode );
-            ImGui::Text( _( "[%s] find, [%s] quit, [t] toggle base trait" ),
-                         ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
 
-            if( only_active ) {
-                ImGui::TextColored( c_green, "%s", _( "[a] show active traits (active)" ) );
-            } else {
-                ImGui::TextColored( c_white, "%s", _( "[a] show active traits" ) );
-            }
+            cataimgui::TextKeybinding( ctxt, "FILTER", _( "Find" ),
+                                       menu->filtering && ( !menu->filter.empty() ) );
+            cataimgui::TextListSeparator();
+            cataimgui::TextKeybinding( ctxt, "t",      _( "Toggle base trait" ),  false );
+            cataimgui::TextListSeparator();
+            cataimgui::TextKeybinding( ctxt, "a",      _( "Show active traits" ), only_active );
+            cataimgui::TextListSeparator();
+            cataimgui::TextKeybinding( ctxt, "QUIT",   _( "Quit" ),               false );
         }
 
         ~wish_mutate_callback() override = default;
@@ -423,35 +426,31 @@ void debug_menu::wishbionics( Character *you )
                 break;
             }
             case 3: {
-                int new_value = 0;
-                if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
-                               units::display( power_max ) ) ) {
+                int new_value = units::to_kilojoule( power_max );
+                if( query_int( new_value, true, _( "Set the value to (in kJ)?" ) ) ) {
                     you->set_max_power_level( units::from_kilojoule( static_cast<std::int64_t>( new_value ) ) );
                     you->set_power_level( you->get_power_level() );
                 }
                 break;
             }
             case 4: {
-                int new_value = 0;
-                if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
-                               units::display( power_max ) ) ) {
+                int new_value = units::to_joule( power_max );
+                if( query_int( new_value, true, _( "Set the value to (in J)?" ) ) ) {
                     you->set_max_power_level( units::from_joule( static_cast<std::int64_t>( new_value ) ) );
                     you->set_power_level( you->get_power_level() );
                 }
                 break;
             }
             case 5: {
-                int new_value = 0;
-                if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
-                               units::display( power_level ) ) ) {
+                int new_value = units::to_kilojoule( power_level );
+                if( query_int( new_value, true, _( "Set the value to (in kJ)?" ) ) ) {
                     you->set_power_level( units::from_kilojoule( static_cast<std::int64_t>( new_value ) ) );
                 }
                 break;
             }
             case 6: {
-                int new_value = 0;
-                if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
-                               units::display( power_level ) ) ) {
+                int new_value = units::to_joule( power_level );
+                if( query_int( new_value, true, _( "Set the value to (in J)?" ) ) ) {
                     you->set_power_level( units::from_joule( static_cast<std::int64_t>( new_value ) ) );
                 }
                 break;
@@ -484,6 +483,14 @@ void debug_menu::wisheffect( Creature &p )
             descstr << eff.disp_name() << '\n';
         }
 
+        descstr << _( "Current intensity: " );
+        descstr << eff.get_intensity();
+
+        descstr << _( " Max intensity: " );
+        descstr << eff.get_max_intensity();
+
+        descstr << '\n';
+
         descstr << _( "Intensity threshold: " );
         descstr <<  colorize( std::to_string( to_seconds<int>( efft.intensity_duration() ) ),
                               c_yellow );
@@ -498,6 +505,7 @@ void debug_menu::wisheffect( Creature &p )
         {
             descstr << eff.disp_desc( false ) << '\n';
         }
+        descstr << eff.disp_mod_source_info() << '\n';
 
         return descstr.str();
     };
@@ -583,7 +591,7 @@ void debug_menu::wisheffect( Creature &p )
             effect &eff = effects[efmenu.ret - offset];
 
             int duration = to_seconds<int>( eff.get_duration() );
-            query_int( duration, _( "Set duration (current %1$d): " ), duration );
+            query_int( duration, true, _( "Set duration to?  (seconds)" ) );
             if( duration < 0 ) {
                 continue;
             }
@@ -681,7 +689,8 @@ class wish_monster_callback: public uilist_callback
         }
 
         float desired_extra_space_right( ) override {
-            return 30 * ImGui::CalcTextSize( "X" ).x;
+            return std::min( ImGui::GetMainViewport()->Size.x / 2.0f,
+                             std::max( TERMX / 2, TERMX - 50 ) * ImGui::CalcTextSize( "X" ).x );
         }
 
         void refresh( uilist *menu ) override {
@@ -710,6 +719,9 @@ class wish_monster_callback: public uilist_callback
                                                 header.c_str() ).x ) * 0.5 );
                     ImGui::TextColored( c_cyan, "%s", header.c_str() );
 
+                    // show debug info
+                    restore_on_out_of_scope<bool> restore_debugmode( debug_mode );
+                    debug_mode = true;
                     tmp.print_info_imgui();
                 }
 
@@ -720,9 +732,20 @@ class wish_monster_callback: public uilist_callback
                 ImGui::TextColored( c_green, "%s", msg.c_str() );
                 msg.clear();
                 input_context ctxt( menu->input_category, keyboard_mode::keycode );
-                ImGui::Text(
-                    _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
-                    ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
+
+                cataimgui::TextKeybinding( ctxt, "FILTER", _( "Find" ),
+                                           menu->filtering && ( !menu->filter.empty() ) );
+                cataimgui::TextListSeparator();
+                cataimgui::TextKeybinding( ctxt, "f",      _( "Friendly" ),       friendly );
+                cataimgui::TextListSeparator();
+                cataimgui::TextKeybinding( ctxt, "h",      _( "Hallucination" ),  hallucination );
+                cataimgui::TextListSeparator();
+                cataimgui::TextKeybinding( ctxt, "i",      _( "Increase Group" ), false );
+                cataimgui::TextListSeparator();
+                cataimgui::TextKeybinding( ctxt, "d",      _( "Decrease Group" ), false );
+                cataimgui::TextListSeparator();
+                cataimgui::TextKeybinding( ctxt, "QUIT",   _( "Quit" ),           false );
+
             }
             ImGui::EndChild();
         }
@@ -773,7 +796,7 @@ void debug_menu::wishmonstergroup( tripoint_abs_omt &loc )
         const mongroup_id selected_group( possible_groups[selected] );
         new_group.type = selected_group;
         int new_value = new_group.population; // default value if query declined
-        query_int( new_value, _( "Set population to what value?  Currently %d" ), new_group.population );
+        query_int( new_value, true, _( "Set population to what value?" ) );
         new_group.population = new_value;
         overmap &there = overmap_buffer.get( project_to<coords::om>( loc ).xy() );
         there.debug_force_add_group( new_group );
@@ -941,16 +964,13 @@ class wish_item_callback: public uilist_callback
                     // Otherwise, edit the existing list of user-defined instance flags
                     edit_flags = flags;
                 }
-                string_input_popup popup;
-                popup
-                .title( _( "Flags:" ) )
-                .description( _( "UPPERCASE, no quotes, separate with spaces" ) )
-                .max_length( 100 )
-                .text( edit_flags )
-                .query();
+                string_input_popup_imgui popup( 34, edit_flags, _( "Flags:" ) );
+                popup.set_description( _( "UPPERCASE, no quotes, separate with spaces" ) );
+                popup.set_max_input_length( 100 );
+                const std::string &rval = popup.query();
                 // Save instance flags on this item (will be reset when selecting another item)
-                if( popup.confirmed() ) {
-                    flags = popup.text();
+                if( !popup.cancelled() ) {
+                    flags = rval;
                     return true;
                 }
             }
@@ -1059,13 +1079,19 @@ class wish_item_callback: public uilist_callback
 
             ImGui::TextColored( c_green, "%s", msg.c_str() );
             input_context ctxt( menu->input_category, keyboard_mode::keycode );
-            ImGui::Text( _( "[%s] find, [%s] container, [%s] flag, [%s] everything, [%s] snippet, [%s] quit" ),
-                         ctxt.get_desc( "FILTER" ).c_str(),
-                         ctxt.get_desc( "CONTAINER" ).c_str(),
-                         ctxt.get_desc( "FLAG" ).c_str(),
-                         ctxt.get_desc( "EVERYTHING" ).c_str(),
-                         ctxt.get_desc( "SNIPPET" ).c_str(),
-                         ctxt.get_desc( "QUIT" ).c_str() );
+
+            cataimgui::TextKeybinding( ctxt, "FILTER",     _( "Find" ),
+                                       menu->filtering && ( !menu->filter.empty() ) );
+            cataimgui::TextListSeparator();
+            cataimgui::TextKeybinding( ctxt, "CONTAINER",  _( "Container" ),  incontainer );
+            cataimgui::TextListSeparator();
+            cataimgui::TextKeybinding( ctxt, "FLAG",       _( "Flag" ),       !flags.empty() );
+            cataimgui::TextListSeparator();
+            cataimgui::TextKeybinding( ctxt, "EVERYTHING", _( "Everything" ), spawn_everything );
+            cataimgui::TextListSeparator();
+            cataimgui::TextKeybinding( ctxt, "SNIPPET",    _( "Snippet" ),    chosen_snippet_id.first != -1 );
+            cataimgui::TextListSeparator();
+            cataimgui::TextKeybinding( ctxt, "QUIT",       _( "Quit" ),       false );
         }
 };
 
@@ -1166,7 +1192,7 @@ void debug_menu::wishitem( Character *you, const tripoint_bub_ms &pos )
                 popup
                 .title( _( "How many?" ) )
                 .width( 20 )
-                .description( granted.tname() )
+                .description( cb.spawn_everything ? _( "Everything" ) : granted.tname() )
                 .edit( amount );
                 canceled = popup.canceled();
             }

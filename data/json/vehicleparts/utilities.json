@@ -2,8 +2,8 @@
   {
     "id": "veh_forge",
     "breaks_into": [
-      { "count": [ 4, 5 ], "item": "steel_lump" },
-      { "count": [ 4, 6 ], "item": "steel_chunk" },
+      { "count": [ 4, 5 ], "item": "mc_steel_lump" },
+      { "count": [ 4, 6 ], "item": "mc_steel_chunk" },
       { "count": [ 4, 6 ], "item": "scrap" }
     ],
     "categories": [ "utility" ],
@@ -17,7 +17,7 @@
     "item": "forgerig",
     "location": "center",
     "looks_like": "f_forge_rock",
-    "name": { "str": "mounted electric forge" },
+    "name": { "str": "vehicle electric forge" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -34,8 +34,8 @@
   {
     "id": "veh_kiln",
     "breaks_into": [
-      { "count": [ 4, 5 ], "item": "steel_lump" },
-      { "count": [ 4, 6 ], "item": "steel_chunk" },
+      { "count": [ 4, 5 ], "item": "mc_steel_lump" },
+      { "count": [ 4, 6 ], "item": "mc_steel_chunk" },
       { "count": [ 4, 6 ], "item": "scrap" }
     ],
     "categories": [ "utility" ],
@@ -49,7 +49,7 @@
     "item": "kilnrig",
     "location": "center",
     "looks_like": "f_kiln_empty",
-    "name": { "str": "mounted electric kiln" },
+    "name": { "str": "vehicle electric kiln" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -64,46 +64,10 @@
     "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
   },
   {
-    "id": "veh_oil_press_electric",
-    "type": "vehicle_part",
-    "name": { "str": "mounted electric oil press" },
-    "item": "oil_press_electric",
-    "description": "A heavy-duty press used to create vegetable oil from nuts or seeds.",
-    "categories": [ "utility" ],
-    "location": "center",
-    "color": "green",
-    "broken_color": "green",
-    "damage_modifier": 10,
-    "damage_reduction": { "all": 30 },
-    "durability": 200,
-    "flags": [ "OBSTACLE", "CARGO" ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 3 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 5 ] ]
-      }
-    },
-    "pseudo_tools": [ { "id": "oil_press_electric" } ],
-    "size": "5 L",
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 3, 6 ] },
-      { "item": "sheet_metal_small", "count": [ 4, 8 ] },
-      { "item": "scrap", "count": [ 4, 7 ] },
-      { "item": "element", "count": [ 0, 2 ] },
-      { "item": "pipe", "prob": 50 },
-      { "item": "motor_small", "prob": 25 }
-    ],
-    "variants": [ { "symbols": "Y", "symbols_broken": "x" } ]
-  },
-  {
     "id": "door_lock",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "door lock set" },
-    "description": "Some wires and gears for connecting door handles and an unlocking knob to a latching mechanism, and a sturdy lock to go on the outer surface.  It is meant to be installed in a vehicle door or hatch.",
+    "description": "Some wires and gears for connecting door handles and an unlocking knob to a latching mechanism, and a sturdy lock to go on the outer surface.  If installed on a door or a hatch, this can be used to lock it.",
     "symbol": "+",
     "color": "dark_gray",
     "material": [ "steel" ],
@@ -124,7 +88,6 @@
     "durability": 50,
     "description": "Binoculars secured near the seat.",
     "item": "binoculars",
-    "location": "internal",
     "folded_volume": "500 ml",
     "flags": [ "ENHANCED_VISION", "SIMPLE_PART" ],
     "requirements": {
@@ -151,5 +114,83 @@
     "pseudo_tools": [ { "id": "concrete_mix_tool" } ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 100 ] } ],
     "variants": [ { "symbols": "U", "symbols_broken": "u" } ]
+  },
+  {
+    "id": "veh_mobile_weather_station",
+    "type": "vehicle_part",
+    "name": { "str": "mobile weather station" },
+    "item": "mobile_weather_station",
+    "fuel_type": "battery",
+    "categories": [ "utility" ],
+    "color": "yellow",
+    "broken_color": "red",
+    "//": "aem lambrecht weather backpack can run for 8 days on a full charge",
+    "epower": "-1 W",
+    "durability": 50,
+    "description": "A mobile weather station.  Its instruments are deployed on its tall telescoping stand.",
+    "folded_volume": "89 L",
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 14, 20 ] }, { "item": "scrap", "charges": [ 2, 3 ] } ],
+    "requirements": {
+      "install": { "time": "1200 s" },
+      "removal": { "time": "1200 s" },
+      "repair": { "skills": [ [ "electronics", 5 ] ], "time": "600 s", "using": [ [ "soldering_standard", 5 ] ] }
+    },
+    "damage_reduction": { "bash": 1 },
+    "size": "10 ml",
+    "flags": [ "CARGO", "OBSTACLE", "MWS", "ENABLED_DRAINS_EPOWER", "NO_INSTALL_HIDDEN" ],
+    "pseudo_tools": [ { "id": "mws_weather_sensor_array", "hotkey": "a" } ],
+    "variants": [ { "symbols": "T", "symbols_broken": "#" } ]
+  },
+  {
+    "id": "veh_xedra_mobile_weather_station",
+    "type": "vehicle_part",
+    "name": { "str": "mobile hazardous environment weather station" },
+    "item": "xedra_mobile_weather_station",
+    "fuel_type": "battery",
+    "categories": [ "utility" ],
+    "color": "black",
+    "broken_color": "red",
+    "//": "4x power drain to account for other equipment",
+    "epower": "-4 W",
+    "durability": 50,
+    "description": "A mobile hazardous environment weather station.  Its instruments are deployed on its tall telescoping stand.",
+    "folded_volume": "90 L",
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 14, 20 ] }, { "item": "scrap", "charges": [ 2, 3 ] } ],
+    "requirements": {
+      "install": { "time": "1200 s" },
+      "removal": { "time": "1200 s" },
+      "repair": { "skills": [ [ "electronics", 7 ] ], "time": "600 s", "using": [ [ "soldering_standard", 5 ] ] }
+    },
+    "damage_reduction": { "bash": 1 },
+    "size": "10 ml",
+    "flags": [ "CARGO", "OBSTACLE", "MWS", "ENABLED_DRAINS_EPOWER", "ADVANCED_MWS", "NO_INSTALL_HIDDEN" ],
+    "pseudo_tools": [ { "id": "mws_advanced_weather_sensor_array", "hotkey": "a" }, { "id": "mws_HE_sensor_array", "hotkey": "b" } ],
+    "variants": [ { "symbols": "T", "symbols_broken": "#" } ]
+  },
+  {
+    "id": "veh_robofac_mobile_weather_station",
+    "type": "vehicle_part",
+    "name": { "str": "mobile HEW-NRE station" },
+    "item": "robofac_mobile_weather_station",
+    "fuel_type": "battery",
+    "categories": [ "utility" ],
+    "color": "brown",
+    "broken_color": "red",
+    "//": "4x power drain to account for other equipment",
+    "epower": "-4 W",
+    "durability": 50,
+    "description": "A mobile hazardous environment weather station.  Its instruments are deployed on its tall telescoping stand.",
+    "folded_volume": "90 L",
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 14, 20 ] }, { "item": "scrap", "charges": [ 2, 3 ] } ],
+    "requirements": {
+      "install": { "time": "1200 s" },
+      "removal": { "time": "1200 s" },
+      "repair": { "skills": [ [ "electronics", 7 ] ], "time": "600 s", "using": [ [ "soldering_standard", 5 ] ] }
+    },
+    "damage_reduction": { "bash": 1 },
+    "size": "10 ml",
+    "flags": [ "CARGO", "OBSTACLE", "MWS", "ENABLED_DRAINS_EPOWER", "ADVANCED_MWS", "NO_INSTALL_HIDDEN" ],
+    "pseudo_tools": [ { "id": "mws_advanced_weather_sensor_array", "hotkey": "a" }, { "id": "mws_HE_sensor_array", "hotkey": "b" } ],
+    "variants": [ { "symbols": "T", "symbols_broken": "#" } ]
   }
 ]

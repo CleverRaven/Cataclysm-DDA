@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "refund_power",
-    "effect": { "math": [ "u_val('power')", "+=", "_act_cost" ] }
+    "effect": { "math": [ "u_val('power') += _act_cost" ] }
   },
   {
     "type": "effect_on_condition",
@@ -28,11 +28,11 @@
         "if": { "one_in_chance": 3 },
         "then": [
           { "u_message": "Your muscles tear with the strain!", "type": "good" },
-          { "math": [ "u_hp('arm_l')", "-=", "rng(5, 10)" ] },
-          { "math": [ "u_hp('arm_r')", "-=", "rng(5, 10)" ] },
-          { "math": [ "u_hp('leg_l')", "-=", "rng(7, 12)" ] },
-          { "math": [ "u_hp('leg_r')", "-=", "rng(7, 12)" ] },
-          { "math": [ "u_hp('torso')", "-=", "rng(5, 15)" ] }
+          { "math": [ "u_hp('arm_l') -= rng(5, 10)" ] },
+          { "math": [ "u_hp('arm_r') -= rng(5, 10)" ] },
+          { "math": [ "u_hp('leg_l') -= rng(7, 12)" ] },
+          { "math": [ "u_hp('leg_r') -= rng(7, 12)" ] },
+          { "math": [ "u_hp('torso') -= rng(5, 15)" ] }
         ]
       },
       {
@@ -60,6 +60,19 @@
       { "u_make_sound": "HISISSS!", "volume": 19, "type": "activity" },
       { "run_eocs": "EOC_bio_hydraulics_act", "time_in_future": 1 }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_hydraulics_activated",
+    "effect": [
+      { "math": [ "u_bio_hydraulics_strength_adjustment = u_val('strength')" ] },
+      { "u_add_effect": "effect_bio_hydraulics_active", "duration": "PERMANENT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_hydraulics_deactivated",
+    "effect": [ { "u_lose_effect": "effect_bio_hydraulics_active" } ]
   },
   {
     "type": "effect_on_condition",
@@ -109,7 +122,7 @@
       },
       { "math": [ "u_val('pkill') = 0" ] },
       { "math": [ "u_val('stim') = 0" ] },
-      { "turn_cost": 1 }
+      { "turn_cost": { "math": [ "1" ] } }
     ]
   }
 ]

@@ -79,6 +79,7 @@
       { "group": "jewelry_front", "prob": 40 },
       { "group": "costume_jewelry_vampire", "prob": 5 },
       { "group": "costume_jewelry_dark", "prob": 5 },
+      { "group": "mansion_exotic_weapons", "prob": 5 },
       { "group": "mansion_guns", "prob": 95 },
       { "group": "mansion_guns", "prob": 80 }
     ]
@@ -109,6 +110,20 @@
       { "group": "mansion_guns", "prob": 40 },
       { "group": "mansion_guns", "prob": 80 },
       { "group": "mansion_guns", "prob": 95 }
+    ]
+  },
+  {
+    "id": "mansion_exotic_weapons",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "rapiers", "prob": 50 },
+      { "group": "estocs", "prob": 50 },
+      { "group": "cavalry_sabres", "prob": 25 },
+      { "group": "longswords", "prob": 25 },
+      { "group": "arming_swords", "prob": 25 },
+      { "group": "broadswords", "prob": 25 },
+      { "group": "katanas", "prob": 50 }
     ]
   },
   {
@@ -150,7 +165,7 @@
     "id": "crate_kitchen",
     "type": "item_group",
     "subtype": "collection",
-    "groups": [ [ "kitchen_nonfood", 10 ], [ "kitchen_nonfood", 70 ], [ "oven", 90 ], [ "oven", 40 ] ]
+    "groups": [ [ "kitchen_nonfood", 10 ], [ "kitchen_nonfood", 70 ], [ "SUS_oven", 90 ], [ "SUS_oven", 40 ] ]
   },
   {
     "id": "crate_toys",
@@ -568,7 +583,7 @@
       [ "fc_hairpin", 30 ],
       { "group": "kids_books", "prob": 170, "count": [ 1, 4 ] },
       { "group": "games", "prob": 170, "count": [ 1, 2 ] },
-      [ "backpack", 20 ],
+      [ "backpack_small", 20 ],
       [ "backpack_denim", 5 ],
       [ "pom_poms", 30 ],
       [ "shuttlecock", 5 ],
@@ -585,7 +600,7 @@
       [ "orangesoda", 30 ],
       [ "magic_8_ball", 10 ],
       [ "hairpin", 30 ],
-      [ "purple_drink", 20 ],
+      { "group": "soda_in_container", "prob": 20 },
       [ "candy", 20 ],
       [ "slingshot", 10 ],
       [ "rock", 10 ],
@@ -632,6 +647,7 @@
       [ "vampire_fangs", 5 ],
       [ "cloak_vampire", 5 ],
       [ "cloak_black", 5 ],
+      { "group": "esoteric_books", "prob": 40 },
       { "group": "costume_jewelry_dark", "prob": 20 },
       { "group": "costume_jewelry_vampire", "prob": 20 },
       [ "sinister_cane", 5 ],
@@ -639,9 +655,9 @@
       [ "robe_wizard", 4 ],
       [ "grim_reaper_robe", 4 ],
       [ "scythe_toy", 4 ],
-      [ "witch_dress_long", 2 ],
-      [ "sinister_gown", 2 ],
-      [ "sinister_dress", 2 ],
+      { "item": "long_dress_sleeved", "variant": "witch_black", "prob": 2 },
+      { "item": "gown_sleeved", "variant": "sinister", "prob": 2 },
+      { "item": "long_dress_sleeved", "variant": "sinister", "prob": 2 },
       [ "mask_plague", 2 ],
       [ "trenchcoat_steampunk", 2 ],
       [ "mummy_dress", 2 ],
@@ -654,7 +670,7 @@
     "items": [
       { "item": "candle", "prob": 50, "charges": [ 0, 100 ] },
       [ "rope_6", 50 ],
-      { "item": "vibrator", "prob": 40, "charges": [ 0, 100 ] },
+      { "group": "sex_accessories_domestic", "prob": 40 },
       [ "camisole", 40 ],
       [ "panties", 40 ],
       [ "bra", 40 ],
@@ -688,6 +704,7 @@
       [ "leather_cat_ears", 5 ],
       [ "leather_cat_tail", 5 ],
       [ "leather_collar", 5 ],
+      [ "priest_collar", 2 ],
       [ "rope_30", 5 ],
       { "item": "fog_machine", "prob": 5, "charges": [ 0, 56 ] },
       { "group": "costume_undergarments_women", "prob": 20 },
@@ -709,8 +726,8 @@
       [ "santa_dress_short", 15 ],
       [ "cheerleader_dress", 5 ],
       [ "ninja_dress_sleeveless", 2 ],
-      [ "sinister_dress_short", 5 ],
-      [ "witch_dress_short", 5 ],
+      { "item": "short_dress", "variant": "sinister", "prob": 5 },
+      { "item": "short_dress_sleeved", "variant": "witch_black", "prob": 5 },
       [ "maid_dress_short", 25 ],
       { "item": "apron_cotton", "variant": "maid_apron", "prob": 25 },
       { "item": "apron_cotton", "variant": "gothic_apron", "prob": 15 },
@@ -749,6 +766,10 @@
       [ "headgear", 20 ],
       [ "mask_hockey", 25 ],
       [ "hockey_stick", 45 ],
+      [ "throat_guard_nylon", 5 ],
+      [ "throat_guard_canvas", 5 ],
+      [ "throat_guard_plastic", 2 ],
+      [ "throat_guard_cut_resistant", 1 ],
       [ "puck", 30 ],
       [ "golf_club", 80 ],
       [ "roller_blades", 20 ],
@@ -965,6 +986,7 @@
       [ "45_casing", 20 ],
       [ "bone_tainted", 1 ],
       [ "toothbrush_plain", 10 ],
+      { "group": "sunscreen_bottle", "prob": 10 },
       { "group": "corpse_mansion", "prob": 1 }
     ]
   },
@@ -1020,7 +1042,7 @@
       { "group": "adhesive_bandages_box_used", "prob": 5 },
       { "item": "liq_bandage_spray", "prob": 1, "charges": [ 1, -1 ] },
       [ "heatpack", 10 ],
-      [ "gum", 12 ],
+      { "group": "chewing_gum_used", "prob": 12 },
       [ "yoghurt", 12 ],
       { "prob": 10, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
       { "prob": 15, "group": "bottle_otc_painkiller_1_20" },
@@ -1053,7 +1075,7 @@
       [ "heels", 20 ],
       [ "cotton_patchwork", 20 ],
       { "group": "tinware", "prob": 20 },
-      [ "mask_guy_fawkes", 10 ],
+      { "item": "mask_skull", "variant": "guy_fawkes", "prob": 10 },
       [ "gold_ear", 10 ],
       [ "bone_tainted", 5 ],
       [ "silver_ear", 5 ],
@@ -1106,7 +1128,7 @@
       { "group": "adhesive_bandages_box_used", "prob": 5 },
       { "item": "liq_bandage_spray", "prob": 1, "charges": [ 1, -1 ] },
       [ "heatpack", 10 ],
-      { "item": "gum", "prob": 12, "count": [ 1, 10 ] },
+      { "group": "chewing_gum_used", "prob": 12 },
       { "item": "soap", "prob": 10, "charges": [ 1, 10 ] },
       [ "rashguard", 30 ],
       [ "sports_bra", 60 ],
@@ -1155,10 +1177,10 @@
       { "item": "material_rocksalt", "prob": 10, "container-item": "bag_canvas" },
       [ "vinegar", 10 ],
       { "item": "lye_powder", "prob": 5, "container-item": "bag_canvas_small" },
-      [ "oxy_powder", 5 ],
+      { "group": "oxy_powder_bottle_part", "prob": 5 },
       [ "fungicide", 5 ],
       { "group": "insecticide_bag_plastic", "prob": 5 },
-      { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" },
+      { "group": "charcoal_bag_part", "prob": 5 },
       [ "toilet_paper", 30 ],
       [ "plunger_toilet", 10 ],
       [ "plunger_futuristic", 25 ],
@@ -1184,7 +1206,7 @@
       { "group": "tobacco_products", "prob": 50 },
       { "group": "cigar_box_opened", "prob": 50 },
       [ "novel_pulp", 30 ],
-      { "item": "gum", "prob": 30, "count": [ 1, 10 ] },
+      { "group": "chewing_gum_used", "prob": 30 },
       [ "glass", 20 ],
       [ "bandana", 10 ],
       { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
@@ -1415,9 +1437,9 @@
       [ "corset_waist", 10 ],
       [ "halter_top", 50 ],
       [ "santa_dress_long", 1 ],
-      [ "sinister_dress", 1 ],
-      [ "sinister_gown", 1 ],
-      [ "witch_dress_long", 1 ]
+      { "item": "long_dress_sleeved", "variant": "sinister", "prob": 1 },
+      { "item": "gown_sleeved", "variant": "sinister", "prob": 1 },
+      { "item": "long_dress_sleeved", "variant": "witch_black", "prob": 1 }
     ]
   },
   {
@@ -1453,7 +1475,7 @@
       { "item": "leggings", "prob": 30, "damage": [ 1, 3 ] },
       { "item": "stockings", "prob": 30, "damage": [ 1, 3 ] },
       { "item": "garter_belt", "prob": 15, "damage": [ 1, 3 ] },
-      [ "balclava", 15 ],
+      { "item": "balclava", "variant": "black", "prob": 15 },
       [ "union_suit", 20 ],
       { "item": "sleeveless_trenchcoat", "prob": 30, "damage": [ 1, 3 ] },
       [ "house_coat", 25 ],
@@ -1509,6 +1531,9 @@
       [ "kufi", 2 ],
       [ "kippah", 2 ],
       [ "thawb", 1 ],
+      [ "hijab", 2 ],
+      [ "niqab", 1 ],
+      [ "abaya", 1 ],
       [ "kittel", 1 ],
       [ "tallit_katan", 1 ],
       [ "cassock", 1 ],
@@ -1523,9 +1548,10 @@
       [ "gloves_fur", 4 ],
       [ "boots_fur", 4 ],
       [ "santa_dress_long", 3 ],
-      [ "sinister_dress", 3 ],
-      [ "sinister_gown", 4 ],
-      [ "witch_dress_long", 2 ]
+      { "item": "long_dress_sleeved", "variant": "sinister", "prob": 3 },
+      { "item": "gown_sleeved", "variant": "sinister", "prob": 4 },
+      { "item": "long_dress_sleeved", "variant": "witch_black", "prob": 2 },
+      { "item": "cheongsam", "prob": 5 }
     ]
   },
   {
@@ -1659,7 +1685,6 @@
     "type": "item_group",
     "id": "vitamins_bottle_plastic_pill_supplement_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_supplement",
     "entries": [ { "item": "vitamins", "container-item": "null", "count": [ 1, 10 ] } ]
   }

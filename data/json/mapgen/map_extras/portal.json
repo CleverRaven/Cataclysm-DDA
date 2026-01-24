@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "portal_location",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -13,7 +12,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_portal",
     "object": {
       "place_nested": [ { "chunks": [ "portal_location" ], "x": [ 2, 20 ], "y": [ 2, 20 ] } ],

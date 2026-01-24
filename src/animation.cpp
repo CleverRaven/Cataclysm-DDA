@@ -1,8 +1,21 @@
 #include "animation.h"
 
+
+#include <algorithm>
+#include <chrono>
+#include <cstdint>
+#include <iterator>
+#include <list>
+#include <map>
+#include <memory>
+#include <thread>
+#include <utility>
+#include <vector>
+
 #include "avatar.h"
 #include "cached_options.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
@@ -28,20 +41,8 @@
 #if defined(TILES)
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 #include "sdltiles.h"
+#include "weather_type.h"
 #endif
-
-#include <algorithm>
-#include <chrono>
-#include <functional>
-#include <iosfwd>
-#include <iterator>
-#include <list>
-#include <map>
-#include <memory>
-#include <thread>
-#include <type_traits>
-#include <utility>
-#include <vector>
 
 namespace
 {
@@ -496,7 +497,7 @@ void game::draw_bullet( const tripoint_bub_ms &t, const int /*i*/,
         return;
     }
     if( !use_tiles ) {
-        draw_bullet_curses( m, t, bullet, nullptr );
+        draw_bullet_curses( get_map(), t, bullet, nullptr );
         return;
     }
 
@@ -1030,19 +1031,6 @@ void game::draw_vpart_override(
 #else
 void game::draw_vpart_override( const tripoint_bub_ms &, const vpart_id &, const int,
                                 const units::angle &, const bool, const point_rel_ms & )
-{
-}
-#endif
-
-#if defined(TILES)
-void game::draw_below_override( const tripoint_bub_ms &p, const bool draw )
-{
-    if( use_tiles ) {
-        tilecontext->init_draw_below_override( p, draw );
-    }
-}
-#else
-void game::draw_below_override( const tripoint_bub_ms &, const bool )
 {
 }
 #endif

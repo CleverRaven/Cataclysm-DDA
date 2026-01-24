@@ -24,7 +24,7 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
 {
     map &here = get_map();
 
-    const optional_vpart_position grabbed_vehicle_vp = m.veh_at( u.pos_bub( here ) + u.grab_point );
+    const optional_vpart_position grabbed_vehicle_vp = here.veh_at( u.pos_bub( here ) + u.grab_point );
     if( !grabbed_vehicle_vp ) {
         add_msg( m_info, _( "No vehicle at grabbed point." ) );
         u.grab( object_type::NONE );
@@ -42,7 +42,7 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
         u.grab( object_type::NONE );
         return false;
     }
-    const vehicle *veh_under_player = veh_pointer_or_null( m.veh_at( u.pos_bub( here ) ) );
+    const vehicle *veh_under_player = veh_pointer_or_null( here.veh_at( u.pos_bub( here ) ) );
     if( grabbed_vehicle == veh_under_player ) {
         u.grab_point = - dp;
         return false;
@@ -128,7 +128,7 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
             const tripoint_bub_ms vehpos = grabbed_vehicle->pos_bub( here );
             for( int p : wheel_indices ) {
                 const tripoint_bub_ms wheel_pos = vehpos + grabbed_vehicle->part( p ).precalc[0];
-                const int mapcost = m.move_cost( wheel_pos, grabbed_vehicle );
+                const int mapcost = here.move_cost( wheel_pos, grabbed_vehicle );
                 mc += str_req * mapcost / wheel_indices.size();
             }
             //set strength check threshold
@@ -291,17 +291,17 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
         u.grab_point = next_grab;
     }
 
-    m.displace_vehicle( *grabbed_vehicle, final_dp_veh );
-    m.rebuild_vehicle_level_caches();
+    here.displace_vehicle( *grabbed_vehicle, final_dp_veh );
+    here.rebuild_vehicle_level_caches();
 
     if( grabbed_vehicle ) {
-        m.level_vehicle( *grabbed_vehicle );
+        here.level_vehicle( *grabbed_vehicle );
         grabbed_vehicle->check_falling_or_floating();
         if( grabbed_vehicle->is_falling ) {
             add_msg( _( "You let go of the %1$s as it starts to fall." ), grabbed_vehicle->disp_name() );
             u.grab( object_type::NONE );
             u.grab_point = tripoint_rel_ms::zero;
-            m.set_seen_cache_dirty( grabbed_vehicle->pos_bub( here ) );
+            here.set_seen_cache_dirty( grabbed_vehicle->pos_bub( here ) );
             return true;
         }
     } else {
@@ -313,7 +313,7 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
         if( one_in( 2 ) ) {
             vehicle_part &vp_wheel = grabbed_vehicle->part( p );
             tripoint_bub_ms wheel_p = grabbed_vehicle->bub_part_pos( here, vp_wheel );
-            grabbed_vehicle->handle_trap( &m, wheel_p, vp_wheel );
+            grabbed_vehicle->handle_trap( &here, wheel_p, vp_wheel );
         }
     }
 

@@ -1,7 +1,8 @@
 [
   {
     "id": "rifle_ball",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "762_51",
     "name": { "str_sp": "rifle ammo, ball" },
     "ammo_type": "ammo_rifle",
@@ -10,7 +11,8 @@
   },
   {
     "id": "rifle_AP",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "rifle_ball",
     "name": { "str_sp": "rifle ammo, AP" },
     "description": "Modern rifle ammunition, ubiquitous and affordable.  It's suitable for international conflicts, hunting small to large game, home defense, and these days, zombies.  This 'armor piercing' variant features a mild steel penetrator for environmental friendliness, improved barrier penetration, and enhanced effect on armor.",
@@ -18,7 +20,8 @@
   },
   {
     "id": "reloaded_rifle_ball",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "rifle_ball",
     "name": { "str_sp": "rifle ammo, ball (reloaded)" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
@@ -26,7 +29,8 @@
   },
   {
     "id": "reloaded_rifle_AP",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "rifle_AP",
     "name": { "str_sp": "rifle ammo, AP (reloaded)" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
@@ -35,7 +39,8 @@
   {
     "id": "bp_rifle_ball",
     "copy-from": "rifle_ball",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "rifle ammo, ball (black powder)" },
     "proportional": {
       "price": 0.3,
@@ -49,7 +54,8 @@
   {
     "id": "bp_rifle_AP",
     "copy-from": "rifle_AP",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "rifle ammo, AP (black powder)" },
     "proportional": {
       "price": 0.3,
@@ -63,14 +69,16 @@
   {
     "id": "rifle_ball_foreign",
     "copy-from": "rifle_ball",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "foreign rifle ammo, ball" },
     "description": "Foreign rifle ammo brought by the Exodii, and very common amongst them.",
     "ammo_type": "ammo_rifle_foreign"
   },
   {
     "id": "reloaded_rifle_ball_foreign",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "rifle_ball_foreign",
     "name": { "str_sp": "foreign rifle ammo, ball (reloaded)" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
@@ -79,7 +87,8 @@
   {
     "id": "bp_rifle_ball_foreign",
     "copy-from": "rifle_ball_foreign",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "foreign rifle ammo, ball (black powder)" },
     "proportional": {
       "price": 0.3,
@@ -93,7 +102,8 @@
   {
     "id": "rifle_rail_ammo",
     "copy-from": "12mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "railgun rifle ammo" },
     "description": "Projectile used for a railgun.  It's made of a ferromagnetic metal, probably cobalt.",
     "ammo_type": "ammo_railgun"
@@ -101,7 +111,8 @@
   {
     "id": "rifle_ball_cannon",
     "copy-from": "33naval_ball",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "foreign cannon rifle ammo, ball" },
     "description": "Foreign cannon rifle ammo brought by the Exodii, capable to destroy lightly armored vehicles, as well as highly armored mutants.",
     "ammo_type": "ammo_rifle_cannon"

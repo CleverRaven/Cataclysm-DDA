@@ -1,28 +1,31 @@
 [
   {
     "type": "terrain",
-    "id": "t_dirt",
+    "abstract": "t_natural_floor_abstract",
     "name": "dirt",
     "description": "It's dirt.  Looks like some fine soil for tillage.  Could also be dug out for construction projects.",
     "symbol": ".",
     "color": "brown",
-    "connect_groups": "DIRT",
-    "connects_to": [ "DIRT", "CLAY", "SAND", "MUD", "DIRTMOUND", "CLAYMOUND", "SANDMOUND", "SANDGLASS", "CONCRETE" ],
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
     "type": "terrain",
+    "id": "t_dirt",
+    "copy-from": "t_natural_floor_abstract",
+    "connect_groups": "DIRT",
+    "connects_to": [ "DIRT", "CLAY", "SAND", "MUD", "DIRTMOUND", "CLAYMOUND", "SANDMOUND", "SANDGLASS", "CONCRETE" ],
+    "extend": { "flags": [ "PLOWABLE" ] }
+  },
+  {
+    "type": "terrain",
     "id": "t_forestfloor",
+    "copy-from": "t_natural_floor_abstract",
     "name": "forest floor",
     "description": "Covered in twigs and lots of brown, decaying leaves.",
-    "symbol": ".",
-    "color": "brown",
     "looks_like": "t_moss",
-    "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "extend": { "flags": [ "PLOWABLE" ] }
   },
   {
     "type": "terrain",
@@ -413,6 +416,8 @@
     "looks_like": "t_floor",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
+    "connect_groups": "WOODFLOOR",
+    "connects_to": "WOODFLOOR",
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_null",
@@ -423,7 +428,9 @@
         { "item": "splinter", "count": [ 2, 32 ] },
         { "item": "2x4", "count": [ 0, 8 ] },
         { "item": "nail", "charges": [ 5, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -446,7 +453,9 @@
         { "item": "splinter", "count": [ 2, 32 ] },
         { "item": "2x4", "count": [ 0, 8 ] },
         { "item": "nail", "charges": [ 5, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -468,8 +477,8 @@
       "str_max": 500,
       "str_min_supported": 200,
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
     }
@@ -493,8 +502,8 @@
       "str_max": 500,
       "str_min_supported": 200,
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
     }
@@ -517,7 +526,9 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -538,7 +549,9 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -610,8 +623,8 @@
       "str_max": 1000,
       "str_min_supported": 200,
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "ch_steel_lump", "count": [ 1, 4 ] },
+        { "item": "ch_steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
     }
@@ -671,6 +684,20 @@
     "symbol": ".",
     "color": "light_gray",
     "looks_like": "t_rock_floor",
+    "connect_groups": "ROCKFLOOR",
+    "connects_to": "ROCKFLOOR",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_stone_road",
+    "name": "cobblestone road",
+    "description": "Stone blocks carefully laid to create a durable road surface.  Moss and grass grow in the gaps between the stones.",
+    "symbol": ".",
+    "color": "light_gray",
+    "looks_like": "t_stone_masonry_floor",
     "connect_groups": "ROCKFLOOR",
     "connects_to": "ROCKFLOOR",
     "move_cost": 2,

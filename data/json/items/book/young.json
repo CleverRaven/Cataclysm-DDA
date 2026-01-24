@@ -1,7 +1,8 @@
 [
   {
     "id": "child_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "children's book" },
     "description": "A little book for little readers.  The colorful cartoon characters and sweet stories contained herein belong to a different time, before the dead walked and the world moved on.",
     "weight": "52 g",
@@ -14,11 +15,12 @@
     "color": "light_cyan",
     "time": "4 m",
     "chapters": 4,
-    "fun": 1
+    "read_fun": 1
   },
   {
     "id": "fairy_tales",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "book of fairy tales", "str_pl": "books of fairy tales" },
     "description": "An amusing collection of folklore featuring the usual cast of fairies, goblins, and trolls.",
     "weight": "410 g",
@@ -32,7 +34,6 @@
     "intelligence": 6,
     "time": "18 m",
     "chapters": 24,
-    "fun": 3,
     "//": "The ids below represent the Aarne-Thompson System of folklore classification.  Do not change.",
     "snippet_category": [
       {
@@ -126,11 +127,13 @@
         "id": "fairyat_2025",
         "text": "Titled \"The Fleeing Pancake\", this collection of silly folk tales is suitable for small children."
       }
-    ]
+    ],
+    "read_fun": 3
   },
   {
     "id": "book_fict_soft_ya_adrk",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Adorkable Girl", "str_pl": "copies of The Adorkable Girl" },
     "description": "When a therapist's daughter transfers to a new school, she decides to change her personality type.  As her social life begins to blossom, can she maintain a healthy boundary between her home life and her public persona?",
     "copy-from": "book_fict_soft_ya_quiddity",
@@ -138,7 +141,8 @@
   },
   {
     "id": "book_fict_soft_ya_bjak",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Becoming Jackson", "str_pl": "copies of Becoming Jackson" },
     "description": "When Jackson gains the mystical talent to alter his appearance on command, will he be able to recognize himself in his own mirror?",
     "copy-from": "book_fict_soft_ya_vanilla",
@@ -146,56 +150,64 @@
   },
   {
     "id": "book_fict_soft_ya_burn",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Nothing Burned", "str_pl": "copies of Nothing Burned" },
     "description": "A teenage influencer becomes fast friends with someone who may or may not be an actual demon.",
     "copy-from": "book_fict_soft_ya_quiddity"
   },
   {
     "id": "book_fict_soft_ya_hilo",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "High and Low", "str_pl": "copies of High and Low" },
     "description": "In this work of adolescent fiction, a young Gemini discovers that the astrology section of his small town newspaper is eerily preminiscent.  His efforts to uncover the oracle reveal more than the stars could have predicted.",
     "copy-from": "book_fict_soft_ya_vanilla"
   },
   {
     "id": "book_fict_soft_ya_myeyes",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Fire When You See My Eyes", "str_pl": "copies of Fire When You See My Eyes" },
     "description": "In a cataclysmic future, advanced technology gives parents access to video footage of every moment of their teenage children's lives.",
     "copy-from": "book_fict_soft_ya_quiddity"
   },
   {
     "id": "book_fict_soft_ya_pbbr",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Peanut Butter Bruised", "str_pl": "copies of Peanut Butter Bruised" },
     "description": "In this work of young adult fiction, a woman raised on food stamps falls in love with a young cook.  More importantly, she falls in love with the idea of becoming a professional chef.",
     "copy-from": "book_fict_soft_ya_quiddity"
   },
   {
     "id": "book_fict_soft_ya_rwya",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Ready When You Are", "str_pl": "copies of Ready When You Are" },
     "description": "When three teenage girls ditch class to drive cross-country together, they get a strong dose of life lessons on the road.  This work of young adult fiction explores how friendships evolve in early adulthood.",
     "copy-from": "book_fict_soft_ya_vanilla"
   },
   {
     "id": "book_fict_soft_ya_sboy",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Study of a Boy", "str_pl": "copies of Study of a Boy" },
     "description": "A high school sophomore's personal journal is stolen and then leaked on social media.  When it goes viral, he is forced to contend with simultaneous fame and betrayal.",
     "copy-from": "book_fict_soft_ya_vanilla"
   },
   {
     "id": "book_fict_soft_ya_sumv",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Summer Variables", "str_pl": "copies of Summer Variables" },
     "description": "In this book written primarily for young adults, a woman's modest summer internship results in an incredible discovery that attracts the attention of unsavory elements.",
     "copy-from": "book_fict_soft_ya_vanilla"
   },
   {
     "id": "book_fict_hard_ya_dark",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "In a Dark Place", "str_pl": "copies of In a Dark Place" },
     "description": "Markia dreams about the future.  Theo longs for the past.  Together can they find a way to live in the now?",
     "//isbn13": 9780385755887,
@@ -203,7 +215,8 @@
   },
   {
     "id": "book_fict_hard_ya_btwo",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Betrayal Takes Two", "str_pl": "copies of Betrayal Takes Two" },
     "description": "A hard cover book for older teens.  The two main characters pull a cruel prank on their classmates, and are brought together both by their frantic efforts to avoid being caught and their shared sense of guilt.",
     "//isbn13": 9780385755924,
@@ -211,7 +224,8 @@
   },
   {
     "id": "novel_coa",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "coming of age novel" },
     "description": "A classic tale about growing up, portraying one young man's funny and poignant experiences with life, love, and sex.",
     "weight": "187 g",
@@ -224,11 +238,12 @@
     "intelligence": 4,
     "time": "20 m",
     "chapters": 16,
-    "fun": 2
+    "read_fun": 2
   },
   {
     "id": "novel_coa2",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Pantheon: The Story of an Iranian Youth", "str_pl": "copies of Pantheon: The Story of an Iranian Youth" },
     "description": "A hard cover graphic novel about a young girl living in Iran during the 1980's, seeing the world change around her as Iraq invaded her country.",
     "longest_side": "27 cm",

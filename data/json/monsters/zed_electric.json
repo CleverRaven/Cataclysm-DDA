@@ -19,7 +19,7 @@
     "special_attacks": [ [ "PARROT", 8 ], { "id": "smash", "throw_strength": 36, "cooldown": 30 } ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "upgrades": false,
-    "extend": { "families": [ "prof_electromagnetics" ], "flags": [ "ELECTRIC" ] }
+    "extend": { "flags": [ "ELECTRIC" ] }
   },
   {
     "id": "mon_zombie_electric",
@@ -39,8 +39,8 @@
     "harvest": "zombie_humanoid_electric",
     "special_attacks": [ [ "PARROT", 8 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_ELECTRIC_UPGRADE" },
-    "extend": { "families": [ "prof_electromagnetics" ], "flags": [ "ELECTRIC" ] }
+    "upgrades": { "half_life": 168, "into_group": "GROUP_ZOMBIE_ELECTRIC_UPGRADE" },
+    "extend": { "flags": [ "ELECTRIC" ] }
   },
   {
     "id": "mon_zombie_nullfield",
@@ -65,7 +65,7 @@
     "emit_fields": [ { "emit_id": "emit_shock_cloud", "delay": "1 s" } ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "upgrades": false,
-    "extend": { "families": [ "prof_electromagnetics" ], "flags": [ "ELECTRIC", "ELECTRIC_FIELD" ] }
+    "extend": { "flags": [ "ELECTRIC", "ELECTRIC_FIELD" ] }
   },
   {
     "id": "mon_zombie_static",
@@ -82,7 +82,7 @@
     "luminance": 4,
     "harvest": "zombie_humanoid_electric",
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "upgrades": { "half_life": 28, "into": "mon_zombie_electric" },
-    "extend": { "families": [ "prof_electromagnetics" ], "flags": [ "ELECTRIC" ] }
+    "upgrades": { "half_life": 112, "into": "mon_zombie_electric" },
+    "extend": { "flags": [ "ELECTRIC" ] }
   }
 ]

@@ -23,7 +23,7 @@
     "type": "mutation",
     "id": "BIOKIN_NEEDS",
     "name": { "str": "Efficient System" },
-    "points": 0,
+    "points": 1,
     "description": "Thanks to your powers, you need less food and drink than the average person and are more efficient at processing it.",
     "player_display": true,
     "valid": false,
@@ -72,7 +72,7 @@
     "type": "mutation",
     "id": "CLAIR_SENSES",
     "name": { "str": "Psionic Senses" },
-    "points": 0,
+    "points": 1,
     "description": "Your powers protect you from some sensory disruption and allow you to detect creatures from beyond.",
     "player_display": true,
     "valid": false,
@@ -104,7 +104,7 @@
     "type": "mutation",
     "id": "ELECTRO_SHIELD",
     "name": { "str": "Galvanic Armor" },
-    "points": 0,
+    "points": 1,
     "description": "Your powers help protect you from electrical damage and slightly reduce the intensity of pain you feel.",
     "player_display": true,
     "valid": false,
@@ -121,7 +121,7 @@
     "type": "mutation",
     "id": "PHOTO_EYES",
     "name": { "str": "Photon Regulation" },
-    "points": 0,
+    "points": 1,
     "description": "Your powers passively filter the amount of photons your eyes receive.",
     "flags": [ "FLASH_PROTECTION", "SEESLEEP", "GLARE_RESIST" ],
     "integrated_armor": [ "integrated_photo_eyes" ],
@@ -133,7 +133,7 @@
     "type": "mutation",
     "id": "PYROKIN_ADAPTATION",
     "name": { "str": "Internal Fire" },
-    "points": 0,
+    "points": 1,
     "description": "You naturally heat the air around you slightly, making it more comfortable in the cold.  It also helps prevent you from getting too wet.",
     "bodytemp_modifiers": [ 250, 750 ],
     "enchantments": [
@@ -162,7 +162,7 @@
     "type": "mutation",
     "id": "TELEKINETIC_GRAB_POCKETS",
     "name": { "str": "Grasping Hand" },
-    "points": 0,
+    "points": 1,
     "description": "Thanks to a minor application of telekinesis, the items you want to grab are always quick to hand.",
     "player_display": true,
     "valid": false,
@@ -183,7 +183,7 @@
     "type": "mutation",
     "id": "TELEPATHIC_SUGGESTION",
     "name": { "str": "Telepathic Suggestion" },
-    "points": 0,
+    "points": 1,
     "description": "You are subtly influencing the minds of the people you speak to.",
     "valid": false,
     "player_display": true,
@@ -206,9 +206,8 @@
     "type": "mutation",
     "id": "TELEPORTER_PROTECT",
     "name": { "str": "Spacial Recalibration" },
-    "points": 0,
+    "points": 1,
     "description": "You can keep otherworldly eyes off you to some extent, and you will sometimes instinctively teleport to avoid danger.",
-    "flags": [ "TELESTOP" ],
     "valid": false,
     "player_display": true,
     "purifiable": false,
@@ -217,30 +216,28 @@
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "values": [ { "value": "EVASION", "add": { "math": [ "(0.01 + (0.00025 * u_spell_level_sum('school': 'TELEPORTER')))" ] } } ]
       }
-    ]
+    ],
+    "flags": [ "TELESTOP" ]
   },
   {
     "type": "mutation",
     "id": "VITAKINETIC_HEALTH",
     "name": { "str": "Bloom of Vitality" },
-    "points": 0,
+    "points": 1,
     "description": "Your psionic powers speed your healing slightly and increase your overall resilience, and any broken limbs you have mend straight and true.",
     "vitamin_rates": [ [ "mutant_toxin", 180 ] ],
-    "flags": [ "MEND_ALL" ],
     "valid": false,
     "player_display": true,
     "purifiable": false,
     "enchantments": [
       {
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-        "values": [
-          { "value": "REGEN_HP", "multiply": { "math": [ "(0.1 + (0.0005 * u_spell_level_sum('school': 'VITAKINETIC')))" ] } },
-          {
-            "value": "MAX_HP",
-            "multiply": { "math": [ "(0.05 + (0.0005 * u_spell_level_sum('school': 'VITAKINETIC')))" ] }
-          }
-        ]
+        "values": [ { "value": "REGEN_HP", "multiply": { "math": [ "(0.1 + (0.0005 * u_spell_level_sum('school': 'VITAKINETIC')))" ] } } ]
+      },
+      {
+        "values": [ { "value": "MAX_HP", "multiply": { "math": [ "(0.05 + (0.0005 * u_spell_level_sum('school': 'VITAKINETIC')))" ] } } ]
       }
-    ]
+    ],
+    "flags": [ "MEND_ALL" ]
   }
 ]

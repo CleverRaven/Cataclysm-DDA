@@ -1,14 +1,29 @@
 #include "dialogue_helpers.h"
 
+#include <cstddef>
 #include <string>
+#include <type_traits>
+#include <variant>
 
+#include "cata_utility.h"
+#include "debug.h"
 #include "dialogue.h"
+#include "flexbuffer_json.h"
+#include "generic_factory.h"
+#include "global_vars.h"
+#include "math_parser_diag_value.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "talker.h"
 
-template<class T>
-std::optional<std::string> maybe_read_var_value(
-    const abstract_var_info<T> &info, const_dialogue const &d, int call_depth )
+diag_value const &read_var_value( const var_info &info, const_dialogue const &d )
+{
+    static diag_value const null_val;
+    diag_value const *ret = maybe_read_var_value( info, d );
+    return ret ? *ret : null_val;
+}
+
+diag_value const *maybe_read_var_value( const var_info &info, const_dialogue const &d )
 {
     global_variables &globvars = get_globals();
     switch( info.type ) {
@@ -21,40 +36,13 @@ std::optional<std::string> maybe_read_var_value(
         case var_type::npc:
             return d.const_actor( true )->maybe_get_value( info.name );
         case var_type::var: {
-            std::optional<std::string> const var_val = d.maybe_get_value( info.name );
-            if( call_depth > 1000 && var_val ) {
-                debugmsg( "Possible infinite loop detected: var_val points to itself or forms a cycle.  %s->%s %s",
-                          info.name, var_val.value(), d.get_callstack() );
-                return std::nullopt;
-            } else {
-                return var_val ? maybe_read_var_value( process_variable( *var_val ), d,
-                                                       call_depth + 1 ) : std::nullopt;
-            }
+            diag_value const *const var_val = d.maybe_get_value( info.name );
+            return var_val ? maybe_read_var_value( process_variable( var_val->str() ), d ) : nullptr;
         }
-        case var_type::faction:
-        case var_type::party:
         case var_type::last:
-            return std::nullopt;
+            return nullptr;
     }
-    return std::nullopt;
-}
-
-template
-std::optional<std::string> maybe_read_var_value( const var_info &, const_dialogue const &,
-        int call_depth );
-template std::optional<std::string> maybe_read_var_value( const translation_var_info &,
-        const_dialogue const &, int call_depth );
-
-template<>
-std::string read_var_value( const var_info &info, const_dialogue const &d )
-{
-    return maybe_read_var_value( info, d ).value_or( info.default_val );
-}
-
-template<>
-std::string read_var_value( const translation_var_info &info, const_dialogue const &d )
-{
-    return maybe_read_var_value( info, d ).value_or( info.default_val.translated() );
+    return nullptr;
 }
 
 var_info process_variable( const std::string &type )
@@ -65,159 +53,189 @@ var_info process_variable( const std::string &type )
     if( type.compare( 0, 2, "u_" ) == 0 ) {
         vt = var_type::u;
         ret_str = type.substr( 2, type.size() - 2 );
-    } else if( type.compare( 0, 4, "npc_" ) == 0 ) {
-        vt = var_type::npc;
-        ret_str = type.substr( 4, type.size() - 4 );
     } else if( type.compare( 0, 2, "n_" ) == 0 ) {
         vt = var_type::npc;
         ret_str = type.substr( 2, type.size() - 2 );
-    } else if( type.compare( 0, 7, "global_" ) == 0 ) {
-        vt = var_type::global;
-        ret_str = type.substr( 7, type.size() - 7 );
-    } else if( type.compare( 0, 2, "g_" ) == 0 ) {
-        vt = var_type::global;
-        ret_str = type.substr( 2, type.size() - 2 );
-    } else if( type.compare( 0, 2, "v_" ) == 0 ) {
-        vt = var_type::var;
-        ret_str = type.substr( 2, type.size() - 2 );
-    } else if( type.compare( 0, 8, "context_" ) == 0 ) {
-        vt = var_type::context;
-        ret_str = type.substr( 8, type.size() - 8 );
     } else if( type.compare( 0, 1, "_" ) == 0 ) {
         vt = var_type::context;
         ret_str = type.substr( 1, type.size() - 1 );
     }
 
-    return var_info( vt, ret_str );
+    return { vt, ret_str };
+}
+
+namespace
+{
+
+template<typename valueT, typename funcT>
+valueT _evaluate_func( const_dialogue const &d, funcT const &arg )
+{
+    return arg( d );
 }
 
 template<>
-std::string str_or_var::evaluate( const_dialogue const &d ) const
+diag_value _evaluate_func( const_dialogue const &d, string_mutator<translation> const &arg )
 {
-    if( function.has_value() ) {
-        return function.value()( d );
-    }
-    if( str_val.has_value() ) {
-        return str_val.value();
-    }
-    if( var_val.has_value() ) {
-        std::string val = read_var_value( var_val.value(), d );
-        if( !val.empty() ) {
-            return val;
-        }
-        if( default_val.has_value() ) {
-            return default_val.value();
-        }
-        std::string var_name = var_val.value().name;
-        debugmsg( "No default value provided for str_or_var_part while encountering unused "
-                  "variable %s.  Add a \"default_str\" member to prevent this.  %s",
-                  var_name, d.get_callstack() );
-        return "";
-    }
-    debugmsg( "No valid value for str_or_var_part.  %s", d.get_callstack() );
-    return "";
+    return diag_value{ arg( d ).translated() };
 }
 
 template<>
-std::string translation_or_var::evaluate( const_dialogue const &d ) const
+diag_value _evaluate_func( const_dialogue const &d, eoc_math const &arg )
 {
-    if( function.has_value() ) {
-        return function.value()( d ).translated();
-    }
-    if( str_val.has_value() ) {
-        return str_val.value().translated();
-    }
-    if( var_val.has_value() ) {
-        std::string val = read_var_value( var_val.value(), d );
-        if( !val.empty() ) {
-            return val;
-        }
-        if( default_val.has_value() ) {
-            return default_val.value().translated();
-        }
-        std::string var_name = var_val.value().name;
-        debugmsg( "No default value provided for str_or_var_part while encountering unused "
-                  "variable %s.  Add a \"default_str\" member to prevent this.  %s",
-                  var_name, d.get_callstack() );
-        return "";
-    }
-    debugmsg( "No valid value for str_or_var_part.  %s", d.get_callstack() );
-    return "";
+    return diag_value{ arg.act( d ) };
 }
 
-std::string str_translation_or_var::evaluate( const_dialogue const &d ) const
+template<>
+double _evaluate_func( const_dialogue const &d, eoc_math const &arg )
 {
-    return std::visit( [&d]( auto &&val ) {
-        return val.evaluate( d );
-    }, val );
+    return arg.act( d );
 }
 
-double dbl_or_var_part::evaluate( const_dialogue const &d ) const
+template<>
+time_duration _evaluate_func( const_dialogue const &d, eoc_math const &arg )
 {
-    if( dbl_val.has_value() ) {
-        return dbl_val.value();
-    }
-    if( var_val.has_value() ) {
-        std::string val = read_var_value( var_val.value(), d );
-        if( !val.empty() ) {
-            return std::stof( val );
-        }
-        if( default_val.has_value() ) {
-            return default_val.value();
-        }
-        std::string var_name = var_val.value().name;
-        debugmsg( "No default value provided for dbl_or_var_part while encountering unused "
-                  "variable %s.  Add a \"default\" member to prevent this.  %s",
-                  var_name, d.get_callstack() );
-        return 0;
-    }
-    if( math_val ) {
-        return math_val->act( d );
-    }
-    debugmsg( "No valid value for dbl_or_var_part.  %s", d.get_callstack() );
-    return 0;
+    return time_duration::from_turns( arg.act( d ) );
 }
 
-double dbl_or_var::evaluate( const_dialogue const &d ) const
+template<typename valueT>
+valueT dv_to_T( diag_value const &dv )
 {
-    if( pair ) {
-        return rng( min.evaluate( d ), max.evaluate( d ) );
+    if constexpr( std::is_same_v<valueT, diag_value> ) {
+        return dv;
+    } else if constexpr( std::is_same_v<valueT, std::string> ) {
+        return dv.str();
+    } else if constexpr( std::is_same_v<valueT, double> ) {
+        return dv.dbl();
+    } else if constexpr( std::is_same_v<valueT, time_duration> ) {
+        return time_duration::from_turns( dv.dbl() );
+    } else if constexpr( std::is_same_v<valueT, translation> ) {
+        // translated when set
+        return translation::no_translation( dv.str() );
+    }
+}
+
+template<typename V, typename T>
+bool try_deserialize_type( V &v, JsonValue const &jsin )
+{
+    if constexpr( std::is_same_v<T, diag_value> ) {
+        // ~copy of JsonValue::read() since we need to pass an extra arg to deserialize
+        diag_value dv;
+        try {
+            dv._deserialize( jsin, false );
+        } catch( JsonError const &/* je */ ) {
+            return false;
+        }
+        v = dv;
+        return true;
+    } else if( T t; jsin.read( t, false ) ) {
+        v = t;
+        return true;
+    }
+
+    return false;
+}
+
+template<typename V, typename... T>
+bool deserialize_variant( V &v, JsonValue const &jsin )
+{
+    // NOLINTNEXTLINE(cata-avoid-alternative-tokens) broken check
+    return ( try_deserialize_type<V, T>( v, jsin ) || ... );
+}
+
+} // namespace
+
+template<typename valueT, typename... funcT>
+void value_or_var<valueT, funcT...>::deserialize( JsonValue const &jsin )
+{
+    if( deserialize_variant<decltype( val ), valueT, var_info, funcT...>( val, jsin ) ) {
+
+        if( std::holds_alternative<var_info>( val ) ) {
+            JsonObject const &jo_vi = jsin.get_object();
+            optional( jo_vi, false, "default", default_val );
+            jo_vi.allow_omitted_members();
+        }
+    } else {
+        jsin.throw_error( "No valid value for value_or_var" );
+    }
+}
+
+template<typename valueT, typename... funcT>
+valueT value_or_var<valueT, funcT...>::constant() const
+{
+    return std::visit( overloaded{
+        []( valueT const & tv ) -> valueT
+        {
+            return tv;
+        },
+        []( auto const & /* v */ ) -> valueT
+        {
+            debugmsg( "this value_or_var is not a constant" );
+
+            static const valueT nulltv{};
+            return nulltv;
+        },
+    },
+    val );
+}
+template<typename valueT, typename... funcT>
+valueT value_or_var<valueT, funcT...>::evaluate( const_dialogue const &d ) const
+{
+    return std::visit( overloaded{
+        []( valueT const & tv ) -> valueT
+        {
+            return tv;
+        },
+        [&d, this]( var_info const & v ) -> valueT
+        {
+            if( diag_value const *dv = maybe_read_var_value( v, d ); dv != nullptr )
+            {
+                return dv_to_T<valueT>( *dv );
+            }
+            if( default_val )
+            {
+                return *default_val;
+            }
+
+            static const valueT nulltv{};
+            return nulltv;
+        },
+        [&d]( auto const & v ) -> valueT
+        {
+            return _evaluate_func<valueT>( d, v );
+        }
+    },
+    val );
+}
+
+template<typename valueT, typename... funcT>
+void value_or_var_pair<valueT, funcT...>::deserialize( JsonValue const &jsin )
+{
+    if( jsin.test_array() ) {
+        JsonArray ja = jsin.get_array();
+        if( size_t size = ja.size(); size > 2 ) {
+            ja.throw_error( string_format( "Too many values in array - expected 2, got %i", size ) );
+        }
+
+        ja.next_value().read( min, true );
+        ja.next_value().read( max, true );
+    } else {
+        jsin.read( min, true );
+    }
+}
+
+template<typename valueT, typename... funcT>
+valueT value_or_var_pair<valueT, funcT...>::evaluate( const_dialogue const &d ) const
+{
+    if( max ) {
+        return rng( min.evaluate( d ), max->evaluate( d ) );
     }
     return min.evaluate( d );
 }
 
-time_duration duration_or_var_part::evaluate( const_dialogue const &d ) const
-{
-    if( dur_val.has_value() ) {
-        return dur_val.value();
-    }
-    if( var_val.has_value() ) {
-        std::string val = read_var_value( var_val.value(), d );
-        if( !val.empty() ) {
-            time_duration ret_val;
-            ret_val = time_duration::from_turns( std::stof( val ) );
-            return ret_val;
-        }
-        if( default_val.has_value() ) {
-            return default_val.value();
-        }
-        std::string var_name = var_val.value().name;
-        debugmsg( "No default value provided for duration_or_var_part while encountering unused "
-                  "variable %s.  Add a \"default\" member to prevent this.  %s",
-                  var_name, d.get_callstack() );
-        return 0_seconds;
-    }
-    if( math_val ) {
-        return time_duration::from_turns( math_val->act( d ) );
-    }
-    debugmsg( "No valid value for duration_or_var_part.  %s", d.get_callstack() );
-    return 0_seconds;
-}
-
-time_duration duration_or_var::evaluate( const_dialogue const &d ) const
-{
-    if( pair ) {
-        return rng( min.evaluate( d ), max.evaluate( d ) );
-    }
-    return min.evaluate( d );
-}
+template struct value_or_var<double, eoc_math>;
+template struct value_or_var_pair<double, eoc_math>;
+template struct value_or_var<time_duration, eoc_math>;
+template struct value_or_var_pair<time_duration, eoc_math>;
+template struct value_or_var<std::string, string_mutator<std::string>>;
+template struct value_or_var<translation, string_mutator<translation>>;
+template struct value_or_var<diag_value, eoc_math, string_mutator<translation>>;

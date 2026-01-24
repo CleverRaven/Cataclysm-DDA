@@ -20,7 +20,7 @@
         "damage_max_instance": [ { "damage_type": "bash", "amount": 3 } ]
       }
     ],
-    "upgrades": { "half_life": 24, "into": "mon_zombie_tentacle" }
+    "upgrades": { "half_life": 96, "into": "mon_zombie_tentacle" }
   },
   {
     "id": "mon_zombie_tentacle",
@@ -46,7 +46,7 @@
       { "id": "tentacle", "cooldown": 15, "damage_max_instance": [ { "damage_type": "bash", "amount": 3 } ] },
       { "id": "ranged_pull", "cooldown": 10, "grab_data": { "pull_weight_ratio": 1 } }
     ],
-    "upgrades": { "half_life": 24, "into": "mon_zombie_strider" }
+    "upgrades": { "half_life": 96, "into": "mon_zombie_strider" }
   },
   {
     "id": "mon_zombie_strider",

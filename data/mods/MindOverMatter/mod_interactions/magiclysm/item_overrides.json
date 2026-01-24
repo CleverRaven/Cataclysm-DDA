@@ -2,31 +2,29 @@
   {
     "id": "thought_shield_item",
     "name": { "str_sp": "thought shields" },
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "copy-from": "thought_shield_item",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "ench_effects": [ { "effect": "effect_item_mind_protection", "intensity": 1 } ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "ench_effects": [ { "effect": "effect_item_mind_protection", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "id": "thought_shield_plus_item",
     "name": { "str_sp": "thought suit" },
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "copy-from": "thought_shield_plus_item",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "ench_effects": [ { "effect": "effect_item_mind_protection", "intensity": 1 } ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "ench_effects": [ { "effect": "effect_item_mind_protection", "intensity": 1 } ]
+      }
+    ]
   }
 ]

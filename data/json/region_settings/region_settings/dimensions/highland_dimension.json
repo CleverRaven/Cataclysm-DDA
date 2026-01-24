@@ -1,0 +1,87 @@
+[
+  {
+    "type": "region_settings_ravine",
+    "id": "highland_ravines",
+    "copy-from": "default",
+    "num_ravines": 15,
+    "ravine_width": 3,
+    "ravine_range": 45,
+    "ravine_depth": -3
+  },
+  {
+    "type": "region_settings_terrain_furniture",
+    "id": "highland",
+    "copy-from": "default",
+    "ter_furn": [ "highland_t_region_groundcover", "default_t_region_groundcover" ]
+  },
+  {
+    "type": "region_settings",
+    "id": "highlands",
+    "rivers": null,
+    "lakes": null,
+    "ocean": null,
+    "ravines": "highland_ravines",
+    "forests": null,
+    "forest_trails": null,
+    "highways": null,
+    "cities": null,
+    "forest_composition": "no_forests",
+    "map_extras": "no_map_extras",
+    "terrain_furniture": "highland",
+    "weather": "highland_weather",
+    "place_roads": false,
+    "place_specials": true,
+    "neighbor_connections": false,
+    "default_oter": [
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "highlands",
+      "solid_earth",
+      "empty_rock",
+      "empty_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock"
+    ],
+    "default_groundcover": [ [ "t_highland_groundcover", 1 ] ],
+    "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "HIGHLANDS" ] },
+    "//": "ignored",
+    "connections": {
+      "intra_city_road_connection": "local_road",
+      "inter_city_road_connection": "local_road",
+      "trail_connection": "forest_trail",
+      "sewer_connection": "sewer_tunnel",
+      "subway_connection": "subway_tunnel",
+      "rail_connection": "local_railroad"
+    }
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "highland_t_region_groundcover",
+    "ter_id": "t_highland_groundcover",
+    "replace_with_terrain": [ [ "t_grass", 2 ], [ "t_grass_dead", 1 ], [ "t_dirt", 1 ], [ "t_grass_long", 2 ] ]
+  },
+  {
+    "type": "weather_generator",
+    "id": "highland_weather",
+    "base_temperature": 18.5,
+    "base_humidity": 70.0,
+    "base_pressure": 995.0,
+    "base_wind": 2.0,
+    "base_wind_distrib_peaks": 80,
+    "base_wind_season_variation": 50,
+    "weather_white_list": [ "clear", "cloudy", "afs_whiteout", "light_drizzle", "rain", "mist", "fog" ]
+  }
+]

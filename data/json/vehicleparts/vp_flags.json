@@ -2,7 +2,7 @@
   {
     "id": "ALTERNATOR",
     "type": "json_flag",
-    "info": "When mounted on an engine and the engine is on it will provide up to <color_green>%sW</color> of electrical power to the vehicle.",
+    "info": "When mounted on an engine and the engine is on it will provide up to <color_green>%dW</color> of electrical power to the vehicle.",
     "requires_flag": "E_ALTERNATOR"
   },
   {
@@ -55,6 +55,11 @@
     "info": "With a seat or saddle, you drive from here.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^')."
   },
   {
+    "id": "EOC_ACTIVATION",
+    "type": "json_flag",
+    "info": "Enables an associated EOC to be triggered from the vehicle control menu."
+  },
+  {
     "id": "SMART_ENGINE_CONTROLLER",
     "type": "json_flag",
     "info": "When active, turns engines on and off automatically."
@@ -82,12 +87,12 @@
   {
     "id": "ENABLED_DRAINS_EPOWER",
     "type": "json_flag",
-    "info": "When turned on, this device drains <color_red>%sW</color> from the vehicle's batteries."
+    "info": "When turned on, this device drains <color_red>%dW</color> from the vehicle's batteries."
   },
   {
     "id": "SOLAR_PANEL",
     "type": "json_flag",
-    "info": "Provides up to <color_green>%sW</color> of electrical power to the vehicle when exposed to the sun.  Weather and clouds will affect power generation."
+    "info": "Provides up to <color_green>%dW</color> of electrical power to the vehicle when exposed to the sun.  Weather and clouds will affect power generation."
   },
   {
     "id": "ENGINE",
@@ -111,6 +116,16 @@
     "info": "Each boat hull will reduce the draft of your vehicle and increase the height sealed against water.  If the draft is less than the sealed height, your vehicle will float if placed in water."
   },
   {
+    "id": "FURNITURE_TIEDOWN",
+    "type": "json_flag",
+    "info": "You can tie down a furniture here."
+  },
+  {
+    "id": "FURNITURE_LIFT_ASSIST",
+    "type": "json_flag",
+    "info": "It's much easier to tie down a furniture here."
+  },
+  {
     "id": "NO_LEAK",
     "type": "json_flag",
     "info": "Causes a boat hull to float even when damaged."
@@ -124,6 +139,10 @@
     "id": "ROOF",
     "type": "json_flag",
     "info": "Keeps the rain out of the interior of the vehicle."
+  },
+  {
+    "id": "RESIST_RUNOVER_DAMAGE",
+    "type": "json_flag"
   },
   {
     "id": "SEAT",
@@ -181,12 +200,12 @@
   {
     "id": "WIND_TURBINE",
     "type": "json_flag",
-    "info": "Provides <color_green>%sW</color> of electrical power to the vehicle for every 1 m/s of wind the vehicle is exposed to."
+    "info": "Provides <color_green>%dW</color> of electrical power to the vehicle for every 1 m/s of wind the vehicle is exposed to."
   },
   {
     "id": "WATER_WHEEL",
     "type": "json_flag",
-    "info": "Provides up to <color_green>%sW</color> of electrical power to the vehicle when built over shallow moving water."
+    "info": "Provides up to <color_green>%dW</color> of electrical power to the vehicle when built over shallow moving water."
   },
   {
     "id": "FLAT_SURF",
@@ -237,12 +256,14 @@
   {
     "id": "CARGO_LOCKING",
     "type": "json_flag",
-    "requires_flag": "LOCKABLE_CARGO"
+    "requires_flag": "LOCKABLE_CARGO",
+    "info": "Attached to a suitable cargo space, it will prevent other people from accessing the cargo and taking your stuff."
   },
   {
     "id": "DOOR_LOCKING",
     "type": "json_flag",
-    "requires_flag": "LOCKABLE_DOOR"
+    "requires_flag": "LOCKABLE_DOOR",
+    "info": "Attached to a door or a hatch, it can be used to lock it."
   },
   {
     "id": "DOOR_MOTOR",
@@ -316,7 +337,8 @@
   },
   {
     "id": "CAPTURE_MONSTER_VEH",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "You can 'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part."
   },
   {
     "id": "CHIMES",
@@ -324,11 +346,13 @@
   },
   {
     "id": "CIRCLE_LIGHT",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "A bright light that <color_yellow>illuminates a circular area</color> outside the vehicle when turned on."
   },
   {
     "id": "CONE_LIGHT",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "A bright, directed light that <color_yellow>illuminates a narrow cone</color> outside the vehicle when turned on.  During installation, you can choose what direction to point the light."
   },
   {
     "id": "CONTROL_ANIMAL",
@@ -376,7 +400,8 @@
   },
   {
     "id": "FLUIDTANK",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "If filled with the <color_light_red>appropriate fuel</color> for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with <color_light_blue>water</color>, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank."
   },
   {
     "id": "GASTANK",
@@ -405,7 +430,8 @@
   },
   {
     "id": "HALF_CIRCLE_LIGHT",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "A bright, directed light that <color_yellow>illuminates a half-circular area</color> outside the vehicle when turned on.  During installation, you can choose what direction to point the light."
   },
   {
     "id": "HARNESS_any",
@@ -417,11 +443,13 @@
   },
   {
     "id": "HEATED_TANK",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "When turned on, it will <color_light_cyan>prevent the content from freezing</color>."
   },
   {
     "id": "HORN",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "Use the vehicle controls and select the honk option to make noise."
   },
   {
     "id": "LOCKABLE_CARGO",
@@ -456,6 +484,16 @@
   {
     "id": "MUSCLE_LEGS",
     "type": "json_flag"
+  },
+  {
+    "id": "MWS",
+    "type": "json_flag",
+    "info": "This part functions as a mobile weather station."
+  },
+  {
+    "id": "ADVANCED_MWS",
+    "type": "json_flag",
+    "info": "This part functions as an advanced mobile weather station."
   },
   {
     "id": "NEEDS_JACKING",
@@ -636,7 +674,8 @@
   },
   {
     "id": "WIDE_CONE_LIGHT",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "A bright, directed light that <color_yellow>illuminates a wide cone</color> outside the vehicle when turned on.  During installation, you can choose what direction to point the light."
   },
   {
     "id": "WIND_POWERED",

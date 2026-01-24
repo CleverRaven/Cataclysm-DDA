@@ -1,11 +1,13 @@
 [
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "escape_stone",
     "name": { "str_sp": "portable portal" },
     "color": "magenta",
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Seems like a targeted spatial distortion.",
       "effect_on_conditions": [ "EOC_PORTAL_STORM_CELL" ]
     },
@@ -16,26 +18,61 @@
     "flags": [ "SINGLE_USE" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "unstable_rift",
     "name": { "str_sp": "unstable rift" },
     "color": "red",
     "copy-from": "escape_stone",
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Seems like a random spatial distortion.",
       "effect_on_conditions": [ "EOC_PORTAL_TELEPORT_UNSTABLE_RIFT" ]
     },
     "description": "This defies easy description, it feels solid but the surface is yielding.  Looking at it you have a strange desire to call it a door."
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "id": "abyss_teleport_orb",
+    "name": { "str_sp": "black glass orb" },
+    "description": "A mysterious black glass orb.  It seems to have endless depths hidden in it.",
+    "color": "black",
+    "symbol": "o",
+    "weight": "1 kg",
+    "volume": "500 ml",
+    "flags": [ "SINGLE_USE" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "description": "Gaze into the orb.",
+      "effect_on_conditions": [ "EOC_ABYSS_DIMENSION_TELEPORT" ]
+    }
+  },
+  {
+    "type": "ITEM",
+    "id": "default_dimension_teleport_orb",
+    "copy-from": "abyss_teleport_orb",
+    "name": { "str_sp": "dull brown orb" },
+    "description": "A dull brown orb.  The surface has the texture of dried earth.",
+    "color": "brown",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "description": "Squeeze the orb.",
+      "effect_on_conditions": [ "EOC_DEFAULT_DIMENSION_TELEPORT" ]
+    }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "calming_stone",
     "name": { "str_sp": "calming anomaly" },
     "color": "red",
     "copy-from": "escape_stone",
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Seems like it could calm local conditions.",
       "effect_on_conditions": [ "EOC_CANCEL_PORTAL_STORM" ]
     },

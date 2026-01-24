@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pipe",
     "name": { "str": "pipe" },
     "description": "A steel pipe; makes a good melee weapon.  Useful in a bunch of crafting recipes.",
@@ -22,7 +22,8 @@
   },
   {
     "id": "scrap",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str_sp": "scrap metal" },
     "description": "A bulky assortment of small bits of scrap steel useful in all kinds of crafting.",
@@ -35,12 +36,13 @@
     "count": 2,
     "stack_size": 10,
     "material": [ "steel" ],
+    "flags": [ "PUNCTURE_VEHICLE_WHEELS" ],
     "symbol": ",",
     "color": "light_gray",
     "ammo_type": "components"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spike",
     "name": { "str": "spike" },
     "description": "A large and slightly misshapen metal spike, could do some damage mounted on a vehicle.",
@@ -50,7 +52,7 @@
     "symbol": ";",
     "material": [ "steel" ],
     "volume": "250 ml",
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "ALLOWS_BODY_BLOCK", "PUNCTURE_VEHICLE_WHEELS" ],
     "qualities": [ [ "BUTCHER", -42 ] ],
     "price_postapoc": "10 cent",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
@@ -58,7 +60,7 @@
     "weapon_category": [ "SHIVS" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cu_pipe",
     "name": { "str": "copper tubing" },
     "description": "A copper tube; too thin to be much use as a melee weapon, but will do if nothing else is available.  Useful in a few crafting recipes.",
@@ -78,7 +80,7 @@
   },
   {
     "id": "material_aluminium_ingot",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "chunk of aluminum", "str_pl": "chunks of aluminum" },
     "description": "A small chunk of aluminum; light but durable, this could be cast into various shapes for construction or ground down to a powder, for more… high-profile applications.",
@@ -93,7 +95,8 @@
   },
   {
     "id": "bismuth",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str_sp": "bismuth" },
     "description": "A dense but brittle metal often used as an alternative to lead.",
@@ -111,7 +114,8 @@
   },
   {
     "id": "gold_small",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str_sp": "gold" },
     "description": "A soft, shiny metal.  Before the apocalypse this would've been worth a small fortune, but now its value is greatly diminished.",
@@ -129,7 +133,8 @@
   },
   {
     "id": "platinum_small",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str_sp": "platinum" },
     "description": "A soft, shiny metal.  Before the apocalypse this would've been worth a small fortune, but now its value is greatly diminished.",
@@ -147,7 +152,8 @@
   },
   {
     "id": "zinc_metal",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str_sp": "zinc" },
     "description": "A slightly brittle metal.  Apart from being an essential mineral that the body needs, it reacts readily with acids, alkalis, and other non-metals.  It can be crushed to make zinc powder and used in the production of batteries, among other things.",
@@ -165,7 +171,7 @@
   },
   {
     "id": "scrap_brass",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "chunk of brass", "str_pl": "chunks of brass" },
     "description": "Some decent-sized chunks of scrap brass.",
@@ -182,7 +188,8 @@
   },
   {
     "id": "lead",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str_sp": "lead" },
     "description": "A soft, dull metal used since ancient times.  Due to its malleability, it has a wide variety of uses including the manufacture of ammunition.",
@@ -200,7 +207,8 @@
   },
   {
     "id": "magnesium",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str_sp": "magnesium powder" },
     "description": "A handful of powdered magnesium, a highly flammable alkaline earth metal.  Useful for constructing flares and similar items.",
@@ -219,7 +227,8 @@
   },
   {
     "id": "silver_small",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str_sp": "silver" },
     "description": "A soft, shiny metal.  Before the Cataclysm it was worth quite a bit, but its value is now greatly diminished.",
@@ -237,10 +246,11 @@
   },
   {
     "id": "sheet_metal_small",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
-    "name": { "str": "small metal sheet" },
-    "description": "A small sheet of metal.",
+    "name": { "str": "small mild steel sheet" },
+    "description": "A small sheet of mild steel.",
     "looks_like": "sheet_metal",
     "weight": "250 g",
     "volume": "250 ml",
@@ -257,8 +267,41 @@
     "melee_damage": { "bash": 5 }
   },
   {
+    "id": "mc_sheet_metal_small",
+    "type": "ITEM",
+    "copy-from": "sheet_metal_small",
+    "name": { "str": "small medium steel sheet" },
+    "description": "A small sheet of medium steel.",
+    "material": [ "mc_steel" ]
+  },
+  {
+    "id": "hc_sheet_metal_small",
+    "type": "ITEM",
+    "copy-from": "sheet_metal_small",
+    "name": { "str": "small high steel sheet" },
+    "description": "A small sheet of high steel.",
+    "material": [ "hc_steel" ]
+  },
+  {
+    "id": "ch_sheet_metal_small",
+    "type": "ITEM",
+    "copy-from": "sheet_metal_small",
+    "name": { "str": "small hardened steel sheet" },
+    "description": "A small sheet of hardened steel.",
+    "material": [ "ch_steel" ]
+  },
+  {
+    "id": "qt_sheet_metal_small",
+    "type": "ITEM",
+    "copy-from": "sheet_metal_small",
+    "name": { "str": "small tempered steel sheet" },
+    "description": "A small sheet of tempered steel.",
+    "material": [ "qt_steel" ]
+  },
+  {
     "id": "steel_chunk",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "chunk of steel", "str_pl": "chunks of steel" },
     "description": "A misshapen chunk of steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
@@ -270,6 +313,7 @@
     "price_postapoc": "10 cent",
     "stack_size": 4,
     "material": [ "steel" ],
+    "flags": [ "PUNCTURE_VEHICLE_WHEELS" ],
     "symbol": ",",
     "color": "light_gray",
     "ammo_type": "components",
@@ -278,7 +322,8 @@
   },
   {
     "id": "steel_lump",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "lump of steel", "str_pl": "lumps of steel" },
     "description": "A heavy, formed piece of steel.  Useful for some crafting recipes.",
@@ -291,6 +336,7 @@
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "stack_size": 2,
     "material": [ "steel" ],
+    "flags": [ "PUNCTURE_VEHICLE_WHEELS" ],
     "symbol": ",",
     "color": "light_gray",
     "ammo_type": "components",
@@ -299,7 +345,8 @@
   },
   {
     "id": "lc_steel_lump",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "steel_lump",
     "name": { "str": "lump of mild steel", "str_pl": "lumps of mild steel" },
     "description": "A heavy, formed piece of mild steel.  Useful for some crafting recipes.",
@@ -307,7 +354,8 @@
   },
   {
     "id": "mc_steel_lump",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "steel_lump",
     "name": { "str": "lump of medium steel", "str_pl": "lumps of medium steel" },
     "description": "A heavy, formed piece of medium steel.  Useful for some crafting recipes.",
@@ -315,7 +363,8 @@
   },
   {
     "id": "hc_steel_lump",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "steel_lump",
     "name": { "str": "lump of high steel", "str_pl": "lumps of high steel" },
     "description": "A heavy, formed piece of high steel.  Useful for some crafting recipes.",
@@ -323,7 +372,8 @@
   },
   {
     "id": "ch_steel_lump",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "steel_lump",
     "name": { "str": "lump of hardened steel", "str_pl": "lumps of hardened steel" },
     "description": "A heavy, formed piece of hardened steel.  Useful for some crafting recipes.",
@@ -331,7 +381,8 @@
   },
   {
     "id": "qt_steel_lump",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "steel_lump",
     "name": { "str": "lump of tempered steel", "str_pl": "lumps of tempered steel" },
     "description": "A heavy, formed piece of tempered steel.  Useful for some crafting recipes.",
@@ -339,7 +390,7 @@
   },
   {
     "id": "hinge",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "hinge" },
     "description": "A small metal hinge with two metal plates with screw holes.  Useful for making doors or chests.",
@@ -355,7 +406,7 @@
     "//": "Based on https://www.amazon.com/dp/B07GF54KV8"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "scrap_copper",
     "symbol": ",",
     "color": "light_gray",
@@ -365,12 +416,13 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "copper" ],
+    "flags": [ "PUNCTURE_VEHICLE_WHEELS" ],
     "volume": "30 ml",
     "weight": "250 g",
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "scrap_tin",
     "symbol": ",",
     "color": "light_gray",
@@ -380,12 +432,14 @@
     "price": "1 USD 29 cent",
     "price_postapoc": "2 cent",
     "material": [ "tin" ],
+    "flags": [ "PUNCTURE_VEHICLE_WHEELS" ],
     "//": "Density of 7.265g/cm³ => 50g/7.265g/cm³ ~ 7ml",
     "volume": "8 ml",
     "weight": "50 g"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "tin",
     "category": "spare_parts",
     "price": "7 USD 50 cent",
@@ -402,7 +456,8 @@
     "stack_size": 200
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "solder_wire",
     "category": "spare_parts",
     "price": "50 USD",
@@ -420,7 +475,8 @@
     "flags": [ "UNRECOVERABLE" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "copper_rod",
     "category": "spare_parts",
     "price": "20 USD",
@@ -439,7 +495,7 @@
   },
   {
     "id": "fanblade_metal",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "metal fan blade assembly", "str_pl": "metal fan blade assemblies" },
     "description": "A multi-bladed metal fan, like you'd find on a larger desk fan or inside a convection oven.",
@@ -454,7 +510,7 @@
   },
   {
     "id": "heavy_wire_rack",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "heavy wire rack" },
     "description": "A durable steel rack, the sort you might find in an oven or on a barbecue.",
@@ -469,7 +525,8 @@
   },
   {
     "id": "lc_steel_chunk",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "steel_chunk",
     "name": { "str": "chunk of mild steel", "str_pl": "chunks of mild steel" },
     "description": "A misshapen chunk of mild steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
@@ -477,7 +534,8 @@
   },
   {
     "id": "mc_steel_chunk",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "steel_chunk",
     "name": { "str": "chunk of medium steel", "str_pl": "chunks of medium steel" },
     "description": "A misshapen chunk of medium steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
@@ -485,7 +543,8 @@
   },
   {
     "id": "hc_steel_chunk",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "steel_chunk",
     "name": { "str": "chunk of high steel", "str_pl": "chunks of high steel" },
     "description": "A misshapen chunk of high steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
@@ -493,7 +552,8 @@
   },
   {
     "id": "ch_steel_chunk",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "steel_chunk",
     "name": { "str": "chunk of hardened steel", "str_pl": "chunks of hardened steel" },
     "description": "A misshapen chunk of hardened steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
@@ -501,7 +561,8 @@
   },
   {
     "id": "qt_steel_chunk",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "steel_chunk",
     "name": { "str": "chunk of tempered steel", "str_pl": "chunks of tempered steel" },
     "description": "A misshapen chunk of tempered steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
@@ -509,7 +570,8 @@
   },
   {
     "id": "1l_aluminum",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "1L aluminum ingot" },
     "description": "A one-liter ingot of solid aluminum.",
@@ -524,7 +586,8 @@
   },
   {
     "id": "5l_aluminum",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "5 L aluminum ingot" },
     "description": "A five-liter ingot of solid aluminum.",
@@ -539,7 +602,8 @@
   },
   {
     "id": "10l_aluminum",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "10 L aluminum ingot" },
     "description": "A ten-liter ingot of solid aluminum.",
@@ -554,7 +618,8 @@
   },
   {
     "id": "1l_brass",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "1L brass ingot" },
     "description": "A one-liter ingot of solid brass.",
@@ -569,7 +634,8 @@
   },
   {
     "id": "5l_brass",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "5 L brass ingot" },
     "description": "A five-liter ingot of solid brass.",
@@ -584,7 +650,8 @@
   },
   {
     "id": "10l_brass",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "10 L brass ingot" },
     "description": "A ten-liter ingot of solid brass.",
@@ -599,7 +666,8 @@
   },
   {
     "id": "1l_bronze",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "1L bronze ingot" },
     "description": "A one-liter ingot of solid bronze.",
@@ -614,7 +682,8 @@
   },
   {
     "id": "5l_bronze",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "5 L bronze ingot" },
     "description": "A five-liter ingot of solid bronze.",
@@ -629,7 +698,8 @@
   },
   {
     "id": "10l_bronze",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "10 L bronze ingot" },
     "description": "A ten-liter ingot of solid bronze.",
@@ -644,7 +714,8 @@
   },
   {
     "id": "1l_copper",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "1L copper ingot" },
     "description": "A one-liter ingot of solid copper.",
@@ -659,7 +730,8 @@
   },
   {
     "id": "5l_copper",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "5 L copper ingot" },
     "description": "A five-liter ingot of solid copper.",
@@ -674,7 +746,8 @@
   },
   {
     "id": "10l_copper",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "10 L copper ingot" },
     "description": "A ten-liter ingot of solid copper.",
@@ -689,7 +762,8 @@
   },
   {
     "id": "10l_tin",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "10 L tin ingot" },
     "description": "A ten-liter ingot of solid tin.",
@@ -704,7 +778,8 @@
   },
   {
     "id": "5l_tin",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "5 L tin ingot" },
     "description": "A five-liter ingot of solid tin.",
@@ -719,7 +794,7 @@
   },
   {
     "id": "1l_tin",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "1 L tin ingot" },
     "description": "A one-liter ingot of solid tin.",
@@ -733,7 +808,8 @@
   },
   {
     "id": "10l_zinc",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "10 L zinc ingot" },
     "description": "A ten-liter ingot of solid zinc.",
@@ -748,7 +824,8 @@
   },
   {
     "id": "5l_zinc",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "5 L zinc ingot" },
     "description": "A five-liter ingot of solid zinc.",
@@ -763,7 +840,8 @@
   },
   {
     "id": "1l_zinc",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "1L zinc ingot" },
     "description": "A one-liter ingot of solid zinc.",
@@ -779,7 +857,7 @@
   },
   {
     "id": "1l_gold",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "1 L gold ingot" },
     "description": "A one-liter ingot of solid gold.",
@@ -793,7 +871,8 @@
   },
   {
     "id": "5l_gold",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "5 L gold ingot" },
     "description": "A five-liter ingot of solid gold.",
@@ -808,7 +887,8 @@
   },
   {
     "id": "10l_gold",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "10 L gold ingot" },
     "description": "A ten-liter ingot of solid gold.",
@@ -823,7 +903,8 @@
   },
   {
     "id": "5l_iron",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "5 L cast iron ingot" },
     "description": "A five-liter ingot of solid cast iron.",
@@ -838,7 +919,8 @@
   },
   {
     "id": "10l_iron",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "10 L cast iron ingot" },
     "description": "A ten-liter ingot of solid cast iron.",
@@ -853,7 +935,7 @@
   },
   {
     "id": "1l_lead",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "1 L lead ingot" },
     "description": "A one-liter ingot of solid lead.",
@@ -867,7 +949,8 @@
   },
   {
     "id": "5l_lead",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "5 L lead ingot" },
     "description": "A five-liter ingot of solid lead.",
@@ -882,7 +965,8 @@
   },
   {
     "id": "10l_lead",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "10 L lead ingot" },
     "description": "A ten-liter ingot of solid lead.",
@@ -897,7 +981,7 @@
   },
   {
     "id": "1l_platinum",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "1 L platinum ingot" },
     "description": "A one-liter ingot of solid platinum.",
@@ -911,7 +995,8 @@
   },
   {
     "id": "5l_platinum",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "5 L platinum ingot" },
     "description": "A five-liter ingot of solid platinum.",
@@ -926,7 +1011,8 @@
   },
   {
     "id": "10l_platinum",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "10 L platinum ingot" },
     "description": "A ten-liter ingot of solid platinum.",
@@ -941,7 +1027,7 @@
   },
   {
     "id": "1l_silver",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "1 L silver ingot" },
     "description": "A one-liter ingot of solid silver.",
@@ -955,7 +1041,8 @@
   },
   {
     "id": "5l_silver",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "5 L silver ingot" },
     "description": "A five-liter ingot of solid silver.",
@@ -970,7 +1057,8 @@
   },
   {
     "id": "10l_silver",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "10 L silver ingot" },
     "description": "A ten-liter ingot of solid silver.",
@@ -985,7 +1073,8 @@
   },
   {
     "id": "5l_steel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "5 L steel ingot" },
     "description": "A five-liter ingot of solid steel.",
@@ -994,13 +1083,15 @@
     "price": "200 USD",
     "price_postapoc": "2 USD",
     "material": [ "steel" ],
+    "qualities": [ [ "ANVIL", 2 ] ],
     "symbol": "=",
     "color": "light_gray",
     "ammo_type": "components"
   },
   {
     "id": "10l_steel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "10 L steel ingot" },
     "description": "A ten-liter ingot of solid steel.",
@@ -1009,27 +1100,31 @@
     "price": "400 USD",
     "price_postapoc": "4 USD",
     "material": [ "steel" ],
+    "qualities": [ [ "ANVIL", 2 ] ],
     "symbol": "=",
     "color": "light_gray",
     "ammo_type": "components"
   },
   {
     "id": "5l_budget_steel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "5l_steel",
     "name": { "str": "5 L budget steel ingot" },
     "material": [ "budget_steel" ]
   },
   {
     "id": "10l_budget_steel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "10l_steel",
     "name": { "str": "10 L budget steel ingot" },
     "material": [ "budget_steel" ]
   },
   {
     "id": "5l_lc_steel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "5l_steel",
     "name": { "str": "5 L mild steel ingot" },
     "price": "220 USD",
@@ -1038,7 +1133,8 @@
   },
   {
     "id": "10l_lc_steel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "10l_steel",
     "name": { "str": "10 L mild steel ingot" },
     "price": "440 USD",
@@ -1047,7 +1143,8 @@
   },
   {
     "id": "5l_mc_steel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "5l_steel",
     "name": { "str": "5 L medium steel ingot" },
     "price": "240 USD",
@@ -1056,7 +1153,8 @@
   },
   {
     "id": "10l_mc_steel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "10l_steel",
     "name": { "str": "10 L medium steel ingot" },
     "price": "480 USD",
@@ -1065,7 +1163,8 @@
   },
   {
     "id": "5l_hc_steel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "5l_steel",
     "name": { "str": "5 L high steel ingot" },
     "price": "260 USD",
@@ -1074,7 +1173,8 @@
   },
   {
     "id": "10l_hc_steel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "10l_steel",
     "name": { "str": "10 L high steel ingot" },
     "price": "520 USD",
@@ -1083,7 +1183,8 @@
   },
   {
     "id": "budget_steel_chunk",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "steel_chunk",
     "name": { "str": "chunk of budget steel", "str_pl": "chunks of budget steel" },
     "description": "A misshapen chunk of budget steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
@@ -1091,7 +1192,8 @@
   },
   {
     "id": "budget_steel_lump",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "steel_lump",
     "name": { "str": "lump of budget steel", "str_pl": "lumps of budget steel" },
     "description": "A heavy, formed piece of budget steel.  Useful for some crafting recipes.",
@@ -1099,7 +1201,8 @@
   },
   {
     "id": "slag",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "price": "0 cent",
     "price_postapoc": "0 cent",
@@ -1116,7 +1219,7 @@
   },
   {
     "id": "railroad_track_item",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "length of railroad track", "str_pl": "lengths of railroad track" },
     "description": "A heavy one-meter length of railroad track with a smooth top, liberated from a now-defunct rail line.  Far too heavy to be useful for much as-is, but perhaps could be shaped into something with some metalworking skill, or cut down into an anvil if sawed in half first.",
@@ -1133,7 +1236,7 @@
   },
   {
     "id": "railroad_track_item_half",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "half-meter length of railroad track", "str_pl": "half-meter lengths of railroad track" },
     "description": "A heavy half-meter length of railroad track with a smooth top, liberated from a now-defunct rail line.  Could be used as a makeshift anvil, especially with some modifications, or as spare steel.",
@@ -1148,7 +1251,7 @@
     "qualities": [ [ "ANVIL", 2 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "scrap_aluminum",
     "symbol": ",",
     "color": "light_gray",
@@ -1158,12 +1261,49 @@
     "price": "2 cent",
     "price_postapoc": "2 cent",
     "material": [ "aluminum" ],
+    "flags": [ "PUNCTURE_VEHICLE_WHEELS" ],
     "volume": "20 ml",
     "weight": "50 g",
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "id": "sheet_aluminum_small",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "small aluminum sheet" },
+    "description": "A small sheet of aluminum.",
+    "looks_like": "sheet_metal",
+    "weight": "85 g",
+    "volume": "32 ml",
+    "longest_side": "20 cm",
+    "//": "Roughly in the 15cm x 15cm to 20cm x 20cm range.",
+    "price": "30 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "aluminum" ],
+    "symbol": "]",
+    "color": "light_cyan"
+  },
+  {
+    "type": "ITEM",
+    "id": "sheet_aluminum",
+    "name": { "str_sp": "aluminum sheet" },
+    "description": "A large sheet of aluminum.",
+    "//": "Roughly in the 70 cm x 70 cm x 1.5 mm to 1 m x 1 m x 0.75 mm range.",
+    "weight": "1984 g",
+    "longest_side": "100 cm",
+    "color": "light_cyan",
+    "symbol": "]",
+    "material": [ "aluminum" ],
+    "volume": "735 ml",
+    "category": "spare_parts",
+    "price_postapoc": "1 USD",
+    "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "type": "ITEM",
     "id": "scrap_cast_iron",
     "symbol": ",",
     "color": "light_gray",
@@ -1173,12 +1313,13 @@
     "price": "75 cent",
     "price_postapoc": "2 cent",
     "material": [ "iron" ],
+    "flags": [ "PUNCTURE_VEHICLE_WHEELS" ],
     "volume": "8 ml",
     "weight": "50 g",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chunk_cast_iron",
     "symbol": ",",
     "color": "light_gray",
@@ -1194,7 +1335,7 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lump_cast_iron",
     "symbol": ",",
     "color": "light_gray",
@@ -1208,5 +1349,233 @@
     "weight": "1 kg",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "aluminum_bar_round",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "aluminum bar stock" },
+    "description": "A round bar of aluminum.  Ready to be turned on the lathe.",
+    "//": "Bar is 5cm in diameter.",
+    "weight": "253800 mg",
+    "volume": "94 ml",
+    "longest_side": "5 cm",
+    "price": "2 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "aluminum" ],
+    "symbol": "-",
+    "color": "light_cyan",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "small_aluminum_bar_round",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "small aluminum bar stock" },
+    "description": "A small round bar of aluminum.  Ready to be turned on the lathe.",
+    "//": "Bar is 3cm in diameter.",
+    "weight": "94500 mg",
+    "volume": "35 ml",
+    "longest_side": "5 cm",
+    "price": "1 USD",
+    "price_postapoc": "5 cent",
+    "material": [ "aluminum" ],
+    "symbol": "-",
+    "color": "light_cyan",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "steel_bar_round",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "steel bar stock" },
+    "description": "A round bar of steel.  Ready to be turned on the lathe.",
+    "//": "Bar is 5cm in diameter.",
+    "weight": "752 g",
+    "volume": "94 ml",
+    "longest_side": "5 cm",
+    "price": "5 USD",
+    "price_postapoc": "20 cent",
+    "material": [ "steel" ],
+    "symbol": "-",
+    "color": "light_gray",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "lc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "steel_bar_round",
+    "name": { "str_sp": "low steel bar stock" },
+    "material": [ "lc_steel" ]
+  },
+  {
+    "id": "mc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "steel_bar_round",
+    "name": { "str_sp": "medium steel bar stock" },
+    "material": [ "mc_steel" ]
+  },
+  {
+    "id": "hc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "steel_bar_round",
+    "name": { "str_sp": "high steel bar stock" },
+    "material": [ "hc_steel" ]
+  },
+  {
+    "id": "small_steel_bar_round",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "small steel bar stock" },
+    "description": "A small round bar of steel.  Ready to be turned on the lathe.",
+    "//": "Bar is 3cm in diameter.",
+    "weight": "280 g",
+    "volume": "35 ml",
+    "longest_side": "5 cm",
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "steel" ],
+    "symbol": "-",
+    "color": "light_gray",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "small_lc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "small_steel_bar_round",
+    "name": { "str_sp": "small low steel bar stock" },
+    "material": [ "lc_steel" ]
+  },
+  {
+    "id": "small_mc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "small_steel_bar_round",
+    "name": { "str_sp": "small medium steel bar stock" },
+    "material": [ "mc_steel" ]
+  },
+  {
+    "id": "small_hc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "small_steel_bar_round",
+    "name": { "str_sp": "small high steel bar stock" },
+    "material": [ "hc_steel" ]
+  },
+  {
+    "id": "aluminum_bar_flat",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "aluminum flat bar stock" },
+    "description": "A rectangular bar of aluminum.  Ready to be milled on a milling machine.",
+    "//": "Bar is 10x5x5 centimeters.",
+    "weight": "675 g",
+    "volume": "250 ml",
+    "longest_side": "10 cm",
+    "price": "25 cent",
+    "price_postapoc": "25 cent",
+    "material": [ "aluminum" ],
+    "symbol": "-",
+    "color": "light_cyan",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "small_aluminum_bar_flat",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "aluminum flat bar stock" },
+    "description": "A rectangular bar of aluminum.  Ready to be milled on a milling machine.",
+    "//": "Bar is 5x3x3 centimeters.",
+    "weight": "121500 mg",
+    "volume": "122 ml",
+    "longest_side": "5 cm",
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
+    "material": [ "aluminum" ],
+    "symbol": "-",
+    "color": "light_cyan",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "steel_bar_flat",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "steel flat bar stock" },
+    "description": "A rectangular bar of steel.  Ready to be milled on a milling machine.",
+    "//": "Bar is 10x5x5 centimeters.",
+    "weight": "2 kg",
+    "volume": "250 ml",
+    "longest_side": "10 cm",
+    "price": "50 cent",
+    "price_postapoc": "25 cent",
+    "material": [ "steel" ],
+    "symbol": "-",
+    "color": "light_gray",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "small_steel_bar_flat",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "steel flat bar stock" },
+    "description": "A small rectangular bar of steel.  Ready to be milled on a milling machine.",
+    "//": "Bar is 5x3x3 centimeters.",
+    "weight": "360 g",
+    "volume": "45 ml",
+    "longest_side": "5 cm",
+    "price": "50 cent",
+    "price_postapoc": "25 cent",
+    "material": [ "steel" ],
+    "symbol": "-",
+    "color": "light_gray",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "hc_steel_bar_flat",
+    "type": "ITEM",
+    "copy-from": "steel_bar_flat",
+    "name": { "str_sp": "high steel flat bar stock" },
+    "material": [ "hc_steel" ]
+  },
+  {
+    "id": "mc_steel_bar_flat",
+    "type": "ITEM",
+    "copy-from": "steel_bar_flat",
+    "name": { "str_sp": "medium steel flat bar stock" },
+    "material": [ "mc_steel" ]
+  },
+  {
+    "id": "lc_steel_bar_flat",
+    "type": "ITEM",
+    "copy-from": "steel_bar_flat",
+    "name": { "str_sp": "low steel flat bar stock" },
+    "material": [ "lc_steel" ]
+  },
+  {
+    "id": "small_hc_steel_bar_flat",
+    "type": "ITEM",
+    "copy-from": "small_steel_bar_flat",
+    "name": { "str_sp": "small high steel flat bar stock" },
+    "material": [ "hc_steel" ]
+  },
+  {
+    "id": "small_mc_steel_bar_flat",
+    "type": "ITEM",
+    "copy-from": "small_steel_bar_flat",
+    "name": { "str_sp": "small medium steel flat bar stock" },
+    "material": [ "mc_steel" ]
+  },
+  {
+    "id": "small_lc_steel_bar_flat",
+    "type": "ITEM",
+    "copy-from": "small_steel_bar_flat",
+    "name": { "str_sp": "small low steel flat bar stock" },
+    "material": [ "lc_steel" ]
   }
 ]

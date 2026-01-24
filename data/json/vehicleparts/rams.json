@@ -38,8 +38,8 @@
     "broken_color": "dark_gray",
     "durability": 750,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "mc_steel_lump", "count": [ 4, 6 ] },
+      { "item": "mc_steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
     "requirements": {
@@ -67,8 +67,8 @@
     "broken_color": "cyan",
     "durability": 860,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "ch_steel_lump", "count": [ 4, 6 ] },
+      { "item": "ch_steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
     "requirements": {
@@ -96,8 +96,8 @@
     "broken_color": "green",
     "durability": 875,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "ch_steel_lump", "count": [ 4, 6 ] },
+      { "item": "ch_steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] },
       { "item": "ceramic_armor", "count": [ 0, 4 ] }
     ],
@@ -128,8 +128,8 @@
     "durability": 775,
     "damage_modifier": 200,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "ch_steel_lump", "count": [ 4, 6 ] },
+      { "item": "ch_steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] },
       { "item": "spike", "count": [ 0, 2 ] }
     ],
@@ -159,11 +159,7 @@
     "durability": 825,
     "breaks_into": "ig_vp_steel_plate",
     "damage_reduction": { "all": 70 },
-    "requirements": {
-      "install": {  },
-      "removal": {  },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_lc_steel", 6 ] ] }
-    }
+    "requirements": { "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_lc_steel", 6 ] ] } }
   },
   {
     "id": "ram_wood",
@@ -227,7 +223,7 @@
     "id": "tearer",
     "type": "vehicle_part",
     "copy-from": "ram_blaze",
-    "name": { "str": "shredder" },
+    "description": "This menacing-looking attachment is meant to be powered by a vehicle's engine.  Upon doing so, the circular blades of this device will rotate rapidly; anything in front of it is likely to be ripped to shreds.  It is sturdy enough to withstand multiple impacts, and is designed to detach if it would take a hit that would break it.",
     "item": "tearer",
     "color": "dark_gray",
     "broken_color": "dark_gray",
@@ -236,7 +232,6 @@
     "damage_modifier": 500,
     "breaks_into": [  ],
     "//": "120 cm weld to affix it to a vehicle",
-    "description": "A circular blade, powered by the vehicle's engine.  It will dramatically increase the damage the vehicle delivers in collisions.  Mount on the edges of the vehicle, preferably the front.",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 5 ] ],
@@ -259,7 +254,6 @@
     "type": "vehicle_part",
     "copy-from": "ram_blaze",
     "id": "blade",
-    "name": { "str": "blade" },
     "damage_modifier": 250,
     "durability": 200,
     "description": "A blade, welded to the vehicle, for cutting up zombies.",
@@ -272,13 +266,12 @@
     },
     "extend": { "flags": [ "SHARP" ] },
     "delete": { "flags": [ "OBSTACLE" ] },
-    "breaks_into": [ { "item": "steel_chunk", "prob": 50 } ]
+    "breaks_into": [ { "item": "mc_steel_chunk", "prob": 50 } ]
   },
   {
     "type": "vehicle_part",
     "copy-from": "blade",
     "id": "spike",
-    "name": { "str": "spike" },
     "damage_modifier": 300,
     "durability": 250,
     "color": "white",
@@ -286,7 +279,7 @@
     "description": "A metal spike, welded to the vehicle, to increase injury when crashing into things.",
     "item": "spike",
     "folded_volume": "250 ml",
-    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] } ],
+    "breaks_into": [ { "item": "mc_steel_chunk", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 12 },
     "variants": [ { "symbols": ".", "symbols_broken": "x" } ]
   },

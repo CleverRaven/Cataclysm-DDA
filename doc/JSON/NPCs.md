@@ -28,7 +28,7 @@ There are two parts to creating a new NPC, apart from any dialogue you may want 
 ## NPC Class definition
 First there is the `npc_class` which follows the following template.
 Format:
-```json
+```jsonc
 {
   "type": "npc_class",
   "id": "NC_EXAMPLE",                                                      // Mandatory, unique id that refers to this class.
@@ -57,7 +57,7 @@ Format:
   "carry_override": "NC_EXAMPLE_carried",                                  // Optional. Defines an item group that replaces their carried items (in pockets, etc). Items which cannot
                                                                            // be carried will overflow(fall to the ground) when the NPC is loaded.
   "weapon_override": "NC_EXAMPLE_weapon",                                  // Optional. Defines an item group that replaces their wielded weapon.
-  "bye_message_override": "<fuck_you>",                                    // Optional. If used, overrides the default bye message (picked from <bye> snippet) to any another custom snippet
+  "bye_message_override": "<fuck_you>",                                    // Optional. If used, overrides the default bye message (picked from <bye> snippet) to any another custom snippet, if set to "null" will make the npc not say anything when leaving dialogue.
   "shopkeeper_item_group": [                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration) below.
     { "group": "example_shopkeeper_itemgroup1" },
     { "group": "example_shopkeeper_itemgroup2", "trust": 10 },
@@ -95,11 +95,11 @@ Format:
 - `"condition"` : (_optional_) Checked alongside trust with the avatar as alpha and the evaluating NPC as beta. See [Player or NPC conditions](#player-or-npc-conditions).
 - `"strict"` : (_optional_) If true, items in this group will not be available for restocking unless the conditions are met. (Defaults to false)
 - `"rigid"` : (_optional_) By default, item groups will be continually iterated until they reach a certain value or size threshold for the NPC. Rigid groups are instead guaranteed to populate a single time if they can, and will not include duplicate reruns. (Defaults to false)
-- `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npcname> does not trust you enough"`
+- `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npc_faction> faction does not trust you enough."`
 
 #### Shopkeeper consumption rates
 Controls consumption of shopkeeper's stock of items (simulates purchase by other people besides they player).
-```JSON
+```jsonc
   "type": "shopkeeper_consumption_rates",
   "id": "basic_shop_rates",
   "default_rate": 5, // defined as units/day since last restock
@@ -121,7 +121,7 @@ Controls consumption of shopkeeper's stock of items (simulates purchase by other
 #### Shopkeeper blacklists
 Specifies blacklist of items that shopkeeper will not accept for trade.  Format is similar to `shopkeeper_consumption_rates`.
 
-```JSON
+```jsonc
   "type": "shopkeeper_blacklist",
   "id": "basic_blacklist",
   "entries": [
@@ -147,7 +147,7 @@ NOTE: do not place items within these loot zones in mapgen definitions as these 
 ## NPC instance definition
 There is a second template required for a new NPC. It looks like this:
 Format:
-```json
+```jsonc
 {
   "type": "npc",
   "id": "examplicious",
@@ -222,6 +222,8 @@ Field | Default topic ID  | Uses for...
 `talk_stranger_wary` | `TALK_STRANGER_WARY` | see "success and failure" section
 `talk_stranger_friendly` | `TALK_STRANGER_FRIENDLY` | see "success and failure" section
 `talk_stranger_neutral` | `TALK_STRANGER_NEUTRAL` | see "success and failure" section
+`talk_mission_inqure` | `TALK_MISSION_INQUIRE` | see [the missions docs](MISSIONS_JSON.md)
+`talk_mission_describe_urgent` | `TALK_MISSION_DESCRIBE_URGENT` | see [the missions docs](MISSIONS_JSON.md)
 
 ---
 
@@ -249,7 +251,7 @@ Any `%s` included is automatically replaced by the game, with words depending on
 
 Case use example:
 
-```json
+```jsonc
 {
   "type":"npc",
   "...": "rest of fields go here",
@@ -346,35 +348,40 @@ Field | Default messages/snippets | Used for...
 
 ### Special Custom Entries
 
-Certain entries like the snippets above are taken from the game state as opposed to JSON; they are found in the npctalk function parse_tags. They are as follows:
+Certain entries like the snippets above are taken from the game state as opposed to JSON; they are found in the npctalk function parse_tags. In dialogue the alpha talker is the avatar and the beta talker is the NPC.
 
-Field | Used for...
----|---
-`<yrwp>` | displays avatar's wielded item
-`<mywp>` | displays npc's wielded item
-`<u_name>` | displays avatar's name
-`<npc_name>` | displays npc's name
-`<ammo>` | displays avatar's ammo
-`<current_activity>` | displays npc's current activity
-`<punc>` | displays a random punctuation from: `.`, `…`, `!`
-`<mypronoun>` | displays npc's pronoun
-`<total_kills>` | total kills of the Player
-`<time_survived>` | time since start of the game
-`<topic_item>` | referenced item
-`<topic_item_price>` | referenced item unit price
-`<topic_item_my_total_price>` | TODO Add
-`<topic_item_your_total_price>` | TODO Add
-`<interval>` | displays the time remaining until restock
-`<u_val:VAR>` | The user variable VAR
-`<npc_val:VAR>` | The npc variable VAR
-`<context_val:VAR>` | The context variable VAR
-`<global_val:VAR>` | The global variable VAR
-`<item_name:ID>` | The name of the item from ID
-`<item_description:ID>` | The description of the item from ID
-`<trait_name:ID>` | The name of the trait from ID
-`<trait_description:ID>` | The description of the trait from ID
-`<spell_name:ID>` | The description of the name from ID
-`<spell_description:ID>` | The description of the trait from ID
+| Field                                         | Expects talker | Description
+| --------------------------------------------- | -------------- | -----------------------------------
+| `<yrwp>`                                      | alpha          | gets replaced with alpha talker's wielded item
+| `<mywp>`                                      | beta           | gets replaced with beta talker's wielded item or "fists" if they aren't wielding anything
+| `<u_name>`                                    | alpha          | gets replaced with alpha talker's name
+| `<npc_name>`                                  | beta           | gets replaced with beta talker's name
+| `<npcname>`                                   | N/A            | DO NOT USE, DEPRECATED - This will not work in parse_tags! It is listed here so you don't confuse it with with the very similar <npc_name>.
+| `<ammo>`                                      | beta           | gets replaced with beta talker's ammo or "BADAMMO" if it can't be determined
+| `<current_activity>`                          | beta           | gets replaced with beta talker's current activity or "doing this and that" if they don't have one assigned
+| `<mypronoun>`                                 | beta           | gets replaced with capitalised beta talker's pronoun (just "He" or "She" as of writing)
+| `<mypossesivepronoun>`                        | beta           | gets replaced with lowercase beta talker's possesive pronoun (just "his" or "her" as of writing)
+| `<topic_item>`                                | N/A            | gets replaced with talk_topic's referenced item's name
+| `<topic_item_price>`                          | N/A            | gets replaced with talk_topic's referenced item's unit price before modifiers
+| `<topic_item_my_total_price>`                 | beta           | gets replaced with the total price for talk_topic's referenced item in beta talker's inventory
+| `<topic_item_your_total_price>`               | alpha          | gets replaced with the total price for talk_topic's referenced item in alpha talker's inventory
+| `<interval>`                                  | beta           | gets replaced with the time remaining until the beta talker restocks
+| `<restock_time_point>`                        | beta           | displays the date of next restock of the beta talker
+| `<u_val:VAR>`                                 | alpha          | gets replaced with the user variable VAR
+| `<npc_val:VAR>`                               | beta           | gets replaced with the npc variable VAR
+| `<context_val:VAR>`                           | N/A            | gets replaced with the context variable VAR
+| `<global_val:VAR>`                            | N/A            | gets replaced with the global variable VAR
+| `<item_name:ID>`                              | N/A            | gets replaced with the name of the item from ID
+| `<item_description:ID>`                       | N/A            | gets replaced with the description of the item from ID
+| `<trait_name:ID>`                             | N/A            | gets replaced with the name of the trait from ID
+| `<trait_description:ID>`                      | N/A            | gets replaced with the description of the trait from ID (avatar variant of trait is used, if avatar has such trait)
+| `<spell_name:ID>`                             | N/A            | gets replaced with the name of the spell from ID
+| `<spell_description:ID>`                      | N/A            | gets replaced with the description of the spell from id
+| `<u_spell_level:ID>`                          | alpha          | gets replaced with the spell level of corresponding spell alpha talker has. If alpha talker has no such spell, it returns -1
+| `<keybind:ID>` and `<keybind:CATEGORY_ID:ID>` | N/A            | gets replaced with the keys bound to a specific `"type": "keybind"` found in data/raw or "Unbound globally/locally! (<keybind_name> in keybind category CATEGORY_ID)" if unbound.
+| `<city>`                                      | N/A            | gets replaced with the name of the closest city to the avatar
+| `<time_survived>`                             | N/A            | gets replaced with time since start of the game
+| `<total_kills>`                               | N/A            | gets replaced with total kills of the avatar
 
 item_name and similar tags, that parse the text out of the id, are able to parse the tags of variables, so it is possible to use `<item_name:<global_val:VAR>>`
 
@@ -392,7 +399,7 @@ Each topic consists of:
 One can specify new topics in json. It is currently not possible to define the starting topic, so you have to add a response to some of the default topics (e.g. `TALK_STRANGER_FRIENDLY` or `TALK_STRANGER_NEUTRAL`) or to topics that can be reached somehow.
 
 Format:
-```json
+```jsonc
 {
   "type": "talk_topic",
   "id": "TALK_ARSONIST",
@@ -412,7 +419,7 @@ Must always be there and must always be `"talk_topic"`.
 
 #### `"insert_before_standard_exits"`
 For mod usage to insert dialogue above the `TALK_DONE` and `TALK_NONE` lines. Defaults to false.
-```json
+```jsonc
   {
     "id": "TALK_REFUGEE_Draco_1a",
     "type": "talk_topic",
@@ -427,7 +434,7 @@ The topic id can be one of the built-in topics or a new id. However, if several 
 The topic id can also be an array of strings. This is loaded as if several topics with the exact same content have been given in json, each associated with an id from the `id`, array. Note that loading from json will append responses and, if defined in json, override the `dynamic_line` and the `replace_built_in_responses` setting. This allows adding responses to several topics at once.
 
 This example adds the "I'm going now!" response to all the listed topics.
-```C++
+```jsonc
 {
     "type": "talk_topic",
     "id": [ "TALK_ARSONIST", "TALK_STRANGER_FRIENDLY", "TALK_STRANGER_NEUTRAL" ],
@@ -461,7 +468,7 @@ The `responses` entry is an array with possible responses.  It must not be empty
 A dynamic line can either be a simple string, or an complex object, or an array with `dynamic_line` entries.  If it's an array, an entry will be chosen randomly every time the NPC needs it.  Each entry has the same probability.
 
 Example:
-```json
+```jsonc
 "dynamic_line": [
   "generic text",
   {
@@ -477,7 +484,7 @@ In all cases, `npc_` refers to the NPC, and `u_` refers to the player.  Optional
 
 #### Several lines joined together
 The dynamic line is a list of dynamic lines, all of which are displayed.  The dynamic lines in the list are processed normally.
-```json
+```jsonc
 {
   "concatenate": [
     {
@@ -498,7 +505,7 @@ The dynamic line is a list of dynamic lines, all of which are displayed.  The dy
 #### A line to be translated with gender context
 The line is to be given a gender context for the NPC, player, or both, to aid
 translation in languages where that matters. For example:
-```json
+```jsonc
 {
   "gendered_line": "Thank you.",
   "relevant_genders": [ "npc" ]
@@ -512,7 +519,7 @@ Valid choices for entries in the `"relevant_genders"` list are `"npc"` and
 #### A randomly selected hint
 The dynamic line will be randomly chosen from the hints snippets.
 
-```json
+```jsonc
 {
   "give_hint": true
 }
@@ -521,7 +528,7 @@ The dynamic line will be randomly chosen from the hints snippets.
 #### A list of potential faction camp sites
 The dynamic line will list all of the possible starting sites for faction camps.
 
-```json
+```jsonc
 {
   "list_faction_camp_sites": true
 }
@@ -530,7 +537,7 @@ The dynamic line will list all of the possible starting sites for faction camps.
 #### Based on a previously generated reason
 The dynamic line will be chosen from a reason generated by an earlier effect.  The reason will be cleared.  Use of it should be gated on the `"has_reason"` condition.
 
-```json
+```jsonc
 {
   "has_reason": { "use_reason": true },
   "no": "What is it, boss?"
@@ -540,7 +547,7 @@ The dynamic line will be chosen from a reason generated by an earlier effect.  T
 #### Based on any dialogue condition
 The dynamic line will be chosen based on whether a single dialogue condition is true or false.  Dialogue conditions cannot be chained via `"and"`, `"or"`, or `"not"`.  If the condition is true, the `"yes"` response will be chosen and otherwise the `"no"` response will be chosen.  Both the `'"yes"` and `"no"` responses are optional.  Simple string conditions may be followed by `"true"` to make them fields in the dynamic line dictionary, or they can be followed by the response that will be chosen if the condition is true and the `"yes"` response can be omitted.
 
-```json
+```jsonc
 {
   "npc_need": "sleepiness",
   "level": "TIRED",
@@ -578,7 +585,7 @@ The dynamic line will be chosen based on whether a single dialogue condition is 
 The `speaker_effect` entry contains dialogue effects that occur after the NPC speaks the `dynamic_line` but before the player responds and regardless of the player response.  Each effect can have an optional condition, and will only be applied if the condition is true.  Each `speaker_effect` can also have an optional `sentinel`, which guarantees the effect will only run once.
 
 Format:
-```json
+```jsonc
 "speaker_effect": {
   "sentinel": "...",
   "condition": "...",
@@ -586,7 +593,7 @@ Format:
 }
 ```
 or:
-```json
+```jsonc
 "speaker_effect": [
   {
     "sentinel": "...",
@@ -615,7 +622,7 @@ Speaker effects are useful for setting status variables to indicate that player 
 A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. The "condition" field dictates whether the response will be shown. It can also have a trial object which can be used to either lie, persuade, or intimidate the NPC, or even test another conditional [see below](#trials) for details; different "effect"s can be applied for trial success/failure.
 
 Format:
-```json
+```jsonc
 {
   "text": "I, the player, say to you...",
   "condition": "...something...",
@@ -642,7 +649,7 @@ Format:
 ```
 
 Alternatively a short format:
-```json
+```jsonc
 {
   "text": "I, the player, say to you...",
   "effect": "...",
@@ -650,7 +657,7 @@ Alternatively a short format:
 }
 ```
 The short format is equivalent to (an unconditional switching of the topic, `effect` is optional):
-```json
+```jsonc
 {
   "text": "I, the player, say to you...",
   "trial": {
@@ -663,8 +670,8 @@ The short format is equivalent to (an unconditional switching of the topic, `eff
 }
 ```
 
-When using a conditional you can specify the response to still appear but be marked as unavailable. This can be done by adding a `failure_explanation` or `failure_topic` in the bellow example if the condition fails `*Didn't have enough: I, the player, say to you...` will be what appears in the responses, and if selected it will instead go to `TALK_EXPLAIN_FAILURE` and wont trigger the other effects:
-```json
+When using a conditional you can specify the response to still appear but be marked as unavailable. This can be done by adding a `failure_explanation` or `failure_topic` in the below example if the condition fails `*Didn't have enough: I, the player, say to you...` will be what appears in the responses, and if selected it will instead go to `TALK_EXPLAIN_FAILURE` and wont trigger the other effects:
+```jsonc
 {
   "condition": "...something...",
   "failure_explanation": "Didn't have enough",
@@ -688,7 +695,7 @@ text, use `\"` escaped double quotes to indicate the start of actual dialogue.
 #### `truefalsetext`
 May be used in place of text.  The player will have one response text if a condition is true, and another if it is false, but the same trial for either line.  `condition`, `true`, and `false` are all mandatory.
 
-```json
+```jsonc
 {
   "truefalsetext": {
     "condition": { "u_has_cash": 800 },
@@ -704,7 +711,7 @@ May be used in place of text.  The player will have one response text if a condi
 
 `topic` can also be a single topic object (the `type` member is not required here):
 
-```json
+```jsonc
 "success": {
   "topic": {
     "id": "TALK_NEXT",
@@ -733,7 +740,7 @@ An optional `mod` array takes any of the following modifiers and increases the d
 `"SKILL_CHECK"` trials check the user's level in a skill, whose ID is read from the string object `skill_required`. The `success` object is chosen if the skill level is equal to or greater than `difficulty`, and `failure` is chosen otherwise.
 
 Sample trials:
-```json
+```jsonc
 "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] }
 "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] }
 "trial": { "type": "CONDITION", "condition": { "npc_has_trait": "FARMER" } }
@@ -760,7 +767,7 @@ The combination of fear and trust decide together with the personality of the NP
 For the actual usage of that data, search the source code for `"op_of_u"`.
 
 Example opinions
-```json
+```jsonc
 { "effect": "follow", "opinion": { "trust": 1, "value": 1 }, "topic": "TALK_DONE" }
 { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "fear": -1, "value": -1, "anger": 1 } }
 ```
@@ -786,7 +793,7 @@ Shorthand for "show_condition": takes a boolean instead of a condition. False by
 An optional key that, if defined, will append its contents to the end of a response displayed because of `show_always` or `show_condition`. Empty by default.
 
 Example:
-```json
+```jsonc
 "responses": [
   { "text": "You know what, never mind.", "topic": "TALK_NONE" },
   { "text": "How does 5 Ben Franklins sound?",
@@ -808,10 +815,10 @@ don't have at least $50, they will also have the option to provide some other br
 Repeat responses are responses that should be added to the response list multiple times, once for each instance of an item.
 
 A repeat response has the following format:
-```json
+```jsonc
 {
   "for_item": [
-    "jerky", "meat_smoked", "fish_smoked", "cooking_oil", "cooking_oil2", "cornmeal", "flour",
+    "jerky", "meat_smoked", "fish_smoked", "cooking_oil", "cornmeal", "flour",
     "fruit_wine", "beer", "sugar"
   ],
   "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
@@ -871,6 +878,7 @@ Effect | Description
 ---|---
 `start_trade` | Opens the trade screen and allows trading with the NPC.
 `give_equipment` | Allows your character to select items from the NPC's inventory and transfer them to your inventory.
+`pick_style` | Allows the player to manually select a style for the NPC. Only for use in mods, not 'vanilla' DDA.
 `npc_gets_item` | Allows your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will not accept it if they do not have space or weight to carry it, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
 `npc_gets_item_to_use` | Allow your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will attempt to wield it and will not accept it if it is too heavy or is an inferior weapon to what they are currently using, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
 `u_spawn_item: `string or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `use_item_group: `bool), (*optional* `suppress_message: `bool), (*optional* `flags: `array of string or [variable object](#variable-object)) | Your character gains the item or `count` copies of the item, contained in `container` if specified. If used in an NPC conversation the items are said to be given by the NPC.  If a variable item is passed for the name an item of the type contained in it will be used.  If `use_item_group` is true (defaults to false) , it will instead create items from the item group given. ("count" and "container" will be ignored since they are defined in the item group.)  If `suppress_message` is true (defaults to false) no message will be shown. If `force_equip` is true (defaults to false) characters will equip the items if they can.  The item will have all the flags from the array `flags`.
@@ -941,7 +949,7 @@ Effect | Description
 `deny_follow`<br/>`deny_lead`<br/>`deny_train`<br/>`deny_personal_info` | Sets the appropriate effect on the NPC for a few hours.<br/>These are *deprecated* in favor of the more flexible `npc_add_effect` described above.
 
 #### Sample effects
-```json
+```jsonc
 { "topic": "TALK_EVAC_GUARD3_HOSTILE", "effect": [ { "u_faction_rep": -15 }, { "npc_change_faction": "hells_raiders" } ] }
 { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_EVAC_MERCHANT" }
 { "text": "Show me what needs to be done at the camp.", "topic": "TALK_DONE", "effect": "basecamp_mission", "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" } }
@@ -975,7 +983,7 @@ Condition | Type | Description
 `"has_available_mission" or "u_has_available_mission" or "npc_has_available_mission"` | simple string | `true` if u or the NPC has one job available for the player character.
 `"has_many_available_missions"` | simple string | `true` if the NPC has several jobs available for the player character.
 `"mission_goal" or "npc_mission_goal" or "u_mission_goal"` | string or [variable object](#variable-object) | `true` if u or the NPC's current mission has the same goal as `mission_goal`.
-`"u_has_activity" or "npc_has_activity" | simple string | `true` if the [selected talker](EFFECT_ON_CONDITION.md#alpha-and-beta-talkers) is currently performing an [activity](PLAYER_ACTIVITY.md).
+`"u_has_activity" or "npc_has_activity" | simple string | `true` if the [selected talker](EFFECT_ON_CONDITION.md#alpha-and-beta-talkers) is currently performing an [activity](/doc/PLAYER_ACTIVITY.md).
 `"u_is_travelling" or "npc_is_travelling" | simple string | `true` if the [selected talker](EFFECT_ON_CONDITION.md#alpha-and-beta-talkers) has a current destination. Note that this just checks the destination exists, not whether u or npc is actively moving to it.
 `"mission_complete" or "npc_mission_complete" or "u_mission_complete"` | simple string | `true` if u or the NPC has completed the other's current mission.
 `"mission_incomplete" or "npc_mission_incomplete" or "u_mission_incomplete"` | simple string | `true` if u or the NPC hasn't completed the other's current mission.
@@ -1031,7 +1039,7 @@ Condition | Type | Description
 ---
 
 ## Sample responses with conditions and effects
-```json
+```jsonc
 {
   "text": "Understood.  I'll get those antibiotics.",
   "topic": "TALK_NONE",
@@ -1170,10 +1178,10 @@ Condition | Type | Description
 ## Utility Structures
 
 ### Variable Object
-`variable_object`: This is either an object, a `math` [expression](#math) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, `context_val`, `var_val` or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `context_val` is used it describes a variable on the current dialogue context, `var_val` tries to resolve a variable stored in a `context_val` (more explanation bellow), if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
+`variable_object`: This is either an object, a `math` [expression](#math) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If it is a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, `context_val`, `var_val` or `global_val` can be used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `context_val` is used it describes a variable on the current dialogue context, `var_val` tries to resolve a variable stored in a `context_val` (more explanation below), if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
 
 Example:
-```json
+```jsonc
 "effect": [ { "u_mod_focus": { "u_val":"test", "default": 1 } },
   { "u_mod_focus": [ 0, { "u_val":"test", "default": 1 } ] }
   { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1 },
@@ -1212,7 +1220,7 @@ If you access "ref2" as a context val it will have the value of "u_key2", if you
 
 ### Mutators
 `mutators`: take in an amount of data and provide you with a relevant string. This can be used to get information about items, monsters, etc. from the id, or other data. Mutators can be used anywhere that a string [variable object](#variable-object) can be used. Mutators take the form:
-```json
+```jsonc
 { "mutator": "MUTATOR_NAME", "REQUIRED_KEY1": "REQUIRED_VALUE1", ..., "REQUIRED_KEYn": "REQUIRED_VALUEn" }
 ```
 
@@ -1230,22 +1238,22 @@ Mutator Name | Required Keys | Description
 
 ### Math
 A `math` object lets you evaluate math expressions and assign them to dialogue variables or compare them for conditions. It takes the form
-```JSON
+```jsonc
 { "math": [ "2 + 2 - 3 == 1" ] }
 ```
 or idiomatically
-```JSON
+```jsonc
 { "math": [ "lhs operator rhs" ] }
 ```
 Example:
-```JSON
+```jsonc
 { "value": "LUMINATION", "add": { "math": [ "u_val('morale') * 3 - rng(0, 100)" ] } }
 ```
 The expression in `lhs` is evaluated and passed on to the parent object.
 
 
 The expression can be split into any number of strings in order to get neat line breaks:
-```JSON
+```jsonc
     "effect": [
       {
         "math": [
@@ -1263,7 +1271,7 @@ The assignment `operators` `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `++`, and `--` can
 Tokens that aren't numbers, [constants](#constants), [functions](#math-functions), or mathematical symbols are treated as dialogue variables. They are scoped by their name so `myvar` is a variable in the global scope, `u_myvar` is scoped on the alpha talker, `n_myvar` is scoped on the beta talker, and `_var` is a context variable, `v_var` is a [var_val](#var_val).
 
 Examples:
-```JSON
+```jsonc
     "//0": "return value of global var blorgy_counter",
     { "math": [ "blorgy_counter" ] },
     "//1": "result, x, and y are global variables",
@@ -1272,6 +1280,17 @@ Examples:
     { "math": [ "result = ( x + y ) * u_z" ] },
     "//3": "n_crazyness is the variable craziness on the beta talker (npc)",
     { "math": [ "n_crazyness * 2 >= ( x + y ) * u_z" ] },
+```
+
+#### Tripoints
+Members of tripoint variables can be accessed with the dot operator in the usual way
+```jsonc
+      { "u_location_variable": { "u_val": "mypos" } },
+      { "math": [ "u_myx = u_mypos.x" ] },
+      { "math": [ "u_myy = u_mypos.y" ] },
+      { "math": [ "u_myz = u_mypos.z" ] },
+      // assignment works too
+      { "math": [ "u_mypos.z = 12" ] },
 ```
 
 #### Constants
@@ -1304,7 +1323,7 @@ Inline [comparison operators](#three-strings--assignment-or-comparison) evaluate
 Ternary operators take the form `condition ? true_value : false_value`. They are right-associative so a chained ternary like `a ? b : c ? d :e` is parsed as `a ? b : (c ? d : e)`.
 
 Examples:
-```JSON
+```jsonc
     "//0": "returns 5 if u_blorg is greater than 4, otherwise 0",
     { "math": [ "( u_blorg > 4 ) * 5" ] },
     "//1": "returns rng( 0.5, 5 ) if u_blorg is greater than 5, otherwise rand(100)"
@@ -1335,7 +1354,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | encumbrance(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total encumbrance of a body part.<br/>Argument is bodypart ID. <br/> For items, returns typical encumbrance of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_encumbrance('torso') > 0"] }`|
 | health(`d`/`v`)    |  ✅   |   ✅  | u, n  | Return character current health .<br/><br/>Example:<br/>`{ "math": [ "u_health() -= 1" ] }`|
 | energy(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return a numeric value (in millijoules) for an energy string (see [Units](JSON_INFO.md#units)).<br/><br/>Example:<br/>`{ "math": [ "u_val('power') -= energy('25 kJ')" ] }`|
-| faction_like(`s`/`v`)<br/>faction_respect(`s`/`v`)<br/>faction_trust(`s`/`v`)<br/>faction_food_supply(`s`/`v`)<br/>faction_wealth(`s`/`v`)<br/>faction_power(`s`/`v`)<br/>faction_size(`s`/`v`)    |   ✅   |   ✅  | N/A<br/>(global)  | Return the like/respect/trust/fac_food_supply/wealth/power/size value a faction has for the avatar.<br/>Argument is faction ID.<br/>`faction_food_supply` has an optional second argument(kwarg) for getting/setting vitamins.<br/><br/>Example:<br/>`"condition": { "math": [ "faction_like('hells_raiders') < -60" ] }`<br/><br/>`{ "math": [ "calcium_amount", "=", "faction_food_supply('your_followers', 'vitamin':'calcium')" ] },`<br/>`{ "u_message": "Calcium stored is <global_val:calcium_amount>", "type": "good" },`|
+| faction_like(`s`/`v`)<br/>faction_respect(`s`/`v`)<br/>faction_trust(`s`/`v`)<br/>faction_food_supply(`s`/`v`)<br/>faction_wealth(`s`/`v`)<br/>faction_power(`s`/`v`)<br/>faction_size(`s`/`v`)    |   ✅   |   ✅  | N/A<br/>(global)  | Return the like/respect/trust/fac_food_supply/wealth/power/size value a faction has for the avatar.<br/>Argument is faction ID.<br/>`faction_food_supply` has an optional second argument(kwarg) for getting/setting vitamins.<br/><br/>Example:<br/>`"condition": { "math": [ "faction_like('hells_raiders') < -60" ] }`<br/><br/>`{ "math": [ "calcium_amount = faction_food_supply('your_followers', 'vitamin':'calcium')" ] },`<br/>`{ "u_message": "Calcium stored is <global_val:calcium_amount>", "type": "good" },`|
 | field_strength(`s`/`v`)    |   ✅   |   ❌  | u, n, global  | Return the strength of a field on the tile.<br/>Argument is field ID.<br/><br/>Optional kwargs:<br/> `location`: `v` - center search on this location<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_field_strength('fd_blood') > 5" ] }`<br/><br/>`"condition": { "math": [ "field_strength('fd_blood_insect', 'location': u_search_loc) > 5" ] }`|
 | has_flag(`s`/`v`) | ✅ | ❌ | u, n | Check whether the actor has a flag. Meant to be used as condition for ternaries. Argument is trait ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg = u_has_flag('MUTATION_TRESHOLD') ? 100 : 15" ] }`|
 | has_trait(`s`/`v`)    |  ✅   |   ❌  | u, n  | Check whether the actor has a trait. Meant to be used as condition for ternaries. Argument is trait ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg = u_has_trait('FEEBLE') ? 100 : 15" ] }`|
@@ -1350,7 +1369,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | item_count(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the number of a given item in the character's inventory.<br/>Argument is item ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_item_count('backpack') >= 1"] }`|
 | item_rad(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return irradiation of worn items with the specified flag.<br/>Argument is flag ID.<br/><br/>Optional kwargs:<br/>`aggregate`: `s`/`v` - Specify the aggregation function to run, in case there's more than one item. Valid values are `min`/`max`/`sum`/`average`/`first`/`last`. Defaults to `min` if not specified. <br/><br/>Example:<br/>`"condition": { "math": [ "u_item_rad('RAD_DETECT') >= 1"] }`|
 | melee_damage(`s`/`v`)     |  ✅  |   ❌   | u, n  | Return the item's melee damage. Argument is damage type. For special value `ALL`, return sum for all damage types. <br/><br/>Actor must be an item.<br/><br/>Example:<br/>`{ "math": [ "mymelee = n_melee_damage('ALL')" ] }`<br/>See `EOC_test_weapon_damage` for a complete example|
-| monsters_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Return the number of nearby monsters. Takes any number of `s`tring or `v`ariable positional parameters as monster IDs. <br/><br/>Optional kwargs:<br/>`radius`: `d`/`v` - limit to radius (rl_dist)<br/>`location`: `v` - center search on this location<br/>`attitude`: `s`/`v` - attitude filter. Must be one of `hostile`, `friendly`, `both`. Assumes `hostile` if not specified<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_monsters_nearby('radius': u_search_radius * 3) > 5" ] }`<br/><br/>`"condition": { "math": [ "monsters_nearby('mon_void_maw', 'mon_void_limb', mon_fotm_var, 'radius': u_search_radius * 3, 'location': u_search_loc)", ">", "5" ] }`|
+| monsters_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Return the number of nearby monsters. Takes any number of `s`tring or `v`ariable positional parameters as monster IDs. <br/><br/>Optional kwargs:<br/>`radius`: `d`/`v` - limit to radius (rl_dist)<br/>`location`: `v` - center search on this location<br/>`attitude`: `s`/`v` - attitude filter. Must be one of `hostile`, `friendly`, `both`. Assumes `hostile` if not specified<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_monsters_nearby('radius': u_search_radius * 3) > 5" ] }`<br/><br/>`"condition": { "math": [ "monsters_nearby('mon_void_maw', 'mon_void_limb', 'mon_fotm_var', 'radius': u_search_radius * 3, 'location': u_search_loc)", ">", "5" ] }`|
 | mod_load_order(`s`/`v`)  |  ✅   |   ❌  | N/A<br/>(global)  | Returns the load order of specified mod. Argument is mod id. Returns -1 is the mod is not loaded. |
 | mon_species_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster species |
 | mon_groups_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster groups |
@@ -1361,7 +1380,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | school_level(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the highest level of spells known of that school.<br/>Argument is school ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_school_level('MAGUS') >= 3"] }`|
 | school_level_adjustment(`s`/`v`)    |   ✅  |  ✅   | u, n  | Return or set temporary caster level adjustment. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to 0 before the event triggers. To avoid overwriting values from other EoCs, it is recommended to adjust the values here with `+=` or `-=` instead of setting it to an absolute value.<br/>Argument is school ID.<br/><br/>Example:<br/>`{ "math": [ "u_school_level_adjustment('MAGUS')++"] }`|
 | skill(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set skill level<br/><br/>Example:<br/>`"condition": { "math": [ "u_skill('driving') >= 5"] }`<br/>`"condition": { "math": [ "u_skill(someskill) >= 5"] }`|
-| spell_difficulty(`s`/`v`)    |  ✅  |   ✅   | u,n | Returns the difficulty of the given spell id, modified by temporary difficulty modifiers if the character knows the spell; otherwise just the base difficulty calculations.  <br/> Example:<br/>`"math": [ "_difficulty = u_spell_difficulty('test_spell_id')"] }`|
+| spell_difficulty(`s`/`v`)    |  ✅  |   ✅   | u,n | Returns the difficulty of the given spell id, modified by temporary difficulty modifiers if the character knows the spell; otherwise just the base difficulty calculations.  Optional kwargs:<br/>`baseline`: `false` or `true`.  If `true`, temporary difficulty modifiers are ignored.  <br/> Example:<br/>`"math": [ "_difficulty = u_spell_difficulty('test_spell_id', 'baseline': 'true')"] }`|
 | skill_exp(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set skill experience<br/> Argument is skill ID. <br/><br/> Optional kwargs:<br/>`format`: `s`/`v` - must be `percentage` or `raw`.<br/><br/>Example:<br/>`{ "math": [ "u_skill_exp('driving', 'format': crt_format)--"] }`|
 | spell_exp(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set spell xp<br/> Example:<br/>`"condition": { "math": [ "u_spell_exp('SPELL_ID') >= 5"] }`|
 | spell_exp_for_level(`s`/`v`, `d`/`v`)    |  ✅  |   ❌   | g  | Return the amount of XP necessary for a spell level for the given spell. Arguments are spell id and desired level.  <br/> Example:<br/>`"math": [ "spell_exp_for_level('SPELL_ID', u_spell_level('SPELL_ID') ) * 5"] }`|
@@ -1391,6 +1410,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | climate_control_str_heat()    |  ✅   |   ❌  | u, n  | return amount of heat climate control that character currently has (character feels better in warm places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "u_climate_control_str_heat() < 0" ] }`|
 | climate_control_str_chill()    |  ✅   |   ❌  | u, n  | return amount of chill climate control that character currently has (character feels better in cold places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "n_climate_control_str_chill() < 0" ] }`|
 | calories()    |  ✅   |   ✅  | u, n  | Return amount of calories character has. If used on item, return amount of calories this item gives when consumed (not affected by enchantments or mutations).  Optional kwargs:<br/>`format`: `s`/`v` - return the value in specific format.  Can be `percent` (return percent to the healthy amount of calories, `100` being the target, bmi 25, or 110000 kcal) or `raw`.  If now used, `raw` is used by default.<br/>`dont_affect_weariness`: `true`/`false` (default false) When assigning value, whether the gained/spent calories should be tracked by weariness.<br/><br/>Example:<br/>`"condition": { "math": [ "u_calories() < 0" ] }`<br/>`"condition": { "math": [ "u_calories('format': 'percent') > 0" ] }`<br/>`"condition": { "math": [ "u_calories() = 110000" ] }`|
+| artifact_resonance()    |  ✅   |   ❌  | u, n  | Return amount of total artifact resonance character has. If used on item, return resonance of that item only. <br/><br/>Example:<br/>`"condition": { "math": [ "u_artifact_resonance() > 0" ] }`<br/>|
 | get_calories_daily()  |  ✅   |   ❌  | g  | Return amount of calories character consumed before, up to 30 days, in kcal. Calorie diary is something only character has, so it can't be used with NPCs. Optional kwargs:<br/>`day`: `d/v` - picks the date the value would be pulled from, from 0 to 30. Default 0, meaning amount of calories you consumed today.<br/>`type`: `s/v` - picks the data that would be pulled. Possible values are: `spent` - how much calories character spent in different activities throughout the day; `gained` - how much calories character ate that day; `ingested` - how much calories character processed that day; `total` - `gained` minus `spent`. Default is `total`;<br/><br/>Example:<br/>`"condition": { "math": [ "get_calories_daily() > 1000" ] }`<br/> `{ "math": [ "foo = get_calories_daily('type':'gained', 'day':'1')" ] }`|
 | quality( `s` / `v` )  |  ✅   |   ❌  | u, n | Return the level of a specified item tool quality. Only usable on item talkers.<br/>Argument is the quality ID. Returns the lowest integer value if the item lacks the specified quality.<br/>Optional kwargs:<br/>`strict`: `true` / `false` (default false) When true the item must be empty to have the boiling quality.<br/><br/>Example<br/>`"condition: { "math": [ " u_quality('HACK') > 0 " ] }`<br/>`{ "math": [ "_cut_quality = u_quality('CUT') " ] }`<br/>`condition: { "math": [ " u_quality('BOIL', 'strict': true ) > 0" ] }`
 
@@ -1450,7 +1470,7 @@ These can be read or written to with `val()`.
 
 #### Math functions defined in JSON
 Math functions can be defined in JSON like this
-```JSON
+```jsonc
   {
     "type": "jmath_function",
     "id": "my_math_function",
@@ -1461,7 +1481,7 @@ Math functions can be defined in JSON like this
 where `_0`, `_1`, etc. are positional parameters.
 
 These functions can then be used like regular math functions, for example:
-```JSON
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_do_something",

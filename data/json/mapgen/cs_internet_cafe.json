@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cs_internet_cafe" ],
     "object": {
       "fill_ter": "t_floor",
@@ -62,12 +61,11 @@
         "C": { "item": "cash_register_random", "chance": 100 },
         "L": { "item": "cleaning", "chance": 100 }
       },
-      "add": [ { "item": "mop", "x": [ 11, 12 ], "y": [ 17, 20 ], "chance": 2 } ]
+      "place_item": [ { "item": "mop", "x": [ 11, 12 ], "y": [ 17, 20 ], "chance": 2 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cs_internet_cafe_roof",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -139,7 +137,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cs_internet_cafe_upper_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",

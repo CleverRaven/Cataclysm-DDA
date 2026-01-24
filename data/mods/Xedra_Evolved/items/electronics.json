@@ -2,7 +2,8 @@
   {
     "id": "laptop_xedra",
     "copy-from": "laptop",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "XEDRA laptop" },
     "description": "A heavy, dark laptop with a swappable battery slot.  The back panel is labeled \"PROPERTY OF XEDRA\".  It uses a non-standard OS, so there's not much you can use it for without reinstalling it.",
@@ -19,19 +20,9 @@
         "target": "laptop_xedra_lit",
         "msg": "You light up the screen.",
         "menu_text": "Light up the screen",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The laptop's batteries need more charge.",
         "type": "transform"
-      },
-      {
-        "target": "laptop",
-        "msg": "Reinstall the OS.",
-        "menu_text": "You can reinstall the OS to use it as a common laptop.",
-        "need_charges": 50,
-        "need_charges_msg": "The laptop's batteries need more charge.",
-        "type": "transform",
-        "moves": 180000
       },
       {
         "type": "link_up",
@@ -42,6 +33,7 @@
       }
     ],
     "flags": [ "WATCH", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -55,7 +47,8 @@
   {
     "id": "laptop_xedra_lit",
     "copy-from": "laptop_xedra",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "XEDRA laptop - lit screen", "str_pl": "XEDRA laptops - lit screen" },
     "power_draw": "1 W",
     "revert_to": "laptop_xedra",
@@ -81,6 +74,8 @@
         "charge_rate": "140 W"
       }
     ],
-    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "light": 10,
+    "flags": [ "WATCH", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "SPAWN_ACTIVE" ]
   }
 ]

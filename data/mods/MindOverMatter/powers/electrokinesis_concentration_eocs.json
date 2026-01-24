@@ -12,12 +12,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('electrokinetic_see_electric') * 150) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 150) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('electrokinetic_see_electric') * 300) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 300) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -36,21 +36,29 @@
     "id": "EOC_ELECTROKIN_SEE_ELECTRICITY_DRAIN",
     "condition": { "u_has_effect": "effect_electrokin_see_electricity" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty = 1" ] },
+      {
+        "if": { "math": [ "u_spell_level('electrokinetic_see_electric') >= 1" ] },
+        "then": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('electrokinetic_see_electric')" ] },
+        "else": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('electrokinetic_see_electric_knack')" ] }
+      },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('electrokinetic_see_electric')", "+=", "psionic_power_experience_formula()" ] },
+      {
+        "if": { "math": [ "u_spell_level('electrokinetic_see_electric') >= 1" ] },
+        "then": { "math": [ "u_spell_exp('electrokinetic_see_electric') += psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('electrokinetic_see_electric_knack') += psionic_power_experience_formula()" ] }
+      },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_ELECTROKIN_SEE_ELECTRICITY_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('electrokinetic_see_electric') * 150) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 150) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('electrokinetic_see_electric') * 300) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 300) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -97,7 +105,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 2" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('electrokinetic_zap_enemies')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('electrokinetic_zap_enemies') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_ELECTROKIN_ZAP_ENEMIES_DRAIN",
@@ -156,7 +164,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('electrokinetic_melee_attacks')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('electrokinetic_melee_attacks') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_ELECTROKIN_MELEE_ATTACKS_DRAIN",
@@ -184,17 +192,18 @@
       { "u_message": "You now have the ability to hack into nearby electronics.", "type": "good" },
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_ELECTROKIN_HACKING_INTERFACE_SWITCHER" ] },
       { "u_add_effect": "effect_electrokin_hacking_interface", "duration": "PERMANENT" },
+      { "run_eocs": "EOC_ELECTROKIN_HACKING_INTERFACE_UPDATER", "time_in_future": "15 seconds" },
       {
         "run_eocs": "EOC_ELECTROKIN_HACKING_INTERFACE_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('electrokinetic_hacking_interface') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('electrokinetic_hacking_interface') * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -207,64 +216,127 @@
     "id": "EOC_ELECTROKIN_REMOVE_HACKING_INTERFACE",
     "condition": { "u_has_effect": "effect_electrokin_hacking_interface" },
     "effect": [
-      { "u_remove_item_with": "electrokinetic_electrohack_1" },
-      { "u_remove_item_with": "electrokinetic_electrohack_2" },
-      { "u_remove_item_with": "electrokinetic_electrohack_3" },
-      { "u_remove_item_with": "electrokinetic_electrohack_4" },
-      { "u_remove_item_with": "electrokinetic_electrohack_5" },
-      { "u_lose_effect": "effect_electrokin_hacking_interface" },
-      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_MINUS_ONE", "EOC_ELECTROKIN_REMOVE_HACKING_INTERFACE_REMOVE_ITEM" ] },
+      { "u_lose_effect": "effect_electrokin_hacking_interface" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_HACKING_INTERFACE_SWITCHER",
     "effect": {
-      "switch": { "math": [ "u_spell_level('electrokinetic_hacking_interface')" ] },
+      "switch": {
+        "math": [
+          "(u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+        ]
+      },
       "cases": [
         {
           "case": 0,
           "effect": [ { "u_spawn_item": "electrokinetic_electrohack_1", "suppress_message": true, "force_equip": true } ]
         },
         {
-          "case": 5,
+          "case": 4,
           "effect": [ { "u_spawn_item": "electrokinetic_electrohack_2", "suppress_message": true, "force_equip": true } ]
         },
         {
-          "case": 10,
+          "case": 8,
           "effect": [ { "u_spawn_item": "electrokinetic_electrohack_3", "suppress_message": true, "force_equip": true } ]
         },
         {
-          "case": 15,
+          "case": 12,
           "effect": [ { "u_spawn_item": "electrokinetic_electrohack_4", "suppress_message": true, "force_equip": true } ]
         },
         {
-          "case": 20,
+          "case": 16,
           "effect": [ { "u_spawn_item": "electrokinetic_electrohack_5", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 20,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_6", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 24,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_7", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 28,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_8", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 32,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_9", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 36,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_10", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 40,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_11", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 44,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_12", "suppress_message": true, "force_equip": true } ]
         }
       ]
     }
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_HACKING_INTERFACE_UPDATER",
+    "condition": { "u_has_effect": "effect_electrokin_hacking_interface" },
+    "effect": [
+      { "run_eocs": [ "EOC_ELECTROKIN_REMOVE_HACKING_INTERFACE_REMOVE_ITEM", "EOC_ELECTROKIN_HACKING_INTERFACE_SWITCHER" ] },
+      { "run_eocs": "EOC_ELECTROKIN_HACKING_INTERFACE_UPDATER", "time_in_future": "15 seconds" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_REMOVE_HACKING_INTERFACE_REMOVE_ITEM",
+    "condition": { "u_has_effect": "effect_electrokin_hacking_interface" },
+    "effect": [
+      { "u_remove_item_with": "electrokinetic_electrohack_1" },
+      { "u_remove_item_with": "electrokinetic_electrohack_2" },
+      { "u_remove_item_with": "electrokinetic_electrohack_3" },
+      { "u_remove_item_with": "electrokinetic_electrohack_4" },
+      { "u_remove_item_with": "electrokinetic_electrohack_5" },
+      { "u_remove_item_with": "electrokinetic_electrohack_6" },
+      { "u_remove_item_with": "electrokinetic_electrohack_7" },
+      { "u_remove_item_with": "electrokinetic_electrohack_8" },
+      { "u_remove_item_with": "electrokinetic_electrohack_9" },
+      { "u_remove_item_with": "electrokinetic_electrohack_10" },
+      { "u_remove_item_with": "electrokinetic_electrohack_11" },
+      { "u_remove_item_with": "electrokinetic_electrohack_12" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_HACKING_INTERFACE_DRAIN",
     "condition": { "u_has_effect": "effect_electrokin_hacking_interface" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
+      {
+        "if": { "math": [ "u_spell_level('electrokinetic_hacking_interface') >= 1" ] },
+        "then": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('electrokinetic_hacking_interface')" ] },
+        "else": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('electrokinetic_hacking_interface_knack')" ] }
+      },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('electrokinetic_hacking_interface')", "+=", "psionic_power_experience_formula()" ] },
+      {
+        "if": { "math": [ "u_spell_level('electrokinetic_hacking_interface') >= 1" ] },
+        "then": { "math": [ "u_spell_exp('electrokinetic_hacking_interface') += psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('electrokinetic_hacking_interface_knack') += psionic_power_experience_formula()" ] }
+      },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_ELECTROKIN_HACKING_INTERFACE_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('electrokinetic_hacking_interface') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('electrokinetic_hacking_interface') * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -275,6 +347,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_nether_attunement_electrokinetic_power_drain" } },
+    "effect": [ { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_INITIATE_REAL" } ],
+    "false_effect": [ { "u_message": "The power you channel vanishes into nothingness.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_INITIATE_REAL",
     "condition": { "not": { "u_has_effect": "effect_electrokin_personal_battery" } },
     "effect": [
       { "u_message": "The hair on your body stands up on end.", "type": "good" },
@@ -344,11 +423,15 @@
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_GET_ITEM_COUNT" },
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_AMMEND_ITEM_COUNT" },
       {
-        "math": [
-          "u_electrokin_personal_battery_max_indv_power",
-          "=",
-          "floor(u_electrokin_personal_battery_power_count / u_electrokin_personal_battery_item_count)"
-        ]
+        "if": { "math": [ "u_electrokin_personal_battery_item_count > 0" ] },
+        "then": {
+          "math": [
+            "u_electrokin_personal_battery_max_indv_power",
+            "=",
+            "floor(u_electrokin_personal_battery_power_count / u_electrokin_personal_battery_item_count)"
+          ]
+        },
+        "else": { "math": [ "u_electrokin_personal_battery_max_indv_power = 0" ] }
       },
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_POWER_ITEMS" }
     ]
@@ -366,16 +449,11 @@
     "effect": [
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER" ] } ],
+        "search_data": [ { "is_chargeable": true } ],
         "true_eocs": [
           {
             "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_POWER_ITEMS_DISTRIBUTION",
-            "condition": {
-              "and": [
-                { "math": [ "n_val('power') < n_val('power_max')" ] },
-                { "math": [ "u_electrokin_personal_battery_power_count >= 1" ] }
-              ]
-            },
+            "condition": { "math": [ "u_electrokin_personal_battery_power_count >= 1" ] },
             "effect": [
               {
                 "if": { "math": [ "u_electrokin_personal_battery_max_indv_power >= 1" ] },
@@ -401,9 +479,9 @@
                   "min( n_val('power_max') - n_val('power'), u_electrokin_personal_battery_max_indv_power )"
                 ]
               },
-              { "math": [ "n_val('power')", "+=", "u_electrokin_personal_battery_power_count_used" ] },
+              { "math": [ "n_val('power') += u_electrokin_personal_battery_power_count_used" ] },
               {
-                "math": [ "u_electrokin_personal_battery_power_count", "-=", "u_electrokin_personal_battery_power_count_used" ]
+                "math": [ "u_electrokin_personal_battery_power_count -= u_electrokin_personal_battery_power_count_used" ]
               }
             ]
           }
@@ -419,11 +497,10 @@
     "effect": [
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true } ],
+        "search_data": [ { "is_chargeable": true } ],
         "true_eocs": [
           {
             "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_GET_ITEM_COUNT_2",
-            "condition": { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
             "effect": [ { "math": [ "u_electrokin_personal_battery_item_count++" ] } ]
           }
         ]
@@ -455,7 +532,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('electrokinetic_personal_battery')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('electrokinetic_personal_battery') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_DRAIN",
@@ -513,7 +590,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('electrokinetic_reduce_pain')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('electrokinetic_reduce_pain') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_ELECTROKIN_REDUCE_PAIN_DRAIN",
@@ -572,7 +649,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 6" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('electrokinetic_speed_boost')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('electrokinetic_speed_boost') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_ELECTROKIN_SPEED_BOOST_DRAIN",
@@ -636,7 +713,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 8" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('electrokinetic_lightning_aura')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('electrokinetic_lightning_aura') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_ELECTROKIN_LIGHTNING_AURA_DRAIN",

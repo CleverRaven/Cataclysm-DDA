@@ -2,7 +2,7 @@
   {
     "id": "labmap",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "handwritten note" },
     "description": "A small, meticulously folded piece of paper, filled with tiny handwriting and some surprisingly precise diagrams of subway tunnels, ventilation shafts, and… guard shifts?  You have the feeling they weren't supposed to write any of this stuff down.",
     "color": "blue",
@@ -26,7 +26,7 @@
   {
     "id": "militarymap",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "military operations map" },
     "description": "A printed topographical map of the local area.  Originally of military origin, it details the locations of evacuation centers and military facilities.  Using it will add points of interest to your map.",
     "color": "green",
@@ -40,7 +40,6 @@
         { "om_terrain": "bunker", "om_terrain_match_type": "TYPE" },
         "helipad_nw",
         { "om_terrain": "outpost", "om_terrain_match_type": "TYPE" },
-        { "om_terrain": "outpost_cross", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "silo", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "shelter", "om_terrain_match_type": "PREFIX" },
         "police",
@@ -52,7 +51,7 @@
   {
     "id": "survivormap",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "survivor's map" },
     "description": "A hand-drawn map of the local area.  Whoever created it has marked down the locations of nearby supply sources including gun stores and gas stations.  Using it will add points of interest to your map.",
     "color": "white",
@@ -67,7 +66,7 @@
         "s_grocery",
         "s_hunting",
         "mil_surplus",
-        "s_gas"
+        "Gas Station"
       ],
       "message": "You add roads and possible supply points to your map."
     }
@@ -75,7 +74,7 @@
   {
     "id": "roadmap",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "road map" },
     "description": "A road map for the local area.  Listing information on civic sites like hospitals and police stations, it can be used to add points of interest to your map.",
     "color": "yellow",
@@ -84,6 +83,7 @@
       "radius": 90,
       "terrain": [
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "hw", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "s_gas", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "s_gas_rural", "om_terrain_match_type": "TYPE" },
         "roadstop",
@@ -101,7 +101,7 @@
   {
     "id": "subwaymap",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "subway maintenance map" },
     "looks_like": "roadmap",
     "description": "A map of subway tunnels formerly used by public maintenance workers.  Using it will add subway lines and underground stations to your map.",
@@ -119,7 +119,7 @@
   {
     "id": "subwaystationmap",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "subway map" },
     "looks_like": "roadmap",
     "description": "A schematic diagram of local subway networks, too stylized to garter much useful information.  Using it will add subway stations to your map.",
@@ -134,7 +134,7 @@
   {
     "id": "sewermap",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "drainage system map" },
     "looks_like": "roadmap",
     "description": "A map of sewers formerly used by public maintenance workers.  Using it will add sewer systems and facilities to your map.",
@@ -155,7 +155,7 @@
   {
     "id": "trailmap",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "trail guide" },
     "description": "A printed guide to the best local trails.  It has general details about the trails, trailhead amenities, suggestions for the best thru-hikes, and advice on interacting with local wildlife in a responsible and respectful manner.",
     "color": "green",
@@ -169,7 +169,7 @@
   {
     "id": "touristmap",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "tourist guide" },
     "description": "This is glossy printed pamphlet for tourists that details local hotels and attractions.",
     "color": "blue",
@@ -193,7 +193,7 @@
   {
     "id": "restaurantmap",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "restaurant guide" },
     "description": "This is glossy printed pamphlet that details dining establishments in the local area.  Printed by the Chamber of Commerce, it lists the addresses of all the best diners and bars.  Using it will add points of interest to your map.",
     "color": "pink",
@@ -216,7 +216,7 @@
   {
     "id": "satellitemap",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "satellite map" },
     "description": "A printed satellite map of the local area.  Due to it's low quality and lack of map legend, you are unable to recognize most buildings.  Using it will add terrain and roads to your map.",
     "color": "light_gray",
@@ -239,7 +239,7 @@
   {
     "id": "urbexmap",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "urban explorer's map" },
     "description": "A printout of a local road map, with several buildings circled in red.  Using it will add roads and abandoned buildings to your map.",
     "color": "white",
@@ -266,9 +266,9 @@
   {
     "id": "restaurantbrochure",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "restaurant advertising brochure" },
-    "description": "A small brochure advertising for local restaurants with an address below each entry.  Using it will add roads an local restaurants, diners and bars to your map.",
+    "description": "A small brochure advertising for local restaurants with an address below each entry.  Using it will add roads and local restaurants, diners, and bars to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -283,15 +283,15 @@
         "s_diner",
         { "om_terrain": "bar", "om_terrain_match_type": "PREFIX" }
       ],
-      "message": "You add roads and local restaurants, diners and bars to your map."
+      "message": "You add roads and local restaurants, diners, and bars to your map."
     }
   },
   {
     "id": "grocerybrochure",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "food shopping advertising brochure" },
-    "description": "A small brochure advertising for local food shopping possibilities with an address below each entry.  Using it will add roads, local grocery, convenience stores and bakeries to your map.",
+    "description": "A small brochure advertising for local food shopping possibilities with an address below each entry.  Using it will add roads, local grocery and convenience stores, and bakeries to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -303,7 +303,7 @@
   {
     "id": "buylocalpamphlet",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "buy local pamphlet" },
     "description": "A small pamphlet advertising local goods and produce and places to purchase them.  Using it will add roads, markets, butchers, bakers and craft shops to your map.",
     "color": "light_blue",
@@ -324,9 +324,9 @@
   {
     "id": "getactivepamphlet",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "get active pamphlet" },
-    "description": "A small pamphlet advertising various local businesses encouraging you to get fit.  Using it will add roads, gyms and pools along with shops where you can buy sporting gear to your map.",
+    "description": "A small pamphlet advertising various local businesses encouraging you to get fit.  Using it will add roads, gyms, and pools along with shops where you can buy sporting gear to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -343,15 +343,15 @@
         "s_sports",
         "tennis_court"
       ],
-      "message": "You add roads, gyms and pools along with shops where you can buy sporting gear to your map."
+      "message": "You add roads, gyms, and pools along with shops where you can buy sporting gear to your map."
     }
   },
   {
     "id": "petpamphlet",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "pet pamphlet" },
-    "description": "A small pamphlet advertising the benefits of different pets and local pet related facilities and shops.  Using it will add roads, pet shops, animal shelters, parks, trailheads and vets to your map.",
+    "description": "A small pamphlet advertising the benefits of different pets and local pet related facilities and shops.  Using it will add roads, pet shops, animal shelters, parks, trailheads, and vets to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -367,15 +367,15 @@
         "animalshelter",
         "dog_park"
       ],
-      "message": "You add roads, pet shops, animal shelters, parks, trailheads and vets to your map."
+      "message": "You add roads, pet shops, animal shelters, parks, trailheads, and vets to your map."
     }
   },
   {
     "id": "nightlifepamphlet",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "nightlife pamphlet" },
-    "description": "A small pamphlet advertising local nightlife options.  Using it will add roads, bars, music venues, movie theaters and gambling halls to your map.",
+    "description": "A small pamphlet advertising local nightlife options.  Using it will add roads, bars, music venues, movie theaters, and gambling halls to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -389,15 +389,15 @@
         "car_theater",
         "gambling_hall"
       ],
-      "message": "You add roads, bars, music venues, movie theaters and gambling halls to your map."
+      "message": "You add roads, bars, music venues, movie theaters, and gambling halls to your map."
     }
   },
   {
     "id": "gunnutpamphlet",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "gun nut pamphlet" },
-    "description": "A small pamphlet advertising current shooting related events and giving directions to local shooting facilities and gun stores funded by Remington.  Using it will add roads, gun stores, shooting ranges, outdoorsman stores and any shows to your map.",
+    "description": "A small pamphlet advertising current shooting related events and giving directions to local shooting facilities and gun stores funded by Remington.  Using it will add roads, gun stores, shooting ranges, outdoorsman stores, and any shows to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -411,15 +411,15 @@
         "shootingrange",
         "gun show"
       ],
-      "message": "You add roads, gun stores, shooting ranges, outdoorsman stores and any shows to your map."
+      "message": "You add roads, gun stores, shooting ranges, outdoorsman stores, and any shows to your map."
     }
   },
   {
     "id": "historybrochure",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "history advertising brochure" },
-    "description": "A small brochure advertising for local museums, libraries and antique stores with an address below each entry.  Using it will add roads an local museums, libraries and antique stores to your map.",
+    "description": "A small brochure advertising for local museums, libraries and antique stores with an address below each entry.  Using it will add roads, local museums, libraries, and antique stores to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -432,15 +432,15 @@
         "s_library",
         { "om_terrain": "fort", "om_terrain_match_type": "PREFIX" }
       ],
-      "message": "You add roads and local museums, libraries and antique stores to your map."
+      "message": "You add roads, local museums, libraries, and antique stores to your map."
     }
   },
   {
     "id": "mallbrochure",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "mall advertising brochure" },
-    "description": "A small brochure advertising for local malls with an address below each entry.  Using it will add roads an local malls and strip malls to your map.",
+    "description": "A small brochure advertising for local malls with an address below each entry.  Using it will add roads, local malls, and strip malls to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -468,15 +468,15 @@
         "megastore_1_2_0",
         "megastore_2_2_0"
       ],
-      "message": "You add roads and local malls and strip malls to your map."
+      "message": "You add roads, local malls, and strip malls to your map."
     }
   },
   {
     "id": "furniturebrochure",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "furniture advertising brochure" },
-    "description": "A small brochure advertising for local home improvement stores and with an address below each entry.  Using it will add roads an local furniture, home improvement and gardening stores to your map.",
+    "description": "A small brochure advertising for local home improvement stores and with an address below each entry.  Using it will add roads, and local furniture, home improvement, and gardening stores to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -500,7 +500,7 @@
   {
     "id": "technologybrochure",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "technology advertising brochure" },
     "description": "A small brochure advertising for local electronic and hardware stores as well as arcades and internet cafes with an address below each entry.  Using it will add roads and local electronic and hardware stores as well as arcades and internet cafes to your map.",
     "color": "light_blue",
@@ -518,5 +518,116 @@
       ],
       "message": "You add roads and local electronic and hardware stores as well as arcades and internet cafes to your map."
     }
+  },
+  {
+    "type": "ITEM",
+    "id": "flyer_evac",
+    "name": "FEMA evacuation flyer",
+    "category": "maps",
+    "symbol": ",",
+    "color": "white",
+    "description": "A FEMA-issued flyer as to potential evacuations that'll occur and what to do when it starts.  Activate to look for the address of the nearest Refugee Center.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
+    "weight": "3 g",
+    "volume": "5 ml",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Study the flyer",
+      "description": "Activate to look for the address of the nearest Refugee Center",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_EVAC_FLYER",
+          "condition": {
+            "and": [
+              "u_can_see",
+              {
+                "or": [ { "u_has_flag": "READ_IN_DARKNESS" }, { "math": [ "u_val('fine_detail_vision_mod') <= 4" ] } ]
+              }
+            ]
+          },
+          "effect": {
+            "if": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" },
+            "then": {
+              "u_message": "You study the flyer.  It shows a similar set of directions to the ones you already have.  You cross-reference them and don't learn anything new.",
+              "popup": true
+            },
+            "else": [
+              {
+                "u_message": "You study the flyer.  One part of the flyer has a map and address for a nearby refugee center alongside minutia you no longer need trouble yourself with now that society has collapsed, like 'operating hours' and 'acceptable forms of ID'.  You take careful note of the map and address on the flyer and mark down the coordinates.",
+                "popup": true
+              },
+              { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" }
+            ]
+          },
+          "false_effect": { "u_message": "It's too dark to read." }
+        }
+      ]
+    }
+  },
+  {
+    "type": "ITEM",
+    "id": "xedra_field_notes",
+    "name": "field notebook",
+    "category": "maps",
+    "symbol": ",",
+    "color": "white",
+    "description": "A small notebook with \"X.E.D.R.A\" embossed on the cover.  It's filled with notes scribbled by pencil.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
+    "weight": "5 g",
+    "volume": "5 ml",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Study the notebook",
+      "description": "Activate to highlight interesting locations",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_XEDRA_FIELD_NOTES",
+          "condition": {
+            "and": [
+              "u_can_see",
+              {
+                "or": [ { "u_has_flag": "READ_IN_DARKNESS" }, { "math": [ "u_val('fine_detail_vision_mod') <= 4" ] } ]
+              }
+            ]
+          },
+          "effect": [
+            {
+              "if": {
+                "and": [
+                  { "compare_string": [ "yes", { "u_val": "knows_xedra_field_station_1" } ] },
+                  { "compare_string": [ "yes", { "u_val": "knows_xedra_field_station_2" } ] },
+                  { "compare_string": [ "yes", { "u_val": "knows_xedra_field_station_3" } ] }
+                ]
+              },
+              "then": { "u_message": "You study the notebook, but don't find anything interesting or new.", "popup": true },
+              "else": { "run_eocs": "EOC_XEDRA_FIELD_NOTES_PICK_QUEST" }
+            },
+            { "transform_item": "xedra_field_notes_used" }
+          ],
+          "false_effect": { "u_message": "It's too dark to read." }
+        }
+      ]
+    }
+  },
+  {
+    "type": "ITEM",
+    "id": "xedra_field_notes_used",
+    "name": { "str": "field notebook (used)", "str_pl": "field notebooks (used)" },
+    "category": "maps",
+    "symbol": ",",
+    "color": "white",
+    "description": "A small notebook with \"X.E.D.R.A\" embossed on the cover.  It's filled with notes scribbled by pencil.  You've already searched it for useful information.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
+    "weight": "5 g",
+    "volume": "5 ml"
   }
 ]

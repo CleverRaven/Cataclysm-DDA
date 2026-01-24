@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chair_treesung",
     "name": { "str": "treesung wooden chair" },
     "copy-from": "chair_wood",
@@ -8,7 +8,7 @@
     "color": "green"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wardrobe_treesung",
     "name": { "str": "treesung wardrobe" },
     "description": "A very large wooden cabinet for storing clothes, effectively an upright closet.  It's all made of a single, solid piece of wood, with twists and curves like it grew in place rather than being made.",
@@ -22,7 +22,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "500 L", "max_contains_weight": "400 kg" } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "table_treesung",
     "copy-from": "w_table",
     "name": { "str": "treesung wooden table" },
@@ -31,7 +31,7 @@
     "symbol": "0"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bedframe_treesung",
     "name": { "str": "treesung bed frame" },
     "description": "A sturdy wooden bed frame built to hold most standard mattresses.  It's all made of a single, solid piece of wood, with twists and curves like it grew in place rather than being made.",

@@ -3,28 +3,28 @@
     "type": "effect_on_condition",
     "id": "EOC_PSI_PRACTICE_FOCUS_MOD",
     "condition": { "math": [ "u_val('focus') >= 75" ] },
-    "effect": [ { "math": [ "u_val('focus')", "-=", "50" ] } ],
+    "effect": [ { "math": [ "u_val('focus') -= 50" ] } ],
     "false_effect": [ { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD_2" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_PRACTICE_FOCUS_MOD_2",
     "condition": { "math": [ "u_val('focus') >= 50" ] },
-    "effect": [ { "math": [ "u_val('focus')", "-=", "25" ] } ],
+    "effect": [ { "math": [ "u_val('focus') -= 25" ] } ],
     "false_effect": [ { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD_3" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_PRACTICE_FOCUS_MOD_3",
     "condition": { "math": [ "u_val('focus') >= 34" ] },
-    "effect": [ { "math": [ "u_val('focus')", "-=", "10" ] } ],
+    "effect": [ { "math": [ "u_val('focus') -= 10" ] } ],
     "false_effect": [ { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD_4" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_PRACTICE_FOCUS_MOD_4",
     "condition": { "math": [ "u_val('focus') >= 30" ] },
-    "effect": [ { "math": [ "u_val('focus')", "-=", "5" ] } ]
+    "effect": [ { "math": [ "u_val('focus') -= 5" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -84,7 +84,8 @@
         "TELEKINETIC",
         "TELEPATH",
         "TELEPORTER",
-        "VITAKINETIC"
+        "VITAKINETIC",
+        "PSYCHIC_KNACK"
       ]
     },
     "deactivate_condition": {
@@ -101,7 +102,8 @@
               "TELEKINETIC",
               "TELEPATH",
               "TELEPORTER",
-              "VITAKINETIC"
+              "VITAKINETIC",
+              "PSYCHIC_KNACK"
             ]
           }
         }
@@ -113,9 +115,12 @@
     "type": "effect_on_condition",
     "id": "EOC_MOM_GAME_ONGOING_GRANT_BIOKINETIC_CRAFTING_PROFICIENCY",
     "recurrence": 1,
-    "condition": { "u_has_trait": "BIOKINETIC" },
+    "condition": { "or": [ { "u_has_trait": "BIOKINETIC" }, { "test_eoc": "EOC_CONDITION_MOM_QUALIFY_FOR_BIOKINETIC_KNACK_CRAFTING" } ] },
     "deactivate_condition": {
-      "or": [ { "u_has_proficiency": "prof_psionic_minimum_requirements_biokinesis" }, { "not": { "u_has_trait": "BIOKINETIC" } } ]
+      "or": [
+        { "u_has_proficiency": "prof_psionic_minimum_requirements_biokinesis" },
+        { "not": { "u_has_any_trait": [ "BIOKINETIC", "PSYCHIC_KNACK" ] } }
+      ]
     },
     "effect": [
       {
@@ -127,11 +132,13 @@
     "type": "effect_on_condition",
     "id": "EOC_MOM_GAME_ONGOING_GRANT_PYROKINETIC_CRAFTING_PROFICIENCY",
     "recurrence": 1,
-    "condition": { "u_has_trait": "PYROKINETIC" },
+    "condition": {
+      "or": [ { "u_has_trait": "PYROKINETIC" }, { "test_eoc": "EOC_CONDITION_MOM_QUALIFY_FOR_PYROKINETIC_KNACK_CRAFTING" } ]
+    },
     "deactivate_condition": {
       "or": [
         { "u_has_proficiency": "prof_psionic_minimum_requirements_pyrokinesis" },
-        { "not": { "u_has_trait": "PYROKINETIC" } }
+        { "not": { "u_has_any_trait": [ "PYROKINETIC", "PSYCHIC_KNACK" ] } }
       ]
     },
     "effect": [
@@ -154,6 +161,25 @@
     "effect": [
       {
         "math": [ "u_proficiency('prof_psionic_minimum_requirements_teleportation', 'format': 'percent', 'direct': true) += 100" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_GAME_ONGOING_GRANT_VITAKINETIC_CRAFTING_PROFICIENCY",
+    "recurrence": 1,
+    "condition": {
+      "or": [ { "u_has_trait": "VITAKINETIC" }, { "test_eoc": "EOC_CONDITION_MOM_QUALIFY_FOR_VITAKINETIC_KNACK_CRAFTING" } ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "u_has_proficiency": "prof_psionic_minimum_requirements_vitakinesis" },
+        { "not": { "u_has_any_trait": [ "VITAKINETIC", "PSYCHIC_KNACK" ] } }
+      ]
+    },
+    "effect": [
+      {
+        "math": [ "u_proficiency('prof_psionic_minimum_requirements_vitakinesis', 'format': 'percent', 'direct': true) += 100" ]
       }
     ]
   }

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "MISSION_REACH_SPACEPORT",
+    "type": "mission_definition",
+    "name": { "str": "Reach the spaceport" },
+    "goal": "MGOAL_GO_TO",
+    "description": "You spotted a spaceport in the distance.  You should head there to see if you can find a way off this planet.",
+    "difficulty": 0,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "land_pad_outpost_a1", "om_special": "landing_pad", "reveal_radius": 5 } }
+  }
+]

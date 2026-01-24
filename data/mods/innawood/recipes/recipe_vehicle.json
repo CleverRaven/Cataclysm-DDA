@@ -15,7 +15,7 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "pipe", 16 ] ],
-      [ [ "scrap", 90 ], [ "steel_chunk", 30 ], [ "steel_lump", 10 ] ],
+      [ [ "scrap", 90 ], [ "steel_chunk_any", 30, "LIST" ], [ "steel_lump_any", 10, "LIST" ] ],
       [ [ "chain", 4 ] ],
       [ [ "spring", 4 ] ],
       [ [ "30gal_drum", 3 ] ],
@@ -41,7 +41,7 @@
     "autolearn": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
-    "using": [ [ "soldering_standard", 4 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "soldering_standard", 4 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "cable", 4 ] ], [ [ "makeshift_transformer", 1 ] ] ]
@@ -60,7 +60,7 @@
     "autolearn": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
-    "using": [ [ "soldering_standard", 4 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "soldering_standard", 4 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "cable", 30 ] ], [ [ "makeshift_transformer", 4 ] ] ]

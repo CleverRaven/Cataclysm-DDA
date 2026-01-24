@@ -2,11 +2,14 @@
 
 #include <cstddef>
 
+#include "coordinates.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_stdlib.h"
 #include "input_enums.h"
+#include "ret_val.h"
 #include "text.h"
 #include "translations.h"
+#include "try_parse_integer.h"
 #include "uilist.h"
 #include "ui_manager.h"
 #include "uistate.h"
@@ -175,7 +178,26 @@ static int input_callback( ImGuiInputTextCallbackData *data )
         }
     }
 
+    if( data->EventFlag == ImGuiInputTextFlags_CallbackAlways && popup->want_clear_text() ) {
+        // Only called when popup->text is empty
+        data->BufTextLen = 0;
+        data->SelectionStart = 0;
+        data->SelectionEnd = 0;
+        data->CursorPos = 0;
+        data->Buf[0] = '\000';
+        data->BufDirty = true;
+    }
+
     return 0;
+}
+
+bool string_input_popup_imgui::want_clear_text()
+{
+    if( do_clear_text ) {
+        do_clear_text = false;
+        return true;
+    }
+    return false;
 }
 
 void string_input_popup_imgui::draw_input_control()
@@ -184,6 +206,10 @@ void string_input_popup_imgui::draw_input_control()
 
     if( !is_uilist_history ) {
         flags |= ImGuiInputTextFlags_CallbackHistory;
+    }
+
+    if( do_clear_text ) {
+        flags |= ImGuiInputTextFlags_CallbackAlways;
     }
 
     // shrink width of input field if we only allow short inputs
@@ -273,7 +299,7 @@ void string_input_popup_imgui::update_input_history( ImGuiInputTextCallbackData 
         if( history_index >= static_cast<int>( hist.size() ) ) {
             return;
         } else if( history_index == 0 ) {
-            session_input = text;
+            session_input.assign( data->Buf, data->BufTextLen );
 
             //avoid showing the same result twice (after reopen filter window without reset)
             if( hist.size() > 1 && session_input == hist.back() ) {
@@ -282,8 +308,7 @@ void string_input_popup_imgui::update_input_history( ImGuiInputTextCallbackData 
         }
     } else {
         if( history_index == 1 ) {
-            text = session_input;
-            ::set_text( data, text );
+            ::set_text( data, session_input );
             //show initial string entered and 'return'
             history_index = 0;
             return;
@@ -293,8 +318,8 @@ void string_input_popup_imgui::update_input_history( ImGuiInputTextCallbackData 
     }
 
     history_index += up ? 1 : -1;
-    text = hist[hist.size() - history_index];
-    ::set_text( data, text );
+    const std::string &new_text = hist[hist.size() - history_index];
+    ::set_text( data, new_text );
 }
 
 void string_input_popup_imgui::add_to_history( const std::string &value ) const
@@ -328,7 +353,7 @@ std::string string_input_popup_imgui::query()
             // non-uilist history is handled inside input callback
             show_history();
         } else if( action == "TEXT.CLEAR" ) {
-            text.clear();
+            do_clear_text = true;
         }
 
         // mouse click on x to close leads here
@@ -339,6 +364,22 @@ std::string string_input_popup_imgui::query()
 
     is_cancelled = true;
     return old_input;
+}
+
+std::optional<tripoint_abs_omt> string_input_popup_imgui::query_coordinate( bool loop )
+{
+    do {
+        const std::string &queried_string = query();
+        ret_val<tripoint_abs_omt> result = try_parse_coordinate_abs( queried_string );
+        if( cancelled() || queried_string.empty() ) {
+            return std::nullopt;
+        }
+        if( result.success() ) {
+            return result.value();
+        }
+    } while( loop );
+
+    return tripoint_abs_omt::zero;
 }
 
 void string_input_popup_imgui::use_uilist_history( bool use_uilist )

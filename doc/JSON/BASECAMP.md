@@ -1,3 +1,27 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Basecamp](#basecamp)
+  - [Recommended reading](#recommended-reading)
+  - [Adding alternate basecamp upgrade paths](#adding-alternate-basecamp-upgrade-paths)
+  - [recipe JSONs](#recipe-jsons)
+    - [blueprint requires, provides, and excludes](#blueprint-requires-provides-and-excludes)
+    - [Sample recipe JSON](#sample-recipe-json)
+  - [mapgen update JSON](#mapgen-update-json)
+    - [Sample mapgen update JSON](#sample-mapgen-update-json)
+    - [Parametric mapgen](#parametric-mapgen)
+  - [Recipe groups](#recipe-groups)
+    - [Upgrade Paths and Expansions](#upgrade-paths-and-expansions)
+      - [Examples](#examples)
+  - [Sample basecamp upgrade path](#sample-basecamp-upgrade-path)
+  - [Modular Basecamp conventions](#modular-basecamp-conventions)
+    - [Layout](#layout)
+    - [Naming scheme](#naming-scheme)
+- [Adding basecamp expansions](#adding-basecamp-expansions)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Basecamp
 
 ## Recommended reading
@@ -64,7 +88,7 @@ Provides `"id"`  | Meaning
 `blueprint_provides` can also be used to name objects from `recipe_group.json`. The recipes will be craftable by NPCs at that expansion, allowing the creation of custom recipes that can be performed exclusively at faction camps.
 
 ### Sample recipe JSON
-```JSON
+```jsonc
   {
     "type": "recipe",
     "result": "faction_base_camp_8",
@@ -102,16 +126,14 @@ the `"blueprint_provides"` of the previous upgrade missions.
 
 ### Sample mapgen update JSON
 
-```json
+```jsonc
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_field_camp_7",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "basecamp_large_tent_east" ], "x": 2, "y": 10 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "basecamp_large_tent_east",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -149,10 +171,9 @@ translatable) descriptions of the parameter options.  Those go in the recipe.
 
 For example, suppose this was your mapgen definition:
 
-```json
+```jsonc
 {
   "type": "mapgen",
-  "method": "json",
   "nested_mapgen_id": "fbmh_2_generic_room_1_1",
   "object": {
     "parameters": {
@@ -185,7 +206,7 @@ for that parameter, and values are the human-readable descriptions of what that
 parameter means.  These descriptions will appear in the basecamp upgrade menu.
 For example:
 
-```json
+```jsonc
 {
   "type": "recipe",
   "activity_level": "MODERATE_EXERCISE",
@@ -217,7 +238,7 @@ the needs must be autocalculated.
 Recipe groups serve two purposes: they indicate what recipes can produced by the camp after an upgrade mission is completed, and they indicate what upgrade paths are available and where camps can be placed.
 
 There are two special recipe groups, `"all_faction_base_types"` and `"all_faction_base_expansions"`.  They both look like this:
-```json
+```jsonc
   {
     "type": "recipe_group",
     "name": "all_faction_base_expansions",
@@ -249,7 +270,7 @@ Each entry in the `"recipes"` array must be a dictionary with the `"id"`, `"desc
 
 Camp that can be made anywhere
 
-```json
+```jsonc
     {
         "id": "faction_base_barebones_0",
         "description": "Barebones Camp",
@@ -259,7 +280,7 @@ Camp that can be made anywhere
 
 Camp that can be placed on any overmap terrain starting `farmland_` or `hayfield_` or that match `"farmland"` or `"hayfield"` exactly
 
-```json
+```jsonc
     {
         "id": "faction_base_farmer_0",
         "description": "Farmer Camp",
@@ -272,7 +293,7 @@ Camp that can be placed on any overmap terrain starting `farmland_` or `hayfield
 
 Camp that can only be placed on `"omt_that_varies_in_shape"` if the parameter `"shape"` is set to either `"circle"` or `"circle_alt"` (but not say `"rectangle"` that would want different map updates)
 
-```json
+```jsonc
     {
         "id": "faction_base_circle_0",
         "description": "Farmer Camp",

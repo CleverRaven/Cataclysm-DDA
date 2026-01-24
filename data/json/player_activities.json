@@ -82,6 +82,16 @@
     "auto_needs": true
   },
   {
+    "id": "ACT_MULTIPLE_STUDY",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "studying",
+    "based_on": "neither",
+    "can_resume": false,
+    "multi_activity": true,
+    "auto_needs": true
+  },
+  {
     "id": "ACT_MOP",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
@@ -370,14 +380,6 @@
     "based_on": "speed"
   },
   {
-    "id": "ACT_TRAIN_TEACHER",
-    "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
-    "verb": "teaching",
-    "based_on": "speed",
-    "can_resume": false
-  },
-  {
     "id": "ACT_SOCIALIZE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -549,14 +551,6 @@
     "auto_needs": true
   },
   {
-    "id": "ACT_ARMOR_LAYERS",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "fiddling with your clothes",
-    "based_on": "neither",
-    "can_resume": false
-  },
-  {
     "id": "ACT_START_FIRE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -628,7 +622,7 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "using the ATM",
-    "based_on": "neither",
+    "based_on": "time",
     "can_resume": false
   },
   {
@@ -705,6 +699,15 @@
     "activity_level": "NO_EXERCISE",
     "verb": "modifying tool",
     "based_on": "speed",
+    "can_resume": false
+  },
+  {
+    "id": "ACT_WAIT_FOLLOWERS",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "waiting for followers to catch up",
+    "rooted": true,
+    "based_on": "time",
     "can_resume": false
   },
   {
@@ -925,26 +928,6 @@
     "can_resume": false
   },
   {
-    "id": "ACT_EAT_MENU",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "eating",
-    "rooted": true,
-    "based_on": "neither",
-    "ignored_distractions": [ "hunger", "thirst" ],
-    "can_resume": false
-  },
-  {
-    "id": "ACT_CONSUME_FOOD_MENU",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "consuming",
-    "rooted": true,
-    "based_on": "neither",
-    "ignored_distractions": [ "hunger", "thirst" ],
-    "can_resume": false
-  },
-  {
     "id": "ACT_SPELLCASTING",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
@@ -961,24 +944,6 @@
     "auto_needs": true,
     "rooted": true,
     "based_on": "time",
-    "can_resume": false
-  },
-  {
-    "id": "ACT_CONSUME_DRINK_MENU",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "drinking",
-    "based_on": "neither",
-    "ignored_distractions": [ "hunger", "thirst" ],
-    "can_resume": false
-  },
-  {
-    "id": "ACT_CONSUME_MEDS_MENU",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "using drugs",
-    "based_on": "neither",
-    "ignored_distractions": [ "hunger", "thirst" ],
     "can_resume": false
   },
   {
@@ -1128,11 +1093,40 @@
     "interruptable_with_kb": false
   },
   {
+    "id": "ACT_PHONE_RECOVERY_BASIC",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "recovering",
+    "based_on": "time",
+    "interruptable": true,
+    "can_resume": false,
+    "interruptable_with_kb": true,
+    "completion_eoc": "EOC_SMARTPHONE_RECOVERY_BASIC_2"
+  },
+  {
+    "id": "ACT_PHONE_RECOVERY_ADVANCED",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "recovering",
+    "based_on": "time",
+    "interruptable": true,
+    "can_resume": false,
+    "interruptable_with_kb": true,
+    "completion_eoc": "EOC_SMARTPHONE_RECOVERY_ADVANCED_2"
+  },
+  {
     "id": "ACT_SALINE_INFUSE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "infusing saline",
     "based_on": "time",
     "do_turn_eoc": "SALINE_INFUSION_eff"
+  },
+  {
+    "id": "ACT_MORTAR_AIMING",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "based_on": "speed",
+    "verb": "aiming the artillery"
   }
 ]

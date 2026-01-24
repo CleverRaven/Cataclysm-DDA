@@ -1,8 +1,38 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Creating missions](#creating-missions)
+    - [type](#type)
+    - [id](#id)
+    - [name](#name)
+    - [deadline](#deadline)
+    - [description](#description)
+    - [urgent](#urgent)
+    - [goal](#goal)
+    - [monster_species](#monster_species)
+    - [monster_type](#monster_type)
+    - [monster_kill_goal](#monster_kill_goal)
+    - [goal_condition](#goal_condition)
+    - [invisible_on_complete](#invisible_on_complete)
+    - [dialogue](#dialogue)
+    - [start](#start)
+    - [start / end / fail effects](#start--end--fail-effects)
+    - [origin](#origin)
+      - [effect](#effect)
+      - [reveal_om_ter](#reveal_om_ter)
+      - [assign_mission_target](#assign_mission_target)
+      - [Variable Object](#variable-object)
+      - [update_mapgen](#update_mapgen)
+  - [Adding new missions to NPC dialogue](#adding-new-missions-to-npc-dialogue)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Creating missions
 
 NPCs can assign missions to the player.  There is a fairly regular structure for this:
 
-```JSON
+```jsonc
   {
     "id": "MISSION_GET_BLACK_BOX_TRANSCRIPT",
     "type": "mission_definition",
@@ -61,7 +91,7 @@ Supports variable objects and math expressions.
 Not required, but it's strongly recommended that you summarize all relevant info for the mission.
 You may refer to mission end effects of the "u_buy_item" type, as long as they do not come at a
 cost to the player. See the example below:
-```JSON
+```jsonc
     "id": "MISSION_EXAMPLE_TOKENS",
     "type": "mission_definition",
     "name": "Murder Money",
@@ -194,7 +224,7 @@ Identifier             | Description
 `offset_x`,<br\>`offset_y`,<br\>`offset_z` | After finding or creating `om_terrain`, offset the mission target terrain by the offsets in overmap terrain coordinates.
 
 **example**
-```JSON
+```jsonc
 {
   "assign_mission_target": {
     "om_terrain": "necropolis_c_44",
@@ -256,7 +286,7 @@ values.  This can change the mission target's overmap terrain type away from `om
 
 
 #### Variable Object
-Can be several differnet types of thing.  See the [NPCS](NPCS.md) document, section `Variable Object` for full details.
+Can be several differnet types of thing.  See the [NPCS](NPCs.md) document, section `Variable Object` for full details.
 
 #### update_mapgen
 The `update_mapgen` object or array provides a way to modify existing overmap tiles (including the ones created by "assign_mission_target") to add mission specific monsters, NPCs, computers, or items.
@@ -271,7 +301,7 @@ An NPC, monster, or computer placed using `update_mapgen` will be the target of 
 
 ## Adding new missions to NPC dialogue
 In order to assign missions to NPCs, the first step is to find that NPC's definition.  For unique NPCs this is usually at the top of the npc's JSON file and looks something like this:
-```JSON
+```jsonc
 {
   "type": "npc",
   "id": "refugee_beggar2",
@@ -303,7 +333,7 @@ Either of these options will allow the player to do normal mission management di
 
 This is an example of how a custom mission inquiry might appear.  This will only appear in the NPC's dialogue
 options if the player has already been assigned a mission.
-```JSON
+```jsonc
 {
   "type": "talk_topic",
   "//": "Generic responses for Old Guard Necropolis NPCs that can have missions",

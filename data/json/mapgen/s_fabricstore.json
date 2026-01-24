@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_fabricstore" ],
     "//": "Fabric Outlet",
     "object": {
@@ -43,7 +42,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_fabricstore_roof",
     "object": {
       "fill_ter": "t_flat_roof",

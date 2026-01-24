@@ -116,7 +116,7 @@ int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::st
             tempstack.push_back( *it );
             it = stack.erase( it );
         } else {
-            it++;
+            ++it;
         }
     }
 
@@ -138,7 +138,7 @@ int list_filter_low_priority( std::vector<map_item_stack> &stack, const int star
             tempstack.push_back( *it );
             it = stack.erase( it );
         } else {
-            it++;
+            ++it;
         }
     }
 

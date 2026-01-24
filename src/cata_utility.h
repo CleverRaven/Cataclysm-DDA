@@ -4,28 +4,31 @@
 
 #include <algorithm>
 #include <array>
-#include <cstddef>
 #include <ctime>
+#include <filesystem>
 #include <functional>
-#include <iosfwd>
+#include <limits>
 #include <map>
 #include <memory>
 #include <numeric>
 #include <optional>
-#include <ostream>
 #include <sstream>
 #include <string> // IWYU pragma: keep
+#include <string_view>
 #include <type_traits>
 #include <unordered_set>
 #include <utility>
+#include <variant>
 #include <vector>
 
 #include "enums.h"
-#include "path_info.h"
 
 class JsonOut;
 class JsonValue;
+class cata_path;
 class translation;
+class zzip;
+class zzip_stack;
 
 /**
  * Greater-than comparison operator; required by the sort interface
@@ -362,15 +365,28 @@ bool read_from_file_optional_json( const cata_path &path,
 /**@}*/
 
 /**
- * Try to open and provide a std::istream for the given, possibly, gzipped, file.
- *
- * The file is opened for reading (binary mode) and tested to see if it is compressed.
- * Compressed files are decompressed into a std::stringstream and returned.
- * Uncompressed files are returned as normal lazy ifstreams.
- * Any exceptions during reading, including failing to open the file, are reported as dbgmsg.
- *
- * @return A unique_ptr of the appropriate istream, or nullptr on failure.
+ * Like the above but for reading files from zzips. Allows for identical exception and
+ * error handling logic.
  */
+/**@{*/
+bool read_from_zzip_optional( const zzip &z,
+                              const std::filesystem::path &file,
+                              const std::function<void( std::string_view )> &reader );
+bool read_from_zzip_optional( const std::shared_ptr<zzip_stack> &z,
+                              const std::filesystem::path &file,
+                              const std::function<void( std::string_view )> &reader );
+/**@}*/
+
+/**
+* Try to open and provide a std::istream for the given, possibly, gzipped, file.
+*
+* The file is opened for reading (binary mode) and tested to see if it is compressed.
+* Compressed files are decompressed into a std::stringstream and returned.
+* Uncompressed files are returned as normal lazy ifstreams.
+* Any exceptions during reading, including failing to open the file, are reported as dbgmsg.
+*
+* @return A unique_ptr of the appropriate istream, or nullptr on failure.
+*/
 /**@{*/
 std::unique_ptr<std::istream> read_maybe_compressed_file( const std::string &path );
 std::unique_ptr<std::istream> read_maybe_compressed_file( const std::filesystem::path &path );
@@ -398,16 +414,26 @@ std::istream &safe_getline( std::istream &ins, std::string &str );
  *
  * @param str the original string to be processed
  * @param f the function that guides how to mess the message
- * f() will be called for each character (lingual, not byte):
- * [-] f() == -1 : nothing will be done
- * [-] f() == 0  : the said character will be replace by a random character
- * [-] f() == ch : the said character will be replace by ch
+ * f() will be called for each character (lingual, not byte) and returns either:
+ * [-] do_not_replace_character : the said character will be kept as is
+ * [-] replace_character_with {r} : the said character will be replaced by the given character r
+ * [-] replace_character_randomly : the said character will be replaced by a random character
+  *    chosen from a predefined set of gibberish characters, depending on the character width
  *
  * @return The processed string
  *
  */
 
-std::string obscure_message( const std::string &str, const std::function<char()> &f );
+struct do_not_replace_character {};
+struct replace_character_with {
+    char ch;
+};
+struct replace_character_randomly {};
+using obscure_message_action =
+    std::variant<do_not_replace_character, replace_character_with, replace_character_randomly>;
+
+std::string obscure_message( std::string_view str,
+                             const std::function<obscure_message_action()> &f );
 
 /**
  * @group JSON (de)serialization wrappers.
@@ -462,7 +488,7 @@ inline bool string_ends_with( std::string_view s1, std::string_view s2 )
            s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
 }
 
-bool string_empty_or_whitespace( const std::string &s );
+bool string_empty_or_whitespace( std::string_view s );
 
 /** strcmp, but for string_view objects.  In C++20 this can be replaced with
  * operator<=> */
@@ -753,6 +779,6 @@ struct overloaded : Ts... {
 template <class... Ts>
 explicit overloaded( Ts... ) -> overloaded<Ts...>;
 
-std::optional<double> svtod( std::string_view token );
+std::optional<double> svtod( std::string_view token, bool debugmsg_on_fail = true );
 
 #endif // CATA_SRC_CATA_UTILITY_H

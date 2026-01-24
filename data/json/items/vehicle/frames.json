@@ -1,14 +1,14 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "foldframe",
     "name": { "str": "foldable light frame" },
-    "description": "A small, foldable lightweight frame made from pipework.",
+    "description": "A light metal framework, designed to fold.  Other vehicle components can be mounted on it.  If all the frames and components of a vehicle are foldable, the vehicle can be folding into a small package and picked up as a normal item.",
     "weight": "5000 g",
-    "to_hit": -3,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "color": "light_gray",
     "symbol": "]",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "techniques": [ "DEF_DISARM" ],
     "volume": "10 L",
     "category": "veh_parts",
@@ -17,29 +17,29 @@
     "melee_damage": { "bash": 15 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "xlframe",
     "name": { "str": "extra-light frame" },
-    "description": "A small, lightweight frame made from pipework.  Useful for crafting.",
+    "description": "A small, lightweight frame made from pipework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "material": [ "aluminum" ],
     "weight": "1677 g",
     "copy-from": "foldframe"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "foldxlframe",
     "name": { "str": "foldable extra-light frame" },
-    "description": "A small, foldable lightweight frame made from aluminum.",
+    "description": "A small, lightweight frame made from pipework, designed to fold.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  If all the frames and components of a vehicle are foldable, the vehicle can be folding into a small package and picked up as a normal item.",
     "copy-from": "xlframe"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "frame",
     "name": { "str": "steel frame" },
-    "description": "A large frame made of steel.  Useful for crafting.",
+    "description": "A metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "material": [ "lc_steel" ],
     "weight": "20000 g",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "color": "cyan",
     "volume": "15 L",
     "price": "55 USD",
@@ -48,12 +48,12 @@
     "melee_damage": { "bash": 20 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hdframe",
     "name": { "str": "heavy-duty frame" },
-    "description": "A large, reinforced steel frame, used in military vehicle construction.",
+    "description": "A large, reinforced steel frame, used in military vehicle construction.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Increased mass makes it more resistant to damage in collisions.",
     "weight": "100000 g",
-    "to_hit": -6,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "color": "green",
     "material": [ "lc_steel" ],
     "volume": "20 L",
@@ -64,12 +64,12 @@
     "melee_damage": { "bash": 25 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "frame_wood",
     "name": { "str": "wooden frame" },
-    "description": "A large frame made of wood.  Useful for crafting.",
+    "description": "A wooden framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Wood and nail construction means it can be constructed and added to the vehicle without welding tools.",
     "weight": "8000 g",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "color": "brown",
     "material": [ "wood" ],
     "volume": "15 L",
@@ -79,10 +79,10 @@
     "melee_damage": { "bash": 16, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "foldwoodframe",
     "name": { "str": "foldable wooden frame" },
-    "description": "A small, foldable frame made from scrap wood.",
+    "description": "A light wooden framework, designed to fold.  Other vehicle components can be mounted on it.  If all the frames and components of a vehicle are foldable, the vehicle can be folding into a small package and picked up as a normal item.",
     "weight": "4000 g",
     "color": "brown",
     "material": [ "wood" ],
@@ -90,12 +90,12 @@
     "copy-from": "foldframe"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "frame_wood_light",
     "name": { "str": "light wooden frame" },
-    "description": "A small frame made of a few pieces of wood, held together by rope.  Useful for crafting.",
+    "description": "A small frame made of a few pieces of wood, held together by rope.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Wood and rope constructions means it can be constructed and added to the vehicle without welding tools or nails.",
     "weight": "4000 g",
-    "to_hit": -5,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "color": "brown",
     "material": [ "wood" ],
     "volume": "8750 ml",
@@ -105,12 +105,12 @@
     "melee_damage": { "bash": 8, "cut": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "frame_wood_deck",
     "name": { "str": "skateboard deck" },
-    "description": "A small skateboard frame made of thin layers of wood glued together.",
+    "description": "A small skateboard frame made of thin layers of wood glued together.  Other skateboard components can be mounted on it.",
     "weight": "1500 g",
-    "to_hit": -5,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "color": "brown",
     "material": [ "wood" ],
     "volume": "8750 ml",
@@ -121,7 +121,7 @@
     "copy-from": "foldframe"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "frame_concrete_mix",
     "name": { "str_sp": "concrete mixer chassis" },
     "description": "The chassis of a concrete mixer.",

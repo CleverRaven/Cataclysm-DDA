@@ -1,7 +1,8 @@
 [
   {
     "id": "integrated_hand_closedfist",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "callused hands" },
     "description": "You've dealt so many blows your hands are rough with calluses.  The bottoms of your hand can deal blows hard enough to hammer or finely crush objects.",

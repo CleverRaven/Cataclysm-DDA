@@ -105,18 +105,10 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "sewing_standard", 190 ], [ "surface_heat", 60 ], [ "clasps", 4 ] ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water", 30 ], [ "water_clean", 30 ] ],
-      [
-        [ "wax", 6 ],
-        [ "tallow", 24 ],
-        [ "mutant_tallow", 24 ],
-        [ "human_tallow", 24 ],
-        [ "demihuman_tallow", 24 ],
-        [ "tallow_tainted", 24 ],
-        [ "vinegar", 30 ],
-        [ "pine_bough", 60 ]
-      ],
+      [ [ "wax", 6 ], [ "any_tallow", 60, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
       [ [ "salt", 150 ] ],
       [ [ "leather", 105 ], [ "tanned_hide", 17 ] ],
       [ [ "cotton_patchwork", 18 ] ]
@@ -184,7 +176,7 @@
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "water", 30 ], [ "water_clean", 30 ] ],
-      [ [ "wax", 6 ], [ "any_tallow", 24, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
+      [ [ "wax", 6 ], [ "any_tallow", 60, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
       [ [ "salt", 150 ] ],
       [ [ "bone_sturdy", 39, "LIST" ] ],
       [ [ "leather", 105 ], [ "tanned_hide", 17 ] ]
@@ -263,7 +255,7 @@
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" }
     ],
-    "components": [ [ [ "steel_chunk", 60 ], [ "scrap", 180 ] ], [ [ "leather_armor_elephant", 1 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 60, "LIST" ], [ "scrap", 180 ] ], [ [ "leather_armor_elephant", 1 ] ] ]
   },
   {
     "result": "bronze_armor_elephant",
@@ -282,6 +274,7 @@
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_articulation" }
     ]
   },

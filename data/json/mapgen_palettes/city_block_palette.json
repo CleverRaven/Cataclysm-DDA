@@ -87,7 +87,7 @@
       "Q": [
         { "item": "preserved_food", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "dry_goods", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "pet_food", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "pet_food_in_container", "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "condiments", "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "pantry_liquids", "chance": 10 }
       ],
@@ -125,9 +125,9 @@
       "n": { "item": "SUS_kitchen_sink", "chance": 10, "repeat": [ 1, 2 ] },
       "i": { "item": "SUS_oven", "chance": 25, "repeat": [ 1, 2 ] },
       "l": { "item": "SUS_fridge", "chance": 30, "repeat": [ 1, 2 ] },
-      "Y": { "item": "SUS_trash_trashcan_public", "chance": 30, "repeat": [ 1, 2 ] },
-      "q": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 1, 4 ] },
-      "p": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 1, 4 ] },
+      "Y": { "item": "SUS_trash_trashcan_public", "chance": 30 },
+      "q": { "item": "SUS_trash_dumpster", "chance": 70 },
+      "p": { "item": "SUS_trash_dumpster", "chance": 70 },
       "R": { "item": "homebooks", "chance": 30, "repeat": [ 1, 2 ] },
       "t": { "item": "SUS_toilet", "chance": 50 }
     }

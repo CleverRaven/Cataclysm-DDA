@@ -7,7 +7,7 @@
     "entries": [
       {
         "distribution": [
-          { "item": "cig", "prob": 70, "count": [ 1, 10 ], "container-item": "null", "entry-wrapper": "box_cigarette" },
+          { "group": "cigarettes_opened", "prob": 70, "entry-wrapper": "box_cigarette" },
           {
             "collection": [
               { "item": "tobacco", "count": [ 1, 20 ], "container-item": "null", "entry-wrapper": "bag_plastic" },
@@ -203,33 +203,10 @@
       { "item": "material_shrd_limestone", "count": [ 10, 25 ], "prob": 70 },
       { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 20 },
       { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 3 },
-      { "item": "material_zincite", "count": [ 0, 5 ], "prob": 5 }
-    ]
-  },
-  {
-    "id": "office_paper",
-    "type": "item_group",
-    "subtype": "collection",
-    "//": "Random paper/data items. for filing cabinets or other office locations",
-    "items": [
-      { "group": "oa_discarded_news", "count": [ 2, 12 ], "prob": 20 },
-      { "group": "flask_liquor", "prob": 10 },
-      { "group": "elecsto_pcs", "count": [ 1, 2 ], "prob": 10 },
-      { "item": "file", "count": [ 1, 8 ], "prob": 50 },
-      { "group": "elecsto_stor", "count": [ 1, 2 ], "prob": 30 },
-      { "item": "office_holepunch", "prob": 30 },
-      { "item": "money_strap_twenty", "count": [ 1, 10 ], "prob": 20 },
-      { "item": "scorecard", "count": [ 1, 10 ], "prob": 10 },
-      { "item": "survnote", "prob": 10 },
-      { "item": "flyer", "count": [ 1, 10 ], "prob": 30 },
-      { "item": "character_sheet", "count": [ 1, 2 ], "prob": 5 },
-      { "item": "phonebook", "prob": 10 },
-      { "item": "magic_8_ball", "prob": 5 },
-      { "item": "family_photo", "prob": 5 },
-      { "item": "coin_quarter", "prob": 5 },
-      { "item": "RPG_die", "prob": 5 },
-      { "item": "metal_RPG_die", "prob": 1 },
-      { "group": "civilian_memory_cards", "count": [ 1, 2 ], "prob": 30 }
+      { "item": "material_zincite", "count": [ 0, 5 ], "prob": 5 },
+      { "item": "chunk_feldspar", "count": [ 10, 25 ], "prob": 50 },
+      { "item": "chunk_graphite", "count": [ 0, 2 ], "prob": 2 },
+      { "item": "chunk_caco3", "count": [ 0, 2 ], "prob": 60 }
     ]
   },
   {
@@ -292,7 +269,6 @@
       { "item": "picklocks" },
       { "item": "lifestraw" },
       { "item": "pocket_survival" },
-      { "item": "solarpack" },
       { "item": "handflare", "count": 4, "charges": 300 }
     ]
   },
@@ -405,6 +381,44 @@
       { "item": "egg_turtle_painted", "prob": 5 },
       { "item": "egg_wormsnake", "prob": 2 },
       { "item": "egg_skink_fivelined", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sex_accessories_domestic",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "distribution": [
+          { "distribution": [ { "item": "sextoy", "variant": "beads" }, { "item": "sextoy", "variant": "plug" } ], "prob": 46 },
+          {
+            "distribution": [
+              { "item": "rope_6" },
+              { "item": "bullwhip" },
+              { "item": "candle" },
+              { "item": "handcuffs_leather" },
+              { "item": "gag_ball" },
+              { "item": "paddle_plastic" }
+            ],
+            "prob": 27
+          },
+          { "item": "sextoy", "variant": "dildo", "prob": 35 },
+          {
+            "distribution": [ { "item": "moisturizer", "variant": "lube", "entry-wrapper": "bottle_plastic_small", "count": 8 } ],
+            "prob": 40
+          },
+          { "item": "vibrator", "variant": "egg", "charges": [ 0, 100 ], "prob": 29 },
+          {
+            "distribution": [
+              { "item": "vibrator", "variant": "wand", "charges": [ 0, 100 ], "prob": 30 },
+              { "item": "vibrator", "variant": "dildo", "charges": [ 0, 100 ], "prob": 60 }
+            ],
+            "prob": 55
+          }
+        ],
+        "prob": 90
+      },
+      { "item": "condom", "prob": 10 }
     ]
   }
 ]

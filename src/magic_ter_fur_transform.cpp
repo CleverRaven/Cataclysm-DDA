@@ -20,7 +20,8 @@
 #include "translation.h"
 #include "trap.h"
 #include "type_id.h"
-#include "weighted_list.h"
+
+template<typename T> struct weighted_int_list;
 
 namespace
 {
@@ -42,6 +43,11 @@ bool string_id<ter_furn_transform>::is_valid() const
 void ter_furn_transform::load_transform( const JsonObject &jo, const std::string &src )
 {
     ter_furn_transform_factory.load( jo, src );
+}
+
+void ter_furn_transform::finalize_all()
+{
+    ter_furn_transform_factory.finalize();
 }
 
 void ter_furn_transform::reset_all()
@@ -67,7 +73,7 @@ static void load_transform_results( const JsonObject &jsi, const std::string &js
         list.add( T( jsi.get_string( json_key ) ), 1 );
         return;
     }
-    load_weighted_list( jsi.get_member( json_key ), list, 1 );
+    list.deserialize( jsi.get_member( json_key ) );
 }
 
 void ter_furn_transform::reset()
@@ -83,7 +89,7 @@ void ter_furn_data<T>::load( const JsonObject &jo )
     message_good = jo.get_bool( "message_good", true );
 }
 
-void ter_furn_transform::load( const JsonObject &jo, const std::string_view )
+void ter_furn_transform::load( const JsonObject &jo, std::string_view )
 {
     std::string input;
     mandatory( jo, was_loaded, "id", input );

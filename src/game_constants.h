@@ -25,6 +25,8 @@ constexpr int STATUS_WIDTH = 55;
 
 constexpr int EXPLOSION_MULTIPLIER = 7;
 
+constexpr int fov_3d_z_range = 10;
+
 // Really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet).
 constexpr int MAX_ITEM_IN_SQUARE = 4096;
 // no reason to differ.
@@ -87,7 +89,7 @@ constexpr int MAX_SKILL = 10;
 // Maximum (effective) level for a stat.
 constexpr int MAX_STAT = 14;
 
-// Accuracy levels which a shots tangent must be below.
+// Accuracy levels which a shot's tangent must be below.
 constexpr double accuracy_headshot = 0.1;
 constexpr double accuracy_critical = 0.2;
 constexpr double accuracy_goodhit  = 0.5;
@@ -107,14 +109,8 @@ constexpr int BIO_CQB_LEVEL = 5;
 // Minimum size of a horde to show up on the minimap.
 constexpr int HORDE_VISIBILITY_SIZE = 3;
 
-// How often a NPC can move one tile on the overmap
+// How often an NPC can move one tile on the overmap
 constexpr time_duration time_between_npc_OM_moves = 5_minutes;
-
-/**
- * Average annual temperature in Kelvin used for climate, weather and temperature calculation.
- * Average New England temperature = 43F/6C rounded to int.
-*/
-constexpr units::temperature AVERAGE_ANNUAL_TEMPERATURE = units::from_fahrenheit( 43 );
 
 /**
  * Base starting spring temperature in Kelvin used for climate, weather and temperature calculation.

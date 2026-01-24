@@ -14,6 +14,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "explosion.h"
 #include "game.h"
 #include "magic.h"
 #include "map.h"
@@ -97,6 +98,19 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
 {
     map_point = project_to<coords::sm>( map_square );
 }
+
+timed_event::timed_event( timed_event_type e_t, const time_point &w, const tripoint_abs_ms &p,
+                          const explosion_data explos_data )
+    : type( e_t )
+    , when( w )
+    , faction_id( -1 )
+    , map_square( p )
+    , strength( -1 )
+{
+    map_point = project_to<coords::sm>( map_square );
+    expl_data = explos_data;
+}
+
 
 void timed_event::actualize()
 {
@@ -281,6 +295,12 @@ void timed_event::actualize()
         }
         break;
 
+        case timed_event_type::EXPLOSION: {
+            explosion_handler::explosion( player_character.as_avatar(), here.get_bub( map_square ),
+                                          expl_data );
+        }
+        break;
+
         case timed_event_type::DSA_ALRP_SUMMON: {
             const tripoint_abs_sm u_pos = player_character.pos_abs_sm();
             if( rl_dist( u_pos, map_point ) <= 4 ) {
@@ -310,13 +330,13 @@ void timed_event::actualize()
             run_mapgen_update_func(
                 update_mapgen_id( string_id ), project_to<coords::omt>( map_point ), {}, nullptr );
             set_queued_points();
-            get_map().invalidate_map_cache( map_point.z() );
+            reality_bubble().invalidate_map_cache( map_point.z() );
             break;
 
         case timed_event_type::REVERT_SUBMAP: {
             submap *sm = MAPBUFFER.lookup_submap( map_point );
             sm->revert_submap( revert );
-            get_map().invalidate_map_cache( map_point.z() );
+            reality_bubble().invalidate_map_cache( map_point.z() );
             break;
         }
 
@@ -384,7 +404,7 @@ void timed_event_manager::process()
             it->actualize();
             it = events.erase( it );
         } else {
-            it++;
+            ++it;
         }
     }
 }
@@ -410,6 +430,12 @@ void timed_event_manager::add( timed_event_type type, const time_point &when,
                                const std::string &key )
 {
     events.emplace_back( type, when, faction_id, where, strength, string_id, key );
+}
+
+void timed_event_manager::add( timed_event_type type, const time_point &when,
+                               const tripoint_abs_ms &where, const explosion_data expl_data )
+{
+    events.emplace_back( type, when, where, expl_data );
 }
 
 void timed_event_manager::add( timed_event_type type, const time_point &when,
@@ -458,4 +484,9 @@ void timed_event_manager::set_all( const std::string &key, time_duration time_in
             e.when = calendar::turn + time_in_future;
         }
     }
+}
+
+bool you_know_where_you_are()
+{
+    return !get_timed_events().get( timed_event_type::OVERRIDE_PLACE );
 }

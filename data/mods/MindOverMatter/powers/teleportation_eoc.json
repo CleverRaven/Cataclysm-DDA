@@ -6,15 +6,104 @@
       { "math": [ "u_teleport_total_carried_volume = 0" ] },
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "condition": { "math": [ "n_volume() > 0" ] } } ],
+        "search_data": [ { "condition": { "math": [ "n_volume() > 0" ] }, "excluded_flags": [ "PSEUDO", "INTEGRATED" ], "worn_only": true } ],
         "true_eocs": [
           {
-            "id": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER_ADD_VOLUME",
-            "effect": [ { "math": [ "u_teleport_total_carried_volume", "+=", "n_volume()" ] } ]
+            "id": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER_ADD_VOLUME_WORN",
+            "effect": [ { "math": [ "u_teleport_total_carried_volume += n_volume()" ] } ]
+          }
+        ]
+      },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          { "condition": { "math": [ "n_volume() > 0" ] }, "excluded_flags": [ "PSEUDO", "INTEGRATED" ], "wielded_only": true }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER_ADD_VOLUME_WIELDED",
+            "effect": [ { "math": [ "u_teleport_total_carried_volume += n_volume()" ] } ]
+          }
+        ]
+      },
+      { "u_message": "Your carried volume is <u_val:teleport_total_carried_volume>.", "type": "debug" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_BLINK_INITIATE",
+    "condition": {
+      "and": [
+        { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } },
+        { "not": { "u_has_flag": "DIMENSIONAL_ANCHOR" } },
+        { "not": { "u_has_flag": "TELEPORT_LOCK" } }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
+      {
+        "math": [
+          "_teleport_blink_limit = ( ( ( u_spell_level('teleport_blink') * 3500 ) + 5000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+        ]
+      },
+      { "u_message": "Your Blink volume limit is <context_val:teleport_blink_limit>.", "type": "debug" },
+      {
+        "if": { "math": [ "u_teleport_total_carried_volume <= _teleport_blink_limit" ] },
+        "then": [
+          {
+            "u_cast_spell": { "id": "teleport_blink_real", "min_level": { "math": [ "u_spell_level('teleport_blink')" ] }, "hit_self": true }
+          },
+          { "u_message": "You vanish and reappear nearby.", "type": "neutral" }
+        ],
+        "else": [
+          {
+            "u_message": "You attempt to teleport to somewhere nearby, but your skin merely tingles and nothing happens.  You're carrying too much.",
+            "type": "bad"
           }
         ]
       }
-    ]
+    ],
+    "false_effect": [ { "u_message": "You feel a strange, inward force.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_PHASE_INITIATE",
+    "condition": {
+      "and": [
+        { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } },
+        { "not": { "u_has_flag": "DIMENSIONAL_ANCHOR" } },
+        { "not": { "u_has_flag": "TELEPORT_LOCK" } }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
+      {
+        "math": [
+          "_teleport_phase_limit = ( ( ( u_spell_level('teleport_phase') * 5000 ) + 10000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+        ]
+      },
+      { "u_message": "Your Phase volume limit is <context_val:teleport_blink_limit>.", "type": "debug" },
+      {
+        "if": { "math": [ "u_teleport_total_carried_volume <= _teleport_phase_limit" ] },
+        "then": [
+          {
+            "u_cast_spell": { "id": "teleport_phase_real", "min_level": { "math": [ "u_spell_level('teleport_phase')" ] } },
+            "targeted": true
+          },
+          {
+            "u_message": "There is a brief moment of darkness and terrible cold, and you are somewhere else.",
+            "type": "neutral"
+          }
+        ],
+        "else": [
+          {
+            "u_message": "You attempt to phase through the barrier, but your skin merely tingles and nothing happens.  You're carrying too much.",
+            "type": "bad"
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You feel a strange, inward force.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -50,7 +139,7 @@
                     "effect": [
                       {
                         "u_query_tile": "line_of_sight",
-                        "target_var": { "global_val": "teleporter_item_apport_location" },
+                        "target_var": { "context_val": "teleporter_item_apport_location" },
                         "range": {
                           "math": [
                             "min( ( ( (u_spell_level('teleport_item_apport') * 1.25) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
@@ -64,16 +153,16 @@
                         "then": {
                           "if": {
                             "or": [
-                              { "map_terrain_with_flag": "WALL", "loc": { "global_val": "teleporter_item_apport_location" } },
+                              { "map_terrain_with_flag": "WALL", "loc": { "context_val": "teleporter_item_apport_location" } },
                               {
                                 "map_terrain_with_flag": "DOOR",
-                                "loc": { "global_val": "teleporter_item_apport_location" }
+                                "loc": { "context_val": "teleporter_item_apport_location" }
                               }
                             ]
                           },
                           "then": { "u_message": "You cannot apport an item inside a solid object.", "type": "bad" },
                           "else": [
-                            { "npc_teleport": { "global_val": "teleporter_item_apport_location" } },
+                            { "npc_teleport": { "context_val": "teleporter_item_apport_location" } },
                             {
                               "u_message": "The item in your hands grows freezing cold for a moment before vanishing.",
                               "type": "neutral"
@@ -120,7 +209,7 @@
           ]
         },
         "then": [
-          { "u_cast_spell": { "id": "teleport_blink", "min_level": 10, "hit_self": true } },
+          { "u_cast_spell": { "id": "teleport_blink_real", "min_level": 10, "hit_self": true } },
           {
             "if": { "npc_has_effect": "effect_teleport_reactive_displacement" },
             "then": [ { "npc_message": "As <u_name> strikes you, they are suddenly somewhere else", "type": "good" } ],
@@ -176,6 +265,38 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_FARSTEP_INITIATE",
+    "condition": {
+      "and": [
+        { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } },
+        { "not": { "u_has_flag": "DIMENSIONAL_ANCHOR" } },
+        { "not": { "u_has_flag": "TELEPORT_LOCK" } }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
+      {
+        "math": [
+          "_teleport_farstep_limit = ( ( ( u_spell_level('teleport_farstep') * 5000 ) + 8000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+        ]
+      },
+      { "u_message": "Your Farstep volume limit is <context_val:teleport_farstep_limit>.", "type": "debug" },
+      {
+        "if": { "math": [ "u_teleport_total_carried_volume <= _teleport_farstep_limit" ] },
+        "then": [
+          { "u_cast_spell": { "id": "teleport_farstep_real", "hit_self": false }, "targeted": true },
+          {
+            "u_message": "There is a moment of darkness and terrible cold, and you are somewhere else.",
+            "type": "neutral"
+          }
+        ],
+        "else": [ { "run_eocs": [ "EOC_TELEPORTER_GATEWAY_MESSAGE_CARRYING_TOO_MUCH" ] } ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You feel a strange, inward force.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEPORTER_OUBLIETTE_HANDLING",
     "condition": {
       "and": [
@@ -203,8 +324,8 @@
       {
         "if": { "math": [ "u_psi_teleporter_damage > u_health_comparison" ] },
         "then": [
-          { "u_cast_spell": { "id": "teleport_banish_self_target", "message": "" } },
-          { "npc_message": "With a tremendous mental exertion, you hurl your target to another dimension!" }
+          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_message": "With a tremendous mental exertion, you hurl your target…elsewhere." }
         ]
       }
     ],
@@ -226,14 +347,8 @@
       {
         "if": { "math": [ "u_psi_teleporter_damage > u_health_comparison" ] },
         "then": [
-          "u_die",
-          { "npc_message": "With a tremendous mental exertion, you hurl your target to another dimension!" },
-          {
-            "u_map_run_item_eocs": "all",
-            "min_radius": 0,
-            "max_radius": 0,
-            "true_eocs": [ { "id": "EOC_TELEPORTER_OUBLIETTE_HANDLING_DELETE_NPC_ITEMS", "effect": [ "npc_die" ] } ]
-          }
+          { "npc_message": "With a tremendous mental exertion, you hurl your target…elsewhere." },
+          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": false } }
         ]
       }
     ]
@@ -400,12 +515,7 @@
     "effect": [
       {
         "set_string_var": "Destination 1",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_1" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_1" }, "min_radius": 0, "max_radius": 0 },
@@ -440,7 +550,11 @@
     "effect": [
       {
         "if": { "math": [ "u_teleport_total_carried_volume >= 0" ] },
-        "then": [ { "u_teleport": { "u_val": "gateway_destination_2" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ],
+        "then": [
+          { "message": "Destination coordinates are <u_val:gateway_destination_2>.", "type": "debug" },
+          { "u_teleport": { "u_val": "gateway_destination_2" } },
+          { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" }
+        ],
         "else": [ { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE_CARRYING_TOO_MUCH" } ]
       }
     ]
@@ -465,12 +579,7 @@
     "effect": [
       {
         "set_string_var": "Destination 2",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_2" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_2" }, "min_radius": 0, "max_radius": 0 },
@@ -530,12 +639,7 @@
     "effect": [
       {
         "set_string_var": "Destination 3",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_3" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_3" }, "min_radius": 0, "max_radius": 0 },
@@ -595,12 +699,7 @@
     "effect": [
       {
         "set_string_var": "Destination 4",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_4" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_4" }, "min_radius": 0, "max_radius": 0 },
@@ -660,12 +759,7 @@
     "effect": [
       {
         "set_string_var": "Destination 5",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_5" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_5" }, "min_radius": 0, "max_radius": 0 },
@@ -725,12 +819,7 @@
     "effect": [
       {
         "set_string_var": "Destination 6",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_6" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_6" }, "min_radius": 0, "max_radius": 0 },
@@ -790,12 +879,7 @@
     "effect": [
       {
         "set_string_var": "Destination 7",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_7" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_7" }, "min_radius": 0, "max_radius": 0 },
@@ -855,12 +939,7 @@
     "effect": [
       {
         "set_string_var": "Destination 8",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_8" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_8" }, "min_radius": 0, "max_radius": 0 },
@@ -920,12 +999,7 @@
     "effect": [
       {
         "set_string_var": "Destination 9",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_9" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_9" }, "min_radius": 0, "max_radius": 0 },
@@ -985,12 +1059,7 @@
     "effect": [
       {
         "set_string_var": "Destination 10",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_10" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_10" }, "min_radius": 0, "max_radius": 0 },
@@ -1041,89 +1110,111 @@
         ],
         "hide_failing": true,
         "allow_cancel": true
-      },
-      {
-        "if": { "not": { "compare_string": [ { "u_val": "dilated_gateway_location" }, "" ] } },
-        "then": [
-          { "u_cast_spell": { "id": "teleport_dilated_gateway_teleport_others", "message": "" } },
-          { "u_cast_spell": { "id": "teleport_dilated_gateway_teleport_self", "message": "" } }
-        ]
-      },
-      { "set_string_var": "", "target_var": { "u_val": "dilated_gateway_location" } }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DILATED_GATEWAY_ACTIVATE",
+    "effect": [
+      { "u_cast_spell": { "id": "teleport_dilated_gateway_teleport_others", "message": "" } },
+      { "u_cast_spell": { "id": "teleport_dilated_gateway_teleport_self", "message": "" } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_EXTERNAL_TELEPORT",
-    "effect": [
-      {
-        "set_string_var": "<npc_val:dilated_gateway_location>",
-        "target_var": { "context_val": "temp_var" },
-        "parse_tags": true
-      },
-      { "u_teleport": { "var_val": "temp_var" }, "force_safe": true },
-      { "message": "<u_name> vanishes!" }
-    ]
+    "effect": [ { "u_teleport": { "npc_val": "dilated_gateway_location" }, "force_safe": true }, { "message": "<u_name> vanishes!" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_01",
     "condition": { "math": [ "has_var(u_gateway_destination_1)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_1", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_1" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_02",
     "condition": { "math": [ "has_var(u_gateway_destination_2)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_2", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_2" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_03",
     "condition": { "math": [ "has_var(u_gateway_destination_3)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_3", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_3" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_04",
     "condition": { "math": [ "has_var(u_gateway_destination_4)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_4", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_4" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_05",
     "condition": { "math": [ "has_var(u_gateway_destination_5)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_5", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_5" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_06",
     "condition": { "math": [ "has_var(u_gateway_destination_6)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_6", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_6" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_07",
     "condition": { "math": [ "has_var(u_gateway_destination_7)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_7", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_7" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_08",
     "condition": { "math": [ "has_var(u_gateway_destination_8)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_8", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_8" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_09",
     "condition": { "math": [ "has_var(u_gateway_destination_9)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_9", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_9" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_10",
     "condition": { "math": [ "has_var(u_gateway_destination_10)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_10", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_10" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -1638,10 +1729,39 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_REALITY_TEAR_EFFECTS",
-    "//": "Some way of angering factions if done nearby them would be ideal as well.  Cannot find a way to dynamically find nearby faction bases though.",
+    "id": "EOC_REALITY_TEAR_CHECKER",
     "effect": [
-      { "u_spawn_monster": "GROUP_NETHER_BREACH", "group": true, "real_count": [ 2, 6 ], "min_radius": 2, "max_radius": 6 }
+      { "math": [ "_reality_tear_adjustment = 0" ] },
+      {
+        "if": { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" },
+        "then": { "math": [ "_reality_tear_adjustment += 20" ] }
+      },
+      {
+        "if": { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" },
+        "then": { "math": [ "_reality_tear_adjustment += 10" ] }
+      },
+      {
+        "if": { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" },
+        "then": { "math": [ "_reality_tear_adjustment += 5" ] }
+      },
+      { "u_message": "Your adjusted chance is <context_val:reality_tear_adjustment>.", "type": "debug" },
+      {
+        "if": {
+          "x_in_y_chance": { "x": { "math": [ "(u_vitamin('vitamin_psionic_drain') / 25) + _reality_tear_adjustment" ] }, "y": 100 }
+        },
+        "then": [
+          {
+            "u_cast_spell": { "id": "teleport_reality_tear_permanent", "min_level": { "math": [ "u_spell_level('teleport_reality_tear')" ] } },
+            "targeted": true
+          }
+        ],
+        "else": [
+          {
+            "u_cast_spell": { "id": "teleport_reality_tear_temporary", "min_level": { "math": [ "u_spell_level('teleport_reality_tear')" ] } },
+            "targeted": true
+          }
+        ]
+      }
     ]
   },
   {

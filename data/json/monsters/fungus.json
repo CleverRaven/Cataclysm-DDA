@@ -197,7 +197,7 @@
         "description": "The fungaloid shambler throws a rock!"
       }
     ],
-    "death_drops": [ { "group": "wreckage", "count": 5 }, { "group": "SUS_trash_forest_no_manmade", "count": 5 } ],
+    "death_drops": [ { "group": "SUS_trash_metal", "count": 5 }, { "group": "SUS_trash_forest_no_manmade", "count": 5 } ],
     "upgrades": false,
     "armor": { "bash": 4, "cut": 10, "stab": 20, "acid": 3, "bullet": 20, "electric": 3 }
   },
@@ -387,6 +387,7 @@
     "weight": "81500 g",
     "hp": 40,
     "speed": 60,
+    "move_skills": { "climb": 4 },
     "material": [ "veggy" ],
     "symbol": "a",
     "color": "light_gray",
@@ -405,7 +406,7 @@
     "harvest": "arachnid",
     "special_attacks": [ [ "FUNGUS", 200 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "flags": [ "SEES", "SMELLS", "POISON", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "flags": [ "SEES", "SMELLS", "POISON", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 1, "cut": 1, "bullet": 1, "electric": 2 }
   },
   {
@@ -421,6 +422,7 @@
     "weight": "81500 g",
     "hp": 20,
     "speed": 60,
+    "move_skills": { "climb": 8 },
     "material": [ "iflesh" ],
     "symbol": "s",
     "color": "light_gray",
@@ -439,7 +441,7 @@
     "harvest": "arachnid",
     "special_attacks": [ [ "FUNGAL_TRAIL", 3 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "flags": [ "SEES", "SMELLS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "INSECTICIDEPROOF" ],
+    "flags": [ "SEES", "SMELLS", "VENOM", "WEBWALK", "PATH_AVOID_FIRE", "INSECTICIDEPROOF" ],
     "armor": { "bash": 2, "cut": 6, "bullet": 5, "electric": 2 }
   },
   {
@@ -515,7 +517,7 @@
     "id": "mon_wasp_fungus",
     "type": "MONSTER",
     "name": { "str": "giant fungal wasp" },
-    "description": "A gigantic wasp worker, It's body now a host for a plethora of mushrooms and spores.  Her abdomen glows faintly with a blue light, each pulse bringing a new crack for fungal growths to escape from.  It's stinger seems to have a soul of it's own, reaching out towards anything that isn't infested like itself.",
+    "description": "A gigantic wasp worker, its body now a host for a plethora of mushrooms and spores.  Her abdomen glows faintly with a blue light, each pulse bringing a new crack for fungal growths to escape from.  Its stinger seems to have a soul of its own, reaching out towards anything that isn't infested like itself.",
     "default_faction": "fungus",
     "bodytype": "flying insect",
     "species": [ "FUNGUS" ],

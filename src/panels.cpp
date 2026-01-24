@@ -323,7 +323,7 @@ void overmap_ui::draw_overmap_chunk_imgui( const avatar &you, const tripoint_abs
     ImGui::EndGroup();
 }
 
-static void decorate_panel( const std::string_view name, const catacurses::window &w )
+static void decorate_panel( std::string_view name, const catacurses::window &w )
 {
     werase( w );
     draw_border( w );
@@ -412,7 +412,11 @@ static std::map<std::string, panel_layout> initialize_default_panel_layouts()
 
 panel_manager::panel_manager()
 {
+#if defined(__ANDROID__)
+    current_layout_id = "sidebar-mobile";
+#else
     current_layout_id = "legacy_labels_sidebar";
+#endif
     // Set empty layouts; these will be populated by load()
     layouts = std::map<std::string, panel_layout>();
 }

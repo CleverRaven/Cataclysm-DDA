@@ -27,7 +27,7 @@
 #include "game_constants.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
+#include "math_parser_diag_value.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
@@ -51,10 +51,14 @@
 
 class item;
 
+static const addiction_id addiction_nicotine( "nicotine" );
+
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
 static const character_modifier_id
 character_modifier_stamina_recovery_breathing_mod( "stamina_recovery_breathing_mod" );
+
+static const damage_type_id damage_heat( "heat" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_bandaged( "bandaged" );
@@ -267,7 +271,7 @@ void Character::update_body( const time_point &from, const time_point &to )
         mend( five_mins * to_turns<int>( 5_minutes ) );
         activity_history.reset_activity_level();
     }
-    bool was_sleeping = get_value( "was_sleeping" ) == "true";
+    bool was_sleeping = get_value( "was_sleeping" ).str() == "true";
     if( in_sleep_state() && was_sleeping ) {
         needs_rates tmp_rates;
         calc_sleep_recovery_rate( tmp_rates );
@@ -278,14 +282,14 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     if( was_sleeping && !in_sleep_state() ) {
         if( get_continuous_sleep() >= 6_hours ) {
-            set_value( "sleep_health_mult", "2" );
+            set_value( "sleep_health_mult", 2 );
         }
         reset_continuous_sleep();
     }
     if( calendar::once_every( 12_hours ) ) {
-        const int sleep_health_mult = get_value( "sleep_health_mult" ) == "2" ? 2 : 1;
+        const int sleep_health_mult = get_value( "sleep_health_mult" ).dbl();
         mod_daily_health( sleep_health_mult * to_hours<int>( get_daily_sleep() ), 10 );
-        set_value( "sleep_health_mult", "1" );
+        set_value( "sleep_health_mult", 1 );
     }
     if( calendar::once_every( 1_days ) ) {
         reset_daily_sleep();
@@ -297,13 +301,13 @@ void Character::update_body( const time_point &from, const time_point &to )
     // Cardio related health stuff
     if( calendar::once_every( 1_days ) ) {
         // not getting below half stamina even once in a whole day is not healthy
-        if( get_value( "got_to_half_stam" ).empty() ) {
+        if( get_value( "got_to_half_stam" ).is_empty() ) {
             mod_daily_health( -4, -200 );
         } else {
             remove_value( "got_to_half_stam" );
         }
         // reset counter for number of time going below quarter stamina
-        set_value( "quarter_stam_counter", "0" );
+        set_value( "quarter_stam_counter", 0 );
 
         int cardio_accumultor = get_cardio_acc();
         if( cardio_accumultor > 0 ) {
@@ -601,7 +605,7 @@ void Character::update_bodytemp()
             blister_count -= 20;
         }
         if( fire_armor_per_bp.empty() && blister_count > 0 ) {
-            fire_armor_per_bp = get_all_armor_type( STATIC( damage_type_id( "heat" ) ), clothing_map );
+            fire_armor_per_bp = get_all_armor_type( damage_heat, clothing_map );
         }
         if( blister_count - fire_armor_per_bp[bp] > 0 ) {
             add_effect( effect_blisters, 1_turns, bp );
@@ -1397,7 +1401,7 @@ void Character::update_heartrate_index()
     if( get_effect_dur( effect_cig ) > 0_turns ) {
         //Nicotine-induced tachycardia
         if( get_effect_dur( effect_cig ) >
-            10_minutes * ( addiction_level( STATIC( addiction_id( "nicotine" ) ) ) + 1 ) ) {
+            10_minutes * ( addiction_level( addiction_nicotine ) + 1 ) ) {
             hr_nicotine_mod = 0.2f;
         } else {
             hr_nicotine_mod = 0.1f;

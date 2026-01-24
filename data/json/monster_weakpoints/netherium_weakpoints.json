@@ -13,5 +13,179 @@
         "armor_mult": { "all": 0.75 }
       }
     ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_stiltwalker",
+    "weakpoints": [
+      {
+        "id": "chink in the armor",
+        "name": "a narrow crack in the armor plating",
+        "coverage": 5,
+        "difficulty": { "melee": 7, "ranged": 10 },
+        "coverage_mult": { "point": 2 },
+        "armor_mult": { "all": 0.25 }
+      },
+      {
+        "id": "chink in the armor",
+        "name": "a softer spot in its armor plating",
+        "coverage": 15,
+        "difficulty": { "melee": 4, "ranged": 6 },
+        "armor_mult": { "bullet": 0.8, "cut": 0.9, "stab": 0.8, "bash": 0.6 }
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_void_spider",
+    "weakpoints": [
+      {
+        "id": "weak_point",
+        "name": "a band of vulnerable flesh.",
+        "coverage": 20,
+        "condition": { "not": { "npc_has_any_effect": [ "maimed_armor" ] } },
+        "difficulty": { "melee": 3, "ranged": 4 },
+        "coverage_mult": { "ranged": 0.5 },
+        "armor_mult": { "all": 0.03 },
+        "effects": [
+          {
+            "effect": "maimed_armor",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 2,
+            "message": "Foul vapor starts seeping from the %s body!",
+            "damage_required": [ 1, 5 ]
+          },
+          {
+            "effect": "maimed_armor",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 5,
+            "message": "Foul vapor starts seeping from the %s body!",
+            "damage_required": [ 5, 9 ]
+          },
+          {
+            "effect": "maimed_armor",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 20,
+            "message": "Foul vapor starts seeping from the %s body!",
+            "damage_required": [ 10, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "heavy_armor",
+        "name": "a segment full of fangs",
+        "is_good": false,
+        "armor_mult": { "all": 1.5 },
+        "coverage_mult": { "melee": 0.15 },
+        "difficulty": { "melee": 5, "ranged": 8 },
+        "condition": { "not": { "npc_has_any_effect": [ "maimed_armor", "afs_android_crawling" ] } },
+        "coverage": 30,
+        "effects": [
+          {
+            "effect": "maimed_armor",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 10,
+            "message": "Foul vapor starts seeping from the %s body!",
+            "damage_required": [ 1, 5 ]
+          },
+          {
+            "effect": "maimed_armor",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 30,
+            "message": "Foul vapor starts seeping from the %s body!",
+            "damage_required": [ 5, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "internal_exposed",
+        "name": "its exposed internals",
+        "armor_mult": { "all": 0.01 },
+        "damage_mult": { "all": 1.5 },
+        "condition": { "npc_has_any_effect": [ "maimed_armor" ] },
+        "coverage": 45
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_nether_huntsman",
+    "weakpoints": [
+      {
+        "id": "huntsman_arm",
+        "name": "appendage",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 5, "melee": 2 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          {
+            "effect": "maimed_huntsman_arm",
+            "chance": 15,
+            "permanent": true,
+            "message": "The %s makes a pained screech as the appendage goes limp!",
+            "damage_required": [ 10, 30 ]
+          },
+          {
+            "effect": "maimed_huntsman_arm",
+            "chance": 50,
+            "permanent": true,
+            "message": "The %s makes a pained screech as the appendage goes limp!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 12
+      },
+      {
+        "id": "huntsman_armor",
+        "name": "its porous armor plate",
+        "is_good": false,
+        "armor_mult": { "bullet": 2, "cut": 1.5, "stab": 1.5, "bash": 2 },
+        "coverage_mult": { "ranged": 1, "melee": 0.4 },
+        "coverage": 20
+      },
+      {
+        "id": "huntsman_armor_alt",
+        "name": "its armored limb",
+        "is_good": false,
+        "armor_mult": { "bullet": 1.7, "cut": 1.3, "stab": 1.3, "bash": 1.7 },
+        "coverage_mult": { "ranged": 1, "melee": 0.4 },
+        "coverage": 20
+      },
+      {
+        "id": "huntsman_armor_gap",
+        "name": "a vulnerable spot between the armor",
+        "is_good": true,
+        "crit_mult": { "all": 1.25 },
+        "armor_mult": { "all": 0.5 },
+        "difficulty": { "melee": 3, "ranged": 4 },
+        "coverage": 7
+      },
+      {
+        "id": "eye",
+        "name": "the photoreceptors",
+        "is_head": true,
+        "coverage": 2,
+        "armor_mult": { "physical": 0 },
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 7, "melee": 5 },
+        "coverage_mult": { "broad": 0.8 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 70,
+            "message": "The %s's photoreceptors are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      }
+    ]
   }
 ]

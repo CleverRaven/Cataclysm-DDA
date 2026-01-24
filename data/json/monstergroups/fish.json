@@ -257,7 +257,7 @@
         "monster": "mon_dragonfly_naiad",
         "weight": 10,
         "cost_multiplier": 3,
-        "ends": "3 days",
+        "ends": "12 days",
         "conditions": [ "SPRING", "SUMMER" ],
         "pack_size": [ 1, 2 ]
       },
@@ -323,9 +323,9 @@
     "type": "monstergroup",
     "id": "GROUP_CRAYFISH",
     "monsters": [
-      { "monster": "mon_crayfish_small", "weight": 5, "ends": "45 days" },
-      { "monster": "mon_giant_crayfish", "weight": 5, "starts": "30 days" },
-      { "monster": "mon_crayfish_mega", "weight": 2, "starts": "72 days" }
+      { "monster": "mon_crayfish_small", "weight": 5, "ends": "180 days" },
+      { "monster": "mon_giant_crayfish", "weight": 5, "starts": "120 days" },
+      { "monster": "mon_crayfish_mega", "weight": 2, "starts": "288 days" }
     ]
   }
 ]

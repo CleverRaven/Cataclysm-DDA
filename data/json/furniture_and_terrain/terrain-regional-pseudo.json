@@ -1,232 +1,221 @@
 [
   {
     "type": "terrain",
-    "id": "t_region_groundcover",
+    "abstract": "t_region_pseudo",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
     "symbol": " ",
     "color": "black",
     "move_cost": 1,
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "REGION_PSEUDO" ]
+  },
+  {
+    "type": "terrain",
+    "abstract": "t_region_pseudo_noitem",
+    "copy-from": "t_region_pseudo",
+    "name": "pseudo terrain",
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1,
+    "extend": { "flags": [ "NOITEM" ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_region_groundcover",
+    "copy-from": "t_region_pseudo",
+    "name": "pseudo terrain",
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_groundcover_urban",
+    "copy-from": "t_region_pseudo",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_groundcover_forest",
+    "copy-from": "t_region_pseudo",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_groundcover_swamp",
+    "copy-from": "t_region_pseudo",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_groundcover_barren",
-    "name": "pseudo terrain",
     "description": "This should never actually show up, it's a pseudo terrain.  For use where people have trampled away grass, or otherwise cleared plant life.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT" ]
+    "copy-from": "t_region_pseudo",
+    "name": "pseudo terrain",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_grass",
+    "description": "This should never actually show up, it's a pseudo terrain.  For use where clean, curated grass is the only expected terrain - modified by whatever the biome equivalent is.",
+    "copy-from": "t_region_pseudo",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.  For use where clean, curated grass is the only expected terrain - modified by whatever the biome equivalent is",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT" ]
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_soil",
+    "description": "This should never actually show up, it's a pseudo terrain.  For use where plants have been planted and grass/groundcover kept clear.",
+    "copy-from": "t_region_pseudo",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.  For use where plants have been planted and grass/groundcover kept clear",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT" ]
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_tree",
+    "copy-from": "t_region_pseudo_noitem",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_tree_forest_dense",
+    "copy-from": "t_region_pseudo_noitem",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_tree_forest",
+    "copy-from": "t_region_pseudo_noitem",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_tree_forest_other",
+    "copy-from": "t_region_pseudo_noitem",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_tree_evergreen",
+    "copy-from": "t_region_pseudo_noitem",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_tree_fruit",
+    "copy-from": "t_region_pseudo_noitem",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
+  },
+  {
+    "type": "terrain",
+    "id": "t_region_tree_fruit_wild",
+    "copy-from": "t_region_pseudo_noitem",
+    "name": "pseudo terrain",
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_tree_nut",
+    "copy-from": "t_region_pseudo_noitem",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_tree_shade",
+    "copy-from": "t_region_pseudo_noitem",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_tree_dead",
+    "copy-from": "t_region_pseudo_noitem",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_shrub",
+    "copy-from": "t_region_pseudo",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_shrub_fruit",
+    "copy-from": "t_region_pseudo",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_shrub_plains",
+    "copy-from": "t_region_pseudo",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_shrub_swamp",
+    "copy-from": "t_region_pseudo",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_shrub_forest_dense",
+    "copy-from": "t_region_pseudo",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_shrub_forest",
+    "copy-from": "t_region_pseudo",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   },
   {
     "type": "terrain",
     "id": "t_region_shrub_decorative",
+    "copy-from": "t_region_pseudo",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it's a pseudo terrain.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT" ]
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
+  },
+  {
+    "type": "terrain",
+    "id": "t_highland_groundcover",
+    "copy-from": "t_region_pseudo",
+    "name": "pseudo terrain",
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
   }
 ]

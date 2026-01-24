@@ -16,7 +16,6 @@
 #include "harvest.h"
 #include "item.h"
 #include "itype.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mattack_actors.h"
@@ -33,6 +32,8 @@
 #include "value_ptr.h"
 
 static const efftype_id effect_no_ammo( "no_ammo" );
+
+static const flag_id json_flag_GIBBED( "GIBBED" );
 
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
 static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
@@ -139,7 +140,7 @@ item_location mdeath::splatter( map *here, monster &z )
 
         if( z.type->size >= creature_size::medium ) {
             number_of_gibs += rng( 1, 6 );
-            if( get_map().inbounds( z.pos_abs() ) ) {
+            if( reality_bubble().inbounds( z.pos_abs() ) ) {
                 sfx::play_variant_sound( "mon_death", "zombie_gibbed", sfx::get_heard_volume( z.pos_bub() ) );
             }
         }
@@ -185,14 +186,12 @@ item_location mdeath::splatter( map *here, monster &z )
         }
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
-        corpse.set_flag( STATIC( flag_id( "GIBBED" ) ) );
+        corpse.set_flag( json_flag_GIBBED );
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
-        if( !z.has_eaten_enough() ) {
-            corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
-        }
-        return here->add_item_ret_loc( z.pos_bub( *here ), corpse );
+
+        return here->add_item_or_charges_ret_loc( z.pos_bub( *here ), corpse );
     }
     return {};
 }
@@ -286,8 +285,8 @@ item_location make_mon_corpse( map *here, monster &z, int damageLvl )
     if( z.has_effect( effect_no_ammo ) ) {
         corpse.set_var( "no_ammo", "no_ammo" );
     }
-    if( !z.has_eaten_enough() ) {
-        corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
+    if( z.times_combatted_player ) {
+        corpse.set_var( "times_combatted", z.times_combatted_player );
     }
-    return here->add_item_ret_loc( z.pos_bub( *here ), corpse );
+    return here->add_item_or_charges_ret_loc( z.pos_bub( *here ), corpse );
 }

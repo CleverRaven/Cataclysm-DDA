@@ -1,0 +1,113 @@
+[
+  {
+    "id": "seed_pineapple",
+    "copy-from": "seed",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "name": { "str_sp": "pineapple roots" },
+    "description": "Roots of a pineapple plant, for growing your own.",
+    "weight": "152 g",
+    "price": "20 cent",
+    "volume": "31 ml",
+    "plant_name": "pineapple",
+    "fruit": "pineapple",
+    "byproducts": [ "straw_pile" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "70 days" },
+      { "GROWTH_SEEDLING": "70 days" },
+      { "GROWTH_MATURE": "70 days" },
+      { "GROWTH_HARVEST": "70 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
+  },
+  {
+    "id": "seed_melon",
+    "copy-from": "seed_fruit",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "name": { "str_sp": "melon seeds" },
+    "description": "Some melon seeds.",
+    "plant_name": "melon",
+    "fruit": "melon",
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
+  },
+  {
+    "id": "seed_bananas",
+    "copy-from": "seed_fruit",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "name": { "str_sp": "banana saplings" },
+    "description": "Some banana saplings.",
+    "plant_name": "banana",
+    "fruit": "banana",
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "30 days" },
+      { "GROWTH_SEEDLING": "30 days" },
+      { "GROWTH_MATURE": "30 days" },
+      { "GROWTH_HARVEST": "30 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
+  },
+  {
+    "id": "seed_orange",
+    "copy-from": "seed_fruit",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "name": { "str_sp": "orange vines" },
+    "description": "Some orange vines.  Definitely GMO.",
+    "plant_name": "orange",
+    "fruit": "orange",
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
+  },
+  {
+    "id": "seed_lemon",
+    "copy-from": "seed_fruit",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "name": { "str_sp": "lemon vines" },
+    "description": "Some lemon vines.  Definitely GMO.",
+    "plant_name": "lemon",
+    "fruit": "lemon",
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
+  },
+  {
+    "id": "seed_coconut",
+    "copy-from": "seed_fruit",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "name": { "str": "subterranean coconut" },
+    "description": "Proof that man went too far before the Cataclysm.",
+    "plant_name": "coconut",
+    "fruit": "coconut",
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "30 days" },
+      { "GROWTH_SEEDLING": "30 days" },
+      { "GROWTH_MATURE": "30 days" },
+      { "GROWTH_HARVEST": "30 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
+  }
+]

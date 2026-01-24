@@ -14,6 +14,7 @@
   - [Tier 1](#tier-1)
   - [Tier 2](#tier-2)
   - [Tier 3](#tier-3)
+  - [Legality](#legality)
 - [Spellcasting Proficiencies](#spellcasting-proficiencies)
   - [Evocation](#evocation)
   - [Channeling](#channeling)
@@ -85,8 +86,14 @@ These spells are even more fantastic or highly specialized.
 Translocate Self: This spell has a very niche but powerful spell effect. Even though its casting time precludes it from being cast in combat, its effect allows you to teleport anywhere you created a translocator gate, making it a very useful utility spell. In addition, it is classless, making it even more versatile, useful, and powerful.
 Mana Blast: This spell is like fireball, but its damage is even higher, and in addition does force damage and as such ignores armor. That puts this spell squarely in tier 3 alone.
 
+### Legality
+
+In addition to tier, spells are categoried as unrestricted, restricted, and illegal. Unrestricted spells are spells with mostly personal, innocuous effects--spells to tell time and clean your clothes, protect yourself from damage, heat food, and otherwise behave as a productive member of society. Restricted spells are that could be used for nefarious purposes that the government had an interest in keeping track of, like spells of invisibility or teleportation, summoming spells, and single-target or non-lethal combat spells. Illegal spells are spells that no civilian would ever have a reason to know, like mass combat spells or spells that exist only to cause pain and suffering. 
+
+Spellbook legality is determined by the *most* controlled spell it contains. If possible, you can make two different versions of a book (one censored) with different levels of legality.
+
 ## Spellcasting Proficiencies
-Spellcasting proficiencies allow mages to specialize in various kinds of magic, across magic classes, based on what those particular spells do. There are currently five proficieny classes; those being Evocation, Channeling, Conjuration, Enhancement, and Conveyance. 
+Spellcasting proficiencies allow mages to specialize in various kinds of magic, across magic classes, based on what those particular spells do. There are currently eight proficieny classes; those being Evocation, Channeling, Conjuration, Enhancement, Enervation, Conveyance, Restoration, and Transformation. 
 
 ### Evocation
 Evocation covers powerful, short-casting spells that are meant to release large bursts of energy quickly. This covers most offensive spells, such as Magic Missile, Fireball, or Necrotic Gaze. Evocation can also cover non-offensive spells too, so long as they require the caster to pool mana and release it in fast fashion, and their effects aren't covered by one of the other proficiencies. Proficiency in Evocation allows the caster to use mana more efficiently, raising the damage or power of the spell's effect.

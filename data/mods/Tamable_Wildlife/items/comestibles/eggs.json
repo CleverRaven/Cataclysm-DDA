@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_dragonfly_tame",
     "name": { "str": "tame dragonfly egg" },
     "copy-from": "egg_dragonfly",
@@ -8,7 +9,8 @@
     "rot_spawn": { "monster": "mon_dragonfly_naiad_friendly", "chance": 100 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_mantis_tame",
     "name": { "str": "tame mantis egg" },
     "copy-from": "egg_mantis",
@@ -16,7 +18,8 @@
     "rot_spawn": { "monster": "mon_mantis_nymph_friendly", "chance": 100 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_lady_bug_tame",
     "name": { "str": "tame ladybug egg" },
     "copy-from": "egg_lady_bug",
@@ -24,7 +27,8 @@
     "rot_spawn": { "monster": "mon_lady_bug_larva_friendly", "chance": 100 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_antlion_tame",
     "name": { "str": "tame antlion egg" },
     "copy-from": "egg_antlion",
@@ -32,7 +36,8 @@
     "rot_spawn": { "monster": "mon_antlion_larva_friendly", "chance": 100 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_cicada_tame",
     "name": { "str": "tame cicada egg" },
     "copy-from": "egg_cicada",
@@ -40,7 +45,8 @@
     "rot_spawn": { "monster": "mon_cicada_nymph_friendly", "chance": 100 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_water_beetle_tame",
     "name": { "str": "tame water beetle egg" },
     "copy-from": "egg_water_beetle",
@@ -48,7 +54,8 @@
     "rot_spawn": { "monster": "mon_diving_larva_friendly", "chance": 100 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_water_bug_tame",
     "name": { "str": "tame water scorpion egg" },
     "copy-from": "egg_water_bug",
@@ -56,7 +63,8 @@
     "rot_spawn": { "monster": "mon_water_scorpion_larva_friendly", "chance": 100 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_centipede_tame",
     "name": { "str": "tame centipede egg" },
     "copy-from": "egg_centipede",

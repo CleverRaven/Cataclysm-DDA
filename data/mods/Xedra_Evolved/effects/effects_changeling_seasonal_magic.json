@@ -8,6 +8,27 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_spring_reduce_scent",
+    "name": [ "Scent of Fresh Flowers" ],
+    "desc": [ "A sweet scent fills the air." ],
+    "remove_message": "The scent of flowers fades away.",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SCENT_MASK",
+            "multiply": {
+              "math": [
+                "( -0.15 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.015) - (u_skill('deduction') * 0.035) ) * (global_what_is_the_season == 3 ? 0.5 : 1)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_spring_prevent_bad_conditions",
     "name": [ "Spring Cleansing" ],
     "desc": [ "You feel like you've just come outside after a long winter." ],
@@ -136,6 +157,26 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_summer_protect_from_hot_weather",
+    "name": [ "Gift of Warm Blood" ],
+    "desc": [ "The essence of summer protects you from excessive heat." ],
+    "apply_message": "",
+    "remove_message": "Your blood loses its glamoured warmth.",
+    "max_duration": "12 hours",
+    "enchantments": [
+      { "condition": { "is_season": "summer" }, "incoming_damage_mod": [ { "type": "heat", "multiply": -0.33 } ] },
+      {
+        "values": [
+          {
+            "value": "CLIMATE_CONTROL_CHILL",
+            "add": { "math": [ "10 + (u_summer_spell_count * 2) + (u_deduction_for_spells * 4)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_fire_melee_damage",
     "name": [ "Burning Solar Grasp" ],
     "desc": [ "Ethereal flames flicker around your hands" ],
@@ -170,6 +211,24 @@
         ]
       },
       { "values": [ { "value": "LUMINATION", "add": 2 } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_slow_and_sweat_debuff",
+    "name": [ "Sun-struck" ],
+    "desc": [ "You need to sit down in the shade." ],
+    "show_in_info": true,
+    "rating": "bad",
+    "enchantments": [
+      {
+        "condition": { "not": { "is_season": "winter" } },
+        "values": [ { "value": "SPEED", "multiply": -0.15 }, { "value": "SWEAT_MULTIPLIER", "multiply": 0.5 } ]
+      },
+      {
+        "condition": { "and": [ { "is_season": "winter" }, "u_is_outside", "is_day" ] },
+        "values": [ { "value": "SPEED", "multiply": -0.15 }, { "value": "SWEAT_MULTIPLIER", "multiply": 0.5 } ]
+      }
     ]
   },
   {
@@ -218,6 +277,30 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_summer_ring_of_flames",
+    "name": [ "Summer Champion" ],
+    "desc": [ "You stand in the ring of flames, facing your foe.  Woe to the vanquished." ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "KNOCKBACK_RESIST", "add": 100 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ] } ],
+    "blocks_effects": [ "blisters" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_ring_of_flames_limiter",
+    "//": "Limiter so the avatar_moves EoC for Ring of Champions doesn't immediately break due to removal of fields taking 1 round to occur",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_ring_of_flames_enemy",
+    "name": [ "Enemy Champion" ],
+    "desc": [ "You are the target of Ring of Champions.  Your death will end the glamour." ],
+    "rating": "good",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_summer_powerful_sunlight",
     "name": [ "Helios's Wrath" ],
     "desc": [ "You blaze with the pure light of the summer sun." ],
@@ -233,6 +316,32 @@
             { "frequency": "4 seconds", "spell_effects": [ { "id": "changeling_summer_powerful_sunlight_spell_aura_effects" } ] }
           ]
         }
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_detect_magic_user",
+    "name": [ "Witch's Warning" ],
+    "desc": [ "You can sense nearby uses of magick." ],
+    "apply_message": "",
+    "remove_message": "Your awareness of sorcerers fades away.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "or": [ { "npc_has_flag": "MAGIC_USER" }, { "and": [ "npc_is_character", { "math": [ "n_spell_count() >= 6" ] } ] } ]
+            },
+            "distance": {
+              "math": [
+                "min( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.2) + (u_skill('deduction') * 0.5)), 25)"
+              ]
+            },
+            "descriptions": [ { "id": "wizard_sense", "symbol": "?", "color": "cyan", "text": "You sense a sorcerer here." } ]
+          }
+        ]
       }
     ]
   },
@@ -379,7 +488,7 @@
     "remove_message": "Life returns to your limbs.",
     "show_in_info": true,
     "max_duration": "6 hours",
-    "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ] } ],
+    "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ], "ench_effects": [ { "effect": "downed", "intensity": 1 } ] } ],
     "limb_score_mods": [
       { "limb_score": "lift", "modifier": 0.2 },
       { "limb_score": "block", "modifier": 0.0 },
@@ -447,5 +556,24 @@
     "name": [ "" ],
     "desc": [ "" ],
     "flags": [ "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_cut_off_fey_nature",
+    "name": [ "The Soul of Iron" ],
+    "desc": [ "Your fey powers are cut off, like they're trapped behind a wall of glass." ],
+    "remove_message": "The glass wall cutting off your fey powers shatters into dust.",
+    "rating": "mixed",
+    "removes_effects": [
+      "effect_xe_iron_intolerance_wearing_steel_tier_1",
+      "effect_xe_iron_intolerance_wearing_steel_tier_2",
+      "effect_xe_iron_intolerance_wearing_steel_tier_3",
+      "effect_xe_iron_intolerance_wearing_steel_tier_4",
+      "effect_xe_iron_intolerance_wearing_iron_tier_1",
+      "effect_xe_iron_intolerance_wearing_iron_tier_2",
+      "effect_xe_iron_intolerance_wearing_iron_tier_3",
+      "effect_xe_iron_intolerance_wearing_iron_tier_4"
+    ],
+    "flags": [ "NO_FEY_MAGIC" ]
   }
 ]

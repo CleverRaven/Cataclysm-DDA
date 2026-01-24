@@ -35,7 +35,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "sand_pit_NW", "sand_pit_N", "sand_pit_NE" ],
       [ "sand_pit_W", "sand_pit_M", "sand_pit_E" ],
@@ -124,7 +123,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "sand_pit_NW_down", "sand_pit_N_down", "sand_pit_NE_down" ],
       [ "sand_pit_W_down", "sand_pit_M_down", "sand_pit_E_down" ],

@@ -23,6 +23,7 @@
 #include "mapdata.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "pathfinding.h"
 #include "pocket_type.h"
 #include "point.h"
 #include "rng.h"
@@ -113,14 +114,13 @@ void add_fallback_zone( npc &guy )
     std::vector<tripoint_abs_ms> points;
     for( tripoint_abs_ms const &t : closest_points_first( loc, PICKUP_RANGE ) ) {
         tripoint_bub_ms const t_here = here.get_bub( t );
+        const pathfinding_target pf_t = pathfinding_target::point( t_here );
         const furn_id &f = here.furn( t_here );
         if( f != furn_str_id::NULL_ID() &&
             ( f->max_volume > ter_t_floor->max_volume ||
               f->has_flag( ter_furn_flag::TFLAG_CONTAINER ) ) &&
             here.can_put_items_ter_furn( t_here ) &&
-            !here.route( guy.pos_bub(), t_here, guy.get_pathfinding_settings(),
-                         guy.get_path_avoid() )
-            .empty() ) {
+            !here.route( guy, pf_t ).empty() ) {
             points.emplace_back( t );
         }
     }

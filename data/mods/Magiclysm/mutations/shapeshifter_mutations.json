@@ -16,12 +16,9 @@
   {
     "type": "mutation",
     "id": "DRUID_SHIFTER_BEAR_FORM_TRAITS",
-    "name": { "str": "Bear Form", "//~": "NO_I18N" },
+    "name": "Bear Form",
     "points": 98,
-    "description": {
-      "str": "You are a bear.  This provides the actual effects of bear form.  Should not be player-visible",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a bear.  This provides the actual effects of bear form.  Should not be player-visible",
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
@@ -30,7 +27,7 @@
       {
         "condition": "ALWAYS",
         "values": [
-          { "value": "MAX_HP", "multiply": 0.5 },
+          { "value": "MAX_HP", "multiply": 2 },
           { "value": "SPEED", "multiply": 0.2 },
           { "value": "RANGE", "multiply": -1 },
           { "value": "DEXTERITY", "add": 2 },
@@ -38,12 +35,13 @@
           { "value": "NIGHT_VIS", "add": 5 },
           { "value": "MELEE_DAMAGE", "multiply": 0.4 },
           { "value": "CLIMATE_CONTROL_HEAT", "add": 25 },
+          { "value": "PAIN", "multiply": -0.4 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
         "mutations": [ "FANGS", "MUZZLE_BEAR", "TAIL_STUB", "PAWS_LARGE", "URSINE_FUR", "URSINE_EARS", "PRED3" ]
       },
       {
-        "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
+        "condition": { "not": "u_can_drop_weapon" },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
       },
@@ -53,7 +51,15 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],
+    "flags": [
+      "MUTE",
+      "NO_SPELLCASTING",
+      "QUADRUPED_RUN",
+      "TOUGH_FEET",
+      "TEMPORARY_SHAPESHIFT",
+      "SHAPESHIFT_SIZE_HUGE",
+      "TEMPORARY_SHAPESHIFT_NO_HANDS"
+    ],
     "override_look": { "id": "mon_bear", "tile_category": "monster" }
   },
   {
@@ -73,12 +79,9 @@
   {
     "type": "mutation",
     "id": "DRUID_SHIFTER_COUGAR_FORM_TRAITS",
-    "name": { "str": "Cougar Form", "//~": "NO_I18N" },
+    "name": "Cougar Form",
     "points": 98,
-    "description": {
-      "str": "You are a cougar.  This provides the actual effects of cougar form.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a cougar.  This provides the actual effects of cougar form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -100,7 +103,7 @@
         "mutations": [ "FANGS", "TAIL_LONG", "PAWS", "FELINE_FUR", "FELINE_EARS", "PRED3", "WHISKERS", "FELINE_LEAP" ]
       },
       {
-        "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
+        "condition": { "not": "u_can_drop_weapon" },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
       },
@@ -110,7 +113,7 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
     "override_look": { "id": "mon_cougar", "tile_category": "monster" }
   },
   {
@@ -130,12 +133,9 @@
   {
     "type": "mutation",
     "id": "DRUID_SHIFTER_DEER_FORM_TRAITS",
-    "name": { "str": "Deer Form", "//~": "NO_I18N" },
+    "name": "Deer Form",
     "points": 98,
-    "description": {
-      "str": "You are a deer.  This provides the actual effects of deer form.  Should not be player-visible",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a deer.  This provides the actual effects of deer form.  Should not be player-visible",
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
@@ -155,7 +155,7 @@
         "mutations": [ "ANTLERS", "HOOVES" ]
       },
       {
-        "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
+        "condition": { "not": "u_can_drop_weapon" },
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
       },
       { "condition": { "u_has_move_mode": "run" }, "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ] },
@@ -164,18 +164,16 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "integrated_armor": [ "integrated_feline_fur" ],
+    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
     "override_look": { "id": "mon_deer", "tile_category": "monster" }
   },
   {
     "type": "mutation",
     "id": "DRUID_SHIFTER_FISH_FORM_TRAITS",
-    "name": { "str": "Fish Form", "//~": "NO_I18N" },
+    "name": "Fish Form",
     "points": 0,
-    "description": {
-      "str": "You are a fish.  This provides the actual effects of fish form.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a fish.  This provides the actual effects of fish form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -189,8 +187,7 @@
           { "value": "METABOLISM", "multiply": -0.333 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 },
           { "value": "CLIMATE_CONTROL_HEAT", "add": 40 }
-        ],
-        "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
+        ]
       },
       {
         "condition": { "not": { "u_is_on_terrain_with_flag": "SWIMMABLE" } },
@@ -219,6 +216,7 @@
       "NO_SPELLCASTING",
       "TEMPORARY_SHAPESHIFT",
       "SHAPESHIFT_SIZE_TINY",
+      "TEMPORARY_SHAPESHIFT_NO_HANDS",
       "WALK_UNDERWATER",
       "WEBBED_HANDS"
     ],
@@ -253,12 +251,9 @@
   {
     "type": "mutation",
     "id": "DRUID_SHIFTER_RAVEN_FORM_TRAITS",
-    "name": { "str": "Raven Form", "//~": "NO_I18N" },
+    "name": "Raven Form",
     "points": 0,
-    "description": {
-      "str": "You are a raven.  This provides the actual effects of raven form.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a raven.  This provides the actual effects of raven form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -276,9 +271,17 @@
           { "value": "NIGHT_VIS", "add": 4 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
-        "ench_effects": [ { "effect": "effect_druid_shifter_raven_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 6 } ],
         "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_l" } },
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_r" } }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_druid_shifter_raven_form_levitation", "intensity": 1 } ]
       },
       {
         "condition": "u_has_weapon",
@@ -286,7 +289,14 @@
       },
       { "condition": { "u_is_on_terrain": "t_open_air" }, "values": [ { "value": "MOVE_COST", "multiply": -0.6 } ] }
     ],
-    "flags": [ "LEVITATION", "MUTE", "NO_SPELLCASTING", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY" ],
+    "flags": [
+      "LEVITATION",
+      "MUTE",
+      "NO_SPELLCASTING",
+      "TEMPORARY_SHAPESHIFT",
+      "SHAPESHIFT_SIZE_TINY",
+      "TEMPORARY_SHAPESHIFT_NO_HANDS"
+    ],
     "override_look": { "id": "mon_raven", "tile_category": "monster" }
   },
   {
@@ -317,8 +327,8 @@
     "ugliness": 3,
     "restricts_gear": [ "head" ],
     "attacks": {
-      "attack_text_u": "You headbutt %s with your horns",
-      "attack_text_npc": "%1$s headbutts %2$s with their horns",
+      "attack_text_u": "You headbutt %s with your horns!",
+      "attack_text_npc": "%1$s headbutts %2$s with their horns!",
       "chance": 20,
       "base_damage": [ { "damage_type": "bash", "amount": 20 } ]
     },
@@ -429,5 +439,38 @@
     "ugliness": 2,
     "description": "You have a short, stubby goat tail.",
     "types": [ "TAIL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIOMANCER_NPC_WRETCH_POLYMORPH",
+    "name": { "str": "Fleshwarped Wretch" },
+    "points": 0,
+    "visibility": 30,
+    "ugliness": 30,
+    "description": "You have been transformed into a horrific pile of random parts.",
+    "valid": false,
+    "craft_skill_bonus": [ [ "electronics", -20 ], [ "tailor", -20 ], [ "mechanics", -20 ], [ "fabrication", -20 ] ],
+    "encumbrance_always": [
+      [ "arm_l", 50 ],
+      [ "arm_r", 50 ],
+      [ "leg_l", 50 ],
+      [ "leg_r", 50 ],
+      [ "mouth", 50 ],
+      [ "eyes", 50 ],
+      [ "torso", 50 ],
+      [ "head", 50 ]
+    ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SPEED", "multiply": -0.25 },
+          { "value": "DEXTERITY", "add": -6 },
+          { "value": "CARRY_WEIGHT", "multiply": -0.5 }
+        ],
+        "ench_effects": [ { "effect": "effect_biomancer_npc_wretch_polymorph", "intensity": 1 } ]
+      }
+    ],
+    "flags": [ "MUTE", "HYPEROPIC", "MYOPIC_SUPERNATURAL", "NO_SPELLCASTING", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
+    "override_look": { "id": "mon_baleful_polymorph_crawler", "tile_category": "monster" }
   }
 ]

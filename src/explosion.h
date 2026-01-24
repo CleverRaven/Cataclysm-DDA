@@ -31,6 +31,9 @@ struct shrapnel_data {
         , recovery( recovery )
         , drop( drop ) {
     }
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
 };
 
 struct explosion_data {
@@ -55,6 +58,9 @@ struct explosion_data {
         , fire( fire )
         , shrapnel( shrapnel ) {
     }
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
 };
 
 // handles explosion related functions
@@ -90,7 +96,7 @@ void _make_explosion( map *m, const Creature *source, const tripoint_bub_ms &p,
                       const explosion_data &ex );
 
 /** Triggers a flashbang explosion at p. */
-void flashbang( const tripoint_bub_ms &p, bool player_immune = false );
+void flashbang( const tripoint_bub_ms &p, bool player_immune = false, int radius = 8 );
 /** Triggers a resonance cascade at p. */
 void resonance_cascade( const tripoint_bub_ms &p );
 /** Triggers a scrambler blast at p. */

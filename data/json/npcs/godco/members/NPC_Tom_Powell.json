@@ -174,7 +174,10 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Tom_2",
     "dynamic_line": "I'm currently in the middle of solving a pointless mystery for my own entertainment.  Of course I have time!",
-    "responses": [ { "text": "Sorry Tom.  <end_talking_leave>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "Maybe I could help you with that mystery?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Sorry Tom.  <end_talking_leave>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
@@ -219,6 +222,48 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Tom_Olwen",
     "dynamic_line": "Olwen's a bright girl; she's fiddled with electronics and computers since she was in high school.  She got a master's in it from the University of Rhode Island.  Felicity's been a good mother for her, always been there for us.  Olwen might be able to teach you a few things, she should be around here somewhere.",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      {
+        "text": "What do you think about her love life with Julian in here?",
+        "topic": "TALK_GODCO_Tom_Olwen_Love0",
+        "condition": { "math": [ "godco_julian_wedding == 0" ] }
+      },
+      {
+        "text": "What do you think about her love life with Julian in here?",
+        "topic": "TALK_GODCO_Tom_Olwen_Love1",
+        "condition": { "math": [ "godco_julian_wedding == 1" ] }
+      },
+      {
+        "text": "What do you think about her love life with Julian in here?",
+        "topic": "TALK_GODCO_Tom_Olwen_Love2",
+        "condition": { "math": [ "godco_julian_wedding == 2" ] }
+      },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Olwen_Love0",
+    "dynamic_line": "I see that she is feeling down since <the_cataclysm> ruined their plans of living together, but Julian was asking me the other day about my wedding with Felicity so…  I can expect that to not last long.",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Olwen_Love1",
+    "dynamic_line": "I saw her big smile when receiving her ring from Julian, some days the smiles of my family are what keeps me going after everything that happened…",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Olwen_Love2",
+    "dynamic_line": "She is constantly jumping from happiness after trying her wedding dress with her mother…  I keep getting distracted from my investigation into <the_cataclysm>, but seeing those two makes me smile so I can't stop seeing their antics.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }

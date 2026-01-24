@@ -94,7 +94,8 @@
         "collection": [
           { "item": "leather", "prob": 50, "count": [ 2, 4 ] },
           { "item": "tanned_hide", "prob": 30, "count": [ 1, 2 ] },
-          { "item": "glasses_safety", "prob": 40 },
+          { "item": "glasses_safety", "prob": 30 },
+          { "item": "goggles_chem", "prob": 10 },
           { "item": "glasses_bal", "prob": 10 }
         ],
         "prob": 50
@@ -110,8 +111,8 @@
           { "item": "zipper_long_plastic", "prob": 10, "count": [ 1, 2 ] },
           { "item": "snapfastener_steel", "prob": 40, "count": [ 5, 10 ] },
           { "item": "chunk_rubber", "prob": 50, "count": [ 1, 2 ] },
-          { "group": "superglue", "prob": 30, "count": [ 1, 2 ] },
-          { "item": "rubber_cement", "prob": 40, "count": [ 1, 2 ] }
+          { "group": "glue_strong_domestic", "prob": 30, "count": [ 1, 2 ] },
+          { "group": "glue_weak_domestic", "prob": 40, "count": [ 1, 2 ] }
         ],
         "prob": 50
       },
@@ -127,7 +128,8 @@
           { "item": "ragpouch", "prob": 40, "count": [ 1, 2 ] },
           { "item": "tool_belt", "prob": 40 },
           { "item": "leather_pouch", "prob": 10 },
-          { "group": "superglue", "prob": 30, "count": [ 1, 2 ] }
+          { "group": "glue_strong_domestic", "prob": 15, "count": [ 1, 2 ] },
+          { "group": "glue_weak_domestic", "prob": 15, "count": [ 1, 2 ] }
         ],
         "prob": 50
       }
@@ -144,7 +146,8 @@
           { "item": "brogyeki", "prob": 20, "count": [ 1, 2 ] },
           { "item": "brogyaga", "prob": 5, "count": [ 1, 2 ] },
           { "item": "pamd68", "prob": 60, "count": [ 1, 2 ] },
-          { "item": "pamd71z", "prob": 10, "count": [ 1, 2 ] }
+          { "item": "pamd71z", "prob": 10, "count": [ 1, 2 ] },
+          { "item": "knife_combat_army", "variant": "exodiibayonet", "prob": 50, "count": [ 1, 2 ] }
         ]
       },
       {
@@ -170,7 +173,9 @@
       { "distribution": [ { "item": "exodiisapramag5", "prob": 10, "charges": 0, "count": [ 1, 2 ] } ] },
       { "item": "273x110canister", "container-item": "box_small", "prob": 25, "count": [ 2, 4 ], "sealed": true },
       { "item": "273x44HE", "container-item": "box_small_wood", "prob": 5, "count": [ 1, 3 ], "sealed": true },
-      { "item": "exodiiBRmag_153", "prob": 25, "charges": 0, "count": 1 }
+      { "item": "exodiiBRmag_153", "prob": 25, "charges": 0, "count": 1 },
+      { "item": "exodii_prybar", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "exodii_digger", "prob": 35, "count": [ 1, 2 ] }
     ]
   },
   {

@@ -18,7 +18,6 @@
 #include "item_location.h"
 #include "iteminfo_query.h"
 #include "itype.h"
-#include "make_static.h"
 #include "options_helpers.h"
 #include "output.h"
 #include "player_helpers.h"
@@ -31,6 +30,13 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_heat( "heat" );
+static const damage_type_id damage_stab( "stab" );
 
 static const itype_id itype_attachable_ear_muffs( "attachable_ear_muffs" );
 static const itype_id itype_backpack( "backpack" );
@@ -51,7 +57,6 @@ static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
 static const itype_id itype_nape_protector( "nape_protector" );
 static const itype_id itype_oxy_torch( "oxy_torch" );
 static const itype_id itype_test_2x4( "test_2x4" );
-static const itype_id itype_test_9mm_ammo( "test_9mm_ammo" );
 static const itype_id itype_test_apple( "test_apple" );
 static const itype_id itype_test_armor_chitin( "test_armor_chitin" );
 static const itype_id itype_test_armor_chitin_copy( "test_armor_chitin_copy" );
@@ -347,22 +352,6 @@ TEST_CASE( "item_requirements", "[iteminfo][requirements]" )
            "intelligence 9, perception 5, electronics 3, and devices 2\n" );
 }
 
-// Functions:
-// item::basic_info
-TEST_CASE( "iteminfo_contents", "[iteminfo][contents]" )
-{
-    clear_avatar();
-
-    // TODO: Test "Contains:", if it is still possible (couldn't find any items with it)
-    //std::vector<iteminfo_parts> contents = { iteminfo_parts::BASE_CONTENTS };
-
-    // Amount is shown for items having count_by_charges(), and are not food or medication
-    // This includes all kinds of ammo and arrows, thread, and some chemicals like sulfur.
-    item ammo( itype_test_9mm_ammo );
-    std::vector<iteminfo_parts> amount = { iteminfo_parts::BASE_AMOUNT };
-    CHECK( item_info_str( ammo, amount ) == "--\nAmount: <color_c_yellow>50</color>\n" );
-}
-
 // Related JSON fields:
 // "comestible_type": "MED":
 // "quench"
@@ -443,26 +432,6 @@ TEST_CASE( "item_price_and_barter_value", "[iteminfo][price]" )
         CHECK( item_info_str( pipe, price_barter ) ==
                "--\n"
                "Price: $<color_c_yellow>75.00</color>  Barter value: $<color_c_yellow>3.00</color>\n" );
-    }
-
-    SECTION( "item with same price and barter value shows only price" ) {
-        item nuts( itype_test_pine_nuts );
-        REQUIRE( nuts.price( false ) == 136 );
-        REQUIRE( nuts.price( true ) == 136 );
-
-        CHECK( item_info_str( nuts, price_barter ) ==
-               "--\n"
-               "Price: $<color_c_yellow>1.36</color>" );
-    }
-
-    SECTION( "item with no price or barter value" ) {
-        item rock( itype_test_rock );
-        REQUIRE( rock.price( false ) == 0 );
-        REQUIRE( rock.price( true ) == 0 );
-
-        CHECK( item_info_str( rock, price_barter ) ==
-               "--\n"
-               "Price: $<color_c_yellow>0.00</color>" );
     }
 }
 
@@ -1297,12 +1266,12 @@ static void expected_armor_values( const item &armor, float bash, float cut, flo
                                    float acid = 0.0f, float fire = 0.0f, float env = 0.0f )
 {
     CAPTURE( armor.typeId().str() );
-    REQUIRE( armor.resist( STATIC( damage_type_id( "bash" ) ) ) == Approx( bash ) );
-    REQUIRE( armor.resist( STATIC( damage_type_id( "cut" ) ) ) == Approx( cut ) );
-    REQUIRE( armor.resist( STATIC( damage_type_id( "stab" ) ) ) == Approx( stab ) );
-    REQUIRE( armor.resist( STATIC( damage_type_id( "bullet" ) ) ) == Approx( bullet ) );
-    REQUIRE( armor.resist( STATIC( damage_type_id( "acid" ) ) ) == Approx( acid ) );
-    REQUIRE( armor.resist( STATIC( damage_type_id( "heat" ) ) ) == Approx( fire ) );
+    REQUIRE( armor.resist( damage_bash ) == Approx( bash ) );
+    REQUIRE( armor.resist( damage_cut ) == Approx( cut ) );
+    REQUIRE( armor.resist( damage_stab ) == Approx( stab ) );
+    REQUIRE( armor.resist( damage_bullet ) == Approx( bullet ) );
+    REQUIRE( armor.resist( damage_acid ) == Approx( acid ) );
+    REQUIRE( armor.resist( damage_heat ) == Approx( fire ) );
     REQUIRE( armor.get_env_resist() == Approx( env ) );
 }
 
@@ -1324,9 +1293,9 @@ TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
     item hh( itype_hat_hard );
     THEN( "base stats" ) {
         //resistance stats
-        CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_head ) == Approx( 8.f ) );
-        CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_eyes ) == Approx( 0.f ) );
-        CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, eye_r ) == Approx( 0.f ) );
+        CHECK( hh.resist( damage_bash, false, bp_head ) == Approx( 8.f ) );
+        CHECK( hh.resist( damage_bash, false, bp_eyes ) == Approx( 0.f ) );
+        CHECK( hh.resist( damage_bash, false, eye_r ) == Approx( 0.f ) );
         //warmth stats: 5 (hat's warmth) * 0.4 (hat's body part coverage)
         CHECK( hh.get_warmth( bp_head ) == 2 );
         CHECK( hh.get_warmth( bp_eyes ) == 0 );
@@ -1337,9 +1306,9 @@ TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
         item face_shield( itype_face_shield );
         REQUIRE( hh.put_in( face_shield, pocket_type::CONTAINER ).success() );
         THEN( "eyes should be protected" ) {
-            CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_head ) == Approx( 8.f ) );
-            CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_eyes ) == Approx( 6.f ) );
-            CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, eye_r ) == Approx( 6.f ) );
+            CHECK( hh.resist( damage_bash, false, bp_head ) == Approx( 8.f ) );
+            CHECK( hh.resist( damage_bash, false, bp_eyes ) == Approx( 6.f ) );
+            CHECK( hh.resist( damage_bash, false, eye_r ) == Approx( 6.f ) );
         }
         THEN( "warmth should not change" ) {
             CHECK( hh.get_warmth( bp_head ) == 2 );
@@ -1377,14 +1346,14 @@ TEST_CASE( "vest_with_plate_stats", "[iteminfo][armor][protection]" )
     item vest = item( itype_ballistic_vest_esapi );
     //nylon: 1 (mat resist) * 1 (thickness)
     //kevlar: 1.5 * 4.4
-    CHECK( vest.resist( STATIC( damage_type_id( "bash" ) ), false, bp_torso ) == Approx( 7.6f ) );
+    CHECK( vest.resist( damage_bash, false, bp_torso ) == Approx( 7.6f ) );
 
     WHEN( "inserting plate" ) {
         CHECK( vest.put_in( item( itype_test_plate ), pocket_type::CONTAINER ).success() );
 
         THEN( "resist should be increased" ) {
             //previous + 1 * 25
-            CHECK( vest.resist( STATIC( damage_type_id( "bash" ) ), false, bp_torso ) == Approx( 32.6f ) );
+            CHECK( vest.resist( damage_bash, false, bp_torso ) == Approx( 32.6f ) );
         }
     }
 
@@ -1438,7 +1407,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
                "--\n"
                "<color_c_white>Protection for</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>torso</color>.\n"
                "<color_c_white>Coverage</color>: <color_c_light_blue>Normal</color>.\n"
-               "  Default:  <color_c_yellow>90</color>\n"
+               "  Default: <color_c_yellow>90</color>\n"
                "<color_c_white>Protection</color>:\n"
                "  Negligible Protection\n"
              );
@@ -1465,7 +1434,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         };
         const std::string coverage_string =
             "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
-            "  Default:  <color_c_yellow>100</color>\n";
+            "  Default: <color_c_yellow>100</color>\n";
         const std::string prot_header_string = "<color_c_white>Protection</color>:\n";
         const std::string bash_string = "  Bash: <color_c_yellow>4.00</color>\n";
         const std::string cut_string = "  Cut: <color_c_yellow>4.00</color>\n";
@@ -1515,7 +1484,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         };
         const std::string coverage_str =
             "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
-            "  Default:  <color_c_yellow>100</color>\n";
+            "  Default: <color_c_yellow>100</color>\n";
         const std::string prot_header_str = "<color_c_white>Protection</color>:\n";
         const std::string bash_str = "  Bash: <color_c_yellow>2.00</color>\n";
         const std::string cut_str = "  Cut: <color_c_yellow>2.00</color>\n";
@@ -1554,17 +1523,17 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
             "<color_c_white>Protection for</color>: The <color_c_cyan>torso</color>.\n";
         const std::string coverage_str =
             "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
-            "  Default:  <color_c_yellow>100</color>\n";
+            "  Default: <color_c_yellow>100</color>\n";
         const std::string protection_str =
-            "<color_c_white>Protection</color>: <color_c_red>4%</color>, <color_c_yellow>Median</color>, <color_c_green>4%</color>\n";
+            "<color_c_white>Protection</color>: <color_c_red>4%</color> chance, <color_c_yellow>Median</color> chance, <color_c_green>4%</color> chance\n";
         const std::string bash_str =
-            "  Bash:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n";
+            "  Bash: <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n";
         const std::string cut_str =
-            "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n";
+            "  Cut: <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n";
         const std::string ballistic_str =
-            "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>8.50</color>, <color_c_green>16.00</color>\n";
+            "  Ballistic: <color_c_red>1.00</color>, <color_c_yellow>8.50</color>, <color_c_green>16.00</color>\n";
         const std::string pierce_str =
-            "  Pierce:  <color_c_red>0.80</color>, <color_c_yellow>9.60</color>, <color_c_green>18.40</color>\n";
+            "  Pierce: <color_c_red>0.80</color>, <color_c_yellow>9.60</color>, <color_c_green>18.40</color>\n";
         size_t pos = 0;
         test_string( info, encumbrance_str, pos );
         test_string( info, bodyparts_str, pos );
@@ -1743,22 +1712,16 @@ TEST_CASE( "gun_or_other_ranged_weapon_attributes", "[iteminfo][weapon][gun]" )
     item glock( itype_test_glock );
     item rag( itype_test_rag );
 
-    SECTION( "weapon damage including floating-point multiplier" ) {
-        // Ranged damage info is displayed on a single line, in three parts:
-        //
-        // - base ranged damage (GUN_DAMAGE)
-        // - floating-point multiplier (GUN_DAMAGE_AMMOPROP)
-        // - total damage calculation (GUN_DAMAGE_TOTAL)
-        //
+    SECTION( "weapon damage" ) {
         std::vector<iteminfo_parts> damage = { iteminfo_parts::GUN_DAMAGE,
-                                               iteminfo_parts::GUN_DAMAGE_AMMOPROP,
+                                               iteminfo_parts::GUN_DAMAGE_PELLETS,
                                                iteminfo_parts::GUN_DAMAGE_TOTAL
                                              };
 
         CHECK( item_info_str( compbow, damage ) ==
                "--\n"
                "<color_c_white>Ranged damage</color>:"
-               " <color_c_yellow>18</color>*<color_c_yellow>1.50</color> = <color_c_yellow>27</color>\n" );
+               " <color_c_yellow>27</color>\n" );
     }
     // TODO: Test glock damage with and without ammo (test_glock has -1 damage when unloaded)
 
@@ -1830,7 +1793,7 @@ TEST_CASE( "gun_or_other_ranged_weapon_attributes", "[iteminfo][weapon][gun]" )
 
         CHECK( item_info_str( glock, recoil ) ==
                "--\n"
-               "Effective recoil: <color_c_yellow>312</color>\n" );
+               "Effective recoil: <color_c_yellow>3.12</color> MOA\n" );
     }
 
     SECTION( "gun type and current magazine" ) {
@@ -1889,7 +1852,7 @@ TEST_CASE( "gun_or_other_ranged_weapon_attributes", "[iteminfo][weapon][gun]" )
     SECTION( "armor piercing" ) {
         CHECK( item_info_str( compbow, { iteminfo_parts::GUN_ARMORPIERCE } ) ==
                "--\n"
-               "Armor-pierce: <color_c_yellow>0</color>\n" );
+               "Armor-pierce: <color_c_yellow>1</color>\n" );
     }
 
     SECTION( "time to reload weapon" ) {
@@ -1921,7 +1884,7 @@ TEST_CASE( "gun_or_other_ranged_weapon_attributes", "[iteminfo][weapon][gun]" )
     SECTION( "weapon dispersion" ) {
         CHECK( item_info_str( compbow, { iteminfo_parts::GUN_DISPERSION } ) ==
                "--\n"
-               "Dispersion: <color_c_yellow>850</color>\n" );
+               "Dispersion: <color_c_yellow>9.60</color> MOA\n" );
     }
 
     SECTION( "needing two hands to fire" ) {
@@ -1939,11 +1902,6 @@ TEST_CASE( "gun_armor_piercing_dispersion_and_other_stats", "[iteminfo][gun][mis
 {
     clear_avatar();
 
-    std::vector<iteminfo_parts> dmg_loaded = { iteminfo_parts::GUN_DAMAGE_LOADEDAMMO };
-    std::vector<iteminfo_parts> ap_loaded = { iteminfo_parts::GUN_ARMORPIERCE_LOADEDAMMO };
-    std::vector<iteminfo_parts> ap_total = { iteminfo_parts::GUN_ARMORPIERCE_TOTAL };
-    std::vector<iteminfo_parts> disp_loaded = { iteminfo_parts::GUN_DISPERSION_LOADEDAMMO };
-    std::vector<iteminfo_parts> disp_total = { iteminfo_parts::GUN_DISPERSION_TOTAL };
     std::vector<iteminfo_parts> disp_sight = { iteminfo_parts::GUN_DISPERSION_SIGHT };
 
     // TODO: Test these
@@ -1954,24 +1912,9 @@ TEST_CASE( "gun_armor_piercing_dispersion_and_other_stats", "[iteminfo][gun][mis
 
     item glock( itype_test_glock );
 
-    CHECK( item_info_str( glock, dmg_loaded ) ==
-           "--\n<color_c_yellow>+26</color>\n" );
-
-    CHECK( item_info_str( glock, ap_loaded ) ==
-           "--\n<color_c_yellow>+0</color>\n" );
-    CHECK( item_info_str( glock, ap_total ) ==
-           "--\n = <color_c_yellow>0</color>\n" );
-
-    CHECK( item_info_str( glock, disp_loaded ) ==
-           "--\n<color_c_yellow>+60</color>\n" );
-    CHECK( item_info_str( glock, disp_total ) ==
-           "--\n = <color_c_yellow>540</color>\n" );
-
     CHECK( item_info_str( glock, disp_sight ) ==
            "--\n"
-           "Sight dispersion: <color_c_yellow>30</color>"
-           "<color_c_yellow>+14</color>"
-           " = <color_c_yellow>44</color>\n" );
+           "Sight dispersion: <color_c_yellow>0.44</color> MOA\n" );
 
     // TODO: Add a test gun with thest attributes
     //CHECK( item_info_str( glock, recoil_bipod ).empty() );
@@ -2045,7 +1988,7 @@ TEST_CASE( "gunmod_info", "[iteminfo][gunmod]" )
 
     CHECK( item_info_str( supp, disp_sight ) ==
            "--\n"
-           "Sight dispersion: <color_c_yellow>11</color>\n" );
+           "Sight dispersion: <color_c_yellow>0.11</color> MOA\n" );
 
     CHECK( item_info_str( supp, field_of_view ) ==
            "--\n"
@@ -2085,6 +2028,8 @@ TEST_CASE( "ammunition", "[iteminfo][ammo]" )
 
     std::vector<iteminfo_parts> ammo = { iteminfo_parts::AMMO_REMAINING_OR_TYPES,
                                          iteminfo_parts::AMMO_DAMAGE_VALUE,
+                                         iteminfo_parts::AMMO_DAMAGE_PELLETS,
+                                         iteminfo_parts::AMMO_DAMAGE_TOTAL,
                                          iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL,
                                          iteminfo_parts::AMMO_DAMAGE_AP,
                                          iteminfo_parts::AMMO_DAMAGE_RANGE,
@@ -2099,9 +2044,10 @@ TEST_CASE( "ammunition", "[iteminfo][ammo]" )
         CHECK( item_info_str( rock, ammo ) ==
                "--\n"
                "<color_c_white>Ammunition type</color>: rocks\n"
-               "Damage: <color_c_yellow>7</color>  Armor-pierce: <color_c_yellow>0</color>\n"
-               "Range: <color_c_yellow>10</color>  Dispersion: <color_c_yellow>14</color>\n"
-               "Recoil: <color_c_yellow>0</color>  Critical multiplier: <color_c_yellow>2</color>\n" );
+               "Ranged damage: <color_c_yellow>7</color>\n"
+               "Armor-pierce: <color_c_yellow>0</color>\n"
+               "Range: <color_c_yellow>10</color>  Dispersion: <color_c_yellow>0.14</color> MOA\n"
+               "Recoil: <color_c_yellow>0.00</color> MOA  Critical multiplier: <color_c_yellow>2</color>\n" );
     }
 
     SECTION( "batteries" ) {
@@ -2147,7 +2093,7 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "<color_c_white>Calories (kcal)</color>:"
-               " <color_c_yellow>53</color>-<color_c_yellow>470</color>"
+               " <color_c_yellow>53</color>-<color_c_yellow>465</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
         // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
@@ -3240,12 +3186,12 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
             "--\n"
             "<color_c_white>Protection for</color>: The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n"
             "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
-            "  Default:  <color_c_yellow>90</color>\n"
+            "  Default: <color_c_yellow>90</color>\n"
             "<color_c_white>Protection</color>:\n";
         const std::string bash_string = "  Bash: <color_c_yellow>10.00</color>\n";
-        const std::string cut_string = "  Cut: <color_c_yellow>16.00</color>\n";
+        const std::string cut_string = "  Cut: <color_c_yellow>12.00</color>\n";
         const std::string ballistic_string = "  Ballistic: <color_c_yellow>5.60</color>\n";
-        const std::string pierce_string = "  Pierce: <color_c_yellow>12.80</color>\n";
+        const std::string pierce_string = "  Pierce: <color_c_yellow>9.60</color>\n";
         const std::string acid_string = "  Acid: <color_c_yellow>3.60</color>\n";
         const std::string fire_string = "  Fire: <color_c_yellow>1.50</color>\n";
         const std::string env_string = "  Environmental: <color_c_yellow>6</color>\n";
@@ -3269,12 +3215,12 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
             "--\n"
             "<color_c_white>Protection for</color>: The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n"
             "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
-            "  Default:  <color_c_yellow>90</color>\n"
+            "  Default: <color_c_yellow>90</color>\n"
             "<color_c_white>Protection</color>:\n";
         const std::string bash_str = "  Bash: <color_c_yellow>12.00</color>\n";
-        const std::string cut_str = "  Cut: <color_c_yellow>19.20</color>\n";
+        const std::string cut_str = "  Cut: <color_c_yellow>14.40</color>\n";
         const std::string ballistic_str = "  Ballistic: <color_c_yellow>6.72</color>\n";
-        const std::string pierce_str = "  Pierce: <color_c_yellow>15.36</color>\n";
+        const std::string pierce_str = "  Pierce: <color_c_yellow>11.52</color>\n";
         const std::string acid_str = "  Acid: <color_c_yellow>4.20</color>\n";
         const std::string fire_str = "  Fire: <color_c_yellow>1.75</color>\n";
         const std::string env_str = "  Environmental: <color_c_yellow>7</color>\n";
@@ -3297,12 +3243,12 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
             "--\n"
             "<color_c_white>Protection for</color>: The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n"
             "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
-            "  Default:  <color_c_yellow>90</color>\n"
+            "  Default: <color_c_yellow>90</color>\n"
             "<color_c_white>Protection</color>:\n";
         const std::string bash_str = "  Bash: <color_c_yellow>15.00</color>\n";
-        const std::string cut_str = "  Cut: <color_c_yellow>24.00</color>\n";
+        const std::string cut_str = "  Cut: <color_c_yellow>18.00</color>\n";
         const std::string ballistic_str = "  Ballistic: <color_c_yellow>8.40</color>\n";
-        const std::string pierce_str = "  Pierce: <color_c_yellow>19.20</color>\n";
+        const std::string pierce_str = "  Pierce: <color_c_yellow>14.40</color>\n";
         const std::string acid_str = "  Acid: <color_c_yellow>4.80</color>\n";
         const std::string fire_str = "  Fire: <color_c_yellow>2.00</color>\n";
         const std::string env_str = "  Environmental: <color_c_yellow>8</color>\n";

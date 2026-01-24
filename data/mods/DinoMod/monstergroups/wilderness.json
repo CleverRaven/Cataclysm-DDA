@@ -80,46 +80,40 @@
     "monsters": [
       { "monster": "mon_pteranodon", "weight": 25, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
       { "monster": "mon_quetzalcoatlus", "weight": 4, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_mosasaurus", "weight": 1, "cost_multiplier": 25, "starts": "3 days" },
-      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "7 days" },
-      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "14 days" },
+      { "monster": "mon_mosasaurus", "weight": 1, "cost_multiplier": 25, "starts": "12 days" },
       { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "28 days" },
-      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "90 days" },
-      { "monster": "mon_shonisaurus", "weight": 1, "cost_multiplier": 25, "starts": "3 days" },
-      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "7 days" },
-      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "14 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "56 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "112 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "360 days" },
+      { "monster": "mon_shonisaurus", "weight": 1, "cost_multiplier": 25, "starts": "12 days" },
       { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "28 days" },
-      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "90 days" },
+      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "56 days" },
+      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "112 days" },
+      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "360 days" },
       { "monster": "mon_plesiosaurus", "weight": 1, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "7 days" },
-      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "14 days" },
       { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "28 days" },
-      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "90 days" }
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "56 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "112 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "360 days" }
     ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_STREAM",
     "monsters": [
-      { "group": "GROUP_DINOSAUR_PREDATOR_STREAM", "weight": 10, "starts": "3 days" },
-      { "group": "GROUP_DINOSAUR_PREDATOR_STREAM", "weight": 20, "starts": "3 days", "ends": "7 days" },
-      { "group": "GROUP_DINOSAUR_PREDATOR_STREAM", "weight": 20, "starts": "3 days", "ends": "28 days" },
-      { "group": "GROUP_DINOSAUR_PREDATOR_STREAM", "weight": 20, "starts": "3 days", "ends": "90 days" },
-      { "group": "GROUP_DINOSAUR_ZREDATOR_STREAM", "weight": 25, "starts": "7 days" },
+      { "group": "GROUP_DINOSAUR_PREDATOR_STREAM", "weight": 10, "starts": "12 days" },
+      { "group": "GROUP_DINOSAUR_PREDATOR_STREAM", "weight": 20, "starts": "12 days", "ends": "28 days" },
+      { "group": "GROUP_DINOSAUR_PREDATOR_STREAM", "weight": 20, "starts": "12 days", "ends": "112 days" },
+      { "group": "GROUP_DINOSAUR_PREDATOR_STREAM", "weight": 20, "starts": "12 days", "ends": "360 days" },
       { "group": "GROUP_DINOSAUR_ZREDATOR_STREAM", "weight": 25, "starts": "28 days" },
-      { "group": "GROUP_DINOSAUR_ZREDATOR_STREAM", "weight": 25, "starts": "90 days" },
+      { "group": "GROUP_DINOSAUR_ZREDATOR_STREAM", "weight": 25, "starts": "112 days" },
+      { "group": "GROUP_DINOSAUR_ZREDATOR_STREAM", "weight": 25, "starts": "360 days" },
       { "group": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS", "weight": 25, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
       {
         "group": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS",
         "weight": 25,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
-        "ends": "3 days"
-      },
-      {
-        "group": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS",
-        "weight": 25,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
-        "ends": "7 days"
+        "ends": "12 days"
       },
       {
         "group": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS",
@@ -131,12 +125,18 @@
         "group": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS",
         "weight": 25,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
-        "ends": "90 days"
+        "ends": "112 days"
       },
-      { "group": "GROUP_DINOSAUR_ZAUROPODS_WILDERNESS", "weight": 25, "starts": "3 days" },
-      { "group": "GROUP_DINOSAUR_ZAUROPODS_WILDERNESS", "weight": 25, "starts": "7 days" },
+      {
+        "group": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS",
+        "weight": 25,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
+        "ends": "360 days"
+      },
+      { "group": "GROUP_DINOSAUR_ZAUROPODS_WILDERNESS", "weight": 25, "starts": "12 days" },
       { "group": "GROUP_DINOSAUR_ZAUROPODS_WILDERNESS", "weight": 25, "starts": "28 days" },
-      { "group": "GROUP_DINOSAUR_ZAUROPODS_WILDERNESS", "weight": 25, "starts": "90 days" }
+      { "group": "GROUP_DINOSAUR_ZAUROPODS_WILDERNESS", "weight": 25, "starts": "112 days" },
+      { "group": "GROUP_DINOSAUR_ZAUROPODS_WILDERNESS", "weight": 25, "starts": "360 days" }
     ]
   },
   {
@@ -145,21 +145,21 @@
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_mosasaurus", "weight": 2, "cost_multiplier": 25, "starts": "3 days" },
-      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "7 days" },
-      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "14 days" },
+      { "monster": "mon_mosasaurus", "weight": 2, "cost_multiplier": 25, "starts": "12 days" },
       { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "28 days" },
-      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "90 days" },
-      { "monster": "mon_shonisaurus", "weight": 1, "cost_multiplier": 25, "starts": "3 days" },
-      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "7 days" },
-      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "14 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "56 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "112 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "360 days" },
+      { "monster": "mon_shonisaurus", "weight": 1, "cost_multiplier": 25, "starts": "12 days" },
       { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "28 days" },
-      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "90 days" },
+      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "56 days" },
+      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "112 days" },
+      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "360 days" },
       { "monster": "mon_plesiosaurus", "weight": 4, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "7 days" },
-      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "14 days" },
       { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "28 days" },
-      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "90 days" }
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "56 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "112 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "360 days" }
     ]
   },
   {
@@ -168,43 +168,43 @@
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_mosasaurus", "weight": 2, "cost_multiplier": 25, "starts": "3 days" },
-      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "7 days" },
-      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "14 days" },
+      { "monster": "mon_mosasaurus", "weight": 2, "cost_multiplier": 25, "starts": "12 days" },
       { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "28 days" },
-      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "90 days" },
-      { "monster": "mon_shonisaurus", "weight": 1, "cost_multiplier": 25, "starts": "3 days" },
-      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "7 days" },
-      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "14 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "56 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "112 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "360 days" },
+      { "monster": "mon_shonisaurus", "weight": 1, "cost_multiplier": 25, "starts": "12 days" },
       { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "28 days" },
-      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "90 days" },
+      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "56 days" },
+      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "112 days" },
+      { "monster": "mon_zonisaurus", "cost_multiplier": 25, "starts": "360 days" },
       { "monster": "mon_plesiosaurus", "weight": 4, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "7 days" },
-      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "14 days" },
       { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "28 days" },
-      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "90 days" }
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "56 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "112 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "360 days" }
     ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_SWAMP",
     "monsters": [
-      { "group": "GROUP_DINOSAUR_PREDATOR_SWAMP", "weight": 20, "starts": "3 days" },
-      { "group": "GROUP_DINOSAUR_PREDATOR_SWAMP", "weight": 20, "starts": "3 days", "ends": "7 days" },
-      { "group": "GROUP_DINOSAUR_PREDATOR_SWAMP", "weight": 20, "starts": "3 days", "ends": "28 days" },
-      { "group": "GROUP_DINOSAUR_PREDATOR_SWAMP", "weight": 20, "starts": "3 days", "ends": "90 days" },
-      { "group": "GROUP_DINOSAUR_ZREDATOR_SWAMP", "weight": 25, "starts": "7 days" },
+      { "group": "GROUP_DINOSAUR_PREDATOR_SWAMP", "weight": 20, "starts": "12 days" },
+      { "group": "GROUP_DINOSAUR_PREDATOR_SWAMP", "weight": 20, "starts": "12 days", "ends": "28 days" },
+      { "group": "GROUP_DINOSAUR_PREDATOR_SWAMP", "weight": 20, "starts": "12 days", "ends": "112 days" },
+      { "group": "GROUP_DINOSAUR_PREDATOR_SWAMP", "weight": 20, "starts": "12 days", "ends": "360 days" },
       { "group": "GROUP_DINOSAUR_ZREDATOR_SWAMP", "weight": 25, "starts": "28 days" },
-      { "group": "GROUP_DINOSAUR_ZREDATOR_SWAMP", "weight": 25, "starts": "90 days" },
+      { "group": "GROUP_DINOSAUR_ZREDATOR_SWAMP", "weight": 25, "starts": "112 days" },
+      { "group": "GROUP_DINOSAUR_ZREDATOR_SWAMP", "weight": 25, "starts": "360 days" },
       { "group": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS", "weight": 25 },
-      { "group": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS", "weight": 25, "ends": "3 days" },
-      { "group": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS", "weight": 25, "ends": "7 days" },
+      { "group": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS", "weight": 25, "ends": "12 days" },
       { "group": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS", "weight": 25, "ends": "28 days" },
-      { "group": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS", "weight": 25, "ends": "90 days" },
-      { "group": "GROUP_DINOSAUR_ZADROSAURS_WILDERNESS", "weight": 25, "starts": "3 days" },
-      { "group": "GROUP_DINOSAUR_ZADROSAURS_WILDERNESS", "weight": 25, "starts": "7 days" },
+      { "group": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS", "weight": 25, "ends": "112 days" },
+      { "group": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS", "weight": 25, "ends": "360 days" },
+      { "group": "GROUP_DINOSAUR_ZADROSAURS_WILDERNESS", "weight": 25, "starts": "12 days" },
       { "group": "GROUP_DINOSAUR_ZADROSAURS_WILDERNESS", "weight": 25, "starts": "28 days" },
-      { "group": "GROUP_DINOSAUR_ZADROSAURS_WILDERNESS", "weight": 25, "starts": "90 days" }
+      { "group": "GROUP_DINOSAUR_ZADROSAURS_WILDERNESS", "weight": 25, "starts": "112 days" },
+      { "group": "GROUP_DINOSAUR_ZADROSAURS_WILDERNESS", "weight": 25, "starts": "360 days" }
     ]
   },
   {

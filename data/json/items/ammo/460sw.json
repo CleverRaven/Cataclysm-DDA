@@ -2,7 +2,8 @@
   {
     "id": "460sw",
     "//": "Based on https://www.hornady.com/ammunition/handgun/460-s-w-magnum-200-gr-ftx#!/",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".460 S&W Magnum FTX" },
     "description": ".460 S&W Magnum ammo, with a 200 grain FTX projectile.  Its purpose serves mainly as a hunting handgun, or to deter wildlife in dangerous areas, though you have no doubt about its effectiveness against the undead.",
     "ascii_picture": "454_Casull",
@@ -28,7 +29,8 @@
   {
     "id": "reloaded_460sw",
     "copy-from": "460sw",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".460 S&W Magnum FTX, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -37,7 +39,8 @@
   {
     "id": "460sw_jhp",
     "//": "Based on https://www.federalpremium.com/handgun/premium-handgun-hunting/swift-a-frame/11-P460SA.html, multiplying the damage by 1.2 to account for the fact it's JHP.",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".460 S&W Magnum JHP" },
     "description": ".460 S&W Magnum ammo, with a 300 grain JHP projectile.  Its purpose serves mainly as a hunting handgun, or to deter wildlife in dangerous areas, though you have no doubt about its effectiveness against the undead.",
     "ascii_picture": "454_Casull",
@@ -63,7 +66,8 @@
   {
     "id": "reloaded_460sw_jhp",
     "copy-from": "460sw_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".460 S&W Magnum JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },

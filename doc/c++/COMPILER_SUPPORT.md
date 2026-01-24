@@ -3,7 +3,7 @@
 | Compiler                                             | Oldest Version |
 | :---                                                 | ---: |
 | [GCC](https://gcc.gnu.org)                           | [9.3](https://gcc.gnu.org/onlinedocs/gcc-9.3.0/gcc/) |
-| [clang](https://clang.llvm.org)                      | [10.0](https://releases.llvm.org/10.0.0/docs/index.html) |
+| [clang](https://clang.llvm.org)                      | [13.0](https://releases.llvm.org/13.0.0/docs/index.html) |
 | [MinGW-w64](https://www.mingw-w64.org)               | [UCRT 14.2.0](https://www.mingw-w64.org/downloads/)  |
 | [Visual Studio](https://visualstudio.microsoft.com/) | [2019](COMPILING-VS-VCPKG.md) |
 | [XCode](https://developer.apple.com/xcode)           | [11.4](https://developer.apple.com/documentation/xcode-release-notes/xcode-11_4-release-notes) <br/> [macOS 10.15](https://en.wikipedia.org/wiki/MacOS_Catalina) |
@@ -22,12 +22,12 @@ automated testing[^1].
 [^1]: [GitHub Actions Runner Images](https://github.com/actions/runner-images?tab=readme-ov-file#available-images)
 
 At the time of writing:
-* Bionic is about to end general support, so we aim to support the next oldest
-  Ubuntu LTS (Focal).  Focal [defaults to g++
-  9.3](https://packages.ubuntu.com/focal/g++) and [clang
-  10](https://packages.ubuntu.com/focal/clang).
-* Debian stable is Bullseye, and [defaults to g++
-  10.2](https://packages.debian.org/bullseye/g++).
+* Focal is about to end general support, so we aim to support the next oldest
+  Ubuntu LTS (Jammy).  Jammy [defaults to g++
+  11.2](https://packages.ubuntu.com/jammy/g++) and [clang
+  14](https://packages.ubuntu.com/jammy/clang).
+* Debian stable is Bookworm, and [defaults to g++
+  12.2](https://packages.debian.org/bookworm/g++).
 * Oldest [supported Fedora](https://fedoraproject.org/wiki/Releases) is 40,
   which uses [gcc
   14.0](https://fedoraproject.org/wiki/Changes/GNUToolchainF40).

@@ -49,6 +49,13 @@
     "flags": [ "OVERHEATED_GUN" ]
   },
   {
+    "id": "fault_overheat_forced_safety",
+    "type": "fault",
+    "name": { "str": "Overheat Protection" },
+    "description": "This weapon will enter a cooling cycle when overheated.",
+    "flags": [ "OVERHEATED_GUN" ]
+  },
+  {
     "id": "fault_fail_to_feed",
     "type": "fault",
     "//": "gun_mechanical_simple can be fixed on the fly",
@@ -81,7 +88,7 @@
     "type": "fault",
     "fault_type": "gun_mechanical_simple",
     "name": { "str": "Double feed" },
-    "description": "Magazine of the gun tried to put two rounds in the chamber at once.",
+    "description": "The magazine of the gun tried to put two rounds in the chamber at once.",
     "item_prefix": "jammed"
   }
 ]

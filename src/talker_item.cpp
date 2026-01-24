@@ -1,6 +1,5 @@
 #include "talker_item.h"
 
-#include <optional>
 #include <vector>
 
 #include "bodypart.h"
@@ -11,6 +10,8 @@
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
+#include "magic_enchantment.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "units.h"
 
@@ -58,9 +59,9 @@ tripoint_abs_omt talker_item_const::pos_abs_omt() const
     return get_player_character().pos_abs_omt();
 }
 
-std::optional<std::string> talker_item_const::maybe_get_value( const std::string &var_name ) const
+diag_value const *talker_item_const::maybe_get_value( const std::string &var_name ) const
 {
-    return me_it_const->get_item()->maybe_get_var( var_name );
+    return me_it_const->get_item()->maybe_get_value( var_name );
 }
 
 bool talker_item_const::has_flag( const flag_id &f ) const
@@ -106,6 +107,15 @@ units::energy talker_item_const::power_max() const
     return 1_mJ * me_it_const->get_item()->ammo_capacity( ammo_battery );
 }
 
+int talker_item_const::get_artifact_resonance() const
+{
+    int ret = 0;
+    for( enchant_cache &this_ench : me_it_const->get_item()->get_proc_enchantments() ) {
+        ret += this_ench.get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE );
+    }
+    return ret;
+}
+
 int talker_item_const::get_count() const
 {
     return me_it_const->get_item()->count();
@@ -138,7 +148,7 @@ int talker_item_const::get_quality( const std::string &quality, bool strict ) co
     return me_it_const->get_quality( quality, strict );
 }
 
-void talker_item::set_value( const std::string &var_name, const std::string &value )
+void talker_item::set_value( const std::string &var_name, diag_value const &value )
 {
     me_it->get_item()->set_var( var_name, value );
 }
@@ -167,4 +177,15 @@ void talker_item::set_degradation( int set )
 void talker_item::die( map * )
 {
     me_it->remove_item();
+}
+
+void talker_item::set_fault( const fault_id &fault_id, bool force, bool message )
+{
+    me_it->get_item()->set_fault( fault_id, force, message );
+}
+
+void talker_item::set_random_fault_of_type( const std::string &fault_type, bool force,
+        const bool message )
+{
+    me_it->get_item()->set_random_fault_of_type( fault_type, force, message );
 }

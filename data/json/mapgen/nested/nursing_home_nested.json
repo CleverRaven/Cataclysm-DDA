@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nursing_home_receptionist",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -18,7 +17,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nursing_home_recep_manager",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -35,7 +33,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nursing_home_coo",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -52,7 +49,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nursing_home_sci",
     "object": {
       "mapgensize": [ 1, 1 ],

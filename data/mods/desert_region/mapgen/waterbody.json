@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       "lake_bed",
       "lake_shore",
@@ -59,7 +58,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "shore_north",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -94,7 +92,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "shore_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -129,7 +126,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "shore_south",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -164,7 +160,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "shore_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -199,7 +194,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "shore_north_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -234,7 +228,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "shore_north_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -269,7 +262,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "shore_south_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -304,7 +296,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "shore_south_west",
     "object": {
       "mapgensize": [ 24, 24 ],

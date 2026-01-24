@@ -1,7 +1,8 @@
 [
   {
     "id": "book_lockpick",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "MIT Guide to Lock Picking", "str_pl": "copies of MIT Guide to Lock Picking" },
     "description": "A home-made booklet with large black-and-white pictures of several types of modern locks and general information on how to crack them open.",
@@ -28,6 +29,12 @@
         "name": { "str": "E-Z Picking Manual", "str_pl": "copies of E-Z Picking Manual" },
         "description": "The combined experience of a few different locksmiths of how to do it properly, what skillset is required, and where it is legal to use it.  It says it comes with a DVD, but you can't find it anywhere nearby.",
         "//": "no info"
+      },
+      {
+        "id": "book_lockpick_4",
+        "name": { "str": "Locks, Safes, and Security", "str_pl": "copies of Locks, Safes, and Security" },
+        "description": "This book is a reference work intended for criminal investigators, locksmiths, security personnel, and similar professionals.  It details the history, development, and design of various forms of locks, keys, and other security equipment.",
+        "//": "0-398-07079-2"
       }
     ],
     "weight": "400 g",
@@ -38,9 +45,9 @@
     "symbol": "?",
     "looks_like": "pocket_firstaid",
     "color": "green",
-    "skill": "traps",
     "max_level": 2,
     "intelligence": 8,
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "traps"
   }
 ]

@@ -10,7 +10,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include "assign.h"
 #include "color.h"
 #include "condition.h"
 #include "debug.h"
@@ -22,7 +21,6 @@
 #include "json.h"
 #include "localized_comparator.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "memory_fast.h"
 #include "npc.h"
 #include "string_formatter.h"
@@ -30,6 +28,9 @@
 #include "translations.h"
 #include "uilist.h"
 #include "weighted_list.h"
+
+static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
+static const json_character_flag json_flag_HERITAGE( "HERITAGE" );
 
 static const mutation_category_id mutation_category_ANY( "ANY" );
 
@@ -194,22 +195,22 @@ void mutation_branch::load_trait( const JsonObject &jo, const std::string &src )
 
 mut_transform::mut_transform() = default;
 
-bool mut_transform::load( const JsonObject &jsobj, const std::string_view member )
+bool mut_transform::load( const JsonObject &jsobj, std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
-    assign( j, "target", target );
-    assign( j, "msg_transform", msg_transform );
-    assign( j, "active", active );
+    optional( j, false, "target", target );
+    optional( j, false, "msg_transform", msg_transform );
+    optional( j, false, "active", active, false );
     optional( j, false, "safe", safe, false );
-    assign( j, "moves", moves );
+    optional( j, false, "moves", moves, 0 );
 
     return true;
 }
 
 mut_personality_score::mut_personality_score() = default;
 
-bool mut_personality_score::load( const JsonObject &jsobj, const std::string_view member )
+bool mut_personality_score::load( const JsonObject &jsobj, std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -295,7 +296,7 @@ void mutation_variant::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-void mutation_branch::load( const JsonObject &jo, const std::string_view src )
+void mutation_branch::load( const JsonObject &jo, std::string_view src )
 {
     mandatory( jo, was_loaded, "name", raw_name );
     mandatory( jo, was_loaded, "description", raw_desc );
@@ -305,7 +306,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "visibility", visibility, 0 );
     optional( jo, was_loaded, "ugliness", ugliness, 0 );
     optional( jo, was_loaded, "starting_trait", startingtrait, false );
-    optional( jo, was_loaded, "random_at_chargen", random_at_chargen, true );
+    optional( jo, was_loaded, "chargen_allow_npc", chargen_allow_npc, true );
     optional( jo, was_loaded, "mixed_effect", mixed_effect, false );
     optional( jo, was_loaded, "active", activated, false );
     optional( jo, was_loaded, "starts_active", starts_active, false );
@@ -391,6 +392,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "scent_intensity", scent_intensity, std::nullopt );
     optional( jo, was_loaded, "scent_type", scent_typeid, std::nullopt );
     optional( jo, was_loaded, "ignored_by", ignored_by );
+    optional( jo, was_loaded, "empathize_with", empathize_with );
+    optional( jo, was_loaded, "no_empathize_with", no_empathize_with );
     optional( jo, was_loaded, "can_only_eat", can_only_eat );
     optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
     optional( jo, was_loaded, "can_heal_with", can_heal_with );
@@ -529,8 +532,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
             for( const body_part_type &bp : body_part_type::get_all() ) {
                 if( type_string == "ALL" ) {
                     armor[bp.id] += res;
-                } else if( bp.limbtypes.count( io::string_to_enum<body_part_type::type>( type_string ) ) > 0 ) {
-                    armor[bp.id] += res * bp.limbtypes.at( io::string_to_enum<body_part_type::type>( type_string ) );
+                } else if( bp.limbtypes.count( io::string_to_enum<bp_type>( type_string ) ) > 0 ) {
+                    armor[bp.id] += res * bp.limbtypes.at( io::string_to_enum<bp_type>( type_string ) );
                 }
             }
         }
@@ -643,7 +646,8 @@ static void check_consistency( const std::vector<trait_id> &mvec, const trait_id
             debugmsg( "mutation %s refers to undefined %s %s", mid.c_str(), what.c_str(), m.c_str() );
         }
 
-        if( m == mid ) {
+        // TODO: The context check here is gross but this is throwing false positives on #81278 that I don't know how to check for in a better way and I can't repro a crash even if the mutation doesn't cancel cancelling itself it just makes the UI a bit unintuitive
+        if( m == mid && what != "cancels" ) {
             debugmsg( "mutation %s refers to itself in %s context.  The program will crash if the player gains this mutation.",
                       mid.c_str(), what.c_str() );
         }
@@ -784,12 +788,12 @@ void mutation_branch::check_consistency()
 
 nc_color mutation_branch::get_display_color() const
 {
-    if( flags.count( STATIC( json_character_flag( "ATTUNEMENT" ) ) ) ) {
+    if( flags.count( json_flag_ATTUNEMENT ) ) {
         return c_green;
+    } else if( flags.count( json_flag_HERITAGE ) || debug ) {
+        return c_light_cyan;
     } else if( threshold || profession ) {
         return c_white;
-    } else if( debug ) {
-        return c_light_cyan;
     } else if( mixed_effect ) {
         return c_pink;
     } else if( points > 0 ) {

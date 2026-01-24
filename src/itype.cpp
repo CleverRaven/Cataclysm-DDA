@@ -11,7 +11,6 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "make_static.h"
 #include "map.h"
 #include "material.h"
 #include "recipe.h"
@@ -19,6 +18,8 @@
 #include "ret_val.h"
 #include "subbodypart.h"
 #include "translations.h"
+
+static const flag_id json_flag_CAN_HAVE_CHARGES( "CAN_HAVE_CHARGES" );
 
 std::string gunmod_location::name() const
 {
@@ -125,7 +126,7 @@ int itype::damage_level( int damage ) const
     return std::clamp( 1 + 4 * damage / damage_max(), 0, 5 );
 }
 
-bool itype::has_any_quality( const std::string_view quality ) const
+bool itype::has_any_quality( std::string_view quality ) const
 {
     return std::any_of( qualities.begin(),
     qualities.end(), [&quality]( const std::pair<quality_id, int> &e ) {
@@ -138,11 +139,11 @@ bool itype::has_any_quality( const std::string_view quality ) const
 
 int itype::charges_default() const
 {
-    if( tool ) {
+    if( tool && tool->def_charges > 0 ) {
         return tool->def_charges;
-    } else if( comestible ) {
+    } else if( comestible && comestible->def_charges > 0 ) {
         return comestible->def_charges;
-    } else if( ammo ) {
+    } else if( ammo && ammo->def_charges > 0 ) {
         return ammo->def_charges;
     }
     return count_by_charges() ? 1 : 0;
@@ -192,6 +193,17 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
 {
     const auto iter = use_methods.find( iuse_name );
     return iter != use_methods.end() ? &iter->second : nullptr;
+}
+
+bool itype::has_tick( const std::string &iuse_name ) const
+{
+    return get_tick( iuse_name ) != nullptr;
+}
+
+const use_function *itype::get_tick( const std::string &iuse_name ) const
+{
+    const auto iter = tick_action.find( iuse_name );
+    return iter != tick_action.end() ? &iter->second : nullptr;
 }
 
 int itype::tick( Character *p, item &it, const tripoint_bub_ms &pos ) const
@@ -268,7 +280,7 @@ bool itype::can_have_charges() const
     if( gun && gun->clip > 0 ) {
         return true;
     }
-    if( has_flag( STATIC( flag_id( "CAN_HAVE_CHARGES" ) ) ) ) {
+    if( has_flag( json_flag_CAN_HAVE_CHARGES ) ) {
         return true;
     }
     return false;
@@ -282,6 +294,16 @@ bool itype::is_basic_component() const
         }
     }
     return false;
+}
+
+const std::vector<std::pair<flag_id, time_duration>> &islot_seed::get_growth_stages() const
+{
+    return growth_stages;
+}
+
+units::temperature islot_seed::get_growth_temp() const
+{
+    return growth_temp;
 }
 
 int islot_armor::avg_env_resist() const
@@ -368,7 +390,7 @@ bool armor_portion_data::should_consolidate( const armor_portion_data &l,
 int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) const
 {
     // this function takes some fixed points for mass to encumbrance and interpolates them to get results for head encumbrance
-    // TODO: Generalize this for other body parts (either with a modifier or seperated point graphs)
+    // TODO: Generalize this for other body parts (either with a modifier or separated point graphs)
     // TODO: Handle distributed weight
 
     int encumbrance = 0;
@@ -382,7 +404,7 @@ int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) c
         return 100;
     }
 
-    // get the bound bellow our given weight
+    // get the bound below our given weight
     --itt;
 
     std::map<units::mass, int>::iterator next_itt = std::next( itt );
@@ -413,7 +435,7 @@ int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) c
     // modify by flat
     encumbrance += additional_encumbrance;
 
-    // cap encumbrance at at least 1
+    // cap encumbrance at least 1
     return std::max( encumbrance, 1 );
 }
 
@@ -447,6 +469,19 @@ const itype_id &itype::tool_slot_first_ammo() const
     return itype_id::NULL_ID();
 }
 
+std::set<std::string> itype::all_variant_names() const
+{
+    std::set<std::string> ret;
+
+    for( const itype_variant_data &var : variants ) {
+        if( var.weight > 0 ) {
+            ret.insert( var.alt_name.translated() );
+        }
+    }
+
+    return ret;
+}
+
 int islot_ammo::dispersion_considering_length( units::length barrel_length ) const
 {
 
@@ -460,4 +495,52 @@ int islot_ammo::dispersion_considering_length( units::length barrel_length ) con
                                   static_cast<float>( b.dispersion_modifier ) );
     }
     return multi_lerp( lerp_points, barrel_length.value() ) + dispersion;
+}
+
+bool item_melee_damage::handle_proportional( const JsonValue &jval )
+{
+    if( jval.test_object() ) {
+        item_melee_damage rhs;
+        rhs.default_value = 1.0f;
+        rhs.deserialize( jval.get_object() );
+        for( const std::pair<const damage_type_id, float> &dt : rhs.damage_map ) {
+            const auto iter = damage_map.find( dt.first );
+            if( iter != damage_map.end() ) {
+                iter->second *= dt.second;
+                // For maintaining legacy behaviour (when melee damage used ints)
+                iter->second = std::floor( iter->second );
+            }
+        }
+        return true;
+    }
+    jval.throw_error( "invalid damage map for item melee damage" );
+    return false;
+}
+
+item_melee_damage &item_melee_damage::operator+=( const item_melee_damage &rhs )
+{
+    for( const std::pair<const damage_type_id, float> &dt : rhs.damage_map ) {
+        const auto iter = damage_map.find( dt.first );
+        if( iter != damage_map.end() ) {
+            iter->second += dt.second;
+            // For maintaining legacy behaviour (when melee damage used ints)
+            iter->second = std::floor( iter->second );
+        }
+    }
+    return *this;
+}
+
+void item_melee_damage::finalize()
+{
+    finalize_damage_map( damage_map, false, default_value );
+}
+
+void item_melee_damage::deserialize( const JsonObject &jo )
+{
+    damage_map = load_damage_map( jo );
+    //we can do this because items are always loaded after damage types
+    // ^this is not true, objects are loaded as they are encountered, and in mod load order
+    // Being loaded in mod load order particularly is the risk here!
+    // FIXME: call finalize in the right place
+    finalize();
 }

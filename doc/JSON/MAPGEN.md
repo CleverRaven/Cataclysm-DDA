@@ -1,72 +1,91 @@
-
 # MAPGEN
 
-* [How buildings and terrain are generated](#how-buildings-and-terrain-are-generated)
-* [Adding mapgen entries](#adding-mapgen-entries)
-  * [Methods](#methods)
-  * [Mapgen definition Placement](#mapgen-definition-placement)
-    * [Embedded mapgen](#embedded-mapgen)
-    * [Standalone mapgen](#standalone-mapgen)
-  * [Format and variables](#format-and-variables)
-    * [Define mapgen "method"](#define-mapgen-method)
-    * [Define overmap terrain with "om_terrain" value, array, or nested array](#define-overmap-terrain-with-om_terrain-value-array-or-nested-array)
-    * [Define mapgen "weight"](#define-mapgen-weight)
-  * [How "overmap_terrain" variables affect mapgen](#how-overmap_terrain-variables-affect-mapgen)
-  * [Limitations / TODO](#limitations--todo)
-* [JSON object definition](#json-object-definition)
-  * [Fill terrain using "fill_ter"](#fill-terrain-using-fill_ter)
-  * [ASCII map using "rows" array](#ascii-map-using-rows-array)
-    * [Row terrains in "terrain"](#row-terrains-in-terrain)
-    * [Furniture symbols in "furniture" array](#furniture-symbols-in-furniture-array)
-  * [Set terrain, furniture, traps, or variables with a "set" array](#set-terrain-furniture-or-traps-with-a-set-array)
-    * [Set things at a "point"](#set-things-at-a-point)
-    * [Set things in a "line"](#set-things-in-a-line)
-    * [Set things in a "square"](#set-things-in-a-square)
-  * [Spawn a single monster with "place_monster"](#spawn-a-single-monster-with-place_monster)
-  * [Spawn an entire group of monsters with "place_monsters"](#spawn-an-entire-group-of-monsters-with-place_monsters)
-  * [Spawn npcs with "place_npcs"](#spawn-npcs-with-place_npcs)
-  * [Set variables with "place_variables"](#set-variables-with-place_variables)
-  * [Spawn specific items with a "place_item" array](#spawn-specific-items-with-a-place_item-array)
-  * [Set the owner of items in a given area with "faction_owner"](#apply-faction-ownership)
-  * [Extra map features with specials](#extra-map-features-with-specials)
-    * [Place smoke, gas, or blood with "fields"](#place-smoke-gas-or-blood-with-fields)
-    * [Place NPCs with "npcs"](#place-npcs-with-npcs)
-    * [Place signs with "signs"](#place-signs-with-signs)
-    * [Place a vending machine and items with "vendingmachines"](#place-a-vending-machine-and-items-with-vendingmachines)
-    * [Place a toilet with some amount of water with "toilets"](#place-a-toilet-with-some-amount-of-water-with-toilets)
-    * [Place a gas or diesel pump with some fuel with "gaspumps"](#place-a-gas-or-diesel-pump-with-some-fuel-with-gaspumps)
-    * [Place items from an item group with "items"](#place-items-from-an-item-group-with-items)
-    * [Place monsters from a monster group with "monsters"](#place-monsters-from-a-monster-group-with-monsters)
-    * [Place a vehicle by type or group with "vehicles"](#place-a-vehicle-by-type-or-group-with-vehicles)
-    * [Place a specific item with "item"](#place-a-specific-item-with-item)
-    * [Place a specific monster with "monster"](#place-a-specific-monster-with-monster)
-    * [Place a trap with "traps"](#place-a-trap-with-traps)
-    * [Place furniture with "furniture"](#place-furniture-with-furniture)
-    * [Place terrain with "terrain"](#place-terrain-with-terrain)
-    * [Place rubble and smash existing terrain with "rubble"](#place-rubble-and-smash-existing-terrain-with-rubble)
-    * [Place spilled liquids with "place_liquids"](#place-spilled-liquids-with-place_liquids)
-    * [Place a specific item or an item from a group with "loot"](#place-a-specific-item-or-an-item-from-a-group-with-loot)
-    * [Plant seeds in a planter with "sealed_item"](#plant-seeds-in-a-planter-with-sealed_item)
-    * [Place messages with "graffiti"](#place-messages-with-graffiti)
-    * [Place a zone for an NPC faction with "zones"](#place-a-zone-for-an-npc-faction-with-zones)
-    * [Specify a player spawning location using "zones"](#specify-a-player-spawning-location-using-zones)
-    * [Apply mapgen transformation with "ter_furn_transforms"](#apply-mapgen-transformation-with-ter_furn_transforms)
-  * [Mapgen values](#mapgen-values)
-  * [Mapgen parameters](#mapgen-parameters)
-  * [Rotate the map with "rotation"](#rotate-the-map-with-rotation)
-  * [Pre-load a base mapgen with "predecessor_mapgen"](#pre-load-a-base-mapgen-with-predecessor_mapgen)
-* [Palettes](#palettes)
-  * [Palette ids as mapgen values](#palette-ids-as-mapgen-values)
-  * [Recommended palettes to use](#recommended-palettes-to-use)
-* [Using update_mapgen](#using-update_mapgen)
-  * [Overmap tile specification](#overmap-tile-specification)
-    * ["assign_mission_target"](#assign_mission_target)
-    * ["om_terrain"](#om_terrain)
-* [Mission specials](#mission-specials)
-    * ["target"](#target)
-* [Map Extras](#map-extras)
-    * ["map_extra"](#map_extra)
-    * [Example: mx_science](#example-mx_science)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [How buildings and terrain are generated](#how-buildings-and-terrain-are-generated)
+- [Adding mapgen entries](#adding-mapgen-entries)
+  - [Methods](#methods)
+  - [Mapgen definition Placement](#mapgen-definition-placement)
+    - [Embedded mapgen](#embedded-mapgen)
+    - [Standalone mapgen](#standalone-mapgen)
+  - [Format and variables](#format-and-variables)
+    - [Define overmap terrain with "om_terrain" value, array, or nested array](#define-overmap-terrain-with-om_terrain-value-array-or-nested-array)
+    - ["om_terrain" for linear terrain](#om_terrain-for-linear-terrain)
+    - [Define mapgen "weight"](#define-mapgen-weight)
+  - [How "overmap_terrain" variables affect mapgen](#how-overmap_terrain-variables-affect-mapgen)
+  - [Limitations / TODO](#limitations--todo)
+- [JSON object definition](#json-object-definition)
+  - [Fill terrain using "fill_ter"](#fill-terrain-using-fill_ter)
+    - [Examples](#examples)
+  - [ASCII map using "rows" array](#ascii-map-using-rows-array)
+    - [Row terrains in "terrain"](#row-terrains-in-terrain)
+    - [Furniture symbols in "furniture" array](#furniture-symbols-in-furniture-array)
+    - [Acceptable characters](#acceptable-characters)
+  - [Mapgen flags](#mapgen-flags)
+    - [Clearing flags for layered mapgens](#clearing-flags-for-layered-mapgens)
+  - [Set terrain, furniture, or traps with a "set" array](#set-terrain-furniture-or-traps-with-a-set-array)
+    - [Set things at a "point"](#set-things-at-a-point)
+    - [Set things in a "line"](#set-things-in-a-line)
+    - [Set things in a "square"](#set-things-in-a-square)
+  - [Spawn a single monster with "place_monster"](#spawn-a-single-monster-with-place_monster)
+    - ["spawn_data" for monsters](#spawn_data-for-monsters)
+  - [Spawn an entire group of monsters with "place_monsters"](#spawn-an-entire-group-of-monsters-with-place_monsters)
+  - [Spawn npcs with "place_npcs"](#spawn-npcs-with-place_npcs)
+  - [Set variables with "place_variables"](#set-variables-with-place_variables)
+  - [Spawn specific items with a "place_item" array](#spawn-specific-items-with-a-place_item-array)
+  - [Set the owner of items in a given area with "faction_owner"](#set-the-owner-of-items-in-a-given-area-with-faction_owner)
+  - [Extra map features with specials](#extra-map-features-with-specials)
+    - [Place smoke, gas, or blood with "fields"](#place-smoke-gas-or-blood-with-fields)
+    - [Place NPCs with "npcs"](#place-npcs-with-npcs)
+    - [Place signs with "signs"](#place-signs-with-signs)
+    - [Place a vending machine and items with "vendingmachines"](#place-a-vending-machine-and-items-with-vendingmachines)
+    - [Place a toilet with some amount of water with "toilets"](#place-a-toilet-with-some-amount-of-water-with-toilets)
+    - [Place a gas or diesel pump with some fuel with "gaspumps"](#place-a-gas-or-diesel-pump-with-some-fuel-with-gaspumps)
+    - [Place items from an item group with "items"](#place-items-from-an-item-group-with-items)
+    - [Place monsters from a monster group with "monsters"](#place-monsters-from-a-monster-group-with-monsters)
+    - [Place a vehicle by type or group with "vehicles"](#place-a-vehicle-by-type-or-group-with-vehicles)
+    - [Remove vehicles by type](#remove-vehicles-by-type)
+    - [Place a specific item with "item"](#place-a-specific-item-with-item)
+    - [Place a specific monster with "monster"](#place-a-specific-monster-with-monster)
+    - [Place a trap with "traps"](#place-a-trap-with-traps)
+    - [Place furniture with "furniture"](#place-furniture-with-furniture)
+    - [Place terrain with "terrain"](#place-terrain-with-terrain)
+    - [Place rubble and smash existing terrain with "rubble"](#place-rubble-and-smash-existing-terrain-with-rubble)
+    - [Place spilled liquids with "place_liquids"](#place-spilled-liquids-with-place_liquids)
+    - [Place a specific item or an item from a group with "loot"](#place-a-specific-item-or-an-item-from-a-group-with-loot)
+    - [Plant seeds in a planter with "sealed_item"](#plant-seeds-in-a-planter-with-sealed_item)
+    - [Place messages with "graffiti"](#place-messages-with-graffiti)
+    - [Place a zone for an NPC faction with "zones"](#place-a-zone-for-an-npc-faction-with-zones)
+    - [Specify a player spawning location using "zones"](#specify-a-player-spawning-location-using-zones)
+    - [Remove everything with "remove_all"](#remove-everything-with-remove_all)
+    - [Apply mapgen transformation with "ter_furn_transforms"](#apply-mapgen-transformation-with-ter_furn_transforms)
+      - ["place_ter_furn_transforms"](#place_ter_furn_transforms)
+    - [Spawn nested chunks based on overmap neighbors with "place_nested"](#spawn-nested-chunks-based-on-overmap-neighbors-with-place_nested)
+    - [Place monster corpse from a monster group with "place_corpses"](#place-monster-corpse-from-a-monster-group-with-place_corpses)
+    - [Place computer console with "computers" or "place_computers"](#place-computer-console-with-computers-or-place_computers)
+  - [Mapgen parameters](#mapgen-parameters)
+    - [Mapgen values](#mapgen-values)
+    - [Full Examples](#full-examples)
+    - [Common parameters](#common-parameters)
+  - [Rotate the map with "rotation"](#rotate-the-map-with-rotation)
+  - [Pre-load a base mapgen with `"predecessor_mapgen"`](#pre-load-a-base-mapgen-with-predecessor_mapgen)
+  - [Dynamically use base mapgen with `"fallback_predecessor_mapgen"`](#dynamically-use-base-mapgen-with-fallback_predecessor_mapgen)
+- [Palettes](#palettes)
+  - [Palette ids as mapgen values](#palette-ids-as-mapgen-values)
+  - [Recommended palettes to use](#recommended-palettes-to-use)
+- [Using `update_mapgen`](#using-update_mapgen)
+  - [Overmap tile specification](#overmap-tile-specification)
+    - ["assign_mission_target"](#assign_mission_target)
+    - ["om_terrain"](#om_terrain)
+- [Mission specials](#mission-specials)
+    - ["target"](#target)
+- [Map Extras](#map-extras)
+    - ["map_extra"](#map_extra)
+    - [Example: mx_science](#example-mx_science)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # How buildings and terrain are generated
 
@@ -74,7 +93,7 @@ Cataclysm creates buildings and terrain on discovery via 'mapgen'; functions spe
 you see in `[m]`ap are also determined by overmap terrain). Overmap terrains ("oter") are defined in
 `overmap_terrain.json`.
 
-By default, an oter has a single built-in mapgen function which matches the '"id"' in it's json entry (examples:
+By default, an oter has a single built-in mapgen function which matches the '"id"' in its json entry (examples:
 "house", "bank", etc). Multiple functions also possible. When a player moves into range of an area marked on the map as
 a house, the game chooses semi-randomly from a list of functions for "house", picks one, and runs it, laying down walls
 and adding items, monsters, rubber chickens and whatnot. This is all done in a fraction of a second (something to keep
@@ -126,10 +145,10 @@ Mapgen definitions can be added in 2 places:
 
 ### Embedded mapgen
 
-As `"mapgen": { ... }` only used in combination with the 'builtin' method:
+As `"mapgen": { ... }` only used in combination with the 'builtin' method that refers to hardcoded functions:
 
-```json
-"mapgen": [ { "method": "builtin", "name": "parking_lot" } ]
+```jsonc
+"mapgen": [ { "builtin": "forest" } ]
 ```
 
 Do not use this, use standalone instead.
@@ -139,13 +158,12 @@ Do not use this, use standalone instead.
 
 As standalone `{ "type": "mapgen", ... }` objects in a .json inside data/json. Below is the fast food restaurant.
 
-```json
+```jsonc
 [
     {
         "type": "mapgen",
         "om_terrain": "s_restaurant_fast",
         "weight": 250,
-        "method": "json",
         "object": {
             "//": "(see below)"
         }
@@ -164,16 +182,6 @@ variables impact where and how often stuff gets applied:
 - method
 - om_terrain
 - weight
-
-
-### Define mapgen "method"
-
-**required**
-Values: *json* - required
-
-```
-"object": { (more json here) }
-```
 
 ### Define overmap terrain with "om_terrain" value, array, or nested array
 
@@ -222,7 +230,7 @@ is due to technical limitations (it's costly and messy to determine a level gene
 
 Example:
 
-```json
+```jsonc
 "om_terrain": [
   [ "apartments_mod_tower_NW", "apartments_mod_tower_NE" ],
   [ "apartments_mod_tower_SW", "apartments_mod_tower_SE" ]
@@ -243,7 +251,7 @@ When defining the JSON mapgen for such terrain, you must define several
 instances, for each type of connection that might exist.  Each gets a suffix
 added to the `overmap_terrain` id.  The suffixes are: `_end`, `_straight`,
 `_curved`, `_tee`, `_four_way`.  For an example, see the definitions for `ants`
-in [`ants.json`](../data/json/mapgen/bugs/ants.json).
+in [`ants.json`](/data/json/mapgen/bugs/ants.json).
 
 ### Define mapgen "weight"
 
@@ -257,7 +265,7 @@ Values: number or [variable object](NPCs.md#variable-object) - *0 disables*
 Default: 1000
 
 Examples:
-```json
+```jsonc
     "//": "disable this variant"
     "weight": 0,
     "//2": "constant weight"
@@ -308,7 +316,7 @@ Every tile lacking a terrain character definition will be `t_region_groundcover`
 `"fill_ter": "t_region_groundcover"`
 
 Every tile lacking a terrain character definition will the same one of `t_floor`, `t_pavement` and `t_concrete` across the omt, with `t_floor`being twice as likely to be picked
-```json
+```jsonc
 "parameters": {
   "floor_type": {
     "type": "ter_str_id",
@@ -342,7 +350,7 @@ Otherwise any character used must have some definition to indicate its purpose, 
 
 Example:
 
-```json
+```jsonc
 "rows": [
   ",_____####ssss####_____,",
   ",__,__#ssssssssss#__,__,",
@@ -382,7 +390,7 @@ Value: `{object}: { "a", "t_identifier", ... }`
 
 Example:
 
-```json
+```jsonc
 "terrain": {
   " ": "t_region_groundcover_urban",
   "d": "t_region_groundcover_barren",
@@ -412,7 +420,7 @@ If you want to remove a furniture definition from a palette you can use `f_null`
 
 Example:
 
-```json
+```jsonc
 "furniture": {
   "H": "f_chair",
   "T": "f_table",
@@ -441,7 +449,7 @@ the raw bytes (code unit) level.  Therefore, there are literally an infinite num
 `"flags"` may provide a list of flags to be applied to the mapgen.
 
 Example:
-```json
+```jsonc
 "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
 ```
 
@@ -496,7 +504,7 @@ Value: `[ array of {objects} ]: [ { "point": .. }, { "line": .. }, { "square": .
 
 Example:
 
-```json
+```jsonc
 "set": [
   { "point": "furniture", "id": "f_chair", "x": 5, "y": 10, "z": 1 },
   { "point": "radiation", "id": "f_chair", "x": 12, "y": 12, "amount": 20 },
@@ -524,7 +532,7 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 
 | Field  | Description
 | ---    | ---
-| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"trap_remove"`, `"item_remove"`, `"field_remove"`, `"radiation"`, `"variable"`, `"creature_remove"`, `"bash"` and `"burn"`. Bash does one guarenteed bash while burn destroys terrain/furniture with FLAMMABLE/FLAMMABLE_HARD/FLAMMABLE_ASH and flammable items.
+| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"trap_remove"`, `"item_remove"`, `"field_remove"`, `"radiation"`, `"variable"`, `"creature_remove"`, `"bash"` and `"burn"`. Bash does one guaranteed bash while burn destroys terrain/furniture with FLAMMABLE/FLAMMABLE_HARD/FLAMMABLE_ASH and flammable items.
 | id     | Terrain, furniture, trap ID or the variable's name. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation", "item_remove", "creature_remove", and "field_remove". For `trap_remove` if tr_null is used any traps present will be removed.
 | x, y   | X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | z      | (optional) Z coordinate. Value from `-20 to 20`. The value is *relative* to the Z level nominally modified, cannot have a range, and can only be used for faction camps.
@@ -542,7 +550,7 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 - creature_remove has no "id" or "amount"
 
 Example:
-```json
+```jsonc
 { "line": "terrain", "id": "t_lava", "x": 5, "y": 5, "x2": 20, "y2": 20 },
 { "line": "terrain", "id": "t_wood_treated_roof", "x": 5, "y": 5, "z": 1 "x2": 20, "y2": 20 }
 ```
@@ -569,7 +577,7 @@ Example:
 The "square" arguments are the same as for "line", but "x", "y" and "x2", "y2" define opposite corners.
 
 Example:
-```json
+```jsonc
 { "square": "radiation", "amount": 10, "x": [ 0, 5 ], "y": [ 0, 5 ], "x2": [ 18, 23 ], "y2": [ 18, 23 ] },
 { "square": "radiation", "amount": 10, "x": [ 0, 5 ], "y": [ 0, 5 ], "z": -1, "x2": [ 18, 23 ], "y2": [ 18, 23 ] }
 ```
@@ -613,7 +621,7 @@ location within the rectangle. Example: `"x": 12, "y": [ 5, 15 ]` - these values
 `map::place_spawns` from ( 12, 5 ) to ( 12, 15 ) inclusive.
 
 Example:
-```json
+```jsonc
 "place_monster": [
     { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true }
 ]
@@ -623,7 +631,7 @@ This places a single random monster from group "GROUP_REFUGEE_BOSS_ZOMBIE", sets
 the monster at coordinate (10, 10) and also sets the monster as the target of this mission.
 
 Example:
-```json
+```jsonc
 "place_monster": [
     { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 11, "y": 17, "z": 1, "target": false }
 ]
@@ -632,7 +640,7 @@ This spawns the same monster as before, but one Z level higher up (hopefully on 
 mission target.
 
 Example:
-```json
+```jsonc
 "place_monster": [
     { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": [1, 3], "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 20, 30 ] } ] } }
 ]
@@ -651,7 +659,7 @@ This optional object can have two fields:
 Monsters with a patrol point list will move to each patrol point, in order, whenever they have no more pressing action to take on their turn. Upon reaching the last point in the patrol point list, the monster will continue on to the first point in the list.
 
 Example:
-```json
+```jsonc
 "place_monster": [
     { "monster": "mon_zombie", "x": 12, "y": 12, "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] } }
 ]
@@ -660,7 +668,7 @@ Example:
 This places a "mon_zombie" at (12, 12). The zombie can move freely to chase after enemies, but will always return to the (12, 12) position if it has nothing else to do.
 
 Example 2:
-```json
+```jsonc
 "place_monster": [
     { "monster": "mon_secubot", "x": 12, "y": 12, "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 20, 30 ] } ], "patrol": [ { "x": -23, "y": -23 }, { "x": 47, "y": -23 }, { "x": 47, "y": 47 },  { "x": 47, "y": -23 } ] } }
 ]
@@ -705,7 +713,7 @@ Using `place_variables` to set a group of variables.
 Value: `[ array of {objects} ]: [ { "item", ... }, ... ]`
 
 Example:
-```json
+```jsonc
 "place_item": [
     { "item": "weed", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [1, 3], "chance": 20 }
 ]
@@ -727,7 +735,7 @@ The special custom flag "ACTIVATE_ON_PLACE" causes the item to be activated as i
 **optional** Define an area where mapgen-spawned items will have faction ownership applied
 
 Example:
-```json
+```jsonc
 "faction_owner": [ { "id": "exodii", "x": [ 5, 17 ], "y": [ 5, 18 ] } ],
 ```
 
@@ -766,7 +774,7 @@ chances) and applied.
 
 Example (places grass at 2/3 of all '.' square and dirt at 1/3 of them):
 
-```json
+```jsonc
 "terrain" : {
     ".": [ "t_region_grass", "t_region_grass", "t_region_soil" ]
 }
@@ -775,7 +783,7 @@ Example (places grass at 2/3 of all '.' square and dirt at 1/3 of them):
 It is also possible to specify the number of instances (and consequently their chance) directly, which is particularly
 useful for rare occurrences (rather than repeating the common value many times):
 
-```json
+```jsonc
 "terrain" : {
     ".": [ [ "t_region_grass", 2 ], "t_region_soil" ]
 }
@@ -784,14 +792,14 @@ useful for rare occurrences (rather than repeating the common value many times):
 
 Example (places a blood and a bile field on each '.' square):
 
-```json
+```jsonc
 "fields" : {
     ".": [ { "field": "fd_blood" }, { "field": "fd_bile" } ]
 }
 ```
 
 Or define the mappings for one character at once:
-```json
+```jsonc
 "mapping" : {
     ".": {
         "traps": "tr_beartrap",
@@ -816,7 +824,7 @@ min-max values are also supported: `"x": [ 0, 23 ], "y": [ 0, 23 ]` places the s
 
 Example with mapping (the characters `"O"` and `";"` should appear in the rows array where the specials should appear):
 
-```json
+```jsonc
 "gaspumps": {
     "O": { "amount": 1000 }
 },
@@ -829,7 +837,7 @@ The amount of water to be placed in toilets is optional, an empty entry is there
 
 Example with coordinates:
 
-```json
+```jsonc
 "place_gaspumps": [
     { "x": 14, "y": 15, "amount": [ 1000, 2000 ] }
 ],
@@ -838,16 +846,10 @@ Example with coordinates:
 ]
 ```
 
-Terrain, furniture and traps can specified as a single string, not a json object:
-```json
+Terrain, furniture and traps can specified as a single string:
+```jsonc
 "traps" : {
     ".": "tr_beartrap"
-}
-```
-Same as
-```json
-"traps" : {
-    ".": { "trap": "tr_beartrap" }
 }
 ```
 
@@ -855,7 +857,7 @@ Same as
 
 Example:
 
-```json
+```jsonc
 "place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": [ 1, 3 ], "repeat": [ 0, 3 ] } ]
 
 "place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": 1, "repeat": [ 0, 3 ] } ]
@@ -875,7 +877,7 @@ Example:
 
 Example:
 
-```json
+```jsonc
 "npcs": { "A": { "class": "NC_REFUGEE", "target": true, "add_trait": "ASTHMA" } }
 ```
 
@@ -895,7 +897,7 @@ name, or `<city>` that will insert the nearest city name.
 
 Example:
 
-```json
+```jsonc
 "signs": { "P": { "signage": "Subway map: <city> stop" } }
 ```
 
@@ -971,7 +973,7 @@ The actual monsters are spawned when the map is loaded. Fields:
 
 Note that vehicles cannot be placed over overmap boundaries. So it needs to be 24 tiles long at most.
 
-```json
+```jsonc
 "place_vehicles": [
     { "vehicle": "fire_engine", "x": 11, "y": 13, "chance": 30, "rotation": 270 }
 ]
@@ -983,7 +985,7 @@ Note that vehicles cannot be placed over overmap boundaries. So it needs to be 2
 | ---      | ---
 | vehicles  | (optional, string array) types of vehicle to be removed. If left empty all vehicles will be removed.
 
-```json
+```jsonc
 "remove_vehicles": [
     { "vehicles": [ "fire_engine" ], "x": [ 10, 15 ], "y": [ 10, 15 ] }
 ]
@@ -1000,7 +1002,7 @@ Note that vehicles cannot be placed over overmap boundaries. So it needs to be 2
 
 To use this type with explicit coordinates use the name "place_item" (this if for backwards compatibility) like this:
 
-```json
+```jsonc
 "item": {
     "x": { "item": "rock" }
 },
@@ -1056,7 +1058,7 @@ been set). Creating rubble invokes the bashing function that can destroy terrain
 
 To use this type with explicit coordinates use the name "place_rubble" (no plural) like this:
 
-```json
+```jsonc
 "place_rubble": [
     { "x": 10, "y": 1 }
 ]
@@ -1076,7 +1078,7 @@ pumps, or unless terrain the liquid spilled on has `LIQUIDCONT` flag), but can b
 Example for dropping a default amount of gasoline (200 units) on the ground (either by using a character in the rows
 array or explicit coordinates):
 
-```json
+```jsonc
 "liquids": {
     "g": { "liquid": "gasoline" }
 },
@@ -1123,7 +1125,7 @@ On such furniture, there is supposed to be a single (hidden) seed item which dic
 
 Example:
 
-```json
+```jsonc
 "sealed_item": {
   "p": {
     "items": { "item": "farming_seeds", "chance": 100 },
@@ -1217,7 +1219,7 @@ Joins can be checked only for the cardinal directions, `"above"`, and `"below"`
 
 Example:
 
-```json
+```jsonc
   "place_nested": [
     { "chunks": [ "nest1" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
     { "chunks": [ "nest1_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "north": [ "empty_rock", "field" ] } },
@@ -1253,7 +1255,7 @@ Creates a corpse of a random monster from a monster group.
 
 Example for placing a monster corpse (either by using a character in the rows array or explicit coordinates):
 
-```json
+```jsonc
 "corpses": {
     "g": { "group": "GROUP_PETS", "age": 3 }
 },
@@ -1280,7 +1282,7 @@ Creates a `f_console` furniture. Despite the only required field is `name`, you 
 
 Example for placing computer console (either by using a character in the rows array or explicit coordinates):
 
-```json
+```jsonc
 "computers": {
   "a": {
     "name": "Test computer 1",
@@ -1301,36 +1303,59 @@ Example for placing computer console (either by using a character in the rows ar
 ],
 ```
 
-## Mapgen values
+## Mapgen parameters
 
-A *mapgen value* can be used in various places where a specific id is expected.
-For example, the default value of a parameter, or a terrain id in the
-`"terrain"` object.  A mapgen value can take one of three forms:
+Parameters consist of a key identifier and a value that can be of various types.  They are used to roll one value out of several possible but then to use that result multiple times at a chosen scope without the value being rerolled.
+The value will be determined when it's needed the first time.
 
-* A simple string, which should be a literal id.  For example, `"t_flat_roof"`.
-* A JSON object containing the key `"distribution"`, whose corresponding value
-  is a list of lists, each a pair of a string id and an integer weight.  For
-  example:
+To add parameters you first need to define your parameters in a `"parameters"` JSON object as part of a mapgen's `"object"` or part of a palette, which takes the following structure.  
 ```json
-{ "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
+"parameters": {
+  "name_of_key": {
+    ...
+  },
+  "name_of_second_key" {
+    ...
+  }
+},
 ```
-* A JSON object containing the key `"param"`, whose corresponding value is the
-  string name of a parameter as discussed in [Mapgen
-  parameters](#mapgen-parameters).  For example, `{ "param": "roof_type" }`.
-  You may be required to also supply a fallback value, such as `{ "param":
-  "roof_type", "fallback": "t_flat_roof" }`.  The fallback is necessary to
-  allow mapgen definitions to change without breaking an ongoing game.
-  Different parts of the same overmap special can be generated at different
-  times, and if a new parameter is added to the definition part way through the
-  generation then the value of that parameter will be missing and the fallback
-  will be used.
-* A switch statement to select different values depending on the value of some
-  other mapgen value.  This would most often be used to switch on the value of
-  a mapgen parameter, so as to allow two parts of the mapgen to be consistent.
-  For example, the following switch would match a fence gate type to a fence
-  type chosen by a mapgen parameter `fence_type`:
+
+Each such key should have an associated JSON object with the following fields:
+
+| Field   | Description
+| ------- | -----------
+| type    | (mandatory, string) a `cata_variant` type listed in [cata_variant.h](/src/cata_variant.h#L37-L84).  Dictates the type of value the parameter has.
+| default | (mandatory, mapgen value) can currently only be a distribution array that contains either possible values that will all have equal weight or arrays of pairs of possible values and their associated weights
+| scope   | (optional, string, defaults to `"overmap_special"`) the scope at which the chosen value will stay the same. Possible values are `"overmap_special"`, `"omt"`, `"nest"` or `"omt_stack"` which is the same for an omt and all omts vertical to it. There's no enforcement that nest scoped parameters have to be used inside of nested mapgen to allow them to be used in reusable palettes.
+
+To help you debug mapgen parameters and their effect on mapgen, you can see the
+chosen values for `overmap_special` and `"omt_stack"`-scoped parameters in the overmap editor
+(accessible via the debug menu or enabled on the `m`ap when debug mode is enabled).
+
+### Mapgen values
+To use your parameter you use a mapgen value object in place of the normal string id (or weighted array of them).  Most mapgen fields can take mapgen values.
+
+If your parameter's value is the id and type as you want to use in the field you use an object containing the parameter key:
 ```json
-{
+"terrain": {
+  ".": "t_floor",
+  "x": { "param": "my_parameter_key" }
+}
+```
+
+If using `"overmap_special"`, or `"omt_stack"` scope, a `"fallback"` must also be specified which will be used if the parameter fails to be determined for any reason for example due to changes during ongoing saves:
+```json
+"terrain": {
+  ".": "t_floor",
+  "x": { "param": "my_parameter_key", "fallback": "t_dirt" }
+}
+```
+
+If your parameter's type doesn't match the field or you want to determine another value based on one parameter's result you can instead use a switch statement:
+```json
+"terrain": {
+  "N": { "param": "fence_type", "fallback": "t_splitrail_fence" },
+  "H": {
     "switch": { "param": "fence_type", "fallback": "t_splitrail_fence" },
     "cases": {
         "t_splitrail_fence": "t_splitrail_fencegate_c",
@@ -1338,67 +1363,114 @@ For example, the default value of a parameter, or a terrain id in the
         "t_fence_barbed": "t_gate_metal_c",
         "t_privacy_fence": "t_privacy_fencegate_c"
     }
+  },
+  ...
 }
 ```
 
+### Full Examples
 
-## Mapgen parameters
-
-(Note that this feature is under development and functionality may not line up exactly
-with the documentation.)
-
-Another entry within a mapgen definition or [palette](#palettes) can be a `"parameters"`
-key.  For example:
-```
-"parameters": {
-  "roof_type": {
-    "type": "ter_str_id",
-    "default": { "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
+Here we define a parameter with key "roof_type" where its value is rolled with a 2 in 4 chance for t_flat_roof to be picked and a 1 in 4 for both t_tar_flat_roof and t_shingle_flat_roof and is then used directly for all the `.` symbols of the mapgen
+```json
+{
+  "type": "mapgen",
+  "om_terrain": "house_with_random_but_consistent_roof",
+  "object": {
+    ...
+    "parameters": {
+      "roof_type": {
+        "type": "ter_str_id",
+        "scope": "omt",
+        "default": { "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
+      }
+    },
+    "terrain": {
+      ".": { "param": "roof_type" },
+      ...
+    }
   }
-},
+}
 ```
 
-Each entry in the `"parameters"` JSON object defines a parameter.  The key is
-the parameter name.  Each such key should have an associated JSON object.  That
-object must provide its type (which should be a type string as for a
-`cata_variant`) and may optionally provide a default value.  The default value
-should be a [mapgen value](#mapgen-values) as defined above.
+Here we define a parameter with key "fence_type" where its value is equal chance of all 4 ids.  We do this in a palette and use the default overmap_special scope so that we can apply it to multiple mapgens that are part of the same special resulting in them sharing the fence_type value.
+We also use a switch to determine a matching gate terrain id to use alongside the chosen fence.
+```json
+{
+  "type": "palette",
+  "id": "outer_fence_palette",
+  "parameters": {
+    "fence_type": {
+      "type": "ter_str_id",
+      "default": { "distribution": [ "t_splitrail_fence", "t_chainfence", "t_fence_barbed", "t_privacy_fence" ] }
+    }
+  },
+  "terrain": {
+    "N": { "param": "fence_type", "fallback": "t_splitrail_fence" },
+    "H": {
+      "switch": { "param": "fence_type", "fallback": "t_splitrail_fence" },
+      "cases": {
+          "t_splitrail_fence": "t_splitrail_fencegate_c",
+          "t_chainfence": "t_chaingate_c",
+          "t_fence_barbed": "t_gate_metal_c",
+          "t_privacy_fence": "t_privacy_fencegate_c"
+      }
+    },
+    ...
+  },
+  ...
+}
+```
 
-At time of writing, the only way for a parameter to get a value is via the
-`"default"`, so you probably want to always have one.
+Here we define a parameter with key "variant" that picks a nest which is used to pick matching nests that sit touching across an omt boundary in order to allow consistent nests between omts (this can also be done vertically to eg match stairs)
+```json
+{
+  "type": "mapgen",
+  "om_terrain": [ [ "half_of_house_W", "half_of_house_E" ] ],
+  "object": {
+  ...
+  "parameters": {
+    "variant": {
+      "type": "nested_mapgen_id",
+      "default": { "distribution": [ [ "24x24_half_of_house_normal_W", 10 ], [ "24x24_half_of_house_giant_indoor_pool_W", 1 ] }
+    }
+  },
+  "place_nested": [
+    {
+      "chunks": [ { "param": "variant", "fallback": "24x24_half_of_house_normal_W" } ],
+      "x": 0,
+      "y": 0
+    },
+    {
+      "chunks": [
+        {
+          "switch": { "param": "variant", "fallback": "24x24_half_of_house_normal_W" },
+          "cases": { "24x24_half_of_house_normal_W": "24x24_half_of_house_normal_E", "24x24_half_of_house_giant_indoor_pool_W": "24x24_half_of_house_giant_indoor_pool_E" }
+        }
+      ],
+      "x": 24,
+      "y": 0
+    }
+  ]
+}
+```
 
-The primary application of parameters is that you can use a `"distribution"`
-mapgen value to select a value at random, and then apply that value to every
-use of that parameter.  In the above example, a random roof terrain is picked.
-By using the parameter with some `"terrain"` key, via a `"param"` mapgen value,
-you can use a random but consistent choice of roof terrain across your map.
-In contrast, placing the `"distribution"` directly in the `"terrain"` object would
-cause mapgen to choose a terrain at random for each roof tile, leading to a
-mishmash of roof terrains.
-
-By default, the scope of a parameter is the `overmap_special` being generated.
-That is, the parameter will have the same value across the `overmap_special`.
-When a default value is needed, it will be chosen when the first chunk of that
-special is generated, and that value will be saved to be reused for later
-chunks.
-
-If you wish, you may specify `"scope": "omt"` to limit the scope to just a
-single overmap tile.  Then a default value will be chosen independently for
-each OMT.  This has the advantage that you are no longer forced to select a
-`"fallback"` value when using that parameter in mapgen.
-
-The third option for scope is `"scope": "nest"`.  This only makes sense when
-used in nested mapgen (although it is not an error to use it elsewhere, so that
-the same palette may be used for nested and non-nested mapgen).  When the scope
-is `nest`, the value of the parameter is chosen for a particular nested chunk.
-For example, suppose a nest defines a carpet across several tiles, you can use
-a parameter to ensure that the carpet is the same colour for all the tiles
-within that nest, but another instance of the same `nested_mapgen_id` elsewhere
-in the same OMT might choose a different colour.
-
-To help you debug mapgen parameters and their effect on mapgen, you can see the
-chosen values for `overmap_special`-scoped parameters in the overmap editor
-(accessible via the debug menu).
+### Common parameters
+There are various reusable parameters in palettes at [common_parameters.json](/data/json/mapgen_palettes/common_parameters.json) and as part of the domestic palettes in [house_general_palette.json](/data/json/mapgen_palettes/house_general_palette.json)
+which are all overmap_special scoped and can be used without need to specify mapgen values of your own by using the symbols provided while also allowing you to use the values where needed.
+For example this map uses the symbols found in the `"standard_domestic_palette"` and `"standard_domestic_lino_kitchen"` palettes which allows it to have random but consistent exterior and interior walls as well as kitchen flooring but also defines an
+additional furniture symbol using the value set by linoleum_color_kitchen for the terrain under it.
+```json
+{
+  "type": "mapgen",
+  "om_terrain": [ "normal_house_bar_some_crazy_kitchen_contraption ],
+  "object": {
+  ...
+  "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen" ],
+  "terrain": { "W": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" } },
+  "furniture": { "W": "f_watermelon_smasher_deluxe_3000" }
+  },
+}
+```
 
 
 ## Rotate the map with "rotation"
@@ -1450,7 +1522,7 @@ pieces of mapgen.  For example, most of the houses defined in CDDA us the
 needing to repeat this definition everywhere.  It simply requires a reference
 to the palette, achieved by adding
 
-```json
+```jsonc
 "palettes": [ "standard_domestic_palette" ]
 ```
 
@@ -1490,7 +1562,7 @@ overmap special arguments displayed in the overmap editor (accessible via the
 debug menu).
 
 For example, the following JSON used in a cabin mapgen definition
-```json
+```jsonc
       "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
 ```
 causes half the cabins generated to use the regular `cabin_palette` and the
@@ -1573,7 +1645,7 @@ Map extras can be used to place environmental objects and structures that can he
 
 ### "map_extra"
 
-```JSON
+```jsonc
 {
   "id": "mx_minefield",
   "type": "map_extra",
@@ -1609,7 +1681,7 @@ The `generator` can use one of 3 methods:
 
 The `mx_science` map extra spawns bodies of scientists as well as a few enemy mobs. The map extra definition is as follows:
 
-```JSON
+```jsonc
 {
   "id": "mx_science",
   "type": "map_extra",
@@ -1625,10 +1697,9 @@ The `mx_science` map extra spawns bodies of scientists as well as a few enemy mo
 
 In this case the `generator_id` points to a `mapgen` definition that establishes what objects or structures will spawn at that location:
 
-```JSON
+```jsonc
 {
   "type": "mapgen",
-  "method": "json",
   "update_mapgen_id": "mx_science",
   "object": {
     "rows": [
@@ -1671,10 +1742,9 @@ In this case the `generator_id` points to a `mapgen` definition that establishes
 
 The nested chunks define the items and fields that may spawn:
 
-```JSON
+```jsonc
 {
   "type": "mapgen",
-  "method": "json",
   "nested_mapgen_id": "corpse_blood_gibs_science_3x3",
   "object": {
     "mapgensize": [ 3, 3 ],
@@ -1686,7 +1756,7 @@ The nested chunks define the items and fields that may spawn:
 
 In order for the map extra to be available for spawning, one or more `region_settings` entries need to be created for it:
 
-```JSON
+```jsonc
 {
   "type": "region_settings",
   "id": "default",

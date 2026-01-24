@@ -36,13 +36,7 @@
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "weakpoint_sets": [ "wps_power_leech" ],
-    "families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_wp_power_leech_basic",
-      "prof_wp_power_leech_advanced",
-      "prof_electromagnetics"
-    ],
+    "families": [ "prof_intro_biology", "prof_wp_power_leech_basic", "prof_wp_power_leech_advanced" ],
     "harvest": "flesh_plant_bloom",
     "dissect": "dissect_plant_sample_large",
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "QUEEN", "HARDTOSHOOT" ],
@@ -83,13 +77,7 @@
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "weakpoint_sets": [ "wps_power_leech" ],
-    "families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_wp_power_leech_basic",
-      "prof_wp_power_leech_advanced",
-      "prof_electromagnetics"
-    ],
+    "families": [ "prof_intro_biology", "prof_wp_power_leech_basic", "prof_wp_power_leech_advanced" ],
     "harvest": "flesh_plant",
     "dissect": "dissect_plant_sample_single",
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ],
@@ -118,13 +106,7 @@
     "luminance": 200,
     "special_when_hit": [ "ZAPBACK", 100 ],
     "weakpoint_sets": [ "wps_power_leech" ],
-    "families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_wp_power_leech_basic",
-      "prof_wp_power_leech_advanced",
-      "prof_electromagnetics"
-    ],
+    "families": [ "prof_intro_biology", "prof_wp_power_leech_basic", "prof_wp_power_leech_advanced" ],
     "harvest": "flesh_plant",
     "dissect": "dissect_plant_sample_single",
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ],
@@ -160,13 +142,7 @@
       [ "LEECH_SPAWNER", 120 ]
     ],
     "weakpoint_sets": [ "wps_power_leech" ],
-    "families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_wp_power_leech_basic",
-      "prof_wp_power_leech_advanced",
-      "prof_electromagnetics"
-    ],
+    "families": [ "prof_intro_biology", "prof_wp_power_leech_basic", "prof_wp_power_leech_advanced" ],
     "harvest": "flesh_plant",
     "dissect": "dissect_plant_sample_single",
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE" ],
@@ -196,7 +172,7 @@
     "vision_day": 30,
     "vision_night": 5,
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
-    "upgrades": { "half_life": 9999, "into": "mon_leech_stalk" },
+    "upgrades": { "half_life": 39996, "into": "mon_leech_stalk" },
     "special_attacks": [
       {
         "type": "gun",
@@ -211,13 +187,7 @@
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "weakpoint_sets": [ "wps_power_leech" ],
-    "families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_wp_power_leech_basic",
-      "prof_wp_power_leech_advanced",
-      "prof_electromagnetics"
-    ],
+    "families": [ "prof_intro_biology", "prof_wp_power_leech_basic", "prof_wp_power_leech_advanced" ],
     "harvest": "flesh_plant",
     "dissect": "dissect_plant_sample_single",
     "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "HARDTOSHOOT" ],
@@ -246,7 +216,7 @@
     "vision_day": 30,
     "vision_night": 5,
     "melee_damage": [ { "damage_type": "electric", "amount": 3 } ],
-    "upgrades": { "half_life": 999, "into": "mon_leech_pod_cluster" },
+    "upgrades": { "half_life": 3996, "into": "mon_leech_pod_cluster" },
     "special_attacks": [
       {
         "type": "gun",
@@ -260,13 +230,7 @@
       [ "EVOLVE_KILL_STRIKE", 6 ]
     ],
     "weakpoint_sets": [ "wps_power_leech" ],
-    "families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_wp_power_leech_basic",
-      "prof_wp_power_leech_advanced",
-      "prof_electromagnetics"
-    ],
+    "families": [ "prof_intro_biology", "prof_wp_power_leech_basic", "prof_wp_power_leech_advanced" ],
     "harvest": "flesh_plant",
     "dissect": "dissect_plant_sample_single",
     "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "HARDTOSHOOT" ],

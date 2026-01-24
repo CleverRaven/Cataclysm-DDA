@@ -1,7 +1,8 @@
 [
   {
     "id": "butchery_tree_pseudo",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "butchery tree pseudo item", "//~": "NO_I18N" },
     "//": "This is a pseudo item to represent the support of a tree or butchery rack without a hook.",
     "copy-from": "fake_item",
@@ -11,7 +12,8 @@
   },
   {
     "id": "fake_butcher_rack",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "fake butcher rack (pseudo item)", "str_pl": "fake butcher racks (pseudo items)", "//~": "NO_I18N" },
     "//": "This is a pseudo item to represent the support of a tree or butchery rack with a hook.",
     "copy-from": "fake_item",
@@ -21,7 +23,8 @@
   },
   {
     "id": "medium_surface_pseudo",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "medium surface pseudo item", "//~": "NO_I18N" },
     "//": "This is a pseudo item to represent a surface large enough to butcher a medium animal on.",
     "copy-from": "fake_item",
@@ -31,7 +34,8 @@
   },
   {
     "id": "large_surface_pseudo",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "large surface pseudo item", "//~": "NO_I18N" },
     "//": "This is a pseudo item to represent a surface large enough to butcher a large animal on.",
     "copy-from": "fake_item",
@@ -41,18 +45,20 @@
   },
   {
     "id": "fake_stove",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "basecamp stove" },
     "//": "A fake stove used for basecamps.",
     "copy-from": "fake_item",
     "sub": "hotplate",
-    "ammo": [ "tinder" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50000 } } ],
-    "charge_factor": 10
+    "charge_factor": 10,
+    "tool_ammo": [ "tinder" ]
   },
   {
     "id": "brick_oven_pseudo",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "brick oven" },
     "//": "This is a pseudo item to represent t_brick_oven.",
     "copy-from": "fake_item",
@@ -62,7 +68,8 @@
   },
   {
     "id": "butter_churn",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pseudo butter churn", "//~": "NO_I18N" },
     "copy-from": "fake_item",
     "qualities": [ [ "CHURN", 1 ] ],

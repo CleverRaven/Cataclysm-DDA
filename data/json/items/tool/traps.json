@@ -1,7 +1,8 @@
 [
   {
     "id": "beartrap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "bear trap" },
     "category": "traps",
     "description": "A spring-loaded pair of steel jaws connected to a sensitive pressure plate.  Use it to set it on the ground, creating a trap that will ensnare and damage anything that steps on it.  If you are carrying a shovel, you will have the option of burying it.",
@@ -16,7 +17,7 @@
       "type": "place_trap",
       "allow_underwater": true,
       "bury_question": "Bury the beartrap?",
-      "bury": { "trap": "tr_beartrap_buried", "moves": 275, "practice": 7, "done_message": "You bury the beartrap." },
+      "bury": { "trap": "tr_beartrap_buried", "moves": 36000, "practice": 7, "done_message": "You bury the beartrap." },
       "trap": "tr_beartrap",
       "moves": 200,
       "practice": 4,
@@ -27,7 +28,8 @@
   },
   {
     "id": "light_snare_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "light snare kit",
     "category": "traps",
     "description": "A simple loop snare, comprising a carefully wound loop of string, two anchor points, and a tool to hammer them in.  It is suitable for immobilizing only small animals.  It has no means of harming its target, as live meat lasts longer.",
@@ -43,14 +45,15 @@
     "use_action": {
       "type": "place_trap",
       "trap": "tr_light_snare",
-      "moves": 150,
+      "moves": 2500,
       "practice": 2,
       "done_message": "You set the snare trap."
     }
   },
   {
     "id": "blade_trap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "blade trap" },
     "category": "traps",
     "description": "A machete attached laterally to a motor, with a tripwire controlling its throttle.  When the tripwire is pulled, the blade is swung around with great force.  The trap forms a 3x3 area of effect.",
@@ -58,7 +61,7 @@
     "volume": "9500 ml",
     "price": "50 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -75,7 +78,8 @@
   },
   {
     "id": "board_trap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "nailboard trap" },
     "category": "traps",
     "description": "Several pieces of wood nailed together, with some nails sticking straight up.  If an unsuspecting victim steps on it, they'll get nails through the foot.",
@@ -84,16 +88,16 @@
     "longest_side": "65 cm",
     "price": "0 cent",
     "price_postapoc": "25 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "clumsy" },
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
-    "flags": [ "SINGLE_USE" ],
+    "flags": [ "SINGLE_USE", "PUNCTURE_VEHICLE_WHEELS" ],
     "use_action": {
       "type": "place_trap",
       "allow_underwater": true,
       "trap": "tr_nailboard",
-      "moves": 150,
+      "moves": 400,
       "practice": 2,
       "done_message": "You set the board trap on the %s, nails facing up."
     },
@@ -101,7 +105,8 @@
   },
   {
     "id": "boobytrap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "booby trap" },
     "category": "traps",
     "description": "A crude explosive device triggered by a piece of string.  Use it to set it up and wait for some poor bastard to trigger it.",
@@ -109,14 +114,15 @@
     "volume": "750 ml",
     "price": "50 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
     "use_action": {
       "type": "place_trap",
       "trap": "tr_boobytrap",
-      "moves": 200,
+      "//COMMENT": "This has to be rigged in place, so it takes a while to set up.",
+      "moves": 6000,
       "practice": 4,
       "done_message": "You set the booby trap up and activate the grenade."
     },
@@ -124,7 +130,8 @@
   },
   {
     "id": "bubblewrap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "bubble wrap" },
     "category": "traps",
     "description": "A sheet of plastic covered with air-filled bubbles.  Use it to set it on the ground, creating a trap that will warn you with noise when something steps on it.",
@@ -147,7 +154,8 @@
   },
   {
     "id": "caltrops",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "loose caltrops" },
     "category": "traps",
     "description": "A handful of small metal objects covered with many sharp points.  If an unsuspecting victim steps on one, they'll get a spine through the foot.",
@@ -155,23 +163,25 @@
     "volume": "250 ml",
     "price": "9 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "iron" ],
     "symbol": ";",
     "color": "dark_gray",
     "use_action": {
       "type": "place_trap",
       "trap": "tr_caltrops",
+      "//COMMENT": "Caltrops are meant to be scatterable in such a way that one point always sticks up, so this can just be done blindly and very quickly.",
       "moves": 150,
       "practice": 2,
       "done_message": "You scatter the caltrops on the %s."
     },
-    "flags": [ "SINGLE_USE" ],
+    "flags": [ "SINGLE_USE", "PUNCTURE_VEHICLE_WHEELS" ],
     "melee_damage": { "bash": 1, "cut": 8 }
   },
   {
     "id": "caltrops_glass",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "loose glass caltrops" },
     "category": "traps",
     "description": "A handful of glass shards glued together to expose all their sharp edges.  If an unsuspecting victim steps on one, they'll get cut.",
@@ -179,13 +189,14 @@
     "volume": "500 ml",
     "price": "1 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "glass" ],
     "symbol": ";",
     "color": "dark_gray",
     "use_action": {
       "type": "place_trap",
       "trap": "tr_caltrops_glass",
+      "//COMMENT": "Caltrops are meant to be scatterable in such a way that one point always sticks up, so this can just be done blindly and very quickly.",
       "moves": 150,
       "practice": 2,
       "done_message": "You scatter the glass caltrops on the %s."
@@ -195,7 +206,8 @@
   },
   {
     "id": "crossbow_trap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "crossbow trap" },
     "category": "traps",
     "description": "A simple tripwire attached to the trigger of a loaded crossbow.  When the tripwire is pulled, the crossbow fires.  Only a single bolt can be used, after which the trap is disabled.",
@@ -209,7 +221,7 @@
     "use_action": {
       "type": "place_trap",
       "trap": "tr_crossbow",
-      "moves": 200,
+      "moves": 6000,
       "practice": 4,
       "done_message": "You set the crossbow trap."
     },
@@ -218,7 +230,8 @@
   },
   {
     "id": "landmine",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "land mine" },
     "category": "traps",
     "description": "A military anti-personnel fragmentation mine that is triggered when stepped on.",
@@ -226,14 +239,14 @@
     "volume": "500 ml",
     "price": "50 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "use_action": {
       "type": "place_trap",
       "bury_question": "Bury the land mine?",
-      "bury": { "trap": "tr_landmine_buried", "moves": 275, "practice": 7, "done_message": "You bury the land mine." },
+      "bury": { "trap": "tr_landmine_buried", "moves": 36000, "practice": 7, "done_message": "You bury the land mine." },
       "trap": "tr_landmine",
       "moves": 200,
       "practice": 4,
@@ -244,7 +257,8 @@
   },
   {
     "id": "shotgun_trap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "shotgun trap" },
     "category": "traps",
     "description": "A simple tripwire attached to the trigger of a loaded double slam-fire shotgun.  When the tripwire is pulled, the shotgun fires.  Two shells are loaded; the first time the trigger is pulled, one or both shells may be discharged.",
@@ -258,7 +272,7 @@
     "use_action": {
       "type": "place_trap",
       "trap": "tr_shotgun_2",
-      "moves": 225,
+      "moves": 6000,
       "practice": 5,
       "done_message": "You set the shotgun trap."
     },
@@ -267,7 +281,8 @@
   },
   {
     "id": "tripwire",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tripwire trap" },
     "category": "traps",
     "description": "A length of thin string with some affixing tools on either end.  It must be placed across a doorway or other thin passage to function.  Its purpose is to trip up trespassers, causing them to stumble and possibly hurt themselves slightly.",
@@ -275,7 +290,7 @@
     "volume": "250 ml",
     "price": "3 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "cotton" ],
     "symbol": ";",
     "color": "light_gray",
@@ -283,7 +298,7 @@
       "type": "place_trap",
       "needs_solid_neighbor": true,
       "trap": "tr_tripwire",
-      "moves": 175,
+      "moves": 6000,
       "practice": 3,
       "done_message": "You string up the tripwire."
     },
@@ -291,7 +306,8 @@
   },
   {
     "id": "caltrops_teeth",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "loose teeth caltrops" },
     "category": "traps",
     "description": "A handful of small impossibly-sharp teeth glued together.  If an unsuspecting victim steps on one, they'll get a tooth through the foot.",
@@ -299,18 +315,19 @@
     "volume": "500 ml",
     "price": "1 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "bone" ],
     "symbol": ";",
     "color": "dark_gray",
     "use_action": {
       "type": "place_trap",
       "trap": "tr_caltrops_teeth",
+      "//COMMENT": "Caltrops are meant to be scatterable in such a way that one point always sticks up, so this can just be done blindly and very quickly.",
       "moves": 150,
       "practice": 2,
       "done_message": "You scatter the teeth caltrops on the %s."
     },
-    "flags": [ "SINGLE_USE" ],
+    "flags": [ "SINGLE_USE", "PUNCTURE_VEHICLE_WHEELS" ],
     "melee_damage": { "cut": 12 }
   }
 ]

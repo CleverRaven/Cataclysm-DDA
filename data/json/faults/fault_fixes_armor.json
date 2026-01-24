@@ -1,0 +1,281 @@
+[
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_soft_planishing",
+    "name": "Flatten the dent.",
+    "faults_removed": [ "fault_armor_lc_dented", "fault_armor_mc_dented" ],
+    "success_msg": "You flatten the dent in your %s.",
+    "time": "30 m",
+    "skills": { "fabrication": 2 },
+    "time_save_profs": { "prof_armorsmithing": 0.8 },
+    "requirements": [ { "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 } ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_hard_planishing",
+    "name": "Flatten the dent.",
+    "//": "Need to heat the armor a bit to make the metal planishable.",
+    "faults_removed": [ "fault_armor_hc_dented", "fault_armor_ch_dented", "fault_armor_qt_dented" ],
+    "success_msg": "You flatten the dent in your %s.",
+    "time": "30 m",
+    "skills": { "fabrication": 3 },
+    "time_save_profs": { "prof_armorsmithing": 0.8 },
+    "requirements": [ [ "blacksmithing_standard_fileless", 1 ] ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_weld_lc",
+    "name": "Weld the hole.",
+    "//": "Those recipes assume a cooling period.",
+    "faults_removed": [ "fault_armor_lc_punctured", "fault_armor_mc_punctured" ],
+    "success_msg": "You weld %s hole.",
+    "time": "3 h",
+    "skills": { "fabrication": 5 },
+    "time_save_profs": { "prof_armorsmithing": 0.8, "prof_welding_basic": 0.9, "prof_welding": 0.8 },
+    "requirements": [ [ "repair_welding_lc_steel", 1 ] ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_weld_hc",
+    "name": "Weld the hole.",
+    "faults_removed": [ "fault_armor_hc_punctured" ],
+    "success_msg": "You weld %s hole.",
+    "time": "3 h",
+    "skills": { "fabrication": 5 },
+    "time_save_profs": { "prof_armorsmithing": 0.8, "prof_welding_basic": 0.9, "prof_welding": 0.8 },
+    "requirements": [ [ "repair_welding_standard", 1 ] ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_weld_ch",
+    "name": "Weld the hole.",
+    "//": "The added material is hardened.",
+    "faults_removed": [ "fault_armor_ch_punctured" ],
+    "success_msg": "You weld %s hole.",
+    "time": "3 h",
+    "skills": { "fabrication": 6 },
+    "time_save_profs": { "prof_armorsmithing": 0.8, "prof_welding_basic": 0.9, "prof_welding": 0.8, "prof_case_hardening": 0.8 },
+    "requirements": [ [ "forging_standard", 1 ], [ "repair_welding_standard", 1 ], [ "carbon", 1 ] ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_weld_qt",
+    "name": "Weld the hole.",
+    "//": "The armor is heated to tempering temperature then the weld is done and the armor left to cool in a welding blanket.",
+    "faults_removed": [ "fault_armor_qt_punctured" ],
+    "success_msg": "You weld %s hole.",
+    "time": "3 h",
+    "skills": { "fabrication": 7 },
+    "time_save_profs": { "prof_armorsmithing": 0.8, "prof_welding_basic": 0.9, "prof_welding": 0.8, "prof_quenching": 0.8 },
+    "requirements": [
+      [ "forging_standard", 1 ],
+      [ "repair_welding_standard", 1 ],
+      { "tools": [ [ [ "welding_blanket", -1 ], [ "welding_kit", -1 ] ] ] }
+    ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_lc_patch",
+    "name": "Patch the hole.",
+    "//": "These fixes involve fastening a metal sheet to patch the hole.",
+    "faults_removed": [ "fault_armor_lc_punctured" ],
+    "success_msg": "You patch the hole in %s.",
+    "time": "1 h",
+    "skills": { "fabrication": 3 },
+    "time_save_profs": { "prof_armorsmithing": 0.5 },
+    "requirements": [ [ "rivet_setting", 4 ], { "components": [ [ [ "sheet_metal_small", 1 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "copy-from": "mend_armor_lc_patch",
+    "id": "mend_armor_mc_patch",
+    "name": "Patch the hole.",
+    "faults_removed": [ "fault_armor_mc_punctured" ],
+    "requirements": [ [ "rivet_setting", 4 ], { "components": [ [ [ "mc_sheet_metal_small", 1 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "copy-from": "mend_armor_lc_patch",
+    "id": "mend_armor_hc_patch",
+    "name": "Patch the hole.",
+    "faults_removed": [ "fault_armor_hc_punctured" ],
+    "requirements": [ [ "rivet_setting", 4 ], { "components": [ [ [ "hc_sheet_metal_small", 1 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "copy-from": "mend_armor_lc_patch",
+    "id": "mend_armor_ch_patch",
+    "name": "Patch the hole.",
+    "faults_removed": [ "fault_armor_ch_punctured" ],
+    "requirements": [ [ "rivet_setting", 4 ], { "components": [ [ [ "ch_sheet_metal_small", 1 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "copy-from": "mend_armor_lc_patch",
+    "id": "mend_armor_qt_patch",
+    "name": "Patch the hole.",
+    "faults_removed": [ "fault_armor_qt_punctured" ],
+    "requirements": [ [ "rivet_setting", 4 ], { "components": [ [ [ "qt_sheet_metal_small", 1 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_patch_forge_lc",
+    "name": "Patch the hole using a forge.",
+    "faults_removed": [ "fault_armor_lc_punctured" ],
+    "success_msg": "You weld %s hole.",
+    "time": "3 h",
+    "skills": { "fabrication": 5 },
+    "time_save_profs": { "prof_armorsmithing": 0.8, "prof_blacksmithing": 0.6 },
+    "requirements": [ [ "blacksmithing_standard", 1 ], { "components": [ [ [ "lc_steel_chunk", 1 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "copy-from": "mend_armor_patch_forge_lc",
+    "id": "mend_armor_patch_forge_mc",
+    "name": "Patch the hole using a forge.",
+    "faults_removed": [ "fault_armor_mc_punctured" ],
+    "requirements": [ [ "blacksmithing_standard", 1 ], { "components": [ [ [ "mc_steel_chunk", 1 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "copy-from": "mend_armor_patch_forge_lc",
+    "id": "mend_armor_patch_forge_hc",
+    "name": "Patch the hole using a forge.",
+    "faults_removed": [ "fault_armor_hc_punctured" ],
+    "requirements": [ [ "blacksmithing_standard", 1 ], { "components": [ [ [ "hc_steel_chunk", 1 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_patch_forge_ch",
+    "name": "Patch the hole using a forge.",
+    "faults_removed": [ "fault_armor_ch_punctured" ],
+    "success_msg": "You weld %s hole.",
+    "time": "3 h",
+    "skills": { "fabrication": 6 },
+    "time_save_profs": { "prof_armorsmithing": 0.9, "prof_blacksmithing": 0.9, "prof_case_hardening": 0.8 },
+    "requirements": [ [ "blacksmithing_standard", 1 ], { "components": [ [ [ "lc_steel_chunk", 1 ] ] ] }, [ "carbon", 1 ] ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_patch_forge_qt",
+    "name": "Patch the hole using a forge.",
+    "faults_removed": [ "fault_armor_qt_punctured" ],
+    "success_msg": "You weld %s hole.",
+    "time": "3 h",
+    "skills": { "fabrication": 7 },
+    "time_save_profs": { "prof_armorsmithing": 0.9, "prof_blacksmithing": 0.9, "prof_quenching": 0.8 },
+    "requirements": [
+      [ "blacksmithing_standard", 1 ],
+      { "components": [ [ [ "mc_steel_chunk", 1 ] ] ] },
+      { "tools": [ [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ] }
+    ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_lc_replace",
+    "name": "Replace the damaged part with a new one.",
+    "//": "This assumes forging an entirely new part from scratch, the part is assumed to be half a chestplate since chestplates are almost always made of 2 parts.",
+    "faults_removed": [ "fault_armor_lc_punctured", "fault_armor_lc_dented" ],
+    "success_msg": "You replace the damaged %s part.",
+    "mod_damage": -1000,
+    "mod_degradation": -50,
+    "time": "6 d",
+    "skills": { "fabrication": 6 },
+    "time_save_profs": { "prof_armorsmithing": 0.9, "prof_blacksmithing": 0.9 },
+    "requirements": [
+      { "qualities": [ { "id": "CHISEL", "level": 3 } ] },
+      { "tools": [ [ [ "swage", -1 ] ] ] },
+      [ "blacksmithing_standard", 10 ],
+      [ "lc_steel_standard", 3 ]
+    ]
+  },
+  {
+    "type": "fault_fix",
+    "copy-from": "mend_armor_lc_replace",
+    "id": "mend_armor_mc_replace",
+    "name": "Replace the damaged part with a new one.",
+    "faults_removed": [ "fault_armor_mc_punctured", "fault_armor_mc_dented" ],
+    "requirements": [
+      { "qualities": [ { "id": "CHISEL", "level": 3 } ] },
+      { "tools": [ [ [ "swage", -1 ] ] ] },
+      [ "blacksmithing_standard", 10 ],
+      [ "mc_steel_standard", 3 ]
+    ]
+  },
+  {
+    "type": "fault_fix",
+    "copy-from": "mend_armor_lc_replace",
+    "id": "mend_armor_hc_replace",
+    "name": "Replace the damaged part with a new one.",
+    "faults_removed": [ "fault_armor_hc_punctured", "fault_armor_hc_dented" ],
+    "requirements": [
+      { "qualities": [ { "id": "CHISEL", "level": 3 } ] },
+      { "tools": [ [ [ "swage", -1 ] ] ] },
+      [ "blacksmithing_standard", 10 ],
+      [ "hc_steel_standard", 3 ]
+    ]
+  },
+  {
+    "type": "fault_fix",
+    "copy-from": "mend_armor_lc_replace",
+    "id": "mend_armor_ch_replace",
+    "name": "Replace the damaged part with a new one.",
+    "faults_removed": [ "fault_armor_ch_punctured", "fault_armor_ch_dented" ],
+    "time_save_profs": { "prof_armorsmithing": 0.9, "prof_blacksmithing": 0.9, "prof_case_hardening": 0.9 },
+    "requirements": [
+      { "qualities": [ { "id": "CHISEL", "level": 3 } ] },
+      { "tools": [ [ [ "swage", -1 ] ] ] },
+      [ "blacksmithing_standard", 10 ],
+      [ "lc_steel_standard", 3 ],
+      [ "carbon", 3 ]
+    ]
+  },
+  {
+    "type": "fault_fix",
+    "copy-from": "mend_armor_lc_replace",
+    "id": "mend_armor_qt_replace",
+    "name": "Replace the damaged part with a new one.",
+    "time": "6 d 21h 36m",
+    "faults_removed": [ "fault_armor_qt_punctured", "fault_armor_qt_dented" ],
+    "time_save_profs": { "prof_armorsmithing": 0.9, "prof_blacksmithing": 0.9, "prof_quenching": 0.9 },
+    "requirements": [
+      { "qualities": [ { "id": "CHISEL", "level": 3 } ] },
+      {
+        "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
+      },
+      [ "blacksmithing_standard", 10 ],
+      [ "mc_steel_standard", 3 ]
+    ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_articulation_replace_rivets",
+    "name": "Replace the rivets.",
+    "faults_removed": [ "fault_armor_rivets_broken" ],
+    "success_msg": "You replace %s rivets.",
+    "mod_damage": -1000,
+    "mod_degradation": -5,
+    "time": "2 h",
+    "skills": { "fabrication": 2 },
+    "time_save_profs": { "prof_armorsmithing": 0.9, "prof_articulation": 0.8 },
+    "requirements": [ [ "rivet_replacement", 4 ] ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_articulation_replace_straps_rivets",
+    "name": "Replace the straps.",
+    "//": "This is to be specifically used with rivet-fastened straps.",
+    "faults_removed": [ "fault_armor_straps_cut" ],
+    "success_msg": "You replace %s straps.",
+    "mod_damage": -1000,
+    "mod_degradation": -5,
+    "time": "2 h",
+    "skills": { "tailor": 2 },
+    "time_save_profs": { "prof_armorsmithing": 0.9, "prof_closures": 0.8 },
+    "requirements": [
+      [ "strap_small", 2 ],
+      [ "rivet_replacement", 4 ],
+      { "qualities": [ { "id": "FABRIC_CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 } ] }
+    ]
+  }
+]

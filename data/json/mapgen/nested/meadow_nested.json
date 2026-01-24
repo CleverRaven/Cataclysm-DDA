@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "meadow_12x12_pond",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -29,7 +28,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "meadow_12x12_shrubs",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -53,7 +51,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "meadow_12x12_trees",
     "object": {
       "mapgensize": [ 12, 12 ],

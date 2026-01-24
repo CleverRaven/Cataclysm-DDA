@@ -4,7 +4,7 @@
     "name": { "str": "generic kitchen knife", "str_pl": "generic kitchen knives", "//~": "NO_I18N" },
     "description": { "str": "generic item template", "//~": "NO_I18N" },
     "category": "weapons",
-    "type": "GENERIC",
+    "type": "ITEM",
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray"
@@ -12,7 +12,8 @@
   {
     "id": "knife_small",
     "name": { "str": "small kitchen knife", "str_pl": "small kitchen knives" },
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "variants": [
       {
         "id": "knife_steak",
@@ -36,13 +37,14 @@
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "SHIVS" ],
+    "weapon_category": [ "KNIVES" ],
     "melee_damage": { "bash": 2, "stab": 7 }
   },
   {
     "id": "knife_large",
     "name": { "str": "large kitchen knife", "str_pl": "large kitchen knives" },
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "variants": [
       {
         "id": "knife_chef",
@@ -72,13 +74,14 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 22 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "SHIVS" ],
+    "weapon_category": [ "KNIVES" ],
     "melee_damage": { "bash": 1, "stab": 18 }
   },
   {
     "id": "knife_huge",
     "name": { "str": "huge kitchen knife", "str_pl": "huge kitchen knives" },
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "variants": [
       {
         "id": "knife_butcher",
@@ -102,7 +105,8 @@
   {
     "id": "knife_cleaver",
     "name": { "str": "cleaver" },
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "variants": [
       {
         "id": "knife_meat_cleaver",
@@ -130,7 +134,8 @@
   },
   {
     "id": "copper_knife",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "copper knife", "str_pl": "copper knives" },
     "description": "A knife made of crudely-worked copper with a simple handle.  Primitive, but a step above stone-age.",
     "weight": "200 g",
@@ -149,7 +154,8 @@
   },
   {
     "id": "bronze_knife",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "bronze knife", "str_pl": "bronze knives" },
     "description": "A cast bronze knife with a full tang, with a handle wrapped in cord and leather, lovingly work-hardened and sharpened to a fine edge.",
@@ -170,7 +176,8 @@
   },
   {
     "id": "diveknife",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "dive knife", "str_pl": "dive knives" },
     "//": "Too small to be effectively used for butchering, still not bad at it due to serrated edge.",
@@ -186,12 +193,13 @@
     "qualities": [ [ "CUT", 2 ], [ "PRY", 1 ], [ "BUTCHER", 15 ] ],
     "use_action": [ "CROWBAR" ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "cut": 12 }
   },
   {
     "id": "honey_scraper",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "honey scraper" },
     "description": "A sharp, knife-like tool used for harvesting honey from beehives.  Makes a passable melee weapon.",
     "weight": "580 g",
@@ -205,12 +213,13 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 3 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "SHIVS" ],
+    "weapon_category": [ "KNIVES" ],
     "melee_damage": { "bash": 1, "stab": 8 }
   },
   {
     "id": "pockknife",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pocket knife", "str_pl": "pocket knives" },
     "description": "A small pocket knife.  It isn't great for combat, but it's better than nothing.  It's sharp enough to butcher with.",
     "weight": "20 g",
@@ -228,7 +237,8 @@
   },
   {
     "id": "primitive_knife",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "stone knife", "str_pl": "stone knives" },
     "description": "A sharpened stone set into a hollowed handle.  Not nearly as usable as a proper knife, but it's better than nothing.",
     "weight": "453 g",
@@ -247,7 +257,8 @@
   },
   {
     "id": "boxcutter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "boxcutter knife", "str_pl": "boxcutter knives" },
     "description": "A small knife designed for opening boxes.  It could cause some damage, but it really should be used against inanimate objects.  It is too small to effectively butcher corpses with.",
     "weight": "23 g",
@@ -265,7 +276,8 @@
     "weapon_category": [ "SHIVS" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "stone_chopper",
     "symbol": "*",
     "color": "light_gray",

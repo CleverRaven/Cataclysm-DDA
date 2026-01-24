@@ -102,24 +102,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "canyon_2way_v1",
-      "canyon_3way_v1",
-      "canyon_edge_v1",
-      "canyon_corner_v1",
-      "canyon_2way_v2",
-      "canyon_3way_v2",
-      "canyon_edge_v2",
-      "canyon_corner_v2",
-      "canyon_2way_v1_bottom",
-      "canyon_3way_v1_bottom",
-      "canyon_edge_v1_bottom",
-      "canyon_corner_v1_bottom",
-      "canyon_2way_v2_bottom",
-      "canyon_3way_v2_bottom",
-      "canyon_edge_v2_bottom",
-      "canyon_corner_v2_bottom"
-    ],
+    "abstract": "generic_canyon",
     "name": "canyon",
     "sym": "V",
     "color": "light_gray",
@@ -128,18 +111,21 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "canyon_2way_ground_v1",
-      "canyon_3way_ground_v1",
-      "canyon_edge_ground_v1",
-      "canyon_corner_ground_v1",
-      "canyon_2way_ground_v2",
-      "canyon_3way_ground_v2",
-      "canyon_edge_ground_v2",
-      "canyon_corner_ground_v2"
+      "canyon_2way",
+      "canyon_3way",
+      "canyon_edge",
+      "canyon_corner",
+      "canyon_2way_bottom",
+      "canyon_3way_bottom",
+      "canyon_edge_bottom",
+      "canyon_corner_bottom"
     ],
-    "name": "canyon",
-    "sym": "V",
-    "color": "light_gray",
+    "copy-from": "generic_canyon"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "canyon_2way_ground", "canyon_3way_ground", "canyon_edge_ground", "canyon_corner_ground" ],
+    "copy-from": "generic_canyon",
     "see_cost": "all_clear",
     "flags": [ "REQUIRES_PREDECESSOR" ]
   },

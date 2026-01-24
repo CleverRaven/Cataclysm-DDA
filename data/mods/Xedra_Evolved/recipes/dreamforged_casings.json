@@ -375,23 +375,6 @@
     "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
   },
   {
-    "result": "46mm_casing",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_XEDRA",
-    "subcategory": "CSC_XEDRA_CASINGS",
-    "skill_used": "deduction",
-    "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
-    "time": "45 s",
-    "batch_time_factors": [ 30, 5 ],
-    "charges": 2,
-    "id_suffix": "from_dreamdross",
-    "flags": [ "SECRET" ],
-    "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
-    "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
-  },
-  {
     "result": "500_casing",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

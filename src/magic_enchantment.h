@@ -26,6 +26,7 @@ class JsonOut;
 class JsonValue;
 class item;
 class monster;
+class vehicle;
 struct const_dialogue;
 
 namespace enchant_vals
@@ -72,6 +73,7 @@ enum class mod : int {
     DODGE_CHANCE,
     BONUS_DODGE,
     BONUS_BLOCK,
+    FREE_DODGES,
     MELEE_DAMAGE,
     MELEE_RANGE_MODIFIER,
     MELEE_TO_HIT,
@@ -106,6 +108,7 @@ enum class mod : int {
     BIONIC_MANA_PENALTY,
     STEALTH_MODIFIER,
     WEAKNESS_TO_WATER,
+    WEIGHT,
     MENDING_MODIFIER,
     STOMACH_SIZE_MULTIPLIER,
     LEARNING_FOCUS,
@@ -145,6 +148,10 @@ enum class mod : int {
     STAMINA_REGEN_MOD,
     MOVEMENT_EXERTION_MODIFIER,
     WEAKPOINT_ACCURACY,
+    MOTION_ALARM,
+    TOTAL_WEIGHT,
+    FUEL_USAGE,
+    TURNING_DIFFICULTY,
     NUM_MOD
 };
 } // namespace enchant_vals
@@ -170,6 +177,7 @@ class enchantment
         };
 
         static void load_enchantment( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view src = {},
                    const std::optional<std::string> &inline_id = std::nullopt, bool is_child = false );
@@ -190,6 +198,11 @@ class enchantment
         bool is_active( const monster &mon ) const;
 
         bool is_monster_relevant() const;
+
+        // same as above except for vehicles. Much more limited.
+        bool is_active( const vehicle &veh, bool active ) const;
+
+        bool is_vehicle_relevant() const;
 
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available
@@ -239,6 +252,9 @@ class enchantment
         std::map<skill_id, dbl_or_var> skill_values_add; // NOLINT(cata-serialize)
         std::map<skill_id, dbl_or_var> skill_values_multiply; // NOLINT(cata-serialize)
 
+        std::map<bodypart_str_id, dbl_or_var> encumbrance_values_add; // NOLINT(cata-serialize)
+        std::map<bodypart_str_id, dbl_or_var> encumbrance_values_multiply; // NOLINT(cata-serialize)
+
         std::map<damage_type_id, dbl_or_var> damage_values_add; // NOLINT(cata-serialize)
         std::map<damage_type_id, dbl_or_var> damage_values_multiply; // NOLINT(cata-serialize)
 
@@ -255,6 +271,7 @@ class enchantment
             std::string id = "infrared_creature";
             nc_color color = c_red;
             std::string symbol = "?";
+            std::string text = "You see a medium figure radiating heat.";
             translation description;
             std::function<bool( const_dialogue const & )> condition;
         };
@@ -295,25 +312,29 @@ class enchant_cache : public enchantment
         units::energy modify_value( enchant_vals::mod mod_val, units::energy value ) const;
         units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
         units::volume modify_value( enchant_vals::mod mod_val, units::volume value ) const;
+        units::power modify_value( enchant_vals::mod mod_val, units::power value ) const;
         units::temperature_delta modify_value( enchant_vals::mod mod_val,
                                                units::temperature_delta value ) const;
         time_duration modify_value( enchant_vals::mod mod_val, time_duration value ) const;
 
+        double modify_encumbrance( const bodypart_str_id &mod_val, double value ) const;
         double modify_melee_damage( const damage_type_id &mod_val, double value ) const;
         double modify_damage_units_by_armor_protection( const damage_type_id &mod_val, double value ) const;
         double modify_damage_units_by_extra_damage( const damage_type_id &mod_val, double value ) const;
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs, const Character &guy );
         void force_add( const enchantment &rhs, const monster &mon );
+        void force_add( const enchantment &rhs, const vehicle &veh );
         void force_add( const enchantment &rhs );
         void force_add( const enchant_cache &rhs );
-        void force_add_with_dialogue( const enchantment &rhs, const const_dialogue &d,
-                                      bool evaluate = true );
+        void force_add_with_dialogue( const enchantment &rhs, const const_dialogue &d );
         // adds enchantment mutations to the cache
         void force_add_mutation( const enchantment &rhs );
 
         // modifies character stats, or does other passive effects
         void activate_passive( Character &guy ) const;
+        template<typename TKey>
+        double get_value( const TKey &value, const std::map<TKey, double> &value_map ) const;
         double get_value_add( enchant_vals::mod value ) const;
         double get_value_multiply( enchant_vals::mod value ) const;
         int mult_bonus( enchant_vals::mod value_type, int base_value ) const;
@@ -321,10 +342,12 @@ class enchant_cache : public enchantment
         double get_skill_value_add( const skill_id &value ) const;
         int get_damage_add( const damage_type_id &value ) const;
         int get_armor_add( const damage_type_id &value ) const;
+        int get_encumbrance_add( const bodypart_str_id &value ) const;
         int get_extra_damage_add( const damage_type_id &value ) const;
         double get_skill_value_multiply( const skill_id &value ) const;
         double get_damage_multiply( const damage_type_id &value ) const;
         double get_armor_multiply( const damage_type_id &value ) const;
+        double get_encumbrance_multiply( const bodypart_str_id &value ) const;
         double get_extra_damage_multiply( const damage_type_id &value ) const;
         int skill_mult_bonus( const skill_id &value_type, int base_value ) const;
         // attempts to add two like enchantments together.
@@ -345,8 +368,14 @@ class enchant_cache : public enchantment
         // casts all the hit_me_effects on self or a target depending on the enchantment definition
         void cast_hit_me( Character &caster, const Creature *target ) const;
         void cast_hit_me( Creature &caster, const Creature *target ) const;
+
+        template<typename TKey>
+        void save_add_and_multiply( JsonOut &jsout, const std::string_view &member_key,
+                                    const std::string &type_key, const std::map<TKey, double> &add_map,
+                                    const std::map<TKey, double> &mult_map ) const;
+
         void serialize( JsonOut &jsout ) const;
-        void add_value_add( enchant_vals::mod value, int add_value );
+        void add_value_add( enchant_vals::mod value, float add_value );
 
         void set_has( enchantment::has value );
         void add_value_mult( enchant_vals::mod value, float mult_value );
@@ -388,6 +417,9 @@ class enchant_cache : public enchantment
         // the exact same as above, though specifically for skills
         std::map<skill_id, double> skill_values_add; // NOLINT(cata-serialize)
         std::map<skill_id, double> skill_values_multiply; // NOLINT(cata-serialize)
+
+        std::map<bodypart_str_id, double> encumbrance_values_add; // NOLINT(cata-serialize)
+        std::map<bodypart_str_id, double> encumbrance_values_multiply; // NOLINT(cata-serialize)
 
         std::map<damage_type_id, double> damage_values_add; // NOLINT(cata-serialize)
         std::map<damage_type_id, double> damage_values_multiply; // NOLINT(cata-serialize)

@@ -59,7 +59,13 @@
       { "group": "survivor_basic_feet", "damage": [ 0, 3 ] },
       { "group": "clothing_glasses", "prob": 5, "damage": [ 0, 3 ] },
       { "group": "clothing_watch", "prob": 5, "damage": [ 0, 3 ] },
-      { "item": "spearsling", "prob": 100, "damage": [ 0, 3 ] },
+      {
+        "distribution": [
+          { "item": "spearsling", "prob": 50, "damage": [ 0, 3 ] },
+          { "item": "spearsling_canvas", "prob": 50, "damage": [ 0, 3 ] }
+        ],
+        "prob": 100
+      },
       {
         "distribution": [
           { "item": "police_belt", "prob": 35, "damage": [ 0, 3 ] },
@@ -145,6 +151,7 @@
       { "group": "clothing_glasses", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
       { "group": "wallets", "damage": [ 1, 4 ] },
+      { "item": "throat_guard_cut_resistant", "prob": 5, "damage": [ 0, 4 ] },
       { "item": "m9mag", "prob": 100, "charges": 0, "count": [ 0, 2 ] }
     ]
   },
@@ -202,7 +209,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_fancy_death_drops_rapier",
-    "entries": [ { "item": "rapier", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_fancy_clothes", "prob": 100 } ]
+    "entries": [ { "group": "rapiers", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_fancy_clothes", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -214,13 +221,13 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_armored_death_drops_mace",
-    "entries": [ { "item": "mace_fake", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_armored_clothes", "prob": 100 } ]
+    "entries": [ { "group": "maces", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_armored_clothes", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_armored_death_drops_battleaxe",
-    "entries": [ { "item": "battleaxe_fake", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_armored_clothes", "prob": 100 } ]
+    "entries": [ { "group": "battleaxes", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_armored_clothes", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -413,13 +420,12 @@
                     "collection": [
                       {
                         "distribution": [
-                          { "item": "gown", "prob": 25, "damage": [ 1, 4 ] },
-                          { "item": "dress", "prob": 50, "damage": [ 1, 4 ] },
+                          { "item": "dress", "prob": 75, "damage": [ 1, 4 ] },
                           { "item": "sundress", "prob": 15, "damage": [ 1, 4 ] },
                           { "item": "santa_dress_long", "prob": 5, "damage": [ 1, 4 ] },
-                          { "item": "sinister_dress", "prob": 5, "damage": [ 1, 4 ] },
-                          { "item": "sinister_gown", "prob": 5, "damage": [ 1, 4 ] },
-                          { "item": "witch_dress_long", "prob": 5, "damage": [ 1, 4 ] },
+                          { "item": "gown_sleeved", "variant": "sinister", "prob": 5, "damage": [ 1, 4 ] },
+                          { "item": "long_dress_sleeved", "variant": "witch_black", "prob": 5, "damage": [ 1, 4 ] },
+                          { "item": "long_dress_sleeved", "variant": "sinister", "prob": 5, "damage": [ 1, 4 ] },
                           {
                             "collection": [ { "item": "dress_wedding", "damage": [ 1, 4 ] }, { "item": "veil_wedding", "damage": [ 1, 4 ] } ],
                             "prob": 10
@@ -478,8 +484,8 @@
               {
                 "collection": [
                   { "item": "cuirass_lightplate", "prob": 80, "damage": [ 2, 4 ] },
-                  { "item": "armguard_lightplate", "prob": 60, "damage": [ 1, 4 ] },
-                  { "item": "legguard_lightplate", "prob": 60, "damage": [ 1, 4 ] }
+                  { "item": "armor_lc_armguard", "prob": 60, "damage": [ 1, 4 ] },
+                  { "item": "armor_lc_leg_guard", "prob": 60, "damage": [ 1, 4 ] }
                 ],
                 "prob": 60
               }
@@ -564,7 +570,7 @@
       { "group": "survivor_knife", "damage": [ 1, 4 ] },
       { "group": "gear_survival", "prob": 55, "damage": [ 1, 4 ] },
       { "group": "survivor_bashing", "prob": 100, "damage": [ 1, 4 ] },
-      { "group": "stash_food", "prob": 70 },
+      { "group": "stash_food", "prob": 35 },
       { "group": "mil_food_nodrugs", "prob": 10 },
       { "group": "used_survival_kit", "prob": 70, "damage": [ 1, 4 ] }
     ]
@@ -600,7 +606,7 @@
       { "group": "survivor_knife", "damage": [ 1, 4 ] },
       { "group": "gear_survival", "prob": 60, "damage": [ 1, 4 ] },
       { "group": "survivor_cutting", "prob": 100, "damage": [ 1, 4 ] },
-      { "group": "stash_food", "prob": 70 },
+      { "group": "stash_food", "prob": 35 },
       { "group": "mil_food", "prob": 33 },
       { "group": "mil_food_nodrugs", "prob": 38 },
       { "group": "shelter", "prob": 16 },
@@ -630,7 +636,7 @@
       { "group": "bags", "damage": [ 1, 4 ], "prob": 100 },
       { "group": "book_survival", "prob": 70 },
       { "group": "gear_survival", "prob": 70, "damage": [ 1, 4 ] },
-      { "group": "stash_food", "prob": 70 },
+      { "group": "stash_food", "prob": 35 },
       { "group": "mil_food", "prob": 39 },
       { "group": "mil_food_nodrugs", "prob": 40 },
       { "group": "shelter", "prob": 30 },
@@ -859,6 +865,15 @@
         "collection": [ { "item": "badge_deputy", "prob": 100 }, { "item": "badge_detective", "prob": 20 } ],
         "prob": 10
       }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_prisoner_death_drops",
+    "entries": [
+      { "item": "glass_shiv", "prob": 100, "damage": [ 0, 4 ] },
+      { "group": "mon_zombie_prisoner_death_drops", "prob": 100 }
     ]
   }
 ]

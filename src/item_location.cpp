@@ -22,6 +22,7 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_pocket.h"
+#include "itype.h"
 #include "json.h"
 #include "line.h"
 #include "magic_enchantment.h"
@@ -37,6 +38,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
@@ -490,6 +492,18 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         item_on_vehicle( const vehicle_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
 
         void serialize( JsonOut &js ) const override {
+            const std::vector<wrapped_vehicle> &vehicles = get_map().get_vehicles();
+            const auto same_veh = [this]( const wrapped_vehicle & wv ) {
+                return wv.v == &cur.veh;
+            };
+            if( std::find_if( vehicles.begin(), vehicles.end(), same_veh ) == vehicles.end() ) {
+                debugmsg( "Could not find vehicle for item_location on vehicle" );
+                // This is intended as a temporary patch, but if you're reading this you know how it goes sometimes.
+                // Serialize exactly like an item_location::nowhere just in case this sticks around long enough for that to change...
+                item_location dummy = item_location::nowhere;
+                dummy.serialize( js );
+                return;
+            }
             js.start_object();
             js.member( "type", "vehicle" );
             js.member( "position", pos_abs() );
@@ -634,7 +648,7 @@ class item_location::impl::item_in_container : public item_location::impl
 
         item_pocket *parent_pocket() const override {
             if( container_pkt == nullptr ) {
-                std::vector<item_pocket *> const pkts = parent_item()->get_all_standard_pockets();
+                std::vector<item_pocket *> const pkts = parent_item()->get_standard_pockets();
                 if( pkts.size() == 1 ) {
                     container_pkt = pkts.front();
                 } else {
@@ -933,6 +947,41 @@ bool item_location::has_parent() const
     return false;
 }
 
+bool item_location::is_efile() const
+{
+    return parent_item() && parent_item()->is_estorage();
+}
+
+bool item_location::is_invisible_installed_gunmod() const
+{
+    const item_location current_location = *this;
+    if( current_location->is_gunmod() ) {
+        item_location parent = parent_item();
+        const bool installed = parent && parent->is_gun();
+        if( installed && !current_location->type->gunmod->is_visible_when_installed ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+pocket_constraint item_location::get_pocket_constraints_recursive( const item_pocket *pocket ) const
+{
+    pocket_constraint ret = pocket_constraint( pocket );
+
+    item_pocket *parent_pocket;
+    item_location current_location = *this;
+
+    while( current_location.has_parent() ) {
+        parent_pocket = current_location.parent_pocket();
+        ret.constrain_by( parent_pocket );
+
+        current_location = current_location.parent_item();
+    }
+
+    return ret;
+}
+
 ret_val<void> item_location::parents_can_contain_recursive( item *it ) const
 {
     item_pocket *parent_pocket;
@@ -942,7 +991,7 @@ ret_val<void> item_location::parents_can_contain_recursive( item *it ) const
     item_location current_location = *this;
     //item_location class cannot return current pocket so use first pocket for innermost container
     //Only used for weight and volume multipliers
-    const item_pocket *current_pocket = get_item()->get_all_standard_pockets().front();
+    const item_pocket *current_pocket = get_item()->get_standard_pockets().front();
     const pocket_data *current_pocket_data = current_pocket->get_pocket_data();
 
     //Repeat until top-most container reached
@@ -989,7 +1038,7 @@ ret_val<int> item_location::max_charges_by_parent_recursive( const item &it ) co
     item_location current_location = *this;
     //item_location class cannot return current pocket so use first pocket for innermost container
     //Only used for weight and volume multipliers
-    const item_pocket *current_pocket = get_item()->get_all_standard_pockets().front();
+    const item_pocket *current_pocket = get_item()->get_standard_pockets().front();
     const pocket_data *current_pocket_data = current_pocket->get_pocket_data();
 
     //Repeat until top-most container reached
@@ -1228,9 +1277,9 @@ bool item_location::can_reload_with( const item_location &ammo, bool now ) const
     return reloadable->can_reload_with( *ammo, now );
 }
 
-int item_location::get_quality( const std::string &quality, bool strict ) const
+int item_location::get_quality( const std::string &quality, bool strict_boiling ) const
 {
     const item_location tool = *this;
     quality_id qualityid( quality );
-    return tool->get_quality_nonrecursive( qualityid, strict );
+    return tool->get_quality_nonrecursive( qualityid, strict_boiling );
 }

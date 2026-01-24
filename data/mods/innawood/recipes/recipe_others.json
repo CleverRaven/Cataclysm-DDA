@@ -13,7 +13,7 @@
     "flags": [ "BLIND_EASY" ],
     "autolearn": true,
     "components": [
-      [ [ "glasses_safety", 1 ], [ "glass_goggles", 1 ] ],
+      [ [ "glasses_safety", 1 ], [ "glass_goggles", 1 ], [ "goggles_chem", 1 ] ],
       [ [ "hose", 3 ], [ "makeshift_hose", 3 ] ],
       [ [ "flask_glass", 4 ], [ "jar_glass_sealed", 4 ], [ "bottle_glass", 4 ], [ "test_tube", 20 ] ],
       [ [ "box_small", 1 ], [ "bag_canvas", 1 ], [ "backpack", 1 ], [ "backpack_leather", 1 ], [ "rucksack", 1 ] ]
@@ -44,11 +44,12 @@
     "difficulty": 3,
     "time": "18 m",
     "autolearn": true,
+    "charges": 40,
     "using": [ [ "filament", 50 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
-      [ [ "super_glue", 1 ] ],
+      [ [ "glue_strong", 1 ] ],
       [ [ "cotton_patchwork", 8 ], [ "fibercloth_patchwork", 8 ], [ "sheet_cotton", 1 ], [ "sheet_fibercloth", 1 ] ],
       [ [ "plastic_chunk", 1 ] ]
     ]
@@ -92,7 +93,8 @@
     "components": [
       [ [ "glass_shard", 3 ], [ "pipe_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ],
       [ [ "plastic_chunk", 1 ] ]
-    ]
+    ],
+    "charges": 40
   },
   {
     "type": "recipe",
@@ -189,7 +191,7 @@
     "components": [
       [ [ "wood_panel", 1 ] ],
       [ [ "2x4", 2 ] ],
-      [ [ "nail", 30 ] ],
+      [ [ "nails", 30, "LIST" ] ],
       [ [ "duct_tape", 25 ], [ "medical_tape", 50 ], [ "paint", 25, "LIST" ], [ "charcoal", 10 ] ],
       [ [ "2x4", 4 ], [ "log", 1 ], [ "wood_beam", 1 ] ]
     ]

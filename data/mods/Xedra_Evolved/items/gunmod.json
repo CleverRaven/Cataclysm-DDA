@@ -2,9 +2,10 @@
   {
     "id": "integrated_fn_suppressor",
     "copy-from": "suppressor",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "FN integral suppressor" },
-    "description": "This is the integrated suppressor for the FN Five-seveN suppressor.  Its large expansion chamber decelerates ammunition via several ports in the barrel, rendering most ammo subsonic at the cost of terminal performance.  It is not as effective as modern designs.",
+    "description": "This is the integrated suppressor for the FN Five-seveN suppressed.  Its large expansion chamber decelerates ammunition via several ports in the barrel, rendering most ammo subsonic at the cost of terminal performance.  It is not as effective as modern designs.",
     "damage_modifier": { "damage_type": "bullet", "amount": -2 },
     "weight": "250 g",
     "integral_volume": "0 ml",

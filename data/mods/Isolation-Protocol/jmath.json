@@ -1,0 +1,26 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "iso_eldritch_sorcery_formula_get_level",
+    "num_args": 1,
+    "return": "_0 / 1"
+  },
+  {
+    "type": "jmath_function",
+    "id": "iso_eldritch_sorcery_formula_exp_for_level",
+    "num_args": 1,
+    "return": "1 * _0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "iso_eldritch_sorcery_formula_exp_per_cast",
+    "num_args": 1,
+    "return": "0 * _0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "iso_eldritch_sorcery_failure_chance",
+    "num_args": 0,
+    "return": "u_pain() / 200"
+  }
+]

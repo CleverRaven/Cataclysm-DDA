@@ -12,6 +12,7 @@
     "weight": "120 kg",
     "hp": 100,
     "speed": 70,
+    "move_skills": { "swim": 10 },
     "material": [ "flesh" ],
     "symbol": "C",
     "color": "white_magenta",
@@ -26,7 +27,6 @@
     "special_attacks": [ { "id": "barbed_tentacle" }, [ "EAT_FOOD", 60 ] ],
     "vision_day": 30,
     "vision_night": 7,
-    "stomach_size": 800,
     "path_settings": { "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "max_dist": 10 },
     "anger_triggers": [ "HURT", "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED", "SOUND", "HURT" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
@@ -35,7 +35,7 @@
     "reproduction": { "baby_type": { "baby_monster": "mon_octupus_stalker_spawn" }, "baby_count": 1, "baby_timer": 700 },
     "baby_flags": [ "SPRING" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "PATH_AVOID_DANGER", "WATER_CAMOUFLAGE", "WARM", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER", "WATER_CAMOUFLAGE", "WARM", "EATS" ],
     "armor": { "bash": 2, "cut": 8, "bullet": 12 }
   },
   {
@@ -53,7 +53,6 @@
     "morale": 30,
     "melee_dice": 2,
     "melee_dice_sides": 2,
-    "stomach_size": 400,
     "melee_damage": [ { "damage_type": "stab", "amount": 6, "armor_penetration": 8 } ],
     "dodge": 2,
     "dissect": "dissect_cephalopod_sample_single",
@@ -76,6 +75,7 @@
     "weight": "500 kg",
     "hp": 325,
     "speed": 110,
+    "move_skills": { "swim": 10 },
     "attack_cost": 70,
     "regen_morale": true,
     "melee_skill": 6,
@@ -109,7 +109,7 @@
     "harvest": "kraken_large",
     "dissect": "dissect_cephalopod_sample_large",
     "zombify_into": "mon_meat_cocoon_large",
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "SWIMS", "PATH_AVOID_FIRE", "DESTROYS", "PUSH_MON", "PUSH_VEH" ],
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "DESTROYS", "PUSH_MON", "PUSH_VEH" ],
     "armor": { "bash": 25, "cut": 35, "stab": 15, "bullet": 45, "electric": 3 }
   },
   {
@@ -157,7 +157,7 @@
     "harvest": "kraken_queen",
     "dissect": "dissect_cephalopod_sample_huge",
     "zombify_into": "mon_meat_cocoon_large",
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "SWIMS", "PATH_AVOID_FIRE", "DESTROYS", "PUSH_MON", "PUSH_VEH" ],
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "DESTROYS", "PUSH_MON", "PUSH_VEH" ],
     "armor": { "bash": 35, "cut": 45, "stab": 25, "bullet": 75, "electric": 13 }
   }
 ]

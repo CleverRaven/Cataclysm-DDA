@@ -2,21 +2,18 @@
   {
     "type": "vehicle_part",
     "id": "ap_veh_tools_kitchen",
-    "name": "kitchen station",
     "copy-from": "veh_tools_kitchen",
     "extend": { "flags": [ "APPLIANCE" ] }
   },
   {
     "type": "vehicle_part",
     "id": "ap_veh_tools_workshop",
-    "name": "workshop station",
     "copy-from": "veh_tools_workshop",
     "extend": { "flags": [ "APPLIANCE" ] }
   },
   {
     "type": "vehicle_part",
     "id": "ap_workbench_with_recharger",
-    "name": "kitchen station",
     "copy-from": "workbench_with_recharger",
     "extend": { "flags": [ "APPLIANCE" ] }
   },
@@ -37,7 +34,7 @@
     "breaks_into": [
       { "item": "sheet_metal", "count": [ 1, 4 ] },
       { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 0, 3 ] },
+      { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
       { "item": "scrap", "count": [ 0, 6 ] },
       { "item": "element", "count": [ 1, 3 ] },
       { "item": "cable", "charges": [ 1, 3 ] }
@@ -61,7 +58,7 @@
     "looks_like": "f_water_purifier",
     "breaks_into": [
       { "item": "scrap", "count": [ 2, 7 ] },
-      { "item": "steel_chunk", "count": [ 0, 3 ] },
+      { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
       { "item": "sheet_metal", "count": [ 2, 6 ] },
       { "item": "cable", "charges": [ 1, 15 ] },
       { "item": "hose", "count": [ 0, 2 ] },
@@ -117,7 +114,7 @@
     "item": "arc_furnace",
     "breaks_into": [
       { "item": "scrap", "count": [ 2, 4 ] },
-      { "item": "steel_chunk", "count": [ 0, 3 ] },
+      { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
       { "item": "pipe", "count": [ 0, 4 ] }
     ],
     "variants": [ { "symbols": "U", "symbols_broken": "x" } ]
@@ -164,7 +161,7 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
     ],
@@ -188,7 +185,7 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
     ],
@@ -212,7 +209,7 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
     ],
@@ -236,7 +233,7 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
     ],
@@ -260,7 +257,7 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
     ],
@@ -284,7 +281,7 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
     ],
@@ -308,7 +305,7 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
     ],
@@ -357,8 +354,8 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
-      { "item": "steel_lump", "count": [ 1, 2 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_lump", "count": [ 1, 2 ] },
       { "item": "steel_plate", "count": [ 1, 2 ] }
     ],
     "variants": [ { "symbols": "7", "symbols_broken": "#" } ]
@@ -380,7 +377,7 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
     ],
@@ -419,7 +416,7 @@
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "electrolyzer_makeshift" } ],
     "breaks_into": [
-      { "item": "steel_chunk", "count": [ 2, 6 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 6 ] },
       { "item": "scrap", "count": [ 8, 13 ] },
       { "item": "glass_shard", "count": [ 16, 24 ] },
       { "item": "sheet_metal_small", "count": [ 4, 8 ] },
@@ -443,8 +440,8 @@
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "ammonia_machine_reactor" } ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 15, 25 ] },
-      { "item": "steel_chunk", "count": [ 15, 25 ] },
+      { "item": "mc_steel_lump", "count": [ 15, 25 ] },
+      { "item": "mc_steel_chunk", "count": [ 15, 25 ] },
       { "item": "scrap", "count": [ 15, 25 ] },
       { "item": "pyrometer", "prob": 25 },
       { "item": "hd_valve", "count": [ 0, 2 ] },
@@ -470,8 +467,8 @@
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "ammonia_machine_pipework" } ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 8 ] },
-      { "item": "steel_chunk", "count": [ 4, 8 ] },
+      { "item": "mc_steel_lump", "count": [ 4, 8 ] },
+      { "item": "mc_steel_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 4, 8 ] },
       { "item": "hd_pipe", "count": [ 6, 10 ] },
       { "item": "pipe", "count": [ 1, 2 ] },
@@ -502,8 +499,8 @@
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "nitrogen_generator" } ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 13 ] },
-      { "item": "steel_chunk", "count": [ 8, 13 ] },
+      { "item": "mc_steel_lump", "count": [ 8, 13 ] },
+      { "item": "mc_steel_chunk", "count": [ 8, 13 ] },
       { "item": "scrap", "count": [ 8, 13 ] },
       { "item": "sheet_cotton", "count": [ 5, 10 ] },
       { "item": "pipe", "count": [ 0, 1 ] },
@@ -547,7 +544,7 @@
     "looks_like": "ap_standing_directed_floodlight",
     "breaks_into": [
       { "item": "cable", "charges": [ 1, 4 ] },
-      { "item": "steel_chunk", "count": [ 0, 2 ] },
+      { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "flags": [ "WALL_MOUNTED", "HALF_CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC", "OBSTACLE" ],
@@ -570,7 +567,7 @@
     "looks_like": "f_floor_lamp",
     "breaks_into": [
       { "item": "cable", "charges": [ 1, 4 ] },
-      { "item": "steel_chunk", "count": [ 0, 2 ] },
+      { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ],
@@ -621,7 +618,7 @@
     "broken_color": "light_gray",
     "proportional": { "durability": 0.5 },
     "epower": "120 W",
-    "requirements": { "removal": { "time": "5 s" } },
+    "requirements": { "install": {  }, "removal": { "time": "5 s" } },
     "breaks_into": [ { "item": "folding_solar_panel", "damage": [ 5, 5 ] } ],
     "remove_as": "folding_solar_panel",
     "item": "folding_solar_panel_deployed"
@@ -647,7 +644,7 @@
     "description": "A small solar panel, mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel",
     "proportional": { "epower": 1.2 },
-    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
+    "requirements": { "install": {  }, "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
     "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
   },
   {
@@ -660,6 +657,7 @@
     "//": "4 times the panels, 1.2x matching the above appliance",
     "proportional": { "epower": 4.8 },
     "requirements": {
+      "install": {  },
       "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "electronics", 6 ] ],
@@ -668,8 +666,8 @@
       }
     },
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 32 ] },
-      { "item": "steel_chunk", "count": [ 8, 32 ] },
+      { "item": "mc_steel_lump", "count": [ 8, 32 ] },
+      { "item": "mc_steel_chunk", "count": [ 8, 32 ] },
       { "item": "scrap", "count": [ 8, 32 ] },
       { "item": "solar_cell", "count": [ 4, 16 ] }
     ],
@@ -714,8 +712,8 @@
       }
     },
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 16 ] },
-      { "item": "steel_chunk", "count": [ 8, 16 ] },
+      { "item": "mc_steel_lump", "count": [ 8, 16 ] },
+      { "item": "mc_steel_chunk", "count": [ 8, 16 ] },
       { "item": "scrap", "count": [ 8, 16 ] },
       { "item": "solar_cell_v2", "count": [ 4, 24 ] }
     ]
@@ -931,8 +929,8 @@
     "flags": [ "CARGO", "OBSTACLE", "RECHARGE", "COVERED", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "breaks_into": [
       { "item": "cable", "charges": [ 1, 3 ] },
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 8 ] },
+      { "item": "mc_steel_lump", "count": [ 4, 6 ] },
+      { "item": "mc_steel_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 5, 7 ] }
     ],
     "damage_reduction": { "all": 10 },
@@ -989,7 +987,7 @@
     "flags": [ "OBSTACLE", "RADIOACTIVE", "COVERED", "APPLIANCE", "PERPETUAL", "REACTOR" ],
     "breaks_into": [
       { "item": "scrap", "count": [ 4, 16 ] },
-      { "item": "steel_chunk", "count": [ 1, 6 ] },
+      { "item": "mc_steel_chunk", "count": [ 1, 6 ] },
       { "item": "plutonium", "count": [ 0, 2 ] },
       { "item": "lead", "charges": [ 12, 18 ] }
     ],
@@ -1020,10 +1018,10 @@
       "removal": { "time": "1 m" }
     },
     "pseudo_tools": [ { "id": "microwave" } ],
-    "size": 20,
+    "size": "5 L",
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 3, 6 ] },
+      { "item": "mc_steel_chunk", "count": [ 3, 6 ] },
       { "item": "sheet_metal_small", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 4, 7 ] },
       { "item": "element", "count": [ 0, 2 ] },
@@ -1047,7 +1045,7 @@
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 4, 8 ] },
-      { "item": "steel_chunk", "count": [ 5, 10 ] }
+      { "item": "mc_steel_chunk", "count": [ 5, 10 ] }
     ],
     "damage_reduction": { "all": 40 },
     "variants": [ { "symbols": "&", "symbols_broken": "#" } ]
@@ -1067,7 +1065,7 @@
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 6, 12 ] },
-      { "item": "steel_chunk", "count": [ 8, 16 ] },
+      { "item": "mc_steel_chunk", "count": [ 8, 16 ] },
       { "item": "sheet_metal_small", "count": [ 1, 4 ] }
     ],
     "damage_reduction": { "all": 50 },
@@ -1090,10 +1088,127 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "ceramic_shard", "count": [ 21, 42 ] },
       { "item": "rock", "count": [ 6, 12 ] }
     ],
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "ap_lathe",
+    "type": "vehicle_part",
+    "categories": [ "utility" ],
+    "name": { "str": "lathe" },
+    "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things.",
+    "looks_like": "f_heavy_lathe",
+    "variants": [ { "symbols": "4", "symbols_broken": "#" } ],
+    "color": "cyan_red",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "fake_lathe" } ],
+    "item": "lathe",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "breaks_into": [
+      { "item": "cable", "charges": [ 0, 4 ] },
+      { "item": "scrap", "count": [ 12, 20 ] },
+      { "item": "chunk_cast_iron", "count": [ 2, 4 ] },
+      { "item": "lump_cast_iron", "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "ap_mill",
+    "type": "vehicle_part",
+    "categories": [ "utility" ],
+    "name": { "str": "vertical mill" },
+    "description": "A machinist's one knee vertical mill, commonly known as a Bridgeport.  Used to shape blocks of metal into various parts.",
+    "looks_like": "f_machinery_light",
+    "variants": [ { "symbols": "M", "symbols_broken": "#" } ],
+    "color": "cyan_red",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "fake_mill_vertical" } ],
+    "item": "mill_vertical",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "breaks_into": [
+      { "item": "cable", "charges": [ 0, 4 ] },
+      { "item": "scrap", "count": [ 12, 20 ] },
+      { "item": "chunk_cast_iron", "count": [ 2, 4 ] },
+      { "item": "lump_cast_iron", "count": [ 1, 2 ] },
+      { "item": "motor_small", "count": [ 0, 1 ] }
+    ]
+  },
+  {
+    "id": "ap_deep_fryer",
+    "type": "vehicle_part",
+    "categories": [ "utility" ],
+    "name": { "str": "deep fryer" },
+    "description": "An industrial deep fryer, for frying huge batches of food at once.",
+    "looks_like": "f_oven",
+    "variants": [ { "symbols": "h", "symbols_broken": "#" } ],
+    "broken_color": "dark_gray_white",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "fake_deep_fryer" } ],
+    "item": "deep_fryer",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 20 },
+    "durability": 60,
+    "breaks_into": [
+      { "item": "sheet_metal", "count": [ 1, 2 ] },
+      { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+      { "item": "lc_steel_chunk", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 0, 3 ] },
+      { "item": "element", "count": [ 1, 2 ] },
+      { "item": "cable", "charges": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "ap_oil_press_industrial",
+    "type": "vehicle_part",
+    "categories": [ "utility" ],
+    "name": "industrial oil press",
+    "description": "A heavy-duty press used to create vegetable oil from nuts or seeds.",
+    "looks_like": "f_machinery_light",
+    "variants": [ { "symbols": "Y", "symbols_broken": "#" } ],
+    "color": "green",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "fake_oil_press_industrial" } ],
+    "item": "oil_press_electric",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "breaks_into": [
+      { "item": "funnel", "count": [ 0, 1 ] },
+      { "item": "frame", "count": [ 0, 1 ] },
+      { "item": "sheet_metal", "count": [ 0, 2 ] },
+      { "item": "element", "count": [ 0, 2 ] },
+      { "item": "crude_heating_element", "count": [ 0, 3 ] },
+      { "item": "motor_tiny", "count": [ 0, 1 ] },
+      { "item": "cable", "count": [ 0, 10 ] },
+      { "item": "power_supply", "count": [ 0, 1 ] },
+      { "item": "pipe_fittings", "count": [ 0, 2 ] },
+      { "item": "pipe", "count": [ 0, 2 ] },
+      { "item": "wire_mesh", "count": [ 0, 1 ] },
+      { "item": "metal_tank_little", "count": [ 0, 1 ] }
+    ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_mobile_weather_station",
+    "copy-from": "veh_mobile_weather_station",
+    "extend": { "flags": [ "APPLIANCE" ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_xedra_mobile_weather_station",
+    "copy-from": "veh_xedra_mobile_weather_station",
+    "extend": { "flags": [ "APPLIANCE" ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_robofac_mobile_weather_station",
+    "copy-from": "veh_robofac_mobile_weather_station",
+    "extend": { "flags": [ "APPLIANCE" ] }
   }
 ]

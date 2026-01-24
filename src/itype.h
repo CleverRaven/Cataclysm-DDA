@@ -25,8 +25,10 @@
 #include "explosion.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
+#include "global_vars.h"
 #include "item.h"
 #include "item_pocket.h"
+#include "item_transformation.h"
 #include "iuse.h" // use_function
 #include "mapdata.h"
 #include "proficiency.h"
@@ -36,6 +38,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "weighted_list.h"
 
 // IWYU pragma: no_forward_declare std::hash
 class Character;
@@ -253,7 +256,7 @@ struct islot_comestible {
 
 struct islot_brewable {
     /** What are the results of fermenting this item? */
-    std::map<itype_id, int> results;
+    std::map<std::pair<itype_id, std::string>, int> results;
 
     /** How long for this brew to ferment. */
     time_duration time = 0_turns;
@@ -264,7 +267,7 @@ struct islot_brewable {
 
 struct islot_compostable {
     /** What are the results of fermenting this item? */
-    std::map<itype_id, int> results;
+    std::map<std::pair<itype_id, std::string>, int> results;
 
     /** How long for this compost to ferment. */
     time_duration time = 0_turns;
@@ -390,7 +393,7 @@ struct armor_portion_data {
     // if this item only conflicts with rigid items that share a direct layer with it
     bool rigid_layer_only = false;
 
-    // if this item is comfortable to wear without other items bellow it
+    // if this item is comfortable to wear without other items below it
     bool comfortable = false; // NOLINT(cata-serialize)
 
     /**
@@ -722,6 +725,11 @@ struct itype_variant_data {
 
     int weight = 1;
 
+    // this is only needed for delete in generic_factory, so only compares id!
+    // Not safe for general use!
+    bool operator==( const itype_variant_data &rhs ) const {
+        return id == rhs.id;
+    }
     void deserialize( const JsonObject &jo );
     void load( const JsonObject &jo );
 };
@@ -899,7 +907,7 @@ struct islot_gunmod : common_ranged_data {
     /**
     * If the target has not appeared in the scope, the aiming speed is relatively low.
     * When the target appears in the scope, the aiming speed will be greatly accelerated.
-    * FoV uses a more realistic method to reflect the aiming speed of the sight to insteadthe original abstract aim_speed
+    * FoV uses a more realistic method to reflect the aiming speed of the sight instead of the original abstract aim_speed
     */
     int field_of_view = -1;
 
@@ -919,6 +927,9 @@ struct islot_gunmod : common_ranged_data {
 
     /** Multiplies base loudness as provided by the currently loaded ammo */
     float loudness_multiplier = 1;
+
+    /** Alters the gun to_hit */
+    int to_hit_mod = 0;
 
     /** How much time does this gunmod take to install? */
     time_duration install_time = 0_seconds;
@@ -967,8 +978,13 @@ struct islot_gunmod : common_ranged_data {
     /** Additional gunmod slots to add to the gun */
     std::map<gunmod_location, int> add_mod;
 
-    // wheter the item is supposed to work as a bayonet when attached
+    // whether the item is supposed to work as a bayonet when attached
     bool is_bayonet = false;
+
+    /** if the item is visible and selectable in the inventory menu
+    used by mounted flashlights and similar
+    */
+    bool is_visible_when_installed = false;
 
     /** Not compatible on weapons that have this mod slot */
     std::set<gunmod_location> blacklist_slot;
@@ -1151,51 +1167,45 @@ struct islot_bionic {
 };
 
 struct islot_seed {
-    // Generic factory stuff
-    bool was_loaded = false;
-    void deserialize( const JsonObject &jo );
+        // Generic factory stuff
+        bool was_loaded = false;
+        void deserialize( const JsonObject &jo );
 
-    /**
-     * Time it takes for a seed to grow (based of off a season length of 91 days).
-     */
-    time_duration grow = 0_turns;
-    /**
-     * Amount of harvested charges of fruits is divided by this number.
-     */
-    int fruit_div = 1;
-    /**
-     * Name of the plant.
-     */
-    translation plant_name;
-    /**
-     * What the plant sprouts into. Defaults to f_plant_seedling.
-     */
-    furn_str_id seedling_form; // NOLINT(cata-serialize)
-    /**
-     * What the plant grows into. Defaults to f_plant_mature.
-     */
-    furn_str_id mature_form; // NOLINT(cata-serialize)
-    /**
-     * The plant's final growth stage. Defaults to f_plant_harvest.
-     */
-    furn_str_id harvestable_form; // NOLINT(cata-serialize)
-    /**
-     * Type id of the fruit item.
-     */
-    itype_id fruit_id;
-    /**
-     * Whether to spawn seed items additionally to the fruit items.
-     */
-    bool spawn_seeds = true;
-    /**
-     * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
-     */
-    std::vector<itype_id> byproducts;
-    /**
-     * Terrain tag required to plant the seed.
-     */
-    ter_furn_flag required_terrain_flag = ter_furn_flag::TFLAG_PLANTABLE;
-    islot_seed() = default;
+        /**
+         * Amount of harvested charges of fruits is divided by this number.
+         */
+        int fruit_div = 1;
+        /**
+         * Name of the plant.
+         */
+        translation plant_name;
+        /**
+         * Type id of the fruit item.
+         */
+        itype_id fruit_id;
+        /**
+         * Whether to spawn seed items additionally to the fruit items.
+         */
+        bool spawn_seeds = true;
+        /**
+         * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
+         */
+        std::vector<itype_id> byproducts;
+        /**
+         * Terrain tag required to plant the seed.
+         */
+        ter_furn_flag required_terrain_flag = ter_furn_flag::TFLAG_PLANTABLE;
+        islot_seed() = default;
+
+        const std::vector<std::pair<flag_id, time_duration>> &get_growth_stages() const;
+        units::temperature get_growth_temp() const;
+    private:
+        /**
+        * What stages of growth does this plant have? How long does each stage of growth last?
+        */
+        std::vector<std::pair<flag_id, time_duration>> growth_stages;
+        // Temperature needs to be at or above this temp for the plant to be planted/grow.
+        units::temperature growth_temp;
 };
 
 enum condition_type {
@@ -1224,6 +1234,9 @@ struct conditional_name {
     // Name to apply (i.e. "Luigi lasagne" or "smoked mutant"). Can use %s which will
     // be replaced by the item's normal name and/or preceding conditional names.
     translation name;
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
 };
 
 class islot_milling
@@ -1238,13 +1251,13 @@ class islot_milling
 
 struct memory_card_info {
     float data_chance;
-    itype_id on_read_convert_to;
+    itype_id on_read_convert_to;  // NOLINT(cata-serialize)
 
-    float photos_chance;
-    int photos_amount;
+    float photos_chance;  // NOLINT(cata-serialize)
+    int photos_amount;  // NOLINT(cata-serialize)
 
-    float songs_chance;
-    int songs_amount;
+    float songs_chance;  // NOLINT(cata-serialize)
+    int songs_amount; // NOLINT(cata-serialize)
 
     float recipes_chance;
     int recipes_amount;
@@ -1252,6 +1265,18 @@ struct memory_card_info {
     int recipes_level_max;
     std::set<crafting_category_id> recipes_categories;
     bool secret_recipes;
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
+};
+
+struct item_melee_damage {
+    std::unordered_map<damage_type_id, float> damage_map;
+    float default_value = 0.0f;  // NOLINT(cata-serialize)
+    bool handle_proportional( const JsonValue &jval );
+    item_melee_damage &operator+=( const item_melee_damage &rhs );
+    void finalize();
+    void deserialize( const JsonObject &jo );
 };
 
 struct itype {
@@ -1345,10 +1370,9 @@ struct itype {
 
         requirement_id template_requirements;
 
-    protected:
+    public:
         itype_id id = itype_id::NULL_ID(); /** unique string identifier for this type */
 
-    public:
         // The container it comes in
         std::optional<itype_id> default_container;
         std::optional<std::string> default_container_variant;
@@ -1367,7 +1391,7 @@ struct itype {
         std::map<std::string, std::string> properties;
 
         // Item vars are loaded from the type, but assigned and de/serialized with the item itself
-        std::map<std::string, std::string> item_variables;
+        global_variables::impl_t item_variables;
 
         // What we're made of (material names). .size() == made of nothing.
         // First -> the material
@@ -1402,7 +1426,16 @@ struct itype {
         std::set<itype_id> repair;
 
         /** What faults (if any) can occur */
-        std::set<fault_id> faults;
+        weighted_int_list<fault_id> faults;
+
+        /** used to store fault types on load, when we cannot populate `faults` just yet
+        `faults` is populated with values from this in finalize_post() down the road, and then this var is never used again
+        first int is weight if overriden
+        second int is weight added to original weight
+        third float is multiplier of original weight
+        fourth string is the fault group id
+        */
+        std::vector<std::tuple<int, int, float, std::string>> fault_groups;
 
         /** Magazine types (if any) for each ammo type that can be used to reload this item */
         std::map< ammotype, std::set<itype_id> > magazines;
@@ -1446,16 +1479,19 @@ struct itype {
         // Type of the variant - so people can turn off certain types of variants
         itype_variant_kind variant_kind = itype_variant_kind::last;
 
+        // return translated names of all variants this itype can have, if it's weight is > 0
+        std::set<std::string> all_variant_names() const;
+
         phase_id phase = phase_id::SOLID; // e.g. solid, liquid, gas
 
         /** If positive starts countdown to countdown_action at item creation */
         time_duration countdown_interval = 0_seconds;
 
         /**
-        * If set the item will revert to this after countdown. If not set the item is deleted.
+        * If set the item will transform to this after countdown. If not set the item is deleted.
         * Tools revert to this when they run out of charges
         */
-        std::optional<itype_id> revert_to;
+        std::optional<item_transformation> transform_into;
 
         /**
         * Space occupied by items of this type
@@ -1489,7 +1525,7 @@ struct itype {
         /** Value after the Cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
         units::money price_post = -1_cent;
 
-        // TODO: Add some very basic unweildiness calc for non specified to_hit?
+        // TODO: Add some very basic unwieldiness calc for non specified to_hit?
         int m_to_hit = -2;  // To-hit bonus for melee combat, see GAME_BALANCE.md#to-hit-value
         // itype specifies a legacy raw int to_hit, for use with for item_new_to_hit_enforcement TEST_CASE
         bool using_legacy_to_hit = false;
@@ -1499,9 +1535,9 @@ struct itype {
         nc_color color = c_white; // Color on the map (color.h)
 
         /**
-        * How much insulation this item provides, either as a container, or as
-        * a vehicle base part.  Larger means more insulation, less than 1 but
-        * greater than zero, transfers faster, cannot be less than zero.
+        * How much insulation this item provides, as a vehicle base part.
+        * Larger means more insulation, less than 1 but greater than zero,
+        * transfers faster, cannot be less than zero.
         */
         float insulation_factor = 1.0f;
 
@@ -1523,35 +1559,23 @@ struct itype {
 
     public:
         /** Damage output in melee for zero or more damage types */
-        std::unordered_map<damage_type_id, float> melee;
+        item_melee_damage melee;
 
         bool default_container_sealed = true;
 
         // Should the item explode when lit on fire
         bool explode_in_fire = false;
 
-        // used for generic_factory for copy-from
-        bool was_loaded = false;
-
         // Expand snippets in the description and save the description on the object
         bool expand_snippets = false;
 
     private:
-        // load-only, for applying proportional melee values at load time
-        std::unordered_map<damage_type_id, float> melee_proportional;
-
-        // load-only, for applying relative melee values at load time
-        std::unordered_map<damage_type_id, float> melee_relative;
-
         /** Can item be combined with other identical items? */
         bool stackable_ = false;
 
     public:
         static constexpr int damage_scale = 1000; /** Damage scale compared to the old float damage value */
 
-        itype() {
-            melee.clear();
-        }
 
         int damage_max() const {
             return count_by_charges() ? 0 : damage_max_;
@@ -1579,7 +1603,7 @@ struct itype {
         std::string nname( unsigned int quantity ) const;
 
         // Allow direct access to the type id for the few cases that need it.
-        itype_id get_id() const {
+        const itype_id &get_id() const {
             return id;
         }
 
@@ -1619,6 +1643,9 @@ struct itype {
 
         bool can_use( const std::string &iuse_name ) const;
         const use_function *get_use( const std::string &iuse_name ) const;
+        // can use/get_use, but for tick actions
+        bool has_tick( const std::string &iuse_name ) const;
+        const use_function *get_tick( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
         // TODO: Replace usage of map less overload.
@@ -1637,6 +1664,11 @@ struct itype {
 
         // returns true if it is one of the outcomes of cutting
         bool is_basic_component() const;
+
+        // used for generic_factory for copy-from
+        bool was_loaded = false;
+        void load( const JsonObject &jo, std::string_view src );
+        void load_slots( const JsonObject &jo, bool was_loaded );
 };
 
 void load_charge_removal_blacklist( const JsonObject &jo, std::string_view src );

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_exodii_crash_building_big_2",
     "object": {
       "mapgensize": [ 5, 5 ],

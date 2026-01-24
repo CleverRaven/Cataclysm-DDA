@@ -1,7 +1,8 @@
 [
   {
     "id": "foie_gras",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "faux gras" },
     "symbol": "%",
@@ -21,7 +22,8 @@
   },
   {
     "id": "liver_onion",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "liver & onions" },
     "symbol": "%",
@@ -40,7 +42,8 @@
   },
   {
     "id": "fried_livers",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "fried liver" },
     "symbol": "%",
@@ -68,7 +71,8 @@
   },
   {
     "id": "fried_heart",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "fried heart" },
     "symbol": "%",
@@ -96,7 +100,8 @@
   },
   {
     "id": "stuffed_heart",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "stuffed heart" },
     "symbol": "%",
@@ -116,7 +121,8 @@
   },
   {
     "id": "humble_pie",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str": "humble pie" },
     "symbol": "%",
@@ -136,7 +142,8 @@
   },
   {
     "id": "stewed_tripe",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "stewed tripe" },
     "symbol": "%",
@@ -157,7 +164,8 @@
   },
   {
     "id": "fried_tripe",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "deep-fried tripe" },
     "symbol": "%",
@@ -178,7 +186,8 @@
   },
   {
     "id": "leverpostej",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "leverpostej" },
     "symbol": "%",
@@ -205,7 +214,8 @@
   },
   {
     "id": "fried_brain",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "fried brain" },
     "symbol": "%",
@@ -226,7 +236,8 @@
   },
   {
     "id": "deviled_kidney",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "deviled kidney" },
     "symbol": "%",
@@ -254,7 +265,8 @@
   },
   {
     "id": "grilled_sweetbread",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "sweetbread_cooked",
     "name": { "str_sp": "grilled sweetbread" },
     "fun": 6,
@@ -262,7 +274,8 @@
   },
   {
     "id": "canned_liver",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "liver_cooked",
     "name": { "str_sp": "canned liver" },
     "description": "Livers preserved in a can.  Chock-full of B vitamins!",
@@ -271,7 +284,8 @@
   },
   {
     "id": "canned_heart",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "heart_cooked",
     "name": { "str_sp": "canned heart" },
     "description": "Chunks of heart preserved in a can.",
@@ -280,7 +294,8 @@
   },
   {
     "id": "lung_provence",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "lung provence" },
     "symbol": "%",
@@ -301,7 +316,8 @@
   },
   {
     "id": "tÖttchen",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "töttchen" },
     "symbol": "%",
@@ -322,7 +338,8 @@
   },
   {
     "id": "scrambledeggsandbrain",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "scrambled eggs and brain" },
     "symbol": "%",
@@ -344,7 +361,8 @@
   {
     "id": "sausage_casings",
     "copy-from": "spice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "sausage casing" },
     "description": "Sausage casings made from animal intestines.  Ready to be used for forming meat products.",
     "color": "red",
@@ -355,7 +373,8 @@
   {
     "id": "sausage_casings_artificial",
     "copy-from": "spice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "artificial sausage casing" },
     "description": "Sausage casings made from plastic bags.  Ready to be used for forming meat products.",
     "color": "red",
@@ -363,7 +382,8 @@
     "volume": "8 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "homemade_hotdogs",
     "name": { "str": "homemade hot dog" },
     "copy-from": "hotdogs_frozen"

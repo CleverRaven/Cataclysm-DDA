@@ -1,7 +1,8 @@
 [
   {
     "id": "sugarkin_flyer",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "SugarKin flyer" },
     "description": "A flyer for some kind of candy.  It shows a picture of a gleaming human made of smooth candy looking at you in terror.  \"SugarKin the first life-size human candy!  Are you a real monster?  Will you be able to devour it?\"\n On the back of the flyer you can see some hastily scribbled words:\n \"Hello, my child, welcome to this world.  A world where you'll be able to thrive if you follow a few rules:\n1) Never ever get into contact with water, it would melt you!\n2) Avoid humans with clear eyes they are very dangerous!  (You can ignore the ones with black eyes they are harmless to you.)\n3) Learn how to make caramel ointment, it's the only way to fix your body if you get hurt.\n There are many more things I'd like to tell you but I must leave before it's too late.  I've made you a friend to keep you company, be kind to it.\n I love you,\n - F.  \".",
     "weight": "3 g",
@@ -12,7 +13,8 @@
     "color": "pink"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "ruined_candy",
     "//": "This item should not get any use whatsoever, it is merely conservation.",
@@ -28,7 +30,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "feces_candy",
     "symbol": "^",
@@ -45,7 +48,8 @@
   },
   {
     "id": "rock_candy_chunk",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "rock candy chunk" },
     "description": "This is a chunk of hard rock candy.  It can be broken down into sugar.",
@@ -59,7 +63,8 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sugar",
     "name": { "str_sp": "sugar" },
     "copy-from": "sugar",
@@ -68,5 +73,22 @@
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
     "material": [ "junk" ],
     "vitamins": [ [ "junk_allergen", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "id": "bone_sugar",
+    "name": { "str_sp": "sugar bone" },
+    "description": "A large bone, made entirely of super-compressed sugar.  Way too hard to be eaten directly, but it can be broken down into sugar.",
+    "weight": "508 g",
+    "volume": "320 ml",
+    "//": "values based off of sucrose's density and our 'bone' item",
+    "symbol": "I",
+    "price": "0 cent",
+    "price_postapoc": "20 cent",
+    "color": "white",
+    "material": [ "rock_candy" ],
+    "flags": [ "INEDIBLE" ]
   }
 ]

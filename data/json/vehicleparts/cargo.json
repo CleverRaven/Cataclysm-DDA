@@ -43,7 +43,6 @@
   {
     "type": "vehicle_part",
     "abstract": "basketlg_abstract",
-    "name": { "str": "shopping cart basket" },
     "categories": [ "cargo" ],
     "looks_like": "basketsm",
     "color": "brown",
@@ -71,13 +70,14 @@
     "copy-from": "basketlg_abstract",
     "id": "basketlg",
     "type": "vehicle_part",
+    "description": "A large wire basket from a shopping cart.",
     "variants_bases": [ { "id": "cart", "label": "Cart" } ],
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
     "id": "basketlg_external",
     "type": "vehicle_part",
-    "name": { "str": "external shopping cart basket" },
+    "name": { "str": "external wire basket" },
     "looks_like": "basketlg",
     "item": "basket",
     "location": "structure",
@@ -101,7 +101,7 @@
   {
     "type": "vehicle_part",
     "id": "basketlg_folding",
-    "name": { "str": "folding shopping cart basket" },
+    "description": "A large wire basket from a shopping cart, modified to be foldable.",
     "looks_like": "basketlg",
     "categories": [ "cargo" ],
     "color": "brown",
@@ -125,7 +125,6 @@
   {
     "type": "vehicle_part",
     "abstract": "basketsm_abstract",
-    "name": { "str": "wire bike basket" },
     "looks_like": "basketlg",
     "categories": [ "cargo" ],
     "color": "brown",
@@ -150,13 +149,14 @@
     "copy-from": "basketsm_abstract",
     "id": "basketsm",
     "type": "vehicle_part",
+    "description": "A simple bike basket.  It is small and foldable.",
     "variants_bases": [ { "id": "bike_rear", "label": "Bike Rear" }, { "id": "wheelchair", "label": "Wheelchair" } ],
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
     "id": "basketsm_external",
     "type": "vehicle_part",
-    "name": { "str": "external wire bike basket" },
+    "name": { "str": "external bike basket" },
     "looks_like": "basketsm",
     "item": "bike_basket",
     "location": "structure",
@@ -253,16 +253,15 @@
   {
     "id": "bike_rack",
     "type": "vehicle_part",
-    "name": { "str": "bike rack" },
     "item": "bike_rack",
-    "location": "anywhere",
+    "location": "on_frame",
     "categories": [ "cargo" ],
     "broken_color": "dark_gray",
     "durability": 150,
     "description": "A collection of pipes and frames for supporting a bike or other small vehicle and carrying it on your vehicle.  Move a single tile wide vehicle so that all of that vehicle's tiles are next to bike racks, and then 'e'xamine any bike rack to mount that vehicle onto the bike rack.  'e'xamine the bike rack to unmount the carried vehicle.",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 8 ] },
-      { "item": "steel_chunk", "count": [ 6, 8 ] },
+      { "item": "mc_steel_lump", "count": [ 6, 8 ] },
+      { "item": "mc_steel_chunk", "count": [ 6, 8 ] },
       { "item": "scrap", "count": [ 6, 8 ] }
     ],
     "//": "20 cm weld per damage quadrant to repair",
@@ -278,7 +277,6 @@
   {
     "id": "mounted_spare_tire",
     "type": "vehicle_part",
-    "name": { "str": "mounted spare tire" },
     "item": "mounted_spare_tire",
     "location": "structure",
     "categories": [ "other" ],
@@ -293,5 +291,27 @@
     "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION", "CARGO_PASSABLE" ],
     "damage_reduction": { "all": 10 },
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
+  },
+  {
+    "copy-from": "box_abstract",
+    "type": "vehicle_part",
+    "id": "nose_plate",
+    "name": { "str": "nose plate" },
+    "looks_like": "forklift_fork",
+    "item": "nose_plate",
+    "color": "light_gray",
+    "variants": [ { "symbols": "L", "symbols_broken": "#" } ],
+    "flags": [ "BOARDABLE", "CARGO", "CARGO_PASSABLE", "FURNITURE_TIEDOWN", "FURNITURE_LIFT_ASSIST" ],
+    "//": "https://www.magliner.com/extruded-aluminum-nose-flush-mount-300248",
+    "//1": "Rated for 500 lbs but LIFT/JACK 1 is 1000kg.  Volume of the nose plate's bounding box is about 12.5L.",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_2", 1 ] ] }
+    },
+    "description": "An L-shaped aluminum plate with straps and skid runners.  This could help you move furniture or appliances more safely, but Jevons' Paradox also applies to throwing your back out.",
+    "breaks_into": [ { "item": "sheet_aluminum_small", "count": [ 2, 4 ] }, { "item": "seatbelt", "count": [ 0, 2 ] } ],
+    "qualities": [ [ "LIFT", 1 ], [ "JACK", 1 ] ],
+    "folded_volume": "7 L",
+    "size": "15000 ml"
   }
 ]

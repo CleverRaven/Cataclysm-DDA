@@ -2,10 +2,8 @@
   {
     "om_terrain": "stream",
     "type": "mapgen",
-    "method": "json",
     "weight": 1,
     "object": {
-      "fill_ter": "t_region_groundcover",
       "fallback_predecessor_mapgen": "field",
       "rows": [
         "      22211~~11222      ",
@@ -41,10 +39,8 @@
   {
     "om_terrain": "stream",
     "type": "mapgen",
-    "method": "json",
     "weight": 10,
     "object": {
-      "fill_ter": "t_region_groundcover",
       "fallback_predecessor_mapgen": "field",
       "rows": [
         "      22211~~11222      ",
@@ -122,9 +118,7 @@
   {
     "om_terrain": "stream_end",
     "type": "mapgen",
-    "method": "json",
     "object": {
-      "fill_ter": "t_region_groundcover",
       "fallback_predecessor_mapgen": "field",
       "rows": [
         "       222111222        ",
@@ -161,10 +155,8 @@
   {
     "om_terrain": "stream_corner",
     "type": "mapgen",
-    "method": "json",
     "weight": 1,
     "object": {
-      "fill_ter": "t_region_groundcover",
       "fallback_predecessor_mapgen": "field",
       "rows": [
         "      22211~~11222      ",
@@ -200,10 +192,8 @@
   {
     "om_terrain": "stream_corner",
     "type": "mapgen",
-    "method": "json",
     "weight": 10,
     "object": {
-      "fill_ter": "t_region_groundcover",
       "fallback_predecessor_mapgen": "field",
       "rows": [
         "      22211~~11222      ",
@@ -239,10 +229,8 @@
   {
     "om_terrain": "stream_corner",
     "type": "mapgen",
-    "method": "json",
     "weight": 50,
     "object": {
-      "fill_ter": "t_region_groundcover",
       "fallback_predecessor_mapgen": "field",
       "rows": [
         "      22211~~11222      ",

@@ -1,7 +1,8 @@
 [
   {
     "id": "plut_cell",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "plutonium fuel cell" },
     "copy-from": "plut_cell",
     "price": "2400 USD",

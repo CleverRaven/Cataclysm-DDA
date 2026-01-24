@@ -1,7 +1,8 @@
 [
   {
     "id": "kevlar_shears",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pair of Kevlar cutters", "str_pl": "pairs of Kevlar cutters" },
     "description": "These are a pair of heavy-duty shears with a blade suitable for cutting particularly tough materials, from polyaramid fabrics to tough plastics and thin metals.  The blades feature a flat shearing edge and a fine serration.",
     "ascii_picture": "scissors",
@@ -20,7 +21,8 @@
   },
   {
     "id": "sewing_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "sewing kit" },
     "description": "This is a wrapped leather kit with a variety of needles, some wooden spools for thread, small scissors, and a few other useful textile tools.  Use a sewing kit on an article of clothing to attempt to repair or reinforce that clothing.  This uses your tailoring skill.",
     "weight": "85 g",
@@ -47,7 +49,8 @@
   },
   {
     "id": "tailors_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tailor's kit" },
     "description": "This is a high quality kit consisting of a variety of needles, some wooden spools for thread, some small scissors, and an awl.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
     "weight": "100 g",
@@ -57,7 +60,6 @@
     "material": [ "wood", "steel" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "thread" ],
     "sub": "sewing_kit",
     "charges_per_use": 1,
     "qualities": [ [ "SEW", 4 ], [ "SEW_CURVED", 1 ], [ "KNIT", 1 ], [ "LEATHER_AWL", 2 ], [ "CUT", 2 ], [ "FABRIC_CUT", 2 ] ],
@@ -106,11 +108,12 @@
         "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "tool_ammo": [ "thread" ]
   },
   {
     "id": "sheet_fibercloth",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "fibercloth sheet" },
     "description": "A 12 inch by 24 inch sheet of fabric woven from plant fiber, suitable for making clothing.",
@@ -124,7 +127,8 @@
   },
   {
     "id": "fibercloth_patchwork",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "fibercloth patch", "str_pl": "fibercloth patches" },
     "description": "A 6 inch square fibercloth patch, suitable for use in repairing and tailoring of clothing.",

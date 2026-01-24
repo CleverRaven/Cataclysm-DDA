@@ -25,11 +25,12 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "uilist.h"
+#include "ui_helpers.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "cata_imgui.h"
 
-nc_color::operator ImVec4()
+nc_color::operator ImVec4() const
 {
     return cataimgui::imvec4_from_color( *this );
 }
@@ -630,7 +631,7 @@ std::string hilite_string( const std::string &text )
  * @param color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
-nc_color color_from_string( const std::string_view color,
+nc_color color_from_string( std::string_view color,
                             const report_color_error color_error )
 {
     if( color.empty() ) {
@@ -713,7 +714,7 @@ nc_color bgcolor_from_string( const std::string &color )
     return i_white;
 }
 
-color_tag_parse_result get_color_from_tag( const std::string_view s,
+color_tag_parse_result get_color_from_tag( std::string_view s,
         const report_color_error color_error )
 {
     if( s.empty() || s[0] != '<' ) {
@@ -777,7 +778,7 @@ std::string get_note_string_from_color( const nc_color &color )
     return "Y";
 }
 
-nc_color get_note_color( const std::string_view note_id )
+nc_color get_note_color( std::string_view note_id )
 {
     // TODO in C++20 we can pass a string_view in directly rather than
     // constructing a string to use as the find argument
@@ -838,8 +839,6 @@ void color_manager::show_gui()
     const int iHeaderHeight = 4;
     int iContentHeight = 0;
 
-    point iOffset;
-
     std::vector<int> vLines;
     vLines.reserve( 2 );
     vLines.push_back( -1 );
@@ -851,25 +850,10 @@ void color_manager::show_gui()
     catacurses::window w_colors_header;
     catacurses::window w_colors;
 
-    const auto calc_offset_y = []() -> int {
-        return TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-    };
-
     ui_adaptor ui;
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
-
-        iOffset.x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-        iOffset.y = calc_offset_y();
-
-        w_colors_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                              iOffset );
-        w_colors_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                              iOffset + point::south_east );
-        w_colors = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                       iOffset + point( 1, iHeaderHeight + 1 ) );
-
-        ui.position_from_window( w_colors_border );
+        ui_helpers::full_screen_window( ui, &w_colors, &w_colors_border, &w_colors_header, nullptr,
+                                        &iContentHeight, 1, iHeaderHeight, 0 );
     };
     init_windows( ui );
     ui.on_screen_resize( init_windows );

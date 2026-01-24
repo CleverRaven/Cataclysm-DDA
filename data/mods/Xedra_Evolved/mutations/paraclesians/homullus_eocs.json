@@ -6,6 +6,7 @@
     "required_event": "avatar_enters_omt",
     "condition": { "u_has_trait": "HOMULLUS" },
     "effect": [
+      { "u_location_variable": { "context_val": "check_loc" } },
       {
         "run_eocs": [
           {
@@ -14,7 +15,7 @@
               "or": [
                 { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
                 { "u_near_om_location": "FACTION_CAMP_ANY", "range": 2 },
-                { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } }
+                { "map_in_city": { "context_val": "check_loc" } }
               ]
             },
             "effect": [ { "math": [ "u_homullus_is_in_civilization = 1" ] } ],
@@ -96,7 +97,7 @@
     "condition": {
       "and": [ { "u_has_trait": "HOMULLUS_THE_HUNTER2" }, { "compare_string": [ "run", { "context_val": "movement_mode" } ] } ]
     },
-    "effect": [ { "math": [ "u_val('stamina')", "+=", "rng(40,65)" ] } ]
+    "effect": [ { "math": [ "u_val('stamina') += rng(40,65)" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -153,7 +154,7 @@
     "recurrence": "30 seconds",
     "condition": { "or": [ { "u_has_any_trait": [ "HOMULLUS_GAIN_BIONIC_POWER", "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ] } ] },
     "deactivate_condition": { "not": { "u_has_any_trait": [ "HOMULLUS_GAIN_BIONIC_POWER", "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ] } },
-    "effect": [ { "math": [ "u_val('power')", "+=", "energy('1 kJ') + (energy('1 kJ') * u_has_trait('THRESH_HOMULLUS'))" ] } ]
+    "effect": [ { "math": [ "u_val('power') += energy('1 kJ') + (energy('1 kJ') * u_has_trait('THRESH_HOMULLUS'))" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -215,7 +216,7 @@
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_COUNTER",
     "condition": { "math": [ "u_doll_form_movement > 0" ] },
-    "effect": [ { "math": [ "u_doll_form_movement", "-=", "rand(3) + 1" ] } ]
+    "effect": [ { "math": [ "u_doll_form_movement -= rand(3) + 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -255,7 +256,7 @@
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
     "condition": { "and": [ { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" }, { "math": [ "u_doll_form_movement <= 1000" ] } ] },
-    "effect": [ { "math": [ "u_doll_form_movement", "+=", "rand(10) + 2" ] } ]
+    "effect": [ { "math": [ "u_doll_form_movement += rand(10) + 2" ] } ]
   },
   {
     "type": "effect_on_condition",

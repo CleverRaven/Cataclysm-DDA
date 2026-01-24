@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "godco_3", "godco_2", "godco_1" ], [ "godco_6", "godco_5", "godco_4" ], [ "godco_9", "godco_8", "godco_7" ] ],
     "object": {
       "faction_owner": [
@@ -155,7 +154,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "godco_3_1", "godco_2_1", "godco_1_1" ],
       [ "godco_6_1", "godco_5_1", "godco_4_1" ],
@@ -291,7 +289,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "godco_2_2", "godco_1_2" ] ],
     "object": {
       "faction_owner": [
@@ -331,7 +328,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "godco_1_3" ],
     "object": {
       "faction_owner": [ { "id": "gods_community", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
@@ -368,7 +364,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "godco_enter" ],
     "object": {
       "fill_ter": "t_region_soil",

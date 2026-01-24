@@ -1,11 +1,11 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
 #include <optional>
-#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -29,8 +29,7 @@
 #include "item.h"
 #include "item_location.h"
 #include "localized_comparator.h"
-#include "make_static.h"
-#include "npc.h"
+#include "map.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
@@ -39,8 +38,8 @@
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "uilist.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "vehicle.h"
@@ -48,6 +47,8 @@
 static const itype_id itype_battery( "battery" );
 
 static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
+static const json_character_flag json_flag_BIONIC_POWER_SOURCE( "BIONIC_POWER_SOURCE" );
+static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
 // '!', '-' and '=' are uses as default bindings in the menu
 static const invlet_wrapper
@@ -285,9 +286,10 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
 
     std::string desc_append = string_format(
                                   _( "[<color_yellow>%s</color>] Reassign, [<color_yellow>%s</color>] Switch tabs, "
-                                     "[<color_yellow>%s</color>] Toggle fuel saving mode, [<color_yellow>%s</color>] Toggle sprite visibility, " ),
+                                     "[<color_yellow>%s</color>] Toggle fuel saving mode, [<color_yellow>%s</color>] Toggle sprite visibility, "
+                                     "[<color_yellow>%s</color>] Toggle shutdown on empty, " ),
                                   ctxt.get_desc( "REASSIGN" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "TOGGLE_SAFE_FUEL" ),
-                                  ctxt.get_desc( "TOGGLE_SPRITE" ) );
+                                  ctxt.get_desc( "TOGGLE_SPRITE" ), ctxt.get_desc( "TOGGLE_SHUTDOWN" ) );
     desc_append += string_format( _( " [<color_yellow>%s</color>] Sort: %s" ), ctxt.get_desc( "SORT" ),
                                   sort_mode_str( uistate.bionic_sort_mode ) );
     std::string desc;
@@ -337,11 +339,14 @@ static std::string build_bionic_poweronly_string( const bionic &bio, avatar *p )
                               : string_format( _( "%s/%d turns" ), units::display( bio_data.power_over_time ),
                                                to_turns<int>( bio_data.charge_time ) ) );
     }
-    if( bio_data.has_flag( STATIC( json_character_flag( "BIONIC_TOGGLED" ) ) ) ) {
+    if( bio_data.has_flag( json_flag_BIONIC_TOGGLED ) ) {
         properties.emplace_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
     if( bio.incapacitated_time > 0_turns ) {
         properties.emplace_back( _( "(incapacitated)" ) );
+    }
+    if( !bio.auto_shutdown ) {
+        properties.emplace_back( _( "(shutdown off)" ) );
     }
     if( !bio.show_sprite ) {
         properties.emplace_back( _( "(hidden)" ) );
@@ -531,7 +536,7 @@ static void draw_connectors( const catacurses::window &win, const point &start,
 static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
 {
     nc_color type = c_white;
-    bool is_power_source = bio.id->has_flag( STATIC( json_character_flag( "BIONIC_POWER_SOURCE" ) ) );
+    bool is_power_source = bio.id->has_flag( json_flag_BIONIC_POWER_SOURCE );
     if( bio.id->activated ) {
         if( isHighlightedBionic ) {
             if( bio.powered && !is_power_source ) {
@@ -667,6 +672,7 @@ void avatar::power_bionics()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "TOGGLE_SAFE_FUEL" );
+    ctxt.register_action( "TOGGLE_SHUTDOWN" );
     ctxt.register_action( "TOGGLE_SPRITE" );
     ctxt.register_action( "SORT" );
 
@@ -867,6 +873,17 @@ void avatar::power_bionics()
                     g->invalidate_main_ui_adaptor();
                 } else {
                     popup( _( "You can't toggle fuel saving mode on a non-fueled CBM." ) );
+                }
+            }
+        } else if( action == "TOGGLE_SHUTDOWN" ) {
+            sorted_bionics &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+            if( !current_bionic_list->empty() ) {
+                tmp = bio_list[cursor];
+                if( !tmp->info().fuel_opts.empty() || tmp->info().is_remote_fueled ) {
+                    tmp->auto_shutdown = !tmp->auto_shutdown;
+                    g->invalidate_main_ui_adaptor();
+                } else {
+                    popup( _( "You can't toggle shutdown on empty mode on a non-fueled CBM." ) );
                 }
             }
         } else if( action == "TOGGLE_SPRITE" ) {

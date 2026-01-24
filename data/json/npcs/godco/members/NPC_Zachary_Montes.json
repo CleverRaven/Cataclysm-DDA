@@ -158,7 +158,7 @@
       {
         "text": "I'll see what I can do.",
         "topic": "TALK_NONE",
-        "effect": { "assign_mission": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE" }
+        "effect": { "add_mission": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE" }
       },
       { "text": "I'm sorry to hear that <name_g>, but I don't feel like facing it either.", "topic": "TALK_DONE" }
     ]
@@ -183,7 +183,12 @@
       {
         "text": "<lets_go>",
         "condition": { "compare_string": [ "yes", { "u_val": "mission_meeting_zachary_willing_to_follow" } ] },
-        "effect": "follow",
+        "effect": [
+          "follow",
+          { "npc_lose_trait": "RETURN_TO_START_POS" },
+          { "npc_lose_trait": "NO_BASH" },
+          { "npc_lose_trait": "IGNORE_SOUND" }
+        ],
         "topic": "TALK_DONE"
       }
     ]

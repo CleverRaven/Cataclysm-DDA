@@ -20,6 +20,7 @@
 #include "creature_tracker.h"
 #include "damage.h"
 #include "effect.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -30,7 +31,6 @@
 #include "input.h"
 #include "item.h"
 #include "item_location.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -57,6 +57,8 @@
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
+
+static const damage_type_id damage_heat( "heat" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -112,6 +114,8 @@ static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_winded( "winded" );
 
+static const flag_id json_flag_TOURNIQUET( "TOURNIQUET" );
+
 static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
@@ -151,8 +155,13 @@ static const vitamin_id vitamin_redcells( "redcells" );
 static void eff_fun_onfire( Character &u, effect &it )
 {
     const int intense = it.get_intensity();
-    u.deal_damage( nullptr, it.get_bp(), damage_instance( STATIC( damage_type_id( "heat" ) ),
+    u.deal_damage( it.get_source().resolve_creature(), it.get_bp(), damage_instance( damage_heat,
                    rng( intense, intense * 2 ) ) );
+    if( u.is_limb_broken( it.get_bp() ) ) {
+        // Set effect to be cleaned up during effect processing instead of endlessly burning broken limb.
+        // TODO: Transfer damage towards core instead? (e.g. broken feet --> try legs, if broken --> try torso etc)
+        it.set_duration( 0_turns );
+    }
 }
 static void eff_fun_spores( Character &u, effect &it )
 {
@@ -266,7 +275,7 @@ static void eff_fun_fungus( Character &u, effect &it )
             } else if( one_in( 36000 + bonus * 240 ) ) {
                 // determine if we have arms to channel the fungal stalks out of
                 bool has_arms_outlet = true;
-                for( const bodypart_id &part : u.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+                for( const bodypart_id &part : u.get_all_body_parts_of_type( bp_type::arm ) ) {
                     if( part->has_flag( json_flag_BIONIC_LIMB ) ) {
                         has_arms_outlet = false;
                     }
@@ -336,7 +345,7 @@ static void eff_fun_bleed( Character &u, effect &it )
     const int intense = it.get_intensity();
     // tourniquet reduces effective bleeding by 2/3 but doesn't modify the effect's intensity
     // proficiency improves that factor to 3/4 and 4/5 respectively
-    bool tourniquet = u.worn_with_flag( STATIC( flag_id( "TOURNIQUET" ) ),  it.get_bp() );
+    bool tourniquet = u.worn_with_flag( json_flag_TOURNIQUET, it.get_bp() );
     int prof_bonus = 3;
     prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
     prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 1 : prof_bonus;
@@ -382,7 +391,7 @@ static void eff_fun_bleed( Character &u, effect &it )
             // format the chosen string with the relevant variables to make it human-readable, then translate everything we have so far
             // we maintain a generic part-less fallback just in case the effect is added without a target body part, in order to avoid crashes
             const std::string final_message = bp != bodypart_str_id::NULL_ID() ? string_format(
-                                                  suffer_string,
+                                                  suffer_string.translated(),
                                                   blood_str, body_part_name( bp ) ) : _( "You lose some blood." );
             // display the final message
             u.add_msg_player_or_npc( m_bad,

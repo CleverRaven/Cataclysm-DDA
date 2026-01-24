@@ -16,20 +16,20 @@
     "//": "Current SPRING first DAY count is 513.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] },
-      { "monster": "mon_dark_young", "weight": 1, "cost_multiplier": 10, "starts": "7 days" },
-      { "monster": "mon_dark_young", "weight": 2, "cost_multiplier": 10, "starts": "28 days" },
-      { "monster": "mon_dark_young", "weight": 3, "cost_multiplier": 10, "starts": "90 days" },
-      { "monster": "mon_dark_young", "weight": 4, "cost_multiplier": 10, "starts": "180 days" },
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] },
+      { "monster": "mon_dark_young", "weight": 1, "cost_multiplier": 10, "starts": "28 days" },
+      { "monster": "mon_dark_young", "weight": 2, "cost_multiplier": 10, "starts": "112 days" },
+      { "monster": "mon_dark_young", "weight": 3, "cost_multiplier": 10, "starts": "360 days" },
+      { "monster": "mon_dark_young", "weight": 4, "cost_multiplier": 10, "starts": "720 days" },
       {
         "monster": "mon_ghast",
         "weight": 20,
         "cost_multiplier": 2,
         "pack_size": [ 1, 5 ],
-        "starts": "7 days",
+        "starts": "28 days",
         "conditions": [ "DUSK", "NIGHT" ]
       },
       { "monster": "mon_ghoul", "weight": 25, "cost_multiplier": 3, "pack_size": [ 1, 5 ] }
@@ -43,10 +43,10 @@
     "is_animal": true,
     "//2": "DDA weight in this group is somewhere around 803.  Leaving roughly 190 frequency points left for mods.",
     "monsters": [
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] },
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] },
       { "monster": "mon_deep_one", "weight": 8, "cost_multiplier": 10, "pack_size": [ 1, 5 ] },
       {
         "monster": "mon_deep_one",
@@ -64,14 +64,14 @@
     "//": "Current SPRING first DAY count is 417.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] },
-      { "monster": "mon_dark_young", "weight": 1, "cost_multiplier": 10, "starts": "7 days" },
-      { "monster": "mon_dark_young", "weight": 2, "cost_multiplier": 10, "starts": "28 days" },
-      { "monster": "mon_dark_young", "weight": 3, "cost_multiplier": 10, "starts": "90 days" },
-      { "monster": "mon_dark_young", "weight": 4, "cost_multiplier": 10, "starts": "180 days" }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] },
+      { "monster": "mon_dark_young", "weight": 1, "cost_multiplier": 10, "starts": "28 days" },
+      { "monster": "mon_dark_young", "weight": 2, "cost_multiplier": 10, "starts": "112 days" },
+      { "monster": "mon_dark_young", "weight": 3, "cost_multiplier": 10, "starts": "360 days" },
+      { "monster": "mon_dark_young", "weight": 4, "cost_multiplier": 10, "starts": "720 days" }
     ]
   },
   {
@@ -80,10 +80,10 @@
     "//": "Current SPRING first DAY count is 350.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_shantak", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shantak", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shantak", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shantak", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shantak", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shantak", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shantak", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shantak", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   }
 ]

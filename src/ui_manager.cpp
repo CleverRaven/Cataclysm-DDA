@@ -7,16 +7,18 @@
 
 #include "cached_options.h"
 #include "cata_assert.h"
-#include "cata_scope_helpers.h"
-#include "cata_utility.h"
-#include "cursesdef.h"
-#include "game_ui.h"
-#include "point.h"
-#include "sdltiles.h" // IWYU pragma: keep
 #include "cata_imgui.h"
+#include "cata_scope_helpers.h"
+#include "cursesdef.h"
+#include "point.h"
 
 #if defined(EMSCRIPTEN)
 #include <emscripten.h>
+#endif
+
+#if defined(TILES)
+#include "sdl_wrappers.h"
+#include "sdltiles.h"
 #endif
 
 using ui_stack_t = std::vector<std::reference_wrapper<ui_adaptor>>;
@@ -228,6 +230,11 @@ static bool overlap( const rectangle<point> &lhs, const rectangle<point> &rhs )
 {
     return lhs.p_min.x < rhs.p_max.x && lhs.p_min.y < rhs.p_max.y &&
            rhs.p_min.x < lhs.p_max.x && rhs.p_min.y < lhs.p_max.y;
+}
+
+size_t ui_adaptor::ui_stack_size()
+{
+    return ui_stack.size();
 }
 
 // This function does two things:

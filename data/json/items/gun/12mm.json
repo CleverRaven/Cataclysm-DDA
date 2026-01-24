@@ -1,9 +1,10 @@
 [
   {
     "id": "hk_g80",
-    "copy-from": "gun_base",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "H&K G80 railgun" },
     "description": "A highly advanced infantry weapon that magnetically propels a ferromagnetic projectile using an alternating current.  Markings and serials imply it was manufactured by Heckler & Koch, but the maturity of the implemented technologies makes such a claim suspect.  Powered by UPS.",
     "weight": "3914 g",
@@ -11,15 +12,11 @@
     "longest_side": "1005 mm",
     "price": "19 kUSD 200 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -1,
     "material": [ "steel" ],
     "ammo": [ "12mm" ],
-    "skill": "rifle",
     "range": 60,
     "dispersion": 45,
-    "durability": 8,
     "energy_drain": "5 kJ",
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "valid_mod_locations": [
       [ "grip", 1 ],
       [ "mechanism", 2 ],
@@ -32,6 +29,6 @@
     ],
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "hk_g80mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "faults": [  ]
   }
 ]

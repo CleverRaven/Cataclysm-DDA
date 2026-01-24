@@ -28,8 +28,10 @@
 #include "item_location.h"
 #include "itype.h"
 #include "magic.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "martialarts.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "npc.h"
 #include "npctalk.h"
@@ -120,6 +122,11 @@ int talker_character_const::get_hp_max( const bodypart_id &bp ) const
 units::temperature talker_character_const::get_cur_part_temp( const bodypart_id &bp ) const
 {
     return me_chr_const->get_part_temp_conv( bp );
+}
+
+int talker_character_const::get_artifact_resonance() const
+{
+    return me_chr_const->enchantment_cache->get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE );
 }
 
 int talker_character_const::str_cur() const
@@ -310,9 +317,9 @@ void talker_character::mutate( const int &highest_cat_chance, const bool &use_vi
 }
 
 void talker_character::mutate_category( const mutation_category_id &mut_cat,
-                                        const bool &use_vitamins )
+                                        const bool &use_vitamins, const bool &true_random )
 {
-    me_chr->mutate_category( mut_cat, use_vitamins );
+    me_chr->mutate_category( mut_cat, use_vitamins, true_random );
 }
 
 void talker_character::mutate_towards( const trait_id &trait, const mutation_category_id &mut_cat,
@@ -462,9 +469,10 @@ int talker_character_const::get_spell_exp( const spell_id &spell_name ) const
     return me_chr_const->magic->get_spell( spell_name ).xp();
 }
 
-int talker_character_const::get_spell_difficulty( const spell_id &spell_name ) const
+int talker_character_const::get_spell_difficulty( const spell_id &spell_name,
+        bool ignore_modifiers = false ) const
 {
-    if( !me_chr_const->magic->knows_spell( spell_name ) ) {
+    if( ignore_modifiers || !me_chr_const->magic->knows_spell( spell_name ) ) {
         return spell_name->get_difficulty( *me_chr_const );
     }
     return me_chr_const->magic->get_spell( spell_name ).get_difficulty( *me_chr_const );
@@ -560,13 +568,12 @@ void talker_character::remove_effect( const efftype_id &old_effect, const std::s
     me_chr->remove_effect( old_effect, target_part );
 }
 
-std::optional<std::string> talker_character_const::maybe_get_value( const std::string &var_name )
-const
+diag_value const *talker_character_const::maybe_get_value( const std::string &var_name ) const
 {
     return me_chr_const->maybe_get_value( var_name );
 }
 
-void talker_character::set_value( const std::string &var_name, const std::string &value )
+void talker_character::set_value( const std::string &var_name, diag_value const &value )
 {
     me_chr->set_value( var_name, value );
 }
@@ -701,6 +708,12 @@ bool talker_character_const::has_stolen_item( const_talker const &guy ) const
         }
     }
     return false;
+}
+
+bool talker_character_const::has_software( const itype_id &software_id, int min_charges,
+        const itype_id &device_id ) const
+{
+    return me_chr_const->has_software( software_id, min_charges, device_id );
 }
 
 faction *talker_character_const::get_faction() const

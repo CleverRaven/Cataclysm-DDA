@@ -23,12 +23,12 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
-#include "fault.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "gun_mode.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -49,7 +49,7 @@
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player_activity.h"
+#include "popup.h"
 #include "point.h"
 #include "projectile.h"
 #include "ranged.h"
@@ -57,6 +57,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
+#include "ui_manager.h"
 #include "uilist.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -248,13 +249,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         !you.has_effect( effect_psi_stunned ) && !is_riding && !you.has_effect( effect_incorporeal ) &&
         !m.impassable_field_at( dest_loc ) && !you.has_flag( json_flag_CANNOT_MOVE ) ) {
         if( weapon && weapon->has_flag( flag_DIG_TOOL ) ) {
-            if( weapon->type->can_use( "JACKHAMMER" ) &&
-                weapon->ammo_sufficient( &you ) ) {
-                you.invoke_item( &*weapon, "JACKHAMMER", dest_loc );
-                // don't move into the tile until done mining
-                you.defer_move( dest_loc );
-                return true;
-            } else if( weapon->type->can_use( "PICKAXE" ) ) {
+            if( weapon->type->can_use( "PICKAXE" ) ) {
                 you.invoke_item( &*weapon, "PICKAXE", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
@@ -535,7 +530,41 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         }
         return true;
     }
+
+    const tripoint_abs_ms old_abs_pos = you.pos_abs();
+    const tripoint_abs_ms abs_dest_loc = here.get_abs( dest_loc );
     if( g->walk_move( dest_loc, via_ramp ) ) {
+        // AUTOPEEK: If safe mode would be triggered after the move, look around and move back
+        if( g->safe_mode == SAFE_MODE_ON && !you.is_running() &&
+            you.pos_abs() == abs_dest_loc ) {
+            here.build_map_cache( dest_loc.z() );
+            here.update_visibility_cache( dest_loc.z() );
+            g->mon_info_update();
+            if( !g->check_safe_mode_allowed() && !you.is_hauling() ) {
+                input_context ctxt( "LOOK" );
+                static_popup popup;
+                popup.message( "%s " + colorize( _( "to go back." ), c_light_gray ) +
+                               "\n%s " + colorize( _( "to move anyway." ), c_light_gray ),
+                               ctxt.get_desc( "QUIT" ),
+                               ctxt.get_desc( "CONFIRM" ) ).on_top( true );
+                ui_manager::redraw();
+                // Get bub coords again after build_map_cache
+                const tripoint_bub_ms src_loc = here.get_bub( old_abs_pos );
+                tripoint_bub_ms center( src_loc.x(), src_loc.y(), dest_loc.z() );
+                const look_around_result result = g->look_around( false, center, center, false, false, true );
+                if( result.peek_action != PA_MOVE ) {
+                    g->walk_move( src_loc, via_ramp );
+                } else {
+                    add_msg( m_info, _( "Ignoring enemy!" ) );
+                    for( auto &elem : you.get_mon_visible().new_seen_mon ) {
+                        monster &critter = *elem;
+                        critter.ignoring = rl_dist( you.pos_bub(), critter.pos_bub() );
+                    }
+                    g->set_safe_mode( SAFE_MODE_ON );
+                }
+                return false; // cancel automove
+            }
+        }
         return true;
     }
     if( g->phasing_move_enchant( dest_loc, you.calculate_by_enchantment( 0,
@@ -695,14 +724,14 @@ static float rate_critter( const Creature &c )
     if( np != nullptr ) {
         item_location wielded = np->get_wielded_item();
         if( wielded ) {
-            return np->weapon_value( *wielded );
+            return np->evaluate_weapon( *wielded );
         } else {
             return np->unarmed_value();
         }
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );
-    return m->type->difficulty;
+    return m->type->get_total_difficulty();
 }
 
 void avatar_action::autoattack( avatar &you, map &m )
@@ -943,20 +972,6 @@ bool avatar_action::eat_here( avatar &you )
 
 void avatar_action::eat( avatar &you, item_location &loc )
 {
-    std::string filter;
-    if( !you.activity.str_values.empty() ) {
-        filter = you.activity.str_values.back();
-    }
-    avatar_action::eat( you, loc, you.activity.values, you.activity.targets, filter,
-                        you.activity.id() );
-}
-
-void avatar_action::eat( avatar &you, item_location &loc,
-                         const std::vector<int> &consume_menu_selections,
-                         const std::vector<item_location> &consume_menu_selected_items,
-                         const std::string &consume_menu_filter,
-                         activity_id type )
-{
     map &here = get_map();
 
     if( !loc ) {
@@ -965,8 +980,7 @@ void avatar_action::eat( avatar &you, item_location &loc,
         return;
     }
     loc.overflow( here );
-    you.assign_activity( consume_activity_actor( loc, consume_menu_selections,
-                         consume_menu_selected_items, consume_menu_filter, type ) );
+    you.assign_activity( consume_activity_actor( loc, true ) );
     you.last_item = item( *loc ).typeId();
 }
 
@@ -1163,18 +1177,13 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
 
     loc.overflow( here );
 
-    if( loc->is_comestible() && loc->is_frozen_liquid() ) {
-        add_msg( _( "Try as you might, you can't consume frozen liquids." ) );
-        return;
-    }
-
     if( loc->wetness && loc->has_flag( flag_WATER_BREAK_ACTIVE ) ) {
         if( query_yn( _( "This item is still wet and it will break if you turn it on.  Proceed?" ) ) ) {
             loc->deactivate();
-            loc.get_item()->set_fault( faults::random_of_type( "wet" ) );
+            loc.get_item()->set_random_fault_of_type( "wet", true );
             // An electronic item in water is also shorted.
             if( loc->has_flag( flag_ELECTRONIC ) ) {
-                loc.get_item()->set_fault( faults::random_of_type( "shorted" ) );
+                loc.get_item()->set_random_fault_of_type( "shorted", true );
             }
         } else {
             return;

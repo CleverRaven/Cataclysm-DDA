@@ -17,9 +17,9 @@
       { "item": "robofac_enviro_suit" },
       { "item": "robofac_enviro_suit_casual" },
       { "item": "robofac_head_rig" },
-      { "item": "robofac_head_rig_ir" },
       { "item": "robofac_head_rig_nv" },
       { "item": "hm12" },
+      { "item": "robofac_poncho_liner" },
       { "item": "template_armor" },
       { "item": "template_photonics" }
     ]
@@ -48,7 +48,8 @@
       { "group": "robofac_id_cards", "prob": 100 },
       { "group": "robofac_basic_grenades", "prob": 100 },
       { "group": "cop_armory", "prob": 100 },
-      { "group": "ammo_any_batteries_full", "prob": 100 }
+      { "group": "ammo_any_batteries_full", "prob": 100 },
+      { "item": "jumpsuit", "variant": "robofac", "count": 10 }
     ]
   },
   {
@@ -67,7 +68,7 @@
     "type": "item_group",
     "id": "robofac_basic_robots",
     "subtype": "distribution",
-    "items": [ [ "bot_tazer_hack", 40 ], [ "bot_manhack", 40 ], [ "bot_skitterbot", 25 ] ]
+    "items": [ [ "bot_tazer_hack", 40 ], [ "bot_grenade_hack", 40 ], [ "bot_skitterbot", 25 ] ]
   },
   {
     "type": "item_group",
@@ -96,7 +97,8 @@
       [ "robofac_rubber_helmet", 25 ],
       [ "robofac_nomex_helmet", 25 ],
       [ "robofac_kevlar_helmet", 25 ],
-      [ "robofac_head_rig", 25 ]
+      [ "robofac_head_rig", 25 ],
+      [ "robofac_poncho_liner", 25 ]
     ]
   },
   {
@@ -148,7 +150,6 @@
           { "item": "robofac_gun_dmr", "prob": 100, "count": 1 },
           { "item": "robofac_gun_shotgun", "prob": 100, "count": 1 },
           { "item": "robofac_gun_shotgun_breach", "prob": 100, "count": 1 },
-          { "item": "robofac_gun_46", "prob": 100, "count": 1 },
           { "item": "robofac_gun_57", "prob": 100, "count": 1 },
           { "item": "robofac_gun_kit", "prob": 100, "count": 1 },
           { "item": "robofac_gun_40mm", "prob": 100, "count": 1 }

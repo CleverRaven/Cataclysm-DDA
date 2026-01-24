@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "campus_commons_0_0_2", "campus_commons_1_0_2" ],
       [ "campus_commons_0_1_2", "campus_commons_1_1_2" ],

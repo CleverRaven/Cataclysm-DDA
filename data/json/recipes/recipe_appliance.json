@@ -115,7 +115,7 @@
       [ [ "cable", 2 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
-      [ [ "steel_chunk", 1 ] ],
+      [ [ "steel_chunk_any", 1, "LIST" ] ],
       [ [ "scrap", 3 ] ]
     ]
   },
@@ -138,7 +138,7 @@
       [ [ "cable", 2 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
-      [ [ "steel_lump", 1 ] ],
+      [ [ "steel_lump_any", 1, "LIST" ] ],
       [ [ "pipe_fittings", 1 ] ],
       [ [ "pipe", 2 ] ]
     ]
@@ -162,7 +162,7 @@
       [ [ "cable", 2 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "floodlight", 1 ] ],
-      [ [ "steel_lump", 1 ] ],
+      [ [ "steel_lump_any", 1, "LIST" ] ],
       [ [ "pipe_fittings", 1 ] ],
       [ [ "pipe", 2 ] ]
     ]
@@ -186,7 +186,7 @@
       [ [ "cable", 2 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "directed_floodlight", 1 ] ],
-      [ [ "steel_lump", 1 ] ],
+      [ [ "steel_lump_any", 1, "LIST" ] ],
       [ [ "pipe_fittings", 1 ] ],
       [ [ "pipe", 2 ] ]
     ]
@@ -224,5 +224,38 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_appliance_repair" } ],
     "components": [ [ [ "frame_wood", 1 ] ], [ [ "battery_charger", 1 ] ] ]
+  },
+  {
+    "result": "oil_press_electric",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "reversible": true,
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "90 m",
+    "autolearn": true,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skills_required": [ [ "electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [
+      [ [ "funnel", 1 ], [ "metal_funnel", 1 ] ],
+      [ [ "frame", 1 ] ],
+      [ [ "sheet_metal", 4 ] ],
+      [ [ "element", 4 ], [ "crude_heating_element", 6 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "pipe_fittings", 2 ] ],
+      [ [ "pipe", 2 ] ],
+      [ [ "wire_mesh", 1 ], [ "cotton_patchwork", 1 ] ],
+      [ [ "metal_tank_little", 1 ], [ "jerrycan_big", 1 ], [ "jerrycan", 1 ] ]
+    ]
   }
 ]

@@ -1,3 +1,4 @@
+#include <functional>
 #include <initializer_list>
 #include <memory>
 #include <string>
@@ -11,9 +12,11 @@
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
+#include "flag.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "player_activity.h"
 #include "player_helpers.h"
@@ -30,7 +33,6 @@ static const efftype_id effect_darkness( "darkness" );
 
 static const flag_id json_flag_INSPIRATIONAL( "INSPIRATIONAL" );
 
-static const itype_id itype_atomic_lamp( "atomic_lamp" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_child_book( "child_book" );
 static const itype_id itype_holybook_pastafarian( "holybook_pastafarian" );
@@ -40,6 +42,7 @@ static const itype_id itype_recipe_alpha( "recipe_alpha" );
 static const itype_id itype_sheet_cotton( "sheet_cotton" );
 static const itype_id itype_test_battery_disposable( "test_battery_disposable" );
 static const itype_id itype_test_ebook_reader( "test_ebook_reader" );
+static const itype_id itype_test_lamp( "test_lamp" );
 static const itype_id itype_test_textbook_fabrication( "test_textbook_fabrication" );
 
 static const limb_score_id limb_score_vision( "vision" );
@@ -53,6 +56,8 @@ static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+
+
 
 TEST_CASE( "clearing_identified_books", "[reading][book][identify][clear]" )
 {
@@ -244,7 +249,7 @@ TEST_CASE( "estimated_reading_time_for_a_book", "[reading][book][time]" )
         REQUIRE_FALSE( dummy.has_identified( western->typeId() ) );
 
         // Get some light
-        dummy.i_add( item( itype_atomic_lamp ) );
+        dummy.i_add( item( itype_test_lamp ) );
         REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 
         THEN( "identifying books takes 1/10th of the normal reading time" ) {
@@ -263,7 +268,7 @@ TEST_CASE( "estimated_reading_time_for_a_book", "[reading][book][time]" )
         REQUIRE( dummy.has_identified( alpha->typeId() ) );
 
         // Get some light
-        dummy.i_add( item( itype_atomic_lamp ) );
+        dummy.i_add( item( itype_test_lamp ) );
         REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 
         WHEN( "player has average intelligence" ) {
@@ -353,7 +358,7 @@ TEST_CASE( "reasons_for_not_being_able_to_read", "[reading][reasons]" )
         dummy.identify( *alpha );
 
         // Get some light
-        dummy.i_add( item( itype_atomic_lamp ) );
+        dummy.i_add( item( itype_test_lamp ) );
         REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 
         THEN( "you cannot read while illiterate" ) {
@@ -496,55 +501,96 @@ TEST_CASE( "reading_a_book_for_skill", "[reading][book][skill]" )
     }
 }
 
+static void test_ebook_is_reading( avatar &dummy, item_location ereader, item_location booklc )
+{
+    THEN( "player can read the book" ) {
+        read_activity_actor actor( dummy.time_to_read( *booklc, dummy ), booklc, ereader, true );
+        dummy.activity = player_activity( actor );
+
+        REQUIRE( ereader->ammo_remaining( ) == 100 );
+
+        dummy.activity.start_or_resume( dummy, false );
+        REQUIRE( dummy.activity.id() == ACT_READ );
+
+        CHECK( ereader->ammo_remaining( ) == 99 );
+
+        dummy.activity.do_turn( dummy );
+
+        CHECK( dummy.activity.id() == ACT_READ );
+
+        AND_THEN( "ereader has spent a charge while reading" ) {
+            CHECK( ereader->ammo_remaining( ) == 98 );
+
+            AND_THEN( "ereader runs out of battery" ) {
+                ereader->ammo_consume( ereader->ammo_remaining( ), dummy.pos_bub(), &dummy );
+                dummy.activity.do_turn( dummy );
+
+                THEN( "reading stops" ) {
+                    CHECK( dummy.activity.id() != ACT_READ );
+                }
+            }
+        }
+    }
+}
+
 TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
 {
     avatar &dummy = get_avatar();
     clear_avatar();
+    item book( itype_test_textbook_fabrication );
 
-    WHEN( "reading a book" ) {
+    WHEN( "having a book in the inventory" ) {
 
         dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
-        dummy.i_add( item( itype_atomic_lamp ) );
-        REQUIRE( dummy.fine_detail_vision_mod() == 1 );
-
         item_location ereader = dummy.i_add( item( itype_test_ebook_reader ) );
 
-        item book( itype_test_textbook_fabrication );
+        ereader->put_in( book, pocket_type::E_FILE_STORAGE );
+        REQUIRE( ereader->has_flag( flag_CAN_USE_IN_DARK ) );
+
+        item *ebook = ereader->get_item_with( [&]( const item & it ) {
+            return it.typeId() == book.typeId();
+        } );
+        REQUIRE_FALSE( ebook->is_null() );
+
+        // CAN_USE_IN_DARK should get inherited from the ereader.
+        REQUIRE( ebook->has_flag( flag_CAN_USE_IN_DARK ) );
+
+        item battery( itype_test_battery_disposable );
+        battery.ammo_set( battery.ammo_default(), 100 );
+        ereader->put_in( battery, pocket_type::MAGAZINE_WELL );
+        item_location booklc{dummy, ebook};
+        REQUIRE( booklc );
+
+        WHEN( "it is bright outside" ) {
+            dummy.i_add( item( itype_test_lamp ) );
+            REQUIRE( dummy.fine_detail_vision_mod() == 1 );
+            test_ebook_is_reading( dummy, ereader, booklc );
+        }
+
+        WHEN( "it is dark outside" ) {
+            time_point midnight = calendar::turn - time_past_midnight( calendar::turn ) + 1_days;
+            set_time( midnight );
+            REQUIRE( dummy.fine_detail_vision_mod() > 4 );
+            test_ebook_is_reading( dummy, ereader, booklc );
+        }
+    }
+
+    GIVEN( "a book nearby" ) {
+        map &here = get_map();
+        tripoint_bub_ms pos = dummy.pos_bub();
+        dummy.i_add( item( itype_test_lamp ) );
+        REQUIRE( dummy.fine_detail_vision_mod() == 1 );
+
+        item_location ereader = here.add_item_or_charges_ret_loc( pos, item( itype_test_ebook_reader ) );
+
         ereader->put_in( book, pocket_type::E_FILE_STORAGE );
 
         item battery( itype_test_battery_disposable );
         battery.ammo_set( battery.ammo_default(), 100 );
         ereader->put_in( battery, pocket_type::MAGAZINE_WELL );
 
-        THEN( "player can read the book" ) {
-
-            item_location booklc{dummy, &book};
-            read_activity_actor actor( dummy.time_to_read( *booklc, dummy ), booklc, ereader, true );
-            dummy.activity = player_activity( actor );
-
-            REQUIRE( ereader->ammo_remaining( ) == 100 );
-
-            dummy.activity.start_or_resume( dummy, false );
-            REQUIRE( dummy.activity.id() == ACT_READ );
-
-            CHECK( ereader->ammo_remaining( ) == 99 );
-
-            dummy.activity.do_turn( dummy );
-
-            CHECK( dummy.activity.id() == ACT_READ );
-
-            AND_THEN( "ereader has spent a charge while reading" ) {
-                CHECK( ereader->ammo_remaining( ) == 98 );
-
-                AND_THEN( "ereader runs out of battery" ) {
-                    ereader->ammo_consume( ereader->ammo_remaining( ), dummy.pos_bub(), &dummy );
-                    dummy.activity.do_turn( dummy );
-
-                    THEN( "reading stops" ) {
-                        CHECK( dummy.activity.id() != ACT_READ );
-                    }
-                }
-            }
-        }
+        item_location booklc{ereader, &book};
+        test_ebook_is_reading( dummy, ereader, booklc );
     }
 }
+

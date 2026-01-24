@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "triffid_roots",
     "object": {
       "fill_ter": "t_root_floor",
@@ -38,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "triffid_rootss",
     "object": {
       "fill_ter": "t_root_floor",
@@ -75,7 +73,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "triffid_rootsn",
     "object": {
       "fill_ter": "t_root_floor",
@@ -112,7 +109,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "triffid_rootse",
     "object": {
       "fill_ter": "t_root_floor",
@@ -149,7 +145,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "triffid_rootsw",
     "object": {
       "fill_ter": "t_root_floor",
@@ -194,7 +189,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "triffid_rootsen",
     "object": {
       "fill_ter": "t_root_floor",
@@ -231,7 +225,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "triffid_rootsnw",
     "object": {
       "fill_ter": "t_root_floor",
@@ -268,7 +261,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "triffid_rootssw",
     "object": {
       "fill_ter": "t_root_floor",
@@ -305,7 +297,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "triffid_rootsse",
     "object": {
       "fill_ter": "t_root_floor",

@@ -400,6 +400,8 @@ inline void wprintz( const catacurses::window &w, const nc_color &FG, std::strin
     wprintz( w, FG, string_format( mes, std::forward<Args>( args )... ) );
 }
 
+std::string wrap60( const std::string &text );
+
 void draw_custom_border(
     const catacurses::window &w, catacurses::chtype ls = 1, catacurses::chtype rs = 1,
     catacurses::chtype ts = 1, catacurses::chtype bs = 1, catacurses::chtype tl = 1,
@@ -471,11 +473,12 @@ inline query_ynq_result query_ynq( const char *const msg, Args &&... args )
     return query_ynq( string_format( msg, std::forward<Args>( args )... ) );
 }
 
-bool query_int( int &result, const std::string &text );
+//text query for getting integer input
+bool query_int( int &result, bool show_default, const std::string &text );
 template<typename ...Args>
-inline bool query_int( int &result, const char *const msg, Args &&... args )
+inline bool query_int( int &result, bool show_default, const char *const msg, Args &&... args )
 {
-    return query_int( result, string_format( msg, std::forward<Args>( args )... ) );
+    return query_int( result, show_default, string_format( msg, std::forward<Args>( args )... ) );
 }
 
 std::vector<std::string> get_hotkeys( std::string_view s );
@@ -510,6 +513,11 @@ enum PopupFlags {
     PF_ON_TOP      = 1 << 2,
     PF_FULLSCREEN  = 1 << 3,
 };
+
+inline auto  format_as( PopupFlags pf )
+{
+    return static_cast<std::underlying_type_t<PopupFlags>>( pf );
+}
 
 PopupFlags popup_flag_from_string( const std::string &str );
 
@@ -626,24 +634,23 @@ std::string trim( std::string_view s );
 // Removes trailing periods and exclamation marks.
 std::string trim_trailing_punctuations( std::string_view s );
 // Removes all punctuation except underscore.
-std::string remove_punctuations( const std::string &s );
+std::string remove_punctuations( std::string_view s );
 // Converts the string to upper case.
-std::string to_upper_case( const std::string &s );
-
-std::string rewrite_vsnprintf( const char *msg );
+std::string to_upper_case( std::string_view s );
+// Converts the string to lower case.
+std::string to_lower_case( std::string_view s );
 
 // TODO: move these elsewhere
 // string manipulations.
 void replace_city_tag( std::string &input, const std::string &name );
-void replace_keybind_tag( std::string &input );
 
 void replace_substring( std::string &input, const std::string &substring,
                         const std::string &replacement, bool all );
 
 std::string string_replace( std::string text, const std::string &before, const std::string &after );
 std::string replace_colors( std::string text );
-std::string uppercase_first_letter( const std::string &str );
-std::string lowercase_first_letter( const std::string &str );
+std::string uppercase_first_letter( std::string_view str );
+std::string lowercase_first_letter( std::string_view str );
 size_t shortcut_print( const catacurses::window &w, const point &p, nc_color text_color,
                        nc_color shortcut_color, const std::string &fmt );
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,

@@ -20,7 +20,7 @@
     "components": [ [ [ "changeling_dreamspark", 4 ] ] ]
   },
   {
-    "id": "spell_components_changeling_dreamspark_5",
+    "id": "spell_components_changeling_dreamsparks_5",
     "type": "requirement",
     "components": [ [ [ "changeling_dreamspark", 5 ] ] ]
   },
@@ -69,7 +69,7 @@
   {
     "id": "spell_components_hedge_witchlight",
     "type": "requirement",
-    "components": [ [ [ "lamp_oil", 4 ], [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ], [ "crude_lamp_oil", 4 ] ] ]
+    "components": [ [ [ "lamp_oil", 4 ], [ "cooking_oil", 4 ], [ "crude_lamp_oil", 4 ] ] ]
   },
   {
     "id": "spell_components_hedge_see_fae_necklace",
@@ -160,6 +160,15 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "wild_herbs", 1 ] ]
     ]
+  },
+  {
+    "id": "spell_components_hedge_luck_spell",
+    "type": "requirement",
+    "tools": [
+      [ [ "candle_lit", -1 ] ],
+      [ [ "pen", 4 ], [ "pencil", 4 ], [ "blue_pen", 4 ], [ "green_pen", 4 ], [ "black_pen", 4 ], [ "red_pen", 4 ] ]
+    ],
+    "components": [ [ [ "coin_penny", 1 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "id": "spell_components_hedge_evil_eye_ward",
@@ -260,5 +269,32 @@
       ]
     ],
     "components": [ [ [ "paper", 3 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_extinguish_fire_spell",
+    "type": "requirement",
+    "tools": [ [ [ "spellbook_hedge_book_of_raziel", -1 ] ] ],
+    "components": [ [ [ "ash", 25 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_chicken_sacrifice_make_rain",
+    "type": "requirement",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "milk_standard_raw_fresh", 6, "LIST" ] ],
+      [ [ "honey_bottled", 3 ], [ "honey_glassed", 1 ] ],
+      [ [ "wild_herbs", 20 ] ]
+    ]
+  },
+  {
+    "id": "spell_components_hedge_raziel_amulet_protection",
+    "type": "requirement",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [
+      [ [ "worthy_wine", 3, "LIST" ] ],
+      [ [ "eggs_bird", 1, "LIST" ] ],
+      [ [ "apple", 1 ], [ "lemon", 1 ] ],
+      [ [ "copper_necklace", 1 ] ]
+    ]
   }
 ]

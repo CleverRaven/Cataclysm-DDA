@@ -26,7 +26,7 @@
 #include "item.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"
-#include "mapgen.h"
+#include "mapgen_primitives.h"
 #include "mdarray.h"
 #include "point.h"
 #include "trap.h"
@@ -310,6 +310,9 @@ class submap
         int field_count = 0;
         time_point last_touched = calendar::turn_zero;
         bool reverted = false; // NOLINT(cata-serialize)
+        // This tracks that a submap was edited outside of mapgen, and that it should be
+        // considered for having its data hoisted to the overmap.
+        bool player_adjusted_map = false;
         std::vector<spawn_point> spawns;
         /**
          * Vehicles on this submap (their (0,0) point is on this submap).
@@ -330,6 +333,14 @@ class submap
         std::unique_ptr<maptile_soa> m;
         ter_id uniform_ter = t_null;
         int temperature_mod = 0; // delta in F
+        // Tracks original terrain for tiles transformed by phase logic
+        std::map<point_sm_ms, ter_id> original_terrain;
+
+    public:
+        bool has_original_ter( const point_sm_ms &p ) const;
+        ter_id get_original_ter( const point_sm_ms &p ) const;
+        void set_original_ter( const point_sm_ms &p, const ter_id &t );
+        void clear_original_ter( const point_sm_ms &p );
 
         static constexpr size_t elements = SEEX * SEEY;
 };

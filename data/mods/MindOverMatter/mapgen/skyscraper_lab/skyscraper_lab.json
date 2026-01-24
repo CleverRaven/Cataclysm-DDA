@@ -5,7 +5,6 @@
       [ "phavan_office_skyscraper_lab_lower_nw", "phavan_office_skyscraper_lab_lower_ne" ],
       [ "phavan_office_skyscraper_lab_lower_sw", "phavan_office_skyscraper_lab_lower_se" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -84,10 +83,10 @@
       ],
       "item": { "l": [ { "item": "grenade_anti_psi", "chance": 15 } ] },
       "items": {
-        "e": { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 12 ] },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 80, "repeat": [ 1, 4 ] },
         "l": { "item": "feral_security_death_drops_9mm", "chance": 80, "repeat": [ 1, 3 ] },
         "d": { "item": "SUS_office_desk", "chance": 33 },
-        ".": { "item": "office_mess", "chance": 1 }
+        ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "vendingmachines": { "Đ": { "item_group": "vending_drink" }, "Ƒ": { "item_group": "vending_food" } },
       "place_monster": [
@@ -134,7 +133,6 @@
       [ "phavan_office_skyscraper_lab_middle_nw", "phavan_office_skyscraper_lab_middle_ne" ],
       [ "phavan_office_skyscraper_lab_middle_sw", "phavan_office_skyscraper_lab_middle_se" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -155,20 +153,20 @@
         "   V....|..............................|....V   ",
         "   V....|..............................|....V   ",
         "   V....|..............................|....V   ",
-        "   #....+...||||||||||¥!!|||||||||||...+....#   ",
-        "   #|||||...|SS|T|T|^......^|T|T|SS|...|||||V   ",
-        "   V....|...+..|+|+|^......^|+|+|..+...|....V   ",
-        "   V....|...|......|^......^|......|...|....V   ",
-        "   #....|...|||||||||......|||||||||...|....#   ",
-        "   #....+...|<R>|EEE|......|xEE|<R>|...+....#   ",
-        "   #|||||...|'R'|EEED......DEEE|'R'|...|||||#   ",
-        "   V....|...|'''|EEED......DEEE|'''|...|....V   ",
-        "   V....|...|'''|EEx|......|EEE|'''|...|....V   ",
-        "   #....|...||||||||||||||||||||||||...|....#   ",
-        "   V....+...|<R>|...|...|e.C...........+....V   ",
-        "   #|||||...|.R.|...|...|Ƒ.S...........|||||#   ",
-        "   V....|...|...|...|...|Đ.............|....V   ",
-        "   #....|...||+|||+|||+||..............|....#   ",
+        "   #....+...||||||||||VGGV||||||||||...+....#   ",
+        "   #|||||...|SS|T|T|ç......ç|T|T|SS|...|||||V   ",
+        "   V....|...+..|+|+|ç......ç|+|+|..+...|....V   ",
+        "   V....|...|......|ç..çç..ç|......|...|....V   ",
+        "   #....|...||||||||ç..çç..ç||||||||...|....#   ",
+        "   #....+...|<R>|h.h.h....h.h.h|<R>|...+....#   ",
+        "   #|||||...|'R'|x.x.x....x.x.x|'R'|...|||||#   ",
+        "   V....|...|'''|..............|'''|...|....V   ",
+        "   V....|...|'''|..............|'''|...|....V   ",
+        "   #....|...|||||:=:|:=:|:=:|:=|||||...|....#   ",
+        "   V....+...|<R>|X̄..|X̄..|Ẋ..|Ẋ..|Đ.^...+....V   ",
+        "   #|||||...|.R.|...|...|...|...|Ƒ.....|||||#   ",
+        "   V....|...|...|...|...|...|...|b.....|....V   ",
+        "   #....|...||+||||||||||||||||||b.....|....#   ",
         "   V....|..............................|....V   ",
         "   V....+..............................+....V   ",
         "   #||||||GG||||||||GG||||GG||||||||GG||||||#   ",
@@ -187,7 +185,7 @@
         "                                                ",
         "                                                "
       ],
-      "terrain": {  },
+      "terrain": { ":": "t_reinforced_glass", "=": "t_door_glass_frosted_lab_c" },
       "palettes": [ "phavian_skyscraper_office_palette" ],
       "place_nested": [
         { "chunks": [ "phavian_skyscraper_lab_north_lrdoor" ], "x": 4, "y": 5 },
@@ -205,18 +203,23 @@
         { "chunks": [ "phavian_skyscraper_lab_office_Wdoor4x4" ], "x": 40, "y": 14 },
         { "chunks": [ "phavian_skyscraper_lab_office_Wdoor4x4" ], "x": 40, "y": 19 },
         { "chunks": [ "phavian_skyscraper_lab_office_Wdoor4x4" ], "x": 40, "y": 24 },
-        { "chunks": [ "phavian_skyscraper_lab_office_Wdoor4x4" ], "x": 40, "y": 29 },
-        { "chunks": [ "phavian_skyscraper_lab_store_room_3x3" ], "x": 17, "y": 27 },
-        { "chunks": [ "phavian_skyscraper_lab_store_room_3x3" ], "x": 21, "y": 27 },
-        { "chunks": [ "phavian_skyscraper_lab_break_area_4x4" ], "x": 28, "y": 27 },
-        { "chunks": [ "phavian_skyscraper_lab_break_area_4x4" ], "x": 32, "y": 27 }
+        { "chunks": [ "phavian_skyscraper_lab_office_Wdoor4x4" ], "x": 40, "y": 29 }
       ],
+      "place_items": [ { "item": "clairsentient_matrix_crystals_group", "x": 20, "y": 21, "chance": 30 } ],
       "item": { "l": [ { "item": "grenade_anti_psi", "chance": 15 } ] },
       "items": {
-        "e": { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 12 ] },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 80, "repeat": [ 1, 4 ] },
         "l": { "item": "feral_security_death_drops_9mm", "chance": 80, "repeat": [ 1, 3 ] },
         "d": { "item": "SUS_office_desk", "chance": 33 },
-        ".": { "item": "office_mess", "chance": 1 }
+        ".": { "item": "SUS_office_mess", "chance": 1 },
+        "ç": [
+          { "item": "psi_lab_no_recipes", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "dist_lab_file_phavian_skyscraper_lab", "chance": 5 }
+        ]
+      },
+      "nested": {
+        "X̄": { "chunks": [ [ "phavian_skyscraper_osiris_chamber_clairsentient", 1 ] ] },
+        "Ẋ": { "chunks": [ [ "phavian_skyscraper_osiris_chamber_telepathic", 1 ] ] }
       },
       "vendingmachines": { "Đ": { "item_group": "vending_drink" }, "Ƒ": { "item_group": "vending_food" } },
       "place_monster": [
@@ -253,6 +256,20 @@
           "y": [ 24, 30 ],
           "chance": 60,
           "repeat": [ 2, 5 ]
+        },
+        {
+          "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB",
+          "x": [ 20, 23 ],
+          "y": [ 19, 23 ],
+          "chance": 60,
+          "repeat": [ 2, 4 ]
+        },
+        {
+          "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB",
+          "x": [ 24, 27 ],
+          "y": [ 19, 23 ],
+          "chance": 60,
+          "repeat": [ 2, 4 ]
         }
       ]
     }
@@ -263,7 +280,6 @@
       [ "phavan_office_skyscraper_lab_upper_nw", "phavan_office_skyscraper_lab_upper_ne" ],
       [ "phavan_office_skyscraper_lab_upper_sw", "phavan_office_skyscraper_lab_upper_se" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -342,10 +358,10 @@
       ],
       "item": { "l": [ { "item": "grenade_anti_psi", "chance": 15 } ] },
       "items": {
-        "e": { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 12 ] },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 80, "repeat": [ 1, 4 ] },
         "l": { "item": "feral_security_death_drops_9mm", "chance": 80, "repeat": [ 1, 3 ] },
         "d": { "item": "SUS_office_desk", "chance": 33 },
-        ".": { "item": "office_mess", "chance": 1 }
+        ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "vendingmachines": { "Đ": { "item_group": "vending_drink" }, "Ƒ": { "item_group": "vending_food" } },
       "place_monster": [

@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_yugg_rubber",
     "name": { "str": "rubber yugg corpse" },
     "description": "An oversized hollow tube made of black semi-liquid rubbery substance.  It is vaguely shaped like a yugg.",
@@ -14,7 +14,8 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "corpse_yugg_mutflesh",
     "name": { "str": "massive fleshy tube" },
     "description": "An oversized tube of faintly green raw flesh of nondescript origin.  It is vaguely shaped like a yugg.",
@@ -30,7 +31,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_yugg_jade",
     "name": { "str": "jade yugg statue" },
     "description": "A statue of a yugg, made entire out of jade.  If jade was still worth anything this could fetch a fortune.  A shame the world ended.",
@@ -41,6 +42,20 @@
     "price_postapoc": "0 USD",
     "volume": "600 L",
     "weight": "900 kg",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "broken_flailer_radiosphere",
+    "name": { "str": "torn flailer" },
+    "description": "torn up cloth facsimile of a bird, you could tear it up even further for materials.",
+    "symbol": "v",
+    "color": "light_gray",
+    "category": "corpses",
+    "material": [ "cotton" ],
+    "price_postapoc": "0 USD",
+    "volume": "150 ml",
+    "weight": "60 g",
     "flags": [ "TRADER_AVOID" ]
   }
 ]

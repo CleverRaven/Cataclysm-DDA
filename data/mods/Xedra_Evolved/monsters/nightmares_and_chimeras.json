@@ -89,7 +89,6 @@
     "type": "MONSTER",
     "name": "twin",
     "description": "Ethereal copy of you.",
-    "looks_like": "player",
     "default_faction": "factionless",
     "species": [ "HUMAN" ],
     "volume": "62500 ml",
@@ -106,14 +105,14 @@
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "special_attacks": [ [ "DISAPPEAR", 1000 ] ],
     "death_function": { "message": "", "corpse_type": "NO_CORPSE" },
-    "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
+    "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT", "COPY_SUMMONER_LOOK" ]
   },
   {
     "id": "mon_you",
     "copy-from": "mon_hologram",
-    "looks_like": "player",
     "type": "MONSTER",
     "name": { "str_sp": "you" },
+    "extend": { "flags": [ "COPY_SUMMONER_LOOK" ] },
     "description": "It is you.  It looks like you, it is equipped like you, it is even has a weapon like you."
   }
 ]

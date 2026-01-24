@@ -1,25 +1,21 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "spider_webs",
     "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_web", "x": 0, "y": 0, "intensity": [ 1, 3 ] } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "spider_webs_weak",
     "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_web", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "spider_webs_nostick",
     "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_web_nostick", "repeat": [ 0, 3 ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "spider_nest",
     "object": {
       "mapgensize": [ 17, 17 ],
@@ -48,7 +44,7 @@
       "monsters": { "X": { "monster": "GROUP_SPIDER", "chance": 1, "density": 0.5 } },
       "nested": {
         "X": { "chunks": [ "spider_webs" ] },
-        "x": { "chunks": [ "spider_webs" ] },
+        "x": { "chunks": [ [ "spider_webs", 800 ], [ "void_spider_webs", 1 ] ] },
         "o": { "chunks": [ [ "spider_webs", 2 ], [ "spider_webs_weak", 2 ], [ "null", 1 ] ] },
         ",": { "chunks": [ "spider_webs", "spider_webs_weak", "null" ] },
         ".": { "chunks": [ [ "spider_webs_weak", 1 ], [ "null", 2 ] ] }
@@ -57,7 +53,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_spider",
     "object": {
       "place_nested": [
@@ -69,7 +64,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_basement_spider",
     "object": {
       "rows": [

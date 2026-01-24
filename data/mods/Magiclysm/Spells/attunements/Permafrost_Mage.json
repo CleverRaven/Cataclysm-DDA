@@ -11,7 +11,7 @@
     "effect_str": "aura_cold_energy",
     "shape": "blast",
     "spell_class": "PERMAFROST_MAGE",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "difficulty": 9,
     "max_level": 35,
     "base_casting_time": 600,
@@ -28,18 +28,19 @@
   },
   {
     "id": "aura_cold_energy",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "Ice Orbit",
     "//": "dirty hack till emit spell would be fixed",
     "description": "Small particles of ice orbit around your body, as a beacon for a giant field of frozen energy.",
-    "weight": "1 g",
+    "weight": "500 mg",
     "volume": "1 ml",
     "symbol": "o",
     "color": "blue",
     "material": [ "magical_material" ],
     "flags": [ "AURA", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "emitter": "emit_cold_energy_strong" } ] }
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "emitter": "emit_cold_energy_strong" } ]
   },
   {
     "id": "permafrost_mage_ice_age",
@@ -74,7 +75,7 @@
     "min_duration": 500,
     "max_duration": 18000,
     "duration_increment": 500,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 7,
     "damage_type": "cold"
   }

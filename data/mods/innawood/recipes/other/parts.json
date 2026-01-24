@@ -50,7 +50,7 @@
     ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
-      [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ],
+      [ [ "steel_chunk_any", 6, "LIST" ], [ "scrap", 18 ] ],
       [ [ "pipe", 2 ] ],
       [ [ "adhesive", 2, "LIST" ] ],
       [ [ "fur", 2 ], [ "leather", 2 ] ]
@@ -100,7 +100,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "using": [ [ "soldering_standard", 5 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "soldering_standard", 5 ], [ "steel_chunk_any", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "cable", 3 ] ], [ [ "e_scrap", 3 ], [ "makeshift_transformer", 3 ] ] ]
   },
@@ -140,7 +140,7 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "pipe", 6 ] ],
-      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
+      [ [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ],
       [ [ "wire", 3 ] ],
       [ [ "cable", 10 ] ],
       [ [ "pipe_fittings", 4 ] ]
@@ -260,6 +260,6 @@
     "time": "3 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ], [ "knife_butter", 2 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 1, "LIST" ], [ "scrap", 3 ], [ "knife_butter", 2 ] ] ]
   }
 ]

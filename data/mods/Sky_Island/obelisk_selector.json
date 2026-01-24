@@ -73,14 +73,14 @@
     "effect": [
       {
         "run_eoc_selector": [ "EOC_Field_Loc_Warp", "EOC_Basement_Loc_Warp", "EOC_Rooftop_Loc_Warp", "EOC_Lab_Loc_Warp", "EOC_raidcancel" ],
-        "names": [ "Target: Field", "Target: Basement", "Target: Rooftop", "Target: Science Lab", "Cancel" ],
+        "names": [ "Target: Field", "Target: Basement", "Target: Rooftop", "Target: Lab", "Cancel" ],
         "keys": [ "1", "2", "3", "4", "5" ],
-        "title": "Select a Starting Location",
+        "title": "Select a starting location",
         "descriptions": [
           "Arrive in a barren field.  This usually means landing in the open wilderness, but there's always the chance you'll find yourself at an empty lot in town.",
           "Arrive inside an underground basement.  This will tend to put you somewhere in suburbia, but there are always exceptions.",
           "Arrive on a building roof someplace.  Usually this means houses, but you never know for sure.  This will always be one story off the ground.",
-          "Arrive somewhere in a subterranean science lab.  This is a highly dangerous method.  Due to the dimensional shielding these labs project, this expedition will cost 1 Labs Catalyst to begin.\nBE WARNED!  You will begin inside a sealed lab, so make sure you have the means to get out!  A second card, to unlock the surface exit, is one option.  You may also consider a homeward mote or a warp skyward beacon.",
+          "Arrive somewhere in a hidden government lab.  This is a highly dangerous method.  Due to the dimensional shielding these labs project, this expedition will cost 1 Labs Catalyst to begin.\nBE WARNED!  You will begin inside a sealed lab, so make sure you have the means to get out!  A second card, to unlock the surface exit, is one option.  You may also consider a homeward mote or a warp skyward beacon.",
           "Stay on the island for now."
         ]
       }
@@ -91,14 +91,15 @@
     "id": "EOC_Random_Loc_Warp",
     "//": "Picks a random location of any kind and activates the actual teleport EOC.",
     "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
           "om_terrain": "field",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": 1200,
-          "min_distance": 200,
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
+          "search_range": 200,
+          "min_distance": 0,
+          "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
           "z": 0,
           "random": true
         }
@@ -111,14 +112,15 @@
     "id": "EOC_Field_Loc_Warp",
     "//": "Picks a random field and activates the actual teleport EOC.",
     "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
           "om_terrain": "field",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": 1200,
-          "min_distance": 200,
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
+          "search_range": 200,
+          "min_distance": 0,
+          "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
           "z": 0,
           "random": true
         }
@@ -132,14 +134,15 @@
     "//": "Picks a random basement and activates the actual teleport EOC.",
     "condition": { "math": [ "basementsunlocked == 1" ] },
     "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
           "om_terrain": "basement",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": 1200,
-          "min_distance": 200,
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
+          "search_range": 200,
+          "min_distance": 0,
+          "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
           "z": -1,
           "random": true
         },
@@ -155,14 +158,15 @@
     "//": "Picks a random rooftop and activates the actual teleport EOC.",
     "condition": { "math": [ "roofsunlocked == 1" ] },
     "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
           "om_terrain": "roof",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": 1200,
-          "min_distance": 200,
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
+          "search_range": 200,
+          "min_distance": 0,
+          "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
           "z": 1,
           "random": true
         },
@@ -178,14 +182,43 @@
     "//": "Picks a random underground lab and activates the actual teleport EOC.",
     "condition": { "and": [ { "math": [ "labsunlocked == 1" ] }, { "u_has_items": { "item": "warp_labs_catalyst", "count": 1 } } ] },
     "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
+      {
+        "run_eoc_selector": [
+          "EOC_Lab_Science_Loc_Warp",
+          "EOC_Lab_Microlab_Loc_Warp",
+          "EOC_Lab_Research_Loc_Warp",
+          "EOC_Lab_TCL_Loc_Warp",
+          "EOC_raidcancel"
+        ],
+        "names": [ "Target: Science Lab", "Target: Subway Lab", "Target: Research Facility", "Target: Tran-Coastal Logistics", "Cancel" ],
+        "keys": [ "1", "2", "3", "4", "5" ],
+        "title": "Select a starting location",
+        "descriptions": [
+          "Arrive in subterranean science lab.\nBE WARNED!  You will begin inside a sealed lab, so make sure you have the means to get out!  A second card, to unlock the surface exit, is one option.  You may also consider a homeward mote or a warp skyward beacon.",
+          "Arrive in a sprawling lab connected to a secret network of subways.\nBE WARNED!  You will begin inside a sealed lab, so make sure you have the means to get out!  A second card, to unlock the surface exit, is one option.  You may also consider a homeward mote or a warp skyward beacon.",
+          "Arrive in an above-ground research facility.\nBE WARNED!  The facility was extremely damaged by the Cataclysm and the environment is filled with hostiles.  Be prepared when you undertake this mission.",
+          "Arrive in a lab within a shipping facility.\nBE WARNED!  You will begin inside a sealed facility, so make sure you have the means to get out!  You may also consider a homeward mote or a warp skyward beacon.",
+          "Stay on the island for now."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Lab_Science_Loc_Warp",
+    "//": "Picks a random underground lab and activates the actual teleport EOC.",
+    "condition": { "and": [ { "math": [ "labsunlocked == 1" ] }, { "u_has_items": { "item": "warp_labs_catalyst", "count": 1 } } ] },
+    "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
           "om_terrain": "lab_stairs",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": 1200,
-          "min_distance": 200,
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
+          "search_range": 200,
+          "min_distance": 0,
+          "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
           "z": -2,
           "random": true
         },
@@ -194,6 +227,133 @@
       },
       { "math": [ "goingtolabs = 1" ] },
       { "run_eocs": [ "EOC_initiate_randomport" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Lab_Microlab_Loc_Warp",
+    "//": "Picks a random underground lab and activates the actual teleport EOC.",
+    "condition": { "and": [ { "math": [ "labsunlocked == 1" ] }, { "u_has_items": { "item": "warp_labs_catalyst", "count": 1 } } ] },
+    "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "microlab_generic_hallway",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
+          "min_distance": 200,
+          "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
+          "z": -2,
+          "random": true
+        },
+        "terrain": "t_carpet_concrete_red",
+        "target_max_radius": 20
+      },
+      { "math": [ "goingtolabs = 1" ] },
+      { "run_eocs": [ "EOC_initiate_randomport" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Lab_Research_Loc_Warp",
+    "//": "Picks a random research facility and activates the actual teleport EOC.",
+    "condition": { "and": [ { "math": [ "labsunlocked == 1" ] }, { "u_has_items": { "item": "warp_labs_catalyst", "count": 1 } } ] },
+    "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "lab_surface_parking_blockC1",
+          "search_range": 1200,
+          "min_distance": 200,
+          "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
+          "z": 0,
+          "random": true
+        },
+        "terrain": "t_pavement",
+        "target_max_radius": 20
+      },
+      { "math": [ "goingtolabs = 1" ] },
+      { "run_eocs": [ "EOC_initiate_randomport" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Lab_TCL_Loc_Warp",
+    "//": "Picks a random TCL and activates the actual teleport EOC.",
+    "condition": { "and": [ { "math": [ "labsunlocked == 1" ] }, { "u_has_items": { "item": "warp_labs_catalyst", "count": 1 } } ] },
+    "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "lab_CORE_2x1_SED_ground",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
+          "min_distance": 200,
+          "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
+          "z": 0,
+          "random": true
+        },
+        "terrain": "t_thconc_floor",
+        "target_max_radius": 20
+      },
+      { "math": [ "goingtolabs = 1" ] },
+      { "run_eocs": [ "EOC_initiate_randomport" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT",
+    "effect": [
+      { "u_location_variable": { "global_val": "OM_HQ_origin" } },
+      {
+        "u_location_variable": { "global_val": "OM_HQ_origin_npc" },
+        "passable_only": true,
+        "min_radius": 2,
+        "max_radius": 10
+      },
+      {
+        "u_location_variable": { "global_val": "sky_dimension_teleport_departure" },
+        "z_adjust": -3,
+        "z_override": true
+      },
+      {
+        "u_location_variable": { "global_val": "sky_dimension_teleport_departure_npc" },
+        "z_adjust": -3,
+        "z_override": true
+      },
+      {
+        "location_variable_adjust": { "global_val": "sky_dimension_teleport_departure_npc" },
+        "x_adjust": [ -2, 2 ],
+        "y_adjust": [ -2, 2 ]
+      },
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT_ADD_NPC_EFFECT",
+            "//": "Since NPC teleporting is bugged, the condition here and below prevents this from running for NPCs",
+            "condition": { "and": [ "u_following", { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+            "effect": [
+              { "u_add_effect": "blind", "duration": 0 },
+              { "u_add_effect": "effect_sky_island_momentary_flight", "duration": 2 },
+              { "u_teleport": { "global_val": "sky_dimension_teleport_departure_npc" }, "force": true },
+              {
+                "location_variable_adjust": { "global_val": "sky_dimension_teleport_departure_npc" },
+                "x_adjust": [ -2, 2 ],
+                "y_adjust": [ -2, 2 ]
+              }
+            ]
+          }
+        ],
+        "npc_range": 10,
+        "local": true
+      },
+      { "u_add_effect": "blind", "duration": 0 },
+      { "u_add_effect": "effect_sky_island_momentary_flight", "duration": 2 },
+      { "u_teleport": { "global_val": "sky_dimension_teleport_departure" }, "force": true },
+      { "u_travel_to_dimension": "dimension_sky_island_mission", "npc_travel_radius": 10, "region_type": "default" }
     ]
   }
 ]

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "corpse_bowels_mid",
     "object": {
       "fill_ter": "t_nm_floor_flesh",
@@ -66,7 +65,6 @@
   {
     "//": "walls of tentacle wall that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tentacle_bounds_lite_hleft",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -93,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "corpse_bowels_tentacle_edge",
     "object": {
       "fill_ter": "t_nm_floor_flesh",
@@ -169,7 +166,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "corpse_bowels_neck_right",
     "object": {
       "fill_ter": "t_nm_floor_flesh",
@@ -251,7 +247,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "corpse_bowels_neck_left",
     "object": {
       "fill_ter": "t_nm_floor_flesh",
@@ -333,7 +328,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "corpse_bowels_neck_edge_center",
     "object": {
       "fill_ter": "t_nm_floor_flesh",
@@ -380,7 +374,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "corpse_bowels_lcorner", "corpse_bowels_empty_edge", "corpse_bowels_rcorner" ] ],
     "object": {
       "fill_ter": "t_nm_floor_flesh",

@@ -183,7 +183,7 @@ recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
     return res;
 }
 
-recipe_subset &Character::get_group_available_recipes() const
+recipe_subset &Character::get_group_available_recipes( inventory *inventory_override ) const
 {
     if( !test_mode && calendar::turn == cached_recipe_turn && cached_recipe_subset->size() > 0 ) {
         return *cached_recipe_subset;
@@ -191,6 +191,11 @@ recipe_subset &Character::get_group_available_recipes() const
 
     cached_recipe_turn = calendar::turn;
     cached_recipe_subset->clear();
+
+    if( inventory_override ) {
+        cached_recipe_subset->include( get_available_recipes( *inventory_override ) );
+        return *cached_recipe_subset;
+    }
 
     for( const Character *guy : get_crafting_group() ) {
         cached_recipe_subset->include( guy->get_available_recipes( crafting_inventory() ) );

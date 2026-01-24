@@ -1,10 +1,25 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Configuring Fonts](#configuring-fonts)
+  - [Hinting](#hinting)
+    - [Default](#default)
+    - [Light](#light)
+    - [Auto](#auto)
+    - [NoAuto](#noauto)
+    - [None](#none)
+    - [Bitmap](#bitmap)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Configuring Fonts
 
 Fonts can be configured through changing the config/fonts.json file. This file is created with
 default options on game load, so if it doesn't exist try loading the game.
 
 The default options (available in data/fontdata.json) might look like the following:
-```json
+```jsonc
 {
   "typeface": [
     { "path": "data/font/Terminus.ttf", "hinting": "Bitmap" },
@@ -32,7 +47,7 @@ If more than one font is specified for a typeface the list is treated as a fallb
 be used as a 'last resort' fallback even if not listed here.
 
 Fonts can be provided as a list, as seen above, or as single entries, e.g.:
-```json
+```jsonc
 "typeface": { "path": "data/font/Terminus.ttf", "hinting": "Bitmap" },
 "map_typeface": "unifont.ttf"
 ```
@@ -43,7 +58,7 @@ Hinting may be one of: Auto, NoAuto, Default, Light, or Bitmap. Antialiasing may
 to true, but can be disabled by setting to off.
 
 A full object may look like the following:
-```json
+```jsonc
 "gui_typeface": {
 	"path": "data/font/Roboto-Medium.ttf",
 	"hinting": "Light",

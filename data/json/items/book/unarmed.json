@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_unarmed",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Boxing Monthly", "str_pl": "issues of Boxing Monthly" },
     "description": "An exciting monthly magazine about boxing.  There are lots of large, colorful photos of pugilistic exploits.",
@@ -52,15 +53,16 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "unarmed",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "unarmed",
+    "read_fun": 1
   },
   {
     "id": "manual_brawl",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "101 Wrestling Moves", "str_pl": "copies of 101 Wrestling Moves" },
     "description": "It seems to be a wrestling manual, poorly photocopied and released on spiral-bound paper.  Still, there are lots of useful tips for unarmed combat.",
@@ -114,9 +116,9 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "green",
-    "skill": "unarmed",
     "max_level": 3,
     "intelligence": 3,
-    "time": "15 m"
+    "time": "15 m",
+    "read_skill": "unarmed"
   }
 ]

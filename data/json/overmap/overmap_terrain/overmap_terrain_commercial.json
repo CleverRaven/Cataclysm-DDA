@@ -6,17 +6,19 @@
     "name": "gas station",
     "looks_like": "s_gas",
     "color": "light_blue",
-    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] },
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 6, 12 ], "chance": 100 },
+    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES", "PP_GENERATE_RIOT_DAMAGE" ] },
     "land_use_code": "commercial"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gas", "s_gas_g1" ],
+    "id": [ "s_gas_0_0", "s_gas_1_0", "s_gas_0_1", "s_gas_1_1", "s_gas_g1" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "gas station",
     "looks_like": "s_gas",
     "color": "light_blue",
-    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] }
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 6, 12 ], "chance": 100 },
+    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES", "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -31,12 +33,12 @@
   {
     "type": "overmap_terrain",
     "id": [ "s_gas_g0" ],
-    "copy-from": "s_gas",
+    "copy-from": "s_gas_0_0",
     "sym": "─"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gas_roof_1", "s_gas_g1_roof" ],
+    "id": [ "s_gas_0_0_roof", "s_gas_1_0_roof", "s_gas_0_1_roof", "s_gas_1_1_roof", "s_gas_roof_1", "s_gas_g1_roof" ],
     "copy-from": "generic_city_building_roof",
     "name": "gas station roof",
     "color": "light_blue"
@@ -216,7 +218,7 @@
     "color": "i_light_gray",
     "see_cost": "high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -227,7 +229,7 @@
     "color": "light_gray",
     "see_cost": "high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -238,7 +240,7 @@
     "color": "light_gray",
     "see_cost": "high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -1254,7 +1256,9 @@
     "copy-from": "generic_city_building",
     "name": "abandoned shopping plaza",
     "sym": "+",
-    "color": "red"
+    "color": "red",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement"
   },
   {
     "type": "overmap_terrain",
@@ -2078,5 +2082,21 @@
     "looks_like": "barber_shop_roof",
     "sym": "b",
     "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_airsoft" ],
+    "copy-from": "generic_city_building",
+    "name": "airsoft store",
+    "sym": "a",
+    "color": "red_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_airsoft_roof" ],
+    "copy-from": "generic_city_building_roof",
+    "name": "airsoft store roof",
+    "sym": "a",
+    "color": "red_white"
   }
 ]

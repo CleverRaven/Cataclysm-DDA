@@ -1,8 +1,69 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "used_bookstore",
+    "object": {
+      "rows": [
+        ",.................******",
+        "G#WWW#+###WWW##W##******",
+        ",W  cC  N cc NN N#******",
+        ",W  cC  N TT NN N#******",
+        ",W CCC  N cc NN N#******",
+        ",#              N#******",
+        ",#N     NNN NNN N#******",
+        ",#NNN NNNN    N N#******",
+        ",#NNN NN####  #W##******",
+        ",W      #N    #d*G******",
+        ",W   NNN#N   N#d********",
+        ",#N  ####N   N#d********",
+        ",#N  +s&#NNNNN#*********",
+        ",##############********,",
+        ",**********************,",
+        ",**********************,",
+        ",**********************,",
+        ",**********************,",
+        ",**********************,",
+        ",**********************,",
+        ",**********************,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+      ],
+      "place_vehicles": [ { "vehicle": "car", "x": 4, "y": 17, "fuel": 20, "status": 33, "rotation": 180 } ],
+      "fill_ter": "t_carpet_yellow",
+      "terrain": {
+        ".": "t_sidewalk",
+        "W": "t_window_domestic",
+        "G": "t_gutter_downspout",
+        "+": "t_door_white_c",
+        "$": "t_rock_wall",
+        "#": "t_wall_w",
+        "d": "t_pavement",
+        "D": "t_door_metal_c",
+        "*": "t_pavement",
+        ",": [ "t_dirt", [ "t_grass", 4 ] ]
+      },
+      "furniture": {
+        "c": "f_chair",
+        "N": "f_bookcase",
+        "M": "f_bookcase",
+        "T": "f_table",
+        "s": "f_sink",
+        "d": "f_dumpster",
+        "C": "f_counter"
+      },
+      "toilets": { "&": {  } },
+      "place_monster": [
+        { "group": "GROUP_VANILLA", "x": [ 2, 8 ], "y": [ 2, 12 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_VANILLA", "x": [ 9, 15 ], "y": [ 2, 5 ], "repeat": [ 1, 2 ] }
+      ],
+      "items": { "&": { "item": "SUS_toilet", "chance": 50 }, "N": { "item": "SUS_domestic_bookshelf", "chance": 75 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "used_bookstore",
+    "weight": 250,
     "object": {
       "rows": [
         ",.................******",
@@ -65,14 +126,13 @@
       ],
       "items": {
         "&": { "item": "SUS_toilet", "chance": 50 },
-        "M": { "item": "spellbook_loot_1", "chance": 60 },
+        "M": [ { "item": "spellbook_loot_1", "chance": 60 }, { "item": "spellbook_restricted_loot_1", "chance": 15 } ],
         "N": { "item": "novels", "chance": 60, "repeat": [ 1, 3 ] }
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "used_bookstore_roof",
     "object": {
       "fill_ter": "t_flat_roof",

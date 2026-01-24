@@ -1,15 +1,28 @@
 # Translating Cataclysm: DDA
 
-* [Translators](#translators)
-  * [Getting Started](#getting-started)
-  * [Glossary](#glossary)
-  * [Grammatical gender](#grammatical-gender)
-  * [Tips](#tips)
-* [Developers](#developers)
-  * [Translation Functions](#translation-functions)
-  * [`translation`](#translation)
-  * [Recommendations](#recommendations)
-* [Maintainers](#maintainers)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Translators](#translators)
+  - [Getting Started](#getting-started)
+  - [Glossary](#glossary)
+  - [Grammatical gender](#grammatical-gender)
+  - [Tips](#tips)
+- [Developers](#developers)
+  - [Translation Functions](#translation-functions)
+    - [`_()`](#_)
+    - [`pgettext()`](#pgettext)
+    - [`n_gettext()`](#n_gettext)
+  - [`translation`](#translation)
+  - [Static string variables](#static-string-variables)
+  - [Recommendations](#recommendations)
+- [Maintainers](#maintainers)
+  - [Automated updates](#automated-updates)
+  - [Manual updates](#manual-updates)
+  - [Language stats](#language-stats)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Translators
 
@@ -181,13 +194,13 @@ get extracted.
 
 This function is appropriate for use on simple strings, for example:
 
-```c++
+```cpp
 const char *translated = _( "text marked for translation" )
 ```
 
 It also works directly:
 
-```c++
+```cpp
 add_msg( _( "You drop the %s." ), the_item_name );
 ```
 
@@ -207,7 +220,7 @@ provided to the translators, but is not part of the translated string itself.
 This function's first parameter is the context, the second is the string to be
 translated:
 
-```c++
+```cpp
 const char *translated = pgettext("The color", "blue")
 ```
 
@@ -219,7 +232,7 @@ string in singular form, the second parameter is the untranslated string in
 plural form and the third one is used to determine which one of the first two
 should be used at run time:
 
-```c++
+```cpp
 const char *translated = n_gettext("one zombie", "many zombies", num_of_zombies)
 ```
 
@@ -230,33 +243,33 @@ translation context; Sometimes you may also want to store a string that needs no
 translation or has plural forms. `class translation` in `translations.h|cpp`
 offers these functionalities in a single wrapper:
 
-```c++
+```cpp
 const translation text = to_translation( "Context", "Text" );
 ```
 
-```c++
+```cpp
 const translation text = to_translation( "Text without context" );
 ```
 
-```c++
+```cpp
 const translation text = pl_translation( "Singular", "Plural" );
 ```
 
-```c++
+```cpp
 const translation text = pl_translation( "Context", "Singular", "Plural" );
 ```
 
-```c++
+```cpp
 const translation text = no_translation( "This string will not be translated" );
 ```
 
 The string can then be translated/retrieved with the following code
 
-```c++
+```cpp
 const std::string translated = text.translated();
 ```
 
-```c++
+```cpp
 // this translates the plural form of the text corresponding to the number 2
 const std::string translated = text.translated( 2 );
 ```
@@ -265,17 +278,17 @@ const std::string translated = text.translated( 2 );
 handles deserialization from a `JsonIn` object, so translations can be read from
 JSON using the appropriate JSON functions. The JSON syntax is as follows:
 
-```JSON
+```jsonc
 "name": "bar"
 ```
 
-```JSON
+```jsonc
 "name": { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
 ```
 
 or
 
-```JSON
+```jsonc
 "name": { "ctxt": "foo", "str_sp": "foo" }
 ```
 
@@ -285,7 +298,7 @@ is equivalent to specifying `"str"` and `"str_pl"` with the same string. Additio
 `plural_tag` or `pl_translation()`, or converted using `make_plural()`. Here's
 an example:
 
-```c++
+```cpp
 translation name{ translation::plural_tag() };
 jsobj.read( "name", name );
 ```
@@ -295,10 +308,14 @@ the singular form + "s". However, `"str_pl"` may still be needed if the unit
 test cannot determine whether the correct plural form can be formed by simply
 appending "s".
 
-You can also add comments for translators by writing it like below (the order
+### Translation Context Comments
+
+#### JSON
+
+JSON objects can add comments for translators by writing it like below (the order
 of the entries does not matter):
 
-```JSON
+```jsonc
 "name": {
     "//~": "as in 'foobar'",
     "str": "bar"
@@ -313,13 +330,18 @@ to ensure that the strings are correctly extracted for translation, and run the
 unit test to fix text styling issues reported by the `translation` class.
 
 If a string doesn't need to be translated, you can write `"NO_I18N"` in the
-`"//~"` comment, and this string will not be available to translators (see [here](/doc/JSON/JSON_INFO.md#translatable-strings)):
+`"//~"` comment, and this string will not be available to translators.
+Alternatively, you can specify `"//I18N": false` at the top level.
+(see [here](/doc/JSON/JSON_INFO.md#translatable-strings))
 
-```JSON
-"name": {
-    "//~": "NO_I18N",
-    "str": "Fake Monster-Only Spell"
-}
+#### C++
+
+C++ code can add comments for translators by including a ~ in a comment on the
+previous line of the file containing the string to be translated.
+
+```C++
+//~ foo
+some.function( _( "translators get 'foo' for context translating this string" ) );
 ```
 
 ### Static string variables
@@ -393,14 +415,9 @@ You can also change the language in game options if both are installed.
 
 ### Language stats
 
-We also store some statistics for how complete each translation is, in
-`src/lang_stats.inc`.  This can be used for example to show end users some
-information about the translations.
+You can see statistics for how complete each translation is in [Transifex translations project][1] or in-game language selection menu.
 
-These stats are also normally updated by the GitHub workflow, but can be
-updated by hand via `lang/update_stats.sh`.
-
-[1]: https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/
+[1]: https://explore.transifex.com/cataclysm-dda-translators/cataclysm-dda/
 [2]: https://discourse.cataclysmdda.org/c/game-talk/translations-team-discussion
 [3]: https://docs.transifex.com/
 [4]: ../lang/notes

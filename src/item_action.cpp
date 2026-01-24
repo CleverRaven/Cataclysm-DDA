@@ -30,7 +30,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
-#include "make_static.h"
+#include "map.h"
 #include "output.h"
 #include "pimpl.h"
 #include "pocket_type.h"
@@ -41,9 +41,11 @@
 #include "uilist.h"
 #include "visitable.h"
 
-class map;
-
 static const std::string errstring( "ERROR" );
+
+static const flag_id json_flag_IRREMOVABLE( "IRREMOVABLE" );
+
+static const item_action_id item_action_TOOLMOD_ATTACH( "TOOLMOD_ATTACH" );
 
 static item_action nullaction;
 
@@ -156,7 +158,7 @@ item_action_map item_action_generator::map_actions_to_items( Character &you,
 
             const use_function *func = actual_item->get_use( use );
             if( !( func && func->get_actor_ptr() &&
-                   func->get_actor_ptr()->can_use( you, *actual_item, you.pos_bub() ).success() ) ) {
+                   func->get_actor_ptr()->can_use( you, *actual_item, &get_map(), you.pos_bub() ).success() ) ) {
                 continue;
             }
 
@@ -165,8 +167,8 @@ item_action_map item_action_generator::map_actions_to_items( Character &you,
             }
 
             // Don't try to remove 'irremovable' toolmods
-            if( actual_item->is_toolmod() && use == STATIC( item_action_id( "TOOLMOD_ATTACH" ) ) &&
-                actual_item->has_flag( STATIC( flag_id( "IRREMOVABLE" ) ) ) ) {
+            if( actual_item->is_toolmod() && use == item_action_TOOLMOD_ATTACH &&
+                actual_item->has_flag( json_flag_IRREMOVABLE ) ) {
                 continue;
             }
 
@@ -389,11 +391,6 @@ std::string use_function::get_type() const
     } else {
         return errstring;
     }
-}
-
-ret_val<void> iuse_actor::can_use( const Character &, const item &, const tripoint_bub_ms & ) const
-{
-    return ret_val<void>::make_success();
 }
 
 ret_val<void> iuse_actor::can_use( const Character &, const item &, map *,

@@ -122,12 +122,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_M",
-    "effect": [ { "set_string_var": { "context_val": "test_context_key_M" }, "target_var": { "global_val": "test_global_key_M" } } ]
+    "effect": [ { "copy_var": { "context_val": "test_context_key_M" }, "target_var": { "global_val": "test_global_key_M" } } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_N",
-    "effect": [ { "set_string_var": { "context_val": "test_context_key_N" }, "target_var": { "global_val": "test_global_key_N" } } ]
+    "effect": [ { "copy_var": { "context_val": "test_context_key_N" }, "target_var": { "global_val": "test_global_key_N" } } ]
   },
   {
     "type": "effect_on_condition",
@@ -162,6 +162,40 @@
     "effect": [
       { "set_string_var": "mixin fail alpha", "target_var": { "global_val": "alpha_name" } },
       { "set_string_var": "mixin fail beta", "target_var": { "global_val": "beta_name" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_copy_vars",
+    "effect": [
+      { "copy_var": { "context_val": "dbl_val" }, "target_var": { "global_val": "dbl_val" } },
+      { "copy_var": { "context_val": "str_val" }, "target_var": { "global_val": "str_val" } },
+      { "copy_var": { "context_val": "i18n_val" }, "target_var": { "global_val": "i18n_val" } },
+      { "copy_var": { "context_val": "tripoint_val" }, "target_var": { "global_val": "tripoint_val" } },
+      { "copy_var": { "context_val": "math_val" }, "target_var": { "global_val": "math_val" } },
+      { "copy_var": { "context_val": "inf_val" }, "target_var": { "global_val": "inf_val" } },
+      { "copy_var": { "context_val": "nan_val" }, "target_var": { "global_val": "nan_val" } },
+      { "copy_var": { "context_val": "copied_val" }, "target_var": { "global_val": "copied_val" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_variable_types",
+    "effect": [
+      { "set_string_var": "BLORG", "target_var": { "context_val": "blorgyvar" } },
+      {
+        "run_eocs": [ "EOC_copy_vars" ],
+        "variables": {
+          "dbl_val": 8,
+          "str_val": "blorg",
+          "i18n_val": { "i18n": true, "str": "battery" },
+          "tripoint_val": { "tripoint": [ 0, 10, 0 ] },
+          "math_val": { "math": [ "2 + 2 - 1" ] },
+          "inf_val": { "dbl": "+inf" },
+          "nan_val": { "dbl": "-nan" },
+          "copied_val": { "context_val": "blorgyvar" }
+        }
+      }
     ]
   },
   {

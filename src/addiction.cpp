@@ -57,6 +57,11 @@ void add_type::load_add_types( const JsonObject &jo, const std::string &src )
     add_type_factory.load( jo, src );
 }
 
+void add_type::finalize_all()
+{
+    add_type_factory.finalize();
+}
+
 void add_type::reset()
 {
     add_type_factory.reset();
@@ -357,7 +362,7 @@ bool addiction::run_effect( Character &u )
     return ret;
 }
 
-void add_type::load( const JsonObject &jo, const std::string_view )
+void add_type::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "type_name", _type_name );

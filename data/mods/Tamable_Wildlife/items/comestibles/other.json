@@ -1,7 +1,8 @@
 [
   {
     "id": "sweet_goop",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "sweet goop" },
     "looks_like": "birdfood",

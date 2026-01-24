@@ -118,7 +118,7 @@
     "type": "effect_on_condition",
     "id": "pigeon_aura",
     "condition": "u_is_character",
-    "effect": [ { "math": [ "u_vitamin('passenger_pigeon_aura')", "+=", "400 + rand(100)" ] } ]
+    "effect": [ { "math": [ "u_vitamin('passenger_pigeon_aura') += 400 + rand(100)" ] } ]
   },
   {
     "id": "null_break_concentration_spell",
@@ -168,21 +168,15 @@
                     },
                     "effect": [
                       { "u_message": "An icy dagger seems to stab into your brain.", "type": "bad" },
-                      { "math": [ "u_pain()", "+=", "rand(3) + 1" ] },
+                      { "math": [ "u_pain() += rand(3) + 1" ] },
                       { "run_eocs": "EOC_END_PSI_POWERS_MAINTAINED" }
                     ],
-                    "false_effect": [
-                      { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" },
-                      { "math": [ "u_pain()", "+=", "1" ] }
-                    ]
+                    "false_effect": [ { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" }, { "math": [ "u_pain() += 1" ] } ]
                   }
                 ]
               }
             ],
-            "false_effect": [
-              { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" },
-              { "math": [ "u_pain()", "+=", "1" ] }
-            ]
+            "false_effect": [ { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" }, { "math": [ "u_pain() += 1" ] } ]
           }
         ]
       }
@@ -260,6 +254,45 @@
     ]
   },
   {
+    "id": "electrokinetic_paralysis_monster",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Neural Spasms Monster", "//~": "NO_I18N" },
+    "description": { "str": "Cause an electrical burst in the target's nervous system, stunning them briefly.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "max_level": 20,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_MONSTER_PARALYSIS",
+    "shape": "blast",
+    "min_duration": 150,
+    "max_duration": 400,
+    "min_range": 3,
+    "max_range": 23,
+    "range_increment": 1
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_MONSTER_PARALYSIS",
+    "effect": [
+      { "math": [ "_duration = rng(1.5, 4)" ] },
+      {
+        "if": {
+          "not": {
+            "u_has_any_effect": [ "effect_electrokinetic_speed_boost", "effect_monster_neuro_acceleration", "effect_monster_neuro_acceleration" ]
+          }
+        },
+        "then": [
+          { "u_add_effect": "downed", "duration": { "math": [ "_duration" ] } },
+          { "u_add_effect": "psi_dazed", "duration": { "math": [ "_duration" ] } },
+          { "u_add_effect": "effect_electrokin_paralysis", "duration": { "math": [ "_duration" ] } }
+        ],
+        "else": { "u_message": "Your control over your own nerve impulses prevent the attack from taking hold.", "type": "good" }
+      }
+    ]
+  },
+  {
     "id": "electrokinetic_power_draining",
     "type": "SPELL",
     "name": { "str": "[Ψ]Electrokinetic Power Draining Spell", "//~": "NO_I18N" },
@@ -313,15 +346,15 @@
                     "condition": { "not": { "u_has_effect": "effect_electrokin_personal_battery" } },
                     "effect": {
                       "u_run_inv_eocs": "random",
-                      "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER" ] } ],
+                      "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER", "IS_UPS" ] } ],
                       "true_eocs": [
                         {
                           "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_INV_RESULT",
-                          "effect": [ { "math": [ "n_val('power')", "-=", "rand(200) + 50" ] } ]
+                          "effect": [ { "math": [ "n_val('power') -= rand(200) + 50" ] } ]
                         }
                       ]
                     },
-                    "false_effect": [ { "math": [ "u_val('stamina')", "-=", "rand(350) + 300" ] } ]
+                    "false_effect": [ { "math": [ "u_val('stamina') -= rand(350) + 300" ] } ]
                   }
                 ]
               }
@@ -488,6 +521,151 @@
     ]
   },
   {
+    "id": "teleport_oubliette_monster",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Oubliette Monster", "//~": "NO_I18N" },
+    "description": {
+      "str": "The monster sends you to another dimension, just like you could have done to it.  Turnabout is fair play.",
+      "//~": "NO_I18N"
+    },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "max_level": 10,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_OUBLIETTE_MONSTER",
+    "shape": "blast",
+    "min_range": 3,
+    "max_range": 3
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_OUBLIETTE_MONSTER",
+    "condition": {
+      "not": {
+        "or": [
+          { "u_has_flag": "TELESTOP" },
+          { "u_has_flag": "TELEPORT_IMMUNE" },
+          { "u_has_flag": "TELEPORT_LOCK" },
+          { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" }
+        ]
+      }
+    },
+    "effect": [
+      { "math": [ "_damage_done = 50 + rand(100)" ] },
+      {
+        "if": {
+          "and": [
+            "u_is_character",
+            {
+              "math": [
+                "_damage_done",
+                ">=",
+                "(u_hp('arm_l') + u_hp('arm_r') + u_hp('leg_l') + u_hp('leg_r') + u_hp('torso') + u_hp('head')) / 3"
+              ]
+            }
+          ]
+        },
+        "then": [
+          {
+            "if": "u_is_avatar",
+            "then": [ { "run_eocs": "EOC_MOM_OUBLIETTE_MONSTER_PICK_DIMENSION" } ],
+            "else": [ { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": false } } ]
+          }
+        ]
+      },
+      {
+        "if": { "and": [ "u_is_monster", { "math": [ "_damage_done", ">=", "u_hp('ALL')" ] } ] },
+        "then": [ { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": false } } ]
+      }
+    ],
+    "false_effect": { "u_message": "You feel a strange, inward force.", "type": "neutral" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_OUBLIETTE_MONSTER_PICK_DIMENSION",
+    "effect": [
+      { "math": [ "_dimension_time = 3600 + rand(259200)" ] },
+      {
+        "switch": { "math": [ "rand(6)" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": [
+              {
+                "u_travel_to_dimension": "mom_innawood",
+                "npc_travel_radius": 0,
+                "region_type": "mom_innawood",
+                "npc_travel_filter": "none",
+                "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
+                "success_message": "Your surroundings warp and fold before reforming into a strange landscape."
+              },
+              { "run_eocs": "EOC_PORTAL_OUBLIETTE_RETURN", "time_in_future": { "math": [ "_dimension_time" ] } }
+            ]
+          },
+          {
+            "case": 3,
+            "effect": [
+              {
+                "u_travel_to_dimension": "mom_innawood_rainy",
+                "npc_travel_radius": 0,
+                "region_type": "mom_innawood_rainy",
+                "npc_travel_filter": "none",
+                "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
+                "success_message": "Your surroundings warp and fold before reforming into a strange landscape."
+              },
+              { "run_eocs": "EOC_PORTAL_OUBLIETTE_RETURN", "time_in_future": { "math": [ "_dimension_time" ] } }
+            ]
+          },
+          {
+            "case": 5,
+            "effect": [
+              {
+                "u_travel_to_dimension": "highlands",
+                "npc_travel_radius": 0,
+                "region_type": "highlands",
+                "npc_travel_filter": "none",
+                "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
+                "success_message": "Your surroundings warp and fold before reforming into a strange landscape."
+              },
+              { "run_eocs": "EOC_PORTAL_HIGHLANDS_RETURN", "time_in_future": { "math": [ "_dimension_time" ] } }
+            ]
+          },
+          {
+            "case": 6,
+            "effect": [
+              {
+                "u_travel_to_dimension": "mycus_world",
+                "npc_travel_radius": 0,
+                "region_type": "mom_mycus_world",
+                "npc_travel_filter": "none",
+                "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
+                "success_message": "Your surroundings warp and fold before reforming into a strange landscape."
+              },
+              { "run_eocs": "EOC_PORTAL_OUBLIETTE_RETURN", "time_in_future": { "math": [ "_dimension_time" ] } }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_OUBLIETTE_RETURN",
+    "effect": [
+      {
+        "u_travel_to_dimension": "",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "Nothing seems to change.",
+        "success_message": "Your surroundings warp and fold into the recesses of the world you know."
+      }
+    ]
+  },
+  {
     "type": "SPELL",
     "id": "whispering_amalgamation_apply_mindsight",
     "name": { "str": "Eater apply mindsight", "//~": "NO_I18N" },
@@ -567,5 +745,165 @@
     "max_duration": 7500,
     "targeted_monster_species": [ "ZOMBIE", "FERAL" ],
     "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "silent_one_drain_monster",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Silent One Draining attack", "//~": "NO_I18N" },
+    "description": { "str": "Silent One's draining attack.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "message": "",
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SILENT_ONE_DRAINING_POWER",
+    "shape": "blast",
+    "min_range": 15,
+    "max_range": 15
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SILENT_ONE_DRAINING_POWER",
+    "condition": "u_is_character",
+    "effect": [
+      {
+        "u_add_morale": "morale_silent_one_drain",
+        "bonus": -5,
+        "max_bonus": -200,
+        "duration": "24 hours",
+        "decay_start": "12 hours"
+      },
+      { "u_add_effect": "effect_nether_attunement_health_penalty", "duration": "10 seconds" },
+      {
+        "if": { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] },
+        "then": { "math": [ "u_calories()", "-=", "rand(125) + 250" ] },
+        "else": { "math": [ "u_calories()", "-=", "125" ] }
+      },
+      { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "125" ] },
+      { "u_message": "You feel a sudden wave of fatigue!", "type": "bad" },
+      { "math": [ "n_val('anger')", "-=", "rand(5) + 2" ] }
+    ],
+    "false_effect": [
+      { "math": [ "u_val('anger')", "-=", "rand(5) + 5" ] },
+      { "math": [ "u_val('morale')", "-=", "rand(10) + 10" ] },
+      { "u_add_effect": "effect_silent_one_monster_drain", "duration": 1800 }
+    ]
+  },
+  {
+    "id": "silent_one_apply_buffs",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Silent One Applying Buffs attack", "//~": "NO_I18N" },
+    "description": { "str": "Silent One's applying buffs to itself.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "message": "",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SILENT_ONE_BUFF_SELF",
+    "shape": "blast"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SILENT_ONE_BUFF_SELF",
+    "effect": [
+      { "u_add_effect": "eff_mind_seeing_bonus_5", "duration": "PERMANENT" },
+      { "u_add_effect": "eff_mind_seeing_bonus_10", "duration": "PERMANENT" },
+      { "u_add_effect": "eff_mind_seeing_bonus_30", "duration": "PERMANENT" },
+      { "u_add_effect": "effect_nether_silent_one_resistances", "duration": "PERMANENT" }
+    ]
+  },
+  {
+    "id": "silent_one_detect_psionic_activity",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Silent One Detect Psi", "//~": "NO_I18N" },
+    "description": { "str": "Silent One's detecting of psionic activity.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "valid_targets": [ "ally", "hostile", "self" ],
+    "message": "",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SILENT_ONE_DETECT_PSIONIC_ACTIVITY",
+    "shape": "blast",
+    "min_aoe": 45,
+    "max_aoe": 45
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SILENT_ONE_DETECT_PSIONIC_ACTIVITY",
+    "condition": "u_is_character",
+    "effect": [
+      {
+        "if": {
+          "or": [
+            { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] },
+            { "math": [ "u_nether_conduit_repeated_channeling_value >= 1" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "n_val('anger')", "+=", "rand(5) + 1" ] },
+          {
+            "u_message": "The hairs rise on the back of your neck as you feel a sudden sense of menace.",
+            "type": "bad"
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "n_val('anger') > 20" ] },
+        "then": [
+          { "npc_location_variable": { "context_val": "loc" } },
+          { "npc_cast_spell": { "id": "silent_one_polymorph_to_hostile" }, "loc": { "context_val": "loc" } }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "silent_one_polymorph_to_hostile",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Silent One polymorph", "//~": "NO_I18N" },
+    "description": { "str": "Silent One' polymorphing to hostile.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "difficulty": 8,
+    "max_level": 30,
+    "effect": "targeted_polymorph",
+    "effect_str": "mon_nether_silent_one_aggressive",
+    "shape": "blast",
+    "min_damage": 500,
+    "max_damage": 500,
+    "targeted_monster_ids": [ "mon_nether_silent_one_passive" ]
+  },
+  {
+    "id": "silent_one_detect_psionic_activity_aggressive",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Silent One Detect Psi Aggressive", "//~": "NO_I18N" },
+    "description": {
+      "str": "Silent One's detecting of psionic activity when it's already angry.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
+    "valid_targets": [ "ally", "hostile", "self" ],
+    "message": "",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SILENT_ONE_DETECT_PSIONIC_ACTIVITY_AGGRESSIVE",
+    "shape": "blast",
+    "min_aoe": 15,
+    "max_aoe": 15
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SILENT_ONE_DETECT_PSIONIC_ACTIVITY_AGGRESSIVE",
+    "condition": "u_is_character",
+    "effect": [
+      {
+        "if": {
+          "or": [
+            { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] },
+            { "math": [ "u_nether_conduit_repeated_channeling_value >= 1" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "n_val('anger')", "+=", "rand(10) + 2" ] },
+          { "u_message": "A chill aura emanates from the silent one.", "type": "bad" }
+        ],
+        "else": [ { "math": [ "n_val('anger')", "-=", "rand(25) + 25" ] } ]
+      }
+    ]
   }
 ]

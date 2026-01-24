@@ -126,7 +126,7 @@ TEST_CASE( "limb_conditional_flags", "[character][encumbrance][limb]" )
 
     // Encumber the left wing above its enc limit, disabling all flags
     dude.wear_item( wing_cover_left, false );
-    REQUIRE( dude.get_part_encumbrance_data( body_part_test_bird_wing_l ).encumbrance >= 15 );
+    REQUIRE( dude.get_part_encumbrance( body_part_test_bird_wing_l ) >= 15 );
     CHECK( !dude.has_bodypart_with_flag( json_flag_WALL_CLING ) );
     CHECK( dude.count_flag( json_flag_WALL_CLING ) == 0 );
 

@@ -1,7 +1,8 @@
 [
   {
     "id": "advanced_ecig",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "advanced electronic cigarette" },
     "description": "An advanced, rechargeable electronic cigarette.  A less harmful way to get your nicotine fix than regular cigarettes, but still addictive.  It needs batteries and nicotine liquid to function.",
     "category": "drugs",
@@ -12,8 +13,8 @@
     "material": [ "steel" ],
     "symbol": "!",
     "color": "white",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 1,
     "power_draw": "7500 mW",
     "use_action": [ "ECIG" ],
@@ -24,11 +25,13 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "crackpipe",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "crack pipe" },
     "description": "A fine glass tube with a bulb with a bowl on one end.  It's used to partake of certain illicit substances.",
     "weight": "242 g",
@@ -44,7 +47,8 @@
   },
   {
     "id": "pipe_glass",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "glass pipe" },
     "description": "A hand-blown glass pipe.  It's commonly used to smoke recreational substances.",
     "weight": "163 g",
@@ -60,7 +64,8 @@
   },
   {
     "id": "pipe_water",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "water pipe" },
     "looks_like": "bottle_plastic",
     "description": "A mass-manufactured water pipe, otherwise known as a 'bong'.  Head shops often insist these are used solely for tobacco, despite their iconic status as cannabis paraphernalia.",
@@ -135,7 +140,8 @@
   },
   {
     "id": "pipe_tobacco",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tobacco pipe" },
     "description": "A hand-carved wooden smoking pipe.  It's designed to facilitate the consumption of fire-cured tobacco leaves.",
     "weight": "100 g",

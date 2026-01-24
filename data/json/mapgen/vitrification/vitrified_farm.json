@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "vitrified_farm_0",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
@@ -80,7 +79,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "vitrified_farm_1",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
@@ -131,7 +129,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "vitrified_farm_-1",
     "//": "Unfinished basement",
     "object": {
@@ -193,7 +190,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "vitrified_farm_2",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
@@ -228,7 +224,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "vitrified_orchard",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
@@ -265,7 +260,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "vitrified_orchard_sky",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
@@ -300,7 +294,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "vitrified_sky",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
@@ -309,7 +302,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "livingroom_5x5_vitrified",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -328,7 +320,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "diningroom_6x6_vitrified",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -347,7 +338,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "firepit_5x5_vitrified",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -365,7 +355,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "greenhouse_6x6_vitrified",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -386,7 +375,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "home_office_4x4_vitrified",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -417,7 +405,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bedroom_4x4_child_vitrified",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -435,7 +422,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bedroom_5x4_adult_vitrified",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -454,7 +440,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "statue_vitrified_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],

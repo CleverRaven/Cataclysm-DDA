@@ -28,6 +28,12 @@
     "modified_bodyparts": [ { "lose": "head" }, { "gain": "big_head" } ]
   },
   {
+    "id": "ENCH_DEBUG_WEIGHT_MODIFIER",
+    "type": "enchantment",
+    "condition": "ALWAYS",
+    "values": [ { "value": "WEIGHT", "multiply": -0.5 } ]
+  },
+  {
     "type": "enchantment",
     "id": "RM13",
     "condition": "ACTIVE",
@@ -36,6 +42,12 @@
       { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
       { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_DEBUG_FREE_DODGES",
+    "condition": "ALWAYS",
+    "values": [ { "value": "FREE_DODGES", "add": 10 } ]
   },
   {
     "type": "enchantment",

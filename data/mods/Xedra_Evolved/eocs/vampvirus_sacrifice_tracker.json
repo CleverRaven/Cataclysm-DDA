@@ -25,6 +25,7 @@
     "effect": [
       { "finish_mission": "KILL_YOUR_BEST_FRIEND", "success": true },
       { "u_add_trait": "VAMPIRE4" },
+      { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
       { "run_eocs": "EOC_REMOVE_DREAM_MAGIC" },
       { "u_add_effect": "vampire_virus_ascendant", "intensity": 1, "duration": "PERMANENT" },
       { "u_message": "Your eyes redden even more as you pass a point of no return.", "type": "mixed" }

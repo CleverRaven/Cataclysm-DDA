@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "elf_workshop_roof" ],
     "object": {
       "rows": [

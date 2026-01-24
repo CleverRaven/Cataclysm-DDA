@@ -1,3 +1,19 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Proficiencies](#proficiencies)
+  - [Skills and proficiencies](#skills-and-proficiencies)
+  - [Proficiency trees or graphs](#proficiency-trees-or-graphs)
+  - [Effects of gaining proficiency](#effects-of-gaining-proficiency)
+  - [Proficiency categories](#proficiency-categories)
+  - [Definition](#definition)
+    - [JSON fields](#json-fields)
+    - [time multiplier and skill penalty](#time-multiplier-and-skill-penalty)
+    - [bonuses](#bonuses)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Proficiencies
 
 Proficiencies are specializations or fields of expertise a character may have. Having a proficiency
@@ -79,7 +95,7 @@ and their multipliers may be given separately in the proficiency JSON and any re
 In order to better organize proficiencies in the in-game UI, each proficiency belongs to a specific
 category pointing to a JSON defined `"proficiency_category"` object:
 
-```JSON
+```jsonc
 {
   "type": "proficiency_category",
   "id": "prof_archery",
@@ -97,7 +113,7 @@ skills, but don't have to.  For example some are named "metalwork", "wilderness"
 
 Within these are the standard list of JSON objects having "type": "proficiency".  For example:
 
-```JSON
+```jsonc
 [
   {
     "type": "proficiency",
@@ -151,7 +167,7 @@ for lacking the proficiency when crafting a recipe that involves it.
 The keys of the `bonuses` object correspond to what bonuses are - e.g. the `archery` key marks
 bonuses used for `archery`.  The general format is:
 
-```json
+```jsonc
   "bonuses": {
     "key": [ { "type": "string", "value": float } ]
   }
@@ -159,7 +175,7 @@ bonuses used for `archery`.  The general format is:
 
 Using the example from above:
 
-```JSON
+```jsonc
   "bonuses": {
     "archery": [ { "type": "strength", "value": 1 } ]
   }

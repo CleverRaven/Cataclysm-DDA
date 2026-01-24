@@ -38,9 +38,9 @@
     "result_eocs": [
       {
         "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_BEGIN",
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 500" ] },
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 3000" ] },
         "effect": [
-          { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] },
+          { "math": [ "u_vitamin('human_blood_vitamin') -= 3000" ] },
           { "u_add_effect": "effect_vampire_studying_blood_gifts", "duration": "8 hours" },
           { "u_assign_activity": "ACT_VAMPIRE_STUDYING_BLOOD_GIFTS", "duration": "8 hours" },
           { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SWITCHER", "time_in_future": [ "120 minutes", "180 minutes" ] }
@@ -89,7 +89,9 @@
           "VAMPIRIC_STRENGTH",
           "VAMPIRIC_RESILIENCE",
           "VAMPIRE_HEIGHTENED_SENSES",
-          "VAMPIRE_SILENT_MOVE"
+          "VAMPIRE_SILENT_MOVE",
+          "VAMPIRE_HEALTH_BONUS",
+          "VAMPIRE_SENSE_CHILDREN_OF_THE_NIGHT"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ],
@@ -111,7 +113,10 @@
           "VAMPIRE_FEAR_GAZE",
           "VAMPIRE_WALK_ON_WALLS",
           "VAMPIRE_BEAST_CLAWS",
-          "VAMPIRE_SEE_HEAT"
+          "VAMPIRE_SEE_HEAT",
+          "VAMPIRIC_STEALTH_BONUS",
+          "VAMPIRE_FEIGN_DEATH",
+          "VAMPIRE_BLOOD_TEMPORARY_BOOST"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ],
@@ -126,7 +131,18 @@
     "condition": { "u_has_effect": "effect_vampire_studying_blood_gifts" },
     "effect": [
       {
-        "u_roll_remainder": [ "BLOODHASTE", "MAGICFORBLOOD", "HYPNOTIC_GAZE", "BLOODBANK", "VAMPIRE_COMMAND_BEAST", "VAMPIRE_EARTH_SLUMBER" ],
+        "u_roll_remainder": [
+          "BLOODHASTE",
+          "MAGICFORBLOOD",
+          "HYPNOTIC_GAZE",
+          "BLOODBANK",
+          "VAMPIRE_COMMAND_BEAST",
+          "VAMPIRE_EARTH_SLUMBER",
+          "VAMPIRE_CARDIO_BONUS",
+          "VAMPIRE_MOTION_ALARM",
+          "VAMPIRE_BONUS_HP",
+          "VAMPIRE_RENDING_TEETH"
+        ],
         "type": "mutation",
         "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ],
         "false_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_02" ]
@@ -148,7 +164,8 @@
           "VAMPIRE_NO_ILLNESS",
           "VAMPIRE_BAT_FORM",
           "VAMPIRE_WOLF_FORM",
-          "VAMPIRE_MIST_FORM"
+          "VAMPIRE_MIST_FORM",
+          "VAMPIRE_SUMMON_SHADOWS"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ],
@@ -219,7 +236,9 @@
     "effect": [
       { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
       { "u_lose_effect": "effect_vampire_all_gift_check" },
-      { "u_message": "You possess every single gift of the blood.  Nothing will be gained from further attempts." }
+      {
+        "u_message": "You possess every single gift of the blood.  Nothing will be gained from further attempts.  However, there may still be further refinements of your existing gifts to discover."
+      }
     ],
     "false_effect": [
       { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
@@ -239,5 +258,361 @@
       ]
     },
     "effect": [ { "u_lose_effect": "effect_vampire_studying_blood_gifts" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "reshuffle vampiric weaknesses",
+    "id": "xe_vampire_blood_weaknesses_reshuffle",
+    "description": "With the expenditure of a large amount of blood and time, attempt to replace your weaknesses by new ones.  This cannot increase or decrease how many weaknesses you have.",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_RESEARCH",
+    "skill_used": "deduction",
+    "difficulty": 0,
+    "time": "30 s",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_BEGIN",
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 3000" ] },
+        "effect": [
+          { "math": [ "u_vitamin('human_blood_vitamin') -= 3000" ] },
+          { "u_add_effect": "effect_vampire_reshuffling_weaknesses", "duration": "8 hours" },
+          { "u_assign_activity": "ACT_VAMPIRE_RESHUFFLING_WEAKNESSES", "duration": "8 hours" },
+          {
+            "run_eocs": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_SWITCHER",
+            "time_in_future": [ "120 minutes", "180 minutes" ]
+          }
+        ],
+        "false_effect": [ { "u_message": "You do not have enough blood to try to change your weaknesses.", "type": "bad" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_SWITCHER",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_vampire_reshuffling_weaknesses" },
+        { "not": { "u_has_effect": "effect_vampire_recently_reshuffled_weaknesses" } }
+      ]
+    },
+    "//": "Switch statement below determines results.  The higher your intelligence and deduction, the easier it is to successfully reshuffle vampiric weaknesses.",
+    "effect": {
+      "switch": { "math": [ "(u_val('intelligence') / 2) + u_skill('deduction') + (rand(9) + 1) + (rand(9) + 1)" ] },
+      "cases": [
+        {
+          "case": 0,
+          "effect": [ { "run_eocs": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_SWITCHER", "time_in_future": [ "90 minutes", "150 minutes" ] } ]
+        },
+        { "case": 17, "effect": [ { "run_eocs": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_SUCCESS" } ] }
+      ]
+    }
+  },
+  {
+    "id": "ACT_VAMPIRE_RESHUFFLING_WEAKNESSES",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "reshuffling vampiric weaknesses",
+    "based_on": "time",
+    "completion_eoc": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_FAILURE"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_SUCCESS",
+    "effect": [
+      { "u_message": "Your current weaknesses vanish, but are immediately replaced by new ones.", "popup": true },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_MORE_BLOOD" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_GROTESQUE" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_EARTH_SLEEP" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_HOLY_BURN" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_VAST_WATER_BURN" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_ANIMAL_HATE" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_FIRE_VULNERABLE" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_COLD_BLOODED" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_BLOOD_CRAVING" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_NO_FUN" },
+      { "u_lose_effect": "vampire_need_living_blood" },
+      { "u_lose_morale": "morale_vw_no_fun" },
+      { "run_eocs": "EOC_VAMPIRE_ADD_WEAKNESSES" },
+      { "u_lose_effect": "effect_vampire_reshuffling_weaknesses" },
+      { "u_add_effect": "effect_vampire_recently_reshuffled_weaknesses", "duration": "5 days" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_FAILURE",
+    "effect": [
+      { "u_lose_effect": "effect_vampire_reshuffling_weaknesses" },
+      { "u_message": "Your attempts are fruitless.  You'll have to try again." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_CANCELLING_ACTIVITY_CANCELS_WEAKNESS_RESHUFFLE",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_VAMPIRE_RESHUFFLING_WEAKNESSES", { "context_val": "activity" } ] },
+        { "u_has_effect": "effect_vampire_reshuffling_weaknesses" }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_vampire_reshuffling_weaknesses" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "anathema_blood_catalyst_unready",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "cooking",
+    "skills_required": [ "cooking", 2 ],
+    "difficulty": 2,
+    "flags": [ "SECRET" ],
+    "time": "10 m",
+    "components": [
+      [ [ "vampire_blood", 10 ] ],
+      [
+        [ "blood_acid", 10 ],
+        [ "blood_mi-go", 10 ],
+        [ "blood_tainted", 10 ],
+        [ "blood_acid_plant", 10 ],
+        [ "blood_acid_insect", 10 ],
+        [ "blood_acid_underground", 10 ]
+      ],
+      [
+        [ "formic_acid", 3 ],
+        [ "chem_acetic_acid", 3 ],
+        [ "chem_nitric_acid", 3 ],
+        [ "chem_sulphuric_acid", 3 ],
+        [ "chem_muriatic_acid", 3 ]
+      ],
+      [
+        [ "venom_bee", 6 ],
+        [ "venom_wasp", 6 ],
+        [ "venom_paralytic", 6 ],
+        [ "conc_venom", 3 ],
+        [ "conc_paralytic", 3 ]
+      ],
+      [ [ "nicotine_liquid", 100 ], [ "datura_seed", 10 ], [ "chem_toluene", 50 ], [ "leech_flower", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "research blood gift refinements",
+    "id": "xe_vampire_blood_gift_refinement_research",
+    "description": "With the expenditure of a large amount of blood and time, attempt to discover new applications of your existing gifts of the blood.",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_RESEARCH",
+    "skill_used": "deduction",
+    "difficulty": 0,
+    "time": "30 s",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_BEGIN",
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 4500" ] },
+        "effect": [
+          { "math": [ "u_vitamin('human_blood_vitamin') -= 4500" ] },
+          { "u_add_effect": "effect_vampire_studying_blood_gifts", "duration": "8 hours" },
+          { "u_assign_activity": "ACT_VAMPIRE_STUDYING_BLOOD_GIFTS", "duration": "8 hours" },
+          {
+            "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SWITCHER",
+            "time_in_future": [ "240 minutes", "360 minutes" ]
+          }
+        ],
+        "false_effect": [ { "u_message": "You do not have enough blood to experiment with your gifts.", "type": "bad" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SWITCHER",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_vampire_studying_blood_gifts" },
+        { "not": { "u_has_effect": "effect_vampire_recently_learned_blood_gifts" } }
+      ]
+    },
+    "//": "See the comment under EOC_XE_VAMPIRE_BLOOD_RESEARCH_SWITCHER for the explanation of the math.  Refining blood gifts is more difficult than discovering ones that the disease could naturally unlock, hence the correspondingly higher difficulty.",
+    "effect": {
+      "if": { "math": [ "( (u_val('intelligence') / 2) + u_skill('deduction') + (rand(9) + 1) + (rand(9) + 1) ) > 26" ] },
+      "then": [
+        {
+          "run_eoc_selector": [
+            "EOC_REFINE_VIGOR_MORTIS_SMASHING",
+            "EOC_REFINE_BLOOD_DRIVEN_SPEED_WATER_RUNNING",
+            "EOC_REFINE_SANGUINE_RESILIENCE_INVINCIBILITY",
+            "EOC_REFINE_HEIGHTENED_SENSES_SEE_INVISIBLE",
+            "EOC_REFINE_VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH",
+            "EOC_REFINE_VAMPIRE_BLOOD_TEMPORARY_BOOST_REFINEMENT_MIND_BOOST",
+            "EOC_REFINE_VAMPIRE_BAT_FORM_REFINEMENT_SWARM",
+            "EOC_REFINE_VAMPIRE_CARDIO_BONUS_REFINEMENT_STAMINAFORBLOOD",
+            "EOC_NONE"
+          ],
+          "allow_cancel": true,
+          "names": [
+            "Refine Vigor Mortis: Unholy Destruction",
+            "Refine Blood-driven Speed: Zephyr",
+            "Refine Sanguine Resilience: Flesh of Marble",
+            "Refine Predator's Senses/Crimson Vision: Soulsight",
+            "Refine Corpse's Countenance/Torpor: Corpse's Torpor",
+            "Refine Carmine Vitality: Carmine Clarity",
+            "Refine Shape of the Night Flier: Shape of the Night Fliers' Swarm",
+            "Refine Incarnadine Energy/Unholy Endurance: Incarnadine Relentlessness",
+            "Nothing"
+          ],
+          "title": "Your research uncovers…",
+          "descriptions": [
+            "From the strength boost of Vigor Mortis, you can focus that strength against inanimate objects to smash through barriers with incredible force.",
+            "With your Blood-driven Speed, move so quickly that you can even run on water.",
+            "Improve Sanguine Resilience so the first attack after activating it shatters on your undead flesh.",
+            "Combine your Predator's Senses with your Crimson Vision and learn to see even invisible creatures.",
+            "Combine your Corpse's Countenance with your Torpor so that you gain some of each's benefits while using the other.",
+            "Refine your Carmine Vitality so it increases intelligence and perception as well.",
+            "Modify your Shape of the Night Flier to turn in a multitude of bats, making you as durable in this form as you are in your default form.",
+            "Expand your Incarnadine Energy so that each use of Unholy Endurance temporarily increases its effect.",
+            "End your research."
+          ]
+        }
+      ],
+      "else": [ { "u_message": "Your experiments are fruitless.  You'll have to try again.", "type": "bad" } ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS",
+    "effect": { "u_add_effect": "effect_vampire_recently_learned_blood_gifts", "duration": "12 days" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_VIGOR_MORTIS_SMASHING",
+    "condition": {
+      "and": [ { "u_has_trait": "VAMPIRIC_STRENGTH" }, { "not": { "u_has_trait": "VAMPIRIC_STRENGTH_REFINEMENT_SMASHING_TILES" } } ]
+    },
+    "effect": [
+      { "u_add_trait": "VAMPIRIC_STRENGTH_REFINEMENT_SMASHING_TILES" },
+      { "u_message": "You learned Unholy Devastation, a new use for your Vigor Mortis Blood Art.", "type": "good" },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_BLOOD_DRIVEN_SPEED_WATER_RUNNING",
+    "condition": { "and": [ { "u_has_trait": "BLOODHASTE" }, { "not": { "u_has_trait": "BLOODHASTE_REFINEMENT_WATER_RUN" } } ] },
+    "effect": [
+      { "u_add_trait": "BLOODHASTE_REFINEMENT_WATER_RUN" },
+      { "u_message": "You learned Zephyr, a new use for your Blood-driven Speed Blood Art.", "type": "good" },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_SANGUINE_RESILIENCE_INVINCIBILITY",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRIC_RESILIENCE" },
+        { "not": { "u_has_trait": "VAMPIRIC_RESILIENCE_REFINEMENT_INVINCIBILITY" } }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "VAMPIRIC_RESILIENCE_REFINEMENT_INVINCIBILITY" },
+      {
+        "u_message": "You learned Flesh of Marble, a new use for your Sanguine Resilience Blood Art.",
+        "type": "good"
+      },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_HEIGHTENED_SENSES_SEE_INVISIBLE",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRE_HEIGHTENED_SENSES" },
+        { "u_has_trait": "VAMPIRE_SEE_HEAT" },
+        { "not": { "u_has_trait": "VAMPIRE_HEIGHTENED_SENSES_REFINEMENT_SEE_INVISIBLE" } }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "VAMPIRE_HEIGHTENED_SENSES_REFINEMENT_SEE_INVISIBLE" },
+      {
+        "u_message": "You learned Soulsight, a new use for your Predator's Senses and Crimson Vision Blood Arts.",
+        "type": "good"
+      },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRE_FEIGN_DEATH" },
+        { "u_has_trait": "VAMPIRE_TORPOR" },
+        { "not": { "u_has_trait": "VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH" } }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH" },
+      {
+        "u_message": "You learned Corpse's Torpor, a new use for your Corpse's Countenance and Torpor Blood Arts.",
+        "type": "good"
+      },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_VAMPIRE_BLOOD_TEMPORARY_BOOST_REFINEMENT_MIND_BOOST",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST" },
+        { "not": { "u_has_trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST_REFINEMENT_MIND_BOOST" } }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST_REFINEMENT_MIND_BOOST" },
+      { "u_message": "You learned Carmine Clarity, a new use for your Carmine Vitality Blood Art.", "type": "good" },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_VAMPIRE_BAT_FORM_REFINEMENT_SWARM",
+    "condition": { "and": [ { "u_has_trait": "VAMPIRE_BAT_FORM" }, { "not": { "u_has_trait": "VAMPIRE_BAT_FORM_REFINEMENT_SWARM" } } ] },
+    "effect": [
+      { "u_add_trait": "VAMPIRE_BAT_FORM_REFINEMENT_SWARM" },
+      {
+        "u_message": "You learned Shape of the Night Fliers' Swarm, a new use for your Shape of the Night Flier Blood Art.",
+        "type": "good"
+      },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_VAMPIRE_CARDIO_BONUS_REFINEMENT_STAMINAFORBLOOD",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRE_CARDIO_BONUS" },
+        { "u_has_trait": "STAMINAFORBLOOD" },
+        { "not": { "u_has_trait": "VAMPIRE_CARDIO_BONUS_REFINEMENT_STAMINAFORBLOOD" } }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "VAMPIRE_CARDIO_BONUS_REFINEMENT_STAMINAFORBLOOD" },
+      {
+        "u_message": "You learned Incarnadine Relentlessness, a new use for your Incarnadine Energy and Unholy Endurance Blood Arts.",
+        "type": "good"
+      },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
   }
 ]

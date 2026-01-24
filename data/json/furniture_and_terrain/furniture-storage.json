@@ -24,7 +24,9 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 12 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 12 ] }, { "item": "splinter", "count": 1 } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "shoot": { "reduce_damage": [ 5, 20 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 15, 45 ] }
   },
@@ -55,7 +57,9 @@
         { "item": "nail", "charges": [ 4, 20 ] },
         { "item": "splinter", "count": [ 6, 10 ] },
         { "item": "wood_panel", "count": [ 0, 1 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -107,7 +111,9 @@
         { "item": "nail", "charges": [ 2, 10 ] },
         { "item": "sheet_cotton", "count": 1 },
         { "item": "cotton_patchwork", "count": [ 8, 12 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -142,7 +148,9 @@
         { "item": "nail", "charges": [ 2, 10 ] },
         { "item": "sheet_cotton", "count": 1 },
         { "item": "cotton_patchwork", "count": [ 8, 12 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -210,32 +218,26 @@
     "id": "f_cardboard_box",
     "name": "large cardboard box",
     "symbol": "X",
-    "description": "A large box made of brown corrugated paper.  Could contain a number of things, and you could even hide inside.  Considering it only has two small flaps for carrying, it's very hard to see out of, and won't do anything to protect you if you're found.",
+    "description": "A large box made of brown corrugated paper.  Could contain a number of things.",
     "color": "brown",
     "move_cost_mod": 7,
     "coverage": 90,
     "comfort": 1,
     "floor_bedding_warmth": 200,
     "required_str": 3,
-    "deconstruct": { "items": [ { "item": "box_large", "count": 1 } ] },
+    "item": "box_large",
     "max_volume": "324 L",
     "deployed_item": "box_large",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "HIDE_PLACE", "NO_SIGHT", "CONTAINER" ],
-    "bash": {
-      "str_min": 2,
-      "str_max": 15,
-      "sound": "crumple!",
-      "sound_fail": "thud.",
-      "items": [ { "item": "cardboard", "count": [ 150, 180 ] } ]
-    }
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "CONTAINER" ],
+    "bash": { "str_min": 2, "str_max": 15, "sound": "crumple!", "sound_fail": "thud." }
   },
   {
     "type": "furniture",
     "id": "f_cardboard_box_large_reinforced",
     "name": "reinforced large cardboard box",
     "symbol": "X",
-    "description": "A large box made of brown corrugated paper that was doubled up for extra strength.  Could contain a number of things, and you could even hide inside.  Considering it only has two small flaps for carrying, it's very hard to see out of, and won't do anything to protect you if you're found.",
+    "description": "A large box made of brown corrugated paper that was doubled up for extra strength.  Could contain a number of things.",
     "color": "brown",
     "looks_like": "f_cardboard_box",
     "move_cost_mod": 7,
@@ -243,18 +245,12 @@
     "comfort": 1,
     "floor_bedding_warmth": 200,
     "required_str": 3,
-    "deconstruct": { "items": [ { "item": "box_large_reinforced", "count": 1 } ] },
+    "item": "box_large_reinforced",
     "max_volume": "324 L",
     "deployed_item": "box_large_reinforced",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "HIDE_PLACE", "NO_SIGHT", "CONTAINER" ],
-    "bash": {
-      "str_min": 3,
-      "str_max": 16,
-      "sound": "crumple!",
-      "sound_fail": "thud.",
-      "items": [ { "item": "cardboard", "count": [ 300, 360 ] } ]
-    }
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "CONTAINER" ],
+    "bash": { "str_min": 3, "str_max": 16, "sound": "crumple!", "sound_fail": "thud." }
   },
   {
     "type": "furniture",
@@ -266,7 +262,7 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": 8,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "NO_SELF_CONNECT" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 6 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
     },
@@ -276,7 +272,9 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -312,7 +310,9 @@
         { "item": "nail", "charges": [ 4, 8 ] },
         { "item": "glass_shard", "count": [ 16, 100 ] },
         { "item": "scrap", "count": [ 0, 2 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -335,7 +335,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -361,7 +361,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -389,7 +389,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -415,7 +415,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -442,7 +442,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -509,7 +509,9 @@
         { "item": "splinter", "count": [ 4, 16 ] },
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
         { "item": "scrap", "count": [ 4, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -539,7 +541,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
         { "item": "pipe", "count": 1 },
         { "item": "wheel_caster", "count": [ 0, 1 ] }
@@ -559,11 +561,11 @@
     "hacksaw": {
       "duration": "2 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "steel_chunk", "count": 1 } ]
+      "byproducts": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "lc_steel_chunk", "count": 1 } ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
     "rotates_to": "INDOORFLOOR",
-    "oxytorch": { "duration": "1 seconds", "byproducts": [ { "item": "steel_chunk", "count": [ 2, 6 ] } ] },
+    "oxytorch": { "duration": "1 seconds", "byproducts": [ { "item": "lc_steel_chunk", "count": [ 2, 6 ] } ] },
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": [ 6, 12 ] },
@@ -579,7 +581,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
         { "item": "pipe", "count": 1 }
       ]
@@ -616,7 +618,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
         { "item": "pipe", "count": 1 }
       ]
@@ -648,7 +650,9 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 20, 40 ] }, { "item": "splinter", "count": 12 } ]
+      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 20, 40 ] }, { "item": "splinter", "count": 12 } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -671,7 +675,9 @@
       "str_max": 30,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 3, 8 ] }, { "item": "nail", "charges": [ 1, 3 ] }, { "item": "2x4", "count": 1 } ]
+      "items": [ { "item": "splinter", "count": [ 3, 8 ] }, { "item": "nail", "charges": [ 1, 3 ] }, { "item": "2x4", "count": 1 } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -715,7 +721,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -742,7 +748,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -768,7 +774,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -785,14 +791,8 @@
     "required_str": 5,
     "max_volume": "40 L",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "SMALL_HIDE", "EASY_DECONSTRUCT" ],
-    "bash": {
-      "str_min": 1,
-      "str_max": 1,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "trashcan", "count": 1, "damage": [ 2, 4 ] } ]
-    },
-    "deconstruct": { "items": [ { "item": "trashcan", "count": 1 } ] }
+    "bash": { "str_min": 1, "str_max": 1, "sound": "smash!", "sound_fail": "whump." },
+    "item": "trashcan"
   },
   {
     "type": "furniture",
@@ -810,7 +810,7 @@
     "deconstruct": {
       "items": [
         { "item": "sheet_metal_small", "count": [ 10, 14 ] },
-        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 6, 12 ] }
       ]
     },
@@ -821,7 +821,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "sheet_metal_small", "count": [ 3, 6 ] },
-        { "item": "steel_chunk", "count": [ 6, 8 ] },
+        { "item": "ch_steel_chunk", "count": [ 6, 8 ] },
         { "item": "scrap", "count": [ 8, 16 ] }
       ]
     }
@@ -837,7 +837,7 @@
     "move_cost_mod": -1,
     "coverage": 85,
     "required_str": 9,
-    "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "SMALL_HIDE" ],
+    "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "SMALL_HIDE", "NO_SELF_CONNECT" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 20 }, { "item": "nail", "charges": [ 16, 24 ] }, { "item": "pipe", "count": 2 } ]
     },
@@ -853,7 +853,9 @@
         { "item": "splinter", "count": [ 4, 10 ] },
         { "item": "pipe", "count": [ 0, 1 ] },
         { "item": "scrap", "count": [ 2, 5 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -882,7 +884,9 @@
         { "item": "splinter", "count": [ 4, 10 ] },
         { "item": "pipe", "count": [ 0, 1 ] },
         { "item": "scrap", "count": [ 2, 5 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -973,7 +977,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 3, 12 ] },
-        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "hc_steel_chunk", "count": [ 3, 6 ] },
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
         { "item": "pipe", "count": 4 }
       ]
@@ -1014,7 +1018,9 @@
         { "item": "sheet_metal_small", "count": [ 6, 12 ] },
         { "item": "scrap", "count": [ 10, 20 ] },
         { "item": "splinter", "count": 1 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1086,7 +1092,9 @@
       "str_max": 30,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 2, 4 ] } ]
+      "items": [ { "item": "2x4", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 2, 4 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1109,41 +1117,23 @@
         { "item": "glass_sheet", "count": 1 }
       ]
     },
-    "lockpick_result": "f_board_map_o",
-    "lockpick_message": "With a satisfying click, the locked glass panel opens.",
-    "examine_action": "locked_object_pickable",
-    "bash": {
-      "str_min": 6,
-      "str_max": 20,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 12,
-      "furn_set": "f_board_map_b",
-      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_board_map_o",
-    "name": "open map board",
-    "looks_like": "f_bulletin",
-    "description": "A successfully picked metal board with an open glass panel used to display a map.",
-    "symbol": "6",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 75,
-    "required_str": -1,
-    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
-    "deconstruct": {
-      "items": [
-        { "item": "pipe", "count": 4 },
-        { "item": "sheet_metal", "count": 1 },
-        { "item": "hinge", "count": 2 },
-        { "item": "glass_sheet", "count": 1 }
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "eoc_pick_and_read_map",
+          "effect": [
+            {
+              "u_map_run_item_eocs": "all",
+              "loc": { "context_val": "pos" },
+              "accessible": false,
+              "search_data": [ { "category": "maps" } ],
+              "true_eocs": [ { "id": "EOC_ACTIVATE_MAP", "effect": [ { "u_activate": "reveal_map" } ] } ]
+            }
+          ]
+        }
       ]
     },
-    "rotates_to": "INDOORFLOOR",
     "bash": {
       "str_min": 6,
       "str_max": 20,
@@ -1341,8 +1331,8 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 7 ] }
       ]
@@ -1388,8 +1378,8 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 7 ] }
       ]
@@ -1399,21 +1389,21 @@
     "type": "furniture",
     "id": "f_dumpster",
     "name": "dumpster",
-    "description": "A large metal dumpster that will likely not be getting picked up by the city's waste management any time soon.  Despite the unpleasant nature of climbing inside, it could make for a viable hiding spot.",
+    "description": "A large metal dumpster that will likely not be getting picked up by the city's waste management any time soon.  Despite the unpleasant nature of climbing inside, it could make for a viable hiding spot.  Also high enough to help you climb buildings.",
     "symbol": "{",
     "color": "green",
     "move_cost_mod": 3,
     "coverage": 70,
     "required_str": 16,
     "max_volume": "1500 L",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "NO_SIGHT", "FIRE_CONTAINER", "LIQUIDCONT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "NO_SIGHT", "FIRE_CONTAINER", "LIQUIDCONT", "CLIMBABLE" ],
     "deconstruct": {
       "items": [
         { "item": "frame", "count": [ 2, 3 ] },
         { "item": "sheet_metal", "count": [ 10, 12 ] },
         { "item": "sheet_metal_small", "count": [ 60, 72 ] },
-        { "item": "steel_lump", "count": [ 12, 17 ] },
-        { "item": "steel_chunk", "count": [ 27, 33 ] },
+        { "item": "lc_steel_lump", "count": [ 12, 17 ] },
+        { "item": "lc_steel_chunk", "count": [ 27, 33 ] },
         { "item": "scrap", "count": [ 44, 55 ] }
       ]
     },
@@ -1426,8 +1416,8 @@
         { "item": "frame", "count": [ 0, 2 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "sheet_metal_small", "count": [ 30, 90 ] },
-        { "item": "steel_lump", "count": [ 10, 26 ] },
-        { "item": "steel_chunk", "count": [ 61, 173 ] },
+        { "item": "lc_steel_lump", "count": [ 10, 26 ] },
+        { "item": "lc_steel_chunk", "count": [ 61, 173 ] },
         { "item": "scrap", "count": [ 57, 164 ] }
       ]
     }
@@ -1446,20 +1436,14 @@
     "flags": [ "NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT", "EASY_DECONSTRUCT" ],
     "examine_action": "keg",
     "keg_capacity": "11250 ml",
-    "deconstruct": { "items": [ { "item": "churn", "count": 1 } ] },
+    "item": "churn",
     "bash": {
       "str_min": 12,
       "str_max": 50,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "2x4", "count": [ 6, 12 ] },
-        { "item": "nail", "charges": [ 4, 8 ] },
-        { "item": "water_faucet", "prob": 50 },
-        { "item": "sheet_metal_small", "count": [ 6, 12 ] },
-        { "item": "scrap", "count": [ 10, 20 ] },
-        { "item": "splinter", "count": [ 1, 20 ] }
-      ]
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1586,20 +1570,8 @@
     "deployed_item": "foot_locker",
     "examine_action": "deployed_furniture",
     "max_volume": "68208 ml",
-    "deconstruct": { "items": [ { "item": "foot_locker", "count": 1 } ] },
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "sheet_metal_small", "count": [ 3, 8 ] },
-        { "item": "lock", "count": [ 0, 1 ] },
-        { "item": "scrap", "charges": [ 3, 15 ] },
-        { "item": "hinge", "count": [ 0, 2 ] },
-        { "item": "nuts_bolts", "charges": [ 2, 8 ] }
-      ]
-    }
+    "item": "foot_locker",
+    "bash": { "str_min": 12, "str_max": 40, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -1616,20 +1588,8 @@
     "deployed_item": "foot_locker_aluminum",
     "examine_action": "deployed_furniture",
     "max_volume": "67669 ml",
-    "deconstruct": { "items": [ { "item": "foot_locker_aluminum", "count": 1 } ] },
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "material_aluminium_ingot", "count": [ 3, 8 ] },
-        { "item": "lock", "count": [ 0, 1 ] },
-        { "item": "scrap_aluminum", "count": [ 3, 15 ] },
-        { "item": "hinge", "count": [ 0, 2 ] },
-        { "item": "nuts_bolts", "charges": [ 2, 8 ] }
-      ]
-    }
+    "item": "foot_locker_aluminum",
+    "bash": { "str_min": 12, "str_max": 40, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -1645,18 +1605,8 @@
     "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED", "EASY_DECONSTRUCT" ],
     "examine_action": "keg",
     "keg_capacity": "1635 L",
-    "deconstruct": { "items": [ { "item": "432gal_drum_rubber", "count": 1 } ] },
-    "bash": {
-      "str_min": 90,
-      "str_max": 150,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "rubber_tire_chunk", "count": [ 40, 60 ] },
-        { "item": "scrap", "count": [ 50, 80 ] },
-        { "item": "water_faucet", "count": [ 0, 2 ] }
-      ]
-    }
+    "item": "432gal_drum_rubber",
+    "bash": { "str_min": 90, "str_max": 150, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -1720,5 +1670,19 @@
         { "item": "pallet", "count": 1 }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_exodii_kiln",
+    "name": "Exodii kiln",
+    "looks_like": "f_heavy_duty_freezer",
+    "description": "An imposing kiln produced by the Exodii, used to produce their ceramic armor.",
+    "symbol": "H",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "coverage": 1000,
+    "required_str": 10,
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
+    "item": "exodii_kiln"
   }
 ]

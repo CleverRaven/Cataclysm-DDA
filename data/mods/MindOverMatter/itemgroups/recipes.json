@@ -21,6 +21,7 @@
       [ "schematics_instability_remover", 5 ],
       [ "schematics_transporters", 3 ],
       [ "schematics_psionic_purifier", 1 ],
+      [ "schematics_panaceus", 1 ],
       [ "schematics_telepathic_focusing_tool", 1 ]
     ]
   },
@@ -28,7 +29,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "psionic_recipes_powers",
-    "items": [ [ "phavian_psionic_martial_power_book", 1 ], [ "phavian_psionic_telepathic_mental_engineering_book", 1 ] ]
+    "items": [
+      [ "phavian_psionic_martial_power_book", 1 ],
+      [ "phavian_psionic_telepathic_mental_engineering_book", 1 ],
+      [ "phavian_psionic_teleportation_combat_book", 1 ]
+    ]
   },
   {
     "type": "item_group",
@@ -52,6 +57,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "psionic_recipes_medicine",
-    "items": [ [ "schematics_instability_remover", 5 ], [ "schematics_noetic_resilience", 3 ], [ "schematics_psionic_purifier", 1 ] ]
+    "items": [
+      [ "schematics_instability_remover", 5 ],
+      [ "schematics_noetic_resilience", 3 ],
+      [ "schematics_psionic_purifier", 1 ],
+      [ "schematics_panaceus", 1 ]
+    ]
   }
 ]

@@ -22,6 +22,13 @@ class Creature;
 class JsonObject;
 class monster;
 
+class invalid_mattack_actor : public mattack_actor
+{
+        bool call( monster & ) const override;
+        std::unique_ptr<mattack_actor> clone() const override;
+        void load_internal( const JsonObject &, const std::string & ) override {}
+};
+
 class leap_actor : public mattack_actor
 {
     public:
@@ -71,6 +78,22 @@ class mon_spellcasting_actor : public mattack_actor
         void load_internal( const JsonObject &obj, const std::string &src ) override;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
+};
+
+class mon_eoc_actor : public mattack_actor
+{
+    public:
+        int range = 1;
+        bool allow_no_target = false;
+        std::vector<effect_on_condition_id> eoc;
+
+        mon_eoc_actor() = default;
+        ~mon_eoc_actor() override = default;
+
+        void load_internal( const JsonObject &obj, const std::string &src ) override;
+        bool call( monster & ) const override;
+        std::unique_ptr<mattack_actor> clone() const override;
+
 };
 
 struct grab {

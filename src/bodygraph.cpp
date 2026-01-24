@@ -20,7 +20,6 @@
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "input_context.h"
-#include "make_static.h"
 #include "memory_fast.h"
 #include "output.h"
 #include "point.h"
@@ -37,6 +36,8 @@
 #define BPGRAPH_MAXCOLS 40
 
 static const bodygraph_id bodygraph_full_body( "full_body" );
+
+static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 
 namespace
 {
@@ -84,7 +85,7 @@ void bodygraph::check_all()
     bodygraph_factory.check();
 }
 
-void bodygraph::load( const JsonObject &jo, const std::string_view )
+void bodygraph::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "parent_bodypart", parent_bp );
     optional( jo, was_loaded, "fill_sym", fill_sym );
@@ -340,7 +341,7 @@ void bodygraph_display::draw_borders()
     bh_borders.draw_border( w_border, c_white );
 
     const int first_win_width = partlist_width;
-    auto center_txt_start = [&first_win_width]( const std::string_view txt ) {
+    auto center_txt_start = [&first_win_width]( std::string_view txt ) {
         return 2 + first_win_width + ( BPGRAPH_MAXCOLS / 2 - utf8_width( txt, true ) / 2 );
     };
 
@@ -518,8 +519,8 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     info_txt.emplace_back( string_format( "%s: %d%%", colorize( _( "Wetness" ), c_magenta ),
                                           static_cast<int>( info.wetness * 100.0f ) ) );
     // part temperature
-    const bool temp_precise = u->cache_has_item_with( STATIC( flag_id( "THERMOMETER" ) ) ) ||
-                              u->has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) );
+    const bool temp_precise = u->cache_has_item_with( json_flag_THERMOMETER ) ||
+                              u->has_flag( json_flag_THERMOMETER );
     const units::temperature temp = units::from_fahrenheit( info.temperature.first / 50.0 );
     info_txt.emplace_back( string_format( "%s: %s", colorize( _( "Body temp" ), c_magenta ),
                                           temp_precise ? colorize( print_temperature( temp ),
@@ -650,7 +651,7 @@ void display_bodygraph( const Character &u, const bodygraph_id &id )
 
 std::vector<std::string> get_bodygraph_lines( const Character &u,
         const bodygraph_callback &fragment_cb, const bodygraph_id &id, int width, int height,
-        const std::string_view &label )
+        std::string_view label )
 {
     width = ( width <= 0 || width > BPGRAPH_MAXCOLS ) ? BPGRAPH_MAXCOLS : width;
     height = ( height <= 0 || height > BPGRAPH_MAXROWS ) ? BPGRAPH_MAXROWS : height;

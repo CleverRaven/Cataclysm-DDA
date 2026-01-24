@@ -1,0 +1,97 @@
+[
+  {
+    "type": "snippet",
+    "category": "<kid_brand>",
+    "//": "Suitable for kids' unisex backpacks, lunchboxes, graphic tees, and similar items.",
+    "text": [
+      {
+        "id": "kid_brand_1",
+        "text": "It's covered in shooting stars and glowing comets, the kind that people used to wish upon."
+      },
+      {
+        "id": "kid_brand_2",
+        "text": "There's a big, confident-looking sun wearing sunglasses looking back at you from its surface."
+      },
+      {
+        "id": "kid_brand_3",
+        "text": "As you examine it, its cartoon owl mascot stares back at you with big, inscrutable eyes."
+      },
+      {
+        "id": "kid_brand_4",
+        "text": "It's covered in tiny paw prints, like an untrained pet left muddy tracks all over it."
+      },
+      {
+        "id": "kid_brand_5",
+        "text": "Various pieces of fruit with legs and arms beam up at you with smiling faces, as if inviting you to eat them."
+      },
+      {
+        "id": "kid_brand_6",
+        "text": "An old cartoon character smiles jauntily from its surface, celebrating their recently renewed return to television.  The TV stations shutting down stopped that nostalgia grab before it started."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<boy_brand>",
+    "//": "Suitable for boys' backpacks, lunchboxes, graphic tees, and similar items.",
+    "text": [
+      { "id": "boy_brand_1", "text": "It's decorated with a big cartoon dinosaur, crushing a helpless car beneath it." },
+      {
+        "id": "boy_brand_2",
+        "text": "It's emblazoned with the logo of a superhero who was always stopping the end of the world from happening.  Unfortunately, like most heroes, he was fictional."
+      },
+      {
+        "id": "boy_brand_3",
+        "text": "It features a colorful rocket ship fearlessly blasting off into an unexplored, starry cosmos."
+      },
+      {
+        "id": "boy_brand_4",
+        "text": "It's got a space-themed design, astronauts orbiting helplessly in the void among asteroids and alien planets with rings."
+      },
+      {
+        "id": "boy_brand_5",
+        "text": "It features a rebellious skull and crossbones, like the merciless black flag of a pirate."
+      },
+      {
+        "id": "boy_brand_6",
+        "text": "It's patterned like an aged treasure map, complete with dotted lines and an X marking the spot."
+      },
+      {
+        "id": "boy_brand_7",
+        "text": "It's covered in rampaging monster trucks, leaving criss-crossing trails of muddy tire tracks in their wake."
+      },
+      {
+        "id": "boy_brand_8",
+        "text": "There's a sporty pattern of sneakers, soccer balls, and championship trophies covering it."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<girl_brand>",
+    "//": "Suitable for girls' backpacks, lunchboxes, graphic tees, and similar items.",
+    "text": [
+      {
+        "id": "girl_brand_1",
+        "text": "Images of glowing magic wands and small fairies shedding pixie dust from their wings cover its surface."
+      },
+      { "id": "girl_brand_2", "text": "Little cartoon ballerinas pose gracefully on a pastel background." },
+      {
+        "id": "girl_brand_3",
+        "text": "Little pink hearts and sparkles decorate the space around a single large, central red heart.  A big sharp arrow has pierced straight through it, coming out the other side."
+      },
+      {
+        "id": "girl_brand_4",
+        "text": "It's covered in unicorns that prance under various rainbows arcing between white, fluffy clouds."
+      },
+      {
+        "id": "girl_brand_5",
+        "text": "Bright flowers cover it, sprouting from tangles of long green vines that converge on a central, half-hidden door."
+      },
+      {
+        "id": "girl_brand_6",
+        "text": "It's covered in cartoon kittens playfully competing over balls of yarn.  One kitten teeters precariously as if it's about to fall off the edge of the drawing."
+      }
+    ]
+  }
+]

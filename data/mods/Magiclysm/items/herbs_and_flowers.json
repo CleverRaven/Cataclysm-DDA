@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "platonic_flower",
     "name": { "str": "philosopher's flower" },
     "//2": "there will be some thoughts about how this alchemy stuff works. the relation are pretty stretchy, because I don't want to make bazillion of plants for each purpose, so don't mind if 'light' related plant will occur in 'darkness' flask effect",
@@ -19,7 +20,8 @@
     "vitamins": [ [ "vitC", 5 ], [ "iron", 5 ], [ "calcium", 5 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "moonflowers",
     "copy-from": "platonic_flower",
     "name": { "str_sp": "moonflowers" },
@@ -35,7 +37,7 @@
     "vitamins": [ [ "iron", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "kampuch",
     "name": { "str": "kampuch", "str_pl": "kampuches" },
     "//": "magical poisons, 'death' and 'bio' related",
@@ -48,7 +50,7 @@
     "material": "veggy"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "olieribos",
     "name": { "str": "olieribos sheaf", "str_pl": "olieribos sheaves" },
     "description": "Dark colored leaves and bitter roots, firmly tied together in a small sheaf.  It's not toxic, but many people have died trying to taste it, due to the airway obstruction.",
@@ -63,7 +65,8 @@
     "looks_like": "wheat"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "glowing_mushroom",
     "name": { "str_sp": "glowing mushroom caps" },
     "//": "'light' related, partially 'speed'",
@@ -80,7 +83,8 @@
     "vitamins": [ [ "redcells", 25 ], [ "vitC", 6 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "horn_moss_capsule",
     "name": { "str_sp": "horn moss capsules" },
     "//": "'healing' related",
@@ -97,7 +101,8 @@
     "vitamins": [ [ "iron", 7 ], [ "vitC", 5 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "golden_reed_stalk",
     "copy-from": "platonic_flower",
     "name": { "str_sp": "golden reed stalks" },
@@ -112,7 +117,8 @@
     "vitamins": [ [ "calcium", 12 ], [ "vitC", 3 ], [ "redcells", 2 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "wood_barnacle",
     "copy-from": "platonic_flower",
     "name": { "str": "wood barnacle" },
@@ -127,7 +133,8 @@
     "vitamins": [ [ "calcium", 8 ], [ "vitC", 5 ], [ "redcells", 3 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dragon_nail",
     "copy-from": "platonic_flower",
     "name": { "str": "dragonail" },
@@ -142,7 +149,8 @@
     "vitamins": [ [ "iron", 7 ], [ "vitC", 4 ], [ "calcium", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "moly_tuber",
     "copy-from": "platonic_flower",
     "name": { "str": "moly tuber" },
@@ -156,7 +164,8 @@
     "vitamins": [ [ "calcium", 13 ], [ "iron", 7 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fern_flower",
     "copy-from": "platonic_flower",
     "name": { "str": "fern flower" },
@@ -171,7 +180,8 @@
     "vitamins": [ [ "calcium", 8 ], [ "vitC", 4 ], [ "iron", 2 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "funnelcap_chunk",
     "copy-from": "platonic_flower",
     "name": { "str": "funnelcap chunk" },
@@ -186,7 +196,8 @@
     "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "redcells", 2 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sojourners_flower",
     "copy-from": "platonic_flower",
     "name": { "str": "sojourner's flower" },
@@ -203,7 +214,8 @@
     "vitamins": [ [ "iron", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "whiskflower",
     "copy-from": "platonic_flower",
     "name": { "str": "whiskflower" },

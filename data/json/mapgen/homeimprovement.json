@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "home_improvement" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -15,7 +14,7 @@
         " #.........rr.........# ",
         " #.........rr.........# ",
         " #:::::::::rryyyyyyyyy# ",
-        " #.........rr.........# ",
+        " #Ł........rr.........# ",
         " #111111111rrLLLLLLLLL# ",
         " #.........rr.........# ",
         " #.........rr.........# ",
@@ -64,10 +63,11 @@
       "toilets": { "&": {  } },
       "items": {
         "&": { "item": "SUS_toilet", "chance": 50 },
-        "I": { "item": "office", "chance": 30 },
-        "U": { "item": "SUS_trash_dumpster", "chance": 20, "repeat": [ 2, 4 ] },
+        "I": { "item": "SUS_office_desk", "chance": 50 },
+        "U": { "item": "SUS_trash_dumpster", "chance": 50 },
         "l": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ]
       },
+      "vehicles": { "Ł": { "vehicle": "hand_truck", "chance": 75 } },
       "place_items": [
         { "item": "bed", "x": [ 3, 3 ], "y": [ 3, 3 ], "chance": 80 },
         { "item": "bed", "x": [ 5, 5 ], "y": [ 3, 3 ], "chance": 80 },
@@ -89,7 +89,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "home_improvement_roof",
     "object": {
       "fill_ter": "t_flat_roof",

@@ -1,7 +1,8 @@
 [
   {
     "id": "brewing_cookbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Homebrewer's Bible", "str_pl": "copies of The Homebrewer's Bible" },
     "description": "A book full of easy-to-follow recipes and useful advice on homebrewing, malting, and fermenting.  It even smells faintly of booze.",
@@ -13,7 +14,6 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "blue",
-    "skill": "cooking",
     "required_level": 2,
     "max_level": 4,
     "proficiencies": [
@@ -23,12 +23,14 @@
     ],
     "intelligence": 8,
     "time": "15 m",
-    "fun": 1,
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "cookbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Cooking on a Budget", "str_pl": "copies of Cooking on a Budget" },
     "description": "A nice cookbook that goes beyond recipes and into the chemistry of food.",
@@ -39,7 +41,6 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
-    "skill": "cooking",
     "max_level": 3,
     "proficiencies": [
       { "proficiency": "prof_baking", "time_factor": 0.25, "fail_factor": 0.2 },
@@ -49,11 +50,13 @@
       { "proficiency": "prof_lactofermenting", "time_factor": 0.05, "fail_factor": 0.1 }
     ],
     "intelligence": 4,
-    "time": "10 m"
+    "time": "10 m",
+    "read_skill": "cooking"
   },
   {
     "id": "cookbook_human",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "To Serve Man", "str_pl": "copies of To Serve Man" },
     "//": "Wasn't commercially traded.  ('Parody' only covers so much.)  Should get a serious price modifier for non-Cannibals.",
@@ -66,16 +69,17 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "blue",
-    "skill": "cooking",
     "required_level": 2,
     "max_level": 4,
     "intelligence": 4,
     "time": "10 m",
-    "fun": -5
+    "read_skill": "cooking",
+    "read_fun": -5
   },
   {
     "id": "cookbook_italian",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Cucina Italiana", "str_pl": "copies of Cucina Italiana" },
     "description": "This cookbook is written in Italian, but handily illustrated with step-by-step photo instructions.",
@@ -87,15 +91,16 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "blue",
-    "skill": "cooking",
     "required_level": 3,
     "max_level": 4,
     "intelligence": 6,
-    "time": "10 m"
+    "time": "10 m",
+    "read_skill": "cooking"
   },
   {
     "id": "cookbook_mexican",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "La Vida Deliciosa: Definitive Mexican Cuisine",
@@ -110,15 +115,16 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "red",
-    "skill": "cooking",
     "required_level": 1,
     "max_level": 4,
     "intelligence": 5,
-    "time": "10 m"
+    "time": "10 m",
+    "read_skill": "cooking"
   },
   {
     "id": "cookbook_sushi",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Sushi Made Easy", "str_pl": "copies of Sushi Made Easy" },
     "description": "A simple text for the aspiring sushi lover, this easy-to-read guide is filled with lots of helpful illustrations for everything from basic rice preparation to setting a proper Japanese table.",
@@ -130,16 +136,17 @@
     "symbol": "?",
     "color": "light_green",
     "looks_like": "cookbook",
-    "skill": "cooking",
     "required_level": 1,
     "max_level": 4,
     "intelligence": 7,
     "time": "20 m",
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "read_skill": "cooking"
   },
   {
     "id": "family_cookbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "family cookbook" },
     "description": "A big binder full of somebody's family recipes.  The well-turned pages and creased corners speak volumes of the culinary knowledge contained within.  You could probably learn a lot about cooking from studying this domestic artifact.",
@@ -151,7 +158,6 @@
     "symbol": "?",
     "color": "light_gray",
     "looks_like": "cookbook",
-    "skill": "cooking",
     "required_level": 1,
     "max_level": 5,
     "proficiencies": [
@@ -162,12 +168,14 @@
     ],
     "intelligence": 7,
     "time": "30 m",
-    "fun": 1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "mag_cooking",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Bon Appetit", "str_pl": "issues of Bon Appetit" },
     "description": "Exciting recipes and restaurant reviews.  Full of handy tips about cooking.",
@@ -178,15 +186,16 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
-    "skill": "cooking",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "mag_glam",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Glamopolitan", "str_pl": "issues of Glamopolitan" },
     "description": "A full-size glossy women's magazine.  There are a few unoriginal recipes and some simple cooking tips somewhere in between the fashion photos and the sex advice columns.",
@@ -197,15 +206,16 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
-    "skill": "cooking",
     "max_level": 1,
     "intelligence": 5,
     "time": "24 m",
-    "fun": 1
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "scots_cookbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "//~": "That would translate out to The Scottish Book of Cookery, or The Scottish Cookbook.",
@@ -221,17 +231,18 @@
     "symbol": "?",
     "color": "light_gray",
     "looks_like": "cookbook",
-    "skill": "cooking",
     "required_level": 2,
     "max_level": 4,
     "intelligence": 10,
     "time": "45 m",
-    "fun": 1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "vinegar_maker",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Vinegar Maker's Handbook", "str_pl": "copies of Vinegar Maker's Handbook" },
     "description": "This book describes in detail all the ways that one can make vinegar.  You would have thought that there wasn't much to making vinegar, but the girth of this book tells you otherwise.",
@@ -243,7 +254,6 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "green",
-    "skill": "cooking",
     "required_level": 1,
     "max_level": 3,
     "proficiencies": [
@@ -253,11 +263,13 @@
       { "proficiency": "prof_winemaking", "time_factor": 0.05, "fail_factor": 0.2 }
     ],
     "intelligence": 4,
-    "time": "10 m"
+    "time": "10 m",
+    "read_skill": "cooking"
   },
   {
     "id": "preserving_juice",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Drink the Harvest", "str_pl": "copies of Drink the Harvest" },
     "description": "Canning foods doesn't have to stop with jam and pickles.  This book provides a plethora of juices that can be preserved.",
     "copy-from": "brewing_cookbook",
@@ -269,7 +281,8 @@
   },
   {
     "id": "offalcooking",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Offal Holiday Cooking", "str_pl": "copies of Offal Holiday Cooking" },
     "description": "Offal Holiday Cooking, by Evelyn Turncoat, is a book of holiday recipes that utilize organ meats from various animals.  For the true nose-to-tail cook.",
@@ -281,16 +294,17 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "green",
-    "skill": "cooking",
     "required_level": 1,
     "max_level": 3,
     "proficiencies": [ { "proficiency": "prof_frying", "time_factor": 0.1, "fail_factor": 0.2 } ],
     "intelligence": 4,
-    "time": "10 m"
+    "time": "10 m",
+    "read_skill": "cooking"
   },
   {
     "id": "dairy_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Things to Do with Milk", "str_pl": "copies of Things to Do with Milk" },
     "description": "Whatever you want to do with milk, you will probably find it in this book.",
@@ -302,7 +316,6 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "white",
-    "skill": "cooking",
     "required_level": 2,
     "max_level": 5,
     "proficiencies": [
@@ -310,11 +323,13 @@
       { "proficiency": "prof_cheesemaking_2", "time_factor": 0.1, "fail_factor": 0.1 }
     ],
     "intelligence": 4,
-    "time": "14 m"
+    "time": "14 m",
+    "read_skill": "cooking"
   },
   {
     "id": "cookbook_liverforkids",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Liver-Licious Recipes Your Kids Will Love", "str_pl": "copies of Liver-Licious Recipes" },
     "description": "This cookbook is written by liver enthusiast Tamsyn Beckerleg.  Inside you'll find a great deal of anecdotes about the near-certain ruination of children who refuse to eat their liver.",
@@ -331,7 +346,8 @@
   },
   {
     "id": "cookbook_bloodforgood",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Blood for the Greater Good", "str_pl": "copies of Blood for the Greater Good" },
     "description": "A recipe book compiled by blood-as-food advocate Alžbeta Bátoriová.  The consumption of blood is a taboo among members of many Abrahamic religions, but they aren't going to stop you now.  This book has bonus material for those with particular tastes.",
@@ -347,7 +363,8 @@
   },
   {
     "id": "cookbook_daintydishes",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Dainty Dishes Fit for a King", "str_pl": "copies of Dainty Dishes" },
     "description": "This cookbook contains many fanciful recipes.  Some of them are even worth the trouble to actually prepare.  Lovely pen and ink illustrations of overweight knights and gluttonous monks line the pages.",
     "volume": "900 ml",
@@ -355,12 +372,13 @@
     "price_postapoc": "7 USD 50 cent",
     "max_level": 3,
     "time": "12 m",
-    "fun": 1,
-    "copy-from": "cookbook_liverforkids"
+    "copy-from": "cookbook_liverforkids",
+    "read_fun": 1
   },
   {
     "id": "cookbook_eatyrway",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Eat Your Way to a Fit Physique", "str_pl": "copies of Eat Your Way" },
     "description": "This self-help book, by \"acclaimed nutrition and health guru Amar de Freitas,\" is as dubious as its title.  Worse, it is boring.  It does, however, contain a few basic cooking instructions.",
@@ -369,13 +387,14 @@
     "price_postapoc": "7 USD 50 cent",
     "max_level": 1,
     "time": "14 m",
-    "fun": -1,
     "chapters": 14,
-    "copy-from": "book_nonf_soft_cook_tpl"
+    "copy-from": "book_nonf_soft_cook_tpl",
+    "read_fun": -1
   },
   {
     "id": "cookbook_foodfashions",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Food Fashions for Young Moderns", "str_pl": "copies of Food Fashions" },
     "description": "A cookbook professing itself to be for those seeking \"daring and sophisticated flavors.\"  The book exhorts the reader to defy convention and break the rules, and then presents a number of useful rules and conventions for preparing food.",
     "price": "39 USD 99 cent",
@@ -387,7 +406,8 @@
   },
   {
     "id": "winemaking_beginner",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Winemaking for Beginners", "str_pl": "copies of Winemaking for Beginners" },
     "description": "Winemaking is an art form.  This book teaches you how to crayon within the lines.",
@@ -399,7 +419,6 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "red",
-    "skill": "cooking",
     "intelligence": 7,
     "required_level": 1,
     "max_level": 2,
@@ -409,11 +428,13 @@
       { "proficiency": "prof_winemaking", "time_factor": 0.25, "fail_factor": 0.3 }
     ],
     "time": "12 m",
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "read_skill": "cooking"
   },
   {
     "id": "manual_canning",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "You Can Can at Home", "str_pl": "copies of You Can Can at Home" },
     "description": "This entry-level guide to home canning talks about the importance of acidity and food contents in preservation, and how to avoid contaminants in your canning batches.",
     "price_postapoc": "15 USD",
@@ -425,7 +446,8 @@
   },
   {
     "id": "manual_sealing",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Can Sealer Instructions", "str_pl": "copies of Can Sealer Instructions" },
     "description": "This dry guide to a home-use tin can sealer goes into clear detail on everything you can seal with the device and how to do it safely, and includes some basic recipes.",
     "price_postapoc": "15 USD",
@@ -437,7 +459,8 @@
   },
   {
     "id": "vacuum_sealing",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Vacuum Sealer Instructions", "str_pl": "copies of Vacuum Sealer Instructions" },
     "description": "This dry guide to a home-use vacuum sealer goes into clear detail on everything you can seal with the device and how to do it safely, and includes some basic recipes.",
     "price_postapoc": "15 USD",
@@ -446,7 +469,8 @@
   },
   {
     "id": "baking_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Baker's Companion", "str_pl": "copies of The Baker's Companion" },
     "description": "This book promises to teach you the ways of baking, from cakes to souffles.",
@@ -458,7 +482,6 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "blue",
-    "skill": "cooking",
     "required_level": 2,
     "max_level": 5,
     "proficiencies": [
@@ -469,12 +492,14 @@
     ],
     "intelligence": 8,
     "time": "15 m",
-    "fun": 1,
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "fermenting_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Fermenting Culture", "str_pl": "copies of Fermenting Culture" },
     "description": "Fermenting as a cooking practice only recently came back into vogue before the Cataclysm.  Here is a book with dozens of recipes, many of which you are unlikely to ever see the ingredients for again.",
@@ -486,7 +511,6 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "green",
-    "skill": "cooking",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
@@ -495,12 +519,14 @@
       { "proficiency": "prof_fermenting", "time_factor": 0.25, "fail_factor": 0.3 },
       { "proficiency": "prof_lactofermenting", "time_factor": 0.2, "fail_factor": 0.4 }
     ],
-    "fun": 1,
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "distilling_cookbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Out of the Holler and into the Home: A guide to home distillation", "str_pl": "copies of Out of the Holler" },
     "description": "A book describing the history of at-home distillation.  Each chapter is named after a different type of liquor, and contains a complete recipe for its namesake.",
@@ -512,7 +538,6 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "blue",
-    "skill": "cooking",
     "required_level": 3,
     "max_level": 5,
     "proficiencies": [
@@ -524,12 +549,14 @@
     ],
     "intelligence": 8,
     "time": "15 m",
-    "fun": 1,
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "sweets_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Sweets for your Sweet Child", "str_pl": "copies of Sweets for Sweet" },
     "description": "Sweets for your Sweet Child is a best-selling cookbook marketed to the parents of young children.  Every recipe uses oversized text, easy words and diagram instructions for children learning to cook with their parents.",
@@ -541,7 +568,6 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "light_gray",
-    "skill": "cooking",
     "max_level": 2,
     "proficiencies": [
       { "proficiency": "prof_baking", "time_factor": 0.1, "fail_factor": 0.25 },
@@ -549,11 +575,13 @@
     ],
     "intelligence": 4,
     "time": "9 m",
-    "fun": 1
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "cookbook_indian",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Tasting India", "str_pl": "copies of Tasting India" },
     "//": "Statistics derived from a real book.",
@@ -566,14 +594,15 @@
     "required_level": 1,
     "max_level": 3,
     "intelligence": 7,
-    "fun": 1,
     "copy-from": "book_nonf_hard_cook_tpl",
     "looks_like": "cookbook",
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "read_fun": 1
   },
   {
     "id": "cookbook_native",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Sioux Chef", "str_pl": "copies of The Sioux Chef" },
     "//": "Statistics derived from a real book.",
@@ -584,7 +613,6 @@
     "price_postapoc": "7 USD 50 cent",
     "material": [ "paper" ],
     "color": "blue",
-    "skill": "cooking",
     "required_level": 2,
     "max_level": 3,
     "intelligence": 7,
@@ -592,15 +620,17 @@
       { "proficiency": "prof_forage_cooking", "time_factor": 0.1, "fail_factor": 0.25 },
       { "proficiency": "prof_frying_bread", "time_factor": 0.1, "fail_factor": 0.4 }
     ],
-    "fun": 1,
     "time": "9 m",
     "symbol": "?",
     "looks_like": "cookbook",
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "cookbook_turkish",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Turkish Cookbook", "str_pl": "copies of The Turkish Cookbook" },
     "description": "The definitive cookbook of hearty, healthy Turkish cuisine.",
@@ -612,11 +642,11 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "red",
-    "skill": "cooking",
     "max_level": 2,
     "intelligence": 4,
     "time": "9 m",
-    "fun": 1,
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "read_skill": "cooking",
+    "read_fun": 1
   }
 ]

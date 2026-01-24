@@ -1,0 +1,38 @@
+[
+  {
+    "id": "afs_25_casing",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "25mm casing" },
+    "description": "A large casing from a spent 25mm cartridge.",
+    "weight": "50 g",
+    "volume": "45ml",
+    "material": [ "superalloy" ],
+    "symbol": "=",
+    "stackable": true,
+    "color": "dark_gray"
+  },
+  {
+    "id": "afs_30x200mm_armature",
+    "copy-from": "afs_25_casing",
+    "type": "ITEM",
+    "name": { "str": "30x200mm armature" },
+    "description": "The empty and partially melted remnants of a 30x200mm railgun slug launch armature.",
+    "weight": "200 g",
+    "volume": "1000 ml",
+    "material": [ "lc_steel" ],
+    "color": "dark_gray"
+  },
+  {
+    "id": "afs_5x50_hull",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "5x50mm hull" },
+    "description": "An empty plastic hull from a 5x50mm flechette round.",
+    "weight": "1 g",
+    "volume": "5ml",
+    "material": [ "plastic" ],
+    "color": "light_green"
+  }
+]
