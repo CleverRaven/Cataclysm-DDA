@@ -443,7 +443,6 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "effects_require_dmg", effects_require_dmg, true );
     optional( obj, was_loaded, "effects_require_organic", effects_require_organic, false );
     optional( obj, was_loaded, "grab", is_grab, false );
-    optional( obj, was_loaded, "range", range, 1 );
     optional( obj, was_loaded, "throw_strength", throw_strength, 0 );
 
     optional( obj, was_loaded, "eoc", eoc );

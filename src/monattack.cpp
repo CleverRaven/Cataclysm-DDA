@@ -101,6 +101,9 @@ static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_electric( "electric" );
 static const damage_type_id damage_stab( "stab" );
 
+static const efftype_id effect_absorbed_acidic( "absorbed_acidic" );
+static const efftype_id effect_absorbed_electric( "absorbed_electric" );
+static const efftype_id effect_absorbed_pupating( "absorbed_pupating" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -4563,12 +4566,30 @@ bool mattack::zombie_fuse( monster *z )
     add_msg_if_player_sees( *z, _( "The %1$s fuses with the %2$s." ),
                             critter->name(), z->name() );
     z->mod_moves( -to_moves<int>( 2_seconds ) );
+    int hp_or_vlm = std::min( critter->get_hp_max(), ( 80 * ( critter->get_volume() / 62500_ml ) ) );
+    const int existing_intensity = z->has_effect( effect_grown_of_fuse ) ?
+                                   z->get_effect( effect_grown_of_fuse ).get_intensity() :
+                                   0;
+    const int new_intensity = hp_or_vlm + existing_intensity;
+    add_msg_debug( debugmode::DF_MATTACK,
+                   "%s adding %d total grown_of_fuse intensity from %d hp/volume and %d existing intensity",
+                   z->name(),
+                   new_intensity,
+                   hp_or_vlm,
+                   existing_intensity );
+
     if( z->get_size() < creature_size::huge ) {
-        z->add_effect( effect_grown_of_fuse, 10_days, true,
-                       std::min( critter->get_hp_max(),
-                                 ( 80 * ( critter->get_volume() / 62500_ml ) ) )
-                       + z->get_effect( effect_grown_of_fuse ).get_intensity() );
+        z->add_effect( effect_grown_of_fuse, 10_days, true, new_intensity );
     }
+    if( critter->has_flag( mon_flag_ELECTRIC ) ) {
+        z->add_effect( effect_absorbed_electric, 60_days, true );
+    } else if( critter->has_flag( mon_flag_ACIDTRAIL ) || critter->has_flag( mon_flag_ACID_BLOOD ) ) {
+        z->add_effect( effect_absorbed_acidic, 60_days, true );
+        // Use SMALLSLUDGETRAIL because pupating zombies have that in common
+    } else if( critter->has_flag( mon_flag_SMALLSLUDGETRAIL ) ) {
+        z->add_effect( effect_absorbed_pupating, 60_days, true );
+    }
+
     z->heal( critter->get_hp(), true );
     if( mission::on_creature_fusion( *z, *critter ) ) {
         z->mission_fused.emplace_back( critter->name() );

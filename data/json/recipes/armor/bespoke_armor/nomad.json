@@ -278,6 +278,64 @@
     "flags": [ "SECRET" ]
   },
   {
+    "result": "nomad_papr_blower_273grenade_off",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "electronics", 3 ],
+    "time": "5 h",
+    "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
+    "using": [ [ "filament_canvas", 150 ], [ "soldering_standard", 10 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" }
+    ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [
+      [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "sheet_leather", 1 ], [ "sheet_leather_patchwork", 1 ] ],
+      [ [ "sheath", 1 ] ],
+      [ [ "exodii_wire_kit", 1 ] ],
+      [ [ "basic_papr_belt_off", 1 ], [ "military_papr_blower_off", 1 ], [ "molle_papr_blower_off", 1 ] ],
+      [ [ "plastic_sheet", 2 ] ],
+      [ [ "tool_belt", 1 ] ]
+    ],
+    "byproducts": [ [ "scrap_leather", 11 ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "result": "nomad_papr_blower_magpouch_off",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "electronics", 3 ],
+    "time": "5 h",
+    "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
+    "using": [ [ "filament_canvas", 150 ], [ "soldering_standard", 10 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" }
+    ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [
+      [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "sheet_leather", 1 ], [ "sheet_leather_patchwork", 1 ] ],
+      [ [ "sheath", 1 ] ],
+      [ [ "exodii_wire_kit", 1 ] ],
+      [ [ "basic_papr_belt_off", 1 ], [ "military_papr_blower_off", 1 ], [ "molle_papr_blower_off", 1 ] ],
+      [ [ "plastic_sheet", 2 ] ],
+      [ [ "tool_belt", 1 ] ]
+    ],
+    "byproducts": [ [ "scrap_leather", 11 ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
     "result": "helmet_nomad_papr",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

@@ -2999,6 +2999,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             world_generator->show_active_world_mods( world_generator->active_world->active_mod_order );
             break;
 
+        case ACTION_EXPORT_BUG_REPORT_ARCHIVE:
+            debug_menu::export_save_archive_and_game_report();
+            break;
+
         case ACTION_DEBUG:
             if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                 break;    //don't do anything when sharing and not debugger

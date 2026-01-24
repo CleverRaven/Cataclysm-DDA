@@ -615,12 +615,51 @@
     ],
     "//": "stats modified by the zombie_fuse special attack.",
     "//1": "scaling:",
-    "//2": "/50 HP: +0,5 melee_skill, +0,5 dodge_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash",
+    "//2": "/50 HP: +0,5 melee_skill, +5 Speed (bigger steps&more to attack with), +4 bash",
     "//3": "/250 HP: +1 size",
     "max_intensity": 500,
-    "base_mods": { "hit_mod": [ 0.01 ], "dodge_mod": [ 0.01 ], "speed_mod": [ 0.1 ], "bash_mod": [ 0.08 ] },
-    "scaling_mods": { "hit_mod": [ 0.01 ], "dodge_mod": [ 0.01 ], "speed_mod": [ 0.1 ], "bash_mod": [ 0.08 ], "size_mod": [ 0.004 ] },
-    "int_decay_step": 0
+    "//4": "Effective max intensity is currently 320.",
+    "base_mods": { "hit_mod": [ 0.01 ], "bash_mod": [ 0.08 ] },
+    "scaling_mods": { "hit_mod": [ 0.01 ], "bash_mod": [ 0.08 ], "size_mod": [ 0.004 ] },
+    "int_decay_step": 0,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -900" ] } },
+          { "type": "cut", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -1500" ] } },
+          { "type": "stab", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -1500" ] } },
+          { "type": "bullet", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -650" ] } }
+        ],
+        "values": [
+          { "value": "REGEN_HP", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / 32" ] } },
+          { "value": "SPEED", "add": { "math": [ "u_effect_intensity('grown_of_fuse') * 0.06" ] } }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "absorbed_electric" },
+        "incoming_damage_mod": [ { "type": "electric", "multiply": -1 } ]
+      },
+      {
+        "condition": { "u_has_effect": "absorbed_acidic" },
+        "incoming_damage_mod": [ { "type": "acid", "multiply": -1 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "absorbed_acidic",
+    "//": "This tells a devourer that it has absorbed an acidic monster (one with the flag ACID_BLOOD or ACIDTRAIL)"
+  },
+  {
+    "type": "effect_type",
+    "id": "absorbed_electric",
+    "//": "This tells a devourer that it has absorbed an electric monster (one with the flag ELECTRIC)"
+  },
+  {
+    "type": "effect_type",
+    "id": "absorbed_pupating",
+    "//": "This tells a devourer that it has absorbed a pupating zombie and can now produce flesh raptors"
   },
   {
     "id": "Shadow_Reveal",
