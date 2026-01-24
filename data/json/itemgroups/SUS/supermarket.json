@@ -803,17 +803,17 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-     { "group": "crackers_box_16", "prob": 1 },
-     { "group": "oyster_crackers_box_20", "prob": 1 },
-     { "group": "peanut_bag_plastic_4", "prob": 1 },
-     { "group": "peanut_shelled_bag_plastic_4", "prob": 1 },
-     { "group": "chestnut_roasted_bag_plastic_4", "prob": 1 },
-     { "group": "pistachio_shelled_bag_plastic_4", "prob": 1 },
-     { "group": "pistachio_roasted_bag_plastic_4", "prob": 1 },
-     { "group": "almond_roasted_bag_plastic_4", "prob": 1 },
-     { "group": "cashews_bag_plastic_4", "prob": 1 },
-     { "group": "pecan_shelled_bag_plastic_4", "prob": 1 },
-     { "group": "pecan_roasted_bag_plastic_4", "prob": 1 }
+      { "group": "crackers_box_16", "prob": 1 },
+      { "group": "oyster_crackers_box_20", "prob": 1 },
+      { "group": "peanut_bag_plastic_4", "prob": 1 },
+      { "group": "peanut_shelled_bag_plastic_4", "prob": 1 },
+      { "group": "chestnut_roasted_bag_plastic_4", "prob": 1 },
+      { "group": "pistachio_shelled_bag_plastic_4", "prob": 1 },
+      { "group": "pistachio_roasted_bag_plastic_4", "prob": 1 },
+      { "group": "almond_roasted_bag_plastic_4", "prob": 1 },
+      { "group": "cashews_bag_plastic_4", "prob": 1 },
+      { "group": "pecan_shelled_bag_plastic_4", "prob": 1 },
+      { "group": "pecan_roasted_bag_plastic_4", "prob": 1 }
     ]
   },
   {
