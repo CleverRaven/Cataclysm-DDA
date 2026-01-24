@@ -104,6 +104,7 @@ static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
 
 static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
+static const fault_id fault_punctured_tires( "fault_punctured_tires" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
@@ -4424,6 +4425,42 @@ void vehicle::noise_and_smoke( map &here, int load, time_duration time )
     vehicle_noise = static_cast<unsigned char>( noise );
     sounds::sound( pos_bub( here ), noise, sounds::sound_t::movement,
                    _( is_rotorcraft( here ) ? heli_noise : sounds[lvl].first ), true );
+}
+
+void vehicle::check_flats_do_rim_damage_or_sounds( map &here )
+{
+    if( wheelcache.empty() || velocity <= 0 ) {
+        return; // No wheels or (somehow) not moving
+    }
+
+    for( int part_num : wheelcache ) {
+        vehicle_part &vp = parts[part_num];
+
+        if( vp.get_base().has_fault( fault_punctured_tires ) ) {
+            const int arbitrary_sound_volume = 40;
+            const tripoint_bub_ms part_bub_pos = bub_part_pos( here, vp );
+            sounds::sound( bub_part_pos( here, vp ), arbitrary_sound_volume,
+                           sounds::sound_t::destructive_activity,
+                           //~Sound of a vehicle's wheel rim grinding against the ground after the rubber tire has gone entirely flat.
+                           string_format( _( "sccchrrrrrk!" ) ) );
+
+            if( one_in( vp.info().durability ) ) {
+                Character *driver = get_driver( here );
+                if( driver == &get_player_character() || get_player_character().sees( here, part_bub_pos ) ) {
+                    add_msg( _( "The %s is damaged by driving with a flat!" ), vp.name() );
+                }
+                // bullshit to work around vehicle::damage_direct() --> vehicle::mod_hp() doing incorrect(??) calculations.
+                // Each damage instance should be worth exactly one 'level' of vehicle part damage.
+                const int one_damage_level = vp.info().durability *
+                                             ( static_cast<double>( itype::damage_scale ) / vp.max_damage() );
+                damage_direct( here, vp, one_damage_level );
+
+                // We may have just invalidated the wheelcache, so it is unsafe to continue iterating. (We're inside a for-loop of wheelcache)
+                // This puts an upper limit of one vp damage per call to this function (per turn), but whatever.
+                return;
+            }
+        }
+    }
 }
 
 int vehicle::wheel_area() const

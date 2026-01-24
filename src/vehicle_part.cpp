@@ -105,6 +105,9 @@ void vehicle_part::set_base( item &&new_base )
 std::string vehicle_part::name( bool with_prefix ) const
 {
     std::string res;
+    if( debug_mode ) {
+        res += string_format( "(dam %d,deg %d)", base.damage_level( true ), base.degradation() );
+    }
     if( with_prefix ) {
         res += base.damage_indicator() + base.degradation_symbol() + " ";
         if( !base.type->degrade_increments() ) {

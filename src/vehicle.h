@@ -1714,6 +1714,9 @@ class vehicle
         // Loop through engines and generate noise and smoke for each one
         void noise_and_smoke( map &here, int load, time_duration time = 1_turns );
 
+        // Actively moving vehicle with impaired wheels
+        void check_flats_do_rim_damage_or_sounds( map &here );
+
         /**
          * Calculates the sum of the area under the wheels of the vehicle.
          */

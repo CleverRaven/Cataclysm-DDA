@@ -593,6 +593,7 @@ void vehicle::thrust( map &here, int thd, int z )
         }
         //make noise and consume fuel
         noise_and_smoke( here, load + alternator_load );
+        check_flats_do_rim_damage_or_sounds( here );
         consume_fuel( here, load + alternator_load, false );
         if( z != 0 && is_rotorcraft( here ) ) {
             requested_z_change = z;
