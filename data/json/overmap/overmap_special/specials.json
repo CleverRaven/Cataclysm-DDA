@@ -875,7 +875,7 @@
     "locations": [ "land" ],
     "city_distance": [ 0, -1 ],
     "occurrences": [ 0, 4 ],
-    "flags": [ "CLASSIC", "WILDERNESS", "HIGHLANDS" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "HIGHLANDS", "EXTRADIMENSIONAL" ]
   },
   {
     "type": "overmap_special",
@@ -2678,6 +2678,24 @@
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "cemetery_lacroix",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cemetery_4square_00_lacroix_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "cemetery_4square_10_lacroix_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "cemetery_4square_01_lacroix_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "cemetery_4square_11_lacroix_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "cemetery_4square_11_roof_north" },
+      { "point": [ 0, 2, 0 ], "locations": [ "land", "road" ] }
+    ],
+    "connections": [ { "point": [ 0, 2, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 1, 0 ] } ],
+    "locations": [ "field", "forest_without_trail" ],
+    "city_distance": [ 2, 5 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 10, 50 ],
+    "flags": [ "CLASSIC", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",

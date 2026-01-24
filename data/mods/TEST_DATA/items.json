@@ -5443,7 +5443,7 @@
     "description": "Visualize it as your annoying neighbor, if that helps you feel better.",
     "//COMMENT": "Roughly human sized.",
     "volume": "75 L",
-    "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS", "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS", "PUNCTURE_VEHICLE_WHEELS" ],
     "category": "corpses",
     "copy-from": "corpse",
     "looks_like": "corpse_generic_human",
@@ -5455,14 +5455,14 @@
     "id": "corpse_fake_TEST_NODMG",
     "copy-from": "corpse_fake_TEST",
     "name": { "str": "corpse fake TEST NODMG" },
-    "delete": { "flags": [ "DAMAGE_VEHICLE_WHEELS" ] }
+    "delete": { "flags": [ "PUNCTURE_VEHICLE_WHEELS" ] }
   },
   {
     "type": "ITEM",
     "id": "test_squishy_fruit",
     "name": { "str": "test_squishy_fruit_name" },
     "material": [ "fruit" ],
-    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "PUNCTURE_VEHICLE_WHEELS" ],
     "weight": "4518 g",
     "color": "green",
     "symbol": "%",
@@ -5492,7 +5492,7 @@
     "id": "test_guarantee_wheel_dmg",
     "name": { "str": "test_guarantee_wheel_dmg_name" },
     "material": [ "DOOM_MATERIAL" ],
-    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "PUNCTURE_VEHICLE_WHEELS" ],
     "weight": "4518 g",
     "color": "green",
     "symbol": "%",
@@ -5513,7 +5513,7 @@
     "material": [ "cotton" ],
     "weight": "2317 g",
     "volume": "50 L",
-    "flags": [ "SLEEP_AID", "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "SLEEP_AID", "PUNCTURE_VEHICLE_WHEELS" ],
     "category": "other"
   },
   {

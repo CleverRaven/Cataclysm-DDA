@@ -46,5 +46,11 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [ { "item": "pebble", "count": [ 50, 100 ] }, { "item": "chunk_feldspar", "count": [ 2, 4 ], "prob": 30 } ]
+  },
+  {
+    "id": "outcrop_graphite",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "pebble", "count": [ 50, 100 ] }, { "item": "chunk_graphite", "count": [ 2, 4 ], "prob": 30 } ]
   }
 ]

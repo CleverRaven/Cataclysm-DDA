@@ -90,6 +90,8 @@ class fault
         bool affected_by_degradation() const;
         double encumb_mod_flat() const;
         double encumb_mod_mult() const;
+        float contact_area_mod() const;
+        float rolling_resistance_mod() const;
         bool has_flag( const std::string &flag ) const;
         const std::set<fault_id> &get_block_faults() const;
 
@@ -112,6 +114,8 @@ class fault
         std::set<fault_id> block_faults;
         double price_modifier = 1.0;
         int degradation_mod_ = 0;
+        float contact_area_mod_ = 1.f;
+        float rolling_resistance_mod_ = 1.f;
         std::vector<std::tuple<int, float, damage_type_id>> melee_damage_mod_;
         std::vector<std::tuple<int, float, damage_type_id>> armor_mod_;
         int encumbrance_mod_flat_ = 0;

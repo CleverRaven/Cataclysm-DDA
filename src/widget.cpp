@@ -100,6 +100,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "move_cost";
         case widget_var::mood:
             return "mood";
+        case widget_var::oxygen:
+            return "oxygen";
         case widget_var::pain:
             return "pain";
         case widget_var::sound:
@@ -742,6 +744,11 @@ void widget::set_default_var_range( const avatar &ava )
             _var_max = 300; // Can go up to 500-600 while prone
             _var_norm = std::make_pair( 100, 100 );
             break;
+        case widget_var::oxygen:
+            _var_min = 0;
+            _var_max = ava.get_oxygen_max();
+            _var_norm = std::make_pair( ava.get_oxygen_max(), ava.get_oxygen_max() );
+            break;
         case widget_var::pain:
             _var_min = 0;
             _var_max = 80;
@@ -850,6 +857,9 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::max_mana:
             value = ava.magic->max_mana( ava );
+            break;
+        case widget_var::oxygen:
+            value = ava.oxygen;
             break;
         case widget_var::power_percentage:
             value = ava.has_max_power() ? ( 100 * ava.get_power_level().value() ) /

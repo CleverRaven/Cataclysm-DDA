@@ -4257,10 +4257,17 @@ void target_ui::panel_spell_info( int &text_y )
     }
     print_colored_text( w_target, point( 1, text_y++ ), clr, clr, fail_str );
 
-    if( dst_critter != nullptr && !casting->valid_by_condition( *you, *dst_critter ) ) {
+    const optional_vpart_position &veh = get_map().veh_at( dst );
+
+    const bool critter_cond = dst_critter ?
+                              casting->valid_target_condition( *you, *dst_critter ) : true;
+    const bool veh_cond = veh.has_value() ?
+                          casting->valid_target_condition( *you, veh.value().vehicle() ) : true;
+
+    if( !critter_cond && !veh_cond ) {
         nc_color red_color = c_red;
         print_colored_text( w_target, point( 1, text_y++ ), red_color, red_color,
-                            casting->failed_condition_message() );
+                            casting->failed_target_condition_message() );
     }
 
     if( casting->aoe( get_player_character() ) > 0 ) {

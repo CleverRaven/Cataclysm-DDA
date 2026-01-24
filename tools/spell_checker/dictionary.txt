@@ -180,6 +180,7 @@ Andover
 Andre
 Andrea
 Andrew
+Anduril
 Andy
 anemoi
 ANFO
@@ -2366,6 +2367,7 @@ gozu
 gozus
 GPMG
 GPNVG
+GPS
 GR
 gr
 graboid
@@ -4147,6 +4149,7 @@ mutagenically
 mutagenicity
 mutus
 muzzleloaders
+MVAS
 mW
 Mx
 Myanma

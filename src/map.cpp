@@ -1029,7 +1029,6 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
 
         for( const int vp_wheel_idx : wheel_indices ) {
             vehicle_part &vp_wheel = veh.part( vp_wheel_idx );
-            const vpart_info &vpi_wheel = vp_wheel.info();
             const tripoint_bub_ms wheel_p = veh.bub_part_pos( *this, vp_wheel );
             if( one_in( 2 ) && displace_water( wheel_p ) ) {
                 sounds::sound( wheel_p, 4, sounds::sound_t::movement, _( "splash!" ), false,
@@ -1043,7 +1042,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
                 // Damage is calculated based on the weight of the vehicle,
                 // The area of it's wheels, and the area of the wheel running over the items.
                 // This number is multiplied by weight_to_damage_factor to get reasonable results, damage-wise.
-                const int wheel_damage = vpi_wheel.wheel_info->contact_area / vehicle_grounded_wheel_area *
+                const int wheel_damage = vp_wheel.contact_area() / vehicle_grounded_wheel_area *
                                          vehicle_mass_kg * weight_to_damage_factor;
 
                 //~ %1$s: vehicle name
@@ -3923,7 +3922,7 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
         }
 
         if( vp_wheel != nullptr ) {
-            veh->damage_wheel_on_item( vp_wheel, *i, &damage_levels, &wheel_damage_messages );
+            veh->damage_wheel_on_item( vp_wheel, *i, &wheel_damage_messages );
         }
 
         if( i->active ) {
@@ -4280,6 +4279,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
                                has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p ) && !has_flag( ter_furn_flag::TFLAG_INDOORS, p );
     const bool tent = smash_furn && !bash->tent_centers.empty();
     bool set_to_air = false;
+    bool phased = false;
 
     // Special code to collapse the tent if destroyed
     if( tent ) {
@@ -4358,9 +4358,9 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
         debugmsg( "data/json/terrain.json does not have %s.bash.ter_set set!",
                   ter( p ).obj().id.c_str() );
     } else if( has_original_terrain_at( p ) && ter( p )->has_flag( "PHASE_BACK" ) ) {
-        // If we have original terrain saved and the current terrain signals PHASE_BACK,
         const ter_id orig = get_original_terrain_at( p );
         ter_set( p, orig );
+        phased = true;
     } else if( params.bashing_from_above && ter_bash.ter_set_bashed_from_above ) {
         // If this terrain is being bashed from above and this terrain
         // has a valid post-destroy bashed-from-above terrain, set it
@@ -4397,7 +4397,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
     }
     //regenerates roofs for tiles that should be walkable from above
     if( zlevels && smash_ter && !set_to_air && ter( p )->has_flag( "EMPTY_SPACE" ) &&
-        ter( below )->has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF ) ) {
+        ter( below )->has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF ) && !phased ) {
         const ter_str_id roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
         ter_set( p, roof );
     }

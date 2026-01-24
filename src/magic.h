@@ -34,6 +34,7 @@ class JsonObject;
 class JsonOut;
 class spell;
 class time_duration;
+class vehicle;
 struct const_dialogue;
 struct dealt_projectile_attack;
 struct requirement_data;
@@ -361,10 +362,17 @@ class spell_type
         // list of valid targets enum
         enum_bitset<spell_target> valid_targets;
 
-        std::function<bool( const_dialogue const & )> condition; // NOLINT(cata-serialize)
-        bool has_condition = false; // NOLINT(cata-serialize)
+        // checks only caster/alpha
+        std::function<bool( const_dialogue const & )> caster_condition; // NOLINT(cata-serialize)
+        bool has_caster_condition = false; // NOLINT(cata-serialize)
 
-        translation condition_fail_message_; // NOLINT(cata-serialize)
+        translation caster_condition_fail_message_; // NOLINT(cata-serialize)
+
+        // checks both caster/alpha and victim/beta
+        std::function<bool( const_dialogue const & )> target_condition; // NOLINT(cata-serialize)
+        bool has_target_condition = false; // NOLINT(cata-serialize)
+
+        translation target_condition_fail_message_; // NOLINT(cata-serialize)
 
         std::set<mtype_id> targeted_monster_ids;
 
@@ -704,10 +712,13 @@ class spell
         bool target_by_monster_id( const tripoint_bub_ms &p ) const;
         bool target_by_species_id( const tripoint_bub_ms &p ) const;
         bool ignore_by_species_id( const tripoint_bub_ms &p ) const;
-        bool valid_by_condition( const Creature &caster, const Creature &target ) const;
-        bool valid_by_condition( const Creature &caster ) const;
+        bool valid_caster_condition( const Creature &caster ) const;
+        bool valid_target_condition( const Creature &caster, const Creature &target ) const;
+        bool valid_target_condition( const Creature &caster, const vehicle &veh ) const;
 
-        std::string failed_condition_message() const;
+
+        std::string failed_caster_condition_message() const;
+        std::string failed_target_condition_message() const;
 
         // picks a random valid tripoint from @area
         std::optional<tripoint_bub_ms> random_valid_target( const Creature &caster,

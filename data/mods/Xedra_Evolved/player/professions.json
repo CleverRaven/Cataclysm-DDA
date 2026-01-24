@@ -909,6 +909,12 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
+    "traits": [
+      "XEDRA_CHRONOMANCER",
+      "XEDRA_CHRONOMANCER_LOOPING_WOUND",
+      "XEDRA_CHRONOMANCER_TIME_SLOWDOWN",
+      "XEDRA_CHRONOMANCER_UNSTABLE_POWERS"
+    ],
     "flags": [ "SCEN_ONLY" ],
     "chargen_allow_npc": false
   },

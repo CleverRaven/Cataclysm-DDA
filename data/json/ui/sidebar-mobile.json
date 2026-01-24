@@ -2211,7 +2211,7 @@
     "separator": ": ",
     "padding": 0,
     "label": { "str": "mobile", "ctxt": "UI sidebar" },
-    "widgets": [ "r_1", "r_separator-space", "r_2", "r_separator-space", "r_3" ],
+    "widgets": [ "r_1", "r_separator-space", "r_2", "r_separator-space", "r_3", "oxygen_classic_layout" ],
     "type": "widget"
   }
 ]
