@@ -70,7 +70,7 @@
     "name": { "str_sp": "spiked kanabō" },
     "description": "A two-handed war club used in feudal Japan by samurai against armored opponents.  Made from hardwood with metal spike inlays.",
     "looks_like": "nailbat",
-    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "NONCONDUCTIVE", "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "NONCONDUCTIVE", "PUNCTURE_VEHICLE_WHEELS" ],
     "relative": { "melee_damage": { "bash": -5, "stab": 7 } }
   },
   {
@@ -1582,7 +1582,7 @@
     "description": "A baseball bat with several nails driven through it, a popular choice for all sorts of doomsday larpers.  The additional weight in the end and sharp spikes contribute to the increased damage, but the structural integrity of the wood is degraded, making this weapon live a very short life.",
     "price": "0 USD",
     "delete": { "flags": [ "DURABLE_MELEE" ] },
-    "extend": { "flags": [ "FRAGILE_MELEE", "DAMAGE_VEHICLE_WHEELS" ] },
+    "extend": { "flags": [ "FRAGILE_MELEE", "PUNCTURE_VEHICLE_WHEELS" ] },
     "//": "20 nails, 5 from each side",
     "relative": { "weight": "400 g", "volume": "150 ml", "melee_damage": { "bash": 1, "stab": 2 } }
   },
@@ -1600,7 +1600,7 @@
     "volume": "2200 ml",
     "longest_side": "65 cm",
     "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "neutral" },
-    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "PUNCTURE_VEHICLE_WHEELS" ],
     "faults": [ { "fault_group": "staff_short" } ],
     "price": "1 USD",
     "price_postapoc": "50 cent",

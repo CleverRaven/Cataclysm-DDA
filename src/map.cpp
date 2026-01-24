@@ -1029,7 +1029,6 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
 
         for( const int vp_wheel_idx : wheel_indices ) {
             vehicle_part &vp_wheel = veh.part( vp_wheel_idx );
-            const vpart_info &vpi_wheel = vp_wheel.info();
             const tripoint_bub_ms wheel_p = veh.bub_part_pos( *this, vp_wheel );
             if( one_in( 2 ) && displace_water( wheel_p ) ) {
                 sounds::sound( wheel_p, 4, sounds::sound_t::movement, _( "splash!" ), false,
@@ -1043,7 +1042,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
                 // Damage is calculated based on the weight of the vehicle,
                 // The area of it's wheels, and the area of the wheel running over the items.
                 // This number is multiplied by weight_to_damage_factor to get reasonable results, damage-wise.
-                const int wheel_damage = vpi_wheel.wheel_info->contact_area / vehicle_grounded_wheel_area *
+                const int wheel_damage = vp_wheel.contact_area() / vehicle_grounded_wheel_area *
                                          vehicle_mass_kg * weight_to_damage_factor;
 
                 //~ %1$s: vehicle name
@@ -3923,7 +3922,7 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
         }
 
         if( vp_wheel != nullptr ) {
-            veh->damage_wheel_on_item( vp_wheel, *i, &damage_levels, &wheel_damage_messages );
+            veh->damage_wheel_on_item( vp_wheel, *i, &wheel_damage_messages );
         }
 
         if( i->active ) {

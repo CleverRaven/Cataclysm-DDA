@@ -190,8 +190,6 @@ namespace activity_handlers
 {
 
 bool resume_for_multi_activities( Character &you );
-void generic_game_turn_handler( player_activity *act, Character *you, int morale_bonus,
-                                int morale_max_bonus );
 
 /** activity_do_turn functions: */
 void chop_trees_do_turn( player_activity *act, Character *you );
@@ -223,7 +221,6 @@ do_turn_functions;
 
 /** activity_finish functions: */
 void heat_item_finish( player_activity *act, Character *you );
-void mend_item_finish( player_activity *act, Character *you );
 void repair_item_finish( player_activity *act, Character *you );
 void start_fire_finish( player_activity *act, Character *you );
 

@@ -1,7 +1,6 @@
 #include "activity_handlers.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <memory>
@@ -25,7 +24,6 @@
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
-#include "fault.h"
 #include "flag.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -40,7 +38,6 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "mapdata.h"
-#include "math_parser_diag_value.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
@@ -50,11 +47,9 @@
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "point.h"
-#include "requirements.h"
 #include "ret_val.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uilist.h"
@@ -69,7 +64,6 @@ static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
-static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
@@ -147,8 +141,7 @@ const std::map< activity_id, std::function<void( player_activity *, Character * 
 activity_handlers::finish_functions = {
     { ACT_START_FIRE, start_fire_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
-    { ACT_HEATING, heat_item_finish },
-    { ACT_MEND_ITEM, mend_item_finish }
+    { ACT_HEATING, heat_item_finish }
 };
 
 static void assign_multi_activity( Character &you, const player_activity &act )
@@ -911,83 +904,6 @@ void activity_handlers::heat_item_finish( player_activity *act, Character *you )
         target.heat_up();
         you->add_msg_if_player( m_info, _( "You heat up the food." ) );
     }
-}
-
-void activity_handlers::mend_item_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-    if( act->targets.size() != 1 ) {
-        debugmsg( "invalid arguments to ACT_MEND_ITEM" );
-        return;
-    }
-    if( !act->targets[0] ) {
-        debugmsg( "lost targets[0] item location for ACT_MEND_ITEM" );
-        return;
-    }
-    item &target = *act->targets[0];
-    const fault_id fault_id( act->name );
-    if( target.faults.count( fault_id ) == 0 ) {
-        debugmsg( "item %s does not have fault %s", target.tname(), fault_id.str() );
-        return;
-    }
-    if( act->str_values.empty() ) {
-        debugmsg( "missing fault_fix_id for ACT_MEND_ITEM." );
-        return;
-    }
-    const fault_fix_id fix_id( act->str_values[0] );
-    if( !fix_id.is_valid() ) {
-        debugmsg( "invalid fault_fix_id '%s' for ACT_MEND_ITEM.", fix_id.str() );
-        return;
-    }
-    const fault_fix &fix = *fix_id;
-    const requirement_data &reqs = fix.get_requirements();
-    const inventory &inv = you->crafting_inventory();
-    if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
-        add_msg( m_info, _( "You are currently unable to mend the %s." ), target.tname() );
-        return;
-    }
-    for( const auto &e : reqs.get_components() ) {
-        you->consume_items( e );
-    }
-    for( const auto &e : reqs.get_tools() ) {
-        you->consume_tools( e );
-    }
-    you->invalidate_crafting_inventory();
-
-    for( const ::fault_id &id : fix.faults_removed ) {
-        target.remove_fault( id );
-    }
-    for( const ::fault_id &id : fix.faults_added ) {
-        target.set_fault( id, true, false );
-    }
-    for( const auto &[var_name, var_value] : fix.set_variables ) {
-        target.set_var( var_name, var_value );
-    }
-    for( const auto &[var_name, var_value] : fix.adjust_variables_multiply ) {
-        const double var_value_multiplier = var_value;
-        const double var_oldvalue = target.get_var( var_name, 0.0 );
-        target.set_var( var_name, std::round( var_oldvalue * var_value_multiplier ) );
-    }
-
-    const std::string start_durability = target.durability_indicator( true );
-
-    if( fix.mod_damage ) {
-        target.mod_damage( fix.mod_damage );
-    }
-    if( fix.mod_degradation ) {
-        target.set_degradation( target.degradation() + fix.mod_degradation );
-    }
-
-    for( const auto &[skill_id, level] : fix.skills ) {
-        you->practice( skill_id, 10, static_cast<int>( level * 1.25 ) );
-    }
-
-    for( const auto &[proficiency_id, mult] : fix.time_save_profs ) {
-        you->practice_proficiency( proficiency_id, fix.time );
-    }
-
-    add_msg( m_good, fix.success_msg.translated(), target.tname( 1, false ),
-             start_durability, target.durability_indicator( true ) );
 }
 
 void activity_handlers::travel_do_turn( player_activity *act, Character *you )

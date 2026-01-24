@@ -8,7 +8,7 @@
     "faults_removed": [ "fault_blade_rolled_edge", "fault_blade_chipped", "fault_blade_broken_tip", "fault_blade_bent_tip" ],
     "mod_damage": -1000,
     "mod_degradation": 5,
-    "requirements": [ { "qualities": [ { "id": "GRIND", "level": 2 } ] } ]
+    "requirements": [ { "qualities": [ { "id": "GRIND", "level": 1 } ] } ]
   },
   {
     "type": "fault_fix",
@@ -19,7 +19,7 @@
     "faults_removed": [ "fault_spearhead_fracture", "fault_spearhead_warped", "fault_spearhead_chipping" ],
     "mod_damage": -1000,
     "mod_degradation": 5,
-    "requirements": [ { "qualities": [ { "id": "GRIND", "level": 2 } ] } ]
+    "requirements": [ { "qualities": [ { "id": "GRIND", "level": 1 } ] } ]
   },
   {
     "type": "fault_fix",

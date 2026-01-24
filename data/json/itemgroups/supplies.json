@@ -845,6 +845,7 @@
       [ "filter_air", 60 ],
       [ "filter_liquid", 60 ],
       [ "glowplug", 10 ],
+      { "item": "blister_pack", "contents-item": "tire_repair_kit", "prob": 100, "count": [ 0, 8 ] },
       { "group": "glue_weak_professional_full", "prob": 20 },
       [ "motor_small", 20 ],
       [ "pump_complex", 10 ],
