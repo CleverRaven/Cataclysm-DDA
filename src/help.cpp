@@ -2,7 +2,6 @@
 
 #include <cmath>
 #include <iterator>
-#include <optional>
 #include <string>
 #include <vector>
 
@@ -12,7 +11,6 @@
 #include "color.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
-#include "imgui/imgui.h"
 #include "input_context.h"
 #include "input_enums.h"
 #include "output.h"

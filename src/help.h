@@ -2,7 +2,9 @@
 #ifndef CATA_SRC_HELP_H
 #define CATA_SRC_HELP_H
 
+#include <imgui/imgui.h>
 #include <map>
+#include <optional>
 #include <string>
 #include <unordered_set>
 #include <utility>
