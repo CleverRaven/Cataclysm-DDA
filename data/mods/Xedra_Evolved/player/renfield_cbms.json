@@ -3,7 +3,7 @@
     "id": "bio_flesh_roots",
     "type": "bionic",
     "name": { "str": "Fleshy Root Structures" },
-    "description": "A fairly disturbing bionic module created by vampires for their servants.  Installed by planting the seed next to the heart inside of the chest, then sealed back up, the remainder of the surgery the seed spreads its root structures across the body and limbs.  The roots large enough to help obstruct damage to the body don't extend into the feet and hands but they do wrap around the skull in places.  They take up very little space for a body plus limbs CBM running mostly along the top layers of the skin.  Rumored to grow denser and thicker as they age over decades and centuries.",
+    "description": "A fairly disturbing bionic module created by vampires for their servants.  Installed by planting the seed next to the heart inside of the chest.  During the remainder of the surgery, the seed spreads its root structures across the body and limbs.  The roots, which is large enough to help obstruct damage to the body, don't extend into the hands and feet but they do wrap around the skull in places.  They take up very little space for a body plus limbs, running mostly along the top layers of the skin.  Rumored to grow denser and thicker as they age over decades and centuries.",
     "occupied_bodyparts": [ [ "torso", 4 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "passive_pseudo_items": [ "armor_bio_flesh_roots" ]
