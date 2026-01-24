@@ -2402,6 +2402,19 @@ void item::set_browsed( bool browsed )
     }
 }
 
+
+bool item::is_recipe_display_extended() const
+{
+    return get_var( "recipe_display_extended", "false" ) == "true";
+}
+
+void item::set_recipe_display_expanded( bool recipe_display_extended )
+{
+    recipe_display_extended ? set_var( "recipe_display_extended", "true" ) : set_var( "recipe_display_extended", "false" );
+}
+
+
+
 bool item::is_ecopiable() const
 {
     return has_flag( flag_E_COPIABLE ) || ( is_book() && !type->book->generic );

@@ -1147,7 +1147,7 @@ void iexamine::vending( Character &you, const tripoint_bub_ms &examp )
         std::vector<iteminfo> cur_item_info;
         cur_item->info( true, cur_item_info );
 
-        item_info_data data( cur_item->display_name(), "", cur_item_info, {}, item_info_scroll_pos );
+        item_info_data data( cur_item->display_name(), "", cur_item_info, {}, item_info_scroll_pos, cur_item->typeId() );
         data.without_getch = true;
         draw_item_info( w_item_info, data );
     } );

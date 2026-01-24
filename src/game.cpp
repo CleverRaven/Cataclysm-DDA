@@ -2159,7 +2159,7 @@ int game::inventory_item_menu( item_location locThisItem,
                 // Default menu border color is different, this matches the border of the item info window.
                 action_menu.border_color = BORDER_COLOR;
 
-                data = item_info_data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
+                data = item_info_data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos, oThisItem.typeId() );
                 data.without_getch = true;
 
                 ui = std::make_unique<ui_adaptor>();
@@ -6893,7 +6893,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 std::vector<iteminfo> vDummy;
                 activeItem->vIG[page_num].it->info( true, vThisItem );
 
-                item_info_data dummy( "", "", vThisItem, vDummy, iScrollPos );
+                item_info_data dummy( "", "", vThisItem, vDummy, iScrollPos,activeItem->vIG[page_num].it->typeId() );
                 dummy.without_getch = true;
                 dummy.without_border = true;
 
@@ -6984,7 +6984,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 
             item_info_data info_data( activeItem->vIG[page_num].it->tname(),
                                       activeItem->vIG[page_num].it->type_name(), vThisItem,
-                                      vDummy );
+                                      vDummy, activeItem->vIG[page_num].it->typeId() );
             info_data.handle_scrolling = true;
 
             draw_item_info( [&]() -> catacurses::window {

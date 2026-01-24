@@ -676,6 +676,10 @@ class recipe_result_info_cache
         explicit recipe_result_info_cache( Character &_crafter ) : crafter( _crafter ) {};
         item_info_data get_result_data( const recipe *rec, int batch_size, int &scroll_pos,
                                         const catacurses::window &window );
+
+            void invalidate_cache() {
+            last_recipe = nullptr;
+        }
 };
 
 void recipe_result_info_cache::get_byproducts_data( const recipe *rec,
@@ -794,7 +798,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
             && TERMX == last_terminal_width
             && batch_size == cached_batch_size
           ) {
-            item_info_data data( "", "", info, {}, scroll_pos );
+            item_info_data data( "", "", info, {}, scroll_pos, rec->result() );
             return data;
         }
     } else {
@@ -874,7 +878,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
     }
     //Merge summary and details
     info.insert( std::end( info ), std::begin( details_info ), std::end( details_info ) );
-    item_info_data data( "", "", info, {}, scroll_pos );
+        item_info_data data( "", "", info, {}, scroll_pos, rec->result() );
     return data;
 }
 
@@ -1650,6 +1654,10 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 data.scrollbar_left = false;
                 data.use_full_win = true;
                 data.padding = 0;
+                data.on_data_changed = [&result_info] {
+                    debugmsg("invalidated first");
+                    result_info.invalidate_cache();
+                };
                 draw_item_info( w_iteminfo, data );
             }
         }
@@ -1962,6 +1970,10 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                                   w_iteminfo );
             data.handle_scrolling = true;
             data.arrow_scrolling = true;
+            data.on_data_changed = [&result_info]() {
+                debugmsg("invalidated help recipe");
+                result_info.invalidate_cache();
+            };
             const int info_width = std::min( TERMX, FULL_SCREEN_WIDTH );
             const int info_height = std::min( TERMY, FULL_SCREEN_HEIGHT );
             iteminfo_window info_window( data, point( ( TERMX - info_width ) / 2, ( TERMY - info_height ) / 2 ),
