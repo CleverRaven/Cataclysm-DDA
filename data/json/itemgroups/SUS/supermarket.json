@@ -378,10 +378,10 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-     { "group": "dry_rice_bag_plastic_full", "count": 1 },
-     { "group": "dry_lentils_bag_plastic_full", "count": 1 },
-     { "group": "dry_beans_bag_plastic_full", "count": 1 },
-     { "group": "oats_bag_plastic_full", "count": 1 }
+      { "group": "dry_rice_bag_plastic_full", "count": 1 },
+      { "group": "dry_lentils_bag_plastic_full", "count": 1 },
+      { "group": "dry_beans_bag_plastic_full", "count": 1 },
+      { "group": "oats_bag_plastic_full", "count": 1 }
     ]
   },
   {
