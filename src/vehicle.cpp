@@ -104,6 +104,7 @@ static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
 
 static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
+static const fault_id fault_flat_tire_riding_on_rims( "fault_flat_tire_riding_on_rims" );
 static const fault_id fault_punctured_tires( "fault_punctured_tires" );
 
 static const itype_id fuel_type_animal( "animal" );
@@ -4436,10 +4437,25 @@ void vehicle::check_flats_do_rim_damage_or_sounds( map &here )
     for( int part_num : wheelcache ) {
         vehicle_part &vp = parts[part_num];
 
+        const tripoint_bub_ms part_bub_pos = bub_part_pos( here, vp );
+
         if( vp.get_base().has_fault( fault_punctured_tires ) ) {
+            // Most tire leaks are actually silent or nearly silent! But we don't represent a range of possibilities, so this is a pretty random asspull number.
+            const int leaking_sound_vol = 5;
+            sounds::sound( part_bub_pos, leaking_sound_vol,
+                           sounds::sound_t::sensory,
+                           //~Sound of a vehicle's tire rapidly losing air.
+                           string_format( _( "hissssssss!" ) ) );
+
+            if( one_in( vp.info().durability ) ) {
+                if( vp.fault_set( fault_flat_tire_riding_on_rims ) ) {
+                    vp.base.remove_fault( fault_punctured_tires );
+                    refresh_pivot( here );
+                }
+            }
+        } else if( vp.get_base().has_fault( fault_flat_tire_riding_on_rims ) ) {
             const int arbitrary_sound_volume = 40;
-            const tripoint_bub_ms part_bub_pos = bub_part_pos( here, vp );
-            sounds::sound( bub_part_pos( here, vp ), arbitrary_sound_volume,
+            sounds::sound( part_bub_pos, arbitrary_sound_volume,
                            sounds::sound_t::destructive_activity,
                            //~Sound of a vehicle's wheel rim grinding against the ground after the rubber tire has gone entirely flat.
                            string_format( _( "sccchrrrrrk!" ) ) );
