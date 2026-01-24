@@ -2157,8 +2157,7 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
     }
 
     // Don't leave any kind of liquids on water tiles
-    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, destination ) ||
-        !here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) ) {
+    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, destination ) ) {
         if( has_flag( mon_flag_DRIPS_NAPALM ) ) {
             if( one_in( 10 ) ) {
                 // if it has more napalm, drop some and reduce ammo in tank
