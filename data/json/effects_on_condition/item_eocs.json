@@ -365,6 +365,17 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_pat_advanced_AR_activate",
+    "condition": { "and": [ "u_exists", "u_is_avatar" ] },
+    "effect": [
+      {
+        "if": { "or": [ { "u_has_item": "military_vis_aug_system_on" }, { "u_has_item": "robofac_head_rig_ar_on" } ] },
+        "then": [ { "run_eocs": [ "EOC_pat_AR_activate" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_pat_AR_activate",
     "condition": { "math": [ "robofac_pat_is_dead == 1" ] },
     "effect": { "if": { "one_in_chance": 1000 }, "then": { "u_message": "Your earpiece is eerily silent." } },
@@ -636,7 +647,9 @@
         ]
       },
       {
-        "if": { "and": [ { "npc_near_om_location": "field", "range": 10 }, { "math": [ "robofac_pat_lost_signal_highlands == 1" ] } ] },
+        "if": {
+          "and": [ { "npc_near_om_location": "field", "range": 10 }, { "math": [ "robofac_pat_lost_signal_highlands == 1" ] } ]
+        },
         "then": [
           {
             "u_message": "You hear a chirp in your earpiece and Pat's voice comes over the line: \"Holy shit, I'm slowly gettin' pictures now.  What the fuck happened to you?  One second you're walking through that water like a moron, and the next second, you're gone!  I'll look over the images as they come through.  You take it easy.  Over.\"",
@@ -658,7 +671,9 @@
         ]
       },
       {
-        "if": { "and": [ { "npc_near_om_location": "field", "range": 10 }, { "math": [ "robofac_pat_lost_signal_labyrinth == 1" ] } ] },
+        "if": {
+          "and": [ { "npc_near_om_location": "field", "range": 10 }, { "math": [ "robofac_pat_lost_signal_labyrinth == 1" ] } ]
+        },
         "then": [
           {
             "u_message": "You hear a chirp in your earpiece and Pat's voice comes over the line: \"Well, welcome back.  I guess that robot wasn't kidding.  Your radio signal vanished.  I'll record all the data as it comes through.\"",
