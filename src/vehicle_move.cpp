@@ -54,6 +54,7 @@ static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const fault_id fault_flat_tire_riding_on_rims( "fault_flat_tire_riding_on_rims" );
 static const fault_id fault_punctured_tires( "fault_punctured_tires" );
 
 static const flag_id json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
@@ -1304,14 +1305,28 @@ void vehicle::damage_wheel_on_item( vehicle_part *vp_wheel, const item &it,
         return;
     }
 
+    if( vp_wheel->has_fault( fault_flat_tire_riding_on_rims ) ) { // Already in worst possible state.
+        return;
+    }
+
     const double chance_to_damage = wheel_damage_chance_vs_item( it, *vp_wheel );
 
     if( chance_to_damage > 0.0 && chance_to_damage >= rng_float( 0.0, 1.0 ) ) {
-        if( vp_wheel->fault_set( fault_punctured_tires ) ) {
-            messages->emplace_back( string_format(
-                                        _( "You hear a loud pop from below, and your vehicle suddenly start to wobble like crazy!" ) ) );
-            refresh_pivot( get_map() );
-            return;
+        if( !vp_wheel->has_fault( fault_punctured_tires ) ) {
+            if( vp_wheel->fault_set( fault_punctured_tires ) ) {
+                messages->emplace_back( string_format(
+                                            _( "You hear a loud pop from below, and your vehicle suddenly start to wobble like crazy!" ) ) );
+                refresh_pivot( get_map() );
+                return;
+            }
+        } else {
+            // Already punctured, but get hit *again* --> chance to instantly set 100% flat
+            if( vp_wheel->fault_set( fault_flat_tire_riding_on_rims ) ) {
+                messages->emplace_back( string_format(
+                                            _( "With a jolt, hitting something has blown out your tire!" ) ) );
+                refresh_pivot( get_map() );
+                return;
+            }
         }
     }
 }
