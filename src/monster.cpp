@@ -4246,7 +4246,10 @@ static void add_item_overlay_id( const item &item,
 {
     const std::string overlay_id = "worn_" + item.typeId().str();
     for( const std::string &suffix : suffixes ) {
-        overlay_ids.emplace_back( overlay_id + "_" + suffix, "" );
+        std::string full_id = overlay_id;
+        full_id += "_";
+        full_id += suffix;
+        overlay_ids.emplace_back( std::move( full_id ), "" );
     }
 }
 
@@ -4255,7 +4258,10 @@ static void add_generic_overlay_id( const std::string &base_id,
                                     const std::vector<std::string> &suffixes )
 {
     for( const std::string &suffix : suffixes ) {
-        overlay_ids.emplace_back( base_id + "_" + suffix, "" );
+        std::string full_id = base_id;
+        full_id += "_";
+        full_id += suffix;
+        overlay_ids.emplace_back( std::move( full_id ), "" );
     }
 }
 
