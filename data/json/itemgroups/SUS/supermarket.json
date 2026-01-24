@@ -328,16 +328,16 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-     { "group": "salt_bottle_plastic_small_full", "prob": 1 },
-     { "group": "seasoning_salt_bottle_plastic_small_full", "prob": 1 },
-     { "group": "pepper_bottle_plastic_small_full", "prob": 1 },
-     { "group": "garlic_powder_bottle_plastic_small_full", "prob": 1 },
-     { "group": "curry_powder_bottle_plastic_small_full", "prob": 1 },
-     { "group": "chilly_p_bottle_plastic_small_full", "prob": 1 },
-     { "group": "seasoning_italian_bottle_plastic_small_full", "prob": 1 },
-     { "group": "wild_herbs_jar_glass_sealed_20_inf", "prob": 1 },
-     { "group": "thyme_bowl_plastic_full", "prob": 1 },
-     { "group": "mustard_powder_bottle_plastic_small_full", "prob": 1 }
+      { "group": "salt_bottle_plastic_small_full", "prob": 1 },
+      { "group": "seasoning_salt_bottle_plastic_small_full", "prob": 1 },
+      { "group": "pepper_bottle_plastic_small_full", "prob": 1 },
+      { "group": "garlic_powder_bottle_plastic_small_full", "prob": 1 },
+      { "group": "curry_powder_bottle_plastic_small_full", "prob": 1 },
+      { "group": "chilly_p_bottle_plastic_small_full", "prob": 1 },
+      { "group": "seasoning_italian_bottle_plastic_small_full", "prob": 1 },
+      { "group": "wild_herbs_jar_glass_sealed_20_inf", "prob": 1 },
+      { "group": "thyme_bowl_plastic_full", "prob": 1 },
+      { "group": "mustard_powder_bottle_plastic_small_full", "prob": 1 }
     ]
   },
   {
