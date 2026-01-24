@@ -219,7 +219,10 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 break;
         }
 
-        static const units::volume volume_per_second = units::from_liter( 4.0F / 6.0F );
+        // Vehicle siphoning is slower than other liquid transfers
+        const units::volume volume_per_second = source_type == liquid_source_type::VEHICLE
+                                                ? units::from_liter( 0.25F )
+                                                : units::from_liter( 4.0F / 6.0F );
         const int charges_per_second = std::max( 1, liquid.charges_per_volume( volume_per_second ) );
         liquid.charges = std::min( charges_per_second, liquid.charges );
         const int original_charges = liquid.charges;
