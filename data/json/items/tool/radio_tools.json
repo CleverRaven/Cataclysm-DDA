@@ -191,7 +191,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "transponder earpiece (off)", "str_pl": "transponder earpieces (off)" },
-    "description": "A small radio transponder attached to an over-the-ear earpiece.  It has two small cables for connecting to AR headsets.  If you have a compatable headset and it is switched on, Pat can keep track of you and communicate via radio.  Active it to switch it on.",
+    "description": "A small radio transponder attached to an over-the-ear earpiece.  It has two small cables for connecting to AR headsets.  If you have a compatible headset and it is switched on, Pat can keep track of you and communicate via radio.  Active it to switch it on.",
     "weight": "10 g",
     "volume": "10 ml",
     "price": "20 USD",
@@ -217,7 +217,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "transponder earpiece (on)", "str_pl": "transponder earpieces (on)" },
-    "description": "A small radio transponder attached to an over-the-ear earpiece.  It has two small cables for connecting to AR headsets.  If you have a compatable headset and it is switched on, Pat can keep track of you and communicate via radio.  It is currently active.  Active it to switch it off.",
+    "description": "A small radio transponder attached to an over-the-ear earpiece.  It has two small cables for connecting to AR headsets.  If you have a compatible headset and it is switched on, Pat can keep track of you and communicate via radio.  It is currently active.  Active it to switch it off.",
     "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "use_action": {
       "type": "transform",
