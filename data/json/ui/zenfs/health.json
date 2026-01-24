@@ -129,6 +129,28 @@
     "flags": [ "W_LABEL_NONE" ]
   },
   {
+    "id": "zenfs_oxygen_bar_only_12",
+    "type": "widget",
+    "copy-from": "oxygen_widget",
+    "label": "Oxygen",
+    "style": "graph",
+    "symbols": "·−=≡≣",
+    "colors": [ "i_red", "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "width": 12
+  },
+  {
+    "id": "zenfs_oxygen_bar_only_12_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Oxygen",
+    "arrange": "rows",
+    "default_clause": { "text": "" },
+    "clauses": [
+      { "condition": { "math": [ "u_oxygen_max() != u_oxygen()" ] }, "id": "content", "widgets": "zenfs_oxygen_bar_only_12" }
+    ],
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ]
+  },
+  {
     "id": "zenfs_weariness_bar_10",
     "type": "widget",
     "label": "Weariness",
