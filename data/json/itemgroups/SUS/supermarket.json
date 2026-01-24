@@ -396,12 +396,12 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-    { "group": "flour_bag_50", "prob": 1 },
-    { "group": "bread_flour_bag_50", "prob": 1 },
-    { "group": "flour_wheat_free_bag_50", "prob": 1 },
-    { "group": "yeast_bag_10", "prob": 1 },
-    { "group": "sugar_bag_50", "prob": 1 }
-  ]
+      { "group": "flour_bag_50", "prob": 1 },
+      { "group": "bread_flour_bag_50", "prob": 1 },
+      { "group": "flour_wheat_free_bag_50", "prob": 1 },
+      { "group": "yeast_bag_10", "prob": 1 },
+      { "group": "sugar_bag_50", "prob": 1 }
+    ]
   },
   {
     "id": "SUS_shelf_commercial_baking",
