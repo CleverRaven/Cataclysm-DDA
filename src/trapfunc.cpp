@@ -161,6 +161,14 @@ bool trapfunc::thin_ice( const tripoint_bub_ms &p, Creature *c, item * )
         return false;
     }
 
+    // If creature is frozen, don't trigger the trap
+    if( !c->is_avatar() ) {
+        monster *mon = dynamic_cast<monster *>( c );
+        if( mon && ( mon->has_flag( mon_flag_AQUATIC ) || mon->has_flag( mon_flag_FLIES ) ) ) {
+            return false;
+        }
+    }
+
     // If this tile has an original terrain recorded (from a phase change),
     // restore that instead of blindly switching to water based on ice flags.
     if( here.has_original_terrain_at( p ) ) {

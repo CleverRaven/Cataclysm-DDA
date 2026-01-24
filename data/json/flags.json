@@ -5,6 +5,11 @@
     "info": "This is not intended to be visible during normal gameplay.  <bad>Please file a bug report</bad> unless you are seeing this in the debug menu."
   },
   {
+    "id": "SWIM_UNDER",
+    "type": "json_flag",
+    "info": "Terrain with this flag is treated as having water beneath a covering (e.g. ice); entities may be considered under water for swimming and related mechanics."
+  },
+  {
     "id": "ABLATIVE_CHAINMAIL_ARMS",
     "type": "json_flag",
     "info": "You can use this armor <info>with chainmail</info> without encumbrance penalty.",

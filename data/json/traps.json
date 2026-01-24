@@ -598,13 +598,12 @@
     "memorial_male": { "ctxt": "memorial_male", "str": "Fell through thin ice into water." },
     "memorial_female": { "ctxt": "memorial_female", "str": "Fell through thin ice into water." },
     "flags": [ "ECHOLOCATION_DETECTABLE" ],
-    "symbol": "~",
+    "symbol": "/",
     "visibility": 0,
-    "avoidance": 20,
+    "avoidance": 12,
     "difficulty": 99,
     "action": "thin_ice",
-    "trigger_message_u": "The ice cracks beneath you!",
-    "trigger_message_npc": "The ice cracks beneath <npcname>!"
+    "trigger_message_u": "The ice cracks beneath you!"
   },
   {
     "type": "trap",
