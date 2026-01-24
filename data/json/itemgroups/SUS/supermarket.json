@@ -76,7 +76,7 @@
     "container-item": "box_small",
     "entries": [ { "item": "chicken_fried", "container-item": "null", "count": 6 } ]
   },
-    {
+  {
     "id": "flour_bag_50",
     "type": "item_group",
     "subtype": "collection",
