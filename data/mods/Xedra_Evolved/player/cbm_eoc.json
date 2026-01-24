@@ -8,7 +8,7 @@
           "id": "spell_summon_bat_swarm",
           "min_level": 1,
           "max_level": 6,
-          "message": "There is a loud clicking sound as you commune with any nearby bats."
+          "message": "A loud clicking sound echos, summoning nearby bats into a swarm."
         },
         "targeted": true
       }
@@ -23,7 +23,7 @@
           "id": "spell_summon_bat_giant",
           "min_level": 1,
           "max_level": 6,
-          "message": "A click fires out of the back of your throat like a gunshot.  What could this possibly be speaking to?"
+          "message": "A gunshot-loud clicking sound fires out of your reinforced vocals, rolling and roiling across the barren terrain.  What demon could you possibly be speaking to?"
         },
         "targeted": true
       }
