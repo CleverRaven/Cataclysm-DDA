@@ -2263,6 +2263,8 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
             }
         }
 
+        move_mod = std::max( move_mod, move_mod + vp.move_penalty() );
+
         if( move_mod == 0 ) {
             debugmsg( "move_mod resulted in a 0, ignoring wheel" );
             continue;

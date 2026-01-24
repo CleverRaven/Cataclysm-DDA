@@ -77,8 +77,10 @@
     "name": { "str": "Flat tire" },
     "description": "Something made a hole in the tire, and it is now as flat as the ground it drives onto.",
     "price_modifier": 0.0,
-    "contact_area_mod": 0.0,
-    "rolling_resistance_mod": 2.0,
+    "//COMMENT": "Reduced contact area, but not 0. The rim is now in contact. Making the contact area lower actually reduces the effect of low traction and high rolling resistance.",
+    "contact_area_mod": 0.5,
+    "rolling_resistance_mod": 10.0,
+    "vehicle_move_penalty_mod": 5,
     "item_suffix": "flat",
     "flags": [ "FLAT_TIRE" ]
   }

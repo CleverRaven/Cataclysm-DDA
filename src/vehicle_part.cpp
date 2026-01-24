@@ -823,3 +823,14 @@ float vehicle_part::rolling_resistance() const
 
     return rolling_resistance;
 }
+
+int vehicle_part::move_penalty() const
+{
+    int move_penalty = 0;
+
+    for( const fault_id &ft : faults() ) {
+        move_penalty += ft.obj().vehicle_move_penalty_mod();
+    }
+
+    return move_penalty;
+}

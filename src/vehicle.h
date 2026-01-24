@@ -510,7 +510,11 @@ struct vehicle_part {
         // in cm^2
         int contact_area() const;
 
+        // Part's base rolling resistance, plus any modifiers from faults etc
         float rolling_resistance() const;
+
+        // Part's base move penalty, plus any modifiers from faults etc
+        int move_penalty() const;
 
         /** how much blood covers part (in turns). */
         int blood = 0;
