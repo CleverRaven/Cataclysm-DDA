@@ -350,7 +350,7 @@ cataimgui::bounds help_window::get_bounds()
 
 float help_window::get_wrap_width()
 {
-    return static_cast<float>( str_width_to_pixels( get_terminal_width() - 5 ) );
+    return static_cast<float>( str_width_to_pixels( TERMX - 5 ) );
 }
 
 void help_window::show()
