@@ -28,7 +28,7 @@ class help
     public:
         static void load( const JsonObject &jo, const std::string &src );
         static void reset();
-        // TODO: Shouldn't be public
+        //TODO: Shouldn't be public
         std::map<const int, const help_category> help_categories;
         // Only persists per load (eg resets on menu -> game, game -> menu)
         std::unordered_set<int> read_categories;
@@ -51,7 +51,7 @@ class help_window : public cataimgui::window
         void draw_controls() override;
         cataimgui::bounds get_bounds() override;
     private:
-        //Temporary to fix issue where IMGUI scrollbar width isn't accounted for for the first few frames
+        // Temporary to fix issue where IMGUI scrollbar width isn't accounted for for the first few frames
         float get_wrap_width();
 
         const bool screen_reader = get_option<bool>( "SCREEN_READER_MODE" );
@@ -73,6 +73,7 @@ class help_window : public cataimgui::window
 
         void draw_category();
         cataimgui::scroll s;
+        const float one_em = ImGui::CalcTextSize( "M" ).x;
 };
 
 std::string get_hint();

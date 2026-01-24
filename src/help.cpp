@@ -22,7 +22,6 @@
 #include "text.h"
 #include "text_snippets.h"
 #include "translations.h"
-#include "ui_helpers.h"
 #include "ui_manager.h"
 
 help &get_help()
@@ -75,13 +74,7 @@ void help::load_object( const JsonObject &jo, const std::string &src )
         const std::string color_string = jo.get_string( "color" );
         category.color = color_from_string( color_string, report_color_error::no );
         if( category.color == c_unset ) {
-            // We can't use throw_error if called from core bc that results in a CTD
-            if( src == "core" ) {
-                debugmsg( "Can't parse color: %s in data/core(/help.json?). Object dump: %s", color_string,
-                          jo.str() );
-            } else {
-                jo.throw_error_at( "color", "Can't parse color" );
-            }
+            jo.throw_error_at( "color", "Can't parse color" );
             category.color = c_light_blue;
         }
     }
@@ -101,13 +94,7 @@ void help::load_object( const JsonObject &jo, const std::string &src )
                           MM_SEPERATOR );
                 // Verify color now bc later the debugmsg would cause an ImGui CTD, don't use color_from_string's debugmsg though bc that will be useless context wise
                 if( color_from_string( it.first.translated(), report_color_error::no ) == c_unset ) {
-                    // Except we also can't use throw_error if called from core bc that also results in a CTD, fun
-                    if( src == "core" ) {
-                        debugmsg( "Can't parse seperator color: %s in data/core(/help.json?). Object dump: %s",
-                                  it.first.translated(), jo.str() );
-                    } else {
-                        jo.throw_error_at( "seperator", "Can't parse color" );
-                    }
+                    jobj.throw_error_at( "seperator", "Can't parse color" );
                 }
             }
         }
@@ -161,26 +148,29 @@ void help_window::draw_controls()
 
 void help_window::draw_category_selection()
 {
-    // TODO: Add one column display for tiny screens and screen reader users
+    //TODO: Add one column display for tiny screens and screen reader users
     selected_option = -1;
     format_title();
     // Split the categories in half
     if( ImGui::BeginTable( "Category Options", 2, ImGuiTableFlags_None ) ) {
         ImGui::TableSetupColumn( "Left Column", ImGuiTableColumnFlags_WidthStretch, 1.0f );
         ImGui::TableSetupColumn( "Right Column", ImGuiTableColumnFlags_WidthStretch, 1.0f );
-        int half_size = std::trunc( data.help_categories.size() / 2.0 ) + 1;
+        int half_size = data.help_categories.size() / 2;
+        if( data.help_categories.size() % 2 != 0 ) {
+            half_size++;
+        }
         auto half_it = data.help_categories.begin();
         std::advance( half_it, half_size );
         auto jt = data.help_categories.begin();
-        std::advance( jt, half_size );
+        std::advance( jt, half_size - 1 );
         for( auto it = data.help_categories.begin(); it != half_it; it++ ) {
-            if( jt != std::prev( data.help_categories.end() ) ) {
-                jt++;
-            }
             ImGui::TableNextColumn();
             draw_category_option( it->first, it->second );
             ImGui::TableNextColumn();
-            draw_category_option( jt->first, jt->second );
+            if( jt != std::prev( data.help_categories.end() ) ) {
+                jt++;
+                draw_category_option( jt->first, jt->second );
+            }
         }
         ImGui::EndTable();
     }
@@ -311,8 +301,9 @@ void help_window::draw_category()
     const help_category &cat = data.help_categories[loaded_option];
     format_title( cat );
     // Use a table so we can scroll the category paragraphs without the title
-    if( ImGui::BeginTable( "HELP_PARAGRAPHS", 1,
-                           ImGuiTableFlags_ScrollY ) ) {
+    //TODO: Consider not keeping the title seperate on tiny screens
+    ImGui::Indent( one_em );
+    if( ImGui::BeginTable( "HELP_PARAGRAPHS", 1, ImGuiTableFlags_ScrollY ) ) {
         cataimgui::set_scroll( s );
         ImGui::TableNextRow();
         ImGui::TableNextColumn();

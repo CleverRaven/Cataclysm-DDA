@@ -17,7 +17,7 @@
     "messages": [
       "Movement is typically performed using the numpad, vikeys, the mouse or arrow keys. Here are the layouts for numpad and vikeys, where the central bind is to wait in place:",
       {
-        "force_monospaced": "<color_light_blue>7 8 9     y k u\n \\|/       \\|/ \n4-5-6     h-.-l\n /|\\       /|\\ \n1 2 3     b j n\n"
+        "force_monospaced": "<color_light_blue>7 8 9     y k u\n ↖↑↗       ↖↑↗ \n4←5→6     h←.→l\n ↙↓↘       ↙↓↘ \n1 2 3     b j n\n"
       },
       "Movement is also possible using the arrow keys by first enabling the \"Diagonal movement with cursor keys and modifiers\" setting in the Interface tab to one of these four modes:",
       "- Numpad Emulation: In this mode you hold Ctrl throughout, first pressing a direction which will then modify further key presses to be in altered by that direction, for example if you first press Up, then further Left, Up, Right and Down presses will become NW, N, NE, and wait respectively.",
@@ -35,7 +35,7 @@
       "- Diagonal Lock: In this mode holding Shift or Ctrl results in only diagonal combinations of two directions being accepted for example Ctrl + Up + Right becomes NE.",
       "Each step will take 100 movement points (or more, depending on the terrain); you will then replenish a variable amount of movement points, depending on many factors (press <keybind:player_data> to see the exact amount).",
       "To attempt to hit a monster with your weapon, simply move into it.",
-      "You may find doors, ('+'); these may be opened with <press_open> or closed with <press_close>.  Some doors are locked.  Locked doors, windows, and some other obstacles can be destroyed by smashing them (<press_smash>, then choose a direction).  Smashing down obstacles is much easier with a good weapon or a strong character.",
+      "You may find doors, ('+'); these may be opened with <keybind:open> or closed with <keybind:close>.  Some doors are locked.  Locked doors, windows, and some other obstacles can be destroyed by smashing them (<keybind:smash>, then choose a direction).  Smashing down obstacles is much easier with a good weapon or a strong character.",
       "There may be times when you want to move more quickly by holding down a movement key.  However, fast movement in this fashion may quickly put you in a dangerous situation, or even kill you before you've had a chance to react.  Pressing <keybind:safemode> will toggle \"safe mode.\"  While this is on, the game will stop you from moving further if you've spotted an enemy, and let you step back unnoticed if you weren't running."
     ]
   },
