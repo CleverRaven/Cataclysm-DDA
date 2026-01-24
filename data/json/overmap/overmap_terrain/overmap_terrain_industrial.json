@@ -106,6 +106,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "office_warehouse_anduril",
+    "copy-from": "generic_city_building",
+    "name": "small warehouse",
+    "vision_levels": "warehouse",
+    "sym": "w",
+    "color": "light_blue",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_warehouse_anduril_roof",
+    "copy-from": "generic_city_building_roof",
+    "name": "small warehouse roof",
+    "vision_levels": "warehouse",
+    "sym": "w",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "small_storage_units", "small_storage_units_1" ],
     "copy-from": "generic_city_building",
     "name": "small storage units",

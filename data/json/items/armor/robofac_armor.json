@@ -385,6 +385,147 @@
     "passive_effects": [ { "id": "nvg_good" }, { "id": "THERMAL_VISION_GOOD" } ]
   },
   {
+    "id": "robofac_head_rig_ar",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str_sp": "Hub 01 visual augmentation headgear" },
+    "looks_like": "tac_helmet",
+    "description": "Heavy duty hooded headwear for the true frontier explorer, made with robust Nylon sheeting reinforced with Kevlar fibers.  The top consists of a series of plastic plates with hooks and velcro strips, perhaps for attaching additional parts, and an integrated camera array.  A multi-faceted augmented reality headset rests of the forehead like a pair of slim, boxy ski goggles, with side plugs for auxiliary devices.  The AR lenses are equipped with adaptive light correction, light amplification and thermal imaging, and an augmented reality overlay equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  Activate it to turn on all systems.",
+    "weight": "1400 g",
+    "volume": "1200 ml",
+    "price": "200 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "nylon", "kevlar", "plastic" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 10,
+    "material_thickness": 3,
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You lower the AR headset and switch it on.\n\"HELLO MERCENARY\".\nVisual systems:   ONLINE.\nRadio systems:    ONLINE.\nTargeting HUD:    ONLINE.",
+        "target": "robofac_head_rig_ar_on"
+      },
+      "CAMERA",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE"
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "5000 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Hooks for an armored helm plate.",
+        "flag_restriction": [ "ABLATIVE_HELMET" ]
+      },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0,
+        "ememory_max": "1 TB"
+      }
+    ],
+    "flags": [
+      "VARSIZE",
+      "WATERPROOF",
+      "STURDY",
+      "PADDED",
+      "OUTER",
+      "RAINPROOF",
+      "SOFT",
+      "MUNDANE",
+      "ELECTRONIC",
+      "CAN_USE_IN_DARK"
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 95,
+        "encumbrance": 55,
+        "volume_encumber_modifier": 0
+      }
+    ],
+    "techniques": [ "WBLOCK_1" ],
+    "tool_ammo": "battery"
+  },
+  {
+    "id": "robofac_head_rig_ar_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "copy-from": "robofac_head_rig_ar",
+    "name": { "str_sp": "Hub 01 visual augmentation headgear (on)" },
+    "description": "Heavy duty hooded headwear for the true frontier explorer, made with robust Nylon sheeting reinforced with Kevlar fibers.  The top consists of a series of plastic plates with hooks and velcro strips, perhaps for attaching additional parts, and an integrated camera array.  A multi-faceted augmented reality headset rests of the forehead like a pair of slim, boxy ski goggles, with side plugs for auxiliary devices.  The AR lenses are equipped with adaptive light correction, light amplification and thermal imaging, and an augmented reality overlay equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  The AR system is currently turned on, and continually draining batteries.  Use it to turn it off.",
+    "extend": {
+      "flags": [
+        "SPAWN_ACTIVE",
+        "ZOOM",
+        "THERMOMETER",
+        "HYGROMETER",
+        "BAROMETER",
+        "TWO_WAY_RADIO",
+        "WATCH",
+        "ALARMCLOCK",
+        "SUN_GLASSES"
+      ]
+    },
+    "power_draw": "320 mW",
+    "revert_to": "robofac_head_rig_ar",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "type": "transform",
+        "menu_text": "Turn off",
+        "msg": "Your AR system turns off.",
+        "target": "robofac_head_rig_ar"
+      },
+      "CAMERA",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE"
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 95,
+        "encumbrance": 50,
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 5,
+        "rigid_layer_only": true,
+        "volume_encumber_modifier": 0
+      }
+    ],
+    "passive_effects": [
+      { "id": "nvg_great" },
+      { "id": "THERMAL_VISION_GOOD" },
+      { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -0.25 } ] }
+    ]
+  },
+  {
     "id": "robofac_robotrig",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
