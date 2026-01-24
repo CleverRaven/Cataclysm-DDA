@@ -5165,19 +5165,26 @@ float vehicle::steering_effectiveness( map &here ) const
         !get_harnessed_animal( here ) ) {
         return -2.0f;
     }
-    // For now, you just need one wheel working for 100% effective steering.
-    // TODO: return something less than 1.0 if the steering isn't so good
-    // (unbalanced, long wheelbase, back-heavy vehicle with front wheel steering,
-    // etc)
+
+    // total_steering_capacity is a sum of its parts. Each wheel contributes proportional to the total amount of wheels.
+    // e.g. a 4-wheeled vehicle with 1 wheel at 0 total capacity has 0.25+0.25+0.25+0 = 75% total steering.
+    // A 3-wheeled vehicle with wheels at 33%, 67%, and 100% has 0.11 + 0.22 + 0.33 = ~67% total capacity.
+    float total_steering_capacity = 0.0f;
     for( const int p : steering ) {
         const vehicle_part &vp = parts[p];
-        if( vp.is_available() ) {
-            return 1.0f;
+        // Damage linearly degrades capacity.
+        float part_steer_capacity = 1.0f - vp.damage_percent();
+        // TODO: Wheel faults modify steering in a json way, and not this hardcoded check
+        if( vp.get_base().has_fault( fault_punctured_tires ) ) {
+            part_steer_capacity *= 0.1f;
         }
+        if( !vp.is_available() ) {
+            part_steer_capacity = 0.0f;
+        }
+        total_steering_capacity += ( 1.0f / steering.size() ) * part_steer_capacity;
     }
 
-    // We have steering, but it's all broken.
-    return 0.0f;
+    return total_steering_capacity;
 }
 
 float vehicle::handling_difficulty( map &here ) const
