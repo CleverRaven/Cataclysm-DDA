@@ -3249,7 +3249,7 @@ time_duration lockpick_activity_actor::lockpicking_time( Character &who, item &l
         /** @EFFECT_DEX speeds up door lock picking */
         return std::max( 30_seconds,
                          ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( who.dex_cur ) / 4.0f +
-                                weighted_skill_average ) ) * duration_proficiency_factor );
+                                 weighted_skill_average ) ) * duration_proficiency_factor );
     }
 }
 
