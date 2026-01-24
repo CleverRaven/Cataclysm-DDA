@@ -3,9 +3,9 @@
     "type": "MONSTER_FACTION",
     "name": "changeling",
     "base_faction": "nether",
-    "neutral": [ "fish", "small_animal", "slime" ],
-    "by_mood": [ "nether", "nightmares" ],
-    "hate": [ "zombie", "triffid", "fungus", "exodii", "isolated_artisans" ]
+    "neutral": [ "fish", "small_animal" ],
+    "by_mood": [ "nether", "nightmares", "slime" ],
+    "hate": [ "zombie", "triffid", "fungus", "exodii", "isolated_artisans", "cult" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -24,11 +24,17 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "cult",
+    "copy-from": "cult",
+    "extend": { "neutral": [ "vampire_anathema" ] }
+  }
+  {
+    "type": "MONSTER_FACTION",
     "name": "arvore",
     "base_faction": "changeling",
     "neutral": [ "small_animal", "fish" ],
-    "by_mood": [ "nether", "nightmares", "ierde", "undine", "sylph", "salamander" ],
-    "hate": [ "zombie", "homullus", "thornbeast" ]
+    "by_mood": [ "nether", "nightmares", "ierde", "undine", "sylph", "salamander", "changeling" ],
+    "hate": [ "zombie", "homullus", "thornbeast", "cult" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -36,40 +42,40 @@
     "base_faction": "changeling",
     "friendly": [ "worm" ],
     "neutral": [ "small_animal", "fish" ],
-    "by_mood": [ "nether", "nightmares", "homullus", "arvore", "undine", "salamander" ],
-    "hate": [ "zombie", "sylph" ]
+    "by_mood": [ "nether", "nightmares", "homullus", "arvore", "undine", "salamander", "changeling" ],
+    "hate": [ "zombie", "sylph", "cult" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "undine",
     "base_faction": "changeling",
     "neutral": [ "small_animal", "fish" ],
-    "by_mood": [ "nether", "nightmares", "homullus", "arvore", "sylph", "ierde" ],
-    "hate": [ "zombie", "salamander" ]
+    "by_mood": [ "nether", "nightmares", "homullus", "arvore", "sylph", "ierde", "slime", "changeling" ],
+    "hate": [ "zombie", "salamander", "cult" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "salamander",
     "base_faction": "changeling",
     "neutral": [ "small_animal", "fish" ],
-    "by_mood": [ "nether", "nightmares", "ierde", "arvore", "sylph", "homullus" ],
-    "hate": [ "zombie", "undine" ]
+    "by_mood": [ "nether", "nightmares", "ierde", "arvore", "sylph", "homullus", "changeling" ],
+    "hate": [ "zombie", "undine", "cult" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "homullus",
     "base_faction": "changeling",
     "neutral": [ "small_animal", "fish" ],
-    "by_mood": [ "nether", "nightmares", "ierde", "arvore", "sylph", "salamander" ],
-    "hate": [ "zombie", "arvore" ]
+    "by_mood": [ "nether", "nightmares", "ierde", "arvore", "sylph", "salamander", "changeling" ],
+    "hate": [ "zombie", "arvore", "cult" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "sylph",
     "base_faction": "changeling",
     "neutral": [ "small_animal", "fish" ],
-    "by_mood": [ "nether", "nightmares", "homullus", "arvore", "undine", "salamander" ],
-    "hate": [ "zombie", "ierde" ]
+    "by_mood": [ "nether", "nightmares", "homullus", "arvore", "undine", "salamander", "changeling" ],
+    "hate": [ "zombie", "ierde", "cult" ]
   },
   {
     "type": "MONSTER_FACTION",
