@@ -27,7 +27,9 @@ for message in diff["added"]:
         bold_typo = "**" + typo + "**"
         if long_message:
             bold_typos.append(bold_typo)
-        message = '"' + re.sub(re.escape(typo), lambda _: bold_typo, message) + '"'
+        message = (
+            '"' + re.sub(re.escape(typo), lambda _: bold_typo, message) + '"'
+        )
     if long_message:
         message = " and ".join(bold_typos) + " in string: " + message
     errors.append(message)
