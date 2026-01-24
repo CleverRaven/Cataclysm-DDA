@@ -111,16 +111,13 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "sound_id": "misc",                                       // the sound id
     "sound_variant": "shockwave",                             // the sound variant
     "learn_spells": { "create_atomic_light": 5, "megablast": 10 },   // the caster will learn these spells when the current spell reaches the specified level. should be a map of spell_type_id and the level at which the new spell is learned.
-    "condition": {                                            // if valid_targets, targeted_monster_ids, targeted_monster_species and ignored_monster_species is not enough,
-      "and": [                                                // you can place more conditions to check both the caster (alpha/u_) and target (beta/npc/n_).
-        { "not": { "npc_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } }, // If it return false, you cannot cast this spell against creature you are aiming at
-        { "not": { "npc_has_worn_with_flag": "STABILIZED_TIMELINE" } }
-      ]
-    },
-    "condition_fail_message": "Cannot be used against time or space anchored." // if `condition` fails, this message would be printed.
-                                                                               // because `condition` is designed to evaluate both alpha and beta,
-                                                                               // the only place where this message can be rendered is at aiming menu
-                                                                               // which i consider a bug that needs to be resovled
+    "caster_condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] }, // if valid_targets, targeted_monster_ids, targeted_monster_species and ignored_monster_species is not enough,
+                                                // you can place more conditions 
+                                                // caster condition checks only caster (alpha/u_), and prevent you from casting similarly to lack of mana
+    "caster_condition_fail_message": "You do not have enough stolen blood.", // if caster_condition fails, this message is printed
+    "target_condition": { "npc_has_worn_with_flag": "STABILIZED_TIMELINE" }, // target_condition checks both the caster (alpha/u_) and target (beta/npc/n_) of the spell
+                                                // and prevent you from targeting a specific monster/vehicle 
+    "target_condition_fail_message": "Cannot be used against time or space anchored." // if `target_condition` fails, this message would be printed.
   }
 ```
 The template spell above shows every JSON field that spells can have.  Most of these values can be set at 0 or "NONE", so you may leave out most of these fields if they do not pertain to your spell.
