@@ -27,7 +27,7 @@
     "name": "cult",
     "copy-from": "cult",
     "extend": { "neutral": [ "vampire_anathema" ] }
-  }
+  }.
   {
     "type": "MONSTER_FACTION",
     "name": "arvore",
