@@ -166,6 +166,7 @@ __pycache__
 Cataclysm.app
 build-data/osx/AppIcon.icns
 Cataclysm.dmg
+zzip.dSYM
 
 # Jetbrains CLion
 .idea/
