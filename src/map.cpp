@@ -3908,7 +3908,6 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
     std::vector<item> contents;
     map_stack items = i_at( p );
     std::vector<std::string> wheel_damage_messages;
-    int damage_levels = 0;
 
     for( auto i = items.begin(); i != items.end() && power > 0; ) {
         if( i->made_of( phase_id::LIQUID ) ) {
@@ -4035,27 +4034,12 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
                                 damaged_item_name );
     }
 
-    if( damage_levels > 0 ) {
-        veh->damage_direct( bubble_map, *vp_wheel, damage_levels );
+    const bool player_is_driver = veh != nullptr && &get_player_character() == veh->get_driver( *this );
+    const bool player_sees_damage = get_player_character().sees( *this, p );
 
-        const bool player_is_driver = veh != nullptr && &get_player_character() == veh->get_driver( *this );
-        const bool player_sees_damage = get_player_character().sees( *this, p );
-
-        if( !wheel_damage_messages.empty() && ( player_is_driver || player_sees_damage ) ) {
-            for( const std::string &msg : wheel_damage_messages ) {
-                add_msg( m_bad, msg );
-            }
-        }
-
-        bool existing = false;
-        for( int wheel : veh->wheelcache ) {
-            if( veh->bub_part_pos( *this, veh->part( wheel ) ) == p ) {
-                existing = true;
-                break;
-            }
-        }
-        if( existing ) {
-            add_msg( m_bad, _( "The %s has been degraded by the damage" ), vp_wheel->name() );
+    if( !wheel_damage_messages.empty() && ( player_is_driver || player_sees_damage ) ) {
+        for( const std::string &msg : wheel_damage_messages ) {
+            add_msg( m_bad, msg );
         }
     }
 
