@@ -1,0 +1,23 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mx_ocean_boat",
+    "object": {
+      "place_vehicles": [
+        {
+          "vehicle": "ocean",
+          "x": [ 4, 19 ],
+          "y": [ 4, 19 ],
+          "rotation": [ 0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mx_ocean_boat_scenario",
+    "object": {
+      "place_vehicles": [ { "vehicle": "ocean", "fuel": 50, "status": 2, "faction": "your_followers", "x": [ 4, 19 ], "y": [ 4, 19 ] } ]
+    }
+  }
+]

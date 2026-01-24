@@ -156,6 +156,14 @@
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
+    "id": "mx_last_flight_scenario",
+    "type": "map_extra",
+    "name": "",
+    "description": "",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_last_flight_scenario" },
+    "flags": [ "MAN_MADE", "CLASSIC" ]
+  },
+  {
     "id": "mx_science",
     "type": "map_extra",
     "name": { "str": "Scientists" },
@@ -720,6 +728,23 @@
     "description": "A small boat.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_riverside_boat" },
     "min_max_zlevel": [ 0, 0 ],
+    "flags": [ "MAN_MADE", "CLASSIC" ]
+  },
+  {
+    "id": "mx_ocean_boat",
+    "type": "map_extra",
+    "name": "Boat",
+    "description": "A small boat.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_ocean_boat" },
+    "min_max_zlevel": [ 0, 0 ],
+    "flags": [ "MAN_MADE", "CLASSIC" ]
+  },
+  {
+    "id": "mx_ocean_boat_scenario",
+    "type": "map_extra",
+    "name": "",
+    "description": "",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_ocean_boat_scenario" },
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {

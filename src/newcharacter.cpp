@@ -3588,13 +3588,14 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
         }
     }
 
-    //TODO: Move this to JSON?
+    //TODO: Move this to JSON or just make this an extendable field in start locations + scenarios?
     const std::vector<std::pair<std::string, std::string>> flag_descriptions = {
         { "FIRE_START", translate_marker( "Fire nearby" ) },
         { "SUR_START", translate_marker( "Zombies nearby" ) },
         { "HELI_CRASH", translate_marker( "Various limb wounds" ) },
         { "LONE_START", translate_marker( "No starting NPC" ) },
         { "BORDERED", translate_marker( "Starting location is bordered by an immense wall" ) },
+        { "CONTROLLING_VEHICLE", translate_marker( "Start in a vehicle" ) }
     };
 
     bool flag_header_added = false;

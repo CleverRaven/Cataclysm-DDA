@@ -38,7 +38,7 @@
         }
       ],
       [
-        { "overmap": "kelp_forest_core", "weight": 400 },
+        { "overmap": "kelp_forest_core", "weight": 400, "max": { "poisson": 20 } },
         { "overmap": "kelp_forest_end", "weight": 100 },
         { "overmap": "kelp_forest_fill", "weight": 1 }
       ]

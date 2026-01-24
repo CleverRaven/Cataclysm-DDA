@@ -993,6 +993,13 @@
   },
   {
     "type": "map_extra_collection",
+    "id": "ocean_surface",
+    "//": "~16 per overmap",
+    "chance": 2025,
+    "extras": "mx_ocean_boat"
+  },
+  {
+    "type": "map_extra_collection",
     "id": "road",
     "chance": 100,
     "extras": [
@@ -1143,6 +1150,7 @@
       "field",
       "ocean_bed",
       "ocean_shore",
+      "ocean_surface",
       "road",
       "park",
       "road_nesw_manhole",

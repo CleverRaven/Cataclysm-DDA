@@ -1445,6 +1445,9 @@ The purpose of these flags is to allow reuse of blueprints to create the "same" 
 - ```LONE_START``` This scenario won't spawn a fellow NPC on game start.
 - ```NO_BONUS_ITEMS``` This scenario prevent bonus items (such as inhalers with the `ASTHMA` trait) from being given to this profession
 - ```SUR_START``` Write `Zombies nearby` in the scenario info, doesn't spawn monsters by itself (put close to `LONE_START`)
+- ```CONTROLLING_VEHICLE``` Forces the initial player placement to pick a vehicle tile with controls and starts them in control of the vehicle.
+                            Vehicle must be guarenteed to exist through normal mapgen, scenario placed `mapgen_extra`
+                            or parameter enabled mapgen enforced by the start location terrain ([see example here](JSON_INFO.md#starting-locations#))
 
 
 ### Profession
@@ -1457,6 +1460,7 @@ The purpose of these flags is to allow reuse of blueprints to create the "same" 
 
 - ```ALLOW_OUTSIDE``` Allows placing player outside of building, useful for outdoor start.
 - ```BOARDED``` Start in boarded building (windows and doors are boarded, movable furniture is moved to windows and doors).
+- ```CONTROLLING_VEHICLE``` See `Scenarios` entry above
 
 
 ## Skills

@@ -6,7 +6,7 @@
       "shelter_layout": { "type": "nested_mapgen_id", "default": { "distribution": [ "24x24_shelter", "24x24_shelter_1", "24x24_shelter_2" ] } },
       "shelter_palette": {
         "type": "palette_id",
-        "//TODO": "shelter_infested_scenario want's to be 0 but then it gets skipped when the weighted_list is populated and so isn't recognised as valid when used as a starting parameter",
+        "//FIXME": "shelter_infested_scenario want's to be 0 weight but then it gets skipped when the weighted_list is populated and so isn't recognised as valid when used as a starting parameter",
         "default": {
           "distribution": [
             [ "shelter_basic", 200 ],
