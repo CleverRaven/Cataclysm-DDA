@@ -48,6 +48,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "line.h"
+#include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -596,6 +597,17 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                                        bool allow_unarmed, int forced_movecost )
 {
     map &here = get_map();
+
+    // Prevent player from melee-attacking creatures that are swimming under terrain.
+    if( t.is_underwater() ) {
+        const tripoint_bub_ms tpos = t.pos_bub( here );
+        if( here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, tpos ) ) {
+            if( is_avatar() ) {
+                add_msg_if_player( m_info, _( "You can't reach that through the solid surface." ) );
+            }
+            return false;
+        }
+    }
 
     if( !enough_working_legs() ) {
         if( !movement_mode_is( move_mode_prone ) ) {
@@ -2001,6 +2013,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     // fire martial arts on-getting-hit-triggered effects
     // these fire even if the attack is blocked (you still got hit)
     martial_arts_data->ma_ongethit_effects( *this );
+
+    magic->break_channeling( *this );
 
     if( blocks_left < 1 ) {
         return false;

@@ -33,6 +33,10 @@ struct furn_t;
 
 enum class link_state : int;
 enum class ot_match_type : int;
+namespace sounds
+{
+enum class sound_t : int;
+} // namespace sounds
 
 /**
  * Transform an item into a specific type.
@@ -66,6 +70,11 @@ class iuse_transform : public iuse_actor
 
         /** subtracted from @ref Creature::moves when transformation is successful */
         int moves = 0;
+
+        /** x in 100 chance for this use action to be activated
+        intended to be used with tick action specifically
+        */
+        int chance = 100;
 
         /** Asks you to set a timer for a countdown */
         bool set_timer = false;
@@ -176,13 +185,13 @@ class sound_iuse : public iuse_actor
 
         translation sound_message;
 
+        sounds::sound_t sound_type;
         int sound_volume = 0;
         std::string sound_id;
         std::string sound_variant;
 
         ~sound_iuse() override = default;
         void load( const JsonObject &obj, const std::string & ) override;
-        std::optional<int> use( Character *, item &, const tripoint_bub_ms &pos ) const override;
         std::optional<int> use( Character *, item &, map *, const tripoint_bub_ms & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         std::string get_name() const override;
@@ -196,6 +205,9 @@ class sound_iuse : public iuse_actor
 class explosion_iuse : public iuse_actor
 {
     public:
+        // list of ammo effects this iuse applies
+        std::set<ammo_effect_str_id> ammo_effects;
+
         // Structure describing the explosion + shrapnel
         // Ignored if its power field is < 0
         explosion_data explosion;
@@ -503,6 +515,9 @@ class firestarter_actor : public iuse_actor
          */
         bool need_sunlight = false;
 
+        /** Tool qualities needed, e.g. "fine bolt turning 1". **/
+        std::map<quality_id, int> qualities_needed;
+
         enum class start_type : int {
             NONE,
             FIRE,
@@ -552,7 +567,6 @@ class salvage_actor : public iuse_actor
 
         ~salvage_actor() override = default;
         void load( const JsonObject &obj, const std::string & ) override;
-        std::optional<int> use( Character *, item &, const tripoint_bub_ms & ) const override;
         std::optional<int> use( Character *, item &, map *here, const tripoint_bub_ms & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
     private:

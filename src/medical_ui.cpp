@@ -232,7 +232,7 @@ static std::string coloured_stat_display( int statCur, int statMax )
         cstatus = c_green;
     }
     std::string cur = colorize( string_format( _( "%2d" ), statCur ), cstatus );
-    return string_format( _( "%s (%s)" ), cur, statMax );
+    return string_format( _( "%s (%d)" ), cur, statMax );
 }
 
 static void draw_medical_titlebar( const catacurses::window &window, Character &you,
@@ -530,7 +530,7 @@ static medical_column draw_health_summary( const int column_count, Character &yo
                 damage_types.pop_back();
                 damage_types.pop_back();
                 detail_str +=
-                    string_format( "%s:\nweight: %s\ndamage types required: %s\ndamage required: [ %s - %s ]\n",
+                    string_format( "%s:\nweight: %d\ndamage types required: %s\ndamage required: [ %d - %d ]\n",
                                    colorize( wd.first.id.c_str(), c_yellow ), wd.second, damage_types, wd.first.damage_required.first,
                                    wd.first.damage_required.second );
             }

@@ -19,13 +19,6 @@
     "effect": [
       { "math": [ "u_spell_level('island_hostile_eviction') = -1" ] },
       { "math": [ "u_spell_level('island_close_tear_and_portal') = -1" ] },
-      { "u_location_variable": { "global_val": "OM_HQ_origin" } },
-      {
-        "u_location_variable": { "global_val": "OM_HQ_origin_npc" },
-        "passable_only": true,
-        "min_radius": 2,
-        "max_radius": 10
-      },
       { "u_add_effect": "warpcloak", "intensity": 2, "duration": { "global_val": "invistime", "default": "3 s" } },
       {
         "run_eocs": [
@@ -83,10 +76,12 @@
         "u_run_npc_eocs": [
           {
             "id": "EOC_initiate_randomport_npc_follower",
-            "condition": "u_following",
+            "//": "Since NPC teleporting is bugged, the condition here and below prevents this from running for NPCs",
+            "condition": { "and": [ "u_following", { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
             "effect": [
               {
                 "u_teleport": { "global_val": "OM_missionspot" },
+                "success_message": "Your followers teleport with you.",
                 "fail_message": "It seems some of your followers couldn't teleport with you.",
                 "force": true
               },
@@ -104,6 +99,7 @@
       },
       {
         "u_teleport": { "global_val": "OM_missionspot" },
+        "success_message": "You arrive on the raid.",
         "fail_message": "It seems the portal couldn't find a valid location.",
         "force": true
       },
@@ -118,8 +114,54 @@
       {
         "u_run_npc_eocs": [
           {
+            "id": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT_ADD_NPC_EFFECT_RETURN",
+            "//": "Since NPC teleporting is bugged, the condition here and below prevents this from running for NPCs",
+            "condition": { "and": [ "u_following", { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+            "effect": [ { "u_add_effect": "blind", "duration": 0 }, { "u_add_effect": "effect_sky_island_momentary_flight", "duration": 1 } ]
+          }
+        ],
+        "npc_range": 10,
+        "local": true
+      },
+      { "u_add_effect": "blind", "duration": 0 },
+      { "u_add_effect": "effect_sky_island_momentary_flight", "duration": 1 },
+      {
+        "u_location_variable": { "global_val": "sky_dimension_teleport_departure" },
+        "z_adjust": 7,
+        "z_override": true
+      },
+      {
+        "u_location_variable": { "global_val": "sky_dimension_teleport_departure_npc" },
+        "z_adjust": 7,
+        "z_override": true
+      },
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_return_to_dimension_teleport_followers",
+            "condition": { "and": [ "u_following", { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+            "effect": [
+              { "u_add_effect": "blind", "duration": 0 },
+              { "u_add_effect": "effect_sky_island_momentary_flight", "duration": 1 },
+              { "u_teleport": { "global_val": "sky_dimension_teleport_departure_npc" }, "force": true },
+              {
+                "location_variable_adjust": { "global_val": "sky_dimension_teleport_departure_npc" },
+                "x_adjust": [ -2, 2 ],
+                "y_adjust": [ -2, 2 ]
+              }
+            ]
+          }
+        ],
+        "npc_range": 10,
+        "local": true
+      },
+      { "u_teleport": { "global_val": "sky_dimension_teleport_departure" }, "force": true },
+      { "u_travel_to_dimension": "default", "npc_travel_radius": 10, "region_type": "default" },
+      {
+        "u_run_npc_eocs": [
+          {
             "id": "EOC_return_OM_teleport_followers",
-            "condition": "u_following",
+            "condition": { "and": [ "u_following", { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
             "effect": [
               { "u_teleport": { "global_val": "OM_HQ_origin_npc" }, "force": true },
               {
@@ -153,9 +195,15 @@
           "EOC_return_heal"
         ]
       },
-      { "alter_timed_events": "return_portal_close" },
+      { "clear_dimension": "dimension_sky_island_mission" },
       { "math": [ "timeawayfromhome = 0 - bonuspulses" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DIMENSION_HECK",
+    "condition": { "current_dimension": "dimension_sky_island_mission" },
+    "effect": [ { "u_message": "You are on a mission" } ]
   },
   {
     "type": "effect_on_condition",
@@ -169,7 +217,8 @@
         "u_message": "You've returned home safely using a designated exit point.  You have earned <global_val:owed_material_tokens> material tokens for your success.",
         "popup": true
       },
-      { "u_spawn_item": "warptoken_material", "count": { "global_val": "owed_material_tokens", "default": 50 } }
+      { "u_spawn_item": "warptoken_material", "count": { "global_val": "owed_material_tokens", "default": 50 } },
+      { "run_eocs": "EOC_innawood_bonus_exp_material_tokens" }
     ]
   },
   {
@@ -618,8 +667,8 @@
         "title": "Adjust Return Obelisk Behavior",
         "keys": [ "1", "2", "3" ],
         "descriptions": [
-          "Set the behavior of the return obelisk.\nWith this option, everything in the room with you will return to your sky island.  Getting resources will generally not be a problem as long as you make it to the extraction point.",
-          "Set the behavior of the return obelisk.\nWith this option, if you have a warp vortex token with you, everything in the room with you will return to your sky island.  Otherwise, only what you are carrying on your person will return with you.  You may have to make difficult choices about what to bring back.",
+          "Set the behavior of the return obelisk.\nWith this option, everything in the room with you will return to your sky island.  Getting resources will generally not be a problem as long as you make it to the extraction point.NOTE: THIS OPTION CURRENTLY <color_red>DOES NOT WORK</color>",
+          "Set the behavior of the return obelisk.\nWith this option, if you have a warp vortex token with you, everything in the room with you will return to your sky island.  Otherwise, only what you are carrying on your person will return with you.  You may have to make difficult choices about what to bring back.  NOTE: THE WARP VORTEX TOKEN CURRENTLY <color_red>DOES NOT WORK</color>",
           "Set the behavior of the return obelisk.\nWith this option, only what you are carrying on your person will return with you.  You will always have to make difficult choices about what to bring back."
         ]
       }
@@ -1013,7 +1062,7 @@
     "valid_targets": [ "hostile" ],
     "spell_class": "NONE",
     "flags": [ "NO_FAIL", "NO_LEGS", "NO_HANDS", "NON_MAGICAL", "IGNORE_WALLS", "NO_PROJECTILE" ],
-    "condition": { "not": { "u_has_trait": "awayfromhome" } },
+    "caster_condition": { "not": { "u_has_trait": "awayfromhome" } },
     "difficulty": 0,
     "min_range": 100,
     "max_range": 100,
@@ -1036,7 +1085,7 @@
     "valid_targets": [ "ground" ],
     "spell_class": "NONE",
     "flags": [ "NO_FAIL", "NO_LEGS", "NO_HANDS", "NON_MAGICAL", "IGNORE_WALLS", "NO_PROJECTILE" ],
-    "condition": { "not": { "u_has_trait": "awayfromhome" } },
+    "caster_condition": { "not": { "u_has_trait": "awayfromhome" } },
     "difficulty": 0,
     "min_damage": 1,
     "max_damage": 1,

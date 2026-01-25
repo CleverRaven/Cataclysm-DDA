@@ -111,16 +111,13 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "sound_id": "misc",                                       // the sound id
     "sound_variant": "shockwave",                             // the sound variant
     "learn_spells": { "create_atomic_light": 5, "megablast": 10 },   // the caster will learn these spells when the current spell reaches the specified level. should be a map of spell_type_id and the level at which the new spell is learned.
-    "condition": {                                            // if valid_targets, targeted_monster_ids, targeted_monster_species and ignored_monster_species is not enough,
-      "and": [                                                // you can place more conditions to check both the caster (alpha/u_) and target (beta/npc/n_).
-        { "not": { "npc_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } }, // If it return false, you cannot cast this spell against creature you are aiming at
-        { "not": { "npc_has_worn_with_flag": "STABILIZED_TIMELINE" } }
-      ]
-    },
-    "condition_fail_message": "Cannot be used against time or space anchored." // if `condition` fails, this message would be printed.
-                                                                               // because `condition` is designed to evaluate both alpha and beta,
-                                                                               // the only place where this message can be rendered is at aiming menu
-                                                                               // which i consider a bug that needs to be resovled
+    "caster_condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] }, // if valid_targets, targeted_monster_ids, targeted_monster_species and ignored_monster_species is not enough,
+                                                // you can place more conditions 
+                                                // caster condition checks only caster (alpha/u_), and prevent you from casting similarly to lack of mana
+    "caster_condition_fail_message": "You do not have enough stolen blood.", // if caster_condition fails, this message is printed
+    "target_condition": { "npc_has_worn_with_flag": "STABILIZED_TIMELINE" }, // target_condition checks both the caster (alpha/u_) and target (beta/npc/n_) of the spell
+                                                // and prevent you from targeting a specific monster/vehicle 
+    "target_condition_fail_message": "Cannot be used against time or space anchored." // if `target_condition` fails, this message would be printed.
   }
 ```
 The template spell above shows every JSON field that spells can have.  Most of these values can be set at 0 or "NONE", so you may leave out most of these fields if they do not pertain to your spell.
@@ -273,6 +270,28 @@ Field group | Description | Example
 `condition` | Dynamic field that takes conditions for spell targeting.  These conditions will apply after more specific targeting criteria, such as "valid_targets" or "ignored_monster_species".  The caster is the alpha talker and the target is the beta talker.  Note: Since targeting the ground will not pass a beta talker, make sure any condition tree from a spell with "ground" as a valid target first checks for the presence of a beta talker if it wants to check against it.
 `magic_type` | Optional field indicating which type of magic this spell is part of.  Separate from spell class, this field links to a magic_type object that can define several shareable parts of spells, such as xp required to level or flags that make the spell not castable.
 
+### Channeled Spell fields
+Channeled spells trigger their effects whenever you manually wait a turn after casting. They interrupt if you do ANYTHING but manually wait.  They also break if you are involved in melee combat.
+
+Example `"channel_data`:
+```
+    "channel_data": {
+      "max_channel_turns": 20,
+      "channel_spell": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+      "channel_interrupt_spell": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+      "channel_end_spell": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+      "channel_uses_energy": true
+    }
+```
+With the values being:
+
+| field | effect |
+|-|-|
+|max_channel_turns| The number of times the spell is channeled. |
+|channel_spell         | The spell that triggers every turn of channeling. |
+|channel_end_spell | The spell that triggers on the last turn of channeling. |
+| channel_uses_energy | The `channel_spell` consumes and requires mana/other energy when it triggers. |
+|channel_interrupt_spell | The spell that triggers when channeling is interrupted. Wether its because the player ran out of mana or because they did something other than wait. (OPTIONAL) |
 
 ### Spell Flags
 
@@ -726,14 +745,14 @@ Identifier                  | Description
 ---                         |---
 `id`                        | Unique ID.  Must be one continuous word, use underscores if necessary.
 `has`                       | How an enchantment determines if it is in the right location in order to qualify for being active.  `WIELD` when wielded in your hand, `WORN` when worn as armor, `HELD` when in your inventory.
-`condition`                 | Determines the environment where the enchantment is active.  `ALWAYS` is active always and forevermore, `ACTIVE` whenever the item, mutation, bionic, or whatever the enchantment is attached to is active, `INACTIVE` whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.  `DIALOG_CONDITION - ACTIVE` whenever the dialog condition in `condition` is true.
+`condition`                 | Determines the environment where the enchantment is active.  `ALWAYS` is active always and forevermore, `ACTIVE` whenever the item, mutation, bionic, or whatever the enchantment is attached to is active, `INACTIVE` whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.  `DIALOG_CONDITION - ACTIVE` whenever the dialog condition in `condition` is true, eg `"condition": { "math": [ "u_effect_intensity('perk_insight') > 9" ] },`
 `hit_you_effect`            | A spell that activates when you `melee_attack` a creature.  The spell is centered on the location of the creature unless `"hit_self": true`, then it is centered on your location.  Follows the template for defining `fake_spell`.
 `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining `fake_spell`
 `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the `fake_spell` template.
 `values`                    | Numbers that can be modified (see [list](#id-values)).  `add` is added to the base value, `multiply` is **also added** and treated as percentage: 2.5 is +250% and -1 is -100%.  `add` is always applied before `multiply`.  Either `add` or `multiply` can be a variable_object/math expression (see [below](#variables) for syntax and application, and [NPCs](NPCs.md) for the in depth explanation).
 `skills`                    | A bonus or penalty to skills. Syntax is the same as for values, using the id of the skill name.
 `emitter`                   | Grants the emit_id.
-`modified_bodyparts`        | Modifies the body plan (standard is human).  `gain` adds body_part_id, `lose` removes body_part_id.  Note: changes done this way stay even after the item/effect/mutation carrying the enchantment is removed.
+`modified_bodyparts`        | Modifies the body plan (standard is human).  `gain` adds body_part_id, `lose` removes body_part_id.
 `mutations`                 | Grants the mutation/trait ID.  Note: enchantments effects added this way won't stack, due how mutations work.
 `ench_effects`              | Grants the effect_id.  Requires the `intensity` for the effect.
 

@@ -48,12 +48,7 @@
     "visibility": 8,
     "ugliness": 2,
     "restricts_gear": [ "head_crown" ],
-    "attacks": {
-      "attack_text_u": "You headbutt %s with your curled horns!",
-      "attack_text_npc": "%1$s headbutts %2$s with their curled horns!",
-      "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 14 }
-    }
+    "integrated_armor": [ "integrated_horns_curled" ]
   },
   {
     "type": "mutation",
@@ -69,12 +64,7 @@
     "ugliness": 2,
     "allow_soft_gear": true,
     "restricts_gear": [ "head_crown" ],
-    "attacks": {
-      "attack_text_u": "You stab %s with your pointed horns!",
-      "attack_text_npc": "%1$s stabs %2$s with their pointed horns!",
-      "chance": 22,
-      "base_damage": { "damage_type": "stab", "amount": 24 }
-    }
+    "integrated_armor": [ "integrated_horns_pointed" ]
   },
   {
     "type": "mutation",
@@ -90,12 +80,7 @@
     "ugliness": 3,
     "allow_soft_gear": true,
     "restricts_gear": [ "head_crown" ],
-    "attacks": {
-      "attack_text_u": "You butt %s with your antlers!",
-      "attack_text_npc": "%1$s butts %2$s with their antlers!",
-      "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 4 }
-    }
+    "integrated_armor": [ "integrated_antlers" ]
   },
   {
     "type": "mutation",
@@ -442,12 +427,7 @@
     "destroys_gear": true,
     "allowed_items": [ "ALLOWS_TALONS" ],
     "restricts_gear": [ "foot_toes_l", "foot_toes_r" ],
-    "attacks": {
-      "attack_text_u": "You slash %s with one of your talons!",
-      "attack_text_npc": "%1$s slashes %2$s with one of their talons!",
-      "chance": 20,
-      "strength_damage": { "damage_type": "cut", "amount": 4 }
-    }
+    "integrated_armor": [ "integrated_toe_talons" ]
   },
   {
     "type": "mutation",
@@ -652,7 +632,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_long" } ] } ]
   },
   {
     "type": "mutation",
@@ -1008,13 +988,7 @@
     "flags": [ "TOUGH_FEET" ],
     "destroys_gear": true,
     "restricts_gear": [ "foot_sole_l", "foot_sole_r" ],
-    "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
-    "attacks": {
-      "attack_text_u": "You kick %s with your hooves!",
-      "attack_text_npc": "%1$s kicks %2$s with their hooves!",
-      "chance": 15,
-      "strength_damage": { "damage_type": "bash", "amount": 3 }
-    },
+    "integrated_armor": [ "integrated_hooves" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ]
   },
   {

@@ -218,6 +218,7 @@
     "items": [
       [ "gasbomb_makeshift", 30 ],
       [ "molotov", 100 ],
+      [ "gelled_molotov", 5 ],
       [ "pipebomb", 30 ],
       [ "small_homemade_grenade", 30 ],
       [ "40x46mm_hornets_nest_22lr", 5 ],
@@ -343,7 +344,8 @@
     "type": "item_group",
     "//": "Anything a survivor looted or cobbled together to wear on their face",
     "items": [
-      [ "glasses_safety", 15 ],
+      [ "glasses_safety", 10 ],
+      [ "goggles_chem", 5 ],
       [ "goggles_swim", 5 ],
       [ "goggles_ski", 10 ],
       { "item": "mask_gas", "prob": 60, "charges": [ 0, 100 ] },

@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_handlers.h"
 #include "activity_type.h"
 #include "butchery.h"
 #include "calendar.h"
@@ -22,6 +23,7 @@
 #include "itype.h"
 #include "item_location.h"
 #include "memory_fast.h"
+#include "npctalk.h"
 #include "pickup.h"
 #include "point.h"
 #include "recipe.h"
@@ -90,6 +92,70 @@ class zone_activity_actor : public activity_actor
         zone_activity_stage stage = UNINIT;
         std::unordered_set<tripoint_abs_ms> coord_set;
         tripoint_abs_ms placement;
+};
+
+/*
+* General forwarding activity to handle single-tile activities performed in zones.
+* This forwarding works in two ways:
+* 1) when travelling to a destination zone tile, storing this multi-activity in Character::destination_activity,
+*    which is restarted when the player reaches the destination
+* 2) when doing the single-tile activity, backlogging a copy of the multi-activity actor in Character::backlog,
+*    which is then restarted from the single-tile activity with activity_handlers::resume_for_multi_activities()
+* An important point to note is that in no case does multi_zone_activity_actor store state.
+*
+* TODO: unify zone_activity_actor and multi_zone_activity_actor?
+*/
+class multi_zone_activity_actor : public activity_actor
+{
+    public:
+        explicit multi_zone_activity_actor( bool check_only = false ) : check_only( check_only ) {}
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &, Character & ) override {};
+        // for allowing a return value from do_turn
+        bool simulate_turn( player_activity &act, Character &you, bool check_only );
+
+        /** Check whether activity can be done immediately if it has requirements */
+        requirement_check_result check_requirements( Character &you, activity_reason_info &act_info,
+                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
+                const std::unordered_set<tripoint_abs_ms> &src_set, bool check_only = false );
+
+        // BEGIN interface block
+        virtual std::unordered_set<tripoint_abs_ms> multi_activity_locations( Character &you );
+        virtual activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) = 0;
+        // specific requirements for the activity, used in `check_requirements`
+        virtual std::optional<requirement_id> multi_activity_requirements( Character &,
+                activity_reason_info &, const tripoint_bub_ms & );
+        // main activity body, once zone locations and requirements are satisfied
+        // @return whether activity was NOT successful
+        virtual bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) = 0;
+        std::unique_ptr<activity_actor> clone() const override = 0;
+        void serialize( JsonOut &jsout ) const override;
+        // END interface block
+        bool check_only = false;
+};
+
+class multi_mine_activity_actor : public multi_zone_activity_actor
+{
+    public:
+        using multi_zone_activity_actor::multi_zone_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+            return ACT_MULTIPLE_MINE;
+        }
+        activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) override;
+        std::optional<requirement_id> multi_activity_requirements( Character &you,
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+        bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<multi_mine_activity_actor>( *this );
+        }
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
 };
 
 class aim_activity_actor : public activity_actor
@@ -427,6 +493,35 @@ class glide_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+// Creature::longpull(), but with a waiting period
+class pull_creature_activity_actor : public activity_actor
+{
+    private:
+        time_duration initial_moves; // NOLINT(cata-serialize)
+        trait_id mutation_pulling;
+        explicit pull_creature_activity_actor() = default;
+
+    public:
+        explicit pull_creature_activity_actor( time_duration initial_moves, trait_id mutation_pulling )
+            : initial_moves( initial_moves ), mutation_pulling( mutation_pulling ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
+            return ACT_PULL_CREATURE;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<pull_creature_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
 class bikerack_racking_activity_actor : public activity_actor
 {
     private:
@@ -583,6 +678,100 @@ class read_activity_actor : public activity_actor
 
         bool can_resume_with_internal( const activity_actor &other,
                                        const Character & ) const override;
+};
+
+class study_spell_activity_actor : public activity_actor
+{
+    public:
+        //learn
+        explicit study_spell_activity_actor( spell_id selected_spell ) :
+            selected_spell( selected_spell ), learning( true )
+        {};
+        //study for duration
+        explicit study_spell_activity_actor(
+            spell_id selected_spell, time_duration initial_moves ) :
+            selected_spell( selected_spell ), initial_moves( initial_moves ), learning( false )
+        {};
+        //study until next level
+        explicit study_spell_activity_actor(
+            spell_id selected_spell, int next_spell_level ) :
+            selected_spell( selected_spell ), learning( false ), next_spell_level( next_spell_level ),
+            until_level_gained( true )
+        {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
+            return ACT_STUDY_SPELL;
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<study_spell_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        study_spell_activity_actor() = default;
+        spell_id selected_spell;
+        time_duration initial_moves;
+        // false = learn, true = study
+        bool learning;
+
+        int next_spell_level = 0;
+        bool until_level_gained = false;
+        int xp_gained = 0;
+        bool cancelled = false;
+};
+
+class spellcasting_activity_actor : public activity_actor
+{
+    public:
+        explicit spellcasting_activity_actor( time_duration initial_moves, spell_id spell_selected,
+                                              std::optional<tripoint_abs_ms> spell_target = std::nullopt,
+                                              std::optional<int> fake_spell_level = std::nullopt,
+                                              bool always_succeeds = false, bool mana_cost_override = false,
+                                              const item_location &spell_item_casting = item_location::nowhere ) :
+            initial_moves( initial_moves ), spell_selected( spell_selected ), spell_target( spell_target ),
+            fake_spell_level( fake_spell_level ), always_succeeds( always_succeeds ),
+            mana_cost_override( mana_cost_override ), spell_item_casting( spell_item_casting )
+        {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
+            return ACT_SPELLCASTING;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::string get_progress_message( const player_activity & ) const override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<spellcasting_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        spellcasting_activity_actor() = default;
+        time_duration initial_moves;
+        spell_id spell_selected;
+        // if not provided, spell prompts to select target
+        std::optional<tripoint_abs_ms> spell_target;
+        // if provided, constructs a standalone `spell_selected` with this given level
+        // for items/bionics
+        std::optional<int> fake_spell_level;
+        bool always_succeeds; // if true, the spell never fails
+        bool mana_cost_override; // if true, spell does not consume mana
+        // for handling cleanup of item passed from cast_spell_actor::use()
+        item_location spell_item_casting;
 };
 
 class move_items_activity_actor : public activity_actor
@@ -1024,6 +1213,45 @@ class efile_activity_actor : public activity_actor
         time_duration charge_time( efile_action action_type );
 };
 
+enum atm_options : int {
+    cancel,
+    // these have no do_turn, only finish
+    purchase_card,
+    deposit_money,
+    withdraw_money,
+    // these have do_turn
+    exchange_cash,
+    transfer_all_money
+};
+
+// all items for ATMs are automatically obtained through the inventory cache
+class atm_activity_actor : public activity_actor
+{
+    public:
+        explicit atm_activity_actor( atm_options option_selected, int cash_amount = 0 ) :
+            option_selected( option_selected ), cash_amount( cash_amount ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_ATM( "ACT_ATM" );
+            return ACT_ATM;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<atm_activity_actor>( *this );
+        }
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        atm_activity_actor() = default;
+        atm_options option_selected;
+        // for deposit/withdrawal only
+        int cash_amount;
+};
+
 class fish_activity_actor : public activity_actor
 {
     public:
@@ -1183,7 +1411,7 @@ class consume_activity_actor : public activity_actor
     private:
         item_location consume_location;
         item consume_item;
-        bool canceled = false;
+        bool was_canceled = false;
         // whether to show the consume menu after this activity finishes
         bool reprompt_consume_menu = false;
 
@@ -1193,7 +1421,7 @@ class consume_activity_actor : public activity_actor
         bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
             const consume_activity_actor &c_actor = static_cast<const consume_activity_actor &>( other );
             return consume_location == c_actor.consume_location &&
-                   canceled == c_actor.canceled && &consume_item == &c_actor.consume_item;
+                   was_canceled == c_actor.was_canceled && &consume_item == &c_actor.consume_item;
         }
     public:
         explicit consume_activity_actor( const item_location &consume_location,
@@ -1211,6 +1439,7 @@ class consume_activity_actor : public activity_actor
         void start( player_activity &act, Character &guy ) override;
         void do_turn( player_activity &, Character & ) override {}
         void finish( player_activity &act, Character & ) override;
+        void canceled( player_activity &, Character &who ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<consume_activity_actor>( *this );
@@ -1890,6 +2119,12 @@ class oxytorch_activity_actor : public activity_actor
         tripoint_bub_ms target;
         item_location tool;
 
+        void set_resume_values_internal( const activity_actor &other,
+                                         const Character &/*who*/ ) override {
+            const oxytorch_activity_actor &actor = static_cast<const oxytorch_activity_actor &>
+                                                   ( other );
+            tool = actor.tool;
+        }
         bool can_resume_with_internal( const activity_actor &other,
                                        const Character &/*who*/ ) const override {
             const oxytorch_activity_actor &actor = static_cast<const oxytorch_activity_actor &>
@@ -1944,6 +2179,35 @@ class meditate_activity_actor : public activity_actor
 
         void serialize( JsonOut & ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+};
+
+// become one with the trees, providing mapping, socialization, and morale benefits
+// this activity continues indefinitely or until all forest tiles are mapped
+class tree_communion_activity_actor : public activity_actor
+{
+    public:
+        explicit tree_communion_activity_actor( int root_stage_turns ) : root_stage_turns(
+                root_stage_turns ) {};
+        const activity_id &get_type() const override {
+            static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
+            return ACT_TREE_COMMUNION;
+        }
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<tree_communion_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        tree_communion_activity_actor() = default;
+        // how many turns remain in the preliminary "root" stage
+        // once the "root" stage is finished, communion begins
+        int root_stage_turns;
 };
 
 class play_with_pet_activity_actor : public activity_actor
@@ -2296,6 +2560,113 @@ class vehicle_unfolding_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+class start_engines_activity_actor : public activity_actor
+{
+    private:
+        time_duration initial_moves; // NOLINT(cata-serialize)
+        tripoint_rel_ms engine_position;
+        bool take_control;
+
+        // private empty constructor for deserialization
+        explicit start_engines_activity_actor() = default;
+    public:
+        explicit start_engines_activity_actor( time_duration initial_moves,
+                                               tripoint_rel_ms engine_position, bool take_control ) :
+            initial_moves( initial_moves ), engine_position( engine_position ), take_control( take_control ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
+            return ACT_START_ENGINES;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<start_engines_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
+// strictly for the avatar talking to an npc
+// TODO: support for NPCs talking to each other
+class socialize_activity_actor : public activity_actor
+{
+    public:
+        explicit socialize_activity_actor( time_duration initial_moves, character_id socialize_partner ) :
+            initial_moves( initial_moves ), socialize_partner( socialize_partner ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
+            return ACT_SOCIALIZE;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<socialize_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        time_duration initial_moves; // NOLINT(cata-serialize)
+        character_id socialize_partner;
+
+        explicit socialize_activity_actor() = default;
+};
+
+// for a Character teaching or learning from a teacher:
+// skill, proficiency, martial arts technique, spell
+class training_activity_actor : public activity_actor
+{
+    public:
+        //teaching
+        explicit training_activity_actor( time_duration initial_moves, talk_function::teach_domain subject,
+                                          const std::vector<character_id> &trainees ) :
+            initial_moves( initial_moves ), subject( subject ), teaching( true ), trainees( trainees ) {};
+        //learning
+        explicit training_activity_actor( time_duration initial_moves, talk_function::teach_domain subject,
+                                          character_id teacher ) :
+            initial_moves( initial_moves ), subject( subject ), teaching( false ), teacher( teacher ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_TRAIN( "ACT_TRAIN" );
+            return ACT_TRAIN;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        void train_spell( Character &who, spell_id trained_spell );
+        void train_skill( Character &who, skill_id trained_skill );
+        void train_proficiency( Character &who, proficiency_id trained_proficiency );
+        void train_martial_art( Character &who, matype_id trained_martial_art );
+
+        //clean up students' ACT_TRAIN
+        void canceled( player_activity &, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<training_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        training_activity_actor() = default;
+        time_duration initial_moves; // NOLINT(cata-serialize)
+        talk_function::teach_domain subject;
+        bool teaching; // false = learning
+        character_id teacher;
+        std::vector<character_id> trainees;
+};
+
 // Any entertainment action involving an item for a duration with one or more people
 class generic_entertainment_activity_actor : public activity_actor
 {
@@ -2451,8 +2822,9 @@ class heat_activity_actor : public activity_actor
     public:
         heat_activity_actor( drop_locations to_heat,
                              heating_requirements &requirements,
-                             heater h ) :
-            to_heat( std::move( to_heat ) ), requirements( requirements ), h( std::move( h ) ) {};
+                             heater heater_data ) :
+            to_heat( std::move( to_heat ) ), requirements( requirements ),
+            heater_data( std::move( heater_data ) ) {};
 
         const activity_id &get_type() const override {
             static const activity_id ACT_HEATING( "ACT_HEATING" );
@@ -2473,7 +2845,7 @@ class heat_activity_actor : public activity_actor
     private:
         drop_locations to_heat;
         heating_requirements requirements;
-        heater h;
+        heater heater_data;
 };
 
 class wear_activity_actor : public activity_actor
@@ -2666,6 +3038,38 @@ class churn_activity_actor : public activity_actor
         item_location tool;
 };
 
+class hand_crank_activity_actor : public activity_actor
+{
+    public:
+        hand_crank_activity_actor() = default;
+        hand_crank_activity_actor( time_duration initial_moves, const item_location &hand_crank_tool ) :
+            initial_moves( initial_moves ), hand_crank_tool( hand_crank_tool ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
+            return ACT_HAND_CRANK;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        std::string get_progress_message( const player_activity & ) const override {
+            return std::string();
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<hand_crank_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        time_duration initial_moves; // NOLINT(cata-serialize)
+        item_location hand_crank_tool;
+};
+
 class clear_rubble_activity_actor : public activity_actor
 {
     public:
@@ -2726,6 +3130,36 @@ class disable_activity_actor : public activity_actor
         bool reprogram;
 };
 
+class robot_control_activity_actor : public activity_actor
+{
+    public:
+
+        robot_control_activity_actor( time_duration initial_moves, int controlled_monster_temp_id ) :
+            initial_moves( initial_moves ), controlled_monster_temp_id( controlled_monster_temp_id ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
+            return ACT_ROBOT_CONTROL;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<robot_control_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        robot_control_activity_actor() = default;
+        time_duration initial_moves; // NOLINT(cata-serialize)
+        // obtained through creature_tracker::temporary_id()
+        std::optional<int> controlled_monster_temp_id;
+};
+
 class firstaid_activity_actor : public activity_actor
 {
     public:
@@ -2741,6 +3175,7 @@ class firstaid_activity_actor : public activity_actor
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &, Character & ) override {};
         void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &, Character &who ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<firstaid_activity_actor>( *this );
@@ -2781,6 +3216,38 @@ class forage_activity_actor : public activity_actor
         int moves;
 };
 
+class mend_item_activity_actor : public activity_actor
+{
+    public:
+        mend_item_activity_actor( time_duration initial_moves, const item_location &mended_item,
+                                  fault_id mended_fault, fault_fix_id mending_method ) :
+            initial_moves( initial_moves ), mended_item( mended_item ),
+            mended_fault( mended_fault ), mending_method( mending_method ) { }
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
+            return ACT_MEND_ITEM;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<mend_item_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        mend_item_activity_actor() = default;
+        time_duration initial_moves; // NOLINT(cata-serialize)
+        item_location mended_item;
+        fault_id mended_fault;
+        fault_fix_id mending_method;
+};
+
 class gunmod_add_activity_actor : public activity_actor
 {
     public:
@@ -2807,6 +3274,36 @@ class gunmod_add_activity_actor : public activity_actor
     private:
         int moves;
         std::string name;
+};
+
+class toolmod_add_activity_actor : public activity_actor
+{
+    public:
+        toolmod_add_activity_actor( time_duration initial_moves, const item_location &tool_to_mod,
+                                    const item_location &mod_installed ) :
+            initial_moves( initial_moves ), tool_to_mod( tool_to_mod ), mod_installed( mod_installed ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
+            return ACT_TOOLMOD_ADD;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<toolmod_add_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        toolmod_add_activity_actor() = default;
+        time_duration initial_moves; // NOLINT(cata-serialize)
+        item_location tool_to_mod;
+        item_location mod_installed;
 };
 
 class longsalvage_activity_actor : public activity_actor
@@ -3131,6 +3628,10 @@ class zone_sort_activity_actor : public zone_activity_actor
 
     private:
         std::vector<item_location> other_activity_items;
+        // Items we've picked up and are queued to drop at their sorted destination
+        std::vector<item_location> picked_up_stuff;
+        // Place(s) that the current stuff can be dropped off at.
+        std::vector<tripoint_abs_ms> dropoff_coords;
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

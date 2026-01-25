@@ -501,7 +501,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GIANT_GROWTH_MUTATION",
-    "condition": { "and": [ { "not": { "u_has_trait": "HUGE" } }, { "not": { "u_has_trait": "HUGE_OK" } } ] },
+    "condition": {
+      "and": [
+        { "not": { "u_has_trait": "HUGE" } },
+        { "not": { "u_has_trait": "HUGE_OK" } },
+        { "not": { "u_has_trait": "BIO_GIANT_GROWTH" } }
+      ]
+    },
     "effect": [
       { "u_message": "Your body swells and warps as your size increases!", "type": "good" },
       { "math": [ "u_preshift_size = u_val('size')" ] },
@@ -526,6 +532,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GIANT_GROWTH_MUTATION_REMOVE",
+    "condition": { "u_has_trait": "BIO_GIANT_GROWTH" },
     "effect": [
       { "u_message": "Your body shrinks and warps as your size decreases!", "type": "bad" },
       {

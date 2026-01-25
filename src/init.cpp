@@ -1027,7 +1027,8 @@ void DynamicDataLoader::check_consistency()
             { _( "Factions" ), &faction_template::check_consistency },
             { _( "Damage types" ), &damage_type::check },
             { _( "Wounds" ), &wound_type::check_consistency },
-            { _( "Faction missions" ), &faction_mission::check_consistency }
+            { _( "Faction missions" ), &faction_mission::check_consistency },
+            { _( "Relic Procedural Generations" ), &relic_procgen_data::check_consistency }
         }
     };
 

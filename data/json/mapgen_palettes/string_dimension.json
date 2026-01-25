@@ -1,0 +1,32 @@
+[
+  {
+    "type": "palette",
+    "id": "string_dimension_palette",
+    "terrain": { "|": "t_string_y", "-": "t_string_x", "+": "t_string_xy", ".": "t_string_z" }
+  },
+  {
+    "type": "palette",
+    "id": "string_dimension_plane_palette",
+    "terrain": { "+": [ [ "t_string_xy_plane_1", 85 ], [ "t_string_xy_plane_2", 10 ], [ "t_string_xy_plane_3", 5 ] ] }
+  },
+  {
+    "type": "palette",
+    "id": "string_dimension_small_ziggurat_palette",
+    "terrain": {
+      " ": "t_string_xyz",
+      ".": "t_metal_floor",
+      "c": "t_metal_floor",
+      "#": "t_wall_metal",
+      "-": "t_open_air",
+      ">": "t_slope_down",
+      "<": "t_slope_up",
+      ",": "t_string_xyz",
+      "d": "t_stairs_down",
+      "u": "t_stairs_up",
+      "1": [ [ "t_string_void", 10 ], [ "t_string_xyz", 90 ] ],
+      "2": [ [ "t_string_void", 66 ], [ "t_string_xyz", 33 ] ],
+      "+": "t_door_metal_locked"
+    },
+    "furniture": { "c": "f_electrical_conduit" }
+  }
+]

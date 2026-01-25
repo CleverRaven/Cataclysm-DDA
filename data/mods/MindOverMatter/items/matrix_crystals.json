@@ -2,8 +2,8 @@
   {
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
+    "category": "artifacts",
     "id": "matrix_crystal_biokinesis",
-    "category": "other",
     "name": { "str_sp": "strange crystal, pink" },
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing pink light in its depths.  Holding it, you feel more capable.",
     "color": "pink",
@@ -49,6 +49,7 @@
   {
     "type": "ITEM",
     "subtypes": [ "ARTIFACT" ],
+    "category": "artifacts",
     "id": "matrix_crystal_biokinesis_artifact",
     "name": { "str_sp": "strange crystal, pink" },
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing pink light in its depths.  Holding it, you feel more capable.",
@@ -97,6 +98,7 @@
   {
     "type": "ITEM",
     "subtypes": [ "ARTIFACT" ],
+    "category": "artifacts",
     "id": "matrix_crystal_clairsentience_artifact",
     "name": { "str_sp": "strange crystal, gray" },
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing gray light in its depths.  Holding it, you feel more perceptive.",
@@ -144,6 +146,7 @@
   {
     "type": "ITEM",
     "subtypes": [ "ARTIFACT" ],
+    "category": "artifacts",
     "id": "matrix_crystal_electrokinesis_artifact",
     "name": { "str_sp": "strange crystal, cyan" },
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing cyan light in its depths.  Holding it, you feel more energetic.",
@@ -191,6 +194,7 @@
   {
     "type": "ITEM",
     "subtypes": [ "ARTIFACT" ],
+    "category": "artifacts",
     "id": "matrix_crystal_photokinesis_artifact",
     "name": { "str_sp": "strange crystal, golden" },
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing golden light in its depths.  Holding it, you feel radiant.",

@@ -545,5 +545,66 @@
     "name": { "str": "scavenger cowl" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "helmet_nomad_papr",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "advanced nomad cowl" },
+    "description": "A denim cowl with additional leather padding stitched onto the head with integrated protection from a sun brim, a plastic face-shield sealed with rubber gaskets, a filter cartridge intake, and several rubber-tube connections for a powered air purifying respirator system, all designed for long travels.  The design includes some clever shaping that allows it to offer a lot of coverage without interfering too much with vision and breathing.",
+    "weight": "600 g",
+    "volume": "2500 ml",
+    "price_postapoc": "4 USD 50 cent",
+    "material": [ "denim", "leather", "plastic" ],
+    "symbol": "[",
+    "looks_like": "balclava",
+    "color": "white",
+    "armor": [
+      {
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_nape", "head_ear_l", "head_ear_r", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [ { "type": "denim", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat" ],
+        "coverage": 100,
+        "encumbrance": 0
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 3
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 3,
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 16,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_SM" ],
+        "default_magazine": "gasfilter_sm"
+      }
+    ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "flags": [ "VARSIZE", "SUN_GLASSES", "RAINPROOF", "PADDED", "SLEEP_IGNORE", "PAPR_MASK" ],
+    "tool_ammo": "gasfilter_s"
   }
 ]

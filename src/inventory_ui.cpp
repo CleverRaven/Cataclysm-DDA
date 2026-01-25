@@ -325,12 +325,12 @@ std::string enum_to_string<inventory_selector::uimode>( inventory_selector::uimo
 {
     switch( mode ) {
         case inventory_selector::uimode::hierarchy:
-            return "hierarchy";
+            return translate_marker_context( "inventory ui mode", "hierarchy" );
         case inventory_selector::uimode::last:
         case inventory_selector::uimode::categories:
             break;
     }
-    return "categories";
+    return translate_marker_context( "inventory ui mode", "categories" );
 }
 } // namespace io
 
@@ -402,6 +402,8 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
     json.member( "overmap_fast_travel", overmap_fast_travel );
     json.member( "overmap_fast_scroll", overmap_fast_scroll );
+    json.member( "tileset_zoom", tileset_zoom );
+    json.member( "overmap_tileset_zoom", overmap_tileset_zoom );
     json.member( "distraction_noise", distraction_noise );
     json.member( "distraction_pain", distraction_pain );
     json.member( "distraction_attack", distraction_attack );
@@ -483,6 +485,8 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
     jo.read( "overmap_fast_travel", overmap_fast_travel );
     jo.read( "overmap_fast_scroll", overmap_fast_scroll );
+    jo.read( "tileset_zoom", tileset_zoom );
+    jo.read( "overmap_tileset_zoom", overmap_tileset_zoom );
     jo.read( "overmap_sidebar_uistate", overmap_sidebar_state );
     jo.read( "distraction_noise", distraction_noise );
     jo.read( "distraction_pain", distraction_pain );
@@ -3292,7 +3296,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
 
         right_print( w, getmaxy( w ) - border, border + 1, c_light_gray,
                      string_format( "< [%s] %s >", ctxt.get_desc( "VIEW_CATEGORY_MODE" ),
-                                    io::enum_to_string( _uimode ) ) );
+                                    _( io::enum_to_string( _uimode ) ) ) );
         const auto footer = get_footer( mode );
         if( !footer.first.empty() ) {
             const int string_width = utf8_width( footer.first );

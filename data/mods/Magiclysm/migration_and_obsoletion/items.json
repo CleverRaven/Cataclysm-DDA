@@ -304,8 +304,71 @@
     "petfood": [ "WARG_FOOD" ]
   },
   {
-    "id": "spell_scroll_baleful_polymorph",
+    "id": [
+      "spell_scroll_baleful_polymorph",
+      "spell_scroll_spirit_armor",
+      "spell_scroll_holy_blade",
+      "spell_scroll_cats_grace",
+      "spell_scroll_eagles_sight",
+      "spell_scroll_ogres_strength",
+      "spell_scroll_foxs_cunning"
+    ],
+    "//": "Remove after 0.J",
     "type": "MIGRATION",
     "replace": "manual_swimming"
+  },
+  {
+    "id": "impactsling",
+    "looks_like": "sling",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "symbol": "(",
+    "color": "brown",
+    "name": { "str": "impact sling" },
+    "description": "A leather sling, quivering with energy when in your palm to the point of almost tearing.  A pebble appears when you begin spinning it.",
+    "price": "1 USD 50 cent",
+    "material": [ "leather" ],
+    "flags": [
+      "NEVER_JAMS",
+      "PRIMITIVE_RANGED_WEAPON",
+      "BELT_CLIP",
+      "FIRE_TWOHAND",
+      "TRADER_AVOID",
+      "NO_UNLOAD",
+      "NO_REPAIR",
+      "NO_TURRET",
+      "WATERPROOF_GUN"
+    ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "weight": "86 g",
+    "volume": "250 ml",
+    "longest_side": "25 cm",
+    "skill": "throw",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": -1,
+    "ranged_damage": { "damage_type": "bash", "amount": 20 },
+    "range": 20,
+    "dispersion": 135,
+    "durability": 7,
+    "reload_noise_volume": 3,
+    "loudness": 6,
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "magic_light",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "tools",
+    "name": "magic light",
+    "description": "A small magical light that you can read by.",
+    "weight": "0 kg",
+    "volume": "0 L",
+    "price": "0 cent",
+    "symbol": ",",
+    "color": "light_green",
+    "material": [ "magical_material" ],
+    "light": 8,
+    "flags": [ "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [ { "covers": [ "head" ] } ]
   }
 ]

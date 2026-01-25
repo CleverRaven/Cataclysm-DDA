@@ -3373,5 +3373,43 @@
     "name": { "str": "hardened steel turban helmet" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE", "PREFIX_XS" ]
+  },
+  {
+    "id": "string_dimension_helmet_conical",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "lamba khud helm" },
+    "description": "An unusual-looking conical helm.  The perfectly smooth steel cap covers the top of the head and the ears, forming a tall cone with a spike at the top.  Chainmail covers the rest of the head, leaving only the face open.  It is padded with a modern synthetic fabric.",
+    "weight": "1425 g",
+    "volume": "3500 ml",
+    "price": "400 USD",
+    "price_postapoc": "35 USD",
+    "material": [ "qt_steel", "nylon" ],
+    "symbol": "[",
+    "looks_like": "helmet_barbute",
+    "color": "white",
+    "warmth": 10,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY", "PADDED" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead", "head_crown", "head_ear_l", "head_ear_r" ],
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_nape", "mouth_cheeks", "head_throat" ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.2 } ]
+      }
+    ],
+    "melee_damage": { "bash": 3 }
   }
 ]

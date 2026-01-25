@@ -93,6 +93,16 @@
           "robofac_gun_exodii",
           "robofac_gun_57"
         ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "4000 ml",
+        "max_contains_weight": "900 g",
+        "moves": 200,
+        "description": "Grommets for a poncho liner.",
+        "item_restriction": [ "military_poncho_liner", "robofac_poncho_liner" ]
       }
     ],
     "armor": [
@@ -203,6 +213,16 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "4000 ml",
+        "max_contains_weight": "900 g",
+        "moves": 200,
+        "description": "Grommets for a poncho liner.",
+        "item_restriction": [ "military_poncho_liner", "robofac_poncho_liner" ]
       }
     ],
     "use_action": {
@@ -363,6 +383,147 @@
       }
     ],
     "passive_effects": [ { "id": "nvg_good" }, { "id": "THERMAL_VISION_GOOD" } ]
+  },
+  {
+    "id": "robofac_head_rig_ar",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str_sp": "Hub 01 visual augmentation headgear" },
+    "looks_like": "tac_helmet",
+    "description": "Heavy duty hooded headwear for the true frontier explorer, made with robust Nylon sheeting reinforced with Kevlar fibers.  The top consists of a series of plastic plates with hooks and velcro strips, perhaps for attaching additional parts, and an integrated camera array.  A multi-faceted augmented reality headset rests of the forehead like a pair of slim, boxy ski goggles, with side plugs for auxiliary devices.  The AR lenses are equipped with adaptive light correction, light amplification and thermal imaging, and an augmented reality overlay equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  Activate it to turn on all systems.",
+    "weight": "1400 g",
+    "volume": "1200 ml",
+    "price": "200 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "nylon", "kevlar", "plastic" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 10,
+    "material_thickness": 3,
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You lower the AR headset and switch it on.\n\"HELLO MERCENARY\".\nVisual systems:   ONLINE.\nRadio systems:    ONLINE.\nTargeting HUD:    ONLINE.",
+        "target": "robofac_head_rig_ar_on"
+      },
+      "CAMERA",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE"
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "5000 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Hooks for an armored helm plate.",
+        "flag_restriction": [ "ABLATIVE_HELMET" ]
+      },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0,
+        "ememory_max": "1 TB"
+      }
+    ],
+    "flags": [
+      "VARSIZE",
+      "WATERPROOF",
+      "STURDY",
+      "PADDED",
+      "OUTER",
+      "RAINPROOF",
+      "SOFT",
+      "MUNDANE",
+      "ELECTRONIC",
+      "CAN_USE_IN_DARK"
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 95,
+        "encumbrance": 55,
+        "volume_encumber_modifier": 0
+      }
+    ],
+    "techniques": [ "WBLOCK_1" ],
+    "tool_ammo": "battery"
+  },
+  {
+    "id": "robofac_head_rig_ar_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "copy-from": "robofac_head_rig_ar",
+    "name": { "str_sp": "Hub 01 visual augmentation headgear (on)" },
+    "description": "Heavy duty hooded headwear for the true frontier explorer, made with robust Nylon sheeting reinforced with Kevlar fibers.  The top consists of a series of plastic plates with hooks and velcro strips, perhaps for attaching additional parts, and an integrated camera array.  A multi-faceted augmented reality headset rests of the forehead like a pair of slim, boxy ski goggles, with side plugs for auxiliary devices.  The AR lenses are equipped with adaptive light correction, light amplification and thermal imaging, and an augmented reality overlay equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  The AR system is currently turned on, and continually draining batteries.  Use it to turn it off.",
+    "extend": {
+      "flags": [
+        "SPAWN_ACTIVE",
+        "ZOOM",
+        "THERMOMETER",
+        "HYGROMETER",
+        "BAROMETER",
+        "TWO_WAY_RADIO",
+        "WATCH",
+        "ALARMCLOCK",
+        "SUN_GLASSES"
+      ]
+    },
+    "power_draw": "320 mW",
+    "revert_to": "robofac_head_rig_ar",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "type": "transform",
+        "menu_text": "Turn off",
+        "msg": "Your AR system turns off.",
+        "target": "robofac_head_rig_ar"
+      },
+      "CAMERA",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE"
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 95,
+        "encumbrance": 50,
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 5,
+        "rigid_layer_only": true,
+        "volume_encumber_modifier": 0
+      }
+    ],
+    "passive_effects": [
+      { "id": "nvg_great" },
+      { "id": "THERMAL_VISION_GOOD" },
+      { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -0.25 } ] }
+    ]
   },
   {
     "id": "robofac_robotrig",
@@ -1031,6 +1192,41 @@
     "flags": [ "BELTED", "WATERPROOF" ],
     "armor": [
       { "encumbrance": [ 10, 30 ], "coverage": 95, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
+  },
+  {
+    "id": "robofac_poncho_liner",
+    "//": "made of metallized polyethylene terephthalate, or MPET, so basically an emergency blanket",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "dark_gray",
+    "name": { "str": "Hub 01 MPET poncho liner" },
+    "description": "Often called a \"woobie\" by soldiers, this sleeping bag-like poncho liner can be attached under a poncho or used as a blanket.  This one is made of space-age metallized polyethylene terephthalate, or MPET, the same reflective material used on spacecraft, spacesuits, emergency blankets, and mundane food packaging.  The Hub 01 logo is stamped on one corner.  It folds into a very compact form when not in use.",
+    "price": "50 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "plastic", "aluminum" ],
+    "weight": "50 g",
+    "volume": "200 ml",
+    "warmth": 10,
+    "flags": [ "OVERSIZE", "BELTED" ],
+    "environmental_protection": 4,
+    "material_thickness": 0.01,
+    "armor": [
+      { "encumbrance": 3, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100 },
+      {
+        "encumbrance": 3,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
+        "coverage": 100
+      },
+      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 },
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_r", "leg_upper_l" ]
+      }
     ]
   }
 ]

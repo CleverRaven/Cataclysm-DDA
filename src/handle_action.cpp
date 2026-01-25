@@ -51,6 +51,7 @@
 #include "help.h"
 #include "input_context.h"
 #include "input_enums.h"
+#include "input_popup.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_group.h"
@@ -76,16 +77,17 @@
 #include "overmap_ui.h"
 #include "panels.h"
 #include "pathfinding.h"
-#include "player_activity.h"
 #include "point.h"
 #include "popup.h"
 #include "ranged.h"
 #include "rng.h"
 #include "safemode_ui.h"
+#if defined(TILES)
+#include "sdl_gamepad.h"
+#endif
 #include "sleep.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "timed_event.h"
 #include "translation.h"
 #include "translations.h"
@@ -116,10 +118,8 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
-static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
-static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
@@ -584,14 +584,17 @@ static void pldrive( point_rel_ms d )
     pldrive( tripoint_rel_ms( d, 0 ) );
 }
 
-static void open()
+static void open( const std::optional<tripoint_bub_ms> &p = std::nullopt )
 {
     map &here = get_map();
 
     avatar &player_character = get_avatar();
-    const std::optional<tripoint_bub_ms> openp_ = choose_adjacent_highlight( here, _( "Open where?" ),
-            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
-            ACTION_OPEN, false );
+    std::optional<tripoint_bub_ms> openp_ = p;
+    if( !openp_ ) {
+        openp_ = choose_adjacent_highlight( here, _( "Open where?" ),
+                                            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
+                                            ACTION_OPEN, false );
+    }
 
     if( !openp_ ) {
         return;
@@ -671,14 +674,19 @@ static void open()
     }
 }
 
-static void close()
+static void close( const std::optional<tripoint_bub_ms> &p = std::nullopt )
 {
     map &here = get_map();
 
-    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_highlight(
-                here, _( "Close where?" ),
-                pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
-                ACTION_CLOSE, false ) ) {
+    std::optional<tripoint_bub_ms> pnt = p;
+    if( !pnt ) {
+        pnt = choose_adjacent_highlight(
+                  here, _( "Close where?" ),
+                  pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
+                  ACTION_CLOSE, false );
+    }
+
+    if( pnt ) {
         doors::close_door( here, get_player_character(), *pnt );
     }
 }
@@ -706,7 +714,7 @@ static void auto_features_warn()
 }
 
 // Establish or release a grab on a vehicle
-static void grab()
+static void grab( const std::optional<tripoint_bub_ms> &p = std::nullopt )
 {
     avatar &you = get_avatar();
     map &here = get_map();
@@ -722,7 +730,10 @@ static void grab()
         return;
     }
 
-    const std::optional<tripoint_bub_ms> grabp_ = choose_adjacent( _( "Grab where?" ) );
+    std::optional<tripoint_bub_ms> grabp_ = p;
+    if( !grabp_ ) {
+        grabp_ = choose_adjacent( _( "Grab where?" ) );
+    }
     if( !grabp_ ) {
         add_msg( _( "Never mind." ) );
         return;
@@ -907,16 +918,14 @@ static void haul()
         case 3:
             autohaul ? player_character.stop_autohaul() : player_character.start_autohaul();
             break;
-        case 4:
-            string_input_popup()
-            .title( _( "Filter:" ) )
-            .width( 55 )
-            .description( item_filter_rule_string( item_filter_type::FILTER ) )
-            .desc_color( c_white )
-            .identifier( "item_filter" )
-            .max_length( 256 )
-            .edit( player_character.hauling_filter );
-            break;
+        case 4: {
+            string_input_popup_imgui filter_popup( 50, player_character.hauling_filter );
+            filter_popup.set_label( _( "Filter:" ) );
+            filter_popup.set_description( item_filter_rule_string( item_filter_type::FILTER ), c_white, true );
+            filter_popup.set_identifier( "item_filter" );
+            player_character.hauling_filter = filter_popup.query();
+        }
+        break;
         case 9:
         default:
             break;
@@ -928,11 +937,14 @@ static void haul_toggle()
     get_avatar().toggle_hauling();
 }
 
-static void smash()
+static void smash( const std::optional<tripoint_bub_ms> &p = std::nullopt )
 {
     const bool allow_floor_bash = debug_mode; // Should later become "true"
-    const std::optional<tripoint_bub_ms> smashp_ = choose_adjacent( _( "Smash where?" ),
-            allow_floor_bash );
+    std::optional<tripoint_bub_ms> smashp_ = p;
+    if( !smashp_ ) {
+        smashp_ = choose_adjacent( _( "Smash where?" ),
+                                   allow_floor_bash );
+    }
     if( !smashp_ ) {
         return;
     }
@@ -1683,7 +1695,7 @@ static void loot()
             player_character.assign_activity( ACT_MULTIPLE_BUTCHER );
             break;
         case MultiMining:
-            player_character.assign_activity( ACT_MULTIPLE_MINE );
+            player_character.assign_activity( multi_mine_activity_actor() );
             break;
         case MultiDis:
             player_character.assign_activity( ACT_MULTIPLE_DIS );
@@ -1933,6 +1945,11 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
         return false;
     }
 
+    if( !sp.valid_caster_condition( *this ) ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown }, sp.failed_caster_condition_message() );
+        return false;
+    }
+
     if( !magic->has_enough_energy( *this, sp ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You don't have enough %s to cast the spell." ),
@@ -1953,39 +1970,18 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
         return false;
     }
 
-    player_activity spell_act( ACT_SPELLCASTING, sp.casting_time( *this ) );
-    // [0] this is used as a spell level override for items casting spells
+    std::optional<int> fake_spell_level;
     if( fake_spell ) {
-        spell_act.values.emplace_back( sp.get_level() );
-    } else {
-        spell_act.values.emplace_back( -1 );
+        fake_spell_level = sp.get_level();
     }
-    // [1] if this value is 1, the spell never fails
-    spell_act.values.emplace_back( 0 );
-    // [2] this value overrides the mana cost if set to 0
-    spell_act.values.emplace_back( 1 );
-    spell_act.name = sp.id().c_str();
-    if( magic->casting_ignore ) {
-        const std::vector<distraction_type> ignored_distractions = {
-            distraction_type::noise,
-            distraction_type::pain,
-            distraction_type::attacked,
-            distraction_type::hostile_spotted_near,
-            distraction_type::hostile_spotted_far,
-            distraction_type::talked_to,
-            distraction_type::asthma,
-            distraction_type::motion_alarm,
-            distraction_type::weather_change,
-            distraction_type::mutation
-        };
-        for( const distraction_type ignored : ignored_distractions ) {
-            spell_act.ignore_distraction( ignored );
-        }
-    }
+    std::optional<tripoint_abs_ms> abs_target;
     if( target ) {
-        spell_act.coords.emplace_back( get_map().get_abs( *target ) );
+        abs_target = get_map().get_abs( *target );
     }
-    assign_activity( spell_act );
+
+    assign_activity( spellcasting_activity_actor(
+                         time_duration::from_moves<int>( sp.casting_time( *this ) ),
+                         sp.id(), abs_target, fake_spell_level ) );
     return true;
 }
 
@@ -2514,7 +2510,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_OPEN:
-            open();
+            open( mouse_target );
             break;
 
         case ACTION_CLOSE:
@@ -2523,10 +2519,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 if( !mon->has_flag( mon_flag_RIDEABLE_MECH ) ) {
                     add_msg( m_info, _( "You can't close things while you're riding." ) );
                 }
-            } else if( mouse_target ) {
-                doors::close_door( here, player_character, *mouse_target );
             } else {
-                close();
+                close( mouse_target );
             }
             break;
 
@@ -2534,7 +2528,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( has_vehicle_control( player_character ) ) {
                 handbrake( here );
             } else {
-                smash();
+                smash( mouse_target );
             }
             break;
 
@@ -2566,7 +2560,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_GRAB:
-            grab();
+            grab( mouse_target );
             break;
 
         case ACTION_HAUL:
@@ -2578,15 +2572,19 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_BUTCHER:
-            butcher();
+            butcher( mouse_target );
             break;
 
         case ACTION_CHAT:
-            chat();
+            chat( mouse_target );
             break;
 
         case ACTION_PEEK:
-            peek();
+            if( mouse_target ) {
+                peek( *mouse_target );
+            } else {
+                peek();
+            }
             break;
 
         case ACTION_LIST_ITEMS:
@@ -2750,14 +2748,18 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_UNLOAD_CONTAINER:
             // You CAN drop things to your own tile while in the shell.
-            unload_container();
+            unload_container( mouse_target );
             break;
 
         case ACTION_DROP:
             drop_in_direction( player_character.pos_bub() );
             break;
-        case ACTION_DIR_DROP:
-            if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
+        case ACTION_DIR_DROP: {
+            std::optional<tripoint_bub_ms> pnt = mouse_target;
+            if( !pnt ) {
+                pnt = choose_adjacent( _( "Drop where?" ) );
+            }
+            if( pnt ) {
                 if( *pnt != player_character.pos_bub() && in_shell ) {
                     add_msg( m_info, _( "You can't drop things to another tile while you're in your shell." ) );
                 } else {
@@ -2765,6 +2767,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 }
             }
             break;
+        }
         case ACTION_BIONICS:
             player_character.power_bionics();
             break;
@@ -2818,7 +2821,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else if( player_character.has_trait( trait_WAYFARER ) ) {
                 add_msg( m_info, _( "You refuse to take control of this vehicle." ) );
             } else {
-                control_vehicle();
+                control_vehicle( mouse_target );
             }
             break;
 
@@ -2998,6 +3001,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_WORLD_MODS:
             world_generator->show_active_world_mods( world_generator->active_world->active_mod_order );
+            break;
+
+        case ACTION_EXPORT_BUG_REPORT_ARCHIVE:
+            debug_menu::export_save_archive_and_game_report();
             break;
 
         case ACTION_DEBUG:
@@ -3190,6 +3197,22 @@ bool game::handle_action()
             }
         }
 
+#if defined(TILES)
+        if( gamepad::is_active() ) {
+            gamepad::direction dir = gamepad::get_left_stick_direction();
+            if( dir != gamepad::direction::NONE ) {
+                // List of actions that can use the directional cursor
+                if( act == ACTION_INTERACT || act == ACTION_SMASH || act == ACTION_GRAB ||
+                    act == ACTION_PEEK || act == ACTION_UNLOAD_CONTAINER || act == ACTION_DIR_DROP ||
+                    act == ACTION_EXAMINE || act == ACTION_EXAMINE_AND_PICKUP ||
+                    act == ACTION_PICKUP || act == ACTION_PICKUP_ALL || act == ACTION_CONTROL_VEHICLE ) {
+                    tripoint offset = gamepad::direction_to_offset( dir );
+                    mouse_target = player_character.pos_bub() + tripoint_rel_ms( offset.x, offset.y, 0 );
+                }
+            }
+        }
+#endif
+
         if( act == ACTION_ACTIONMENU ) {
             if( uquit == QUIT_WATCH ) {
                 return false;
@@ -3206,6 +3229,16 @@ bool game::handle_action()
                 add_best_key_for_action_to_quick_shortcuts( act, ctxt.get_category(), false );
             }
 #endif
+        }
+
+        if( act == ACTION_INTERACT ) {
+            if( !mouse_target ) {
+                mouse_target = player_character.pos_bub();
+            }
+            act = handle_interact( here, *mouse_target );
+            if( act == ACTION_NULL ) {
+                return false;
+            }
         }
 
         if( act == ACTION_KEYBINDINGS ) {
@@ -3312,6 +3345,10 @@ bool game::handle_action()
     if( act != ACTION_TIMEOUT ) {
         player_character.mod_moves( -current_turn.moves_elapsed() );
     }
+    if( act != ACTION_PAUSE ) {
+        player_character.magic->break_channeling( player_character );
+    }
+
     gamemode->post_action( act );
 
     player_character.movecounter = ( !player_character.is_dead_state() ? ( before_action_moves -

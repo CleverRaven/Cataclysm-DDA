@@ -91,13 +91,14 @@
     "id": "EOC_Random_Loc_Warp",
     "//": "Picks a random location of any kind and activates the actual teleport EOC.",
     "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
           "om_terrain": "field",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": 1200,
-          "min_distance": 200,
+          "search_range": 200,
+          "min_distance": 0,
           "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
           "z": 0,
           "random": true
@@ -111,13 +112,14 @@
     "id": "EOC_Field_Loc_Warp",
     "//": "Picks a random field and activates the actual teleport EOC.",
     "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
           "om_terrain": "field",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": 1200,
-          "min_distance": 200,
+          "search_range": 200,
+          "min_distance": 0,
           "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
           "z": 0,
           "random": true
@@ -132,13 +134,14 @@
     "//": "Picks a random basement and activates the actual teleport EOC.",
     "condition": { "math": [ "basementsunlocked == 1" ] },
     "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
           "om_terrain": "basement",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": 1200,
-          "min_distance": 200,
+          "search_range": 200,
+          "min_distance": 0,
           "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
           "z": -1,
           "random": true
@@ -155,13 +158,14 @@
     "//": "Picks a random rooftop and activates the actual teleport EOC.",
     "condition": { "math": [ "roofsunlocked == 1" ] },
     "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
           "om_terrain": "roof",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": 1200,
-          "min_distance": 200,
+          "search_range": 200,
+          "min_distance": 0,
           "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
           "z": 1,
           "random": true
@@ -178,6 +182,7 @@
     "//": "Picks a random underground lab and activates the actual teleport EOC.",
     "condition": { "and": [ { "math": [ "labsunlocked == 1" ] }, { "u_has_items": { "item": "warp_labs_catalyst", "count": 1 } } ] },
     "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
       {
         "run_eoc_selector": [
           "EOC_Lab_Science_Loc_Warp",
@@ -205,13 +210,14 @@
     "//": "Picks a random underground lab and activates the actual teleport EOC.",
     "condition": { "and": [ { "math": [ "labsunlocked == 1" ] }, { "u_has_items": { "item": "warp_labs_catalyst", "count": 1 } } ] },
     "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
           "om_terrain": "lab_stairs",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": 1200,
-          "min_distance": 200,
+          "search_range": 200,
+          "min_distance": 0,
           "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
           "z": -2,
           "random": true
@@ -229,6 +235,7 @@
     "//": "Picks a random underground lab and activates the actual teleport EOC.",
     "condition": { "and": [ { "math": [ "labsunlocked == 1" ] }, { "u_has_items": { "item": "warp_labs_catalyst", "count": 1 } } ] },
     "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
@@ -253,6 +260,7 @@
     "//": "Picks a random research facility and activates the actual teleport EOC.",
     "condition": { "and": [ { "math": [ "labsunlocked == 1" ] }, { "u_has_items": { "item": "warp_labs_catalyst", "count": 1 } } ] },
     "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
@@ -276,6 +284,7 @@
     "//": "Picks a random TCL and activates the actual teleport EOC.",
     "condition": { "and": [ { "math": [ "labsunlocked == 1" ] }, { "u_has_items": { "item": "warp_labs_catalyst", "count": 1 } } ] },
     "effect": [
+      { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
@@ -292,6 +301,59 @@
       },
       { "math": [ "goingtolabs = 1" ] },
       { "run_eocs": [ "EOC_initiate_randomport" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT",
+    "effect": [
+      { "u_location_variable": { "global_val": "OM_HQ_origin" } },
+      {
+        "u_location_variable": { "global_val": "OM_HQ_origin_npc" },
+        "passable_only": true,
+        "min_radius": 2,
+        "max_radius": 10
+      },
+      {
+        "u_location_variable": { "global_val": "sky_dimension_teleport_departure" },
+        "z_adjust": -3,
+        "z_override": true
+      },
+      {
+        "u_location_variable": { "global_val": "sky_dimension_teleport_departure_npc" },
+        "z_adjust": -3,
+        "z_override": true
+      },
+      {
+        "location_variable_adjust": { "global_val": "sky_dimension_teleport_departure_npc" },
+        "x_adjust": [ -2, 2 ],
+        "y_adjust": [ -2, 2 ]
+      },
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT_ADD_NPC_EFFECT",
+            "//": "Since NPC teleporting is bugged, the condition here and below prevents this from running for NPCs",
+            "condition": { "and": [ "u_following", { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+            "effect": [
+              { "u_add_effect": "blind", "duration": 0 },
+              { "u_add_effect": "effect_sky_island_momentary_flight", "duration": 2 },
+              { "u_teleport": { "global_val": "sky_dimension_teleport_departure_npc" }, "force": true },
+              {
+                "location_variable_adjust": { "global_val": "sky_dimension_teleport_departure_npc" },
+                "x_adjust": [ -2, 2 ],
+                "y_adjust": [ -2, 2 ]
+              }
+            ]
+          }
+        ],
+        "npc_range": 10,
+        "local": true
+      },
+      { "u_add_effect": "blind", "duration": 0 },
+      { "u_add_effect": "effect_sky_island_momentary_flight", "duration": 2 },
+      { "u_teleport": { "global_val": "sky_dimension_teleport_departure" }, "force": true },
+      { "u_travel_to_dimension": "dimension_sky_island_mission", "npc_travel_radius": 10, "region_type": "default" }
     ]
   }
 ]

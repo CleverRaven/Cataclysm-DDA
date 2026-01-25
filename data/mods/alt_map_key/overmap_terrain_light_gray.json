@@ -305,6 +305,58 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "container_yard_inland_base_1",
+      "container_yard_inland_base_2",
+      "container_yard_inland_base_3",
+      "container_yard_inland_base_4",
+      "container_yard_inland_base_5",
+      "container_yard_inland_base_6",
+      "container_yard_inland_fence",
+      "container_yard_inland_fence_front",
+      "container_yard_inland_fence_entry",
+      "container_yard_inland_fence_corner",
+      "container_yard_inland_fence_corner_office",
+      "container_yard_inland_fence_corner_garage"
+    ],
+    "copy-from": "container_yard_inland_base_1",
+    "name": "inland container depot",
+    "sym": "I",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "container_yard_inland_base_1a",
+      "container_yard_inland_base_1b",
+      "container_yard_inland_base_5a",
+      "container_yard_inland_fence_corner_office_roof",
+      "container_yard_inland_fence_corner_garage_roof",
+      "container_yard_inland_base_1_bandit",
+      "container_yard_inland_base_2_bandit",
+      "container_yard_inland_base_3_bandit",
+      "container_yard_inland_base_4_bandit",
+      "container_yard_inland_base_5_bandit",
+      "container_yard_inland_base_6_bandit",
+      "container_yard_inland_fence_bandit",
+      "container_yard_inland_fence_front_bandit",
+      "container_yard_inland_fence_entry_bandit",
+      "container_yard_inland_fence_corner_bandit",
+      "container_yard_inland_fence_corner_office_bandit",
+      "container_yard_inland_fence_corner_garage_bandit",
+      "container_yard_inland_base_1a_bandit",
+      "container_yard_inland_base_1b_bandit",
+      "container_yard_inland_base_5a_bandit",
+      "container_yard_inland_fence_corner_office_roof_bandit",
+      "container_yard_inland_fence_corner_garage_roof_bandit"
+    ],
+    "copy-from": "container_yard_inland_base_1a",
+    "name": "inland container depot",
+    "sym": "I",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_lightindustry_00", "s_lightindustry_01", "s_lightindustry_10", "s_lightindustry_11" ],
     "name": "light industry",
     "copy-from": "s_lightindustry_00",
@@ -317,6 +369,36 @@
     "name": "light industry roof",
     "copy-from": "s_lightindustry_00_roof",
     "sym": "L",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ruined_tower_highlands_basement",
+    "name": "ruined tower",
+    "copy-from": "ruined_tower_highlands_basement",
+    "sym": "R",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ruined_tower_highlands_ground",
+    "name": "ruined tower",
+    "copy-from": "ruined_tower_highlands_ground",
+    "sym": "R",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "ruined_tower_highlands_z1",
+      "ruined_tower_highlands_z2",
+      "ruined_tower_highlands_z3",
+      "ruined_tower_highlands_z4",
+      "ruined_tower_highlands_z5"
+    ],
+    "name": "ruined tower",
+    "copy-from": "ruined_tower_highlands_z1",
+    "sym": "R",
     "color": "light_gray"
   },
   {
@@ -643,6 +725,22 @@
     "copy-from": "abandonedwarehouse",
     "name": "abandoned warehouse",
     "sym": "A",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_warehouse_anduril",
+    "copy-from": "office_warehouse_anduril",
+    "name": "small warehouse",
+    "sym": "S",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_warehouse_anduril_roof",
+    "copy-from": "office_warehouse_anduril_roof",
+    "name": "small warehouse roof",
+    "sym": "S",
     "color": "light_gray"
   },
   {

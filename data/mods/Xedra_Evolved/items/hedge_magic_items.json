@@ -316,7 +316,7 @@
         {
           "id": "EOC_HEDGE_WALK_ON_WATER_MAGIC_SQUARE",
           "effect": [
-            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
             { "u_add_effect": "effect_hedge_walk_on_water_magic_square", "duration": 1800, "intensity": 30 }
           ]
         }
@@ -339,7 +339,7 @@
         {
           "id": "EOC_HEDGE_BREATHE_WATER_MAGIC_SQUARE",
           "effect": [
-            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
             { "u_add_effect": "effect_hedge_breathe_water_magic_square", "duration": 7200, "intensity": 120 }
           ]
         }
@@ -365,7 +365,7 @@
         {
           "id": "EOC_HEDGE_BASH_TERRAIN_MAGIC_SQUARE",
           "effect": [
-            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
             { "u_cast_spell": { "id": "hedge_bash_terrain_magic_square_real" }, "targeted": true }
           ]
         }
@@ -388,7 +388,7 @@
         {
           "id": "EOC_HEDGE_ARMED_MEN_MAGIC_SQUARE",
           "effect": [
-            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
             {
               "u_spawn_monster": "GROUP_HEDGE_TO_CAUSE_ARMED_MEN",
               "real_count": { "math": [ "2 + rand(3)" ] },
@@ -422,7 +422,10 @@
       "effect_on_conditions": [
         {
           "id": "EOC_HEDGE_FOOR_OR_DRINK_MAGIC_SQUARE",
-          "effect": [ { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 }, { "run_eocs": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR" } ]
+          "effect": [
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
+            { "run_eocs": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR" }
+          ]
         }
       ]
     }
@@ -446,7 +449,7 @@
         {
           "id": "EOC_HEDGE_INVISIBILITY_MAGIC_SQUARE",
           "effect": [
-            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
             { "u_add_effect": "effect_invisibility_magic_square", "duration": 4620, "intensity": 77 }
           ]
         }
@@ -478,5 +481,41 @@
     ],
     "max_worn": 1,
     "environmental_protection": 0
+  },
+  {
+    "id": "item_hedge_raziel_amulet_protection",
+    "copy-from": "copper_necklace",
+    "looks_like": "copper_necklace",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "name": { "str": "Kamea of Protection", "//~": "Kamea is Hebrew for amulet", "str_pl": "Kameas of Protection" },
+    "description": "A copper amulet, engraved with the names of angels and some of the secret names of God.  According to the text of the Sefer Raziel, wearing it will protect you from harm.",
+    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "MUNDANE", "HEDGE_ENCHANTED" ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.2 },
+          { "type": "stab", "multiply": -0.2 },
+          { "type": "cut", "multiply": -0.2 },
+          { "type": "bullet", "multiply": -0.2 }
+        ],
+        "ench_effects": [ { "effect": "effect_hedge_magic_kamea_of_protection", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "id": "item_hedge_raziel_amulet_protection_done",
+    "copy-from": "copper_necklace",
+    "looks_like": "copper_necklace",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "name": {
+      "str": "Kamea of Protection (scratched)",
+      "//~": "Kamea is Hebrew for amulet",
+      "str_pl": "Kameas of Protection (scratched)"
+    },
+    "description": "A copper amulet, engraved with the names of angels and some of the secret names of God.  According to the text of the Sefer Raziel, wearing it will protect you from harm.  Some of the text on the amulet is scratched.",
+    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "MUNDANE" ]
   }
 ]

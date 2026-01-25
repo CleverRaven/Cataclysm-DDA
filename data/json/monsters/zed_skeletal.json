@@ -43,8 +43,14 @@
     "grab_strength": 35,
     "special_attacks": [
       { "id": "grab", "cooldown": 21 },
+      { "id": "staggering_blow" },
       { "id": "bite_humanoid", "cooldown": 5 },
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      {
+        "id": "smash",
+        "throw_strength": 56,
+        "cooldown": 45,
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] }
+      },
       {
         "id": "scratch_humanoid",
         "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ]

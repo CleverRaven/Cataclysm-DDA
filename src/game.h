@@ -12,6 +12,7 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -34,8 +35,6 @@
 #include "type_id.h"
 #include "units_fwd.h"
 #include "weather.h"
-
-constexpr int DEFAULT_TILESET_ZOOM = 16;
 
 // The reference to the one and only game instance.
 class game;
@@ -737,7 +736,7 @@ class game
 
         // Shared method to print "look around" info
         void print_all_tile_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                                  const std::string &area_name, int column,
+                                  std::string_view area_name, int column,
                                   int &line, int last_line, const visibility_variables &cache );
 
         void draw_look_around_cursor( const tripoint_bub_ms &lp, const visibility_variables &cache );
@@ -782,6 +781,7 @@ class game
         void reenter_fullscreen();
         void zoom_in_overmap();
         void zoom_out_overmap();
+        void set_overmap_zoom( int level );
         void zoom_in();
         void zoom_out();
         void reset_zoom();
@@ -961,7 +961,8 @@ class game
         bool grabbed_move( const tripoint_rel_ms &dp, bool via_ramp );
         bool grabbed_veh_move( const tripoint_rel_ms &dp );
 
-        void control_vehicle(); // Use vehicle controls  '^'
+        void control_vehicle( const std::optional<tripoint_bub_ms> &p =
+                                  std::nullopt ); // Use vehicle controls  '^'
         // Examine nearby terrain 'e', with or without picking up items
         void examine( const tripoint_bub_ms &p, bool with_pickup = false );
         void examine( bool with_pickup = true );
@@ -972,10 +973,11 @@ class game
         // Pick up items from all nearby tiles
         void pickup_all();
 
-        void unload_container(); // Unload a container w/ direction  'd'
+        void unload_container( const std::optional<tripoint_bub_ms> &p =
+                                   std::nullopt ); // Unload a container w/ direction  'd'
         void drop_in_direction( const tripoint_bub_ms &pnt ); // Drop w/ direction  'D'
 
-        void butcher(); // Butcher a corpse  'B'
+        void butcher( const std::optional<tripoint_bub_ms> &p = std::nullopt ); // Butcher a corpse  'B'
 
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
@@ -1016,16 +1018,14 @@ class game
                                     std::vector<std::string> *harmful_stuff = nullptr ) const;
         // Pick up items from the given point
         void pickup( const tripoint_bub_ms &p );
+        void chat( const std::optional<tripoint_bub_ms> &p = std::nullopt ); // Talk to a nearby NPC  'C'
     private:
-
-        void chat(); // Talk to a nearby NPC  'C'
 
         // Internal methods to show "look around" info
         void print_fields_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                                 int &line );
         void print_terrain_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                                 const std::string &area_name, int column,
-                                 int &line );
+                                 std::string_view area_name, int column, int &line );
         void print_furniture_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                                    int &line );
         void print_trap_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
@@ -1287,10 +1287,6 @@ class game
 
         // Times the user has input an action
         int user_action_counter = 0; // NOLINT(cata-serialize)
-
-        /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
-        int tileset_zoom = 0; // NOLINT(cata-serialize)
-        int overmap_tileset_zoom = DEFAULT_TILESET_ZOOM; // NOLINT(cata-serialize)
 
         /** Seed for all the random numbers that should have consistent randomness (weather). */
         unsigned int seed = 0; // NOLINT(cata-serialize)

@@ -425,7 +425,12 @@
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_LABYRINTH",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_PHYSICS_LAB",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_AMIGARA",
-      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_RADIOSPHERE"
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_RADIOSPHERE",
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_MONSTER_CORPSE",
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_CABIN_REVERB",
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_CABIN_REVERB_DIMENSION",
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_BARRICADED_CHURCH",
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_MORGANTOWN"
     ],
     "type": "talk_topic",
     "dynamic_line": "Excellent; please deposit the printouts in the intercom's tray.",
@@ -551,7 +556,7 @@
         },
         "effect": [
           { "u_consume_item": "HEW_printout_data_amigara", "count": 1, "popup": true },
-          { "math": [ "HEW_amigara_lab_data_sold++" ] },
+          { "math": [ "HEW_amigara_data_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 20 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_AMIGARA"
@@ -566,10 +571,85 @@
         },
         "effect": [
           { "u_consume_item": "HEW_printout_data_radiosphere", "count": 1, "popup": true },
-          { "math": [ "HEW_radiosphere_lab_data_sold++" ] },
+          { "math": [ "HEW_radiosphere_data_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 20 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_RADIOSPHERE"
+      },
+      {
+        "text": "[Deposit datasheet LKG1.]",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "HEW_printout_data_monster_corpse", "count": 1 } },
+            { "math": [ "HEW_monster_corpse_data_sold < 1" ] }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "HEW_printout_data_monster_corpse", "count": 1, "popup": true },
+          { "math": [ "HEW_monster_corpse_data_sold++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 20 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_MONSTER_CORPSE"
+      },
+      {
+        "text": "[Deposit datasheet CITW01.]",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "HEW_printout_data_cabin_reverb", "count": 1 } },
+            { "math": [ "HEW_cabin_reverb_data_sold < 1" ] }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "HEW_printout_data_cabin_reverb", "count": 1, "popup": true },
+          { "math": [ "HEW_cabin_reverb_data_sold++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 20 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_CABIN_REVERB"
+      },
+      {
+        "text": "[Deposit datasheet CITW02.]",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "HEW_printout_data_cabin_reverb_dimension", "count": 1 } },
+            { "math": [ "HEW_cabin_reverb_dimension_data_sold < 1" ] }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "HEW_printout_data_cabin_reverb_dimension", "count": 1, "popup": true },
+          { "math": [ "HEW_cabin_reverb_dimension_data_sold++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 20 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_CABIN_REVERB_DIMENSION"
+      },
+      {
+        "text": "[Deposit datasheet ESFX.]",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "HEW_printout_data_barricaded_church", "count": 1 } },
+            { "math": [ "HEW_barricaded_church_data_sold < 1" ] }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "HEW_printout_data_barricaded_church", "count": 1, "popup": true },
+          { "math": [ "HEW_barricaded_church_data_sold++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 20 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_BARRICADED_CHURCH"
+      },
+      {
+        "text": "[Deposit datasheet 01Z90.]",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "HEW_printout_data_morgantown", "count": 1 } },
+            { "math": [ "HEW_morgantown_data_sold < 1" ] }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "HEW_printout_data_morgantown", "count": 1, "popup": true },
+          { "math": [ "HEW_morgantown_data_sold++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 20 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_MORGANTOWN"
       },
       { "text": "That would be all.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
@@ -607,7 +687,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_EXODII",
     "type": "talk_topic",
-    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"You've clearly picked up a large variety of alien transmissions from an intelligence.  They appear… human-like.  We've encountered these transmissions before.  We strongly suggest you do not engage with these creatures, should you find the source of the information.\"",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"This report contains what we can only call… human-like radio and other signals.  We've recorded similar transmissions recently and independently.  We suggest you do not engage with these creatures, should you find the source of the information.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
@@ -618,7 +698,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_STRANGE_TEMPLE",
     "type": "talk_topic",
-    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"This is a very curious recording because it's for the most part normal.  However, the instruments detected one extremely dense resonance point.  Whatever this structure is, it houses something of extra-dimensional origins.\"",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"This is a very curious recording.  For the most part it's normal.  However, the instruments detected a point where anomalous converge - whatever this structure is, it houses something of extra-dimensional origins.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
@@ -640,7 +720,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_HIGHLANDS",
     "type": "talk_topic",
-    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"Astounding!  Incredible!  You've clearly recorded these in a non-Earth environment.  While the atmosphere is similar to ours, the humidity is substantially higher, and the pressure makes it more prone to violent storms.  The report also identified several isolated and concentrated resonance sources, indicating there are extra-dimensional objects located in the area you scanned.  Interestingly, there are no signs of artificial communication such as radio waves.  This place is clearly not housing any advanced intelligent life.\"",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"Astounding!  Incredible!  You've clearly recorded these in a non-Earth environment.  While the atmosphere is similar to ours, the humidity is substantially higher, and the pressure makes it more prone to violent storms.  The report also identified several concentrated anomalies, indicating there are extra-dimensional objects located in the area you scanned.  Interestingly, there are no signs of artificial communication such as radio waves.  This place is clearly not housing any advanced intelligent life.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
@@ -685,6 +765,61 @@
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_RADIOSPHERE",
     "type": "talk_topic",
     "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"Incredible - these are clearly non-Earth conditions!  What is strange is that there are a substantial number of man-made radio waves, but they all appear to be the same very high frequency radio waveform.  We will study these further.\"",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
+        { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_4", "success": true }
+      ]
+    }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_MONSTER_CORPSE",
+    "type": "talk_topic",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"Curiously, this report indicates that there are alien volatile organic compounds in the area you recorded in, and hints that they have an underground origin.  We may be interested in contracting you for further investigation.  Ask of you are interested.\"",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
+        { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_4", "success": true }
+      ]
+    }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_CABIN_REVERB",
+    "type": "talk_topic",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"The recordings performed unexpected loops in its subroutines, resulting in a multitude of errors, but the report otherwise seems normal.  We note that these loops only occur when scanning the roof of a structure in the scan-zone.  In any case, we will forward this to Research, but perhaps you should investigate that roofs.\"",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
+        { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_4", "success": true }
+      ]
+    }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_CABIN_REVERB_DIMENSION",
+    "type": "talk_topic",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"Astounding!  These conditions are clearly Earth-like, but the recordings performed unexpected loops in its subroutines.  The topographical scan shows what appear to be deliberate patterns in the placement of whatever structures you may have encountered.  We suspect that this may be a location where spacetime is slipping in various directions.  We will forward this to Research and alert you if we need more scans.\"",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
+        { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_4", "success": true }
+      ]
+    }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_MORGANTOWN",
+    "type": "talk_topic",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"This report shows signs of what we might call 'portal storm scarring.'  Preliminarily we expect this may be a site of significant activity during the initial portal storms, but we have forwarded it to Research for further study.\"",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
+        { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_4", "success": true }
+      ]
+    }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_BARRICADED_CHURCH",
+    "type": "talk_topic",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of twenty coins.  \"This report shows signs of what we might call 'portal storm scarring.'  We also noted some other features suggesting extradimensional materials may have been, or are, present.  Preliminarily we suspect this may be a site of significant activity during the initial portal storms.  We have forwarded it to Research for further study.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },

@@ -18,7 +18,7 @@ jobs:
     if: >
       ${{ github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.status == 'success' &&
+      ( github.event.workflow_run.status == 'success' || github.event.workflow_run.status == 'completed' ) &&
       github.repository == 'CleverRaven/Cataclysm-DDA' }}
     steps:
       - name: "Install gettext tools"

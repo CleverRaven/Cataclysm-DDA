@@ -371,7 +371,41 @@
   },
   {
     "type": "MIGRATION",
-    "id": "washboard",
-    "replace": "wash_kit"
+    "id": "cereal_fp7",
+    "replace": "cereal_fp1",
+    "variant": "foodios"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cereal_fp6",
+    "replace": "cereal_fp1",
+    "variant": "fructose"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cereal_fp5",
+    "replace": "cereal_fp1",
+    "variant": "honey"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cereal_fp3",
+    "replace": "cereal_fp1",
+    "variant": "brantastic"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "strawberries_cooked",
+    "replace": "strawberries"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "blueberries_cooked",
+    "replace": "blueberries"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "fruit_cooked",
+    "replace": "apple"
   }
 ]

@@ -74,12 +74,15 @@
   <screenshots>
     <screenshot type="default">
       <image>https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/c0eed669da247c8e9be9a5176aaf3cbd922e48a7/data/screenshots/menu.png</image>
+      <caption>Main menu</caption>
     </screenshot>
     <screenshot>
       <image>https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/c0eed669da247c8e9be9a5176aaf3cbd922e48a7/data/screenshots/game.png</image>
+      <caption>In-game view</caption>
     </screenshot>
     <screenshot>
       <image>https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/c0eed669da247c8e9be9a5176aaf3cbd922e48a7/data/screenshots/credits.png</image>
+      <caption>Credits screen</caption>
     </screenshot>
   </screenshots>
 

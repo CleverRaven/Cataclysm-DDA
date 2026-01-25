@@ -180,6 +180,7 @@ Andover
 Andre
 Andrea
 Andrew
+Anduril
 Andy
 anemoi
 ANFO
@@ -873,6 +874,7 @@ bufo
 bufos
 bugfixes
 bugout
+Buildable
 Bukharin
 bulette
 bulettes
@@ -1928,6 +1930,7 @@ Fabrique
 Fabritechnics
 Facebook
 facemasks
+facsimile
 facto
 faders
 fae
@@ -2052,6 +2055,8 @@ flatbread
 FlatCoin
 FlatCoins
 flatjaw
+flailer
+flailers
 flatlander
 flatlanders
 Flavio
@@ -2262,6 +2267,8 @@ genecraft
 genemod
 genemoded
 Genghis
+genset
+gensets
 Geoffrey
 geokinesis
 George
@@ -2332,6 +2339,8 @@ godesses
 Godfrey
 Godot
 Godwin
+goedendag
+goedendags
 Goethe
 Goldberg
 Goldstein
@@ -2358,6 +2367,7 @@ gozu
 gozus
 GPMG
 GPNVG
+GPS
 GR
 gr
 graboid
@@ -3458,6 +3468,8 @@ limnological
 Lincoln
 Linda
 Lindbergh
+linelander
+linelanders
 linework
 linux
 Lisa
@@ -3847,6 +3859,7 @@ Mesopotamian
 meta
 metalcutting
 metallics
+metallized
 metalsmithing
 metamagic
 metamaterial
@@ -4040,6 +4053,7 @@ Moreau
 Moreauburger
 Moreauburgers
 Morgan
+Morgantown
 Mori
 Mormon
 morningstar
@@ -4082,6 +4096,7 @@ Moyer
 Mozart
 Mozilla
 MP
+MPET
 mph
 MR
 Mr
@@ -4107,6 +4122,7 @@ Mulroy
 multi
 multiclean
 multidrop
+multifuel
 multimeters
 multiplayer
 multipool
@@ -4135,6 +4151,7 @@ mutagenically
 mutagenicity
 mutus
 muzzleloaders
+MVAS
 mW
 Mx
 Myanma
@@ -5608,6 +5625,8 @@ shootable
 shopkeep
 shorthair
 shortnose
+shortspear
+shortspears
 shoryuken
 shotcestus
 shotcestuses
@@ -5652,6 +5671,7 @@ Sikh
 Sikhism
 Sikorsky
 Silat
+SilentEagle
 siloed
 siloing
 silverberry
@@ -6546,6 +6566,7 @@ uncategorized
 uncontacted
 uncontrol
 uncorded
+uncrafted
 undeath
 underbarrel
 underbrushes
@@ -6972,6 +6993,7 @@ Woburn
 Wolfi
 wolfmen
 wolfshead
+woobie
 woodbow
 woodbows
 woodchip
@@ -7194,4 +7216,5 @@ zweihänders
 zweitimber
 zweitimbers
 zygomaticus
+zzip
 zzz

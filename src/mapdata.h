@@ -273,6 +273,9 @@ enum class ter_furn_flag : int {
     TFLAG_SHALLOW_WATER,
     TFLAG_WATER_CUBE,
     TFLAG_CURRENT,
+    TFLAG_THIN_ICE,
+    TFLAG_THICK_ICE,
+    TFLAG_SWIM_UNDER,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
     TFLAG_AUTO_WALL_SYMBOL,
@@ -372,9 +375,13 @@ enum class ter_furn_flag : int {
     TFLAG_FLOATS_IN_AIR,
     TFLAG_HARVEST_REQ_CUT1,
     TFLAG_NATURAL_UNDERGROUND,
+    TFLAG_PHASE_BACK,
     TFLAG_WIRED_WALL,
     TFLAG_MON_AVOID_STRICT,
     TFLAG_REGION_PSEUDO,
+    TFLAG_ONE_DIMENSIONAL_X,
+    TFLAG_ONE_DIMENSIONAL_Y,
+    TFLAG_ONE_DIMENSIONAL_Z,
 
     NUM_TFLAG_FLAGS
 };
@@ -681,6 +688,17 @@ struct ter_t : map_data_common_t {
 
     std::optional<map_ter_bash_info> bash;
     std::optional<map_ter_deconstruct_info> deconstruct;
+
+    // Phase-change configuration
+    // List of terrain ids that this terrain can transform into under a phase change
+    // (e.g. ice/steam variants). One entry may be empty to indicate "itself".
+    std::vector<ter_str_id> phase_targets;
+    // Corresponding list of temperatures (interpreted as degrees Celsius in JSON)
+    // at which the terrain will pick the corresponding phase target.
+    std::vector<units::temperature> phase_temps;
+    // Method describing how to apply the phase change (string identifier)
+    // Example values: "thresholds", "closest", "gradient" etc.
+    std::string phase_method;
 
     ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
 

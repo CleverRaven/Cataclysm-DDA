@@ -869,6 +869,42 @@
   },
   {
     "type": "terrain",
+    "id": "t_window_empty_stone",
+    "name": "empty window",
+    "looks_like": "t_window_empty",
+    "description": "An empty hole where once a window probably stood, now not even the frame remains.",
+    "symbol": "0",
+    "color": "yellow",
+    "move_cost": 4,
+    "coverage": 60,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "FLAMMABLE",
+      "SUPPORTS_ROOF",
+      "MOUNTABLE",
+      "CONNECT_WITH_WALL",
+      "THIN_OBSTACLE",
+      "SMALL_PASSAGE",
+      "PERMEABLE",
+      "WINDOW"
+    ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 70,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "hit_field": [ "fd_dust", 2 ]
+    },
+    "copy-from": "t_window_empty_no_roof",
+    "roof": "t_flat_roof"
+  },
+  {
+    "type": "terrain",
     "id": "t_window_boarded",
     "name": "boarded up window",
     "description": "A glass window that has been covered with nailed-down planks, blocking sunlight and visibility.  It's not much stronger, but it could be further reinforced with strategically placed planks.",

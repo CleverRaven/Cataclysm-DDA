@@ -101,7 +101,10 @@
       { "item": "scissors", "prob": 80 },
       { "item": "peeler", "prob": 75, "count": [ 1, 2 ] },
       { "item": "cutting_board", "count": [ 1, 2 ] },
-      { "item": "cutting_board", "prob": 75 }
+      { "item": "cutting_board", "prob": 75 },
+      {
+        "distribution": [ { "item": "metal_honing_rod", "prob": 35 }, { "item": "knife_sharpener_handheld", "prob": 60 } ]
+      }
     ]
   },
   {
@@ -476,6 +479,7 @@
       { "item": "pot_copper", "prob": 75 },
       { "item": "stock_pot", "prob": 50 },
       { "item": "pot_canning", "prob": 25 },
+      { "item": "pressure_cooker", "prob": 15 },
       { "item": "colander_steel", "prob": 80 },
       { "item": "splatter_guard", "prob": 20 },
       { "item": "pan", "count": [ 1, 2 ] },
@@ -530,7 +534,7 @@
       { "item": "garlic", "prob": 66, "count": [ 1, 3 ] },
       { "item": "onion", "prob": 66, "count": [ 1, 3 ] },
       { "item": "potato", "prob": 30, "count": [ 2, 12 ] },
-      { "group": "pet_food", "prob": 50 }
+      { "group": "pet_food_in_container", "prob": 50 }
     ]
   },
   {
@@ -575,15 +579,9 @@
       { "distribution": [ { "item": "coffeemaker", "prob": 90 } ], "prob": 75 },
       {
         "distribution": [
-          { "item": "coffee_raw", "prob": 30 },
-          { "item": "instant_coffee", "prob": 40, "count": [ 1, 5 ] },
-          {
-            "item": "coffee_raw",
-            "prob": 30,
-            "count": [ 1, 200 ],
-            "container-item": "null",
-            "entry-wrapper": "can_food_big"
-          }
+          { "prob": 30, "item": "coffee_raw" },
+          { "prob": 40, "item": "instant_coffee", "count": [ 1, 5 ] },
+          { "prob": 30, "group": "raw_coffee_in_container" }
         ],
         "prob": 80
       },
@@ -647,16 +645,7 @@
         "collection": [
           { "item": "toaster" },
           {
-            "distribution": [
-              { "item": "bread", "count": [ 2, 14 ], "prob": 70, "container-item": "null", "entry-wrapper": "bag_plastic" },
-              {
-                "item": "sourdough_bread",
-                "count": [ 2, 12 ],
-                "prob": 30,
-                "container-item": "null",
-                "entry-wrapper": "bag_plastic"
-              }
-            ],
+            "distribution": [ { "group": "bread_in_bag", "prob": 70 }, { "group": "sourdough_bread_in_bag", "prob": 30 } ],
             "prob": 80
           },
           { "item": "toastem", "count": [ 1, 8 ], "prob": 60, "container-item": "null", "entry-wrapper": "box_small" }
@@ -668,8 +657,8 @@
       { "item": "marshmallow_fluff", "charges": [ 1, -1 ], "prob": 80 },
       { "item": "syrup", "charges": [ 1, -1 ], "prob": 50 },
       { "item": "oatmeal", "entry-wrapper": "box_small", "container-item": "null", "count": [ 2, 16 ], "prob": 80 },
-      { "group": "box_cereal_any_opened" },
-      { "group": "box_cereal_any_opened", "prob": 75 },
+      { "group": "breakfast_cereal_in_box" },
+      { "group": "breakfast_cereal_in_box", "prob": 75 },
       {
         "distribution": [
           {
@@ -891,10 +880,7 @@
         ],
         "prob": 10
       },
-      {
-        "distribution": [ { "item": "nyquil", "prob": 60, "charges": [ 1, -1 ] }, { "item": "dayquil", "prob": 20, "charges": [ 1, -1 ] } ],
-        "prob": 50
-      },
+      { "group": "any_cough_syrup_in_bottle", "prob": 70 },
       {
         "distribution": [
           { "group": "adhesive_bandages_box_used", "prob": 30 },
@@ -1236,7 +1222,6 @@
     "type": "item_group",
     "id": "adderall_bottle_plastic_pill_prescription_1",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "adderall", "container-item": "null" } ]
   },
@@ -1244,7 +1229,6 @@
     "type": "item_group",
     "id": "weak_antibiotic_bottle_plastic_pill_prescription_1",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "weak_antibiotic", "container-item": "null" } ]
   },
@@ -1300,7 +1284,6 @@
     "type": "item_group",
     "id": "garlic_powder_bag_plastic",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 100 ] } ]
   },
@@ -1308,7 +1291,6 @@
     "type": "item_group",
     "id": "garlic_powder_bag_paper",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 25, 500 ] } ]
   },
@@ -1316,7 +1298,6 @@
     "type": "item_group",
     "id": "tums_bottle_plastic_small_1_20",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "tums", "container-item": "null", "count": [ 1, 20 ] } ]
   }

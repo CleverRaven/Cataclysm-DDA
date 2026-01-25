@@ -17,6 +17,8 @@
 
 class Character;
 class JsonObject;
+class JsonOut;
+class JsonValue;
 class item;
 class map;
 class monster;
@@ -32,9 +34,6 @@ namespace iuse
 {
 
 // FOOD AND DRUGS (ADMINISTRATION)
-std::optional<int> alcohol_medium( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> alcohol_strong( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> alcohol_weak( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> antibiotic( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> anticonvulsant( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> antifungal( Character *, item *, const tripoint_bub_ms & );
@@ -142,7 +141,6 @@ std::optional<int> mace( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> manage_exosuit( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> melatonin_tablet( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> mininuke( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> molotov_lit( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> mop( Character *, item *it, const tripoint_bub_ms & );
 std::optional<int> mp3( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> mp3_on( Character *p, item *it, const tripoint_bub_ms & );
@@ -225,7 +223,7 @@ std::optional<int> purify_water( Character *p, item *purifier, item_location &wa
 int towel_common( Character *, item *, bool );
 
 // Helper for validating a potential target of robot control
-bool robotcontrol_can_target( Character *, const monster & );
+bool robotcontrol_can_target( Character &, const monster & );
 
 // Helper for handling pesky wannabe-artists
 std::optional<int> handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
@@ -255,10 +253,12 @@ struct heating_requirements {
 struct heater {
     item_location loc;
     bool consume_flag;
-    int available_heater;
+    int available_heater; // NOLINT(cata-serialize)
     int heating_effect;
     tripoint_abs_ms vpt;
     bool pseudo_flag;
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( const JsonValue &jsin );
 };
 heater find_heater( Character *, item *, bool force_use_it );
 heating_requirements heating_requirements_for_weight( const units::mass &,
@@ -284,11 +284,7 @@ class iuse_actor
 
         virtual ~iuse_actor() = default;
         virtual void load( const JsonObject &jo, const std::string &src ) = 0;
-        // TODO: Replace usage of map unaware overload with map aware.
-        virtual std::optional<int> use( Character *, item &, const tripoint_bub_ms & ) const;
         virtual std::optional<int> use( Character *, item &, map *here, const tripoint_bub_ms & ) const = 0;
-        // TODO: Replace usage of map unaware overload with map aware.
-        virtual ret_val<void> can_use( const Character &, const item &, const tripoint_bub_ms & ) const;
         virtual ret_val<void> can_use( const Character &, const item &, map *here,
                                        const tripoint_bub_ms & ) const;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}

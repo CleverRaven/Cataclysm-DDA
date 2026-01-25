@@ -92,6 +92,40 @@
     "disease_excess": [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ] ]
   },
   {
+    "id": "stored_calories",
+    "type": "vitamin",
+    "//": "This vitamin counts how many stored calories an inventor has.  It also drains them with time to simulate the imperfect process.",
+    "vit_type": "counter",
+    "name": { "str": "Stored Calories" },
+    "min": 0,
+    "max": 10000000,
+    "rate": "2 m"
+  },
+  {
+    "id": "burned_books",
+    "type": "vitamin",
+    "//": "This vitamin counts how many pieces of written media were destroyed through the Book Burner's Buddy.",
+    "//2": "Decay is handled through EOC and effect is handled through the bionic itself, as the effect and the depletion rate increase the higher the vitamin is.",
+    "vit_type": "counter",
+    "name": { "str": "Burning Knowledge" },
+    "min": 0,
+    "max": 10000,
+    "rate": "0 m",
+    "excess": "effect_burned_books",
+    "disease_excess": [
+      [ 1, 20 ],
+      [ 21, 40 ],
+      [ 41, 60 ],
+      [ 61, 80 ],
+      [ 81, 100 ],
+      [ 101, 120 ],
+      [ 121, 140 ],
+      [ 141, 160 ],
+      [ 161, 180 ],
+      [ 181, 10000 ]
+    ]
+  },
+  {
     "id": "dreamer_vit",
     "type": "vitamin",
     "vit_type": "counter",
