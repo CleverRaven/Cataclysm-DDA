@@ -11586,7 +11586,7 @@ std::unique_ptr<activity_actor> butchery_activity_actor::deserialize( JsonValue 
         bd_instance.corpse.deserialize( jo.get_object( "corpse" ) );
         bd_instance.progress = time_duration::from_seconds<int>( jo.get_int( "progress" ) );
         bd_instance.req = requirement_id( jo.get_string( "req" ) );
-        bd_instance.req_speed_bonus = jo.get_int( "req_speed_bonus" );
+        bd_instance.req_speed_bonus = jo.get_float( "req_speed_bonus" );
         bd_instance.time_to_butcher = time_duration::from_seconds<int>( jo.get_int( "time_to_butcher" ) );
         new_bd.emplace_back( bd_instance );
     }
