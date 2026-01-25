@@ -112,7 +112,7 @@ int help::handle_option_looping( int option )
 
 help_window::help_window() : cataimgui::window( "help",
             ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
-            ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse )
+            ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoNavFocus )
 {
 
     ctxt = input_context( "DISPLAY_HELP", keyboard_mode::keychar );
@@ -304,22 +304,39 @@ void help_window::format_footer( const std::string &prev, const std::string &nex
 {
     const char *prev_chars = prev.c_str();
     const char *next_chars = next.c_str();
-    const float prev_size = ImGui::CalcTextSize( prev_chars ).x + 5.0f;
-    const float next_size = ImGui::CalcTextSize( next_chars ).x + 5.0f;
-    const float next_x = ImGui::GetCursorPos().x + ImGui::GetContentRegionAvail().x - next_size - 10.0f;
+    const float next_size = ImGui::CalcTextSize( next_chars ).x;
+    const float brackets_size = ImGui::CalcTextSize( "<]" ).x;
+    const float next_x = ImGui::GetCursorPos().x + ImGui::GetContentRegionAvail().x - next_size -
+                         brackets_size - one_em;
     ImGui::PushStyleColor( ImGuiCol_Separator, category_color );
     ImGui::Separator();
     ImGui::NewLine();
-    ImGui::Text( prev.c_str(), ImVec2( prev_size, 0.0f ) );
+
+    ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
+    ImGui::Text( "<" );
+    ImGui::SameLine( 0.f, 0.f );
+    ImGui::PopStyleColor( 1 );
+    ImGui::Text( prev_chars );
     if( ImGui::IsItemHovered() ) {
         selected_option = data.handle_option_looping( loaded_option - 1 );
     }
+    ImGui::SameLine( 0.f, 0.f );
+    ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
+    ImGui::Text( "]" );
+    ImGui::PopStyleColor( 1 );
     ImGui::SameLine( next_x );
-    ImGui::Text( next.c_str(), ImVec2( next_size, 0.0f ) );
+    ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
+    ImGui::Text( "[" );
+    ImGui::PopStyleColor( 1 );
+    ImGui::SameLine( 0.f, 0.f );
+    ImGui::Text( next_chars );
     if( ImGui::IsItemHovered() ) {
         selected_option = data.handle_option_looping( loaded_option + 1 );
     }
-    ImGui::PopStyleColor( 1 );
+    ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
+    ImGui::SameLine( 0.f, 0.f );
+    ImGui::Text( ">" );
+    ImGui::PopStyleColor( 2 );
 }
 
 void help_window::draw_category()
@@ -380,7 +397,7 @@ cataimgui::bounds help_window::get_bounds()
 
 float help_window::get_wrap_width()
 {
-    return static_cast<float>( str_width_to_pixels( TERMX - 5 ) );
+    return static_cast<float>( str_width_to_pixels( TERMX - 6 ) );
 }
 
 void help_window::show()
