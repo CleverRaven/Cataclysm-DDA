@@ -2100,8 +2100,8 @@
     "id": "eggs_in_carton",
     "subtype": "distribution",
     "entries": [
-      { "item": "egg_bird_unfert", "container-item": "carton_egg", "count": [ 1, 12 ] },
-      { "item": "egg_bird_unfert", "container-item": "carton_egg_6", "count": [ 1, 6 ] }
+      { "item": "egg_bird_unfert", "entry-wrapper": "carton_egg", "count": [ 1, 12 ] },
+      { "item": "egg_bird_unfert", "entry-wrapper": "carton_egg_6", "count": [ 1, 6 ] }
     ]
   },
   {
@@ -2109,8 +2109,8 @@
     "id": "eggs_in_carton_full",
     "subtype": "distribution",
     "entries": [
-      { "item": "egg_bird_unfert", "container-item": "carton_egg", "count": 12 },
-      { "item": "egg_bird_unfert", "container-item": "carton_egg_6", "count": 6 }
+      { "item": "egg_bird_unfert", "entry-wrapper": "carton_egg", "count": 12 },
+      { "item": "egg_bird_unfert", "entry-wrapper": "carton_egg_6", "count": 6 }
     ]
   },
   {

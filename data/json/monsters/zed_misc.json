@@ -109,14 +109,7 @@
     "extend": {
       "flags": [ "SMELLS", "PUSH_VEH" ],
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
-      "special_attacks": [
-        {
-          "id": "smash",
-          "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ],
-          "throw_strength": 35,
-          "cooldown": 10
-        }
-      ]
+      "special_attacks": [ { "id": "staggering_blow" } ]
     }
   },
   {
@@ -146,7 +139,15 @@
     "extend": {
       "flags": [ "SMELLS", "PUSH_VEH" ],
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
-      "special_attacks": [ { "id": "smash", "throw_strength": 72, "cooldown": 30 } ]
+      "special_attacks": [
+        { "id": "staggering_blow" },
+        {
+          "id": "smash",
+          "throw_strength": 72,
+          "cooldown": 30,
+          "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] }
+        }
+      ]
     },
     "delete": { "flags": [ "STUMBLES" ] },
     "revive_forms": [
@@ -174,7 +175,13 @@
     "harvest": "zombie_grabber",
     "grab_strength": 37,
     "special_attacks": [
-      { "id": "smash", "throw_strength": 72, "cooldown": 30 },
+      { "id": "staggering_blow" },
+      {
+        "id": "smash",
+        "throw_strength": 72,
+        "cooldown": 30,
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] }
+      },
       { "id": "grab", "cooldown": 11 },
       { "id": "grab_3", "cooldown": 12 },
       { "id": "ranged_pull", "cooldown": 20, "grab_data": { "pull_weight_ratio": 1.5 } },
@@ -205,7 +212,13 @@
     "vision_night": 40,
     "harvest": "zombie_humanoid_shadow",
     "special_attacks": [
-      { "id": "smash", "throw_strength": 48, "cooldown": 40 },
+      { "id": "staggering_blow" },
+      {
+        "id": "smash",
+        "throw_strength": 48,
+        "cooldown": 40,
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] }
+      },
       { "id": "stretch_attack", "cooldown": 40 },
       { "id": "longswipe" },
       { "id": "cut_throat" }
@@ -426,6 +439,7 @@
       { "id": "scratch_humanoid" },
       { "id": "bite_humanoid" },
       { "id": "smash", "throw_strength": 96 },
+      { "id": "hulk_lift_and_smash" },
       { "id": "hulk_wide_swing" }
     ],
     "death_drops": "mon_zombie_hulk_death_drops",

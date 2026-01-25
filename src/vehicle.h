@@ -510,7 +510,11 @@ struct vehicle_part {
         // in cm^2
         int contact_area() const;
 
+        // Part's base rolling resistance, plus any modifiers from faults etc
         float rolling_resistance() const;
+
+        // Part's base move penalty, plus any modifiers from faults etc
+        int move_penalty() const;
 
         /** how much blood covers part (in turns). */
         int blood = 0;
@@ -1709,6 +1713,9 @@ class vehicle
 
         // Loop through engines and generate noise and smoke for each one
         void noise_and_smoke( map &here, int load, time_duration time = 1_turns );
+
+        // Actively moving vehicle with impaired wheels
+        void check_flats_do_rim_damage_or_sounds( map &here );
 
         /**
          * Calculates the sum of the area under the wheels of the vehicle.

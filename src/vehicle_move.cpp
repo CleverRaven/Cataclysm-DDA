@@ -54,6 +54,7 @@ static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const fault_id fault_flat_tire_riding_on_rims( "fault_flat_tire_riding_on_rims" );
 static const fault_id fault_punctured_tires( "fault_punctured_tires" );
 
 static const flag_id json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
@@ -593,6 +594,7 @@ void vehicle::thrust( map &here, int thd, int z )
         }
         //make noise and consume fuel
         noise_and_smoke( here, load + alternator_load );
+        check_flats_do_rim_damage_or_sounds( here );
         consume_fuel( here, load + alternator_load, false );
         if( z != 0 && is_rotorcraft( here ) ) {
             requested_z_change = z;
@@ -1303,14 +1305,28 @@ void vehicle::damage_wheel_on_item( vehicle_part *vp_wheel, const item &it,
         return;
     }
 
+    if( vp_wheel->has_fault( fault_flat_tire_riding_on_rims ) ) { // Already in worst possible state.
+        return;
+    }
+
     const double chance_to_damage = wheel_damage_chance_vs_item( it, *vp_wheel );
 
     if( chance_to_damage > 0.0 && chance_to_damage >= rng_float( 0.0, 1.0 ) ) {
-        if( vp_wheel->fault_set( fault_punctured_tires ) ) {
-            messages->emplace_back( string_format(
-                                        _( "You hear a loud pop from below, and your vehicle suddenly start to wobble like crazy!" ) ) );
-            refresh_pivot( get_map() );
-            return;
+        if( !vp_wheel->has_fault( fault_punctured_tires ) ) {
+            if( vp_wheel->fault_set( fault_punctured_tires ) ) {
+                messages->emplace_back( string_format(
+                                            _( "You hear a loud pop from below, and your vehicle suddenly start to wobble like crazy!" ) ) );
+                refresh_pivot( get_map() );
+                return;
+            }
+        } else {
+            // Already punctured, but get hit *again* --> chance to instantly set 100% flat
+            if( vp_wheel->fault_set( fault_flat_tire_riding_on_rims ) ) {
+                messages->emplace_back( string_format(
+                                            _( "With a jolt, hitting something has blown out your tire!" ) ) );
+                refresh_pivot( get_map() );
+                return;
+            }
         }
     }
 }
@@ -2262,6 +2278,8 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
                 break;
             }
         }
+
+        move_mod = std::max( move_mod, move_mod + vp.move_penalty() );
 
         if( move_mod == 0 ) {
             debugmsg( "move_mod resulted in a 0, ignoring wheel" );

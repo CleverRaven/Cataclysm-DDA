@@ -752,7 +752,7 @@ Identifier                  | Description
 `values`                    | Numbers that can be modified (see [list](#id-values)).  `add` is added to the base value, `multiply` is **also added** and treated as percentage: 2.5 is +250% and -1 is -100%.  `add` is always applied before `multiply`.  Either `add` or `multiply` can be a variable_object/math expression (see [below](#variables) for syntax and application, and [NPCs](NPCs.md) for the in depth explanation).
 `skills`                    | A bonus or penalty to skills. Syntax is the same as for values, using the id of the skill name.
 `emitter`                   | Grants the emit_id.
-`modified_bodyparts`        | Modifies the body plan (standard is human).  `gain` adds body_part_id, `lose` removes body_part_id.  Note: changes done this way stay even after the item/effect/mutation carrying the enchantment is removed.
+`modified_bodyparts`        | Modifies the body plan (standard is human).  `gain` adds body_part_id, `lose` removes body_part_id.
 `mutations`                 | Grants the mutation/trait ID.  Note: enchantments effects added this way won't stack, due how mutations work.
 `ench_effects`              | Grants the effect_id.  Requires the `intensity` for the effect.
 

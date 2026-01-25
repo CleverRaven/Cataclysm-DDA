@@ -120,6 +120,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_proposed_MVAS" } ] } },
             { "not": { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('14 d')" ] } }
           ]
         }
@@ -130,9 +131,52 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_proposed_MVAS" } ] } },
             { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('14 d')" ] }
           ]
+        },
+        "effect": { "u_add_var": "robofac_pat_proposed_MVAS", "value": "yes" }
+      },
+      {
+        "text": "Hey, remember that time you mentioned military AR units?  Believe it or not, I've got one.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_MAKE_EARPIECE_MVAS",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_proposed_MVAS" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
+            { "u_has_items": { "item": "military_vis_aug_system", "count": 1 } }
+          ]
         }
+      },
+      {
+        "text": "Hey, remember that time you mentioned military AR units?  Believe it or not, I've got one made by our employer.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_MAKE_EARPIECE_HVAH",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_proposed_MVAS" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
+            { "u_has_items": { "item": "robofac_head_rig_ar", "count": 1 } }
+          ]
+        }
+      },
+      {
+        "text": "So it's been a day.  Any progress on that AR headset?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_GIVE_EARPIECE",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_finished_earpiece" } ] } },
+            { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('1 d')" ] }
+          ]
+        },
+        "effect": [
+          { "u_add_var": "robofac_pat_finished_earpiece", "value": "yes" },
+          {
+            "if": { "compare_string": [ "military_vis_aug_system", { "u_val": "robofac_pat_is_holding" } ] },
+            "then": [ { "u_spawn_item": "military_vis_aug_system" }, { "u_spawn_item": "pat_earpiece" } ],
+            "else": [ { "u_spawn_item": "robofac_head_rig_ar" }, { "u_spawn_item": "pat_earpiece" } ]
+          }
+        ]
       },
       {
         "text": "Let's talk about one of our jobs.",
@@ -628,10 +672,51 @@
   },
   {
     "id": "TALK_ROBOFAC_MERC_PAT_IMPROVE_GEAR_YES",
-    "//": "placeholder to be expanded at a later date",
     "type": "talk_topic",
     "dynamic_line": "I think this is about as good as my post-apocalyptic engineering will take us, eh?  Unless our employer chips in, or you can dig up one of those cutting-edge military AR units, I think we're S-O-L.",
     "responses": [ { "text": "Yeah, alright.  Maybe sometime in the future.", "topic": "TALK_ROBOFAC_MERC_PAT" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_MAKE_EARPIECE_MVAS",
+    "type": "talk_topic",
+    "dynamic_line": "Well hole-lee shit, look at that heah.  I read about these online before it all happened, eh?  Real assholes, Anduril, with that Tolkien reference.  Betcha he woulda' hated that.  Anyways.  Tell ya' what - ya' let that stay with me for a day, and I betcha I can work something out.  I may have to do a factory reset, so make sure ya' back up any data you need.",
+    "responses": [
+      {
+        "text": "Yeah, alright.  I'll see you in a day or so.",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "u_consume_item": "military_vis_aug_system", "count": 1, "popup": true },
+          { "math": [ "robofac_timer_waiting_on_pat = time('now')" ] },
+          { "u_add_var": "robofac_pat_started_earpiece", "value": "yes" },
+          { "u_add_var": "robofac_pat_is_holding", "value": "military_vis_aug_system" }
+        ]
+      },
+      { "text": "Maybe some other time.  See you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_MAKE_EARPIECE_HVAH",
+    "type": "talk_topic",
+    "dynamic_line": "Well hole-lee shit, look at that heah.  Wicked.  Attached to the helmet and everything!  Tell ya' what - ya' let that stay with me for a day, and I betcha I can work something out.  I may have to do a factory reset, so make sure ya' back up any data you need.",
+    "responses": [
+      {
+        "text": "Yeah, alright.  I'll see you in a day or so.",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "u_consume_item": "robofac_head_rig_ar", "count": 1, "popup": true },
+          { "math": [ "robofac_timer_waiting_on_pat = time('now')" ] },
+          { "u_add_var": "robofac_pat_started_earpiece", "value": "yes" },
+          { "u_add_var": "robofac_pat_is_holding", "value": "robofac_head_rig_ar" }
+        ]
+      },
+      { "text": "Maybe some other time.  See you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_GIVE_EARPIECE",
+    "type": "talk_topic",
+    "dynamic_line": "Well, this is almost simpler than before.  Check this shit out.  I rigged up'a small radio transponder to an earpiece.  Just put it in your ear, plug it in'ta the port there, switch it on, and as long as your AR headset is on, I can see, heah, and talk.  Wicked, eh?",
+    "responses": [ { "text": "Wicked.  Guess we'll talk soon, Pat.  Thanks.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_ROBOFAC_PAT_1",
