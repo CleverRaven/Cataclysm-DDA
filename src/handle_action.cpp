@@ -1946,6 +1946,11 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
         return false;
     }
 
+    if( !sp.valid_caster_condition( *this ) ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown }, sp.failed_caster_condition_message() );
+        return false;
+    }
+
     if( !magic->has_enough_energy( *this, sp ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You don't have enough %s to cast the spell." ),
@@ -2997,6 +3002,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_WORLD_MODS:
             world_generator->show_active_world_mods( world_generator->active_world->active_mod_order );
+            break;
+
+        case ACTION_EXPORT_BUG_REPORT_ARCHIVE:
+            debug_menu::export_save_archive_and_game_report();
             break;
 
         case ACTION_DEBUG:

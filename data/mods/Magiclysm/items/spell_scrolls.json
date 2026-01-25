@@ -855,41 +855,41 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_cats_grace",
-    "//": "Magus spell",
-    "name": { "str": "Scroll of Cat's Grace", "str_pl": "Scrolls of Cat's Grace" },
+    "id": "spell_scroll_technomancer_dexterity_buff_spell",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Steadiness of Hand", "str_pl": "Scrolls of Steadiness of Hand" },
     "description": "You become more graceful, agile, and coordinated.",
-    "use_action": { "type": "learn_spell", "spells": [ "cats_grace" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_dexterity_buff_spell" ] }
   },
   {
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_eagles_sight",
-    "//": "Magus spell",
-    "name": { "str": "Scroll of Eagle's Sight", "str_pl": "Scrolls of Eagle's Sight" },
-    "description": "You gain the perception of an eagle.",
-    "use_action": { "type": "learn_spell", "spells": [ "eagles_sight" ] }
+    "id": "spell_scroll_technomancer_perception_buff_spell",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Keenness of Sight", "str_pl": "Scrolls of Keenness of Sight" },
+    "description": "You senses all sharpen.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_perception_buff_spell" ] }
   },
   {
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_ogres_strength",
-    "//": "Magus spell",
-    "name": { "str": "Scroll of Ogre's Strength", "str_pl": "Scrolls of Ogre's Strength" },
-    "description": "You gain the strength of an ogre.",
-    "use_action": { "type": "learn_spell", "spells": [ "ogres_strength" ] }
+    "id": "spell_scroll_technomancer_strength_buff_spell",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Strength of Arm", "str_pl": "Scrolls of Strength of Arm" },
+    "description": "You gain greatly-increased strength.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_strength_buff_spell" ] }
   },
   {
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_foxs_cunning",
-    "//": "Magus spell",
-    "name": { "str": "Scroll of Fox's Cunning", "str_pl": "Scrolls of Fox's Cunning" },
-    "description": "You become wily like a fox.",
-    "use_action": { "type": "learn_spell", "spells": [ "foxs_cunning" ] }
+    "id": "spell_scroll_technomancer_intelligence_buff_spell",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Clarity of Thought", "str_pl": "Scrolls of Clarity of Thought" },
+    "description": "Your mind clears and your thoughts race.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_intelligence_buff_spell" ] }
   },
   {
     "type": "ITEM",
@@ -1095,11 +1095,11 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_holy_blade",
-    "//": "Technomancer spell",
-    "name": { "str": "Scroll of Holy Blade", "str_pl": "Scrolls of Holy Blade" },
-    "description": "This blade of light will cut through any evil it makes contact with!",
-    "use_action": { "type": "learn_spell", "spells": [ "holy_blade" ] }
+    "id": "spell_scroll_magus_mage_conjured_blade",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Force Blade", "str_pl": "Scrolls of Force Blade" },
+    "description": "Conjure up a sword made of force, sharper than any physical blade.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_mage_conjured_blade" ] }
   },
   {
     "type": "ITEM",

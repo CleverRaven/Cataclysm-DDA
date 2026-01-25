@@ -59,7 +59,6 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
-#include "harvest.h"
 #include "iexamine.h"
 #include "input_context.h"
 #include "input_enums.h"
@@ -250,8 +249,6 @@ static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
-
-static const harvest_drop_type_id harvest_drop_blood( "blood" );
 
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_apparatus( "apparatus" );
@@ -2490,10 +2487,10 @@ std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint_
 std::optional<int> iuse::purify_water( Character *p, item *purifier, item_location &water )
 {
     const double default_ratio = 4; // Existing pur_tablets will not have the var
-    const int max_water_per_tablet = static_cast<int>( purifier->get_var( "water_per_tablet",
-                                     default_ratio ) );
+    double max_water_per_tablet_d = purifier->get_var( "water_per_tablet", default_ratio );
+    const int max_water_per_tablet = static_cast<int>( std::lround( max_water_per_tablet_d ) );
     if( max_water_per_tablet < 1 ) {
-        debugmsg( "ERROR: %s set to purify only %i water each.  Nothing was purified.",
+        debugmsg( _( "ERROR: %s set to purify only %d water each.  Nothing was purified." ),
                   purifier->typeId().str(), max_water_per_tablet );
         return std::nullopt;
     }
@@ -2511,8 +2508,8 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
     const int available = p->crafting_inventory().count_item( itype_pur_tablets );
     if( available * max_water_per_tablet >= charges_of_water ) {
         int to_consume = std::ceil( to_consume_f );
-        p->add_msg_if_player( m_info, _( "Purifying %i water using %i %s" ), charges_of_water, to_consume,
-                              purifier->tname( to_consume ) );
+        p->add_msg_if_player( m_info, _( "Purifying %d water using %d %s" ), charges_of_water,
+                              to_consume, purifier->tname( to_consume ) );
         // Pull from surrounding map first because it will update to_consume
         get_map().use_amount( p->pos_bub(), PICKUP_RANGE, itype_pur_tablets, to_consume );
         // Then pull from inventory
@@ -2521,7 +2518,7 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
         }
     } else {
         p->add_msg_if_player( m_info,
-                              _( "You need %i tablets to purify that.  You only have %i" ),
+                              _( "You need %d tablets to purify that.  You only have %d" ),
                               charges_of_water / max_water_per_tablet,  available );
         return std::nullopt;
     }
@@ -4451,9 +4448,6 @@ std::optional<int> iuse::call_of_tindalos( Character *p, item *, const tripoint_
 
 std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_ms & )
 {
-    map &here = get_map();
-    const tripoint_bub_ms pos = p->pos_bub( here );
-
     if( p->is_npc() ) {
         return std::nullopt;    // No NPCs for now!
     }
@@ -4470,31 +4464,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_
     bool acid_blood = false;
     bool vampire = false;
     units::temperature blood_temp = units::from_kelvin( -1.0f ); //kelvins
-    for( item &map_it : here.i_at( pos.xy() ) ) {
-        if( map_it.is_corpse() &&
-            query_yn( _( "Draw blood from %s?" ),
-                      colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
-            p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it.tname() );
-            drew_blood = true;
-            blood_temp = map_it.temperature;
-
-            field_type_id bloodtype( map_it.get_mtype()->bloodType() );
-            if( bloodtype.obj().has_acid ) {
-                acid_blood = true;
-            } else {
-                blood.set_mtype( map_it.get_mtype() );
-
-                for( const harvest_entry &entry : map_it.get_mtype()->harvest.obj() ) {
-                    if( entry.type == harvest_drop_blood ) {
-                        blood.convert( itype_id( entry.drop ) );
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    if( !drew_blood && query_yn( _( "Draw your own blood?" ) ) ) {
+    if( query_yn( _( "Draw your own blood?" ) ) ) {
         p->add_msg_if_player( m_info, _( "You drew your own blood…" ) );
         drew_blood = true;
         blood_temp = units::from_celsius( 37 );
@@ -5634,13 +5604,14 @@ std::optional<int> iuse::efiledevice( Character *p, item *it, const tripoint_bub
     amenu.text = _( "Select operation:" );
     amenu.addentry( efd_combo_bm, true, 'a', _( "Browse + move files from all devices" ) );
     amenu.addentry( efd_browse, true, 'b', _( "Browse devices" ) );
+    const bool has_files = !used_edevice->efiles().empty();
     if( used_edevice->is_browsed() ) {
-        amenu.addentry( efd_read_this, true, 'r', _( "Read files on this device" ) );
+        amenu.addentry( efd_read_this, has_files, 'r', _( "Read files on this device" ) );
         amenu.addentry( efd_read_external, true, 'e', _( "Read files on external devices" ) );
         amenu.addentry( efd_move_onto_this, true, 'm', _( "Move files onto this device" ) );
-        amenu.addentry( efd_move_off_this, true, 'k', _( "Move files off of this device" ) );
         amenu.addentry( efd_copy_onto_this, true, 'c', _( "Copy files onto this device" ) );
-        amenu.addentry( efd_copy_from_this, true, 'f', _( "Copy files off of this device" ) );
+        amenu.addentry( efd_move_off_this, has_files, 'k', _( "Move files off of this device" ) );
+        amenu.addentry( efd_copy_from_this, has_files, 'f', _( "Copy files off of this device" ) );
         amenu.addentry( efd_wipe, true, 'W', _( "Wipe files from devices" ) );
     }
 
@@ -8210,6 +8181,27 @@ static std::optional<std::pair<tripoint_bub_ms, itype_id>> appliance_heater_sele
 
 }
 
+void heater::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "heating_effect", heating_effect );
+    jsout.member( "loc", loc );
+    jsout.member( "consume_flag", consume_flag );
+    jsout.member( "pseudo_flag", pseudo_flag );
+    jsout.member( "vpt", vpt );
+    jsout.end_object();
+}
+
+void heater::deserialize( const JsonValue &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "heating_effect", heating_effect );
+    data.read( "loc", loc );
+    data.read( "consume_flag", consume_flag );
+    data.read( "pseudo_flag", pseudo_flag );
+    data.read( "vpt", vpt );
+}
+
 heater find_heater( Character *p, item *it, bool force_use_it )
 {
     map &here = get_map();
@@ -8299,8 +8291,8 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     map &here = get_map();
 
     p->inv->restack( *p );
-    heater h = find_heater( p, it, force_use_it );
-    if( h.available_heater == -1 ) {
+    heater heater_data = find_heater( p, it, force_use_it );
+    if( heater_data.available_heater == -1 ) {
         add_msg( m_info, _( "Never mind." ) );
         return false;
     }
@@ -8331,7 +8323,7 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
                      ( solid_items && !location->made_of_from_type( phase_id::LIQUID ) ) );
         } );
         auto make_raw_stats = [available_volume,
-                               h]( const std::vector<std::pair<item_location, int>> &locs
+                               heater_data]( const std::vector<std::pair<item_location, int>> &locs
         ) {
             units::volume used_volume = 0_ml;
             units::mass frozen_weight = 0_gram;
@@ -8367,8 +8359,8 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
             const std::string volume = string_join( display_stat( "", used_volume.value(),
                                                     available_volume.value(),
                                                     to_string ), "" );
-            const std::string ammo = string_join( display_stat( "", required.ammo * h.heating_effect,
-                                                  h.available_heater,
+            const std::string ammo = string_join( display_stat( "", required.ammo * heater_data.heating_effect,
+                                                  heater_data.available_heater,
                                                   to_string ), "" );
             using stats = inventory_selector::stats;
             return inventory_selector::convert_stats_to_header_stats( stats{{
@@ -8414,7 +8406,7 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     if( multiple ? used_volume > available_volume : false ) {
         p->add_msg_if_player( _( "You need more space to contain these items." ) );
         return false;
-    } else if( h.available_heater < required.ammo * h.heating_effect ) {
+    } else if( heater_data.available_heater < required.ammo * heater_data.heating_effect ) {
         p->add_msg_if_player( _( "You need more energy to heat these items." ) );
         return false;
     }
@@ -8424,7 +8416,7 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     for( std::size_t i = 0; i < helpersize; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    p->assign_activity( heat_activity_actor( to_heat, required, h ) );
+    p->assign_activity( heat_activity_actor( to_heat, required, heater_data ) );
     return true;
 }
 

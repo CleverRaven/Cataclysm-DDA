@@ -35,6 +35,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
+#include "character_martial_arts.h"
 #include "clzones.h"
 #include "construction.h"
 #include "contents_change_handler.h"
@@ -87,6 +88,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "npctalk.h"
 #include "npc_opinion.h"
 #include "omdata.h"
 #include "options.h"
@@ -99,6 +101,7 @@
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "proficiency.h"
 #include "ranged.h"
 #include "recipe.h"
 #include "requirements.h"
@@ -179,6 +182,7 @@ static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
 static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
+static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 static const activity_id ACT_MILK( "ACT_MILK" );
 static const activity_id ACT_MOP( "ACT_MOP" );
@@ -195,6 +199,7 @@ static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
+static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_READ( "ACT_READ" );
@@ -212,6 +217,8 @@ static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_TENT_DECONSTRUCT( "ACT_TENT_DECONSTRUCT" );
 static const activity_id ACT_TENT_PLACE( "ACT_TENT_PLACE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
+static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
+static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_UNLOAD( "ACT_UNLOAD" );
@@ -1897,6 +1904,40 @@ void glide_activity_actor::finish( player_activity &act, Character &you )
                                _( "You come to a gentle landing." ),
                                _( "<npcname> comes to a gentle landing." ) );
     finish_gliding( act, you );
+}
+
+void pull_creature_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( initial_moves );
+    act.moves_left = act.moves_total;
+}
+
+void pull_creature_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( who.is_avatar() ) {
+        who.as_avatar()->longpull( who.mutation_name( mutation_pulling ) );
+    } else {
+        const std::optional<tripoint_abs_ms> &last_target = who.last_target_pos;
+        if( !!last_target ) {
+            who.longpull( who.mutation_name( mutation_pulling ), get_map().get_bub( *last_target ) );
+        }
+    }
+    act.set_to_null();
+}
+
+void pull_creature_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "mutation_pulling", mutation_pulling );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> pull_creature_activity_actor::deserialize( JsonValue &jsin )
+{
+    pull_creature_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "mutation_pulling", actor.mutation_pulling );
+    return actor.clone();
 }
 
 bikerack_unracking_activity_actor::bikerack_unracking_activity_actor( const vehicle &parent_vehicle,
@@ -7666,7 +7707,7 @@ void outfit_swap_actor::finish( player_activity &act, Character &who )
     }
     // Taken-off items are put in this temporary list, then naturally deleted from the world when the function returns.
     std::list<item> it_list;
-    for( item_location &worn_item : who.get_visible_worn_items() ) {
+    for( item_location &worn_item : who.top_items_loc() ) {
         if( !static_cast<bool>( worn_item ) ) {
             //Due to the eoc triggered who.takeoff, the item may become invalid.
             continue;
@@ -9035,6 +9076,107 @@ std::unique_ptr<activity_actor> forage_activity_actor::deserialize( JsonValue &j
     return actor.clone();
 }
 
+void mend_item_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( initial_moves );
+    act.moves_left = act.moves_total;
+}
+
+void mend_item_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    if( !mended_item ) {
+        debugmsg( "lost item location for ACT_MEND_ITEM" );
+        return;
+    }
+    item &target = *mended_item;
+    if( target.faults.count( mended_fault ) == 0 ) {
+        debugmsg( "item %s does not have fault %s", target.tname(), mended_fault.str() );
+        return;
+    }
+    if( mending_method.is_empty() ) {
+        debugmsg( "missing fault_fix_id for ACT_MEND_ITEM." );
+        return;
+    }
+    if( !mending_method.is_valid() ) {
+        debugmsg( "invalid fault_fix_id '%s' for ACT_MEND_ITEM.", mending_method.str() );
+        return;
+    }
+    const fault_fix &fix = *mending_method;
+    const requirement_data &reqs = fix.get_requirements();
+    const inventory &inv = who.crafting_inventory();
+    if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
+        add_msg( m_info, _( "You are currently unable to mend the %s." ), target.tname() );
+        return;
+    }
+    for( const auto &e : reqs.get_components() ) {
+        who.consume_items( e );
+    }
+    for( const auto &e : reqs.get_tools() ) {
+        who.consume_tools( e );
+    }
+    who.invalidate_crafting_inventory();
+
+    for( const ::fault_id &id : fix.faults_removed ) {
+        target.remove_fault( id );
+    }
+    for( const ::fault_id &id : fix.faults_added ) {
+        target.set_fault( id, true, false );
+    }
+    for( const auto& [var_name, var_value] : fix.set_variables ) {
+        target.set_var( var_name, var_value );
+    }
+    for( const auto& [var_name, var_value] : fix.adjust_variables_multiply ) {
+        const double var_value_multiplier = var_value;
+        const double var_oldvalue = target.get_var( var_name, 0.0 );
+        target.set_var( var_name, std::round( var_oldvalue * var_value_multiplier ) );
+    }
+
+    const std::string start_durability = target.durability_indicator( true );
+
+    if( fix.mod_damage ) {
+        target.mod_damage( fix.mod_damage );
+    }
+    if( fix.mod_degradation ) {
+        target.set_degradation( target.degradation() + fix.mod_degradation );
+    }
+
+    for( const auto& [skill_id, level] : fix.skills ) {
+        who.practice( skill_id, 10, static_cast<int>( level * 1.25 ) );
+    }
+
+    for( const auto& [proficiency_id, mult] : fix.time_save_profs ) {
+        who.practice_proficiency( proficiency_id, fix.time );
+    }
+
+    add_msg( m_good, fix.success_msg.translated(), target.tname( 1, false ),
+             start_durability, target.durability_indicator( true ) );
+}
+
+void mend_item_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "mended_item", mended_item );
+    jsout.member( "mended_fault", mended_fault );
+    jsout.member( "mending_method", mending_method );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> mend_item_activity_actor::deserialize( JsonValue &jsin )
+{
+    mend_item_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "mended_item", actor.mended_item );
+    data.read( "mended_fault", actor.mended_fault );
+    data.read( "mending_method", actor.mending_method );
+
+    return actor.clone();
+}
+
 void gunmod_add_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
@@ -9117,6 +9259,48 @@ std::unique_ptr<activity_actor> gunmod_add_activity_actor::deserialize( JsonValu
 
     data.read( "moves", actor.moves );
     data.read( "name", actor.name );
+
+    return actor.clone();
+}
+
+void toolmod_add_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( initial_moves );
+    act.moves_left = act.moves_total;
+}
+
+void toolmod_add_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    if( !tool_to_mod || !mod_installed ) {
+        debugmsg( "toolmod_add_activity_actor lost target tool or toolmod" );
+        return;
+    }
+    who.add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
+                           mod_installed->tname(), tool_to_mod->tname() );
+    tool_to_mod->put_in( *mod_installed, pocket_type::MOD );
+    tool_to_mod->on_contents_changed();
+    mod_installed.remove_item();
+}
+
+void toolmod_add_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "tool_to_mod", tool_to_mod );
+    jsout.member( "mod_installed", mod_installed );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> toolmod_add_activity_actor::deserialize( JsonValue &jsin )
+{
+    toolmod_add_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "tool_to_mod", actor.tool_to_mod );
+    data.read( "mod_installed", actor.mod_installed );
 
     return actor.clone();
 }
@@ -10289,29 +10473,30 @@ void heat_activity_actor::do_turn( player_activity &act, Character &p )
     map &here = get_map();
 
     // use a hack in use_vehicle_tool vehicle_use.cpp
+    // this is to update the heater vehicle part position per-turn
     if( !act.coords.empty() ) {
-        h.vpt = act.coords[0];
+        heater_data.vpt = act.coords[0];
     }
-    std::optional<vpart_position> vp = here.veh_at( h.vpt );
-    if( h.pseudo_flag ) {
+    std::optional<vpart_position> vp = here.veh_at( heater_data.vpt );
+    if( heater_data.pseudo_flag ) {
         if( !vp ) {
             p.add_msg_if_player( _( "You can't find the appliance any more." ) );
             act.set_to_null();
             return;
         }
         if( vp.value().vehicle().connected_battery_power_level( here ).first < requirements.ammo *
-            h.heating_effect ) {
+            heater_data.heating_effect ) {
             p.add_msg_if_player( _( "You need more energy to heat these items." ) );
             act.set_to_null();
             return;
         }
     } else {
-        if( !h.loc ) {
+        if( !heater_data.loc ) {
             p.add_msg_if_player( _( "You can't find the heater any more." ) );
             act.set_to_null();
             return;
         }
-        if( get_available_heater( p, h.loc ) < requirements.ammo * h.heating_effect ) {
+        if( get_available_heater( p, heater_data.loc ) < requirements.ammo * heater_data.heating_effect ) {
             p.add_msg_if_player( _( "You need more energy to heat these items." ) );
             act.set_to_null();
             return;
@@ -10355,12 +10540,12 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
             }
         }
     }
-    if( h.consume_flag ) {
-        if( h.pseudo_flag ) {
-            here.veh_at( h.vpt ).value().vehicle().discharge_battery( here, requirements.ammo *
-                    h.heating_effect );
+    if( heater_data.consume_flag ) {
+        if( heater_data.pseudo_flag ) {
+            here.veh_at( heater_data.vpt ).value().vehicle().discharge_battery( here, requirements.ammo *
+                    heater_data.heating_effect );
         } else {
-            h.loc->activation_consume( requirements.ammo, h.loc.pos_bub( here ), &p );
+            heater_data.loc->activation_consume( requirements.ammo, heater_data.loc.pos_bub( here ), &p );
         }
     }
     p.add_msg_if_player( m_good, _( "You heated your items." ) );
@@ -10374,13 +10559,9 @@ void heat_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "to_heat", to_heat );
-    jsout.member( "heating_effect", h.heating_effect );
-    jsout.member( "loc", h.loc );
-    jsout.member( "consume_flag", h.consume_flag );
-    jsout.member( "pseudo_flag", h.pseudo_flag );
     jsout.member( "time", requirements.time );
     jsout.member( "ammo", requirements.ammo );
-    jsout.member( "vpt", h.vpt );
+    jsout.member( "heater_data", heater_data );
     jsout.end_object();
 }
 
@@ -10389,13 +10570,22 @@ std::unique_ptr<activity_actor> heat_activity_actor::deserialize( JsonValue &jsi
     heat_activity_actor actor;
     JsonObject data = jsin.get_object();
     data.read( "to_heat", actor.to_heat );
-    data.read( "heating_effect", actor.h.heating_effect );
-    data.read( "loc", actor.h.loc );
-    data.read( "consume_flag", actor.h.consume_flag );
-    data.read( "pseudo_flag", actor.h.pseudo_flag );
     data.read( "time", actor.requirements.time );
     data.read( "ammo", actor.requirements.ammo );
-    data.read( "vpt", actor.h.vpt );
+
+
+    if( data.has_member( "heater_data" ) ) {
+        data.read( "heater_data", actor.heater_data );
+    } else {
+        // Remove after 0.J, migration for heater_data struct
+        heater legacy_heater_data;
+        data.read( "heating_effect", legacy_heater_data.heating_effect );
+        data.read( "loc", legacy_heater_data.loc );
+        data.read( "consume_flag", legacy_heater_data.consume_flag );
+        data.read( "pseudo_flag", legacy_heater_data.pseudo_flag );
+        data.read( "vpt", legacy_heater_data.vpt );
+        actor.heater_data = legacy_heater_data;
+    }
     return actor.clone();
 }
 
@@ -10462,6 +10652,157 @@ std::unique_ptr<activity_actor> socialize_activity_actor::deserialize( JsonValue
     socialize_activity_actor actor;
     JsonObject data = jsin.get_object();
     data.read( "socialize_partner", actor.socialize_partner );
+    return actor.clone();
+}
+
+void training_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( initial_moves );
+    act.moves_left = act.moves_total;
+}
+
+void training_activity_actor::train_skill( Character &who, skill_id trained_skill )
+{
+    const Skill &skill = trained_skill.obj();
+    std::string skill_name = skill.name();
+    int old_skill_level = who.get_knowledge_level( trained_skill );
+    who.practice( trained_skill, 100, old_skill_level + 2 );
+    int new_skill_level = who.get_knowledge_level( trained_skill );
+    if( old_skill_level != new_skill_level ) {
+        if( who.is_avatar() ) {
+            add_msg( m_good, _( "You finish training %s to level %d." ),
+                     skill_name, new_skill_level );
+        }
+        get_event_bus().send<event_type::gains_skill_level>( who.getID(), trained_skill, new_skill_level );
+    } else if( who.is_avatar() ) {
+        add_msg( m_good, _( "You get some training in %s." ), skill_name );
+    }
+}
+
+void training_activity_actor::train_proficiency( Character &who,
+        proficiency_id trained_proficiency )
+{
+    who.practice_proficiency( trained_proficiency, 15_minutes );
+    if( who.is_avatar() ) {
+        add_msg( m_good, _( "You get some training in %s." ), trained_proficiency->name() );
+    }
+}
+
+void training_activity_actor::train_martial_art( Character &who, matype_id trained_martial_art )
+{
+    get_event_bus().send<event_type::learns_martial_art>( who.getID(), trained_martial_art );
+    who.martial_arts_data->learn_style( trained_martial_art, who.is_avatar() );
+}
+
+void training_activity_actor::train_spell( Character &who, spell_id trained_spell )
+{
+
+    const spell_id &sp_id = trained_spell;
+    const bool knows = who.magic->knows_spell( sp_id );
+    if( knows ) {
+        spell &studying = who.magic->get_spell( sp_id );
+
+        Character *teacher_valid = g->critter_by_id<Character>( teacher );
+        int expert_multiplier = 0;
+        if( teacher_valid ) {
+            const spell &temp_spell = teacher_valid->magic->get_spell( sp_id );
+            expert_multiplier = knows ? temp_spell.get_level() -
+                                who.magic->get_spell( sp_id ).get_level() : 1;
+        }
+        const int xp = roll_remainder( studying.exp_modifier( who ) * expert_multiplier );
+        studying.gain_exp( who, xp );
+        who.add_msg_player_or_npc( m_good, _( "You learn a little about the spell: %s" ),
+                                   _( "<npcname> learns a little about the spell: %s" ), sp_id->name );
+    } else {
+        who.magic->learn_spell( trained_spell, who );
+        // the learned spell from the above line may be cancelled, as it may lock you out of other magic.
+        // therefore, re-evaluate knows_spell
+        if( who.magic->knows_spell( sp_id ) ) {
+            who.add_msg_player_or_npc( m_good, _( "You learn %s." ),
+                                       _( "<npcname> learns %s." ), sp_id->name.translated() );
+        }
+    }
+}
+
+void training_activity_actor::canceled( player_activity &act, Character & )
+{
+    if( teaching ) {
+        for( const character_id trainee : trainees ) {
+            Character *trainee_valid = g->critter_by_id<Character>( trainee );
+            if( trainee_valid && trainee_valid->activity.id() == ACT_TRAIN ) {
+                trainee_valid->cancel_activity();
+            }
+        }
+    }
+    act.set_to_null();
+}
+
+void training_activity_actor::do_turn( player_activity &, Character &who )
+{
+    if( teaching ) {
+        bool all_students_done = true;
+        for( const character_id trainee : trainees ) {
+            Character *trainee_valid = g->critter_by_id<Character>( trainee );
+            /*
+            because activities handled by NPCs are not continuous like the avatar's,
+            this activity check isn't useful for an avatar teaching.
+            The NPC may still have ACT_TRAIN but could be e.g. running away from a monster.
+            */
+            if( trainee_valid && trainee_valid->activity.id() == ACT_TRAIN ) {
+                all_students_done = false;
+                break;
+            }
+        }
+
+        if( all_students_done ) {
+            who.cancel_activity();
+            return;
+        }
+    }
+}
+
+void training_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( !teaching ) {
+
+        if( subject.skill.is_valid() ) {
+            train_skill( who, subject.skill );
+        } else if( subject.prof.is_valid() ) {
+            train_proficiency( who, subject.prof );
+        } else if( subject.style.is_valid() ) {
+            train_martial_art( who, subject.style );
+        } else if( subject.spell.is_valid() ) {
+            train_spell( who, subject.spell );
+        }
+    } else {
+        const std::string subject_name = subject.to_string();
+        if( who.is_avatar() ) {
+            add_msg( m_good, _( "You finish teaching %s." ), subject_name );
+        } else {
+            add_msg( m_good, _( "%s finishes teaching %s." ), who.disp_name(), subject_name );
+        }
+    }
+    act.set_to_null();
+}
+
+void training_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "subject", subject );
+    jsout.member( "teaching", teaching );
+    jsout.member( "teacher", teacher );
+    jsout.member( "trainees", trainees );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> training_activity_actor::deserialize( JsonValue &jsin )
+{
+    training_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "subject", actor.subject );
+    data.read( "teaching", actor.teaching );
+    data.read( "teacher", actor.teacher );
+    data.read( "trainees", actor.trainees );
     return actor.clone();
 }
 
@@ -11546,6 +11887,14 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
             if( is_adjacent_or_closer_to_dest ) {
                 auto iter = picked_up_stuff.begin();
+                // ensure validity of all item_locations before we start this - if any have been invalidated there's a bug somewhere earlier
+                for( item_location itm_loc : picked_up_stuff ) {
+                    if( !itm_loc.get_item() ) {
+                        debugmsg( "Lost item_location during sorting" );
+                        stage = LAST;
+                        return;
+                    }
+                }
                 while( iter != picked_up_stuff.end() ) {
                     if( you.get_moves() <= 0 ) { // Ran out of moves dropping stuff
                         return;
@@ -11563,6 +11912,18 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                             iter->carrier()->i_rem( iter->get_item() );
                         }
                         iter = picked_up_stuff.erase( iter );
+                        // dumb. Go through and clear our any now-invalidated item_locations. Then reset iter to the start, to *make sure* we iterate everything.
+                        // Definitely wasteful, but I am not paid enough to figure out a better way.
+                        auto cleanup_iter = picked_up_stuff.begin();
+                        while( cleanup_iter != picked_up_stuff.end() ) {
+                            if( !cleanup_iter->get_item() ) {
+                                cleanup_iter = picked_up_stuff.erase( cleanup_iter );
+                            } else {
+                                cleanup_iter++;
+                            }
+                        }
+                        // Again: Always reset to the start if we dropped stuff.
+                        iter = picked_up_stuff.begin();
                     } else {
                         iter++; // Failed to drop for some reason?!
                     }
@@ -11808,6 +12169,7 @@ deserialize_functions = {
     { ACT_LOCKPICK, &lockpick_activity_actor::deserialize },
     { ACT_LONGSALVAGE, &longsalvage_activity_actor::deserialize },
     { ACT_MEDITATE, &meditate_activity_actor::deserialize },
+    { ACT_MEND_ITEM, &mend_item_activity_actor::deserialize },
     { ACT_MIGRATION_CANCEL, &migration_cancel_activity_actor::deserialize },
     { ACT_MILK, &milk_activity_actor::deserialize },
     { ACT_MOP, &mop_activity_actor::deserialize },
@@ -11821,6 +12183,7 @@ deserialize_functions = {
     { ACT_PLANT_SEED, &plant_seed_activity_actor::deserialize },
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_PRYING, &prying_activity_actor::deserialize },
+    { ACT_PULL_CREATURE, &pull_creature_activity_actor::deserialize },
     { ACT_PULP, &pulp_activity_actor::deserialize },
     { ACT_QUARTER, &butchery_activity_actor::deserialize },
     { ACT_READ, &read_activity_actor::deserialize },
@@ -11837,6 +12200,8 @@ deserialize_functions = {
     { ACT_STUDY_SPELL, &study_spell_activity_actor::deserialize },
     { ACT_TENT_DECONSTRUCT, &tent_deconstruct_activity_actor::deserialize },
     { ACT_TENT_PLACE, &tent_placement_activity_actor::deserialize },
+    { ACT_TOOLMOD_ADD, &toolmod_add_activity_actor::deserialize },
+    { ACT_TRAIN, &training_activity_actor::deserialize },
     { ACT_TREE_COMMUNION, &tree_communion_activity_actor::deserialize },
     { ACT_TRY_SLEEP, &try_sleep_activity_actor::deserialize },
     { ACT_UNLOAD, &unload_activity_actor::deserialize },

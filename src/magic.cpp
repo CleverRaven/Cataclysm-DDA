@@ -62,9 +62,11 @@
 #include "string_formatter.h"
 #include "talker.h"
 #include "text.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "uilist.h"
 #include "units.h"
+#include "vehicle.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 
@@ -360,11 +362,17 @@ void spell_type::load( const JsonObject &jo, std::string_view src )
     const auto trigger_reader = enum_flags_reader<spell_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
 
-    if( jo.has_member( "condition" ) ) {
-        read_condition( jo, "condition", condition, false );
-        has_condition = true;
+    if( jo.has_member( "caster_condition" ) ) {
+        read_condition( jo, "caster_condition", caster_condition, false );
+        has_caster_condition = true;
     }
-    optional( jo, was_loaded, "condition_fail_message", condition_fail_message_ );
+    optional( jo, was_loaded, "caster_condition_fail_message", caster_condition_fail_message_ );
+
+    if( jo.has_member( "target_condition" ) ) {
+        read_condition( jo, "target_condition", target_condition, false );
+        has_target_condition = true;
+    }
+    optional( jo, was_loaded, "target_condition_fail_message", target_condition_fail_message_ );
 
     optional( jo, was_loaded, "extra_effects", additional_spells );
 
@@ -1071,6 +1079,10 @@ bool spell::can_cast( const Character &guy ) const
         }
     }
 
+    if( !valid_caster_condition( guy ) ) {
+        return false;
+    }
+
     if( guy.is_mute() && !guy.has_flag( json_flag_SILENT_SPELL ) && has_flag( spell_flag::VERBAL ) ) {
         return false;
     }
@@ -1212,10 +1224,10 @@ std::string spell::name() const
 std::string spell::message() const
 {
     if( !alt_message.empty() ) {
-        return alt_message.translated();
+        return SNIPPET.expand( alt_message.translated() );
     }
     if( !type->message.empty() ) {
-        return type->message.translated();
+        return SNIPPET.expand( type->message.translated() );
     }
     return {};
 }
@@ -1532,29 +1544,44 @@ bool spell::is_valid_target( spell_target t ) const
     return type->valid_targets[t];
 }
 
-bool spell::valid_by_condition( const Creature &caster, const Creature &target ) const
+bool spell::valid_target_condition( const Creature &caster, const vehicle &veh ) const
 {
-    if( type->has_condition ) {
+    if( type->has_target_condition ) {
+        const_dialogue d( get_const_talker_for( caster ), get_talker_for( veh ) );
+        return type->target_condition( d );
+    } else {
+        return true;
+    }
+}
+
+bool spell::valid_target_condition( const Creature &caster, const Creature &target ) const
+{
+    if( type->has_target_condition ) {
         const_dialogue d( get_const_talker_for( caster ), get_const_talker_for( target ) );
-        return type->condition( d );
+        return type->target_condition( d );
     } else {
         return true;
     }
 }
 
-bool spell::valid_by_condition( const Creature &caster ) const
+bool spell::valid_caster_condition( const Creature &caster ) const
 {
-    if( type->has_condition ) {
+    if( type->has_caster_condition ) {
         const_dialogue d( get_const_talker_for( caster ), nullptr );
-        return type->condition( d );
+        return type->caster_condition( d );
     } else {
         return true;
     }
 }
 
-std::string spell::failed_condition_message() const
+std::string spell::failed_caster_condition_message() const
 {
-    return type->condition_fail_message_.translated();
+    return type->caster_condition_fail_message_.translated();
+}
+
+std::string spell::failed_target_condition_message() const
+{
+    return type->target_condition_fail_message_.translated();
 }
 
 bool spell::is_valid_target( const Creature &caster, const tripoint_bub_ms &p ) const
@@ -1571,13 +1598,13 @@ bool spell::is_valid_target( const Creature &caster, const tripoint_bub_ms &p ) 
         valid = valid && target_by_monster_id( p );
         valid = valid && target_by_species_id( p );
         valid = valid && ignore_by_species_id( p );
-        valid = valid && valid_by_condition( caster, *cr );
-    } else if( get_map().veh_at( p ) ) {
-        valid = is_valid_target( spell_target::vehicle ) || is_valid_target( spell_target::ground );
-        valid = valid && valid_by_condition( caster );
+        valid = valid && valid_target_condition( caster, *cr );
+    } else if( const optional_vpart_position vp = get_map().veh_at( p ) ; vp.has_value() ) {
+        if( is_valid_target( spell_target::vehicle ) ) {
+            valid_target_condition( caster, vp.value().vehicle() );
+        }
     } else {
         valid = is_valid_target( spell_target::ground );
-        valid = valid && valid_by_condition( caster );
     }
     return valid;
 }
@@ -2931,7 +2958,12 @@ void spellcasting_callback::display_spell_info( size_t index )
         ImGui::Text( "%s: %d", _( "Max Level" ), sp.get_max_level( pc ) );
 
         ImGui::TableNextColumn();
-        cataimgui::draw_colored_text( sp.colorized_fail_percent( pc ), c_white );
+
+        if( !sp.valid_caster_condition( pc ) ) {
+            cataimgui::draw_colored_text( sp.failed_caster_condition_message(), c_light_red, column_width );
+        } else {
+            cataimgui::draw_colored_text( sp.colorized_fail_percent( pc ), c_white );
+        }
         ImGui::TableNextColumn();
         ImGui::Text( "%s: %d", _( "Difficulty" ), sp.get_difficulty( pc ) );
 
@@ -3029,7 +3061,7 @@ void spellcasting_callback::display_spell_info( size_t index )
             std::string dot_string;
             if( sp.damage_dot( pc ) != 0 ) {
                 //~ amount of damage per second, abbreviated
-                dot_string = string_format( _( ", %d/sec" ), sp.damage_dot( pc ) );
+                dot_string = string_format( _( ", %d/sec" ), static_cast<int>( sp.damage_dot( pc ) ) );
             }
             ImGui::TextColored( sp.damage_type_color(),
                                 "%s: %s %s%s", _( "Damage" ),

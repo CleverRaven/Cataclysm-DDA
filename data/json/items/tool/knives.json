@@ -7,7 +7,8 @@
     "type": "ITEM",
     "material": [ "steel" ],
     "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ]
   },
   {
     "id": "knife_small",

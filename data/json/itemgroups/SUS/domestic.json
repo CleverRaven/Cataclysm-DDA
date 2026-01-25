@@ -101,7 +101,10 @@
       { "item": "scissors", "prob": 80 },
       { "item": "peeler", "prob": 75, "count": [ 1, 2 ] },
       { "item": "cutting_board", "count": [ 1, 2 ] },
-      { "item": "cutting_board", "prob": 75 }
+      { "item": "cutting_board", "prob": 75 },
+      {
+        "distribution": [ { "item": "metal_honing_rod", "prob": 35 }, { "item": "knife_sharpener_handheld", "prob": 60 } ]
+      }
     ]
   },
   {

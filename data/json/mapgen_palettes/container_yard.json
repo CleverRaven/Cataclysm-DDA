@@ -64,7 +64,37 @@
             [ "shipping_container_soap_1x1", 5 ],
             [ "shipping_container_duct_tape_1x1", 5 ],
             [ "shipping_container_large_cardboard_box_1x1", 5 ],
-            [ "shipping_container_circsaw_blade_1x1", 5 ]
+            [ "shipping_container_circsaw_blade_1x1", 5 ],
+            [ "shipping_container_microcentrifuge_1x1", 1 ],
+            [ "shipping_container_microcentrifuge_1x1", 1 ],
+            [ "shipping_container_shaker_1x1", 1 ],
+            [ "shipping_container_exam_chair_1x1", 5 ],
+            [ "shipping_container_toilet_1x1", 5 ],
+            [ "shipping_container_armchair_1x1", 5 ],
+            [ "shipping_container_bookcase_1x1", 5 ],
+            [ "shipping_container_coffin_1x1", 5 ],
+            [ "shipping_container_stack_wooden_planks_1x1", 5 ],
+            [ "shipping_container_pallet_adobe_bricks_1x1", 5 ],
+            [ "shipping_container_stack_pipes_1x1", 5 ],
+            [ "shipping_container_mattress_1x1", 5 ],
+            [ "shipping_container_mannequin_1x1", 5 ],
+            [ "shipping_container_cocaine_1x1", 1 ],
+            [ "shipping_container_flashlight_1x1", 5 ],
+            [ "shipping_container_glass_1x1", 5 ],
+            [ "shipping_container_wind_instrument_1x1", 5 ],
+            [ "shipping_container_string_instrument_1x1", 5 ],
+            [ "shipping_container_fertilizer_1x1", 5 ],
+            [ "shipping_container_wine_keg_1x1", 5 ],
+            [ "shipping_container_bedding_1x1", 5 ],
+            [ "shipping_container_stereos_1x1", 5 ],
+            [ "shipping_container_barrels_1x1", 5 ],
+            [ "shipping_container_barstools_1x1", 5 ],
+            [ "shipping_container_wardrobe_1x1", 5 ],
+            [ "shipping_container_television_1x1", 5 ],
+            [ "shipping_container_dentist_1x1", 5 ],
+            [ "shipping_container_vending_1x1", 5 ],
+            [ "shipping_container_gunmod_common_1x1", 2 ],
+            [ "shipping_container_gunmod_rare_1x1", 1 ]
           ]
         }
       },
@@ -637,6 +667,233 @@
       "mapgensize": [ 1, 1 ],
       "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
       "item": { " ": { "item": "circsaw_blade", "chance": 95, "amount": [ 5, 10 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_microcentrifuge_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_pallet_belted" },
+      "item": { " ": { "item": "microcentrifuge", "chance": 95, "amount": 5 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_microcentrifuge_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_pallet_belted" },
+      "item": { " ": { "item": "centrifuge", "chance": 95 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_shaker_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_shaker" } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_exam_chair_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_exam_chair" } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_toilet_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_toilet" } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_armchair_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_pallet_belted" },
+      "item": { " ": { "item": "armchair", "chance": 95, "amount": 5 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_bookcase_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_bookcase" } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_coffin_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_coffin_c" } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_stack_wooden_planks_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_plank_stack_mid" } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_pallet_adobe_bricks_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_pallet_brick_adobe" } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_stack_pipes_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_pipe_stack_mid" } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_mattress_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_pallet_belted" },
+      "item": { " ": { "item": "mattress", "chance": 95, "amount": 2 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_mannequin_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_mannequin" } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_cocaine_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "coke_bag_zipper_1_8", "chance": 95, "repeat": [ 10, 20 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_flashlight_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "item": { " ": { "item": "flashlight", "chance": 95, "amount": 10 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_glass_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "glass_shop", "chance": 95, "repeat": [ 1, 5 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_wind_instrument_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "mussto_windinst", "chance": 95, "repeat": [ 1, 5 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_string_instrument_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "mussto_stringinst", "chance": 95, "repeat": [ 1, 5 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_fertilizer_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "fertilizer_commercial_bag_canvas_60", "chance": 95 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_wine_keg_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "items": { " ": { "item": "keg_wine_intact", "chance": 95 } } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_bedding_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "bed", "chance": 95 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_stereos_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "item": { " ": { "item": "stereo", "chance": 85, "amount": [ 1, 2 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_barrels_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "barrels", "chance": 95 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_barstools_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "item": { " ": { "item": "barstool", "chance": 85, "amount": [ 1, 5 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_wardrobe_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_wardrobe" } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_utility_shelf_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_utility_shelf" } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_television_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_pallet_belted" },
+      "item": { " ": { "item": "television", "chance": 95, "amount": 2 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_dentist_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "dentist_supplies", "chance": 95, "repeat": [ 10, 20 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_vending_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": "f_vending_c_off" } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_gunmod_common_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "gunmod_common", "chance": 95, "repeat": [ 5, 10 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_gunmod_rare_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "gunmod_rare", "chance": 95, "repeat": [ 5, 10 ] } }
     }
   }
 ]

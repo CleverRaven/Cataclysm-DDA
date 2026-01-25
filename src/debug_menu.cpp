@@ -832,7 +832,7 @@ static void monster_edit_menu()
         data << string_format( _( "Faction: %s" ), critter->get_monster_faction().id().str() ) << std::endl;
         data << string_format( _( "HP(max): %d (%d)" ), critter->get_hp(),
                                critter->get_hp_max() ) << std::endl;
-        data << string_format( _( "Volume: %sL (size %s)" ), units::to_liter( critter->get_volume() ),
+        data << string_format( _( "Volume: %.2fL (size %s)" ), units::to_liter( critter->get_volume() ),
                                size_string ) << std::endl;
         data << string_format( _( "Speed(base): %d (%d)" ), critter->get_speed(),
                                critter->get_speed_base() ) << std::endl;
@@ -949,52 +949,45 @@ static void monster_edit_menu()
     }
 }
 
-static int info_uilist( bool display_all_entries = true )
+static int info_uilist()
 {
     // always displayed
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::SAVE_SCREENSHOT, true, 'H', _( "Take screenshot" ) ) },
         { uilist_entry( debug_menu_index::GAME_REPORT, true, 'r', _( "Generate game report" ) ) },
         { uilist_entry( debug_menu_index::GAME_MIN_ARCHIVE, true, '!', _( "Generate minimized save archive" ) ) },
+        { uilist_entry( debug_menu_index::GAME_STATE, true, 'g', _( "Check game state" ) ) },
+        { uilist_entry( debug_menu_index::DISPLAY_HORDES, true, 'h', _( "Display hordes" ) ) },
+        { uilist_entry( debug_menu_index::TEST_IT_GROUP, true, 'i', _( "Test item group" ) ) },
+        { uilist_entry( debug_menu_index::SHOW_SOUND, true, 'c', _( "Show sound clustering" ) ) },
+        { uilist_entry( debug_menu_index::DISPLAY_WEATHER, true, 'w', _( "Display weather" ) ) },
+        { uilist_entry( debug_menu_index::DISPLAY_SCENTS, true, 'S', _( "Display overmap scents" ) ) },
+        { uilist_entry( debug_menu_index::DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
+        { uilist_entry( debug_menu_index::DISPLAY_SCENTS_TYPE_LOCAL, true, 'y', _( "Toggle display local scents type" ) ) },
+        { uilist_entry( debug_menu_index::DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
+        { uilist_entry( debug_menu_index::DISPLAY_VEHICLE_AI, true, 'V', _( "Toggle display vehicle autopilot overlay" ) ) },
+        { uilist_entry( debug_menu_index::DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
+        { uilist_entry( debug_menu_index::DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
+        { uilist_entry( debug_menu_index::DISPLAY_TRANSPARENCY, true, 'p', _( "Toggle display transparency" ) ) },
+        { uilist_entry( debug_menu_index::DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
+        { uilist_entry( debug_menu_index::SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
+        { uilist_entry( debug_menu_index::BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
+        { uilist_entry( debug_menu_index::HOUR_TIMER, true, 'E', _( "Toggle hour timer" ) ) },
+        { uilist_entry( debug_menu_index::TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
+        { uilist_entry( debug_menu_index::DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ) },
+        { uilist_entry( debug_menu_index::DISPLAY_NPC_ATTACK, true, 'A', _( "Toggle NPC attack potential values on map" ) ) },
+        { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'f', _( "Print factions info to console" ) ) },
+        { uilist_entry( debug_menu_index::PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
+        { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
+        { uilist_entry( debug_menu_index::WRITE_GLOBAL_EOCS, true, 'C', _( "Write global effect_on_condition(s) to eocs.output" ) ) },
+        { uilist_entry( debug_menu_index::WRITE_GLOBAL_VARS, true, 'G', _( "Write global var(s) to var_list.output" ) ) },
+        { uilist_entry( debug_menu_index::WRITE_TIMED_EVENTS, true, 'E', _( "Write Timed (E)vents to timed_event_list.output" ) ) },
+        { uilist_entry( debug_menu_index::EDIT_GLOBAL_VARS, true, 'a', _( "Edit global v(a)rs" ) ) },
+        { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
+        { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
+        { uilist_entry( debug_menu_index::WRITE_CITY_LIST, true, 'C', _( "Write city list to cities.output" ) ) },
+        { uilist_entry( debug_menu_index::IMGUI_DEMO, true, 'u', _( "Open ImGui demo screen" ) ) },
     };
-
-    if( display_all_entries ) {
-        const std::vector<uilist_entry> debug_only_options = {
-            { uilist_entry( debug_menu_index::GAME_STATE, true, 'g', _( "Check game state" ) ) },
-            { uilist_entry( debug_menu_index::DISPLAY_HORDES, true, 'h', _( "Display hordes" ) ) },
-            { uilist_entry( debug_menu_index::TEST_IT_GROUP, true, 'i', _( "Test item group" ) ) },
-            { uilist_entry( debug_menu_index::SHOW_SOUND, true, 'c', _( "Show sound clustering" ) ) },
-            { uilist_entry( debug_menu_index::DISPLAY_WEATHER, true, 'w', _( "Display weather" ) ) },
-            { uilist_entry( debug_menu_index::DISPLAY_SCENTS, true, 'S', _( "Display overmap scents" ) ) },
-            { uilist_entry( debug_menu_index::DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
-            { uilist_entry( debug_menu_index::DISPLAY_SCENTS_TYPE_LOCAL, true, 'y', _( "Toggle display local scents type" ) ) },
-            { uilist_entry( debug_menu_index::DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
-            { uilist_entry( debug_menu_index::DISPLAY_VEHICLE_AI, true, 'V', _( "Toggle display vehicle autopilot overlay" ) ) },
-            { uilist_entry( debug_menu_index::DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
-            { uilist_entry( debug_menu_index::DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
-            { uilist_entry( debug_menu_index::DISPLAY_TRANSPARENCY, true, 'p', _( "Toggle display transparency" ) ) },
-            { uilist_entry( debug_menu_index::DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
-            { uilist_entry( debug_menu_index::SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
-            { uilist_entry( debug_menu_index::BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
-            { uilist_entry( debug_menu_index::HOUR_TIMER, true, 'E', _( "Toggle hour timer" ) ) },
-            { uilist_entry( debug_menu_index::TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
-            { uilist_entry( debug_menu_index::DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ) },
-            { uilist_entry( debug_menu_index::DISPLAY_NPC_ATTACK, true, 'A', _( "Toggle NPC attack potential values on map" ) ) },
-            { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'f', _( "Print factions info to console" ) ) },
-            { uilist_entry( debug_menu_index::PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
-            { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
-            { uilist_entry( debug_menu_index::WRITE_GLOBAL_EOCS, true, 'C', _( "Write global effect_on_condition(s) to eocs.output" ) ) },
-            { uilist_entry( debug_menu_index::WRITE_GLOBAL_VARS, true, 'G', _( "Write global var(s) to var_list.output" ) ) },
-            { uilist_entry( debug_menu_index::WRITE_TIMED_EVENTS, true, 'E', _( "Write Timed (E)vents to timed_event_list.output" ) ) },
-            { uilist_entry( debug_menu_index::EDIT_GLOBAL_VARS, true, 'a', _( "Edit global v(a)rs" ) ) },
-            { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
-            { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
-            { uilist_entry( debug_menu_index::WRITE_CITY_LIST, true, 'C', _( "Write city list to cities.output" ) ) },
-            { uilist_entry( debug_menu_index::IMGUI_DEMO, true, 'u', _( "Open ImGui demo screen" ) ) },
-        };
-        uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
-                                   debug_only_options.end() );
-    }
 
     return uilist( _( "Info…" ), uilist_initializer );
 }
@@ -1120,52 +1113,35 @@ static int dialogue_uilist()
 
 /**
  * Create the debug menu UI list.
- * @param display_all_entries: `true` if all entries should be displayed, `false` is some entries should be hidden (for ex. when the debug menu is called from the main menu).
- *   This allows to have some menu elements at the same time in the main menu and in the debug menu.
  * @returns The chosen action.
  */
-static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entries = true )
+static std::optional<debug_menu_index> debug_menu_uilist()
 {
     enum {
         D_INFO, D_GAME, D_SPAWNING, D_PLAYER, D_MONSTER, D_FACTION, D_VEHICLE, D_TELEPORT, D_MAP, D_DIALOGUE, D_QUICK_SETUP
     };
 
-    std::vector<uilist_entry> menu = {
-        { uilist_entry( D_INFO, true, 'i', _( "Info…" ) ) },
+    const std::vector<uilist_entry> debug_menu = {
+        { uilist_entry( D_INFO,        true, 'i', _( "Info…" ) ) },
+        { uilist_entry( D_GAME,        true, 'g', _( "Game…" ) ) },
+        { uilist_entry( D_SPAWNING,    true, 's', _( "Spawning…" ) ) },
+        { uilist_entry( D_PLAYER,      true, 'p', _( "Player…" ) ) },
+        { uilist_entry( D_MONSTER,     true, 'c', _( "Monster…" ) ) },
+        { uilist_entry( D_FACTION,     true, 'f', _( "Faction…" ) ) },
+        { uilist_entry( D_VEHICLE,     true, 'v', _( "Vehicle…" ) ) },
+        { uilist_entry( D_TELEPORT,    true, 't', _( "Teleport…" ) ) },
+        { uilist_entry( D_MAP,         true, 'm', _( "Map…" ) ) },
+        { uilist_entry( D_DIALOGUE,    true, 'd', _( "Dialogue…" ) ) },
+        { uilist_entry( D_QUICK_SETUP, true, 'q', _( "Quick setup…" ) ) },
     };
-
-    if( display_all_entries ) {
-        const std::vector<uilist_entry> debug_menu = {
-            { uilist_entry( D_GAME,        true, 'g', _( "Game…" ) ) },
-            { uilist_entry( D_SPAWNING,    true, 's', _( "Spawning…" ) ) },
-            { uilist_entry( D_PLAYER,      true, 'p', _( "Player…" ) ) },
-            { uilist_entry( D_MONSTER,     true, 'c', _( "Monster…" ) ) },
-            { uilist_entry( D_FACTION,     true, 'f', _( "Faction…" ) ) },
-            { uilist_entry( D_VEHICLE,     true, 'v', _( "Vehicle…" ) ) },
-            { uilist_entry( D_TELEPORT,    true, 't', _( "Teleport…" ) ) },
-            { uilist_entry( D_MAP,         true, 'm', _( "Map…" ) ) },
-            { uilist_entry( D_DIALOGUE,    true, 'd', _( "Dialogue…" ) ) },
-            { uilist_entry( D_QUICK_SETUP, true, 'q', _( "Quick setup…" ) ) },
-        };
-
-        // insert debug-only menu right after "Info".
-        menu.insert( menu.begin() + 1, debug_menu.begin(), debug_menu.end() );
-    }
-
-    std::string msg;
-    if( display_all_entries && !is_debug_character() ) {
-        msg = _( "Debug Functions - Using these will cheat not only the game, but yourself.\nYou won't grow.  You won't improve.\nTaking this shortcut will gain you nothing.  Your victory will be hollow.\nNothing will be risked and nothing will be gained." );
-    } else {
-        msg = _( "Debug Functions" );
-    }
 
     while( true ) {
         // TODO(db48x): go back to allowing a uilist to have both a
         // titlebar and descriptive text, so that this menu makes
         // sense and can be auto–sized.
         uilist debug = uilist();
-        debug.text = msg;
-        debug.entries = menu;
+        debug.text = _( "Debug Functions" );
+        debug.entries = debug_menu;
         debug.query();
         const int group = debug.ret;
 
@@ -1173,7 +1149,7 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
 
         switch( group ) {
             case D_INFO:
-                action = info_uilist( display_all_entries );
+                action = info_uilist();
                 break;
             case D_SPAWNING:
                 action = spawning_uilist();
@@ -3532,10 +3508,18 @@ static void game_report()
     std::string popup_msg = _( "Report written to debug.log" );
 #if defined(TILES)
     // copy to clipboard
-    int clipboard_result = SDL_SetClipboardText( report.c_str() );
-    printErrorIf( clipboard_result != 0, "Error while copying the game report to the clipboard." );
-    if( clipboard_result == 0 ) {
-        popup_msg += _( " and to the clipboard." );
+    if( query_yn(
+            _( "Copy game report to clipboard?" ) +
+            std::string( "\n\n" ) +
+            _( "If not copied to clipboard it will be displayed on screen as a message.  You will have to copy it down or record it manually." ) ) ) {
+        int clipboard_result = SDL_SetClipboardText( report.c_str() );
+        printErrorIf( clipboard_result != 0, "Error while copying the game report to the clipboard." );
+        if( clipboard_result == 0 ) {
+            popup_msg += _( " and to the clipboard." );
+        }
+    } else {
+        // User declined to overwrite clipboard, so we'll just display it as a message. It's up to them to take an image or write it down.
+        popup_msg = report;
     }
 #endif
     popup( popup_msg );
@@ -4070,6 +4054,19 @@ static void write_global_vars()
     popup( _( "Var list written to var_list.output" ) );
 }
 
+void export_save_archive_and_game_report()
+{
+    g->quicksave();
+
+    static_popup popup;
+    popup.message( "%s", _( "Writing archive, this may take a while." ) );
+    ui_manager::redraw();
+    refresh_display();
+
+    write_min_archive();
+    game_report();
+}
+
 void do_debug_quick_setup( bool flag_dirty )
 {
     // Turn on debug mode. Some debug information displays require just this to be on, so we want it on. Save a few keypresses.
@@ -4094,24 +4091,12 @@ void do_debug_quick_setup( bool flag_dirty )
 
 void debug()
 {
-    bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG,
-                                 /*maximum_modifier_count=*/ -1, false ).has_value();
-    std::optional<debug_menu_index> action = debug_menu_uilist( debug_menu_has_hotkey );
+    std::optional<debug_menu_index> action = debug_menu_uilist();
 
-    // For the "cheaty" options, disable achievements when used
     achievements_tracker &achievements = get_achievements();
+    // The only non-"cheat" option is to reenable achievements, otherwise it would be impossible to re-enable them. (It would immediately re-flag cheating)
     static const std::unordered_set<debug_menu_index> non_cheaty_options = {
-        debug_menu_index::SAVE_SCREENSHOT,
-        debug_menu_index::GAME_REPORT,
-        debug_menu_index::GAME_MIN_ARCHIVE,
-        debug_menu_index::ENABLE_ACHIEVEMENTS,
-        debug_menu_index::UNLOCK_ALL,
-        debug_menu_index::BENCHMARK,
-        debug_menu_index::SHOW_MSG,
-        debug_menu_index::QUICKLOAD,
-        debug_menu_index::QUIT_NOSAVE,
-        debug_menu_index::EXPORT_FOLLOWER,
-        debug_menu_index::EXPORT_SELF
+        debug_menu_index::ENABLE_ACHIEVEMENTS
     };
     const bool should_disable_achievements = action && !is_debug_character() &&
             !non_cheaty_options.count( *action );
@@ -4510,15 +4495,9 @@ void debug()
         case debug_menu_index::GAME_REPORT:
             game_report();
             break;
+
         case debug_menu_index::GAME_MIN_ARCHIVE: {
-            g->quicksave();
-
-            static_popup popup;
-            popup.message( "%s", _( "Writing archive, this may take a while." ) );
-            ui_manager::redraw();
-            refresh_display();
-
-            write_min_archive();
+            export_save_archive_and_game_report();
             break;
         }
         case debug_menu_index::CHANGE_SPELLS:

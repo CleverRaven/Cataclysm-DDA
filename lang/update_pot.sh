@@ -18,6 +18,7 @@ xgettext --default-domain="cataclysm-dda" \
          --sort-by-file \
          --output="lang/po/base.pot" \
          --keyword="_" \
+         --keyword="_fmt" \
          --keyword="pgettext:1c,2" \
          --keyword="n_gettext:1,2" \
          --keyword="npgettext:1c,2,3" \

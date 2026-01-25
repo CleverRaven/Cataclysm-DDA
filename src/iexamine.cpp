@@ -2651,7 +2651,7 @@ void iexamine::dirtmound( Character &you, const tripoint_bub_ms &examp )
     }
     const itype_id &seed_id = std::get<0>( seed_entries[seed_index] );
 
-    ret_val<void>can_plant = warm_enough_to_plant( you.pos_bub(), seed_id );
+    ret_val<void>can_plant = warm_enough_to_plant( examp, seed_id );
     if( !can_plant.success() ) {
         you.add_msg_if_player( m_info, can_plant.c_str() );
         return;

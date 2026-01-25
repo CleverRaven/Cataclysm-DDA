@@ -323,7 +323,7 @@
     "magic_type": "xe_fey_seasonal_magick_spring",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
     "valid_targets": [ "hostile", "ally" ],
-    "condition": { "and": [ "npc_is_outside", { "npc_is_on_terrain_with_flag": "DIGGABLE" } ] },
+    "caster_condition": { "and": [ "npc_is_outside", { "npc_is_on_terrain_with_flag": "DIGGABLE" } ] },
     "teachable": false,
     "skill": "deduction",
     "max_level": 1,
@@ -368,7 +368,7 @@
     "description": { "str": "The actual summon spell.", "//~": "NO_I18N" },
     "flags": [ "SILENT", "RANDOM_DURATION" ],
     "valid_targets": [ "ground" ],
-    "condition": { "math": [ "0 == 0" ] },
+    "caster_condition": { "math": [ "0 == 0" ] },
     "effect": "summon",
     "effect_str": "mon_spring_changeling_bashing_vine",
     "extra_effects": [  ]

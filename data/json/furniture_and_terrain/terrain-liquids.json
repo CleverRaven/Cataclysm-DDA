@@ -11,7 +11,10 @@
     "connect_groups": "WATER",
     "connects_to": "WATER",
     "liquid_source": { "id": "water", "min_temp": 2.2 },
-    "examine_action": "water_source"
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -27,8 +30,11 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "INDOORS", "SHALLOW_WATER" ],
     "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -43,7 +49,10 @@
     "connect_groups": "WATER",
     "connects_to": "WATER",
     "liquid_source": { "id": "water", "min_temp": 2.2 },
-    "examine_action": "water_source"
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -59,8 +68,11 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "INDOORS", "EMPTY_SPACE" ],
     "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -74,8 +86,11 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "SHALLOW_WATER" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water_murky" },
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water_murky", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -91,8 +106,11 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "INDOORS", "SHALLOW_WATER" ],
     "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "liquid_source": { "id": "water_murky" },
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water_murky", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -107,7 +125,10 @@
     "connect_groups": "WATER",
     "connects_to": "WATER",
     "liquid_source": { "id": "water", "min_temp": 2.2 },
-    "examine_action": "water_source"
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -124,7 +145,10 @@
     "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
     "liquid_source": { "id": "water", "min_temp": 2.2 },
-    "examine_action": "water_source"
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -139,7 +163,10 @@
     "connect_groups": "WATER",
     "connects_to": "WATER",
     "liquid_source": { "id": "water", "min_temp": 2.2 },
-    "examine_action": "water_source"
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -156,7 +183,10 @@
     "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
     "liquid_source": { "id": "water", "min_temp": 2.2 },
-    "examine_action": "water_source"
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -171,7 +201,10 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "SHALLOW_WATER" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -188,7 +221,10 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "INDOORS", "SHALLOW_WATER" ],
     "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -203,7 +239,10 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "NO_FLOOR_WATER", "EMPTY_SPACE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -220,7 +259,10 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "INDOORS", "EMPTY_SPACE" ],
     "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -249,8 +291,11 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "INDOORS", "DEEP_WATER", "EMPTY_SPACE" ],
     "connect_groups": [ "INDOORFLOOR", "POOLWATER" ],
     "connects_to": "POOLWATER",
-    "liquid_source": { "id": "water" },
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -264,8 +309,11 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "INDOORS", "SHALLOW_WATER" ],
     "connect_groups": [ "INDOORFLOOR", "POOLWATER" ],
     "connects_to": "POOLWATER",
-    "liquid_source": { "id": "water" },
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -279,8 +327,11 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "EMPTY_SPACE" ],
     "connect_groups": "POOLWATER",
     "connects_to": "POOLWATER",
-    "liquid_source": { "id": "water" },
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -294,8 +345,11 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
     "connect_groups": "POOLWATER",
     "connects_to": "POOLWATER",
-    "liquid_source": { "id": "water" },
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -306,9 +360,12 @@
     "looks_like": "t_water_murky",
     "color": "light_green",
     "move_cost": 6,
-    "liquid_source": { "id": "water_sewage" },
+    "liquid_source": { "id": "water_sewage", "min_temp": 2.2 },
     "flags": [ "TRANSPARENT", "SWIMMABLE", "SHALLOW_WATER" ],
-    "examine_action": "water_source"
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -336,7 +393,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "NO_FLOOR_WATER", "EMPTY_SPACE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -366,7 +423,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -382,7 +439,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -398,7 +455,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "MINEABLE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -446,7 +503,7 @@
     },
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -469,7 +526,7 @@
     },
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -496,9 +553,12 @@
     "symbol": "~",
     "color": "light_blue",
     "move_cost": 3,
-    "liquid_source": { "id": "water_murky", "count": [ 40, 240 ] },
-    "flags": [ "TRANSPARENT", "LIQUIDCONT" ],
-    "examine_action": "finite_water_source"
+    "liquid_source": { "id": "water_murky", "count": [ 40, 240 ], "min_temp": 2.2 },
+    "flags": [ "TRANSPARENT", "LIQUIDCONT", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
+    "examine_action": "finite_water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -510,9 +570,12 @@
     "color": "light_blue",
     "move_cost": 3,
     "connect_groups": "INDOORFLOOR",
-    "liquid_source": { "id": "water_murky", "count": [ 40, 240 ] },
-    "flags": [ "TRANSPARENT", "LIQUIDCONT", "INDOORS" ],
-    "examine_action": "finite_water_source"
+    "liquid_source": { "id": "water_murky", "count": [ 40, 240 ], "min_temp": 2.2 },
+    "flags": [ "TRANSPARENT", "LIQUIDCONT", "INDOORS", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
+    "examine_action": "finite_water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -528,7 +591,10 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "INDOORS", "SHALLOW_WATER" ],
     "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
   }
 ]

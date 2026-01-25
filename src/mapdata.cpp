@@ -40,6 +40,7 @@ static const bash_damage_profile_id bash_damage_profile_default( "default" );
 static const flag_id json_flag_DIGGABLE( "DIGGABLE" );
 static const flag_id json_flag_EASY_DECONSTRUCT( "EASY_DECONSTRUCT" );
 static const flag_id json_flag_FLAT( "FLAT" );
+static const flag_id json_flag_PHASE_BACK( "PHASE_BACK" );
 static const flag_id json_flag_PLOWABLE( "PLOWABLE" );
 
 static const furn_str_id furn_f_null( "f_null" );
@@ -224,10 +225,9 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_CURRENT: return "CURRENT";
         case ter_furn_flag::TFLAG_HARVESTED: return "HARVESTED";
         case ter_furn_flag::TFLAG_PERMEABLE: return "PERMEABLE";
-        case ter_furn_flag::TFLAG_ICE_SHALLOW: return "ICE_SHALLOW";
-        case ter_furn_flag::TFLAG_ICE_DEEP: return "ICE_DEEP";
         case ter_furn_flag::TFLAG_THIN_ICE: return "THIN_ICE";
         case ter_furn_flag::TFLAG_THICK_ICE: return "THICK_ICE";
+        case ter_furn_flag::TFLAG_SWIM_UNDER: return "SWIM_UNDER";
         case ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL: return "AUTO_WALL_SYMBOL";
         case ter_furn_flag::TFLAG_CONNECT_WITH_WALL: return "CONNECT_WITH_WALL";
         case ter_furn_flag::TFLAG_CLIMBABLE: return "CLIMBABLE";
@@ -329,6 +329,10 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_WIRED_WALL: return "WIRED_WALL";
         case ter_furn_flag::TFLAG_MON_AVOID_STRICT: return "MON_AVOID_STRICT";
         case ter_furn_flag::TFLAG_REGION_PSEUDO: return "REGION_PSEUDO";
+        case ter_furn_flag::TFLAG_PHASE_BACK: return "PHASE_BACK";
+        case ter_furn_flag::TFLAG_ONE_DIMENSIONAL_X: return "ONE_DIMENSIONAL_X";
+        case ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Y: return "ONE_DIMENSIONAL_Y";
+        case ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Z: return "ONE_DIMENSIONAL_Z";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -875,6 +879,7 @@ std::vector<std::string> map_data_common_t::extended_description() const
         }
     };
     add_if( has_flag( ter_furn_flag::TFLAG_DIGGABLE ), json_flag_DIGGABLE->name() );
+    add_if( has_flag( ter_furn_flag::TFLAG_PHASE_BACK ), json_flag_PHASE_BACK->name() );
     add_if( has_flag( ter_furn_flag::TFLAG_PLOWABLE ), json_flag_PLOWABLE->name() );
     add_if( has_flag( ter_furn_flag::TFLAG_ROUGH ), _( "Rough." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_UNSTABLE ), _( "Unstable." ) );
@@ -1256,6 +1261,47 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
 
+    // Phase-change fields
+    if( jo.has_array( "phase_targets" ) ) {
+        JsonArray ja = jo.get_array( "phase_targets" );
+        for( const JsonValue v : ja ) {
+            if( v.test_string() ) {
+                phase_targets.emplace_back( v.get_string() );
+            } else {
+                jo.throw_error( "phase_targets must be an array of terrain id strings" );
+            }
+        }
+    }
+
+    if( jo.has_array( "phase_temps" ) ) {
+        JsonArray ja = jo.get_array( "phase_temps" );
+        for( const JsonValue v : ja ) {
+            if( v.test_number() ) {
+                // Interpret numeric values as degrees Celsius in JSON
+                phase_temps.emplace_back( units::from_celsius( v.get_float() ) );
+            } else if( v.test_string() ) {
+                const std::string s = v.get_string();
+                try {
+                    const double val = std::stod( s );
+                    phase_temps.emplace_back( units::from_celsius( val ) );
+                } catch( const std::exception & ) {
+                    jo.throw_error( "phase_temps entries must be numbers (Celsius) or numeric strings" );
+                }
+            } else {
+                jo.throw_error( "phase_temps must be an array of numbers or numeric strings" );
+            }
+        }
+    }
+
+    optional( jo, was_loaded, "phase_method", phase_method );
+
+    // Validate phase arrays: `phase_temps` must contain exactly one less
+    // entry than `phase_targets`.
+    if( !phase_targets.empty() ) {
+        if( phase_temps.size() != phase_targets.size() - 1 ) {
+            jo.throw_error( "phase_temps must contain exactly one less entry than phase_targets" );
+        }
+    }
     oxytorch = cata::make_value<activity_data_ter>();
     if( jo.has_object( "oxytorch" ) ) { //TODO: Make overwriting these with eg "oxytorch": { } work while still allowing overwriting single values
         oxytorch->load( jo.get_object( "oxytorch" ) );

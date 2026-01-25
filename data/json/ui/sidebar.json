@@ -33,7 +33,8 @@
       "bodygraph_hp_layout",
       "custom_mana_layout",
       "custom_mana_numbers_widget",
-      "custom_mana_graph_widget"
+      "custom_mana_graph_widget",
+      "oxygen_classic_layout"
     ]
   }
 ]

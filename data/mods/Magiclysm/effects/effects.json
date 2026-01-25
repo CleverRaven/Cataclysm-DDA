@@ -491,14 +491,18 @@
   {
     "type": "effect_type",
     "id": "ogres_strength",
-    "name": [ "Ogre's Strength" ],
-    "desc": [ "You have the strength of an Ogre!" ],
+    "name": [ "Strength of Arm" ],
+    "desc": [ "Your strength is greatly increased." ],
     "apply_message": "You feel strong!",
     "remove_message": "Your strength deflates.",
     "rating": "good",
     "max_duration": 14400,
-    "removes_effects": [ "eagles_sight", "cats_grace", "foxs_cunning" ],
-    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": { "math": [ "( u_spell_level('ogres_strength') / 4 ) + 2" ] } } ] } ]
+    "removes_effects": [ "eagles_sight", "cats_grace", "foxs_cunning", "effect_technomancer_arete", "bless" ],
+    "enchantments": [
+      {
+        "values": [ { "value": "STRENGTH", "add": { "math": [ "( u_spell_level('technomancer_strength_buff_spell') / 3 ) + 2" ] } } ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -514,38 +518,52 @@
   {
     "type": "effect_type",
     "id": "eagles_sight",
-    "name": [ "Eagle's Sight" ],
-    "desc": [ "You have the perception of an Eagle!" ],
+    "name": [ "Keenness of Sight" ],
+    "desc": [ "All of your senses are sharpened." ],
     "apply_message": "You notice small details!",
     "remove_message": "Your vision returns to normal.",
     "rating": "good",
     "max_duration": 14400,
-    "removes_effects": [ "ogres_strength", "cats_grace", "foxs_cunning" ],
-    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": { "math": [ "( u_spell_level('eagles_sight') / 4 ) + 2" ] } } ] } ]
+    "removes_effects": [ "ogres_strength", "cats_grace", "foxs_cunning", "effect_technomancer_arete", "bless" ],
+    "enchantments": [
+      {
+        "values": [ { "value": "PERCEPTION", "add": { "math": [ "( u_spell_level('technomancer_perception_buff_spell') / 3 ) + 2" ] } } ]
+      }
+    ]
   },
   {
     "type": "effect_type",
     "id": "cats_grace",
-    "name": [ "Cat's Grace" ],
-    "desc": [ "You have the dexterity of a cat!" ],
+    "name": [ "Steadiness of Hand" ],
+    "desc": [ "You have greatly heightened reflexes." ],
     "apply_message": "Your reflexes are heightened!",
     "remove_message": "Your reflexes return to normal.",
     "rating": "good",
     "max_duration": 14400,
-    "removes_effects": [ "eagles_sight", "ogres_strength", "foxs_cunning" ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": { "math": [ "( u_spell_level('cats_grace') / 4 ) + 2" ] } } ] } ]
+    "removes_effects": [ "ogres_strength", "eagles_sight", "foxs_cunning", "effect_technomancer_arete", "bless" ],
+    "enchantments": [
+      {
+        "values": [ { "value": "DEXTERITY", "add": { "math": [ "( u_spell_level('technomancer_dexterity_buff_spell') / 3 ) + 2" ] } } ]
+      }
+    ]
   },
   {
     "type": "effect_type",
     "id": "foxs_cunning",
-    "name": [ "Fox's Cunning" ],
-    "desc": [ "You have the cunning of a Fox!" ],
+    "name": [ "Clarity of Thought" ],
+    "desc": [ "You increased clarity of thought." ],
     "apply_message": "Your intelligence is heightened!",
     "remove_message": "Your intelligence returns to normal.",
     "rating": "good",
     "max_duration": 14400,
-    "removes_effects": [ "eagles_sight", "cats_grace", "ogres_strength" ],
-    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": { "math": [ "( u_spell_level('foxs_cunning') / 4 ) + 2" ] } } ] } ]
+    "removes_effects": [ "ogres_strength", "eagles_sight", "cats_grace", "effect_technomancer_arete", "bless" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "INTELLIGENCE", "add": { "math": [ "( u_spell_level('technomancer_intelligence_buff_spell') / 3 ) + 2" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -930,7 +948,7 @@
     "remove_message": "Your heightened capabilities fade away.",
     "rating": "good",
     "max_duration": 72000,
-    "removes_effects": [ "bless" ],
+    "removes_effects": [ "eagles_sight", "cats_grace", "foxs_cunning", "ogres_strength", "bless" ],
     "enchantments": [
       { "mutations": [ "STR_ALPHA", "DEX_ALPHA", "PER_ALPHA", "INT_ALPHA" ] },
       {
@@ -1997,44 +2015,6 @@
     "type": "effect_type",
     "id": "effect_feral_stormshaper_stormhammer_cooldown",
     "//": "Longer internal cooldown for feral stormshaper hammer",
-    "name": [ "" ],
-    "desc": [ "" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_feral_technomancer_mage_blade",
-    "name": [ { "str": "Wielding Mage Blade", "//~": "NO_I18N" } ],
-    "desc": [ { "str": "You are a monster wielding a mage blade, as this effect indicates.", "//~": "NO_I18N" } ],
-    "show_in_info": true
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_feral_technomancer_mage_blade_cooldown",
-    "//": "Longer internal cooldown for feral mage blade",
-    "name": [ "" ],
-    "desc": [ "" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_feral_technomancer_mage_armor",
-    "name": [ "Mage Armor" ],
-    "desc": [ { "str": "You are a monster wearing conjured armor, as this effect indicates.", "//~": "NO_I18N" } ],
-    "show_in_info": true,
-    "enchantments": [
-      {
-        "incoming_damage_mod": [
-          { "type": "cut", "add": -15 },
-          { "type": "bash", "add": -15 },
-          { "type": "stab", "add": -15 },
-          { "type": "bullet", "add": -15 }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_feral_technomancer_mage_armor_cooldown",
-    "//": "Longer internal cooldown for feral mage armor",
     "name": [ "" ],
     "desc": [ "" ]
   },
