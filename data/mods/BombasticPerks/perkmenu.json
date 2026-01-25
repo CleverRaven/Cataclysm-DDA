@@ -1002,6 +1002,25 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_second_wind" } },
+        "text": "Gain [<trait_name:perk_second_wind>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_second_wind>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_second_wind>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_second_wind", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires athletics 6",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('swimming') >= 6" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_blood_drinker" } },
         "text": "Gain [<trait_name:perk_blood_drinker>]",
         "effect": [

@@ -697,7 +697,7 @@
   {
     "type": "mutation",
     "id": "perk_troubleseeker",
-    "name": { "str": "Trouble seeker" },
+    "name": { "str": "Trouble Seeker" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -708,6 +708,17 @@
     "deactivated_eocs": [ "EOC_troubleseek_off" ],
     "processed_eocs": [ "EOC_troubleseeking" ],
     "time": 20000
+  },
+  {
+    "type": "mutation",
+    "id": "perk_second_wind",
+    "name": { "str": "Second Wind" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Anyone can pause and catch their breath but you're extremely good at doing so.  You can regenerate one-third of your stamina over ten seconds, once every fifteen minutes.  Being hit will interrupt the regeneration.",
+    "active": true,
+    "activated_eocs": [ "EOC_perk_second_wind" ]
   },
   {
     "type": "mutation",
