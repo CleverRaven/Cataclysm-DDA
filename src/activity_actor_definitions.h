@@ -876,7 +876,7 @@ class lockpick_activity_actor : public activity_actor
             const tripoint_abs_ms &target
         );
 
-        static int lockpicking_moves(const item_location &lockpick );
+        static int lockpicking_moves( const item_location &lockpick );
 
         const activity_id &get_type() const override {
             static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );

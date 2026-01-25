@@ -3251,7 +3251,7 @@ int lockpick_activity_actor::lockpicking_moves( const item_location &lockpick_lo
         return to_moves<int>(
                    std::max( 30_seconds,
                              ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( carrier->dex_cur ) / 4.0f +
-                                 weighted_skill_average ) ) * duration_proficiency_factor ) );
+                                     weighted_skill_average ) ) * duration_proficiency_factor ) );
     }
 }
 
