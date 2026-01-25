@@ -13,8 +13,8 @@
 #include "flexbuffer_json.h"
 #include "input_context.h"
 #include "input_enums.h"
-#include "output.h"
 #include "npc.h"
+#include "output.h"
 #include "path_info.h"
 #include "string_formatter.h"
 #include "text.h"
@@ -134,8 +134,8 @@ help_window::help_window() : cataimgui::window( "help",
     ctxt.register_action( "HELP_KEYBINDINGS" );
     const hotkey_queue &hkq = hotkey_queue::alphabets();
     input_event next_hotkey = ctxt.first_unassigned_hotkey( hkq );
-    const std::map<const int, const help_category> &cats = data.get_help_categories();
-    for( const std::pair<const int, const help_category> &option_category : cats ) {
+    for( const std::pair<const int, const help_category> &option_category :
+         data.get_help_categories() ) {
         hotkeys.emplace( option_category.first, next_hotkey );
         next_hotkey = ctxt.next_unassigned_hotkey( hkq, next_hotkey );
     }
@@ -152,32 +152,38 @@ void help_window::draw_controls()
 
 void help_window::draw_category_selection()
 {
-    //TODO: Add one column display for tiny screens and screen reader users
     selected_option = -1;
-    format_title();
     const std::map<const int, const help_category> &cats = data.get_help_categories();
-    // Split the categories in half
-    if( ImGui::BeginTable( "Category Options", 2, ImGuiTableFlags_None ) ) {
-        ImGui::TableSetupColumn( "Left Column", ImGuiTableColumnFlags_WidthStretch, 1.0f );
-        ImGui::TableSetupColumn( "Right Column", ImGuiTableColumnFlags_WidthStretch, 1.0f );
-        int half_size = cats.size() / 2;
-        if( cats.size() % 2 != 0 ) {
-            half_size++;
-        }
-        auto half_it = cats.begin();
-        std::advance( half_it, half_size );
-        auto jt = cats.begin();
-        std::advance( jt, half_size - 1 );
-        for( auto it = cats.begin(); it != half_it; it++ ) {
-            ImGui::TableNextColumn();
+    if( !use_two_columns() ) {
+        format_title();
+        for( auto it = cats.begin(); it !=  cats.end(); it++ ) {
             draw_category_option( it->first, it->second );
-            ImGui::TableNextColumn();
-            if( jt != std::prev( cats.end() ) ) {
-                jt++;
-                draw_category_option( jt->first, jt->second );
-            }
         }
-        ImGui::EndTable();
+    } else {
+        format_title();
+        // Split the categories in half
+        if( ImGui::BeginTable( "Category Options", 2, ImGuiTableFlags_None ) ) {
+            ImGui::TableSetupColumn( "Left Column", ImGuiTableColumnFlags_WidthStretch, 1.0f );
+            ImGui::TableSetupColumn( "Right Column", ImGuiTableColumnFlags_WidthStretch, 1.0f );
+            int half_size = cats.size() / 2;
+            if( cats.size() % 2 != 0 ) {
+                half_size++;
+            }
+            auto half_it = cats.begin();
+            std::advance( half_it, half_size );
+            auto jt = cats.begin();
+            std::advance( jt, half_size - 1 );
+            for( auto it = cats.begin(); it != half_it; it++ ) {
+                ImGui::TableNextColumn();
+                draw_category_option( it->first, it->second );
+                ImGui::TableNextColumn();
+                if( jt != std::prev( cats.end() ) ) {
+                    jt++;
+                    draw_category_option( jt->first, jt->second );
+                }
+            }
+            ImGui::EndTable();
+        }
     }
 }
 
@@ -344,15 +350,21 @@ void help_window::draw_category()
     const help_category &cat = data.get_help_category( loaded_option );
     const std::string prev_cat_name = data.get_help_category( loaded_option - 1 ).name.translated();
     const std::string next_cat_name = data.get_help_category( loaded_option + 1 ).name.translated();
-    format_title( cat );
+    bool scroll_title = !is_short();
+    if( scroll_title ) {
+        format_title( cat );
+    }
     // Use a table so we can scroll the category paragraphs without the title
-    //TODO: Consider not keeping the title seperate on tiny screens
     ImGui::Indent( one_em );
     if( ImGui::BeginTable( "HELP_PARAGRAPHS", 1, ImGuiTableFlags_ScrollY,
                            ImVec2( -1, static_cast<float>( str_height_to_pixels( TERMY - 10 ) ) ) ) ) {
+
         cataimgui::set_scroll( s );
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
+        if( !scroll_title ) {
+            format_title( cat );
+        }
         for( const std::pair<std::string, message_modifier> &translated_paragraph :
              translated_paragraphs ) {
             switch( translated_paragraph.second ) {
