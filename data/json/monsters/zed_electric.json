@@ -21,7 +21,12 @@
       { "id": "grab", "cooldown": 2 },
       { "id": "bite_humanoid", "cooldown": 5 },
       { "id": "scratch_humanoid" },
-      { "id": "smash", "throw_strength": 36, "cooldown": 30 },
+      {
+        "id": "smash",
+        "throw_strength": 36,
+        "cooldown": 30,
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] }
+      },
       { "id": "mon_shocker_chargeup" },
       { "id": "mon_shocker_chargeup_attack", "damage_max_instance": [ { "damage_type": "electric", "amount": 80 } ] },
       {
