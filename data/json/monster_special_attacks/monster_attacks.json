@@ -858,13 +858,21 @@
     "dodgeable": false,
     "blockable": false,
     "effects_require_dmg": false,
-    "self_effects_always": [ { "id": "effect_shocker_zombie_charge_up", "duration": 12 } ],
+    "damage_max_instance": [ { "damage_type": "pure", "amount": 0 } ],
+    "eoc": [ "EOC_SHOCKER_ADD_CHARGE_EFFECT" ],
+    "condition": { "math": [ "u_effect_intensity('effect_shocker_zombie_charge_up') <= 5" ] },
     "hit_dmg_u": "With a crackling sound, %1$s begins glowing brighter!",
     "hit_dmg_npc": "With a crackling sound, %1$s begins glowing brighter!",
     "miss_msg_u": "With a crackling sound, %1$s begins glowing brighter!",
     "miss_msg_npc": "With a crackling sound, %1$s begins glowing brighter!",
     "no_dmg_msg_u": "With a crackling sound, %1$s begins glowing brighter!",
     "no_dmg_msg_npc": "With a crackling sound, %1$s begins glowing brighter!"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHOCKER_ADD_CHARGE_EFFECT",
+    "//": "This is necessary because self_effects_always applies an ABSOLUTE intensity so we can't use it to increment the effect",
+    "effect": [ { "u_add_effect": "effect_shocker_zombie_charge_up", "duration": 12 } ]
   },
   {
     "type": "monster_attack",
