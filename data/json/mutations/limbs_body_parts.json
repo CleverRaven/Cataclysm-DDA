@@ -1,0 +1,27 @@
+[
+  {
+    "id": "long_tail",
+    "type": "body_part",
+    "name": "long tail",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "long tail" },
+    "heading": "tail, long",
+    "heading_multiple": "tails, long",
+    "encumbrance_text": "Balance is hampered.",
+    "encumbrance_limit": 25,
+    "hp_bar_ui_text": "L TAIL",
+    "limb_type": "tail",
+    "main_part": "torso",
+    "hit_size": 8,
+    "hit_difficulty": 0.4,
+    "limb_scores": [ [ "balance", 1.05 ], [ "reaction", 1.1 ] ],
+    "base_hp": 40,
+    "health_limit": 15,
+    "drench_capacity": 700,
+    "bionic_slots": 0,
+    "is_limb": true,
+    "flags": [ "LIMB_UPPER" ],
+    "smash_message": "You thwap %s with your tail.",
+    "smash_efficiency": 0.25,
+    "conditional_flags": [  ]
+  }
+]
