@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include "cata_assert.h"
 #include "cata_imgui.h"
 #include "cata_path.h"
 #include "character.h"
@@ -19,7 +20,6 @@
 #include "path_info.h"
 #include "string_formatter.h"
 #include "text.h"
-#include "text_snippets.h"
 #include "translations.h"
 #include "ui_manager.h"
 
