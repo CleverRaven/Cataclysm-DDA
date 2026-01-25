@@ -93,6 +93,7 @@ static const itype_id itype_test_hacksaw( "test_hacksaw" );
 static const itype_id itype_test_hacksaw_elec( "test_hacksaw_elec" );
 static const itype_id itype_test_halligan( "test_halligan" );
 static const itype_id itype_test_halligan_no_nails( "test_halligan_no_nails" );
+static const itype_id itype_test_lockpick( "test_lockpick" );
 static const itype_id itype_test_oxytorch( "test_oxytorch" );
 static const itype_id itype_test_pipe( "test_pipe" );
 static const itype_id itype_test_rag( "test_rag" );
@@ -1961,7 +1962,12 @@ static const std::vector<std::function<player_activity()>> test_activities {
     //player_activity( harvest_activity_actor( p ) ),
     [] { return player_activity( hotwire_car_activity_actor( 1, get_avatar().pos_abs() ) ); },
     //player_activity( insert_item_activity_actor() ),
-    [] { return player_activity( lockpick_activity_actor::use_item( 1, item_location(), get_avatar().pos_abs() ) ); },
+    [] {
+        Character *dummy = get_avatar().as_character();
+        dummy->wear_item( item( itype_test_backpack ), false );
+        item_location lockpick_location = dummy->i_add( item( itype_test_lockpick, calendar::turn ) );
+        return player_activity( lockpick_activity_actor::use_item( lockpick_location, get_avatar().pos_abs() ) );
+    },
     //player_activity( longsalvage_activity_actor() ),
     [] { return player_activity( meditate_activity_actor() ); },
     [] { return player_activity( migration_cancel_activity_actor() ); },

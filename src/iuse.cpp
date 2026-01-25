@@ -3191,8 +3191,7 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint_bub_m
     }
 
     you.assign_activity( lockpick_activity_actor::use_item( item_location( you, it ),
-                                                                get_map().get_abs( *target ),
-                                                                you
+                                                                get_map().get_abs( *target )
                                                                 ) );
     return 1;
 }

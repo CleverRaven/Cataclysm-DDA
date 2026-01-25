@@ -2012,7 +2012,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint_bub_ms &ex
     } );
 
     for( item *it : picklocks ) {
-        int required_moves = lockpick_activity_actor::lockpicking_moves( *it, you );
+        int required_moves = lockpick_activity_actor::lockpicking_moves( item_location{you, it} );
         time_duration required_time = time_duration::from_turns( required_moves / you.get_speed() );
         const std::string time_string = colorize( to_string( required_time, true ), c_light_gray );
         std::string query = string_format( _( "Pick the lock of %1$s using your %2$s?" ),
