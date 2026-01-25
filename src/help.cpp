@@ -139,6 +139,7 @@ help_window::help_window() : cataimgui::window( "help",
         hotkeys.emplace( option_category.first, next_hotkey );
         next_hotkey = ctxt.next_unassigned_hotkey( hkq, next_hotkey );
     }
+    calc_two_column_min_width();
 }
 
 void help_window::draw_controls()
@@ -156,15 +157,18 @@ void help_window::draw_category_selection()
     const std::map<const int, const help_category> &cats = data.get_help_categories();
     if( !use_two_columns() ) {
         format_title();
-        for( auto it = cats.begin(); it !=  cats.end(); it++ ) {
-            draw_category_option( it->first, it->second );
+        if (ImGui::BeginChild("Category Options")) {
+            for (auto it = cats.begin(); it != cats.end(); it++) {
+                draw_category_option(it->first, it->second);
+            }
+            ImGui::EndChild();
         }
     } else {
         format_title();
         // Split the categories in half
         if( ImGui::BeginTable( "Category Options", 2, ImGuiTableFlags_None ) ) {
-            ImGui::TableSetupColumn( "Left Column", ImGuiTableColumnFlags_WidthStretch, 1.0f );
-            ImGui::TableSetupColumn( "Right Column", ImGuiTableColumnFlags_WidthStretch, 1.0f );
+            ImGui::TableSetupColumn( "Left Column" );
+            ImGui::TableSetupColumn( "Right Column" );
             int half_size = cats.size() / 2;
             if( cats.size() % 2 != 0 ) {
                 half_size++;
@@ -308,8 +312,17 @@ void help_window::format_subtitle( const std::string &translated_category_name,
 void help_window::format_footer( const std::string &prev, const std::string &next,
                                  const nc_color &category_color )
 {
+    if( screen_reader ) {
+        const std::string screen_reader_footer = string_format(
+                    //~ Help menu footer when using screen reader
+                    _( "Previous category: %s. Next category: %s" ), prev, next );
+        cataimgui::TextColoredParagraph( c_white, screen_reader_footer );
+        return;
+    }
+
     const char *prev_chars = prev.c_str();
     const char *next_chars = next.c_str();
+
     const float next_size = ImGui::CalcTextSize( next_chars ).x;
     const float brackets_size = ImGui::CalcTextSize( "<]" ).x;
     const float next_x = ImGui::GetCursorPos().x + ImGui::GetContentRegionAvail().x - next_size -
@@ -350,20 +363,28 @@ void help_window::draw_category()
     const help_category &cat = data.get_help_category( loaded_option );
     const std::string prev_cat_name = data.get_help_category( loaded_option - 1 ).name.translated();
     const std::string next_cat_name = data.get_help_category( loaded_option + 1 ).name.translated();
-    bool scroll_title = !is_short();
-    if( scroll_title ) {
+    const bool scroll_title = is_short();
+    const bool show_footer = use_two_columns();
+
+
+
+    int child_rows = TERMY;
+    child_rows -= scroll_title ? 0 : 5;
+    child_rows -= show_footer ? 5 : 0;
+
+    if( !scroll_title ) {
         format_title( cat );
     }
-    // Use a table so we can scroll the category paragraphs without the title
+
     ImGui::Indent( one_em );
-    if( ImGui::BeginTable( "HELP_PARAGRAPHS", 1, ImGuiTableFlags_ScrollY,
-                           ImVec2( -1, static_cast<float>( str_height_to_pixels( TERMY - 10 ) ) ) ) ) {
+    if( ImGui::BeginChild( "HELP_PARAGRAPHS",
+                           ImVec2( -1, static_cast<float>( str_height_to_pixels( child_rows ) ) ) ) ) {
 
         cataimgui::set_scroll( s );
-        ImGui::TableNextRow();
-        ImGui::TableNextColumn();
-        if( !scroll_title ) {
-            format_title( cat );
+        if( scroll_title ) {
+            cataimgui::TextColoredParagraph( c_white, cat.name.translated() );
+            ImGui::NewLine();
+            ImGui::NewLine();
         }
         for( const std::pair<std::string, message_modifier> &translated_paragraph :
              translated_paragraphs ) {
@@ -397,9 +418,11 @@ void help_window::draw_category()
             ImGui::NewLine();
             ImGui::NewLine();
         }
-        ImGui::EndTable();
+        ImGui::EndChild();
     }
-    format_footer( prev_cat_name, next_cat_name, cat.color );
+    if( show_footer ) {
+        format_footer( prev_cat_name, next_cat_name, cat.color );
+    }
 }
 
 cataimgui::bounds help_window::get_bounds()

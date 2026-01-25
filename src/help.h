@@ -69,21 +69,6 @@ struct byte_length_comp {
     }
 };
 
-static float calc_two_column_min_width( const std::map<const int, const help_category> &cats )
-{
-
-    float min_width = 20.0f; // Guarentee some padding
-    std::set<std::string, byte_length_comp> names_by_byte_length;
-    for( const auto &cat : cats ) {
-        names_by_byte_length.insert( cat.second.name.translated() );
-    }
-    auto it = names_by_byte_length.rbegin();
-    min_width += ImGui::CalcTextSize( it->c_str() ).x;
-    it++;
-    min_width += ImGui::CalcTextSize( it->c_str() ).x;
-    return min_width;
-}
-
 class help_window : public cataimgui::window
 {
     public:
@@ -97,16 +82,30 @@ class help_window : public cataimgui::window
         float get_wrap_width();
 
         const bool screen_reader = get_option<bool>( "SCREEN_READER_MODE" );
-        const float two_column_min_width = calc_two_column_min_width( data.get_help_categories() );
+
+        help &data = get_help();
+        input_context ctxt;
+        std::map<int, input_event> hotkeys;
+
+        void calc_two_column_min_width() {
+            const std::map<const int, const help_category> &cats = data.get_help_categories();
+            cata_assert( cats.size() > 1 );
+            two_column_min_width = 20.0f; // Guarentee some padding
+            std::set<float> name_lengths;
+            for( const auto &cat : cats ) {
+                name_lengths.insert( ImGui::CalcTextSize( cat.second.name.translated().c_str() ).x );
+            }
+            auto it = name_lengths.rbegin();
+            two_column_min_width += *it;
+            two_column_min_width += *( ++it );
+        }
+        float two_column_min_width;
         bool is_short() {
             return ImGui::GetContentRegionAvail().y < 500.0f;
         }
         bool use_two_columns() {
-            return ImGui::GetContentRegionAvail().x < two_column_min_width;
+            return ImGui::GetContentRegionAvail().x > two_column_min_width;
         }
-        help &data = get_help();
-        input_context ctxt;
-        std::map<int, input_event> hotkeys;
 
         void draw_category_selection();
         void format_title( std::optional<help_category> category = std::nullopt );
