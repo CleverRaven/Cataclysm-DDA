@@ -79,7 +79,6 @@ class item;
 class kill_tracker;
 class live_view;
 class map;
-class map_item_stack;
 class memorial_logger;
 class monster;
 class npc;
@@ -940,20 +939,7 @@ class game
             const vproto_id &id, const point_abs_omt &origin, int min_distance,
             int max_distance, const std::vector<std::string> &omt_search_types = {} );
         // V Menu Functions and helpers:
-        void list_items_monsters(); // Called when you invoke the `V`-menu
-
-        enum class vmenu_ret : int {
-            CHANGE_TAB,
-            QUIT,
-            FIRE, // Who knew, apparently you can do that in list_monsters
-        };
-
-        game::vmenu_ret list_items( const std::vector<map_item_stack> &item_list );
-        std::vector<map_item_stack> find_nearby_items( int iRadius );
-        void reset_item_list_state( const catacurses::window &window, int height,
-                                    list_item_sort_mode sortMode );
-
-        game::vmenu_ret list_monsters( const std::vector<Creature *> &monster_list );
+        void list_surroundings(); // Called when you invoke the `V`-menu
 
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
