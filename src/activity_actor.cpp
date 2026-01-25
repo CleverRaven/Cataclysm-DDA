@@ -9826,6 +9826,7 @@ void mop_activity_actor::finish( player_activity &act, Character &who )
         map &here = get_map();
         here.mop_spills( here.get_bub( act.placement ) );
     }
+    act.set_to_null();
     activity_handlers::resume_for_multi_activities( who );
 }
 
