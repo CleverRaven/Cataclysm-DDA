@@ -3705,7 +3705,7 @@ bool mop_do( Character &you, const activity_reason_info &act_info,
 
     if( reason == do_activity_reason::NEEDS_MOP ) {
         if( mop_activity( you, src_loc ) ) {
-            you.backlog.emplace_front( ACT_MULTIPLE_MOP );
+            you.backlog.emplace_front( multi_mop_activity_actor() );
             return false;
         }
     }
