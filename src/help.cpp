@@ -253,6 +253,7 @@ void help_window::draw_category()
                     break;
                 case MM_MONOFONT:
                     cataimgui::PushMonoFont();
+                    //TODO: Try messing with ImGuiStyleVar_ItemSpacing etc again to remove the y spacing
                     cataimgui::draw_colored_text( translated_paragraph.first, c_white, get_wrap_width() );
                     ImGui::PopFont();
                     break;
@@ -417,37 +418,39 @@ void help_window::format_title( std::optional<help_category> category ) const
                                    translated_category_name ).c_str() ).x;
     ImGui::PushStyleVarX( ImGuiStyleVar_ItemSpacing, 0 );
     ImGui::PushStyleVarY( ImGuiStyleVar_ItemSpacing, 0 );
-    ImGui::PushStyleColor( ImGuiCol_Text, category_color );
     ImGui::PushStyleColor( ImGuiCol_Separator, category_color );
     cataimgui::PushMonoFont();
     const int sep_len = std::ceil( ( title_length / ImGui::CalcTextSize( "═" ).x )  + 2 );
-    ImGui::Text( "╔" );
+    ImGui::TextColored( category_color, "╔" );
     ImGui::SameLine();
     for( int i = sep_len; i > 0; i-- ) {
-        ImGui::Text( "═" );
+        ImGui::TextColored( category_color, "═" );
         ImGui::SameLine();
     }
     const int x = ImGui::GetCursorPosX();
-    ImGui::Text( "╗" );
-    ImGui::Text( "║ " );
+    ImGui::TextColored( category_color,  "╗" );
+    ImGui::TextColored( category_color,  "║ " );
     ImGui::SameLine();
     const ImVec2 text_pos = ImGui::GetCursorPos();
     ImGui::SetCursorPosX( x );
-    ImGui::Text( "║" );
-    ImGui::Text( "╚" );
+    ImGui::TextColored( category_color,  "║" );
+    ImGui::TextColored( category_color,  "╚" );
     ImGui::SameLine();
     for( int i = sep_len; i > 0; i-- ) {
-        ImGui::Text( "═" );
+        ImGui::TextColored( category_color,  "═" );
         ImGui::SameLine();
     }
-    ImGui::Text( "╝" );
+    ImGui::TextColored( category_color,  "╝" );
+
     ImGui::NewLine();
     ImGui::Separator();
     ImGui::NewLine();
+
     const ImVec2 end_pos = ImGui::GetCursorPos();
     ImGui::PopFont();
-    ImGui::PopStyleColor( 2 );
+    ImGui::PopStyleColor( 1 );
     ImGui::PopStyleVar( 2 );
+
     ImGui::SetCursorPos( text_pos );
     cataimgui::TextColoredParagraph( c_white, translated_category_name );
     ImGui::SetCursorPos( end_pos );
@@ -456,6 +459,7 @@ void help_window::format_title( std::optional<help_category> category ) const
 void help_window::format_subtitle( const std::string_view &translated_category_name,
                                    const nc_color &category_color ) const
 {
+
     if( screen_reader ) {
         cataimgui::TextColoredParagraph( c_white, translated_category_name );
         ImGui::NewLine();
@@ -464,33 +468,32 @@ void help_window::format_subtitle( const std::string_view &translated_category_n
 
     const float title_length = ImGui::CalcTextSize( remove_color_tags(
                                    translated_category_name ).c_str() ).x;
+
+    ImGui::PushStyleColor( ImGuiCol_Separator, category_color );
     cataimgui::PushMonoFont();
     const int sep_len = std::ceil( ( title_length / ImGui::CalcTextSize( "═" ).x )  + 4 );
-    ImGui::PushStyleColor( ImGuiCol_Text, category_color );
     for( int i = sep_len; i > 0; i-- ) {
-        ImGui::Text( "▁" );
         ImGui::SameLine( 0.f, 0.f );
     }
     ImGui::NewLine();
-    // Using the matching box character doesn't look good bc there's forced(?) y spacing on NewLine
-    ImGui::Text( "▏ " );
+    ImGui::TextColored( category_color, "▏ " );
     ImGui::SameLine( 0.f, 0.f );
-    ImGui::PopStyleColor();
     ImGui::PopFont();
+
     cataimgui::TextColoredParagraph( c_white, translated_category_name );
+
     cataimgui::PushMonoFont();
     ImGui::SameLine( 0.f, 0.f );
-    ImGui::PushStyleColor( ImGuiCol_Text, category_color );
-    ImGui::PushStyleColor( ImGuiCol_Separator, category_color );
-    ImGui::Text( " ▕" );
+    ImGui::TextColored( category_color, " ▕" );
     for( int i = sep_len; i > 0; i-- ) {
-        ImGui::Text( "▔" );
+        ImGui::TextColored( category_color, "▔" );
         ImGui::SameLine( 0.f, 0.f );
     }
-    ImGui::PopFont();
     ImGui::NewLine();
     ImGui::Separator();
-    ImGui::PopStyleColor( 2 );
+
+    ImGui::PopFont();
+    ImGui::PopStyleColor( 1 );
 }
 
 void help_window::format_footer( const std::string &prev, const std::string &next,
@@ -508,33 +511,31 @@ void help_window::format_footer( const std::string &prev, const std::string &nex
     const float brackets_size = ImGui::CalcTextSize( "<]" ).x;
     const float next_x = ImGui::GetCursorPos().x + ImGui::GetContentRegionAvail().x - next_size -
                          brackets_size - one_em;
+
     ImGui::PushStyleColor( ImGuiCol_Separator, category_color );
     ImGui::Separator();
     ImGui::NewLine();
 
-    ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
-    ImGui::Text( "<" );
+    ImGui::TextColored( c_yellow, "<" );
     ImGui::SameLine( 0.f, 0.f );
-    ImGui::PopStyleColor( 1 );
+
     ImGui::Text( "%s", prev.c_str() );
     if( ImGui::IsItemHovered() ) {
         selected_option = previous_option( loaded_option );
     }
+
     ImGui::SameLine( 0.f, 0.f );
-    ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
-    ImGui::Text( "]" );
-    ImGui::PopStyleColor( 1 );
+    ImGui::TextColored( c_yellow, "]" );
     ImGui::SameLine( next_x );
-    ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
-    ImGui::Text( "[" );
-    ImGui::PopStyleColor( 1 );
+    ImGui::TextColored( c_yellow, "[" );
     ImGui::SameLine( 0.f, 0.f );
+
     ImGui::Text( "%s", next.c_str() );
     if( ImGui::IsItemHovered() ) {
         selected_option = next_option( loaded_option );
     }
-    ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
+
     ImGui::SameLine( 0.f, 0.f );
-    ImGui::Text( ">" );
-    ImGui::PopStyleColor( 2 );
+    ImGui::TextColored( c_yellow, ">" );
+    ImGui::PopStyleColor( 1 );
 }
