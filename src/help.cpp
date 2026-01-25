@@ -70,12 +70,12 @@ void help_data::load( const JsonObject &jo, const std::string &src )
             } else if( jobj.has_string( "force_monospaced" ) ) {
                 category.paragraphs.emplace_back( to_translation( jobj.get_string( "force_monospaced" ) ),
                                                   MM_MONOFONT );
-            } else if( jobj.has_string( "seperator" ) ) {
-                auto it = category.paragraphs.emplace_back( no_translation( jobj.get_string( "seperator" ) ),
-                          MM_SEPERATOR );
+            } else if( jobj.has_string( "separator" ) ) {
+                auto it = category.paragraphs.emplace_back( no_translation( jobj.get_string( "separator" ) ),
+                          MM_SEPARATOR );
                 // Verify color now bc later the debugmsg would cause an ImGui CTD, don't use color_from_string's debugmsg though bc that will be useless context wise
                 if( color_from_string( it.first.translated(), report_color_error::no ) == c_unset ) {
-                    jobj.throw_error_at( "seperator", "Can't parse color" );
+                    jobj.throw_error_at( "separator", "Can't parse color" );
                 }
             }
         }
@@ -253,13 +253,13 @@ void help_window::draw_category()
                     cataimgui::draw_colored_text( translated_paragraph.first, c_white, get_wrap_width() );
                     ImGui::PopFont();
                     break;
-                case MM_SEPERATOR: {
+                case MM_SEPARATOR: {
                     //Can't verify here bc the debugmsg would cause an ImGui CTD
-                    nc_color seperator_color = color_from_string( translated_paragraph.first, report_color_error::no );
-                    if( seperator_color == c_unset ) {
-                        seperator_color = cat.color;
+                    nc_color separator_color = color_from_string( translated_paragraph.first, report_color_error::no );
+                    if( separator_color == c_unset ) {
+                        separator_color = cat.color;
                     }
-                    ImGui::PushStyleColor( ImGuiCol_Separator, seperator_color );
+                    ImGui::PushStyleColor( ImGuiCol_Separator, separator_color );
                     ImGui::Separator();
                     ImGui::PopStyleColor();
                     break;

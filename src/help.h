@@ -23,7 +23,7 @@ enum message_modifier {
     MM_NORMAL = 0, // Normal message
     MM_SUBTITLE, // Formatted subtitle
     MM_MONOFONT, // Forced monofont for fixed space diagrams
-    MM_SEPERATOR // ImGui seperator, value is the color to use
+    MM_SEPARATOR // ImGui seperator, value is the color to use
 };
 
 struct help_category {
