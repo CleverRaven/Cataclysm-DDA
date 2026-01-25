@@ -365,6 +365,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                                 here.furn_set( source_pos, furn_f_compost_empty );
                             }
                         }
+                    } else if( iexamine::has_keg( source_pos ) ) {
+                        add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
+                                 liquid.type_name( 1 ), here.furnname( source_pos ) );
                     }
                     act_ref.set_to_null();
                 }

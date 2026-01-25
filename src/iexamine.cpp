@@ -4349,10 +4349,7 @@ void iexamine::keg( Character &you, const tripoint_bub_ms &examp )
         switch( selectmenu.ret ) {
             case DISPENSE: {
                 item_location loc( map_cursor( examp ), &*items.begin() );
-                if( liquid_handler::handle_liquid( loc ) ) {
-                    add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
-                             drink_tname, keg_name );
-                }
+                liquid_handler::handle_liquid( loc );
                 return;
             }
             case HAVE_A_DRINK:
