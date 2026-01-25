@@ -73,6 +73,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "json.h"
+#include "lightmap.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
@@ -159,6 +160,7 @@ static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
 static const activity_id ACT_E_FILE( "ACT_E_FILE" );
+static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FISH( "ACT_FISH" );
@@ -190,6 +192,7 @@ static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
+static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
@@ -4587,6 +4590,271 @@ std::unique_ptr<activity_actor> fish_activity_actor::deserialize( JsonValue &jsi
     data.read( "fishing_rod", actor.fishing_rod );
     data.read( "fishing_duration", actor.fishing_duration );
 
+    return actor.clone();
+}
+
+std::unordered_set<tripoint_abs_ms> multi_zone_activity_actor::multi_activity_locations(
+    Character  &you )
+{
+    return multi_activity_actor::generic_locations( you, get_type() );
+}
+
+std::optional<requirement_id> multi_zone_activity_actor::multi_activity_requirements(
+    Character &, activity_reason_info &, const tripoint_bub_ms & )
+{
+    return std::nullopt;
+}
+
+void multi_zone_activity_actor::do_turn( player_activity &act, Character &you )
+{
+    simulate_turn( act, you, false );
+    // If this activity still exists, end it
+    if( !act.is_null() && act.is_multi_type() ) {
+        act.set_to_null();
+    }
+}
+
+bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &you,
+        bool check_only )
+{
+    map &here = get_map();
+    const tripoint_abs_ms abspos = here.get_abs( you.pos_bub() );
+    // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
+    player_activity current_act_copy = act;
+    activity_id current_activity = current_act_copy.id();
+
+    std::unordered_set<tripoint_abs_ms> src_set = multi_activity_locations( you );
+    std::vector<tripoint_abs_ms> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+    // now loop through the work-spot tiles and judge whether its worth traveling to it yet
+    // or if we need to fetch something first.
+
+    // check: if a fetch activity was assigned but there's nothing to fetch, restore previous activity from backlog
+    // may cause infinite loop if something goes wrong
+    //TODO: check whether a fetch activity should be assigned before it is
+    if( current_activity == ACT_FETCH_REQUIRED && src_sorted.empty() ) {
+        // remind what you failed to fetch
+        if( !check_only ) {
+            if( !you.backlog.empty() ) {
+                player_activity &act_prev = you.backlog.front();
+                if( !act_prev.str_values.empty() && you.as_npc() ) {
+                    you.as_npc()->job.fetch_history[act_prev.str_values.back()] = calendar::turn;
+                }
+            }
+        }
+        return true;
+    }
+
+    requirement_failure_reasons req_fail_reason;
+
+    for( const tripoint_abs_ms &src : src_sorted ) {
+        const tripoint_bub_ms &src_bub = here.get_bub( src );
+        if( !check_only ) {
+            if( !here.inbounds( src_bub ) ) {
+                if( zone_sorting::sorter_out_of_bounds( you, current_activity ) ) {
+                    return false;
+                }
+                //TODO: remove dummy argument
+                zone_activity_stage dummy;
+                if( !zone_sorting::route_to_destination( you, act, src_bub, dummy ) ) {
+                    continue;
+                }
+            }
+        }
+
+        you.invalidate_crafting_inventory();
+        // can we do the activity for position src_loc? if so, what stage of the activity?
+        activity_reason_info act_info = multi_activity_can_do( you, src_bub );
+
+        // do we have requirements for this activity stage? if so, are they satisfied?
+        // see activity_handlers.h enum for requirement_check_result
+        req_fail_reason = requirement_failure_reasons();
+        const requirement_check_result req_res = check_requirements( you, act_info, src, src_bub, src_set,
+                check_only );
+        if( req_res == requirement_check_result::RETURN_EARLY ) {
+            return true;
+        }
+        req_fail_reason.convert_requirement_check_result( req_res );
+        if( req_fail_reason.check_skip_location() ) {
+            continue;
+        }
+
+        //route to destination if needed
+        std::optional<bool> route_result = multi_activity_actor::route(
+                                               you, current_act_copy, src_bub, req_fail_reason, check_only );
+        if( !route_result ) {
+            continue;
+        }
+        if( *route_result ) {
+            return true;
+        }
+
+        // darkness is checked for in work locations
+        // but there is a niche case (e.g. constructions) where the player is in darkness but the work location is not
+        // this can create infinite loops
+        // we can't check player.pos() for darkness before they've traveled to the work location
+        // but now that the player is there, check
+        if( !multi_activity_actor::can_do_in_dark( current_activity ) &&
+            you.fine_detail_vision_mod( you.pos_bub() ) > LIGHT_AMBIENT_DIM ) {
+            you.add_msg_player_or_npc( m_info, _( "It is too dark to work here." ),
+                                       _( "%s aborts the %s activity because it's too dark to continue." ), you.disp_name(),
+                                       current_activity.c_str() );
+            return false;
+        }
+
+        // do the activity!
+        if( !check_only ) {
+            if( !multi_activity_do( you, act_info, src, src_bub ) ) {
+                // if the activity was successful
+                // then a new activity was assigned
+                // and the backlog was given the multi-act
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    if( !check_only ) {
+        if( multi_activity_actor::out_of_moves( you, current_activity ) ) {
+            return false;
+        }
+        multi_activity_actor::revert_npc_post_activity( you, current_activity, src_set.empty() );
+    }
+    // scanned every location, tried every path.
+    if( !check_only ) {
+        if( you.is_npc() ) {
+            multi_activity_actor::activity_failure_message( you, current_activity, req_fail_reason,
+                    src_sorted.empty() );
+        }
+    }
+    return false;
+}
+
+/** Check if this activity can not be done immediately because it has some requirements */
+requirement_check_result multi_zone_activity_actor::check_requirements( Character &you,
+        activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
+        const std::unordered_set<tripoint_abs_ms> &src_set,
+        bool check_only )
+{
+    map &here = get_map();
+    zone_manager &mgr = zone_manager::get_manager();
+    const activity_id act_id = get_type();
+
+    bool &can_do_it = act_info.can_do;
+    const do_activity_reason &reason = act_info.reason;
+    const faction_id fac_id = you.get_faction_id();
+    const zone_data *zone =
+        mgr.get_zone_at( src, multi_activity_actor::get_zone_for_act( src_loc, mgr, act_id, fac_id ),
+                         fac_id );
+
+    const bool needs_to_be_in_zone = multi_activity_actor::activity_must_be_in_zone( act_id, src_loc );
+    // some activities require the target tile to be part of a zone.
+    // tidy up activity doesn't - it wants things that may not be in a zone already - things that may have been left lying around.
+    if( needs_to_be_in_zone && !zone ) {
+        can_do_it = false;
+        return requirement_check_result::SKIP_LOCATION_NO_ZONE;
+    }
+    // requirements were pre-satisfied
+    if( can_do_it ) {
+        return requirement_check_result::CAN_DO_LOCATION;
+    }
+    if( reason == do_activity_reason::REFUSES_THIS_WORK ) {
+        you.add_msg_if_player( m_info,
+                               _( "There's a human corpse there.  You wouldn't want to butcher it by accident." ) );
+        if( you.is_npc() ) {
+            add_msg_if_player_sees( you, m_info, _( "%s refuses to butcher a human corpse." ),
+                                    you.disp_name() );
+        }
+    }
+
+    if( multi_activity_actor::activity_reason_quit( reason ) ) {
+        return multi_activity_actor::requirement_fail( you, reason, act_id, zone );
+    } else if( multi_activity_actor::activity_reason_continue( reason ) ) {
+        // we can do it, but we need to fetch some stuff first
+        // before we set the task to fetch components - is it even worth it? are the components anywhere?
+        if( you.is_npc() ) {
+            if( zone ) {
+                add_msg_if_player_sees( you, m_info,
+                                        _( "%s is trying to find necessary items to do the %s job on zone %s, reason %s" ),
+                                        you.disp_name(), act_id.c_str(), zone->get_name(), do_activity_reason_string[int( reason )] );
+            } else {
+                add_msg_if_player_sees( you, m_info,
+                                        _( "%s is trying to find necessary items to do the %s job, reason %s" ),
+                                        you.disp_name(), act_id.c_str(), do_activity_reason_string[int( reason )] );
+            }
+        }
+
+        //set up loot and in-range locations
+        std::vector<tripoint_bub_ms> loot_zone_spots;
+        std::vector<tripoint_bub_ms> combined_spots;
+        for( const tripoint_bub_ms &elem : mgr.get_point_set_loot(
+                 you.pos_abs(), MAX_VIEW_DISTANCE, you.is_npc(), fac_id ) ) {
+            loot_zone_spots.emplace_back( elem );
+            combined_spots.emplace_back( elem );
+        }
+        for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE,
+                PICKUP_RANGE ) ) {
+            combined_spots.push_back( elem );
+        }
+        multi_activity_actor::add_basecamp_storage_to_loot_zone_list( mgr, src_loc, you, loot_zone_spots,
+                combined_spots );
+
+        //begin requirements
+        std::optional<requirement_id> activity_requirements = multi_activity_requirements( you, act_info,
+                src_loc );
+        //end requirements
+
+        // requirement check was invalid, skip this location
+        if( !activity_requirements || *activity_requirements == requirement_id::NULL_ID() ) {
+            return requirement_check_result::SKIP_LOCATION;
+        }
+        // Remove the requirements already met
+        requirement_id what_we_need = multi_activity_actor::remove_met_requirements( *activity_requirements,
+                                      you );
+
+        bool tool_pickup = multi_activity_actor::activity_reason_picks_up_tools( reason );
+        // is it even worth fetching anything if there isn't enough nearby?
+        if( !multi_activity_actor::are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots,
+                what_we_need, you,
+                act_id, tool_pickup, src_loc ) ) {
+            if( zone ) {
+                you.add_msg_player_or_npc( m_info,
+                                           _( "The required items are not available to complete the %s task at zone %s." ), act_id.c_str(),
+                                           zone->get_name(),
+                                           _( "The required items are not available to complete the %s task at zone %s." ), act_id.c_str(),
+                                           zone->get_name() );
+            } else {
+                you.add_msg_player_or_npc( m_info,
+                                           _( "The required items are not available to complete the %s task." ), act_id.c_str(),
+                                           _( "The required items are not available to complete the %s task." ), act_id.c_str() );
+            }
+            //TODO: this is hacky, move it
+            if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
+                reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
+                you.activity_vehicle_part_index = -1;
+            }
+            return requirement_check_result::SKIP_LOCATION;
+        } else {
+            if( !check_only ) {
+                return multi_activity_actor::fetch_requirements( you, what_we_need, act_id,
+                        act_info, src, src_loc, src_set );
+            }
+            return requirement_check_result::RETURN_EARLY;
+        }
+    }
+    return requirement_check_result::SKIP_LOCATION_NO_MATCH;
+}
+
+void multi_zone_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> multi_mine_activity_actor::deserialize( JsonValue & )
+{
+    multi_mine_activity_actor actor;
     return actor.clone();
 }
 
@@ -9478,6 +9746,24 @@ std::unique_ptr<activity_actor> jackhammer_activity_actor::deserialize( JsonValu
     return actor.clone();
 }
 
+activity_reason_info multi_mine_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::mine_can_do( ACT_MULTIPLE_MINE, you, src_loc );
+}
+std::optional<requirement_id> multi_mine_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::mining_requirements( you, act_info, src_loc );
+}
+bool multi_mine_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::mine_do( you, act_info, src, src_loc );
+}
+
 void mop_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
@@ -12175,6 +12461,7 @@ deserialize_functions = {
     { ACT_MOP, &mop_activity_actor::deserialize },
     { ACT_MOVE_ITEMS, &move_items_activity_actor::deserialize },
     { ACT_MOVE_LOOT, &zone_sort_activity_actor::deserialize },
+    { ACT_MULTIPLE_MINE, &multi_mine_activity_actor::deserialize },
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
     { ACT_OPERATION, &bionic_operation_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
