@@ -493,10 +493,7 @@ void help_window::format_footer( const std::string &prev, const std::string &nex
         return;
     }
 
-    const char *prev_chars = prev.c_str();
-    const char *next_chars = next.c_str();
-
-    const float next_size = ImGui::CalcTextSize( next_chars ).x;
+    const float next_size = ImGui::CalcTextSize( next.c_str() ).x;
     const float brackets_size = ImGui::CalcTextSize( "<]" ).x;
     const float next_x = ImGui::GetCursorPos().x + ImGui::GetContentRegionAvail().x - next_size -
                          brackets_size - one_em;
@@ -508,7 +505,7 @@ void help_window::format_footer( const std::string &prev, const std::string &nex
     ImGui::Text( "<" );
     ImGui::SameLine( 0.f, 0.f );
     ImGui::PopStyleColor( 1 );
-    ImGui::Text( prev_chars );
+    ImGui::Text( prev.c_str() );
     if( ImGui::IsItemHovered() ) {
         selected_option = handle_option_looping( loaded_option - 1 );
     }
@@ -521,7 +518,7 @@ void help_window::format_footer( const std::string &prev, const std::string &nex
     ImGui::Text( "[" );
     ImGui::PopStyleColor( 1 );
     ImGui::SameLine( 0.f, 0.f );
-    ImGui::Text( next_chars );
+    ImGui::Text( next.c_str() );
     if( ImGui::IsItemHovered() ) {
         selected_option = handle_option_looping( loaded_option + 1 );
     }
