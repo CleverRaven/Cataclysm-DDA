@@ -858,7 +858,6 @@
     "dodgeable": false,
     "blockable": false,
     "effects_require_dmg": false,
-    "attack_all": true,
     "self_effects_always": [ { "id": "effect_shocker_zombie_charge_up", "duration": 12 } ],
     "hit_dmg_u": "With a crackling sound, %1$s begins glowing brighter!",
     "hit_dmg_npc": "With a crackling sound, %1$s begins glowing brighter!",
@@ -876,7 +875,7 @@
     "damage_max_instance": [ { "damage_type": "electric", "amount": 40 } ],
     "dodgeable": true,
     "blockable": true,
-    "attack_all": true,
+    "spread_damage": true,
     "condition": {
       "and": [
         { "math": [ "u_effect_intensity('effect_shocker_zombie_charge_up') >= 4" ] },
@@ -903,7 +902,7 @@
     "//": "If the shocker is grabbing you, it doesn't need to try to touch you to zap you",
     "dodgeable": false,
     "blockable": false,
-    "attack_all": true,
+    "spread_damage": true,
     "condition": {
       "and": [
         { "math": [ "u_effect_intensity('effect_shocker_zombie_charge_up') >= 4" ] },
