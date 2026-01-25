@@ -110,6 +110,18 @@ int help::handle_option_looping( int option )
     return option;
 }
 
+static float calc_two_column_min_width( const std::map<const int, const help_category> &cats )
+{
+    float longest = 0;
+    for( const auto &cat : cats ) {
+        float cat_x = ImGui::CalcTextSize( cat.second.name.translated().c_str() ).x;
+        if( longest < cat_x ) {
+            longest = cat_x;
+        }
+    }
+    return ( 2 * longest ) + 20.0f; // Guarentee some padding
+}
+
 help_window::help_window() : cataimgui::window( "help",
             ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
             ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoNavFocus )
@@ -139,7 +151,7 @@ help_window::help_window() : cataimgui::window( "help",
         hotkeys.emplace( option_category.first, next_hotkey );
         next_hotkey = ctxt.next_unassigned_hotkey( hkq, next_hotkey );
     }
-    calc_two_column_min_width();
+    calc_two_column_min_width( data.get_help_categories() );
 }
 
 void help_window::draw_controls()
@@ -157,9 +169,9 @@ void help_window::draw_category_selection()
     const std::map<const int, const help_category> &cats = data.get_help_categories();
     if( !use_two_columns() ) {
         format_title();
-        if (ImGui::BeginChild("Category Options")) {
-            for (auto it = cats.begin(); it != cats.end(); it++) {
-                draw_category_option(it->first, it->second);
+        if( ImGui::BeginChild( "Category Options" ) ) {
+            for( auto it = cats.begin(); it != cats.end(); it++ ) {
+                draw_category_option( it->first, it->second );
             }
             ImGui::EndChild();
         }
@@ -363,7 +375,7 @@ void help_window::draw_category()
     const help_category &cat = data.get_help_category( loaded_option );
     const std::string prev_cat_name = data.get_help_category( loaded_option - 1 ).name.translated();
     const std::string next_cat_name = data.get_help_category( loaded_option + 1 ).name.translated();
-    const bool scroll_title = is_short();
+    const bool scroll_title = ImGui::GetContentRegionAvail().y < 500.0f;
     const bool show_footer = use_two_columns();
 
 

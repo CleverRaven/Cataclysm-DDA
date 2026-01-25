@@ -87,22 +87,7 @@ class help_window : public cataimgui::window
         input_context ctxt;
         std::map<int, input_event> hotkeys;
 
-        void calc_two_column_min_width() {
-            const std::map<const int, const help_category> &cats = data.get_help_categories();
-            cata_assert( cats.size() > 1 );
-            two_column_min_width = 20.0f; // Guarentee some padding
-            std::set<float> name_lengths;
-            for( const auto &cat : cats ) {
-                name_lengths.insert( ImGui::CalcTextSize( cat.second.name.translated().c_str() ).x );
-            }
-            auto it = name_lengths.rbegin();
-            two_column_min_width += *it;
-            two_column_min_width += *( ++it );
-        }
-        float two_column_min_width;
-        bool is_short() {
-            return ImGui::GetContentRegionAvail().y < 500.0f;
-        }
+        float two_column_min_width; // Minimum width needed to display two of the longest category name side by side
         bool use_two_columns() {
             return ImGui::GetContentRegionAvail().x > two_column_min_width;
         }
