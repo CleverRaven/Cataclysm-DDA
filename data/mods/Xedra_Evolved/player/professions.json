@@ -1050,7 +1050,7 @@
     "type": "profession",
     "id": "low_vampire_hunter",
     "name": "Novice Vampire Hunter",
-    "description": "Long ago, you stumbled upon the undead bloodsuckers and of their machinations aiming to subjugate all humans to their will.  Ever since then, you wanted to do something against them, if only to impede their attempts.  You barely had time to buy your gear when far worse things showed up and brought the collapse of society, but you want to at least kill a single vampire before something else kills you.",
+    "description": "Long ago, you stumbled upon the undead bloodsuckers and their machinations aiming to subjugate all humans to their will.  Ever since then you wanted to do something against them, if only to impede their attempts.  You barely had time to buy your gear when far worse things showed up and brought the collapse of society, but you want to at least kill a single vampire before something else kills you.",
     "npc_background": "BG_survival_story_ECCENTRIC",
     "//": "Intended as a regular inexperienced and untrained person in modern times buying some legal gear to go fight vampires, basing their choice of gear on fictional vampires.",
     "points": 2,
