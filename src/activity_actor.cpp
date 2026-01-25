@@ -3338,18 +3338,18 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     // Get a bonus from your lockpick quality if the quality is higher than 3, or a penalty if it is lower. For a bobby pin this puts you at -2, for a locksmith kit, +2.
     const float tool_effect = ( it->get_quality( qual_LOCKPICK ) - 3 ) - ( it->damage() / 2000.0 );
 
-    // Without at least a basic lockpick proficiency, your skill level is effectively 6 levels lower.
-    int proficiency_effect = -3;
-    int duration_proficiency_factor = 10;
-    if( who.has_proficiency( proficiency_prof_lockpicking ) ) {
-        // If you have the basic lockpick prof, negate the above penalty
-        proficiency_effect = 0;
-        duration_proficiency_factor = 5;
+    // With both Proficiencies your skill is effectively 3 levels higher.
+    int proficiency_effect = 3;
+    int duration_proficiency_factor = 1;
+    if( !who.has_proficiency( proficiency_prof_lockpicking ) ) {
+        // Without any lockpick proficiency, your skill level is effectively 3 levels lower.
+        proficiency_effect -= 3;
+        duration_proficiency_factor *= proficiency_prof_lockpicking->default_time_multiplier();
     }
-    if( who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
-        // If you have the locksmith proficiency, your skill level is effectively 4 levels higher.
-        proficiency_effect = 3;
-        duration_proficiency_factor = 1;
+    if( !who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
+        // No bonus or penalty if you have only the basic proficiency.
+        proficiency_effect -= 3;
+        duration_proficiency_factor *= proficiency_prof_lockpicking_expert->default_time_multiplier();
     }
 
     // We get our average roll by adding the above factors together. For a person with no skill, average stats, no proficiencies, and an improvised lockpick, mean_roll will be 2.
