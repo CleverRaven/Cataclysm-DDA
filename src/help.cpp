@@ -90,7 +90,6 @@ void help_data::load( const JsonObject &jo, const std::string &src )
 
 bool help_window::is_space_for_two_cat()
 {
-    // Width needed to display two of the longest category name side by side
     static std::optional<float> two_column_min_width;
     if( !two_column_min_width ) {
         const std::map<const int, const help_category> &cats = data.get_help_categories();
@@ -119,11 +118,11 @@ help_window::help_window() : cataimgui::window( "help",
     ctxt.register_action( "MOUSE_MOVE" );
     // Generated shortcuts
     ctxt.register_action( "ANY_INPUT" );
-    // Scrolling open category
+    // Switching between category options and scrolling open category
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_updown();
-    // Switching between categories while open
+    // Switching between category options and open categories
     ctxt.register_leftright();
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
@@ -214,10 +213,10 @@ void help_window::draw_category_option( const int &option, const help_category &
 void help_window::draw_category()
 {
     const help_category &cat = data.get_help_category( loaded_option );
-    const std::string prev_cat_name = data.get_help_category( handle_option_looping(
-                                          loaded_option - 1 ) ).name.translated();
-    const std::string next_cat_name = data.get_help_category( handle_option_looping(
-                                          loaded_option + 1 ) ).name.translated();
+    const std::string prev_cat_name =
+        data.get_help_category( previous_option( loaded_option ) ).name.translated();
+    const std::string next_cat_name =
+        data.get_help_category( next_option( loaded_option ) ).name.translated();
     const bool scroll_title = ImGui::GetContentRegionAvail().y < 500.0f;
     const bool show_footer = is_space_for_two_cat();
 
@@ -254,7 +253,7 @@ void help_window::draw_category()
                     ImGui::PopFont();
                     break;
                 case MM_SEPARATOR: {
-                    //Can't verify here bc the debugmsg would cause an ImGui CTD
+                    // Can't verify here bc the debugmsg would cause an ImGui CTD
                     nc_color separator_color = color_from_string( translated_paragraph.first, report_color_error::no );
                     if( separator_color == c_unset ) {
                         separator_color = cat.color;
@@ -349,12 +348,12 @@ void help_window::show()
                 window_flags = window_flags & ~ImGuiWindowFlags_NoNavInputs;
             } else if( action == "LEFT" || action == "PREV_TAB" ) {
                 s = cataimgui::scroll::begin;
-                loaded_option = handle_option_looping( --loaded_option );
+                loaded_option = previous_option( loaded_option );
                 swap_translated_paragraphs();
                 data.mark_read( loaded_option );
             } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
                 s = cataimgui::scroll::begin;
-                loaded_option = handle_option_looping( ++loaded_option );
+                loaded_option = next_option( loaded_option );
                 swap_translated_paragraphs();
                 data.mark_read( loaded_option );
             }
@@ -375,18 +374,26 @@ void help_window::swap_translated_paragraphs()
     }
 }
 
-int help_window::handle_option_looping( int option )
+int help_window::previous_option( int option )
 {
-    if( option_end < 0 ) {
-        option_end = static_cast<int>( data.get_help_categories().size() );
+    const std::map<const int, const help_category> &cats = data.get_help_categories();
+    auto it = cats.find( option );
+    cata_assert( it != cats.end() );
+    if( --it == --cats.begin() ) {
+        it = --cats.end();
     }
-    if( option < 0 ) {
-        option += option_end;
+    return it->first;
+}
+
+int help_window::next_option( int option )
+{
+    const std::map<const int, const help_category> &cats = data.get_help_categories();
+    auto it = cats.find( option );
+    cata_assert( it != cats.end() );
+    if( ++it == cats.end() ) {
+        it = cats.begin();
     }
-    if( option >= option_end ) {
-        option -= option_end;
-    }
-    return option;
+    return it->first;
 }
 
 void help_window::format_title( std::optional<help_category> category )
@@ -507,7 +514,7 @@ void help_window::format_footer( const std::string &prev, const std::string &nex
     ImGui::PopStyleColor( 1 );
     ImGui::Text( prev.c_str() );
     if( ImGui::IsItemHovered() ) {
-        selected_option = handle_option_looping( loaded_option - 1 );
+        selected_option = previous_option( loaded_option );
     }
     ImGui::SameLine( 0.f, 0.f );
     ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
@@ -520,7 +527,7 @@ void help_window::format_footer( const std::string &prev, const std::string &nex
     ImGui::SameLine( 0.f, 0.f );
     ImGui::Text( next.c_str() );
     if( ImGui::IsItemHovered() ) {
-        selected_option = handle_option_looping( loaded_option + 1 );
+        selected_option = next_option( loaded_option );
     }
     ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
     ImGui::SameLine( 0.f, 0.f );

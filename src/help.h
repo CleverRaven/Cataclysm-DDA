@@ -77,11 +77,13 @@ class help_window : public cataimgui::window
 
         const bool screen_reader = get_option<bool>( "SCREEN_READER_MODE" );
 
+        // Width needed to display two of the longest category name side by side
         bool is_space_for_two_cat();
         void draw_category_selection();
         void draw_category_option( const int &option, const help_category &category );
-        int option_end = -1;
-        int handle_option_looping( int option );
+        // Options aren't necessarily sequential and loop
+        int previous_option( int option );
+        int next_option( int option );
         int selected_option;
         bool has_selected_category = false;
         int loaded_option;
