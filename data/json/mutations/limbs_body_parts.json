@@ -1,27 +1,58 @@
 [
   {
-    "id": "long_tail",
+    "id": "tail_long",
     "type": "body_part",
     "name": "long tail",
     "accusative": { "ctxt": "bodypart_accusative", "str": "long tail" },
-    "heading": "tail, long",
+    "heading": "tail",
     "heading_multiple": "tails, long",
     "encumbrance_text": "Balance is hampered.",
     "encumbrance_limit": 25,
     "hp_bar_ui_text": "L TAIL",
     "limb_type": "tail",
     "main_part": "torso",
-    "hit_size": 8,
+    "opposite_part": "tail_long",
+    "side": "both",
+    "hit_size": 6,
     "hit_difficulty": 0.4,
-    "limb_scores": [ [ "balance", 1.05 ], [ "reaction", 1.1 ] ],
-    "base_hp": 40,
+    "limb_scores": [ [ "balance", 0.05 ], [ "reaction", 0.1 ] ],
+    "base_hp": 42,
     "health_limit": 15,
     "drench_capacity": 700,
     "bionic_slots": 0,
     "is_limb": true,
-    "flags": [ "LIMB_UPPER" ],
+    "sub_parts": [ "tail_long_base", "tail_long_center", "tail_long_tip" ],
     "smash_message": "You thwap %s with your tail.",
-    "smash_efficiency": 0.25,
-    "conditional_flags": [  ]
+    "smash_efficiency": 0.25
+  },
+  {
+    "id": "tail_long_base",
+    "type": "sub_body_part",
+    "name": "long tail base",
+    "name_multiple": "tail bases",
+    "max_coverage": 10,
+    "parent": "tail_long",
+    "side": 0,
+    "opposite": "tail_long_tip"
+  },
+  {
+    "id": "tail_long_center",
+    "type": "sub_body_part",
+    "name": "long tail center",
+    "name_multiple": "long tail centers",
+    "max_coverage": 60,
+    "parent": "tail_long",
+    "side": 0,
+    "opposite": "tail_long_center"
+  },
+  {
+    "id": "tail_long_tip",
+    "type": "sub_body_part",
+    "name": "long tail tip",
+    "name_multiple": "long tail tips",
+    "max_coverage": 30,
+    "parent": "tail_long",
+    "side": 0,
+    "opposite": "tail_long_base"
   }
 ]
