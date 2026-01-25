@@ -3115,7 +3115,7 @@ void monster::die( map *here, Creature *nkiller )
 
     item_location corpse;
 
-    // If this monster dies underwater and is aquatic (fish),
+    // If this monster dies underwater in swim-under terrain and is aquatic (fish),
     // do not create a corpse on the tile (prevent corpse drop).
     bool suppress_corpse = false;
     if( here != nullptr ) {
