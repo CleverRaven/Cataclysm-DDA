@@ -146,6 +146,7 @@ static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
+static const std::string flag_FLAT_TIRE( "FLAT_TIRE" );
 static const std::string flag_WIRING( "WIRING" );
 
 //~ Name for an array of electronic power grid appliances, like batteries and solar panels
@@ -4429,7 +4430,7 @@ int vehicle::wheel_area() const
 {
     int total_area = 0;
     for( const int wheel_index : wheelcache ) {
-        total_area += parts[wheel_index].info().wheel_info->contact_area;
+        total_area += parts[wheel_index].contact_area();
     }
 
     return total_area;
@@ -4641,7 +4642,7 @@ double vehicle::coeff_rolling_drag( map &here ) const
     } else {
         // should really sum each wheel's c_rolling_resistance * its share of vehicle mass
         for( int wheel : wheelcache ) {
-            wheel_factor += parts[wheel].info().wheel_info->rolling_resistance;
+            wheel_factor += parts[wheel].rolling_resistance();
         }
         // mildly increasing rolling resistance for vehicles with more than 4 wheels and mildly
         // decrease it for vehicles with less
@@ -7029,10 +7030,10 @@ void vehicle::refresh_pivot( map &here ) const
         const vehicle_part &wheel = parts[p];
 
         // TODO: load on tire?
-        const int contact_area = wheel.info().wheel_info->contact_area;
+        const int contact_area = wheel.contact_area();
         float weight_i;  // weighting for the in-line part
         float weight_p;  // weighting for the perpendicular part
-        if( wheel.is_broken() ) {
+        if( wheel.is_broken() || wheel.has_fault_flag( flag_FLAT_TIRE ) ) {
             // broken wheels don't roll on either axis
             weight_i = contact_area * 2.0;
             weight_p = contact_area * 2.0;
@@ -8040,6 +8041,9 @@ bool vehicle::is_foldable() const
         return false;
     }
     for( const vehicle_part &vp : real_parts() ) {
+        if( vp.get_base().has_var( "tied_down_furniture" ) ) {
+            return false;
+        }
         if( !vp.info().folded_volume ) {
             return false;
         }

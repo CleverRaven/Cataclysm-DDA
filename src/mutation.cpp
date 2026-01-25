@@ -9,6 +9,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "activity_actor_definitions.h"
 #include "avatar_action.h"
 #include "bionics.h"
 #include "cata_utility.h"
@@ -40,7 +41,6 @@
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pimpl.h"
-#include "player_activity.h"
 #include "relic.h"
 #include "rng.h"
 #include "subbodypart.h"
@@ -50,9 +50,6 @@
 #include "uilist.h"
 #include "uistate.h"
 #include "weighted_list.h"
-
-static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
-static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
 static const efftype_id effect_mutation_internal_damage( "mutation_internal_damage" );
 
@@ -903,7 +900,7 @@ void Character::activate_cached_mutation( const trait_id &mut )
                mut == trait_GASTROPOD_EXTREMITY2 ||
                mut == trait_GASTROPOD_EXTREMITY3 ) {
         tdata.powered = false;
-        assign_activity( ACT_PULL_CREATURE, to_moves<int>( 1_seconds ), 0, 0, mutation_name( mut ) );
+        assign_activity( pull_creature_activity_actor( 1_seconds, mut ) );
         return;
     } else if( mut == trait_SNAIL_TRAIL ) {
         here.add_field( pos_bub(), fd_sludge, 1 );
@@ -977,24 +974,19 @@ void Character::activate_cached_mutation( const trait_id &mut )
                 _( "You lay next to the trees letting your hair roots tangle with the trees." ) );
         }
 
-        assign_activity( ACT_TREE_COMMUNION );
-
+        time_duration startup_time;
         if( has_flag( json_flag_TREE_COMMUNION_PLUS ) ) {
-            const time_duration startup_time = rng( 10_minutes, 20_minutes );
-            activity.values.push_back( to_turns<int>( startup_time ) );
-            return;
+            startup_time = rng( 10_minutes, 20_minutes );
         } else if( has_flag( json_flag_ROOTS2 ) || has_flag( json_flag_ROOTS3 ) ||
                    has_flag( json_flag_CHLOROMORPH ) ) {
-            const time_duration startup_time = ( has_flag( json_flag_ROOTS3 ) ||
-                                                 has_flag( json_flag_CHLOROMORPH ) ) ? rng( 15_minutes,
-                                                         30_minutes ) : rng( 60_minutes, 90_minutes );
-            activity.values.push_back( to_turns<int>( startup_time ) );
-            return;
+            startup_time = ( has_flag( json_flag_ROOTS3 ) ||
+                             has_flag( json_flag_CHLOROMORPH ) ) ? rng( 15_minutes,
+                                     30_minutes ) : rng( 60_minutes, 90_minutes );
         } else {
-            const time_duration startup_time = rng( 120_minutes, 180_minutes );
-            activity.values.push_back( to_turns<int>( startup_time ) );
-            return;
+            startup_time = rng( 120_minutes, 180_minutes );
         }
+        assign_activity( tree_communion_activity_actor( to_turns<int>( startup_time ) ) );
+        return;
     } else if( !mdata.spawn_item.is_empty() ) {
         item tmpitem( mdata.spawn_item );
         i_add_or_drop( tmpitem );

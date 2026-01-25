@@ -29,6 +29,7 @@
 #include "math_parser_diag_value.h"
 #include "pimpl.h"
 #include "string_formatter.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "viewer.h"
@@ -51,7 +52,6 @@ class monster;
 class nc_color;
 class npc;
 class talker;
-class translation;
 
 namespace enchant_vals
 {
@@ -1025,7 +1025,7 @@ class Creature : public viewer
         }
         template<typename ...Args>
         void add_msg_if_player( const translation &msg, Args &&... args ) const {
-            return add_msg_if_player( string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_player( string_format( msg.translated(), std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_if_player( const game_message_params &params, const char *const msg,
@@ -1049,7 +1049,8 @@ class Creature : public viewer
             if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_if_player( params, string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_player( params, string_format( msg.translated(),
+                                      std::forward<Args>( args )... ) );
         }
 
         virtual void add_msg_if_npc( const std::string &/*msg*/ ) const {}
@@ -1067,7 +1068,7 @@ class Creature : public viewer
         }
         template<typename ...Args>
         void add_msg_if_npc( const translation &msg, Args &&... args ) const {
-            return add_msg_if_npc( string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_npc( string_format( msg.translated(), std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_if_npc( const game_message_params &params, const char *const msg,
@@ -1091,7 +1092,7 @@ class Creature : public viewer
             if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_if_npc( params, string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_npc( params, string_format( msg.translated(), std::forward<Args>( args )... ) );
         }
 
         virtual void add_msg_player_or_npc( const std::string &/*player_msg*/,
@@ -1119,8 +1120,9 @@ class Creature : public viewer
         template<typename ...Args>
         void add_msg_player_or_npc( const translation &player_msg, const translation &npc_msg,
                                     Args &&... args ) const {
-            return add_msg_player_or_npc( string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_msg, std::forward<Args>( args )... ) );
+            return add_msg_player_or_npc( string_format( player_msg.translated(),
+                                          std::forward<Args>( args )... ),
+                                          string_format( npc_msg.translated(), std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_npc( const game_message_params &params, const char *const player_msg,
@@ -1146,8 +1148,9 @@ class Creature : public viewer
             if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_player_or_npc( params, string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_msg, std::forward<Args>( args )... ) );
+            return add_msg_player_or_npc( params, string_format( player_msg.translated(),
+                                          std::forward<Args>( args )... ),
+                                          string_format( npc_msg.translated(), std::forward<Args>( args )... ) );
         }
 
         virtual void add_msg_player_or_say( const std::string &/*player_msg*/,
@@ -1175,8 +1178,9 @@ class Creature : public viewer
         template<typename ...Args>
         void add_msg_player_or_say( const translation &player_msg, const translation &npc_speech,
                                     Args &&... args ) const {
-            return add_msg_player_or_say( string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_speech, std::forward<Args>( args )... ) );
+            return add_msg_player_or_say( string_format( player_msg.translated(),
+                                          std::forward<Args>( args )... ),
+                                          string_format( npc_speech.translated(), std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_say( const game_message_params &params, const char *const player_msg,
@@ -1202,8 +1206,9 @@ class Creature : public viewer
             if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_player_or_say( params, string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_speech, std::forward<Args>( args )... ) );
+            return add_msg_player_or_say( params, string_format( player_msg.translated(),
+                                          std::forward<Args>( args )... ),
+                                          string_format( npc_speech.translated(), std::forward<Args>( args )... ) );
         }
 
         virtual std::vector<std::string> extended_description() const = 0;

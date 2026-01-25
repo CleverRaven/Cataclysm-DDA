@@ -44,5 +44,13 @@
     "verb": "fiddling with your clothes",
     "based_on": "time",
     "can_resume": false
+  },
+  {
+    "id": "ACT_TRAIN_TEACHER",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "teaching",
+    "based_on": "speed",
+    "can_resume": false
   }
 ]

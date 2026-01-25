@@ -358,5 +358,302 @@
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
+  },
+  {
+    "type": "technique",
+    "id": "TOE_TALONS_KICK",
+    "name": "Toe Talons Kick",
+    "melee_allowed": true,
+    "messages": [ "You kick %s with your taloned feet", "<npcname> kicks %s with their taloned feet" ],
+    "unarmed_allowed": true,
+    "weighting": -3,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "tech_effects": [
+      {
+        "id": "bleed",
+        "chance": 35,
+        "duration": 60,
+        "on_damage": true,
+        "message": "Your kick opens up bleeding gashes on %s!"
+      }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TOE_TALONS_KICK_NATURAL",
+    "name": "Toe Talons Kick",
+    "melee_allowed": true,
+    "messages": [ "You kick %s with your taloned feet", "<npcname> kicks %s with their taloned feet" ],
+    "unarmed_allowed": true,
+    "weighting": -1,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "natural_stance" },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "tech_effects": [
+      {
+        "id": "bleed",
+        "chance": 35,
+        "duration": 60,
+        "on_damage": true,
+        "message": "Your kick opens up bleeding gashes on %s!"
+      }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TOE_TALONS_KICK_CRIT",
+    "name": "Critical Toe Talon Kick",
+    "melee_allowed": true,
+    "messages": [
+      "You deliver a wicked kick to %s with your taloned feet",
+      "<npcname> delivers a wicked kick to %s with your taloned feet"
+    ],
+    "unarmed_allowed": true,
+    "reach_ok": false,
+    "crit_tec": true,
+    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "tech_effects": [
+      {
+        "id": "bleed",
+        "chance": 70,
+        "duration": 60,
+        "on_damage": true,
+        "message": "Your kick opens up bleeding gashes on %s!"
+      }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.24 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "CURLED_HORNS_BASH",
+    "name": "Curled Horns Bash",
+    "melee_allowed": true,
+    "messages": [ "You ram %s with your curled horns", "<npcname> rams %s with their curled horns" ],
+    "unarmed_allowed": true,
+    "weighting": -4,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_headbutt" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.33 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "CURLED_HORNS_BASH_NATURAL",
+    "name": "Curled Horns Bash",
+    "melee_allowed": true,
+    "messages": [ "You ram %s with your curled horns", "<npcname> rams %s with their curled horns" ],
+    "unarmed_allowed": true,
+    "weighting": 0,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_headbutt" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "natural_stance" },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.33 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "CURLED_HORNS_BASH_CRIT",
+    "name": "Curled Horns Bash Crit",
+    "melee_allowed": true,
+    "messages": [ "You slam into %s with your curled horns", "<npcname> slams into %s with their curled horns" ],
+    "unarmed_allowed": true,
+    "reach_ok": false,
+    "crit_tec": true,
+    "attack_vectors": [ "vector_headbutt" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "POINTED_HORNS_STAB",
+    "name": "Pointed Horns Stab",
+    "melee_allowed": true,
+    "messages": [ "You stab %s with your horns", "<npcname> stabs %s with their horns" ],
+    "unarmed_allowed": true,
+    "weighting": -4,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_headbutt" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 0.33 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "POINTED_HORNS_STAB_NATURAL",
+    "name": "Pointed Horns Stab",
+    "melee_allowed": true,
+    "messages": [ "You stab %s with your horns", "<npcname> stabs %s with their horns" ],
+    "unarmed_allowed": true,
+    "weighting": 0,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_headbutt" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "natural_stance" },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 0.33 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "POINTED_HORNS_STAB_CRIT",
+    "name": "Pointed Horns Stab Crit",
+    "melee_allowed": true,
+    "messages": [ "You viciously stab %s with your horns", "<npcname> viciously stabs %s with their horns" ],
+    "unarmed_allowed": true,
+    "reach_ok": false,
+    "crit_tec": true,
+    "attack_vectors": [ "vector_headbutt" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "//": "Scaling on these three is lower than normal because it's explicitly a weak attack",
+    "type": "technique",
+    "id": "ANTLERS_BASH",
+    "name": "Antlers Bash",
+    "melee_allowed": true,
+    "messages": [ "You ram %s with your antlers", "<npcname> rams %s with their antlers" ],
+    "unarmed_allowed": true,
+    "weighting": -4,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_headbutt" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.25 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.5 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.33 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "ANTLERS_BASH_NATURAL",
+    "name": "Antlers Bash",
+    "melee_allowed": true,
+    "messages": [ "You ram %s with your antlers", "<npcname> rams %s with their antlers" ],
+    "unarmed_allowed": true,
+    "weighting": 0,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_headbutt" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "natural_stance" },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.25 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.5 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.33 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "ANTLERS_BASH_CRIT",
+    "name": "Antlers Bash Crit",
+    "melee_allowed": true,
+    "messages": [ "You slam into %s with your antlers", "<npcname> slams into %s with their antlers" ],
+    "unarmed_allowed": true,
+    "reach_ok": false,
+    "crit_tec": true,
+    "attack_vectors": [ "vector_headbutt" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 2.2 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
   }
 ]

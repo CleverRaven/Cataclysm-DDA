@@ -180,6 +180,7 @@ Andover
 Andre
 Andrea
 Andrew
+Anduril
 Andy
 anemoi
 ANFO
@@ -873,6 +874,7 @@ bufo
 bufos
 bugfixes
 bugout
+Buildable
 Bukharin
 bulette
 bulettes
@@ -2337,6 +2339,8 @@ godesses
 Godfrey
 Godot
 Godwin
+goedendag
+goedendags
 Goethe
 Goldberg
 Goldstein
@@ -2363,6 +2367,7 @@ gozu
 gozus
 GPMG
 GPNVG
+GPS
 GR
 gr
 graboid
@@ -3463,6 +3468,8 @@ limnological
 Lincoln
 Linda
 Lindbergh
+linelander
+linelanders
 linework
 linux
 Lisa
@@ -4144,6 +4151,7 @@ mutagenically
 mutagenicity
 mutus
 muzzleloaders
+MVAS
 mW
 Mx
 Myanma
@@ -5617,6 +5625,8 @@ shootable
 shopkeep
 shorthair
 shortnose
+shortspear
+shortspears
 shoryuken
 shotcestus
 shotcestuses
@@ -6556,6 +6566,7 @@ uncategorized
 uncontacted
 uncontrol
 uncorded
+uncrafted
 undeath
 underbarrel
 underbrushes
@@ -7205,4 +7216,5 @@ zweihänders
 zweitimber
 zweitimbers
 zygomaticus
+zzip
 zzz

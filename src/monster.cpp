@@ -41,10 +41,12 @@
 #include "harvest.h"
 #include "imgui/imgui.h"
 #include "item.h"
+#include "item_factory.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "iuse.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
@@ -98,6 +100,7 @@ static const damage_type_id damage_electric( "electric" );
 static const damage_type_id damage_heat( "heat" );
 static const damage_type_id damage_stab( "stab" );
 
+static const efftype_id effect_absorbed_electric( "absorbed_electric" );
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bleed( "bleed" );
@@ -902,6 +905,22 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         }
     }
     wattroff( w, c_light_gray );
+
+    // Print "taming" food information
+    if( !type->petfood.food.empty() ) {
+        vStart += fold_and_print( w, point( column, vStart ), max_width, c_light_blue,
+                                  _( "Seems to be familiar with people and could be tamed with:" ) );
+
+        for( std::string food_category : type->petfood.food ) {
+            std::vector<const itype *> food_items = Item_factory::find( [&]( const itype & t ) {
+                return t.use_methods.count( "PETFOOD" ) && t.comestible &&
+                       t.comestible->petfood.count( food_category );
+            } );
+            for( const itype *food_item_type : food_items ) {
+                mvwprintz( w, point( column, ++vStart ), c_white, food_item_type->nname( 1 ) );
+            }
+        }
+    }
 
     // Riding indicator on next line after description.
     if( has_effect( effect_ridden ) && mounted_player ) {
@@ -2589,7 +2608,7 @@ bool monster::move_effects( bool )
             int monster = type->melee_skill + type->melee_damage.total_damage();
             int grab_str = get_effect_int( grab.get_id() );
             add_msg_debug( debugmode::DF_MONSTER, "%s attempting to break grab %s, success %d in intensity %d",
-                           get_name(), grab.get_id().c_str(), monster, grabber );
+                           get_name(), grab.get_id().c_str(), monster, grab_str );
             if( !x_in_y( monster, grab_str ) ) {
                 return false;
             } else {
@@ -3095,19 +3114,32 @@ void monster::die( map *here, Creature *nkiller )
     }
 
     item_location corpse;
+
+    // If this monster dies underwater under thick ice and is aquatic (fish),
+    // do not create a corpse on the ice tile (prevent corpse drop).
+    bool suppress_corpse = false;
+    if( here != nullptr ) {
+        const tripoint_bub_ms death_pos = pos_bub( *here );
+        if( here->has_flag( ter_furn_flag::TFLAG_THICK_ICE, death_pos ) && is_underwater() &&
+            ( swims() || has_flag( mon_flag_AQUATIC ) ) ) {
+            suppress_corpse = true;
+        }
+    }
     // drop a corpse, or not - this needs to happen after the spell, for e.g. revivification effects
-    switch( type->mdeath_effect.corpse_type ) {
-        case mdeath_type::NORMAL:
-            corpse =  mdeath::normal( here, *this );
-            break;
-        case mdeath_type::BROKEN:
-            mdeath::broken( here, *this );
-            break;
-        case mdeath_type::SPLATTER:
-            corpse = mdeath::splatter( here, *this );
-            break;
-        default:
-            break;
+    if( !suppress_corpse ) {
+        switch( type->mdeath_effect.corpse_type ) {
+            case mdeath_type::NORMAL:
+                corpse =  mdeath::normal( here, *this );
+                break;
+            case mdeath_type::BROKEN:
+                mdeath::broken( here, *this );
+                break;
+            case mdeath_type::SPLATTER:
+                corpse = mdeath::splatter( here, *this );
+                break;
+            default:
+                break;
+        }
     }
 
     if( death_drops ) {
@@ -3656,7 +3688,8 @@ bool monster::is_hallucination() const
 
 bool monster::is_electrical() const
 {
-    return in_species( species_ROBOT ) || has_flag( mon_flag_ELECTRIC ) || in_species( species_CYBORG );
+    return in_species( species_ROBOT ) || has_flag( mon_flag_ELECTRIC ) ||
+           in_species( species_CYBORG ) || has_effect( effect_absorbed_electric );
 }
 
 bool monster::is_fae() const

@@ -10,7 +10,6 @@
 #include "type_id.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
-static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BURROW( "ACT_BURROW" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
@@ -18,7 +17,6 @@ static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
-static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
@@ -26,7 +24,6 @@ static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
-static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 
 namespace std
 {
@@ -208,7 +205,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id::NULL_ID(), // ACT_BUILD is an actor now
         activity_id::NULL_ID(), // ACT_VEHICLE is an actor now
         activity_id::NULL_ID(), // ACT_REFILL_VEHICLE is deprecated
-        ACT_TRAIN,
+        activity_id::NULL_ID(), // ACT_TRAIN is an actor now
         activity_id::NULL_ID(), // ACT_WAIT_WEATHER is an actor now
         activity_id::NULL_ID(), // ACT_FIRSTAID is an actor now
         activity_id::NULL_ID(), // ACT_FISH is an actor now
@@ -228,12 +225,12 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         ACT_FILL_LIQUID,
         ACT_HOTWIRE_CAR,
         ACT_AIM,
-        ACT_ATM,
+        activity_id::NULL_ID(), // ACT_ATM is an actor now
         activity_id::NULL_ID(), // ACT_START_ENGINES is an actor now
         activity_id::NULL_ID(), // ACT_OXYTORCH is an actor now
         ACT_CRACKING,
         ACT_REPAIR_ITEM,
-        ACT_MEND_ITEM,
+        activity_id::NULL_ID(), // ACT_MEND_ITEM is an actor now
         activity_id::NULL_ID(), // ACT_GUNMOD_ADD
         activity_id::NULL_ID(), // ACT_WAIT_NPC is an actor now
         activity_id::NULL_ID(), // ACT_CLEAR_RUBBLE

@@ -217,6 +217,7 @@
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "hotplate", "prob": 10 },
       { "item": "thermometer", "prob": 10 },
+      { "item": "pressure_cooker", "prob": 10 },
       { "item": "funnel", "prob": 50 },
       { "item": "jar_glass_sealed", "prob": 20 },
       { "item": "jar_3l_glass_sealed", "prob": 15 },
@@ -688,7 +689,7 @@
       { "item": "sponge", "prob": 30 },
       { "item": "pot_copper", "prob": 15 },
       { "item": "pot_canning", "prob": 15 },
-      { "item": "pressure_cooker", "prob": 5 },
+      { "item": "pressure_cooker", "prob": 10 },
       { "item": "dutch_oven", "prob": 5 },
       { "item": "thermometer", "prob": 5 },
       { "item": "pan", "prob": 25 },
@@ -759,7 +760,7 @@
       { "prob": 30, "group": "spam_in_can" },
       { "prob": 30, "group": "pineapple_in_can" },
       { "item": "can_peach", "prob": 30 },
-      { "item": "can_coconut", "prob": 10 },
+      { "group": "coconut_milk_in_can", "prob": 10 },
       { "group": "sardine_in_can", "prob": 14 },
       { "group": "tuna_in_can", "prob": 35 },
       { "group": "clams_in_can", "prob": 25 },
@@ -1722,6 +1723,12 @@
     "id": "pineapple_in_can",
     "subtype": "distribution",
     "entries": [ { "item": "can_pineapple", "entry-wrapper": "can_medium", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "coconut_milk_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "can_coconut", "entry-wrapper": "can_medium" } ]
   },
   {
     "type": "item_group",

@@ -144,6 +144,11 @@ std::string vehicle_part::name( bool with_prefix ) const
     if( is_leaking() ) {
         res += _( " (draining)" );
     }
+
+    for( const fault_id &f : faults() ) {
+        res += string_format( " (%s)", f->item_suffix() );
+    }
+
     if( debug_mode ) {
         res += "{" + variant + "}";
     }
@@ -676,6 +681,11 @@ bool vehicle_part::is_seat() const
     return info().has_flag( "SEAT" );
 }
 
+bool vehicle_part::is_wheel() const
+{
+    return info().wheel_info.has_value();
+}
+
 const vpart_info &vehicle_part::info() const
 {
     return *info_;
@@ -778,4 +788,38 @@ std::string vehicle_part::carried_name() const
     return carried_stack.empty()
            ? std::string()
            : carried_stack.top().veh_name;
+}
+
+int vehicle_part::contact_area() const
+{
+    int contact_area = 1;
+
+    const std::optional<vpslot_wheel> &wi = info_->wheel_info;
+
+    if( wi.has_value() ) {
+        contact_area = wi.value().contact_area;
+    }
+
+    for( const fault_id &ft : faults() ) {
+        contact_area *= ft.obj().contact_area_mod();
+    }
+
+    return std::max( 1, contact_area );
+}
+
+float vehicle_part::rolling_resistance() const
+{
+    float rolling_resistance = 1.f;
+
+    const std::optional<vpslot_wheel> &wi = info_->wheel_info;
+
+    if( wi.has_value() ) {
+        rolling_resistance = wi.value().rolling_resistance;
+    }
+
+    for( const fault_id &ft : faults() ) {
+        rolling_resistance *= ft.obj().rolling_resistance_mod();
+    }
+
+    return rolling_resistance;
 }

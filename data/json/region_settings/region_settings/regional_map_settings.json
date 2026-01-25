@@ -39,7 +39,7 @@
       "deep_rock"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
-    "feature_flag_settings": { "blacklist": [ "HIGHLANDS" ], "whitelist": [  ] },
+    "feature_flag_settings": { "blacklist": [ "EXTRADIMENSIONAL" ], "whitelist": [  ] },
     "connections": {
       "intra_city_road_connection": "local_road",
       "inter_city_road_connection": "local_road",
@@ -687,6 +687,7 @@
       [ "office_doctor_2", 200 ],
       [ "office_dentist", 200 ],
       [ "office_tower_collapsed", 250 ],
+      [ "office_warehouse_anduril", 250 ],
       [ "s_restaurant_fast", 400 ],
       [ "s_restaurant_fast_1", 400 ],
       [ "s_restaurant_fast_2", 400 ],

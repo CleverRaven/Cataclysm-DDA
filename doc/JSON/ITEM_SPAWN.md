@@ -115,7 +115,8 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 "artifact": <object>
 "event": <string>
 "snippets": <string>
-"faults": <object>
+"faults": <array>
+"variables": <global_variables:impl_t> (either string and string, or string and double)
 ```
 
 `contents` is added as contents of the created item.  It is not checked if they can be put into the item.  This allows water, that contains a book, that contains a steel frame, that contains a corpse.
@@ -152,7 +153,13 @@ Current possible values are:
   `chance`: chance to apply any of the faults. Default is 100, always apply
 For example:
 ```json
-  { "group": "nested_ar10", "prob": 89, "faults": { "id": [ "fault_stovepipe" ], "chance": 50 } },
+  { "group": "nested_ar10", "prob": 89, "faults": [ { "id": [ "fault_stovepipe" ], "chance": 50 } ] },
+```
+
+`variables`: Variables can be loaded into item at itemgroup level, if necessary:
+For example:
+```json
+  { "group": "used_usb_drives", "prob": 60, "variables": [ { "browsed": "true" } ] },
 ```
 
 `artifact`: This object determines that the item or group that is spawned by this entry will become an artifact. Here is an example:

@@ -5,7 +5,7 @@
     "condition": { "math": [ "u_available_exp_sorcerer > u_exp_to_sorcerer_level" ] },
     "effect": [
       { "math": [ "u_used_exp_sorcerer += u_exp_to_sorcerer_level" ] },
-      { "math": [ "u_available_exp_sorcerer = u_val('exp') - u_used_exp_sorcerer" ] },
+      { "math": [ "u_available_exp_sorcerer = u_val('exp') + u_bonus_exp - u_used_exp_sorcerer" ] },
       { "math": [ "u_exp_to_sorcerer_level += u_exp_per_sorcerer_level" ] },
       { "run_eocs": "EOC_level_up_sorcerer" }
     ]
@@ -17,7 +17,7 @@
     "required_event": "character_kills_monster",
     "condition": { "u_has_trait": "SORCERER" },
     "effect": [
-      { "math": [ "u_available_exp_sorcerer = u_val('exp') - u_used_exp_sorcerer" ] },
+      { "math": [ "u_available_exp_sorcerer = u_val('exp') + u_bonus_exp - u_used_exp_sorcerer" ] },
       { "run_eocs": "EOC_check_level_up_sorcerer" }
     ]
   },

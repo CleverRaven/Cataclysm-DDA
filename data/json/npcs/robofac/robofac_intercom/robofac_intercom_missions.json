@@ -13,7 +13,8 @@
       "MISSION_ROBOFAC_INTERCOM_MWS_2_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_MWS_3_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_MWS_4_ACCEPTED",
-      "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_ACCEPTED"
+      "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_ACCEPTED",
+      "MISSION_ROBOFAC_INTERCOM_IVAS_ACCEPTED"
     ],
     "type": "talk_topic",
     "dynamic_line": "What would you like to discuss?",
@@ -106,6 +107,19 @@
           { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE", "success": true }
         ],
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_COMPLETE"
+      },
+      {
+        "text": "I've returned with the military headset.  [Hand over the MVAS headset.]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_IVAS" }, { "u_has_item": "military_vis_aug_system" } ] },
+        "effect": [
+          { "u_consume_item": "military_vis_aug_system", "count": 1, "popup": true },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_IVAS", "success": true },
+          { "u_add_faction_trust": 1 },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now')" ] },
+          { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
+          { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "ivas" }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_IVAS_COMPLETE"
       },
       {
         "text": "[Contract: Return to sender]",
@@ -221,6 +235,25 @@
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_OFFER"
+      },
+      {
+        "text": "[Contract: Augmented Reality]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_IVAS" } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_ivas" } ] }
+            },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ] },
+            {
+              "or": [
+                { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] },
+                { "math": [ "u_portal_storm_recordings_sold > 2" ] }
+              ]
+            }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_IVAS_OFFER"
       },
       {
         "text": "[Contract: Data Retrieval]",
@@ -929,6 +962,12 @@
     "difficulty": 5,
     "value": 0,
     "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "robofachq_surface_entrance",
+          "place_nested": [ { "chunks": [ "robofac_hq_surface_merc_2" ], "x": 1, "y": 9 } ]
+        }
+      ],
       "effect": [
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_portal_sm_1", "value": "yes" },
         { "math": [ "u_hub01_completed_missions++" ] }
@@ -1260,6 +1299,36 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_COMPLETE",
     "type": "talk_topic",
     "dynamic_line": "The intercom's tray slides open and you deposit the report.  There is a brief silence, and then it opens with your payment.  \"You have our thanks and your payment.  It will take us some time for Research to digest this and the other field data, but perhaps we will have more related contracts for you later.",
+    "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
+    "id": [ "MISSION_ROBOFAC_INTERCOM_IVAS_OFFER", "MISSION_ROBOFAC_INTERCOM_IVAS_ADVICE_ANDURIL" ],
+    "type": "talk_topic",
+    "dynamic_line": "It has become clear that you and other agents required improved equipment for data collection and reconnaissance.  One of our surveillance teams has identified an Anduril Industries testing facility that we believe houses, or at least, housed, a prototype Military Visual Augmentation System.  It will resemble a consumer virtual reality headset, but has valuable hardware and software that we can use to develop useful tech for you and other mercenaries.  We want you to retrieve it and return it to us.\"\n\n\"We offer the standard hazard pay of 4 HGC for this contract, and we will grant you the honor of prototyping the first device, after we have studied it.",
+    "responses": [
+      {
+        "text": "I'll find it.  Where's this building?",
+        "effect": [ { "assign_mission": "MISSION_ROBOFAC_INTERCOM_IVAS" }, { "u_spawn_item": "id_anduril_ar", "count": 1 } ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_IVAS_ACCEPTED"
+      },
+      { "text": "What is Anduril Industries?", "topic": "MISSION_ROBOFAC_INTERCOM_IVAS_ADVICE_ANDURIL" },
+      { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_IVAS_ADVICE_ANDURIL",
+    "type": "talk_topic",
+    "dynamic_line": "The are, or were, a defense contractor.  They are headquartered elsewhere, but maintained software engineering offices here, and we believe this one was testing the MVAS system."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_IVAS_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "Use this ID card to access the facility.\"  The slot opens, revealing a small ID badge.  \"Report back with the system.  Naturally, you may keep anything else you find."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_IVAS_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": "The intercom's tray slides open and you deposit the headset.  There is a brief silence, and then it opens with your payment.  \"You have our thanks and your payment.  Return in approximately five days and R&D may have a prototype visual augmentation system ready for testing.",
     "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   },
   {
@@ -1658,6 +1727,44 @@
     "start": {
       "assign_mission_target": { "om_terrain": "corpse_surface", "om_special": "nether_monster_corpse", "reveal_radius": 2, "random": false },
       "update_mapgen": { "place_nested": [ { "chunks": [ "robofac_monster_corpse_field_team" ], "x": 0, "y": 0 } ] }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_IVAS",
+    "type": "mission_definition",
+    "name": { "str": "Augmented Reality" },
+    "description": "The intercom has asked me to retrieve something called a <color_yellow>Military Visual Augmentation System</color>, which looks like a VR headset.  They're sending me to an in-town office to fetch it.  Use the <color_yellow>ID card</color> to gain access.",
+    "goal": "MGOAL_NULL",
+    "destination": "corpse_surface",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "office_warehouse_anduril",
+        "om_special": "office_warehouse_anduril",
+        "reveal_radius": 2,
+        "random": false
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "RobofacCoin", "count": 4 },
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_ivas", "value": "yes" },
+        { "math": [ "u_hub01_completed_missions++" ] }
+      ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,

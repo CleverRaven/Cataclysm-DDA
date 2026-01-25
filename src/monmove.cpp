@@ -58,6 +58,8 @@
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
 
+static const efftype_id effect_absorbed_acidic( "absorbed_acidic" );
+static const efftype_id effect_absorbed_electric( "absorbed_electric" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_countdown( "countdown" );
 static const efftype_id effect_cramped_space( "cramped_space" );
@@ -122,13 +124,13 @@ bool monster::is_immune_field( const field_type_id &fid ) const
         return has_flag( mon_flag_NO_BREATHE );
     }
     if( ft.has_acid ) {
-        return has_flag( mon_flag_ACIDPROOF ) || flies();
+        return has_flag( mon_flag_ACIDPROOF ) || flies() || has_effect( effect_absorbed_acidic );
     }
     if( ft.has_fire ) {
         return has_flag( mon_flag_FIREPROOF );
     }
     if( ft.has_elec ) {
-        return has_flag( mon_flag_ELECTRIC );
+        return has_flag( mon_flag_ELECTRIC ) || has_effect( effect_absorbed_electric );
     }
     if( ft.immune_mtypes.count( type->id ) > 0 ) {
         return true;
@@ -177,9 +179,33 @@ bool monster::will_move_to( map *here, const tripoint_bub_ms &p ) const
         !here->has_flag( ter_furn_flag::TFLAG_BURROWABLE, p ) ) {
         return false;
     }
+    // one dimensional creatures can ONLY move in their home dimension
+    if( has_flag( mon_flag_ONE_DIMENSIONAL_X ) && (
+            !here->has_flag( ter_furn_flag::TFLAG_ONE_DIMENSIONAL_X, p ) ||
+            // In the off chance a multidimensional vehicle enters a one dimensional tile
+            ( here->veh_at( p ) && !here->veh_at( pos_bub() ) )
+        ) ) {
+        return false;
+    }
+
+    if( has_flag( mon_flag_ONE_DIMENSIONAL_Y ) && (
+            !here->has_flag( ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Y, p ) ||
+            // In the off chance a multidimensional vehicle enters a one dimensional tile
+            ( here->veh_at( p ) && !here->veh_at( pos_bub() ) )
+        ) ) {
+        return false;
+    }
+    if( has_flag( mon_flag_ONE_DIMENSIONAL_Z ) && (
+            !here->has_flag( ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Z, p ) ||
+            // In the off chance a multidimensional vehicle enters a one dimensional tile
+            ( here->veh_at( p ) && !here->veh_at( pos_bub() ) )
+        ) ) {
+        return false;
+    }
 
     if( has_flag( mon_flag_AQUATIC ) && (
-            !here->has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ||
+            !( here->has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ||
+               here->has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, p ) ) ||
             // AQUATIC (confined to water) monster avoid vehicles, unless they are already underneath one
             ( here->veh_at( p ) && !here->veh_at( pos_bub() ) )
         ) ) {
@@ -1629,7 +1655,8 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
                       get_name(), veh ? veh->disp_name() : terrain.name() );
             return 0;
 
-        } else if( terrain.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) ) {
+        } else if( terrain.has_flag( ter_furn_flag::TFLAG_SWIMMABLE )  ||
+                   terrain.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER ) ) {
             if( swims() ) {
                 // swimmers dont care about terraincost/other effects.
                 // fish move as quickly as possible with a swimmod of 0.
@@ -1866,6 +1893,17 @@ bool monster::attack_at( const tripoint_bub_ms &p )
 {
     const map &here = get_map();
 
+    // Aquatic monsters that are underwater should not be able to attack
+    // through thick ice above them, except they may attack other monsters
+    // that are also underwater (fish fighting under the ice).
+    if( is_underwater() && here.has_flag( ter_furn_flag::TFLAG_THICK_ICE, p ) ) {
+        creature_tracker &creatures = get_creature_tracker();
+        monster *target_mon = creatures.creature_at<monster>( p );
+        if( !( target_mon != nullptr && target_mon->is_underwater() ) ) {
+            return false;
+        }
+    }
+
     if( has_flag( mon_flag_PACIFIST ) || has_flag( json_flag_CANNOT_ATTACK ) ) {
         return false;
     }
@@ -2000,8 +2038,11 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
     bool will_be_water =
         on_ground && (
             // AQUATIC monsters always "swim under" the vehicles, while other swimming monsters are forced to surface
-            has_flag( mon_flag_AQUATIC ) || ( can_submerge() && !here.veh_at( destination ) )
-        ) && here.is_divable( destination );
+            has_flag( mon_flag_AQUATIC ) || ( can_submerge() && !here.veh_at( destination ) ) ||
+            // If the destination terrain has SWIM_UNDER, swimmers should remain submerged there.
+            ( swims() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) )
+        ) && ( here.is_divable( destination ) ||
+               here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) );
 
     if( get_option<bool>( "LOG_MONSTER_MOVEMENT" ) ) {
         //Birds and other flying creatures flying over the deep water terrain

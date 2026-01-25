@@ -376,7 +376,7 @@
     "color": "green",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "druid_veggrasp", "druid_summon_brambles", "seed_of_growth", "druid_natures_commune", "druid_healing_herb" ]
+      "spells": [ "druid_veggrasp", "druid_summon_brambles", "druid_growth", "druid_natures_commune", "druid_healing_herb" ]
     }
   },
   {
@@ -452,7 +452,14 @@
     "color": "light_gray",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast", "magus_summon_impact_sling", "magus_mage_conjured_armor" ]
+      "spells": [
+        "magus_mana_beam",
+        "magus_mana_bolt",
+        "magus_mana_blast",
+        "magus_summon_impact_sling",
+        "magus_mage_conjured_armor",
+        "magus_mage_conjured_blade"
+      ]
     }
   },
   {
@@ -744,7 +751,7 @@
     "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Transcendence of the Human Condition", "str_pl": "copies of Transcendence of the Human Condition" },
-    "//": "4 Magus spells",
+    "//": "4 Technomancer spells",
     "description": "The Human is the only creature that seeks to improve himself.  This study examines different spells that can heighten various senses temporarily, in hopes to discover a more permanent solution.",
     "weight": "1300 g",
     "volume": "2500 ml",
@@ -753,7 +760,15 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "yellow",
-    "use_action": { "type": "learn_spell", "spells": [ "cats_grace", "ogres_strength", "foxs_cunning", "eagles_sight" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "technomancer_dexterity_buff_spell",
+        "technomancer_strength_buff_spell",
+        "technomancer_intelligence_buff_spell",
+        "technomancer_perception_buff_spell"
+      ]
+    }
   },
   {
     "id": "magic_movement_book",
@@ -1345,7 +1360,7 @@
       "type": "learn_spell",
       "spells": [
         "kelvinist_firebolt",
-        "spell_scroll_point_flare",
+        "point_flare",
         "kelvinist_extinguish_fire_spell",
         "create_lighter",
         "kelvinist_heat_food",

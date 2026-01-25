@@ -101,7 +101,10 @@
       { "item": "scissors", "prob": 80 },
       { "item": "peeler", "prob": 75, "count": [ 1, 2 ] },
       { "item": "cutting_board", "count": [ 1, 2 ] },
-      { "item": "cutting_board", "prob": 75 }
+      { "item": "cutting_board", "prob": 75 },
+      {
+        "distribution": [ { "item": "metal_honing_rod", "prob": 35 }, { "item": "knife_sharpener_handheld", "prob": 60 } ]
+      }
     ]
   },
   {
@@ -476,6 +479,7 @@
       { "item": "pot_copper", "prob": 75 },
       { "item": "stock_pot", "prob": 50 },
       { "item": "pot_canning", "prob": 25 },
+      { "item": "pressure_cooker", "prob": 15 },
       { "item": "colander_steel", "prob": 80 },
       { "item": "splatter_guard", "prob": 20 },
       { "item": "pan", "count": [ 1, 2 ] },

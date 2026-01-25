@@ -128,7 +128,11 @@
     "id": "commercial_canned_fruits",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "prob": 1, "group": "pineapple_in_can" }, { "prob": 1, "group": "fruits_in_can" } ]
+    "entries": [
+      { "prob": 1, "group": "pineapple_in_can" },
+      { "prob": 1, "group": "coconut_milk_in_can" },
+      { "prob": 1, "group": "fruits_in_can" }
+    ]
   },
   {
     "id": "SUS_shelf_commercial_canned_fruits",
@@ -626,8 +630,8 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "group": "used_usb_drives", "prob": 60, "contents-group": "SUS_efiles_office", "count": [ 3, 8 ] },
-      { "group": "used_memory_cards", "prob": 60, "contents-group": "SUS_efiles_office", "count": [ 2, 7 ] },
+      { "group": "used_usb_drives", "prob": 60, "variables": [ { "browsed": "true" } ] },
+      { "group": "used_memory_cards", "prob": 60, "variables": [ { "browsed": "true" } ] },
       { "item": "battery_charger", "prob": 80 }
     ]
   },
