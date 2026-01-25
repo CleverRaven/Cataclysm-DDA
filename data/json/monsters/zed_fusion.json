@@ -53,6 +53,7 @@
     "vision_night": 3,
     "harvest": "zombie_humanoid_multiple",
     "decay": "zombie_decay_bone_human_skull_multiple",
+    "upgrades": { "half_life": 160, "into_group": "GROUP_ZOMBIE_DEVOURER_UPGRADE" },
     "//grab": "All these arms to grab you with",
     "grab_strength": 50,
     "special_attacks": [
@@ -280,6 +281,91 @@
     ],
     "armor": { "bash": 26, "cut": 35, "stab": 30, "heat": 80, "bullet": 40, "electric": 6 }
   },
+  {
+    "id": "mon_devourer_hekatonkheire",
+    "type": "MONSTER",
+    "name": { "str": "hekatonkheire" },
+    "description": "Arms and heads jut out from a colossal body.  The jaws have elongated and seem to have hinged in the middle and close in a sequence.  Elongated arms bound in thick strands of exposed muscle, snap out with lightning quick speed seemingly at random until you realize the strikes are hitting flying insects hovering around the cyclopean corpse.",
+    "default_faction": "zombie",
+    "copy-from": "mon_devourer",
+    "bodytype": "giant",
+    "species": [ "ZOMBIE" ],
+    "diff": 9,
+    "volume": "287500 ml",
+    "weight": "344500 g",
+    "hp": 148,
+    "symbol": "H",
+    "color": "dark_gray_red",
+    "melee_damage": [ { "damage_type": "bash", "amount": 1 } ],
+    "//grab": "All these arms to grab you with",
+    "grab_strength": 50,
+    "special_attacks": [
+      { "id": "grab", "cooldown": 7 },
+      { "id": "grab_2", "accuracy": 5, "cooldown": 0 },
+      { "id": "grab_3", "accuracy": 6, "cooldown": 0 },
+      
+      { "id": "multi_scratch" },
+      {
+        "type": "monster_attack",
+        "attack_type": "bite",
+        "id": "bite_devourer_1",
+        "condition": {
+          "and": [
+            { "u_has_flag": "GRAB_FILTER" },
+            { "npc_has_flag": "GRAB" }
+          ]
+        },
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15 } ],
+        "infection_chance": 15,
+        "cooldown": 4,
+        "move_cost": 150
+      },
+      {
+        "id": "stretch_bite",
+        "accuracy": 6,
+        "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 200" ] },
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 10 } ],
+        "hit_dmg_u": "A tangle of flesh covered in maws shoots out from %1$s, and its teeth sink into your %2$s!",
+        "hit_dmg_npc": "A tangle of flesh covered in maws shoots out from %1$s, and its teeth sink into <npcname>'s %2$s!",
+        "no_dmg_msg_u": "A tangle of flesh covered in maws shoots out from %1$s, but glances off your armor.",
+        "no_dmg_msg_npc": "A tangle of flesh covered in maws shoots out from %1$s, but glances off <npcname>'s armor.",
+        "miss_msg_u": "A tangle of flesh covered in maws shoots out from %1$s, but you dodge!",
+        "miss_msg_npc": "A tangle of flesh covered in maws shoots out from %1$s, but <npcname> dodges!"
+      },
+      {
+        "id": "smash",
+        "throw_strength": 70,
+        "accuracy": 7,
+        "range": 2,
+        "cooldown": 30,
+        "blockable": false,
+        "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 300" ] },
+        "hit_dmg_u": "A meaty tendril slams into your %2$s, sending you flying!",
+        "hit_dmg_npc": "A meaty tendril slams into <npcname>'s %2$s, sending them flying!",
+        "no_dmg_msg_u": "A meaty tendril slams into your %2$s, but does no damage!",
+        "no_dmg_msg_npc": "A meaty tendril slams into <npcname>'s %2$s, but does no damage!",
+        "miss_msg_u": "%1$s swings a meaty tendril at you, but you dodge!",
+        "miss_msg_npc": "%1$s swings a meaty tendril at <npcname>, but they dodge!"
+      }
+    ],
+    "regenerates": 1,
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "BILE_BLOOD",
+      "PUSH_MON",
+      "FILTHY"
+    ],
+    "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 3 }
+  }
   {
     "id": "mon_zombie_crushed_giant",
     "type": "MONSTER",

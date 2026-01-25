@@ -31,6 +31,17 @@
   },
   {
     "type": "monstergroup",
+    "id": "GROUP_ZOMBIE_DEVOURER_UPGRADE",
+    "default": "mon_devourer",
+    "//": "devourer zombie upgrades",
+    "monsters": [
+      { "monster": "mon_devourer", "weight": 500 },
+      { "monster": "mon_devourer_hekatonkheires", "weight": 5 },
+      { "monster": "mon_devourer_daityas", "weight": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "id": "GROUP_ZOMBIE_CRAWLER_UPGRADE",
     "default": "mon_zombie_crawler",
     "//": "crawling zombie upgrades",
