@@ -106,6 +106,8 @@
 #include "npctalk.h"
 #include "npctalk_rules.h"
 #include "npctrade.h"
+#include "ai_dialogue.h"
+#include "ai_actions.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
@@ -1760,6 +1762,39 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic )
         return string_format(
                    _( "&Thou art but a lowley churl wyth litel understonding of this newe langage, yet %s can understand you and seems willing to trade!" ),
                    actor( true )->disp_name() );
+    } else if( topic == "TALK_AI_DIALOGUE" ) {
+        // AI Dialogue - prompt player for free-form input and generate AI response
+        npc *speaking_npc = actor( true )->get_npc();
+        if( speaking_npc == nullptr ) {
+            return _( "Error: No NPC to talk to." );
+        }
+
+        // Get player input
+        string_input_popup popup;
+        popup.title( string_format( _( "Say something to %s:" ), speaking_npc->get_name() ) );
+        popup.width( 60 );
+        popup.max_length( 200 );
+        const std::string player_input = popup.query_string();
+
+        if( player_input.empty() ) {
+            return string_format( _( "%s waits for you to speak." ), speaking_npc->get_name() );
+        }
+
+        // Generate AI response
+        cata_ai::AIDialogueResult result =
+            cata_ai::AIDialogueSystem::instance().generate_dialogue( *speaking_npc, player_input );
+
+        if( !result.success ) {
+            return string_format( _( "%s looks at you blankly. (AI unavailable: %s)" ),
+                                  speaking_npc->get_name(), result.error );
+        }
+
+        // Execute the action if any
+        if( result.action != "NONE" && !result.action.empty() ) {
+            cata_ai::AIActionExecutor::execute( *speaking_npc, result.action, result.target );
+        }
+
+        return result.response_text;
     }
     avatar &player_character = get_avatar();
     if( topic == "TALK_SEDATED" ) {
@@ -1991,6 +2026,14 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     response_condition_exists.clear();
     response_condition_eval.clear();
 
+    // Handle AI dialogue topic responses
+    if( the_topic.id == "TALK_AI_DIALOGUE" ) {
+        add_response( _( "[Continue talking...]" ), "TALK_AI_DIALOGUE" );
+        add_response_none( _( "Never mind." ) );
+        add_response_done( _( "Goodbye." ) );
+        return;
+    }
+
     const auto iter = json_talk_topics.find( the_topic.id );
     if( iter != json_talk_topics.end() ) {
         json_talk_topic &jtt = iter->second;
@@ -2187,6 +2230,13 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _( "Ho there, otherwyrldly devyl!  Have yow ware for to chaffare?" ),
                       "TALK_CHURL_FRIENDLY" );
         add_response_done( _( "Farewell!" ) );
+    }
+
+    // AI Dialogue integration - add option to talk freely to AI-enabled NPCs
+    npc *speaking_npc = actor( true )->get_npc();
+    if( speaking_npc != nullptr &&
+        cata_ai::AIDialogueSystem::instance().is_ai_enabled_npc( *speaking_npc ) ) {
+        add_response( _( "[Say something...]" ), "TALK_AI_DIALOGUE" );
     }
 
     if( responses.empty() ) {

@@ -1,0 +1,55 @@
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ L ARM   ||||.  HEAD    |||..  R ARM  ||||\
+^          ┌ You hear clang! x 5                                                                                                                           │ L LEG   ||||.  TORSO   |||\.  R LEG  |||||
+│          │ From the west you hear clang! x 12                                                                                                            │ Sound: 0       Mood: :|       Focus: 30
+│          │ From the southwest you hear clang! x 2                                                                                                        │ Stam: |||||    Speed: 88      Move: 0(W)
+│          │ From the west you hear clang!                                                                                                                 │ Str: 4         Dex: 8         Power: --
+│          │ From the southwest you hear clang!                                                                                                            │ Int: 5         Per: 5         Safe: On
+│          │ You see here 23 glass shards.                                                                                                                 │ Weariness: Fresh      Activity: None
+│          │ From the west you hear clang!                                                                                                                 │ Transition: ||||\     Weary Malus: +  0%
+│          │ From the southwest you hear clang!                                                                                                            │ Pain: Distracting p…  Thirst:
+│          │ From the west you hear clang!                                                                                                                 │ Rest:                 Hunger: Peckish
+│          │ From the southwest you hear clang!                                                                                                            │ Heat: Comfortable     Weight: Morbidly Ob…
+│          │ Moving onto this window frame is slow!                                                                                                        │ Owner:    None              ............│F
+│          │ From the west you hear clang!                                                                                                                 │ Place: sewage treatment p…  ...........┌┘F
+│          │ From the southwest you hear clang!                                                                                                            │ Lighting: bright            ......PO.┌─┘FF
+│          │ From the west you hear clang!                                                                                                                 │ Weather:  Cloudy            ......PP┌┘..FF
+│          │ From the southwest you hear clang! x 5                                                                                                        │ Moon:     New moon          .......└┘..FFF
+│          │ From the west you hear clang!                                                                                                                 │ Date:     Thursday, May 20
+│          │ From the southwest you hear clang!                                                                                                            │ Time:     8:32:36 AM
+│          │ Moving off of this window frame is slow!                                                                                                      │ Wind: Calm ⇙          Temperature: -
+│          │ You see here 23 glass shards.                                                                                                                 │ Oxygen: ||||||||||
+│          │ From the west you hear clang!                                                                                                                 │ Wield: expandable baton
+│          │ From the southwest you hear clang!                                                                                                            │ Style: Normal
+│          │ From the west you hear clang!                                                                                                                 │ NW:            N:             NE:    v
+│          │ From the southwest you hear clang!                                                                                                            │ W:             Z              E:
+│          │ From the west you hear clang!                                                                                                                 │ SW:            S:             SE:
+│          │ From the southwest you hear clang!                                                                                                            │ v American crow  Z zombie technician
+│          │ From the west you hear clang!                                                                                                                 │
+│          │ From the southwest you hear clang! x 2                                                                                                        │
+│          │ From the west you hear clang!                                                                                                                 │ Weight :  12.3/63.9 lbs
+│          │ From the southwest you hear clang!                                                                                                            │ their established trade routes. The
+│          │ From the west you hear clang! x 8                                                                                                             │ Crimson Hand, a nomadic raider group known
+│          │ From the southwest you hear clang!                                                                                                            │ for their technological expertise, has
+│          │ From the southwest you hear growling.                                                                                                         │ also taken an interest, offering
+│ 14 minutes From the west you hear clang! x 2                                                                                                             │ assistance to both factions in exchange
+│          ┌ You can't travel there.                                                                                                                       │ for control of the drones. Initial drone
+│          │ Unknown command: "SPACE" (32)                                                                                                                 │ functionality is unstable, with reports of
+│          │ Press ? at any time to see and edit keybindings relevant to the current context.                                                              │ erratic behavior and potential
+│          │ You yell loudly.                                                                                                                              │ malfunctions. Control of the drones could
+│          │ Saving game, this may take a while.                                                                                                           │ provide a significant advantage in
+│          │ You hear distant rumors about something happening...                                                                                          │ resource gathering, but also carries the
+│ 12 minutes Spotted zombie technician 24 tiles to the southwest -- safe mode is on!  (Press ! to turn it off, press ' to ignore monster) x 25             │ risk of widespread agricultural disruption
+│          ┌ You hear distant rumors about something happening...                                                                                          │ and potential weaponization. <<<
+│          │ >>> MAJOR WORLD EVENT: A cache of pre-war agricultural drones has been unearthed in the abandoned agricultural research facility, 'Verdant    │ [OPPORTUNITY]: The player can choose to
+│          │ Hope'. The Hell's Raiders, seeking to establish a self-sufficient food source, are attempting to seize control. The Tacoma Commune, reliant on│ support either the Hell's Raiders or the
+│          │ scavenging for sustenance, sees the drones as a threat to their established trade routes. The Crimson Hand, a nomadic raider group known for  │ Tacoma Commune, attempt to negotiate a
+│          │ their technological expertise, has also taken an interest, offering assistance to both factions in exchange for control of the drones. Initial│ truce, or independently secure the drones
+│          │ drone functionality is unstable, with reports of erratic behavior and potential malfunctions. Control of the drones could provide a           │ for themselves. Successfully controlling
+│          │ significant advantage in resource gathering, but also carries the risk of widespread agricultural disruption and potential weaponization. <<< │ the drones will significantly increase the
+│          │ [OPPORTUNITY]: The player can choose to support either the Hell's Raiders or the Tacoma Commune, attempt to negotiate a truce, or             │ player's resource production, but failure
+│          │ independently secure the drones for themselves. Successfully controlling the drones will significantly increase the player's resource         │ could lead to devastating consequences as
+│          │ production, but failure could lead to devastating consequences as the drones become uncontrollable and target nearby settlements.             │ the drones become uncontrollable and
+│          │ This affects the Hell's Raiders faction.                                                                                                      │ target nearby settlements.
+│          │ This affects the Tacoma Commune faction.                                                                                                      │ This affects the Hell's Raiders faction.
+v  4 minutes This affects the The Crimson Hand faction.                                                                                                    │ This affects the Tacoma Commune faction.
+└< Press f, F, or / to filter, r or R to reset >───────────────────────────────────────────────────────────────────────────────────────────────────────────┘ This affects the The Crimson Hand faction.

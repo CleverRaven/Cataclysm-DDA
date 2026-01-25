@@ -1,0 +1,60 @@
+┌────────────────────────────────────────────────────────────────────────────  / waiting: 42%         ─────────────────────────────────┐ L ARM   ||||.  HEAD    |||..  R ARM  ||||\
+^          ┌ From the southwest you hear clang!                               Press . or 5 to interrup                                 │ L LEG   ||||.  TORSO   |||\.  R LEG  |||||
+│          │ From the west you hear clang!                                                                                             │ Sound: 0       Mood: :|       Focus: 37
+│ 40 minutes From the southwest you hear clang! x 2                                                                                    │ Stam: |||||    Speed: 89      Move: 0(W)
+│          ┌ From the west you hear clang!                                                                                             │ Str: 4         Dex: 7         Power: --
+│          │ From the southwest you hear clang!                                                                                        │ Int: 6         Per: 6         Safe: On
+│          │ From the west you hear clang! x 8                                                                                         │ Weariness: Fresh      Activity: None
+│          │ From the southwest you hear clang!                                                                                        │ Transition: ||||\     Weary Malus: +  0%
+│          │ From the southwest you hear growling.                                                                                     │ Pain: Distracting p…  Thirst:
+│ 39 minutes From the west you hear clang! x 2                                                                                         │ Rest:                 Hunger: Peckish
+│          ┌ You can't travel there.                                                                                                   │ Heat: Comfortable     Weight: Morbidly Ob…
+│          │ Unknown command: "SPACE" (32)                                                                                             │ Owner:    None              ............│F
+│          │ Press ? at any time to see and edit keybindings relevant to the current context.                                          │ Place: sewage treatment p…  ...........┌┘F
+│          │ You yell loudly.                                                                                                          │ Lighting: bright            ......PO.┌─┘FF
+│          │ Saving game, this may take a while.                                                                                       │ Weather:  Clear             ......PP┌┘..FF
+│          │ You hear distant rumors about something happening...                                                                      │ Moon:     New moon          .......└┘..FFF
+│          │ Spotted zombie technician 24 tiles to the southwest -- safe mode is on!  (Press ! to turn it off, press ' to ignore       │ Date:     Thursday, May 20
+│ 38 minutes monster) x 25                                                                                                             │ Time:     8:58:20 AM
+│ 30 minutes You hear distant rumors about something happening...                                                                      │ Wind: Calm ⇖          Temperature: -
+│          ┌ >>> MAJOR WORLD EVENT: A cache of pre-war agricultural drones has been unearthed in the abandoned agricultural research   │ Oxygen: ||||||||||
+│          │ facility, 'Verdant Hope'. The Hell's Raiders, seeking to establish a self-sufficient food source, are attempting to seize │ Wield: expandable baton
+│          │ control. The Tacoma Commune, reliant on scavenging for sustenance, sees the drones as a threat to their established trade │ Style: Normal
+│          │ routes. The Crimson Hand, a nomadic raider group known for their technological expertise, has also taken an interest,     │ NW:            N:             NE:    v
+│          │ offering assistance to both factions in exchange for control of the drones. Initial drone functionality is unstable, with │ W:                            E:
+│          │ reports of erratic behavior and potential malfunctions. Control of the drones could provide a significant advantage in    │ SW:            S:             SE:
+│          │ resource gathering, but also carries the risk of widespread agricultural disruption and potential weaponization. <<<      │ v 3 American crows
+│          │ [OPPORTUNITY]: The player can choose to support either the Hell's Raiders or the Tacoma Commune, attempt to negotiate a   │
+│          │ truce, or independently secure the drones for themselves. Successfully controlling the drones will significantly increase │
+│          │ the player's resource production, but failure could lead to devastating consequences as the drones become uncontrollable  │ Weight :  12.3/63.9 lbs
+│          │ and target nearby settlements.                                                                                            │ This affects the Tacoma Commune faction.
+│          │ This affects the Hell's Raiders faction.                                                                                  │ >>> MAJOR WORLD EVENT: A persistent,
+│          │ This affects the Tacoma Commune faction.                                                                                  │ distorted distress signal originating from
+│ 29 minutes This affects the The Crimson Hand faction.                                                                                │ the 'Sunken City' has intensified.
+│          ┌ Saving game, this may take a while.                                                                                       │ Scanners now indicate a localized temporal
+│ 25 minutes You hear distant rumors about something happening...                                                                      │ anomaly near the signal's source – brief,
+│ 16 minutes You hear distant rumors about something happening...                                                                      │ repeating flashes of pre-war technology
+│          ┌ >>> MAJOR WORLD EVENT: A heavily damaged radio tower has been discovered near the ruins of Oldhaven. Initial scans        │ and unsettling visual distortions. The
+│          │ indicate it’s partially functional and broadcasting a faint, repeating signal – a distress call from a group of survivors │ Hell's Raiders have become increasingly
+│          │ claiming to be trapped in the 'Sunken City,' a legendary pre-war research facility rumored to hold advanced technology and│ aggressive in their attempts to secure the
+│          │ potentially valuable resources. However, the signal is heavily distorted and intermittent, and the location is only       │ area around the anomaly, believing it to
+│          │ partially triangulated. <<<                                                                                               │ be a source of power. Tacoma Commune
+│          │ [OPPORTUNITY]: Players can attempt to repair the radio tower, risking attracting the attention of Hell's Raiders who are  │ scouts report increased wildlife activity
+│          │ known to patrol the area. Tacoma Commune has expressed interest in the potential resources of the 'Sunken City' and may   │ – mutated creatures exhibiting unusual
+│          │ offer assistance, but their motives are unclear. The player can also attempt to fully decipher the signal, potentially    │ behavior – near the anomaly's projected
+│          │ uncovering clues to the location of the Sunken City, but this requires specialized equipment and knowledge.               │ location. The signal's clarity fluctuates,
+│          │ This affects the Hell's Raiders faction.                                                                                  │ offering fleeting glimpses of a desperate
+│  8 minutes This affects the Tacoma Commune faction.                                                                                  │ plea for rescue. <<<
+│          ┌ >>> MAJOR WORLD EVENT: A persistent, distorted distress signal originating from the 'Sunken City' has intensified.        │ [OPPORTUNITY]: Players can attempt to
+│          │ Scanners now indicate a localized temporal anomaly near the signal's source – brief, repeating flashes of pre-war         │ investigate the anomaly, potentially
+│          │ technology and unsettling visual distortions. The Hell's Raiders have become increasingly aggressive in their attempts to │ uncovering advanced technology and
+│          │ secure the area around the anomaly, believing it to be a source of power. Tacoma Commune scouts report increased wildlife │ rescuing the trapped survivors. However,
+│          │ activity – mutated creatures exhibiting unusual behavior – near the anomaly's projected location. The signal's clarity    │ the Hell's Raiders are actively guarding
+│          │ fluctuates, offering fleeting glimpses of a desperate plea for rescue. <<<                                                │ the area, and the temporal distortions
+│          │ [OPPORTUNITY]: Players can attempt to investigate the anomaly, potentially uncovering advanced technology and rescuing the│ pose a significant risk to unprepared
+│          │ trapped survivors. However, the Hell's Raiders are actively guarding the area, and the temporal distortions pose a        │ explorers. Tacoma Commune offers support
+│          │ significant risk to unprepared explorers. Tacoma Commune offers support in securing the area, but demands a significant   │ in securing the area, but demands a
+│          │ share of any recovered resources.                                                                                         │ significant share of any recovered
+│          │ This affects the Hell's Raiders faction.                                                                                  │ resources.
+v  0 seconds This affects the Tacoma Commune faction.                                                                                  │ This affects the Hell's Raiders faction.
+└< Press f, F, or / to filter, r or R to reset >───────────────────────────────────────────────────────────────────────────────────────┘ This affects the Tacoma Commune faction.

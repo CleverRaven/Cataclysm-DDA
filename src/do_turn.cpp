@@ -77,6 +77,8 @@
 #include "weather.h"
 #include "weather_type.h"
 #include "worldfactory.h"
+#include "ai_world_system.h"
+#include "llm_bridge.h"
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
@@ -499,6 +501,9 @@ bool do_turn()
     timed_event_manager &timed_events = get_timed_events();
     timed_events.process();
     mission::process_all();
+
+    // AI World System - process NPC interactions, dynamic events, and faction dynamics
+    cata_ai::AIWorldSystem::instance().on_turn_update( to_turns<int>( calendar::turn - calendar::turn_zero ) );
     avatar &u = get_avatar();
     map &m = get_map();
     // If controlling a vehicle that is owned by someone else
