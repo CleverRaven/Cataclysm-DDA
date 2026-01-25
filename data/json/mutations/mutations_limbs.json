@@ -632,7 +632,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_long" } ] } ]
   },
   {
     "type": "mutation",
