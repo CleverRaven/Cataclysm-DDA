@@ -1,0 +1,127 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STRING_DIMENSION",
+    "condition": { "math": [ "u_string_dimension_ziggurat_exit <= 3" ] },
+    "effect": [
+      {
+        "u_travel_to_dimension": "string_dimension",
+        "npc_travel_radius": 0,
+        "region_type": "string_dimension",
+        "npc_travel_filter": "none",
+        "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
+        "success_message": "Your glowing string flashes brightly, and your surroundings warp and fold into an ever-expanding plane of light."
+      },
+      {
+        "u_location_variable": { "context_val": "nearest_floor" },
+        "terrain": "t_string_xy",
+        "target_max_radius": 20,
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      { "u_teleport": { "context_val": "nearest_floor" } },
+      { "math": [ "u_string_dimension_visits += 1" ] },
+      { "math": [ "u_ire -= 5" ] },
+      {
+        "if": { "math": [ "u_string_dimension_visits == 1" ] },
+        "then": [
+          { "run_eocs": "EOC_PORTAL_STRING_DIMENSION_RETURN", "time_in_future": "8 minutes" },
+          {
+            "u_message": "You are somewhere new - an afterimage of where you were is burned into your vision, slowly fading.",
+            "popup": true
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "u_string_dimension_visits == 2" ] },
+        "then": [
+          { "run_eocs": "EOC_PORTAL_STRING_DIMENSION_RETURN", "time_in_future": "64 minutes" },
+          {
+            "u_message": "You are somewhere you remember - an afterimage of where you were lingers at the edge of your mind's eye.",
+            "popup": true
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "u_string_dimension_visits == 3" ] },
+        "then": [
+          { "run_eocs": "EOC_PORTAL_STRING_DIMENSION_RETURN", "time_in_future": "4096 minutes" },
+          {
+            "u_message": "You are somewhere familiar - an afterimage of where you were flashes past your mind.",
+            "popup": true
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "u_string_dimension_visits >= 4" ] },
+        "then": {
+          "u_message": "You quickly and naturally orient yourself to this place - it's as if you stepped through a door that shut and vanished.",
+          "popup": true
+        }
+      }
+    ],
+    "false_effect": { "u_message": "Your glowing string rattles in its container." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STRING_DIMENSION_RETURN",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        { "not": "u_driving" },
+        { "current_dimension": "string_dimension" }
+      ]
+    },
+    "effect": [
+      {
+        "u_travel_to_dimension": "",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "You feel a prickle at the edge of your senses.",
+        "success_message": "Your surroundings warp and fold into the recesses of the world you know."
+      },
+      { "u_location_variable": { "context_val": "player_teleport_loc" }, "z_adjust": 0, "z_override": true },
+      { "u_teleport": { "context_val": "player_teleport_loc" } },
+      {
+        "if": { "math": [ "u_string_dimension_ziggurat_exit >= 1" ] },
+        "then": [
+          {
+            "u_message": "As you pulled the hypercube free, there was an immense explosion of light.  The object is gone and you're back in the world you know.",
+            "popup": true
+          },
+          { "clear_dimension": "string_dimension" }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "if": { "current_dimension": "string_dimension" },
+        "then": [
+          { "u_message": "You feel a prickle at the edge of your senses." },
+          { "run_eocs": "EOC_PORTAL_STRING_DIMENSION_RETURN", "time_in_future": "2 minutes" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STRING_DIMENSION_ZIGGURAT_PORTAL",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_PORTAL_STRING_DIMENSION_ZIGGURAT_RETURN" ],
+        "allow_cancel": true,
+        "hilight_disabled": true,
+        "names": [ "Try to take the hypercube" ],
+        "title": "Socketed inside the device is a transparent hypercube - a cube within a cube.",
+        "descriptions": [ "It's full of stars." ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STRING_DIMENSION_ZIGGURAT_RETURN",
+    "condition": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+    "effect": [ { "math": [ "u_string_dimension_ziggurat_exit += 1" ] }, { "run_eocs": "EOC_PORTAL_STRING_DIMENSION_RETURN" } ],
+    "false_effect": { "u_message": "An invisible, repulsive field keeps you from touching the hypercube.", "popup": true }
+  }
+]
