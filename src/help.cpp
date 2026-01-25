@@ -98,6 +98,18 @@ void help::load_object( const JsonObject &jo, const std::string &src )
     }
 }
 
+int help::handle_option_looping( int option )
+{
+    const int option_end = static_cast<int>( _help_categories.size() );
+    if( option < 0 ) {
+        option += option_end;
+    }
+    if( option >= option_end ) {
+        option -= option_end;
+    }
+    return option;
+}
+
 help_window::help_window() : cataimgui::window( "help",
             ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
             ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse )
@@ -247,16 +259,14 @@ void help_window::format_title( std::optional<help_category> category )
     ImGui::SetCursorPos( end_pos );
 }
 
-void help_window::format_subtitle( const help_category &category,
-                                   const std::string translated_category_name )
+void help_window::format_subtitle( const std::string &translated_category_name,
+                                   const nc_color &category_color )
 {
     if( screen_reader ) {
         cataimgui::TextColoredParagraph( c_white, translated_category_name );
         ImGui::NewLine();
         return;
     }
-
-    const nc_color &category_color = category.color;
 
     const float title_length = ImGui::CalcTextSize( remove_color_tags(
                                    translated_category_name ).c_str() ).x;
@@ -289,14 +299,40 @@ void help_window::format_subtitle( const help_category &category,
     ImGui::PopStyleColor( 2 );
 }
 
+void help_window::format_footer( const std::string &prev, const std::string &next,
+                                 const nc_color &category_color )
+{
+    const char *prev_chars = prev.c_str();
+    const char *next_chars = next.c_str();
+    const float prev_size = ImGui::CalcTextSize( prev_chars ).x + 5.0f;
+    const float next_size = ImGui::CalcTextSize( next_chars ).x + 5.0f;
+    const float next_x = ImGui::GetCursorPos().x + ImGui::GetContentRegionAvail().x - next_size - 10.0f;
+    ImGui::PushStyleColor( ImGuiCol_Separator, category_color );
+    ImGui::Separator();
+    ImGui::NewLine();
+    ImGui::Text( prev.c_str(), ImVec2( prev_size, 0.0f ) );
+    if( ImGui::IsItemHovered() ) {
+        selected_option = data.handle_option_looping( loaded_option - 1 );
+    }
+    ImGui::SameLine( next_x );
+    ImGui::Text( next.c_str(), ImVec2( next_size, 0.0f ) );
+    if( ImGui::IsItemHovered() ) {
+        selected_option = data.handle_option_looping( loaded_option + 1 );
+    }
+    ImGui::PopStyleColor( 1 );
+}
+
 void help_window::draw_category()
 {
     const help_category &cat = data.get_help_category( loaded_option );
+    const std::string prev_cat_name = data.get_help_category( loaded_option - 1 ).name.translated();
+    const std::string next_cat_name = data.get_help_category( loaded_option + 1 ).name.translated();
     format_title( cat );
     // Use a table so we can scroll the category paragraphs without the title
     //TODO: Consider not keeping the title seperate on tiny screens
     ImGui::Indent( one_em );
-    if( ImGui::BeginTable( "HELP_PARAGRAPHS", 1, ImGuiTableFlags_ScrollY ) ) {
+    if( ImGui::BeginTable( "HELP_PARAGRAPHS", 1, ImGuiTableFlags_ScrollY,
+                           ImVec2( -1, static_cast<float>( str_height_to_pixels( TERMY - 10 ) ) ) ) ) {
         cataimgui::set_scroll( s );
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
@@ -307,7 +343,7 @@ void help_window::draw_category()
                     cataimgui::draw_colored_text( translated_paragraph.first, c_white, get_wrap_width() );
                     break;
                 case MM_SUBTITLE:
-                    format_subtitle( cat, translated_paragraph.first );
+                    format_subtitle( translated_paragraph.first, cat.color );
                     break;
                 case MM_MONOFONT:
                     cataimgui::PushMonoFont();
@@ -334,6 +370,7 @@ void help_window::draw_category()
         }
         ImGui::EndTable();
     }
+    format_footer( prev_cat_name, next_cat_name, cat.color );
 }
 
 cataimgui::bounds help_window::get_bounds()
@@ -369,6 +406,8 @@ void help_window::show()
                     loaded_option = selected_option;
                     swap_translated_paragraphs();
                     data.mark_read( loaded_option );
+                    selected_option = -1;
+                    window_flags |= ImGuiWindowFlags_NoNavInputs;
                 } else {
                     debugmsg( "Category not found: option %s", selected_option );
                 }
@@ -380,6 +419,17 @@ void help_window::show()
             ui_manager::redraw_invalidated();
             std::string action = ctxt.handle_input( 50 );
 
+            if( selected_option != -1 ) {
+                if( action == "SELECT" || action == "CONFIRM" ) {
+                    s = cataimgui::scroll::begin;
+                    loaded_option = selected_option;
+                    swap_translated_paragraphs();
+                    data.mark_read( loaded_option );
+                    continue;
+                }
+                selected_option = -1;
+            }
+
             if( action == "UP" ) {
                 s = cataimgui::scroll::line_up;
             } else if( action == "DOWN" ) {
@@ -389,17 +439,17 @@ void help_window::show()
             } else if( action == "PAGE_DOWN" ) {
                 s = cataimgui::scroll::page_down;
             } else if( action == "CONFIRM" || action == "QUIT" ) {
+                s = cataimgui::scroll::begin;
                 has_selected_category = false;
+                window_flags = window_flags & ~ImGuiWindowFlags_NoNavInputs;
             } else if( action == "LEFT" || action == "PREV_TAB" ) {
-                auto it = cats.find( loaded_option );
-                loaded_option = it != cats.begin() ? ( --it )->first :
-                                cats.rbegin()->first;
+                s = cataimgui::scroll::begin;
+                loaded_option = data.handle_option_looping( --loaded_option );
                 swap_translated_paragraphs();
                 data.mark_read( loaded_option );
             } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
-                auto it = cats.find( loaded_option );
-                it++;
-                loaded_option = it != cats.end() ? it->first : cats.begin()->first;
+                s = cataimgui::scroll::begin;
+                loaded_option = data.handle_option_looping( ++loaded_option );
                 swap_translated_paragraphs();
                 data.mark_read( loaded_option );
             }

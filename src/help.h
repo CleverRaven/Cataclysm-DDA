@@ -43,8 +43,9 @@ class help
         void mark_read( const int &option ) {
             _read_categories.insert( option );
         }
+        int handle_option_looping( int option );
         const help_category &get_help_category( const int &option ) {
-            return _help_categories[option];
+            return _help_categories[handle_option_looping( option )];
         }
         const std::map<const int, const help_category> &get_help_categories() {
             return _help_categories;
@@ -81,7 +82,9 @@ class help_window : public cataimgui::window
 
         void draw_category_selection();
         void format_title( std::optional<help_category> category = std::nullopt );
-        void format_subtitle( const help_category &category, const std::string translated_category_name );
+        void format_subtitle( const std::string &translated_category_name, const nc_color &category_color );
+        void format_footer( const std::string &prev, const std::string &next,
+                            const nc_color &category_color );
 
         void draw_category_option( const int &option, const help_category &category );
         int selected_option;
