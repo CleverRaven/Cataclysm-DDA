@@ -3526,7 +3526,7 @@ bool chop_planks_do( Character &you, const activity_reason_info &act_info,
 
     if( reason == do_activity_reason::NEEDS_CHOPPING && you.has_quality( qual_AXE, 1 ) ) {
         if( chop_plank_activity( you, src_loc ) ) {
-            you.backlog.emplace_front( ACT_MULTIPLE_CHOP_PLANKS );
+            you.backlog.emplace_front( multi_chop_planks_activity_actor() );
             return false;
         }
     }

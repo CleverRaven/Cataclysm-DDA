@@ -64,7 +64,6 @@ static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
-static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
@@ -116,7 +115,6 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
     { ACT_MULTIPLE_FARM, multiple_farm_do_turn },
-    { ACT_MULTIPLE_CHOP_PLANKS, multiple_chop_planks_do_turn },
     { ACT_MULTIPLE_CRAFT, multiple_craft_do_turn },
     { ACT_MULTIPLE_DIS, multiple_dis_do_turn },
     { ACT_MULTIPLE_READ, multiple_read_do_turn },

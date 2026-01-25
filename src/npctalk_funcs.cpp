@@ -65,7 +65,6 @@
 
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
-static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
@@ -310,7 +309,7 @@ void talk_function::do_butcher( npc &p )
 
 void talk_function::do_chop_plank( npc &p )
 {
-    p.assign_activity( ACT_MULTIPLE_CHOP_PLANKS );
+    p.assign_activity( multi_chop_planks_activity_actor() );
 }
 
 void talk_function::do_vehicle_deconstruct( npc &p )
