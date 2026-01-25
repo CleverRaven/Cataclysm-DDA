@@ -1842,7 +1842,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str_sp": "small horns" },
+    "name": { "str_sp": "horns" },
     "description": "You have a set of small horns.",
     "weight": "500 g",
     "volume": "750 ml",
