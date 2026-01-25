@@ -3659,7 +3659,7 @@ bool chop_trees_do( Character &you, const activity_reason_info &act_info,
 
     if( reason == do_activity_reason::NEEDS_TREE_CHOPPING && you.has_quality( qual_AXE, 1 ) ) {
         if( chop_tree_activity( you, src_loc ) ) {
-            you.backlog.emplace_front( ACT_MULTIPLE_CHOP_TREES );
+            you.backlog.emplace_front( multi_chop_trees_activity_actor() );
             return false;
         }
     }
