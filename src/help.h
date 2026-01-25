@@ -95,9 +95,9 @@ class help_window : public cataimgui::window
         void draw_category();
         cataimgui::scroll s;
 
-        // These could be moved to cataimgui::window for resuse if desired
-        void format_title( std::optional<help_category> category = std::nullopt );
-        void format_subtitle( const std::string &translated_category_name, const nc_color &category_color );
+        void format_title( std::optional<help_category> category = std::nullopt ) const;
+        void format_subtitle( const std::string_view &translated_category_name,
+                              const nc_color &category_color ) const;
         void format_footer( const std::string &prev, const std::string &next,
                             const nc_color &category_color );
         const float one_em = ImGui::CalcTextSize( "M" ).x;

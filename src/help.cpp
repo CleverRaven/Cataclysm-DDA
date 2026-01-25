@@ -11,6 +11,7 @@
 #include "color.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
+#include "generic_factory.h"
 #include "input_context.h"
 #include "input_enums.h"
 #include "npc.h"
@@ -66,10 +67,13 @@ void help_data::load( const JsonObject &jo, const std::string &src )
         } else {
             JsonObject jobj = jv.get_object();
             if( jobj.has_string( "subtitle" ) ) {
-                category.paragraphs.emplace_back( to_translation( jobj.get_string( "subtitle" ) ), MM_SUBTITLE );
+                translation subtitle;
+                mandatory( jobj, false, "subtitle", subtitle );
+                category.paragraphs.emplace_back( subtitle, MM_SUBTITLE );
             } else if( jobj.has_string( "force_monospaced" ) ) {
-                category.paragraphs.emplace_back( to_translation( jobj.get_string( "force_monospaced" ) ),
-                                                  MM_MONOFONT );
+                translation force_monospaced;
+                mandatory( jobj, false, "force_monospaced", force_monospaced );
+                category.paragraphs.emplace_back( force_monospaced, MM_MONOFONT );
             } else if( jobj.has_string( "separator" ) ) {
                 auto it = category.paragraphs.emplace_back( no_translation( jobj.get_string( "separator" ) ),
                           MM_SEPARATOR );
@@ -152,8 +156,8 @@ void help_window::draw_category_selection()
     if( !is_space_for_two_cat() ) {
         format_title();
         if( ImGui::BeginChild( "Category Options" ) ) {
-            for( auto it = cats.begin(); it != cats.end(); it++ ) {
-                draw_category_option( it->first, it->second );
+            for( const auto &cat : cats ) {
+                draw_category_option( cat.first, cat.second );
             }
             ImGui::EndChild();
         }
@@ -396,7 +400,7 @@ int help_window::next_option( int option )
     return it->first;
 }
 
-void help_window::format_title( std::optional<help_category> category )
+void help_window::format_title( std::optional<help_category> category ) const
 {
     //~ Help menu header
     const std::string translated_category_name = !category ? _( "Help" ) : category->name.translated();
@@ -449,8 +453,8 @@ void help_window::format_title( std::optional<help_category> category )
     ImGui::SetCursorPos( end_pos );
 }
 
-void help_window::format_subtitle( const std::string &translated_category_name,
-                                   const nc_color &category_color )
+void help_window::format_subtitle( const std::string_view &translated_category_name,
+                                   const nc_color &category_color ) const
 {
     if( screen_reader ) {
         cataimgui::TextColoredParagraph( c_white, translated_category_name );
@@ -512,7 +516,7 @@ void help_window::format_footer( const std::string &prev, const std::string &nex
     ImGui::Text( "<" );
     ImGui::SameLine( 0.f, 0.f );
     ImGui::PopStyleColor( 1 );
-    ImGui::Text( prev.c_str() );
+    ImGui::Text( "%s", prev.c_str() );
     if( ImGui::IsItemHovered() ) {
         selected_option = previous_option( loaded_option );
     }
@@ -525,7 +529,7 @@ void help_window::format_footer( const std::string &prev, const std::string &nex
     ImGui::Text( "[" );
     ImGui::PopStyleColor( 1 );
     ImGui::SameLine( 0.f, 0.f );
-    ImGui::Text( next.c_str() );
+    ImGui::Text( "%s", next.c_str() );
     if( ImGui::IsItemHovered() ) {
         selected_option = next_option( loaded_option );
     }
