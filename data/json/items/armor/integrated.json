@@ -1838,6 +1838,32 @@
     ]
   },
   {
+    "id": "integrated_horns_small",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "small horns" },
+    "description": "You have a set of small horns.",
+    "weight": "500 g",
+    "volume": "750 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "bone" ],
+    "symbol": "V",
+    "color": "light_gray",
+    "techniques": [ "SMALL_HORNS_RAM_BASH", "SMALL_HORNS_RAM_NATURAL", "SMALL_HORNS_RAM_CRIT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown" ],
+        "coverage": 10,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
     "id": "integrated_horns_curled",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
