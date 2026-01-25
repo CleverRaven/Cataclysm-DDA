@@ -22,23 +22,13 @@
 #include "translations.h"
 #include "ui_manager.h"
 
-help &get_help()
+help_data &get_help()
 {
-    static help single_instance;
+    static help_data single_instance;
     return single_instance;
 }
 
-void help::load( const JsonObject &jo, const std::string &src )
-{
-    get_help().load_object( jo, src );
-}
-
-void help::reset()
-{
-    get_help().reset_instance();
-}
-
-void help::reset_instance()
+void help_data::reset()
 {
     current_order_start = 0;
     current_src = "";
@@ -46,7 +36,7 @@ void help::reset_instance()
     _read_categories.clear();
 }
 
-void help::load_object( const JsonObject &jo, const std::string &src )
+void help_data::load( const JsonObject &jo, const std::string &src )
 {
     if( src == "dda" ) {
         jo.throw_error( string_format( "Vanilla help must be located in %s",
@@ -98,28 +88,22 @@ void help::load_object( const JsonObject &jo, const std::string &src )
     }
 }
 
-int help::handle_option_looping( int option )
+bool help_window::is_space_for_two_cat()
 {
-    const int option_end = static_cast<int>( _help_categories.size() );
-    if( option < 0 ) {
-        option += option_end;
-    }
-    if( option >= option_end ) {
-        option -= option_end;
-    }
-    return option;
-}
-
-static float calc_two_column_min_width( const std::map<const int, const help_category> &cats )
-{
-    float longest = 0;
-    for( const auto &cat : cats ) {
-        float cat_x = ImGui::CalcTextSize( cat.second.name.translated().c_str() ).x;
-        if( longest < cat_x ) {
-            longest = cat_x;
+    // Width needed to display two of the longest category name side by side
+    static std::optional<float> two_column_min_width;
+    if( !two_column_min_width ) {
+        const std::map<const int, const help_category> &cats = data.get_help_categories();
+        float longest = 0;
+        for( const auto &cat : cats ) {
+            float cat_x = ImGui::CalcTextSize( cat.second.name.translated().c_str() ).x;
+            if( longest < cat_x ) {
+                longest = cat_x;
+            }
         }
+        two_column_min_width = ( 2 * longest ) + 20.0f; // Guarentee some padding
     }
-    return ( 2 * longest ) + 20.0f; // Guarentee some padding
+    return ImGui::GetContentRegionAvail().x > *two_column_min_width;
 }
 
 help_window::help_window() : cataimgui::window( "help",
@@ -151,7 +135,6 @@ help_window::help_window() : cataimgui::window( "help",
         hotkeys.emplace( option_category.first, next_hotkey );
         next_hotkey = ctxt.next_unassigned_hotkey( hkq, next_hotkey );
     }
-    calc_two_column_min_width( data.get_help_categories() );
 }
 
 void help_window::draw_controls()
@@ -167,7 +150,7 @@ void help_window::draw_category_selection()
 {
     selected_option = -1;
     const std::map<const int, const help_category> &cats = data.get_help_categories();
-    if( !use_two_columns() ) {
+    if( !is_space_for_two_cat() ) {
         format_title();
         if( ImGui::BeginChild( "Category Options" ) ) {
             for( auto it = cats.begin(); it != cats.end(); it++ ) {
@@ -228,157 +211,15 @@ void help_window::draw_category_option( const int &option, const help_category &
     }
 }
 
-void help_window::format_title( std::optional<help_category> category )
-{
-    //~ Help menu header
-    const std::string translated_category_name = !category ? _( "Help" ) : category->name.translated();
-
-    if( screen_reader ) {
-        cataimgui::TextColoredParagraph( c_white, translated_category_name );
-        ImGui::NewLine();
-        return;
-    }
-
-    nc_color category_color = !category ? c_light_blue : category->color;
-
-    const float title_length = ImGui::CalcTextSize( remove_color_tags(
-                                   translated_category_name ).c_str() ).x;
-    ImGui::PushStyleVarX( ImGuiStyleVar_ItemSpacing, 0 );
-    ImGui::PushStyleVarY( ImGuiStyleVar_ItemSpacing, 0 );
-    ImGui::PushStyleColor( ImGuiCol_Text, category_color );
-    ImGui::PushStyleColor( ImGuiCol_Separator, category_color );
-    cataimgui::PushMonoFont();
-    const int sep_len = std::ceil( ( title_length / ImGui::CalcTextSize( "═" ).x )  + 2 );
-    ImGui::Text( "╔" );
-    ImGui::SameLine();
-    for( int i = sep_len; i > 0; i-- ) {
-        ImGui::Text( "═" );
-        ImGui::SameLine();
-    }
-    const int x = ImGui::GetCursorPosX();
-    ImGui::Text( "╗" );
-    ImGui::Text( "║ " );
-    ImGui::SameLine();
-    const ImVec2 text_pos = ImGui::GetCursorPos();
-    ImGui::SetCursorPosX( x );
-    ImGui::Text( "║" );
-    ImGui::Text( "╚" );
-    ImGui::SameLine();
-    for( int i = sep_len; i > 0; i-- ) {
-        ImGui::Text( "═" );
-        ImGui::SameLine();
-    }
-    ImGui::Text( "╝" );
-    ImGui::NewLine();
-    ImGui::Separator();
-    ImGui::NewLine();
-    const ImVec2 end_pos = ImGui::GetCursorPos();
-    ImGui::PopFont();
-    ImGui::PopStyleColor( 2 );
-    ImGui::PopStyleVar( 2 );
-    ImGui::SetCursorPos( text_pos );
-    cataimgui::TextColoredParagraph( c_white, translated_category_name );
-    ImGui::SetCursorPos( end_pos );
-}
-
-void help_window::format_subtitle( const std::string &translated_category_name,
-                                   const nc_color &category_color )
-{
-    if( screen_reader ) {
-        cataimgui::TextColoredParagraph( c_white, translated_category_name );
-        ImGui::NewLine();
-        return;
-    }
-
-    const float title_length = ImGui::CalcTextSize( remove_color_tags(
-                                   translated_category_name ).c_str() ).x;
-    cataimgui::PushMonoFont();
-    const int sep_len = std::ceil( ( title_length / ImGui::CalcTextSize( "═" ).x )  + 4 );
-    ImGui::PushStyleColor( ImGuiCol_Text, category_color );
-    for( int i = sep_len; i > 0; i-- ) {
-        ImGui::Text( "▁" );
-        ImGui::SameLine( 0.f, 0.f );
-    }
-    ImGui::NewLine();
-    // Using the matching box character doesn't look good bc there's forced(?) y spacing on NewLine
-    ImGui::Text( "▏ " );
-    ImGui::SameLine( 0.f, 0.f );
-    ImGui::PopStyleColor();
-    ImGui::PopFont();
-    cataimgui::TextColoredParagraph( c_white, translated_category_name );
-    cataimgui::PushMonoFont();
-    ImGui::SameLine( 0.f, 0.f );
-    ImGui::PushStyleColor( ImGuiCol_Text, category_color );
-    ImGui::PushStyleColor( ImGuiCol_Separator, category_color );
-    ImGui::Text( " ▕" );
-    for( int i = sep_len; i > 0; i-- ) {
-        ImGui::Text( "▔" );
-        ImGui::SameLine( 0.f, 0.f );
-    }
-    ImGui::PopFont();
-    ImGui::NewLine();
-    ImGui::Separator();
-    ImGui::PopStyleColor( 2 );
-}
-
-void help_window::format_footer( const std::string &prev, const std::string &next,
-                                 const nc_color &category_color )
-{
-    if( screen_reader ) {
-        const std::string screen_reader_footer = string_format(
-                    //~ Help menu footer when using screen reader
-                    _( "Previous category: %s. Next category: %s" ), prev, next );
-        cataimgui::TextColoredParagraph( c_white, screen_reader_footer );
-        return;
-    }
-
-    const char *prev_chars = prev.c_str();
-    const char *next_chars = next.c_str();
-
-    const float next_size = ImGui::CalcTextSize( next_chars ).x;
-    const float brackets_size = ImGui::CalcTextSize( "<]" ).x;
-    const float next_x = ImGui::GetCursorPos().x + ImGui::GetContentRegionAvail().x - next_size -
-                         brackets_size - one_em;
-    ImGui::PushStyleColor( ImGuiCol_Separator, category_color );
-    ImGui::Separator();
-    ImGui::NewLine();
-
-    ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
-    ImGui::Text( "<" );
-    ImGui::SameLine( 0.f, 0.f );
-    ImGui::PopStyleColor( 1 );
-    ImGui::Text( prev_chars );
-    if( ImGui::IsItemHovered() ) {
-        selected_option = data.handle_option_looping( loaded_option - 1 );
-    }
-    ImGui::SameLine( 0.f, 0.f );
-    ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
-    ImGui::Text( "]" );
-    ImGui::PopStyleColor( 1 );
-    ImGui::SameLine( next_x );
-    ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
-    ImGui::Text( "[" );
-    ImGui::PopStyleColor( 1 );
-    ImGui::SameLine( 0.f, 0.f );
-    ImGui::Text( next_chars );
-    if( ImGui::IsItemHovered() ) {
-        selected_option = data.handle_option_looping( loaded_option + 1 );
-    }
-    ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
-    ImGui::SameLine( 0.f, 0.f );
-    ImGui::Text( ">" );
-    ImGui::PopStyleColor( 2 );
-}
-
 void help_window::draw_category()
 {
     const help_category &cat = data.get_help_category( loaded_option );
-    const std::string prev_cat_name = data.get_help_category( loaded_option - 1 ).name.translated();
-    const std::string next_cat_name = data.get_help_category( loaded_option + 1 ).name.translated();
+    const std::string prev_cat_name = data.get_help_category( handle_option_looping(
+                                          loaded_option - 1 ) ).name.translated();
+    const std::string next_cat_name = data.get_help_category( handle_option_looping(
+                                          loaded_option + 1 ) ).name.translated();
     const bool scroll_title = ImGui::GetContentRegionAvail().y < 500.0f;
-    const bool show_footer = use_two_columns();
-
-
+    const bool show_footer = is_space_for_two_cat();
 
     int child_rows = TERMY;
     child_rows -= scroll_title ? 0 : 5;
@@ -508,12 +349,12 @@ void help_window::show()
                 window_flags = window_flags & ~ImGuiWindowFlags_NoNavInputs;
             } else if( action == "LEFT" || action == "PREV_TAB" ) {
                 s = cataimgui::scroll::begin;
-                loaded_option = data.handle_option_looping( --loaded_option );
+                loaded_option = handle_option_looping( --loaded_option );
                 swap_translated_paragraphs();
                 data.mark_read( loaded_option );
             } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
                 s = cataimgui::scroll::begin;
-                loaded_option = data.handle_option_looping( ++loaded_option );
+                loaded_option = handle_option_looping( ++loaded_option );
                 swap_translated_paragraphs();
                 data.mark_read( loaded_option );
             }
@@ -534,7 +375,158 @@ void help_window::swap_translated_paragraphs()
     }
 }
 
-std::string get_hint()
+int help_window::handle_option_looping( int option )
 {
-    return SNIPPET.random_from_category( "hint" ).value_or( translation() ).translated();
+    if( option_end < 0 ) {
+        option_end = static_cast<int>( data.get_help_categories().size() );
+    }
+    if( option < 0 ) {
+        option += option_end;
+    }
+    if( option >= option_end ) {
+        option -= option_end;
+    }
+    return option;
+}
+
+void help_window::format_title( std::optional<help_category> category )
+{
+    //~ Help menu header
+    const std::string translated_category_name = !category ? _( "Help" ) : category->name.translated();
+
+    if( screen_reader ) {
+        cataimgui::TextColoredParagraph( c_white, translated_category_name );
+        ImGui::NewLine();
+        return;
+    }
+
+    nc_color category_color = !category ? c_light_blue : category->color;
+
+    const float title_length = ImGui::CalcTextSize( remove_color_tags(
+                                   translated_category_name ).c_str() ).x;
+    ImGui::PushStyleVarX( ImGuiStyleVar_ItemSpacing, 0 );
+    ImGui::PushStyleVarY( ImGuiStyleVar_ItemSpacing, 0 );
+    ImGui::PushStyleColor( ImGuiCol_Text, category_color );
+    ImGui::PushStyleColor( ImGuiCol_Separator, category_color );
+    cataimgui::PushMonoFont();
+    const int sep_len = std::ceil( ( title_length / ImGui::CalcTextSize( "═" ).x )  + 2 );
+    ImGui::Text( "╔" );
+    ImGui::SameLine();
+    for( int i = sep_len; i > 0; i-- ) {
+        ImGui::Text( "═" );
+        ImGui::SameLine();
+    }
+    const int x = ImGui::GetCursorPosX();
+    ImGui::Text( "╗" );
+    ImGui::Text( "║ " );
+    ImGui::SameLine();
+    const ImVec2 text_pos = ImGui::GetCursorPos();
+    ImGui::SetCursorPosX( x );
+    ImGui::Text( "║" );
+    ImGui::Text( "╚" );
+    ImGui::SameLine();
+    for( int i = sep_len; i > 0; i-- ) {
+        ImGui::Text( "═" );
+        ImGui::SameLine();
+    }
+    ImGui::Text( "╝" );
+    ImGui::NewLine();
+    ImGui::Separator();
+    ImGui::NewLine();
+    const ImVec2 end_pos = ImGui::GetCursorPos();
+    ImGui::PopFont();
+    ImGui::PopStyleColor( 2 );
+    ImGui::PopStyleVar( 2 );
+    ImGui::SetCursorPos( text_pos );
+    cataimgui::TextColoredParagraph( c_white, translated_category_name );
+    ImGui::SetCursorPos( end_pos );
+}
+
+void help_window::format_subtitle( const std::string &translated_category_name,
+                                   const nc_color &category_color )
+{
+    if( screen_reader ) {
+        cataimgui::TextColoredParagraph( c_white, translated_category_name );
+        ImGui::NewLine();
+        return;
+    }
+
+    const float title_length = ImGui::CalcTextSize( remove_color_tags(
+                                   translated_category_name ).c_str() ).x;
+    cataimgui::PushMonoFont();
+    const int sep_len = std::ceil( ( title_length / ImGui::CalcTextSize( "═" ).x )  + 4 );
+    ImGui::PushStyleColor( ImGuiCol_Text, category_color );
+    for( int i = sep_len; i > 0; i-- ) {
+        ImGui::Text( "▁" );
+        ImGui::SameLine( 0.f, 0.f );
+    }
+    ImGui::NewLine();
+    // Using the matching box character doesn't look good bc there's forced(?) y spacing on NewLine
+    ImGui::Text( "▏ " );
+    ImGui::SameLine( 0.f, 0.f );
+    ImGui::PopStyleColor();
+    ImGui::PopFont();
+    cataimgui::TextColoredParagraph( c_white, translated_category_name );
+    cataimgui::PushMonoFont();
+    ImGui::SameLine( 0.f, 0.f );
+    ImGui::PushStyleColor( ImGuiCol_Text, category_color );
+    ImGui::PushStyleColor( ImGuiCol_Separator, category_color );
+    ImGui::Text( " ▕" );
+    for( int i = sep_len; i > 0; i-- ) {
+        ImGui::Text( "▔" );
+        ImGui::SameLine( 0.f, 0.f );
+    }
+    ImGui::PopFont();
+    ImGui::NewLine();
+    ImGui::Separator();
+    ImGui::PopStyleColor( 2 );
+}
+
+void help_window::format_footer( const std::string &prev, const std::string &next,
+                                 const nc_color &category_color )
+{
+    if( screen_reader ) {
+        const std::string screen_reader_footer = string_format(
+                    //~ Help menu footer when using screen reader
+                    _( "Previous category: %s. Next category: %s" ), prev, next );
+        cataimgui::TextColoredParagraph( c_white, screen_reader_footer );
+        return;
+    }
+
+    const char *prev_chars = prev.c_str();
+    const char *next_chars = next.c_str();
+
+    const float next_size = ImGui::CalcTextSize( next_chars ).x;
+    const float brackets_size = ImGui::CalcTextSize( "<]" ).x;
+    const float next_x = ImGui::GetCursorPos().x + ImGui::GetContentRegionAvail().x - next_size -
+                         brackets_size - one_em;
+    ImGui::PushStyleColor( ImGuiCol_Separator, category_color );
+    ImGui::Separator();
+    ImGui::NewLine();
+
+    ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
+    ImGui::Text( "<" );
+    ImGui::SameLine( 0.f, 0.f );
+    ImGui::PopStyleColor( 1 );
+    ImGui::Text( prev_chars );
+    if( ImGui::IsItemHovered() ) {
+        selected_option = handle_option_looping( loaded_option - 1 );
+    }
+    ImGui::SameLine( 0.f, 0.f );
+    ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
+    ImGui::Text( "]" );
+    ImGui::PopStyleColor( 1 );
+    ImGui::SameLine( next_x );
+    ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
+    ImGui::Text( "[" );
+    ImGui::PopStyleColor( 1 );
+    ImGui::SameLine( 0.f, 0.f );
+    ImGui::Text( next_chars );
+    if( ImGui::IsItemHovered() ) {
+        selected_option = handle_option_looping( loaded_option + 1 );
+    }
+    ImGui::PushStyleColor( ImGuiCol_Text, c_yellow );
+    ImGui::SameLine( 0.f, 0.f );
+    ImGui::Text( ">" );
+    ImGui::PopStyleColor( 2 );
 }

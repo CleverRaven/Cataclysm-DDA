@@ -32,20 +32,19 @@ struct help_category {
     std::vector<std::pair<translation, message_modifier>> paragraphs;
 };
 
-class help
+class help_data
 {
     public:
-        static void load( const JsonObject &jo, const std::string &src );
-        static void reset();
+        void load( const JsonObject &jo, const std::string &src );
+        void reset();
         bool is_read( const int &option ) {
             return _read_categories.find( option ) != _read_categories.end();
         }
         void mark_read( const int &option ) {
             _read_categories.insert( option );
         }
-        int handle_option_looping( int option );
         const help_category &get_help_category( const int &option ) {
-            return _help_categories[handle_option_looping( option )];
+            return _help_categories[option];
         }
         const std::map<const int, const help_category> &get_help_categories() {
             return _help_categories;
@@ -55,19 +54,12 @@ class help
         std::map<const int, const help_category> _help_categories;
         // Only persists per load, intentionally resets on menu -> game, game -> menu
         std::unordered_set<int> _read_categories;
-        void reset_instance();
         // Modifier for each mods order
         int current_order_start = 0;
         std::string current_src;
 };
 
-help &get_help();
-
-struct byte_length_comp {
-    bool operator()( const std::string &lhs, const std::string &rhs ) const {
-        return lhs.length() < rhs.length();
-    }
-};
+help_data &get_help();
 
 class help_window : public cataimgui::window
 {
@@ -78,27 +70,18 @@ class help_window : public cataimgui::window
         void draw_controls() override;
         cataimgui::bounds get_bounds() override;
     private:
-        // Temporary to fix issue where IMGUI scrollbar width isn't accounted for for the first few frames
-        float get_wrap_width();
+        help_data &data = get_help();
 
-        const bool screen_reader = get_option<bool>( "SCREEN_READER_MODE" );
-
-        help &data = get_help();
         input_context ctxt;
         std::map<int, input_event> hotkeys;
 
-        float two_column_min_width; // Minimum width needed to display two of the longest category name side by side
-        bool use_two_columns() {
-            return ImGui::GetContentRegionAvail().x > two_column_min_width;
-        }
+        const bool screen_reader = get_option<bool>( "SCREEN_READER_MODE" );
 
+        bool is_space_for_two_cat();
         void draw_category_selection();
-        void format_title( std::optional<help_category> category = std::nullopt );
-        void format_subtitle( const std::string &translated_category_name, const nc_color &category_color );
-        void format_footer( const std::string &prev, const std::string &next,
-                            const nc_color &category_color );
-
         void draw_category_option( const int &option, const help_category &category );
+        int option_end = -1;
+        int handle_option_looping( int option );
         int selected_option;
         bool has_selected_category = false;
         int loaded_option;
@@ -109,9 +92,16 @@ class help_window : public cataimgui::window
 
         void draw_category();
         cataimgui::scroll s;
-        const float one_em = ImGui::CalcTextSize( "M" ).x;
-};
 
-std::string get_hint();
+        // These could be moved to cataimgui::window for resuse if desired
+        void format_title( std::optional<help_category> category = std::nullopt );
+        void format_subtitle( const std::string &translated_category_name, const nc_color &category_color );
+        void format_footer( const std::string &prev, const std::string &next,
+                            const nc_color &category_color );
+        const float one_em = ImGui::CalcTextSize( "M" ).x;
+
+        // Temporary to fix issue where IMGUI scrollbar width isn't accounted for for the first few frames
+        float get_wrap_width();
+};
 
 #endif // CATA_SRC_HELP_H
