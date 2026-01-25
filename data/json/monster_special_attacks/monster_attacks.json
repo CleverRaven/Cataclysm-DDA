@@ -826,5 +826,25 @@
     "miss_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> dodges!",
     "no_dmg_msg_u": "%1$s pulls its arm back and swings wide, but you withstand the blow!",
     "no_dmg_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> withstands the blow!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "staggering_blow",
+    "accuracy": 5,
+    "cooldown": 15,
+    "move_cost": 175,
+    "hitsize_min": 12,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 20, "armor_penetration": 6 } ],
+    "effects": [
+      { "id": "staggered_character", "chance": 100, "duration": [ 1, 2 ] },
+      { "id": "downed", "chance": 50, "duration": [ 1, 2 ] }
+    ],
+    "hit_dmg_u": "%1$s smashes a heavy fist into your %2$s, sending you reeling!",
+    "hit_dmg_npc": "%1$s smashes a heavy fist into <npcname>'s %2$s, sending them reeling!",
+    "miss_msg_u": "%1$s swings a heavy fist at you, but you dodge!",
+    "miss_msg_npc": "%1$s swings a heavy fist at <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s smashes a heavy fist into your %2$s, but your armor blunts the impact!",
+    "no_dmg_msg_npc": "%1$s smashes a heavy fist into <npcname>'s %2$s, but their armor blunts the impact!"
   }
 ]
