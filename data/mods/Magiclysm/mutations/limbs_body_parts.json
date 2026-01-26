@@ -47,7 +47,7 @@
     "hp_bar_ui_text": "R WING",
     "main_part": "wing_ravenfolk_r",
     "opposite_part": "wing_ravenfolk_l",
-    "limb_types": [ [ "arm", 0.8 ], [ "hand", 0.3 ] ],
+    "limb_type": "wing",
     "limb_scores": [ [ "reaction", 0.1 ] ],
     "side": "right",
     "windage_effect": "winded_arm_r",
