@@ -498,7 +498,7 @@
     "damage_type": "cut",
     "max_level": 1,
     "min_damage": { "math": [ "2 * scaling_factor(u_grappled * 4)" ] },
-    "min_damage": { "math": [ "2 * scaling_factor(u_grappled * 6)" ] },
+    "max_damage": { "math": [ "2 * scaling_factor(u_grappled * 6)" ] },
     "min_range": 1,
     "max_range": 1,
     "range_increment": 1,
