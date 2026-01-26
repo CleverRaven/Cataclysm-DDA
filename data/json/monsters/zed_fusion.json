@@ -282,9 +282,9 @@
     "armor": { "bash": 26, "cut": 35, "stab": 30, "heat": 80, "bullet": 40, "electric": 6 }
   },
   {
-    "id": "mon_devourer_daitya",
+    "id": "mon_devourer_hekatonkheire",
     "type": "MONSTER",
-    "name": { "str": "daitya" },
+    "name": { "str": "hekatonkheire" },
     "description": "This creature is made from a mass of human and animal parts assembled by a katamari god or other thoughtless creator being.  When paused it seems as though small versions of this gigantic monstrous abomination strain to birth themselves from its bulk, while other limbs push the straining masses back inside.",
     "default_faction": "zombie",
     "copy-from": "mon_devourer",
