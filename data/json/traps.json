@@ -607,6 +607,21 @@
   },
   {
     "type": "trap",
+    "id": "tr_thick_ice",
+    "name": "thick ice",
+    "color": "cyan",
+    "memorial_male": { "ctxt": "memorial_male", "str": "Stumbled on ice." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Stumbled on ice." },
+    "flags": [ "ECHOLOCATION_DETECTABLE" ],
+    "symbol": "/",
+    "visibility": 0,
+    "avoidance": 4,
+    "difficulty": 99,
+    "action": "thick_ice",
+    "trigger_message_u": "You stumbled on the ice!"
+  },
+  {
+    "type": "trap",
     "id": "tr_spike_pit",
     "name": "spiked pit",
     "color": "blue",
