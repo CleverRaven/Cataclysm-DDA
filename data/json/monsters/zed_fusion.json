@@ -370,8 +370,8 @@
       { "id": "grab", "cooldown": 7 },
       { "id": "scratch" },
       [ "ZOMBIE_FUSE", 80 ],
-      { "id": "grab_2", "accuracy": 5, "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 100" ] } },
-      { "id": "grab_3", "accuracy": 6, "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 250" ] } },
+      { "id": "grab_2", "accuracy": 5 },
+      { "id": "grab_3", "accuracy": 6 },
       {
         "type": "monster_attack",
         "attack_type": "bite",
