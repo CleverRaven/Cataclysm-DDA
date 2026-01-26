@@ -925,7 +925,7 @@
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_BEGGAR_2",
     "dynamic_line": "Takes all kinds, I guess.  Never been much for lizards.  Let's treat this as a 'you' job, yeah?",
-    "responses": [ { "text": "… Right.  I guess I'll handle it.  Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+    "responses": [ { "text": "Yeah… Right.  I guess I'll handle it.  Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "type": "talk_topic",
@@ -1074,19 +1074,19 @@
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_pizzaiolo",
     "dynamic_line": "Yeah………… how's'about you handle that one?",
-    "responses": [ { "text": "… fair enough.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+    "responses": [ { "text": "Right… fair enough.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_KILL_SLIMES",
     "dynamic_line": "Take a mop.  Hah!",
-    "responses": [ { "text": "… thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+    "responses": [ { "text": "Right… thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_HUNT_ANTS",
     "dynamic_line": "Ants?  Can't be that bad.",
-    "responses": [ { "text": "… thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+    "responses": [ { "text": "Sure… thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "type": "talk_topic",
