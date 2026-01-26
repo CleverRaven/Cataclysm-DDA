@@ -114,6 +114,109 @@
   {
     "type": "monster_attack",
     "attack_type": "melee",
+    "id": "grab_4",
+    "cooldown": 0,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
+    "grab": true,
+    "grab_data": { "grab_effect": "grabbed" },
+    "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "not": { "u_has_effect": "grabbing_4" } } ] },
+    "//": "We can't count grab filters, so grabbing 3 works as a soft cooldown",
+    "self_effects_onhit": [ { "id": "grabbing_4", "duration": 150, "permanent": false } ],
+    "hit_dmg_u": "%1$s grabs your %2$s with its other hand!",
+    "hit_dmg_npc": "%1$s grabs <npcname>'s %2$s with its other hand!",
+    "miss_msg_u": "%s tries to grab you, but you dodge!",
+    "miss_msg_npc": "%s tries to grab <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s grabs your %2$s with its other hand!",
+    "no_dmg_msg_npc": "%1$s grabs <npcname>'s %2$s with its other hand!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "grab_5",
+    "cooldown": 0,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
+    "grab": true,
+    "grab_data": { "grab_effect": "grabbed" },
+    "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "not": { "u_has_effect": "grabbing_5" } } ] },
+    "//": "We can't count grab filters, so grabbing 3 works as a soft cooldown",
+    "self_effects_onhit": [ { "id": "grabbing_5", "duration": 150, "permanent": false } ],
+    "hit_dmg_u": "%1$s grabs your %2$s with its other hand!",
+    "hit_dmg_npc": "%1$s grabs <npcname>'s %2$s with its other hand!",
+    "miss_msg_u": "%s tries to grab you, but you dodge!",
+    "miss_msg_npc": "%s tries to grab <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s grabs your %2$s with its other hand!",
+    "no_dmg_msg_npc": "%1$s grabs <npcname>'s %2$s with its other hand!"
+  },
+  {
+    "type": "monster_attack",
+    "id": "hekatonkheire_rend",
+    "attack_type": "eoc",
+    "cooldown": 1,
+    "range": 1,
+    "eoc": [ "EOC_HEKATONKHEIRES_RENDING_GRAB_INIT" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_INIT",
+    "effect": [ 
+      { "math": [ "u_has_grappled_set = 0" ] },
+      { "run_eocs": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE"}
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE",
+    "condition": { "u_has_effect": "grabbed" },
+    "effect": [ 
+      { "math": [ "u_grappled += 1" ] },
+      { "run_eocs": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE2"}
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE2",
+    "condition": { "u_has_effect": "grabbing_2" },
+    "effect": [ 
+      { "math": [ "u_grappled += 1" ] },
+      { "run_eocs": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE3"}
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE3",
+    "condition": { "u_has_effect": "grabbing_3" },
+    "effect": [ 
+      { "math": [ "u_grappled += 1" ] },
+      { "run_eocs": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE4"}
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE4",
+    "condition": { "u_has_effect": "grabbing_4" },
+    "effect": [ 
+      { "math": [ "u_grappled += 1" ] },
+      { "run_eocs": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE5"}
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE5",
+    "condition": { "u_has_effect": "grabbing_5" },
+    "effect": [ 
+      { "math": [ "u_grappled += 1" ] },
+      { "run_eocs": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLEDAMAGE"}
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLEDAMAGE_CAST",
+    "condition": { "math": [ "u_grappled > 1" ] },
+    "effect": [ { "u_cast_spell": { "id": "HEKATONKHEIRE_REND_AND_TEAR" } } ]
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
     "id": "ranged_pull",
     "cooldown": 15,
     "move_cost": 150,

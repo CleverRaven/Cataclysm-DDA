@@ -487,6 +487,35 @@
   },
   {
     "type": "SPELL",
+    "id": "HEKATONKHEIRE_REND_AND_TEAR",
+    "name": { "str": "Rend and Tear", "//~": "NO_I18N" },
+    "description": { "str": "Begins drawing and quartering the victim.", "//~": "NO_I18N" },
+    "base_casting_time": 0,
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "LOUD", "SPLIT_DAMAGE", "RANDOM_DAMAGE" ],
+    "damage_type": "cut",
+    "max_level": 1,
+    "min_damage": {
+      "math": [
+        "( 2) * (scaling_factor(u_val('u_grappled')* 4 ) )"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( 2) * (scaling_factor(u_val('u_grappled')* 6 ) )"
+      ]
+    },
+    "min_range": 1,
+    "max_range": 1,
+    "range_increment": 1,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "aoe_increment": 1
+  },
+  {
+    "type": "SPELL",
     "id": "hit_and_run",
     "name": { "str": "Running Away", "//~": "NO_I18N" },
     "description": { "str": "Causes monster to run away for 5 turns.", "//~": "NO_I18N" },
