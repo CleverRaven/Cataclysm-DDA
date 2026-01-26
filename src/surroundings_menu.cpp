@@ -1090,6 +1090,9 @@ void surroundings_menu::draw_examine_info()
 {
     switch( selected_tab ) {
         case surroundings_menu_tab_enum::items: {
+            if( !item_data.selected_entry ) {
+                break;
+            }
             std::vector<iteminfo> selected_info;
             std::vector<iteminfo> dummy_info;
             const item *selected_item = item_data.selected_entry->get_selected_entity();
