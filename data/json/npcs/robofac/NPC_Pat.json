@@ -33,7 +33,7 @@
       { "item": "socks" },
       { "item": "robofac_enviro_suit_casual" },
       { "item": "smart_watch_adv" },
-      { "item": "ar_glasses_basic" },
+      { "item": "ar_glasses_advanced" },
       { "item": "colt_python", "container-item": "XL_holster" }
     ]
   },
@@ -80,20 +80,58 @@
         }
       },
       {
-        "text": "I found those electronics you asked for.",
+        "text": "I found those electronics you asked for - here, use this pair of AR glasses.",
         "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_1_COMPLETE",
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_ROBOFAC_PAT_2" },
             { "u_has_items": { "item": "eink_tablet_pc", "count": 2 } },
-            { "u_has_items": { "item": "ar_glasses_advanced", "count": 2 } },
+            { "u_has_items": { "item": "ar_glasses_advanced", "count": 1 } },
             { "u_has_items": { "item": "two_way_radio", "count": 2 } }
           ]
         },
         "effect": [
           { "u_consume_item": "eink_tablet_pc", "count": 2, "popup": true },
-          { "u_consume_item": "ar_glasses_advanced", "count": 2, "popup": true },
+          { "u_consume_item": "ar_glasses_advanced", "count": 1, "popup": true },
           { "u_consume_item": "two_way_radio", "count": 2, "popup": true },
+          { "u_add_var": "robofac_pat_partners", "value": "yes" },
+          { "finish_mission": "MISSION_ROBOFAC_PAT_2", "success": true }
+        ]
+      },
+      {
+        "text": "I found those electronics you asked for - here, use this badass military MVAS unit instead.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_MAKE_EARPIECE_MVAS",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_PAT_2" },
+            { "u_has_items": { "item": "eink_tablet_pc", "count": 1 } },
+            { "u_has_items": { "item": "military_vis_aug_system", "count": 1 } },
+            { "u_has_items": { "item": "two_way_radio", "count": 1 } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "eink_tablet_pc", "count": 1, "popup": true },
+          { "u_consume_item": "military_vis_aug_system", "count": 1, "popup": true },
+          { "u_consume_item": "two_way_radio", "count": 1, "popup": true },
+          { "u_add_var": "robofac_pat_partners", "value": "yes" },
+          { "finish_mission": "MISSION_ROBOFAC_PAT_2", "success": true }
+        ]
+      },
+      {
+        "text": "I found those electronics you asked for - here, use this badass Hub 01 headset instead.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_MAKE_EARPIECE_HVAH",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_PAT_2" },
+            { "u_has_items": { "item": "eink_tablet_pc", "count": 1 } },
+            { "u_has_items": { "item": "robofac_head_rig_ar", "count": 1 } },
+            { "u_has_items": { "item": "two_way_radio", "count": 1 } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "eink_tablet_pc", "count": 1, "popup": true },
+          { "u_consume_item": "robofac_head_rig_ar", "count": 1, "popup": true },
+          { "u_consume_item": "two_way_radio", "count": 1, "popup": true },
           { "u_add_var": "robofac_pat_partners", "value": "yes" },
           { "finish_mission": "MISSION_ROBOFAC_PAT_2", "success": true }
         ]
@@ -120,7 +158,6 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_proposed_MVAS" } ] } },
             { "not": { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('14 d')" ] } }
           ]
         }
@@ -131,29 +168,25 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_proposed_MVAS" } ] } },
             { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('14 d')" ] }
           ]
-        },
-        "effect": { "u_add_var": "robofac_pat_proposed_MVAS", "value": "yes" }
+        }
       },
       {
-        "text": "Hey, remember that time you mentioned military AR units?  Believe it or not, I've got one.",
+        "text": "Hey, check out this military-grade AR unit.  Think we can do something with it?",
         "topic": "TALK_ROBOFAC_MERC_PAT_MAKE_EARPIECE_MVAS",
         "condition": {
           "and": [
-            { "compare_string": [ "yes", { "u_val": "robofac_pat_proposed_MVAS" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
             { "u_has_items": { "item": "military_vis_aug_system", "count": 1 } }
           ]
         }
       },
       {
-        "text": "Hey, remember that time you mentioned military AR units?  Believe it or not, I've got one made by our employer.",
+        "text": "Hey, check out this military-grade AR unit.  Think we can do something with it?",
         "topic": "TALK_ROBOFAC_MERC_PAT_MAKE_EARPIECE_HVAH",
         "condition": {
           "and": [
-            { "compare_string": [ "yes", { "u_val": "robofac_pat_proposed_MVAS" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
             { "u_has_items": { "item": "robofac_head_rig_ar", "count": 1 } }
           ]
@@ -173,8 +206,8 @@
           { "u_add_var": "robofac_pat_finished_earpiece", "value": "yes" },
           {
             "if": { "compare_string": [ "military_vis_aug_system", { "u_val": "robofac_pat_is_holding" } ] },
-            "then": [ { "u_spawn_item": "military_vis_aug_system" }, { "u_spawn_item": "pat_earpiece" } ],
-            "else": [ { "u_spawn_item": "robofac_head_rig_ar" }, { "u_spawn_item": "pat_earpiece" } ]
+            "then": [ { "u_spawn_item": "military_vis_aug_system" }, { "u_spawn_item": "pat_earpiece" }, { "u_add_var": "robofac_pat_gave_gear", "value": "yes" } ],
+            "else": [ { "u_spawn_item": "robofac_head_rig_ar" }, { "u_spawn_item": "pat_earpiece" }, { "u_add_var": "robofac_pat_gave_gear", "value": "yes" } ]
           }
         ]
       },
@@ -638,12 +671,50 @@
   {
     "id": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2",
     "type": "talk_topic",
-    "dynamic_line": "Pat taps their glasses - you see that they're basic AR glasses, and can barely make out the HUD displayed on them.  \"See these?  Handy, yeah.  Cheap model, though.  I'm thinkin' if you can find us a couple'a the advanced models, a couple'a tablet PCs, and a couple'a two-way radios, we could set up a controller-operator thing, you know, like in the movies.  I've got a big cache of downloaded map data from my old gig, so no doubt I can keep you informed.  With internet and cell service down, it won't be easy, and we can't share video, but I think I could set up a LoRa system for audio and pictures here at the station - long range radio, yeah?  Wicked.  Anyway, you do the field work, you keep the rewards - all the while, I'll use the contraption I'm gonna make to collect data I can sell to our employers.  Win-Win.",
+    "dynamic_line": "Pat taps their glasses - you see that they're a very expensive pair of AR glasses.  \"See these?  Handy, yeah.  Picked'em up after my last paycheck before it all happened.  I'm thinkin' if you can find yourself a pair, plus a couple'a tablet PCs for spare parts, and a couple'a two-way radios, we could set up a controller-operator thing, you know, like in the movies.  I've got a big cache of downloaded map data from my old gig, so no doubt I can keep you informed.  With internet and cell service down, it won't be easy, and we can't share video, but I think I could set up a LoRa system for audio and pictures here at the station - long range radio, yeah?  Wicked.  Anyway, you do the field work, you keep the rewards - all the while, I'll use the contraption I'm gonna make to collect data I can sell to our employers.  Win-Win.",
     "responses": [
       {
-        "text": "I like it.  2 advanced AR glasses, 2 E-ink tablet PCs, and 2 two-way radios, coming right up.",
+        "text": "I like it.  1 pair of advanced AR glasses, 2 E-ink tablet PCs, and 2 two-way radios, coming right up.",
         "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_3",
         "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_2" }
+      },
+      {
+        "text": "Where could I find a pair of those glasses?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2_advice",
+      },
+      {
+        "text": "Actually, I've got this really advanced headset.  Will that work?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2b",
+      },
+      { "text": "On second though, let's talk about this later.  I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2b",
+    "type": "talk_topic",
+    "dynamic_line": "Lemme see heah… Well, hole-lee shit, fuck yeah it'll work!  That thing's probably got a radio built in, yeah?  In that case, just get a radio and a tablet for me, for parts.",
+    "responses": [
+      {
+        "text": "I like it.  I'll find a two-way radio and an E-ink tablet PC.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_3",
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_2" }
+      },
+      { "text": "On second though, let's talk about this later.  I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2_advice",
+    "type": "talk_topic",
+    "dynamic_line": "Bought mine at an electronics shop back in town, but they were in demand before the end.  Pre-ordah only.  If you can't find one in a shop, I guess you could always rob someone dead, hah.  Or check out one'a them containah yahrds, or swipe it off a truck.  Don't matter to me.",
+    "responses": [
+      {
+        "text": "I like it.  1 pair of advanced AR glasses, 2 E-ink tablet PCs, and 2 two-way radios, coming right up.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_3",
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_2" }
+      },
+      {
+        "text": "Actually, I've got this really advanced headset.  Will that work?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2b",
       },
       { "text": "On second though, let's talk about this later.  I gotta go.", "topic": "TALK_DONE" }
     ]
@@ -715,7 +786,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_PAT_GIVE_EARPIECE",
     "type": "talk_topic",
-    "dynamic_line": "Well, this is almost simpler than before.  Check this shit out.  I rigged up'a small radio transponder to an earpiece.  Just put it in your ear, plug it in'ta the port there, switch it on, and as long as your AR headset is on, I can see, heah, and talk.  Wicked, eh?",
+    "dynamic_line": "Right, so check this shit out.  I rigged up'a small radio transponder to an earpiece.  Just put it in your ear, plug it in'ta the port there on the headset, switch it on, and as long as your AR headset is on, I can see, heah, and talk.  Wicked, eh?  You just keep that transmitter-receiver toggled on and I'll do what I can to give you some wicked fuckin' good advice and info.  On my end, I'll sell data to the Hub to keep me afloat, and you keep whatever comes out of the jobs.",
     "responses": [ { "text": "Wicked.  Guess we'll talk soon, Pat.  Thanks.", "topic": "TALK_DONE" } ]
   },
   {
