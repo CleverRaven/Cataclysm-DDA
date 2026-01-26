@@ -306,31 +306,30 @@
       { "id": "grab_4", "accuracy": 5, "cooldown": 7 },
       { "id": "grab_5", "accuracy": 6, "cooldown": 8 },
       { "id": "hekatonkheire_rend", "cooldown": 4 },
-      { "id": "multi_scratch" },
+      { "id": "multi_scratch", "cooldown": 14 },
       {
         "type": "monster_attack",
         "attack_type": "bite",
-        "id": "bite_devourer_1",
+        "id": "bite_devourer_h",
         "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15 } ],
-        "infection_chance": 15,
-        "cooldown": 4,
+        "infection_chance": 20,
+        "cooldown": 9,
         "move_cost": 150
       },
       {
         "id": "smash",
-        "throw_strength": 70,
+        "throw_strength": 120,
         "accuracy": 7,
         "range": 2,
         "cooldown": 30,
         "blockable": false,
-        "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 300" ] },
-        "hit_dmg_u": "A meaty tendril slams into your %2$s, sending you flying!",
-        "hit_dmg_npc": "A meaty tendril slams into <npcname>'s %2$s, sending them flying!",
-        "no_dmg_msg_u": "A meaty tendril slams into your %2$s, but does no damage!",
-        "no_dmg_msg_npc": "A meaty tendril slams into <npcname>'s %2$s, but does no damage!",
-        "miss_msg_u": "%1$s swings a meaty tendril at you, but you dodge!",
-        "miss_msg_npc": "%1$s swings a meaty tendril at <npcname>, but they dodge!"
+        "hit_dmg_u": "A meaty arm slams into your %2$s, sending you flying!",
+        "hit_dmg_npc": "A meaty arm slams into <npcname>'s %2$s, sending them flying!",
+        "no_dmg_msg_u": "A meaty arm slams into your %2$s, but does no damage!",
+        "no_dmg_msg_npc": "A meaty arm slams into <npcname>'s %2$s, but does no damage!",
+        "miss_msg_u": "%1$s swings a meaty arm at you, but you dodge!",
+        "miss_msg_npc": "%1$s swings a meaty arm at <npcname>, but they dodge!"
       }
     ],
     "regenerates": 1,
@@ -349,7 +348,7 @@
       "PUSH_MON",
       "FILTHY"
     ],
-    "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 3 }
+    "armor": { "bash": 15, "cut": 8, "bullet": 7, "electric": 3 }
   },
   {
     "id": "mon_zombie_crushed_giant",

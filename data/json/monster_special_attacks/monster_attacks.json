@@ -571,6 +571,23 @@
   {
     "type": "monster_attack",
     "attack_type": "melee",
+    "id": "multi_scratch",
+    "attack_amount": [ 1, 5 ],
+    "cooldown": 20,
+    "move_cost": 150,
+    "damage_max_instance": [ { "damage_type": "cut", "amount": 8 } ],
+    "hit_dmg_u": "%1$s claws at your %2$s!",
+    "hit_dmg_npc": "%1$s claws at <npcname>!",
+    "miss_msg_u": "%1$s claws at you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to claw at <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s claws at your %2$s, but fails to penetrate armor.",
+    "no_dmg_msg_npc": "%1$s tries to claw at <npcname>, but fails to penetrate armor.",
+    "dodgeable": true,
+    "blockable": true
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
     "id": "scratch_humanoid",
     "//": "For monsters who would scratch with the same hands they are holding you - like zombies",
     "cooldown": 20,
