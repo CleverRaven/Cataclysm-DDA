@@ -36,8 +36,8 @@
     "//": "devourer zombie upgrades",
     "monsters": [
       { "monster": "mon_devourer", "weight": 500 },
-      { "monster": "mon_devourer_hekatonkheires", "weight": 5 },
-      { "monster": "mon_devourer_daityas", "weight": 5 }
+      { "monster": "mon_devourer_hekatonkheire", "weight": 5 },
+      { "monster": "mon_devourer_daitya", "weight": 5 }
     ]
   },
   {
