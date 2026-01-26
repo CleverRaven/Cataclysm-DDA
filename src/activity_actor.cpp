@@ -3197,11 +3197,12 @@ std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonVal
 
 lockpick_activity_actor lockpick_activity_actor::use_item(
     const item_location &lockpick,
-    const tripoint_abs_ms &target
+    const tripoint_abs_ms &target,
+    const Character &who
 )
 {
     return lockpick_activity_actor {
-        lockpicking_moves( lockpick ),
+        lockpicking_moves( lockpick, who ),
         lockpick,
         std::nullopt,
         target
@@ -3220,29 +3221,37 @@ lockpick_activity_actor lockpick_activity_actor::use_bionic(
     };
 }
 
-int lockpick_activity_actor::lockpicking_moves( const item_location &lockpick_location )
+int lockpick_activity_actor::lockpicking_moves(
+    const item_location &lockpick_location,
+    const Character &who
+)
 {
-    Character *carrier = lockpick_location.carrier();
     const item *lockpick = lockpick_location.get_item();
-    int qual = lockpick->get_quality( qual_LOCKPICK );
+    int qual;
+    if( !lockpick ) {
+        debugmsg( "Lost lockpick item for lockpicking activity." );
+        qual = 1;
+    } else {
+        qual = lockpick->get_quality( qual_LOCKPICK );
+    }
     if( qual < 1 ) {
         debugmsg( "Item %s with 'PICK_LOCK' use action requires LOCKPICK quality of at least 1.",
-                  lockpick->typeId().c_str() );
+                lockpick->typeId().c_str() );
         qual = 1;
     }
 
     /** @EFFECT_LOCKPICK speeds up door lock picking */
     int duration_proficiency_factor = 1;
-    if( !carrier->has_proficiency( proficiency_prof_lockpicking ) ) {
+    if( !who.has_proficiency( proficiency_prof_lockpicking ) ) {
         duration_proficiency_factor *= proficiency_prof_lockpicking->default_time_multiplier();
     }
-    if( !carrier->has_proficiency( proficiency_prof_lockpicking_expert ) ) {
+    if( !who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
         duration_proficiency_factor *= proficiency_prof_lockpicking_expert->default_time_multiplier();
     }
 
     // Weighting of skills that matches success calculations in finish()
-    const float weighted_skill_average = ( 3.0f * carrier->get_skill_level(
-            skill_traps ) + carrier->get_skill_level( skill_mechanics ) ) / 4.0f;
+    const float weighted_skill_average = ( 3.0f * who.get_skill_level(
+            skill_traps ) + who.get_skill_level( skill_mechanics ) ) / 4.0f;
 
     if( lockpick->has_flag( flag_PERFECT_LOCKPICK ) ) {
         return to_moves<int>( 5_seconds );
@@ -3250,7 +3259,7 @@ int lockpick_activity_actor::lockpicking_moves( const item_location &lockpick_lo
         /** @EFFECT_DEX speeds up door lock picking */
         return to_moves<int>(
                    std::max( 30_seconds,
-                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( carrier->dex_cur ) / 4.0f +
+                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( who.dex_cur ) / 4.0f +
                                      weighted_skill_average ) ) * duration_proficiency_factor ) );
     }
 }

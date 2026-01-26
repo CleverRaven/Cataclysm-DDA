@@ -1966,7 +1966,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
         Character *dummy = get_avatar().as_character();
         dummy->wear_item( item( itype_test_backpack ), false );
         item_location lockpick_location = dummy->i_add( item( itype_test_lockpick, calendar::turn ) );
-        return player_activity( lockpick_activity_actor::use_item( lockpick_location, get_avatar().pos_abs() ) );
+        return player_activity( lockpick_activity_actor::use_item( lockpick_location, get_avatar().pos_abs(), *dummy ) );
     },
     //player_activity( longsalvage_activity_actor() ),
     [] { return player_activity( meditate_activity_actor() ); },
