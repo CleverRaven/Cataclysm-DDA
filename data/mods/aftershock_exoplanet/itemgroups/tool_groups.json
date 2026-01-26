@@ -91,6 +91,7 @@
       { "item": "soldering_iron", "prob": 30 },
       { "item": "soldering_iron_portable", "prob": 30, "charges": [ 0, 50 ] },
       { "item": "solder_wire", "prob": 30 },
+      { "item": "cordless_drill", "prob": 20 },
       { "group": "duct_tape_roll_part", "prob": 30, "count": [ 1, 2 ] }
     ]
   },
@@ -309,6 +310,7 @@
       { "item": "goggles_welding", "prob": 5 },
       { "item": "polisher", "prob": 20 },
       { "item": "angle_grinder", "prob": 20 },
+      { "item": "cordless_drill", "prob": 20 },
       [ "thread_cutting_set", 5 ],
       [ "hand_pump", 5 ],
       [ "jumper_cable", 10 ],
