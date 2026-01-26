@@ -424,6 +424,25 @@ item_location Character::try_add( item it, int &copies_remaining, const item *av
     return first_item_added;
 }
 
+bool Character::can_add( item it, const item *avoid,
+                         bool allow_wield,
+                         bool ignore_pkt_settings )
+{
+    invalidate_inventory_validity_cache();
+    invalidate_leak_level_cache();
+
+    std::pair<item_location, item_pocket *> pocket = best_pocket( it, avoid, ignore_pkt_settings );
+    if( pocket.second == nullptr ) {
+        if( !has_weapon() && allow_wield && can_wield( it ).success() ) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return true;
+    }
+}
+
 item_location Character::i_add( item it, bool /* should_stack */, const item *avoid,
                                 const item *original_inventory_item, const bool allow_drop,
                                 const bool allow_wield, bool ignore_pkt_settings )
