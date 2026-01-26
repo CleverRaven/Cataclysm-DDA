@@ -1599,10 +1599,9 @@ bool spell::is_valid_target( const Creature &caster, const tripoint_bub_ms &p ) 
         valid = valid && target_by_species_id( p );
         valid = valid && ignore_by_species_id( p );
         valid = valid && valid_target_condition( caster, *cr );
-    } else if( const optional_vpart_position vp = get_map().veh_at( p ) ; vp.has_value() ) {
-        if( is_valid_target( spell_target::vehicle ) ) {
-            valid_target_condition( caster, vp.value().vehicle() );
-        }
+    } else if( const optional_vpart_position vp = get_map().veh_at( p ) ;
+               is_valid_target( spell_target::vehicle ) && vp.has_value() ) {
+        valid = valid_target_condition( caster, vp.value().vehicle() );
     } else {
         valid = is_valid_target( spell_target::ground );
     }
