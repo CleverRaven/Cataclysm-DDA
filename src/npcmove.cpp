@@ -120,6 +120,7 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
+static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blade( "bio_blade" );
@@ -3400,6 +3401,7 @@ bool npc::find_job_to_perform()
             continue;
         }
         player_activity scan_act = player_activity( elem );
+        // TODO: remove if-else blocks once player_activity is obsoleted
         if( elem == ACT_MOVE_LOOT ) {
             assign_activity( zone_sort_activity_actor() );
             return true;
@@ -3408,6 +3410,9 @@ bool npc::find_job_to_perform()
             return true;
         } else if( elem == ACT_MULTIPLE_CHOP_PLANKS ) {
             assign_activity( multi_chop_planks_activity_actor() );
+            return true;
+        } else if( elem == ACT_MULTIPLE_VEHICLE_DECONSTRUCTION ) {
+            assign_activity( multi_vehicle_deconstruct_activity_actor() );
             return true;
         } else if( generic_multi_activity_handler( scan_act, *this->as_character(), true ) ) {
             assign_activity( elem );
