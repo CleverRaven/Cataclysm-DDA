@@ -13,7 +13,7 @@
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "upgrades": { "half_life": 120, "into": "mon_zombie_spitter" },
     "fungalize_into": "mon_zombie_acidic_dusted",
-    "extend": { "flags": [ "ACIDPROOF", "ACID_BLOOD" ], "special_attacks": [ [ "ACID_BARF", 10 ] ] }
+    "extend": { "flags": [ "ACIDPROOF", "ACID_BLOOD", "CLUMSY_ATTACKS" ], "special_attacks": [ [ "ACID_BARF", 10 ] ] }
   },
   {
     "id": "mon_zombie_corrosive",

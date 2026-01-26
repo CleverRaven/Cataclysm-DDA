@@ -1113,7 +1113,7 @@ Character status value  | Description
 `REGEN_HP`              | Affects the rate the monster recovers hp.
 `VISION_RANGE`          | Affects monster vision range, both day and night one.
 `SPEED`                 | Affects the base speed of the monster.
-'RANGE_DODGE'           | Gives the monster a percentage chance to dodge ranged attacks, including firearms
+`RANGE_DODGE`           | Gives the monster a percentage chance to dodge ranged attacks, including firearms
 `LUMINATION`            | Affects monster luminance
 `TOTAL_WEIGHT`          | Affects monsters weight
 

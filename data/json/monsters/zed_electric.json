@@ -40,7 +40,7 @@
     "special_attacks": [ [ "PARROT", 8 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "upgrades": { "half_life": 168, "into_group": "GROUP_ZOMBIE_ELECTRIC_UPGRADE" },
-    "extend": { "flags": [ "ELECTRIC" ] }
+    "extend": { "flags": [ "ELECTRIC", "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_nullfield",
@@ -83,6 +83,6 @@
     "harvest": "zombie_humanoid_electric",
     "special_when_hit": [ "ZAPBACK", 100 ],
     "upgrades": { "half_life": 112, "into": "mon_zombie_electric" },
-    "extend": { "flags": [ "ELECTRIC" ] }
+    "extend": { "flags": [ "ELECTRIC", "CLUMSY_ATTACKS" ] }
   }
 ]
