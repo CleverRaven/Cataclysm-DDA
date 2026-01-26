@@ -219,8 +219,16 @@
           { "u_add_var": "robofac_pat_finished_earpiece", "value": "yes" },
           {
             "if": { "compare_string": [ "military_vis_aug_system", { "u_val": "robofac_pat_is_holding" } ] },
-            "then": [ { "u_spawn_item": "military_vis_aug_system" }, { "u_spawn_item": "pat_earpiece" }, { "u_add_var": "robofac_pat_gave_gear", "value": "yes" } ],
-            "else": [ { "u_spawn_item": "robofac_head_rig_ar" }, { "u_spawn_item": "pat_earpiece" }, { "u_add_var": "robofac_pat_gave_gear", "value": "yes" } ]
+            "then": [
+              { "u_spawn_item": "military_vis_aug_system" },
+              { "u_spawn_item": "pat_earpiece" },
+              { "u_add_var": "robofac_pat_gave_gear", "value": "yes" }
+            ],
+            "else": [
+              { "u_spawn_item": "robofac_head_rig_ar" },
+              { "u_spawn_item": "pat_earpiece" },
+              { "u_add_var": "robofac_pat_gave_gear", "value": "yes" }
+            ]
           }
         ]
       },
@@ -351,12 +359,7 @@
     "id": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_1_MVAS_HVAH",
     "type": "talk_topic",
     "dynamic_line": "Great.  This should be easy.  Come back tomorrow, and I'll have somethin' for ya'.",
-    "responses": [
-      {
-        "text": "Sure, see you tomorrow.",
-        "topic": "TALK_DONE"
-      }
-    ]
+    "responses": [ { "text": "Sure, see you tomorrow.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE",
