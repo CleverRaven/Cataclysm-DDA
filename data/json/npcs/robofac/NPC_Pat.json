@@ -948,7 +948,7 @@
         "text": "Thanks, maybe I'll check it out.",
         "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE",
         "effect": [
-          { "assign_mission": "MISSION_ROBOFAC_PAT_2_OUTTA_TOWN" },
+          { "assign_mission": "MISSION_ROBOFAC_PAT_OUTTA_TOWN" },
           { "u_add_var": "robofac_pat_gave_directions_farm_supply", "value": "yes" }
         ]
       }
