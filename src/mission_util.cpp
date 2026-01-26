@@ -487,7 +487,7 @@ bool mission_util::set_update_mapgen( const JsonObject &jo,
     if( jo.has_member( "om_terrain" ) ) {
         const std::string om_terrain = jo.get_string( "om_terrain" );
         auto mission_func = [update_map = std::move( update_map ), om_terrain]( mission * miss ) {
-            tripoint_abs_omt update_pos3 = mission_util::reveal_om_ter( miss->get_target(), om_terrain, 1, false );
+            tripoint_abs_omt update_pos3 = mission_util::reveal_om_ter( miss->has_target() ? miss->get_target() : get_player_character().pos_abs_omt(), om_terrain, 1, false );
             update_map( update_pos3, miss );
         };
         funcs.emplace_back( std::move( mission_func ) );
