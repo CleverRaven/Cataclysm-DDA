@@ -3236,7 +3236,7 @@ int lockpick_activity_actor::lockpicking_moves(
     }
     if( qual < 1 ) {
         debugmsg( "Item %s with 'PICK_LOCK' use action requires LOCKPICK quality of at least 1.",
-                lockpick->typeId().c_str() );
+                  lockpick->typeId().c_str() );
         qual = 1;
     }
 
