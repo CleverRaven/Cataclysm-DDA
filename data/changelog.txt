@@ -409,18 +409,8 @@ Inland container depot
 25 more shipping containers
 Your new pal, Pat (check the Hub)
 Add feldspar chunks to forest/field itemgroups, add feldspar veins to Innawood
-Add connective Outcrop layer
-Add ruined towers to Highlands
-Container depots have a more dangerous variant
-Add two makeshift goedendags
-New exodii powered respirator gear and recipes
-anomalous mp3 cooldown and snippets and crash fix
-2 more nomad PAPR blowers + noise
-10 more shipping containers (85 total)
-Integrated Visual Augmentation System + Hub 01 mission
 Dimension of sundered spacetime
-AR-compatible transponder for your pal Pat
-Turn Long Tail into a limb-adding mutation
+Turn various traits into limb-adding mutations
 
 
 ## Interface:
@@ -562,7 +552,6 @@ Print 'taming' foods for monsters
 Sidebar headers to differentiate terrain vs furniture
 Remove 'Toggle skill training' hotkey description
 Add a new display mode to the construction menu: ready.
-Allow input of utf-8 characters in curses UI
 Disable invalid file operations for empty e-devices
 Show time required to hotwire a car
 Add sidebar widgets for oxygen levels
@@ -1025,17 +1014,7 @@ Add an enchantment that modifies the 'free dodges' stat introduced for Martial A
 [Xedra Evolved] Add Sefer Raziel HaMalakh as a hedge magic book
 [MoM] Add biokinesis/vitakinesis research facility
 [Aftershock] Add esper enkindling tinctures
-[Xedra Evolved] Standardize base `natural_stance` across all shapeshift forms
-[MoM] Noetic Resonator instructions can spawn in doctor's offices
-[Sky Island] Add wall transformation constructions, add flesh walls/floors
-[Magiclysm] Move Magus stat buff spells (Fox's Cunning etc) to Technomancer
-[MoM] Matrix crystals are listed as artifacts
-[Xedra Evolved] Add `former OA field agent` zombie to labs
-[alt-map-key] Add new overmap terrain
 [MoM] Add spoiler doc to explain how power learning works
-[Xedra Evolved] Extremely rare chance for zombie scientists to have CBMs
-[Innawood] Add graphite deposits
-[alt-map-key] Add new overmap terrain
 
 
 
@@ -1159,18 +1138,12 @@ Techniqueify `HOOVES`
 Increase hulk combat ability
 internal vehicle electronics don't threaten the integrity of the tires when destroyed
 Apis npc is more insectoid, more brave, less talkative, and more dangerous
-Move ANTLERS to techniques 
-Jay's mission
-Blood Draw Kit cannot harvest corpse-blood
-Buff brute damage slightly
 Natural healing degrades health but medical healing does not
 Devourers gain abilities and resilience from devouring
 Scale devourer flesh raptor generation with size
 Remove grenade hacks from direct spawn, make lab bots spawn flashbang hacks instead
 Reduce the rate of siphoning and drawing a liquid from vehicle from 0.66L to 0.25L per second
-Reduce appliance refill time from 15 to 5 minutes
-Brutes must grab you to throw you, add staggering blow
-Technique-ify Small Horns
+Technique-ify Several traits
 
 
 ## Bugfixes:
@@ -1594,13 +1567,7 @@ Fix format mismatch in cataimgui::draw_colored_text
 Fixing error and tips msg for water purification tablets
 Fix ethereal item info
 Fixed debug msg in mapgen that caused debug errors.
-Fix overmap test for xedra fishing shack
 You can't fold veh with furn in it.
-Pat won't repeat themselves after otherworldly travel
-Add new EXTRADIMENSIONAL flag to the ruined tower
-Fix some loose liquid weak glue
-Migrate itype ids when loading pocket settings
-Debug menu edit creature string fault
 Fix bandages or disinfectant could apply bonus healing to other body parts
 Updated logic for sunlight availability for planting
 More reasonable approach to item rot
