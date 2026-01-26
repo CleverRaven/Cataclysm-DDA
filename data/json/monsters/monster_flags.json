@@ -30,6 +30,11 @@
     "//": "Stumbles in its movement"
   },
   {
+    "id": "CLUMSY_ATTACKS",
+    "type": "monster_flag",
+    "//": "Has a chance to fall when attacking"
+  },
+  {
     "id": "WARM",
     "type": "monster_flag",
     "//": "Warm blooded"
