@@ -282,10 +282,10 @@
     "armor": { "bash": 26, "cut": 35, "stab": 30, "heat": 80, "bullet": 40, "electric": 6 }
   },
   {
-    "id": "mon_devourer_hekatonkheire",
+    "id": "mon_devourer_daitya",
     "type": "MONSTER",
-    "name": { "str": "hekatonkheire" },
-    "description": "Arms and heads jut out from a colossal body.  The jaws have elongated and seem to have hinged in the middle and close in a sequence.  Elongated arms bound in thick strands of exposed muscle, snap out with lightning quick speed seemingly at random until you realize the strikes are hitting flying insects hovering around the cyclopean corpse.",
+    "name": { "str": "daitya" },
+    "description": "This creature is made from a mass of human and animal parts assembled by a katamari god or other thoughtless creator being.  When paused it seems as though small versions of this gigantic monstrous abomination strain to birth themselves from its bulk, while other limbs push the straining masses back inside.",
     "default_faction": "zombie",
     "copy-from": "mon_devourer",
     "bodytype": "giant",
