@@ -1,5 +1,29 @@
 [
   {
+    "id": "tail",
+    "//": "Used as a default for similar_bodyparts to work for armor.",
+    "type": "body_part",
+    "name": "default tail",
+    "name_multiple": "default tails",
+    "heading": "DFLT Tail",
+    "heading_multiple": "Tails",
+    "encumbrance_text": "Your testing tail feels heavy",
+    "hit_size": 1,
+    "drench_capacity": 4,
+    "main_part": "tail",
+    "hit_difficulty": 0.8,
+    "limb_type": "tail",
+    "opposite_part": "tail",
+    "connected_to": "torso",
+    "side": "both",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "default tail" },
+    "hp_bar_ui_text": "TST TAIL",
+    "base_hp": 20,
+    "limb_scores": [ [ "balance", 0.0 ] ],
+    "sub_parts": [ "sub_limb_debug_tail" ],
+    "similar_bodyparts": [ "tail_long", "tail_fluffy" ]
+  },
+  {
     "id": "tail_long",
     "type": "body_part",
     "name": "long tail",
@@ -17,6 +41,7 @@
     "hit_difficulty": 0.4,
     "hot_morale_mod": 2,
     "cold_morale_mod": 2,
+    "wet_morale": -15,
     "fire_warmth_bonus": 150,
     "squeamish_penalty": 6,
     "limb_scores": [ [ "balance", 0.05 ], [ "reaction", 0.1 ] ],
@@ -58,33 +83,62 @@
     "smash_efficiency": 0.25
   },
   {
-    "id": "tail_long_base",
-    "type": "sub_body_part",
-    "name": "long tail base",
-    "name_multiple": "tail bases",
-    "max_coverage": 10,
-    "parent": "tail_long",
-    "side": 0,
-    "opposite": "tail_long_tip"
-  },
-  {
-    "id": "tail_long_center",
-    "type": "sub_body_part",
-    "name": "long tail center",
-    "name_multiple": "long tail centers",
-    "max_coverage": 60,
-    "parent": "tail_long",
-    "side": 0,
-    "opposite": "tail_long_center"
-  },
-  {
-    "id": "tail_long_tip",
-    "type": "sub_body_part",
-    "name": "long tail tip",
-    "name_multiple": "long tail tips",
-    "max_coverage": 30,
-    "parent": "tail_long",
-    "side": 0,
-    "opposite": "tail_long_base"
+    "id": "tail_fluffy",
+    "type": "body_part",
+    "name": "long tail",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "fluffy tail" },
+    "heading": "tail",
+    "heading_multiple": "tails, fluffy",
+    "encumbrance_text": "Balance is hampered.",
+    "encumbrance_limit": 25,
+    "hp_bar_ui_text": "F TAIL",
+    "limb_type": "tail",
+    "main_part": "torso",
+    "opposite_part": "tail_fluffy",
+    "side": "both",
+    "hit_size": 6,
+    "hit_difficulty": 0.4,
+    "wet_morale": -2,
+    "hot_morale_mod": 2,
+    "cold_morale_mod": 2,
+    "fire_warmth_bonus": 250,
+    "squeamish_penalty": 9,
+    "limb_scores": [ [ "balance", 0.08 ], [ "reaction", 0.15 ] ],
+    "base_hp": 25,
+    "health_limit": 5,
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 30,
+        "max_duration": 960
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1.5,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1200
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      }
+    ],
+    "drench_capacity": 700,
+    "bionic_slots": 0,
+    "is_limb": true,
+    "sub_parts": [ "tail_fluffy_base", "tail_fluffy_center", "tail_fluffy_tip" ],
+    "smash_message": "You thwap %s with your tail.",
+    "smash_efficiency": 0.25
   }
 ]

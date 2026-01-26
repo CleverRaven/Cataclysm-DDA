@@ -702,7 +702,7 @@
     "type": "mutation",
     "id": "TAIL_FLUFFY",
     "name": { "str": "Fluffy Tail" },
-    "description": "You have a long, fluffy-furred tail.  It greatly improves your balance, making your ability to dodge much higher.  Prevents wearing non-fabric pants.",
+    "description": "You have a long, fluffy-furred tail.  It greatly improves your balance, making your ability to dodge higher.  Prevents wearing non-fabric pants.",
     "category": [ "LUPINE" ],
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_LONG" ],
@@ -712,8 +712,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "social_modifiers": { "lie": -20, "persuade": 10 },
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 4 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_fluffy" } ] } ]
   },
   {
     "type": "mutation",
