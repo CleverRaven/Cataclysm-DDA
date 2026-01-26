@@ -1411,7 +1411,9 @@ void vehicle::handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp
             if( seen && !known ) {
                 // hard to miss!
                 const std::string direction = direction_name( direction_from( player_character.pos_bub(), p ) );
-                add_msg( _( "You've spotted a %1$s to the %2$s!" ), tr.name(), direction );
+                if( tr.id != trap_str_id( "tr_thick_ice" ) ) {
+                    add_msg( _( "You've spotted a %1$s to the %2$s!" ), tr.name(), direction );
+                }
             }
         }
     }

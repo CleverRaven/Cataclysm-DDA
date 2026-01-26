@@ -603,7 +603,8 @@
     "avoidance": 12,
     "difficulty": 99,
     "action": "thin_ice",
-    "trigger_message_u": "The ice cracks beneath you!"
+    "trigger_message_u": "The ice cracks beneath you!",
+    "vehicle_data": { "chance": 80, "damage": 30, "remove_trap": true }
   },
   {
     "type": "trap",
