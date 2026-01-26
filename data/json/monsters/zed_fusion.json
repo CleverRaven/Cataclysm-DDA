@@ -305,7 +305,7 @@
       { "id": "grab_3", "accuracy": 6, "cooldown": 0 },
       { "id": "grab_4", "accuracy": 5, "cooldown": 7 },
       { "id": "grab_5", "accuracy": 6, "cooldown": 8 },
-      { "id": "hekatonkheire_rend", "cooldown": 4 }
+      { "id": "hekatonkheire_rend", "cooldown": 4 },
       { "id": "multi_scratch" },
       {
         "type": "monster_attack",
