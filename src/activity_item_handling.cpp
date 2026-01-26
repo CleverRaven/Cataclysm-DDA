@@ -3734,7 +3734,7 @@ bool vehicle_repair_do( Character &you, const activity_reason_info &act_info,
 
     if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
         if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, VEHICLE_REPAIR ) ) {
-            you.backlog.emplace_front( ACT_VEHICLE_REPAIR );
+            you.backlog.emplace_front( multi_vehicle_repair_activity_actor() );
             return false;
         }
 

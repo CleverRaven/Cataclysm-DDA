@@ -75,7 +75,6 @@ static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
-static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
 static const ammotype ammo_battery( "battery" );
 
@@ -119,7 +118,6 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_STUDY, multiple_study_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
-    { ACT_VEHICLE_REPAIR, vehicle_repair_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },

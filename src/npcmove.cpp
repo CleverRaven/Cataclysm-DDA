@@ -121,6 +121,7 @@ static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
+static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blade( "bio_blade" );
@@ -3411,8 +3412,11 @@ bool npc::find_job_to_perform()
         } else if( elem == ACT_MULTIPLE_CHOP_PLANKS ) {
             assign_activity( multi_chop_planks_activity_actor() );
             return true;
-        } else if( elem == ACT_MULTIPLE_VEHICLE_DECONSTRUCTION ) {
+        } else if( elem == ACT_VEHICLE_DECONSTRUCTION ) {
             assign_activity( multi_vehicle_deconstruct_activity_actor() );
+            return true;
+        } else if( elem == ACT_VEHICLE_REPAIR ) {
+            assign_activity( multi_vehicle_repair_activity_actor() );
             return true;
         } else if( generic_multi_activity_handler( scan_act, *this->as_character(), true ) ) {
             assign_activity( elem );

@@ -231,6 +231,7 @@ static const activity_id ACT_UNLOAD_LOOT( "ACT_UNLOAD_LOOT" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_FOLD( "ACT_VEHICLE_FOLD" );
+static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_VEHICLE_UNFOLD( "ACT_VEHICLE_UNFOLD" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
@@ -10483,7 +10484,33 @@ bool multi_vehicle_deconstruct_activity_actor::multi_activity_do( Character &you
 
 std::unique_ptr<activity_actor> multi_vehicle_deconstruct_activity_actor::deserialize( JsonValue & )
 {
-    multi_mine_activity_actor actor;
+    multi_vehicle_deconstruct_activity_actor actor;
+    return actor.clone();
+}
+
+activity_reason_info multi_vehicle_repair_activity_actor::multi_activity_can_do(
+    Character &you,
+    const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::vehicle_repair_can_do( ACT_VEHICLE_REPAIR, you,
+            src_loc );
+}
+std::optional<requirement_id> multi_vehicle_repair_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::vehicle_work_requirements( you, act_info, src_loc );
+}
+bool multi_vehicle_repair_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::vehicle_repair_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_vehicle_repair_activity_actor::deserialize( JsonValue & )
+{
+    multi_vehicle_repair_activity_actor actor;
     return actor.clone();
 }
 
@@ -12593,7 +12620,9 @@ deserialize_functions = {
     { ACT_UNLOAD, &unload_activity_actor::deserialize },
     { ACT_UNLOAD_LOOT, &unload_loot_activity_actor::deserialize },
     { ACT_VEHICLE, &vehicle_activity_actor::deserialize },
+    { ACT_VEHICLE_DECONSTRUCTION, &multi_vehicle_deconstruct_activity_actor::deserialize },
     { ACT_VEHICLE_FOLD, &vehicle_folding_activity_actor::deserialize },
+    { ACT_VEHICLE_REPAIR, &multi_vehicle_repair_activity_actor::deserialize },
     { ACT_VEHICLE_UNFOLD, &vehicle_unfolding_activity_actor::deserialize },
     { ACT_VIBE, &vibe_activity_actor::deserialize },
     { ACT_WAIT, &wait_activity_actor::deserialize },

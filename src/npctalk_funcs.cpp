@@ -71,7 +71,6 @@ static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
-static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
 static const efftype_id effect_allow_sleep( "allow_sleep" );
 static const efftype_id effect_asked_for_item( "asked_for_item" );
@@ -317,7 +316,7 @@ void talk_function::do_vehicle_deconstruct( npc &p )
 
 void talk_function::do_vehicle_repair( npc &p )
 {
-    p.assign_activity( ACT_VEHICLE_REPAIR );
+    p.assign_activity( multi_vehicle_repair_activity_actor() );
 }
 
 void talk_function::do_chop_trees( npc &p )
