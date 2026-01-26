@@ -311,12 +311,7 @@
         "type": "monster_attack",
         "attack_type": "bite",
         "id": "bite_devourer_1",
-        "condition": {
-          "and": [
-            { "u_has_flag": "GRAB_FILTER" },
-            { "npc_has_flag": "GRAB" }
-          ]
-        },
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15 } ],
         "infection_chance": 15,
         "cooldown": 4,
