@@ -2018,7 +2018,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint_bub_ms &ex
         std::string query = string_format( _( "Pick the lock of %1$s using your %2$s?" ),
                                            target_name, it->tname() );
         query += "\n";
-        query += _( "Time to complete: " );
+        query += _( "Time to attempt: " );
         query += time_string;
         if( !query_yn( query ) ) {
             return;
