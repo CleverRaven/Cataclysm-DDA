@@ -458,6 +458,75 @@
     ]
   },
   {
+    "//": "Scaling on these three is 50% of normal because it's explicitly a weak attack",
+    "type": "technique",
+    "id": "SMALL_HORNS_RAM_BASH",
+    "name": "Small Horns Ram Bash",
+    "melee_allowed": true,
+    "messages": [ "You ram %s with your horns", "<npcname> rams %s with their horns" ],
+    "unarmed_allowed": true,
+    "weighting": -4,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_headbutt" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.03 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "SMALL_HORNS_RAM_NATURAL",
+    "name": "Small Horns Ram Bash",
+    "melee_allowed": true,
+    "messages": [ "You ram %s with your horns", "<npcname> rams %s with their horns" ],
+    "unarmed_allowed": true,
+    "weighting": 0,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_headbutt" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "natural_stance" },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.03 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "SMALL_HORNS_RAM_CRIT",
+    "name": "Small Horns Ram Crit",
+    "melee_allowed": true,
+    "messages": [ "You slam into %s with your horns", "<npcname> slams into %s with their horns" ],
+    "unarmed_allowed": true,
+    "reach_ok": false,
+    "crit_tec": true,
+    "attack_vectors": [ "vector_headbutt" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 2.2 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.12 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.5 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "unarmed", "scale": 0.5 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
     "type": "technique",
     "id": "CURLED_HORNS_BASH",
     "name": "Curled Horns Bash",
@@ -590,7 +659,7 @@
     ]
   },
   {
-    "//": "Scaling on these three is lower than normal because it's explicitly a weak attack",
+    "//": "Scaling on these three is 75% of normal because it's explicitly a weaker attack",
     "type": "technique",
     "id": "ANTLERS_BASH",
     "name": "Antlers Bash",
@@ -607,9 +676,9 @@
       ]
     },
     "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.25 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.5 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.33 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.6 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -631,9 +700,9 @@
       ]
     },
     "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.25 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.5 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.33 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.6 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -649,9 +718,9 @@
     "crit_tec": true,
     "attack_vectors": [ "vector_headbutt" ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 2.2 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 3.3 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]

@@ -330,6 +330,9 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_MON_AVOID_STRICT: return "MON_AVOID_STRICT";
         case ter_furn_flag::TFLAG_REGION_PSEUDO: return "REGION_PSEUDO";
         case ter_furn_flag::TFLAG_PHASE_BACK: return "PHASE_BACK";
+        case ter_furn_flag::TFLAG_ONE_DIMENSIONAL_X: return "ONE_DIMENSIONAL_X";
+        case ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Y: return "ONE_DIMENSIONAL_Y";
+        case ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Z: return "ONE_DIMENSIONAL_Z";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -1228,6 +1231,16 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "item", base_item, itype_id::NULL_ID() );
+}
+
+bool map_data_common_t::is_terrain() const
+{
+    return false;
+}
+
+bool ter_t::is_terrain() const
+{
+    return true;
 }
 
 bool ter_t::is_null() const

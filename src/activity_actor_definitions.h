@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_handlers.h"
 #include "activity_type.h"
 #include "butchery.h"
 #include "calendar.h"
@@ -91,6 +92,70 @@ class zone_activity_actor : public activity_actor
         zone_activity_stage stage = UNINIT;
         std::unordered_set<tripoint_abs_ms> coord_set;
         tripoint_abs_ms placement;
+};
+
+/*
+* General forwarding activity to handle single-tile activities performed in zones.
+* This forwarding works in two ways:
+* 1) when travelling to a destination zone tile, storing this multi-activity in Character::destination_activity,
+*    which is restarted when the player reaches the destination
+* 2) when doing the single-tile activity, backlogging a copy of the multi-activity actor in Character::backlog,
+*    which is then restarted from the single-tile activity with activity_handlers::resume_for_multi_activities()
+* An important point to note is that in no case does multi_zone_activity_actor store state.
+*
+* TODO: unify zone_activity_actor and multi_zone_activity_actor?
+*/
+class multi_zone_activity_actor : public activity_actor
+{
+    public:
+        explicit multi_zone_activity_actor( bool check_only = false ) : check_only( check_only ) {}
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &, Character & ) override {};
+        // for allowing a return value from do_turn
+        bool simulate_turn( player_activity &act, Character &you, bool check_only );
+
+        /** Check whether activity can be done immediately if it has requirements */
+        requirement_check_result check_requirements( Character &you, activity_reason_info &act_info,
+                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
+                const std::unordered_set<tripoint_abs_ms> &src_set, bool check_only = false );
+
+        // BEGIN interface block
+        virtual std::unordered_set<tripoint_abs_ms> multi_activity_locations( Character &you );
+        virtual activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) = 0;
+        // specific requirements for the activity, used in `check_requirements`
+        virtual std::optional<requirement_id> multi_activity_requirements( Character &,
+                activity_reason_info &, const tripoint_bub_ms & );
+        // main activity body, once zone locations and requirements are satisfied
+        // @return whether activity was NOT successful
+        virtual bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) = 0;
+        std::unique_ptr<activity_actor> clone() const override = 0;
+        void serialize( JsonOut &jsout ) const override;
+        // END interface block
+        bool check_only = false;
+};
+
+class multi_mine_activity_actor : public multi_zone_activity_actor
+{
+    public:
+        using multi_zone_activity_actor::multi_zone_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+            return ACT_MULTIPLE_MINE;
+        }
+        activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) override;
+        std::optional<requirement_id> multi_activity_requirements( Character &you,
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+        bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<multi_mine_activity_actor>( *this );
+        }
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
 };
 
 class aim_activity_actor : public activity_actor

@@ -118,7 +118,6 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
-static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
@@ -1696,7 +1695,7 @@ static void loot()
             player_character.assign_activity( ACT_MULTIPLE_BUTCHER );
             break;
         case MultiMining:
-            player_character.assign_activity( ACT_MULTIPLE_MINE );
+            player_character.assign_activity( multi_mine_activity_actor() );
             break;
         case MultiDis:
             player_character.assign_activity( ACT_MULTIPLE_DIS );
@@ -2589,7 +2588,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_LIST_ITEMS:
-            list_items_monsters();
+            list_surroundings();
             break;
 
         case ACTION_ZONES:

@@ -543,10 +543,11 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
             }
 
             if( critter != nullptr && cur_missed_by < 1.0 ) {
-                // Prevent shots from hitting underwater creatures that are beneath thick ice;
-                // treat the shot as hitting the ice/terrain instead.
-                if( critter->is_underwater() && here->has_flag( ter_furn_flag::TFLAG_THICK_ICE,
-                        critter->pos_bub() ) ) {
+                // Prevent shots from hitting underwater creatures that are beneath surface (except thin ice);
+                // treat the shot as hitting the terrain instead.
+                if( critter->is_underwater() &&
+                    here->has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, critter->pos_bub() ) &&
+                    !here->has_flag( ter_furn_flag::TFLAG_THIN_ICE, critter->pos_bub() ) ) {
                     double it = here->shoot( tp, proj, !no_item_damage && tp == target_c );
                     if( it > 0 ) {
                         if( proj.count > 1 ) {
@@ -559,7 +560,7 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                         }
                     }
                     if( origin != nullptr && origin->is_avatar() ) {
-                        add_msg( m_info, _( "Your shot is blocked by thick ice." ) );
+                        add_msg( m_info, _( "Your shot is blocked by the surface." ) );
                     }
                     continue;
                 }

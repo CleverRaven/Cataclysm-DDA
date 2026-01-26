@@ -2122,10 +2122,10 @@ std::string ma_technique::get_description() const
     dump += string_format( _( condition_desc ) ) + "\n";
 
     if( weighting > 1 ) {
-        dump += string_format( _( "* <info>Greater chance</info> to activate: <stat>+%s%%</stat>" ),
+        dump += string_format( _( "* <info>Greater chance</info> to activate: <stat>+%d%%</stat>" ),
                                ( 100 * ( weighting - 1 ) ) ) + "\n";
     } else if( weighting < -1 ) {
-        dump += string_format( _( "* <info>Lower chance</info> to activate: <stat>1/%s</stat>" ),
+        dump += string_format( _( "* <info>Lower chance</info> to activate: <stat>1/%d</stat>" ),
                                std::abs( weighting ) ) + "\n";
     }
 

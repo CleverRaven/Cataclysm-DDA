@@ -179,6 +179,29 @@ bool monster::will_move_to( map *here, const tripoint_bub_ms &p ) const
         !here->has_flag( ter_furn_flag::TFLAG_BURROWABLE, p ) ) {
         return false;
     }
+    // one dimensional creatures can ONLY move in their home dimension
+    if( has_flag( mon_flag_ONE_DIMENSIONAL_X ) && (
+            !here->has_flag( ter_furn_flag::TFLAG_ONE_DIMENSIONAL_X, p ) ||
+            // In the off chance a multidimensional vehicle enters a one dimensional tile
+            ( here->veh_at( p ) && !here->veh_at( pos_bub() ) )
+        ) ) {
+        return false;
+    }
+
+    if( has_flag( mon_flag_ONE_DIMENSIONAL_Y ) && (
+            !here->has_flag( ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Y, p ) ||
+            // In the off chance a multidimensional vehicle enters a one dimensional tile
+            ( here->veh_at( p ) && !here->veh_at( pos_bub() ) )
+        ) ) {
+        return false;
+    }
+    if( has_flag( mon_flag_ONE_DIMENSIONAL_Z ) && (
+            !here->has_flag( ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Z, p ) ||
+            // In the off chance a multidimensional vehicle enters a one dimensional tile
+            ( here->veh_at( p ) && !here->veh_at( pos_bub() ) )
+        ) ) {
+        return false;
+    }
 
     if( has_flag( mon_flag_AQUATIC ) && (
             !( here->has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ||
@@ -1871,9 +1894,9 @@ bool monster::attack_at( const tripoint_bub_ms &p )
     const map &here = get_map();
 
     // Aquatic monsters that are underwater should not be able to attack
-    // through thick ice above them, except they may attack other monsters
+    // through tile above them, except they may attack other monsters
     // that are also underwater (fish fighting under the ice).
-    if( is_underwater() && here.has_flag( ter_furn_flag::TFLAG_THICK_ICE, p ) ) {
+    if( is_underwater() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, p ) ) {
         creature_tracker &creatures = get_creature_tracker();
         monster *target_mon = creatures.creature_at<monster>( p );
         if( !( target_mon != nullptr && target_mon->is_underwater() ) ) {
@@ -1915,7 +1938,11 @@ bool monster::attack_at( const tripoint_bub_ms &p )
         Creature::Attitude attitude = attitude_to( mon );
         // mon_flag_ATTACKMON == hulk behavior, whack everything in your way
         if( attitude == Attitude::HOSTILE || has_flag( mon_flag_ATTACKMON ) ) {
-            return melee_attack( mon );
+            const bool attacked = melee_attack( mon );
+            if( attacked ) {
+                g->draw_hit_mon( p, mon, mon.is_dead() );
+            }
+            return attacked;
         }
 
         return false;
