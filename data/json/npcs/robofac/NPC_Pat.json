@@ -100,7 +100,7 @@
       },
       {
         "text": "I found those electronics you asked for - here, use this badass military MVAS unit instead.",
-        "topic": "TALK_ROBOFAC_MERC_PAT_MAKE_EARPIECE_MVAS",
+        "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_1_MVAS_HVAH",
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_ROBOFAC_PAT_2" },
@@ -114,12 +114,16 @@
           { "u_consume_item": "military_vis_aug_system", "count": 1, "popup": true },
           { "u_consume_item": "two_way_radio", "count": 1, "popup": true },
           { "u_add_var": "robofac_pat_partners", "value": "yes" },
-          { "finish_mission": "MISSION_ROBOFAC_PAT_2", "success": true }
+          { "finish_mission": "MISSION_ROBOFAC_PAT_2", "success": true },
+          { "math": [ "robofac_timer_waiting_on_pat = time('now')" ] },
+          { "u_add_var": "robofac_waiting_on_pat", "value": "yes" },
+          { "u_add_var": "robofac_pat_is_holding", "value": "military_vis_aug_system" },
+          { "u_add_var": "robofac_pat_started_earpiece", "value": "yes" }
         ]
       },
       {
         "text": "I found those electronics you asked for - here, use this badass Hub 01 headset instead.",
-        "topic": "TALK_ROBOFAC_MERC_PAT_MAKE_EARPIECE_HVAH",
+        "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_1_MVAS_HVAH",
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_ROBOFAC_PAT_2" },
@@ -133,7 +137,11 @@
           { "u_consume_item": "robofac_head_rig_ar", "count": 1, "popup": true },
           { "u_consume_item": "two_way_radio", "count": 1, "popup": true },
           { "u_add_var": "robofac_pat_partners", "value": "yes" },
-          { "finish_mission": "MISSION_ROBOFAC_PAT_2", "success": true }
+          { "finish_mission": "MISSION_ROBOFAC_PAT_2", "success": true },
+          { "math": [ "robofac_timer_waiting_on_pat = time('now')" ] },
+          { "u_add_var": "robofac_waiting_on_pat", "value": "yes" },
+          { "u_add_var": "robofac_pat_is_holding", "value": "robofac_head_rig_ar" },
+          { "u_add_var": "robofac_pat_started_earpiece", "value": "yes" }
         ]
       },
       {
@@ -142,6 +150,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
             { "compare_string": [ "yes", { "u_val": "robofac_waiting_on_pat" } ] },
             { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('2 d')" ] }
           ]
@@ -158,6 +167,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
             { "not": { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('14 d')" ] } }
           ]
         }
@@ -168,6 +178,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
             { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('14 d')" ] }
           ]
         }
@@ -178,6 +189,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
             { "u_has_items": { "item": "military_vis_aug_system", "count": 1 } }
           ]
         }
@@ -188,6 +200,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
             { "u_has_items": { "item": "robofac_head_rig_ar", "count": 1 } }
           ]
         }
@@ -330,6 +343,17 @@
           { "math": [ "robofac_timer_waiting_on_pat = time('now')" ] },
           { "u_add_var": "robofac_waiting_on_pat", "value": "yes" }
         ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_1_MVAS_HVAH",
+    "type": "talk_topic",
+    "dynamic_line": "Great.  This should be easy.  Come back tomorrow, and I'll have somethin' for ya'.",
+    "responses": [
+      {
+        "text": "Sure, see you tomorrow.",
         "topic": "TALK_DONE"
       }
     ]
@@ -680,11 +704,17 @@
       },
       {
         "text": "Where could I find a pair of those glasses?",
-        "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2_advice",
+        "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2_advice"
       },
       {
         "text": "Actually, I've got this really advanced headset.  Will that work?",
-        "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2b",
+        "condition": {
+          "or": [
+            { "u_has_items": { "item": "military_vis_aug_system", "count": 1 } },
+            { "u_has_items": { "item": "robofac_head_rig_ar", "count": 1 } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2b"
       },
       { "text": "On second though, let's talk about this later.  I gotta go.", "topic": "TALK_DONE" }
     ]
@@ -714,7 +744,13 @@
       },
       {
         "text": "Actually, I've got this really advanced headset.  Will that work?",
-        "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2b",
+        "condition": {
+          "or": [
+            { "u_has_items": { "item": "military_vis_aug_system", "count": 1 } },
+            { "u_has_items": { "item": "robofac_head_rig_ar", "count": 1 } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2b"
       },
       { "text": "On second though, let's talk about this later.  I gotta go.", "topic": "TALK_DONE" }
     ]
