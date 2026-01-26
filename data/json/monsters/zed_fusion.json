@@ -316,20 +316,6 @@
         "infection_chance": 20,
         "cooldown": 9,
         "move_cost": 150
-      },
-      {
-        "id": "smash",
-        "throw_strength": 120,
-        "accuracy": 7,
-        "range": 2,
-        "cooldown": 30,
-        "blockable": false,
-        "hit_dmg_u": "A meaty arm slams into your %2$s, sending you flying!",
-        "hit_dmg_npc": "A meaty arm slams into <npcname>'s %2$s, sending them flying!",
-        "no_dmg_msg_u": "A meaty arm slams into your %2$s, but does no damage!",
-        "no_dmg_msg_npc": "A meaty arm slams into <npcname>'s %2$s, but does no damage!",
-        "miss_msg_u": "%1$s swings a meaty arm at you, but you dodge!",
-        "miss_msg_npc": "%1$s swings a meaty arm at <npcname>, but they dodge!"
       }
     ],
     "regenerates": 1,

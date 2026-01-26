@@ -158,37 +158,49 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_INIT",
-    "effect": [ { "math": [ "u_has_grappled_set = 0" ] }, { "run_eocs": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE" } ]
+    "effect": [
+      { "math": [ "u_grappled = 0" ] },
+      {
+        "run_eocs": [
+          "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE",
+          "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE2",
+          "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE3",
+          "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE4",
+          "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE5",
+          "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLEDAMAGE_CAST"
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE",
-    "condition": { "u_has_effect": "grabbed" },
+    "condition": { "u_has_effect": "grabbing" },
     "effect": [ { "math": [ "u_grappled += 1" ] }, { "run_eocs": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE2" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE2",
     "condition": { "u_has_effect": "grabbing_2" },
-    "effect": [ { "math": [ "u_grappled += 1" ] }, { "run_eocs": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE3" } ]
+    "effect": [ { "math": [ "u_grappled += 1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE3",
     "condition": { "u_has_effect": "grabbing_3" },
-    "effect": [ { "math": [ "u_grappled += 1" ] }, { "run_eocs": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE4" } ]
+    "effect": [ { "math": [ "u_grappled += 1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE4",
     "condition": { "u_has_effect": "grabbing_4" },
-    "effect": [ { "math": [ "u_grappled += 1" ] }, { "run_eocs": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE5" } ]
+    "effect": [ { "math": [ "u_grappled += 1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE5",
     "condition": { "u_has_effect": "grabbing_5" },
-    "effect": [ { "math": [ "u_grappled += 1" ] }, { "run_eocs": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLEDAMAGE" } ]
+    "effect": [ { "math": [ "u_grappled += 1" ] } ]
   },
   {
     "type": "effect_on_condition",
