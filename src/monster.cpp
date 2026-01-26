@@ -2206,8 +2206,10 @@ bool monster::melee_attack( Creature &target, float accuracy )
         }
         if( has_flag( mon_flag_CLUMSY_ATTACKS ) && one_in( 4 ) ) {
             add_effect( effect_downed, 2_turns, true );
-            add_msg( _( "%s stumbles and falls as it attacks." ), u_see_me ? disp_name( false, true ) : _( "Something" ) );
-            if (has_effect_with_flag( json_flag_GRAB_FILTER ) && target.has_effect_with_flag( json_flag_GRAB ) ) {
+            add_msg( _( "%s stumbles and falls as it attacks." ), u_see_me ? disp_name( false,
+                     true ) : _( "Something" ) );
+            if( has_effect_with_flag( json_flag_GRAB_FILTER ) &&
+                target.has_effect_with_flag( json_flag_GRAB ) ) {
                 target.add_effect( effect_downed, 2_turns, true );
             }
         }
