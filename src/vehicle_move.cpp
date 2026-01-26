@@ -503,7 +503,7 @@ void vehicle::thrust( map &here, int thd, int z )
         }
         if( thick_ice_wheels > 0 ) {
             // Higher speeds make skidding more likely
-            if( one_in( 4 ) || std::abs( velocity ) > 2000 ) {
+            if( one_in( 4 ) || std::abs( velocity ) > 1000 ) {
                 skidding = true;
             }
         }
