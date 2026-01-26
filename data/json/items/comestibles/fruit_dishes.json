@@ -595,5 +595,16 @@
     "//": "this item is intended to generally be inherited from the fruit and alcohol used.",
     "vitamins": [ [ "vitC", 20 ], [ "fruit_allergen", 1 ] ],
     "flags": [ "USE_EAT_VERB", "EATEN_COLD", "ALCOHOL" ]
+  },
+  {
+    "id": "cooked_elderberries",
+    "copy-from": "elderberries",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "cooked elderberries" },
+    "description": "A serving of elderberries, cooked just enough to remove the toxins.",
+    "use_action": [  ],
+    "flags": [  ]
   }
 ]
