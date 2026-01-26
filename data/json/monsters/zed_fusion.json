@@ -467,7 +467,7 @@
       },
       {
         "type": "monster_attack",
-        "id": "devourer_spawn_raptors",
+        "id": "daitya_spawn_clones",
         "attack_type": "melee",
         "range": 8,
         "cooldown": 180,
