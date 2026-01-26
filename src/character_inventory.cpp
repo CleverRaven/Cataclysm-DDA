@@ -424,7 +424,7 @@ item_location Character::try_add( item it, int &copies_remaining, const item *av
     return first_item_added;
 }
 
-bool Character::can_add( item it, const item *avoid,
+bool Character::can_add( const item &it, const item *avoid,
                          bool allow_wield,
                          bool ignore_pkt_settings )
 {

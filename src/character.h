@@ -2165,7 +2165,7 @@ class Character : public Creature, public visitable
                                const item *original_inventory_item = nullptr, bool allow_wield = true,
                                bool ignore_pkt_settings = false );
         /** Checks to see if it's possible to add an item to the inventory. */
-        bool can_add( item it, const item *avoid = nullptr,
+        bool can_add( const item &it, const item *avoid = nullptr,
                       bool allow_wield = true,
                       bool ignore_pkt_settings = false );
 

@@ -12136,8 +12136,8 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
         if( pickup_failure && !pickup_failure_reported ) {
             pickup_failure_reported = true;
             add_msg_if_player_sees( you,
-                                    "At least one item to be sorted is too large/heavy for %s to sort.  "
-                                    "Emptying the inventory and freeing up the hands will allow for more efficient sorting.",
+                                    _( "At least one item to be sorted is too large/heavy for %s to sort.  "
+                                       "Emptying the inventory and freeing up the hands will allow for more efficient sorting." ),
                                     you.disp_name() );
         }
 
@@ -12374,6 +12374,7 @@ void zone_sort_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "other_activity_items", other_activity_items );
     jsout.member( "picked_up_stuff", picked_up_stuff );
     jsout.member( "dropoff_coords", dropoff_coords );
+    jsout.member( "pickup_failure_reported", pickup_failure_reported );
 
     jsout.end_object();
 }
@@ -12392,7 +12393,10 @@ std::unique_ptr<activity_actor> zone_sort_activity_actor::deserialize( JsonValue
     data.read( "other_activity_items", actor.other_activity_items );
     data.read( "picked_up_stuff", actor.picked_up_stuff );
     data.read( "dropoff_coords", actor.dropoff_coords );
-
+    // Element introduced 2026-01-26. Existence check to be removed when support for older saves is dropped.
+    if( data.has_bool( "pickup_failure_reported" ) ) {
+        data.read( "pickup_failure_reported", actor.pickup_failure_reported );
+    }
     return actor.clone();
 }
 
