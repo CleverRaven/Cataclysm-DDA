@@ -355,7 +355,7 @@
       "FILTHY"
     ],
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 3 }
-  }
+  },
   {
     "id": "mon_zombie_crushed_giant",
     "type": "MONSTER",
