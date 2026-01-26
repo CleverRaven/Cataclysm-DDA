@@ -1033,5 +1033,149 @@
     },
     "flags": [ "SCEN_ONLY" ],
     "chargen_allow_npc": false
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_crossbow_low_vampire_hunter",
+    "entries": [ { "item": "bolt_steel", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_crossbow_vampire_hunter",
+    "entries": [ { "item": "bolt_cf", "charges": 20 } ]
+  },
+  {
+    "type": "profession",
+    "id": "low_vampire_hunter",
+    "name": "Novice Vampire Hunter",
+    "description": "Long ago, you stumbled upon the undead bloodsuckers and their machinations aiming to subjugate all humans to their will.  Ever since then you wanted to do something against them, if only to impede their attempts.  You barely had time to buy your gear when far worse things showed up and brought the collapse of society, but you want to at least kill a single vampire before something else kills you.",
+    "npc_background": "BG_survival_story_ECCENTRIC",
+    "//": "Intended as a regular inexperienced and untrained person in modern times buying some legal gear to go fight vampires, basing their choice of gear on fictional vampires.",
+    "points": 2,
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "sheath", "contents-item": "knife_hunting" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "item": "wristwatch" },
+          {
+            "item": "compcrossbow",
+            "ammo-item": "bolt_steel",
+            "charges": 1,
+            "contents-item": "shoulder_strap_simple",
+            "custom-flags": [ "no_auto_equip" ]
+          },
+          { "item": "quiver", "contents-group": "quiver_crossbow_low_vampire_hunter" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    },
+    "missions": [ "MISSION_LOW_VAMPIRE_HUNTER" ]
+  },
+  {
+    "type": "profession",
+    "id": "medium_vampire_hunter",
+    "name": "Vampire Hunter",
+    "description": "Ever since you were confronted to the existence of vampires and their dark designs, you did what you could to fight back against them, killing any vampire you could find.  Finding them might be harder these days, but killing them is more necessary than ever.",
+    "npc_background": "BG_survival_story_ECCENTRIC",
+    "requirement": "achievement_kill_vampire",
+    "//": "Intended as someone who fought and killed a few vampires, but know little more about them.",
+    "//2": "Since the crossbow hunter has archer's form, the crossbow vampire hunters have it too.",
+    "points": 5,
+    "proficiencies": [ "prof_bow_expert", "prof_knives_pro", "prof_gross_anatomy", "prof_wp_demihuman" ],
+    "skills": [
+      { "level": 4, "name": "rifle" },
+      { "level": 4, "name": "gun" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "deduction" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "sheath", "contents-item": "knife_combat_marine" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "item": "wristwatch" },
+          {
+            "item": "compcrossbow",
+            "ammo-item": "bolt_cf",
+            "charges": 1,
+            "contents-item": "shoulder_strap_simple",
+            "custom-flags": [ "no_auto_equip" ]
+          },
+          { "item": "quiver", "contents-group": "quiver_crossbow_vampire_hunter" },
+          { "item": "runner_bag" },
+          { "item": "lighter", "charges": 100 },
+          { "item": "molotov", "count": 4 }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    },
+    "missions": [ "MISSION_VAMPIRE_HUNTER" ]
+  },
+  {
+    "type": "profession",
+    "id": "high_vampire_hunter",
+    "name": "Experienced Vampire Hunter",
+    "description": "It has been years since you began fighting the leeches that want to turn humanity into their slaves, killing those who embrace the curse and curing those who don't.  You know more about vampires than most hunters do and managed to kill a few highly-powerful vampires before it all went down.  They will not stop their efforts, but you won't stop yours until they're all gone or you're six feet underground.",
+    "npc_background": "BG_survival_story_ECCENTRIC",
+    "requirement": "achievement_kill_10_vampires",
+    "//": "Intended as someone who fought vampires in the past, has good combat abilities and knows about the cure, vampire weaknesses, the mentors and the bloodthorne.",
+    "//2": "When a hunter faction will be added, they will start with a mission to reach it as they knew about other hunters.",
+    "points": 7,
+    "proficiencies": [ "prof_bow_master", "prof_knives_master", "prof_gross_anatomy", "prof_wp_demihuman" ],
+    "skills": [
+      { "level": 6, "name": "rifle" },
+      { "level": 6, "name": "gun" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "stabbing" },
+      { "level": 3, "name": "dodge" },
+      { "level": 5, "name": "deduction" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "sheath", "contents-item": "knife_combat_marine" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "item": "wristwatch" },
+          {
+            "item": "compcrossbow",
+            "ammo-item": "bolt_cf",
+            "charges": 1,
+            "contents-item": "shoulder_strap_simple",
+            "custom-flags": [ "no_auto_equip" ]
+          },
+          { "item": "quiver", "contents-group": "quiver_crossbow_vampire_hunter" },
+          { "item": "runner_bag" },
+          { "item": "lighter", "charges": 100 },
+          { "item": "molotov", "count": 4 },
+          { "item": "grimy_recipe" },
+          { "item": "blood_treatment", "count": 5 }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    },
+    "missions": [ "MISSION_VAMPIRE_HUNTER" ]
   }
 ]
