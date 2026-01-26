@@ -1132,7 +1132,7 @@
     "type": "profession",
     "id": "high_vampire_hunter",
     "name": "Experienced Vampire Hunter",
-    "description": "It has been years since you began fighting the leeches that want to turn humanity into their slaves, killing those who embrace the curse and curing those who don't.  You know more about vampires than most hunters do and managed to kill a few highly-powerful vampires before all went down.  They will not stop their efforts, but you won't stop yours until they're all gone or you're six feet underground.",
+    "description": "It has been years since you began fighting the leeches that want to turn humanity into their slaves, killing those who embrace the curse and curing those who don't.  You know more about vampires than most hunters do and managed to kill a few highly-powerful vampires before it all went down.  They will not stop their efforts, but you won't stop yours until they're all gone or you're six feet underground.",
     "npc_background": "BG_survival_story_ECCENTRIC",
     "requirement": "achievement_kill_10_vampires",
     "//": "Intended as someone who fought vampires in the past, has good combat abilities and knows about the cure, vampire weaknesses, the mentors and the bloodthorne.",
