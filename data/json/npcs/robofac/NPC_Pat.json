@@ -46,7 +46,16 @@
   {
     "id": [ "TALK_ROBOFAC_MERC_PAT" ],
     "type": "talk_topic",
-    "dynamic_line": [ "Hi.", "How's it goin'?", "Yo.", "Whatsup?", "They nod their head in greeting." ],
+    "dynamic_line": [
+      "Hi.",
+      "How's it goin'?",
+      "Yo.",
+      "Whatsup?",
+      "They nod their head in greeting.",
+      "They tilt their head up in greeting.",
+      "Hey, howahyah.",
+      "What's doin'?"
+    ],
     "responses": [
       {
         "text": "Hi.  I'm <u_name>.",
@@ -367,7 +376,7 @@
     "dynamic_line": "What's on your mind?",
     "responses": [
       {
-        "text": "Our employer wants me to take some NRE device into a portal storm.  Any advice?",
+        "text": "Our employer wants me to take this NRE device into a portal storm.  Any advice?",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1",
         "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1" }
       },
@@ -423,6 +432,369 @@
           "and": [
             { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_electronics_books" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "Our employer is sending my to some warehouse owned by 'Anduril Industries' to look for some military AR headset.  Know anything about it?",
+        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_IVAS",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_IVAS" }
+      },
+      {
+        "text": "So I've got an address for some kind of central refugee management facility.  Should I check it out?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_REACH_REFUGEE_CENTER",
+        "condition": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" }
+      },
+      {
+        "text": "Smokes asked me to kill off some zombies in the back bay of the refugee center.  Any thoughts?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_FREE_MERCHANTS_EVAC_1",
+        "condition": { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_1" }
+      },
+      {
+        "text": "Smokes wants me to take down a bandit camp.  Any ideas?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_FREE_MERCHANTS_EVAC_2",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_2" },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_directions_outpost" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "Any thoughts about delivering a prospectus to some ranch run by the evac shelter crew?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_FREE_MERCHANTS_EVAC_3",
+        "condition": { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_3" }
+      },
+      {
+        "text": "Smokes wants some solar panels.  Any ideas where I can get some?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_FREE_MERCHANTS_EVAC_4",
+        "condition": { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_4" }
+      },
+      {
+        "text": "Smokes wants a lot of jars.  Any idea where I can get some?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_FREE_MERCHANTS_EVAC_5",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_5" },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_directions_supermarket" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "So the broker at the shelter wants bigger jars.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_BROKER_1",
+        "condition": { "u_has_mission": "MISSION_BROKER_1" }
+      },
+      {
+        "text": "How do you feel about finding the guy from the shelter some cigarettes?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_EVAC_SMOKER_GET_CIGARETTES",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_EVAC_SMOKER_GET_CIGARETTES" },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_directions_container" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "Should I go check out those farmers the teamster mentioned?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_directions_isherwood",
+        "condition": { "u_has_mission": "directions_isherwood" }
+      },
+      {
+        "text": "The teamster told me about 'scrap metal castle' nearby.  You heard anything about it?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_directions_exodii",
+        "condition": { "u_has_mission": "directions_exodii" }
+      },
+      {
+        "text": "Any thoughts on this so-called bullet bank?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_directions_artisans",
+        "condition": { "u_has_mission": "directions_artisans" }
+      },
+      {
+        "text": "So there's this guy, Dino Dave…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_BEGGAR_2",
+        "condition": {
+          "or": [
+            { "u_has_mission": "MISSION_BEGGAR_2_BOX_SMALL" },
+            { "u_has_mission": "MISSION_BEGGAR_2_DUCT_TAPE" },
+            { "u_has_mission": "MISSION_BEGGAR_2_BOX_MEDIUM" },
+            { "u_has_mission": "MISSION_BEGGAR_2_PLASTIC_SHEET" },
+            { "u_has_mission": "MISSION_BEGGAR_2_BOX_LARGE" },
+            { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" }
+          ]
+        }
+      },
+      {
+        "text": "So, this Old Guard doctor…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_SCIENCE_REP",
+        "condition": {
+          "or": [
+            { "u_has_mission": "MISSION_SCIENCE_REP_1" },
+            { "u_has_mission": "MISSION_SCIENCE_REP_2" },
+            { "u_has_mission": "MISSION_SCIENCE_REP_3" },
+            { "u_has_mission": "MISSION_SCIENCE_REP_4" },
+            { "u_has_mission": "MISSION_SCIENCE_REP_5" }
+          ]
+        }
+      },
+      {
+        "text": "What do you think about helping out this bartender at the Tacoma Ranch?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_RANCH_BARTENDER",
+        "condition": {
+          "or": [
+            { "u_has_mission": "MISSION_RANCH_BARTENDER_1" },
+            { "u_has_mission": "MISSION_RANCH_BARTENDER_2" },
+            { "u_has_mission": "MISSION_RANCH_BARTENDER_3" },
+            { "u_has_mission": "MISSION_RANCH_BARTENDER_4" },
+            { "u_has_mission": "MISSION_RANCH_BARTENDER_5" }
+          ]
+        }
+      },
+      {
+        "text": "Any idea where I can get some commercial fertilizer for this Makayla character?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_ARSONIST_1_AMMONIUM_NITRATE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ARSONIST_1_AMMONIUM_NITRATE" },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_directions_farm_supply" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "It seems like a lot of the refugees need help…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_REFUGEES_misc",
+        "condition": {
+          "or": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            { "u_has_mission": "MISSION_REFUGEE_Boris_WORKSPACE" },
+            { "u_has_mission": "MISSION_REFUGEE_Boris_LAPTOP" },
+            { "u_has_mission": "MISSION_REFUGEE_Dana_Sourdough" },
+            { "u_has_mission": "MISSION_REFUGEE_Draco_GET_GUITAR" },
+            { "u_has_mission": "MISSION_REFUGEE_Fatima_1" },
+            { "u_has_mission": "MISSION_REFUGEE_Jenny_GET_PNEUMATICS" },
+            { "u_has_mission": "MISSION_REFUGEE_Jenny_GET_MOTOR" },
+            { "u_has_mission": "MISSION_REFUGEE_Jenny_GET_TANK" },
+            { "u_has_mission": "MISSION_REFUGEE_Jenny_GET_TEXT" },
+            { "u_has_mission": "MISSION_REFUGEE_Uyen_1" },
+            { "u_has_mission": "MISSION_REFUGEE_Uyen_2" },
+            { "u_has_mission": "MISSION_REFUGEE_Uyen_3" },
+            { "u_has_mission": "MISSION_REFUGEE_Vanessa_1" }
+          ]
+        }
+      },
+      {
+        "text": "What do you make of this Nunez family wanting to move to Tacoma?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_TACOMA_Nunez",
+        "condition": { "u_has_mission": "MISSION_TACOMA_Nunez" }
+      },
+      {
+        "text": "So the Old Guard wants us to kill bandits…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_OLD_GUARD_REP_1",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_OLD_GUARD_REP_1" },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_grenade" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "So the Old Guard wants us to track down an informant…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_OLD_GUARD_REP_2",
+        "condition": { "u_has_mission": "MISSION_OLD_GUARD_REP_2" }
+      },
+      {
+        "text": "So the Old Guard has an interest in robots…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_OLD_GUARD_REP_3-NotMet",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "So the Old Guard has an interest in robots…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_OLD_GUARD_REP_3-HasMet",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
+          ]
+        }
+      },
+      {
+        "text": "So the Old Guard wants me to look into a monster that's affecting trade routes…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_OLD_GUARD_REP_4",
+        "condition": { "u_has_mission": "MISSION_OLD_GUARD_REP_4" }
+      },
+      {
+        "text": "So I guess I'm a Marshall now…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_OLD_GUARD_REP_MARSHALL",
+        "condition": { "or": [ { "u_has_mission": "MISSION_OLD_GUARD_REP_5" }, { "u_has_mission": "MISSION_OLD_GUARD_REPEATER_BEGIN" } ] }
+      },
+      {
+        "text": "So I found these weird pictographs.  What do you think?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_directions_exodii_signpost",
+        "condition": { "u_has_mission": "directions_exodii_signpost" }
+      },
+      {
+        "text": "Any ideas where I can get anesthetic for Rubik?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_RUBIK_ANUS_FETICK",
+        "condition": {
+          "and": [
+            { "u_has_mission": "RUBIK_ANUS_FETICK" },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_directions_hospital" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "Any thoughts on scouting on Hub 01 for Rubik?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_EXODII_MISSION_CONTACT_HUB",
+        "condition": { "u_has_mission": "EXODII_MISSION_CONTACT_HUB" }
+      },
+      {
+        "text": "So, Rubik wants us to find a lost interdimensional building…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_EXODII_MISSION_WAREHOUSE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_looking_for_exodii_warehouse" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "Any news on that warehouse?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_EXODII_MISSION_WAREHOUSE_NO_FOUND",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_PAT_EXODII_WAREHOUSE" },
+            { "math": [ "time_since(robofac_timer_pat_warehouse) < time('7 d')" ] }
+          ]
+        }
+      },
+      {
+        "text": "Any news on that warehouse?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_EXODII_MISSION_WAREHOUSE_YES_FOUND",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_PAT_EXODII_WAREHOUSE" },
+            { "math": [ "time_since(robofac_timer_pat_warehouse) >= time('7 d')" ] }
+          ]
+        }
+      },
+      {
+        "text": "Get a load of this… I met this pizza-guy…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_pizzaiolo",
+        "condition": {
+          "or": [
+            { "u_has_mission": "MISSION_pizzaiolo_1" },
+            { "u_has_mission": "MISSION_pizzaiolo_2" },
+            { "u_has_mission": "MISSION_pizzaiolo_3" },
+            { "u_has_mission": "MISSION_pizzaiolo_4" }
+          ]
+        }
+      },
+      {
+        "text": "So these traders want us to hunt some slimes…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_KILL_SLIMES",
+        "condition": { "u_has_mission": "MISSION_KILL_SLIMES" }
+      },
+      {
+        "text": "So these traders want us to hunt some ants…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_HUNT_ANTS",
+        "condition": { "u_has_mission": "MISSION_HUNT_ANTS" }
+      },
+      {
+        "text": "So the traders want to build a camp.  Where should I gather supplies?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_BUILD_CAMP",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_directions_lumbermill" } ] } },
+            {
+              "or": [
+                { "u_has_mission": "MISSION_BUILD_CAMP_1" },
+                { "u_has_mission": "MISSION_BUILD_CAMP_2" },
+                { "u_has_mission": "MISSION_BUILD_CAMP_3" },
+                { "u_has_mission": "MISSION_BUILD_CAMP_4" },
+                { "u_has_mission": "MISSION_BUILD_CAMP_5" },
+                { "u_has_mission": "MISSION_BUILD_CAMP_6" }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "text": "So about this guy in the cabin in the woods…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_Warrener",
+        "condition": {
+          "or": [
+            { "u_has_mission": "directions_lapin" },
+            { "u_has_mission": "MISSION_Warrener_LOG_1" },
+            { "u_has_mission": "MISSION_pizzaioMISSION_Warrener_FOOD_2lo_3" },
+            { "u_has_mission": "MISSION_Warrener_ISHERWOOD" }
+          ]
+        }
+      },
+      {
+        "text": "So the Isherwoods need some help…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_ISHERWOOD",
+        "condition": {
+          "or": [
+            { "u_has_mission": "MISSION_ISHERWOOD_CARLOS_1" },
+            { "u_has_mission": "MISSION_ISHERWOOD_CARLOS_2" },
+            { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
+            { "u_has_mission": "MISSION_ISHERWOOD_CLAIRE_1" },
+            { "u_has_mission": "MISSION_ISHERWOOD_CLAIRE_2" },
+            { "u_has_mission": "MISSION_ISHERWOOD_CLAIRE_3" },
+            { "u_has_mission": "MISSION_ISHERWOOD_EDDIE_1" },
+            { "u_has_mission": "MISSION_ISHERWOOD_EDDIE_2" },
+            { "u_has_mission": "MISSION_ISHERWOOD_EDDIE_3" },
+            { "u_has_mission": "MISSION_ISHERWOOD_JACK_1" },
+            { "u_has_mission": "MISSION_ISHERWOOD_JACK_2" },
+            { "u_has_mission": "MISSION_ISHERWOOD_JESSE_1" },
+            { "u_has_mission": "MISSION_ISHERWOOD_JESSE_2" },
+            { "u_has_mission": "MISSION_ISHERWOOD_LUKE_1" },
+            { "u_has_mission": "MISSION_ISHERWOOD_LUKE_2" },
+            { "u_has_mission": "MISSION_ISHERWOOD_BARRY_1" }
+          ]
+        }
+      },
+      {
+        "text": "You know anything about how to troubleshoot a radio tower?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_ROBOFAC_MERC_1_RADIO",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_MERC_1_RADIO" }
+      },
+      {
+        "text": "You heard anything about this monster I heard about at the bar?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_BEM_jabberwock_mission",
+        "condition": { "u_has_mission": "BEM_jabberwock_mission" }
+      },
+      {
+        "text": "I met a guy at the bar that wants some kind of 'human sample'…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_BEM_human_sample_mission",
+        "condition": { "u_has_mission": "BEM_human_sample_mission" }
+      },
+      {
+        "text": "So I met this chemist in the woods…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_CHEMIST",
+        "condition": {
+          "or": [
+            { "u_has_mission": "MISSION_CABIN_CHEMIST_GET_analytical_set_basic" },
+            { "u_has_mission": "MISSION_CABIN_CHEMIST_GET_60_chem_muriatic_acid" },
+            { "u_has_mission": "MISSION_CABIN_CHEMIST_GET_500_GAS" },
+            { "u_has_mission": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE" },
+            { "u_has_mission": "MISSION_ISHERWOOD_CLAIRE_2" },
+            { "u_has_mission": "MISSION_ISHERWOOD_CLAIRE_3" },
+            { "u_has_mission": "MISSION_ISHERWOOD_EDDIE_1" },
+            { "u_has_mission": "MISSION_ISHERWOOD_EDDIE_2" },
+            { "u_has_mission": "MISSION_ISHERWOOD_EDDIE_3" },
+            { "u_has_mission": "MISSION_ISHERWOOD_JACK_1" },
+            { "u_has_mission": "MISSION_ISHERWOOD_JACK_2" },
+            { "u_has_mission": "MISSION_ISHERWOOD_JESSE_1" },
+            { "u_has_mission": "MISSION_ISHERWOOD_JESSE_2" },
+            { "u_has_mission": "MISSION_ISHERWOOD_LUKE_1" },
+            { "u_has_mission": "MISSION_ISHERWOOD_LUKE_2" },
+            { "u_has_mission": "MISSION_ISHERWOOD_BARRY_1" }
           ]
         }
       },
@@ -492,6 +864,340 @@
         ]
       }
     ]
+  },
+  {
+    "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_IVAS",
+    "type": "talk_topic",
+    "dynamic_line": "Andril?  Holy shit, real assholes those guys.  Defense contractah thinks they could get away with naming their weapons manufacturin' after the fuckin' sword of the West - Tolkien - Aragon, yeah?  Read a lot about'em online before it all.  If it's the headset I'm thinkin' of, you mind bringin' it by heah to me before giving it to our employers?  They may'a been assholes but maybe after the end'a the world we can do somethin' fuckin' cool with their tech.",
+    "responses": [
+      {
+        "text": "Thanks a lot.  If I find the headset, I'll think about bring it by to you.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_REACH_REFUGEE_CENTER",
+    "dynamic_line": "Show me on the map.  Yeah, I rememberah them buildin' that place.  Like you I didn't beeline for that shit when it all happened.  Can't imagine anyone nice is runnin' it, but I guess that's true everywhere these days.",
+    "responses": [ { "text": "Thanks a lot.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_FREE_MERCHANTS_EVAC_1",
+    "dynamic_line": "Take a gun.  After the shit you've done for our employers here, this should be cake, eh?",
+    "responses": [ { "text": "Thanks a lot.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_FREE_MERCHANTS_EVAC_2",
+    "dynamic_line": "Now we're talkin'.  Seems to me the sorta' thing you should do from a distance, yeah?  Need yous a sniper rifle.  I dunno where to get one'a those, but I do know the military had set up some bullshit camps out near my cousin's place before it all happened.  Maybe check it out, get yaself some fiah-powah, yeah?",
+    "responses": [
+      {
+        "text": "Thanks a lot.  Maybe I'll check it out.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE",
+        "effect": [
+          { "assign_mission": "MISSION_ROBOFAC_PAT_FIAH_POWAH" },
+          { "u_add_var": "robofac_pat_gave_directions_outpost", "value": "yes" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_FREE_MERCHANTS_EVAC_3",
+    "dynamic_line": "Honestly, good to know people are buildin' things up.  Maybe we can get some use out'a'em, too, yeah?  Don't have much to say til we hear'em out.",
+    "responses": [ { "text": "Thanks a lot.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_FREE_MERCHANTS_EVAC_4",
+    "dynamic_line": "This is the northeast, pal.  Go further northeast and every off-the-grid nerd you bump into'll have some on their house.  Check roofs.",
+    "responses": [ { "text": "Thanks a lot.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_FREE_MERCHANTS_EVAC_5",
+    "dynamic_line": "So first they got yous killin' bandits, and now you're collectin' jahrs?  This really worth the squeeze?  Anyway, just go to the fuckin' supahmahket and start emptyin' shit out for'em.  Here, I'll upload my favorite to your maps.",
+    "responses": [
+      {
+        "text": "Thanks a lot.  Maybe I'll check it out.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE",
+        "effect": [
+          { "assign_mission": "MISSION_ROBOFAC_PAT_GROCERY" },
+          { "u_add_var": "robofac_pat_gave_directions_supermarket", "value": "yes" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_BROKER_1",
+    "dynamic_line": "More jahrs.  You got me stumped on this one.  I'll leave this one up to you.  Fuckin' jahrs.",
+    "responses": [ { "text": "Yeah, fair enough.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_EVAC_SMOKER_GET_CIGARETTES",
+    "dynamic_line": "Well, if you're gatherin' cigs, maybe bring some back for me, yeah?  Tell ya' what I bet they got crates full of them in shipping containahs, if you're willin' to dig around.  My cousin's fathah - not really my uncle, but long story - ran one close by.  His name's Mike.  If ya' see'im, ask how his mothah is.  But seriously, if ya' go, go careful, yeah?  I bet we ain't the first to think about this.",
+    "responses": [
+      {
+        "text": "Thanks a lot.  Maybe I'll check it out.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE",
+        "effect": [
+          { "assign_mission": "MISSION_ROBOFAC_PAT_CONTAINAH" },
+          { "u_add_var": "robofac_pat_gave_directions_container", "value": "yes" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_directions_isherwood",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "u_met_an_isherwood" } ],
+      "yes": "It's just that Isherwood farm, yeah?",
+      "no": "More recon is good for me.  Go locked and loaded, yeah?"
+    },
+    "responses": [ { "text": "Thanks a lot.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_directions_exodii",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ],
+      "yes": "You've been there, remember?  It's got those fuckin' robots!",
+      "no": "I say this a lot, but go strapped, yeah?  Don't like the sound of that."
+    },
+    "responses": [ { "text": "Thanks a lot.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_directions_artisans",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "u_met_isolated_road_artisans" } ],
+      "yes": "You've been there, remember?  Cody n' Jay.",
+      "no": "Could always use more bullets.  If it's like anywhere else, I bet they got work.  Make sure ya' check in if they do."
+    },
+    "responses": [ { "text": "Right.  Thanks a lot.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_BEGGAR_2",
+    "dynamic_line": "Takes all kinds, I guess.  Never been much for lizards.  Let's treat this as a 'you' job, yeah?",
+    "responses": [ { "text": "Yeah… Right.  I guess I'll handle it.  Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_SCIENCE_REP",
+    "dynamic_line": "Workin' for the doctor is workin' for the feds.  Alright with me, but be careful.",
+    "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_RANCH_BARTENDER",
+    "dynamic_line": "I think it's a GREAT idea.  Maybe we help'em out, they hook us up with a steady supply, yeah?  I heard some other mercs talkin' about a still they used to keep in the woods, before it all.  Maybe that's a good place to look?",
+    "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_ARSONIST_1_AMMONIUM_NITRATE",
+    "dynamic_line": "Easy, head out to one of those supply stores outta town.  I used'ta pass one when out doing field measurements.  Heah, I'll upload the location.",
+    "responses": [
+      {
+        "text": "Thanks, maybe I'll check it out.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE",
+        "effect": [
+          { "assign_mission": "MISSION_ROBOFAC_PAT_OUTTA_TOWN" },
+          { "u_add_var": "robofac_pat_gave_directions_farm_supply", "value": "yes" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_REFUGEES_misc",
+    "dynamic_line": "I think ya' shouldn't be so involved.  Doesn't seem like there's much pay in it.  This is a 'you' job, yeah?",
+    "responses": [ { "text": "Sure, that's fair.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_TACOMA_Nunez",
+    "dynamic_line": "I think you shouldn't be involved heah.  No pay in it.  Not your business.  But hey, ya' are.  Might as well see it through.",
+    "responses": [ { "text": "Sure, that's fair.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_OLD_GUARD_REP_1",
+    "dynamic_line": "The Feds.  If they're payin', let's do it.  If they're all laid up in a cabin, I think your best bet may be explosives.  Heah.  Take this grenade.  Don't ask.",
+    "responses": [
+      {
+        "text": "[take the grenade] Thanks, Pat.  I'll put it to good use?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE",
+        "effect": [ { "u_add_var": "robofac_pat_gave_grenade", "value": "yes" }, { "u_spawn_item": "grenade" } ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_OLD_GUARD_REP_2",
+    "dynamic_line": "I don't have any recon in that place.  All up to you.",
+    "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_OLD_GUARD_REP_3-NotMet",
+    "dynamic_line": "Robots.  The fuck is the world comin' to.  Tread carefully.",
+    "responses": [ { "text": "Thanks, will do.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_OLD_GUARD_REP_3-HasMet",
+    "dynamic_line": "Isn't this just that robot you met in that fuckin' castle?",
+    "responses": [ { "text": "Oh, right, I remember that.  Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_OLD_GUARD_REP_4",
+    "dynamic_line": "Monster's the least surprising thing to be fuckin' with a road, isn't it?  I don't have any intel on the area, so you're going in blind.  Lock'n'load.",
+    "responses": [ { "text": "Thanks, will do.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_OLD_GUARD_REP_MARSHALL",
+    "dynamic_line": "Way I see it, you're the Fed, not me.  This is your side gig.  Handle this how you see fit.  And word of advice: don't tell our mutual employer about this.",
+    "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_directions_exodii_signpost",
+    "dynamic_line": "Let me check my maps… yeah… there's nothin' there.  Or, at least, there wasn't nothin' there.  If somethin's there, it happened after it all.  Lock'n'load.",
+    "responses": [ { "text": "Great, more end-of-the-world stuff.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_RUBIK_ANUS_FETICK",
+    "dynamic_line": "Easy: the fuckin' hospital, ya' fuckin' stunad, hah!  Heah, I'll upload a map to one neahby.",
+    "responses": [
+      {
+        "text": "Thanks, mabye I'll check it out.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE",
+        "effect": [
+          { "assign_mission": "MISSION_ROBOFAC_PAT_HOSPITAL" },
+          { "u_add_var": "robofac_pat_gave_directions_hospital", "value": "yes" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_EXODII_MISSION_CONTACT_HUB",
+    "dynamic_line": "Yeah, don't cross our employers.  Just tell them the basics, get paid, move on.",
+    "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_EXODII_MISSION_WAREHOUSE",
+    "dynamic_line": "Now THIS is what I'm good at.  Tell ya' what, I can take this one, if you want.  No guarantees on time, but check in once a week, and I'll let ya' know if I find it.",
+    "responses": [
+      {
+        "text": "Absolutely.  I'll check in next week.",
+        "effect": [
+          { "assign_mission": "MISSION_ROBOFAC_PAT_EXODII_WAREHOUSE" },
+          { "u_add_var": "robofac_pat_looking_for_exodii_warehouse", "value": "yes" },
+          { "math": [ "robofac_timer_pat_warehouse = time('now')" ] }
+        ],
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE"
+      },
+      { "text": "No, I've got this for now.  I'll think about it, though.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_EXODII_MISSION_WAREHOUSE_NO_FOUND",
+    "dynamic_line": "Nothin' yet.  Check back later.",
+    "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_EXODII_MISSION_WAREHOUSE_YES_FOUND",
+    "dynamic_line": "Boom!  Found it.  I think.  I'll upload the data.",
+    "responses": [
+      {
+        "text": "Thanks, Pat!",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE",
+        "effect": [ { "finish_mission": "MISSION_ROBOFAC_PAT_1", "success": true }, { "assign_mission": "mission_exodii_wh_directions" } ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_pizzaiolo",
+    "dynamic_line": "Yeah………… how's'about you handle that one?",
+    "responses": [ { "text": "Right… fair enough.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_KILL_SLIMES",
+    "dynamic_line": "Take a mop.  Hah!",
+    "responses": [ { "text": "Right… thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_HUNT_ANTS",
+    "dynamic_line": "Ants?  Can't be that bad.",
+    "responses": [ { "text": "Sure… thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_BUILD_CAMP",
+    "dynamic_line": "Best bet for all that shit they'll need is a lumbermill.  In fact, I heard some mercs talkin' about one that's occupied by friendly-ish tradahs.  Heah, check it out.",
+    "responses": [
+      {
+        "text": "Thanks.  Maybe I'll check it out.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE",
+        "effect": [
+          { "assign_mission": "MISSION_ROBOFAC_PAT_LUMBERMILL" },
+          { "u_add_var": "robofac_pat_gave_directions_lumbermill", "value": "yes" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_Warrener",
+    "dynamic_line": "Don't know anything to help.  Sounds like a you job.  If I were you, I wouldn't get involved.",
+    "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_ISHERWOOD",
+    "dynamic_line": "I'm not fuckin' heahtless, but I don't think you should be involved.  Doesn't strike me as a lucrative deal, yeah?  That's all I got to say on that.",
+    "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_ROBOFAC_MERC_1_RADIO",
+    "dynamic_line": "Whateva' you got goin' on is between yous guys - and I mean you n' Cranberry.  We don't talk much.",
+    "responses": [ { "text": "Well that's odd, but okay.  Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_BEM_jabberwock_mission",
+    "dynamic_line": "Sure fuckin' have - heard whispers all over that bahr about shit like that.  We know bettah than most monsters'r real, yeah?  Lock'n'load pal.",
+    "responses": [ { "text": "You're not wrong.  Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_BEM_human_sample_mission",
+    "dynamic_line": "Yeah… sounds about right for heah.  Do it n' get paid.",
+    "responses": [ { "text": "Sure, sounds good.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_CABIN_CHEMIST",
+    "dynamic_line": "Yeah, that ain't how a good story starts, but see this through.  Might make a good tradin' pahrtnah.",
+    "responses": [ { "text": "Yeah, alright.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4",
@@ -659,25 +1365,26 @@
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_MORALE_CHAT",
     "dynamic_line": [
-      "You wouldn't believe the data I pulled last night.  Storms like these used ta be theoretical.  Lemme tell ya'…",
       "Tell me ya haven't seen the LAST Sox game.  Found it recorded on a scrap tablet.  Absolute heartbreak, even now.  So in the ninth…",
-      "So, we callin' these things zombies?  I dunno…",
-      "I been starin' at busted terminals all mornin'.  Funny how the end a the world didn't fix bad UI.  I wrote this program once…",
+      "You wouldn't believe the data I pulled last night.  Before all this, never seem storms like these.  Lemme tell ya'…",
       "Kinda weird, right?  Apocalypse an' I'm still doin' weathah modeling like it matters.  Look at this latest one…",
       "You drink rum before noon now, or we still pretendin' it's a bad habit?  Ya' know, I had this rum once…",
       "Portal storms ain't random, by the way.  Anyone tells ya that's full a shit.  Listen…",
-      "You wouldn't believe the asshole came through here earlier…",
-      "So, uh… you trust these folks, or we just survivin' near 'em?  I got ideas…",
-      "Found a radio that almost works — feels like a miracle these days.  I've been scannin' the waves, and…",
-      "So I been thinkin' about somethin' I saw out theah today…",
       "This might sound stupid, but it reminds me a little a how things used ta be…",
-      "I had this theory once, back before everythin' went ta hell…",
-      "I was thinkin' about the Sox, an' now I'm in a wicked bad mood…",
-      "This reminds me of a bar back home…",
-      "So what's your favorite cocktail?",
-      "Wicked cool gear you got theah.  Tell me where ya' found it?",
+      "So, uh… you trust these folks, or we just survivin' near 'em?  I got ideas…",
       "I been rationin' smokes, but yeah, this feels like a good exception…",
-      "Yeah, sure.  Can I run somethin' by ya?  Nothin' serious…"
+      "Nevah been a menthol-smoker, but post-apocalypse, they're not bad…",
+      "Popcorn.  Hot dogs.  Some smuggled-in Rum.  THAT was a ball game…",
+      "I was thinkin' about the Sox, an' now I'm in a wicked bad mood…",
+      "I had this theory once, back before everythin' went ta hell…",
+      "Wicked cool gear you got theah.  Tell me where ya' found it?",
+      "You wouldn't believe the asshole came through heah earliah…",
+      "So I been thinkin' about somethin' I saw out theah today…",
+      "Yeah, sure.  Can I run somethin' by ya?  Nothin' serious…",
+      "So, we callin' these things zombies?  I dunno…",
+      "So I've been scannin' the radio waves, and…",
+      "This reminds me of a bar back home…",
+      "So what's ya favorite cocktail?"
     ],
     "speaker_effect": { "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ] },
     "responses": [ { "text": "[Have a chat then say goodbye]", "topic": "TALK_DONE" } ]
@@ -858,6 +1565,180 @@
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_FIAH_POWAH",
+    "type": "mission_definition",
+    "name": { "str": "Fiah-Powah" },
+    "description": "Pat knew about a military outpost near their cousin's place.  Maybe I can get some fire power there to help take the bandits Smokes is having trouble with.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "outpost",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "outpost", "om_special": "military_outpost", "reveal_radius": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_GROCERY",
+    "type": "mission_definition",
+    "name": { "str": "Supah-Mahket" },
+    "description": "Pat sent me to their favorite supermarket.  Maybe they'll have all the jars Smokes needs?",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "supermarket_x0_y0_z0",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "supermarket_x0_y0_z0", "om_special": "supermarket", "reveal_radius": 4 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_CONTAINAH",
+    "type": "mission_definition",
+    "name": { "str": "Cousin's Fathah's Containahs" },
+    "description": "Pat said that maybe a nearby container yard has cigs.  I guess I could check it out?",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "container_yard_inland_fence_corner_office_bandit",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "container_yard_inland_fence_corner_office_bandit",
+        "om_special": "o_container_yard_inland_bandit",
+        "reveal_radius": 4
+      }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_OUTTA_TOWN",
+    "type": "mission_definition",
+    "name": { "str": "Outta Town Farm Supply" },
+    "description": "Pat said that maybe I can find fertilizer at a farm supply store.  I guess I could check it out?",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "farm_supply_1",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "farm_supply_1", "om_special": "Farm Supply Store", "reveal_radius": 4 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_HOSPITAL",
+    "type": "mission_definition",
+    "name": { "str": "The hospital, ya' stunad" },
+    "description": "Pat said that maybe I can find anesthetic for Rubik at a hospital.  Naturally.  I guess I could check it out?",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "urban_35_1",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "urban_35_1", "om_special": "urban_35_hospital", "reveal_radius": 6 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_EXODII_WAREHOUSE",
+    "type": "mission_definition",
+    "name": { "str": "Pat & the Lost Warehouse" },
+    "description": "Pat is looking into the Rubik's lost warehouse for me.  They said it could take a while, and told me to check in once a week.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_LUMBERMILL",
+    "type": "mission_definition",
+    "name": { "str": "A lumbermill" },
+    "description": "Pat gave me directions to a lumbermill to get supplies for the traders.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "lumbermill_1_1_ocu_north",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "lumbermill_1_1_ocu_north", "om_special": "Occupied Lumbermill", "reveal_radius": 2 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
