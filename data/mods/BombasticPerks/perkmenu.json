@@ -1423,7 +1423,14 @@
             "set_condition": "perk_condition",
             "condition": {
               "and": [
-                { "or": [ { "u_has_trait": "PRETTY" }, { "u_has_trait": "BEAUTIFUL" }, { "u_has_trait": "BEAUTIFUL2" }, { "u_has_trait": "BEAUTIFUL3" } ] }
+                {
+                  "or": [
+                    { "u_has_trait": "PRETTY" },
+                    { "u_has_trait": "BEAUTIFUL" },
+                    { "u_has_trait": "BEAUTIFUL2" },
+                    { "u_has_trait": "BEAUTIFUL3" }
+                  ]
+                }
               ]
             }
           }
