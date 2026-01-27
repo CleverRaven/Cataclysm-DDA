@@ -82,7 +82,13 @@
       { "id": "grab", "cooldown": 21 },
       { "id": "scratch_humanoid" },
       { "id": "bite_humanoid", "cooldown": 5 },
-      [ "PARROT", 8 ]
+      [ "PARROT", 8 ],
+      { "id": "mon_shocker_chargeup", "cooldown": 7 },
+      { "id": "mon_shocker_chargeup_attack", "damage_max_instance": [ { "damage_type": "electric", "amount": 80 } ] },
+      {
+        "id": "mon_shocker_chargeup_attack_grab",
+        "damage_max_instance": [ { "damage_type": "electric", "amount": 80 } ]
+      }
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "fungalize_into": "mon_skeleton_dusted",
