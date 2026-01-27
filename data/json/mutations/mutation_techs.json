@@ -329,9 +329,9 @@
     "unarmed_allowed": true,
     "reach_ok": false,
     "crit_tec": true,
+    "down_dur": 2,
     "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
     "condition": { "math": [ "u_val('size') >= n_val('size')" ] },
-    "tech_effects": [ { "id": "downed", "chance": 100, "duration": 2, "on_damage": true, "message": "%s is knocked to the ground!" } ],
     "flat_bonuses": [
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 4.4 },
@@ -721,6 +721,67 @@
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 3.3 },
       { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TAIL_SCORPION_STING",
+    "name": "Tail Sting",
+    "melee_allowed": true,
+    "messages": [ "You sting %s with your tail", "<npcname> stings %s with their tail" ],
+    "unarmed_allowed": true,
+    "weighting": -3,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_tail_sting" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TAIL_SCORPION_STING_NATURAL",
+    "name": "Tail Sting",
+    "melee_allowed": true,
+    "messages": [ "You sting %s with your tail", "<npcname> stings %s with their tail" ],
+    "unarmed_allowed": true,
+    "weighting": 1,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_tail_sting" ],
+    "condition": {
+      "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TAIL_SCORPION_STING_CRIT",
+    "name": "Critical Tail Sting",
+    "melee_allowed": true,
+    "messages": [ "You viciously sting %s with your tail", "<npcname> viciously stings %s with their tail" ],
+    "unarmed_allowed": true,
+    "reach_ok": false,
+    "crit_tec": true,
+    "attack_vectors": [ "vector_tail_sting" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
