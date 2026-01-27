@@ -327,5 +327,45 @@
         }
       }
     }
+  },
+  {
+    "//": "nano_fabricator room",
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_tile",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "   hdh  dd|  |||||||||||",
+        "   hdh    2  2     hddh|",
+        "    Y     |  |cccc     |",
+        "cccccc  |||22||||||||22|",
+        "||||||  ||-  -------|  |",
+        " +  @|  ||-  --K rr-|  |",
+        " | D@|  ||-  -- Y  -|  |",
+        " |||||  ||-  --K rr-|  |",
+        " +  @|  ||-55G--2---|  |",
+        " | D@|  ||-       C-|  |",
+        "||||||  ||-  Y  Y C-|22|",
+        "   Y    c|-  T  T C-|YY2",
+        "   Y   cc|-(((22(((-|YY2",
+        "|||2||||||-   YY  A-|22|",
+        "|dh    cc|- hh    A-|  |",
+        "|dh     c|- dd   AA-|  |",
+        "|||||   c|- dd   //-|  |",
+        "|cc    cc|- hh  `//-|  |",
+        "|c   |||||-   YY //-|  |",
+        "|c   Y hd|----------|  |",
+        "|cc    hd||||||||||||22|",
+        "||||||2||||            |",
+        " dd    ccc|  |ccc   ccc|",
+        " hh      c|  |||||||||||"
+      ],
+      "palettes": [ "microlab" ],
+      "furniture": { "K": "f_rack", "C": "f_machinery_electronic", "A": "f_machinery_heavy" },
+      "terrain": { "G": "t_card_science", "`": "t_nanofab", "/": "t_nanofab_body" },
+      "item": { "r": { "item": "standard_template_construct" }, "K": { "item": "nanomaterial" } },
+      "monster": { "T": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } } },
+      "place_monsters": [ { "monster": "GROUP_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ]
+    }
   }
 ]
