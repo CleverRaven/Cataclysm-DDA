@@ -1415,7 +1415,7 @@
           },
           { "set_string_var": "perk_hairsuit", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have the <trait_name:PRETTY> trait or better.",
+            "set_string_var": "Must have the <trait_name:PRETTY> trait or better",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
