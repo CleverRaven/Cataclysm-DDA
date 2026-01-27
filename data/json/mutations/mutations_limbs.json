@@ -691,12 +691,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "attacks": {
-      "attack_text_u": "You sting %s with your tail!",
-      "attack_text_npc": "%1$s stings %2$s with their tail!",
-      "chance": 20,
-      "base_damage": { "damage_type": "stab", "amount": 20 }
-    }
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_scorpion" } ] } ]
   },
   {
     "type": "mutation",
