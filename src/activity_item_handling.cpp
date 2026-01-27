@@ -3571,7 +3571,7 @@ bool read_do( Character &you, const activity_reason_info &act_info,
             const time_duration time_taken = you.time_to_read( *books[0], you );
             item_location book = item_location( you, books[0] );
             item_location ereader;
-            you.backlog.emplace_front( ACT_MULTIPLE_READ );
+            you.backlog.emplace_front( multi_read_activity_actor() );
             you.assign_activity( read_activity_actor( time_taken, book, ereader, true ) );
             return false;
         }

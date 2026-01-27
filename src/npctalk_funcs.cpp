@@ -67,7 +67,6 @@ static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
-static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 
 static const efftype_id effect_allow_sleep( "allow_sleep" );
@@ -266,7 +265,7 @@ void talk_function::do_eread( npc &p )
 
 void talk_function::do_read_repeatedly( npc &p )
 {
-    p.assign_activity( ACT_MULTIPLE_READ );
+    p.assign_activity( multi_read_activity_actor() );
 }
 
 void talk_function::do_study( npc &p )
