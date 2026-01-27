@@ -209,7 +209,6 @@
     "threshold_mut": "THRESH_ALPHA",
     "mutagen_message": "You feel… better.  Somehow.",
     "memorial_message": "Started representing.",
-    "threshold_min": 2800,
     "vitamin": "mutagen_alpha",
     "base_removal_chance": 20
   },
