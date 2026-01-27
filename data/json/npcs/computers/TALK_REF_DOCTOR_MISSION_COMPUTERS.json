@@ -141,5 +141,11 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "item": "usb_drive_nano", "contents-item": "software_archived_data", "variables": [ { "browsed": "true" } ] } ]
+  },
+  {
+    "id": "mission_science_rep_5_secure_usb_download",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "usb_drive_nano", "contents-item": "train_data", "variables": [ { "browsed": "true" } ] } ]
   }
 ]

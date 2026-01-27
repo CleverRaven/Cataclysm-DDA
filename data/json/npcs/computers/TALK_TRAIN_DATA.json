@@ -13,7 +13,7 @@
       {
         "text": "Download Train Data",
         "topic": "COMP_TRAIN_DATA_DOWNLOAD",
-        "condition": { "and": [ { "u_has_item": "usb_drive_nano" }, { "u_has_mission": "MISSION_SCIENCE_REP_5" } ] }
+        "condition": { "u_has_mission": "MISSION_SCIENCE_REP_5" }
       },
       { "text": "Power off.", "topic": "TALK_DONE" }
     ]
@@ -27,13 +27,23 @@
   {
     "type": "talk_topic",
     "id": "COMP_TRAIN_DATA_DOWNLOAD",
-    "dynamic_line": "TRANSFER COMPLETE.",
+    "dynamic_line": {
+      "u_has_item": "usb_drive_nano",
+      "yes": "The train data is ready to download.",
+      "no": "You don't have the right device to download the train data."
+    },
     "responses": [
       {
-        "text": "Power off.",
+        "text": "Download Train Data",
         "topic": "TALK_DONE",
-        "effect": [ { "u_consume_item": "usb_drive_nano" }, { "u_spawn_item": "train_data" } ]
-      }
+        "condition": { "u_has_item": "usb_drive_nano" },
+        "effect": [
+          { "u_consume_item": "usb_drive_nano" },
+          { "u_spawn_item": "mission_science_rep_5_secure_usb_download", "use_item_group": true }
+        ]
+      },
+      { "text": "Go back.", "topic": "TALK_NONE" },
+      { "text": "Power off.", "topic": "TALK_DONE" }
     ]
   }
 ]
