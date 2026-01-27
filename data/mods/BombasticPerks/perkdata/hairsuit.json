@@ -27,8 +27,7 @@
     ],
     "warmth": 1,
     "material_thickness": 0.375,
-    "environmental_protection": 1,
-    "encumbrance": 0
+    "environmental_protection": 0
   },
   {
     "id": "hair_suit_on",
