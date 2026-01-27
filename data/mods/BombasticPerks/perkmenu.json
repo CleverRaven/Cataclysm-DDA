@@ -1405,6 +1405,32 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_hairsuit" } },
+        "text": "Gain [<trait_name:perk_hairsuit>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_hairsuit>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_hairsuit>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_hairsuit", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the <trait_name:PRETTY> trait or better.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                { "or": [ { "u_has_trait": "PRETTY" }, { "u_has_trait": "BEAUTIFUL" }, { "u_has_trait": "BEAUTIFUL2" }, { "u_has_trait": "BEAUTIFUL3" } ] }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_thickblood" } },
         "text": "Gain [<trait_name:perk_thickblood>]",
         "effect": [
