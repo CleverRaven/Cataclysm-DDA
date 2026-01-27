@@ -3726,7 +3726,7 @@ bool vehicle_deconstruction_do( Character &you, const activity_reason_info &act_
 
     if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
         if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, VEHICLE_REMOVE ) ) {
-            you.backlog.emplace_front( ACT_VEHICLE_DECONSTRUCTION );
+            you.backlog.emplace_front( multi_vehicle_deconstruct_activity_actor() );
             return false;
         }
         you.activity_vehicle_part_index = -1;
@@ -3741,7 +3741,7 @@ bool vehicle_repair_do( Character &you, const activity_reason_info &act_info,
 
     if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
         if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, VEHICLE_REPAIR ) ) {
-            you.backlog.emplace_front( ACT_VEHICLE_REPAIR );
+            you.backlog.emplace_front( multi_vehicle_repair_activity_actor() );
             return false;
         }
 
