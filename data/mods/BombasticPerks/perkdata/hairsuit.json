@@ -20,7 +20,7 @@
       {
         "material": [ { "type": "hair", "covered_by_mat": 100, "thickness": 0.375 } ],
         "covers": [ "head" ],
-        "specifically_covers": [ "head_neck" ],
+        "specifically_covers": [ "head_throat" ],
         "coverage": 1,
         "encumbrance": 0
       }
@@ -49,7 +49,7 @@
       {
         "material": [ { "type": "hair", "covered_by_mat": 100, "thickness": 0.375 } ],
         "covers": [ "head" ],
-        "specifically_covers": [ "head_neck" ],
+        "specifically_covers": [ "head_throat" ],
         "coverage": 100,
         "encumbrance": 0
       },
