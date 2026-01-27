@@ -670,7 +670,7 @@
     "name": { "str": "MoM AEA DoT and Debuff", "//~": "NO_I18N" },
     "description": { "str": "Puts a slow DoT and healing debuff on anyone in the area.", "//~": "NO_I18N" },
     "valid_targets": [ "ally", "hostile" ],
-    "effect": "recover_energy",
+    "effect": "attack",
     "effect_str": "effect_vitakin_hurt",
     "shape": "blast",
     "damage_type": "biological",
@@ -701,9 +701,9 @@
     "type": "effect_on_condition",
     "id": "EOC_MoM_AEA_BLOOD_PURGE",
     "effect": [
-      { "math": [ "u_vitamin('iron') = 0" ] },
-      { "math": [ "u_vitamin('vitC') = 0" ] },
-      { "math": [ "u_vitamin('calcium') = 0" ] },
+      { "if": { "math": [ "u_vitamin('iron') > 0" ] }, "then": { "math": [ "u_vitamin('iron') = 0" ] } },
+      { "if": { "math": [ "u_vitamin('vitC') > 0" ] }, "then": { "math": [ "u_vitamin('vitC') = 0" ] } },
+      { "if": { "math": [ "u_vitamin('calcium') > 0" ] }, "then": { "math": [ "u_vitamin('calcium') = 0" ] } },
       { "run_eocs": [ "EOC_VITAKIN_MUTAGEN_PURGE", "EOC_VITAKIN_DRUG_PURGE" ] }
     ]
   },
@@ -723,7 +723,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_MoM_AEA_HEALTH_CHANGER",
-    "effect": [ { "math": [ "u_health() += rng(-5,10)" ] } ]
+    "effect": [ { "math": [ "_temp = rng(-5,10)" ] }, { "math": [ "u_health() += _temp" ] } ]
   },
   {
     "type": "SPELL",
