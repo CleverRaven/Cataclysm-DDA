@@ -4640,6 +4640,30 @@ std::unique_ptr<activity_actor> fish_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+activity_reason_info multi_fish_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::fish_can_do( ACT_VEHICLE_REPAIR, you,
+            src_loc );
+}
+std::optional<requirement_id> multi_fish_activity_actor::multi_activity_requirements(
+    Character &you, activity_reason_info &act_info, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::fish_requirements( you, act_info, src_loc );
+}
+bool multi_fish_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::fish_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_fish_activity_actor::deserialize( JsonValue & )
+{
+    multi_fish_activity_actor actor;
+    return actor.clone();
+}
+
 std::unordered_set<tripoint_abs_ms> multi_zone_activity_actor::multi_activity_locations(
     Character  &you )
 {
@@ -12630,6 +12654,7 @@ deserialize_functions = {
     { ACT_MOVE_LOOT, &zone_sort_activity_actor::deserialize },
     { ACT_MULTIPLE_CHOP_PLANKS, &multi_chop_planks_activity_actor::deserialize },
     { ACT_MULTIPLE_CHOP_TREES, &multi_chop_trees_activity_actor::deserialize },
+    { ACT_MULTIPLE_FISH, &multi_fish_activity_actor::deserialize },
     { ACT_MULTIPLE_MINE, &multi_mine_activity_actor::deserialize },
     { ACT_MULTIPLE_MOP, &multi_mop_activity_actor::deserialize },
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },

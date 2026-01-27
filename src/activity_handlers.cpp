@@ -68,7 +68,6 @@ static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" 
 static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
-static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
@@ -108,7 +107,6 @@ const std::map< activity_id, std::function<void( player_activity *, Character * 
 activity_handlers::do_turn_functions = {
     { ACT_FILL_LIQUID, fill_liquid_do_turn },
     { ACT_START_FIRE, start_fire_do_turn },
-    { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
     { ACT_MULTIPLE_FARM, multiple_farm_do_turn },

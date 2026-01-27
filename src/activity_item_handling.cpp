@@ -3679,7 +3679,7 @@ bool fish_do( Character &you, const activity_reason_info &act_info,
     const do_activity_reason &reason = act_info.reason;
 
     if( reason == do_activity_reason::NEEDS_FISHING && you.has_quality( qual_FISHING_ROD, 1 ) ) {
-        you.backlog.emplace_front( ACT_MULTIPLE_FISH );
+        you.backlog.emplace_front( multi_fish_activity_actor() );
         // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
         you.activity = player_activity();
         item_location best_rod_loc( you, &you.best_item_with_quality( qual_FISHING_ROD ) );
