@@ -198,7 +198,7 @@ bool trapfunc::thin_ice( const tripoint_bub_ms &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::thick_ice( const tripoint_bub_ms &p, Creature *c, item * )
+bool trapfunc::thick_ice( const tripoint_bub_ms &, Creature *c, item * )
 {
     if( c == nullptr ) {
         return false;
