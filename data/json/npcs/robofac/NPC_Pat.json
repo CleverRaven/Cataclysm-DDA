@@ -247,6 +247,55 @@
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_partners" } ] }
       },
       {
+        "text": "The Hub will keep paying for HEW reports.  Can you start gathering intel on potential targets?",
+        "topic": "TALK_PAT_RECON_DIRECTIONS_INTRO",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_partners" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_talked_about_recon" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "It hasn't been long, but any intel on HEW targets?",
+        "topic": "TALK_PAT_RECON_DIRECTIONS_NO",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_partners" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_talked_about_recon" } ] },
+            { "math": [ "time_since(robofac_timer_pat_recon) < time('3 d')" ] }
+          ]
+        }
+      },
+      {
+        "text": "It's been a few days, any new intel on HEW targets?",
+        "topic": "TALK_PAT_RECON_DIRECTIONS_YES",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_partners" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_talked_about_recon" } ] },
+            { "math": [ "time_since(robofac_timer_pat_recon) >= time('3 d')" ] }
+          ]
+        },
+        "effect": [
+          { "math": [ "robofac_pat_recon_random_loc = rand(11)" ] },
+          { "math": [ "robofac_timer_pat_recon = time('now')" ] }
+        ]
+      },
+      {
+        "text": "Any ideas on places we've seen worth scanning with the HEW system?",
+        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_partners" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] }
+          ]
+        }
+      },
+      {
         "text": "Just came by to chat.",
         "topic": "TALK_ROBOFAC_MERC_PAT_MORALE_CHAT",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_friends" } ] }
@@ -399,11 +448,6 @@
         "text": "Our employer wants me to scan odd weather and places with this HEW system.  Not sure what to make of that.  Have any ideas?",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4",
         "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_MWS_4" }
-      },
-      {
-        "text": "Any ideas on places we've seen worth scanning with the HEW system?",
-        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4",
-        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] }
       },
       {
         "text": "Our employer wants me to scan inside that 'thing.'  Have any advice?",
@@ -852,7 +896,7 @@
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
     "type": "talk_topic",
-    "dynamic_line": "I saw that gun they have ya' theah.  Cool shit.  I'd take their advice to heaht, though.  If you aren't up to snuff on working with electronics, I'd do a bit of reading.  That book they gave ya' is pretty advanced, so here, in case you need something to get stahted.",
+    "dynamic_line": "I saw that gun they gave ya' theah.  Cool shit.  I'd take their advice to heaht, though.  If you aren't up to snuff on working with electronics, I'd do a bit of reading.  That book they gave ya' is pretty advanced, so here, in case you need something to get stahted.",
     "responses": [
       {
         "text": "Thanks a lot.",
@@ -1274,7 +1318,12 @@
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_RADIOSPHERE",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_radiosphere" } ] }
       },
-      { "text": "Hmm.  Well, I guess we'll just see what I can find.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" }
+      {
+        "text": "[Point to the photos of the glowing strings] That place was odd, to say the least.",
+        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_STRING_DIMENSION",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_string_dimension" } ] }
+      },
+      { "text": "Hmm.  Well, I guess we'll just see what I can find.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1359,6 +1408,12 @@
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_RADIOSPHERE",
     "type": "talk_topic",
     "dynamic_line": "Those pictures were some of the most insane shit I ever saw.  No idea how you plan on gettin' back theah, though.",
+    "responses": [ { "text": "Guess I'll give it a try.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
+  },
+  {
+    "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_STRING_DIMENSION",
+    "type": "talk_topic",
+    "dynamic_line": "The data I pulled on that was wicked pissah - some of the coldest temps I've ever seen.  Definitely get some interestin' HEW scans there.  If I were you I'd track down a woobie - a liner for the modular defense system, yeah?  Keep ya' warm.",
     "responses": [ { "text": "Guess I'll give it a try.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {
@@ -1534,6 +1589,244 @@
     "type": "talk_topic",
     "dynamic_line": "Right, so check this shit out.  I rigged up'a small radio transponder to an earpiece.  Just put it in your ear, plug it in'ta the port there on the headset, switch it on, and as long as your AR headset is on, I can see, heah, and talk.  Wicked, eh?  You just keep that transmitter-receiver toggled on and I'll do what I can to give you some wicked fuckin' good advice and info.  On my end, I'll sell data to the Hub to keep me afloat, and you keep whatever comes out of the jobs.",
     "responses": [ { "text": "Wicked.  Guess we'll talk soon, Pat.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_PAT_RECON_DIRECTIONS_INTRO",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah, absolutely.  I'll chat with mercs and traders as they come by.  Check in every 3 days or so?",
+    "responses": [
+      {
+        "text": "Yeah, alright.  Thanks, Pat.",
+        "topic": "TALK_ROBOFAC_MERC_PAT",
+        "effect": [
+          { "u_add_var": "robofac_pat_talked_about_recon", "value": "yes" },
+          { "math": [ "robofac_timer_pat_recon = time('now')" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "TALK_PAT_RECON_DIRECTIONS_NO",
+    "type": "talk_topic",
+    "dynamic_line": "Nothing new.  Check back later.",
+    "responses": [ { "text": "Yeah, alright.  I'll check back later.", "topic": "TALK_ROBOFAC_MERC_PAT" } ]
+  },
+  {
+    "id": "TALK_PAT_RECON_DIRECTIONS_YES",
+    "type": "talk_topic",
+    "dynamic_line": "&Pat boots up their laptop and pulls out a stack of maps, photos, and documents.  \"Let's see what we have heah, yeah?\"",
+    "responses": [
+      {
+        "text": "[Grab the portfolio with a photo of a farmstead] What's this?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_1",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 1" ] },
+            { "math": [ "HEW_vitrified_data_sold < 1" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_1" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_vitrified" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_1" }
+      },
+      {
+        "text": "[Grab the portfolio with a photo of large gate] What's this?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_2",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 2" ] },
+            { "math": [ "HEW_lixa_data_sold < 1" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_lixa" } ] } },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1" } },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_2" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_2" }
+      },
+      {
+        "text": "[Grab the map with red marks on it] What's this?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_3",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 3" ] },
+            { "math": [ "HEW_temple_data_sold < 1" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_3" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_strange_temple" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_3" }
+      },
+      {
+        "text": "[Grab a pile of photos] This looks new.  What is it?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_4",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 4" ] },
+            { "math": [ "HEW_amigara_data_sold < 1" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_4" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_amigara" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_4" }
+      },
+      {
+        "text": "[Point to the image of a castle?] What is that?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_5",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 5" ] },
+            { "math": [ "HEW_exodii_data_sold < 1" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_5" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_exodii" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_5" }
+      },
+      {
+        "text": "[Grab a stack of documents marked CLASSIFIED] Ooh?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_6",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 6" ] },
+            { "math": [ "HEW_physics_lab_data_sold < 1" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_physics_lab" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "[Grab test tube with a hunk of meat in it] What's this?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_7",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 7" ] },
+            { "math": [ "HEW_monster_corpse_data_sold < 1" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_7" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_monster_corpse" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_7" }
+      },
+      {
+        "text": "[Point at an image of a glowing smear] What's that?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_8",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 8" ] },
+            { "math": [ "HEW_barricaded_church_data_sold < 1" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_8" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_rural_church" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_8" }
+      },
+      {
+        "text": "[Point to a pin on Pat's digital map] What's that?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_9",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 9" ] },
+            { "math": [ "HEW_morgantown_data_sold < 1" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_9" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_morgantown" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_9" }
+      },
+      {
+        "text": "[Point to a pin on Pat's digital map] What's that?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_10",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 10" ] },
+            { "math": [ "HEW_cabin_reverb_data_sold < 1" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_10" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_cabin_reverb" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_10" }
+      },
+      {
+        "text": "[Tap an old cassette player on the desk] Haven't seen one of those in a while.",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_11",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 11" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_11" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_radio_tower_reverberation_mp3" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_11" }
+      },
+      { "text": "Nothing looks interesting to me.  I'll check in again later.", "topic": "TALK_ROBOFAC_MERC_PAT" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_1",
+    "type": "talk_topic",
+    "dynamic_line": "I bought these photos off a merc.  Just looks like some house outta town, but look, there are some odd ahrtifacts - little floatin' distortions - all over'em.  I've seen ghost shows.  The merc was a believah, so they didn't try and loot it.  Gotta be somethin' there, though.  Worth a scan.",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_2",
+    "type": "talk_topic",
+    "dynamic_line": "Shared a smoke with a merc that took these photos of a Department of Energy facility.  Nothin' more ominous than the DOE, yeah?  Worth a scan.",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_3",
+    "type": "talk_topic",
+    "dynamic_line": "Fucker sold me this - for a full coin I might add - said it's a fuckin' treasure map.  I was hard up for fresh data, so I bought it.  Says there's a grate out in the contry, and treasure underneath.  Figured it's worth checkin' out, anyway.",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_4",
+    "type": "talk_topic",
+    "dynamic_line": "Check out these photos - looks like some kind of minin' operation.  But the strange thing is that, apparently, the ground was a rumblin', and the tradah that passed by swore they heard screams.  Not the zombie kind neithah.  Worth a scan - from the parking lot, maybe.",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_5",
+    "type": "talk_topic",
+    "dynamic_line": "This is a doozy.  This guy, all out of his mind, came by and swore he saw this scrap-metal castle just fuckin' BLIP into existence.  So crazy a story I doubt he made it up.  Lock'n'load and check it out, yeah?",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_6",
+    "type": "talk_topic",
+    "dynamic_line": "I picked these up off a trader in exchange for some cigs - didn't tell me where they got'em.  Most of it's redacted, which probably means strange shit, no?  But I'm seein' here all these order forms for materials to build ventilation shafts, and a few geological reports say somethin' about forests.  It isn't much to go on, but keep an eye out for strange shit in the woods, yeah?",
+    "responses": [ { "text": "I'll keep an eye out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_7",
+    "type": "talk_topic",
+    "dynamic_line": "Came fresh off another merc claims they got it on a job from our employers, but wouldn't say too much more.  I coaxed a location out'of'em.  Given how secretive they were, I think it's worth a look and a scan, yeah?",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_8",
+    "type": "talk_topic",
+    "dynamic_line": "All I've got is that photo and a location.  It's some kind of building, glowing all purple.  I'd take a hazmat suit, if you got one.  Maybe it's nukes or some shit, yeah?",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_9",
+    "type": "talk_topic",
+    "dynamic_line": "Merc told me she saw some sort'a creature in the woods.  I made her prove it.  She shows me this.\"  Pat pulls out a blurry Polaroid photo showing a fence in the forest, with some small, dark smear of a creature moving behind it. \"Figures you can't see much, but this place is where the merc saw it.  Maybe worth a look.",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_10",
+    "type": "talk_topic",
+    "dynamic_line": "This one might be nothin', but the mercs have been talking about this loner lives out in a cabin - this cabin, here.  They say he's SEEN things, but everyone's got a different idea about what he's seen.  Maybe you go see for yourself?",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_11",
+    "type": "talk_topic",
+    "dynamic_line": "Check this out.\"  Pat hits play on the recorder, and nothing but static plays for a moment before they stop it.  \"Nothin', right?  Wrong.  I recorded somethin' - someone talkin' - but it's just gone.  Didn't record anythin'.  Somethin's afoot.  I'm pretty sure the source is this radio tower, heah.  Check it out, maybe?",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_ROBOFAC_PAT_1",
@@ -1739,6 +2032,246 @@
     "start": {
       "assign_mission_target": { "om_terrain": "lumbermill_1_1_ocu_north", "om_special": "Occupied Lumbermill", "reveal_radius": 2 }
     },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_1",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Farmstead" },
+    "description": "Pat directed me to a strange farmstead, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "unvitrified_farm_0",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "unvitrified_farm_0", "om_special": "quiet_farm", "reveal_radius": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_2",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: DOE Building" },
+    "description": "Pat directed me to a building owned by the Department of Energy, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "LIXA_entry_1",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "LIXA_entry_1", "om_special": "physics_lab_LIXA", "reveal_radius": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_3",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Grate" },
+    "description": "Pat directed me to a strange grate in the wilderness, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "temple_stairs",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "temple_stairs", "om_special": "Strangle Temple", "reveal_radius": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_4",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Mine" },
+    "description": "Pat directed me to a mine, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "mine_entrance",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "mine_entrance", "om_special": "Amigara mine", "reveal_radius": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_5",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Castle" },
+    "description": "Pat directed me to a strange castle made of scrap metal, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "exodii_base_x0y0z0",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "exodii_base_x0y0z0", "om_special": "exodii_base", "reveal_radius": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_7",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Meat" },
+    "description": "Pat directed me to what appears to be a hunk of meat, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "corpse_surface",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "corpse_surface", "om_special": "nether_monster_corpse", "reveal_radius": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_8",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Glow" },
+    "description": "Pat directed me to the location of a glowing building, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "xedra_rural_church",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "xedra_rural_church", "om_special": "xedra_church_rural", "reveal_radius": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_9",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Fence" },
+    "description": "Pat directed me to a fence where a merc reported odd creatures, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "morgantown_forest_fence_entry",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "morgantown_forest_fence_entry", "om_special": "xedra_morgantown", "reveal_radius": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_10",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Cabin" },
+    "description": "Pat directed me to a cabin, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "cabin_3_reverberation_hint",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "cabin_3_reverberation_hint", "om_special": "Cabin_3_reverberation_hint", "reveal_radius": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_11",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Sound" },
+    "description": "Pat directed me to a radio tower, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "radio_tower_reverberation_mp3",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "radio_tower_reverberation_mp3", "om_special": "Radio_Tower_Reverberation_mp3", "reveal_radius": 2 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
