@@ -33,7 +33,7 @@
     "name": "arvore",
     "base_faction": "changeling",
     "neutral": [ "small_animal", "fish" ],
-    "by_mood": [ "nether", "nightmares", "ierde", "undine", "sylph", "salamander", "changeling" ],
+    "by_mood": [ "nether", "nightmares", "ierde", "undine", "sylph", "salamander", "changeling", "robot" ],
     "hate": [ "zombie", "homullus", "thornbeast", "cult" ]
   },
   {
@@ -41,7 +41,7 @@
     "name": "ierde",
     "base_faction": "changeling",
     "friendly": [ "worm" ],
-    "neutral": [ "small_animal", "fish" ],
+    "neutral": [ "small_animal", "fish", "robot" ],
     "by_mood": [ "nether", "nightmares", "homullus", "arvore", "undine", "salamander", "changeling" ],
     "hate": [ "zombie", "sylph", "cult" ]
   },
@@ -49,7 +49,7 @@
     "type": "MONSTER_FACTION",
     "name": "undine",
     "base_faction": "changeling",
-    "neutral": [ "small_animal", "fish" ],
+    "neutral": [ "small_animal", "fish", "robot" ],
     "by_mood": [ "nether", "nightmares", "homullus", "arvore", "sylph", "ierde", "slime", "changeling" ],
     "hate": [ "zombie", "salamander", "cult" ]
   },
@@ -57,7 +57,7 @@
     "type": "MONSTER_FACTION",
     "name": "salamander",
     "base_faction": "changeling",
-    "neutral": [ "small_animal", "fish" ],
+    "neutral": [ "small_animal", "fish", "robot" ],
     "by_mood": [ "nether", "nightmares", "ierde", "arvore", "sylph", "homullus", "changeling" ],
     "hate": [ "zombie", "undine", "cult" ]
   },
@@ -65,6 +65,7 @@
     "type": "MONSTER_FACTION",
     "name": "homullus",
     "base_faction": "changeling",
+    "friendly": [ "robot" ],
     "neutral": [ "small_animal", "fish" ],
     "by_mood": [ "nether", "nightmares", "ierde", "arvore", "sylph", "salamander", "changeling" ],
     "hate": [ "zombie", "arvore", "cult" ]
@@ -73,9 +74,15 @@
     "type": "MONSTER_FACTION",
     "name": "sylph",
     "base_faction": "changeling",
-    "neutral": [ "small_animal", "fish" ],
+    "neutral": [ "small_animal", "fish", "robot" ],
     "by_mood": [ "nether", "nightmares", "homullus", "arvore", "undine", "salamander", "changeling" ],
     "hate": [ "zombie", "ierde", "cult" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "robot",
+    "copy-from": "robot",
+    "extend": { "friendly": [ "homullus" ], "neutral": [ "sylph", "salamander", "undine", "ierde" ], "by_mood": [ "arvore" ] }
   },
   {
     "type": "MONSTER_FACTION",
