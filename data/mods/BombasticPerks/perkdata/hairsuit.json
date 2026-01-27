@@ -38,6 +38,7 @@
     "name": { "str": "hair suit (worn)" },
     "looks_like": "bodysuit_lycra",
     "description": "Your hair, woven into a fashionable, form-fitting bodysuit.  Activate to wear it loose.",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "NO_SALVAGE", "SKINTIGHT", "TRADER_AVOID", "SOFT", "ZERO_WEIGHT" ],
     "use_action": {
       "need_worn": true,
       "target": "hair_suit_off",
