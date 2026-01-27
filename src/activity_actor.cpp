@@ -190,9 +190,11 @@ static const activity_id ACT_MILK( "ACT_MILK" );
 static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
@@ -8893,6 +8895,29 @@ std::unique_ptr<activity_actor> chop_planks_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
+activity_reason_info multi_chop_planks_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::chop_planks_can_do( ACT_MULTIPLE_CHOP_PLANKS, you, src_loc );
+}
+std::optional<requirement_id> multi_chop_planks_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::chop_planks_requirements( you, act_info, src_loc );
+}
+bool multi_chop_planks_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::chop_planks_do( you, act_info, src, src_loc );
+}
+std::unique_ptr<activity_actor> multi_chop_planks_activity_actor::deserialize( JsonValue & )
+{
+    multi_chop_planks_activity_actor actor;
+    return actor.clone();
+}
+
 void chop_tree_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
@@ -8992,6 +9017,29 @@ std::unique_ptr<activity_actor> chop_tree_activity_actor::deserialize( JsonValue
     data.read( "moves", actor.moves );
     data.read( "tool", actor.tool );
 
+    return actor.clone();
+}
+
+activity_reason_info multi_chop_trees_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::chop_trees_can_do( ACT_MULTIPLE_CHOP_TREES, you, src_loc );
+}
+std::optional<requirement_id> multi_chop_trees_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::chop_trees_requirements( you, act_info, src_loc );
+}
+bool multi_chop_trees_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::chop_trees_do( you, act_info, src, src_loc );
+}
+std::unique_ptr<activity_actor> multi_chop_trees_activity_actor::deserialize( JsonValue & )
+{
+    multi_chop_trees_activity_actor actor;
     return actor.clone();
 }
 
@@ -9778,6 +9826,7 @@ void mop_activity_actor::finish( player_activity &act, Character &who )
         map &here = get_map();
         here.mop_spills( here.get_bub( act.placement ) );
     }
+    act.set_to_null();
     activity_handlers::resume_for_multi_activities( who );
 }
 
@@ -9798,6 +9847,25 @@ std::unique_ptr<activity_actor> mop_activity_actor::deserialize( JsonValue &jsin
 
     data.read( "moves", actor.moves );
 
+    return actor.clone();
+}
+
+activity_reason_info multi_mop_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::mop_can_do( ACT_MULTIPLE_MOP, you, src_loc );
+}
+
+bool multi_mop_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::mop_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_mop_activity_actor::deserialize( JsonValue & )
+{
+    multi_mop_activity_actor actor;
     return actor.clone();
 }
 
@@ -12461,7 +12529,10 @@ deserialize_functions = {
     { ACT_MOP, &mop_activity_actor::deserialize },
     { ACT_MOVE_ITEMS, &move_items_activity_actor::deserialize },
     { ACT_MOVE_LOOT, &zone_sort_activity_actor::deserialize },
+    { ACT_MULTIPLE_CHOP_PLANKS, &multi_chop_planks_activity_actor::deserialize },
+    { ACT_MULTIPLE_CHOP_TREES, &multi_chop_trees_activity_actor::deserialize },
     { ACT_MULTIPLE_MINE, &multi_mine_activity_actor::deserialize },
+    { ACT_MULTIPLE_MOP, &multi_mop_activity_actor::deserialize },
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
     { ACT_OPERATION, &bionic_operation_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
