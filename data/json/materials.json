@@ -535,7 +535,7 @@
     "id": "sclerotin_light",
     "name": "Light Sclerotin",
     "density": 1.8,
-    "copy-from": "sclerotin_light",
+    "copy-from": "chitin_light",
     "chip_resist": 18,
     "breathability": "AVERAGE",
     "resist": { "bash": 4, "cut": 6, "acid": 8, "heat": 2, "bullet": 1.8 }
@@ -545,7 +545,7 @@
     "id": "hair",
     "name": "Hair",
     "density": 1.4,
-    "copy-from": "chitin_light",
+    "copy-from": "sclerotin_light",
     "chip_resist": 11,
     "breathability": "GOOD",
     "soft": true
