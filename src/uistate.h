@@ -13,7 +13,6 @@
 #include "item_location.h"
 #include "json.h"
 #include "omdata.h"
-#include "surroundings_menu.h"
 #include "type_id.h"
 
 constexpr int DEFAULT_TILESET_ZOOM = 16;

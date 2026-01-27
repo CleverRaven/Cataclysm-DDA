@@ -14,6 +14,7 @@
 #include "cata_imgui.h"
 #include "color.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "input_context.h"
 #include "map_entity_stack.h"
 #include "translations.h"
@@ -21,22 +22,9 @@
 class avatar;
 class Character;
 class Creature;
-template <typename T> struct enum_traits;
 class item;
 class map;
 struct map_data_common_t;
-
-enum class surroundings_menu_tab_enum : int {
-    items = 0,
-    monsters,
-    terfurn,
-    num_tabs
-};
-
-template<>
-struct enum_traits<surroundings_menu_tab_enum> {
-    static constexpr surroundings_menu_tab_enum last = surroundings_menu_tab_enum::num_tabs;
-};
 
 class tab_data
 {
