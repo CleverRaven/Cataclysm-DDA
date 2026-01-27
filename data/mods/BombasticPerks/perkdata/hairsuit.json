@@ -56,15 +56,8 @@
       {
         "material": [ { "type": "hair", "covered_by_mat": 100, "thickness": 0.375 } ],
         "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_palm_l", "hand_palm_r", "hand_wrist_l", "hand_wrist_r", "hand_back_l", "hand_back_r" ],
-        "encumbrance": 0
-      },
-      {
-        "material": [ { "type": "hair", "covered_by_mat": 100, "thickness": 0.375 } ],
-        "coverage": 100,
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_l", "foot_sole_r", "foot_arch_l", "foot_arch_r", "foot_ankle_l", "foot_ankle_r", "foot_heel_l", "foot_heel_r" ],
+        "covers": [ "foot_l", "foot_r", "hand_l", "hand_r" ],
+        "specifically_covers": [ "foot_sole_l", "foot_sole_r", "foot_arch_l", "foot_arch_r", "foot_ankle_l", "foot_ankle_r", "foot_heel_l", "foot_heel_r", "hand_palm_l", "hand_palm_r", "hand_wrist_l", "hand_wrist_r", "hand_back_l", "hand_back_r" ],
         "encumbrance": 0
       },
       {
