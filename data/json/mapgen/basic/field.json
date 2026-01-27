@@ -3,52 +3,113 @@
     "type": "mapgen",
     "om_terrain": [ "field", "isherwood_barry_rescue_field" ],
     "object": {
-      "fill_ter": "t_region_groundcover",
-      "rows": [
-        "123123123123123123123123",
-        "231231231231231231231231",
-        "312312312312312312312312",
-        "123123123123123123123123",
-        "231231231231231231231231",
-        "312312312312312312312312",
-        "123123123123123123123123",
-        "231231231231231231231231",
-        "312312312312312312312312",
-        "123123123123123123123123",
-        "231231231231231231231231",
-        "312312312312312312312312",
-        "123123123123123123123123",
-        "231231231231231231231231",
-        "312312312312312312312312",
-        "123123123123123123123123",
-        "231231231231231231231231",
-        "312312312312312312312312",
-        "123123123123123123123123",
-        "231231231231231231231231",
-        "312312312312312312312312",
-        "123123123123123123123123",
-        "231231231231231231231231",
-        "312312312312312312312312"
-      ],
-      "//": "1: reserve for furniture. 2: reserve for terrain. 3: reserve for items.",
-      "terrain": {
-        "1": "t_region_groundcover",
-        "2": [ [ "t_region_groundcover", 35000 ], [ "t_region_shrub_plains", 6 ], [ "t_region_tree", 2 ] ],
-        "3": "t_region_groundcover"
-      },
-      "furniture": {
-        "1": [
-          [ "f_null", 35000 ],
-          [ "f_region_plain", 100 ],
-          [ "f_boulder_small", 10 ],
-          [ "f_boulder_medium", 8 ],
-          [ "f_boulder_large", 2 ],
-          [ "f_region_flower", 1 ]
-        ],
-        "2": "f_null",
-        "3": "f_null"
-      },
-      "items": { "3": { "item": "field", "chance": 1 } }
+      "fill_ter": "t_hard_vacuum",
+      "place_nested": [
+        { "chunks": [ "24x24_wall_h_lighthouse" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK", "ROAD" ] } },
+        { "chunks": [ "24x24_wall_h_lighthouse" ], "x": 0, "y": 22, "flags": { "south": [ "SIDEWALK", "ROAD" ] } },
+        { "chunks": [ "24x24_wall_v_lighthouse" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK", "ROAD" ] } },
+        { "chunks": [ "24x24_wall_v_lighthouse" ], "x": 22, "y": 0, "flags": { "east": [ "SIDEWALK", "ROAD" ] } },
+        { "chunks": [ "2x2_corner_lighthouse" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK", "ROAD" ] } },
+        { "chunks": [ "2x2_corner_lighthouse" ], "x": 22, "y": 0, "flags": { "north_east": [ "SIDEWALK", "ROAD" ] } },
+        { "chunks": [ "2x2_corner_lighthouse" ], "x": 0, "y": 22, "flags": { "south_west": [ "SIDEWALK", "ROAD" ] } },
+        { "chunks": [ "2x2_corner_lighthouse" ], "x": 22, "y": 22, "flags": { "south_east": [ "SIDEWALK", "ROAD" ] } }
+      ]
     }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_wall_v_lighthouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      ",
+        "##                      "
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_wall_h_lighthouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "########################",
+        "########################",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "2x2_corner_lighthouse",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "##",
+        "##"
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_hard_vacuum",
+    "name": "hard vacuum",
+    "symbol": " ",
+    "color": "black",
+    "description": "The cold inhospitable vacuum of space.  Going this way without an EVA pack will end in either a slow cold death as your life support fades or a slow hot death as you drop into the planet's atmosphere.",
+    "move_cost": 1000,
+    "light_emitted": 420,
+    "flags": [ "DESTROY_ITEM" ]
   }
 ]

@@ -31,11 +31,5 @@
       "n": "f_bike_rack"
     },
     "signs": { "@": { "signage": "<statue_plaque>", "furniture": "f_statue" } }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "field",
-    "copy-from": "generic_open_land",
-    "flags": [ "NO_ROTATE" ]
   }
 ]
