@@ -957,6 +957,17 @@
   },
   {
     "type": "mutation",
+    "id": "perk_hairsuit",
+    "name": { "str": "Hairsuit" },
+    "//": "An obvious pun on the word `hirsute`",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You've gained the ability to weave your long and luxurious hair into a protective and form-fitting bodysuit.  High heels and handgun skills sold separately.",
+    "integrated_armor": [ "hair_suit_off" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_empath",
     "name": { "str": "Empath" },
     "points": 0,
