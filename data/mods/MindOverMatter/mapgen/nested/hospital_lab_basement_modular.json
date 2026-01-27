@@ -1751,7 +1751,8 @@
         ],
         "N": [
           { "item": "psi_lab_no_recipes", "chance": 60, "repeat": [ 1, 3 ] },
-          { "item": "matrix_crystal_vitakin_dust_group", "chance": 50, "repeat": [ 1, 2 ] }
+          { "item": "matrix_crystal_vitakin_dust_group", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "vitakinetic_matrix_crystals_group", "chance": 15 }
         ]
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 0, 10 ], "y": [ 6, 10 ], "repeat": [ 2, 4 ], "chance": 70 } ]
