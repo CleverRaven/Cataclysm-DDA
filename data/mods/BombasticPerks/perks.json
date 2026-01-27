@@ -718,6 +718,7 @@
     "valid": false,
     "description": "Anyone can pause and catch their breath but you're extremely good at doing so.  You can regenerate one-third of your stamina over ten seconds, once every fifteen minutes.  Being hit will interrupt the regeneration.",
     "active": true,
+    "activation_msg": "",
     "activated_eocs": [ "EOC_perk_second_wind" ]
   },
   {
