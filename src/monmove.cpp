@@ -2038,7 +2038,10 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
 
 
     //Check for moving into/out of water
-    bool was_water = underwater;
+    // Use map-based check for current location because `underwater` member
+    // always out-of-sync for monsters; was_water only affects messaging, not logic.
+    // This will remove tons of unnecessary msg.
+    bool was_water = is_likely_underwater( here );
     bool will_be_water =
         on_ground && (
             // AQUATIC monsters always "swim under" the vehicles, while other swimming monsters are forced to surface

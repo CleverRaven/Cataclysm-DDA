@@ -361,6 +361,8 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
+static const trap_str_id tr_thick_ice( "tr_thick_ice" );
+
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 
 #if defined(TILES)
@@ -7301,7 +7303,14 @@ bool game::prompt_dangerous_tile( const tripoint_bub_ms &dest_loc,
         harmful_stuff = &dangerous_tile;
     }
 
-    if( !harmful_stuff->empty() &&
+    // If the destination tile has a thick ice trap, skip the "Really step into..." prompt.
+    bool skip_confirmation = false;
+    const trap &tr = here.tr_at( dest_loc );
+    if( !tr.is_null() && tr.id == tr_thick_ice ) {
+        skip_confirmation = true;
+    }
+
+    if( !harmful_stuff->empty() && !skip_confirmation &&
         !query_yn( _( "Really step into %s?" ), enumerate_as_string( *harmful_stuff ) ) ) {
         return false;
     }
