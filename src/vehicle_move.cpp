@@ -82,6 +82,8 @@ static const ter_str_id ter_t_railroad_track_v_on_tie( "t_railroad_track_v_on_ti
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 
+static const trap_str_id tr_thick_ice( "tr_thick_ice" );
+
 static const vpart_location_id vpart_location_structure( "structure" );
 
 // tile height in meters
@@ -1411,7 +1413,7 @@ void vehicle::handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp
             if( seen && !known ) {
                 // hard to miss!
                 const std::string direction = direction_name( direction_from( player_character.pos_bub(), p ) );
-                if( tr.id != trap_str_id( "tr_thick_ice" ) ) {
+                if( tr.id != tr_thick_ice ) {
                     add_msg( _( "You've spotted a %1$s to the %2$s!" ), tr.name(), direction );
                 }
             }

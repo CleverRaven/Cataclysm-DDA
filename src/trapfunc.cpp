@@ -217,8 +217,8 @@ bool trapfunc::thick_ice( const tripoint_bub_ms &, Creature *c, item * )
 
     // Basic chance: 1 in 4 to fall (downed), otherwise stumble.
     if( one_in( 4 ) ) {
-        c->add_msg_player_or_npc( m_bad, _( "You slip on the thick ice and fall! down" ),
-                                  _( "<npcname> slips on the thick ice and falls! down" ) );
+        c->add_msg_player_or_npc( m_bad, _( "You slip on the thick ice and fall down!" ),
+                                  _( "<npcname> slips on the thick ice and falls down!" ) );
         c->add_effect( effect_downed, 1_turns );
         // Losing extra moves when falling
         c->mod_moves( -static_cast<int>( c->get_speed() * 2 ) );
