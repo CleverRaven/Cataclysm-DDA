@@ -339,7 +339,7 @@
   {
     "id": "mon_devourer_daitya",
     "type": "MONSTER",
-    "name": { "str": "daitya devourer" },
+    "name": { "str": "daitya" },
     "description": "Human bodies fused together into a colossus, with heads and limbs sticking out of its bloated body.  The nature of the thing makes it difficult to estimate how close it is to dying, and its capabilities might change if it manages to assimilate more zombies into itself.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -347,7 +347,7 @@
     "diff": 8,
     "volume": "187500 ml",
     "weight": "244500 g",
-    "hp": 112,
+    "hp": 240,
     "speed": 60,
     "material": [ "flesh" ],
     "symbol": "D",
@@ -360,7 +360,7 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
-    "vision_night": 3,
+    "vision_night": 8,
     "harvest": "zombie_humanoid_multiple",
     "decay": "zombie_decay_bone_human_skull_multiple",
     "upgrades": { "half_life": 160, "into_group": "GROUP_ZOMBIE_DEVOURER_UPGRADE" },
@@ -368,19 +368,18 @@
     "grab_strength": 50,
     "special_attacks": [
       { "id": "grab", "cooldown": 7 },
-      { "id": "scratch" },
+      { "id": "multi_scratch" },
       [ "ZOMBIE_FUSE", 80 ],
       { "id": "grab_2", "accuracy": 5 },
       { "id": "grab_3", "accuracy": 6 },
       {
         "type": "monster_attack",
         "attack_type": "bite",
-        "id": "bite_devourer_1",
+        "id": "bite_daitya_clone",
         "condition": {
           "and": [
             { "u_has_flag": "GRAB_FILTER" },
-            { "npc_has_flag": "GRAB" },
-            { "math": [ "u_effect_intensity('grown_of_fuse') > 75" ] }
+            { "npc_has_flag": "GRAB" }
           ]
         },
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15 } ],
@@ -391,13 +390,12 @@
       {
         "type": "monster_attack",
         "attack_type": "bite",
-        "id": "bite_devourer_2",
+        "id": "bite_daitya",
         "accuracy": 5,
         "condition": {
           "and": [
             { "u_has_flag": "GRAB_FILTER" },
-            { "npc_has_flag": "GRAB" },
-            { "math": [ "u_effect_intensity('grown_of_fuse') > 150" ] }
+            { "npc_has_flag": "GRAB" }
           ]
         },
         "damage_max_instance": [ { "damage_type": "stab", "amount": 22, "armor_penetration": 5 } ],
@@ -406,26 +404,8 @@
         "move_cost": 150
       },
       {
-        "type": "monster_attack",
-        "attack_type": "bite",
-        "id": "bite_devourer_3",
-        "accuracy": 4,
-        "condition": {
-          "and": [
-            { "u_has_flag": "GRAB_FILTER" },
-            { "npc_has_flag": "GRAB" },
-            { "math": [ "u_effect_intensity('grown_of_fuse') > 250" ] }
-          ]
-        },
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 35, "armor_penetration": 10 } ],
-        "infection_chance": 15,
-        "cooldown": 4,
-        "move_cost": 150
-      },
-      {
         "id": "stretch_bite",
         "accuracy": 6,
-        "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 200" ] },
         "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 10 } ],
         "hit_dmg_u": "A tangle of flesh covered in maws shoots out from %1$s, and its teeth sink into your %2$s!",
         "hit_dmg_npc": "A tangle of flesh covered in maws shoots out from %1$s, and its teeth sink into <npcname>'s %2$s!",
@@ -450,10 +430,6 @@
         "miss_msg_npc": "%1$s swings a meaty tendril at <npcname>, but they dodge!"
       },
       {
-        "id": "acid_charge",
-        "condition": { "and": [ { "not": { "u_has_effect": "maimed_acid_gland" } }, { "u_has_effect": "absorbed_acidic" } ] }
-      },
-      {
         "type": "monster_attack",
         "id": "daitya_spawn_clones",
         "attack_type": "melee",
@@ -461,15 +437,15 @@
         "cooldown": 180,
         "blockable": false,
         "dodgeable": false,
-        "condition": { "u_has_effect": "absorbed_pupating" },
+        "condition": { "math": [ "u_hp('ALL') > 190" ] },
         "damage_max_instance": [ { "damage_type": "pure", "amount": 0 } ],
-        "eoc": [ "EOC_DEVOURER_SPAWN_RAPTORS" ],
-        "hit_dmg_u": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!",
-        "hit_dmg_npc": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!",
-        "no_dmg_msg_u": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!",
-        "no_dmg_msg_npc": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!",
-        "miss_msg_u": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!",
-        "miss_msg_npc": "A bubo on the side of %s swells and bursts, and gore-smeared winged beasts hurl themselves into the air!"
+        "eoc": [ "EOC_DAITYA_SPAWN_CLONES" ],
+        "hit_dmg_u": "An orifice on the side of %s swells and splits open, and a gore-smeared smaller version of this abomination hurls itself into the air!",
+        "hit_dmg_npc": "A orifice on the side of %s swells and splits open, and gore-smeared smaller version of this abomination hurls itself into the air!",
+        "no_dmg_msg_u": "A orifice on the side of %s swells and splits open, and gore-smeared smaller version of this abomination hurls itself into the air!",
+        "no_dmg_msg_npc": "A orifice on the side of %s swells and splits open, and gore-smeared smaller version of this abomination hurls itself into the air!",
+        "miss_msg_u": "A orifice on the side of %s swells and splits open, and gore-smeared smaller version of this abomination hurls itself into the air!",
+        "miss_msg_npc": "A orifice on the side of %s swells and splits open, and gore-smeared smaller version of this abomination hurls itself into the air!"
       }
     ],
     "death_drops": {
@@ -493,6 +469,22 @@
       "FILTHY"
     ],
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 3 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DAITYA_SPAWN_CLONES",
+    "effect": [
+      {
+        "message": "Devourer can spawn clones until it's hp goes too low.",
+        "type": "debug"
+      },
+      {
+        "u_spawn_monster": "mon_spawn_daitya_clone",
+        "real_count": 1,
+        "min_radius": 1,
+        "max_radius": 3
+      }
+    ]
   },
   {
     "id": "mon_zombie_crushed_giant",
