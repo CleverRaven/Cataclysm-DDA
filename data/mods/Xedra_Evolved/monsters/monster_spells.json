@@ -132,7 +132,7 @@
     "min_range": 20,
     "max_range": 20,
     "min_duration": 3000,
-    "max_duration": 18000
+    "max_duration": 30000
   },
   {
     "id": "mon_shabriri_blind_spell_reduce_anger",
@@ -150,7 +150,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SHABRIRI_REDUCE_ANGER",
-    "effect": [ { "math": [ "u_val('anger') -=10" ] }, { "math": [ "u_val('morale') -=5" ] } ]
+    "effect": [ { "math": [ "u_val('anger') -=50" ] }, { "math": [ "u_val('morale') -=30" ] } ]
   },
   {
     "id": "death_guilt",
