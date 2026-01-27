@@ -113,13 +113,5 @@
     "contact_area": [ "leg_lower_l", "leg_lower_r" ],
     "bp_hp_limit": 50,
     "limb_req": [ [ "leg", 2 ] ]
-  },
-  {
-    "type": "attack_vector",
-    "id": "vector_tail_sting",
-    "limbs": [ "tail_scorpion" ],
-    "strict_limb_definition": true,
-    "encumbrance_limit": 2,
-    "bp_hp_limit": 50
   }
 ]
