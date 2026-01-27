@@ -454,18 +454,6 @@
         "condition": { "and": [ { "not": { "u_has_effect": "maimed_acid_gland" } }, { "u_has_effect": "absorbed_acidic" } ] }
       },
       {
-        "id": "acid_slash",
-        "condition": {
-          "and": [
-            { "not": { "u_has_effect": "maimed_acid_gland" } },
-            { "not": { "u_has_effect": "maimed_claws" } },
-            { "not": { "u_has_effect": "maimed_arm" } },
-            { "u_has_effect": "absorbed_acidic" },
-            { "u_has_effect": "acid_charged" }
-          ]
-        }
-      },
-      {
         "type": "monster_attack",
         "id": "daitya_spawn_clones",
         "attack_type": "melee",
