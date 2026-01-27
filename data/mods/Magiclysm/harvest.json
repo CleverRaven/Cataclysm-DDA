@@ -159,7 +159,8 @@
     "extend": { "entries": [ { "drop": "adrenal_gland_large", "type": "bionic", "max": 2 } ] }
   },
   {
-    "id": "dragon_black",
+    "id": "dragon_black_wyrmling",
+    "//": "Not old enough to have enough magic condensed in heart.",
     "type": "harvest",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.1 },
@@ -169,6 +170,18 @@
       { "drop": "black_dragon_hide_raw", "type": "skin", "mass_ratio": 0.1 },
       { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
     ]
+  },
+  {
+    "id": "dragon_black_young",
+    "type": "harvest",
+    "copy-from": "dragon_black_wyrmling",
+    "extend": { "entries": [ { "drop": "young_dragon_heart_black", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" } ] }
+  },
+  {
+    "id": "dragon_black_adult",
+    "type": "harvest",
+    "copy-from": "dragon_black_wyrmling",
+    "extend": { "entries": [ { "drop": "crystalized_dragon_heart_black", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" } ] }
   },
   {
     "id": "stirge",
