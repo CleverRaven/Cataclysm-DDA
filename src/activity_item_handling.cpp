@@ -904,16 +904,23 @@ bool ignore_zone_position( Character &you, const tripoint_abs_ms &src,
 bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
                         unload_sort_options zone_unload_options,
                         const std::vector<item_location> &other_activity_items,
-                        const zone_items &items )
+                        const zone_items &items, bool *pickup_failure )
 {
     const zone_manager &mgr = zone_manager::get_manager();
     const faction_id fac_id = _fac_id( you );
     const tripoint_abs_ms &abspos = you.pos_abs();
 
+    *pickup_failure = false;
+
     for( std::pair<item *, bool> it_pair : items ) {
         item *it = it_pair.first;
         const zone_type_id zone_type_id = mgr.get_near_zone_type_for_item( *it, abspos,
                                           MAX_VIEW_DISTANCE, fac_id );
+
+        if( !you.can_add( *it ) ) {
+            *pickup_failure = true;
+            continue;
+        }
 
         if( sort_skip_item( you, it, other_activity_items,
                             zone_unload_options.ignore_favorite, src ) ) {

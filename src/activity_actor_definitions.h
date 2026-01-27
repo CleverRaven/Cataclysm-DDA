@@ -3690,6 +3690,7 @@ class zone_sort_activity_actor : public zone_activity_actor
         std::vector<item_location> picked_up_stuff;
         // Place(s) that the current stuff can be dropped off at.
         std::vector<tripoint_abs_ms> dropoff_coords;
+        bool pickup_failure_reported = false;
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

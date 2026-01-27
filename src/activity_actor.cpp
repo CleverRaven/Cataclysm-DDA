@@ -12158,7 +12158,6 @@ void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
 
 bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you )
 {
-
     const map &here = get_map();
 
     num_processed = 0;
@@ -12198,8 +12197,18 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
         const zone_sorting::zone_items items = zone_sorting::populate_items( src_bub );
 
         // check if there is valid destination for any item of the tile
+        bool pickup_failure;
         bool has_items_to_work_on = zone_sorting::has_items_to_sort( you, src, zone_unload_options,
-                                    other_activity_items, items );
+                                    other_activity_items, items, &pickup_failure );
+
+        if( pickup_failure && !pickup_failure_reported ) {
+            pickup_failure_reported = true;
+            add_msg_if_player_sees( you,
+                                    _( "At least one item to be sorted is too large/heavy for %s to sort.  "
+                                       "Emptying the inventory and freeing up the hands will allow for more efficient sorting." ),
+                                    you.disp_name() );
+        }
+
         if( !has_items_to_work_on ) {
             continue;
         }
@@ -12368,19 +12377,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             thisitem_loc = you.try_add( copy_thisitem );
         }
         if( !thisitem_loc ) {
-            if( !dropoff_coords.empty() && !picked_up_stuff.empty() ) {
-                you.add_msg_if_player( m_info,
-                                       _( "Not enough space to pick up %s during sorting, moving to destination with %zu current items." ),
-                                       copy_thisitem.tname(), picked_up_stuff.size() );
-                break; // Stop trying to pick stuff up
-            } else if( num_processed == 1 ) {  // This is the very first item to process
-                you.add_msg_if_player( m_bad, _( "Couldn't pick up any item during sorting, aborting." ) );
-                stage = LAST;
-                return;
-            } else {
-                debugmsg( "Unexpected condition encountered while sorting items at %d, %s.", num_processed,
-                          copy_thisitem.tname() );
-            }
+            continue;
         }
         // Pickup cost
         you.mod_moves( -you.item_handling_cost( copy_thisitem ) );
@@ -12445,6 +12442,7 @@ void zone_sort_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "other_activity_items", other_activity_items );
     jsout.member( "picked_up_stuff", picked_up_stuff );
     jsout.member( "dropoff_coords", dropoff_coords );
+    jsout.member( "pickup_failure_reported", pickup_failure_reported );
 
     jsout.end_object();
 }
@@ -12463,7 +12461,10 @@ std::unique_ptr<activity_actor> zone_sort_activity_actor::deserialize( JsonValue
     data.read( "other_activity_items", actor.other_activity_items );
     data.read( "picked_up_stuff", actor.picked_up_stuff );
     data.read( "dropoff_coords", actor.dropoff_coords );
-
+    // Element introduced 2026-01-26. Existence check to be removed when support for older saves is dropped.
+    if( data.has_bool( "pickup_failure_reported" ) ) {
+        data.read( "pickup_failure_reported", actor.pickup_failure_reported );
+    }
     return actor.clone();
 }
 
