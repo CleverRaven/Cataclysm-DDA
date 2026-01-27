@@ -964,15 +964,6 @@
   },
   {
     "type": "ITEM",
-    "id": "train_data",
-    "copy-from": "usb_drive_nano",
-    "name": { "str_sp": "laboratory shipping records" },
-    "description": "Some type of advanced data storage device, filled with logistical data on subterranean train routes and schedules.",
-    "price": "100 USD",
-    "price_postapoc": "0 cent"
-  },
-  {
-    "type": "ITEM",
     "id": "nano_fabricator_encryption_code",
     "copy-from": "usb_drive_nano",
     "name": { "str_sp": "nano-fabricator licensing USB" },
