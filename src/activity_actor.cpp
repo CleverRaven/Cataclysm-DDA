@@ -192,6 +192,7 @@ static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
@@ -4643,7 +4644,7 @@ std::unique_ptr<activity_actor> fish_activity_actor::deserialize( JsonValue &jsi
 activity_reason_info multi_fish_activity_actor::multi_activity_can_do(
     Character &you, const tripoint_bub_ms &src_loc )
 {
-    return multi_activity_actor::fish_can_do( ACT_VEHICLE_REPAIR, you,
+    return multi_activity_actor::fish_can_do( ACT_MULTIPLE_FISH, you,
             src_loc );
 }
 std::optional<requirement_id> multi_fish_activity_actor::multi_activity_requirements(
@@ -9151,6 +9152,30 @@ std::unique_ptr<activity_actor> churn_activity_actor::deserialize( JsonValue &js
     return actor.clone();
 }
 
+activity_reason_info multi_farm_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::farm_can_do( ACT_MULTIPLE_FARM, you,
+            src_loc );
+}
+std::optional<requirement_id> multi_farm_activity_actor::multi_activity_requirements(
+    Character &you, activity_reason_info &act_info, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::farm_requirements( you, act_info, src_loc );
+}
+bool multi_farm_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::farm_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_farm_activity_actor::deserialize( JsonValue & )
+{
+    multi_farm_activity_actor actor;
+    return actor.clone();
+}
+
 void hand_crank_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( initial_moves );
@@ -12654,6 +12679,7 @@ deserialize_functions = {
     { ACT_MOVE_LOOT, &zone_sort_activity_actor::deserialize },
     { ACT_MULTIPLE_CHOP_PLANKS, &multi_chop_planks_activity_actor::deserialize },
     { ACT_MULTIPLE_CHOP_TREES, &multi_chop_trees_activity_actor::deserialize },
+    { ACT_MULTIPLE_FARM, &multi_farm_activity_actor::deserialize },
     { ACT_MULTIPLE_FISH, &multi_fish_activity_actor::deserialize },
     { ACT_MULTIPLE_MINE, &multi_mine_activity_actor::deserialize },
     { ACT_MULTIPLE_MOP, &multi_mop_activity_actor::deserialize },

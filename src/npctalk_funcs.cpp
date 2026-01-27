@@ -67,7 +67,6 @@ static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
-static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 
@@ -325,7 +324,7 @@ void talk_function::do_chop_trees( npc &p )
 
 void talk_function::do_farming( npc &p )
 {
-    p.assign_activity( ACT_MULTIPLE_FARM );
+    p.assign_activity( multi_farm_activity_actor() );
 }
 
 void talk_function::do_fishing( npc &p )

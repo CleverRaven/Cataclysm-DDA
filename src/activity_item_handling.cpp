@@ -3499,7 +3499,7 @@ bool farm_do( Character &you, const activity_reason_info &act_info,
                here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
         you.assign_activity( churn_activity_actor( 18000, item_location() ) );
-        you.backlog.emplace_front( ACT_MULTIPLE_FARM );
+        you.backlog.emplace_front( multi_farm_activity_actor() );
         you.activity.placement = src;
         return false;
     } else if( reason == do_activity_reason::NEEDS_PLANTING ) {
@@ -3518,7 +3518,7 @@ bool farm_do( Character &you, const activity_reason_info &act_info,
                 continue;
             }
             iexamine::plant_seed( you, src_loc, itype_id( seed ) );
-            you.backlog.emplace_front( ACT_MULTIPLE_FARM );
+            you.backlog.emplace_front( multi_farm_activity_actor() );
             return false;
         }
     }
