@@ -120,6 +120,7 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
+static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
@@ -3423,6 +3424,9 @@ bool npc::find_job_to_perform()
             return true;
         } else if( elem == ACT_MULTIPLE_READ ) {
             assign_activity( multi_read_activity_actor() );
+            return true;
+        } else if( elem == ACT_MULTIPLE_STUDY ) {
+            assign_activity( multi_study_activity_actor() );
             return true;
         } else if( elem == ACT_VEHICLE_DECONSTRUCTION ) {
             assign_activity( multi_vehicle_deconstruct_activity_actor() );

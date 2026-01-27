@@ -3591,7 +3591,7 @@ bool study_do( Character &you, const activity_reason_info &act_info,
             you.may_activity_occupancy_after_end_items_loc.push_back( book_loc );
             const time_duration time_taken = you.time_to_read( *book_loc, you );
             item_location ereader;
-            you.backlog.emplace_front( ACT_MULTIPLE_STUDY );
+            you.backlog.emplace_front( multi_study_activity_actor() );
             you.assign_activity( read_activity_actor( time_taken, book_loc, ereader, true ) );
             return false;
         }

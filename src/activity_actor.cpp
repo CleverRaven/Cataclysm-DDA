@@ -2604,6 +2604,25 @@ std::unique_ptr<activity_actor> multi_read_activity_actor::deserialize( JsonValu
     return actor.clone();
 }
 
+activity_reason_info multi_study_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::study_can_do( ACT_MULTIPLE_STUDY, you,
+            src_loc );
+}
+bool multi_study_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::study_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_study_activity_actor::deserialize( JsonValue & )
+{
+    multi_study_activity_actor actor;
+    return actor.clone();
+}
+
 void study_spell_activity_actor::start( player_activity &act, Character &who )
 {
     if( learning ) {
@@ -12704,6 +12723,7 @@ deserialize_functions = {
     { ACT_MULTIPLE_MINE, &multi_mine_activity_actor::deserialize },
     { ACT_MULTIPLE_MOP, &multi_mop_activity_actor::deserialize },
     { ACT_MULTIPLE_READ, &multi_read_activity_actor::deserialize },
+    { ACT_MULTIPLE_STUDY, &multi_study_activity_actor::deserialize },
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
     { ACT_OPERATION, &bionic_operation_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
