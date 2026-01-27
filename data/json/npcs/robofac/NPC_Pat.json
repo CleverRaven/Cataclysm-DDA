@@ -280,10 +280,7 @@
             { "math": [ "time_since(robofac_timer_pat_recon) >= time('3 d')" ] }
           ]
         },
-        "effect": [
-          { "math": [ "robofac_pat_recon_random_loc = rand(11)" ] },
-          { "math": [ "robofac_timer_pat_recon = time('now')" ] }
-        ]
+        "effect": [ { "math": [ "robofac_pat_recon_random_loc = rand(11)" ] }, { "math": [ "robofac_timer_pat_recon = time('now')" ] } ]
       },
       {
         "text": "Any ideas on places we've seen worth scanning with the HEW system?",
@@ -1639,7 +1636,9 @@
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_lixa" } ] } },
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1" } },
             { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_2" } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1" } ] } }
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1" } ] }
+            }
           ]
         },
         "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_2" }
@@ -2175,7 +2174,9 @@
     "destination": "corpse_surface",
     "difficulty": 5,
     "value": 0,
-    "start": { "assign_mission_target": { "om_terrain": "corpse_surface", "om_special": "nether_monster_corpse", "reveal_radius": 2 } },
+    "start": {
+      "assign_mission_target": { "om_terrain": "corpse_surface", "om_special": "nether_monster_corpse", "reveal_radius": 2 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -2199,7 +2200,9 @@
     "destination": "xedra_rural_church",
     "difficulty": 5,
     "value": 0,
-    "start": { "assign_mission_target": { "om_terrain": "xedra_rural_church", "om_special": "xedra_church_rural", "reveal_radius": 2 } },
+    "start": {
+      "assign_mission_target": { "om_terrain": "xedra_rural_church", "om_special": "xedra_church_rural", "reveal_radius": 2 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -2223,7 +2226,9 @@
     "destination": "morgantown_forest_fence_entry",
     "difficulty": 5,
     "value": 0,
-    "start": { "assign_mission_target": { "om_terrain": "morgantown_forest_fence_entry", "om_special": "xedra_morgantown", "reveal_radius": 2 } },
+    "start": {
+      "assign_mission_target": { "om_terrain": "morgantown_forest_fence_entry", "om_special": "xedra_morgantown", "reveal_radius": 2 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -2247,7 +2252,9 @@
     "destination": "cabin_3_reverberation_hint",
     "difficulty": 5,
     "value": 0,
-    "start": { "assign_mission_target": { "om_terrain": "cabin_3_reverberation_hint", "om_special": "Cabin_3_reverberation_hint", "reveal_radius": 2 } },
+    "start": {
+      "assign_mission_target": { "om_terrain": "cabin_3_reverberation_hint", "om_special": "Cabin_3_reverberation_hint", "reveal_radius": 2 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -2271,7 +2278,9 @@
     "destination": "radio_tower_reverberation_mp3",
     "difficulty": 5,
     "value": 0,
-    "start": { "assign_mission_target": { "om_terrain": "radio_tower_reverberation_mp3", "om_special": "Radio_Tower_Reverberation_mp3", "reveal_radius": 2 } },
+    "start": {
+      "assign_mission_target": { "om_terrain": "radio_tower_reverberation_mp3", "om_special": "Radio_Tower_Reverberation_mp3", "reveal_radius": 2 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
