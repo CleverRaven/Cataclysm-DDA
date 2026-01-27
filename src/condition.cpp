@@ -2251,6 +2251,7 @@ std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_ge
     { "sleep_deprivation", &const_talker::get_sleep_deprivation },
     { "sold", &const_talker::sold },
     { "stamina", &const_talker::get_stamina },
+    { "stamina_max", &const_talker::get_stamina_max },
     { "stim", &const_talker::get_stim },
     { "strength_base", &const_talker::get_str_max },
     { "strength_bonus", &const_talker::get_str_bonus },

@@ -190,6 +190,7 @@ class talker_character_const: virtual public const_talker
         int get_addiction_turns( const addiction_id &add_id ) const override;
         int get_pkill() const override;
         int get_stamina() const override;
+        int get_stamina_max() const override;
         int get_sleep_deprivation() const override;
         int get_kill_xp() const override;
         int get_age() const override;

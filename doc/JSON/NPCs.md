@@ -1455,6 +1455,7 @@ These can be read or written to with `val()`.
 | `sleep_deprivation` | ✅ | Current sleep deprivation level. |
 | `sold` | ✅ | Amount of money the avatar has sold the Character |
 | `stamina` | ✅ | Current stamina level. |
+| `stamina_max` | ✅ | Maximum stamina level. |
 | `stim` | ✅ | Current stim level. |
 | `strength`<br/>`dexterity`<br/>`intelligence`<br/>`perception` | ✅ | Current attributes |
 | `strength_base`<br/>`dexterity_base`<br/>`intelligence_base`<br/>`perception_base` | ✅ | Base attributes |
