@@ -375,21 +375,6 @@
       {
         "type": "monster_attack",
         "attack_type": "bite",
-        "id": "bite_daitya_clone",
-        "condition": {
-          "and": [
-            { "u_has_flag": "GRAB_FILTER" },
-            { "npc_has_flag": "GRAB" }
-          ]
-        },
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 15 } ],
-        "infection_chance": 15,
-        "cooldown": 4,
-        "move_cost": 150
-      },
-      {
-        "type": "monster_attack",
-        "attack_type": "bite",
         "id": "bite_daitya",
         "accuracy": 5,
         "condition": {
@@ -433,7 +418,7 @@
         "type": "monster_attack",
         "id": "daitya_spawn_clones",
         "attack_type": "melee",
-        "range": 8,
+        "range": 1,
         "cooldown": 180,
         "blockable": false,
         "dodgeable": false,
@@ -468,7 +453,7 @@
       "PUSH_MON",
       "FILTHY"
     ],
-    "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 3 }
+    "armor": { "bash": 8, "cut": 9, "bullet": 6, "electric": 3 }
   },
   {
     "type": "effect_on_condition",
@@ -478,6 +463,7 @@
         "message": "Devourer can spawn clones until it's hp goes too low.",
         "type": "debug"
       },
+      { "u_cast_spell": { "id": "CLONE_DAMAGE" } }
       {
         "u_spawn_monster": "mon_spawn_daitya_clone",
         "real_count": 1,
@@ -485,6 +471,122 @@
         "max_radius": 3
       }
     ]
+  },
+  {
+    "id": "CLONE_DAMAGE",
+    "type": "SPELL",
+    "name": { "str": "Daitya Clone Damage", "//~": "NO_I18N" },
+    "description": { "str": "Damages daitya when clone is created.", "//~": "NO_I18N" },
+    "message": "Stale golden light floods the world, and reality stands still.",
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": 72,
+    "max_damage": 72,
+    "damage_type": "pure",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "min_damage": 500,
+    "max_damage": 500,
+    "base_casting_time": 100
+  },
+  {
+    "id": "mon_devourer_daitya_clone",
+    "type": "MONSTER",
+    "name": { "str": "daitya clone" },
+    "description": "Human bodies fused together into a colossus, with heads and limbs sticking out of its bloated body.  The nature of the thing makes it difficult to estimate how close it is to dying, and its capabilities might change if it manages to assimilate more zombies into itself.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "species": [ "ZOMBIE" ],
+    "diff": 3,
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 80,
+    "speed": 75,
+    "material": [ "flesh" ],
+    "symbol": "d",
+    "color": "dark_gray_yellow",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 3,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
+    "vision_night": 8,
+    "harvest": "zombie_humanoid_multiple",
+    "decay": "zombie_decay_bone_human_skull_multiple",
+    "//grab": "All these arms to grab you with",
+    "grab_strength": 40,
+    "special_attacks": [
+      { "id": "grab", "cooldown": 7 },
+      { "id": "multi_scratch" },
+      [ "ZOMBIE_FUSE", 80 ],
+      { "id": "grab_2", "accuracy": 5 },
+      { "id": "grab_3", "accuracy": 6 },
+      {
+        "type": "monster_attack",
+        "attack_type": "bite",
+        "id": "bite_daitya_clone",
+        "condition": {
+          "and": [
+            { "u_has_flag": "GRAB_FILTER" },
+            { "npc_has_flag": "GRAB" }
+          ]
+        },
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15 } ],
+        "infection_chance": 15,
+        "cooldown": 4,
+        "move_cost": 150
+      },
+      {
+        "id": "stretch_bite",
+        "accuracy": 6,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 10 } ],
+        "hit_dmg_u": "A tangle of flesh covered in maws shoots out from %1$s, and its teeth sink into your %2$s!",
+        "hit_dmg_npc": "A tangle of flesh covered in maws shoots out from %1$s, and its teeth sink into <npcname>'s %2$s!",
+        "no_dmg_msg_u": "A tangle of flesh covered in maws shoots out from %1$s, but glances off your armor.",
+        "no_dmg_msg_npc": "A tangle of flesh covered in maws shoots out from %1$s, but glances off <npcname>'s armor.",
+        "miss_msg_u": "A tangle of flesh covered in maws shoots out from %1$s, but you dodge!",
+        "miss_msg_npc": "A tangle of flesh covered in maws shoots out from %1$s, but <npcname> dodges!"
+      },
+      {
+        "id": "smash",
+        "throw_strength": 70,
+        "accuracy": 7,
+        "range": 2,
+        "cooldown": 30,
+        "blockable": false,
+        "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 300" ] },
+        "hit_dmg_u": "A meaty tendril slams into your %2$s, sending you flying!",
+        "hit_dmg_npc": "A meaty tendril slams into <npcname>'s %2$s, sending them flying!",
+        "no_dmg_msg_u": "A meaty tendril slams into your %2$s, but does no damage!",
+        "no_dmg_msg_npc": "A meaty tendril slams into <npcname>'s %2$s, but does no damage!",
+        "miss_msg_u": "%1$s swings a meaty tendril at you, but you dodge!",
+        "miss_msg_npc": "%1$s swings a meaty tendril at <npcname>, but they dodge!"
+      }
+    ],
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [ "default_zombie_death_drops", "default_zombie_death_drops", "default_zombie_death_drops" ]
+    },
+    "regenerates": 1,
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "BILE_BLOOD",
+      "PUSH_MON",
+      "FILTHY"
+    ],
+    "armor": { "bash": 4, "cut": 6, "bullet": 4, "electric": 3 }
   },
   {
     "id": "mon_zombie_crushed_giant",
