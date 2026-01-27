@@ -93,12 +93,6 @@
     "allowed_locs": [ "sloc_xedra_chronomancer" ],
     "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
     "start_of_game": { "hour": 22, "day": 10, "season": "winter", "year": 1 },
-    "forced_traits": [
-      "XEDRA_CHRONOMANCER",
-      "XEDRA_CHRONOMANCER_LOOPING_WOUND",
-      "XEDRA_CHRONOMANCER_TIME_SLOWDOWN",
-      "XEDRA_CHRONOMANCER_UNSTABLE_POWERS"
-    ],
     "professions": [ "xedra_chronomancer_profession" ],
     "flags": [ "LONE_START" ]
   },

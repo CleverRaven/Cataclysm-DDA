@@ -191,6 +191,7 @@
       "lcla_lighting_layout",
       "lcla_weapon_layout",
       "wind_desc",
+      "oxygen_layout",
       "bodypart_armor_outer_layout",
       "compass_all_danger_layout",
       "bodygraph_hp_layout",

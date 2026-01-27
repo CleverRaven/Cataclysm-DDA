@@ -687,6 +687,7 @@
       [ "office_doctor_2", 200 ],
       [ "office_dentist", 200 ],
       [ "office_tower_collapsed", 250 ],
+      [ "office_warehouse_anduril", 250 ],
       [ "s_restaurant_fast", 400 ],
       [ "s_restaurant_fast_1", 400 ],
       [ "s_restaurant_fast_2", 400 ],

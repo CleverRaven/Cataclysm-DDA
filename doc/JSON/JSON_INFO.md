@@ -1655,6 +1655,9 @@ Faults can be defined for more specialized damage of an item.
   "melee_damage_mod": [ { "damage_id": "cut", "add": -5, "multiply": 0.8 } ], // (Optional) alters the melee damage of this type for item, if fault of this type is presented. `damage_id` is mandatory, `add` is 0 by default, `multiply` is 1 by default
   "armor_mod": [ { "damage_id": "cut", "add": -5, "multiply": 0.8 } ], // (Optional) Same as armor_mod, changes the protection value of damage type of the faulted item if it's presented
   "encumbrance_add": 20,  // if armor, item encumbrance will be modified by this amount, in this case +20 encumbrance
+  "contact_area_mod": 0.5, // Modifies(multiplicative) the contact area of the vehicle part that this item is the base for
+  "rolling_resistance_mod": 10.0, // Modifies(multiplicative) the rolling resistance of the vehicle part that this item is the base for
+  "vehicle_move_penalty_mod": 5, // Modifies(additive) the move_penalty of terrain that this vehicle part moves over, thus decreasing traction. See wheel_terrain_modifiers
   "encumbrance_mult": 1.3, // if armor, item encumbrance will be multiplied by this amount, in this case 1.3x as much (100-> 130)
   "block_faults": [ "fault_handle_chipping", "fault_handle_cracked" ], // Faults, that cannot be applied if this fault is already presented on item. If there is already such a fault, it will be removed. Can't have chipped blade if the blade is gone
   "flags": [ "JAMMED_GUN" ] // optional flags, see below

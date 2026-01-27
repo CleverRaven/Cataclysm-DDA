@@ -113,13 +113,9 @@ enum class direction : unsigned int;
 
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
-static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
-static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
-static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
-static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
@@ -1681,10 +1677,10 @@ static void loot()
             player_character.assign_activity( ACT_MULTIPLE_FARM );
             break;
         case Multichoptrees:
-            player_character.assign_activity( ACT_MULTIPLE_CHOP_TREES );
+            player_character.assign_activity( multi_chop_trees_activity_actor() );
             break;
         case Multichopplanks:
-            player_character.assign_activity( ACT_MULTIPLE_CHOP_PLANKS );
+            player_character.assign_activity( multi_chop_planks_activity_actor() );
             break;
         case Multideconvehicle:
             player_character.assign_activity( ACT_VEHICLE_DECONSTRUCTION );
@@ -1696,13 +1692,13 @@ static void loot()
             player_character.assign_activity( ACT_MULTIPLE_BUTCHER );
             break;
         case MultiMining:
-            player_character.assign_activity( ACT_MULTIPLE_MINE );
+            player_character.assign_activity( multi_mine_activity_actor() );
             break;
         case MultiDis:
             player_character.assign_activity( ACT_MULTIPLE_DIS );
             break;
         case MultiMopping:
-            player_character.assign_activity( ACT_MULTIPLE_MOP );
+            player_character.assign_activity( multi_mop_activity_actor() );
             break;
         case MultiStudy:
             player_character.assign_activity( ACT_MULTIPLE_STUDY );
@@ -1943,6 +1939,11 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
         !get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) && !sp.check_if_component_in_hand( *this ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
+        return false;
+    }
+
+    if( !sp.valid_caster_condition( *this ) ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown }, sp.failed_caster_condition_message() );
         return false;
     }
 
@@ -2584,7 +2585,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_LIST_ITEMS:
-            list_items_monsters();
+            list_surroundings();
             break;
 
         case ACTION_ZONES:

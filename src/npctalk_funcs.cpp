@@ -65,14 +65,10 @@
 
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
-static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
-static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
-static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
-static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
@@ -254,12 +250,12 @@ void talk_function::do_construction( npc &p )
 
 void talk_function::do_mining( npc &p )
 {
-    p.assign_activity( ACT_MULTIPLE_MINE );
+    p.assign_activity( multi_mine_activity_actor( false ) );
 }
 
 void talk_function::do_mopping( npc &p )
 {
-    p.assign_activity( ACT_MULTIPLE_MOP );
+    p.assign_activity( multi_mop_activity_actor() );
 }
 
 void talk_function::do_read( npc &p )
@@ -312,7 +308,7 @@ void talk_function::do_butcher( npc &p )
 
 void talk_function::do_chop_plank( npc &p )
 {
-    p.assign_activity( ACT_MULTIPLE_CHOP_PLANKS );
+    p.assign_activity( multi_chop_planks_activity_actor() );
 }
 
 void talk_function::do_vehicle_deconstruct( npc &p )
@@ -327,7 +323,7 @@ void talk_function::do_vehicle_repair( npc &p )
 
 void talk_function::do_chop_trees( npc &p )
 {
-    p.assign_activity( ACT_MULTIPLE_CHOP_TREES );
+    p.assign_activity( multi_chop_trees_activity_actor() );
 }
 
 void talk_function::do_farming( npc &p )

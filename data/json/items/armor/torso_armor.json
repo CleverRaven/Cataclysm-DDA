@@ -2487,5 +2487,34 @@
     "name": { "str": "chitinous scale mail vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "STURDY", "OUTER", "UNDERSIZE", "PREFIX_XS" ]
+  },
+  {
+    "id": "string_dimension_mirror_cuirass",
+    "type": "ITEM",
+    "//": "An other-Earth interpretation of mirror armor, but made of 2 thick plates instead of 4 earth-thickness plates.",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "do-āyneh cuirass", "str_pl": "do-āyneh cuirasses" },
+    "description": "Somewhat resembling your Earth's mirror armor, this otherworldly cuirass is made up of two round metal plates on the chest and back, lashed together by steel chains around the torso and shoulder.  It covers less than Earth's ancient cuirass, but is notably thicker.",
+    "weight": "1200 g",
+    "volume": "2 L",
+    "price": "200 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "qt_steel" ],
+    "symbol": "[",
+    "looks_like": "chestguard_hard",
+    "color": "white",
+    "warmth": 15,
+    "longest_side": "60 cm",
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "ABLATIVE_CHAINMAIL_TORSO", "EXTRA_PLATING" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "coverage": 50,
+        "cover_vitals": 50,
+        "covers": [ "torso" ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ]
+      }
+    ]
   }
 ]

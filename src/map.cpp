@@ -3908,7 +3908,6 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
     std::vector<item> contents;
     map_stack items = i_at( p );
     std::vector<std::string> wheel_damage_messages;
-    int damage_levels = 0;
 
     for( auto i = items.begin(); i != items.end() && power > 0; ) {
         if( i->made_of( phase_id::LIQUID ) ) {
@@ -4035,27 +4034,12 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
                                 damaged_item_name );
     }
 
-    if( damage_levels > 0 ) {
-        veh->damage_direct( bubble_map, *vp_wheel, damage_levels );
+    const bool player_is_driver = veh != nullptr && &get_player_character() == veh->get_driver( *this );
+    const bool player_sees_damage = get_player_character().sees( *this, p );
 
-        const bool player_is_driver = veh != nullptr && &get_player_character() == veh->get_driver( *this );
-        const bool player_sees_damage = get_player_character().sees( *this, p );
-
-        if( !wheel_damage_messages.empty() && ( player_is_driver || player_sees_damage ) ) {
-            for( const std::string &msg : wheel_damage_messages ) {
-                add_msg( m_bad, msg );
-            }
-        }
-
-        bool existing = false;
-        for( int wheel : veh->wheelcache ) {
-            if( veh->bub_part_pos( *this, veh->part( wheel ) ) == p ) {
-                existing = true;
-                break;
-            }
-        }
-        if( existing ) {
-            add_msg( m_bad, _( "The %s has been degraded by the damage" ), vp_wheel->name() );
+    if( !wheel_damage_messages.empty() && ( player_is_driver || player_sees_damage ) ) {
+        for( const std::string &msg : wheel_damage_messages ) {
+            add_msg( m_bad, msg );
         }
     }
 
@@ -4279,6 +4263,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
                                has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p ) && !has_flag( ter_furn_flag::TFLAG_INDOORS, p );
     const bool tent = smash_furn && !bash->tent_centers.empty();
     bool set_to_air = false;
+    bool phased = false;
 
     // Special code to collapse the tent if destroyed
     if( tent ) {
@@ -4357,9 +4342,9 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
         debugmsg( "data/json/terrain.json does not have %s.bash.ter_set set!",
                   ter( p ).obj().id.c_str() );
     } else if( has_original_terrain_at( p ) && ter( p )->has_flag( "PHASE_BACK" ) ) {
-        // If we have original terrain saved and the current terrain signals PHASE_BACK,
         const ter_id orig = get_original_terrain_at( p );
         ter_set( p, orig );
+        phased = true;
     } else if( params.bashing_from_above && ter_bash.ter_set_bashed_from_above ) {
         // If this terrain is being bashed from above and this terrain
         // has a valid post-destroy bashed-from-above terrain, set it
@@ -4396,7 +4381,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
     }
     //regenerates roofs for tiles that should be walkable from above
     if( zlevels && smash_ter && !set_to_air && ter( p )->has_flag( "EMPTY_SPACE" ) &&
-        ter( below )->has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF ) ) {
+        ter( below )->has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF ) && !phased ) {
         const ter_str_id roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
         ter_set( p, roof );
     }
@@ -6711,6 +6696,16 @@ void map::remove_trap( const tripoint_bub_ms &p )
         const auto iter = std::find( traps.begin(), traps.end(), p );
         if( iter != traps.end() ) {
             traps.erase( iter );
+        }
+        // If this tile is a phased terrain placeholder (PHASE_BACK), restore
+        // the original terrain stored for this tile when removing the trap.
+        if( ter( p )->has_flag( "PHASE_BACK" ) ) {
+            if( has_original_terrain_at( p ) ) {
+                const ter_id orig = get_original_terrain_at( p );
+                ter_set( p, orig );
+            } else {
+                ter_set( p, ter( p ).obj().bash->ter_set );
+            }
         }
     }
 }

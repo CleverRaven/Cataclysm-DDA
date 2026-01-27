@@ -1,3 +1,5 @@
+#include <array>
+#include <cmath>
 #include <cstddef>
 #include <initializer_list>
 
@@ -6,7 +8,10 @@
 #include "imgui/imgui_internal.h"
 #undef IMGUI_DEFINE_MATH_OPERATORS
 
+#include "catacharset.h"
+#include "cata_imgui.h"
 #include "color.h"
+#include "output.h"
 #include "text.h"
 
 static uint32_t u32_from_color( nc_color color )
@@ -332,6 +337,116 @@ void TextColoredParagraph( nc_color default_color, std::string_view str,
         }
     }
     TextEx( str.substr( s, std::string::npos ), wrap_width, colors.back() );
+}
+
+static std::string trim_substring( std::string_view text, float width )
+{
+    std::string ellipsis = "\u2026";
+    float ellipsis_width = ImGui::CalcTextSize( ellipsis.c_str() ).x;
+    // estimate number of visible characters by ellipsis width
+    int visible_chars = width / ellipsis_width;
+    float last_free = 0.f;
+
+    do {
+        std::string trimmed_str( text.substr( 0, visible_chars ) );
+        trimmed_str += ellipsis;
+        float trimmed_width = ImGui::CalcTextSize( trimmed_str.c_str(), nullptr, true ).x;
+
+        // number of characters we can still draw or drew too much estimated by ellipsis width
+        float free_chars = ( width - trimmed_width ) / ellipsis_width;
+
+        if( free_chars >= 1.f && last_free != free_chars ) {
+            visible_chars += std::floor( free_chars );
+            last_free = free_chars;
+        } else if( free_chars < 0 ) {
+            visible_chars += std::floor( free_chars );
+        } else {
+            return trimmed_str;
+        }
+    } while( true );
+}
+
+static std::string trim_by_width( std::string_view text, float width )
+{
+    if( width <= 0.0f ) {
+        width = ImGui::GetContentRegionAvail().x;
+    }
+
+    float text_width = ImGui::CalcTextSize( text.data(), nullptr, true ).x;
+
+    if( text_width < width ) {
+        return std::string( text );
+    }
+
+    std::string trunc_str;
+    std::string temp_str;
+    float str_width = 0.f;
+
+    std::string color_open_tag;
+    std::string color_close_tag;
+    std::string ellipsis = "\u2026";
+
+    const std::vector<std::string> color_segments = split_by_color( text );
+    for( size_t i = 0; i < color_segments.size(); ++i ) {
+        const std::string &seg = color_segments[i];
+        if( seg.empty() ) {
+            // TODO: Check is required right now because, for a fully-color-tagged string, split_by_color
+            // returns an empty string first
+            continue;
+        }
+        color_open_tag.clear();
+        color_close_tag.clear();
+
+        if( !seg.empty() && ( seg.substr( 0, 7 ) == "<color_" || seg.substr( 0, 7 ) == "</color" ) ) {
+            temp_str = rm_prefix( seg );
+
+            if( seg.substr( 0, 7 ) == "<color_" ) {
+                color_open_tag = seg.substr( 0, seg.find( '>' ) + 1 );
+                color_close_tag = "</color>";
+            }
+        } else {
+            temp_str = seg;
+        }
+
+        const float temp_width = ImGui::CalcTextSize( temp_str.c_str(), nullptr, true ).x;
+        str_width += temp_width;
+        float next_char_width = 0.f;
+        if( i + 1 < color_segments.size() ) {
+            std::array<char, 5> buf{};
+            ImTextCharToUtf8( buf.data(), UTF8_getch( remove_color_tags( color_segments[i + 1] ) ) );
+            next_char_width = ImGui::CalcTextSize( buf.data(), nullptr, true ).x;
+        }
+
+        bool trimmed = false;
+        if( str_width > width || ( str_width == width && i + 1 < color_segments.size() ) ) {
+            // This segment won't fit OR
+            // This segment just fits and there's another segment coming
+            // truncate_substring already appends the ellipsis
+            temp_str = color_open_tag
+                       .append( trim_substring( temp_str, temp_width - ( str_width - width ) ) )
+                       .append( color_close_tag );
+            trimmed = true;
+        } else if( str_width + next_char_width >= width ) {
+            // This segments fits, but the next segment starts with a wide character
+            temp_str = color_open_tag.append( temp_str ).append( color_close_tag ).append( ellipsis );
+            trimmed = true;
+        }
+
+        if( trimmed ) {
+            trunc_str += temp_str; // Color tags were handled when the segment was trimmed
+            break;
+        } else { // This segment fits, and the next one has room to start
+            trunc_str += color_open_tag.append( temp_str ).append( color_close_tag );
+        }
+    }
+    return trunc_str;
+}
+
+void TextColoredTrimmed( std::string_view text, nc_color default_color, float width,
+                         bool *is_selected, bool *is_focused, bool *is_hovered )
+{
+    draw_colored_text( trim_by_width( text, width ), default_color, 0.f, is_selected, is_focused,
+                       is_hovered );
 }
 
 } // namespace cataimgui

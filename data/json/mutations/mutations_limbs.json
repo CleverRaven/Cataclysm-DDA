@@ -27,12 +27,7 @@
     "ugliness": 1,
     "allow_soft_gear": true,
     "restricts_gear": [ "head_crown" ],
-    "attacks": {
-      "attack_text_u": "You headbutt %s with your horns!",
-      "attack_text_npc": "%1$s headbutts %2$s with their horns!",
-      "chance": 20,
-      "base_damage": [ { "damage_type": "stab", "amount": 3 }, { "damage_type": "bash", "amount": 3 } ]
-    }
+    "integrated_armor": [ "integrated_horns_small" ]
   },
   {
     "type": "mutation",
@@ -632,7 +627,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_long" } ] } ]
   },
   {
     "type": "mutation",
@@ -707,7 +702,7 @@
     "type": "mutation",
     "id": "TAIL_FLUFFY",
     "name": { "str": "Fluffy Tail" },
-    "description": "You have a long, fluffy-furred tail.  It greatly improves your balance, making your ability to dodge much higher.  Prevents wearing non-fabric pants.",
+    "description": "You have a long, fluffy-furred tail.  It greatly improves your balance, making your ability to dodge higher.  Prevents wearing non-fabric pants.",
     "category": [ "LUPINE" ],
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_LONG" ],
@@ -717,8 +712,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "social_modifiers": { "lie": -20, "persuade": 10 },
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 4 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_fluffy" } ] } ]
   },
   {
     "type": "mutation",

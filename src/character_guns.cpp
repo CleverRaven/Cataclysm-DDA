@@ -151,7 +151,7 @@ std::pair<int, int> Character::gunmod_installation_odds( const item_location &gu
     // cap success from skill alone to 1 in 5 (~83% chance)
     roll = std::min( static_cast<double>( chances ), 5.0 ) / 6.0 * 100;
     // focus is either a penalty or bonus of at most +/-10%
-    roll += ( std::min( std::max( get_focus(), 140 ), 60 ) - 100 ) / 4;
+    roll += ( std::clamp( get_focus(), 60, 140 ) - 100 ) / 4;
     // dexterity and intelligence give +/-2% for each point above or below 12
     roll += ( get_dex() - 12 ) * 2;
     roll += ( get_int() - 12 ) * 2;

@@ -220,7 +220,6 @@ extern const std::map< activity_id, std::function<void( player_activity *, Chara
 do_turn_functions;
 
 /** activity_finish functions: */
-void heat_item_finish( player_activity *act, Character *you );
 void repair_item_finish( player_activity *act, Character *you );
 void start_fire_finish( player_activity *act, Character *you );
 

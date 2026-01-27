@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_handlers.h"
 #include "activity_type.h"
 #include "butchery.h"
 #include "calendar.h"
@@ -91,6 +92,128 @@ class zone_activity_actor : public activity_actor
         zone_activity_stage stage = UNINIT;
         std::unordered_set<tripoint_abs_ms> coord_set;
         tripoint_abs_ms placement;
+};
+
+/*
+* General forwarding activity to handle single-tile activities performed in zones.
+* This forwarding works in two ways:
+* 1) when travelling to a destination zone tile, storing this multi-activity in Character::destination_activity,
+*    which is restarted when the player reaches the destination
+* 2) when doing the single-tile activity, backlogging a copy of the multi-activity actor in Character::backlog,
+*    which is then restarted from the single-tile activity with activity_handlers::resume_for_multi_activities()
+* An important point to note is that in no case does multi_zone_activity_actor store state.
+*
+* TODO: unify zone_activity_actor and multi_zone_activity_actor?
+*/
+class multi_zone_activity_actor : public activity_actor
+{
+    public:
+        explicit multi_zone_activity_actor( bool check_only = false ) : check_only( check_only ) {}
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &, Character & ) override {};
+        // for allowing a return value from do_turn
+        bool simulate_turn( player_activity &act, Character &you, bool check_only );
+
+        /** Check whether activity can be done immediately if it has requirements */
+        requirement_check_result check_requirements( Character &you, activity_reason_info &act_info,
+                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
+                const std::unordered_set<tripoint_abs_ms> &src_set, bool check_only = false );
+
+        // BEGIN interface block
+        virtual std::unordered_set<tripoint_abs_ms> multi_activity_locations( Character &you );
+        virtual activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) = 0;
+        // specific requirements for the activity, used in `check_requirements`
+        virtual std::optional<requirement_id> multi_activity_requirements( Character &,
+                activity_reason_info &, const tripoint_bub_ms & );
+        // main activity body, once zone locations and requirements are satisfied
+        // @return whether activity was NOT successful
+        virtual bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) = 0;
+        std::unique_ptr<activity_actor> clone() const override = 0;
+        void serialize( JsonOut &jsout ) const override;
+        // END interface block
+        bool check_only = false;
+};
+
+class multi_mine_activity_actor : public multi_zone_activity_actor
+{
+    public:
+        using multi_zone_activity_actor::multi_zone_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+            return ACT_MULTIPLE_MINE;
+        }
+        activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) override;
+        std::optional<requirement_id> multi_activity_requirements( Character &you,
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+        bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<multi_mine_activity_actor>( *this );
+        }
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+};
+
+class multi_mop_activity_actor : public multi_zone_activity_actor
+{
+    public:
+        using multi_zone_activity_actor::multi_zone_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
+            return ACT_MULTIPLE_MOP;
+        }
+        activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) override;
+        bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<multi_mop_activity_actor>( *this );
+        }
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+};
+
+class multi_chop_planks_activity_actor : public multi_zone_activity_actor
+{
+    public:
+        using multi_zone_activity_actor::multi_zone_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
+            return ACT_MULTIPLE_CHOP_PLANKS;
+        }
+        activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) override;
+        std::optional<requirement_id> multi_activity_requirements( Character &you,
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+        bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<multi_chop_planks_activity_actor>( *this );
+        }
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+};
+
+class multi_chop_trees_activity_actor : public multi_zone_activity_actor
+{
+    public:
+        using multi_zone_activity_actor::multi_zone_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+            return ACT_MULTIPLE_CHOP_TREES;
+        }
+        activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) override;
+        std::optional<requirement_id> multi_activity_requirements( Character &you,
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+        bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<multi_chop_trees_activity_actor>( *this );
+        }
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
 };
 
 class aim_activity_actor : public activity_actor
@@ -867,15 +990,17 @@ class lockpick_activity_actor : public activity_actor
     public:
         /** Use regular lockpick. */
         static lockpick_activity_actor use_item(
-            int moves_total,
             const item_location &lockpick,
-            const tripoint_abs_ms &target
+            const tripoint_abs_ms &target,
+            const Character &who
         );
 
         /** Use bionic lockpick. */
         static lockpick_activity_actor use_bionic(
             const tripoint_abs_ms &target
         );
+
+        static int lockpicking_moves( const item_location &lockpick, const Character &who );
 
         const activity_id &get_type() const override {
             static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
@@ -2757,8 +2882,9 @@ class heat_activity_actor : public activity_actor
     public:
         heat_activity_actor( drop_locations to_heat,
                              heating_requirements &requirements,
-                             heater h ) :
-            to_heat( std::move( to_heat ) ), requirements( requirements ), h( std::move( h ) ) {};
+                             heater heater_data ) :
+            to_heat( std::move( to_heat ) ), requirements( requirements ),
+            heater_data( std::move( heater_data ) ) {};
 
         const activity_id &get_type() const override {
             static const activity_id ACT_HEATING( "ACT_HEATING" );
@@ -2779,7 +2905,7 @@ class heat_activity_actor : public activity_actor
     private:
         drop_locations to_heat;
         heating_requirements requirements;
-        heater h;
+        heater heater_data;
 };
 
 class wear_activity_actor : public activity_actor
@@ -3566,6 +3692,7 @@ class zone_sort_activity_actor : public zone_activity_actor
         std::vector<item_location> picked_up_stuff;
         // Place(s) that the current stuff can be dropped off at.
         std::vector<tripoint_abs_ms> dropoff_coords;
+        bool pickup_failure_reported = false;
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

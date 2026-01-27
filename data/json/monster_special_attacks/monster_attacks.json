@@ -655,6 +655,27 @@
   {
     "type": "monster_attack",
     "attack_type": "melee",
+    "id": "hulk_lift_and_smash",
+    "accuracy": 8,
+    "cooldown": 15,
+    "move_cost": 250,
+    "hitsize_min": 12,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 120 } ],
+    "dodgeable": false,
+    "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
+    "blockable": false,
+    "spread_damage": true,
+    "effects": [ { "id": "downed", "chance": 95, "duration": [ 1, 2 ] } ],
+    "hit_dmg_u": "%1$s lifts you off the ground and swings you like a sack, smashing you into the ground!",
+    "hit_dmg_npc": "%1$s pulls its arm back and swings wide, smashing into <npcname>'s %2$s!",
+    "miss_msg_u": "%1$s pulls its arm back and swings wide, but you dodge!",
+    "miss_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> dodges!",
+    "no_dmg_msg_u": "%1$s pulls its arm back and swings wide, but you withstand the blow!",
+    "no_dmg_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> withstands the blow!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
     "id": "bio_op_takedown",
     "cooldown": 10,
     "move_cost": 100,
@@ -826,5 +847,104 @@
     "miss_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> dodges!",
     "no_dmg_msg_u": "%1$s pulls its arm back and swings wide, but you withstand the blow!",
     "no_dmg_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> withstands the blow!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "staggering_blow",
+    "accuracy": 5,
+    "cooldown": 15,
+    "move_cost": 175,
+    "hitsize_min": 12,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 20, "armor_penetration": 6 } ],
+    "effects": [
+      { "id": "staggered_character", "chance": 100, "duration": [ 1, 2 ] },
+      { "id": "downed", "chance": 50, "duration": [ 1, 2 ] }
+    ],
+    "hit_dmg_u": "%1$s smashes a heavy fist into your %2$s, sending you reeling!",
+    "hit_dmg_npc": "%1$s smashes a heavy fist into <npcname>'s %2$s, sending them reeling!",
+    "miss_msg_u": "%1$s swings a heavy fist at you, but you dodge!",
+    "miss_msg_npc": "%1$s swings a heavy fist at <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s smashes a heavy fist into your %2$s, but your armor blunts the impact!",
+    "no_dmg_msg_npc": "%1$s smashes a heavy fist into <npcname>'s %2$s, but their armor blunts the impact!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "mon_shocker_chargeup",
+    "accuracy": 8,
+    "cooldown": 8,
+    "move_cost": 100,
+    "range": 5,
+    "dodgeable": false,
+    "blockable": false,
+    "effects_require_dmg": false,
+    "damage_max_instance": [ { "damage_type": "pure", "amount": 0 } ],
+    "eoc": [ "EOC_SHOCKER_ADD_CHARGE_EFFECT" ],
+    "condition": { "math": [ "u_effect_intensity('effect_shocker_zombie_charge_up') <= 5" ] },
+    "hit_dmg_u": "With a crackling sound, %1$s begins glowing brighter!",
+    "hit_dmg_npc": "With a crackling sound, %1$s begins glowing brighter!",
+    "miss_msg_u": "With a crackling sound, %1$s begins glowing brighter!",
+    "miss_msg_npc": "With a crackling sound, %1$s begins glowing brighter!",
+    "no_dmg_msg_u": "With a crackling sound, %1$s begins glowing brighter!",
+    "no_dmg_msg_npc": "With a crackling sound, %1$s begins glowing brighter!"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHOCKER_ADD_CHARGE_EFFECT",
+    "//": "This is necessary because self_effects_always applies an ABSOLUTE intensity so we can't use it to increment the effect",
+    "effect": [ { "u_add_effect": "effect_shocker_zombie_charge_up", "duration": 12 } ]
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "mon_shocker_chargeup_attack",
+    "cooldown": 1,
+    "move_cost": 150,
+    "damage_max_instance": [ { "damage_type": "electric", "amount": 40 } ],
+    "dodgeable": true,
+    "blockable": true,
+    "spread_damage": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_effect_intensity('effect_shocker_zombie_charge_up') >= 4" ] },
+        { "not": { "u_has_flag": "GRAB_FILTER" } },
+        { "not": { "u_has_effect": "maimed_arm" } }
+      ]
+    },
+    "//": "We need a second effect to cancel out the charge-up",
+    "self_effects_onhit": [ { "id": "effect_shocker_zombie_charge_up_removal", "duration": 12 } ],
+    "hit_dmg_u": "%1$s touches your %2$s and unleashes a massive burst of electricity!",
+    "hit_dmg_npc": "%1$s touches <npcname>'s %2$s and unleashes a massive burst of electricity!",
+    "miss_msg_u": "%1$s tries to touch you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s touches your %2$s and unleashes a massive burst of electricity, but you are unaffected.",
+    "no_dmg_msg_npc": "%1$s touches <npcname>'s %2$s and unleashes a massive burst of electricity, but they are unaffected."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "mon_shocker_chargeup_attack_grab",
+    "cooldown": 1,
+    "move_cost": 150,
+    "damage_max_instance": [ { "damage_type": "electric", "amount": 40 } ],
+    "//": "If the shocker is grabbing you, it doesn't need to try to touch you to zap you",
+    "dodgeable": false,
+    "blockable": false,
+    "spread_damage": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_effect_intensity('effect_shocker_zombie_charge_up') >= 4" ] },
+        { "u_has_flag": "GRAB_FILTER" },
+        { "not": { "u_has_effect": "maimed_arm" } }
+      ]
+    },
+    "self_effects_onhit": [ { "id": "effect_shocker_zombie_charge_up_removal", "duration": 12 } ],
+    "hit_dmg_u": "%1$s touches your %2$s and unleashes a massive burst of electricity!",
+    "hit_dmg_npc": "%1$s touches <npcname>'s %2$s and unleashes a massive burst of electricity!",
+    "miss_msg_u": "%1$s tries to touch you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s touches your %2$s and unleashes a massive burst of electricity, but you are unaffected.",
+    "no_dmg_msg_npc": "%1$s touches <npcname>'s %2$s and unleashes a massive burst of electricity, but they are unaffected."
   }
 ]

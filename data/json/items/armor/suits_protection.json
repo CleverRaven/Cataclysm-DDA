@@ -4013,5 +4013,90 @@
       "msg": "The %s pipes stop humming.",
       "target": "armor_nomad_chainmail"
     }
+  },
+  {
+    "id": "string_dimension_chainmail_suit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "//": "has no protective value",
+    "category": "armor",
+    "name": { "str": "zarad chainmail suit" },
+    "description": "A fully customized chainmail suit.  Unlike your native Earth's steel chainmail, these oval links are much thinner and noticeably denser, giving this suit a ceremonial or decorative quality.",
+    "weight": "26634 g",
+    "volume": "3250 ml",
+    "longest_side": "15 cm",
+    "price": "450 USD",
+    "price_postapoc": "80 USD",
+    "material": [ "unobtanium" ],
+    "symbol": "[",
+    "looks_like": "qt_chainmail_suit",
+    "color": "white",
+    "warmth": 0,
+    "flags": [ "STURDY", "OUTER" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "9350 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2200 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3300 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "unobtanium", "covered_by_mat": 100, "thickness": 0.3 } ],
+        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 14
+      }
+    ]
   }
 ]

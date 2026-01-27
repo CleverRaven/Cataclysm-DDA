@@ -64,6 +64,7 @@ bool shadow( const tripoint_bub_ms &p, Creature *c, item *i );
 bool map_regen( const tripoint_bub_ms &p, Creature *c, item *i );
 bool drain( const tripoint_bub_ms &p, Creature *c, item *i );
 bool snake( const tripoint_bub_ms &p, Creature *c, item *i );
+bool thick_ice( const tripoint_bub_ms &p, Creature *c, item *i );
 bool thin_ice( const tripoint_bub_ms &p, Creature *c, item *i );
 bool cast_spell( const tripoint_bub_ms &p, Creature *critter, item * );
 bool dummy_trap( const tripoint_bub_ms &p, Creature *critter, item * );

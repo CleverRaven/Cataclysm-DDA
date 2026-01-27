@@ -2012,8 +2012,15 @@ void iexamine::locked_object_pickable( Character &you, const tripoint_bub_ms &ex
     } );
 
     for( item *it : picklocks ) {
-        if( !query_yn( _( "Pick the lock of %1$s using your %2$s?" ),
-                       target_name, it->tname() ) ) {
+        int required_moves = lockpick_activity_actor::lockpicking_moves( item_location{you, it}, you );
+        time_duration required_time = time_duration::from_turns( required_moves / you.get_speed() );
+        const std::string time_string = colorize( to_string( required_time, true ), c_light_gray );
+        std::string query = string_format( _( "Pick the lock of %1$s using your %2$s?" ),
+                                           target_name, it->tname() );
+        query += "\n";
+        query += _( "Time to attempt: " );
+        query += time_string;
+        if( !query_yn( query ) ) {
             return;
         }
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
@@ -4349,10 +4356,7 @@ void iexamine::keg( Character &you, const tripoint_bub_ms &examp )
         switch( selectmenu.ret ) {
             case DISPENSE: {
                 item_location loc( map_cursor( examp ), &*items.begin() );
-                if( liquid_handler::handle_liquid( loc ) ) {
-                    add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
-                             drink_tname, keg_name );
-                }
+                liquid_handler::handle_liquid( loc );
                 return;
             }
             case HAVE_A_DRINK:

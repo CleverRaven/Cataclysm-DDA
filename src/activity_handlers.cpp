@@ -63,17 +63,12 @@ static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
-static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
-static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
-static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
-static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
-static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
@@ -117,11 +112,8 @@ activity_handlers::do_turn_functions = {
     { ACT_START_FIRE, start_fire_do_turn },
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
-    { ACT_MULTIPLE_MINE, multiple_mine_do_turn },
-    { ACT_MULTIPLE_MOP, multiple_mop_do_turn },
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
     { ACT_MULTIPLE_FARM, multiple_farm_do_turn },
-    { ACT_MULTIPLE_CHOP_PLANKS, multiple_chop_planks_do_turn },
     { ACT_MULTIPLE_CRAFT, multiple_craft_do_turn },
     { ACT_MULTIPLE_DIS, multiple_dis_do_turn },
     { ACT_MULTIPLE_READ, multiple_read_do_turn },
@@ -130,7 +122,6 @@ activity_handlers::do_turn_functions = {
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_VEHICLE_DECONSTRUCTION, vehicle_deconstruction_do_turn },
     { ACT_VEHICLE_REPAIR, vehicle_repair_do_turn },
-    { ACT_MULTIPLE_CHOP_TREES, chop_trees_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },
@@ -140,8 +131,7 @@ activity_handlers::do_turn_functions = {
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 activity_handlers::finish_functions = {
     { ACT_START_FIRE, start_fire_finish },
-    { ACT_REPAIR_ITEM, repair_item_finish },
-    { ACT_HEATING, heat_item_finish }
+    { ACT_REPAIR_ITEM, repair_item_finish }
 };
 
 static void assign_multi_activity( Character &you, const player_activity &act )
@@ -219,7 +209,10 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 break;
         }
 
-        static const units::volume volume_per_second = units::from_liter( 4.0F / 6.0F );
+        // Vehicle siphoning is slower than other liquid transfers
+        const units::volume volume_per_second = source_type == liquid_source_type::VEHICLE
+                                                ? units::from_liter( 0.25F )
+                                                : units::from_liter( 4.0F / 6.0F );
         const int charges_per_second = std::max( 1, liquid.charges_per_volume( volume_per_second ) );
         liquid.charges = std::min( charges_per_second, liquid.charges );
         const int original_charges = liquid.charges;
@@ -337,6 +330,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                                 here.furn_set( source_pos, furn_f_compost_empty );
                             }
                         }
+                    } else if( iexamine::has_keg( source_pos ) ) {
+                        add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
+                                 liquid.type_name( 1 ), here.furnname( source_pos ) );
                     }
                     act_ref.set_to_null();
                 }
@@ -871,39 +867,6 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
     }
     // Otherwise keep retrying
     act->moves_left = actor->move_cost;
-}
-
-void activity_handlers::heat_item_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-    if( act->targets.size() != 1 ) {
-        debugmsg( "invalid arguments to ACT_HEATING" );
-        return;
-    }
-    item_location &loc = act->targets[ 0 ];
-    item *const heat = loc.get_item();
-    if( heat == nullptr ) {
-        return;
-    }
-    if( !heat->has_temperature() ) {
-        debugmsg( "item %s is not heatable", heat->typeId().str() );
-        return;
-    }
-    item &target = *heat;
-    if( target.has_own_flag( flag_FROZEN ) ) {
-        target.apply_freezerburn();
-        if( target.has_flag( flag_EATEN_COLD ) ) {
-            target.cold_up();
-            you->add_msg_if_player( m_info,
-                                    _( "You defrost the food, but don't heat it up, since you enjoy it cold." ) );
-        } else {
-            target.heat_up();
-            you->add_msg_if_player( m_info, _( "You defrost and heat up the food." ) );
-        }
-    } else {
-        target.heat_up();
-        you->add_msg_if_player( m_info, _( "You heat up the food." ) );
-    }
 }
 
 void activity_handlers::travel_do_turn( player_activity *act, Character *you )

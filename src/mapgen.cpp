@@ -999,6 +999,16 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         }
     }
 
+    const weather_generator &wgen = get_weather().get_cur_weather_gen();
+    if( abs_sub.z() >= 0 ) {
+        for( int i = 0; i < my_MAPSIZE; i++ ) {
+            for( int j = 0; j < my_MAPSIZE; j++ ) {
+                const tripoint_bub_ms p( i, j, abs_sub.z() );
+                temp_based_phase_change_at( p, wgen );
+            }
+        }
+    }
+
     if( save_results ) {
         for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
             for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
@@ -6322,16 +6332,6 @@ void map::draw_map( mapgendata &dat )
     }
 
     resolve_regional_terrain_and_furniture( dat );
-
-    const weather_generator &wgen = get_weather().get_cur_weather_gen();
-    if( abs_sub.z() >= 0 ) {
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                const tripoint_bub_ms p( i, j, abs_sub.z() );
-                temp_based_phase_change_at( p, wgen );
-            }
-        }
-    }
     // End of draw_map
 }
 

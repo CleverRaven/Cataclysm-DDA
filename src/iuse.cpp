@@ -336,13 +336,9 @@ static const mtype_id mon_vortex( "mon_vortex" );
 static const mutation_category_id mutation_category_CATTLE( "CATTLE" );
 static const mutation_category_id mutation_category_MYCUS( "MYCUS" );
 
-static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
-static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
-
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_GLARE( "GLARE" );
 static const quality_id qual_HOTPLATE( "HOTPLATE" );
-static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
 static const quality_id qual_SCREW_FINE( "SCREW_FINE" );
 
@@ -353,7 +349,6 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
-static const skill_id skill_traps( "traps" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
@@ -3190,32 +3185,10 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint_bub_m
         return std::nullopt;
     }
 
-    int qual = it->get_quality( qual_LOCKPICK );
-    if( qual < 1 ) {
-        debugmsg( "Item %s with 'PICK_LOCK' use action requires LOCKPICK quality of at least 1.",
-                  it->typeId().c_str() );
-        qual = 1;
-    }
-
-    /** @EFFECT_DEX speeds up door lock picking */
-    /** @EFFECT_LOCKPICK speeds up door lock picking */
-    int duration_proficiency_factor = 10;
-
-    if( you.has_proficiency( proficiency_prof_lockpicking ) ) {
-        duration_proficiency_factor = 5;
-    }
-    if( you.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
-        duration_proficiency_factor = 1;
-    }
-    time_duration duration = 5_seconds;
-    if( !it->has_flag( flag_PERFECT_LOCKPICK ) ) {
-        duration = std::max( 30_seconds,
-                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( you.dex_cur ) / 4.0f +
-                                     you.get_skill_level( skill_traps ) ) ) * duration_proficiency_factor );
-    }
-
-    you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
-                         item_location( you, it ), get_map().get_abs( *target ) ) );
+    you.assign_activity( lockpick_activity_actor::use_item( item_location( you, it ),
+                         get_map().get_abs( *target ),
+                         *p
+                                                          ) );
     return 1;
 }
 
@@ -8181,6 +8154,27 @@ static std::optional<std::pair<tripoint_bub_ms, itype_id>> appliance_heater_sele
 
 }
 
+void heater::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "heating_effect", heating_effect );
+    jsout.member( "loc", loc );
+    jsout.member( "consume_flag", consume_flag );
+    jsout.member( "pseudo_flag", pseudo_flag );
+    jsout.member( "vpt", vpt );
+    jsout.end_object();
+}
+
+void heater::deserialize( const JsonValue &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "heating_effect", heating_effect );
+    data.read( "loc", loc );
+    data.read( "consume_flag", consume_flag );
+    data.read( "pseudo_flag", pseudo_flag );
+    data.read( "vpt", vpt );
+}
+
 heater find_heater( Character *p, item *it, bool force_use_it )
 {
     map &here = get_map();
@@ -8270,8 +8264,8 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     map &here = get_map();
 
     p->inv->restack( *p );
-    heater h = find_heater( p, it, force_use_it );
-    if( h.available_heater == -1 ) {
+    heater heater_data = find_heater( p, it, force_use_it );
+    if( heater_data.available_heater == -1 ) {
         add_msg( m_info, _( "Never mind." ) );
         return false;
     }
@@ -8302,7 +8296,7 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
                      ( solid_items && !location->made_of_from_type( phase_id::LIQUID ) ) );
         } );
         auto make_raw_stats = [available_volume,
-                               h]( const std::vector<std::pair<item_location, int>> &locs
+                               heater_data]( const std::vector<std::pair<item_location, int>> &locs
         ) {
             units::volume used_volume = 0_ml;
             units::mass frozen_weight = 0_gram;
@@ -8338,8 +8332,8 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
             const std::string volume = string_join( display_stat( "", used_volume.value(),
                                                     available_volume.value(),
                                                     to_string ), "" );
-            const std::string ammo = string_join( display_stat( "", required.ammo * h.heating_effect,
-                                                  h.available_heater,
+            const std::string ammo = string_join( display_stat( "", required.ammo * heater_data.heating_effect,
+                                                  heater_data.available_heater,
                                                   to_string ), "" );
             using stats = inventory_selector::stats;
             return inventory_selector::convert_stats_to_header_stats( stats{{
@@ -8385,7 +8379,7 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     if( multiple ? used_volume > available_volume : false ) {
         p->add_msg_if_player( _( "You need more space to contain these items." ) );
         return false;
-    } else if( h.available_heater < required.ammo * h.heating_effect ) {
+    } else if( heater_data.available_heater < required.ammo * heater_data.heating_effect ) {
         p->add_msg_if_player( _( "You need more energy to heat these items." ) );
         return false;
     }
@@ -8395,7 +8389,7 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     for( std::size_t i = 0; i < helpersize; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    p->assign_activity( heat_activity_actor( to_heat, required, h ) );
+    p->assign_activity( heat_activity_actor( to_heat, required, heater_data ) );
     return true;
 }
 
