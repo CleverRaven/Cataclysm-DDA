@@ -35,7 +35,8 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "hair suit (worn)" },
-    "looks_like": "bodysuit_lycra",
+    "looks_like": "nomad_bodyglove_2",
+    "//": "want it to look like the bondage lycra bodysuit (most bayonetta-like in msx) but you cannot looks_like an item variant.",
     "description": "Your hair, woven into a fashionable, form-fitting bodysuit.  Activate to wear it loose.",
     "flags": [ "INTEGRATED", "UNBREAKABLE", "NO_SALVAGE", "SKINTIGHT", "TRADER_AVOID", "SOFT", "ZERO_WEIGHT" ],
     "use_action": {
