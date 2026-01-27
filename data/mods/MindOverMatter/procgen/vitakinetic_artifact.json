@@ -13,6 +13,13 @@
       }
     ],
     "active_procgen_values": [
+      { "weight": 100, "spell_id": "AEA_HEAL", "base_power": 350, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_MAJOR_HEAL", "base_power": 850, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_REMOVE_SLEEPINESS", "base_power": 400, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_AOE_DOT_AND_EFFECT", "base_power": 400, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_BLOOD_PURGE", "base_power": 1000, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_REGENERATION", "base_power": 750, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_HEALTH_CHANGER", "base_power": 100, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_ATTENTION", "base_power": -150, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_VOMIT", "base_power": -50, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250, "ench_has": "WIELD" },
@@ -202,7 +209,7 @@
         "time": [ "3 h", "24 h" ]
       }
     ],
-   "passive_mult_procgen_values": [
+    "passive_mult_procgen_values": [
       {
         "weight": 75,
         "min_value": -0.5,

@@ -634,5 +634,110 @@
     "field_intensity_increment": 1,
     "field_intensity_variance": 1,
     "field_chance": 2
+  },
+  {
+    "type": "SPELL",
+    "id": "MoM_AEA_MAJOR_HEAL",
+    "name": { "str": "MoM AEA Artifact Heal", "//~": "NO_I18N" },
+    "description": { "str": "Will heal injuries all over your body.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
+    "shape": "blast",
+    "base_casting_time": 100,
+    "min_damage": -5,
+    "max_damage": -10,
+    "message": "You feel healed."
+  },
+  {
+    "type": "SPELL",
+    "id": "MoM_AEA_REMOVE_SLEEPINESS",
+    "name": { "str": "MoM AEA Remove Sleepiness", "//~": "NO_I18N" },
+    "description": { "str": "Removes Sleepiness, but not sleep deprivation.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "effect": "recover_energy",
+    "effect_str": "SLEEPINESS",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
+    "shape": "blast",
+    "base_casting_time": 100,
+    "min_damage": 50,
+    "max_damage": 300,
+    "message": "Your tiredness fall away."
+  },
+  {
+    "type": "SPELL",
+    "id": "MoM_AEA_AOE_DOT_AND_EFFECT",
+    "name": { "str": "MoM AEA DoT and Debuff", "//~": "NO_I18N" },
+    "description": { "str": "Puts a slow DoT and healing debuff on anyone in the area.", "//~": "NO_I18N" },
+    "valid_targets": [ "ally", "hostile" ],
+    "effect": "recover_energy",
+    "effect_str": "effect_vitakin_hurt",
+    "shape": "blast",
+    "damage_type": "biological",
+    "min_dot": 0.1,
+    "max_dot": 0.3,
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE", "RANDOM_AOE", "RANDOM_DURATION" ],
+    "base_casting_time": 100,
+    "min_duration": 1000,
+    "max_duration": 6000,
+    "min_aoe": 4,
+    "max_aoe": 10,
+    "message": "A ripple in the air washes out from you."
+  },
+  {
+    "type": "SPELL",
+    "id": "MoM_AEA_BLOOD_PURGE",
+    "name": { "str": "MoM AEA Blood Purge", "//~": "NO_I18N" },
+    "description": { "str": "Removes substances in blood, including beneficial ones.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MoM_AEA_BLOOD_PURGE",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "base_casting_time": 100,
+    "message": "You hear the roar of blood through your veins."
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MoM_AEA_BLOOD_PURGE",
+    "effect": [
+      { "math": [ "u_vitamin('iron') = 0" ] },
+      { "math": [ "u_vitamin('vitC') = 0" ] },
+      { "math": [ "u_vitamin('calcium') = 0" ] },
+      { "run_eocs": [ "EOC_VITAKIN_MUTAGEN_PURGE", "EOC_VITAKIN_DRUG_PURGE" ] }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "MoM_AEA_HEALTH_CHANGER",
+    "name": { "str": "MoM AEA Health Changer", "//~": "NO_I18N" },
+    "description": { "str": "Increases or Decreases your health.  Weighted towards increasing but could decrease it.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MoM_AEA_HEALTH_CHANGER",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "base_casting_time": 100,
+    "message": "You skin flushes."
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MoM_AEA_HEALTH_CHANGER",
+    "effect": [ { "math": [ "u_health() += rng(-5,10)" ] } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "MoM_AEA_REGENERATION",
+    "name": { "str": "MoM AEA Regeneration", "//~": "NO_I18N" },
+    "description": { "str": "Gives you Regeneration for a bit.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "effect_mom_artifact_regeneration",
+    "shape": "blast",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "base_casting_time": 100,
+    "min_duration": 720000,
+    "max_duration": 2880000,
+    "message": "Your skin crawls."
   }
 ]

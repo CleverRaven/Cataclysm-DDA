@@ -509,6 +509,23 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BLOOD_PURGE",
+    "effect": { "run_eocs": [ "EOC_VITAKIN_MUTAGEN_PURGE", "EOC_VITAKIN_DRUG_PURGE" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_DRUG_PURGE",
+    "effect": [
+      { "math": [ "u_vitamin('vit_betablocker') = 0" ] },
+      { "math": [ "u_vitamin('vit_bloodthinner') = 0" ] },
+      { "math": [ "u_vitamin('vit_ibuprofen') = 0" ] },
+      { "math": [ "u_vitamin('vit_mme') = 0" ] },
+      { "math": [ "u_vitamin('ethanol') = 0" ] },
+      { "math": [ "u_vitamin('BAC') = 0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VITAKIN_MUTAGEN_PURGE",
     "effect": [
       { "math": [ "u_vitamin('mutagen') = 0" ] },
