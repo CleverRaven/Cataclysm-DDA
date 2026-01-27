@@ -66,7 +66,7 @@
     "description": "Research archives from a government laboratory.",
     "price": "2 USD",
     "price_postapoc": "0 cent",
-    "ememory_size": "1 GB"
+    "ememory_size": "16 GB"
   },
   {
     "id": "software_encryption_codes",
@@ -76,7 +76,7 @@
     "description": "There are numerous security keys with dates for potential future access to encrypted archived data.",
     "price": "2 USD",
     "price_postapoc": "0 cent",
-    "ememory_size": "1 MB"
+    "ememory_size": "1 GB"
   },
   {
     "id": "software_archived_data",
@@ -86,7 +86,17 @@
     "description": "Extremely compressed research data, observation and experiment statistics.  The only pattern you manage to recognize is an increase in the amount of report closer to the Cataclysm, but also a reduction in the number of facilities still submitting reports.",
     "price": "2 USD",
     "price_postapoc": "0 cent",
-    "ememory_size": "64 MB"
+    "ememory_size": "64 GB"
+  },
+  {
+    "id": "train_data",
+    "copy-from": "abstract_software",
+    "type": "ITEM",
+    "name": { "str_sp": "laboratory shipping records" },
+    "description": "Records of logistical data on subterranean train routes and schedules.",
+    "price": "2 USD",
+    "price_postapoc": "0 cent",
+    "ememory_size": "64 GB"
   },
   {
     "id": "software_electronics_reference",
