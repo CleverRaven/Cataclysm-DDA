@@ -32,7 +32,7 @@
   },
   {
     "id": "hair_suit_on",
-    "copy-from": "hair_suit_off"
+    "copy-from": "hair_suit_off",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "hair suit (worn)" },
