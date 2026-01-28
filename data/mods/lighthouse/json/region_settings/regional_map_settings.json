@@ -31,7 +31,7 @@
       "open_air",
       "open_air",
       "open_air",
-      "field",
+      "outer_space",
       "deep_rock",
       "deep_rock",
       "deep_rock",
@@ -42,7 +42,8 @@
       "deep_rock",
       "deep_rock",
       "deep_rock"
-    ]
+    ],
+    "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "LIGHTHOUSE" ] }
   },
   {
     "id": "nulland_city",
@@ -52,8 +53,27 @@
     "shop_sigma": 0,
     "park_radius": 0,
     "park_sigma": 0,
-    "houses": [ [ "house_01", 1 ] ],
+    "houses": [ [ "hab_unit_building", 1 ] ],
     "parks": [  ],
     "shops": [  ]
+  },
+  {
+    "type": "scenario",
+    "id": "wilderness",
+    "name": "Wilderness",
+    "points": 0,
+    "description": "You find yourself among trees.  The screaming and moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
+    "start_name": "Wilderness",
+    "allowed_locs": [ "sloc_space" ],
+    "reveal_locale": false,
+    "distance_initial_visibility": 0,
+    "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_space",
+    "name": "Space",
+    "terrain": [ "outer_space" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   }
 ]

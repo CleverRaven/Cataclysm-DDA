@@ -1,6 +1,6 @@
 [
   {
-    "om_terrain": "house_01",
+    "om_terrain": "hab_unit",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_floor",
@@ -32,5 +32,23 @@
       ],
       "terrain": { "#": "t_concrete_wall", "_": "t_sidewalk", "+": "t_sidewalk" }
     }
+  },
+  {
+    "type": "city_building",
+    "id": "hab_unit_building",
+    "locations": [ "space" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hab_unit_north" } ],
+    "flags": [ "LIGHTHOUSE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hab_unit",
+    "name": "hab unit",
+    "sym": "^",
+    "color": "light_green",
+    "vision_levels": "city_building",
+    "travel_cost_type": "structure",
+    "see_cost": "high",
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT", "SIDEWALK" ]
   }
 ]
