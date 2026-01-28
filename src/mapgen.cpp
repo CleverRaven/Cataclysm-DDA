@@ -4245,7 +4245,6 @@ class jmapgen_remove_all : public jmapgen_piece
 class jmapgen_nested : public jmapgen_piece
 {
     private:
-        //TODO: These should all have bool check(), valid join ids aren't maintained outside of individual mutables right now tho
         class neighbor_oter_check
         {
             private:
@@ -4278,6 +4277,31 @@ class jmapgen_nested : public jmapgen_piece
                         }
                         if( !dir_neighbors.empty() ) {
                             neighbors[dir] = std::move( dir_neighbors );
+                        }
+                    }
+                }
+
+                void check( const std::string &context ) const {
+                    for( const std::pair<const direction, cata::flat_set<std::pair<std::string, ot_match_type>>> &p :
+                         neighbors ) {
+                        const direction dir = p.first;
+                        const cata::flat_set<std::pair<std::string, ot_match_type>> &allowed_neighbors = p.second;
+                        if( allowed_neighbors.empty() ) {
+                            debugmsg( "Nested placement in %s requires specific neighbor omts for direction %s but none are specified",
+                                      context,
+                                      io::enum_to_string<direction>( dir ) );
+                        }
+                        for( const std::pair<std::string, ot_match_type> &allowed_neighbor : allowed_neighbors ) {
+                            if( allowed_neighbor.second == ot_match_type::exact &&
+                                !oter_str_id( allowed_neighbor.first ).is_valid() ) {
+                                debugmsg( "Nested placement in %s requires invalid overmap terrain id %s",
+                                          context, allowed_neighbor.first );
+                            }
+                            if( allowed_neighbor.second == ot_match_type::type &&
+                                !oter_type_str_id( allowed_neighbor.first ).is_valid() ) {
+                                debugmsg( "Nested placement in %s requires invalid overmap terrain type id %s",
+                                          context, allowed_neighbor.first );
+                            }
                         }
                     }
                 }
@@ -4335,9 +4359,20 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
+                void check( const std::string &context ) const {
+                    for( const std::pair<const cube_direction, cata::flat_set<std::string>> &p : neighbors ) {
+                        const cube_direction dir = p.first;
+                        const cata::flat_set<std::string> &allowed_joins = p.second;
+                        if( allowed_joins.empty() ) {
+                            debugmsg( "Nested placement in %s requires specific neighbor joins for direction %s but none are specified",
+                                      context, io::enum_to_string<cube_direction>( dir ) );
+                        }
+                        //TODO: Valid join ids aren't maintained outside of individual mutables right now
+                    }
+                }
+
                 bool test( const mapgendata &dat ) const {
-                    for( const std::pair<const cube_direction, cata::flat_set<std::string>> &p :
-                         neighbors ) {
+                    for( const std::pair<const cube_direction, cata::flat_set<std::string>> &p : neighbors ) {
                         const cube_direction dir = p.first;
                         const cata::flat_set<std::string> &allowed_joins = p.second;
 
@@ -4382,6 +4417,17 @@ class jmapgen_nested : public jmapgen_piece
                         optional( jsi, false, location, dir_neighbors );
                         if( !dir_neighbors.empty() ) {
                             neighbors[dir] = std::move( dir_neighbors );
+                        }
+                    }
+                }
+
+                void check( const std::string &context ) const {
+                    for( const std::pair<const direction, cata::flat_set<oter_flags>> &p : neighbors ) {
+                        const direction dir = p.first;
+                        const cata::flat_set<oter_flags> &allowed_flags = p.second;
+                        if( allowed_flags.empty() ) {
+                            debugmsg( "Nested placement in %s requires specific neighbor flags for direction %s but none are specified",
+                                      context, io::enum_to_string<direction>( dir ) );
                         }
                     }
                 }
@@ -4442,6 +4488,24 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
+                void check( const std::string &context ) const {
+                    if( allowed_predecessors.empty() ) {
+                        debugmsg( "Nested placement in %s requires specific predecessors but none are specified", context );
+                    }
+                    for( const std::pair<std::string, ot_match_type> &allowed_predecessor : allowed_predecessors ) {
+                        if( allowed_predecessor.second == ot_match_type::exact &&
+                            !oter_str_id( allowed_predecessor.first ).is_valid() ) {
+                            debugmsg( "Nested placement in %s requires invalid overmap terrain id %s", context,
+                                      allowed_predecessor.first );
+                        }
+                        if( allowed_predecessor.second == ot_match_type::type &&
+                            !oter_type_str_id( allowed_predecessor.first ).is_valid() ) {
+                            debugmsg( "Nested placement in %s requires invalid overmap terrain type id %s", context,
+                                      allowed_predecessor.first );
+                        }
+                    }
+                }
+
                 bool test( const mapgendata &dat ) const {
                     const std::vector<oter_id> predecessors = dat.get_predecessors();
                     for( const std::pair<std::string, ot_match_type> &allowed_predecessor : allowed_predecessors ) {
@@ -4464,6 +4528,11 @@ class jmapgen_nested : public jmapgen_piece
                     for( const JsonValue entry : jarr ) {
                         required_z.emplace( entry.get_int() );
                     }
+                    for( const int &z : required_z ) {
+                        if( z > OVERMAP_DEPTH || z < -OVERMAP_DEPTH ) {
+                            jarr.throw_error( string_format( "z level %d is outside the region defined depth limits", z ) );
+                        }
+                    }
                 }
 
                 bool test( const mapgendata &dat ) const {
@@ -4481,8 +4550,32 @@ class jmapgen_nested : public jmapgen_piece
         std::optional<correct_z_level_check> correct_z_level;
 
         template<typename T>
-        bool passes( const std::optional<T> &check, const mapgendata &dat ) const {
+        void check_checks_helper( const std::optional<T> &check, const std::string &context ) const {
+            if( !!check ) {
+                check->check( context );
+            }
+        };
+
+        void check_checks( const std::string &context ) const {
+            check_checks_helper( neighbor_oters, context );
+            check_checks_helper( neighbor_oters_any, context );
+            check_checks_helper( neighbor_joins, context );
+            check_checks_helper( neighbor_joins_any, context );
+            check_checks_helper( neighbor_flags, context );
+            check_checks_helper( neighbor_flags_any, context );
+            check_checks_helper( predecessors, context );
+        }
+
+        template<typename T>
+        bool use_entries_helper( const std::optional<T> &check, const mapgendata &dat ) const {
             return !check || check->test( dat );
+        };
+
+        bool use_entries( const mapgendata &dat ) const {
+            return use_entries_helper( neighbor_oters, dat ) && use_entries_helper( neighbor_oters_any, dat ) &&
+                   use_entries_helper( neighbor_joins, dat ) && use_entries_helper( neighbor_joins_any, dat ) &&
+                   use_entries_helper( neighbor_flags, dat ) && use_entries_helper( neighbor_flags_any, dat ) &&
+                   use_entries_helper( predecessors, dat ) && use_entries_helper( correct_z_level, dat );
         }
 
         weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> entries;
@@ -4534,10 +4627,7 @@ class jmapgen_nested : public jmapgen_piece
         }
         const weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> &get_entries(
         const mapgendata &dat ) const {
-            return passes( neighbor_oters, dat ) && passes( neighbor_oters_any, dat ) &&
-                   passes( neighbor_joins, dat ) && passes( neighbor_joins_any, dat ) &&
-                   passes( neighbor_flags, dat ) && passes( neighbor_flags_any, dat ) &&
-                   passes( predecessors, dat ) && passes( correct_z_level, dat ) ? entries : else_entries;
+            return use_entries( dat ) ? entries : else_entries;
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &context ) const override {
@@ -4596,6 +4686,8 @@ class jmapgen_nested : public jmapgen_piece
             for( const std::pair<mapgen_value<nested_mapgen_id>, dbl_or_var> &p : else_entries ) {
                 add_coords_from( p.first );
             }
+
+            check_checks( oter_name );
 
             point max_relative;
             nested_mapgen_id offending_nest_x;
