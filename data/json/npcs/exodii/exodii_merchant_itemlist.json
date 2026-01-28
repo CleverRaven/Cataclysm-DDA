@@ -483,6 +483,18 @@
     ]
   },
   {
+    "id": "exodii_do_not_pay_extra_for_makeshift_medicine",
+    "type": "item_group",
+    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bandages_makeshift", "prob": 1 },
+      { "item": "bandages_makeshift_boiled", "prob": 1 },
+      { "item": "bandages_makeshift_bleached", "prob": 1 },
+      { "item": "disinfectant_makeshift", "prob": 1 }
+    ]
+  },
+  {
     "id": "exodii_pay_extra_for_metals",
     "type": "item_group",
     "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
@@ -554,6 +566,29 @@
     "type": "item_group",
     "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
     "subtype": "collection",
-    "entries": [ { "distribution": [ { "group": "birth_control", "prob": 50 }, { "group": "estrogen_hrt", "prob": 3 } ], "prob": 95 } ]
+    "entries": [
+      { "item": "disinfectant", "prob": 1 },
+      { "item": "medical_gauze", "prob": 1 },
+      { "item": "bandages", "prob": 1 },
+      { "item": "liq_bandage_spray", "prob": 1 },
+      { "item": "chem_hydrogen_peroxide_conc", "prob": 1 },
+      { "item": "metaprolol", "prob": 1 },
+      { "item": "codeine", "prob": 1 },
+      { "item": "acetaminophen", "prob": 1 },
+      { "item": "ibuprofen", "prob": 1 },
+      { "item": "naproxen", "prob": 1 },
+      { "item": "antiparasitic", "prob": 1 },
+      { "item": "aspirin", "prob": 1 },
+      { "item": "antifungal", "prob": 1 },
+      { "item": "diazepam", "prob": 1 },
+      { "item": "antibiotics", "prob": 1 },
+      { "item": "strong_antibiotic", "prob": 1 },
+      { "item": "weak_antibiotic", "prob": 1 },
+      { "item": "panacea", "prob": 1 },
+      { "item": "morphine", "prob": 1 },
+      { "item": "tramadol", "prob": 1 },
+      { "item": "thorazine", "prob": 1 },
+      { "item": "quikclot", "prob": 1 }
+    ]
   }
 ]

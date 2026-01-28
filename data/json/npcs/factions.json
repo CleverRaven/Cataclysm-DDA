@@ -1110,6 +1110,7 @@
       { "group": "SUS_bathroom_sink", "price": 0 },
       { "group": "exodii_unwanted_bathroom_medicine", "price": 0 },
       { "group": "exodii_do_not_pay_extra_for_exodii_metal", "price": 0 },
+      { "group": "exodii_do_not_pay_extra_for_makeshift_medicine", "price": 0 },
       { "group": "SUS_toilet", "price": 0 },
       { "group": "SUS_bathroom_cabinet", "price": 0 },
       { "group": "SUS_dishes", "price": 0 },
