@@ -23,7 +23,7 @@
           "id": "spell_summon_bat_giant",
           "min_level": 1,
           "max_level": 6,
-          "message": "A gunshot-loud clicking sound fires out of your reinforced vocals, rolling and roiling across the barren terrain.  What demon could you possibly be speaking to?"
+          "message": "A gunshot-loud clicking sound fires out of your throat, rolling and roiling across the barren terrain.  What could you possibly be speaking to?"
         },
         "targeted": true
       }
