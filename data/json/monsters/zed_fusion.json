@@ -479,7 +479,7 @@
         "message": "Devourer can spawn clones until it's hp goes too low.",
         "type": "debug"
       },
-      { "u_cast_spell": { "id": "CLONE_DAMAGE" } }
+      { "u_cast_spell": { "id": "CLONE_DAMAGE" } },
       {
         "u_spawn_monster": "mon_spawn_daitya_clone",
         "real_count": 1,
