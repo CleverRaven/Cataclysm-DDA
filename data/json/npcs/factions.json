@@ -1104,9 +1104,12 @@
     "wealth": 75000000,
     "price_rules": [
       { "group": "games_board_all", "premium": 2.5 },
+      { "group": "exodii_pay_extra_for_metals", "premium": 4 },
+      { "group": "exodii_pay_extra_for_medicine", "premium": 4 },
       { "category": "clothing", "price": 0 },
       { "group": "SUS_bathroom_sink", "price": 0 },
       { "group": "exodii_unwanted_bathroom_medicine", "price": 0 },
+      { "group": "exodii_do_not_pay_extra_for_exodii_metal", "price": 0 },
       { "group": "SUS_toilet", "price": 0 },
       { "group": "SUS_bathroom_cabinet", "price": 0 },
       { "group": "SUS_dishes", "price": 0 },

@@ -481,5 +481,79 @@
         "prob": 50
       }
     ]
+  },
+  {
+    "id": "exodii_pay_extra_for_metals",
+    "type": "item_group",
+    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
+    "//2": "It does not include exodii-specific metal resources--the exodii don't buy those because they know where they came from.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "1l_aluminum", "prob": 1 },
+      { "item": "5l_aluminum", "prob": 1 },
+      { "item": "10l_aluminum", "prob": 1 },
+      { "item": "1l_brass", "prob": 1 },
+      { "item": "5l_brass", "prob": 1 },
+      { "item": "10l_brass", "prob": 1 },
+      { "item": "1l_bronze", "prob": 1 },
+      { "item": "5l_bronze", "prob": 1 },
+      { "item": "10l_bronze", "prob": 1 },
+      { "item": "1l_copper", "prob": 1 },
+      { "item": "5l_copper", "prob": 1 },
+      { "item": "10l_copper", "prob": 1 },
+      { "item": "1l_tin", "prob": 1 },
+      { "item": "5l_tin", "prob": 1 },
+      { "item": "10l_tin", "prob": 1 },
+      { "item": "1l_zinc", "prob": 1 },
+      { "item": "5l_zinc", "prob": 1 },
+      { "item": "10l_zinc", "prob": 1 },
+      { "item": "1l_gold", "prob": 1 },
+      { "item": "5l_gold", "prob": 1 },
+      { "item": "10l_gold", "prob": 1 },
+      { "item": "1l_silver", "prob": 1 },
+      { "item": "5l_silver", "prob": 1 },
+      { "item": "10l_silver", "prob": 1 },
+      { "item": "5l_iron", "prob": 1 },
+      { "item": "10l_iron", "prob": 1 },
+      { "item": "10l_zinc", "prob": 1 },
+      { "item": "1l_lead", "prob": 1 },
+      { "item": "5l_lead", "prob": 1 },
+      { "item": "10l_lead", "prob": 1 },
+      { "item": "1l_platinum", "prob": 1 },
+      { "item": "5l_platinum", "prob": 1 },
+      { "item": "10l_platinum", "prob": 1 },
+      { "item": "5l_steel", "prob": 1 },
+      { "item": "10l_steel", "prob": 1 },
+      { "item": "5l_budget_steel", "prob": 1 },
+      { "item": "10l_budget_steel", "prob": 1 },
+      { "item": "5l_lc_steel", "prob": 1 },
+      { "item": "10l_lc_steel", "prob": 1 },
+      { "item": "5l_mc_steel", "prob": 1 },
+      { "item": "10l_mc_steel", "prob": 1 },
+      { "item": "5l_hc_steel", "prob": 1 },
+      { "item": "10l_hc_steel", "prob": 1 }
+    ]
+  },
+  {
+    "id": "exodii_do_not_pay_extra_for_exodii_metal",
+    "type": "item_group",
+    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "exodii_ingot_tin", "prob": 1 },
+      { "item": "exodii_ingot_lc_steel", "prob": 1 },
+      { "item": "exodii_ingot_plastic", "prob": 1 },
+      { "item": "exodii_ingot_aluminum", "prob": 1 },
+      { "item": "exodii_ingot_copper", "prob": 1 },
+      { "item": "exodii_ingot_zinc", "prob": 1 },
+      { "item": "exodii_ingot_lead", "prob": 1 }
+    ]
+  },
+  {
+    "id": "exodii_pay_extra_for_medicine",
+    "type": "item_group",
+    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
+    "subtype": "collection",
+    "entries": [ { "distribution": [ { "group": "birth_control", "prob": 50 }, { "group": "estrogen_hrt", "prob": 3 } ], "prob": 95 } ]
   }
 ]
