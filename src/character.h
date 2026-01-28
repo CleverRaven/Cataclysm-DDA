@@ -324,33 +324,13 @@ struct queued_eocs {
     std::priority_queue<storage_iter, std::vector<storage_iter>, eoc_compare> queue;
     std::list<queued_eoc> list;
 
-    queued_eocs() = default;
+    queued_eocs();
 
-    queued_eocs( const queued_eocs &rhs ) {
-        list = rhs.list;
-        for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
-            queue.emplace( it );
-        }
-    };
-    queued_eocs( queued_eocs &&rhs ) noexcept {
-        queue.swap( rhs.queue );
-        list.swap( rhs.list );
-    }
+    queued_eocs( const queued_eocs &rhs );
+    queued_eocs( queued_eocs &&rhs ) noexcept;
 
-    queued_eocs &operator=( const queued_eocs &rhs ) {
-        list = rhs.list;
-        // Why doesn't std::priority_queue have a clear() function.
-        queue = {};
-        for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
-            queue.emplace( it );
-        }
-        return *this;
-    }
-    queued_eocs &operator=( queued_eocs &&rhs ) noexcept {
-        queue.swap( rhs.queue );
-        list.swap( rhs.list );
-        return *this;
-    }
+    queued_eocs &operator=( const queued_eocs &rhs );
+    queued_eocs &operator=( queued_eocs &&rhs ) noexcept;
 
     /* std::priority_queue compatibility layer where performance is less relevant */
 

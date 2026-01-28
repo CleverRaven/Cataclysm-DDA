@@ -387,6 +387,39 @@ int character_max_dex = 20;
 int character_max_per = 20;
 int character_max_int = 20;
 
+
+queued_eocs::queued_eocs() = default;
+
+queued_eocs::queued_eocs( const queued_eocs &rhs )
+{
+    list = rhs.list;
+    for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
+        queue.emplace( it );
+    }
+};
+queued_eocs::queued_eocs( queued_eocs &&rhs ) noexcept
+{
+    queue.swap( rhs.queue );
+    list.swap( rhs.list );
+}
+
+queued_eocs &queued_eocs::operator=( const queued_eocs &rhs )
+{
+    list = rhs.list;
+    // Why doesn't std::priority_queue have a clear() function.
+    queue = {};
+    for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
+        queue.emplace( it );
+    }
+    return *this;
+}
+queued_eocs &queued_eocs::operator=( queued_eocs &&rhs ) noexcept
+{
+    queue.swap( rhs.queue );
+    list.swap( rhs.list );
+    return *this;
+}
+
 void Character::queue_effects( const std::vector<effect_on_condition_id> &effects )
 {
     for( const effect_on_condition_id &eoc_id : effects ) {
