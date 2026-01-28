@@ -44,6 +44,7 @@
     "om_terrain": "nest_conditional_placement_test",
     "type": "mapgen",
     "object": {
+      "//BEFOREMERGE": "Need to update (and /tests)",
       "fill_ter": "t_linoleum_gray",
       "place_nested": [
         { "chunks": [ "1x1_ncpt" ], "x": 0, "y": 0 },

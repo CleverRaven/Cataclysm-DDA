@@ -4245,15 +4245,21 @@ class jmapgen_remove_all : public jmapgen_piece
 class jmapgen_nested : public jmapgen_piece
 {
     private:
-        class neighbor_oter_check
+        //TODO: These should all have bool check(), valid join ids aren't maintained outside of individual mutables right now tho
+        class nest_check
+        {
+            public:
+                virtual bool test( const mapgendata &dat ) const = 0;
+                virtual ~nest_check() = default;
+        };
+
+        class neighbor_oter_check : public nest_check
         {
             private:
                 std::unordered_map<direction, cata::flat_set<std::pair<std::string, ot_match_type>>> neighbors;
-                //TODO: Consider replacing with more flexible logical syntax
-                bool only_require_one;
+                bool only_require_one = false;
             public:
-                explicit neighbor_oter_check( const JsonObject &jsi, bool is_neighbors_any = false ) {
-                    only_require_one = is_neighbors_any;
+                void deserialize( const JsonObject &jsi ) {
                     for( direction dir : all_enum_values<direction>() ) {
                         std::string location = io::enum_to_string( dir );
                         cata::flat_set<std::pair<std::string, ot_match_type>> dir_neighbors;
@@ -4283,7 +4289,7 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
-                bool test( const mapgendata &dat ) const {
+                bool test( const mapgendata &dat ) const override {
                     for( const std::pair<const direction, cata::flat_set<std::pair<std::string, ot_match_type>>> &p :
                          neighbors ) {
                         const direction dir = p.first;
@@ -4309,19 +4315,23 @@ class jmapgen_nested : public jmapgen_piece
                             }
                         }
                     }
-                    return only_require_one ? neighbors.empty() : true;
+                    return !only_require_one;
                 }
         };
 
-        class neighbor_join_check
+        class neighbor_oter_any_check : public neighbor_oter_check
+        {
+            private:
+                bool only_require_one = false;
+        };
+
+        class neighbor_join_check : public nest_check
         {
             private:
                 std::unordered_map<cube_direction, cata::flat_set<std::string>> neighbors;
-                //TODO: Consider replacing with more flexible logical syntax
-                bool only_require_one;
+                bool only_require_one = false;
             public:
-                explicit neighbor_join_check( const JsonObject &jsi,, bool is_flags_any = false ) {
-                    only_require_one = is_flags_any;
+                void deserialize( const JsonObject &jsi ) {
                     for( cube_direction dir : all_enum_values<cube_direction>() ) {
                         cata::flat_set<std::string> dir_neighbors =
                             jsi.get_tags<std::string, cata::flat_set<std::string>>(
@@ -4332,11 +4342,7 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
-                void check( std::string_view, const mapgen_parameters & ) const {
-                    // TODO: check join ids are valid, currently there's no list of valid ids stored, mutables verify their own joins are valid to the ones they define and that's it
-                }
-
-                bool test( const mapgendata &dat ) const {
+                bool test( const mapgendata &dat ) const override {
                     for( const std::pair<const cube_direction, cata::flat_set<std::string>> &p :
                          neighbors ) {
                         const cube_direction dir = p.first;
@@ -4360,18 +4366,23 @@ class jmapgen_nested : public jmapgen_piece
                             }
                         }
                     }
-                    return only_require_one ? neighbors.empty() : true;
+                    return !only_require_one;
                 }
         };
-        class neighbor_flag_check
+
+        class neighbor_join_any_check : public neighbor_join_check
+        {
+            private:
+                bool only_require_one = false;
+        };
+
+        class neighbor_flag_check : public nest_check
         {
             private:
                 std::unordered_map<direction, cata::flat_set<oter_flags>> neighbors;
-                //TODO: Consider replacing with more flexible logical syntax
-                bool only_require_one;
+                bool only_require_one = false;
             public:
-                explicit neighbor_flag_check( const JsonObject &jsi, bool is_flags_any = false ) {
-                    only_require_one = is_flags_any;
+                void deserialize( const JsonObject &jsi )  {
                     for( direction dir : all_enum_values<direction>() ) {
                         cata::flat_set<oter_flags> dir_neighbors;
                         std::string location = io::enum_to_string( dir );
@@ -4382,7 +4393,7 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
-                bool test( const mapgendata &dat ) const {
+                bool test( const mapgendata &dat ) const override {
                     for( const std::pair<const direction, cata::flat_set<oter_flags>> &p :
                          neighbors ) {
                         const direction dir = p.first;
@@ -4407,16 +4418,22 @@ class jmapgen_nested : public jmapgen_piece
                             }
                         }
                     }
-                    return only_require_one ? neighbors.empty() : true;
+                    return !only_require_one;
                 }
         };
 
-        class predecessor_oter_check
+        class neighbor_flag_any_check : public neighbor_flag_check
+        {
+            private:
+                bool only_require_one = false;
+        };
+
+        class predecessor_oter_check : public nest_check
         {
             private:
                 cata::flat_set<std::pair<std::string, ot_match_type>> allowed_predecessors;
             public:
-                explicit predecessor_oter_check( const JsonArray &jarr ) {
+                void deserialize( const JsonArray &jarr ) {
                     for( const JsonValue entry : jarr ) {
                         std::pair<std::string, ot_match_type> allowed_predecessor;
                         if( entry.test_string() ) {
@@ -4432,7 +4449,7 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
-                bool test( const mapgendata &dat ) const {
+                bool test( const mapgendata &dat ) const override {
                     const std::vector<oter_id> predecessors = dat.get_predecessors();
                     for( const std::pair<std::string, ot_match_type> &allowed_predecessor : allowed_predecessors ) {
                         for( const oter_id &predecessor : predecessors ) {
@@ -4441,44 +4458,52 @@ class jmapgen_nested : public jmapgen_piece
                             }
                         }
                     }
-                    return allowed_predecessors.empty();
+                    return false;
                 }
         };
-        class correct_z_level_check
+
+        class correct_z_level_check : public nest_check
         {
             private:
                 std::unordered_set<int> required_z;
             public:
-                explicit correct_z_level_check( const JsonArray &jarr ) {
+                void deserialize( const JsonArray &jarr ) {
                     for( const JsonValue entry : jarr ) {
                         required_z.emplace( entry.get_int() );
                     }
                 }
-                bool test( const mapgendata &dat ) const {
-                    return required_z.empty() || required_z.count( dat.zlevel() ) == 1;
+
+                bool test( const mapgendata &dat ) const override {
+                    return required_z.count( dat.zlevel() ) == 1;
                 }
         };
 
-    public:
+        std::optional<neighbor_oter_check> neighbor_oters;
+        std::optional<neighbor_oter_any_check> neighbor_oters_any;
+        std::optional<neighbor_join_check> neighbor_joins;
+        std::optional<neighbor_join_any_check> neighbor_joins_any;
+        std::optional<neighbor_flag_check> neighbor_flags;
+        std::optional<neighbor_flag_any_check> neighbor_flags_any;
+        std::optional<predecessor_oter_check> predecessors;
+        std::optional<correct_z_level_check> correct_z_level;
+
+        template<typename T>
+        bool passes( const std::optional<T> &check, const mapgendata &dat ) const {
+            return !check || check->test( dat );
+        }
+
         weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> entries;
         weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> else_entries;
-        neighbor_oter_check neighbor_oters;
-        neighbor_oter_check neighbor_oters_any;
-        neighbor_join_check neighbor_joins;
-        neighbor_join_check neighbor_joins_any;
-        neighbor_flag_check neighbor_flags;
-        neighbor_flag_check neighbor_flags_any;
-        predecessor_oter_check predecessors;
-        correct_z_level_check correct_z_level;
-        jmapgen_nested( const JsonObject &jsi, std::string_view/*context*/ )
-            : neighbor_oters( jsi.get_object( "neighbors" ) )
-            , neighbor_oters_any( jsi.get_object( "neighbors_any" ), true )
-            , neighbor_joins( jsi.get_object( "joins" ) )
-            , neighbor_joins_any( jsi.get_object( "joins_any" ), true )
-            , neighbor_flags( jsi.get_object( "flags" ) )
-            , neighbor_flags_any( jsi.get_object( "flags_any" ), true )
-            , predecessors( jsi.get_array( "predecessors" ) )
-            , correct_z_level( jsi.get_array( "check_z" ) ) {
+    public:
+        jmapgen_nested( const JsonObject &jsi, std::string_view/*context*/ ) {
+            optional( jsi, false, "neighbors", neighbor_oters );
+            optional( jsi, false, "neighbors_any", neighbor_oters_any );
+            optional( jsi, false, "joins", neighbor_joins );
+            optional( jsi, false, "joins_any", neighbor_joins_any );
+            optional( jsi, false, "flags", neighbor_flags );
+            optional( jsi, false, "flags_any", neighbor_flags_any );
+            optional( jsi, false, "predecessors", predecessors );
+            optional( jsi, false, "check_z", correct_z_level );
             if( jsi.has_member( "chunks" ) ) {
                 entries.load( jsi.get_member( "chunks" ), 100 );
             }
@@ -4516,14 +4541,10 @@ class jmapgen_nested : public jmapgen_piece
         }
         const weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> &get_entries(
         const mapgendata &dat ) const {
-            if( neighbor_oters.test( dat ) && neighbor_oters_any.test( dat ) &&
-                neighbor_joins.test( dat ) && neighbor_joins_any.test( dat ) &&
-                neighbor_flags.test( dat ) && neighbor_flags_any.test( dat ) &&
-                predecessors.test( dat ) && correct_z_level.test( dat ) ) {
-                return entries;
-            } else {
-                return else_entries;
-            }
+            return passes( neighbor_oters, dat ) && passes( neighbor_oters_any, dat ) &&
+                   passes( neighbor_joins, dat ) && passes( neighbor_joins_any, dat ) &&
+                   passes( neighbor_flags, dat ) && passes( neighbor_flags_any, dat ) &&
+                   passes( predecessors, dat ) && passes( correct_z_level, dat ) ? entries : else_entries;
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &context ) const override {
@@ -4561,7 +4582,6 @@ class jmapgen_nested : public jmapgen_piece
             for( const std::pair<mapgen_value<nested_mapgen_id>, dbl_or_var> &p : entries ) {
                 p.first.check( oter_name, parameters );
             }
-            neighbor_joins.check( oter_name, parameters );
 
             // Check whether any of the nests can attempt to place stuff out of
             // bounds
