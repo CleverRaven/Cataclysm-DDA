@@ -356,5 +356,11 @@
     "id": "werewolf_tier_five_traits",
     "num_args": 0,
     "return": "u_has_trait('WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM') + u_has_trait('WEREWOLF_CLOSE_TEAR_IN_REALITY') + u_has_trait('WEREWOLF_WALK_THROUGH_WALLS') + u_has_trait('WEREWOLF_SUMMON_SHADOW_PACK')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "lucid_dreaming_proficiency_modifier",
+    "num_args": 1,
+    "return": "( (u_proficiency('prof_lucid_dreaming', 'format': 'percent') / 1000) ) * _0"
   }
 ]
