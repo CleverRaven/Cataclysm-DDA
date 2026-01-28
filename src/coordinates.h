@@ -960,6 +960,14 @@ inline int octile_dist( const coords::coord_point_ob<Point, Origin, Scale> &loc1
     return octile_dist( loc1.raw(), loc2.raw(), multiplier );
 }
 
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+inline float octile_dist_exact( const coords::coord_point<Point, Origin, Scale> &loc1,
+                                const coords::coord_point<Point, Origin, Scale> &loc2 )
+{
+    return octile_dist_exact( loc1.raw(), loc2.raw() );
+}
+
 template<typename Point, coords::origin Origin, coords::scale Scale>
 direction direction_from( const coords::coord_point_ob<Point, Origin, Scale> &loc1,
                           const coords::coord_point_ob<Point, Origin, Scale> &loc2 )
