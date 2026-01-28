@@ -1305,11 +1305,11 @@
   {
     "type": "mutation",
     "id": "perk_unopenable_grip",
-    "name": { "str": "Unopenable grip" },
+    "name": { "str": "Unopenable Grip" },
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "After being stolen the things you held in your hands countless times, your grip became strong enough to keep anything in your hands as long as you will it.  Activate to toggle the ability to drop your held item.",
+    "description": "After having things you held in your hands stolen countless times, your grip became strong enough to keep anything in your hands as long as you will it.  Activate to toggle the ability to drop your held item.",
     "category": [ "perk" ],
     "active": true,
     "activated_is_setup": false,
@@ -1317,8 +1317,17 @@
   },
   {
     "type": "mutation",
+    "id": "perk_boomstick_blast",
+    "name": { "str": "Boomstick Blast" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "People hit by shotgun blasts always seem to go flying in actions movies, but it doesn't work that way in real life.  At least, it didn't.\n\nWhen you damage a target within 2 squares using a shotgun and do at least 15 damage, your target will suffer knockback."
+  },
+  {
+    "type": "mutation",
     "id": "perk_radio_infusion",
-    "name": { "str": "Radioactive infusion" },
+    "name": { "str": "Radioactive Infusion" },
     "points": 0,
     "purifiable": false,
     "valid": false,
