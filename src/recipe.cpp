@@ -771,7 +771,7 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
         newit.set_itype_variant( variant() );
     }
 
-    if (preserve_variant && variant().empty() && used != nullptr) {
+    if( preserve_variant && variant().empty() && used != nullptr ) {
 
         for( const auto &component_pair : *used ) {
 
