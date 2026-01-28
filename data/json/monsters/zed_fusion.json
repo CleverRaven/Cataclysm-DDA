@@ -614,7 +614,7 @@
     "id": "mon_enwrapped_clone",
     "type": "MONSTER",
     "name": { "str": "tongue wrapped daitya clone" },
-    "description": "A great tendril of mutated flesh and sharpened bone.  Emerging from a crevice in the ruined floor, hundreds of human limbs seek freedom and writhe incessantly from underneath its grotesque carapace.  As enormous as it may be, you feel certain that this is just part of a much bigger creature, for when it moves, you can feel this whole ruin tremble, as though an unseen giant is struggling against the weight of its concrete tomb.",
+    "description": "The Daitya clone is fully enwrapped by the extended tongue of the Daitya.  Now is the moment of stillness between movements.",
     "default_faction": "zombie",
     "volume": "62500 ml",
     "weight": "81500 g",
