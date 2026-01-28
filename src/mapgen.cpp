@@ -4246,14 +4246,7 @@ class jmapgen_nested : public jmapgen_piece
 {
     private:
         //TODO: These should all have bool check(), valid join ids aren't maintained outside of individual mutables right now tho
-        class nest_check
-        {
-            public:
-                virtual bool test( const mapgendata &dat ) const = 0;
-                virtual ~nest_check() = default;
-        };
-
-        class neighbor_oter_check : public nest_check
+        class neighbor_oter_check
         {
             private:
                 std::unordered_map<direction, cata::flat_set<std::pair<std::string, ot_match_type>>> neighbors;
@@ -4289,7 +4282,7 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
-                bool test( const mapgendata &dat ) const override {
+                bool test( const mapgendata &dat ) const {
                     for( const std::pair<const direction, cata::flat_set<std::pair<std::string, ot_match_type>>> &p :
                          neighbors ) {
                         const direction dir = p.first;
@@ -4325,7 +4318,7 @@ class jmapgen_nested : public jmapgen_piece
                 bool only_require_one = false;
         };
 
-        class neighbor_join_check : public nest_check
+        class neighbor_join_check
         {
             private:
                 std::unordered_map<cube_direction, cata::flat_set<std::string>> neighbors;
@@ -4342,7 +4335,7 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
-                bool test( const mapgendata &dat ) const override {
+                bool test( const mapgendata &dat ) const {
                     for( const std::pair<const cube_direction, cata::flat_set<std::string>> &p :
                          neighbors ) {
                         const cube_direction dir = p.first;
@@ -4376,7 +4369,7 @@ class jmapgen_nested : public jmapgen_piece
                 bool only_require_one = false;
         };
 
-        class neighbor_flag_check : public nest_check
+        class neighbor_flag_check
         {
             private:
                 std::unordered_map<direction, cata::flat_set<oter_flags>> neighbors;
@@ -4393,7 +4386,7 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
-                bool test( const mapgendata &dat ) const override {
+                bool test( const mapgendata &dat ) const {
                     for( const std::pair<const direction, cata::flat_set<oter_flags>> &p :
                          neighbors ) {
                         const direction dir = p.first;
@@ -4428,7 +4421,7 @@ class jmapgen_nested : public jmapgen_piece
                 bool only_require_one = false;
         };
 
-        class predecessor_oter_check : public nest_check
+        class predecessor_oter_check
         {
             private:
                 cata::flat_set<std::pair<std::string, ot_match_type>> allowed_predecessors;
@@ -4449,7 +4442,7 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
-                bool test( const mapgendata &dat ) const override {
+                bool test( const mapgendata &dat ) const {
                     const std::vector<oter_id> predecessors = dat.get_predecessors();
                     for( const std::pair<std::string, ot_match_type> &allowed_predecessor : allowed_predecessors ) {
                         for( const oter_id &predecessor : predecessors ) {
@@ -4462,7 +4455,7 @@ class jmapgen_nested : public jmapgen_piece
                 }
         };
 
-        class correct_z_level_check : public nest_check
+        class correct_z_level_check
         {
             private:
                 std::unordered_set<int> required_z;
@@ -4473,7 +4466,7 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
-                bool test( const mapgendata &dat ) const override {
+                bool test( const mapgendata &dat ) const {
                     return required_z.count( dat.zlevel() ) == 1;
                 }
         };
