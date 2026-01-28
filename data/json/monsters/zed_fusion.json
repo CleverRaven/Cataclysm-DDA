@@ -685,7 +685,7 @@
     "max_damage": 3000,
     "shape": "blast",
     "effect": "banishment",
-    "extra_effects": [ { "id": "HEAL_DAITYA" } ],
+    "extra_effects": [ { "id": "HEAL_DAITYA" } ]
   },
   {
     "id": "HEAL_DAITYA",
