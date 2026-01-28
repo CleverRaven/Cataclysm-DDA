@@ -177,7 +177,7 @@
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "name": { "str": "UMP-45 20-round makeshift magazine" },
-    "description": "An improvised 20-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the H&K UMP45 SMG.",
+    "description": "An improvised 20-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the H&K UMP-45 SMG.",
     "weight": "302 g",
     "volume": "252 ml",
     "longest_side": "268 mm",
