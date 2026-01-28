@@ -543,6 +543,11 @@ effect talker_character_const::get_effect( const efftype_id &effect_id,
     return me_chr_const->get_effect( effect_id, bp );
 }
 
+float talker_character_const::get_limb_score( const limb_score_id &score, const bp_type &bp ) const
+{
+    return me_chr_const->get_limb_score( score, bp );
+}
+
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
                                    const std::string &bp, bool permanent, bool force,
                                    int intensity )

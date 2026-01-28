@@ -230,6 +230,15 @@ double effect_intensity_eval( const_dialogue const &d, char scope,
     return target.is_null() ? -1 : target.get_intensity();
 }
 
+double limb_score_eval( const_dialogue const &d, char scope,
+                        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    const limb_score_id ls( params[0].str( d ) );
+    const bp_type bp_t = io::string_to_enum<bp_type>( kwargs.kwarg_or( "type" ).str( d ) );
+
+    return d.const_actor( is_beta( scope ) )->get_limb_score( ls, bp_t );
+}
+
 double encumbrance_eval( const_dialogue const &d, char scope, std::vector<diag_value> const &params,
                          diag_kwargs const & /* kwargs */ )
 {
@@ -1696,6 +1705,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "distance", { "g", 2, distance_eval } },
     { "effect_intensity", { "un", 1, effect_intensity_eval, {}, { "bodypart" } } },
     { "effect_duration", { "un", 1, effect_duration_eval, {}, { "bodypart", "unit" } } },
+    { "limb_score", { "un", 1, limb_score_eval, {}, { "type" } } },
     { "health", { "un", 0, health_eval, health_ass } },
     { "encumbrance", { "un", 1, encumbrance_eval } },
     { "energy", { "g", 1, energy_eval } },
