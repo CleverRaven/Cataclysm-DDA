@@ -38,6 +38,7 @@
     ],
     "shopkeeper_price_rules": [ { "group": "EXODII_Shop_Guns_caotel", "markup": 10 }, { "item": "caotel_cell_spent", "fixed_adj": 80 } ],
     "shopkeeper_consumption_rates": "basic_shop_rates",
+    "shopkeeper_blacklist": "cyborg_type_9_shopkeep_blacklist",
     "weapon_override": "brogyeki_weapon_override",
     "worn_override": "EMPTY_GROUP",
     "skills": [
@@ -59,6 +60,11 @@
     "subtype": "collection",
     "id": "brogyeki_weapon_override",
     "entries": [ { "item": "brogyeki", "charges": 2 } ]
+  },
+  {
+    "type": "shopkeeper_blacklist",
+    "id": "cyborg_type_9_shopkeep_blacklist",
+    "entries": [ { "group": "exodii_do_not_buy_ammo_blacklist" } ]
   },
   {
     "type": "mutation",
