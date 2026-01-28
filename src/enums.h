@@ -543,4 +543,16 @@ struct enum_traits<bp_type> {
     static constexpr bp_type last = bp_type::num_types;
 };
 
+enum class surroundings_menu_tab_enum : int {
+    items = 0,
+    monsters,
+    terfurn,
+    num_tabs
+};
+
+template<>
+struct enum_traits<surroundings_menu_tab_enum> {
+    static constexpr surroundings_menu_tab_enum last = surroundings_menu_tab_enum::num_tabs;
+};
+
 #endif // CATA_SRC_ENUMS_H

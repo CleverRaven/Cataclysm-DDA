@@ -117,8 +117,6 @@ static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" 
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
-static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
-static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -1683,10 +1681,10 @@ static void loot()
             player_character.assign_activity( multi_chop_planks_activity_actor() );
             break;
         case Multideconvehicle:
-            player_character.assign_activity( ACT_VEHICLE_DECONSTRUCTION );
+            player_character.assign_activity( multi_vehicle_deconstruct_activity_actor() );
             break;
         case Multirepairvehicle:
-            player_character.assign_activity( ACT_VEHICLE_REPAIR );
+            player_character.assign_activity( multi_vehicle_repair_activity_actor() );
             break;
         case MultiButchery:
             player_character.assign_activity( ACT_MULTIPLE_BUTCHER );

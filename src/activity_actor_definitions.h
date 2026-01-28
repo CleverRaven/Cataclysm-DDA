@@ -216,6 +216,46 @@ class multi_chop_trees_activity_actor : public multi_zone_activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue & );
 };
 
+class multi_vehicle_deconstruct_activity_actor : public multi_zone_activity_actor
+{
+    public:
+        using multi_zone_activity_actor::multi_zone_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
+            return ACT_VEHICLE_DECONSTRUCTION;
+        }
+        activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) override;
+        std::optional<requirement_id> multi_activity_requirements( Character &you,
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+        bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<multi_vehicle_deconstruct_activity_actor>( *this );
+        }
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+};
+
+class multi_vehicle_repair_activity_actor : public multi_zone_activity_actor
+{
+    public:
+        using multi_zone_activity_actor::multi_zone_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
+            return ACT_VEHICLE_REPAIR;
+        }
+        activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) override;
+        std::optional<requirement_id> multi_activity_requirements( Character &you,
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+        bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<multi_vehicle_repair_activity_actor>( *this );
+        }
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+};
+
 class aim_activity_actor : public activity_actor
 {
     private:

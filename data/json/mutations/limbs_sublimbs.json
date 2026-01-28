@@ -52,11 +52,41 @@
   {
     "id": "tail_fluffy_tip",
     "type": "sub_body_part",
-    "name": "long tail tip",
+    "name": "fluffy tail tip",
     "name_multiple": "fluffy tail tips",
     "max_coverage": 30,
     "parent": "tail_fluffy",
     "side": 0,
     "opposite": "tail_fluffy_base"
+  },
+  {
+    "id": "tail_scorpion_base",
+    "type": "sub_body_part",
+    "name": "scorpion tail base",
+    "name_multiple": "scorpion tail bases",
+    "max_coverage": 10,
+    "parent": "tail_scorpion",
+    "side": 0,
+    "opposite": "tail_scorpion_stinger"
+  },
+  {
+    "id": "tail_scorpion_center",
+    "type": "sub_body_part",
+    "name": "scorpion tail center",
+    "name_multiple": "scorpion tail centers",
+    "max_coverage": 60,
+    "parent": "tail_scorpion",
+    "side": 0,
+    "opposite": "tail_scorpion_center"
+  },
+  {
+    "id": "tail_scorpion_stinger",
+    "type": "sub_body_part",
+    "name": "scorpion tail stinger",
+    "name_multiple": "scorpion tail stingers",
+    "max_coverage": 30,
+    "parent": "tail_scorpion",
+    "side": 0,
+    "opposite": "tail_scorpion_base"
   }
 ]

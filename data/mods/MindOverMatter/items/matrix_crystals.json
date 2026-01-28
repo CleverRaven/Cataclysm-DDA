@@ -387,6 +387,20 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "id": "matrix_crystal_vitakinesis_artifact",
+    "name": { "str_sp": "strange crystal, green" },
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing green light in its depths.  Holding it, you feel healthier.",
+    "color": "green",
+    "symbol": "+",
+    "volume": "10 ml",
+    "weight": "150 g",
+    "longest_side": "21 mm",
+    "looks_like": "matrix_crystal_vitakinesis",
+    "flags": [ "MATRIX_CRYSTAL_VITAKINESIS", "RELIC_PINK" ]
+  },
+  {
+    "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_drained",
     "name": { "str_sp": "strange crystal, black" },
