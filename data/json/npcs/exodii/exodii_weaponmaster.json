@@ -64,7 +64,23 @@
   {
     "type": "shopkeeper_blacklist",
     "id": "cyborg_type_9_shopkeep_blacklist",
-    "entries": [ { "group": "exodii_do_not_buy_ammo_blacklist" } ]
+    "entries": [
+      { "group": "exodii_do_not_buy_ammo_blacklist" },
+      { "category": "clothing" },
+      { "group": "SUS_bathroom_sink" },
+      { "group": "exodii_unwanted_bathroom_medicine" },
+      { "group": "exodii_do_not_pay_extra_for_exodii_metal" },
+      { "group": "exodii_do_not_pay_extra_for_makeshift_medicine" },
+      { "group": "SUS_toilet" },
+      { "group": "SUS_bathroom_cabinet" },
+      { "group": "SUS_dishes" },
+      { "group": "SUS_cookware" },
+      { "group": "SUS_utensils" },
+      { "group": "SUS_junk_drawer" },
+      { "group": "SUS_junk_drawer_messy" },
+      { "group": "SUS_junk_drawer_artsy" },
+      { "group": "SUS_kitchen_sink" }
+    ]
   },
   {
     "type": "mutation",
