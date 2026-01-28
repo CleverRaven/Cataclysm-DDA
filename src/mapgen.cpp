@@ -4306,6 +4306,10 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
+                void set_any() {
+                    only_require_one = true;
+                }
+
                 bool test( const mapgendata &dat ) const {
                     for( const std::pair<const direction, cata::flat_set<std::pair<std::string, ot_match_type>>> &p :
                          neighbors ) {
@@ -4335,12 +4339,6 @@ class jmapgen_nested : public jmapgen_piece
                     }
                     return !only_require_one;
                 }
-        };
-
-        class neighbor_oter_any_check : public neighbor_oter_check
-        {
-            private:
-                bool only_require_one = true;
         };
 
         class neighbor_join_check
@@ -4541,7 +4539,7 @@ class jmapgen_nested : public jmapgen_piece
         };
 
         std::optional<neighbor_oter_check> neighbor_oters;
-        std::optional<neighbor_oter_any_check> neighbor_oters_any;
+        std::optional<neighbor_oter_check> neighbor_oters_any;
         std::optional<neighbor_join_check> neighbor_joins;
         std::optional<neighbor_join_check> neighbor_joins_any;
         std::optional<neighbor_flag_check> neighbor_flags;
@@ -4584,6 +4582,9 @@ class jmapgen_nested : public jmapgen_piece
         jmapgen_nested( const JsonObject &jsi, std::string_view/*context*/ ) {
             optional( jsi, false, "neighbors", neighbor_oters );
             optional( jsi, false, "neighbors_any", neighbor_oters_any );
+            if( !!neighbor_oters_any ) {
+                neighbor_oters_any->set_any();
+            }
             optional( jsi, false, "joins", neighbor_joins );
             optional( jsi, false, "joins_any", neighbor_joins_any );
             if( !!neighbor_joins_any ) {
