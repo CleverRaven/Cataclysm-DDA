@@ -250,16 +250,16 @@ bool trap::detected_by_echolocation() const
 bool trap::detect_trap( const tripoint_bub_ms &pos, const Character &p ) const
 {
     // * Buried landmines, the silent killer, have a visibility of 10.
-    // Assuming no knowledge of traps or proficiencies, and average per/int (8 each),
+    // Assuming no knowledge of traps or proficiencies, and average perception/intelligence (8 each),
     // most characters will get a mean_roll of 6.5 against a trap that is one tile away.
-    // With a std deviation of 3, that leaves a ~12% chance of spotting a landmine when you are next to it (per turn).
+    // With a std deviation of 3, that leaves a ~12% chance per turn of spotting a landmine when you are next to it.
     // This gets worse if you are sleep deprived, or can't see as well.
     // Obviously it rapidly gets better as your skills improve, with most of the improvement coming from proficiencies.
 
     // Devices skill is helpful for spotting traps
     const float traps_skill_level = p.get_skill_level( skill_traps );
 
-    // Perception is the main stat for spotting traps, int helps a bit.
+    // Perception is the main stat for spotting traps, intelligence helps a bit.
     // In this case, stats are more important than skills.
     const float weighted_stat_average = ( 4.0f * p.per_cur + p.int_cur ) / 5.0f;
 
