@@ -158,6 +158,104 @@ class multi_mine_activity_actor : public multi_zone_activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue & );
 };
 
+class multi_mop_activity_actor : public multi_zone_activity_actor
+{
+    public:
+        using multi_zone_activity_actor::multi_zone_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
+            return ACT_MULTIPLE_MOP;
+        }
+        activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) override;
+        bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<multi_mop_activity_actor>( *this );
+        }
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+};
+
+class multi_chop_planks_activity_actor : public multi_zone_activity_actor
+{
+    public:
+        using multi_zone_activity_actor::multi_zone_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
+            return ACT_MULTIPLE_CHOP_PLANKS;
+        }
+        activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) override;
+        std::optional<requirement_id> multi_activity_requirements( Character &you,
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+        bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<multi_chop_planks_activity_actor>( *this );
+        }
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+};
+
+class multi_chop_trees_activity_actor : public multi_zone_activity_actor
+{
+    public:
+        using multi_zone_activity_actor::multi_zone_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+            return ACT_MULTIPLE_CHOP_TREES;
+        }
+        activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) override;
+        std::optional<requirement_id> multi_activity_requirements( Character &you,
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+        bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<multi_chop_trees_activity_actor>( *this );
+        }
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+};
+
+class multi_vehicle_deconstruct_activity_actor : public multi_zone_activity_actor
+{
+    public:
+        using multi_zone_activity_actor::multi_zone_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
+            return ACT_VEHICLE_DECONSTRUCTION;
+        }
+        activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) override;
+        std::optional<requirement_id> multi_activity_requirements( Character &you,
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+        bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<multi_vehicle_deconstruct_activity_actor>( *this );
+        }
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+};
+
+class multi_vehicle_repair_activity_actor : public multi_zone_activity_actor
+{
+    public:
+        using multi_zone_activity_actor::multi_zone_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
+            return ACT_VEHICLE_REPAIR;
+        }
+        activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) override;
+        std::optional<requirement_id> multi_activity_requirements( Character &you,
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+        bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<multi_vehicle_repair_activity_actor>( *this );
+        }
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+};
+
 class aim_activity_actor : public activity_actor
 {
     private:
@@ -932,15 +1030,17 @@ class lockpick_activity_actor : public activity_actor
     public:
         /** Use regular lockpick. */
         static lockpick_activity_actor use_item(
-            int moves_total,
             const item_location &lockpick,
-            const tripoint_abs_ms &target
+            const tripoint_abs_ms &target,
+            const Character &who
         );
 
         /** Use bionic lockpick. */
         static lockpick_activity_actor use_bionic(
             const tripoint_abs_ms &target
         );
+
+        static int lockpicking_moves( const item_location &lockpick, const Character &who );
 
         const activity_id &get_type() const override {
             static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
@@ -3632,6 +3732,7 @@ class zone_sort_activity_actor : public zone_activity_actor
         std::vector<item_location> picked_up_stuff;
         // Place(s) that the current stuff can be dropped off at.
         std::vector<tripoint_abs_ms> dropoff_coords;
+        bool pickup_failure_reported = false;
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

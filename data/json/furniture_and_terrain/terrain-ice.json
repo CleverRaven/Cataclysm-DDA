@@ -20,6 +20,7 @@
     "symbol": "/",
     "color": "cyan",
     "move_cost": 2,
+    "trap": "tr_thick_ice",
     "bash": { "str_min": 80, "str_max": 180, "sound": "crack!", "ter_set": "t_water_sh" },
     "flags": [ "THICK_ICE", "TRANSPARENT", "FLAT", "PHASE_BACK", "SWIM_UNDER" ]
   },
@@ -44,6 +45,7 @@
     "symbol": "/",
     "color": "cyan",
     "move_cost": 2,
+    "trap": "tr_thick_ice",
     "bash": { "str_min": 80, "str_max": 180, "sound": "crack!", "ter_set": "t_water_dp" },
     "flags": [ "THICK_ICE", "TRANSPARENT", "FLAT", "PHASE_BACK", "SWIM_UNDER" ]
   },

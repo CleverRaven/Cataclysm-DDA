@@ -336,13 +336,9 @@ static const mtype_id mon_vortex( "mon_vortex" );
 static const mutation_category_id mutation_category_CATTLE( "CATTLE" );
 static const mutation_category_id mutation_category_MYCUS( "MYCUS" );
 
-static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
-static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
-
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_GLARE( "GLARE" );
 static const quality_id qual_HOTPLATE( "HOTPLATE" );
-static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
 static const quality_id qual_SCREW_FINE( "SCREW_FINE" );
 
@@ -353,7 +349,6 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
-static const skill_id skill_traps( "traps" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
@@ -3190,32 +3185,10 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint_bub_m
         return std::nullopt;
     }
 
-    int qual = it->get_quality( qual_LOCKPICK );
-    if( qual < 1 ) {
-        debugmsg( "Item %s with 'PICK_LOCK' use action requires LOCKPICK quality of at least 1.",
-                  it->typeId().c_str() );
-        qual = 1;
-    }
-
-    /** @EFFECT_DEX speeds up door lock picking */
-    /** @EFFECT_LOCKPICK speeds up door lock picking */
-    int duration_proficiency_factor = 10;
-
-    if( you.has_proficiency( proficiency_prof_lockpicking ) ) {
-        duration_proficiency_factor = 5;
-    }
-    if( you.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
-        duration_proficiency_factor = 1;
-    }
-    time_duration duration = 5_seconds;
-    if( !it->has_flag( flag_PERFECT_LOCKPICK ) ) {
-        duration = std::max( 30_seconds,
-                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( you.dex_cur ) / 4.0f +
-                                     you.get_skill_level( skill_traps ) ) ) * duration_proficiency_factor );
-    }
-
-    you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
-                         item_location( you, it ), get_map().get_abs( *target ) ) );
+    you.assign_activity( lockpick_activity_actor::use_item( item_location( you, it ),
+                         get_map().get_abs( *target ),
+                         *p
+                                                          ) );
     return 1;
 }
 
@@ -4768,10 +4741,23 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint_bub_ms 
         }
         return std::nullopt;
     }
+    // Assign activity to calculate total_moves via ::start _before_ asking for confirmation.
     if( p->pos_bub() == it_pnt ) {
         p->assign_activity( hacksaw_activity_actor( pnt, item_location{ *p, it } ) );
     } else {
         p->assign_activity( hacksaw_activity_actor( pnt, it->typeId(), it_pnt ) );
+    }
+
+    std::string query = string_format( _( "Cut up metal using your %1$s?" ), it->tname() );
+    query += "\n";
+    query += _( "Time to complete: " );
+    int required_moves = p->activity.moves_total;
+    time_duration required_time = time_duration::from_turns( required_moves / p->get_speed() );
+    const std::string time_string = colorize( to_string( required_time, true ), c_light_gray );
+    query += time_string;
+
+    if( !query_yn( query ) ) {
+        p->cancel_activity();
     }
 
     return std::nullopt;

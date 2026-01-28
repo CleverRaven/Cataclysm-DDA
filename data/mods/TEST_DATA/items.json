@@ -5615,5 +5615,21 @@
     "damage": { "damage_type": "heat", "amount": 15, "armor_penetration": 30 },
     "range": 6,
     "effects": [ "FLAME", "STREAM_BIG", "IGNITE", "NEVER_MISFIRES" ]
+  },
+  {
+    "id": "test_lockpick",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "tools",
+    "name": { "str": "test lockpick" },
+    "description": "A lockpick made specifically for testing lockpicking mechanics.",
+    "weight": "23 g",
+    "volume": "5 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "LOCKPICK", 3 ] ]
   }
 ]

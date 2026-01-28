@@ -1,0 +1,151 @@
+[
+  {
+    "id": "mission_science_rep_secure_usb_blank",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "usb_drive_nano", "variables": [ { "browsed": "true" } ] } ]
+  },
+  {
+    "id": "eoc_mission_science_rep_computer",
+    "type": "effect_on_condition",
+    "effect": [ "open_dialogue" ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "mission_science_rep_2_computer_main",
+    "dynamic_line": {
+      "u_has_mission": "MISSION_SCIENCE_REP_2",
+      "yes": "The computer awaits your input",
+      "no": "You don't see anything useful available on this computer."
+    },
+    "responses": [
+      {
+        "text": "Access Lab Data",
+        "topic": "mission_science_rep_2_computer_download",
+        "condition": { "u_has_mission": "MISSION_SCIENCE_REP_2" }
+      },
+      { "text": "Power off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "mission_science_rep_2_computer_download",
+    "dynamic_line": {
+      "u_has_item": "usb_drive_nano",
+      "yes": "The lab data is ready to download.",
+      "no": "You don't have the right device to download the lab data."
+    },
+    "responses": [
+      {
+        "text": "Download Lab Data",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "usb_drive_nano" },
+        "effect": [
+          { "u_consume_item": "usb_drive_nano" },
+          { "u_spawn_item": "mission_science_rep_2_secure_usb_download", "use_item_group": true }
+        ]
+      },
+      { "text": "Power off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "mission_science_rep_2_secure_usb_download",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "usb_drive_nano", "contents-item": "software_lab_data", "variables": [ { "browsed": "true" } ] } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "mission_science_rep_3_computer_main",
+    "dynamic_line": {
+      "u_has_mission": "MISSION_SCIENCE_REP_3",
+      "yes": "The computer awaits your input",
+      "no": "You don't see anything useful available on this computer."
+    },
+    "responses": [
+      {
+        "text": "Access Encryption Codes",
+        "topic": "mission_science_rep_3_computer_download",
+        "condition": { "u_has_mission": "MISSION_SCIENCE_REP_3" }
+      },
+      { "text": "Power off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "mission_science_rep_3_computer_download",
+    "dynamic_line": {
+      "u_has_item": "usb_drive_nano",
+      "yes": "The encryption codes are ready to download.",
+      "no": "You don't have the right device to download the encryption codes."
+    },
+    "responses": [
+      {
+        "text": "Download Encryption Codes",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "usb_drive_nano" },
+        "effect": [
+          { "u_consume_item": "usb_drive_nano" },
+          { "u_spawn_item": "mission_science_rep_3_secure_usb_download", "use_item_group": true }
+        ]
+      },
+      { "text": "Power off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "mission_science_rep_3_secure_usb_download",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "usb_drive_nano", "contents-item": "software_encryption_codes", "variables": [ { "browsed": "true" } ] } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "mission_science_rep_4_computer_main",
+    "dynamic_line": {
+      "u_has_mission": "MISSION_SCIENCE_REP_4",
+      "yes": "The computer awaits your input",
+      "no": "You don't see anything useful available on this computer."
+    },
+    "responses": [
+      {
+        "text": "Access Archived Data",
+        "topic": "mission_science_rep_4_computer_download",
+        "condition": { "u_has_mission": "MISSION_SCIENCE_REP_4" }
+      },
+      { "text": "Power off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "mission_science_rep_4_computer_download",
+    "dynamic_line": {
+      "u_has_item": "usb_drive_nano",
+      "yes": "The archived data is ready to download.",
+      "no": "You don't have the right device to download the archived data."
+    },
+    "responses": [
+      {
+        "text": "Download Archived Data",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "usb_drive_nano" },
+        "effect": [
+          { "u_consume_item": "usb_drive_nano" },
+          { "u_spawn_item": "mission_science_rep_4_secure_usb_download", "use_item_group": true }
+        ]
+      },
+      { "text": "Power off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "mission_science_rep_4_secure_usb_download",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "usb_drive_nano", "contents-item": "software_archived_data", "variables": [ { "browsed": "true" } ] } ]
+  },
+  {
+    "id": "mission_science_rep_5_secure_usb_download",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "usb_drive_nano", "contents-item": "train_data", "variables": [ { "browsed": "true" } ] } ]
+  }
+]

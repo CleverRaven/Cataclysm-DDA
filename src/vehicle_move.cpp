@@ -83,6 +83,8 @@ static const ter_str_id ter_t_railroad_track_v_on_tie( "t_railroad_track_v_on_ti
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 
+static const trap_str_id tr_thick_ice( "tr_thick_ice" );
+
 static const vpart_location_id vpart_location_structure( "structure" );
 
 // tile height in meters
@@ -492,6 +494,24 @@ void vehicle::thrust( map &here, int thd, int z )
     // TODO: Pass this as an argument to avoid recalculating
     float traction = k_traction( here, here.vehicle_wheel_traction( *this ) );
 
+    // If vehicle has wheels on thick ice, increase chance to start skidding
+    if( !skidding && !wheelcache.empty() ) {
+        int thick_ice_wheels = 0;
+        for( const int wheel_idx : wheelcache ) {
+            const vehicle_part &wp = part( wheel_idx );
+            const tripoint_bub_ms pwp = bub_part_pos( here, wp );
+            if( here.ter( pwp ).obj().has_flag( ter_furn_flag::TFLAG_THICK_ICE ) ) {
+                thick_ice_wheels++;
+            }
+        }
+        if( thick_ice_wheels > 0 ) {
+            // Higher speeds make skidding more likely
+            if( one_in( 4 ) || std::abs( velocity ) > 1000 ) {
+                skidding = true;
+            }
+        }
+    }
+
     if( thrusting ) {
         smart_controller_handle_turn( here, traction );
     }
@@ -517,8 +537,18 @@ void vehicle::thrust( map &here, int thd, int z )
         return;
     }
     const int max_vel = traction * max_velocity( here );
-    // maximum braking is 20 mph/s, assumes high friction tires
-    const int max_brake = 20 * 100;
+    // maximum braking is 20 mph/s, assumes high friction tires; reduce on thick ice
+    bool on_thick_ice = false;
+    for( const int wheel_idx : wheelcache ) {
+        const vehicle_part &wp = part( wheel_idx );
+        const tripoint_bub_ms pwp = bub_part_pos( here, wp );
+        if( here.ter( pwp ).obj().has_flag( ter_furn_flag::TFLAG_THICK_ICE ) ) {
+            on_thick_ice = true;
+            break;
+        }
+    }
+    const float ICE_BRAKE_FACTOR = 0.25f;
+    const int max_brake = static_cast<int>( 20 * 100 * ( on_thick_ice ? ICE_BRAKE_FACTOR : 1.0f ) );
     //pos or neg if accelerator or brake
     int vel_inc = ( accel + ( thrusting ? 0 : max_brake ) ) * thd;
     // Reverse is only 60% acceleration, unless an electric motor is in use
@@ -1399,7 +1429,9 @@ void vehicle::handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp
             if( seen && !known ) {
                 // hard to miss!
                 const std::string direction = direction_name( direction_from( player_character.pos_bub(), p ) );
-                add_msg( _( "You've spotted a %1$s to the %2$s!" ), tr.name(), direction );
+                if( tr.id != tr_thick_ice ) {
+                    add_msg( _( "You've spotted a %1$s to the %2$s!" ), tr.name(), direction );
+                }
             }
         }
     }
@@ -2286,7 +2318,13 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
             continue;
         }
 
-        traction_wheel_area += 2.0 * vp.contact_area() / move_mod;
+        // Reduce traction contribution on thick ice
+        constexpr float THICK_ICE_TRACTION_FACTOR = 0.3f;
+        if( tr.has_flag( ter_furn_flag::TFLAG_THICK_ICE ) ) {
+            traction_wheel_area += 2.0 * vp.contact_area() / move_mod * THICK_ICE_TRACTION_FACTOR;
+        } else {
+            traction_wheel_area += 2.0 * vp.contact_area() / move_mod;
+        }
     }
 
     return traction_wheel_area;

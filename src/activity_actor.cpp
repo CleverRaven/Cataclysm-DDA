@@ -190,9 +190,11 @@ static const activity_id ACT_MILK( "ACT_MILK" );
 static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
@@ -227,7 +229,9 @@ static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_UNLOAD( "ACT_UNLOAD" );
 static const activity_id ACT_UNLOAD_LOOT( "ACT_UNLOAD_LOOT" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
+static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_FOLD( "ACT_VEHICLE_FOLD" );
+static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_VEHICLE_UNFOLD( "ACT_VEHICLE_UNFOLD" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
@@ -1284,10 +1288,10 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
         return;
     }
 
-    //Speed of hacksaw action is the SAW_M quality over 2, 2 being the hacksaw level.
-    //3 makes the speed one-and-a-half times, and the total moves 66% of hacksaw. 4 is twice the speed, 50% the moves, etc, 5 is 2.5 times the speed, 40% the original time
-    //done because it's easy to code, and diminising returns on cutting speed make sense as the limiting factor becomes aligning the tool and controlling it instead of the actual cutting
-    act.moves_total = moves_before_quality / ( qual / 2 );
+    // Speed based on the SAW_M quality.  A hacksaw, at SAW_M 2, matches the duration in JSON data.
+    // The reciprocating saw has SAW_M 3 and it cuts twice as fast as a hacksaw since it's an 800
+    // watt power tool.  SAW_M 4 is thrice as fast as a hacksaw and so on.
+    act.moves_total = moves_before_quality / ( qual - 1 );
     add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
     act.moves_left = act.moves_total;
 }
@@ -3199,13 +3203,13 @@ std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonVal
 }
 
 lockpick_activity_actor lockpick_activity_actor::use_item(
-    int moves_total,
     const item_location &lockpick,
-    const tripoint_abs_ms &target
+    const tripoint_abs_ms &target,
+    const Character &who
 )
 {
     return lockpick_activity_actor {
-        moves_total,
+        lockpicking_moves( lockpick, who ),
         lockpick,
         std::nullopt,
         target
@@ -3222,6 +3226,49 @@ lockpick_activity_actor lockpick_activity_actor::use_bionic(
         item( itype_pseudo_bio_picklock ),
         target
     };
+}
+
+int lockpick_activity_actor::lockpicking_moves(
+    const item_location &lockpick_location,
+    const Character &who
+)
+{
+    const item *lockpick = lockpick_location.get_item();
+    int qual;
+    if( !lockpick ) {
+        debugmsg( "Lost lockpick item for lockpicking activity." );
+        qual = 1;
+    } else {
+        qual = lockpick->get_quality( qual_LOCKPICK );
+    }
+    if( qual < 1 ) {
+        debugmsg( "Item %s with 'PICK_LOCK' use action requires LOCKPICK quality of at least 1.",
+                  lockpick->typeId().c_str() );
+        qual = 1;
+    }
+
+    /** @EFFECT_LOCKPICK speeds up door lock picking */
+    int duration_proficiency_factor = 1;
+    if( !who.has_proficiency( proficiency_prof_lockpicking ) ) {
+        duration_proficiency_factor *= proficiency_prof_lockpicking->default_time_multiplier();
+    }
+    if( !who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
+        duration_proficiency_factor *= proficiency_prof_lockpicking_expert->default_time_multiplier();
+    }
+
+    // Weighting of skills that matches success calculations in finish()
+    const float weighted_skill_average = ( 3.0f * who.get_skill_level(
+            skill_traps ) + who.get_skill_level( skill_mechanics ) ) / 4.0f;
+
+    if( lockpick->has_flag( flag_PERFECT_LOCKPICK ) ) {
+        return to_moves<int>( 5_seconds );
+    } else {
+        /** @EFFECT_DEX speeds up door lock picking */
+        return to_moves<int>(
+                   std::max( 30_seconds,
+                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( who.dex_cur ) / 4.0f +
+                                     weighted_skill_average ) ) * duration_proficiency_factor ) );
+    }
 }
 
 void lockpick_activity_actor::start( player_activity &act, Character & )
@@ -3307,18 +3354,18 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     // Get a bonus from your lockpick quality if the quality is higher than 3, or a penalty if it is lower. For a bobby pin this puts you at -2, for a locksmith kit, +2.
     const float tool_effect = ( it->get_quality( qual_LOCKPICK ) - 3 ) - ( it->damage() / 2000.0 );
 
-    // Without at least a basic lockpick proficiency, your skill level is effectively 6 levels lower.
-    int proficiency_effect = -3;
-    int duration_proficiency_factor = 10;
-    if( who.has_proficiency( proficiency_prof_lockpicking ) ) {
-        // If you have the basic lockpick prof, negate the above penalty
-        proficiency_effect = 0;
-        duration_proficiency_factor = 5;
+    // With both Proficiencies your skill is effectively 3 levels higher.
+    int proficiency_effect = 3;
+    int duration_proficiency_factor = 1;
+    if( !who.has_proficiency( proficiency_prof_lockpicking ) ) {
+        // Without any lockpick proficiency, your skill level is effectively 3 levels lower.
+        proficiency_effect -= 3;
+        duration_proficiency_factor *= proficiency_prof_lockpicking->default_time_multiplier();
     }
-    if( who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
-        // If you have the locksmith proficiency, your skill level is effectively 4 levels higher.
-        proficiency_effect = 3;
-        duration_proficiency_factor = 1;
+    if( !who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
+        // No bonus or penalty if you have only the basic proficiency.
+        proficiency_effect -= 3;
+        duration_proficiency_factor *= proficiency_prof_lockpicking_expert->default_time_multiplier();
     }
 
     // We get our average roll by adding the above factors together. For a person with no skill, average stats, no proficiencies, and an improvised lockpick, mean_roll will be 2.
@@ -8893,6 +8940,29 @@ std::unique_ptr<activity_actor> chop_planks_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
+activity_reason_info multi_chop_planks_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::chop_planks_can_do( ACT_MULTIPLE_CHOP_PLANKS, you, src_loc );
+}
+std::optional<requirement_id> multi_chop_planks_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::chop_planks_requirements( you, act_info, src_loc );
+}
+bool multi_chop_planks_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::chop_planks_do( you, act_info, src, src_loc );
+}
+std::unique_ptr<activity_actor> multi_chop_planks_activity_actor::deserialize( JsonValue & )
+{
+    multi_chop_planks_activity_actor actor;
+    return actor.clone();
+}
+
 void chop_tree_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
@@ -8992,6 +9062,29 @@ std::unique_ptr<activity_actor> chop_tree_activity_actor::deserialize( JsonValue
     data.read( "moves", actor.moves );
     data.read( "tool", actor.tool );
 
+    return actor.clone();
+}
+
+activity_reason_info multi_chop_trees_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::chop_trees_can_do( ACT_MULTIPLE_CHOP_TREES, you, src_loc );
+}
+std::optional<requirement_id> multi_chop_trees_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::chop_trees_requirements( you, act_info, src_loc );
+}
+bool multi_chop_trees_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::chop_trees_do( you, act_info, src, src_loc );
+}
+std::unique_ptr<activity_actor> multi_chop_trees_activity_actor::deserialize( JsonValue & )
+{
+    multi_chop_trees_activity_actor actor;
     return actor.clone();
 }
 
@@ -9778,6 +9871,7 @@ void mop_activity_actor::finish( player_activity &act, Character &who )
         map &here = get_map();
         here.mop_spills( here.get_bub( act.placement ) );
     }
+    act.set_to_null();
     activity_handlers::resume_for_multi_activities( who );
 }
 
@@ -9798,6 +9892,25 @@ std::unique_ptr<activity_actor> mop_activity_actor::deserialize( JsonValue &jsin
 
     data.read( "moves", actor.moves );
 
+    return actor.clone();
+}
+
+activity_reason_info multi_mop_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::mop_can_do( ACT_MULTIPLE_MOP, you, src_loc );
+}
+
+bool multi_mop_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::mop_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_mop_activity_actor::deserialize( JsonValue & )
+{
+    multi_mop_activity_actor actor;
     return actor.clone();
 }
 
@@ -10391,6 +10504,59 @@ std::unique_ptr<activity_actor> vehicle_activity_actor::deserialize( JsonValue &
 
     return actor.clone();
 }
+
+activity_reason_info multi_vehicle_deconstruct_activity_actor::multi_activity_can_do(
+    Character &you,
+    const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::vehicle_deconstruction_can_do( ACT_VEHICLE_DECONSTRUCTION, you,
+            src_loc );
+}
+std::optional<requirement_id> multi_vehicle_deconstruct_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::vehicle_work_requirements( you, act_info, src_loc );
+}
+bool multi_vehicle_deconstruct_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::vehicle_deconstruction_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_vehicle_deconstruct_activity_actor::deserialize( JsonValue & )
+{
+    multi_vehicle_deconstruct_activity_actor actor;
+    return actor.clone();
+}
+
+activity_reason_info multi_vehicle_repair_activity_actor::multi_activity_can_do(
+    Character &you,
+    const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::vehicle_repair_can_do( ACT_VEHICLE_REPAIR, you,
+            src_loc );
+}
+std::optional<requirement_id> multi_vehicle_repair_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::vehicle_work_requirements( you, act_info, src_loc );
+}
+bool multi_vehicle_repair_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::vehicle_repair_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_vehicle_repair_activity_actor::deserialize( JsonValue & )
+{
+    multi_vehicle_repair_activity_actor actor;
+    return actor.clone();
+}
+
 
 bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only ) const
 {
@@ -12090,7 +12256,6 @@ void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
 
 bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you )
 {
-
     const map &here = get_map();
 
     num_processed = 0;
@@ -12130,8 +12295,18 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
         const zone_sorting::zone_items items = zone_sorting::populate_items( src_bub );
 
         // check if there is valid destination for any item of the tile
+        bool pickup_failure;
         bool has_items_to_work_on = zone_sorting::has_items_to_sort( you, src, zone_unload_options,
-                                    other_activity_items, items );
+                                    other_activity_items, items, &pickup_failure );
+
+        if( pickup_failure && !pickup_failure_reported ) {
+            pickup_failure_reported = true;
+            add_msg_if_player_sees( you,
+                                    _( "At least one item to be sorted is too large/heavy for %s to sort.  "
+                                       "Emptying the inventory and freeing up the hands will allow for more efficient sorting." ),
+                                    you.disp_name() );
+        }
+
         if( !has_items_to_work_on ) {
             continue;
         }
@@ -12300,19 +12475,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             thisitem_loc = you.try_add( copy_thisitem );
         }
         if( !thisitem_loc ) {
-            if( !dropoff_coords.empty() && !picked_up_stuff.empty() ) {
-                you.add_msg_if_player( m_info,
-                                       _( "Not enough space to pick up %s during sorting, moving to destination with %zu current items." ),
-                                       copy_thisitem.tname(), picked_up_stuff.size() );
-                break; // Stop trying to pick stuff up
-            } else if( num_processed == 1 ) {  // This is the very first item to process
-                you.add_msg_if_player( m_bad, _( "Couldn't pick up any item during sorting, aborting." ) );
-                stage = LAST;
-                return;
-            } else {
-                debugmsg( "Unexpected condition encountered while sorting items at %d, %s.", num_processed,
-                          copy_thisitem.tname() );
-            }
+            continue;
         }
         // Pickup cost
         you.mod_moves( -you.item_handling_cost( copy_thisitem ) );
@@ -12377,6 +12540,7 @@ void zone_sort_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "other_activity_items", other_activity_items );
     jsout.member( "picked_up_stuff", picked_up_stuff );
     jsout.member( "dropoff_coords", dropoff_coords );
+    jsout.member( "pickup_failure_reported", pickup_failure_reported );
 
     jsout.end_object();
 }
@@ -12395,7 +12559,10 @@ std::unique_ptr<activity_actor> zone_sort_activity_actor::deserialize( JsonValue
     data.read( "other_activity_items", actor.other_activity_items );
     data.read( "picked_up_stuff", actor.picked_up_stuff );
     data.read( "dropoff_coords", actor.dropoff_coords );
-
+    // Element introduced 2026-01-26. Existence check to be removed when support for older saves is dropped.
+    if( data.has_bool( "pickup_failure_reported" ) ) {
+        data.read( "pickup_failure_reported", actor.pickup_failure_reported );
+    }
     return actor.clone();
 }
 
@@ -12461,7 +12628,10 @@ deserialize_functions = {
     { ACT_MOP, &mop_activity_actor::deserialize },
     { ACT_MOVE_ITEMS, &move_items_activity_actor::deserialize },
     { ACT_MOVE_LOOT, &zone_sort_activity_actor::deserialize },
+    { ACT_MULTIPLE_CHOP_PLANKS, &multi_chop_planks_activity_actor::deserialize },
+    { ACT_MULTIPLE_CHOP_TREES, &multi_chop_trees_activity_actor::deserialize },
     { ACT_MULTIPLE_MINE, &multi_mine_activity_actor::deserialize },
+    { ACT_MULTIPLE_MOP, &multi_mop_activity_actor::deserialize },
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
     { ACT_OPERATION, &bionic_operation_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
@@ -12494,7 +12664,9 @@ deserialize_functions = {
     { ACT_UNLOAD, &unload_activity_actor::deserialize },
     { ACT_UNLOAD_LOOT, &unload_loot_activity_actor::deserialize },
     { ACT_VEHICLE, &vehicle_activity_actor::deserialize },
+    { ACT_VEHICLE_DECONSTRUCTION, &multi_vehicle_deconstruct_activity_actor::deserialize },
     { ACT_VEHICLE_FOLD, &vehicle_folding_activity_actor::deserialize },
+    { ACT_VEHICLE_REPAIR, &multi_vehicle_repair_activity_actor::deserialize },
     { ACT_VEHICLE_UNFOLD, &vehicle_unfolding_activity_actor::deserialize },
     { ACT_VIBE, &vibe_activity_actor::deserialize },
     { ACT_WAIT, &wait_activity_actor::deserialize },

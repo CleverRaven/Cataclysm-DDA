@@ -957,27 +957,10 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
     "id": "usb_drive_nano",
-    "symbol": ",",
-    "color": "white",
+    "copy-from": "usb_drive",
     "name": { "str": "secured USB drive" },
-    "description": "A USB thumb drive.  Useful for holding software.  This one seems like it could get run over by a truck and be fine.",
-    "price": "100 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
-    "weight": "55 g",
-    "volume": "45 ml",
-    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" }
-  },
-  {
-    "type": "ITEM",
-    "id": "train_data",
-    "copy-from": "usb_drive_nano",
-    "name": { "str_sp": "laboratory shipping records" },
-    "description": "Some type of advanced data storage device, filled with logistical data on subterranean train routes and schedules.",
-    "price": "100 USD",
-    "price_postapoc": "0 cent"
+    "description": "A USB thumb drive.  Useful for holding software.  This one seems like it could get run over by a truck and be fine."
   },
   {
     "type": "ITEM",

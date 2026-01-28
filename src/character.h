@@ -2164,6 +2164,10 @@ class Character : public Creature, public visitable
         item_location try_add( item it, int &copies_remaining, const item *avoid = nullptr,
                                const item *original_inventory_item = nullptr, bool allow_wield = true,
                                bool ignore_pkt_settings = false );
+        /** Checks to see if it's possible to add an item to the inventory. */
+        bool can_add( const item &it, const item *avoid = nullptr,
+                      bool allow_wield = true,
+                      bool ignore_pkt_settings = false );
 
         ret_val<item_location> i_add_or_fill( item &it, bool should_stack = true,
                                               const item *avoid = nullptr,

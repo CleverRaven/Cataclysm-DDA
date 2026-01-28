@@ -6697,6 +6697,16 @@ void map::remove_trap( const tripoint_bub_ms &p )
         if( iter != traps.end() ) {
             traps.erase( iter );
         }
+        // If this tile is a phased terrain placeholder (PHASE_BACK), restore
+        // the original terrain stored for this tile when removing the trap.
+        if( ter( p )->has_flag( "PHASE_BACK" ) ) {
+            if( has_original_terrain_at( p ) ) {
+                const ter_id orig = get_original_terrain_at( p );
+                ter_set( p, orig );
+            } else {
+                ter_set( p, ter( p ).obj().bash->ter_set );
+            }
+        }
     }
 }
 
