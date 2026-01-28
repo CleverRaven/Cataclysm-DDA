@@ -68,16 +68,22 @@ TEST_CASE( "nest_conditional_placement", "[map][nest]" )
                                tm.ter( tripoint_omt_ms{ 2, 1, 0 } ) == ter_t_linoleum_gray;
     const bool flags_success = tm.ter( tripoint_omt_ms{ 3, 0, 0 } ) == ter_t_linoleum_white &&
                                tm.ter( tripoint_omt_ms{ 3, 1, 0 } ) == ter_t_linoleum_gray;
-    const bool flags_any_success = tm.ter( tripoint_omt_ms{ 4, 0, 0 } ) == ter_t_linoleum_white &&
-                                   tm.ter( tripoint_omt_ms{ 4, 1, 0 } ) == ter_t_linoleum_gray;
+    const bool flags_any_success = tm.ter( tripoint_omt_ms{ 4, 0, 0 } ) == ter_t_linoleum_white;
+    const bool flags_any_control = tm.ter( tripoint_omt_ms{ 4, 1, 0 } ) == ter_t_linoleum_gray;
     const bool predecessors_success = tm.ter( tripoint_omt_ms{ 5, 0, 0 } ) == ter_t_linoleum_white &&
                                       tm.ter( tripoint_omt_ms{ 5, 1, 0 } ) == ter_t_linoleum_gray;
     const bool z_check_success = tm.ter( tripoint_omt_ms{ 6, 0, 0 } ) == ter_t_linoleum_white &&
                                  tm.ter( tripoint_omt_ms{ 6, 1, 0 } ) == ter_t_linoleum_gray;
-    const bool neighbors_any_success = tm.ter( tripoint_omt_ms{ 7, 0, 0 } ) == ter_t_linoleum_white &&
-                                       tm.ter( tripoint_omt_ms{ 7, 1, 0 } ) == ter_t_linoleum_gray;
-    const bool joins_any_success = tm.ter( tripoint_omt_ms{ 8, 0, 0 } ) == ter_t_linoleum_white &&
-                                   tm.ter( tripoint_omt_ms{ 8, 1, 0 } ) == ter_t_linoleum_gray;
+    const bool neighbors_any_success = tm.ter( tripoint_omt_ms{ 7, 0, 0 } ) == ter_t_linoleum_white;
+    const bool neighbors_any_control = tm.ter( tripoint_omt_ms{ 7, 1, 0 } ) == ter_t_linoleum_gray;
+    const bool joins_any_success = tm.ter( tripoint_omt_ms{ 8, 0, 0 } ) == ter_t_linoleum_white;
+    const bool joins_any_control = tm.ter( tripoint_omt_ms{ 8, 1, 0 } ) == ter_t_linoleum_gray;
+    INFO( tm.ter( tripoint_omt_ms{ 4, 0, 0 } ).id().str() );
+    INFO( tm.ter( tripoint_omt_ms{ 4, 1, 0 } ).id().str() );
+    INFO( tm.ter( tripoint_omt_ms{ 7, 0, 0 } ).id().str() );
+    INFO( tm.ter( tripoint_omt_ms{ 7, 1, 0 } ).id().str() );
+    INFO( tm.ter( tripoint_omt_ms{ 8, 0, 0 } ).id().str() );
+    INFO( tm.ter( tripoint_omt_ms{ 8, 1, 0 } ).id().str() );
     CHECK( unconditional_success );
     CHECK( neighbors_success );
     CHECK( neighbors_any_success );
@@ -86,6 +92,9 @@ TEST_CASE( "nest_conditional_placement", "[map][nest]" )
     CHECK( flags_success );
     CHECK( flags_any_success );
     CHECK( z_check_success );
+    CHECK( flags_any_control );
+    CHECK( neighbors_any_control );
+    CHECK( joins_any_control );
     //Only run more advanced checks if we passed all the basic ones so as to not muddy more basic issues
     if( unconditional_success && neighbors_success && joins_success && flags_success &&
         flags_any_success && predecessors_success && z_check_success ) {
