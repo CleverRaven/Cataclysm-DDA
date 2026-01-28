@@ -729,7 +729,7 @@
     "material": [ "down_feathers" ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
-    "weight": "1 g",
+    "weight": "10 mg",
     "ammo_type": "components",
     "stack_size": 100,
     "count": 20
