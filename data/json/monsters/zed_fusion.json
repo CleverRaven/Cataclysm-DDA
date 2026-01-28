@@ -376,12 +376,7 @@
         "attack_type": "bite",
         "id": "bite_daitya",
         "accuracy": 5,
-        "condition": {
-          "and": [
-            { "u_has_flag": "GRAB_FILTER" },
-            { "npc_has_flag": "GRAB" }
-          ]
-        },
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
         "damage_max_instance": [ { "damage_type": "stab", "amount": 22, "armor_penetration": 5 } ],
         "infection_chance": 20,
         "cooldown": 4,
@@ -475,17 +470,9 @@
     "type": "effect_on_condition",
     "id": "EOC_DAITYA_SPAWN_CLONES",
     "effect": [
-      {
-        "message": "Devourer can spawn clones until it's hp goes too low.",
-        "type": "debug"
-      },
+      { "message": "Devourer can spawn clones until it's hp goes too low.", "type": "debug" },
       { "u_cast_spell": { "id": "CLONE_DAMAGE" } },
-      {
-        "u_spawn_monster": "mon_spawn_daitya_clone",
-        "real_count": 1,
-        "min_radius": 1,
-        "max_radius": 3
-      }
+      { "u_spawn_monster": "mon_spawn_daitya_clone", "real_count": 1, "min_radius": 1, "max_radius": 3 }
     ]
   },
   {
@@ -510,10 +497,7 @@
     "id": "EOC_DAITYA_EAT_CLONES",
     "condition": { "math": [ "n_monsters_nearby('radius': 8, 'mon_devourer_daitya_clone') > 0" ] },
     "effect": [
-      {
-        "message": "Devourer will eat clones when it's hp goes too low.",
-        "type": "debug"
-      },
+      { "message": "Devourer will eat clones when it's hp goes too low.", "type": "debug" },
       { "u_cast_spell": { "id": "EAT_CLONES" } }
     ]
   },
@@ -574,12 +558,7 @@
         "type": "monster_attack",
         "attack_type": "bite",
         "id": "bite_daitya_clone",
-        "condition": {
-          "and": [
-            { "u_has_flag": "GRAB_FILTER" },
-            { "npc_has_flag": "GRAB" }
-          ]
-        },
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15 } ],
         "infection_chance": 15,
         "cooldown": 4,
@@ -662,19 +641,19 @@
     "harvest": "exempt",
     "grab_strength": 100,
     "special_attacks": [
-        {
-          "type": "spell",
-          "spell_data": { "id": "enwrapped_clone_swallowed", "hit_self": true },
-          "cooldown": 50,
-          "monster_message": "%s is swallowed by the Daitya!"
-        }
-      ],
+      {
+        "type": "spell",
+        "spell_data": { "id": "enwrapped_clone_swallowed", "hit_self": true },
+        "cooldown": 50,
+        "monster_message": "%s is swallowed by the Daitya!"
+      }
+    ],
     "death_function": { "message": "The %s is swallowed!", "corpse_type": "NO_CORPSE" },
     "death_drops": { "subtype": "collection", "groups": [ "explode_gasbag", "explode_innards", "explode_innards" ] },
     "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ],
     "armor": { "bash": 10, "cut": 20, "bullet": 16, "electric": 5 }
   },
-    {
+  {
     "type": "SPELL",
     "id": "enwrapped_clone_swallowed",
     "name": { "str": "Swallows the clone", "//~": "NO_I18N" },
