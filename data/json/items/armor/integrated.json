@@ -1567,6 +1567,33 @@
     ]
   },
   {
+    "id": "integrated_rabbit_feet",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "rabbit feet" },
+    "description": "You have a set of rabbit feet.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "flesh" ],
+    "symbol": "b",
+    "color": "light_gray",
+    "warmth": 5,
+    "//": "No special techniques, they're just feet.  You're kicking.",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "ZERO_WEIGHT", "PERSONAL", "PADDED", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "material": [ { "type": "flesh", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 0
+      }
+    ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
     "id": "armor_bio_eyes",
     "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
     "type": "ITEM",
