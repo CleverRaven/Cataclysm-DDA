@@ -5508,7 +5508,7 @@ search_data is an array, that allow to filter specific items from the list. At t
 | "material" | string, [variable object](#variable-object) or array of strings or variable objects | filter the list of items by their material |
 | "uses_energy" | boolean | filter the list of items by whether or not they use energy. `true` would pick only items that use energy, `false` would pick all items that do not use energy |
 | "is_chargeable" | boolean | filter the list of items by whether or not they are chargeable.  `true` will only return electrical items that can hold more charge.  `false` will only return electrical items that cannot hold more charge (ie, fully charged items or ups / bionic items).
-| "worn_only" | boolean | return only items you you wear (clothes) |
+| "worn_only" | boolean | return only items you wear (clothes) |
 | "wielded_only" | boolean | return only item you hold in your hands right now. if you hold nothing, and picking object is not manual, it return string `none` |
 | "held_only" | boolean | return both items you wear and item you hold in your hands |
 | "condition" | condition object | allows to use same conditions as EoC. Alpha talker in this case is whoever runs the effect, and beta is the item |
