@@ -3871,7 +3871,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "shell jacket" },
-    "description": "A lightweight waterproof shell jacket designed to block wind and rain. It has deep pockets and provides a moderate amount of warmth.",
+    "description": "A lightweight waterproof shell jacket designed to block wind and rain.  It has deep pockets and provides a moderate amount of warmth.",
     "weight": "880 g",
     "volume": "2150 ml",
     "price": "140 USD",
