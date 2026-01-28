@@ -1106,6 +1106,7 @@
       { "group": "games_board_all", "premium": 2.5 },
       { "group": "exodii_pay_extra_for_metals", "premium": 4 },
       { "group": "exodii_pay_extra_for_medicine", "premium": 4 },
+      { "group": "exodii_pay_extra_for_ammo", "premium": 4 },
       { "category": "clothing", "price": 0 },
       { "group": "SUS_bathroom_sink", "price": 0 },
       { "group": "exodii_unwanted_bathroom_medicine", "price": 0 },

@@ -483,18 +483,6 @@
     ]
   },
   {
-    "id": "exodii_do_not_pay_extra_for_makeshift_medicine",
-    "type": "item_group",
-    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "bandages_makeshift", "prob": 1 },
-      { "item": "bandages_makeshift_boiled", "prob": 1 },
-      { "item": "bandages_makeshift_bleached", "prob": 1 },
-      { "item": "disinfectant_makeshift", "prob": 1 }
-    ]
-  },
-  {
     "id": "exodii_pay_extra_for_metals",
     "type": "item_group",
     "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
@@ -589,6 +577,43 @@
       { "item": "tramadol", "prob": 1 },
       { "item": "thorazine", "prob": 1 },
       { "item": "quikclot", "prob": 1 }
+    ]
+  },
+  {
+    "id": "exodii_do_not_pay_extra_for_makeshift_medicine",
+    "type": "item_group",
+    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bandages_makeshift", "prob": 1 },
+      { "item": "bandages_makeshift_boiled", "prob": 1 },
+      { "item": "bandages_makeshift_bleached", "prob": 1 },
+      { "item": "disinfectant_makeshift", "prob": 1 }
+    ]
+  },
+  {
+    "id": "exodii_pay_extra_for_ammo",
+    "type": "item_group",
+    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "50ss", "prob": 1 },
+      { "item": "50match", "prob": 1 },
+      { "item": "50bmg", "prob": 1 },
+      { "item": "50_incendiary", "prob": 1 },
+      { "item": "9mm", "prob": 1 },
+      { "item": "9mmP", "prob": 1 },
+      { "item": "9mmP2", "prob": 1 },
+      { "item": "9mmfmj", "prob": 1 },
+      { "item": "bp_9mm", "prob": 1 },
+      { "item": "bp_9mmfmj", "prob": 1 },
+      { "item": "556", "prob": 1 },
+      { "item": "bp_556", "prob": 1 },
+      { "item": "556_m995", "prob": 1 },
+      { "item": "556_mk262", "prob": 1 },
+      { "item": "556_mk318", "prob": 1 },
+      { "item": "556_m855a1", "prob": 1 },
+      { "item": "556_incendiary", "prob": 1 }
     ]
   }
 ]
