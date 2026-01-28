@@ -177,6 +177,10 @@
       { "u_lose_effect": "infected", "target_part": "karma_arm_up_l" },
       { "u_lose_effect": "infected", "target_part": "karma_arm_lw_r" },
       { "u_lose_effect": "infected", "target_part": "karma_arm_lw_l" },
+      { "u_lose_effect": "bite", "target_part": "karma_arm_up_r" },
+      { "u_lose_effect": "bite", "target_part": "karma_arm_up_l" },
+      { "u_lose_effect": "bite", "target_part": "karma_arm_lw_r" },
+      { "u_lose_effect": "bite", "target_part": "karma_arm_lw_l" },
       { "u_lose_trait": "karma_arms" },
       { "u_message": "The cyan arms grow dim and finally disappear.", "type": "neutral" }
     ]
