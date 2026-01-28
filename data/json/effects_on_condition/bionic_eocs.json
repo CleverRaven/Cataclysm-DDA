@@ -106,6 +106,67 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "bio_noise_quiet_burn",
+    "condition": {
+      "or": [ { "u_has_bionics": "bio_ethanol" }, { "u_has_bionics": "bio_lampoil" } ],
+      "effect": [
+        { "if": { "one_in_chance": 120 }, "then": [ { "u_make_sound": "Hiss!!!", "volume": 10, "type": "movement" } ] },
+        {
+          "run_eocs": [
+            {
+              "id": "bio_noise_quiet_burn_hearing",
+              "condition": { "not": "u_is_deaf" },
+              "effect": [ { "u_message": "You hear and feel a bubbling inside your body.", "type": "bad" } ]
+            },
+            {
+              "id": "bio_noise_quiet_burn_deaf",
+              "condition": "u_is_deaf",
+              "effect": [ { "u_message": "You feel a bubbling inside your body.", "type": "bad" } ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_noise_digestive",
+    "condition": { "u_has_bionics": "bio_metabolics" },
+    "effect": [
+      {
+        "if": { "one_in_chance": 1800 },
+        "then": [ { "u_make_sound": "*STOMACH GURGLING NOISES*", "volume": 14, "type": "movement" } ]
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "bio_noise_quiet_burn_hearing",
+            "condition": { "not": "u_is_deaf" },
+            "effect": [ { "u_message": "Your stomach gurgles and churns loudly.", "type": "bad" } ]
+          },
+          {
+            "id": "bio_noise_quiet_burn_deaf",
+            "condition": "u_is_deaf",
+            "effect": [ { "u_message": "Your stomach gurgles and churns.", "type": "bad" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_noise_gasoline",
+    "condition": { "u_has_bionics": "bio_fuel_cell_gasoline" },
+    "effect": [
+      {
+        "if": { "one_in_chance": 900 },
+        "then": [ { "u_make_sound": "*ENGINE REVS*", "volume": 60, "type": "movement" } ],
+        "else": [ { "u_make_sound": "*ENGINE IDLES*", "volume": 15, "type": "movement" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "bio_noise",
     "recurrence": [ "30 minutes", "1 hours 30 minutes" ],
     "condition": { "and": [ { "u_has_bionics": "bio_noise" }, { "not": { "u_has_effect": "narcosis" } } ] },
