@@ -356,7 +356,7 @@
       {
         "u_travel_to_dimension": "dimension_sky_island_mission",
         "npc_travel_radius": 10,
-        "region_type": "main_world"
+        "region_type": "dimension_sky_island_region"
       }
     ]
   }

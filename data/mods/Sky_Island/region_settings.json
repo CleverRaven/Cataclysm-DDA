@@ -9,7 +9,7 @@
   {
     "//": "This HAS to be in the same file and above the default settings override to ensure it copies the default region before its overwritten",
     "type": "region_settings",
-    "id": "main_world",
+    "id": "dimension_sky_island_region",
     "copy-from": "default",
     "feature_flag_settings": { "extend": { "blacklist": [ "SKY_ISLAND" ] } }
   },
