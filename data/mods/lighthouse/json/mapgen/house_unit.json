@@ -1,6 +1,6 @@
 [
   {
-    "om_terrain": "hab_unit",
+    "om_terrain": [ "hab_unit", "shop_unit", "park_unit" ],
     "type": "mapgen",
     "object": {
       "fill_ter": "t_floor",

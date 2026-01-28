@@ -1,0 +1,20 @@
+[
+  {
+    "type": "city_building",
+    "id": "shop_unit_building",
+    "locations": [ "space" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "shop_unit_north" } ],
+    "flags": [ "LIGHTHOUSE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shop_unit",
+    "name": "shop unit",
+    "sym": "^",
+    "color": "red",
+    "vision_levels": "city_building",
+    "travel_cost_type": "structure",
+    "see_cost": "high",
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT", "SIDEWALK" ]
+  }
+]
