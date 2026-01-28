@@ -57,7 +57,7 @@
       "ravine_core": { "overmap": "open_air" },
       "ravine_filler": { "overmap": "open_air" },
       "ravine_root_filler": { "overmap": "open_air", "above": { "id": "ravine_to_bottom", "alternatives": [ "ravine_to_edge" ] } },
-      "ravine_bottom": { "overmap": "forest" },
+      "ravine_bottom": { "overmap": "ravine_bottom_forest" },
       "ravine_edge": { "overmap": "ravine_edge_north" },
       "ravine_corner": { "overmap": "ravine_corner_north" },
       "ravine_2way": { "overmap": "ravine_2way_east" },
@@ -662,36 +662,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_ravine_2way_v2",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        " ###################### ",
-        " ###################### ",
-        " #####################  ",
-        "  ####################  ",
-        "  ###################   ",
-        "  ###################   ",
-        "  ###################   ",
-        "  ##################    ",
-        "  ##################    ",
-        "   #################    ",
-        "   #################    ",
-        "   #################    ",
-        "    ################    ",
-        "    #################   ",
-        "    #################   ",
-        "    #################   ",
-        "    #################   ",
-        "   ##################   ",
-        "   ##################   ",
-        "  ####################  ",
-        "  ####################  ",
-        "  ####################  ",
-        " ###################### ",
-        " ###################### "
-      ],
-      "palettes": [ "ravine" ]
-    }
+    "om_terrain": "ravine_bottom_forest",
+    "object": { "predecessor_mapgen": "forest" }
   }
 ]

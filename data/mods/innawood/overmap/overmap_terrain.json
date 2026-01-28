@@ -66,5 +66,11 @@
     "copy-from": "generic_ravine",
     "see_cost": "all_clear",
     "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ravine_bottom_forest",
+    "name": "ravine floor",
+    "copy-from": "forest"
   }
 ]
