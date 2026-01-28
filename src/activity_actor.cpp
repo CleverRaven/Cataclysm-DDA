@@ -5280,6 +5280,12 @@ void unload_activity_actor::unload( Character &who, item_location &target )
              } ) {
 
             for( item *contained : it.all_items_top( ptype, true ) ) {
+                if( contained->made_of( phase_id::LIQUID ) ) {
+                    item_location liquid_loc = item_location( target, contained );
+                    liquid_handler::handle_liquid( liquid_loc, &it, 1 );
+                    return;
+                }
+
                 int old_charges = contained->charges;
                 const bool consumed = who.add_or_drop_with_msg( *contained, true, &it, contained );
                 if( consumed || contained->charges != old_charges ) {

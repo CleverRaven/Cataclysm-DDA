@@ -60,6 +60,8 @@ class player_activity
         int position = 0;
         std::string name;
         std::vector<item_location> targets;
+        // For transfering liquids from a container item
+        std::optional<item_location> source_liquid;
         std::vector<int> values;
         std::vector<std::string> str_values;
         std::vector<tripoint_abs_ms> coords;

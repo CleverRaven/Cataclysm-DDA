@@ -203,7 +203,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 std::advance( on_ground, act_ref.values.at( 1 ) );
                 liquid = *on_ground;
                 break;
-            case liquid_source_type::MONSTER:
+            case liquid_source_type::MONSTER: {
                 Creature *c = get_creature_tracker().creature_at( source_pos );
                 source_mon = dynamic_cast<monster *>( c );
                 if( source_mon == nullptr ) {
@@ -213,6 +213,15 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 deserialize_from_string( liquid, act_ref.str_values.at( 0 ) );
                 liquid.charges = 1;
                 break;
+            }
+            case liquid_source_type::CONTAINER_ITEM: {
+                if( !act_ref.source_liquid || !*act_ref.source_liquid ) {
+                    throw std::runtime_error( "could not find source liquid for liquid transfer" );
+                }
+                item_location &src_loc = *act_ref.source_liquid;
+                liquid = *src_loc;
+                break;
+            }
         }
 
         // Vehicle siphoning is slower than other liquid transfers
@@ -349,6 +358,23 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                     act_ref.set_to_null();
                 }
                 break;
+            case liquid_source_type::CONTAINER_ITEM: {
+                if( !act_ref.source_liquid || !*act_ref.source_liquid ) {
+                    throw std::runtime_error( "could not find source liquid for charge removal" );
+                }
+                item_location &src_loc = *act_ref.source_liquid;
+                src_loc->charges -= removed_charges;
+                if( src_loc->charges <= 0 ) {
+                    src_loc.remove_item();
+                    act_ref.set_to_null();
+                } else {
+                    src_loc.parent_item().on_contents_changed();
+                }
+                if( src_loc.held_by( *you ) ) {
+                    you->invalidate_weight_carried_cache();
+                }
+                break;
+            }
         }
 
         if( removed_charges < original_charges ) {

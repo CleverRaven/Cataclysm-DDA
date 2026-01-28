@@ -281,7 +281,8 @@ enum class liquid_source_type : int {
     INFINITE_MAP = 1,
     MAP_ITEM = 2,
     VEHICLE = 3,
-    MONSTER = 4
+    MONSTER = 4,
+    CONTAINER_ITEM = 5
 };
 
 enum class liquid_target_type : int {

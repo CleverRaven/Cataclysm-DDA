@@ -399,6 +399,7 @@ void player_activity::serialize( JsonOut &json ) const
         json.member( "coord_set", coord_set );
         json.member( "name", name );
         json.member( "targets", targets );
+        json.member( "source_liquid", source_liquid );
         json.member( "placement", placement );
         json.member( "relative_placement", relative_placement );
         json.member( "values", values );
@@ -468,6 +469,7 @@ void player_activity::deserialize( const JsonObject &data )
     data.read( "coord_set", coord_set );
     data.read( "name", name );
     data.read( "targets", targets );
+    data.read( "source_liquid", source_liquid );
     data.read( "placement", placement );
     data.read( "relative_placement", relative_placement );
     values = data.get_int_array( "values" );

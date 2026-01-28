@@ -86,6 +86,14 @@ static void serialize_liquid_source( player_activity &act, const tripoint_bub_ms
     act.str_values.push_back( serialize( liquid ) );
 }
 
+static void serialize_liquid_source( player_activity &act, const item_location &liquid_loc )
+{
+    act.values.push_back( static_cast<int>( liquid_source_type::CONTAINER_ITEM ) );
+    act.values.push_back( 0 ); // dummy
+    act.coords.emplace_back(); // dummy
+    act.source_liquid = liquid_loc;
+}
+
 static void serialize_liquid_target( player_activity &act, const vpart_reference &vp )
 {
     map &here = get_map();
@@ -566,6 +574,10 @@ bool perform_liquid_transfer( item_location &liquid, liquid_dest_opt &target )
         } else if( liquid.where() == item_location::type::map ) {
             player_character.assign_activity( ACT_FILL_LIQUID );
             serialize_liquid_source( player_character.activity, liquid.pos_bub( here ), *liquid );
+            return true;
+        } else if( liquid.where() == item_location::type::container ) {
+            player_character.assign_activity( ACT_FILL_LIQUID );
+            serialize_liquid_source( player_character.activity, liquid );
             return true;
         } else {
             return false;
