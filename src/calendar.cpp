@@ -789,7 +789,8 @@ bool x_in_y( const time_duration &a, const time_duration &b )
     return ::x_in_y( to_turns<int>( a ), to_turns<int>( b ) );
 }
 
-const std::vector<std::pair<std::string, time_duration>> time_duration::units = { {
+constexpr const std::array<std::pair<std::string_view, time_duration>, 15> time_duration::units
+= { {
         { "turns", 1_turns },
         { "turn", 1_turns },
         { "t", 1_turns },

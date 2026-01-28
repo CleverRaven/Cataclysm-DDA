@@ -1,6 +1,7 @@
 #include "math_parser_diag.h"
 
 #include <algorithm>
+#include <array>
 #include <cstddef>
 #include <functional>
 #include <list>
@@ -99,8 +100,9 @@ constexpr std::string_view _str_type_of()
     return "cookies";
 }
 
-template <typename T>
-T _read_from_string( std::string_view s, const std::vector<std::pair<std::string, T>> &units )
+template <typename T, size_t N>
+T _read_from_string( std::string_view s,
+                     const std::array<std::pair<std::string_view, T>, N> &units )
 {
     // TODO: LAMBDA_NORETURN_CLANG21x1 can be replaced with [[noreturn]] once we switch to C++23 on all compilers
     auto const error = [s]( char const * suffix, size_t /* offset */ ) LAMBDA_NORETURN_CLANG21x1 {
@@ -1153,8 +1155,9 @@ void spell_level_adjustment_ass( double val, dialogue &d, char scope,
 double _time_in_unit( double time, std::string_view unit )
 {
     if( !unit.empty() ) {
-        auto const iter = std::find_if( time_duration::units.cbegin(), time_duration::units.cend(),
-        [&unit]( std::pair<std::string, time_duration> const & u ) {
+        decltype( time_duration::units )::const_iterator iter = std::find_if( time_duration::units.cbegin(),
+                time_duration::units.cend(),
+        [&unit]( std::pair<std::string_view, time_duration> const & u ) {
             return u.first == unit;
         } );
 
@@ -1268,8 +1271,9 @@ double time_until_eoc_eval( const_dialogue const &d, char /* scope */,
     diag_value unit_val = kwargs.kwarg_or( "unit" );
 
     effect_on_condition_id eoc_id( params[0].str( d ) );
-    auto const &list = g->queued_global_effect_on_conditions.list;
-    auto const it = std::find_if( list.cbegin(), list.cend(), [&eoc_id]( queued_eoc const & eoc ) {
+    const std::list<queued_eoc> &list = g->queued_global_effect_on_conditions.list;
+    std::list<queued_eoc>::const_iterator it = std::find_if( list.cbegin(),
+    list.cend(), [&eoc_id]( queued_eoc const & eoc ) {
         return eoc.eoc == eoc_id;
     } );
 
