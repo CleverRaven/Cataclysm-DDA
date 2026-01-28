@@ -159,5 +159,11 @@
     "id": "ENCH_BIONIC_LEG_R",
     "condition": "ALWAYS",
     "modified_bodyparts": [ { "lose": "leg_r" }, { "lose": "foot_r" }, { "gain": "leg_bionic_basic_r" }, { "gain": "foot_bionic_basic_r" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_BIONIC_FRAME_1P",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "torso" }, { "gain": "torso_basic_bionic_P1" } ]
   }
 ]
