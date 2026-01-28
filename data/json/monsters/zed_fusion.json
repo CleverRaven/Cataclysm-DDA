@@ -488,8 +488,6 @@
     "max_damage": 72,
     "damage_type": "pure",
     "flags": [ "NO_EXPLOSION_SFX" ],
-    "min_damage": 500,
-    "max_damage": 500,
     "base_casting_time": 100
   },
   {
