@@ -15,7 +15,7 @@
             "then": [
               {
                 "u_knockback": { "math": [ "max((_damage / 25),5)" ] },
-                "stun": 1,
+                "stun": 0,
                 "dam_mult": 0.5,
                 "direction_var": { "context_val": "player_position" }
               },
@@ -42,7 +42,7 @@
             "then": [
               {
                 "u_knockback": { "math": [ "max((_damage / 25),5)" ] },
-                "stun": 1,
+                "stun": 0,
                 "dam_mult": 0.5,
                 "direction_var": { "context_val": "player_position" }
               },
