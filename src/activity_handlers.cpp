@@ -216,7 +216,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
             }
             case liquid_source_type::CONTAINER_ITEM: {
                 if( !act_ref.source_liquid || !*act_ref.source_liquid ) {
-                    throw std::runtime_error( "could not find source liquid for liquid transfer" );
+                    debugmsg( "could not find source liquid for liquid transfer" );
+                    act_ref.set_to_null();
                 }
                 item_location &src_loc = *act_ref.source_liquid;
                 liquid = *src_loc;
@@ -360,7 +361,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 break;
             case liquid_source_type::CONTAINER_ITEM: {
                 if( !act_ref.source_liquid || !*act_ref.source_liquid ) {
-                    throw std::runtime_error( "could not find source liquid for charge removal" );
+                    debugmsg( "could not find source liquid for charge removal" );
+                    act_ref.set_to_null();
                 }
                 item_location &src_loc = *act_ref.source_liquid;
                 src_loc->charges -= removed_charges;
