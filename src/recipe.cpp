@@ -226,7 +226,7 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
 
     if( type == "recipe" ) {
         optional( jo, was_loaded, "variant", variant_ );
-        optional(jo, was_loaded, "preserve_variant", preserve_variant);
+        optional( jo, was_loaded, "preserve_variant", preserve_variant );
         if( !variant_.empty() && !abstract ) {
             id = recipe_id( id.str() + "_" + variant_ );
         }
