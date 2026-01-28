@@ -118,6 +118,7 @@ class recipe
     private:
         itype_id result_ = itype_id::NULL_ID();
         std::string variant_;
+        bool preserve_variant = false;
 
         int64_t time = 0; // in movement points (100 per turn)
 

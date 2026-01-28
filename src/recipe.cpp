@@ -226,6 +226,7 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
 
     if( type == "recipe" ) {
         optional( jo, was_loaded, "variant", variant_ );
+        optional(jo, was_loaded, "preserve_variant", preserve_variant);
         if( !variant_.empty() && !abstract ) {
             id = recipe_id( id.str() + "_" + variant_ );
         }
@@ -770,6 +771,20 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
         newit.set_itype_variant( variant() );
     }
 
+    if (preserve_variant && variant().empty() && used != nullptr) {
+
+        for (const auto& component_pair : *used) {
+
+            for (const item& component : component_pair.second) {
+
+                if (component.has_itype_variant()) {
+                    newit.set_itype_variant(component.itype_variant().id);
+                    break;
+                }
+            }
+        }
+    }
+
     if( newit.has_flag( flag_VARSIZE ) ) {
         newit.set_flag( flag_FIT );
     }
@@ -837,7 +852,7 @@ std::vector<item> recipe::create_results( int batch, item_components *used ) con
         bool is_uncraftable = recipe_dictionary::get_uncraft( result_ ) && !result_->count_by_charges() &&
                               is_reversible();
         bool is_food_no_override = temp.is_food() && !temp.has_flag( flag_NUTRIENT_OVERRIDE );
-        bool set_components = used && ( is_uncraftable || is_food_no_override );
+        bool set_components = used && ( is_uncraftable || is_food_no_override || preserve_variant );
         bool is_cooked = hot_result() || removes_raw();
         if( set_components ) {
             batch_comps = used->split( batch, i, is_cooked );
