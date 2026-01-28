@@ -369,6 +369,7 @@
     "special_attacks": [
       { "id": "grab", "cooldown": 7 },
       { "id": "multi_scratch" },
+      [ "EAT_CLONE", 25 ],
       { "id": "grab_2", "accuracy": 5 },
       { "id": "grab_3", "accuracy": 6 },
       {
@@ -411,7 +412,7 @@
         "type": "monster_attack",
         "id": "daitya_spawn_clones",
         "attack_type": "melee",
-        "range": 1,
+        "range": 12,
         "cooldown": 180,
         "blockable": false,
         "dodgeable": false,
@@ -424,24 +425,6 @@
         "no_dmg_msg_npc": "A orifice on the side of %s swells and splits open, and gore-smeared smaller version of this abomination hurls itself free!",
         "miss_msg_u": "A orifice on the side of %s swells and splits open, and gore-smeared smaller version of this abomination hurls itself free!",
         "miss_msg_npc": "A orifice on the side of %s swells and splits open, and gore-smeared smaller version of this abomination hurls itself free!"
-      },
-      {
-        "type": "monster_attack",
-        "id": "daitya_devour_clones",
-        "attack_type": "melee",
-        "range": 60,
-        "cooldown": 0,
-        "blockable": false,
-        "dodgeable": false,
-        "condition": { "math": [ "u_hp('ALL') < 70" ] },
-        "damage_max_instance": [ { "damage_type": "pure", "amount": 0 } ],
-        "eoc": [ "EOC_DAITYA_EAT_CLONES" ],
-        "hit_dmg_u": "An orifice on the side of %s swells and splits open, and a monstrous tongue reaches out grabbing the nearest Daitya clone and sucking it back inside the Daitya!",
-        "hit_dmg_npc": "A orifice on the side of %s swells and splits open, and a monstrous tongue reaches out grabbing the nearest Daitya clone and sucking it back inside the Daitya!",
-        "no_dmg_msg_u": "A orifice on the side of %s swells and splits open, and a monstrous tongue reaches out grabbing the nearest Daitya clone and sucking it back inside the Daitya!",
-        "no_dmg_msg_npc": "A orifice on the side of %s swells and splits open, and a monstrous tongue reaches out grabbing the nearest Daitya clone and sucking it back inside the Daitya!",
-        "miss_msg_u": "A orifice on the side of %s swells and splits open, and a monstrous tongue reaches out grabbing the nearest Daitya clone and sucking it back inside the Daitya!",
-        "miss_msg_npc": "A orifice on the side of %s swells and splits open, and a monstrous tongue reaches out grabbing the nearest Daitya clone and sucking it back inside the Daitya!"
       }
     ],
     "death_drops": {
@@ -472,7 +455,7 @@
     "effect": [
       { "message": "Devourer can spawn clones until it's hp goes too low.", "type": "debug" },
       { "u_cast_spell": { "id": "CLONE_DAMAGE" } },
-      { "u_spawn_monster": "mon_spawn_daitya_clone", "real_count": 1, "min_radius": 1, "max_radius": 3 }
+      { "u_spawn_monster": "mon_devourer_daitya_clone", "real_count": 1, "min_radius": 1, "max_radius": 3 }
     ]
   },
   {
@@ -489,34 +472,6 @@
     "damage_type": "pure",
     "flags": [ "NO_EXPLOSION_SFX" ],
     "base_casting_time": 100
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_DAITYA_EAT_CLONES",
-    "condition": { "math": [ "n_monsters_nearby('radius': 8, 'mon_devourer_daitya_clone') > 0" ] },
-    "effect": [
-      { "message": "Devourer will eat clones when it's hp goes too low.", "type": "debug" },
-      { "u_cast_spell": { "id": "EAT_CLONES" } }
-    ]
-  },
-  {
-    "id": "EAT_CLONES",
-    "type": "SPELL",
-    "name": { "str": "Eat Clones", "//~": "NO_I18N" },
-    "valid_targets": [ "ground", "ally", "hostile", "self" ],
-    "description": { "str": "Eliminates any dream shadows in the area.", "//~": "NO_I18N" },
-    "max_level": 1,
-    "teachable": false,
-    "effect": "targeted_polymorph",
-    "effect_str": "mon_enwrapped_clone",
-    "shape": "blast",
-    "targeted_monster_ids": [ "mon_devourer_daitya_clone" ],
-    "damage_type": "pure",
-    "min_damage": 407,
-    "max_damage": 407,
-    "min_aoe": 60,
-    "max_aoe": 60,
-    "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_FAIL", "SILENT", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ]
   },
   {
     "id": "mon_devourer_daitya_clone",
@@ -609,79 +564,6 @@
       "FILTHY"
     ],
     "armor": { "bash": 4, "cut": 6, "bullet": 4, "electric": 3 }
-  },
-  {
-    "id": "mon_enwrapped_clone",
-    "type": "MONSTER",
-    "name": { "str": "tongue wrapped daitya clone" },
-    "description": "The Daitya clone is fully enwrapped by the extended tongue of the Daitya.  Now is the moment of stillness between movements.",
-    "default_faction": "zombie",
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "species": [ "ZOMBIE" ],
-    "diff": 35,
-    "hp": 500,
-    "speed": 100,
-    "material": [ "flesh" ],
-    "symbol": "S",
-    "color": "red_yellow",
-    "scents_tracked": [ "sc_human", "sc_fetid", "sc_flower" ],
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 7,
-    "melee_dice": 6,
-    "melee_dice_sides": 4,
-    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
-    "vision_day": 60,
-    "vision_night": 60,
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
-    "bleed_rate": 0,
-    "harvest": "exempt",
-    "grab_strength": 100,
-    "special_attacks": [
-      {
-        "type": "spell",
-        "spell_data": { "id": "enwrapped_clone_swallowed", "hit_self": true },
-        "cooldown": 50,
-        "monster_message": "%s is swallowed by the Daitya!"
-      }
-    ],
-    "death_function": { "message": "The %s is swallowed!", "corpse_type": "NO_CORPSE" },
-    "death_drops": { "subtype": "collection", "groups": [ "explode_gasbag", "explode_innards", "explode_innards" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ],
-    "armor": { "bash": 10, "cut": 20, "bullet": 16, "electric": 5 }
-  },
-  {
-    "type": "SPELL",
-    "id": "enwrapped_clone_swallowed",
-    "name": { "str": "Swallows the clone", "//~": "NO_I18N" },
-    "description": { "str": "Swallows the clone.", "//~": "NO_I18N" },
-    "valid_targets": [ "self" ],
-    "base_casting_time": 0,
-    "min_damage": 1000,
-    "max_damage": 3000,
-    "shape": "blast",
-    "effect": "banishment",
-    "extra_effects": [ { "id": "HEAL_DAITYA" } ]
-  },
-  {
-    "id": "HEAL_DAITYA",
-    "type": "SPELL",
-    "name": { "str": "Heal Daitya", "//~": "NO_I18N" },
-    "valid_targets": [ "ground", "ally", "hostile", "self" ],
-    "description": { "str": "Heals nearby daitya.", "//~": "NO_I18N" },
-    "max_level": 1,
-    "teachable": false,
-    "effect": "targeted_polymorph",
-    "effect_str": "mon_enwrapped_clone",
-    "shape": "blast",
-    "targeted_monster_ids": [ "mon_devourer_daitya" ],
-    "damage_type": "pure",
-    "min_damage": -72,
-    "max_damage": -72,
-    "min_aoe": 8,
-    "max_aoe": 8,
-    "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_FAIL", "SILENT", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ]
   },
   {
     "id": "mon_zombie_crushed_giant",

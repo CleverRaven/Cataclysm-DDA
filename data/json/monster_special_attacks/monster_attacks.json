@@ -434,6 +434,23 @@
   },
   {
     "type": "monster_attack",
+    "attack_type": "bite",
+    "id": "stretch_bite_clone",
+    "cooldown": 10,
+    "move_cost": 300,
+    "//": "No stun on miss/obstacle unlike in the hardcoded attack, raised movecost to compensate",
+    "range": 3,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 9 } ],
+    "min_mul": 0.3,
+    "hit_dmg_u": "%1$s's head shoots out, and its teeth sink into your %2$s!",
+    "hit_dmg_npc": "%1$s's head shoots out, and its teeth sink into <npcname>!",
+    "no_dmg_msg_u": "%1$s's head hits your %2$s, but glances off your armor.",
+    "no_dmg_msg_npc": "%1$s's head hits <npcname>, but glances off their armor.",
+    "miss_msg_u": "%s's head extends to bite you, but you dodge and the head sails past!",
+    "miss_msg_npc": "%s's head extends to bite <npcname>, but they dodge and the head sails past!"
+  },
+  {
+    "type": "monster_attack",
     "attack_type": "melee",
     "id": "stretch_attack",
     "cooldown": 20,
