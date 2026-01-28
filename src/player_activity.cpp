@@ -283,7 +283,13 @@ void player_activity::do_turn( Character &you )
 
     // This might finish the activity (set it to null)
     if( actor ) {
+        const activity_id prior_act_id = id();
         actor->do_turn( *this, you );
+
+        // if an activity was assigned during this activity, stop processing immediately
+        if( *this && prior_act_id != id() ) {
+            return;
+        }
     } else {
         // Use the legacy turn function
         type->call_do_turn( this, &you );

@@ -1074,6 +1074,11 @@ int talker_character_const::get_stamina() const
     return me_chr_const->get_stamina();
 }
 
+int talker_character_const::get_stamina_max() const
+{
+    return me_chr_const->get_stamina_max();
+}
+
 void talker_character::set_stamina( int amount )
 {
     me_chr->set_stamina( amount );
