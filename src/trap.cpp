@@ -241,7 +241,7 @@ bool trap::detected_by_ground_sonar() const
 
 // Echolocation refers to both bat-style echolocation and underwater SONAR, and
 // detects traps which are solid and unburied objects, aboveground or underwater.
-// Isn't fine enough to detect very small traps ie caltrops
+// Isn't fine enough to detect very small traps ie caltrops.
 bool trap::detected_by_echolocation() const
 {
     return has_flag( json_flag_ECHOLOCATION_DETECTABLE );
