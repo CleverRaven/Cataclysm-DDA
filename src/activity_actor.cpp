@@ -1291,7 +1291,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
     // Speed based on the SAW_M quality.  A hacksaw, at SAW_M 2, matches the duration in JSON data.
     // The reciprocating saw has SAW_M 3 and it cuts twice as fast as a hacksaw since it's an 800
     // watt power tool.  SAW_M 4 is thrice as fast as a hacksaw and so on.
-    act.moves_total = moves_before_quality / (qual - 1);
+    act.moves_total = moves_before_quality / ( qual - 1 );
     add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
     act.moves_left = act.moves_total;
 }
