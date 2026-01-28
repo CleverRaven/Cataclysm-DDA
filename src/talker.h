@@ -587,6 +587,9 @@ class const_talker
         virtual int get_stamina() const {
             return 0;
         }
+        virtual int get_stamina_max() const {
+            return 0;
+        }
         virtual int get_sleep_deprivation() const {
             return 0;
         }
