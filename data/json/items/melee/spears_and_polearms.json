@@ -291,7 +291,7 @@
     "color": "light_gray",
     "symbol": "/",
     "looks_like": "spear_steel",
-    "material": [ "steel", "wood" ],
+    "material": [ { "type": "wood", "portion": 95 }, { "type": "mc_steel", "portion": 5 } ],
     "techniques": [ "WBLOCK_1", "PENETRATE" ],
     "volume": "1350 ml",
     "longest_side": "180 cm",
@@ -303,6 +303,17 @@
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 4, "stab": 24 }
+  },
+  {
+    "id": "crude_goedendag",
+    "copy-from": "spear_steel_crude",
+    "relative": { "melee_damage": { "bash": 18, "stab": -14 }, "longest_side": "-30 cm" },
+    "techniques": [ "WBLOCK_1", "BRUTAL" ],
+    "type": "ITEM",
+    "name": { "str": "crude goedendag" },
+    "description": "A stout wooden pole, slightly thicker at the end, with a metal cap and a spike protruding straight up from the top.",
+    "weapon_category": [ "GREAT_HAMMERS", "SPEARS" ],
+    "faults": [ { "fault_group": "handle_long" } ]
   },
   {
     "type": "ITEM",
@@ -926,6 +937,29 @@
     "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "spearhead" } ],
     "weapon_category": [ "SPEARS" ],
     "melee_damage": { "bash": 8, "stab": 39 }
+  },
+  {
+    "id": "string_dimension_partigiana_ixwa",
+    "//": "An other-earth interpretation of a hewing short spear, combining the hooking head of the Italian partisan spear with the short Zulu ixwa.  On par or worse than other qt_steel weapons, and uncraftable, being alien.",
+    "type": "ITEM",
+    "name": "partigiana-ixwa",
+    "description": "A steel shortspear from an alien world, made of a single, continuous piece of tempered steel.  The head is a broad cutting-stabbing implement with small hooks on either side.",
+    "weight": "3200 g",
+    "volume": "400 ml",
+    "longest_side": "91 cm",
+    "price": "100 USD",
+    "price_postapoc": "35 USD",
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
+    "material": [ "qt_steel" ],
+    "symbol": "/",
+    "color": "white",
+    "techniques": [ "WBLOCK_1", "PENETRATE", "DEF_DISARM" ],
+    "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
+    "flags": [ "SPEAR", "CONDUCTIVE", "DURABLE_MELEE", "SHEATH_SPEAR" ],
+    "faults": [ { "fault_group": "blade_general" } ],
+    "weapon_category": [ "SPEARS", "HOOKING_WEAPONRY" ],
+    "melee_damage": { "cut": 12, "stab": 35 }
   },
   {
     "id": "spear_bronze",

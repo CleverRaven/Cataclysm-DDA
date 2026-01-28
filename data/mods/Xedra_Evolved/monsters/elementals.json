@@ -312,7 +312,7 @@
         "id": "mon_shabriri_blinding",
         "type": "spell",
         "spell_data": { "id": "mon_shabriri_blind_spell", "min_level": 0 },
-        "cooldown": 30,
+        "cooldown": 20,
         "monster_message": ""
       }
     ],

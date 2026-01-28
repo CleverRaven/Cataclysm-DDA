@@ -1,9 +1,10 @@
 [
   {
     "id": "force_blade",
+    "//": "id retained for legacy reasons",
     "type": "SPELL",
-    "name": "Force Blade",
-    "description": "You shoot a blade of concentrated force in a straight line, cutting everything in its path.",
+    "name": "Storm of Force",
+    "description": "You shoot blasts of of concentrated force in a straight line, cutting everything in their path.",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],

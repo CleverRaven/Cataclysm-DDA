@@ -161,14 +161,16 @@
     "intensity_levels": [
       {
         "name": "starlit webs",
-        "transparent": false,
+        "sym": "}",
+        "color": "white",
+        "transparent": true,
         "effects": [
           { "effect_id": "webbed", "intensity": 1, "min_duration": "1 m", "immune_in_vehicle": true, "is_environmental": false }
         ]
       },
       {
         "name": "starlit webs",
-        "transparent": false,
+        "transparent": true,
         "effects": [
           { "effect_id": "webbed", "intensity": 2, "min_duration": "1 m", "immune_in_vehicle": true, "is_environmental": false }
         ]
@@ -182,7 +184,7 @@
       }
     ],
     "description_affix": "covered_in",
-    "immune_mtypes": [ "mon_void_spider", "mon_void_spider_spiderling" ],
+    "immune_mtypes": [ "mon_void_spider", "mon_void_spider_spiderling", "mon_void_spider_maw", "mon_void_spider_limb" ],
     "decrease_intensity_on_contact": true,
     "priority": 2,
     "phase": "solid",

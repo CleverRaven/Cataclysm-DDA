@@ -173,7 +173,8 @@
       "radio_tower_odd",
       "radio_tower_top",
       "radio_tower_1",
-      "radio_tower_roof_1"
+      "radio_tower_roof_1",
+      "radio_tower_reverberation_mp3"
     ],
     "copy-from": "radio_tower",
     "name": "radio tower",

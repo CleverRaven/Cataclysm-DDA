@@ -79,6 +79,7 @@ enum class widget_var : int {
     move_count_mode_text, // Movement counter and mode letter like "50(R)", color string
     overmap_loc_text,// Local overmap position, pseudo latitude/longitude with Z-level
     overmap_text,   // Local overmap and mission marker, multi-line color string
+    oxygen,         // Current oxygen
     pain_text,      // Pain description text, color string
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string

@@ -2358,13 +2358,13 @@ static bool query_is_yes( std::string_view query )
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe )
 {
     if( amount == 1 ) {
-        right_print( w, 1, 1, c_red, string_format( _( "* %s hidden recipe - %s in category *" ), amount,
+        right_print( w, 1, 1, c_red, string_format( _( "* %d hidden recipe - %d in category *" ), amount,
                      num_recipe ) );
     } else if( amount >= 2 ) {
-        right_print( w, 1, 1, c_red, string_format( _( "* %s hidden recipes - %s in category *" ), amount,
+        right_print( w, 1, 1, c_red, string_format( _( "* %d hidden recipes - %d in category *" ), amount,
                      num_recipe ) );
     } else if( amount == 0 ) {
-        right_print( w, 1, 1, c_green, string_format( _( "* No hidden recipe - %s in category *" ),
+        right_print( w, 1, 1, c_green, string_format( _( "* No hidden recipe - %d in category *" ),
                      num_recipe ) );
     }
     //Finish border connection with the recipe tabs

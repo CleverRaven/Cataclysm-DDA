@@ -1101,5 +1101,28 @@
     "color": "light_green",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_office_warehouse_anduril",
+    "name": "Anduril Industries card reader",
+    "description": "A badge scanner.  It has the logo of Anduril Industries and a sign that reads \"Authorized personnel only.  All visitors must sign in at the office.\"",
+    "//": "Entrance card for Anduril Industries IVAS testing warehouse",
+    "symbol": "6",
+    "color": "green",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "ANDURIL_AR_CARD" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": false,
+      "terrain_changes": { "t_door_metal_locked": "t_thconc_floor" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
   }
 ]

@@ -51,6 +51,7 @@
 #include "help.h"
 #include "input_context.h"
 #include "input_enums.h"
+#include "input_popup.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_group.h"
@@ -87,7 +88,6 @@
 #include "sleep.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "timed_event.h"
 #include "translation.h"
 #include "translations.h"
@@ -113,13 +113,9 @@ enum class direction : unsigned int;
 
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
-static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
-static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
-static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
-static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
@@ -919,16 +915,14 @@ static void haul()
         case 3:
             autohaul ? player_character.stop_autohaul() : player_character.start_autohaul();
             break;
-        case 4:
-            string_input_popup()
-            .title( _( "Filter:" ) )
-            .width( 55 )
-            .description( item_filter_rule_string( item_filter_type::FILTER ) )
-            .desc_color( c_white )
-            .identifier( "item_filter" )
-            .max_length( 256 )
-            .edit( player_character.hauling_filter );
-            break;
+        case 4: {
+            string_input_popup_imgui filter_popup( 50, player_character.hauling_filter );
+            filter_popup.set_label( _( "Filter:" ) );
+            filter_popup.set_description( item_filter_rule_string( item_filter_type::FILTER ), c_white, true );
+            filter_popup.set_identifier( "item_filter" );
+            player_character.hauling_filter = filter_popup.query();
+        }
+        break;
         case 9:
         default:
             break;
@@ -1683,10 +1677,10 @@ static void loot()
             player_character.assign_activity( ACT_MULTIPLE_FARM );
             break;
         case Multichoptrees:
-            player_character.assign_activity( ACT_MULTIPLE_CHOP_TREES );
+            player_character.assign_activity( multi_chop_trees_activity_actor() );
             break;
         case Multichopplanks:
-            player_character.assign_activity( ACT_MULTIPLE_CHOP_PLANKS );
+            player_character.assign_activity( multi_chop_planks_activity_actor() );
             break;
         case Multideconvehicle:
             player_character.assign_activity( ACT_VEHICLE_DECONSTRUCTION );
@@ -1698,13 +1692,13 @@ static void loot()
             player_character.assign_activity( ACT_MULTIPLE_BUTCHER );
             break;
         case MultiMining:
-            player_character.assign_activity( ACT_MULTIPLE_MINE );
+            player_character.assign_activity( multi_mine_activity_actor() );
             break;
         case MultiDis:
             player_character.assign_activity( ACT_MULTIPLE_DIS );
             break;
         case MultiMopping:
-            player_character.assign_activity( ACT_MULTIPLE_MOP );
+            player_character.assign_activity( multi_mop_activity_actor() );
             break;
         case MultiStudy:
             player_character.assign_activity( ACT_MULTIPLE_STUDY );
@@ -1945,6 +1939,11 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
         !get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) && !sp.check_if_component_in_hand( *this ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
+        return false;
+    }
+
+    if( !sp.valid_caster_condition( *this ) ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown }, sp.failed_caster_condition_message() );
         return false;
     }
 
@@ -2586,7 +2585,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_LIST_ITEMS:
-            list_items_monsters();
+            list_surroundings();
             break;
 
         case ACTION_ZONES:
@@ -3001,6 +3000,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             world_generator->show_active_world_mods( world_generator->active_world->active_mod_order );
             break;
 
+        case ACTION_EXPORT_BUG_REPORT_ARCHIVE:
+            debug_menu::export_save_archive_and_game_report();
+            break;
+
         case ACTION_DEBUG:
             if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                 break;    //don't do anything when sharing and not debugger
@@ -3339,6 +3342,10 @@ bool game::handle_action()
     if( act != ACTION_TIMEOUT ) {
         player_character.mod_moves( -current_turn.moves_elapsed() );
     }
+    if( act != ACTION_PAUSE ) {
+        player_character.magic->break_channeling( player_character );
+    }
+
     gamemode->post_action( act );
 
     player_character.movecounter = ( !player_character.is_dead_state() ? ( before_action_moves -

@@ -5443,7 +5443,7 @@
     "description": "Visualize it as your annoying neighbor, if that helps you feel better.",
     "//COMMENT": "Roughly human sized.",
     "volume": "75 L",
-    "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS", "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS", "PUNCTURE_VEHICLE_WHEELS" ],
     "category": "corpses",
     "copy-from": "corpse",
     "looks_like": "corpse_generic_human",
@@ -5455,14 +5455,14 @@
     "id": "corpse_fake_TEST_NODMG",
     "copy-from": "corpse_fake_TEST",
     "name": { "str": "corpse fake TEST NODMG" },
-    "delete": { "flags": [ "DAMAGE_VEHICLE_WHEELS" ] }
+    "delete": { "flags": [ "PUNCTURE_VEHICLE_WHEELS" ] }
   },
   {
     "type": "ITEM",
     "id": "test_squishy_fruit",
     "name": { "str": "test_squishy_fruit_name" },
     "material": [ "fruit" ],
-    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "PUNCTURE_VEHICLE_WHEELS" ],
     "weight": "4518 g",
     "color": "green",
     "symbol": "%",
@@ -5492,7 +5492,7 @@
     "id": "test_guarantee_wheel_dmg",
     "name": { "str": "test_guarantee_wheel_dmg_name" },
     "material": [ "DOOM_MATERIAL" ],
-    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "PUNCTURE_VEHICLE_WHEELS" ],
     "weight": "4518 g",
     "color": "green",
     "symbol": "%",
@@ -5513,7 +5513,7 @@
     "material": [ "cotton" ],
     "weight": "2317 g",
     "volume": "50 L",
-    "flags": [ "SLEEP_AID", "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "SLEEP_AID", "PUNCTURE_VEHICLE_WHEELS" ],
     "category": "other"
   },
   {
@@ -5615,5 +5615,21 @@
     "damage": { "damage_type": "heat", "amount": 15, "armor_penetration": 30 },
     "range": 6,
     "effects": [ "FLAME", "STREAM_BIG", "IGNITE", "NEVER_MISFIRES" ]
+  },
+  {
+    "id": "test_lockpick",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "tools",
+    "name": { "str": "test lockpick" },
+    "description": "A lockpick made specifically for testing lockpicking mechanics.",
+    "weight": "23 g",
+    "volume": "5 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "LOCKPICK", 3 ] ]
   }
 ]

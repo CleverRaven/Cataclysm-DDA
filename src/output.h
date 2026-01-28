@@ -514,6 +514,11 @@ enum PopupFlags {
     PF_FULLSCREEN  = 1 << 3,
 };
 
+inline auto  format_as( PopupFlags pf )
+{
+    return static_cast<std::underlying_type_t<PopupFlags>>( pf );
+}
+
 PopupFlags popup_flag_from_string( const std::string &str );
 
 template<typename ...Args>
@@ -634,8 +639,6 @@ std::string remove_punctuations( std::string_view s );
 std::string to_upper_case( std::string_view s );
 // Converts the string to lower case.
 std::string to_lower_case( std::string_view s );
-
-std::string rewrite_vsnprintf( const char *msg );
 
 // TODO: move these elsewhere
 // string manipulations.

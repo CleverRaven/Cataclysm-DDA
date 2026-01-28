@@ -625,11 +625,17 @@
     "id": "EOC_PORTAL_DIMENSION_TRAVEL",
     "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
     "effect": [
-      { "u_location_variable": { "context_val": "loc" } },
       {
-        "if": { "map_terrain_with_flag": "SHALLOW_WATER", "loc": { "context_val": "loc" } },
-        "then": { "run_eocs": "EOC_PORTAL_HIGHLANDS" },
-        "else": { "run_eocs": [ "EOC_REVERBERATION_ENTER" ] }
+        "if": { "u_has_item": "inert_glowing_string" },
+        "then": { "run_eocs": "EOC_PORTAL_STRING_DIMENSION" },
+        "else": [
+          { "u_location_variable": { "context_val": "loc" } },
+          {
+            "if": { "map_terrain_with_flag": "SHALLOW_WATER", "loc": { "context_val": "loc" } },
+            "then": { "run_eocs": "EOC_PORTAL_HIGHLANDS" },
+            "else": { "run_eocs": [ "EOC_REVERBERATION_ENTER" ] }
+          }
+        ]
       }
     ]
   },

@@ -868,7 +868,7 @@ std::string Character::debug_weary_info() const
     int weight = units::to_gram<int>( bodyweight() );
     float bmi = get_bmi();
 
-    return string_format( "Weariness: %s Max Full Exert: %s Mult: %g\n BMR: %d CARDIO FITNESS: %d\n %s Thresh: %d At: %d\n Kcal: %d/%d Sleepiness: %d Morale: %d Wgt: %d (BMI %.1f)",
+    return string_format( "Weariness: %d Max Full Exert: %s Mult: %g\n BMR: %d CARDIO FITNESS: %d\n %s Thresh: %d At: %d\n Kcal: %d/%d Sleepiness: %d Morale: %d Wgt: %d (BMI %.1f)",
                           amt, max_act, move_mult, bmr, cardio_mult, weary_internals, thresh, current,
                           get_stored_kcal(), get_healthy_kcal(), sleepiness, morale, weight, bmi );
 }
@@ -1206,7 +1206,20 @@ void Character::regen( int rate_multiplier )
     float rest = rest_quality();
     float heal_rate = healing_rate( rest ) * to_turns<int>( 5_minutes );
     if( heal_rate > 0.0f ) {
-        healall( roll_remainder( rate_multiplier * heal_rate ) );
+        int healing_apply = roll_remainder( rate_multiplier * heal_rate );
+        if( healing_apply > 0 ) {
+            for( const bodypart_id &healed_part : get_all_body_parts() ) {
+                int part_healing = std::min( healing_apply,
+                                             get_part_hp_max( healed_part ) - get_part_hp_cur( healed_part ) );
+                if( part_healing > 0 ) {
+                    mod_part_healed_total( healed_part, part_healing );
+                    heal( healed_part, part_healing );
+                    // Consume 1 "health" for every Hit Point healed via non-medicine healing.
+                    // Using medicine reduces the ratio of health consumed to damage healed.
+                    mod_daily_health( -part_healing, -200 );
+                }
+            }
+        }
     } else if( heal_rate < 0.0f ) {
         int rot_rate = roll_remainder( rate_multiplier * -heal_rate );
         // Has to be in loop because some effects depend on rounding
@@ -1221,9 +1234,6 @@ void Character::regen( int rate_multiplier )
         int healing_apply = roll_remainder( healing );
         mod_part_healed_total( bp, healing_apply );
         heal( bp, healing_apply );
-        // Consume 1 "health" for every Hit Point healed via medicine healing.
-        // This has a significant effect on long-term healing.
-        mod_daily_health( -healing_apply, -200 );
         if( get_part_damage_bandaged( bp ) > 0 ) {
             mod_part_damage_bandaged( bp, -healing_apply );
             if( get_part_damage_bandaged( bp ) <= 0 ) {
@@ -2021,8 +2031,8 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
     // Sufficiently negative rest quality can completely eliminate your healing, but never turn it negative.
     rate_medicine *= 1.0f + std::max( at_rest_quality, -1.0f );
 
-    // increase healing if character has both effects
-    if( has_effect( effect_bandaged ) && has_effect( effect_disinfected ) ) {
+    // Increase healing if character has both effects on this body part.
+    if( has_effect( effect_bandaged, bp ) && has_effect( effect_disinfected, bp ) ) {
         rate_medicine *= 1.25;
     }
 

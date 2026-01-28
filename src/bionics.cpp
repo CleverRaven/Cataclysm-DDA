@@ -2098,7 +2098,8 @@ bool Character::can_uninstall_bionic( const bionic &bio, Character &installer, b
     }
 
     if( bio.id->cant_remove_reason.has_value() ) {
-        popup( string_format( bio.id->cant_remove_reason.value(), disp_name( true ), disp_name() ) );
+        popup( string_format( bio.id->cant_remove_reason.value().translated(), disp_name( true ),
+                              disp_name() ) );
         return false;
     }
 

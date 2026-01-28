@@ -5,6 +5,7 @@
 #include <limits>
 #include <optional>
 #include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
 #include <climits>
@@ -53,6 +54,11 @@ enum moon_phase {
     /** Not a valid moon phase, but can be used for iterating through enum */
     MOON_PHASE_MAX
 };
+
+inline auto format_as( moon_phase mp )
+{
+    return static_cast<std::underlying_type_t<moon_phase>>( mp );
+}
 
 enum class time_accuracy {
     /** No accuracy, no idea what time it is **/

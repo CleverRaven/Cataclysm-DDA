@@ -928,92 +928,8 @@
     }
   },
   {
-    "//": "psionic lab for artificial ascension-level awakening with osiris chamber, doors on the upper right",
     "type": "mapgen",
-    "weight": 400,
-    "nested_mapgen_id": "phavian_skyscraper_lab_south_urdoor",
-    "object": {
-      "mapgensize": [ 9, 9 ],
-      "rotation": [ 0, 3 ],
-      "rows": [
-        "CCSll...&",
-        "x........",
-        "c.::=::..",
-        "..:X..:..",
-        "..:...:..",
-        "..:...:..",
-        "..:::::..",
-        "c.......c",
-        "xxc.U.cxx"
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "phavian_skyscraper_office_room_palette" ],
-      "nested": { "X": { "chunks": [ [ "phavian_skyscraper_osiris_chamber", 1 ] ] } },
-      "place_item": [
-        { "item": "matrix_crystal_telepathy", "x": 0, "y": 0, "chance": 30 },
-        { "item": "lab_file_obsidian_ring_item", "x": 1, "y": 0, "chance": 45 }
-      ],
-      "place_items": [ { "item": "clairsentient_matrix_crystals_group", "x": 0, "y": 0, "chance": 30 } ],
-      "items": {
-        "d": { "item": "dist_lab_file_phavian_skyscraper_lab", "chance": 5 },
-        "C": { "item": "psi_lab_no_recipes", "chance": 60, "repeat": [ 1, 3 ] },
-        "F": { "item": "electronics", "chance": 70, "repeat": [ 2, 5 ] },
-        "Ȼ": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
-        "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
-        "U": [ { "item": "psi_lab", "chance": 40, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 70, "repeat": [ 2, 5 ] } ]
-      },
-      "place_monster": [
-        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 1 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 1, 4 ] },
-        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 7, 7 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 1, 4 ] },
-        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 7 ], "y": [ 7, 7 ], "chance": 60, "repeat": [ 1, 4 ] }
-      ]
-    }
-  },
-  {
-    "//": "psionic lab for artificial ascension-level awakening with osiris chamber, doors on the upper left",
-    "type": "mapgen",
-    "weight": 400,
-    "nested_mapgen_id": "phavian_skyscraper_lab_south_uldoor",
-    "object": {
-      "mapgensize": [ 9, 9 ],
-      "rotation": [ 0, 3 ],
-      "rows": [
-        "&...llSCC",
-        "........x",
-        "..::=::.c",
-        "..:X..:..",
-        "..:...:..",
-        "..:...:..",
-        "..:::::..",
-        "c.......c",
-        "xxc...cxx"
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "phavian_skyscraper_office_room_palette" ],
-      "nested": { "X": { "chunks": [ [ "phavian_skyscraper_osiris_chamber", 1 ] ] } },
-      "place_item": [
-        { "item": "matrix_crystal_telepathy", "x": 8, "y": 0, "chance": 30 },
-        { "item": "lab_file_obsidian_ring_item", "x": 7, "y": 0, "chance": 45 }
-      ],
-      "place_items": [ { "item": "clairsentient_matrix_crystals_group", "x": 8, "y": 0, "chance": 30 } ],
-      "items": {
-        "d": { "item": "dist_lab_file_phavian_skyscraper_lab", "chance": 5 },
-        "C": { "item": "psi_lab_no_recipes", "chance": 60, "repeat": [ 1, 3 ] },
-        "F": { "item": "electronics", "chance": 70, "repeat": [ 2, 5 ] },
-        "Ȼ": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
-        "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
-        "E": [ { "item": "matrix_crystal_drained_group", "chance": 85 } ]
-      },
-      "place_monster": [
-        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 1 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 1, 4 ] },
-        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 7, 7 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 1, 4 ] },
-        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 7 ], "y": [ 7, 7 ], "chance": 60, "repeat": [ 1, 4 ] }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "phavian_skyscraper_osiris_chamber",
+    "nested_mapgen_id": "phavian_skyscraper_osiris_chamber_clairsentient",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rows": [
@@ -1037,7 +953,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "phavian_skyscraper_osiris_chamber",
+    "nested_mapgen_id": "phavian_skyscraper_osiris_chamber_telepathic",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rows": [

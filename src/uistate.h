@@ -13,6 +13,7 @@
 #include "item_location.h"
 #include "json.h"
 #include "omdata.h"
+#include "surroundings_menu.h"
 #include "type_id.h"
 
 constexpr int DEFAULT_TILESET_ZOOM = 16;
@@ -219,16 +220,19 @@ class uistatedata
         list_item_sort_mode list_item_sort = list_item_sort_mode::DISTANCE;
         std::set<itype_id> read_items;
 
-        // These three aren't serialized because deserialize can extract them
+        // These five aren't serialized because deserialize can extract them
         // from the history
         std::string list_item_filter; // NOLINT(cata-serialize)
         std::string list_item_downvote; // NOLINT(cata-serialize)
         std::string list_item_priority; // NOLINT(cata-serialize)
-        bool vmenu_show_items = true; // false implies show monsters
+        std::string monster_filter; // NOLINT(cata-serialize)
+        std::string terfurn_filter; // NOLINT(cata-serialize)
+        surroundings_menu_tab_enum vmenu_tab = surroundings_menu_tab_enum::items;
         bool list_item_filter_active = false;
         bool list_item_downvote_active = false;
         bool list_item_priority_active = false;
-        bool list_item_init = false; // NOLINT(cata-serialize)
+        bool list_monster_filter_active = false;
+        bool list_terfurn_filter_active = false;
 
         // construction menu selections
         std::string construction_filter;

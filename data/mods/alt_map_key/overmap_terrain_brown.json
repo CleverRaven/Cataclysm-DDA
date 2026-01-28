@@ -427,6 +427,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "xedra_fishing_shack_0", "xedra_fishing_shack_1", "xedra_fishing_shack_2" ],
+    "copy-from": "xedra_fishing_shack_0",
+    "name": "lakeside shack",
+    "sym": "L",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "lodge_ground1", "lodge_ground2" ],
     "copy-from": "lodge_ground1",
     "name": "hunting lodge",

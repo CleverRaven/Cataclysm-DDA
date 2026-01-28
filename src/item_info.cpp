@@ -473,14 +473,14 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 faults += colorize( fault.first.str() + string_format( " (%d, %d%%)\n", fault.second,
                                     weight_percent ), has_fault( fault.first ) ? c_yellow : c_white );
             }
-            info.emplace_back( "BASE", string_format( "faults: %s", faults ) );
+            info.emplace_back( "BASE", string_format( _( "faults: %s" ), faults ) );
 
             units::mass sum_of_components_weight;
             for( const item_comp &c : get_uncraft_components() ) {
                 sum_of_components_weight += c.type->weight * c.count;
             }
-            info.emplace_back( "BASE", string_format( "weight of uncraft components: %s grams",
-                               to_gram( sum_of_components_weight ) ) );
+            info.emplace_back( "BASE", string_format( _( "weight of uncraft components: %d grams" ),
+                               static_cast<int>( std::round( to_gram( sum_of_components_weight ) ) ) ) );
         }
     }
 }
@@ -874,11 +874,11 @@ static std::string ammo_by_barrel_info( const islot_ammo &ammo )
 
             info += string_format( "%s;%s;%s;%s\n", _( "Length" ), _( "Point blank damage" ),
                                    _( "Total" ), _( "Dispersion" ) );
-            info += string_format( "%s;<color_c_yellow>%s</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA\n",
+            info += string_format( "%s;<color_c_yellow>%d</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA\n",
                                    small_string, small_damage, small_shot_damage, small_dispersion );
-            info += string_format( "%s;<color_c_yellow>%s</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA\n",
+            info += string_format( "%s;<color_c_yellow>%d</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA\n",
                                    medium_string, medium_damage, medium_shot_damage, medium_dispersion );
-            info += string_format( "%s;<color_c_yellow>%s</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA",
+            info += string_format( "%s;<color_c_yellow>%d</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA",
                                    large_string, large_damage, large_shot_damage, large_dispersion );
         } else {
             info += string_format( "%s;%s;%s\n", _( "Length" ), _( "Damage" ), _( "Dispersion" ) );

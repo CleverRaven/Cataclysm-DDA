@@ -3,7 +3,7 @@
     "type": "region_settings_city",
     "id": "default",
     "copy-from": "default",
-    "extend": { "shops": [ [ "office_cubical_phavian", 175 ], [ "phavian_skyscraper_lab", 250 ] ] }
+    "extend": { "shops": [ [ "office_cubical_phavian", 175 ], [ "phavian_skyscraper_lab", 250 ], [ "phavian_hospital_lab", 85 ] ] }
   },
   {
     "type": "region_settings_map_extras",

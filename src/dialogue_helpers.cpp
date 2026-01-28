@@ -31,10 +31,14 @@ diag_value const *maybe_read_var_value( const var_info &info, const_dialogue con
             return globvars.maybe_get_global_value( info.name );
         case var_type::context:
             return d.maybe_get_value( info.name );
-        case var_type::u:
-            return d.const_actor( false )->maybe_get_value( info.name );
-        case var_type::npc:
-            return d.const_actor( true )->maybe_get_value( info.name );
+        case var_type::u: {
+            const_talker const *alpha = d.const_actor( false );
+            return alpha ? alpha->maybe_get_value( info.name ) : nullptr;
+        }
+        case var_type::npc: {
+            const_talker const *beta = d.const_actor( true );
+            return beta ? beta->maybe_get_value( info.name ) : nullptr;
+        }
         case var_type::var: {
             diag_value const *const var_val = d.maybe_get_value( info.name );
             return var_val ? maybe_read_var_value( process_variable( var_val->str() ), d ) : nullptr;

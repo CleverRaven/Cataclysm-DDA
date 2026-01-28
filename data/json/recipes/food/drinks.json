@@ -566,22 +566,18 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "can_coconut",
-    "charges": 1,
     "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
+    "batch_time_factors": [ 75, 2 ],
     "time": "15 m",
     "book_learn": [ [ "manual_sealing", 1 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "STRAIN", "level": 2 } ],
-    "proficiencies": [
-      { "proficiency": "prof_food_prep" },
-      { "proficiency": "prof_knife_skills" },
-      { "proficiency": "prof_preservation" },
-      { "proficiency": "prof_food_canning" }
-    ],
-    "components": [ [ [ "coconut_flesh", 10 ] ], [ [ "water_clean", 2 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
+    "components": [ [ [ "coconut_flesh", 2 ] ], [ [ "water_clean", 1 ] ] ],
+    "charges": 2
   },
   {
     "type": "recipe",

@@ -380,14 +380,6 @@
     "based_on": "speed"
   },
   {
-    "id": "ACT_TRAIN_TEACHER",
-    "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
-    "verb": "teaching",
-    "based_on": "speed",
-    "can_resume": false
-  },
-  {
     "id": "ACT_SOCIALIZE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -559,14 +551,6 @@
     "auto_needs": true
   },
   {
-    "id": "ACT_ARMOR_LAYERS",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "fiddling with your clothes",
-    "based_on": "neither",
-    "can_resume": false
-  },
-  {
     "id": "ACT_START_FIRE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -638,7 +622,7 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "using the ATM",
-    "based_on": "neither",
+    "based_on": "time",
     "can_resume": false
   },
   {

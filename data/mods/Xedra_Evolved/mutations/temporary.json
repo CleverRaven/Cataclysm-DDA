@@ -179,7 +179,7 @@
         "mutations": [ "FANGS", "MUZZLE_BEAR", "TAIL_STUB", "PAWS_LARGE", "URSINE_FUR", "URSINE_EARS", "PRED3" ]
       },
       {
-        "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
+        "condition": { "not": "u_can_drop_weapon" },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
       },
@@ -225,7 +225,7 @@
         "mutations": [ "ANTLERS", "HOOVES" ]
       },
       {
-        "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
+        "condition": { "not": "u_can_drop_weapon" },
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
       },
       { "condition": { "u_has_move_mode": "run" }, "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ] },
@@ -265,7 +265,7 @@
         "mutations": [ "FANGS", "TAIL_LONG", "PAWS", "FELINE_FUR", "FELINE_EARS", "PRED3", "WHISKERS", "FELINE_LEAP" ]
       },
       {
-        "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
+        "condition": { "not": "u_can_drop_weapon" },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
       },

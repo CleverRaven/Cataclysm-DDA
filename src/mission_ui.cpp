@@ -482,7 +482,7 @@ void mission_ui_impl::draw_location( const std::string &label,
         units::length actual_distance = omt_distance * 24_meter;
         const std::string dir_arrow = direction_arrow( direction_from( pos.xy(), loc.xy() ) );
         //~Parenthesis is a real-world value for distance. Example string: "223 tiles (5.35km) ⇗"
-        const std::string distance_str = string_format( _( "%1$s tiles (%2$s) %3$s" ),
+        const std::string distance_str = string_format( _( "%1$d tiles (%2$s) %3$s" ),
                                          omt_distance, length_to_string_approx( actual_distance ), dir_arrow );
         draw_label_with_value( _( "Distance:" ), distance_str );
     }

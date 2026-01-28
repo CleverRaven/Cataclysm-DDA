@@ -1,0 +1,73 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "string_dimension_crossroads" ],
+    "flags": [ "NO_ROTATE" ],
+    "vision_levels": "open_land",
+    "land_use_code": "open_land",
+    "name": "bridges",
+    "sym": ".",
+    "color": "light_gray",
+    "see_cost": "all_clear"
+  },
+  {
+    "type": "overmap_location",
+    "id": "string_dimension_crossroads",
+    "terrains": [ "string_dimension_crossroads" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "string_dimension_void" ],
+    "flags": [ "NO_ROTATE" ],
+    "vision_levels": "open_land",
+    "name": "empty space",
+    "sym": " ",
+    "color": "black",
+    "see_cost": "all_clear"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "string_dimension_true_void" ],
+    "flags": [ "NO_ROTATE" ],
+    "vision_levels": "open_land",
+    "name": "empty space",
+    "sym": " ",
+    "color": "black",
+    "see_cost": "opaque"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "string_dimension_small_ziggurat_1",
+      "string_dimension_small_ziggurat_0",
+      "string_dimension_small_ziggurat_-1",
+      "string_dimension_small_ziggurat_-2",
+      "string_dimension_small_ziggurat_-3"
+    ],
+    "vision_levels": "isolated_tower",
+    "name": "floating inverted ziggurat",
+    "sym": "Z",
+    "color": "yellow",
+    "see_cost": "low"
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_string_dimension_plane",
+    "copy-from": "generic_open_land",
+    "name": "planes",
+    "sym": "+",
+    "color": "light_blue",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "string_dimension_plane_core",
+    "copy-from": "generic_string_dimension_plane",
+    "extend": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "string_dimension_plane_end",
+    "copy-from": "generic_string_dimension_plane"
+  }
+]

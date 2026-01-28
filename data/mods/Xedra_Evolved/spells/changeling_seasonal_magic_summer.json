@@ -267,7 +267,7 @@
     "description": "Summon a massive lightning bolt onto a target location.  This glamour may only be used outside during a storm.",
     "message": "You call down a bolt of thunder!",
     "valid_targets": [ "hostile", "ground", "ally" ],
-    "condition": {
+    "caster_condition": {
       "and": [
         "u_is_outside",
         {

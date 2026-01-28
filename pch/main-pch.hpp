@@ -83,6 +83,8 @@
 #include <utility>
 #include <vector>
 #include <flatbuffers/flexbuffers.h>
+#include <fmt/format.h>
+#include <fmt/printf.h>
 
 #if defined(_MSC_VER)
 #   include "platform_win.h"

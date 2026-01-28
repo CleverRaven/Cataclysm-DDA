@@ -215,6 +215,7 @@ class damage_over_time_data
 
 struct dealt_damage_instance {
     std::map<damage_type_id, int> dealt_dams;
+    // todo: make a map or vector
     bodypart_id bp_hit;
     std::string wp_hit;
 
@@ -222,6 +223,7 @@ struct dealt_damage_instance {
     void set_damage( const damage_type_id &dt, int amount );
     int type_damage( const damage_type_id &dt ) const;
     int total_damage() const;
+    dealt_damage_instance &operator+=( const dealt_damage_instance &rhs );
 };
 
 struct resistances {

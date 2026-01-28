@@ -95,5 +95,10 @@
     "type": "overmap_special_migration",
     "id": "Evac Shelter Unfinished 2",
     "new_id": "Evac Shelter Unfinished"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "void_spider_lair",
+    "//": "Migrated to its own region in 0.J experimental"
   }
 ]

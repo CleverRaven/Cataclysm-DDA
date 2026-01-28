@@ -264,6 +264,11 @@
         "topic": "TALK_ROBOFAC_INTERCOM_HEW_UPGRADE_COMPLETE"
       },
       {
+        "text": "Any progress on that AR headset?",
+        "condition": { "compare_string": [ "ivas", { "u_val": "dialogue_hub_rnd_u_current_project" } ] },
+        "topic": "TALK_ROBOFAC_INTERCOM_IVAS_COMPLETE"
+      },
+      {
         "text": "I've found a rifle chambered for a caliber I don't recognize.  Do you think you could make an HWP adapter for it?",
         "condition": {
           "and": [
@@ -1035,6 +1040,29 @@
           { "u_lose_var": "dialogue_hub_rnd_u_project_ongoing" },
           { "u_lose_var": "timer_hub_rnd_u_waiting_on_hub" },
           { "u_spawn_item": "robofac_mobile_weather_station" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_IVAS_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub) >= time('5 d')" ],
+      "yes": "We've reverse engineered the headset and were able to 'trim the fat,' so to speak, as a good deal of the internals were dedicated to GPS and other non-functional devices.  We've been able to produce a superior in-house version and have integrated it into our standard recon helmet.  We ask that you keep detailed notes on its function for us.  If you die, we will send a field team to retrieve it, so please don't damage it.",
+      "no": "Work is still ongoing."
+    },
+    "responses": [
+      {
+        "text": "Thanks.",
+        "condition": { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub) >= time('5 d')" ] },
+        "effect": [
+          { "u_lose_var": "dialogue_hub_rnd_u_current_project" },
+          { "u_lose_var": "dialogue_hub_rnd_u_project_ongoing" },
+          { "u_lose_var": "timer_hub_rnd_u_waiting_on_hub" },
+          { "u_spawn_item": "robofac_head_rig_ar" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },

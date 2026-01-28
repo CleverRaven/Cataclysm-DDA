@@ -167,7 +167,16 @@
       { "level": 3, "name": "swimming" },
       { "level": 4, "name": "survival" }
     ],
-    "traits": [ "STR_UP_3", "UPLIFTED", "THRESH_URSINE", "URSINE_FUR", "CANNIBAL", "HUGE_OK", "CBM_Interface" ],
+    "traits": [
+      "STR_UP_3",
+      "UPLIFTED",
+      "THRESH_URSINE",
+      "URSINE_FUR",
+      "CANNIBAL",
+      "HUGE_OK",
+      "CBM_Interface",
+      "CANNOT_GAIN_PSIONICS"
+    ],
     "items": {
       "both": {
         "entries": [
@@ -434,7 +443,7 @@
       { "level": 3, "name": "bashing" }
     ],
     "proficiencies": [ "prof_batons_familiar", "prof_auto_pistols_familiar" ],
-    "traits": [ "PROF_SWAT", "UPLIFTED", "THRESH_MASTODON", "TUSKS", "HUGE_OK" ],
+    "traits": [ "PROF_SWAT", "UPLIFTED", "THRESH_MASTODON", "TUSKS", "HUGE_OK", "CANNOT_GAIN_PSIONICS" ],
     "//": "Need to add XL gear for MASTODON's in more items.",
     "items": {
       "both": {
@@ -530,7 +539,17 @@
       { "level": 2, "name": "melee" },
       { "level": 2, "name": "stabbing" }
     ],
-    "traits": [ "PROF_MED", "UPLIFTED", "THRESH_CEPHALOPOD", "CEPH_EYES", "GILLS", "INT_UP_2", "LEG_TENTACLES", "SLIMY" ],
+    "traits": [
+      "PROF_MED",
+      "UPLIFTED",
+      "THRESH_CEPHALOPOD",
+      "CEPH_EYES",
+      "GILLS",
+      "INT_UP_2",
+      "LEG_TENTACLES",
+      "SLIMY",
+      "CANNOT_GAIN_PSIONICS"
+    ],
     "//": "Need to add underwater gear for this.  See extended leg_tentacles mutation.",
     "items": { "both": { "entries": [ { "item": "wetsuit_cecalia" }, { "item": "trident" }, { "item": "dive_bag" } ] } }
   },

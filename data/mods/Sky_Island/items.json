@@ -421,6 +421,24 @@
     "ammo_type": "components"
   },
   {
+    "id": "warp_flesh_floor_tokens",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "category": "other",
+    "name": { "str_sp": "flesh tokens" },
+    "description": "A group of small pieces of skin and meat, warm to the touch and fortunately never decaying.  You can use them to transform a section of flooring or wall into living flesh.",
+    "weight": "5 g",
+    "volume": "5 ml",
+    "count": 50,
+    "stack_size": 50,
+    "looks_like": "seed_wild_herbs",
+    "flags": [ "UNBREAKABLE" ],
+    "material": [ "flesh" ],
+    "symbol": ".",
+    "color": "pink",
+    "ammo_type": "components"
+  },
+  {
     "id": "warp_vortex_token",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],

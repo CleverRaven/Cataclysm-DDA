@@ -1861,7 +1861,7 @@
       { "item": "saline", "prob": 20, "charges": [ 1, 5 ] },
       { "prob": 15, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
       { "prob": 15, "group": "calcium_tablet_bottle_plastic_pill_supplement_1_20" },
-      { "item": "nyquil", "prob": 5, "charges": [ 1, 5 ] },
+      { "group": "any_cough_syrup_in_bottle", "prob": 5 },
       { "item": "disinfectant", "prob": 15, "charges": [ 1, 10 ] },
       [ "protein_powder", 15 ],
       { "item": "smoxygen_tank", "prob": 20, "charges": [ 0, 12 ] },

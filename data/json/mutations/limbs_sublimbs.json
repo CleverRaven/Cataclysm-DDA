@@ -1,0 +1,62 @@
+[
+  {
+    "id": "tail_long_base",
+    "type": "sub_body_part",
+    "name": "long tail base",
+    "name_multiple": "tail bases",
+    "max_coverage": 10,
+    "parent": "tail_long",
+    "side": 0,
+    "opposite": "tail_long_tip"
+  },
+  {
+    "id": "tail_long_center",
+    "type": "sub_body_part",
+    "name": "long tail center",
+    "name_multiple": "long tail centers",
+    "max_coverage": 60,
+    "parent": "tail_long",
+    "side": 0,
+    "opposite": "tail_long_center"
+  },
+  {
+    "id": "tail_long_tip",
+    "type": "sub_body_part",
+    "name": "long tail tip",
+    "name_multiple": "long tail tips",
+    "max_coverage": 30,
+    "parent": "tail_long",
+    "side": 0,
+    "opposite": "tail_long_base"
+  },
+  {
+    "id": "tail_fluffy_base",
+    "type": "sub_body_part",
+    "name": "fluffy tail base",
+    "name_multiple": "tail bases",
+    "max_coverage": 10,
+    "parent": "tail_fluffy",
+    "side": 0,
+    "opposite": "tail_fluffy_tip"
+  },
+  {
+    "id": "tail_fluffy_center",
+    "type": "sub_body_part",
+    "name": "fluffy tail center",
+    "name_multiple": "fluffy tail centers",
+    "max_coverage": 60,
+    "parent": "tail_fluffy",
+    "side": 0,
+    "opposite": "tail_fluffy_center"
+  },
+  {
+    "id": "tail_fluffy_tip",
+    "type": "sub_body_part",
+    "name": "long tail tip",
+    "name_multiple": "fluffy tail tips",
+    "max_coverage": 30,
+    "parent": "tail_fluffy",
+    "side": 0,
+    "opposite": "tail_fluffy_base"
+  }
+]

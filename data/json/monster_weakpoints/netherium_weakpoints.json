@@ -37,6 +37,83 @@
   },
   {
     "type": "weakpoint_set",
+    "id": "wps_void_spider",
+    "weakpoints": [
+      {
+        "id": "weak_point",
+        "name": "a band of vulnerable flesh.",
+        "coverage": 20,
+        "condition": { "not": { "npc_has_any_effect": [ "maimed_armor" ] } },
+        "difficulty": { "melee": 3, "ranged": 4 },
+        "coverage_mult": { "ranged": 0.5 },
+        "armor_mult": { "all": 0.03 },
+        "effects": [
+          {
+            "effect": "maimed_armor",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 2,
+            "message": "Foul vapor starts seeping from the %s body!",
+            "damage_required": [ 1, 5 ]
+          },
+          {
+            "effect": "maimed_armor",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 5,
+            "message": "Foul vapor starts seeping from the %s body!",
+            "damage_required": [ 5, 9 ]
+          },
+          {
+            "effect": "maimed_armor",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 20,
+            "message": "Foul vapor starts seeping from the %s body!",
+            "damage_required": [ 10, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "heavy_armor",
+        "name": "a segment full of fangs",
+        "is_good": false,
+        "armor_mult": { "all": 1.5 },
+        "coverage_mult": { "melee": 0.15 },
+        "difficulty": { "melee": 5, "ranged": 8 },
+        "condition": { "not": { "npc_has_any_effect": [ "maimed_armor", "afs_android_crawling" ] } },
+        "coverage": 30,
+        "effects": [
+          {
+            "effect": "maimed_armor",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 10,
+            "message": "Foul vapor starts seeping from the %s body!",
+            "damage_required": [ 1, 5 ]
+          },
+          {
+            "effect": "maimed_armor",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 30,
+            "message": "Foul vapor starts seeping from the %s body!",
+            "damage_required": [ 5, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "internal_exposed",
+        "name": "its exposed internals",
+        "armor_mult": { "all": 0.01 },
+        "damage_mult": { "all": 1.5 },
+        "condition": { "npc_has_any_effect": [ "maimed_armor" ] },
+        "coverage": 45
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
     "id": "wps_nether_huntsman",
     "weakpoints": [
       {

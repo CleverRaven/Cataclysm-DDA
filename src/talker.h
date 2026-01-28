@@ -480,6 +480,12 @@ class const_talker
         virtual int get_instant_thirst() const {
             return 0;
         }
+        virtual int get_oxygen() const {
+            return 0;
+        }
+        virtual int get_oxygen_max() const {
+            return 0;
+        }
         virtual int get_stored_kcal() const {
             return 0;
         }
@@ -866,6 +872,7 @@ class talker: virtual public const_talker
         virtual void set_friendly( int ) {}
         virtual void add_morale( const morale_type &, int, int, time_duration, time_duration, bool ) {}
         virtual void remove_morale( const morale_type & ) {}
+        virtual void set_oxygen( int ) {}
         virtual void set_kill_xp( int ) {}
         virtual void set_age( int ) {}
         virtual void set_height( int ) {}

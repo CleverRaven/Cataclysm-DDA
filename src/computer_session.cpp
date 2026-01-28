@@ -1312,7 +1312,7 @@ void computer_session::action_irradiator()
                 }
                 if( !error && platform_exists ) {
                     print_error( _( "PROCESSING…  CYCLE COMPLETE." ) );
-                    print_error( _( "GEIGER COUNTER @ PLATFORM: %s mSv/h." ), here.get_radiation( dest ) );
+                    print_error( _( "GEIGER COUNTER @ PLATFORM: %d mSv/h." ), here.get_radiation( dest ) );
                 }
             }
         }
@@ -1357,13 +1357,13 @@ void computer_session::action_geiger()
                 peak_rad = here.get_radiation( platform );
             }
         }
-        print_error( _( "GEIGER COUNTER @ ZONE:… AVG %s mSv/h." ), sum_rads / tiles_counted );
-        print_error( _( "GEIGER COUNTER @ ZONE:… MAX %s mSv/h." ), peak_rad );
+        print_error( _( "GEIGER COUNTER @ ZONE:… AVG %d mSv/h." ), sum_rads / tiles_counted );
+        print_error( _( "GEIGER COUNTER @ ZONE:… MAX %d mSv/h." ), peak_rad );
         print_newline();
     }
-    print_error( _( "GEIGER COUNTER @ CONSOLE:… %s mSv/h." ),
+    print_error( _( "GEIGER COUNTER @ CONSOLE:… %d mSv/h." ),
                  here.get_radiation( player_character.pos_bub() ) );
-    print_error( _( "PERSONAL DOSIMETRY:… %s mSv." ), player_character.get_rad() );
+    print_error( _( "PERSONAL DOSIMETRY:… %d mSv." ), player_character.get_rad() );
     print_newline();
     query_any( _( "Press any key…" ) );
 }

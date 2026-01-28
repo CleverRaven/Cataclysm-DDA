@@ -875,6 +875,25 @@ double moon_phase_eval( const_dialogue const & /* d */, char /* scope */,
     return static_cast<int>( get_moon_phase( calendar::turn ) );
 }
 
+double oxygen_eval( const_dialogue const &d, char scope, std::vector<diag_value> const &/*params*/,
+                    diag_kwargs const & /* kwargs */ )
+{
+    return d.const_actor( is_beta( scope ) )->get_oxygen();
+}
+
+void oxygen_ass( double val, dialogue &d, char scope, std::vector<diag_value> const &/*params*/,
+                 diag_kwargs const & /* kwargs */ )
+{
+    d.actor( is_beta( scope ) )->set_oxygen( val );
+}
+
+double oxygen_max_eval( const_dialogue const &d, char scope,
+                        std::vector<diag_value> const &/*params*/,
+                        diag_kwargs const & /* kwargs */ )
+{
+    return d.const_actor( is_beta( scope ) )->get_oxygen_max();
+}
+
 double pain_eval( const_dialogue const &d, char scope, std::vector<diag_value> const & /* params */,
                   diag_kwargs const &kwargs )
 {
@@ -1707,6 +1726,8 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "mon_groups_nearby", { "ung", -1, monster_groups_nearby_eval, {}, { "radius", "attitude", "location" } } },
     { "moon_phase", { "g", 0, moon_phase_eval } },
     { "num_input", { "g", 2, num_input_eval } },
+    { "oxygen", { "un", 0, oxygen_eval, oxygen_ass } },
+    { "oxygen_max", { "un", 0, oxygen_max_eval } },
     { "pain", { "un", 0, pain_eval, pain_ass, { "type" } } },
     { "school_level", { "un", 1, school_level_eval } },
     { "school_level_adjustment", { "un", 1, school_level_adjustment_eval, school_level_adjustment_ass } },

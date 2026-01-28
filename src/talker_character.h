@@ -158,6 +158,8 @@ class talker_character_const: virtual public const_talker
         int get_hunger() const override;
         int get_thirst() const override;
         int get_instant_thirst() const override;
+        int get_oxygen() const override;
+        int get_oxygen_max() const override;
         int get_stored_kcal() const override;
         int get_healthy_kcal() const override;
         int get_size() const override;
@@ -249,6 +251,7 @@ class talker_character: virtual public talker
         void set_int_bonus( int value ) override;
         void set_per_bonus( int value ) override;
         void set_cash( int value ) override;
+        void set_oxygen( int value ) override;
         void set_power_cur( units::energy value ) override;
         void set_mana_cur( int value ) override;
         void set_spell_level( const spell_id &, int ) override;

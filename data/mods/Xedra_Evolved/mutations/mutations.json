@@ -1450,7 +1450,7 @@
         "mutations": [ "FANGS", "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
       },
       {
-        "condition": { "and": [ { "not": "u_can_drop_weapon" } ] },
+        "condition": { "not": "u_can_drop_weapon" },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
       },

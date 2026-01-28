@@ -1418,6 +1418,9 @@ void veh_interact::calc_overview( map &here )
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, _( "Seats" ) );
         right_print( w, y, 1, c_light_gray, _( "Who" ) );
     };
+    overview_headers["7_WHEELS"] = []( const catacurses::window & w, int y ) {
+        trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, _( "Wheels" ) );
+    };
 
     input_event hotkey = main_context.first_unassigned_hotkey( hotkeys );
     bool selectable;
@@ -1573,6 +1576,12 @@ void veh_interact::calc_overview( map &here )
             selectable = is_selectable( vpr.part() );
             overview_opts.emplace_back( "6_SEAT", &vpr.part(), selectable, selectable ? next_hotkey(
                                             hotkey ) : input_event(), details );
+        }
+        if( vpr.part().is_wheel() ) {
+            selectable = is_selectable( vpr.part() );
+            auto dummy_lambda = []( const vehicle_part &, const catacurses::window &, int ) {};
+            overview_opts.emplace_back( "7_WHEELS", &vpr.part(), selectable, selectable ? next_hotkey(
+                                            hotkey ) : input_event(), dummy_lambda );
         }
     }
 
@@ -2600,6 +2609,16 @@ void veh_interact::display_stats( map &here ) const
     i += 1;
 
     if( is_ground ) {
+        if( debug_mode ) {
+            fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
+                            _( "Contact area:   <color_light_blue>%d</color>" ),
+                            veh->wheel_area() );
+            i += 1;
+            fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
+                            _( "Total wheel traction:   <color_light_blue>%5.2f</color>" ),
+                            here.vehicle_wheel_traction( *veh ) );
+            i += 1;
+        }
         fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                         _( "Rolling drag:   <color_light_blue>%5.2f</color>" ),
                         veh->coeff_rolling_drag( here ) );

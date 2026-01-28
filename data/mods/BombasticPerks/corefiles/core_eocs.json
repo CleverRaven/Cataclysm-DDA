@@ -11,7 +11,7 @@
     "effect": [
       { "run_eocs": "EOC_give_perk_point" },
       { "math": [ "u_used_exp += u_exp_to_perk" ] },
-      { "math": [ "u_available_exp = u_val('exp') - u_used_exp" ] },
+      { "math": [ "u_available_exp = u_val('exp') + u_bonus_exp - u_used_exp" ] },
       { "math": [ "u_exp_to_perk += u_exp_per_level" ] },
       { "math": [ "u_current_level += 1" ] },
       { "run_eocs": "EOC_level_up_notification" }
@@ -28,7 +28,7 @@
     "id": "EOC_on_kill_check_exp",
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
-    "effect": [ { "math": [ "u_available_exp = u_val('exp') - u_used_exp" ] }, { "run_eocs": "EOC_level_up" } ]
+    "effect": [ { "math": [ "u_available_exp = u_val('exp') + u_bonus_exp - u_used_exp" ] }, { "run_eocs": "EOC_level_up" } ]
   },
   {
     "type": "effect_on_condition",

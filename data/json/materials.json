@@ -600,7 +600,7 @@
   {
     "type": "material",
     "id": "cotton",
-    "name": "Cotton",
+    "name": "Cotton Blend",
     "density": 0.5,
     "specific_heat_liquid": 0.02,
     "specific_heat_solid": 0.02,
@@ -615,9 +615,9 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
     "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 0.02 },
-      { "fuel": 2, "smoke": 1, "burn": 0.04 },
-      { "fuel": 3, "smoke": 1, "burn": 0.06 }
+      { "fuel": 0.05, "smoke": 1, "burn": 0.015 },
+      { "fuel": 0.1, "smoke": 1, "burn": 0.04 },
+      { "fuel": 0.2, "smoke": 1, "burn": 0.06 }
     ],
     "resist": { "bash": 1, "cut": 1, "acid": 3, "heat": 0, "bullet": 1 },
     "repair_difficulty": 1

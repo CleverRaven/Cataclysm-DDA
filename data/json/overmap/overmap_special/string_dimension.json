@@ -1,0 +1,17 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "string_dimension_small_ziggurat",
+    "overmaps": [
+      { "point": [ 0, 0, 1 ], "overmap": "string_dimension_small_ziggurat_1_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "string_dimension_small_ziggurat_0_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "string_dimension_small_ziggurat_-1_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "string_dimension_small_ziggurat_-2_north" },
+      { "point": [ 0, 0, -3 ], "overmap": "string_dimension_small_ziggurat_-3_north" }
+    ],
+    "locations": [ "string_dimension_crossroads" ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, 5 ],
+    "flags": [ "MAN_MADE", "EXTRADIMENSIONAL", "STRING_DIMENSION" ]
+  }
+]

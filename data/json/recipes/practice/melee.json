@@ -287,7 +287,7 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_MELEE",
     "name": "unarmed (intermediate)",
-    "description": "Learn how to throw a punch without breaking your wrist or kick without falling over with the help of a punching bag or training dummy.",
+    "description": "Learn how to throw a punch with the help of a punching bag or training dummy.",
     "skill_used": "unarmed",
     "time": "1 h",
     "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },

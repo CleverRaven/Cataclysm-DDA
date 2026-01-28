@@ -47,6 +47,7 @@
 #include "generic_factory.h"
 #include "iexamine.h"
 #include "inventory.h"
+#include "input_popup.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_contents.h"
@@ -85,7 +86,6 @@
 #include "safe_reference.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "talker.h"
 #include "translations.h"
 #include "trap.h"
@@ -386,7 +386,7 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
     }
 
     if( need_charges && it.ammo_remaining( &p ) < need_charges ) {
-        return ret_val<void>::make_failure( string_format( need_charges_msg, it.tname() ) );
+        return ret_val<void>::make_failure( string_format( need_charges_msg.translated(), it.tname() ) );
     }
 
     if( qualities_needed.empty() ) {
@@ -2081,18 +2081,14 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
                                 string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
                                         gerund, cut.type_name() );
 
-    string_input_popup popup;
-    popup.title( string_format( _( "%s what?" ), verb ) )
-    .width( 64 )
-    .text( hasnote ? cut.get_var( carving ) : std::string() )
-    .description( messageprefix )
-    .identifier( "inscribe_item" )
-    .max_length( 128 )
-    .query();
-    if( popup.canceled() ) {
+    string_input_popup_imgui popup( 50, hasnote ? cut.get_var( carving ) : std::string() );
+    popup.set_label( string_format( _( "%s what?" ), verb ) );
+    popup.set_description( messageprefix );
+    popup.set_identifier( "inscribe_item" );
+    const std::string message = popup.query();
+    if( popup.cancelled() ) {
         return false;
     }
-    const std::string message = popup.text();
     if( message.empty() ) {
         cut.erase_var( carving );
         cut.erase_var( carving_tool );
@@ -2811,8 +2807,11 @@ std::optional<int> holster_actor::use( Character *you, item &it, map *here,
             if( opts.size() != it.num_item_stacks() ) {
                 ret--;
             }
-            auto iter = std::next( all_items.begin(), ret );
-            internal_item = *iter;
+            // If the action selected is Holster item / sheath item, then don't pick an item to use.
+            if( ret >= 0 ) {
+                auto iter = std::next( all_items.begin(), ret );
+                internal_item = *iter;
+            }
         }
     } else {
         if( !all_items.empty() ) {

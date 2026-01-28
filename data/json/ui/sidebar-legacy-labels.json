@@ -217,6 +217,7 @@
       "ll_needs_sa_layout",
       "ll_place_layout",
       "wind_temp_layout",
+      "oxygen_layout",
       "weapon_style_layout",
       "vehicle_acf_label_layout",
       "compass_all_danger_layout",

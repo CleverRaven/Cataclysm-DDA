@@ -401,5 +401,37 @@
     "name": "sugar house roof",
     "sym": "S",
     "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "morgantown_1a",
+      "morgantown_2a",
+      "morgantown_3a",
+      "morgantown_1b",
+      "morgantown_2b",
+      "morgantown_3b",
+      "morgantown_1c",
+      "morgantown_2c",
+      "morgantown_3c"
+    ],
+    "copy-from": "morgantown_1a",
+    "name": "forested ruins",
+    "sym": "F",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "morgantown_forest_fence_s",
+      "morgantown_forest",
+      "morgantown_forest_fence_corner",
+      "morgantown_forest_fence_entry",
+      "morgantown_forest_fence_entry_2"
+    ],
+    "copy-from": "morgantown_forest_fence_s",
+    "name": "fenced-off forest",
+    "sym": "#",
+    "color": "green"
   }
 ]

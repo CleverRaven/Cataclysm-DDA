@@ -5,6 +5,11 @@
     "name": "Warp floor into a living wood floor"
   },
   {
+    "type": "construction_group",
+    "id": "wall_to_sapwood_wall",
+    "name": "Warp wall into a living wood wall"
+  },
+  {
     "type": "construction",
     "id": "floor_to_sapwood_floor",
     "group": "floor_to_sapwood_floor",
@@ -15,6 +20,19 @@
     "pre_flags": [ "FLAT" ],
     "post_flags": [ "keep_items" ],
     "post_terrain": "t_heartwood_floor",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "wall_to_sapwood_wall",
+    "group": "wall_to_sapwood_wall",
+    "category": "OTHER",
+    "components": [ [ [ "warp_druid_wood_floor_tokens", 1 ] ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 s",
+    "pre_flags": [ "WALL" ],
+    "post_flags": [ "keep_items" ],
+    "post_terrain": "t_druid_wood_wall",
     "activity_level": "NO_EXERCISE"
   }
 ]

@@ -80,6 +80,7 @@ void deployed_furniture( Character &you, const tripoint_bub_ms &pos );
 void portable_structure( Character &you, const tripoint_bub_ms &examp );
 void pit( Character &you, const tripoint_bub_ms &examp );
 void pit_covered( Character &you, const tripoint_bub_ms &examp );
+void thin_ice( Character &you, const tripoint_bub_ms &examp );
 void safe( Character &you, const tripoint_bub_ms &examp );
 void gunsafe_el( Character &you, const tripoint_bub_ms &examp );
 void harvest_furn_nectar( Character &you, const tripoint_bub_ms &examp );

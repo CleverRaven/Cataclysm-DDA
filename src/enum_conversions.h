@@ -6,6 +6,7 @@
 #include <unordered_map>
 
 #include "debug.h"
+#include "demangle.h"
 #include "enum_traits.h"
 
 namespace io

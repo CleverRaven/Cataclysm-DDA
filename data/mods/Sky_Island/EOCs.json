@@ -217,7 +217,8 @@
         "u_message": "You've returned home safely using a designated exit point.  You have earned <global_val:owed_material_tokens> material tokens for your success.",
         "popup": true
       },
-      { "u_spawn_item": "warptoken_material", "count": { "global_val": "owed_material_tokens", "default": 50 } }
+      { "u_spawn_item": "warptoken_material", "count": { "global_val": "owed_material_tokens", "default": 50 } },
+      { "run_eocs": "EOC_innawood_bonus_exp_material_tokens" }
     ]
   },
   {
@@ -1061,7 +1062,7 @@
     "valid_targets": [ "hostile" ],
     "spell_class": "NONE",
     "flags": [ "NO_FAIL", "NO_LEGS", "NO_HANDS", "NON_MAGICAL", "IGNORE_WALLS", "NO_PROJECTILE" ],
-    "condition": { "not": { "u_has_trait": "awayfromhome" } },
+    "caster_condition": { "not": { "u_has_trait": "awayfromhome" } },
     "difficulty": 0,
     "min_range": 100,
     "max_range": 100,
@@ -1084,7 +1085,7 @@
     "valid_targets": [ "ground" ],
     "spell_class": "NONE",
     "flags": [ "NO_FAIL", "NO_LEGS", "NO_HANDS", "NON_MAGICAL", "IGNORE_WALLS", "NO_PROJECTILE" ],
-    "condition": { "not": { "u_has_trait": "awayfromhome" } },
+    "caster_condition": { "not": { "u_has_trait": "awayfromhome" } },
     "difficulty": 0,
     "min_damage": 1,
     "max_damage": 1,

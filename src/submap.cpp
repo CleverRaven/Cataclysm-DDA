@@ -492,3 +492,27 @@ void submap::merge_submaps( submap *copy_from, bool copy_from_is_overlay )
         this->temperature_mod = copy_from->temperature_mod;
     }
 }
+
+bool submap::has_original_ter( const point_sm_ms &p ) const
+{
+    return original_terrain.find( p ) != original_terrain.end();
+}
+
+ter_id submap::get_original_ter( const point_sm_ms &p ) const
+{
+    auto it = original_terrain.find( p );
+    if( it != original_terrain.end() ) {
+        return it->second;
+    }
+    return ter_id();
+}
+
+void submap::set_original_ter( const point_sm_ms &p, const ter_id &t )
+{
+    original_terrain[p] = t;
+}
+
+void submap::clear_original_ter( const point_sm_ms &p )
+{
+    original_terrain.erase( p );
+}

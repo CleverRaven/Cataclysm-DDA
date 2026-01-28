@@ -29,9 +29,7 @@
         [ "candy3", 1 ],
         [ "maple_candy", 1 ],
         [ "strawberries", 1 ],
-        [ "strawberries_cooked", 1 ],
         [ "blueberries", 1 ],
-        [ "blueberries_cooked", 1 ],
         [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "cherries", 1 ]
@@ -58,9 +56,7 @@
         [ "syrup", 1 ],
         [ "syrup_corn", 1 ],
         [ "strawberries", 1 ],
-        [ "strawberries_cooked", 1 ],
         [ "blueberries", 1 ],
-        [ "blueberries_cooked", 1 ],
         [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "cherries", 1 ]
@@ -93,9 +89,7 @@
         [ "maple_candy", 2 ],
         [ "syrup", 2 ],
         [ "strawberries", 2 ],
-        [ "strawberries_cooked", 2 ],
         [ "blueberries", 2 ],
-        [ "blueberries_cooked", 2 ],
         [ "wintergreen_berry", 4 ],
         [ "blackberries", 2 ],
         [ "cherries", 2 ]
@@ -123,9 +117,7 @@
         [ "maple_candy", 2 ],
         [ "syrup", 2 ],
         [ "strawberries", 2 ],
-        [ "strawberries_cooked", 2 ],
         [ "blueberries", 2 ],
-        [ "blueberries_cooked", 2 ],
         [ "wintergreen_berry", 4 ],
         [ "blackberries", 2 ],
         [ "cherries", 2 ]
@@ -314,9 +306,7 @@
         [ "marshmallow", 1 ],
         [ "maple_candy", 1 ],
         [ "strawberries", 1 ],
-        [ "strawberries_cooked", 1 ],
         [ "blueberries", 1 ],
-        [ "blueberries_cooked", 1 ],
         [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ]
       ],
@@ -348,9 +338,7 @@
         [ "marshmallow", 1 ],
         [ "maple_candy", 1 ],
         [ "strawberries", 1 ],
-        [ "strawberries_cooked", 1 ],
         [ "blueberries", 1 ],
-        [ "blueberries_cooked", 1 ],
         [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ]
       ],
@@ -387,9 +375,7 @@
         [ "marshmallow", 1 ],
         [ "maple_candy", 1 ],
         [ "strawberries", 1 ],
-        [ "strawberries_cooked", 1 ],
         [ "blueberries", 1 ],
-        [ "blueberries_cooked", 1 ],
         [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ]
       ],
@@ -424,9 +410,7 @@
         [ "marshmallow", 1 ],
         [ "maple_candy", 1 ],
         [ "strawberries", 1 ],
-        [ "strawberries_cooked", 1 ],
         [ "blueberries", 1 ],
-        [ "blueberries_cooked", 1 ],
         [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ]
       ],
@@ -505,9 +489,7 @@
         [ "marshmallow", 1 ],
         [ "maple_candy", 1 ],
         [ "strawberries", 1 ],
-        [ "strawberries_cooked", 1 ],
         [ "blueberries", 1 ],
-        [ "blueberries_cooked", 1 ],
         [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ]
       ],
@@ -575,9 +557,7 @@
         [ "marshmallow", 1 ],
         [ "maple_candy", 1 ],
         [ "strawberries", 1 ],
-        [ "strawberries_cooked", 1 ],
         [ "blueberries", 1 ],
-        [ "blueberries_cooked", 1 ],
         [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ]
       ],

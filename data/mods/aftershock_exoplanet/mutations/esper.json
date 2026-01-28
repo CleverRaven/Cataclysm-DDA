@@ -5,6 +5,18 @@
   },
   {
     "type": "mutation",
+    "id": "CANNOT_GAIN_PSIONICS",
+    "name": { "str": "Can't Become An Esper", "//~": "NO_I18N" },
+    "points": -4,
+    "description": { "str": "You can't Become An Esper.  Oh well!", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "cancels": [ "ESPER", "ESPER_ADVANCEMENT_OKAY", "ESPER_STARTER_ADVANCEMENT_OKAY" ]
+  },
+  {
+    "type": "mutation",
     "id": "ESPER",
     "name": "Esper",
     "points": 0,
@@ -52,7 +64,7 @@
   {
     "type": "mutation",
     "id": "AFS_ELECTROKINETIC",
-    "name": "Electrokinesis",
+    "name": "Spark",
     "points": 0,
     "description": "The ability to control electricity with your mind.",
     "types": [ "ESPER" ],
@@ -65,7 +77,7 @@
   {
     "type": "mutation",
     "id": "AFS_PRECOG",
-    "name": "Precognition",
+    "name": "Sybil",
     "points": 0,
     "description": "The ability to see the future.",
     "types": [ "ESPER" ],
@@ -78,7 +90,7 @@
   {
     "type": "mutation",
     "id": "AFS_TELEKINETIC",
-    "name": "Telekinesis",
+    "name": "Geist",
     "points": 0,
     "description": "The ability to move objects without touching them.",
     "types": [ "ESPER" ],
@@ -91,7 +103,7 @@
   {
     "type": "mutation",
     "id": "AFS_TELEPATH",
-    "name": "Telepathy",
+    "name": "Whisper",
     "points": 0,
     "description": "The ability to read thoughts and influence others' minds.",
     "types": [ "ESPER" ],

@@ -258,7 +258,7 @@
     "skill": "deduction",
     "effect": "summon",
     "effect_str": "mon_werewolf_shadow_pack",
-    "condition": { "not": { "u_has_effect": "effect_xe_werewolf_summon_shadow_pack_limiter" } },
+    "caster_condition": { "not": { "u_has_effect": "effect_xe_werewolf_summon_shadow_pack_limiter" } },
     "extra_effects": [ { "id": "xe_werewolf_summon_shadow_pack_limiter_spell", "hit_self": true } ],
     "shape": "blast",
     "flags": [ "VERBAL", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION" ],

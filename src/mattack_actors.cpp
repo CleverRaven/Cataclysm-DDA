@@ -276,6 +276,66 @@ bool leap_actor::call( monster &z ) const
     return true;
 }
 
+std::unique_ptr<mattack_actor> mon_eoc_actor::clone() const
+{
+    return std::make_unique<mon_eoc_actor>( *this );
+}
+
+void mon_eoc_actor::load_internal( const JsonObject &obj, const std::string & )
+{
+
+    optional( obj, was_loaded, "range", range, 1 );
+    optional( obj, was_loaded, "eoc", eoc );
+    allow_no_target = obj.get_bool( "allow_no_target", false );
+
+    if( obj.has_member( "condition" ) ) {
+        read_condition( obj, "condition", condition, false );
+        has_condition = true;
+    }
+
+}
+
+bool mon_eoc_actor::call( monster &mon ) const
+{
+    map &here = get_map();
+    Creature *target = ( allow_no_target ) ? nullptr : mon.attack_target();
+
+    if( !mon.can_act() ) {
+        return false;
+    }
+
+
+    if( !mon.attack_target() && !allow_no_target ) {
+        // this is an attack. there is no reason to attack if there isn't a real target.
+        // Unless we don't need one
+        return false;
+    }
+    if( has_condition ) {
+        dialogue d( get_talker_for( &mon ),
+                    allow_no_target ? nullptr : get_talker_for( target ) );
+        if( !condition( d ) ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Attack conditionals failed" );
+            return false;
+        }
+    }
+
+    if( range > 1 && !allow_no_target ) {
+        if( !mon.sees( here, *target ) ||
+            rl_dist( mon.pos_bub(), target->pos_bub() ) > range ) {
+            return false;
+        }
+    }
+
+    {
+        for( const effect_on_condition_id &eoc : eoc ) {
+            dialogue d( get_talker_for( mon ),
+                        allow_no_target ? nullptr : get_talker_for( target ) );
+            eoc->activate( d );
+        }
+        return true;
+    }
+}
+
 std::unique_ptr<mattack_actor> mon_spellcasting_actor::clone() const
 {
     return std::make_unique<mon_spellcasting_actor>( *this );
@@ -383,7 +443,8 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "effects_require_dmg", effects_require_dmg, true );
     optional( obj, was_loaded, "effects_require_organic", effects_require_organic, false );
     optional( obj, was_loaded, "grab", is_grab, false );
-    optional( obj, was_loaded, "range", range, 1 );
+    optional( obj, was_loaded, "attack_amount", attack_amount, pair_reader<int> {}, {1, 1} );
+    optional( obj, was_loaded, "spread_damage", spread_damage, false );
     optional( obj, was_loaded, "throw_strength", throw_strength, 0 );
 
     optional( obj, was_loaded, "eoc", eoc );
@@ -743,16 +804,31 @@ bool melee_actor::call( monster &z ) const
     }
 
     // Dodge check
-
     const int acc = accuracy >= 0 ? accuracy : z.type->melee_skill;
     int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
 
-    // Pick body part
-    bodypart_str_id bp_hit = body_parts.empty() ?
-                             target->select_body_part( hitsize_min, hitsize_max, attack_upper, hitspread ).id() :
-                             *body_parts.pick();
+    // Pick bodyparts hit
+    std::vector<bodypart_id> bodyparts_hit;
+    const int attack_amt = rng( attack_amount.first, attack_amount.second );
+    if( spread_damage ) {
+        bodyparts_hit = target->get_all_body_parts();
+    } else if( !body_parts.empty() ) {
+        for( int i = 0; i < attack_amt; i++ ) {
+            bodyparts_hit.emplace_back( *body_parts.pick() );
+        }
+    } else {
+        for( int i = 0; i < attack_amt; i++ ) {
+            const bodypart_id &bp =
+                target->select_body_part( hitsize_min, hitsize_max, attack_upper, hitspread );
+            bodyparts_hit.emplace_back( bp );
+        }
+    }
 
-    bodypart_id bp_id = bodypart_id( bp_hit );
+    if( bodyparts_hit.empty() ) {
+        debugmsg( "Monster %s tries to attack, but fails to pick bodypart/bodyparts", z.type->id.c_str() );
+        return false;
+    }
+
     game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
 
     add_msg_debug( debugmode::DF_MATTACK, "Accuracy %d, hitspread %d, dodgeable %s", acc, hitspread,
@@ -768,7 +844,7 @@ bool melee_actor::call( monster &z ) const
                                  sfx::get_heard_angle( z.pos_bub() ) );
         target->add_msg_player_or_npc( msg_type, miss_msg_u,
                                        get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : translation(),
-                                       z.name(), body_part_name_accusative( bp_id ) );
+                                       z.name(), body_part_name_accusative( bodyparts_hit.front() ) );
         return true;
     }
 
@@ -778,7 +854,7 @@ bool melee_actor::call( monster &z ) const
                                      sfx::get_heard_angle( z.pos_bub() ) );
             target->add_msg_player_or_npc( msg_type, miss_msg_u,
                                            get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : translation(),
-                                           mon_name, body_part_name_accusative( bp_id ) );
+                                           mon_name, body_part_name_accusative( bodyparts_hit.front() ) );
             return true;
         }
     }
@@ -787,6 +863,17 @@ bool melee_actor::call( monster &z ) const
     // But first we need to handle exclusive grabs etc.
     std::optional<bodypart_id> grabbed_bp_id;
     if( is_grab ) {
+        // grabs do not work with multiple attacks or spread_damage,
+        // so we just pick the first one and work with it
+        // obviously TODO
+
+        if( bodyparts_hit.size() > 1 ) {
+            debugmsg( "Monster %s tries to grab, but target multiple limbs.  Currently it is not supported, only limb %s will be picked.",
+                      z.type->id.c_str(), bodyparts_hit.front()->id.c_str() );
+        }
+        bodypart_id bp_id = bodyparts_hit.front();
+        bool switched_to_another_bp = false;
+
         int eff_grab_strength = grab_data.grab_strength == -1 ? z.get_grab_strength() :
                                 grab_data.grab_strength;
         add_msg_debug( debugmode::DF_MATTACK,
@@ -854,8 +941,8 @@ bool melee_actor::call( monster &z ) const
                                    bp->name );
                     continue;
                 } else {
-                    bp_hit = bp.id();
                     bp_id = bp;
+                    switched_to_another_bp = true;
                     add_msg_debug( debugmode::DF_MATTACK, "Retargeted to ungrabbed %s",
                                    bp->name );
                 }
@@ -874,6 +961,11 @@ bool melee_actor::call( monster &z ) const
             return true;
         }
         grabbed_bp_id = bp_id;
+
+        if( switched_to_another_bp ) {
+            bodyparts_hit.clear();
+            bodyparts_hit.emplace_back( bp_id );
+        }
     }
 
     // Damage instance calculation
@@ -883,17 +975,24 @@ bool melee_actor::call( monster &z ) const
                    min_mul, max_mul );
     damage.mult_damage( multiplier );
 
+    // split the damage between all the bodyparts we gonna hit
+    damage.mult_damage( 1.0 / bodyparts_hit.size() );
+
     // Block our hit
     if( blockable ) {
-        target->block_hit( &z, bp_id, damage );
+        for( bodypart_id &bp_id : bodyparts_hit ) {
+            target->block_hit( &z, bp_id, damage );
+        }
     }
 
-    // Take damage
-    dealt_damage_instance dealt_damage = target->deal_damage( &z, bp_id, damage );
-    dealt_damage.bp_hit = bp_id;
-
-    // On hit effects
-    target->on_hit( &here, &z, bp_id );
+    dealt_damage_instance dealt_damage;
+    for( bodypart_id &bp_id : bodyparts_hit ) {
+        // Take damage
+        dealt_damage += target->deal_damage( &z, bp_id, damage );
+        dealt_damage.bp_hit = bp_id;
+        // On hit effects
+        target->on_hit( &here, &z, bp_id );
+    }
 
     // Apply onhit self effects
     for( const mon_effect_data &eff : self_effects_onhit ) {
@@ -904,6 +1003,8 @@ bool melee_actor::call( monster &z ) const
             target->add_msg_if_player( msg_type, eff.message, mon_name );
         }
     }
+
+    // run on_damage() and apply effects
     int damage_total = dealt_damage.total_damage();
     add_msg_debug( debugmode::DF_MATTACK, "%s's melee_attack did %d damage", z.name(), damage_total );
     if( damage_total > 0 ) {
@@ -913,20 +1014,24 @@ bool melee_actor::call( monster &z ) const
                                  sfx::get_heard_angle( z.pos_bub() ) );
         target->add_msg_player_or_npc( msg_type, no_dmg_msg_u,
                                        get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? no_dmg_msg_npc : translation(),
-                                       mon_name, body_part_name_accusative( grabbed_bp_id.value_or( bp_id ) ) );
+                                       mon_name, body_part_name_accusative( grabbed_bp_id.value_or( bodyparts_hit.front() ) ) );
         if( !effects_require_dmg ) {
             for( const mon_effect_data &eff : effects ) {
                 if( x_in_y( eff.chance, 100 ) ) {
-                    const bodypart_id affected_bp = eff.affect_hit_bp ? bp_id : eff.bp.id();
-                    if( !( effects_require_organic && affected_bp->has_flag( json_flag_BIONIC_LIMB ) ) ) {
-                        target->add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
-                                            eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
-                                                    eff.intensity.second ) );
+                    for( bodypart_id &bp_id : bodyparts_hit ) {
+                        const bodypart_id affected_bp = eff.affect_hit_bp ? bp_id : eff.bp.id();
+                        if( !( effects_require_organic && affected_bp->has_flag( json_flag_BIONIC_LIMB ) ) ) {
+                            target->add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
+                                                eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
+                                                        eff.intensity.second ) );
+                        }
                     }
                 }
             }
         }
     }
+
+    // throw
     if( throw_strength > 0 && !( target->has_flag( mon_flag_IMMOBILE ) ||
                                  target->has_effect_with_flag( json_flag_CANNOT_MOVE ) ) ) {
         if( g->fling_creature( target, coord_to_angle( z.pos_bub(), target->pos_bub() ),

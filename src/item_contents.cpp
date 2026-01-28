@@ -7,6 +7,7 @@
 #include <iterator>
 #include <map>
 #include <numeric>
+#include <ostream>
 #include <string>
 #include <tuple>
 #include <type_traits>
@@ -735,8 +736,8 @@ void item_contents::combine( const item_contents &read_input, const bool convert
                                                  into_bottom, restack_charges, ignore_contents );
                 if( !inserted.success() ) {
                     uninserted_items.push_back( *it );
-                    debugmsg( "error: item %s cannot fit into pocket while loading: %s",
-                              it->typeId().str(), inserted.str() );
+                    DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME ) <<
+                            "error: item " << it->typeId().str() << "cannot fit into pocket while loading: " << inserted.str();
                 }
             }
 

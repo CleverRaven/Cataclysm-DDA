@@ -392,9 +392,9 @@ void diary::stat_changes()
         const int prev = prevpage ? prevpage->*std::get<2>( stat ) : -1;
         const int curr = currpage->*std::get<2>( stat );
         if( !prevpage || prev == curr ) {
-            add_to_change_list( string_format( std::get<0>( stat ), curr ) );
+            add_to_change_list( string_format( std::get<0>( stat ).translated(), curr ) );
         } else {
-            add_to_change_list( string_format( std::get<1>( stat ), prev, curr ) );
+            add_to_change_list( string_format( std::get<1>( stat ).translated(), prev, curr ) );
         }
     }
     if( !flag ) {

@@ -4753,10 +4753,8 @@ void cata_tiles::draw_bullet_frame()
 }
 void cata_tiles::draw_hit_frame()
 {
-    std::string hit_overlay = "animation_hit";
+    const std::string hit_overlay = "animation_hit";
 
-    draw_from_id_string( hit_entity_id, TILE_CATEGORY::HIT_ENTITY, empty_string, hit_pos, 0, 0,
-                         lit_level::LIT, false );
     draw_from_id_string( hit_overlay, hit_pos, 0, 0, lit_level::LIT, false );
 }
 void cata_tiles::draw_line()

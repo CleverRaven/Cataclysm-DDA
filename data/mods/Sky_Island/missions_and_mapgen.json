@@ -465,7 +465,13 @@
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": { "place_nested": [ { "chunks": [ "mx_treasuregoal" ], "x": [ 0, 13 ], "y": [ 0, 13 ] } ] }
     },
-    "end": { "effect": [ { "run_eocs": "EOC_bonuspulse" }, { "math": [ "u_missionswon++" ] } ] }
+    "end": {
+      "effect": [
+        { "run_eocs": "EOC_bonuspulse" },
+        { "math": [ "u_missionswon++" ] },
+        { "run_eocs": "EOC_innawood_bonus_exp_warpshards" }
+      ]
+    }
   },
   {
     "id": "MISSION_BONUS_KILL_LIGHT",

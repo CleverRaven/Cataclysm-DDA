@@ -148,7 +148,7 @@ void follower_rules_ui_impl::print_hotkey( input_event &hotkey )
     // Padding spaces intentional, so it's obvious that the fake "Hotkey:" header refers to these.
     // TODO: Just reimplement everything as a table...? Would avoid this sort of thing.
     // But surely not *everything* needs to be a table...
-    cataimgui::draw_colored_text( string_format( "  %s  ",
+    cataimgui::draw_colored_text( string_format( "  %c  ",
                                   static_cast<char>( hotkey.sequence.front() ) ),
                                   c_green );
     ImGui::SameLine();
