@@ -4741,10 +4741,23 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint_bub_ms 
         }
         return std::nullopt;
     }
+    // Assign activity to calculate total_moves via ::start _before_ asking for confirmation.
     if( p->pos_bub() == it_pnt ) {
         p->assign_activity( hacksaw_activity_actor( pnt, item_location{ *p, it } ) );
     } else {
         p->assign_activity( hacksaw_activity_actor( pnt, it->typeId(), it_pnt ) );
+    }
+
+    std::string query = string_format( _( "Cut up metal using your %1$s?" ), it->tname() );
+    query += "\n";
+    query += _( "Time to complete: " );
+    int required_moves = p->activity.moves_total;
+    time_duration required_time = time_duration::from_turns( required_moves / p->get_speed() );
+    const std::string time_string = colorize( to_string( required_time, true ), c_light_gray );
+    query += time_string;
+
+    if( !query_yn( query ) ) {
+        p->cancel_activity();
     }
 
     return std::nullopt;
