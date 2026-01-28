@@ -615,5 +615,36 @@
       { "item": "556_m855a1", "prob": 1 },
       { "item": "556_incendiary", "prob": 1 }
     ]
+  },
+  {
+    "id": "exodii_do_not_pay_extra_for_some_ammo",
+    "type": "item_group",
+    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "22_cb", "prob": 1 },
+      { "item": "22_lr", "prob": 1 },
+      { "item": "22_fmj", "prob": 1 },
+      { "item": "bp_223", "prob": 1 },
+      { "item": "22_blank", "prob": 1 },
+      { "item": "22_ratshot", "prob": 1 },
+      { "item": "reloaded_22_lr", "prob": 1 },
+      { "item": "shot_slug", "prob": 1 },
+      { "item": "shot_beanbag", "prob": 1 },
+      { "item": "shot_00", "prob": 1 },
+      { "item": "shot_bird", "prob": 1 },
+      { "item": "shot_flechette", "prob": 1 },
+      { "item": "reloaded_shot_bird", "prob": 1 },
+      { "item": "reloaded_shot_00", "prob": 1 },
+      { "item": "reloaded_shot_flechette", "prob": 1 },
+      { "item": "shot_scrap", "prob": 1 },
+      { "item": "bp_shot_slug", "prob": 1 },
+      { "item": "bp_shot_00", "prob": 1 },
+      { "item": "bp_shot_bird", "prob": 1 },
+      { "item": "bp_shot_flechette", "prob": 1 },
+      { "item": "bp_shot_scrap", "prob": 1 },
+      { "item": "reloaded_shot_dragon", "prob": 1 },
+      { "item": "bp_shot_dragon", "prob": 1 }
+    ]
   }
 ]
