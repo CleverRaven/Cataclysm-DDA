@@ -14,7 +14,7 @@
             "if": { "and": [ "has_alpha", { "math": [ "distance('u', _player_position) <= 2" ] } ] },
             "then": [
               {
-                "u_knockback": { "math": [ "max((_damage / 15),5)" ] },
+                "u_knockback": { "math": [ "max((_damage / 25),5)" ] },
                 "stun": 1,
                 "dam_mult": 0.5,
                 "direction_var": { "context_val": "player_position" }
@@ -41,7 +41,7 @@
             "if": { "and": [ "has_alpha", { "math": [ "distance('u', _player_position) <= 2" ] } ] },
             "then": [
               {
-                "u_knockback": { "math": [ "max((_damage / 15),5)" ] },
+                "u_knockback": { "math": [ "max((_damage / 25),5)" ] },
                 "stun": 1,
                 "dam_mult": 0.5,
                 "direction_var": { "context_val": "player_position" }
