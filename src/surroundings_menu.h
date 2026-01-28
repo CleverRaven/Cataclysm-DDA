@@ -8,7 +8,6 @@
 #include <string>
 #include <unordered_set>
 #include <vector>
-#include <imgui/imgui.h>
 #include <stddef.h>
 
 #include "cata_imgui.h"
@@ -186,6 +185,7 @@ class surroundings_menu : public cataimgui::window
         void draw_examine_info();
         void draw_category_separator( const std::string &category, std::string &last_category,
                                       int target_col );
+        std::vector<std::unordered_set<std::string>> get_shown_hotkeys( const tab_data *tab );
         void draw_hotkey_buttons( const tab_data *tab );
         float get_hotkey_buttons_height( const tab_data *tab );
 
@@ -225,19 +225,18 @@ class surroundings_menu : public cataimgui::window
         avatar &you;
         std::optional<tripoint_bub_ms> &path_end;
         const tripoint_rel_ms stored_view_offset;
+        const int min_width;
 
         cataimgui::scroll info_scroll = cataimgui::scroll::none;
 
         int width;
         int info_height;
-        float magic_number_other_elements_height = ImGui::GetTextLineHeight() * 3 +
-                ImGui::GetStyle().FramePadding.y * 2;
 
         item_tab_data item_data;
         monster_tab_data monster_data;
         terfurn_tab_data terfurn_data;
 
-        const int dist_width = 7;
+        const int dist_width = 8; // width of the distance column, to display e.g. "15 DN_SE"
         const int page_scroll = 10;
 };
 
