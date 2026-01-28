@@ -1,0 +1,58 @@
+[
+  {
+    "id": "SKY_ISLAND",
+    "type": "json_flag",
+    "name": "Sky Island Specials",
+    "//": "Mainly used to have a single whitelist flag for region settings to disable all other special spawns",
+    "//1": "Can be used in the future for other islands to find in the home dimension?"
+  },
+  {
+    "//": "This HAS to be in the same file and above the default settings override to ensure it copies the default region before its overwritten",
+    "type": "region_settings",
+    "id": "dimension_sky_island_region",
+    "copy-from": "default",
+    "feature_flag_settings": { "extend": { "blacklist": [ "SKY_ISLAND" ] } }
+  },
+  {
+    "//": "This HAS to be in the same file and below the above object",
+    "type": "region_settings",
+    "id": "default",
+    "copy-from": "default",
+    "rivers": null,
+    "lakes": null,
+    "ocean": null,
+    "ravines": null,
+    "forests": null,
+    "forest_trails": null,
+    "highways": null,
+    "cities": null,
+    "forest_composition": "no_forests",
+    "map_extras": "no_map_extras",
+    "place_roads": false,
+    "place_specials": true,
+    "default_oter": [
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air"
+    ],
+    "feature_flag_settings": { "whitelist": [ "SKY_ISLAND" ], "blacklist": [  ] }
+  }
+]
