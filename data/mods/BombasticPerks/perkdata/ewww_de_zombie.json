@@ -50,7 +50,7 @@
     "id": "effect_ewwww_de_zombie",
     "name": [ "Ewwww de Zombie" ],
     "desc": [ "You're covered in zombie blood and guts.  Disgusting." ],
-    "apply_message": "You rub the eww de zombie all over yourself.  Disgusting, but hopefully effective.",
+    "apply_message": "You rub the ewwww de zombie all over yourself.  Disgusting, but hopefully effective.",
     "rating": "good",
     "enchantments": [
       {
