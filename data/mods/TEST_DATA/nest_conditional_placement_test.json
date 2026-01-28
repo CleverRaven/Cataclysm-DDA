@@ -43,8 +43,9 @@
   {
     "om_terrain": "nest_conditional_placement_test",
     "type": "mapgen",
+    "//": "The setup is ncpt_neighbors to the north and east and ncpt_flags to the south and west. ncpt_flags has RISK_HIGH and the ncpt_neighbors have a join each facing this omt with id ncpt_joins",
+    "//1": "The first row is used for cases that should succeed and the second row for similar cases that should fail.",
     "object": {
-      "//BEFOREMERGE": "Need to update (and /tests)",
       "fill_ter": "t_linoleum_gray",
       "place_nested": [
         { "chunks": [ "1x1_ncpt" ], "x": 0, "y": 0 },
@@ -115,6 +116,35 @@
           "joins": { "north": [ "ncpt_joins" ], "east": [ "ncpt_joins" ] },
           "flags": { "south": [ "RISK_LOW" ], "west": [ "RISK_LOW" ] },
           "x": 23,
+          "y": 1
+        },
+        {
+          "chunks": [ "1x1_ncpt" ],
+          "neighbors_any": {
+            "north": [ "ncpt_neighbors" ],
+            "east": [ "ncpt_neighbors" ],
+            "south": [ "ncpt_neighbors" ],
+            "west": [ "ncpt_neighbors" ]
+          },
+          "x": 7,
+          "y": 0
+        },
+        {
+          "chunks": [ "1x1_ncpt" ],
+          "neighbors_any": { "north": [ "ncpt_joins" ], "east": [ "ncpt_joins" ], "south": [ "ncpt_neighbors" ], "west": [ "ncpt_neighbors" ] },
+          "x": 7,
+          "y": 1
+        },
+        {
+          "chunks": [ "1x1_ncpt" ],
+          "joins_any": { "north": [ "ncpt_joins" ], "east": [ "ncpt_joins" ], "south": [ "ncpt_joins" ], "west": [ "ncpt_joins" ] },
+          "x": 8,
+          "y": 0
+        },
+        {
+          "chunks": [ "1x1_ncpt" ],
+          "joins_any": { "north": [ "invalid_joins" ], "east": [ "invalid_joins" ], "south": [ "invalid_joins" ], "west": [ "invalid_joins" ] },
+          "x": 8,
           "y": 1
         }
       ]

@@ -4339,7 +4339,7 @@ class jmapgen_nested : public jmapgen_piece
         class neighbor_oter_any_check : public neighbor_oter_check
         {
             private:
-                bool only_require_one = false;
+                bool only_require_one = true;
         };
 
         class neighbor_join_check
@@ -4401,15 +4401,15 @@ class jmapgen_nested : public jmapgen_piece
         class neighbor_join_any_check : public neighbor_join_check
         {
             private:
-                bool only_require_one = false;
+                bool only_require_one = true;
         };
 
         class neighbor_flag_check
         {
             private:
                 std::unordered_map<direction, cata::flat_set<oter_flags>> neighbors;
-                bool only_require_one = false;
             public:
+                bool only_require_one = false;
                 void deserialize( const JsonObject &jsi )  {
                     for( direction dir : all_enum_values<direction>() ) {
                         cata::flat_set<oter_flags> dir_neighbors;
@@ -4463,8 +4463,10 @@ class jmapgen_nested : public jmapgen_piece
 
         class neighbor_flag_any_check : public neighbor_flag_check
         {
-            private:
-                bool only_require_one = false;
+            public:
+                neighbor_flag_any_check() : neighbor_flag_check() {
+                    only_require_one = true;
+                }
         };
 
         class predecessor_oter_check

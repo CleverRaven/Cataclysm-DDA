@@ -74,9 +74,15 @@ TEST_CASE( "nest_conditional_placement", "[map][nest]" )
                                       tm.ter( tripoint_omt_ms{ 5, 1, 0 } ) == ter_t_linoleum_gray;
     const bool z_check_success = tm.ter( tripoint_omt_ms{ 6, 0, 0 } ) == ter_t_linoleum_white &&
                                  tm.ter( tripoint_omt_ms{ 6, 1, 0 } ) == ter_t_linoleum_gray;
+    const bool neighbors_any_success = tm.ter( tripoint_omt_ms{ 7, 0, 0 } ) == ter_t_linoleum_white &&
+                                       tm.ter( tripoint_omt_ms{ 7, 1, 0 } ) == ter_t_linoleum_gray;
+    const bool joins_any_success = tm.ter( tripoint_omt_ms{ 8, 0, 0 } ) == ter_t_linoleum_white &&
+                                   tm.ter( tripoint_omt_ms{ 8, 1, 0 } ) == ter_t_linoleum_gray;
     CHECK( unconditional_success );
     CHECK( neighbors_success );
+    CHECK( neighbors_any_success );
     CHECK( joins_success );
+    CHECK( joins_any_success );
     CHECK( flags_success );
     CHECK( flags_any_success );
     CHECK( z_check_success );
