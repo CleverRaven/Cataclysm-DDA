@@ -777,8 +777,8 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
 
             for( const item &component : component_pair.second ) {
 
-                if (component.has_itype_variant()) {
-                    newit.set_itype_variant(component.itype_variant().id);
+                if( component.has_itype_variant() ) {
+                    newit.set_itype_variant( component.itype_variant().id );
                     break;
                 }
             }
