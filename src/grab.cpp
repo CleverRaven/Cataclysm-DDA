@@ -65,21 +65,19 @@ bool game::grabbed_veh_move_stairs( const tripoint_rel_ms &dp )
     bool width_greater_than_0 = false;
     bool length_greater_than_0 = false;
     // horrible. don't do this.
-    point maximums = {0, 0};
-    point minimums = {0, 0};
+    point maximums;
+    point minimums;
 
     for( const point_rel_ms &checked_pos : part_positions ) {
-        int x_position = checked_pos.x();
-        int y_position = checked_pos.y();
-        maximums.x = std::max( maximums.x, x_position );
-        maximums.y = std::max( maximums.y, y_position );
-        minimums.x = std::min( minimums.x, x_position );
-        minimums.y = std::min( minimums.y, y_position );
+        maximums.x = std::max( maximums.x, checked_pos.x() );
+        maximums.y = std::max( maximums.y, checked_pos.y() );
+        minimums.x = std::min( minimums.x, checked_pos.x() );
+        minimums.y = std::min( minimums.y, checked_pos.y() );
 
-        if( x_position != 0 ) {
+        if( checked_pos.x() != 0 ) {
             width_greater_than_0 = true;
         }
-        if( y_position != 0 ) {
+        if( checked_pos.y() != 0 ) {
             length_greater_than_0 = true;
         }
         if( width_greater_than_0 && length_greater_than_0 ) {
