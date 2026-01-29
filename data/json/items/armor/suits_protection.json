@@ -3806,7 +3806,7 @@
       "ammo_scale": 0,
       "type": "transform",
       "menu_text": "Turn off",
-      "msg": "The %s pipes stop humming.",
+      "msg": "The hum of the suit's climate control fades.",
       "target": "armor_nomad_plate"
     }
   },
@@ -3875,7 +3875,7 @@
       "ammo_scale": 0,
       "type": "transform",
       "menu_text": "Turn off",
-      "msg": "The %s pipes stop humming.",
+      "msg": "The hum of the suit's climate control fades.",
       "target": "armor_nomad_lightplate"
     }
   },
@@ -3943,7 +3943,7 @@
       "ammo_scale": 0,
       "type": "transform",
       "menu_text": "Turn off",
-      "msg": "The %s pipes stop humming.",
+      "msg": "The hum of the suit's climate control fades.",
       "target": "armor_nomad_heavyplate"
     }
   },
@@ -4010,7 +4010,7 @@
       "ammo_scale": 0,
       "type": "transform",
       "menu_text": "Turn off",
-      "msg": "The %s pipes stop humming.",
+      "msg": "The hum of the suit's climate control fades.",
       "target": "armor_nomad_chainmail"
     }
   },

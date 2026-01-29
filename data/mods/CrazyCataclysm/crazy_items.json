@@ -332,7 +332,7 @@
       "target": "battletorch_lit",
       "msg": "You light the Louisville Slaughterer.",
       "need_fire": 1,
-      "menu_text": "Light",
+      "menu_text": { "str": "Light", "ctxt": "verb" },
       "type": "transform"
     },
     "flags": [ "DURABLE_MELEE" ],
