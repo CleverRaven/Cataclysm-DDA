@@ -829,9 +829,11 @@ bool main_menu::opening_screen()
             }
         } else if( action == "CONFIRM" ) {
             switch( static_cast<main_menu_opts>( sel1 ) ) {
-                case main_menu_opts::HELP:
-                    get_help().display_help();
+                case main_menu_opts::HELP: {
+                    help_window hw;
+                    hw.show();
                     break;
+                }
                 case main_menu_opts::QUIT:
                     return false;
                 case main_menu_opts::TUTORIAL:

@@ -9,6 +9,7 @@
 - [Writing dialogues](#writing-dialogues)
   - [Validating Dialogues](#validating-dialogues)
   - [Customizing NPC speech](#customizing-npc-speech)
+    - [Special Custom Entries](#special-custom-entries)
   - [Talk Topics](#talk-topics)
   - [Dynamic Lines](#dynamic-lines)
   - [Speaker Effects](#speaker-effects)

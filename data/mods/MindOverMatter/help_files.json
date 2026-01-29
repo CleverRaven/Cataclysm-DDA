@@ -3,6 +3,7 @@
     "type": "help",
     "order": 0,
     "name": "Mind Over Matter: Basics",
+    "color": "light_cyan",
     "messages": [
       "Welcome to Mind Over Matter, a psychic powers mod for Cataclysm.  This mod adds psionics to the game based on classical concepts of mental powers.  Incinerate zombies as a pyrokinetic, avoid bullets by peering into the near future as a clairsentient, recharge your car as an electrokinetic, run so fast you can run on water as a biokinetic, and more.  All these powers are available to you.",
       "And to your enemies.  The player is not the only one with psionics.",
@@ -16,6 +17,7 @@
     "type": "help",
     "order": 2,
     "name": "Mind Over Matter: Types of Psionics",
+    "color": "light_cyan",
     "messages": [
       "There are nine paths of psionics in Mind over Matter, as follows:",
       "1) Biokinesis: Control over physical bodily processes such as respiration, metabolism, skin elasticity, or pain response.  Master biokinetics can be stronger or faster than any human can hope to be, cross short distances in the blink of an eye, turn bolts or pull up nails using only their hands, hold their breath for tens of minutes, and surpass the human pinnacle in every realm of unarmed combat.",
@@ -33,6 +35,7 @@
     "type": "help",
     "order": 3,
     "name": "Mind Over Matter: Gaining Psionic Powers",
+    "color": "light_cyan",
     "messages": [
       "There are three main ways to gain psionic powers: start the game with them, find and use a matrix crystal, or expose yourself to the raging energies of a portal storm.",
       "The first and most obvious is start the game with them.  There are professions for each psionic path, such as \"Doomseer\" for clairsentience or \"Itzcuāuhtli Corps Liaison, Yohualli Ehēcatl Division\" for teleportation, and each path also has a series of three backgrounds entitled Newly-Awakened, Arising, and Ascended.  Newly-Awakened starts you with the absolute minimum possible, only a couple powers.  Arising starts you with a good amount of powers, equivalent to a mid-game character.  Ascended starts you with a very powerful suite of psionics best suited for games where monster difficulty has been significantly increased or other challenges are at play.",
@@ -45,6 +48,7 @@
     "type": "help",
     "order": 4,
     "name": "Mind Over Matter: Using Psionic Powers",
+    "color": "light_cyan",
     "messages": [
       "Psionic powers are located in your supernatural powers menu, categorized by path.  Each psionic power is preceded by a [Ψ].",
       "Powers have a chance to fail based on a number of factors.  The most important by far is your Metaphysics skill vs. the power's Difficulty, and the chance of failure is also reduced by our intelligence and, to a much lesser extent, the power's level.  It is increased by having a high Nether Attunement, by channeling several powers in short succession, and by having lower weariness levels (Moderate or below). Your chance of success is capped based on whether you have the concentration proficiencies or not; only with Concentration (Master) can you reach 100% chance to succeed.",
@@ -55,6 +59,7 @@
     "type": "help",
     "order": 5,
     "name": "Mind Over Matter: Improving and Learning New Powers",
+    "color": "light_cyan",
     "messages": [
       "Psionics come from within and cannot be studied by rote repetition from a book.  Furthermore, since they only recently appeared with the Cataclysm, there are no established teaching methods or pre-existing courses.  That means that each psion must figure out how to use their powers themselves.",
       "Every 12 to 168 hours, you gain insight and become eligible to learn a new power, but that doesn't mean you automatically learn one.  Powers in paths you have access to periodically check to see if they are eligible for learning.  This requires insight as well as individual prerequisites that must be met for each power, though there is always a small chance you will have a flash of inspiration and discover a power despite not meeting the prerequisites.",
@@ -68,6 +73,7 @@
     "type": "help",
     "order": 6,
     "name": "Mind Over Matter: Concentration",
+    "color": "light_cyan",
     "messages": [
       "One major difference in Mind Over Matter compared to other mods containing supernatural effects is the concentration system.  By default, psionic powers have no inherent duration; you cannot channel Physical Enhancement and then have it sustain itself the way you could a Bless spell.  You must concentrate on it to maintain it.",
       "Concentration powers have a listed duration, but they keep going until turned off or until your concentration is disrupted.  Every time the duration on a concentration power is up, you gain additional experience in the power, check for gain of Nether Attunement, and pay the caloric cost.  This is also when checks to maintain concentration are made.",
@@ -79,6 +85,7 @@
     "type": "help",
     "order": 7,
     "name": "Mind Over Matter: Nether Attunement",
+    "color": "light_cyan",
     "messages": [
       "Stamina and concentration are not the only limitations on your powers.  Another is Nether Attunement, though it is both a limitation and a path to power.",
       "Psionics is the psychoactive power of the Nether channeled by careful concentration.  Repeated use of psionics in a short period of time opens the connection to the Nether wider, increasing the amount of power available.  Higher levels of Nether Attunement boost all characteristics of your powers: range, damage, duration, targets affected, bonus granted or penalty caused, and so on.  At 12, the maximum degree of Nether Attunement, your powers are over five times stronger than with no Nether Attunement!",
@@ -92,6 +99,7 @@
     "type": "help",
     "order": 8,
     "name": "Mind Over Matter: Psychic Knacks",
+    "color": "light_cyan",
     "messages": [
       "Psychic knacks are another way of starting the game with psionic powers, but in a different way than awakenings.  Awakenings are artificial, induced by matrix crystals or portal storms, but knacks are innate.  Someone with a knack was born with their powers, though they probably didn't fully gain them until later in life.",
       "Psychic knacks are meant to represent the kind of psychics that often show up in horror literature, who are born with a certain set of powers and might get better at them but rarely laterally branch out.  They are meant to represent characters with one or a small number of tricks they can use to their advantage.  In exchange, psychic knacks are one-half the Difficulty that the full psionic power is, making them both easier to use and less subject to Nether Attunement.",

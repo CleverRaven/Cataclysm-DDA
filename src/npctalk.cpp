@@ -69,7 +69,6 @@
 #include "generic_factory.h"
 #include "global_vars.h"
 #include "gun_mode.h"
-#include "help.h"
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"

@@ -152,4 +152,6 @@ class snippet_library
 
 extern snippet_library SNIPPET;
 
+std::string get_hint();
+
 #endif // CATA_SRC_TEXT_SNIPPETS_H
