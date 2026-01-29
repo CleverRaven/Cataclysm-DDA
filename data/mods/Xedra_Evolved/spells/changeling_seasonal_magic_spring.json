@@ -180,7 +180,7 @@
     "id": "changeling_spring_summon_flower_warriors_spell",
     "type": "SPELL",
     "name": "War of the Flowers",
-    "description": "Endless fields of daffodil warriors fight and die at the pleasure of their overlords in the battles constantly waging in the Bright Lands.  While this is a simpler glamour that that which creates those armies, you can still spin up a small group of daffodil warriors from some nearby foliage.",
+    "description": "Endless fields of daffodil warriors fight and die at the pleasure of their overlords in the battles constantly waging in the Bright Lands.  While this is a simpler glamour than that which creates those armies, you can still spin up a small group of daffodil warriors from some nearby foliage.",
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_spring",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
