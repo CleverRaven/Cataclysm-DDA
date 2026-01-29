@@ -4754,9 +4754,18 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint_bub_ms 
     } else {
         query += string_format( _( "Resume cutting up metal using your %1$s?" ), it->tname() );
     }
+
+    // HACK: Update the player_activity moves_left based on progress stored in the activity_actor.
+    int activity_actor_moves_left = static_cast<const hacksaw_activity_actor &>(
+            *p->activity.actor ).moves_left;
+    p->activity.moves_left = activity_actor_moves_left;
+
     query += "\n";
     query += _( "Time to complete: " );
     int required_moves = p->activity.moves_left;
+
+    debugmsg( string_format( "iuse hacksaw required_moves: %d.", required_moves ) );
+
     const float weary_mult = p->exertion_adjusted_move_multiplier( p->activity.exertion_level() );
     time_duration required_time = time_duration::from_turns( required_moves * weary_mult / p->get_speed() );
     const std::string time_string = colorize( to_string( required_time, true ), c_light_gray );
