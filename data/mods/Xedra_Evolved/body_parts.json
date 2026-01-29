@@ -16,7 +16,15 @@
     "hit_size": 13,
     "hit_difficulty": 0.95,
     "limb_type": "arm",
-    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.2 ], [ "balance", 0.15 ], [ "block", 1.0 ], [ "swim", 0.1 ], [ "crawl", 0.3 ] ],
+    "limb_scores": [
+      [ "grip", 0 ],
+      [ "manip", 0 ],
+      [ "lift", 0 ],
+      [ "reaction", 0.1 ],
+      [ "block", 1.0 ],
+      [ "swim", 0.1 ],
+      [ "crawl", 0.3 ]
+    ],
     "flags": [ "IGNORE_TEMP", "BIONIC_LIMB" ],
     "side": "right",
     "sub_parts": [ "karma_hand" ],
