@@ -66,7 +66,7 @@
             [ "shipping_container_large_cardboard_box_1x1", 5 ],
             [ "shipping_container_circsaw_blade_1x1", 5 ],
             [ "shipping_container_microcentrifuge_1x1", 1 ],
-            [ "shipping_container_microcentrifuge_1x1", 1 ],
+            [ "shipping_container_centrifuge_1x1", 1 ],
             [ "shipping_container_shaker_1x1", 1 ],
             [ "shipping_container_exam_chair_1x1", 5 ],
             [ "shipping_container_toilet_1x1", 5 ],
@@ -94,7 +94,32 @@
             [ "shipping_container_dentist_1x1", 5 ],
             [ "shipping_container_vending_1x1", 5 ],
             [ "shipping_container_gunmod_common_1x1", 2 ],
-            [ "shipping_container_gunmod_rare_1x1", 1 ]
+            [ "shipping_container_gunmod_rare_1x1", 1 ],
+            [ "shipping_container_tampon_1x1", 5 ],
+            [ "shipping_container_men_pads_1x1", 5 ],
+            [ "shipping_container_v6_comb_1x1", 5 ],
+            [ "shipping_container_v6_comb_1x1", 5 ],
+            [ "shipping_container_v6_diesel_1x1", 5 ],
+            [ "shipping_container_v8_comb_1x1", 5 ],
+            [ "shipping_container_v8_diesel_1x1", 5 ],
+            [ "shipping_container_v6_comb_1x1", 5 ],
+            [ "shipping_container_v12_comb_1x1", 5 ],
+            [ "shipping_container_v12_diesel_1x1", 5 ],
+            [ "shipping_container_illegal_AK_rounds_1x1", 1 ],
+            [ "shipping_container_fishing_rods_comm_1x1", 5 ],
+            [ "shipping_container_fishing_rods_port_1x1", 5 ],
+            [ "shipping_container_golf_ball_1x1", 5 ],
+            [ "shipping_container_emer_blanket_1x1", 5 ],
+            [ "shipping_container_camping_1x1", 5 ],
+            [ "shipping_container_inflatable_boat_1x1", 5 ],
+            [ "shipping_container_sunglasses_1x1", 5 ],
+            [ "shipping_container_spirits_1x1", 5 ],
+            [ "shipping_container_alternator_motorbike_1x1", 5 ],
+            [ "shipping_container_alternator_car_1x1", 5 ],
+            [ "shipping_container_alternator_truck_1x1", 5 ],
+            [ "shipping_container_decorative_tree_1x1", 5 ],
+            [ "shipping_container_open_gunsafe_1x1", 5 ],
+            [ "shipping_container_filing_cabinet_1x1", 5 ]
           ]
         }
       },
@@ -680,7 +705,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "shipping_container_microcentrifuge_1x1",
+    "nested_mapgen_id": "shipping_container_centrifuge_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
       "furniture": { " ": "f_pallet_belted" },
@@ -895,5 +920,218 @@
       "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
       "items": { " ": { "item": "gunmod_rare", "chance": 95, "repeat": [ 5, 10 ] } }
     }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_tampon_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "tampon_box_full", "chance": 95, "repeat": [ 5, 10 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_men_pads_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "menstrual_pad_box_full", "chance": 95, "repeat": [ 5, 10 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_v6_comb_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 95 ], [ "f_cardboard_box", 5 ] ] },
+      "item": { " ": { "item": "v6_combustion", "chance": 90, "amount": 1 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_v6_comb_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 95 ], [ "f_cardboard_box", 5 ] ] },
+      "item": { " ": { "item": "v6_combustion", "chance": 90, "amount": 1 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_v6_diesel_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 95 ], [ "f_cardboard_box", 5 ] ] },
+      "item": { " ": { "item": "v6_diesel", "chance": 90, "amount": 1 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_v8_comb_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 95 ], [ "f_cardboard_box", 5 ] ] },
+      "item": { " ": { "item": "v8_combustion", "chance": 90, "amount": 1 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_v8_diesel_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 95 ], [ "f_cardboard_box", 5 ] ] },
+      "item": { " ": { "item": "v8_diesel", "chance": 90, "amount": 1 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_v6_comb_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 95 ], [ "f_cardboard_box", 5 ] ] },
+      "item": { " ": { "item": "v6_combustion", "chance": 90, "amount": 1 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_v12_comb_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 95 ], [ "f_cardboard_box", 5 ] ] },
+      "item": { " ": { "item": "v12_combustion", "chance": 90, "amount": 1 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_v12_diesel_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 95 ], [ "f_cardboard_box", 5 ] ] },
+      "item": { " ": { "item": "v12_diesel", "chance": 90, "amount": 1 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_illegal_AK_rounds_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "boxed_762", "chance": 95, "repeat": [ 5, 10 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_fishing_rods_comm_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "tools_fishingrods_commercial", "chance": 95, "repeat": [ 5, 10 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_fishing_rods_port_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "tools_fishingrods_portable", "chance": 95, "repeat": [ 5, 10 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_golf_ball_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 10 ], [ "f_cardboard_box", 90 ] ] },
+      "item": { " ": { "item": "golf_ball", "chance": 95, "amount": 50 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_emer_blanket_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 10 ], [ "f_cardboard_box", 90 ] ] },
+      "item": { " ": { "item": "emer_blanket", "chance": 95, "amount": 10 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_camping_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 70 ], [ "f_cardboard_box", 30 ] ] },
+      "items": { " ": { "item": "camping", "chance": 95, "repeat": [ 5, 10 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_inflatable_boat_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 95 ], [ "f_cardboard_box", 5 ] ] },
+      "item": { " ": { "item": "folded_inflatable_boat", "chance": 95, "amount": 1 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_sunglasses_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 10 ], [ "f_cardboard_box", 90 ] ] },
+      "item": { " ": { "item": "sunglasses", "chance": 95, "amount": 20 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_spirits_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 10 ], [ "f_cardboard_box", 90 ] ] },
+      "items": { " ": { "item": "liquor_and_spirits", "chance": 95, "repeat": [ 5, 10 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_alternator_motorbike_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 10 ], [ "f_cardboard_box", 90 ] ] },
+      "item": { " ": { "item": "alternator_motorbike", "chance": 95, "amount": [ 1, 5 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_alternator_car_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 10 ], [ "f_cardboard_box", 90 ] ] },
+      "item": { " ": { "item": "alternator_car", "chance": 95, "amount": [ 1, 5 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_alternator_truck_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 10 ], [ "f_cardboard_box", 90 ] ] },
+      "item": { " ": { "item": "alternator_truck", "chance": 95, "amount": [ 1, 5 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_decorative_tree_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": [ [ "f_decorative_tree", 90 ], [ "f_null", 10 ] ] } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_open_gunsafe_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": [ [ "f_gunsafe_o", 90 ], [ "f_null", 10 ] ] } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_filing_cabinet_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": [ [ "f_filing_cabinet", 90 ], [ "f_null", 10 ] ] } }
   }
 ]
