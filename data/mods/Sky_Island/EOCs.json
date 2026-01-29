@@ -223,6 +223,11 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_innawood_bonus_exp_material_tokens",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_progressgate1",
     "//": "Checks to see if you have successfully completed 5 raids and makes Rank Up 1 available if so.",
     "condition": { "and": [ { "math": [ "islandrank == 0" ] }, { "math": [ "raidswon >= 10" ] } ] },
