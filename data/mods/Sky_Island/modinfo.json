@@ -11,5 +11,11 @@
     "conflicts": [ "MA" ],
     "version": "0.4.0",
     "loading_images": [ "skyisland1.png" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DEFAULT_REGION",
+    "stype": "string_input",
+    "value": "default_skyisland"
   }
 ]

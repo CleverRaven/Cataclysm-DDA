@@ -7,17 +7,14 @@
     "//1": "Can be used in the future for other islands to find in the home dimension?"
   },
   {
-    "//": "This HAS to be in the same file and above the default settings override to ensure it copies the default region before its overwritten",
     "type": "region_settings",
     "id": "dimension_sky_island_region",
     "copy-from": "default",
     "feature_flag_settings": { "extend": { "blacklist": [ "SKY_ISLAND" ] } }
   },
   {
-    "//": "This HAS to be in the same file and below the above object",
     "type": "region_settings",
-    "id": "default",
-    "copy-from": "default",
+    "id": "default_skyisland",
     "rivers": null,
     "lakes": null,
     "ocean": null,
@@ -30,6 +27,7 @@
     "map_extras": "no_map_extras",
     "place_roads": false,
     "place_specials": true,
+    "weather": "default",
     "default_oter": [
       "open_air",
       "open_air",
@@ -53,6 +51,18 @@
       "open_air",
       "open_air"
     ],
-    "feature_flag_settings": { "whitelist": [ "SKY_ISLAND" ], "blacklist": [  ] }
+    "feature_flag_settings": { "whitelist": [ "SKY_ISLAND" ], "blacklist": [  ] },
+    "//": "These dont matter but are required",
+    "default_groundcover": [  ],
+    "terrain_furniture": "default",
+    "urbanity_increase": [ 0, 10, 5, 0 ],
+    "connections": {
+      "intra_city_road_connection": "local_road",
+      "inter_city_road_connection": "local_road",
+      "trail_connection": "forest_trail",
+      "sewer_connection": "sewer_tunnel",
+      "subway_connection": "subway_tunnel",
+      "rail_connection": "local_railroad"
+    }
   }
 ]
