@@ -4843,7 +4843,7 @@ bool game::revive_corpse( const tripoint_bub_ms &p, item &it, int radius )
         return false;
     }
 
-    assing_revive_form( it, p );
+    assign_revive_form( it, p );
 
     shared_ptr_fast<monster> newmon_ptr;
     if( it.has_var( "zombie_form" ) ) {
@@ -4875,7 +4875,7 @@ bool game::revive_corpse( const tripoint_bub_ms &p, item &it, int radius )
     return place_critter_around( newmon_ptr, tripoint_bub_ms( p ), radius );
 }
 
-void game::assing_revive_form( item &it, tripoint_bub_ms p )
+void game::assign_revive_form( item &it, tripoint_bub_ms p )
 {
     const mtype *montype = it.get_mtype();
     if( montype == nullptr ) {
