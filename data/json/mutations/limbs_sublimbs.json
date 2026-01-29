@@ -6,7 +6,7 @@
     "name_multiple": "tail bases",
     "max_coverage": 10,
     "parent": "tail_long",
-    "side": 0,
+    "side": "both",
     "opposite": "tail_long_tip"
   },
   {
@@ -16,7 +16,7 @@
     "name_multiple": "long tail centers",
     "max_coverage": 60,
     "parent": "tail_long",
-    "side": 0,
+    "side": "both",
     "opposite": "tail_long_center"
   },
   {
@@ -26,7 +26,7 @@
     "name_multiple": "long tail tips",
     "max_coverage": 30,
     "parent": "tail_long",
-    "side": 0,
+    "side": "both",
     "opposite": "tail_long_base"
   },
   {
@@ -36,7 +36,7 @@
     "name_multiple": "tail bases",
     "max_coverage": 10,
     "parent": "tail_fluffy",
-    "side": 0,
+    "side": "both",
     "opposite": "tail_fluffy_tip"
   },
   {
@@ -46,7 +46,7 @@
     "name_multiple": "fluffy tail centers",
     "max_coverage": 60,
     "parent": "tail_fluffy",
-    "side": 0,
+    "side": "both",
     "opposite": "tail_fluffy_center"
   },
   {
@@ -56,7 +56,7 @@
     "name_multiple": "fluffy tail tips",
     "max_coverage": 30,
     "parent": "tail_fluffy",
-    "side": 0,
+    "side": "both",
     "opposite": "tail_fluffy_base"
   },
   {
