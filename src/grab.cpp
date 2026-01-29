@@ -4,7 +4,9 @@
 #include <cstdlib>
 
 #include "avatar.h"
+#include "cata_assert.h"
 #include "debug.h"
+#include "line.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
@@ -27,8 +29,6 @@ bool game::grabbed_veh_move_helper( const tripoint_rel_ms &dp, bool stairs_move 
     }
     return grabbed_veh_move( dp );
 }
-
-#pragma optimize( "", off )
 
 bool game::grabbed_veh_move_stairs( const tripoint_rel_ms &dp )
 {
@@ -123,6 +123,39 @@ bool game::grabbed_veh_move_stairs( const tripoint_rel_ms &dp )
     // Also we need to change rotation of the vehicle so it always faces away from our current pos. (allowing a degree of choice in how you push/pull something up stairs
     // But we can't turn it while down there, and we can't turn it after putting it up? (I think??)
     here.displace_vehicle( *grabbed_vehicle, new_dp );
+    const direction facing = direction_from( ( you.pos_abs() - grabbed_vehicle->pos_abs() ).raw() );
+    units::angle new_facing = 0_degrees;
+    switch( facing ) {
+        case direction::NORTHEAST:
+            new_facing = 45_degrees;
+            break;
+
+        case direction::EAST:
+            new_facing = 90_degrees;
+            break;
+
+        case direction::SOUTHEAST:
+            new_facing = 135_degrees;
+            break;
+        case direction::SOUTH:
+            new_facing = 180_degrees;
+            break;
+        case direction::SOUTHWEST:
+            new_facing = 225_degrees;
+            break;
+        case direction::WEST:
+            new_facing = 270_degrees;
+            break;
+
+        case direction::NORTHWEST:
+            new_facing = 315_degrees;
+            break;
+
+        case direction::NORTH: // 0 degrees is north
+        default: // uhhh weird facing somehow! Fuck it, 0 degrees as well!!
+            break;
+
+    }
     grabbed_vehicle->face; // set direction. TODO: Figure out the direction :^)
     here.rebuild_vehicle_level_caches();
 
@@ -132,8 +165,6 @@ bool game::grabbed_veh_move_stairs( const tripoint_rel_ms &dp )
 
     return true;
 }
-
-#pragma optimize( "", off )
 
 bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
 {
