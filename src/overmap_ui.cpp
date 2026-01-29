@@ -436,8 +436,12 @@ void overmap_sidebar::draw_mission_info()
             msg = _( "Below us" );
         }
         // One OMT is 24 tiles across, at 1x1 meters each, so we can simply do number of OMTs * 24
-        draw_sidebar_text( string_format( _( "Distance: %d tiles | %s" ),
-                                          distance, length_to_string_approx( distance * 24_meter ) ), c_white );
+        units::length actual_distance = distance * 24_meter;
+        const std::string dir_arrow = direction_arrow( direction_from( cursor_pos.xy(), target.xy() ) );
+        //~Parenthesis is a real-world value for distance. Example string: "223 tiles (5.35km) ⇗"
+        const std::string distance_str = string_format( _( "%1$d tiles (%2$s) %3$s" ),
+                                         distance, length_to_string_approx( actual_distance ), dir_arrow );
+        draw_sidebar_text( string_format( _( "Distance: %s" ), distance_str ), c_white );
         if( !msg.empty() ) {
             draw_sidebar_text( msg, c_white );
         }
