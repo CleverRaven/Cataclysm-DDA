@@ -396,7 +396,8 @@ queued_eocs::queued_eocs( const queued_eocs &rhs )
     for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
         queue.emplace( it );
     }
-};
+}
+
 queued_eocs::queued_eocs( queued_eocs &&rhs ) noexcept
 {
     queue.swap( rhs.queue );
