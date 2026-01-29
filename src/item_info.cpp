@@ -1566,7 +1566,7 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( iternum != 0 ) {
                 mod_loc_str += "; ";
             }
-            mod_loc_str += string_format( "<bold>%s</bold> %s", elem.second, elem.first.name() );
+            mod_loc_str += string_format( "<bold>%d</bold> %s", elem.second, elem.first.name() );
             iternum++;
         }
         mod_loc_str += ".";
