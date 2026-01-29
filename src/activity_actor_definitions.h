@@ -455,7 +455,7 @@ class hacksaw_activity_actor : public activity_actor
         std::optional<tripoint_bub_ms> veh_pos;
 
         bool can_resume_with_internal( const activity_actor &other,
-                const Character &/*who*/ ) const override {
+                                       const Character &/*who*/ ) const override {
             const hacksaw_activity_actor &actor = static_cast<const hacksaw_activity_actor &>
                                                   ( other );
             return actor.target == target;

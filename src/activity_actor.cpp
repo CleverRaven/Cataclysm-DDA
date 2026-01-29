@@ -1443,7 +1443,8 @@ int hacksaw_activity_actor::get_tool_quality() const
 }
 
 void hacksaw_activity_actor::set_resume_values_internal( const activity_actor &other,
-                                 const Character &/*who*/ ) {
+        const Character &/*who*/ )
+{
     // This method recalculates moves_left based on tool quality comparison but it doesn't have
     // access to update the moves_left on the corresponding player_activity.  You must set the
     // player_activity's moves_left separately after resuming the activity_actor.
@@ -1454,12 +1455,11 @@ void hacksaw_activity_actor::set_resume_values_internal( const activity_actor &o
     int qual = get_tool_quality();
 
     int new_moves_left = -1;
-    if( actor_qual > 0 )
-    {
+    if( actor_qual > 0 ) {
         new_moves_left = moves_left * qual / actor_qual;
     }
     debugmsg( string_format( "Actor quality: %d, quality: %d, moves_left: %d, new_moves_left: %d, actor moves left: %d.",
-                            actor_qual, qual, moves_left, new_moves_left, actor.moves_left ) );
+                             actor_qual, qual, moves_left, new_moves_left, actor.moves_left ) );
     moves_left = new_moves_left;
     tool = actor.tool;
 }
