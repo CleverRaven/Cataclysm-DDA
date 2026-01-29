@@ -51,7 +51,7 @@
       {
         "material": [
           { "type": "hflesh", "covered_by_mat": 100, "thickness": 2.5 },
-          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 2.2, "ignore_sheet_thickness": true  }
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 2.2, "ignore_sheet_thickness": true }
         ],
         "covers": [ "torso" ],
         "coverage": 95,
