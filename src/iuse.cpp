@@ -4786,6 +4786,7 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint_bub_ms 
 
     if( !query_yn( query ) ) {
         p->cancel_activity();
+        p->add_msg_if_player( m_info, _( "You decide not to cut up this metal." ) );
     }
 
     return std::nullopt;
