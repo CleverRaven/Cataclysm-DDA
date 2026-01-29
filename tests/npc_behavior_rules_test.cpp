@@ -105,7 +105,7 @@ TEST_CASE( "NPC-rules-close-doors", "[npc_rules]" )
     /* Close doors rule
     * Target is a chair in a room fully enclosed by concrete walls
     * We have a straight line path to the target, but in the way are several vexing trials!
-    * An open door, a closed door, and a locked door (unlockable from adjacent INDOORS tile).
+    * An open door, a closed door, and a locked door (unlockable from adjacent !is_outside tile).
     * We must open them all, *and* close them behind us!
     */
     const ally_rule rule_to_test = ally_rule::close_doors;
@@ -124,7 +124,8 @@ TEST_CASE( "NPC-rules-close-doors", "[npc_rules]" )
             break;
         }
     }
-    here.set_outside_cache_dirty( door_unlock_position.z() );
+    here.set_floor_cache_dirty( door_unlock_position.z() + 1 );
+    here.build_floor_cache( door_unlock_position.z() + 1 );
     here.build_outside_cache( door_unlock_position.z() );
     REQUIRE( !here.is_outside( door_unlock_position ) );
 
@@ -194,9 +195,10 @@ TEST_CASE( "NPC-rules-avoid-locks", "[npc_rules]" )
     }
     tripoint_bub_ms door_unlock_position = door_position + point::south;
     tripoint_bub_ms past_the_door = door_position + point::north;
-    here.set_outside_cache_dirty( door_position.z() );
+    here.set_floor_cache_dirty( door_position.z() + 1 );
+    here.build_floor_cache( door_position.z() + 1 );
     here.build_outside_cache( door_position.z() );
-    REQUIRE( !here.is_outside( door_unlock_position ) );
+    REQUIRE( !here.is_outside( door_position ) );
 
     test_subject->update_path( door_unlock_position, true, true );
     REQUIRE( !test_subject->path.empty() ); // we can reach the unlock position
