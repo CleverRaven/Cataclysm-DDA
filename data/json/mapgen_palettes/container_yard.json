@@ -1122,25 +1122,16 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_decorative_tree_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "furniture": { " ": [ [ "f_decorative_tree", 90 ], [ "f_null", 10 ] ] }
-    }
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": [ [ "f_decorative_tree", 90 ], [ "f_null", 10 ] ] } }
   },
   {
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_open_gunsafe_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "furniture": { " ": [ [ "f_gunsafe_o", 90 ], [ "f_null", 10 ] ] }
-    }
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": [ [ "f_gunsafe_o", 90 ], [ "f_null", 10 ] ] } }
   },
   {
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_filing_cabinet_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "furniture": { " ": [ [ "f_filing_cabinet", 90 ], [ "f_null", 10 ] ] }
-    }
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": [ [ "f_filing_cabinet", 90 ], [ "f_null", 10 ] ] } }
   }
 ]
