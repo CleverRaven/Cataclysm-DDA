@@ -578,6 +578,21 @@
   },
   {
     "type": "mutation",
+    "id": "perk_running_in_heels",
+    "name": { "str": "Running in Heels" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You have mastered the ways of the 90s action heroine.  Heels only encumber you as much as normal shoes.",
+    "enchantments": [
+      {
+        "condition": { "u_has_worn_with_flag": "HIGH_HEELS" },
+        "encumbrance_modifier": [ { "part": "foot_l", "add": -35 }, { "part": "foot_r", "add": -35 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_early_to_rise",
     "name": { "str": "Early to Rise" },
     "points": 0,
@@ -673,7 +688,7 @@
   {
     "type": "mutation",
     "id": "perk_troubleseeker",
-    "name": { "str": "Trouble seeker" },
+    "name": { "str": "Trouble Seeker" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -684,6 +699,18 @@
     "deactivated_eocs": [ "EOC_troubleseek_off" ],
     "processed_eocs": [ "EOC_troubleseeking" ],
     "time": 20000
+  },
+  {
+    "type": "mutation",
+    "id": "perk_second_wind",
+    "name": { "str": "Second Wind" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Anyone can pause and catch their breath but you're extremely good at doing so.  You can regenerate one-third of your stamina over ten seconds, once every fifteen minutes.  Being hit will interrupt the regeneration.",
+    "active": true,
+    "activation_msg": "",
+    "activated_eocs": [ "EOC_perk_second_wind" ]
   },
   {
     "type": "mutation",
@@ -1256,19 +1283,29 @@
   {
     "type": "mutation",
     "id": "perk_unopenable_grip",
-    "name": { "str": "Unopenable grip" },
+    "name": { "str": "Unopenable Grip" },
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "After being stolen the things you held in your hands countless times, your grip became strong enough to keep anything in your hands as long as you will it.  Activate to toggle the ability to drop your held item.",
+    "description": "After having things you held in your hands stolen countless times, your grip became strong enough to keep anything in your hands as long as you will it.  Activate to toggle the ability to drop your held item.",
+    "category": [ "perk" ],
     "active": true,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_unopenable_grip" ]
   },
   {
     "type": "mutation",
+    "id": "perk_boomstick_blast",
+    "name": { "str": "Boomstick Blast" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "People hit by shotgun blasts always seem to go flying in actions movies, but it doesn't work that way in real life.  At least, it didn't.\n\nWhen you damage a target within 2 squares using a shotgun and do at least 15 damage, your target will suffer knockback."
+  },
+  {
+    "type": "mutation",
     "id": "perk_radio_infusion",
-    "name": { "str": "Radioactive infusion" },
+    "name": { "str": "Radioactive Infusion" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1440,5 +1477,14 @@
     "valid": false,
     "active": true,
     "activated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_DIFFERENT_PATHS_OF_CLOSETLAND" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_ewwww_de_zombie",
+    "name": { "str": "Ewwww de Zombie" },
+    "description": "The zombies have some way to distinguish between the living and the dead, and you're sure that smell is a big part of it.  That's why they don't attack the ferals, because they're dirty and covered in zombie blood.  If you covered yourself in zombie blood, you bet you could sneak past them.\n\nYou can make Ewwww de Zombie from tainted blood and flesh.  Coat yourself with it and zombies will ignore you.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false
   }
 ]
