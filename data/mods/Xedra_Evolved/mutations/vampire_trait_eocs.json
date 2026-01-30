@@ -2777,7 +2777,10 @@
         "u_run_inv_eocs": "all",
         "search_data": [ { "flags": [ "WARDING_SYMBOL" ] } ],
         "false_eocs": [
-          { "id": "EOC_HOLY_BURN_CHECK_WORN_WARD_TRUE", "effect": [ { "u_lose_effect": "effect_xe_holy_burnt_carrying_holy" } ] }
+          {
+            "id": "EOC_HOLY_BURN_CHECK_WORN_WARD_TRUE_2",
+            "effect": [ { "u_lose_effect": "effect_xe_holy_burnt_carrying_holy" } ]
+          }
         ]
       }
     ]
