@@ -332,26 +332,11 @@ struct queued_eocs {
     queued_eocs &operator=( const queued_eocs &rhs );
     queued_eocs &operator=( queued_eocs &&rhs ) noexcept;
 
-    /* std::priority_queue compatibility layer where performance is less relevant */
-
-    bool empty() const {
-        return queue.empty();
-    }
-
-    const queued_eoc &top() const {
-        return *queue.top();
-    }
-
-    void push( const queued_eoc &eoc ) {
-        auto it = list.emplace( list.end(), eoc );
-        queue.push( it );
-    }
-
-    void pop() {
-        auto it = queue.top();
-        queue.pop();
-        list.erase( it );
-    }
+    /* std::priority_queue compatibility layer */
+    bool empty() const;
+    const queued_eoc &top() const;
+    void push( const queued_eoc &eoc );
+    void pop();
 };
 
 struct aim_type {
