@@ -115,8 +115,6 @@ static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
-static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
-static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -1672,7 +1670,7 @@ static void loot()
             player_character.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
             break;
         case MultiFarmPlots:
-            player_character.assign_activity( ACT_MULTIPLE_FARM );
+            player_character.assign_activity( multi_farm_activity_actor() );
             break;
         case Multichoptrees:
             player_character.assign_activity( multi_chop_trees_activity_actor() );
@@ -1699,7 +1697,7 @@ static void loot()
             player_character.assign_activity( multi_mop_activity_actor() );
             break;
         case MultiStudy:
-            player_character.assign_activity( ACT_MULTIPLE_STUDY );
+            player_character.assign_activity( multi_study_activity_actor() );
             break;
         default:
             debugmsg( "Unsupported flag" );
