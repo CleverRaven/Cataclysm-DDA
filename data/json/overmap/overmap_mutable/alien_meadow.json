@@ -36,7 +36,7 @@
     "root": "alien_meadow_core",
     "phases": [
       [
-        { "overmap": "alien_meadow_join", "weight": 250 },
+        { "overmap": "alien_meadow_join", "weight": 500 },
         { "overmap": "alien_meadow_end", "weight": 50 },
         { "overmap": "alien_meadow_fill", "weight": 1 }
       ]
