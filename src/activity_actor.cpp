@@ -193,6 +193,7 @@ static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
+static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
@@ -5757,6 +5758,13 @@ activity_reason_info multi_craft_activity_actor::multi_activity_can_do(
             src_loc );
 }
 
+std::optional<requirement_id> multi_craft_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
+{
+    return multi_activity_actor::craft_requirements( you, act_info, src_loc );
+}
+
 std::unordered_set<tripoint_abs_ms> multi_craft_activity_actor::multi_activity_locations(
     Character &you )
 {
@@ -7698,6 +7706,33 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonVal
     data.read( "moves_total", actor.moves_total );
     data.read( "activity_override", actor.activity_override );
 
+    return actor.clone();
+}
+
+activity_reason_info multi_disassemble_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::disassemble_can_do( ACT_MULTIPLE_DIS, you,
+            src_loc );
+}
+
+std::optional<requirement_id> multi_disassemble_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
+{
+    return multi_activity_actor::disassemble_requirements( you, act_info, src_loc );
+}
+
+bool multi_disassemble_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::disassemble_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_disassemble_activity_actor::deserialize( JsonValue & )
+{
+    multi_disassemble_activity_actor actor;
     return actor.clone();
 }
 
@@ -12778,6 +12813,7 @@ deserialize_functions = {
     { ACT_MULTIPLE_CHOP_PLANKS, &multi_chop_planks_activity_actor::deserialize },
     { ACT_MULTIPLE_CHOP_TREES, &multi_chop_trees_activity_actor::deserialize },
     { ACT_MULTIPLE_CRAFT, &multi_craft_activity_actor::deserialize },
+    { ACT_MULTIPLE_DIS, &multi_disassemble_activity_actor::deserialize },
     { ACT_MULTIPLE_FARM, &multi_farm_activity_actor::deserialize },
     { ACT_MULTIPLE_FISH, &multi_fish_activity_actor::deserialize },
     { ACT_MULTIPLE_MINE, &multi_mine_activity_actor::deserialize },

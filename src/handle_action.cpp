@@ -114,7 +114,6 @@ enum class direction : unsigned int;
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
-static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -1691,7 +1690,7 @@ static void loot()
             player_character.assign_activity( multi_mine_activity_actor() );
             break;
         case MultiDis:
-            player_character.assign_activity( ACT_MULTIPLE_DIS );
+            player_character.assign_activity( multi_disassemble_activity_actor() );
             break;
         case MultiMopping:
             player_character.assign_activity( multi_mop_activity_actor() );

@@ -3799,7 +3799,7 @@ bool disassemble_do( Character &you, const activity_reason_info &act_info,
                     // Keep doing
                     // After assignment of disassemble activity (not multitype anymore)
                     // the backlog will not be nuked in do_player_activity()
-                    you.backlog.emplace_back( ACT_MULTIPLE_DIS );
+                    you.backlog.emplace_back( multi_disassemble_activity_actor() );
                     break;
                 }
             }

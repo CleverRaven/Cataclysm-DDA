@@ -65,7 +65,6 @@ static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
-static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
@@ -105,7 +104,6 @@ activity_handlers::do_turn_functions = {
     { ACT_START_FIRE, start_fire_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
-    { ACT_MULTIPLE_DIS, multiple_dis_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
