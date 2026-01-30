@@ -4636,7 +4636,8 @@ bool mattack::eat_clone( monster *z )
 
     z->heal( 72, true );
 
-    add_msg_if_player_sees( *z, _( "An orifice on the side of %s swells and splits open, and a monstrous tongue reaches out grabbing the nearest Daitya clone and sucking it back inside the Daitya!" ),
+    add_msg_if_player_sees( *z,
+                            _( "An orifice on the side of %s swells and splits open, and a monstrous tongue reaches out grabbing the nearest Daitya clone and sucking it back inside the Daitya!" ),
                             z->name() );
 
     nearest_clone->quiet_death = true;
