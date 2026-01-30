@@ -146,6 +146,7 @@ class multi_mine_activity_actor : public multi_zone_activity_actor
             static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
             return ACT_MULTIPLE_MINE;
         }
+        std::unordered_set<tripoint_abs_ms> multi_activity_locations( Character &you ) override;
         activity_reason_info multi_activity_can_do( Character &you,
                 const tripoint_bub_ms &src_loc ) override;
         std::optional<requirement_id> multi_activity_requirements( Character &you,
@@ -167,6 +168,7 @@ class multi_mop_activity_actor : public multi_zone_activity_actor
             static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
             return ACT_MULTIPLE_MOP;
         }
+        std::unordered_set<tripoint_abs_ms> multi_activity_locations( Character &you ) override;
         activity_reason_info multi_activity_can_do( Character &you,
                 const tripoint_bub_ms &src_loc ) override;
         bool multi_activity_do( Character &you, const activity_reason_info &act_info,
@@ -206,6 +208,7 @@ class multi_chop_trees_activity_actor : public multi_zone_activity_actor
             static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
             return ACT_MULTIPLE_CHOP_TREES;
         }
+        std::unordered_set<tripoint_abs_ms> multi_activity_locations( Character &you ) override;
         activity_reason_info multi_activity_can_do( Character &you,
                 const tripoint_bub_ms &src_loc ) override;
         std::optional<requirement_id> multi_activity_requirements( Character &you,

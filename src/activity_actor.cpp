@@ -9142,6 +9142,12 @@ std::unique_ptr<activity_actor> chop_tree_activity_actor::deserialize( JsonValue
     return actor.clone();
 }
 
+std::unordered_set<tripoint_abs_ms> multi_chop_trees_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::no_same_tile_locations( you, get_type() );
+}
+
 activity_reason_info multi_chop_trees_activity_actor::multi_activity_can_do( Character &you,
         const tripoint_bub_ms &src_loc )
 {
@@ -9941,6 +9947,12 @@ std::unique_ptr<activity_actor> jackhammer_activity_actor::deserialize( JsonValu
     return actor.clone();
 }
 
+std::unordered_set<tripoint_abs_ms> multi_mine_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::no_same_tile_locations( you, get_type() );
+}
+
 activity_reason_info multi_mine_activity_actor::multi_activity_can_do( Character &you,
         const tripoint_bub_ms &src_loc )
 {
@@ -9995,6 +10007,12 @@ std::unique_ptr<activity_actor> mop_activity_actor::deserialize( JsonValue &jsin
     data.read( "moves", actor.moves );
 
     return actor.clone();
+}
+
+std::unordered_set<tripoint_abs_ms> multi_mop_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::mop_locations( you, get_type() );
 }
 
 activity_reason_info multi_mop_activity_actor::multi_activity_can_do( Character &you,
