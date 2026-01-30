@@ -55,5 +55,14 @@
     "can_resume": false,
     "do_turn_eoc": "EOC_WEREWOLF_LEARNING_MOON_GIFT_MOON_CHECK",
     "completion_eoc": "EOC_WEREWOLF_LEARNING_MOON_GIFT_END"
+  },
+  {
+    "id": "ACT_GENERIC_EOC",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "studying the text",
+    "based_on": "time",
+    "can_resume": false,
+    "completion_eoc": "EOC_NETHER_SORCERY_FINAL_LEARN_CHECK"
   }
 ]

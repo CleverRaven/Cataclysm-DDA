@@ -1,0 +1,77 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "study On the Opening of the Way",
+    "id": "xe_learn_nether_sorcery_book",
+    "description": "Study On the Opening of the Way and see what you can learn from the text.",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_MISC",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "time": "0 s",
+    "book_learn": [ [ "book_nether_sorcery_opening_of_the_way", 5 ] ],
+    "tools": [ [ "book_nether_sorcery_opening_of_the_way", -1 ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_STUDY_NETHER_SORCERY",
+        "condition": { "not": { "u_has_trait": "XE_NETHER_SORCERY" } },
+        "effect": [
+          { "u_message": "You attempt to discern the meaning of the strange text.", "type": "mixed" },
+          { "u_assign_activity": "ACT_STUDY_NETHER_SORCERY", "duration": "9 hours" }
+        ],
+        "false_effect": [ { "u_message": "You've already discerned everything you need here.", "type": "mixed" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_SORCERY_FINAL_LEARN_CHECK",
+    "condition": {
+      "or": [
+        { "math": [ "u_effect_intensity('taint') >= 3" ] },
+        { "math": [ "u_effect_duration('attention') >= 30000" ] },
+        { "math": [ "u_artifact_resonance() >= 5000" ] },
+        { "math": [ "u_skill('deduction') >= 9" ] }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "math": [ "u_skill('deduction') >= 9" ] },
+        "then": [
+          {
+            "u_message": "Nothing in this book makes any sense.  It talks in circles, goes on tangents, and abruptly ends thoughts midsentence...but you can see through the words to meaning hidden behind them.  You know enough about the way the universe really works that you can finish the author's thoughts when they don't bother to.  There is true power hidden in this book, and your studies have enabled you to reach out and grasp it.",
+            "type": "good"
+          },
+          { "u_lose_trait": "XE_NO_NETHER_SORCERY" },
+          { "u_add_trait": "XE_NETHER_SORCERY" }
+        ],
+        "else": [
+          {
+            "u_message": "Others would call the author of this book mad, but they are fools.  They cannot see as you can see, hear as you can hear, feel as you can feel.  The twists and paths are laid plain before you, and you swim through the words like water and reach the whirlpool at the center.  The Opening of the Way, it is called, and the way opens before you. ",
+            "type": "good"
+          },
+          { "u_lose_trait": "XE_NO_NETHER_SORCERY" },
+          { "u_add_trait": "XE_NETHER_SORCERY" }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "if": { "compare_string": [ "yes", { "u_val": "xe_studied_opening_of_the_way_before" } ] },
+        "then": {
+          "u_message": "No matter how many times you study the book, you can't seem to figure out its secrets.  You're starting to wonder if it even has any, or if it was written as a sick joke by someone who should have been in an asylum.",
+          "type": "bad"
+        },
+        "else": [
+          { "u_add_var": "xe_studied_opening_of_the_way_before", "value": "yes" },
+          {
+            "u_message": "Nothing in this book makes any sense.  It talks in circles, goes on tangents, and abruptly ends thoughts midsentence.  You can't get anything useful out of it.  You'd have to be mad to understand it.",
+            "type": "bad"
+          }
+        ]
+      }
+    ]
+  }
+]
