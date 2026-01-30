@@ -20,6 +20,7 @@
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
+#include "enum_traits.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -230,6 +231,7 @@ void item_tab_data::init( const Character &you, map &m )
     if( uistate.list_item_downvote_active ) {
         filter_priority_minus = uistate.list_item_downvote;
     }
+    sort_flags = static_cast<surroundings_menu_sort_flags>( uistate.vmenu_item_sort );
     apply_filter();
     if( !filtered_list.empty() ) {
         selected_entry = filtered_list.front();
@@ -306,6 +308,7 @@ void item_tab_data::apply_filter()
     uistate.list_item_filter = filter;
     uistate.list_item_priority = filter_priority_plus;
     uistate.list_item_downvote = filter_priority_minus;
+    uistate.vmenu_item_sort = static_cast<int>( sort_flags );
 
     auto filter_function = item_filter_from_string( uistate.list_item_filter );
 
@@ -318,7 +321,7 @@ void item_tab_data::apply_filter()
     // then apply regular sorting
     std::sort( filtered_list.begin(), filtered_list.end(),
     [&]( const map_entity_stack<item> *lhs, const map_entity_stack<item> *rhs ) {
-        return lhs->compare( *rhs, draw_categories );
+        return lhs->compare( *rhs, sort_flags );
     } );
 
     // then apply priorities
@@ -421,6 +424,7 @@ void monster_tab_data::init( const Character &you )
     if( uistate.list_monster_filter_active ) {
         filter = uistate.monster_filter;
     }
+    sort_flags = static_cast<surroundings_menu_sort_flags>( uistate.vmenu_item_sort );
     apply_filter();
     if( !filtered_list.empty() ) {
         selected_entry = filtered_list.front();
@@ -459,6 +463,7 @@ void monster_tab_data::apply_filter()
 {
     filtered_list.clear();
     uistate.monster_filter = filter;
+    uistate.vmenu_monster_sort = static_cast<int>( sort_flags );
 
     // todo: filter_from_string<Creature>
     // for now just matching creature name
@@ -474,7 +479,7 @@ void monster_tab_data::apply_filter()
     // then apply regular sorting
     std::sort( filtered_list.begin(), filtered_list.end(),
     [&]( const map_entity_stack<Creature> *lhs, const map_entity_stack<Creature> *rhs ) {
-        return lhs->compare( *rhs, draw_categories );
+        return lhs->compare( *rhs, sort_flags );
     } );
 }
 
@@ -573,6 +578,7 @@ void terfurn_tab_data::init( const Character &you, map &m )
     if( uistate.list_terfurn_filter_active ) {
         filter = uistate.terfurn_filter;
     }
+    sort_flags = static_cast<surroundings_menu_sort_flags>( uistate.vmenu_item_sort );
     apply_filter();
     if( !filtered_list.empty() ) {
         selected_entry = filtered_list.front();
@@ -647,6 +653,7 @@ void terfurn_tab_data::apply_filter()
 {
     filtered_list.clear();
     uistate.terfurn_filter = filter;
+    uistate.vmenu_terfurn_sort = static_cast<int>( sort_flags );
 
     // todo: filter_from_string<map_data_common_t>
     // for now just matching creature name
@@ -662,7 +669,7 @@ void terfurn_tab_data::apply_filter()
     std::sort( filtered_list.begin(), filtered_list.end(),
                [&]( const map_entity_stack<map_data_common_t> *lhs,
     const map_entity_stack<map_data_common_t> *rhs ) {
-        return lhs->compare( *rhs, draw_categories );
+        return lhs->compare( *rhs, sort_flags );
     } );
 }
 
@@ -850,7 +857,7 @@ void surroundings_menu::draw_item_tab()
                 for( map_entity_stack<item> *it : item_data.filtered_list ) {
                     bool prio_plus = entry_no <= item_data.priority_plus_end;
                     bool prio_minus = entry_no >= item_data.priority_minus_start;
-                    if( item_data.draw_categories ) {
+                    if( item_data.sort_flags & surroundings_menu_sort_flags::CATEGORY ) {
                         std::string cat = prio_plus ? _( "HIGH PRIORITY" ) : prio_minus ? _( "LOW PRIORITY" ) :
                                           it->get_category();
                         draw_category_separator( cat, last_category, 0 );
@@ -995,7 +1002,7 @@ void surroundings_menu::draw_monster_tab()
             std::string last_category;
             int entry_no = 0;
             for( map_entity_stack<Creature> *it : monster_data.filtered_list ) {
-                if( monster_data.draw_categories ) {
+                if( monster_data.sort_flags & surroundings_menu_sort_flags::CATEGORY ) {
                     draw_category_separator( it->get_category(), last_category, 1 );
                 }
                 bool is_selected = it == monster_data.selected_entry;
@@ -1119,7 +1126,7 @@ void surroundings_menu::draw_terfurn_tab()
             std::string last_category;
             int entry_no = 0;
             for( map_entity_stack<map_data_common_t> *it : terfurn_data.filtered_list ) {
-                if( terfurn_data.draw_categories ) {
+                if( terfurn_data.sort_flags & surroundings_menu_sort_flags::CATEGORY ) {
                     draw_category_separator( it->get_category(), last_category, 0 );
                 }
                 bool is_selected = it == terfurn_data.selected_entry;
@@ -1441,7 +1448,7 @@ void surroundings_menu::change_selected_tab_sorting()
 {
     auto_scroll = true;
     tab_data *data = get_selected_data();
-    data->draw_categories = !data->draw_categories;
+    ++data->sort_flags;
     data->apply_filter();
 }
 
