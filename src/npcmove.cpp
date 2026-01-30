@@ -117,6 +117,7 @@ static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
@@ -3433,6 +3434,9 @@ bool npc::find_job_to_perform()
             return true;
         } else if( elem == ACT_VEHICLE_REPAIR ) {
             assign_activity( multi_vehicle_repair_activity_actor() );
+            return true;
+        } else if( elem == ACT_MULTIPLE_CRAFT ) {
+            assign_activity( multi_craft_activity_actor() );
             return true;
         } else if( generic_multi_activity_handler( scan_act, *this->as_character(), true ) ) {
             assign_activity( elem );
