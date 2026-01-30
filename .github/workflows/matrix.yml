@@ -46,7 +46,7 @@ concurrency:
 # | GCC 9, Curses, LTO                   | ubuntu   | gcc-9    | oldest   (gcc) |       |       | yes      |       | yes       | yes |          |      |
 # | GCC 12, Ubuntu, Curses, ASan         | ubuntu   | gcc-12   | newest*  (gcc) |       |       | yes      |       |           |     | address  |      |
 # | GCC 9, Ubuntu, Tiles, Sound, CMake   | ubuntu   | gcc-9    | oldest   (gcc) | yes   | yes   |          | yes   |           |     |          |      |
-# | macOS 13, Apple Clang 15             | macOS 13 | apple clang-15  |  N/A    | yes   | yes   | yes      |       |           |     |          |      |
+# | macOS 15, Apple Clang 17             | macOS 15 | apple clang-17  |  N/A    | yes   | yes   | yes      |       |           |     |          |      |
 # | Windows (in msvc-full-features.yml)  | windows  | msvc     |     N/A        | yes   | yes   | yes      |       | yes?      |     |          |      |
 #
 # gcc-12 is not actually newest. gcc-14 exists, but it's failing the asan tests on newer (24.04) ubuntu runners for whatever reason.
@@ -116,14 +116,14 @@ jobs:
             ccache_key: linux-llvm-13
 
           - compiler: clang++
-            os: macos-13
+            os: macos-15
             cmake: 0
             native: osx
             pch: 0
             tiles: 1
             sound: 1
             localize: 1
-            title: macOS 13, Apple Clang 15, Tiles, Sound, x64 and arm64 Universal Binary
+            title: macOS 15, Apple Clang 17, Tiles, Sound, x64 and arm64 Universal Binary
             ccache_limit: 10G
             ccache_key: macos-llvm-15-universal
 
