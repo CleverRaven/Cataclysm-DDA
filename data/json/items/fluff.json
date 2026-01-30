@@ -57,15 +57,57 @@
         "weight": 2
       },
       {
-        "id": "deck_of_tarot_cards",
-        "name": { "str": "deck of tarot cards", "str_pl": "decks of tarot cards" },
-        "description": "A deck of tarot cards.  Commonly used for the practice of divination.  Each card has a unique and highly symbolic picture.",
-        "weight": 2
-      },
-      {
         "id": "deck_of_cards_makeshift",
         "name": { "str": "makeshift deck of cards", "str_pl": "makeshift decks of cards" },
         "description": "A deck of 52 makeshift cards, made out of cardboard rectangles with simple designs drawn on them.",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "deck_of_tarot_cards",
+    "copy-from": "deck_of_cards",
+    "looks_like": "deck_of_cards",
+    "type": "ITEM",
+    "category": "other",
+    "name": { "str": "deck of tarot cards", "str_pl": "decks of tarot cards" },
+    "description": "A fairly new, glossy deck of tarot cards, commonly used for the practice of divination.  Each card has a unique and highly symbolic picture.",
+    "use_action": [
+      "PLAY_GAME",
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Draw a card",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_DRAW_TAROT",
+            "effect": [
+              {
+                "names": [ "Draw from the full deck", "Draw a major arcana" ],
+                "run_eoc_selector": [
+                  {
+                    "id": "EOC_DRAW_TAROT_FULL",
+                    "effect": [ { "u_message": "You draw a card from the full deck:" }, { "u_message": "<card_tarot_full>", "snippet": true } ]
+                  },
+                  {
+                    "id": "EOC_DRAW_TAROT_MAJOR",
+                    "effect": [ { "u_message": "You draw a card from the major arcana:" }, { "u_message": "<card_tarot_major>", "snippet": true } ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "variants": [
+      {
+        "id": "generic",
+        "description": "A fairly new, glossy deck of tarot cards, commonly used for the practice of divination.  Each card has a unique and highly symbolic picture."
+      },
+      {
+        "id": "makeshift",
+        "name": { "str": "makeshift deck of tarot cards", "str_pl": "makeshift decks of tarot cards" },
+        "description": "A deck of tarot cards made out of cardboard rectangles with simple designs drawn on them, its makeshift nature doesn't affect its divinatory properties.",
         "weight": 0
       }
     ]
