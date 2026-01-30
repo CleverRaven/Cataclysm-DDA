@@ -192,6 +192,7 @@ static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
@@ -8113,6 +8114,33 @@ std::unique_ptr<activity_actor> build_construction_activity_actor::deserialize( 
     return actor.clone();
 }
 
+activity_reason_info multi_build_construction_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::construction_can_do( ACT_MULTIPLE_CONSTRUCTION, you,
+            src_loc );
+}
+
+std::unordered_set<tripoint_abs_ms>
+multi_build_construction_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::construction_locations( you, get_type() );
+}
+
+bool multi_build_construction_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::construction_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_build_construction_activity_actor::deserialize( JsonValue & )
+{
+    multi_build_construction_activity_actor actor;
+    return actor.clone();
+}
+
 void reel_cable_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves_total;
@@ -12927,6 +12955,7 @@ deserialize_functions = {
     { ACT_MOVE_LOOT, &zone_sort_activity_actor::deserialize },
     { ACT_MULTIPLE_CHOP_PLANKS, &multi_chop_planks_activity_actor::deserialize },
     { ACT_MULTIPLE_CHOP_TREES, &multi_chop_trees_activity_actor::deserialize },
+    { ACT_MULTIPLE_CONSTRUCTION, &multi_build_construction_activity_actor::deserialize },
     { ACT_MULTIPLE_CRAFT, &multi_craft_activity_actor::deserialize },
     { ACT_MULTIPLE_DIS, &multi_disassemble_activity_actor::deserialize },
     { ACT_MULTIPLE_FARM, &multi_farm_activity_actor::deserialize },

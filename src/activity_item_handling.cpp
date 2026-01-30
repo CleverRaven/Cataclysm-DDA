@@ -3622,7 +3622,7 @@ bool construction_do( Character &you, const activity_reason_info &act_info,
 
     if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ) {
         if( here.partial_con_at( src_loc ) ) {
-            you.backlog.emplace_front( ACT_MULTIPLE_CONSTRUCTION );
+            you.backlog.emplace_front( multi_build_construction_activity_actor() );
             you.assign_activity( build_construction_activity_actor( src ) );
             return false;
         }

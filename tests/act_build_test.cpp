@@ -79,7 +79,7 @@ void run_activities( Character &u, int max_moves )
 {
     map &here = get_map();
 
-    u.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
+    u.assign_activity( multi_build_construction_activity_actor() );
     int turns = 0;
     while( ( !u.activity.is_null() || u.is_auto_moving() ) && turns < max_moves ) {
         u.set_moves( u.get_speed() );
