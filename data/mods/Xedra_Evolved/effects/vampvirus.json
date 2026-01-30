@@ -65,6 +65,7 @@
               { "u_lose_trait": "VAMPIRE_WEAKNESS_NO_FUN" },
               { "u_lose_effect": "vampire_need_living_blood" },
               { "u_lose_morale": "morale_vw_no_fun" },
+              { "u_lose_effect": "effect_xe_holy_burnt_carrying_holy" },
               { "math": [ "u_spell_level('vampire_magic_for_blood_spell') = -1" ] },
               { "math": [ "u_spell_level('spell_hypnotic_gaze') = -1" ] },
               { "math": [ "u_spell_level('vampire_command_beast_spell') = -1" ] },
