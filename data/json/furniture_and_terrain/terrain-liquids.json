@@ -617,7 +617,7 @@
     "id": "t_metal_floor_submerged_hot",
     "//": "for eventual use with water z levels.  Currently non-functional.  Cement on the lake floor.",
     "name": "submerged metal floor",
-    "description": "You are standing at the bottom of a body of warm fresh water on a metal foor.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
+    "description": "You are standing at the bottom of a body of warm fresh water on a metal floor.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
     "symbol": "~",
     "looks_like": "t_metal_floor",
     "color": "light_gray",
