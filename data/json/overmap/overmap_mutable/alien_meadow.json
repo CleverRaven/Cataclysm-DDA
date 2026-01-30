@@ -4,7 +4,7 @@
     "id": "alien_meadow_mutable",
     "subtype": "mutable",
     "locations": [ "field_no_meadow" ],
-    "occurrences": [ 35, 100 ],
+    "occurrences": [ 20, 100 ],
     "//": "Place before all priority buildings and before meadows",
     "priority": 3,
     "flags": [ "WILDERNESS", "GLOBALLY_UNIQUE" ],
@@ -36,7 +36,7 @@
     "root": "alien_meadow_core",
     "phases": [
       [
-        { "overmap": "alien_meadow_join", "weight": 250 },
+        { "overmap": "alien_meadow_join", "weight": 500 },
         { "overmap": "alien_meadow_end", "weight": 50 },
         { "overmap": "alien_meadow_fill", "weight": 1 }
       ]

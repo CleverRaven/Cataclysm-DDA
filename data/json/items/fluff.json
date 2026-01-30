@@ -1879,5 +1879,15 @@
     "material": [ "steel", "plastic" ],
     "price": "14 USD 99 cent",
     "price_postapoc": "5 cent"
+  },
+  {
+    "type": "ITEM",
+    "id": "alien_leaves",
+    "copy-from": "leaves",
+    "name": { "str": "handful of alien leaves", "str_pl": "handfuls of alien leaves" },
+    "looks_like": "withered",
+    "description": "A handful of dry leaves(?) from an alien plant.  Despite their otherworldly origin, they have very few uses and are thus (almost) only good for burning.",
+    "color": "red",
+    "symbol": ","
   }
 ]
