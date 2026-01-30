@@ -21,6 +21,7 @@ class item;
 class npc;
 struct const_dialogue;
 struct shopkeeper_blacklist;
+struct shopkeeper_whitelist;
 struct shopkeeper_cons_rates;
 
 namespace trait_group
@@ -101,6 +102,7 @@ class npc_class
         std::vector<faction_price_rule> shop_price_rules;
         shopkeeper_cons_rates_id shop_cons_rates_id = shopkeeper_cons_rates_id::NULL_ID();
         shopkeeper_blacklist_id shop_blacklist_id = shopkeeper_blacklist_id::NULL_ID();
+        shopkeeper_whitelist_id shop_whitelist_id = shopkeeper_whitelist_id::NULL_ID();
         time_duration restock_interval = 6_days;
 
     public:
@@ -144,6 +146,10 @@ class npc_class
         const std::vector<shopkeeper_item_group> &get_shopkeeper_items() const;
         const shopkeeper_cons_rates &get_shopkeeper_cons_rates() const;
         const shopkeeper_blacklist &get_shopkeeper_blacklist() const;
+        const shopkeeper_whitelist &get_shopkeeper_whitelist() const;
+        bool has_whitelist() const {
+            return !shop_whitelist_id.is_null();
+        };
         const time_duration &get_shop_restock_interval() const;
         faction_price_rule const *get_price_rules( item const &it, npc const &guy ) const;
 
