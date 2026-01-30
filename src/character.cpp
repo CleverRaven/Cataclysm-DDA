@@ -396,7 +396,8 @@ queued_eocs::queued_eocs( const queued_eocs &rhs )
     for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
         queue.emplace( it );
     }
-};
+}
+
 queued_eocs::queued_eocs( queued_eocs &&rhs ) noexcept
 {
     queue.swap( rhs.queue );
@@ -418,6 +419,29 @@ queued_eocs &queued_eocs::operator=( queued_eocs &&rhs ) noexcept
     queue.swap( rhs.queue );
     list.swap( rhs.list );
     return *this;
+}
+
+bool queued_eocs::empty() const
+{
+    return queue.empty();
+}
+
+const queued_eoc &queued_eocs::top() const
+{
+    return *queue.top();
+}
+
+void queued_eocs::push( const queued_eoc &eoc )
+{
+    auto it = list.emplace( list.end(), eoc );
+    queue.push( it );
+}
+
+void queued_eocs::pop()
+{
+    auto it = queue.top();
+    queue.pop();
+    list.erase( it );
 }
 
 void Character::queue_effects( const std::vector<effect_on_condition_id> &effects )

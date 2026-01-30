@@ -474,6 +474,11 @@
     }
   },
   {
+    "type": "effect_on_condition",
+    "id": "EOC_innawood_bonus_exp_warpshards",
+    "effect": [  ]
+  },
+  {
     "id": "MISSION_BONUS_KILL_LIGHT",
     "type": "mission_definition",
     "name": { "str": "Kill the warp-draining zombies!" },

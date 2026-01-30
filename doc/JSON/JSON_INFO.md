@@ -1120,6 +1120,22 @@ reference at least one body part or sub body part.
 }
 ```
 
+List of possible limb types:
+```jsonc
+head, // this is where helmets go, and is a vital part.
+torso, // the torso is generally the center of mass of a creature
+sensor, // provides sight
+mouth, // you eat and scream with this
+arm, // may manipulate objects to some degree, is a main part
+hand, // manipulates objects. usually is not a main part.
+leg, // provides motive power
+foot, // helps with balance. usually is not a main part
+wing, // may reduce fall damage
+tail, // may provide balance or manipulation
+other, // more of a general purpose limb, such as horns.
+```
+
+
 # On-hit Effects
 
 An array of effects to add whenever the limb in question takes damage. Variables for each entry:

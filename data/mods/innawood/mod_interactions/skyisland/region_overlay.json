@@ -1,0 +1,14 @@
+[
+  {
+    "type": "region_settings",
+    "id": "dimension_sky_island_region",
+    "copy-from": "dimension_sky_island_region",
+    "cities": null,
+    "highways": null,
+    "place_roads": false,
+    "feature_flag_settings": {
+      "blacklist": [ "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII", "EXTRADIMENSIONAL", "SKY_ISLAND" ],
+      "whitelist": [  ]
+    }
+  }
+]

@@ -464,7 +464,7 @@ nested mapgen, or regular mapgen with a predecessor.  When the mapgen changes an
 the tile may already contain preexisting furniture, traps and items.  The following flags provide
 a mechanism for specifying the behaviour to follow in such situations.  It is an error if existing
 furniture, traps or items are encountered but no behaviour has been given. Note that flags do NOT
-affect magens on creation of a new overmap when the Z level offset is negative (i.e. something placed
+affect mapgens on creation of a new overmap when the Z level offset is negative (i.e. something placed
 at a lower Z level than the overmap level being generated) and no error reports are generated. This
 is a technical limitation, not a desired feature.
 

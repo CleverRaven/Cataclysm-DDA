@@ -12340,6 +12340,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     // Dropping off
     if( !dropoff_coords.empty() && !picked_up_stuff.empty() ) {
         auto dest_iter = dropoff_coords.begin();
+
         while( dest_iter != dropoff_coords.end() ) {
             const tripoint_abs_ms drop_dest = *dest_iter;
             // Sometimes we loop back to here while still picking stuff up (because we spent all our moves picking up)
@@ -12362,10 +12363,10 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                     }
 
                     // FIXME HACK: teleports item onto ground
-                    you.mod_moves( -you.item_handling_cost( **iter ) );
                     std::vector<item_location> dropped_crap = put_into_vehicle_or_drop_ret_locs( you,
-                            item_drop_reason::deliberate, { **iter }, here.get_bub( drop_dest ) );
+                            item_drop_reason::deliberate, { **iter }, here.get_bub( drop_dest ), false );
                     if( !dropped_crap.empty() ) {
+                        you.mod_moves( -you.item_handling_cost( **iter ) );
                         if( const vehicle_cursor *veh_curs = iter->veh_cursor() ) {
                             vehicle &cart_with_items = veh_curs->veh;
                             cart_with_items.remove_item( cart_with_items.part( veh_curs->part ), iter->get_item() );
@@ -12519,8 +12520,88 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         //this location is sorted
         stage = THINK;
         dropoff_coords.clear();
+
     } else if( !dropoff_coords.empty() && !you.has_destination() )  {
-        zone_sorting::route_to_destination( you, act, here.get_bub( dropoff_coords.front() ), stage );
+        bool match = false;
+        tripoint_abs_ms destination;
+
+        // Find a dropoff location that can take all the items picked up.
+        for( tripoint_abs_ms &dest : dropoff_coords ) {
+            std::vector<item_location> placed_items;
+
+            match = true;
+
+            for( item_location &item : picked_up_stuff ) {
+                std::vector<item_location> placed_item = put_into_vehicle_or_drop_ret_locs( you,
+                        item_drop_reason::deliberate, { *item }, here.get_bub( dest ), false );
+
+                if( placed_item.empty() ) {
+                    match = false;
+                    break;
+
+                } else {
+                    placed_items.emplace_back( placed_item.front() );
+                }
+            }
+
+            // Get rid of the placed items, as we really only wanted to know if they COULD be placed.
+            for( item_location &item : placed_items ) {
+                item.remove_item();
+            }
+
+            if( match ) {
+                destination = dest;
+                break;
+            }
+        }
+
+        if( !match ) {
+            // Couldn't find any destination that would take all items. Fallback to one that can accept
+            // the first one that has a usable destination.
+            // Note that we always have to be able to handle the situation where a destination is full
+            // when we get there due to things happening in the mean time (like other characters sorting
+            // stuff into that location as we move there), so we leave the handling of unsortable items
+            // in the inventory to that handling for now.
+            for( tripoint_abs_ms &dest : dropoff_coords ) {
+                std::vector<item_location> placed_items;
+
+                match = true;
+
+                for( item_location &item : picked_up_stuff ) {
+                    std::vector<item_location> placed_item = put_into_vehicle_or_drop_ret_locs( you,
+                            item_drop_reason::deliberate, { *item }, here.get_bub( dest ), false );
+
+                    if( placed_item.empty() ) {
+                        match = false;
+                        break;
+
+                    } else {
+                        placed_items.emplace_back( placed_item.front() );
+                        match = true;
+                        break;
+                    }
+                }
+
+                // Get rid of the placed items, as we really only wanted to know if they COULD be placed.
+                for( item_location &item : placed_items ) {
+                    item.remove_item();
+                }
+
+                if( match ) {
+                    destination = dest;
+                    break;
+                }
+            }
+        }
+
+        if( !match ) {
+            add_msg( m_bad, _( "None of the items picked up can be sorted because they won't fit anywhere." ) );
+            stage = LAST;
+            return;
+        }
+
+        zone_sorting::route_to_destination( you, act, here.get_bub( destination ), stage );
+
     } else if( !you.has_destination() ) {
         debugmsg( "Sort activity has items to sort but no valid destination, this is a bug" );
         // Completely kick us out of this activity, something's gone wrong and we don't know what's going on.

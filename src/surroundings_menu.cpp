@@ -23,6 +23,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
+#include "game_ui.h"
 #include "input_popup.h"
 #include "item.h"
 #include "item_contents.h"
@@ -35,6 +36,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "panels.h"
 #include "point.h"
 #include "safemode_ui.h"
 #include "string_formatter.h"
@@ -84,6 +86,49 @@ std::string io::enum_to_string<surroundings_menu_tab_enum>( surroundings_menu_ta
 static std::string list_items_filter_history_help()
 {
     return colorize( _( "UP: history, CTRL-U: clear line, ESC: abort, ENTER: save" ), c_green );
+}
+
+static void center_selection( const tripoint_rel_ms &active_item_position, int ui_width )
+{
+    Character &u = get_avatar();
+    if( get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) != "false" ) {
+        u.view_offset.z() = active_item_position.z();
+        if( get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) == "centered" ) {
+            u.view_offset.x() = active_item_position.x();
+            u.view_offset.y() = active_item_position.y();
+        } else {
+            point_rel_ms pos( active_item_position.xy() + point( POSX, POSY ) );
+
+            // item/monster list UI is on the right, so get the difference between its width
+            // and the width of the sidebar on the right (if any)
+            int sidebar_right_adjusted = ui_width - panel_manager::get_manager().get_width_right();
+            // if and only if that difference is greater than zero, use that as offset
+            int right_offset = sidebar_right_adjusted > 0 ? sidebar_right_adjusted : 0;
+
+            // Convert offset to tile counts, calculate adjusted terrain window width
+            // This lets us account for possible differences in terrain width between
+            // the normal sidebar and the list-all-whatever display.
+            to_map_font_dim_width( right_offset );
+            int terrain_width = TERRAIN_WINDOW_WIDTH - right_offset;
+
+            if( pos.x() < 0 ) {
+                u.view_offset.x() = pos.x();
+            } else if( pos.x() >= terrain_width ) {
+                u.view_offset.x() = pos.x() - ( terrain_width - 1 );
+            } else {
+                u.view_offset.x() = 0;
+            }
+
+            if( pos.y() < 0 ) {
+                u.view_offset.y() = pos.y();
+            } else if( pos.y() >= TERRAIN_WINDOW_HEIGHT ) {
+                u.view_offset.y() = pos.y() - ( TERRAIN_WINDOW_HEIGHT - 1 );
+            } else {
+                u.view_offset.y() = 0;
+            }
+        }
+    }
+
 }
 
 template<typename T>
@@ -828,6 +873,7 @@ void surroundings_menu::draw_item_tab()
                             auto_scroll = false;
                         }
                         item_data.selected_entry = it;
+                        center_selection( *item_data.get_selected_pos(), width );
                     }
                     ImGui::SameLine( 0, 0 );
                     ImGui::PopID();
@@ -963,6 +1009,7 @@ void surroundings_menu::draw_monster_tab()
                         auto_scroll = false;
                     }
                     monster_data.selected_entry = it;
+                    center_selection( *monster_data.get_selected_pos(), width );
                 }
                 ImGui::SameLine( 0, 0 );
                 ImGui::PopID();
@@ -1086,6 +1133,7 @@ void surroundings_menu::draw_terfurn_tab()
                         auto_scroll = false;
                     }
                     terfurn_data.selected_entry = it;
+                    center_selection( *terfurn_data.get_selected_pos(), width );
                 }
                 ImGui::SameLine( 0, 0 );
                 ImGui::PopID();
@@ -1183,6 +1231,7 @@ void surroundings_menu::execute()
                 break;
             }
         } else if( action == "QUIT" ) {
+            you.view_offset = stored_view_offset;
             break;
         } else if( action == "TRAVEL_TO" && path_end ) {
             you.view_offset = stored_view_offset;

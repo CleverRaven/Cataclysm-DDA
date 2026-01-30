@@ -1517,7 +1517,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.member( "placements" );
         json.start_array();
         // When we have a discriminator for different instances of a given special,
-        // we'd use that that group them, but since that doesn't exist yet we'll
+        // we'd use that to group them, but since that doesn't exist yet we'll
         // dump all the points of a given special into a single entry.
         json.start_object();
         json.member( "points" );

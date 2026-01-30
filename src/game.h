@@ -568,7 +568,7 @@ class game
          * new monster there (see @ref creature_at).
          * @param p The place where to put the revived monster.
          * @param it The corpse item, it must be a valid corpse (see @ref item::is_corpse).
-         * @return Whether the corpse has actually been redivided. Reviving may fail for many
+         * @return Whether the corpse has actually been revived. Reviving may fail for many
          * reasons, including no space to put the monster, corpse being to much damaged etc.
          * If the monster was revived, the caller should remove the corpse item.
          * If reviving failed, the item is unchanged, as is the environment (no new monsters).
@@ -577,7 +577,7 @@ class game
         // same as above, but with relaxed placement radius.
         bool revive_corpse( const tripoint_bub_ms &p, item &it, int radius );
         // evaluate what monster it should be, if necessary
-        void assing_revive_form( item &it, tripoint_bub_ms p );
+        void assign_revive_form( item &it, tripoint_bub_ms p );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
         void save_cyborg( item *cyborg, const tripoint_bub_ms &couch_pos, Character &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
@@ -944,7 +944,9 @@ class game
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
         // Handle pushing during move, returns true if it handled the move
-        bool grabbed_move( const tripoint_rel_ms &dp, bool via_ramp );
+        bool grabbed_move( const tripoint_rel_ms &dp, bool via_ramp, bool stairs_move = false );
+        bool grabbed_veh_move_helper( const tripoint_rel_ms &dp, bool stairs_move );
+        bool grabbed_veh_move_stairs( const tripoint_rel_ms &dp );
         bool grabbed_veh_move( const tripoint_rel_ms &dp );
 
         void control_vehicle( const std::optional<tripoint_bub_ms> &p =
