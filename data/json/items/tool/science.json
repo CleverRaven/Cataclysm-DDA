@@ -659,8 +659,11 @@
     "id": "mws_weather_sensor_array",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "ambient weather sensor array" },
-    "description": "Represents the hardware and software for displaying the weather.  You should not see this item in game.",
+    "name": { "str": "ambient weather sensor array", "//~": "NO_I18N" },
+    "description": {
+      "str": "Represents the hardware and software for displaying the weather.  You should not see this item in game.",
+      "//~": "NO_I18N"
+    },
     "weight": "4000 g",
     "volume": "80000 ml",
     "longest_side": "55 cm",
@@ -679,8 +682,11 @@
     "id": "mws_advanced_weather_sensor_array",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "ambient weather sensor array" },
-    "description": "Represents the hardware and software for displaying the weather in a HEW system.  You should not see this item in game.",
+    "name": { "str": "ambient weather sensor array", "//~": "NO_I18N" },
+    "description": {
+      "str": "Represents the hardware and software for displaying the weather in a HEW system.  You should not see this item in game.",
+      "//~": "NO_I18N"
+    },
     "weight": "4000 g",
     "volume": "80000 ml",
     "longest_side": "55 cm",
@@ -699,8 +705,11 @@
     "id": "mws_HE_sensor_array",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "ambient HE sensor array" },
-    "description": "Represents the hardware and software to scan for nethery stuff.  You should not see this item in game.",
+    "name": { "str": "ambient HE sensor array", "//~": "NO_I18N" },
+    "description": {
+      "str": "Represents the hardware and software to scan for nethery stuff.  You should not see this item in game.",
+      "//~": "NO_I18N"
+    },
     "weight": "4000 g",
     "volume": "80000 ml",
     "longest_side": "55 cm",

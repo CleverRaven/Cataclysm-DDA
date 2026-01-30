@@ -5135,7 +5135,7 @@ std::optional<int> iuse::stimpack( Character *p, item *it, const tripoint_bub_ms
 
     } else if( !it->activation_success() ) {
         p->add_msg_if_player( m_bad,
-                              _( "nothing happens when you try to inject yourself with your %s. Try again." ), it->tname() );
+                              _( "You try to inject yourself with the %s, but nothing happens." ), it->tname() );
         return std::nullopt;
 
     } else {
