@@ -4748,7 +4748,7 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint_bub_ms 
         p->assign_activity( hacksaw_activity_actor( pnt, it->typeId(), it_pnt ) );
     }
 
-    std::string query = "";
+    std::string query;
     if( p->activity.moves_left == p->activity.moves_total ) {
         query += string_format( _( "Cut up metal using your %1$s?" ), it->tname() );
     } else {
