@@ -3847,6 +3847,24 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_xe_holy_burnt_carrying_holy",
+    "name": [ "Unworthy of the holy" ],
+    "desc": [ "You are wearing a holy symbol.  It will cause you severe pain until you take it off." ],
+    "rating": "bad",
+    "apply_message": "You wince in pain as you put on the holy symbol.",
+    "remove_message": "The pain subsides as you take off the holy symbol.",
+    "base_mods": {
+      "pain_amount": [ 5 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 3 ],
+      "pain_chance": [ 3 ],
+      "pain_max_val": [ 100 ],
+      "pain_tick": [ 20 ]
+    },
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vast_water_burn",
     "name": [ "Melted by the vast waters" ],
     "desc": [ "You are dissolving in the vast waters." ],

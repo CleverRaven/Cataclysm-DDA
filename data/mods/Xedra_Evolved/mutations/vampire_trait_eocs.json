@@ -495,6 +495,17 @@
             ]
           }
         ]
+      },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "flags": [ "WARDING_SYMBOL" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_HOLY_BURN_WORN_WARD_TRUE",
+            "effect": [ { "u_add_effect": "effect_xe_holy_burnt_carrying_holy", "duration": "PERMANENT" } ]
+          }
+        ],
+        "false_eocs": [ { "id": "EOC_HOLY_BURN_WORN_WARD_FALSE", "effect": [ { "u_lose_effect": "effect_xe_holy_burnt_carrying_holy" } ] } ]
       }
     ]
   },
@@ -2731,6 +2742,42 @@
               }
             ]
           }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOLY_BURN_CHECK_WORN_WARD",
+    "//": "A",
+    "eoc_type": "EVENT",
+    "required_event": "character_wears_item",
+    "condition": { "u_has_trait": "VAMPIRE_WEAKNESS_HOLY_BURN" },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "flags": [ "WARDING_SYMBOL" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_HOLY_BURN_CHECK_WORN_WARD_TRUE",
+            "effect": [ { "u_add_effect": "effect_xe_holy_burnt_carrying_holy", "duration": "PERMANENT" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOLY_BURN_CHECK_WORN_WARD_REMOVE",
+    "eoc_type": "EVENT",
+    "required_event": "character_takeoff_item",
+    "condition": { "u_has_trait": "VAMPIRE_WEAKNESS_HOLY_BURN" },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "flags": [ "WARDING_SYMBOL" ] } ],
+        "false_eocs": [
+          { "id": "EOC_HOLY_BURN_CHECK_WORN_WARD_TRUE", "effect": [ { "u_lose_effect": "effect_xe_holy_burnt_carrying_holy" } ] }
         ]
       }
     ]
