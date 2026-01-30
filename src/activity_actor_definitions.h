@@ -127,7 +127,7 @@ class multi_zone_activity_actor : public activity_actor
                 const tripoint_bub_ms &src_loc ) = 0;
         // specific requirements for the activity, used in `check_requirements`
         virtual std::optional<requirement_id> multi_activity_requirements( Character &,
-                activity_reason_info &, const tripoint_bub_ms & );
+                activity_reason_info &, const tripoint_bub_ms &, const zone_data *zone = nullptr );
         // main activity body, once zone locations and requirements are satisfied
         // @return whether activity was NOT successful
         virtual bool multi_activity_do( Character &you, const activity_reason_info &act_info,
@@ -149,7 +149,8 @@ class multi_mine_activity_actor : public multi_zone_activity_actor
         activity_reason_info multi_activity_can_do( Character &you,
                 const tripoint_bub_ms &src_loc ) override;
         std::optional<requirement_id> multi_activity_requirements( Character &you,
-                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc,
+                const zone_data *zone = nullptr ) override;
         bool multi_activity_do( Character &you, const activity_reason_info &act_info,
                                 const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
         std::unique_ptr<activity_actor> clone() const override {
@@ -187,7 +188,8 @@ class multi_chop_planks_activity_actor : public multi_zone_activity_actor
         activity_reason_info multi_activity_can_do( Character &you,
                 const tripoint_bub_ms &src_loc ) override;
         std::optional<requirement_id> multi_activity_requirements( Character &you,
-                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc,
+                const zone_data *zone = nullptr ) override;
         bool multi_activity_do( Character &you, const activity_reason_info &act_info,
                                 const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
         std::unique_ptr<activity_actor> clone() const override {
@@ -207,7 +209,8 @@ class multi_chop_trees_activity_actor : public multi_zone_activity_actor
         activity_reason_info multi_activity_can_do( Character &you,
                 const tripoint_bub_ms &src_loc ) override;
         std::optional<requirement_id> multi_activity_requirements( Character &you,
-                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc,
+                const zone_data *zone = nullptr ) override;
         bool multi_activity_do( Character &you, const activity_reason_info &act_info,
                                 const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
         std::unique_ptr<activity_actor> clone() const override {
@@ -227,7 +230,8 @@ class multi_vehicle_deconstruct_activity_actor : public multi_zone_activity_acto
         activity_reason_info multi_activity_can_do( Character &you,
                 const tripoint_bub_ms &src_loc ) override;
         std::optional<requirement_id> multi_activity_requirements( Character &you,
-                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc,
+                const zone_data *zone = nullptr ) override;
         bool multi_activity_do( Character &you, const activity_reason_info &act_info,
                                 const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
         std::unique_ptr<activity_actor> clone() const override {
@@ -247,7 +251,8 @@ class multi_vehicle_repair_activity_actor : public multi_zone_activity_actor
         activity_reason_info multi_activity_can_do( Character &you,
                 const tripoint_bub_ms &src_loc ) override;
         std::optional<requirement_id> multi_activity_requirements( Character &you,
-                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc,
+                const zone_data *zone = nullptr ) override;
         bool multi_activity_do( Character &you, const activity_reason_info &act_info,
                                 const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
         std::unique_ptr<activity_actor> clone() const override {
@@ -267,7 +272,8 @@ class multi_fish_activity_actor : public multi_zone_activity_actor
         activity_reason_info multi_activity_can_do( Character &you,
                 const tripoint_bub_ms &src_loc ) override;
         std::optional<requirement_id> multi_activity_requirements( Character &you,
-                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc,
+                const zone_data *zone = nullptr ) override;
         bool multi_activity_do( Character &you, const activity_reason_info &act_info,
                                 const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
         std::unique_ptr<activity_actor> clone() const override {
@@ -287,7 +293,8 @@ class multi_farm_activity_actor : public multi_zone_activity_actor
         activity_reason_info multi_activity_can_do( Character &you,
                 const tripoint_bub_ms &src_loc ) override;
         std::optional<requirement_id> multi_activity_requirements( Character &you,
-                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc,
+                const zone_data *zone = nullptr ) override;
         bool multi_activity_do( Character &you, const activity_reason_info &act_info,
                                 const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
         std::unique_ptr<activity_actor> clone() const override {
@@ -304,10 +311,9 @@ class multi_read_activity_actor : public multi_zone_activity_actor
             static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
             return ACT_MULTIPLE_READ;
         }
+        std::unordered_set<tripoint_abs_ms> multi_activity_locations( Character &you ) override;
         activity_reason_info multi_activity_can_do( Character &you,
                 const tripoint_bub_ms &src_loc ) override;
-        std::optional<requirement_id> multi_activity_requirements( Character &you,
-                activity_reason_info &act_info, const tripoint_bub_ms &src_loc ) override;
         bool multi_activity_do( Character &you, const activity_reason_info &act_info,
                                 const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
         std::unique_ptr<activity_actor> clone() const override {
@@ -324,6 +330,7 @@ class multi_study_activity_actor : public multi_zone_activity_actor
             static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
             return ACT_MULTIPLE_STUDY;
         }
+        std::unordered_set<tripoint_abs_ms> multi_activity_locations( Character &you ) override;
         activity_reason_info multi_activity_can_do( Character &you,
                 const tripoint_bub_ms &src_loc ) override;
         bool multi_activity_do( Character &you, const activity_reason_info &act_info,
