@@ -153,6 +153,9 @@ json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 
 static const material_id material_glass( "glass" );
 
+static const move_mode_id move_mode_run( "run" );
+static const move_mode_id move_mode_walk( "walk" );
+
 static const quality_id qual_CUT( "CUT" );
 
 static const skill_id skill_melee( "melee" );
@@ -1857,7 +1860,13 @@ static void fire()
 static void open_movement_mode_menu()
 {
     avatar &player_character = get_avatar();
-    const std::vector<move_mode_id> &modes = move_modes_by_speed();
+    std::vector<move_mode_id> modes;
+    const bool riding_animal = player_character.get_steed_type() == steed_type::ANIMAL;
+    if( riding_animal ) {
+        modes = { move_mode_walk, move_mode_run };
+    } else {
+        modes = move_modes_by_speed();
+    }
     const int cycle = 1027;
     uilist as_m;
 
@@ -1879,7 +1888,15 @@ static void open_movement_mode_menu()
 
     if( as_m.ret != UILIST_CANCEL ) {
         if( as_m.ret == cycle ) {
-            player_character.cycle_move_mode();
+            if( riding_animal ) {
+                if( player_character.current_movement_mode() == move_mode_walk ) {
+                    player_character.set_movement_mode( move_mode_run );
+                } else {
+                    player_character.set_movement_mode( move_mode_walk );
+                }
+            } else {
+                player_character.cycle_move_mode();
+            }
         } else {
             player_character.set_movement_mode( modes[as_m.ret] );
         }

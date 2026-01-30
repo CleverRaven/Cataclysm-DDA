@@ -8766,7 +8766,14 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
             add_msg( m_warning, _( "You cannot pass obstacles whilst mounted." ) );
             return false;
         }
-        const double base_moves = u.run_cost( mcost, diag ) * 100.0 / crit->get_speed();
+        double crit_speed;
+        if( crit->has_flag( mon_flag_RIDEABLE_MECH ) ) {
+            crit_speed = crit->get_speed();
+        } else {
+            // Approximate animal walk speed by halving base speed
+            crit_speed = crit->get_speed() / 2.0;
+        }
+        const double base_moves = u.run_cost( mcost, diag ) * 100.0 / crit_speed;
         const double encumb_moves = u.get_weight() / 4800.0_gram;
         u.mod_moves( -static_cast<int>( std::ceil( base_moves + encumb_moves ) ) );
         crit->use_mech_power( u.current_movement_mode()->mech_power_use() );
@@ -9970,7 +9977,8 @@ void game::on_move_effects()
     }
 
     if( u.is_running() ) {
-        if( !u.can_run() ) {
+        // If mounted, don't break trot
+        if( !u.is_mounted() && !u.can_run() ) {
             u.toggle_run_mode();
         }
         if( u.get_stamina() <= 0 ) {
