@@ -1,16 +1,8 @@
 [
   {
     "type": "snippet",
-    "category": "<card_tarot_full>",
-    "text": [
-      { "text": "<card_major_arcana><card_orientation>.", "weight": 22 },
-      { "text": "<card_minor_arcana><card_orientation>.", "weight": 56 }
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "<card_tarot_major>",
-    "text": [ "<card_major_arcana><card_orientation>." ]
+    "category": "<card_tarot_any>",
+    "text": [ { "text": "<card_major_arcana>", "weight": 22 }, { "text": "<card_minor_arcana>", "weight": 56 } ]
   },
   {
     "type": "snippet",
@@ -48,7 +40,7 @@
   {
     "type": "snippet",
     "category": "<card_orientation>",
-    "text": [ "", ", reversed" ]
+    "text": [ "", " reversed" ]
   },
   {
     "type": "snippet",

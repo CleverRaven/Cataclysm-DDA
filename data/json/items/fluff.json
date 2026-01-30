@@ -74,30 +74,7 @@
     "description": "A fairly new, glossy deck of tarot cards, commonly used for the practice of divination.  Each card has a unique and highly symbolic picture.",
     "use_action": [
       "PLAY_GAME",
-      {
-        "type": "effect_on_conditions",
-        "menu_text": "Draw a card",
-        "effect_on_conditions": [
-          {
-            "id": "EOC_DRAW_TAROT",
-            "effect": [
-              {
-                "names": [ "Draw from the full deck", "Draw a major arcana" ],
-                "run_eoc_selector": [
-                  {
-                    "id": "EOC_DRAW_TAROT_FULL",
-                    "effect": [ { "u_message": "You draw a card from the full deck:" }, { "u_message": "<card_tarot_full>", "snippet": true } ]
-                  },
-                  {
-                    "id": "EOC_DRAW_TAROT_MAJOR",
-                    "effect": [ { "u_message": "You draw a card from the major arcana:" }, { "u_message": "<card_tarot_major>", "snippet": true } ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      { "type": "effect_on_conditions", "menu_text": "Pull a spread", "effect_on_conditions": [ "EOC_DRAW_TAROT" ] }
     ],
     "variants": [
       {
