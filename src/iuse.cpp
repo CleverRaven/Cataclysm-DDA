@@ -4763,8 +4763,7 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint_bub_ms 
     query += "\n";
     query += _( "Time to complete: " );
     int required_moves = p->activity.moves_left;
-
-    debugmsg( string_format( "iuse hacksaw required_moves: %d.", required_moves ) );
+    add_msg_debug( debugmode::DF_ACTIVITY, "iuse hacksaw required_moves: %d.", required_moves );
 
     const float weary_mult = p->exertion_adjusted_move_multiplier( p->activity.exertion_level() );
     time_duration required_time = time_duration::from_turns( required_moves * weary_mult /
