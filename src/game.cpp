@@ -6413,23 +6413,6 @@ bool game::take_screenshot() const
 }
 #endif
 
-template<>
-std::string io::enum_to_string<list_item_sort_mode>( list_item_sort_mode data )
-{
-    switch( data ) {
-        case list_item_sort_mode::count:
-        case list_item_sort_mode::DISTANCE:
-            return "DISTANCE";
-        case list_item_sort_mode::NAME:
-            return "NAME";
-        case list_item_sort_mode::CATEGORY_DISTANCE:
-            return "CATEGORY_DISTANCE";
-        case list_item_sort_mode::CATEGORY_NAME:
-            return "CATEGORY_NAME";
-    }
-    cata_fatal( "Invalid list item sort mode" );
-}
-
 void game::list_surroundings()
 {
     temp_exit_fullscreen();
