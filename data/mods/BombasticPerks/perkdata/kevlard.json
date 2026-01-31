@@ -1,49 +1,12 @@
 [
   {
     "type": "mutation",
-    "id": "perk_kevlard",
-    "name": { "str": "Kevlard" },
-    "points": 0,
-    "purifiable": false,
-    "valid": false,
-    "description": "Conventional wisdom says it's not healthy to be fat, but you're nothing if not unconventional.  Your natural padding acts as a ballistic vest, and the fatter you are, the more protection you'll get.  You must be at least Obese to recieve any benefit.",
-    "enchantments": [
-      {
-        "condition": {
-          "and": [
-            { "math": [ "u_calories('format': 'percent') >= 200" ] },
-            { "math": [ "u_calories('format': 'percent') < 300" ] }
-          ]
-        },
-		"mutations": [ "perk_kevlard_obese" ]
-      },
-      {
-        "condition": {
-          "and": [
-            { "math": [ "u_calories('format': 'percent') >= 300" ] },
-            { "math": [ "u_calories('format': 'percent') < 400" ] }
-          ]
-        },
-        "mutations": [ "perk_kevlard_veryobese" ]
-      },
-      {
-        "condition": {
-          "and": [
-            { "math": [ "u_calories('format': 'percent') >= 400" ] }
-          ]
-        },
-		"mutations": [ "perk_kevlard_morbidlyobese" ]
-      }
-    ]
-  },
-  {
-    "type": "mutation",
     "id": "perk_kevlard_obese",
     "name": { "str": "Kevlard I" },
     "points": 0,
     "purifiable": false,
     "valid": false,
-	"player_display": false,
+  	"player_display": false,
     "description": "You shouldn't see this; provides integrated armor while Obese for kevlard perk.",
     "integrated_armor": [ "integrated_kevlard_obese" ]
   },
@@ -54,8 +17,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-	"player_display": false,
-	"description": "You shouldn't see this; provides integrated armor while Very Obese for kevlard perk.",
+	  "player_display": false,
+	  "description": "You shouldn't see this; provides integrated armor while Very Obese for kevlard perk.",
     "integrated_armor": [ "integrated_kevlard_veryobese" ]
   },
   {
@@ -65,7 +28,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-	"player_display": false,
+	  "player_display": false,
     "description": "You shouldn't see this; provides integrated armor while Morbidly Obese for kevlard perk.",
     "integrated_armor": [ "integrated_kevlard_morbidlyobese" ]
   },
