@@ -26,7 +26,7 @@
     "count": 1,
     "stack_size": 1,
     "ammo_type": "mortar_60mm",
-    "effects": [ "SPECIAL_COOKOFF", "NEVER_MISFIRES", "EXPLOSIVE_60mmHE" ]
+    "effects": [ "SPECIAL_COOKOFF", "EXPLOSIVE_60mmHE" ]
   },
   {
     "id": "60mm_shell_m768",

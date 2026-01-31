@@ -67,7 +67,7 @@ In the following example, `556` ammo is derived from `223` ammo via `copy-from`:
     },
     "dispersion_modifier": [ { "barrel_length": "337 mm", "dispersion": 120 }, { "barrel_length": "533 mm", "dispersion": 0 } ],
     "proportional": { "recoil": 1.1 },
-    "extend": { "effects": [ "NEVER_MISFIRES" ] }
+    "extend": { "effects": [ "INCENDIARY" ] }
   },
 ```
 
@@ -77,11 +77,11 @@ For `"type": "ITEM"`, the following rules apply:
 * Fields explicitly specified replace those of the parent type.  The above example replaces `name`, `description` and `price`.
 * Numeric values may be specified `relative` to the parent.  For example `556` has less `damage` but more `armor_penetration` than `223` and will maintain this relationship if the definition for `223` is changed.
   * Note the syntax for fields that support objects: `damage` is still defined as an object for `relative`, with missing fields having the same value as the parent.
-* Flags can be added via `extend`.  For example `556` is military ammo and gains the `NEVER_MISFIRES` ammo effect.  Any existing flags specified from `223` are preserved.
+* Flags can be added via `extend`.  As an example, you can make it `INCENDIARY`.  Any existing flags specified from `223` are preserved.
 * The entry you copied from must be of the same `type` as the item you added or changed.  Not all `type`s are supported, and not all are supported in the same way.  See [Support](#support) and [Behavior](#behavior) below).
 
 
-Another example.  Reloaded ammo is derived from the factory equivalent but with a 10% penalty to `damage` and `dispersion` and a chance to misfire.  Additional rules apply:
+Another example.  Reloaded ammo is derived from the factory equivalent but with a 10% penalty to `damage` and `dispersion` and. Additional rules apply:
 
 ```jsonc
   {
@@ -96,7 +96,7 @@ Another example.  Reloaded ammo is derived from the factory equivalent but with 
       "dispersion": 1.1 
     },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
 ```
 
