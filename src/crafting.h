@@ -6,6 +6,7 @@
 
 class Character;
 class item;
+class recipe;
 template <typename E> struct enum_traits;
 
 enum class craft_flags : int {
@@ -25,4 +26,6 @@ void remove_ammo( item &dis_item, Character &p );
 void remove_ammo( std::list<item> &dis_items, Character &p );
 
 void drop_or_handle( const item &newit, Character &p );
+
+bool check_recipe_produces_liquids( const recipe &rec );
 #endif // CATA_SRC_CRAFTING_H
