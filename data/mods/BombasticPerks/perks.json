@@ -1126,28 +1126,28 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_calories('format': 'percent') >= 120" ] },
-            { "math": [ "u_calories('format': 'percent') < 140" ] }
+            { "math": [ "u_calories('format': 'percent') >= 200" ] },
+            { "math": [ "u_calories('format': 'percent') < 300" ] }
           ]
         },
-        "values": [ "mutations": [ "perk_kevlard_obese" ] ],
+		"mutations": [ "perk_kevlard_obese" ]
       },
       {
         "condition": {
           "and": [
-            { "math": [ "u_calories('format': 'percent') >= 140" ] },
-            { "math": [ "u_calories('format': 'percent') < 160" ] }
+            { "math": [ "u_calories('format': 'percent') >= 300" ] },
+            { "math": [ "u_calories('format': 'percent') < 400" ] }
           ]
         },
-        "values": [ "mutations": [ "perk_kevlard_veryobese" ] ],
+        "mutations": [ "perk_kevlard_veryobese" ]
       },
       {
         "condition": {
           "and": [
-            { "math": [ "u_calories('format': 'percent') >= 160" ] }
+            { "math": [ "u_calories('format': 'percent') >= 400" ] }
           ]
         },
-        "values": [ "mutations": [ "perk_kevlard_morbidlyobese" ] ],
+		"mutations": [ "perk_kevlard_morbidlyobese" ]
       }
     ]
   },
