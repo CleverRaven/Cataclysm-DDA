@@ -2092,6 +2092,16 @@ ret_val<void> npc::wants_to_buy( const item &it, int at_price ) const
         return ret_val<void>::make_failure( _( "Will not buy filthy items" ) );
     }
 
+    if( myclass->has_whitelist() ) {
+        const shopkeeper_whitelist &wl = myclass->get_shopkeeper_whitelist();
+        icg_entry const *wl_icg = myclass->get_shopkeeper_whitelist().matches( it, *this );
+        if( wl_icg != nullptr ) {
+            return ret_val<void>::make_success();
+        } else {
+            return ret_val<void>::make_failure( wl.message.translated() );
+        }
+    }
+
     icg_entry const *bl = myclass->get_shopkeeper_blacklist().matches( it, *this );
     if( bl != nullptr ) {
         return ret_val<void>::make_failure( bl->message.translated() );
