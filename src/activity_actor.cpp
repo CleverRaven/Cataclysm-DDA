@@ -1455,8 +1455,8 @@ void hacksaw_activity_actor::set_resume_values_internal( const activity_actor &o
     int qual = get_tool_quality();
 
     int new_moves_left = -1;
-    if( actor_qual > 0 ) {
-        new_moves_left = moves_left * qual / actor_qual;
+    if( actor_qual > 1 ) {
+        new_moves_left = moves_left * ( qual - 1 ) / ( actor_qual - 1 );
     }
     add_msg_debug( debugmode::DF_ACTIVITY,
                    "Hacksaw resume.  Actor quality: %d, quality: %d, moves_left: %d, new_moves_left: %d.",
