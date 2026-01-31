@@ -373,5 +373,41 @@
       { "npc_location_variable": { "context_val": "pos_nearby" }, "min_radius": 1, "max_radius": 7, "passable_only": true },
       { "u_teleport": { "context_val": "pos_nearby" } }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ATTEMPT_HORSE_FAMILIAR",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 2400" ] },
+    "effect": [
+      { "u_cast_spell": { "id": "dhampir_horse_familiar_spell" } },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "2000" ] },
+      {
+        "u_message": "You feed your blood and will into this once docile horse, transforming it into a familiar worthy of a hunter of monsters and men.",
+        "type": "info"
+      }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_ATTEMPT_HORSE_FAMILIAR_FAIL_MESSAGE" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ATTEMPT_HORSE_FAMILIAR_FAIL_MESSAGE",
+    "effect": {
+      "u_message": "You lack the excess blood needed, you must be engorged or even tick-like before you can attempt this.",
+      "type": "bad"
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FEED_HORSE_FAMILIAR",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 1800" ] },
+    "effect": [
+      { "u_cast_spell": { "id": "dhampir_horse_familiar_spell" } },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "1000" ] },
+      {
+        "u_message": "You feed your blood to this monstrous nightmare horse and it swallows the blood like an addict with their vice of choice after a forced avoidance.",
+        "type": "info"
+      }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_FEED_HORSE_FAMILIAR_FAIL_MESSAGE" ] } ]
   }
 ]
