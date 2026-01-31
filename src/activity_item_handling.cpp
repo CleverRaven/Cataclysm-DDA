@@ -3555,7 +3555,7 @@ bool butcher_do( Character &you, const activity_reason_info &act_info,
     if( reason == do_activity_reason::NEEDS_BUTCHERING ||
         reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
         if( butcher_corpse_activity( you, src_loc, reason ) ) {
-            you.backlog.emplace_front( ACT_MULTIPLE_BUTCHER );
+            you.backlog.emplace_front( multi_butchery_activity_actor() );
             return false;
         }
     }

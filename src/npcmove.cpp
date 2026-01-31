@@ -115,6 +115,7 @@ enum class side : int;
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
@@ -3445,6 +3446,9 @@ bool npc::find_job_to_perform()
             return true;
         } else if( elem == ACT_MULTIPLE_CONSTRUCTION ) {
             assign_activity( multi_disassemble_activity_actor() );
+            return true;
+        } else if( elem == ACT_MULTIPLE_BUTCHER ) {
+            assign_activity( multi_butchery_activity_actor() );
             return true;
         } else if( generic_multi_activity_handler( scan_act, *this->as_character(), true ) ) {
             assign_activity( elem );

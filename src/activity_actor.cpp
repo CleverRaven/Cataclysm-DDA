@@ -190,6 +190,7 @@ static const activity_id ACT_MILK( "ACT_MILK" );
 static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
@@ -12286,6 +12287,26 @@ std::unique_ptr<activity_actor> butchery_activity_actor::deserialize( JsonValue 
     return actor.clone();
 }
 
+activity_reason_info multi_butchery_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::butcher_can_do( ACT_MULTIPLE_BUTCHER, you,
+            src_loc );
+}
+
+bool multi_butchery_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::butcher_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_butchery_activity_actor::deserialize( JsonValue & )
+{
+    multi_butchery_activity_actor actor;
+    return actor.clone();
+}
+
 void wait_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( initial_wait_time );
@@ -12953,6 +12974,7 @@ deserialize_functions = {
     { ACT_MOP, &mop_activity_actor::deserialize },
     { ACT_MOVE_ITEMS, &move_items_activity_actor::deserialize },
     { ACT_MOVE_LOOT, &zone_sort_activity_actor::deserialize },
+    { ACT_MULTIPLE_BUTCHER, &multi_butchery_activity_actor::deserialize },
     { ACT_MULTIPLE_CHOP_PLANKS, &multi_chop_planks_activity_actor::deserialize },
     { ACT_MULTIPLE_CHOP_TREES, &multi_chop_trees_activity_actor::deserialize },
     { ACT_MULTIPLE_CONSTRUCTION, &multi_build_construction_activity_actor::deserialize },
