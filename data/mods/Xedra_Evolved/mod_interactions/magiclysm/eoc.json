@@ -1,5 +1,5 @@
 [
-	{
+  {
     "id": "EOC_DUST_REBORN",
     "type": "effect_on_condition",
     "eoc_type": "PREVENT_DEATH",

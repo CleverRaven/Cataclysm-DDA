@@ -358,7 +358,9 @@
     "id": "EOC_LUCID_REBIRTH",
     "type": "effect_on_condition",
     "eoc_type": "PREVENT_DEATH",
-    "condition": { "and": [ { "u_has_effect": "effect_lucid_dream" }, { "not": { "u_has_effect": "effect_xe_onryō_snp_prevented_death" } } ] },
+    "condition": {
+      "and": [ { "u_has_effect": "effect_lucid_dream" }, { "not": { "u_has_effect": "effect_xe_onryō_snp_prevented_death" } } ]
+    },
     "effect": [
       { "math": [ "u_vitamin('blood') = u_blood_before_lucid" ] },
       "u_prevent_death",

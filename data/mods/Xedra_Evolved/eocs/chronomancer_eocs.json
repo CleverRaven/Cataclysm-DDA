@@ -598,13 +598,7 @@
     "condition": {
       "and": [
         { "u_has_effect": "effect_xedra_chronomancer_stable_timeloop" },
-        {
-          "not": [
-            {
-              "u_has_effect": "effect_xe_onryō_snp_prevented_death"
-            }
-          ]
-        }
+        { "not": [ { "u_has_effect": "effect_xe_onryō_snp_prevented_death" } ] }
       ]
     },
     "effect": [
