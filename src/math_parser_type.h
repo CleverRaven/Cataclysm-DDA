@@ -34,15 +34,15 @@ class math_exception_impl : public exception
         constexpr explicit math_exception_impl()
             : exception( string_format( "%s", _severity_str<severity_>() ) ) {}
 
-        template <typename Arg, typename... Args,
-                  typename = std::enable_if_t<
-                      !std::is_same_v<std::decay_t<Arg>, math_exception_impl>
-                  >
-        >
-        constexpr explicit math_exception_impl( Arg &&arg, Args &&... args )
+        template < typename Arg, typename... Args,
+                   typename = std::enable_if_t <
+                       !std::is_same_v<std::decay_t<Arg>, math_exception_impl>
+                       >
+                   >
+        constexpr explicit math_exception_impl( Arg && arg, Args && ... args )
             : exception( string_format( "%s: %s", _severity_str<severity_>(),
                                         string_format( std::forward<Arg>( arg ),
-                                                       std::forward<Args>( args )... ) ) ) {}
+                                                std::forward<Args>( args )... ) ) ) {}
 };
 
 // syntax error in parsed expression
