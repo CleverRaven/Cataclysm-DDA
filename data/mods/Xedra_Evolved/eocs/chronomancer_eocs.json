@@ -595,7 +595,18 @@
     "id": "EOC_XEDRA_CHRONOMANCER_STABLE_TIMELOOP_PREVENT_DEATH",
     "type": "effect_on_condition",
     "eoc_type": "PREVENT_DEATH",
-    "condition": { "u_has_effect": "effect_xedra_chronomancer_stable_timeloop" },
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_xedra_chronomancer_stable_timeloop" },
+        {
+          "not": [
+            {
+              "u_has_effect": "effect_xe_onryō_snp_prevented_death"
+            }
+          ]
+        }
+      ]
+    },
     "effect": [
       { "math": [ "u_vitamin('blood') = 0" ] },
       "u_prevent_death",

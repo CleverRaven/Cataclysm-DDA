@@ -28,5 +28,66 @@
         "targeted": true
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_ONRYŌ_SNP_PREVENT_DEATH",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": {
+      "and": [ { "u_has_bionics": "xe_onryō_snp" }, { "not": { "u_has_effect": "effect_xe_onryō_snp_prevented_death" } } ]
+    },
+    "effect": [
+      { "u_message": "As you go unconscious you hear a computerized voice say to you 'No rest yet'.   .", "popup": true },
+      { "run_eocs": [ "EOC_XE_ONRYŌ_SNP_PREVENTION_ACTIVATE" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_ONRYŌ_SNP_PREVENTION_ACTIVATE",
+    "condition": { "u_has_bionics": "xe_onryō_snp" },
+    "effect": [
+      { "math": [ "u_pain() = 0" ] },
+      { "math": [ "u_hp('torso') = u_hp('torso') = 35)" ] },
+      { "math": [ "u_hp('head') = u_hp('head') = 35)" ] },
+      { "u_lose_effect": [ "dazed", "downed", "blind", "deaf", "stunned" ] },
+      { "u_add_effect": "effect_xe_onryō_snp_prevented_death", "duration": 864000 },
+      { "u_add_effect": "effect_xe_onryō_snp", "duration": 2100 }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_onryō_snp",
+    "name": [ "Onryō SNP: Activated" ],
+    "desc": "Your body is controlled by the Onryō SNP AI.  You feel no pain or exhaustion.  You will continue to bleed out and will also take additional damage each minute from your body operating at levels it shouldn't be considering the damage it has experienced.",
+    "remove_message": "You feel control of your body return to your nervous system.",
+    "max_duration": "2100 s",
+    "max_intensity": 1,
+    "int_dur_factor": "2100 s",
+    "rating": "good",
+    "removes_effects": [ "dazed", "blind", "deaf", "stunned" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 2000 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 2000 } ]
+      }
+    ],
+    "scaling_mods": {
+      "stamina_min": [ 85000 ],
+      "stamina_max": [ 11500 ],
+      "stamina_chance": [ 1 ],
+      "hurt_min": [ 1 ],
+      "hurt_chance": [ 1, 1 ],
+      "hurt_tick": 60
+    },
+    "flags": [ "PAIN_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_onryō_snp_prevented_death",
+    "name": [ "Onryō SNP: Aftereffect" ],
+    "desc": "You will be unable to resuscitate even via supernatural means until you heal physically and spiritually.",
+    "remove_message": "You feel as though your body has mostly recovered from it's near death experience.",
+    "max_duration": "2100 s",
+    "rating": "bad",
   }
 ]
