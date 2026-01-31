@@ -416,8 +416,8 @@ Basic overmap settings can be found in external options.
 
 ```json
     "overmap_highway_settings": {
-      "grid_column_seperation": 1,
-      "grid_row_seperation": 1,
+      "grid_column_separation": 1,
+      "grid_row_separation": 1,
       "width_of_segments": 2,
       "reserved_terrain_id": "highway_reserved",
       "reserved_terrain_water_id": "highway_reserved_water",
