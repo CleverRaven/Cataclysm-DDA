@@ -11,6 +11,35 @@
   },
   {
     "type": "palette",
+    "id": "string_dimension_field_palette",
+    "terrain": {
+      "1": [ [ "t_string_xyz", 85 ], [ "t_rock_floor_no_roof", 10 ] ],
+      "2": [ [ "t_string_xyz", 50 ], [ "t_string_void", 50 ] ],
+      "+": [ [ "t_rock_floor_no_roof", 90 ], [ "t_railroad_rubble", 9 ], [ "t_tree_deadpine_warped", 1 ] ]
+    },
+    "furniture": {
+      "+": [ [ "f_null", 194 ], [ "f_boulder_small_volc", 3 ], [ "f_boulder_medium_volc", 2 ], [ "f_boulder_large_volc", 1 ] ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "string_dimension_field_vent_palette",
+    "terrain": {
+      "1": [ [ "t_string_grass_alien", 99 ], [ "t_rock_floor_no_roof", 1 ] ],
+      "2": [ [ "t_string_grass_alien", 75 ], [ "t_rock_floor_no_roof", 50 ] ],
+      "3": [ [ "t_string_grass_alien", 50 ], [ "t_rock_floor_no_roof", 50 ] ],
+      " ": [
+        [ "t_string_grass_alien", 4 ],
+        [ "t_tree_deadpine_warped", 1 ],
+        [ "t_rock_floor_no_roof", 95 ],
+        [ "t_railroad_rubble", 1 ]
+      ],
+      "v": "t_open_air"
+    },
+    "furniture": { "v": "f_tall_vent_pipe" }
+  },
+  {
+    "type": "palette",
     "id": "string_dimension_small_ziggurat_palette",
     "terrain": {
       " ": "t_string_xyz",
