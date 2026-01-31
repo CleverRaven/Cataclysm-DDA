@@ -1,0 +1,141 @@
+<config>
+	<project>
+		<font name="Roboto-Medium.ttf">
+			<prefix>RM</prefix>
+			<genmodeflags>1297</genmodeflags>
+			<pathfilename>..\ImGuiFontStudio\3rdparty\imgui\misc\fonts\Roboto-Medium.ttf</pathfilename>
+			<oversample>1</oversample>
+			<fontsize>50</fontsize>
+			<generatedfilename></generatedfilename>
+			<cardglyhpheight>40</cardglyhpheight>
+			<cardcountrowsmax>20</cardcountrowsmax>
+			<rasterizer>1</rasterizer>
+			<freetypeflag>259</freetypeflag>
+			<freetypemultiply>1</freetypemultiply>
+			<padding>1</padding>
+			<filtering>9729</filtering>
+			<enabled>true</enabled>
+			<collapsed>false</collapsed>
+		</font>
+		<font name="fontawesome-webfont.ttf">
+			<glyphs>
+				<glyph orgId="61441" newId="61441" orgName="music" newName="music" trans="0;-201.873" scale="1;1"/>
+				<glyph orgId="61442" newId="61442" orgName="search" newName="search" trans="0;-99.659" scale="1;1"/>
+				<glyph orgId="61444" newId="61444" orgName="heart" newName="heart" trans="0;-135.434" scale="1;1"/>
+				<glyph orgId="61445" newId="61445" orgName="star" newName="star" trans="0;-150.127" scale="1;1"/>
+				<glyph orgId="61448" newId="61448" orgName="film" newName="film" trans="0;-63.884" scale="1;1"/>
+				<glyph orgId="61450" newId="61450" orgName="th" newName="file_grid_thumbnails" trans="0;-191.651" scale="1;1"/>
+				<glyph orgId="61451" newId="61451" orgName="th_list" newName="file_list_thumbnails" trans="0;-182.857" scale="1;1"/>
+				<glyph orgId="61452" newId="61452" orgName="ok" newName="ok" trans="0;-71.989" scale="1;1"/>
+				<glyph orgId="61453" newId="61453" orgName="remove" newName="cancel" trans="0;-91.307" scale="1;1"/>
+				<glyph orgId="61461" newId="61461" orgName="home" newName="home" trans="0;-132.724" scale="1;1"/>
+				<glyph orgId="61465" newId="61465" orgName="download_alt" newName="downloads" trans="0;-203.499" scale="1;1"/>
+				<glyph orgId="61473" newId="61473" orgName="refresh" newName="refresh" trans="0;-130.323" scale="1;1"/>
+				<glyph orgId="61486" newId="61486" orgName="bookmark" newName="bookmark" trans="0;-181.43" scale="1;1"/>
+				<glyph orgId="61502" newId="61502" orgName="picture" newName="picture" trans="0;-130.323" scale="1;1"/>
+				<glyph orgId="61504" newId="61504" orgName="pencil" newName="edit" trans="0;-138.448" scale="1;1"/>
+				<glyph orgId="61521" newId="61521" orgName="step_forward" newName="step_forward" trans="0;-130.323" scale="1;1"/>
+				<glyph orgId="61540" newId="61540" orgName="share_alt" newName="reset" trans="0;-157.619" scale="1;1"/>
+				<glyph orgId="61543" newId="61543" orgName="plus" newName="add" trans="0;-196.762" scale="1;1"/>
+				<glyph orgId="61544" newId="61544" orgName="minus" newName="remove" trans="0;-187.005" scale="1;1"/>
+				<glyph orgId="61559" newId="61559" orgName="chevron_up" newName="chevron_up" trans="0;-40.247" scale="1;1"/>
+				<glyph orgId="61560" newId="61560" orgName="chevron_down" newName="chevron_down" trans="0;-49.149" scale="1;1"/>
+				<glyph orgId="61563" newId="61563" orgName="folder_close" newName="folder" trans="0;-150.766" scale="1;1"/>
+				<glyph orgId="61564" newId="61564" orgName="folder_open" newName="folder_open" trans="0;-140.544" scale="1;1"/>
+				<glyph orgId="61600" newId="61600" orgName="hdd" newName="drives" trans="0;-183.521" scale="1;1"/>
+				<glyph orgId="61639" newId="61639" orgName="save" newName="save" trans="0;-114.991" scale="1;1"/>
+				<glyph orgId="61640" newId="61640" orgName="sign_blank" newName="places" trans="0;-120.102" scale="1;1"/>
+				<glyph orgId="61641" newId="61641" orgName="reorder" newName="file_list" trans="0;-124.675" scale="1;1"/>
+				<glyph orgId="61665" newId="61665" orgName="linkedin" newName="linkedin" trans="0;0" scale="1;1"/>
+				<glyph orgId="61787" newId="61787" orgName="file" newName="file" trans="0;0" scale="1;1"/>
+				<glyph orgId="61893" newId="61893" orgName="_425" newName="file_pic" trans="0;0" scale="1;1"/>
+				<glyph orgId="61897" newId="61897" orgName="_429" newName="link" trans="0;0" scale="1;1"/>
+				<glyph orgId="62003" newId="62003" orgName="_528" newName="shortcuts" trans="0;-171.209" scale="1;1"/>
+				<glyph orgId="62060" newId="62060" orgName="_582" newName="desktop" trans="75.629;-160.987" scale="1;1"/>
+			</glyphs>
+			<prefix>IGFD</prefix>
+			<genmodeflags>1307</genmodeflags>
+			<pathfilename>..\ImGuiFontStudio\samples_Fonts\fontawesome-webfont.ttf</pathfilename>
+			<oversample>3</oversample>
+			<fontsize>50</fontsize>
+			<generatedfilename>CustomFont</generatedfilename>
+			<cardglyhpheight>40</cardglyhpheight>
+			<cardcountrowsmax>20</cardcountrowsmax>
+			<rasterizer>1</rasterizer>
+			<freetypeflag>259</freetypeflag>
+			<freetypemultiply>1</freetypemultiply>
+			<padding>1</padding>
+			<filtering>9729</filtering>
+			<enabled>true</enabled>
+			<collapsed>false</collapsed>
+		</font>
+		<rangecoloring show="false" hash="42.606;14.789;27.817;0.5"/>
+		<previewglyphcount>11</previewglyphcount>
+		<previewglyphwidth>106.727</previewglyphwidth>
+		<mergedfontprefix></mergedfontprefix>
+		<mergedcardglyhpheight>40</mergedcardglyhpheight>
+		<mergedcardcountrowsmax>20</mergedcardcountrowsmax>
+		<curglyphtooltip>true</curglyphtooltip>
+		<srcglyphtooltip>true</srcglyphtooltip>
+		<dstglyphtooltip>true</dstglyphtooltip>
+		<glyphpreviewscale>0.643</glyphpreviewscale>
+		<glyphdrawingflags>1535</glyphdrawingflags>
+		<glyphpreviewquadbeziercounsegment>0</glyphpreviewquadbeziercounsegment>
+		<glyphpreviewzoomprecision>20</glyphpreviewzoomprecision>
+		<genmodeflags>1307</genmodeflags>
+		<fonttomergein>fontawesome-webfont.ttf</fonttomergein>
+		<glyphdisplaytuningmode>1</glyphdisplaytuningmode>
+		<sourcefontpaneflags>1</sourcefontpaneflags>
+		<lastgeneratedpath>C:\gamedev\github\ImGuiFileDialog</lastgeneratedpath>
+		<lastgeneratedfilename>CustomFont.cpp</lastgeneratedfilename>
+		<zoomglyphs>false</zoomglyphs>
+		<showbaseline>true</showbaseline>
+		<showadvancex>true</showadvancex>
+		<glyphdrawingflags>1535</glyphdrawingflags>
+		<finalselection>
+			<selection orgId="61441" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61442" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61444" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61445" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61448" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61450" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61451" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61452" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61453" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61461" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61465" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61473" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61486" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61502" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61504" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61521" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61540" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61543" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61544" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61559" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61560" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61563" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61564" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61600" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61639" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61640" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61641" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61665" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61787" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61893" font="fontawesome-webfont.ttf"/>
+			<selection orgId="61897" font="fontawesome-webfont.ttf"/>
+			<selection orgId="62003" font="fontawesome-webfont.ttf"/>
+			<selection orgId="62060" font="fontawesome-webfont.ttf"/>
+		</finalselection>
+		<fonttest>
+			<fontsize>100</fontsize>
+			<showbaseline>true</showbaseline>
+			<fontname>Roboto-Medium.ttf</fontname>
+			<teststring>test</teststring>
+			<insertedglyphs>
+				<insert pos="0" orgId="61442" font="fontawesome-webfont.ttf"/>
+				<insert pos="6" orgId="61641" font="fontawesome-webfont.ttf"/>
+			</insertedglyphs>
+		</fonttest>
+	</project>
+</config>
