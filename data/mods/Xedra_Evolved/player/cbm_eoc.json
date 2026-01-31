@@ -88,6 +88,6 @@
     "desc": "You will be unable to resuscitate even via supernatural means until you heal physically and spiritually.",
     "remove_message": "You feel as though your body has mostly recovered from it's near death experience.",
     "max_duration": "2100 s",
-    "rating": "bad",
+    "rating": "bad"
   }
 ]
