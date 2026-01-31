@@ -750,7 +750,7 @@ cataimgui::bounds surroundings_menu::get_bounds()
     // hide info panel on small displays
     info_height = TERMY > 30 ? std::min( 25, TERMY / 2 ) : 0;
     return {
-        static_cast<float>( str_width_to_pixels( TERMX - width ) ),
+        static_cast<float>( ImGui::GetMainViewport()->Size.x - str_width_to_pixels( width ) ),
         0.f,
         static_cast<float>( str_width_to_pixels( width ) ),
         static_cast<float>( str_height_to_pixels( TERMY ) )
