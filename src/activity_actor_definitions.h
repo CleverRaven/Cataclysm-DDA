@@ -398,6 +398,9 @@ class multi_build_construction_activity_actor : public multi_zone_activity_actor
         std::unordered_set<tripoint_abs_ms> multi_activity_locations( Character &you ) override;
         activity_reason_info multi_activity_can_do( Character &you,
                 const tripoint_bub_ms &src_loc ) override;
+        std::optional<requirement_id> multi_activity_requirements( Character &you,
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc,
+                const zone_data *zone = nullptr ) override;
         bool multi_activity_do( Character &you, const activity_reason_info &act_info,
                                 const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
         std::unique_ptr<activity_actor> clone() const override {
@@ -416,6 +419,9 @@ class multi_butchery_activity_actor : public multi_zone_activity_actor
         }
         activity_reason_info multi_activity_can_do( Character &you,
                 const tripoint_bub_ms &src_loc ) override;
+        std::optional<requirement_id> multi_activity_requirements( Character &you,
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc,
+                const zone_data *zone = nullptr ) override;
         bool multi_activity_do( Character &you, const activity_reason_info &act_info,
                                 const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
         std::unique_ptr<activity_actor> clone() const override {

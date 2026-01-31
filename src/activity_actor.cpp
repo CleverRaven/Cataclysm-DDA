@@ -8148,6 +8148,13 @@ activity_reason_info multi_build_construction_activity_actor::multi_activity_can
             src_loc );
 }
 
+std::optional<requirement_id> multi_build_construction_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
+{
+    return multi_activity_actor::construction_requirements( you, act_info, src_loc );
+}
+
 std::unordered_set<tripoint_abs_ms>
 multi_build_construction_activity_actor::multi_activity_locations(
     Character &you )
@@ -12318,6 +12325,13 @@ activity_reason_info multi_butchery_activity_actor::multi_activity_can_do(
 {
     return multi_activity_actor::butcher_can_do( ACT_MULTIPLE_BUTCHER, you,
             src_loc );
+}
+
+std::optional<requirement_id> multi_butchery_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
+{
+    return multi_activity_actor::butcher_requirements( you, act_info, src_loc );
 }
 
 bool multi_butchery_activity_actor::multi_activity_do( Character &you,
