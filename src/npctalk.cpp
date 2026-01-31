@@ -6384,71 +6384,44 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
     };
 }
 
+struct eoc_selector_data {
+    std::vector<eoc_entry> eocs;
+    translation_or_var name;
+    std::optional<translation_or_var> description;
+    std::optional<char> key;
+    // variables that should be passed among the eocs
+    std::unordered_map<std::string, diag_value_or_var> context;
+};
+
 talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_view member,
         std::string_view src )
 {
 
-    std::vector<eoc_entry> eocs = load_eoc_vector_id_and_var( jo, member, src );
-    if( eocs.empty() ) {
-        jo.throw_error( "Invalid input for run_eocs" );
-    }
+    std::vector<eoc_selector_data> v_data;
 
-    std::vector<translation_or_var> eoc_names;
-    if( jo.has_array( "names" ) ) {
-        for( const JsonValue &jv : jo.get_array( "names" ) ) {
-            eoc_names.emplace_back( get_translation_or_var( jv, "names", true ) );
+    for( const JsonObject job : jo.get_array( member ) ) {
+        eoc_selector_data data;
+
+        data.eocs = load_eoc_vector_id_and_var( job, "eocs", src );
+        data.name = get_translation_or_var( job.get_member( "name" ), "name", true );
+        data.description = get_translation_or_var( job.get_member( "description" ), "description", true );
+
+        if( job.has_string( "key" ) ) {
+            const std::string val = job.get_string( "key" );
+            data.key = val[0];
         }
-    }
 
-    std::vector<translation_or_var> eoc_descriptions;
-    if( jo.has_array( "descriptions" ) ) {
-        for( const JsonValue &jv : jo.get_array( "descriptions" ) ) {
-            eoc_descriptions.emplace_back( get_translation_or_var( jv, "descriptions", true ) );
-        }
-    }
-
-    std::vector<char> eoc_keys;
-    if( jo.has_array( "keys" ) ) {
-        for( const JsonValue &jv : jo.get_array( "keys" ) ) {
-            std::string val = jv.get_string();
-            if( val.size() != 1 ) {
-                jo.throw_error( "Invalid input for run_eoc_selector, key strings must be exactly 1 character." );
-            } else {
-                eoc_keys.push_back( val[0] );
+        if( job.has_array( "variables" ) ) {
+            for( const JsonObject &variables : job.get_array( "variables" ) ) {
+                for( const JsonMember &jv : variables ) {
+                    diag_value_or_var vov;
+                    mandatory( variables, false, jv.name(), vov );
+                    data.context.emplace( jv.name(), vov );
+                }
             }
         }
-    }
 
-    if( !eoc_names.empty() && eoc_names.size() != eocs.size() ) {
-        jo.throw_error( "Invalid input for run_eoc_selector, size of eocs and names needs to be identical, or names need to be empty" );
-    }
-
-    if( !eoc_descriptions.empty() && eoc_descriptions.size() != eocs.size() ) {
-        jo.throw_error( "Invalid input for run_eoc_selector, size of eocs and descriptions needs to be identical, or descriptions need to be empty" );
-    }
-
-    if( !eoc_keys.empty() && eoc_keys.size() != eocs.size() ) {
-        jo.throw_error( "Invalid input for run_eoc_selector, size of eocs and keys needs to be identical, or keys need to be empty." );
-    }
-
-    std::vector<std::unordered_map<std::string, diag_value_or_var>> context;
-    if( jo.has_array( "variables" ) ) {
-        for( const JsonValue &member : jo.get_array( "variables" ) ) {
-            const JsonObject &variables = member.get_object();
-            std::unordered_map<std::string, diag_value_or_var> temp_context;
-            for( const JsonMember &jv : variables ) {
-                diag_value_or_var vov;
-                mandatory( variables, false, jv.name(), vov );
-                temp_context[jv.name()] = vov;
-            }
-            context.emplace_back( temp_context );
-        }
-    }
-
-    if( !context.empty() && context.size() != 1 && context.size() != eocs.size() ) {
-        jo.throw_error(
-            string_format( "Invalid input for run_eoc_selector, size of vars needs to be 0 (no vars), 1 (all have the same vars), or the same size as the eocs (each has their own vars). Current size is: %d",
-                           context.size() ) );
+        v_data.emplace_back( data );
     }
 
     bool hide_failing = jo.get_bool( "hide_failing", false );
@@ -6458,8 +6431,7 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
     translation title = to_translation( "Select an option." );
     jo.read( "title", title );
 
-    return [eocs, context, title, eoc_names, eoc_keys, eoc_descriptions,
-          hide_failing, allow_cancel, hilight_disabled]( dialogue & d ) {
+    return [v_data, title, hide_failing, allow_cancel, hilight_disabled]( dialogue & d ) {
         uilist eoc_list;
 
         std::unique_ptr<talker> default_talker = get_talker_for( get_player_character() );
@@ -6469,21 +6441,28 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
 
         eoc_list.text = title.translated();
         eoc_list.allow_cancel = allow_cancel;
-        eoc_list.desc_enabled = !eoc_descriptions.empty();
+        for( const eoc_selector_data &sd : v_data ) {
+            if( sd.description.has_value() ) {
+                eoc_list.desc_enabled = true;
+                break;
+            }
+        }
         eoc_list.hilight_disabled = hilight_disabled;
         parse_tags( eoc_list.text, alpha, beta, d );
 
-        for( size_t i = 0; i < eocs.size(); i++ ) {
+        int i = 1;
+        for( const eoc_selector_data &sd : v_data ) {
 
-            effect_on_condition_id eoc_id =
-                eocs[i].var ? effect_on_condition_id( eocs[i].var->evaluate( d ) ) : eocs[i].id;
-            // check and set condition
-            bool display = false;
-            if( eoc_id->has_condition ) {
-                // if it has a condition check that it is true
-                display = eoc_id->test_condition( d );
-            } else {
-                display = true;
+            // check if all eocs conditions of this instance return true
+            bool display = true;
+            for( const eoc_entry &eoc : sd.eocs ) {
+                effect_on_condition_id eoc_id = eoc.var ? effect_on_condition_id( eoc.var->evaluate( d ) ) : eoc.id;
+                if( eoc_id->has_condition ) {
+                    // if it has a condition check that it is true
+                    display = display && eoc_id->test_condition( d );
+                } else {
+                    display = display && true;
+                }
             }
 
             if( hide_failing && !display ) {
@@ -6496,23 +6475,22 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
             };
             std::string name;
             std::string description;
-            if( eoc_names.empty() ) {
-                name = eoc_id.str();
-            } else {
-                name = eoc_names[i].evaluate( d ).translated();
-                parse_tags( name, alpha, beta, d );
-            }
-            if( !eoc_descriptions.empty() ) {
-                description = eoc_descriptions[i].evaluate( d ).translated();
+            name = sd.name.evaluate( d ).translated();
+            parse_tags( name, alpha, beta, d );
+
+            if( sd.description.has_value() ) {
+                description = sd.description.value().evaluate( d ).translated();
                 parse_tags( description, alpha, beta, d );
                 description = wrap60( description );
             }
 
-            if( eoc_keys.empty() ) {
-                eoc_list.entries.emplace_back( static_cast<int>( i ), display, std::nullopt, name, description );
+            if( sd.key.has_value() ) {
+                eoc_list.entries.emplace_back( static_cast<int>( i ), display, sd.key.value(), name, description );
             } else {
-                eoc_list.entries.emplace_back( static_cast<int>( i ), display, eoc_keys[i], name, description );
+                eoc_list.entries.emplace_back( static_cast<int>( i ), display, std::nullopt, name, description );
             }
+
+            ++i;
         }
 
         if( eoc_list.entries.empty() ) {
@@ -6522,26 +6500,25 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         }
 
         eoc_list.query();
+
+        // close if nothing is picked
         if( eoc_list.ret < 0 ) {
             return;
         }
 
-        // add context variables
         dialogue newDialog( d );
-        int contextIndex = 0;
-        if( context.size() > 1 ) {
-            contextIndex = eoc_list.ret;
-        }
-        if( !context.empty() ) {
-            for( const auto &val : context[contextIndex] ) {
-                newDialog.set_value( val.first, val.second.evaluate( d ) );
-            }
+
+        // populate new dialogue with context vars from picked object
+        for( const auto &[str, val] : v_data[eoc_list.ret].context ) {
+            newDialog.set_value( str, val.evaluate( d ) );
         }
 
-        effect_on_condition_id chosen_eoc_id =
-            eocs[eoc_list.ret].var ? effect_on_condition_id( eocs[eoc_list.ret].var->evaluate(
-                        d ) ) : eocs[eoc_list.ret].id;
-        chosen_eoc_id->activate( newDialog );
+        // activate all eocs
+        for( const eoc_entry &eoc : v_data[eoc_list.ret].eocs ) {
+            const effect_on_condition_id chosen_eoc_id = eoc.var ?
+                    effect_on_condition_id( eoc.var->evaluate( d ) ) : eoc.id;
+            chosen_eoc_id->activate( newDialog );
+        }
     };
 }
 
