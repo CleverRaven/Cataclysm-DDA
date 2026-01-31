@@ -1,7 +1,7 @@
 [
   {
     "id": "tail",
-    "//": "Used as a default for similar_bodyparts to work for armor.",
+    "//": "Used as a default for similar_bodypart to work for armor.",
     "type": "body_part",
     "name": "default tail",
     "name_multiple": "default tails",
@@ -20,8 +20,7 @@
     "hp_bar_ui_text": "TST TAIL",
     "base_hp": 20,
     "limb_scores": [ [ "balance", 0.0 ] ],
-    "sub_parts": [ "sub_limb_debug_tail" ],
-    "similar_bodyparts": [ "tail_long", "tail_fluffy", "tail_scorpion" ]
+    "sub_parts": [ "sub_limb_debug_tail" ]
   },
   {
     "id": "tail_long",
@@ -47,6 +46,7 @@
     "limb_scores": [ [ "balance", 0.05 ], [ "reaction", 0.1 ] ],
     "base_hp": 25,
     "health_limit": 5,
+    "similar_bodypart": "tail",
     "effects_on_hit": [
       {
         "id": "bleed",
@@ -106,6 +106,7 @@
     "limb_scores": [ [ "balance", 0.08 ], [ "reaction", 0.15 ] ],
     "base_hp": 25,
     "health_limit": 5,
+    "similar_bodypart": "tail",
     "effects_on_hit": [
       {
         "id": "bleed",
@@ -166,6 +167,7 @@
     "health_limit": 10,
     "techniques": [ "TAIL_SCORPION_STING", "TAIL_SCORPION_STING_NATURAL", "TAIL_SCORPION_STING_CRIT" ],
     "technique_encumbrance_limit": 5,
+    "similar_bodypart": "tail",
     "effects_on_hit": [
       {
         "id": "bleed",

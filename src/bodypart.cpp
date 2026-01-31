@@ -103,6 +103,9 @@ namespace
 generic_factory<body_part_type> body_part_factory( "body part" );
 generic_factory<limb_score> limb_score_factory( "limb score" );
 
+// groups all the bodypart into a shared bucket
+std::unordered_map<bodypart_str_id, std::vector<bodypart_str_id>> combined_similar_bodyparts;
+
 } // namespace
 
 static body_part legacy_id_to_enum( const std::string &legacy_id )
@@ -412,7 +415,13 @@ void body_part_type::load( const JsonObject &jo, std::string_view )
     } else {
         connected_to = main_part;
     }
-    mandatory( jo, was_loaded, "opposite_part", opposite_part );
+
+    // turn off blindly copying-from to prevent accidental inconsistent opposites
+    if( jo.has_string( "opposite_part" ) ) {
+        mandatory( jo, was_loaded, "opposite_part", opposite_part );
+    } else {
+        opposite_part = id;
+    }
 
     optional( jo, was_loaded, "windage_effect", windage_effect, efftype_id::NULL_ID() );
     optional( jo, was_loaded, "no_power_effect", no_power_effect, efftype_id::NULL_ID() );
@@ -441,7 +450,7 @@ void body_part_type::load( const JsonObject &jo, std::string_view )
 
     optional( jo, was_loaded, "power_efficiency", power_efficiency, 0 );
 
-    optional( jo, was_loaded, "similar_bodyparts", similar_bodyparts );
+    optional( jo, was_loaded, "similar_bodypart", similar_bodypart );
 
     if( jo.has_member( "limb_scores" ) ) {
         limb_scores.clear();
@@ -526,6 +535,15 @@ void body_part_type::finalize()
     }
 
     finalize_damage_map( armor.resist_vals );
+
+    // populate combined_similar_bodyparts
+    if( similar_bodypart.has_value() ) {
+        // `head` is similar to `head_dragonfly`
+        combined_similar_bodyparts[similar_bodypart.value()].emplace_back( id );
+        // `head_dragonfly` is similar to `head`
+        combined_similar_bodyparts[id].emplace_back( similar_bodypart.value() );
+    }
+
 }
 
 void body_part_type::check_consistency()
@@ -563,7 +581,8 @@ void body_part_type::check() const
     if( !opposite_part.is_valid() ) {
         debugmsg( "Body part %s has invalid opposite part %s.", id.c_str(), opposite_part.c_str() );
     } else if( opposite_part->opposite_part != id ) {
-        debugmsg( "Bodypart %s has inconsistent opposite part!", id.str() );
+        debugmsg( "Bodypart %s has opposite part %s, but it's opposite part is not %s but %s!",
+                  id.str(), opposite_part.str(), id.str(), opposite_part->opposite_part.str() );
     }
 
     for( const std::pair<const limb_score_id, bp_limb_score> &bpls : limb_scores ) {
@@ -721,7 +740,7 @@ std::set<translation, localized_comparator> body_part_type::consolidate(
         }
         sub_bodypart_id temp;
         // if our sub part has an opposite
-        if( sbp->opposite != sub_bodypart_str_id::NULL_ID() ) {
+        if( sbp->opposite != sub_bodypart_str_id::NULL_ID() && sbp->opposite != sbp.id() ) {
             temp = sbp->opposite;
         } else {
             // if it doesn't have an opposite add it to the return vector alone and continue
@@ -781,6 +800,17 @@ std::set<translation, localized_comparator> body_part_type::consolidate(
     }
 
     return to_return;
+}
+
+std::vector<bodypart_str_id> body_part_type::get_all_combined_similar_bodyparts() const
+{
+    const auto found = combined_similar_bodyparts.find( id );
+
+    if( found != combined_similar_bodyparts.end() ) {
+        return found->second;
+    }
+
+    return std::vector<bodypart_str_id>();
 }
 
 bool encumbrance_data::add_sub_location(

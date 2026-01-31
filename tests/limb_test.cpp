@@ -1,4 +1,5 @@
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -26,8 +27,6 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-static const bodypart_str_id body_part_test_arm_l( "test_arm_l" );
-static const bodypart_str_id body_part_test_arm_r( "test_arm_r" );
 static const bodypart_str_id body_part_test_bird_foot_l( "test_bird_foot_l" );
 static const bodypart_str_id body_part_test_bird_foot_r( "test_bird_foot_r" );
 static const bodypart_str_id body_part_test_bird_wing_l( "test_bird_wing_l" );
@@ -284,9 +283,8 @@ TEST_CASE( "Limb_armor_coverage", "[character][limb][armor]" )
     create_bird_char( dude );
     REQUIRE( dude.has_part( body_part_test_bird_wing_l ) );
     REQUIRE( dude.has_part( body_part_test_bird_wing_r ) );
-
-    REQUIRE( body_part_test_arm_l->similar_bodyparts.size() == 1 );
-    REQUIRE( body_part_test_arm_r->similar_bodyparts.size() == 1 );
+    REQUIRE( body_part_test_bird_wing_l->similar_bodypart.has_value() );
+    REQUIRE( body_part_test_bird_wing_r->similar_bodypart.has_value() );
 
     // Explicitly-defined armor covers custom limbs
     CHECK( wing_covers.covers( body_part_test_bird_wing_l ) );
