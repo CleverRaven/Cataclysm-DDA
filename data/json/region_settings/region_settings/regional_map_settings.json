@@ -680,6 +680,7 @@
       [ "s_garage", 300 ],
       [ "s_garage_1", 300 ],
       [ "s_garage_2", 300 ],
+      [ "s_garage_kill", 20 ],
       [ "station_radio", 300 ],
       [ "station_radio_1", 300 ],
       [ "office_doctor", 200 ],
