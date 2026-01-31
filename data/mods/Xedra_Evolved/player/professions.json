@@ -35,6 +35,7 @@
     "name": "FBI Paranormal Investigator",
     "description": "Before the Cataclysm, you used to work for the Paranormal Investigation Department of the FBI.  You got used to jokes at your expense, as well as being constantly underfunded and disregarded by your superiors.  You were returning from yet another case with nothing but a bag of suspicious candies to show, when all hell broke loose.  Oh well, at least now you can be certain that everyone still alive will believe you that the truth is out there.",
     "points": 4,
+    "missions": [ "MISSION_WYLD_CANDY" ],
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 5, "name": "pistol" },
