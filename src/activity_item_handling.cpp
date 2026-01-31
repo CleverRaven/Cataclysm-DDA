@@ -3766,7 +3766,7 @@ bool craft_do( Character &you, const activity_reason_info &act_info,
                 you.lighting_craft_speed_multiplier( to_craft->get_making() ) > 0 ) {
                 player_activity act = player_activity( craft_activity_actor( to_craft, false ) );
                 you.assign_activity( act );
-                you.backlog.emplace_front( ACT_MULTIPLE_CRAFT );
+                you.backlog.emplace_front( multi_craft_activity_actor() );
                 you.backlog.front().auto_resume = true;
                 return false;
             }
@@ -3801,7 +3801,7 @@ bool disassemble_do( Character &you, const activity_reason_info &act_info,
                     // Keep doing
                     // After assignment of disassemble activity (not multitype anymore)
                     // the backlog will not be nuked in do_player_activity()
-                    you.backlog.emplace_back( ACT_MULTIPLE_DIS );
+                    you.backlog.emplace_back( multi_disassemble_activity_actor() );
                     break;
                 }
             }

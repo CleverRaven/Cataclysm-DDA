@@ -66,7 +66,6 @@
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
-static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 
 static const efftype_id effect_allow_sleep( "allow_sleep" );
 static const efftype_id effect_asked_for_item( "asked_for_item" );
@@ -342,7 +341,7 @@ void talk_function::do_craft( npc &p )
 
 void talk_function::do_disassembly( npc &p )
 {
-    p.assign_activity( ACT_MULTIPLE_DIS );
+    p.assign_activity( multi_disassemble_activity_actor() );
 }
 
 void talk_function::goto_location( npc &p )
