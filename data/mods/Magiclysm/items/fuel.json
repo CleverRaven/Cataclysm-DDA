@@ -17,7 +17,7 @@
     "ammo_type": "dragon_blood",
     "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "IGNITE", "NEVER_MISFIRES" ]
+    "effects": [ "FLAME", "STREAM", "IGNITE" ]
   },
   {
     "id": "blood_tainted",
