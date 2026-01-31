@@ -11,6 +11,7 @@
 #include "character.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "game_constants.h"
 #include "item.h"
 #include "item_location.h"
 #include "map_helpers.h"
@@ -46,6 +47,8 @@ static const move_mode_id move_mode_prone( "prone" );
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+static const mtype_id mon_zombie_test_training_cap0( "mon_zombie_test_training_cap0" );
+static const mtype_id mon_zombie_test_training_cap6( "mon_zombie_test_training_cap6" );
 static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 static const skill_id skill_melee( "melee" );
@@ -312,20 +315,26 @@ TEST_CASE( "Melee_skill_training_caps", "[melee], [melee_training_cap], [skill]"
 {
     standard_npc dude( "TestCharacter", dude_pos, {} );
     monster dummy_1( pseudo_debug_mon );
-    monster zed( mon_zombie );
+    monster dummy_2( mon_zombie_test_training_cap0 );
+    monster zed( mon_zombie_test_training_cap6 );
     SkillLevel &level = dude.get_skill_level_object( skill_melee );
     REQUIRE( level.knowledgeLevel() == 4 );
     REQUIRE( level.knowledgeExperience( true ) == 0 );
 
     SECTION( "Monster's melee training cap is calculated correctly" ) {
         CHECK( dummy_1.get_melee() == 0 );
-        CHECK( dummy_1.type->melee_training_cap == 2 );
+        // No set cap, uses default value
+        CHECK( dummy_1.type->melee_training_cap == MAX_SKILL );
+        // Cap manually set to 0 in JSON
+        CHECK( dummy_2.type->melee_training_cap == 0 );
         CHECK( zed.get_melee() == 4 );
+        // Cap manually set to 6 in JSON
         CHECK( zed.type->melee_training_cap == 6 );
     }
 
     SECTION( "Attacking a monster when above its traing cap will not cause further skill gain" ) {
-        dude.melee_attack_abstract( dummy_1, false, matec_id( "" ) );
+        REQUIRE( dummy_2.type->melee_training_cap == 0 );
+        dude.melee_attack_abstract( dummy_2, false, matec_id( "" ) );
         CHECK( level.knowledgeLevel() == 4 );
         CHECK( level.knowledgeExperience( true ) == 0 );
     }
