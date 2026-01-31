@@ -21,6 +21,7 @@
     "type": "effect_on_condition",
     "id": "EOC_raidbegin_short",
     "//": "This EOC is triggered when the player chooses a quick expedition from the warp obelisk menu.  It grabs a random location of a certain type, saves it to a global variable, and then triggers the actual teleport-out EOC, which is separate so multiple different things can trigger it and potentially target different locations.  It also sets the modifiers for expedition time, as well as mission and exit distance.",
+    "condition": { "math": [ "islandrank >= 0" ] },
     "effect": [
       { "math": [ "lengthofthisraid = 0" ] },
       { "math": [ "currentpulselength = sicknessintervals" ] },

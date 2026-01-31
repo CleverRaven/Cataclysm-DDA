@@ -1,0 +1,24 @@
+[
+  {
+    "id": "SKYISLAND_UPGRADE_raidlength0",
+    "type": "mission_definition",
+    "name": "Unlock: Quick Expeditions",
+    "description": "Completing this mission shows that you have what it takes to survive, allowing you to get started exploring the world below.  To do so, you will need 6 units of clean water.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "water_clean",
+    "count": 6,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "end": {
+      "effect": [
+        { "math": [ "sky_water_quest_done = 1" ] },
+        { "math": [ "islandrank  += 1" ] },
+        {
+          "u_message": "The island takes notice in your ability to source clean water.  Once 48 hours have passed, you can go on expeditions.",
+          "type": "mixed"
+        }
+      ]
+    }
+  }
+]
