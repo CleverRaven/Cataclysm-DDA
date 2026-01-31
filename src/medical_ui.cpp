@@ -1,3 +1,5 @@
+#include "medical_ui.h"
+
 #include <algorithm>
 #include <array>
 #include <cstdlib>
@@ -12,6 +14,7 @@
 #include "avatar_action.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_imgui.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_modifier.h"
@@ -737,7 +740,7 @@ static medical_column draw_stats_summary( const int column_count, Character &you
     return stats_column;
 }
 
-void Character::disp_medical()
+void Character::disp_medical_old()
 {
     // Windows
     catacurses::window w_title; // Title Bar - Tabs, Pain Indicator & Blood Indicator
@@ -1044,4 +1047,32 @@ void Character::disp_medical()
             break;
         }
     }
+}
+
+void Character::disp_medical()
+{
+    medical_ui medic;
+    medic.execute();
+}
+
+void medical_ui::execute()
+{
+    input_context ctxt;
+
+    ctxt.register_action( "QUIT" );
+
+    while( true ) {
+        ui_manager::redraw_invalidated();
+        std::string action = ctxt.handle_input();
+        if( action == "QUIT" || !get_is_open() ) {
+            break;
+        }
+    }
+}
+
+void medical_ui::draw_controls()
+{
+    ImGui::SetWindowSize( ImVec2( window_width, window_height ), ImGuiCond_Once );
+    ImGui::Text( "asgasgasgagdjhfgsdkjhfgjksdh sdgljkhdasjklg  aklsdgfak askklasfgklja sajkl" );
+
 }
