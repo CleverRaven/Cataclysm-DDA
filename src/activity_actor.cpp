@@ -1459,8 +1459,8 @@ void hacksaw_activity_actor::set_resume_values_internal( const activity_actor &o
         new_moves_left = moves_left * qual / actor_qual;
     }
     add_msg_debug( debugmode::DF_ACTIVITY,
-        "Hacksaw resume.  Actor quality: %d, quality: %d, moves_left: %d, new_moves_left: %d.",
-        actor_qual, qual, moves_left, new_moves_left );
+                   "Hacksaw resume.  Actor quality: %d, quality: %d, moves_left: %d, new_moves_left: %d.",
+                   actor_qual, qual, moves_left, new_moves_left );
     moves_left = new_moves_left;
     tool = actor.tool;
 }
