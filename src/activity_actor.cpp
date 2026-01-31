@@ -5009,6 +5009,32 @@ void multi_zone_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
+activity_reason_info fetch_required_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::fetch_can_do( ACT_FETCH_REQUIRED, you,
+            src_loc );
+}
+
+std::unordered_set<tripoint_abs_ms> fetch_required_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::fetch_locations( you, get_type() );
+}
+
+bool fetch_required_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::fetch_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> fetch_required_activity_actor::deserialize( JsonValue & )
+{
+    fetch_required_activity_actor actor;
+    return actor.clone();
+}
+
 std::unique_ptr<activity_actor> multi_mine_activity_actor::deserialize( JsonValue & )
 {
     multi_mine_activity_actor actor;
@@ -12945,6 +12971,7 @@ deserialize_functions = {
     { ACT_DROP, &drop_activity_actor::deserialize },
     { ACT_E_FILE, &efile_activity_actor::deserialize },
     { ACT_EBOOKSAVE, &ebooksave_activity_actor::deserialize },
+    { ACT_FETCH_REQUIRED, &fetch_required_activity_actor::deserialize },
     { ACT_FIELD_DRESS, &butchery_activity_actor::deserialize },
     { ACT_FIRSTAID, &firstaid_activity_actor::deserialize },
     { ACT_FISH, &fish_activity_actor::deserialize },

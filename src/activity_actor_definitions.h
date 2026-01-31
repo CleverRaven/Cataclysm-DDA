@@ -424,6 +424,27 @@ class multi_butchery_activity_actor : public multi_zone_activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue & );
 };
 
+// find items for a multi-activity
+// NOTE: ACT_FETCH_REQUIRED is not a multi-activity but still uses the framework
+class fetch_required_activity_actor : public multi_zone_activity_actor
+{
+    public:
+        using multi_zone_activity_actor::multi_zone_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+            return ACT_MULTIPLE_CONSTRUCTION;
+        }
+        std::unordered_set<tripoint_abs_ms> multi_activity_locations( Character &you ) override;
+        activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) override;
+        bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<fetch_required_activity_actor>( *this );
+        }
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+};
+
 class aim_activity_actor : public activity_actor
 {
     private:

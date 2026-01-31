@@ -2177,7 +2177,7 @@ requirement_check_result fetch_requirements( Character &you, requirement_id what
         return requirement_check_result::SKIP_LOCATION;
     }
     you.backlog.emplace_front( act_id );
-    you.assign_activity( ACT_FETCH_REQUIRED );
+    you.assign_activity( fetch_required_activity_actor() );
     player_activity &act_prev = you.backlog.front();
     act_prev.str_values.push_back( what_we_need.str() );
     act_prev.values.push_back( static_cast<int>( act_info.reason ) );
