@@ -12620,6 +12620,11 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             return;
         }
 
+        if( zt_id == zone_type_id::NULL_ID() ) {
+            // After unloading, this item isn't going anywhere else.
+            continue;
+        }
+
         // Picking up
 
         if( !picked_up_stuff.empty() ) {

@@ -916,8 +916,12 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
 
     for( std::pair<item *, bool> it_pair : items ) {
         item *it = it_pair.first;
-        const zone_type_id zone_type_id = mgr.get_near_zone_type_for_item( *it, abspos,
-                                          MAX_VIEW_DISTANCE, fac_id );
+        const zone_type_id dest_zone_type_id = mgr.get_near_zone_type_for_item( *it, abspos,
+                                               MAX_VIEW_DISTANCE, fac_id );
+
+        if( dest_zone_type_id == zone_type_id::NULL_ID() ) {
+            continue;
+        }
 
         if( !you.can_add( *it ) ) {
             *pickup_failure = true;
@@ -930,7 +934,7 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
         }
 
         const std::unordered_set<tripoint_abs_ms> dest_set =
-            mgr.get_near( zone_type_id, abspos, MAX_VIEW_DISTANCE, it, fac_id );
+            mgr.get_near( dest_zone_type_id, abspos, MAX_VIEW_DISTANCE, it, fac_id );
 
         //if we're unloading all or a corpse
         if( zone_unload_options.unload_all || ( zone_unload_options.unload_corpses && it->is_corpse() ) ) {
