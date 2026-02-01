@@ -121,6 +121,7 @@
           { "math": [ "u_current_level = 0" ] },
           { "math": [ "u_playssty = 0" ] },
           { "math": [ "u_upgraded_to_new_bombastic_version = 1" ] },
+          { "math": [ "u_playstyle_perks_available = 0" ] },
           { "u_add_trait": "perk_perk_menu" }
         ],
         "topic": "TALK_DONE"
