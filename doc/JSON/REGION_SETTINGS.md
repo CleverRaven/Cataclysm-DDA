@@ -559,7 +559,7 @@ See above.
 | `base_pressure`                | Base pressure for the region in millibars.  Increasing it decreases the wind strength |
 | `base_wind`                    | Base wind for the region in mph units. Roughly the yearly average.    |
 | `base_wind_distrib_peaks`      | How high the wind peaks can go. Higher values produce windier days.   |
-| `base_wind_season_variation`   | How the wind varies with season. Bigger values produce more variation |
+| `base_wind_season_variation`   | How the wind varies with season. Increases wind speed in the summer, decreases wind speed in the winter. Larger values amplify effects, negative values reverse effects.  |
 | `weather_black_list`           | Ids of weather types not allowed in this region.                      |
 | `weather_white_list`           | Ids of the only weather types allowed in this region.                 |
 
