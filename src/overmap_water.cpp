@@ -1,8 +1,10 @@
 #include <algorithm>
 #include <array>
+#include <climits>
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_set>
 #include <utility>
@@ -400,10 +402,6 @@ float overmap::calculate_ocean_gradient( const point_om_omt &p, const point_abs_
 void overmap::place_oceans( const std::vector<const overmap *> &neighbor_overmaps )
 {
     const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
-    const int northern_ocean = settings_ocean.ocean_start_north.value_or( INT_MAX );
-    const int eastern_ocean = settings_ocean.ocean_start_east.value_or( INT_MAX );
-    const int western_ocean = settings_ocean.ocean_start_west.value_or( INT_MAX );
-    const int southern_ocean = settings_ocean.ocean_start_south.value_or( INT_MAX );
     const int ocean_depth = settings_ocean.ocean_depth;
     const bool oceans_disabled = ( !settings_ocean.ocean_start_north.has_value() &&
                                    !settings_ocean.ocean_start_east.has_value() &&
