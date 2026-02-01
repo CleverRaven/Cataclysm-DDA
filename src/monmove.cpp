@@ -1939,7 +1939,7 @@ bool monster::attack_at( const tripoint_bub_ms &p )
         // mon_flag_ATTACKMON == hulk behavior, whack everything in your way
         if( attitude == Attitude::HOSTILE || has_flag( mon_flag_ATTACKMON ) ) {
             const bool attacked = melee_attack( mon );
-            if( attacked ) {
+            if( attacked && get_player_view().sees( here, p ) ) {
                 g->draw_hit_mon( p, mon, mon.is_dead() );
             }
             return attacked;
