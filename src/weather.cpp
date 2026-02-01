@@ -470,6 +470,11 @@ void handle_weather_effects( const weather_type_id &w )
         }
     }
     glare( w );
+
+    for( Creature &c : g->all_creatures() ) {
+        here.maybe_apply_field_effect( w->passive_effect, c );
+    }
+
     get_weather().lightning_active = false;
 }
 
