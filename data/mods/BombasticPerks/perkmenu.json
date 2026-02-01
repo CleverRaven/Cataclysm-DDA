@@ -2,7 +2,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_MAIN",
-    "dynamic_line": "Lifestyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+    "dynamic_line": "Lifestyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
     "responses": [
       {
         "condition": { "and": [ { "not": { "u_has_trait": "perk_STR_UP" } }, { "not": { "u_has_trait": "perk_STR_UP_2" } } ] },
@@ -1619,7 +1619,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_PLAYSTYLE",
-    "dynamic_line": "Playstyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+    "dynamic_line": "Playstyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
     "responses": [
       {
         "condition": { "not": { "u_has_trait": "perk_frakenstein" } },
@@ -2067,7 +2067,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_PLAYSTYLE_STORMWROUGHT",
-    "dynamic_line": "Stormwrought Playstyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+    "dynamic_line": "Stormwrought Playstyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available\nCurrent EXP: <u_val:available_exp>\nEXP to next level: <u_val:exp_to_perk>.",
     "responses": [
       {
         "condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_bird" } },
@@ -2276,7 +2276,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_METAMAGIC",
-    "dynamic_line": "Metamagic Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+    "dynamic_line": "Metamagic Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
     "responses": [
       {
         "condition": { "not": { "u_has_trait": "perk_metamagic_quicken" } },
@@ -2471,7 +2471,8 @@
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_mutate_towards": { "context_val": "trait_id" }, "category": "ANY", "use_vitamins": false },
-          { "math": [ "u_num_perks--" ] }
+          { "math": [ "u_num_perks--" ] },
+          { "math": [ "u_perks_toward_playstyle++" ] }
         ]
       },
       {
@@ -2493,14 +2494,15 @@
         "condition": {
           "and": [
             { "or": [ { "math": [ "u_no_prerecs > 0" ] }, { "get_condition": "perk_condition" } ] },
-            { "math": [ "u_num_perks >= u_playstyle_cost + 1" ] }
+            { "math": [ "u_playstyle_perks_available >= 1" ] }
           ]
         },
         "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_mutate_towards": { "context_val": "trait_id" }, "category": "ANY", "use_vitamins": false },
-          { "math": [ "u_num_perks -= u_playstyle_cost + 1" ] }
+          { "math": [ "u_num_perks--" ] },
+          { "math": [ "u_playstyle_perks_available--" ] }
         ]
       },
       {
