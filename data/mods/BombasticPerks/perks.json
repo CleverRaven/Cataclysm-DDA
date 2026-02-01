@@ -734,7 +734,7 @@
   {
     "type": "mutation",
     "id": "perk_popeye",
-    "name": { "str": "Of sailors and spinach" },
+    "name": { "str": "Of Sailors and Spinach" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1224,7 +1224,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You hate the feeling of your blood leaking so much that it empowers you.  Deal more melee damage the more you are bleeding.",
+    "description": "You hate the feeling of your blood leaking so much that it empowers you.  You deal more melee damage the more you are bleeding.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -1259,7 +1259,7 @@
   {
     "type": "mutation",
     "id": "perk_poison_painkill",
-    "name": { "str": "Numb from the toxin" },
+    "name": { "str": "Numb from the Toxin" },
     "points": 0,
     "purifiable": false,
     "valid": false,
