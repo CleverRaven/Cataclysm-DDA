@@ -33,6 +33,15 @@
   },
   {
     "type": "mutation",
+    "id": "EMPTY_DREAMS",
+    "name": { "str": "Empty Dreams" },
+    "points": -1,
+    "starting_trait": true,
+    "valid": false,
+    "description": "What dreams you have are hollow and unfufilling to the fae."
+  },
+  {
+    "type": "mutation",
     "id": "MANIFEST_DESTINY_GOBLIN",
     "name": { "str": "Transforming into Goblin" },
     "points": 0,
