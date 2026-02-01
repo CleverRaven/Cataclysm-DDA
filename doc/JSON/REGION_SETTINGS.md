@@ -556,10 +556,10 @@ See above.
 | ------------------------------ | --------------------------------------------------------------------- |
 | `base_temperature`             | Base temperature for the region in degrees Celsius.                   |
 | `base_humidity`                | Base humidity for the region in relative humidity %                   |
-| `base_pressure`                | Base pressure for the region in millibars.                            |
+| `base_pressure`                | Base pressure for the region in millibars.  Increasing it decreases the wind strength |
 | `base_wind`                    | Base wind for the region in mph units. Roughly the yearly average.    |
 | `base_wind_distrib_peaks`      | How high the wind peaks can go. Higher values produce windier days.   |
-| `base_wind_season_variation`   | How the wind varies with season. Lower values produce more variation  |
+| `base_wind_season_variation`   | How the wind varies with season. Bigger values produce more variation |
 | `weather_black_list`           | Ids of weather types not allowed in this region.                      |
 | `weather_white_list`           | Ids of the only weather types allowed in this region.                 |
 

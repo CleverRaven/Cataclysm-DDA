@@ -194,9 +194,11 @@ w_point weather_generator::get_weather( const tripoint_abs_ms &location, const t
         15 * ( -seasonality + 2 );
 
     // Wind power
+    const double variation = base_wind_season_variation == 0 ? 0 :
+                             -cyf / base_wind_season_variation * rng( 1, 2 );
     W = std::max( 0, static_cast<int>( base_wind * rng( 1, 2 ) / std::pow( ( P + W ) / 1014.78, rng( 9,
-                                       base_wind_distrib_peaks ) ) +
-                                       -cyf / base_wind_season_variation * rng( 1, 2 ) ) );
+                                       base_wind_distrib_peaks ) ) + variation ) );
+
     // Initial static variable
     if( current_winddir == 1000 ) {
         current_winddir = get_wind_direction( season );
