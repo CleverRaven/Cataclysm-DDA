@@ -403,9 +403,9 @@ void overmap::place_oceans( const std::vector<const overmap *> &neighbor_overmap
 {
     const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
     const int ocean_depth = settings_ocean.ocean_depth;
-    const bool oceans_disabled = ( !settings_ocean.ocean_start_north.has_value() &&
-                                   !settings_ocean.ocean_start_east.has_value() &&
-                                   !settings_ocean.ocean_start_west.has_value() && !settings_ocean.ocean_start_south.has_value() );
+    const bool oceans_disabled = !settings_ocean.ocean_start_north.has_value() &&
+                                 !settings_ocean.ocean_start_east.has_value() &&
+                                 !settings_ocean.ocean_start_west.has_value() && !settings_ocean.ocean_start_south.has_value();
 
     const om_noise::om_noise_layer_ocean f( global_base_point(), g->get_seed() );
     const point_abs_om this_om = pos();

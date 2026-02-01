@@ -3847,9 +3847,9 @@ void overmap::place_mongroups()
         const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
         const om_noise::om_noise_layer_ocean f( global_base_point(), g->get_seed() );
         const point_abs_om this_om = pos();
-        const bool oceans_disabled = ( !settings_ocean.ocean_start_north.has_value() &&
-                                       !settings_ocean.ocean_start_east.has_value() &&
-                                       !settings_ocean.ocean_start_west.has_value() && !settings_ocean.ocean_start_south.has_value() );
+        const bool oceans_disabled = !settings_ocean.ocean_start_north.has_value() &&
+                                     !settings_ocean.ocean_start_east.has_value() &&
+                                     !settings_ocean.ocean_start_west.has_value() && !settings_ocean.ocean_start_south.has_value();
 
         // noise threshold adjuster for deep ocean. Increase to make deep ocean move further from the shore.
         constexpr float DEEP_OCEAN_THRESHOLD_ADJUST = 1.25;
