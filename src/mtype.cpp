@@ -67,6 +67,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_CAN_DIG,
             mon_flag_CAN_OPEN_DOORS,
             mon_flag_CLIMBS,
+            mon_flag_CLUMSY_ATTACKS,
             mon_flag_COMBAT_MOUNT,
             mon_flag_CONSOLE_DESPAWN,
             mon_flag_CONVERSATION,
@@ -203,6 +204,7 @@ void set_mon_flag_ids()
     mon_flag_CAN_DIG = mon_flag_id( "CAN_DIG" );
     mon_flag_CAN_OPEN_DOORS = mon_flag_id( "CAN_OPEN_DOORS" );
     mon_flag_CLIMBS = mon_flag_id( "CLIMBS" );
+    mon_flag_CLUMSY_ATTACKS = mon_flag_id( "CLUMSY_ATTACKS" );
     mon_flag_COMBAT_MOUNT = mon_flag_id( "COMBAT_MOUNT" );
     mon_flag_CONSOLE_DESPAWN = mon_flag_id( "CONSOLE_DESPAWN" );
     mon_flag_CONVERSATION = mon_flag_id( "CONVERSATION" );
