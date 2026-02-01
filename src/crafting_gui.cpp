@@ -2131,7 +2131,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             ui.invalidate_ui();
 
             int new_filters_count = 0;
-            std::string added_filters = "";
+            std::string added_filters;
             const requirement_data &req = current[line]->simple_requirements();
             const inventory &crafting_inv = crafter->crafting_inventory();
             for( const std::vector<item_comp> &comp_list : req.get_components() ) {
@@ -2150,7 +2150,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             }
 
             if( new_filters_count > 0 ) {
-                if( uistate.list_item_priority.size()
+                if( !uistate.list_item_priority.empty()
                     && !string_ends_with( uistate.list_item_priority, "," ) ) {
                     uistate.list_item_priority += ",";
                 }
