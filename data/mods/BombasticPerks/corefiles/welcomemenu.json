@@ -71,23 +71,29 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_WELCOME_PLAYSTYLE",
-    "dynamic_line": "Normal perks are considered lifestyle perks and are small bonuses to help your character progress.  Playstyle perks on the other hand can vary wildly in power, in some cases aren't well balanced, and will define your character's playstyle.  Do you want to enable playstyle perks and if so, how many perk points should they cost?",
+    "dynamic_line": "Normal perks are considered lifestyle perks and are small bonuses to help your character progress.  Playstyle perks on the other hand can vary wildly in power, in some cases aren't well balanced, and will define your character's playstyle.  Do you want to enable playstyle perks and if so, how many lifestyle perks do you need before you can acquire one?",
     "responses": [
       {
-        "text": "Default (4 perk points)",
+        "text": "Default (6 lifestyle perks unlocks one playstyle perk)",
         "effect": [
-          { "math": [ "u_playstyle_cost = 3" ] },
+          { "math": [ "u_perks_toward_playstyle_setting = 6" ] },
           { "math": [ "u_no_playstyle = 0" ] },
-          { "u_add_var": "dialogue_perks_playstyle_note", "value": "I can select playstyle perks for 4 perk points." }
+          {
+            "u_add_var": "dialogue_perks_playstyle_note",
+            "value": "I will gain 1 playstyle perk option per 6 lifestyle perks."
+          }
         ],
         "topic": "TALK_PERK_MENU_WELCOME_CONFIRM"
       },
       {
         "text": "Enabled, Custom Cost",
         "effect": [
-          { "math": [ "u_playstyle_cost = num_input('Playstyle Perks Cost?', 4) - 1" ] },
+          { "math": [ "u_perks_toward_playstyle_setting = num_input('Lifestyle perks per playstyle perk?', 6)" ] },
           { "math": [ "u_no_playstyle = 0" ] },
-          { "u_add_var": "dialogue_perks_playstyle_note", "value": "I can select playstyle perks for a custom cost." }
+          {
+            "u_add_var": "dialogue_perks_playstyle_note",
+            "value": "I will gain 1 playstyle perk for a custom amount of lifestyle perks."
+          }
         ],
         "topic": "TALK_PERK_MENU_WELCOME_CONFIRM"
       },
@@ -113,6 +119,8 @@
           { "math": [ "u_num_perks = 0" ] },
           { "math": [ "u_available_exp = 0" ] },
           { "math": [ "u_current_level = 0" ] },
+          { "math": [ "u_playssty = 0" ] },
+          { "math": [ "u_upgraded_to_new_bombastic_version = 1" ] },
           { "u_add_trait": "perk_perk_menu" }
         ],
         "topic": "TALK_DONE"
