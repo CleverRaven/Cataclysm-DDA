@@ -256,6 +256,8 @@ drop_locations auto_pickup::select_items(
     auto start = std::chrono::high_resolution_clock::now(); // debug timing
     int items_checked = 0; // debug timing
 
+    bool picking_up_itype_id;
+    itype_id picking_up_last_itype_id;
     drop_locations result;
     const map_cursor map_location = map_cursor( location );
 
@@ -263,6 +265,15 @@ drop_locations auto_pickup::select_items(
     for( const item_stack::iterator &stack : from ) {
         item *item_entry = &*stack;
         items_checked++;
+
+        if( item_entry->typeId() != picking_up_last_itype_id ) {
+            picking_up_itype_id = false;
+            picking_up_last_itype_id = item_entry->typeId();
+        } else if( !picking_up_itype_id ) {
+            // Don't bother checking if we didn't pick up the last item that had this itype_id
+            continue;
+        }
+
         // do not auto pickup owned containers or items
         if( !get_option<bool>( "AUTO_PICKUP_OWNED" ) &&
             item_entry->is_owned_by( get_player_character() ) ) {
@@ -286,8 +297,10 @@ drop_locations auto_pickup::select_items(
             }
             int it_count = 0; // TODO: factor in auto pickup max_quantity here
             item_location it_location = item_location( map_location, item_entry );
+            picking_up_itype_id = true;
             result.emplace_back( std::make_pair( it_location, it_count ) );
         } else if( is_container || item_entry->ammo_capacity( ammo_battery ) ) {
+            picking_up_itype_id = true; // Always check containers or tools with batteries
             item_location container_location = item_location( map_location, item_entry );
             for( const item_location &add_item : get_autopickup_items( container_location ) ) {
                 int it_count = 0; // TODO: factor in auto pickup max_quantity here
