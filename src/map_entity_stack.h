@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "coordinates.h"
+#include "enums.h"
 #include "point.h"
 
 template<typename T>
@@ -55,7 +56,8 @@ class map_entity_stack
         // through all older entity groups for a match.
         void add_at_pos( const T *entity, const tripoint_rel_ms &pos, int count = 1 );
 
-        bool compare( const map_entity_stack<T> &rhs, bool use_category = false ) const;
+        bool compare( const map_entity_stack<T> &rhs,
+                      surroundings_menu_sort_flags sort_flags = surroundings_menu_sort_flags::DEFAULT ) const;
         std::string get_category() const;
 };
 

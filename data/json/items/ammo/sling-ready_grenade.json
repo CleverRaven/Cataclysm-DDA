@@ -31,7 +31,7 @@
     "//": "Total range with staff sling 21 - 5 more than can be thrown by a player with 10 strength",
     "range": 11,
     "dispersion": 14,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES", "NON_FOULING", "FLAME" ],
+    "effects": [ "COOKOFF", "NON_FOULING", "FLAME" ],
     "melee_damage": { "bash": 5 }
   },
   {
@@ -63,7 +63,7 @@
     "//": "Total range with staff sling 35 - 5 more than can be thrown by a player with 10 strength",
     "range": 25,
     "dispersion": 14,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES", "NON_FOULING", "EXPLOSIVE_GRENADE" ],
+    "effects": [ "COOKOFF", "NON_FOULING", "EXPLOSIVE_GRENADE" ],
     "melee_damage": { "bash": 6 }
   },
   {
@@ -93,7 +93,7 @@
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ],
     "ammo_type": "rock",
     "//": "Same damage and ranged values as the normal grenade",
-    "effects": [ "COOKOFF", "NEVER_MISFIRES", "NON_FOULING", "EXPLOSIVE_SMALL_HOMEMADE_GRENADE_1" ]
+    "effects": [ "COOKOFF", "NON_FOULING", "EXPLOSIVE_SMALL_HOMEMADE_GRENADE_1" ]
   },
   {
     "id": "sling-ready_homemade_grenade",
@@ -119,7 +119,7 @@
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ],
     "//": "Same damage and ranged values as the normal grenade",
-    "effects": [ "COOKOFF", "NEVER_MISFIRES", "NON_FOULING", "EXPLOSIVE_HOMEMADE_GRENADE_1" ]
+    "effects": [ "COOKOFF", "NON_FOULING", "EXPLOSIVE_HOMEMADE_GRENADE_1" ]
   },
   {
     "id": "sling-ready_small_homemade_grenade_2",
@@ -147,7 +147,7 @@
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ],
     "ammo_type": "rock",
     "//": "Same damage and ranged values as the normal grenade",
-    "effects": [ "COOKOFF", "NEVER_MISFIRES", "NON_FOULING", "EXPLOSIVE_SMALL_HOMEMADE_GRENADE_2" ]
+    "effects": [ "COOKOFF", "NON_FOULING", "EXPLOSIVE_SMALL_HOMEMADE_GRENADE_2" ]
   },
   {
     "id": "sling-ready_homemade_grenade_2",
@@ -173,6 +173,6 @@
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ],
     "//": "Same damage and ranged values as the normal grenade",
-    "effects": [ "COOKOFF", "NEVER_MISFIRES", "NON_FOULING", "EXPLOSIVE_HOMEMADE_GRENADE_2" ]
+    "effects": [ "COOKOFF", "NON_FOULING", "EXPLOSIVE_HOMEMADE_GRENADE_2" ]
   }
 ]

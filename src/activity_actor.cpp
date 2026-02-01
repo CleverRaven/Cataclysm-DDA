@@ -192,9 +192,13 @@ static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
+static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
+static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
+static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
@@ -2583,6 +2587,57 @@ std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+std::unordered_set<tripoint_abs_ms> multi_read_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::read_locations( you, get_type() );
+}
+
+activity_reason_info multi_read_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::read_can_do( ACT_MULTIPLE_READ, you,
+            src_loc );
+}
+bool multi_read_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::read_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_read_activity_actor::deserialize( JsonValue & )
+{
+    multi_read_activity_actor actor;
+    return actor.clone();
+}
+
+activity_reason_info multi_study_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::study_can_do( ACT_MULTIPLE_STUDY, you,
+            src_loc );
+}
+
+std::unordered_set<tripoint_abs_ms> multi_study_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::study_locations( you, get_type() );
+}
+
+bool multi_study_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::study_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_study_activity_actor::deserialize( JsonValue & )
+{
+    multi_study_activity_actor actor;
+    return actor.clone();
+}
+
 void study_spell_activity_actor::start( player_activity &act, Character &who )
 {
     if( learning ) {
@@ -4640,6 +4695,30 @@ std::unique_ptr<activity_actor> fish_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+activity_reason_info multi_fish_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::fish_can_do( ACT_MULTIPLE_FISH, you,
+            src_loc );
+}
+std::optional<requirement_id> multi_fish_activity_actor::multi_activity_requirements(
+    Character &you, activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
+{
+    return multi_activity_actor::fish_requirements( you, act_info, src_loc );
+}
+bool multi_fish_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::fish_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_fish_activity_actor::deserialize( JsonValue & )
+{
+    multi_fish_activity_actor actor;
+    return actor.clone();
+}
+
 std::unordered_set<tripoint_abs_ms> multi_zone_activity_actor::multi_activity_locations(
     Character  &you )
 {
@@ -4647,7 +4726,7 @@ std::unordered_set<tripoint_abs_ms> multi_zone_activity_actor::multi_activity_lo
 }
 
 std::optional<requirement_id> multi_zone_activity_actor::multi_activity_requirements(
-    Character &, activity_reason_info &, const tripoint_bub_ms & )
+    Character &, activity_reason_info &, const tripoint_bub_ms &, const zone_data * )
 {
     return std::nullopt;
 }
@@ -4849,7 +4928,7 @@ requirement_check_result multi_zone_activity_actor::check_requirements( Characte
 
         //begin requirements
         std::optional<requirement_id> activity_requirements = multi_activity_requirements( you, act_info,
-                src_loc );
+                src_loc, zone );
         //end requirements
 
         // requirement check was invalid, skip this location
@@ -5669,6 +5748,39 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonValue &js
     data.read( "long", actor.is_long );
     data.read( "activity_override", actor.activity_override );
 
+    return actor.clone();
+}
+
+activity_reason_info multi_craft_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::craft_can_do( ACT_MULTIPLE_CRAFT, you,
+            src_loc );
+}
+
+std::optional<requirement_id> multi_craft_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
+{
+    return multi_activity_actor::craft_requirements( you, act_info, src_loc );
+}
+
+std::unordered_set<tripoint_abs_ms> multi_craft_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::craft_locations( you, get_type() );
+}
+
+bool multi_craft_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::craft_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_craft_activity_actor::deserialize( JsonValue & )
+{
+    multi_craft_activity_actor actor;
     return actor.clone();
 }
 
@@ -7597,6 +7709,33 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
+activity_reason_info multi_disassemble_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::disassemble_can_do( ACT_MULTIPLE_DIS, you,
+            src_loc );
+}
+
+std::optional<requirement_id> multi_disassemble_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
+{
+    return multi_activity_actor::disassemble_requirements( you, act_info, src_loc );
+}
+
+bool multi_disassemble_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::disassemble_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_disassemble_activity_actor::deserialize( JsonValue & )
+{
+    multi_disassemble_activity_actor actor;
+    return actor.clone();
+}
+
 void oxytorch_activity_actor::start( player_activity &act, Character &who )
 {
     const map &here = get_map();
@@ -8947,7 +9086,7 @@ activity_reason_info multi_chop_planks_activity_actor::multi_activity_can_do( Ch
 }
 std::optional<requirement_id> multi_chop_planks_activity_actor::multi_activity_requirements(
     Character &you,
-    activity_reason_info &act_info, const tripoint_bub_ms &src_loc )
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
 {
     return multi_activity_actor::chop_planks_requirements( you, act_info, src_loc );
 }
@@ -9065,6 +9204,12 @@ std::unique_ptr<activity_actor> chop_tree_activity_actor::deserialize( JsonValue
     return actor.clone();
 }
 
+std::unordered_set<tripoint_abs_ms> multi_chop_trees_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::no_same_tile_locations( you, get_type() );
+}
+
 activity_reason_info multi_chop_trees_activity_actor::multi_activity_can_do( Character &you,
         const tripoint_bub_ms &src_loc )
 {
@@ -9072,7 +9217,7 @@ activity_reason_info multi_chop_trees_activity_actor::multi_activity_can_do( Cha
 }
 std::optional<requirement_id> multi_chop_trees_activity_actor::multi_activity_requirements(
     Character &you,
-    activity_reason_info &act_info, const tripoint_bub_ms &src_loc )
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
 {
     return multi_activity_actor::chop_trees_requirements( you, act_info, src_loc );
 }
@@ -9124,6 +9269,31 @@ std::unique_ptr<activity_actor> churn_activity_actor::deserialize( JsonValue &js
     data.read( "moves", actor.moves );
     data.read( "tool", actor.tool );
 
+    return actor.clone();
+}
+
+activity_reason_info multi_farm_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::farm_can_do( ACT_MULTIPLE_FARM, you,
+            src_loc );
+}
+std::optional<requirement_id> multi_farm_activity_actor::multi_activity_requirements(
+    Character &you, activity_reason_info &act_info, const tripoint_bub_ms &src_loc,
+    const zone_data *zone )
+{
+    return multi_activity_actor::farm_requirements( you, act_info, src_loc, zone );
+}
+bool multi_farm_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::farm_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_farm_activity_actor::deserialize( JsonValue & )
+{
+    multi_farm_activity_actor actor;
     return actor.clone();
 }
 
@@ -9839,6 +10009,12 @@ std::unique_ptr<activity_actor> jackhammer_activity_actor::deserialize( JsonValu
     return actor.clone();
 }
 
+std::unordered_set<tripoint_abs_ms> multi_mine_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::no_same_tile_locations( you, get_type() );
+}
+
 activity_reason_info multi_mine_activity_actor::multi_activity_can_do( Character &you,
         const tripoint_bub_ms &src_loc )
 {
@@ -9846,7 +10022,7 @@ activity_reason_info multi_mine_activity_actor::multi_activity_can_do( Character
 }
 std::optional<requirement_id> multi_mine_activity_actor::multi_activity_requirements(
     Character &you,
-    activity_reason_info &act_info, const tripoint_bub_ms &src_loc )
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
 {
     return multi_activity_actor::mining_requirements( you, act_info, src_loc );
 }
@@ -9893,6 +10069,12 @@ std::unique_ptr<activity_actor> mop_activity_actor::deserialize( JsonValue &jsin
     data.read( "moves", actor.moves );
 
     return actor.clone();
+}
+
+std::unordered_set<tripoint_abs_ms> multi_mop_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::mop_locations( you, get_type() );
 }
 
 activity_reason_info multi_mop_activity_actor::multi_activity_can_do( Character &you,
@@ -10514,7 +10696,7 @@ activity_reason_info multi_vehicle_deconstruct_activity_actor::multi_activity_ca
 }
 std::optional<requirement_id> multi_vehicle_deconstruct_activity_actor::multi_activity_requirements(
     Character &you,
-    activity_reason_info &act_info, const tripoint_bub_ms &src_loc )
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
 {
     return multi_activity_actor::vehicle_work_requirements( you, act_info, src_loc );
 }
@@ -10540,7 +10722,7 @@ activity_reason_info multi_vehicle_repair_activity_actor::multi_activity_can_do(
 }
 std::optional<requirement_id> multi_vehicle_repair_activity_actor::multi_activity_requirements(
     Character &you,
-    activity_reason_info &act_info, const tripoint_bub_ms &src_loc )
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
 {
     return multi_activity_actor::vehicle_work_requirements( you, act_info, src_loc );
 }
@@ -12711,8 +12893,14 @@ deserialize_functions = {
     { ACT_MOVE_LOOT, &zone_sort_activity_actor::deserialize },
     { ACT_MULTIPLE_CHOP_PLANKS, &multi_chop_planks_activity_actor::deserialize },
     { ACT_MULTIPLE_CHOP_TREES, &multi_chop_trees_activity_actor::deserialize },
+    { ACT_MULTIPLE_CRAFT, &multi_craft_activity_actor::deserialize },
+    { ACT_MULTIPLE_DIS, &multi_disassemble_activity_actor::deserialize },
+    { ACT_MULTIPLE_FARM, &multi_farm_activity_actor::deserialize },
+    { ACT_MULTIPLE_FISH, &multi_fish_activity_actor::deserialize },
     { ACT_MULTIPLE_MINE, &multi_mine_activity_actor::deserialize },
     { ACT_MULTIPLE_MOP, &multi_mop_activity_actor::deserialize },
+    { ACT_MULTIPLE_READ, &multi_read_activity_actor::deserialize },
+    { ACT_MULTIPLE_STUDY, &multi_study_activity_actor::deserialize },
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
     { ACT_OPERATION, &bionic_operation_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },

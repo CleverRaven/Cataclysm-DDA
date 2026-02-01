@@ -6,6 +6,7 @@
 #include <climits>
 #include <cstddef>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <string_view>
@@ -307,7 +308,7 @@ struct body_part_type {
 
         // These limbs should be covered by armor covering this limb (1:1 coverage)
         // TODO: Coverage/Encumbrance multiplier
-        std::vector<bodypart_str_id> similar_bodyparts;
+        std::optional<bodypart_str_id> similar_bodypart;
 
         weighted_int_list<bp_wounds> potential_wounds;
 
@@ -372,6 +373,8 @@ struct body_part_type {
         // this version just pairs normal body parts
         static std::set<translation, localized_comparator> consolidate( std::vector<bodypart_id>
                 &covered );
+
+        std::vector<bodypart_str_id> get_all_combined_similar_bodyparts() const;
 };
 
 struct layer_details {

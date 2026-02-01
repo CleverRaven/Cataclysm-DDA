@@ -1176,6 +1176,7 @@
     "dodge": 8,
     "bleed_rate": 40,
     "vision_day": 50,
+    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "//": "a good candidate for an alien anatomy harvest",
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],

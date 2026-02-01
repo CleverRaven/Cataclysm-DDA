@@ -86,6 +86,8 @@ Format:
 * `"shopkeeper_consumption_rates"` optional to define item consumption rates for this shopkeeper. Default is to consume all items before restocking
 * `"shopkeeper_price_rules"` optional to define personal price rules with the same format as faction price rules (see [FACTIONS.md](FACTIONS.md)). These take priority over faction rules
 * `"shopkeeper_blacklist"` optional to define blacklists for this shopkeeper
+* `"shopkeeper_whitelist"` optional to define whitelist for this shopkeeper. syntax is the same as for blacklist, but `message` field should be ignored
+* `"whitelist_message"` if whitelist is used, this will be printed on every item that is not matched by whitelist
 * `"restock_interval"`: optional. Default is 6 days
 
 #### Shopkeeper item groups
@@ -129,6 +131,23 @@ Specifies blacklist of items that shopkeeper will not accept for trade.  Format 
       "item": "hammer",
       "condition": { "compare_string": [ "yes", { "npc_val": "bool_test_hammer_hater" } ] },
       "message": "<npcname> hates this item"
+    },
+    { "category": "ammo" },
+    { "group": "EXODII_basic_trade" }
+  ]
+```
+
+#### Shopkeeper whiteliste
+Specifies whitelist of items, shopkeeper will not accept anything else.  Format is similar to `shopkeeper_blacklist`.  `message` will have to be defined among the instance instead of being inside of it
+
+```jsonc
+  "type": "shopkeeper_whitelist",
+  "id": "basic_whitelist",
+  "message": "<npcname> will never buy this.",
+  "entries": [
+    {
+      "item": "hammer",
+      "condition": { "compare_string": [ "yes", { "npc_val": "bool_test_hammer_hater" } ] }
     },
     { "category": "ammo" },
     { "group": "EXODII_basic_trade" }

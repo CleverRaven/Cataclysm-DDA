@@ -227,6 +227,7 @@
     "activity_level": "NO_EXERCISE",
     "verb": "fishing",
     "based_on": "neither",
+    "multi_activity": true,
     "auto_needs": true
   },
   {

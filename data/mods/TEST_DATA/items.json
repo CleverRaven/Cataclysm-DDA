@@ -82,7 +82,7 @@
     "dispersion": 14,
     "loudness": 0,
     "recovery_chance": 99,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
+    "effects": [ "NON_FOULING" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 7 },
     "variant_type": "generic",
@@ -1684,7 +1684,6 @@
     "price": "550 USD",
     "material": [ "steel", "plastic" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 6,
     "ammo": [ "arrow" ],
@@ -5358,7 +5357,7 @@
     "damage": { "damage_type": "bash", "amount": 4 },
     "range": 11,
     "dispersion": 14,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "ACIDBOMB" ],
+    "effects": [ "NON_FOULING", "ACIDBOMB" ],
     "melee_damage": { "bash": 4 }
   },
   {
@@ -5614,7 +5613,7 @@
     "ammo_type": "test_liquid",
     "damage": { "damage_type": "heat", "amount": 15, "armor_penetration": 30 },
     "range": 6,
-    "effects": [ "FLAME", "STREAM_BIG", "IGNITE", "NEVER_MISFIRES" ]
+    "effects": [ "FLAME", "STREAM_BIG", "IGNITE" ]
   },
   {
     "id": "test_lockpick",
