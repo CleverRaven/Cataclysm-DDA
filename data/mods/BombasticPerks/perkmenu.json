@@ -795,7 +795,7 @@
           },
           { "set_string_var": "perk_big_eater", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have <trait_name:LIGHTEATER>.",
+            "set_string_var": "Must not have <trait_name:LIGHTEATER>",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1129,7 +1129,7 @@
           },
           { "set_string_var": "perk_blood_drinking_heal", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have <trait_name:perk_blood_drinker> and perk level 9.",
+            "set_string_var": "Must have <trait_name:perk_blood_drinker> and perk level 9",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
