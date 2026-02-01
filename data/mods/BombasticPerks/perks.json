@@ -1125,10 +1125,7 @@
     "enchantments": [
       {
         "condition": {
-          "and": [
-            { "math": [ "u_calories('format': 'percent') >= 200" ] },
-            { "math": [ "u_calories('format': 'percent') < 300" ] }
-          ]
+          "and": [ { "math": [ "u_calories('format': 'percent') >= 200" ] }, { "math": [ "u_calories('format': 'percent') < 300" ] } ]
         },
 		"mutations": [ "perk_kevlard_obese" ]
       },
