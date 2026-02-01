@@ -291,10 +291,10 @@ struct region_settings_ocean {
     double noise_threshold_ocean = 0.25;
     int ocean_size_min = 100;
     int ocean_depth = -9;
-    int ocean_start_north = 0;
-    int ocean_start_east = 10;
-    int ocean_start_west = 0;
-    int ocean_start_south = 0;
+    std::optional<int> ocean_start_north = NULL;
+    std::optional<int> ocean_start_east = 10;
+    std::optional<int> ocean_start_west = NULL;
+    std::optional<int> ocean_start_south = NULL;
     int sandy_beach_width = 2;
 
     bool was_loaded = false;
