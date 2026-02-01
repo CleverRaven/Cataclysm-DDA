@@ -242,6 +242,7 @@
   {
     "type": "ITEM",
     "subtypes": [ "ARTIFACT" ],
+    "category": "artifacts",
     "id": "matrix_crystal_pyrokinesis_artifact",
     "name": { "str_sp": "strange crystal, red" },
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing red light in its depths.  Holding it, you feel hot.",
@@ -388,6 +389,7 @@
   {
     "type": "ITEM",
     "subtypes": [ "ARTIFACT" ],
+    "category": "artifacts",
     "id": "matrix_crystal_vitakinesis_artifact",
     "name": { "str_sp": "strange crystal, green" },
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing green light in its depths.  Holding it, you feel healthier.",
