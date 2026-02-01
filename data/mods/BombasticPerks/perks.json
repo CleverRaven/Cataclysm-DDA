@@ -1136,12 +1136,8 @@
         "mutations": [ "perk_kevlard_veryobese" ]
       },
       {
-        "condition": {
-          "and": [
-            { "math": [ "u_calories('format': 'percent') >= 400" ] }
-          ]
-        },
-		"mutations": [ "perk_kevlard_morbidlyobese" ]
+        "condition": { "and": [ { "math": [ "u_calories('format': 'percent') >= 400" ] } ] },
+        "mutations": [ "perk_kevlard_morbidlyobese" ]
       }
     ]
   },
