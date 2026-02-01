@@ -49,7 +49,7 @@
       { "math": [ "u_pain() = 0" ] },
       { "if": { "math": [ "u_hp('torso') <= 34" ] }, "then": { "math": [ "u_hp('torso') = 35" ] } },
       { "math": [ "u_hp('head') = u_hp('head') = 35)" ] },
-      { "if": { "math": [ "u_hp('head') <= 34" ] }, "then": { "math": [ "u_hp('head') = 35" ] } }
+      { "if": { "math": [ "u_hp('head') <= 34" ] }, "then": { "math": [ "u_hp('head') = 35" ] } },
       { "u_lose_effect": [ "dazed", "downed", "blind", "deaf", "stunned" ] },
       { "u_add_effect": "effect_xe_onryō_snp_prevented_death", "duration": 864000 },
       { "u_add_effect": "effect_xe_onryō_snp", "duration": 2100 }
