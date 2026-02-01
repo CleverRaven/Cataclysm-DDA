@@ -1357,5 +1357,19 @@
       { "u_location_variable": { "context_val": "zombie_horde_target" } },
       { "signal_hordes": { "context_val": "zombie_horde_target" }, "signal_power": { "math": [ "_summon_effect" ] } }
     ]
+  },
+  {
+    "type": "SPELL",
+    "id": "flying_polyp_out_of_phase_spell",
+    "name": { "str": "Polyp Out of Phase", "//~": "NO_I18N" },
+    "description": { "str": "Flying Polyps cast this on spawn.", "//~": "NO_I18N" },
+    "flags": [ "NO_PROJECTILE", "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_polyp_out_of_phase",
+    "valid_targets": [ "self" ],
+    "base_casting_time": 200,
+    "min_duration": 84600,
+    "max_duration": 84600,
+    "shape": "blast"
   }
 ]

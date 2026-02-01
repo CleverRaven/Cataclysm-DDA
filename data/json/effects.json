@@ -5408,5 +5408,13 @@
     "name": [ "" ],
     "desc": [ "" ],
     "removes_effects": [ "effect_shocker_zombie_charge_up" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_polyp_out_of_phase",
+    "name": [ "Out of Phase" ],
+    "desc": [ "You are not entirely present in baseline reality." ],
+    "rating": "good",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RANGE_DODGE", "add": 0.66 } ] } ]
   }
 ]
