@@ -403,13 +403,13 @@
         "                        ",
         "                        ",
         "        ||||||||        ",
-        "        |Bt   T|        ",
-        "        |B    h|        ",
+        "        |Bt...T|        ",
+        "        |B....h|        ",
         "        ||||+|||        ",
-        "        |Th   T|        ",
-        "        |      |        ",
-        "        |      |        ",
-        "        |CCCCgC|        ",
+        "        |Th...T|        ",
+        "        |......|        ",
+        "        |......|        ",
+        "        |CCCCCC|        ",
         "                        ",
         "                        ",
         "                        ",
@@ -425,23 +425,24 @@
       "flags": [ "NO_UNDERLYING_ROTATE", "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         ".": "t_floor",
-        "C": "t_floor",
+        "C": "t_traderwall",
         "g": "t_floor",
         "h": "t_floor",
-        "|": "t_stone_masonry_wall_whitewashed",
+        "|": "t_traderwall_stone",
         "+": "t_door_c",
         "T": "t_floor",
         "t": "t_floor",
         "B": "t_floor"
       },
-      "furniture": { "C": "f_counter", "g": "f_counter_gate_c", "h": "f_chair", "T": "f_table", "B": "f_bed", "t": "f_coffee_table" },
+      "furniture": { "h": "f_chair", "T": "f_table", "B": "f_bed", "t": "f_coffee_table" },
       "place_nested": [ { "chunks": [ "mx_skyisland_merchant_stall_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "mx_skyisland_merchant_stall_roof",
+    "nested_mapgen_id": "mx_skyisland_merchant_stall_roof",
     "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
         "                        ",
@@ -469,7 +470,7 @@
         "                        "
       ],
       "flags": [ "NO_UNDERLYING_ROTATE", "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "|": "t_thatch_roof" }
+      "terrain": { "|": "t_trader_thatch_roof" }
     }
   },
   {
