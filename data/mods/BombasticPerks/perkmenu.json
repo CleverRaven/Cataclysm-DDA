@@ -15,11 +15,14 @@
           },
           { "set_string_var": "perk_STR_UP", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Must have perk level 8",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "not": { "u_has_trait": "perk_STR_UP_2" } } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "math": [ "u_current_level >= 8" ] }, { "not": { "u_has_trait": "perk_STR_UP_2" } } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -34,10 +37,13 @@
           },
           { "set_string_var": "perk_STR_UP_2", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have the <trait_name:perk_STR_UP> perk",
+            "set_string_var": "Must have the <trait_name:perk_STR_UP> perk and perk level 20",
             "target_var": { "context_val": "trait_requirement_description" }
           },
-          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_STR_UP" } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "u_has_trait": "perk_STR_UP" }, { "math": [ "u_current_level >= 20" ] } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -52,11 +58,14 @@
           },
           { "set_string_var": "perk_DEX_UP", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Must have perk level 8",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "not": { "u_has_trait": "perk_DEX_UP_2" } } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "math": [ "u_current_level >= 8" ] }, { "not": { "u_has_trait": "perk_DEX_UP_2" } } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -71,10 +80,13 @@
           },
           { "set_string_var": "perk_DEX_UP_2", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have the <trait_name:perk_DEX_UP> perk",
+            "set_string_var": "Must have the <trait_name:perk_DEX_UP> perk and perk level 20",
             "target_var": { "context_val": "trait_requirement_description" }
           },
-          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_DEX_UP" } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "u_has_trait": "perk_DEX_UP" }, { "math": [ "u_current_level >= 20" ] } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -89,11 +101,14 @@
           },
           { "set_string_var": "perk_INT_UP", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Must have perk level 8",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "not": { "u_has_trait": "perk_INT_UP_2" } } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "math": [ "u_current_level >= 8" ] }, { "not": { "u_has_trait": "perk_INT_UP_2" } } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -108,10 +123,13 @@
           },
           { "set_string_var": "perk_INT_UP_2", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have the <trait_name:perk_INT_UP> perk",
+            "set_string_var": "Must have the <trait_name:perk_INT_UP> perk and perk level 20",
             "target_var": { "context_val": "trait_requirement_description" }
           },
-          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_INT_UP" } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "u_has_trait": "perk_INT_UP" }, { "math": [ "u_current_level >= 20" ] } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -126,11 +144,14 @@
           },
           { "set_string_var": "perk_PER_UP", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Must have perk level 8",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "not": { "u_has_trait": "perk_PER_UP_2" } } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "math": [ "u_current_level >= 8" ] }, { "not": { "u_has_trait": "perk_PER_UP_2" } } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -145,10 +166,13 @@
           },
           { "set_string_var": "perk_PER_UP_2", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have the <trait_name:perk_PER_UP> perk",
+            "set_string_var": "Must have the <trait_name:perk_PER_UP> perk and perk level 20",
             "target_var": { "context_val": "trait_requirement_description" }
           },
-          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_PER_UP" } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "u_has_trait": "perk_PER_UP" }, { "math": [ "u_current_level >= 20" ] } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -163,13 +187,15 @@
           },
           { "set_string_var": "perk_sight_beyond_sight", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires perception 13",
+            "set_string_var": "Requires perception 13 or <trait_name:SPIRITUAL>",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
           {
             "set_condition": "perk_condition",
-            "condition": { "math": [ "u_val('perception_base') + u_val('perception_bonus') >= 13" ] }
+            "condition": {
+              "or": [ { "math": [ "u_val('perception_base') + u_val('perception_bonus') >= 13" ] }, { "u_has_trait": "SPIRITUAL" } ]
+            }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
@@ -185,7 +211,7 @@
           },
           { "set_string_var": "perk_mighty_thews", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires strength 13",
+            "set_string_var": "Requires strength 13 and perk level 12",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -207,7 +233,7 @@
           },
           { "set_string_var": "perk_pantherish_grace", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires dexterity 13",
+            "set_string_var": "Requires dexterity 13 and perk level 12",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -229,7 +255,7 @@
           },
           { "set_string_var": "perk_eagle_eyes", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires perception 13",
+            "set_string_var": "Requires perception 13 and perk level 12",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -298,11 +324,14 @@
           },
           { "set_string_var": "perk_built_tough", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Must not have <trait_name:FLIMSY>, <trait_name:FLIMSY2>, <trait_name:FLIMSY3>, or <trait_name:GLASSJAW>.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "not": { "u_has_any_trait": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ] } }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
