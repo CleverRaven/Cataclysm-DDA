@@ -950,7 +950,7 @@
           },
           { "set_string_var": "perk_slippery_escape", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have the <trait_name:perk_DEX_UP_2> perk or dexterity 12 and perk level 12",
+            "set_string_var": "Must have the <trait_name:perk_DEX_UP_2> perk or dexterity 12 and perk level 6",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -961,7 +961,7 @@
                 {
                   "or": [ { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 12" ] }, { "u_has_trait": "perk_DEX_UP_2" } ]
                 },
-                { "math": [ "u_current_level >= 12" ] }
+                { "math": [ "u_current_level >= 6" ] }
               ]
             }
           }
@@ -1024,7 +1024,7 @@
           },
           { "set_string_var": "perk_hobbyist", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires 25 levels worth of crafting skills",
+            "set_string_var": "Requires 12 levels worth of crafting skills",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1032,7 +1032,7 @@
             "set_condition": "perk_condition",
             "condition": {
               "math": [
-                "(u_skill('chemistry') + u_skill('cooking') + u_skill('fabrication') + u_skill('tailor') + u_skill('electronics') + u_skill('survival') ) >= 25"
+                "(u_skill('chemistry') + u_skill('cooking') + u_skill('fabrication') + u_skill('tailor') + u_skill('electronics') + u_skill('survival') ) >= 12"
               ]
             }
           }
@@ -1273,7 +1273,7 @@
           },
           { "set_string_var": "perk_crafty_hands", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires fabrication 4, food preparation 4, tailoring 4, or chemistry 4.",
+            "set_string_var": "Requires fabrication 4, food preparation 4, tailoring 4, electronics 4, or chemistry 4.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1284,7 +1284,8 @@
                 { "math": [ "u_skill('chemistry') >= 4" ] },
                 { "math": [ "u_skill('cooking') >= 4" ] },
                 { "math": [ "u_skill('fabrication') >= 4" ] },
-                { "math": [ "u_skill('tailor') >= 4" ] }
+                { "math": [ "u_skill('tailor') >= 4" ] },
+                { "math": [ "u_skill('electronics') >= 4" ] }
               ]
             }
           }
@@ -1302,11 +1303,14 @@
           },
           { "set_string_var": "perk_sleepy", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have <trait_name:perk_nocturnal>.",
+            "set_string_var": "Must not have <trait_name:perk_nocturnal> or <trait_name:INSOMNIA>.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "not": { "u_has_trait": "perk_nocturnal" } } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "not": { "u_has_any_trait": [ "perk_nocturnal", "INSOMNIA" ] } }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -1868,11 +1872,20 @@
           },
           { "set_string_var": "perk_chainsaw", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Requires strength 12 or <trait_name:perk_STR_UP_2> and cutting 5",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                { "or": [ { "math": [ "u_val('strength_base') + u_val('strength_bonus') >= 12" ] } ] },
+                { "u_has_trait": "perk_STR_UP_2" },
+                { "math": [ "u_skill('cutting') >= 5" ] }
+              ]
+            }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
@@ -1887,11 +1900,14 @@
           },
           { "set_string_var": "perk_eating_window", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Must not have <trait_name:GOURMAND> or <trait_name:perk_big_eater>",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "not": { "u_has_any_trait": [ "GOURMAND", "perk_big_eater" ] } }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
@@ -1925,11 +1941,14 @@
           },
           { "set_string_var": "perk_rage_against_unnatural", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Must have melee 7 or unarmed 7",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "or": [ { "math": [ "u_skill('melee') >= 7" ] }, { "math": [ "u_skill('unarmed') >= 7" ] } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
@@ -1944,11 +1963,11 @@
           },
           { "set_string_var": "perk_soup_healing", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Requires food handling 5",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('cooking') >= 5" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
@@ -2023,13 +2042,13 @@
           },
           { "set_string_var": "perk_ascetic_empowerment", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have the <trait_name:GOURMAND> trait or the <trait_name:perk_big_eater> perk",
+            "set_string_var": "Must not have the <trait_name:GOURMAND>, <trait_name:perk_big_eater> perk.  Must have the <trait_name:LIGHTEATER> trait",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
           {
             "set_condition": "perk_condition",
-            "condition": { "not": { "u_has_any_trait": [ "GOURMAND", "perk_big_eater" ] } }
+            "condition": { "and": [ { "u_has_trait": "LIGHTEATER" }, { "not": { "u_has_any_trait": [ "GOURMAND", "perk_big_eater" ] } } ] }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
@@ -2045,11 +2064,11 @@
           },
           { "set_string_var": "perk_speedballing", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Must have the <trait_name:ADDICTIVE> or <trait_name:STIMBOOST> traits.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          { "set_condition": "perk_condition", "condition": { "u_has_any_trait": [ "ADDICTIVE", "STIMBOOST" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
@@ -2184,11 +2203,21 @@
           },
           { "set_string_var": "perk_dexterous_speed", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Must have the <trait_name:perk_DEX_UP_2> perk or dexterity 10 and perk level 12",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                {
+                  "or": [ { "u_has_trait": "perk_DEX_UP_2" }, { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 13" ] } ]
+                },
+                { "math": [ "u_current_level >= 12" ] }
+              ]
+            }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
@@ -2423,11 +2452,11 @@
           },
           { "set_string_var": "perk_metamagic_quicken", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires a spell known of level 2 or above",
+            "set_string_var": "Requires a spell known of level 12 or above",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null') >= 2" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null') >= 12" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -2442,11 +2471,11 @@
           },
           { "set_string_var": "perk_metamagic_widen", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires a spell known of level 2 or above",
+            "set_string_var": "Requires a spell known of level 6 or above",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null') >= 2" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null') >= 6" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -2461,11 +2490,11 @@
           },
           { "set_string_var": "perk_metamagic_reach", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires a spell known of level 2 or above",
+            "set_string_var": "Requires a spell known of level 6 or above",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null') >= 2" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null') >= 6" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -2486,11 +2515,11 @@
           },
           { "set_string_var": "perk_metamagic_silent", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires a spell known of level 2 or above",
+            "set_string_var": "Requires a spell known of level 4 or above",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null') >= 2" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null') >= 4" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -2511,11 +2540,11 @@
           },
           { "set_string_var": "perk_metamagic_still", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires a spell known of level 2 or above",
+            "set_string_var": "Requires a spell known of level 5 or above",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null') >= 2" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null') >= 5" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -2568,11 +2597,11 @@
           },
           { "set_string_var": "perk_metamagic_intuitive", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires a spell known of level 8 or above",
+            "set_string_var": "Requires a spell known of level 14 or above",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null') >= 8" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null') >= 14" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
