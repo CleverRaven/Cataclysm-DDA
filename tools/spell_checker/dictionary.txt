@@ -269,6 +269,7 @@ Aramaic
 arapaimas
 Arapaimidae
 arbalist
+arcanas
 archdruid
 Archeotech
 Archie

@@ -375,7 +375,7 @@
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ],
+    "effects": [ "NON_FOULING", "RECOVER_60" ],
     "melee_damage": { "stab": 3 }
   },
   {

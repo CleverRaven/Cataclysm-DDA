@@ -383,7 +383,9 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_show_revealed_omts", overmap_show_revealed_omts );
     json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
     json.member( "vmenu_tab", vmenu_tab );
-    json.member( "list_item_sort", list_item_sort );
+    json.member( "vmenu_item_sort", vmenu_item_sort );
+    json.member( "vmenu_monster_sort", vmenu_monster_sort );
+    json.member( "vmenu_terfurn_sort", vmenu_terfurn_sort );
     json.member( "read_items", read_items );
     json.member( "list_item_filter_active", list_item_filter_active );
     json.member( "list_item_downvote_active", list_item_downvote_active );
@@ -507,7 +509,9 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "distraction_withdrawal", distraction_withdrawal );
     jo.read( "numpad_navigation", numpad_navigation );
     jo.read( "vmenu_tab", vmenu_tab );
-    jo.read( "list_item_sort", list_item_sort );
+    jo.read( "vmenu_item_sort", vmenu_item_sort );
+    jo.read( "vmenu_monster_sort", vmenu_monster_sort );
+    jo.read( "vmenu_terfurn_sort", vmenu_terfurn_sort );
     jo.read( "read_items", read_items );
     jo.read( "list_item_filter_active", list_item_filter_active );
     jo.read( "list_item_downvote_active", list_item_downvote_active );

@@ -2,7 +2,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_MAIN",
-    "dynamic_line": "Lifestyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+    "dynamic_line": "Lifestyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
     "responses": [
       {
         "condition": { "and": [ { "not": { "u_has_trait": "perk_STR_UP" } }, { "not": { "u_has_trait": "perk_STR_UP_2" } } ] },
@@ -1002,6 +1002,25 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_second_wind" } },
+        "text": "Gain [<trait_name:perk_second_wind>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_second_wind>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_second_wind>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_second_wind", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires athletics 6",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('swimming') >= 6" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_blood_drinker" } },
         "text": "Gain [<trait_name:perk_blood_drinker>]",
         "effect": [
@@ -1198,6 +1217,28 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_running_in_heels" } },
+        "text": "Gain [<trait_name:perk_running_in_heels>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_running_in_heels>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_running_in_heels>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_running_in_heels", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires dexterity 10",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 10" ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_early_to_rise" } },
         "text": "Gain [<trait_name:perk_early_to_rise>]",
         "effect": [
@@ -1208,11 +1249,11 @@
           },
           { "set_string_var": "perk_early_to_rise", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Must not have <trait_name:perk_nocturnal>.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          { "set_condition": "perk_condition", "condition": { "not": { "u_has_trait": "perk_noctural" } } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -1578,7 +1619,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_PLAYSTYLE",
-    "dynamic_line": "Playstyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+    "dynamic_line": "Playstyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
     "responses": [
       {
         "condition": { "not": { "u_has_trait": "perk_frakenstein" } },
@@ -1797,11 +1838,11 @@
           },
           { "set_string_var": "perk_nocturnal", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Must not have <trait_name:perk_early_to_rise>.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          { "set_condition": "perk_condition", "condition": { "not": { "u_has_trait": "perk_early_to_rise" } } }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
@@ -1920,6 +1961,25 @@
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_boomstick_blast" } },
+        "text": "Gain [<trait_name:perk_boomstick_blast>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_boomstick_blast>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_boomstick_blast>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_boomstick_blast", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires shotguns 6+",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('shotgun') >= 6" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_secret_closet_storage" } },
         "text": "Gain [<trait_name:perk_secret_closet_storage>]",
         "effect": [
@@ -1958,6 +2018,28 @@
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_ewwww_de_zombie" } },
+        "text": "Gain [<trait_name:perk_ewwww_de_zombie>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_ewwww_de_zombie>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_ewwww_de_zombie>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_ewwww_de_zombie", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires food handling 4 and applied science 5",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "math": [ "u_skill('cooking') >= 4" ] }, { "math": [ "u_skill('chemistry') >= 5" ] } ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_dexterous_speed" } },
         "text": "Gain [<trait_name:perk_dexterous_speed>]",
         "effect": [
@@ -1985,7 +2067,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_PLAYSTYLE_STORMWROUGHT",
-    "dynamic_line": "Stormwrought Playstyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+    "dynamic_line": "Stormwrought Playstyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available\nCurrent EXP: <u_val:available_exp>\nEXP to next level: <u_val:exp_to_perk>.",
     "responses": [
       {
         "condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_bird" } },
@@ -2194,7 +2276,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_METAMAGIC",
-    "dynamic_line": "Metamagic Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+    "dynamic_line": "Metamagic Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
     "responses": [
       {
         "condition": { "not": { "u_has_trait": "perk_metamagic_quicken" } },
@@ -2389,7 +2471,8 @@
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_mutate_towards": { "context_val": "trait_id" }, "category": "ANY", "use_vitamins": false },
-          { "math": [ "u_num_perks--" ] }
+          { "math": [ "u_num_perks--" ] },
+          { "math": [ "u_perks_toward_playstyle++" ] }
         ]
       },
       {
@@ -2411,14 +2494,15 @@
         "condition": {
           "and": [
             { "or": [ { "math": [ "u_no_prerecs > 0" ] }, { "get_condition": "perk_condition" } ] },
-            { "math": [ "u_num_perks >= u_playstyle_cost + 1" ] }
+            { "math": [ "u_playstyle_perks_available >= 1" ] }
           ]
         },
         "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_mutate_towards": { "context_val": "trait_id" }, "category": "ANY", "use_vitamins": false },
-          { "math": [ "u_num_perks -= u_playstyle_cost + 1" ] }
+          { "math": [ "u_num_perks--" ] },
+          { "math": [ "u_playstyle_perks_available--" ] }
         ]
       },
       {

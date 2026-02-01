@@ -166,9 +166,7 @@ class cata_path
 
 template <>
 struct fmt::formatter<cata_path> : formatter<std::string_view> {
-    auto format( const cata_path &path, fmt::format_context &ctx ) const {
-        return formatter<std::string_view>::format( path.generic_u8string(), ctx );
-    }
+    auto format( const cata_path &path, fmt::format_context &ctx ) const -> decltype( ctx.out() );
 };
 
 #endif // CATA_SRC_CATA_PATH_H

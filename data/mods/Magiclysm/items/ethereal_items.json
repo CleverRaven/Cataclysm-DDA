@@ -312,7 +312,6 @@
       "NEVER_JAMS"
     ],
     "max_worn": 1,
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "ammo": [ "arrow" ],
     "min_strength": 9,

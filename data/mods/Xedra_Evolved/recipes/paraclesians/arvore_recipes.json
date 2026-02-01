@@ -609,7 +609,7 @@
     "type": "recipe",
     "name": "treesung greatbow",
     "id": "create_greatbow_treesung",
-    "description": "Use your magick to turn treesung wood into a an enormous bow made of living wood and a thin vine.\n\nYou must have <color_yellow>Treesinging level 4</color> and at least <color_yellow>600 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into an enormous bow made of living wood and a thin vine.\n\nYou must have <color_yellow>Treesinging level 4</color> and at least <color_yellow>600 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",

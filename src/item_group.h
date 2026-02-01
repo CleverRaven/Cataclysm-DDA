@@ -184,7 +184,7 @@ class Item_spawn_data
         }
 
         int get_probability( bool skip_event_check ) const;
-        void set_probablility( int prob ) {
+        void set_probability( int prob ) {
             probability = prob;
         }
         bool is_event_based() const {
@@ -259,7 +259,7 @@ class Item_modifier
          * if item should not spawn in a container.
          * If the created item is a liquid and it uses the default
          * charges, it will expand/shrink to fill the container completely.
-         * If it is created with to much charges, they are reduced.
+         * If it is created with too many charges, they are reduced.
          * If it is created with the non-default charges, but it still fits
          * it is not changed.
          */

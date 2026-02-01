@@ -936,8 +936,8 @@ void Item_factory::finalize_post_armor( itype &obj )
         body_part_set similar_bp;
         if( data.covers.has_value() ) {
             for( const bodypart_str_id &bp : data.covers.value() ) {
-                for( const bodypart_str_id &similar : bp->similar_bodyparts ) {
-                    similar_bp.set( similar );
+                for( const bodypart_str_id &combined : bp->get_all_combined_similar_bodyparts() ) {
+                    similar_bp.set( combined );
                 }
             }
         }
@@ -964,8 +964,8 @@ void Item_factory::finalize_post_armor( itype &obj )
         std::set<sub_bodypart_str_id> similar_sbp;
         if( !data.sub_coverage.empty() ) {
             for( const sub_bodypart_str_id &sbp : data.sub_coverage ) {
-                for( const sub_bodypart_str_id &similar : sbp->similar_bodyparts ) {
-                    similar_sbp.emplace( similar );
+                for( const sub_bodypart_str_id &combined : sbp->get_all_combined_similar_sub_bodyparts() ) {
+                    similar_sbp.emplace( combined );
                 }
             }
         }

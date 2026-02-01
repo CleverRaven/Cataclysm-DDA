@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cfloat>
 #include <functional>
+#include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
 #include <iterator>
 #include <list>
@@ -19,9 +20,11 @@
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
+#include "enum_traits.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
+#include "game_ui.h"
 #include "input_popup.h"
 #include "item.h"
 #include "item_contents.h"
@@ -34,6 +37,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "panels.h"
 #include "point.h"
 #include "safemode_ui.h"
 #include "string_formatter.h"
@@ -83,6 +87,49 @@ std::string io::enum_to_string<surroundings_menu_tab_enum>( surroundings_menu_ta
 static std::string list_items_filter_history_help()
 {
     return colorize( _( "UP: history, CTRL-U: clear line, ESC: abort, ENTER: save" ), c_green );
+}
+
+static void center_selection( const tripoint_rel_ms &active_item_position, int ui_width )
+{
+    Character &u = get_avatar();
+    if( get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) != "false" ) {
+        u.view_offset.z() = active_item_position.z();
+        if( get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) == "centered" ) {
+            u.view_offset.x() = active_item_position.x();
+            u.view_offset.y() = active_item_position.y();
+        } else {
+            point_rel_ms pos( active_item_position.xy() + point( POSX, POSY ) );
+
+            // item/monster list UI is on the right, so get the difference between its width
+            // and the width of the sidebar on the right (if any)
+            int sidebar_right_adjusted = ui_width - panel_manager::get_manager().get_width_right();
+            // if and only if that difference is greater than zero, use that as offset
+            int right_offset = sidebar_right_adjusted > 0 ? sidebar_right_adjusted : 0;
+
+            // Convert offset to tile counts, calculate adjusted terrain window width
+            // This lets us account for possible differences in terrain width between
+            // the normal sidebar and the list-all-whatever display.
+            to_map_font_dim_width( right_offset );
+            int terrain_width = TERRAIN_WINDOW_WIDTH - right_offset;
+
+            if( pos.x() < 0 ) {
+                u.view_offset.x() = pos.x();
+            } else if( pos.x() >= terrain_width ) {
+                u.view_offset.x() = pos.x() - ( terrain_width - 1 );
+            } else {
+                u.view_offset.x() = 0;
+            }
+
+            if( pos.y() < 0 ) {
+                u.view_offset.y() = pos.y();
+            } else if( pos.y() >= TERRAIN_WINDOW_HEIGHT ) {
+                u.view_offset.y() = pos.y() - ( TERRAIN_WINDOW_HEIGHT - 1 );
+            } else {
+                u.view_offset.y() = 0;
+            }
+        }
+    }
+
 }
 
 template<typename T>
@@ -184,6 +231,7 @@ void item_tab_data::init( const Character &you, map &m )
     if( uistate.list_item_downvote_active ) {
         filter_priority_minus = uistate.list_item_downvote;
     }
+    sort_flags = static_cast<surroundings_menu_sort_flags>( uistate.vmenu_item_sort );
     apply_filter();
     if( !filtered_list.empty() ) {
         selected_entry = filtered_list.front();
@@ -260,6 +308,7 @@ void item_tab_data::apply_filter()
     uistate.list_item_filter = filter;
     uistate.list_item_priority = filter_priority_plus;
     uistate.list_item_downvote = filter_priority_minus;
+    uistate.vmenu_item_sort = static_cast<int>( sort_flags );
 
     auto filter_function = item_filter_from_string( uistate.list_item_filter );
 
@@ -272,7 +321,7 @@ void item_tab_data::apply_filter()
     // then apply regular sorting
     std::sort( filtered_list.begin(), filtered_list.end(),
     [&]( const map_entity_stack<item> *lhs, const map_entity_stack<item> *rhs ) {
-        return lhs->compare( *rhs, draw_categories );
+        return lhs->compare( *rhs, sort_flags );
     } );
 
     // then apply priorities
@@ -285,8 +334,7 @@ int item_tab_data::get_max_entity_width()
 {
     int max_width = 0;
     for( auto &it : item_list ) {
-        max_width = std::max( max_width,
-                              utf8_width( remove_color_tags( it->get_selected_entity()->display_name() ) ) );
+        max_width = std::max( max_width, utf8_width( it->get_selected_name(), true ) );
     }
     return max_width;
 }
@@ -376,6 +424,7 @@ void monster_tab_data::init( const Character &you )
     if( uistate.list_monster_filter_active ) {
         filter = uistate.monster_filter;
     }
+    sort_flags = static_cast<surroundings_menu_sort_flags>( uistate.vmenu_item_sort );
     apply_filter();
     if( !filtered_list.empty() ) {
         selected_entry = filtered_list.front();
@@ -414,6 +463,7 @@ void monster_tab_data::apply_filter()
 {
     filtered_list.clear();
     uistate.monster_filter = filter;
+    uistate.vmenu_monster_sort = static_cast<int>( sort_flags );
 
     // todo: filter_from_string<Creature>
     // for now just matching creature name
@@ -429,7 +479,7 @@ void monster_tab_data::apply_filter()
     // then apply regular sorting
     std::sort( filtered_list.begin(), filtered_list.end(),
     [&]( const map_entity_stack<Creature> *lhs, const map_entity_stack<Creature> *rhs ) {
-        return lhs->compare( *rhs, draw_categories );
+        return lhs->compare( *rhs, sort_flags );
     } );
 }
 
@@ -528,6 +578,7 @@ void terfurn_tab_data::init( const Character &you, map &m )
     if( uistate.list_terfurn_filter_active ) {
         filter = uistate.terfurn_filter;
     }
+    sort_flags = static_cast<surroundings_menu_sort_flags>( uistate.vmenu_item_sort );
     apply_filter();
     if( !filtered_list.empty() ) {
         selected_entry = filtered_list.front();
@@ -602,6 +653,7 @@ void terfurn_tab_data::apply_filter()
 {
     filtered_list.clear();
     uistate.terfurn_filter = filter;
+    uistate.vmenu_terfurn_sort = static_cast<int>( sort_flags );
 
     // todo: filter_from_string<map_data_common_t>
     // for now just matching creature name
@@ -617,7 +669,7 @@ void terfurn_tab_data::apply_filter()
     std::sort( filtered_list.begin(), filtered_list.end(),
                [&]( const map_entity_stack<map_data_common_t> *lhs,
     const map_entity_stack<map_data_common_t> *rhs ) {
-        return lhs->compare( *rhs, draw_categories );
+        return lhs->compare( *rhs, sort_flags );
     } );
 }
 
@@ -675,17 +727,12 @@ surroundings_menu::surroundings_menu( avatar &you, map &m, std::optional<tripoin
     you( you ),
     path_end( path_end ),
     stored_view_offset( you.view_offset ),
-    info_height( std::min( 25, TERMY / 2 ) )
+    min_width( min_width )
 {
     item_data.init( you, m );
     monster_data.init( you );
     terfurn_data.init( you, m );
 
-    // todo: add distance width, calculate correct creature text width
-    int wanted_width = std::max( { item_data.get_max_entity_width(),
-                                   monster_data.get_max_entity_width(),
-                                   terfurn_data.get_max_entity_width() } );
-    width = clamp( wanted_width, min_width, TERMX / 3 );
     highlight_new = get_option<bool>( "HIGHLIGHT_UNREAD_ITEMS" );
     switch_tab = uistate.vmenu_tab;
     if( you.get_wielded_item() ) {
@@ -695,8 +742,19 @@ surroundings_menu::surroundings_menu( avatar &you, map &m, std::optional<tripoin
 
 cataimgui::bounds surroundings_menu::get_bounds()
 {
-    info_height = std::min( 25, TERMY / 2 );
-    return { static_cast<float>( str_width_to_pixels( TERMX - width ) ), 0.f, static_cast<float>( str_width_to_pixels( width ) ), static_cast<float>( str_height_to_pixels( TERMY ) ) };
+    // todo: calculate correct creature text width
+    int wanted_width = dist_width + std::max( { item_data.get_max_entity_width(),
+                       monster_data.get_max_entity_width(),
+                       terfurn_data.get_max_entity_width() } );
+    width = clamp( wanted_width, min_width, TERMX / 3 );
+    // hide info panel on small displays
+    info_height = TERMY > 30 ? std::min( 25, TERMY / 2 ) : 0;
+    return {
+        static_cast<float>( ImGui::GetMainViewport()->Size.x - str_width_to_pixels( width ) ),
+        0.f,
+        static_cast<float>( str_width_to_pixels( width ) ),
+        static_cast<float>( str_height_to_pixels( TERMY ) )
+    };
 }
 
 void surroundings_menu::draw_controls()
@@ -747,6 +805,16 @@ static void mark_items_read_rec( const item *itm )
     }
 }
 
+static float total_cell_padding( int num_cols )
+{
+    return ImGui::GetStyle().CellPadding.x * ( num_cols - 1 ) * 2;
+}
+
+static float total_menu_padding( bool has_info )
+{
+    return ImGui::GetStyle().ItemSpacing.y * ( has_info ? 2 : 1 );
+}
+
 void surroundings_menu::draw_item_tab()
 {
     ImGuiTabItemFlags_ flags = ImGuiTabItemFlags_None;
@@ -761,11 +829,13 @@ void surroundings_menu::draw_item_tab()
         selected_tab = surroundings_menu_tab_enum::items;
 
         // list of nearby items
-        float list_height = str_height_to_pixels( TERMY - info_height ) -
-                            get_hotkey_buttons_height( &item_data ) - magic_number_other_elements_height;
-        if( ImGui::BeginTable( "items", 2, ImGuiTableFlags_ScrollY, ImVec2( 0.0f, list_height ) ) ) {
-            float name_col_width = str_width_to_pixels( width - dist_width - 3 );
+        float list_height = ImGui::GetContentRegionAvail().y - str_height_to_pixels( info_height ) -
+                            get_hotkey_buttons_height( &item_data ) - total_menu_padding( info_height > 0 );
+        const int num_cols = 2;
+        if( ImGui::BeginTable( "items", num_cols, ImGuiTableFlags_ScrollY, ImVec2( 0.0f, list_height ) ) ) {
             float dir_col_width = str_width_to_pixels( dist_width );
+            float name_col_width = ImGui::GetContentRegionAvail().x - dir_col_width -
+                                   total_cell_padding( num_cols );
             ImGui::TableSetupColumn( "it_name",
                                      ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize, name_col_width );
             ImGui::TableSetupColumn( "it_distance",
@@ -787,7 +857,7 @@ void surroundings_menu::draw_item_tab()
                 for( map_entity_stack<item> *it : item_data.filtered_list ) {
                     bool prio_plus = entry_no <= item_data.priority_plus_end;
                     bool prio_minus = entry_no >= item_data.priority_minus_start;
-                    if( item_data.draw_categories ) {
+                    if( item_data.sort_flags & surroundings_menu_sort_flags::CATEGORY ) {
                         std::string cat = prio_plus ? _( "HIGH PRIORITY" ) : prio_minus ? _( "LOW PRIORITY" ) :
                                           it->get_category();
                         draw_category_separator( cat, last_category, 0 );
@@ -810,6 +880,7 @@ void surroundings_menu::draw_item_tab()
                             auto_scroll = false;
                         }
                         item_data.selected_entry = it;
+                        center_selection( *item_data.get_selected_pos(), width );
                     }
                     ImGui::SameLine( 0, 0 );
                     ImGui::PopID();
@@ -857,28 +928,30 @@ void surroundings_menu::draw_item_tab()
 
         draw_hotkey_buttons( &item_data );
 
-        if( ImGui::BeginChild( "info", ImVec2( 0.0f, str_height_to_pixels( info_height ) ) ) ) {
-            if( item_data.selected_entry ) {
-                const item *selected_it = item_data.selected_entry->get_selected_entity();
-                // using table so we get a (pre-styled) header
-                if( ImGui::BeginTable( "iteminfo", 1, ImGuiTableFlags_None, ImVec2( 0.0f, 0.0f ) ) ) {
-                    ImGui::TableSetupColumn( remove_color_tags( selected_it->display_name() ).c_str() );
-                    ImGui::TableHeadersRow();
-                    ImGui::TableNextColumn();
-                    // embedded info for selected item
-                    std::vector<iteminfo> selected_info;
-                    std::vector<iteminfo> dummy_info;
-                    selected_it->info( true, selected_info );
-                    item_info_data dummy( "", "", selected_info, dummy_info );
-                    dummy.without_getch = true;
-                    dummy.without_border = true;
-                    cataimgui::set_scroll( info_scroll );
-                    display_item_info( dummy.get_item_display(), dummy.get_item_compare() );
-                    ImGui::EndTable();
+        if( info_height > 0 ) {
+            if( ImGui::BeginChild( "info", ImVec2( 0.0f, str_height_to_pixels( info_height ) ) ) ) {
+                if( item_data.selected_entry ) {
+                    const item *selected_it = item_data.selected_entry->get_selected_entity();
+                    // using table so we get a (pre-styled) header
+                    if( ImGui::BeginTable( "iteminfo", 1, ImGuiTableFlags_None, ImVec2( 0.0f, 0.0f ) ) ) {
+                        ImGui::TableSetupColumn( remove_color_tags( selected_it->display_name() ).c_str() );
+                        ImGui::TableHeadersRow();
+                        ImGui::TableNextColumn();
+                        // embedded info for selected item
+                        std::vector<iteminfo> selected_info;
+                        std::vector<iteminfo> dummy_info;
+                        selected_it->info( true, selected_info );
+                        item_info_data dummy( "", "", selected_info, dummy_info );
+                        dummy.without_getch = true;
+                        dummy.without_border = true;
+                        cataimgui::set_scroll( info_scroll );
+                        display_item_info( dummy.get_item_display(), dummy.get_item_compare() );
+                        ImGui::EndTable();
+                    }
                 }
             }
+            ImGui::EndChild();
         }
-        ImGui::EndChild();
         ImGui::EndTabItem();
     }
 }
@@ -898,24 +971,27 @@ void surroundings_menu::draw_monster_tab()
         selected_tab = surroundings_menu_tab_enum::monsters;
 
         // list of nearby monsters
-        float list_height = str_height_to_pixels( TERMY - info_height ) -
-                            get_hotkey_buttons_height( &monster_data ) - magic_number_other_elements_height;
-        if( ImGui::BeginTable( "monsters", 5, ImGuiTableFlags_ScrollY, ImVec2( 0.0f, list_height ) ) ) {
+        float list_height = ImGui::GetContentRegionAvail().y - str_height_to_pixels( info_height ) -
+                            get_hotkey_buttons_height( &monster_data ) - total_menu_padding( info_height > 0 );
+        const int num_cols = 5;
+        if( ImGui::BeginTable( "monsters", num_cols, ImGuiTableFlags_ScrollY, ImVec2( 0.0f,
+                               list_height ) ) ) {
+            float sees_col_width = str_width_to_pixels( 1 );
+            float health_col_width = str_width_to_pixels( 5 );
+            float att_col_width = str_width_to_pixels( 12 );
+            float dir_col_width = str_width_to_pixels( dist_width );
+            float name_col_width = ImGui::GetContentRegionAvail().x - sees_col_width - health_col_width -
+                                   att_col_width - dir_col_width - total_cell_padding( num_cols );
             ImGui::TableSetupColumn( "mon_sees",
-                                     ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize,
-                                     str_width_to_pixels( 1 ) );
+                                     ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize, sees_col_width );
             ImGui::TableSetupColumn( "mon_name",
-                                     ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize,
-                                     str_width_to_pixels( width - dist_width - 26 ) );
+                                     ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize, name_col_width );
             ImGui::TableSetupColumn( "mon_health",
-                                     ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize,
-                                     str_width_to_pixels( 5 ) );
+                                     ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize, health_col_width );
             ImGui::TableSetupColumn( "mon_attitude",
-                                     ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize,
-                                     str_width_to_pixels( 18 ) );
+                                     ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize, att_col_width );
             ImGui::TableSetupColumn( "mon_distance",
-                                     ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize,
-                                     str_width_to_pixels( dist_width ) );
+                                     ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize, dir_col_width );
             if( monster_data.filtered_list.empty() ) {
                 monster_data.selected_entry = nullptr;
             } else if( !monster_data.selected_entry ||
@@ -926,7 +1002,7 @@ void surroundings_menu::draw_monster_tab()
             std::string last_category;
             int entry_no = 0;
             for( map_entity_stack<Creature> *it : monster_data.filtered_list ) {
-                if( monster_data.draw_categories ) {
+                if( monster_data.sort_flags & surroundings_menu_sort_flags::CATEGORY ) {
                     draw_category_separator( it->get_category(), last_category, 1 );
                 }
                 bool is_selected = it == monster_data.selected_entry;
@@ -940,6 +1016,7 @@ void surroundings_menu::draw_monster_tab()
                         auto_scroll = false;
                     }
                     monster_data.selected_entry = it;
+                    center_selection( *monster_data.get_selected_pos(), width );
                 }
                 ImGui::SameLine( 0, 0 );
                 ImGui::PopID();
@@ -988,7 +1065,7 @@ void surroundings_menu::draw_monster_tab()
                     att_text = npc_attitude_name( mon->as_npc()->get_attitude() );
                     att_color = mon->symbol_color();
                 }
-                cataimgui::draw_colored_text( att_text, att_color );
+                cataimgui::TextColoredTrimmed( att_text, att_color );
 
                 ImGui::TableNextColumn();
                 cataimgui::draw_colored_text( it->get_selected_distance_string(), c_light_gray );
@@ -999,14 +1076,16 @@ void surroundings_menu::draw_monster_tab()
         draw_hotkey_buttons( &monster_data );
 
         // embedded info for selected monster
-        if( ImGui::BeginChild( "info", ImVec2( 0.0f, str_height_to_pixels( info_height ) ) ) ) {
-            if( monster_data.selected_entry ) {
-                draw_extended_description(
-                    monster_data.selected_entry->get_selected_entity()->extended_description(),
-                    str_width_to_pixels( width ), info_scroll );
+        if( info_height > 0 ) {
+            if( ImGui::BeginChild( "info", ImVec2( 0.0f, str_height_to_pixels( info_height ) ) ) ) {
+                if( monster_data.selected_entry ) {
+                    draw_extended_description(
+                        monster_data.selected_entry->get_selected_entity()->extended_description(),
+                        str_width_to_pixels( width ), info_scroll );
+                }
             }
+            ImGui::EndChild();
         }
-        ImGui::EndChild();
         ImGui::EndTabItem();
     }
 }
@@ -1025,15 +1104,18 @@ void surroundings_menu::draw_terfurn_tab()
     if( ImGui::BeginTabItem( title.c_str(), nullptr, flags ) ) {
         selected_tab = surroundings_menu_tab_enum::terfurn;
 
-        float list_height = str_height_to_pixels( TERMY - info_height ) -
-                            get_hotkey_buttons_height( &terfurn_data ) - magic_number_other_elements_height;
-        if( ImGui::BeginTable( "terfurn", 2, ImGuiTableFlags_ScrollY, ImVec2( 0.0f, list_height ) ) ) {
+        float list_height = ImGui::GetContentRegionAvail().y - str_height_to_pixels( info_height ) -
+                            get_hotkey_buttons_height( &terfurn_data ) - total_menu_padding( info_height > 0 );
+        const int num_cols = 2;
+        if( ImGui::BeginTable( "terfurn", num_cols, ImGuiTableFlags_ScrollY, ImVec2( 0.0f,
+                               list_height ) ) ) {
+            float dir_col_width = str_width_to_pixels( dist_width );
+            float name_col_width = ImGui::GetContentRegionAvail().x - dir_col_width -
+                                   total_cell_padding( num_cols );
             ImGui::TableSetupColumn( "tf_name",
-                                     ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize,
-                                     str_width_to_pixels( width - dist_width - 3 ) );
+                                     ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize, name_col_width );
             ImGui::TableSetupColumn( "tf_distance",
-                                     ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize,
-                                     str_width_to_pixels( dist_width ) );
+                                     ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize, dir_col_width );
             if( terfurn_data.filtered_list.empty() ) {
                 terfurn_data.selected_entry = nullptr;
             } else if( !terfurn_data.selected_entry ||
@@ -1044,7 +1126,7 @@ void surroundings_menu::draw_terfurn_tab()
             std::string last_category;
             int entry_no = 0;
             for( map_entity_stack<map_data_common_t> *it : terfurn_data.filtered_list ) {
-                if( terfurn_data.draw_categories ) {
+                if( terfurn_data.sort_flags & surroundings_menu_sort_flags::CATEGORY ) {
                     draw_category_separator( it->get_category(), last_category, 0 );
                 }
                 bool is_selected = it == terfurn_data.selected_entry;
@@ -1058,6 +1140,7 @@ void surroundings_menu::draw_terfurn_tab()
                         auto_scroll = false;
                     }
                     terfurn_data.selected_entry = it;
+                    center_selection( *terfurn_data.get_selected_pos(), width );
                 }
                 ImGui::SameLine( 0, 0 );
                 ImGui::PopID();
@@ -1074,14 +1157,16 @@ void surroundings_menu::draw_terfurn_tab()
         draw_hotkey_buttons( &terfurn_data );
 
         // embedded info for selected terrain/furniture
-        if( ImGui::BeginChild( "info", ImVec2( 0.0f, str_height_to_pixels( info_height ) ) ) ) {
-            if( terfurn_data.selected_entry ) {
-                draw_extended_description(
-                    terfurn_data.selected_entry->get_selected_entity()->extended_description(),
-                    str_width_to_pixels( width ), info_scroll );
+        if( info_height > 0 ) {
+            if( ImGui::BeginChild( "info", ImVec2( 0.0f, str_height_to_pixels( info_height ) ) ) ) {
+                if( terfurn_data.selected_entry ) {
+                    draw_extended_description(
+                        terfurn_data.selected_entry->get_selected_entity()->extended_description(),
+                        str_width_to_pixels( width ), info_scroll );
+                }
             }
+            ImGui::EndChild();
         }
-        ImGui::EndChild();
         ImGui::EndTabItem();
     }
 }
@@ -1153,6 +1238,7 @@ void surroundings_menu::execute()
                 break;
             }
         } else if( action == "QUIT" ) {
+            you.view_offset = stored_view_offset;
             break;
         } else if( action == "TRAVEL_TO" && path_end ) {
             you.view_offset = stored_view_offset;
@@ -1362,20 +1448,18 @@ void surroundings_menu::change_selected_tab_sorting()
 {
     auto_scroll = true;
     tab_data *data = get_selected_data();
-    data->draw_categories = !data->draw_categories;
+    ++data->sort_flags;
     data->apply_filter();
 }
 
-void surroundings_menu::draw_hotkey_buttons( const tab_data *tab )
+// todo: better solution for this
+std::vector<std::unordered_set<std::string>> surroundings_menu::get_shown_hotkeys(
+            const tab_data *tab )
 {
-    float pos = ImGui::GetStyle().WindowPadding.x;
-    float button_inner_padding = ImGui::GetStyle().FramePadding.x;
-    float posy = ImGui::GetCursorPosY();
-    float line_height = str_height_to_pixels( 1 ) + ImGui::GetStyle().FramePadding.y +
-                        ImGui::GetStyle().ItemSpacing.y;
+    std::vector<std::unordered_set<std::string>> ret;
     for( const std::unordered_set<std::string> &group : tab->hotkey_groups ) {
+        std::unordered_set<std::string> shown_group;
         for( const std::string &button : group ) {
-            // todo: don't just hardcode this
             if( button == "RESET_FILTER" && !tab->has_filter() ) {
                 continue;
             }
@@ -1400,7 +1484,25 @@ void surroundings_menu::draw_hotkey_buttons( const tab_data *tab )
                     }
                 }
             }
+            shown_group.emplace( button );
+        }
+        if( !shown_group.empty() ) {
+            ret.emplace_back( shown_group );
+        }
+    }
 
+    return ret;
+}
+
+void surroundings_menu::draw_hotkey_buttons( const tab_data *tab )
+{
+    float pos = ImGui::GetStyle().WindowPadding.x;
+    float button_inner_padding = ImGui::GetStyle().FramePadding.x;
+    float posy = ImGui::GetCursorPosY();
+    float line_height = str_height_to_pixels( 1 ) + ImGui::GetStyle().FramePadding.y +
+                        ImGui::GetStyle().ItemSpacing.y;
+    for( const std::unordered_set<std::string> &group : get_shown_hotkeys( tab ) ) {
+        for( const std::string &button : group ) {
             std::string buttontxt = tab->ctxt.get_button_text( button );
             float next_pos = get_text_width( buttontxt ) + button_inner_padding +
                              ImGui::GetStyle().ItemSpacing.x;
@@ -1427,9 +1529,9 @@ float surroundings_menu::get_hotkey_buttons_height( const tab_data *tab )
         return 0;
     }
 
-    int pos = 0;
-    int lines = 1;
-    for( const std::unordered_set<std::string> &group : tab->hotkey_groups ) {
+    int lines = 0;
+    for( const std::unordered_set<std::string> &group : get_shown_hotkeys( tab ) ) {
+        int pos = 0;
         for( const std::string &button : group ) {
             pos += ImGui::GetStyle().FramePadding.x;
 

@@ -16,7 +16,15 @@
     "hit_size": 13,
     "hit_difficulty": 0.95,
     "limb_type": "arm",
-    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.2 ], [ "balance", 0.15 ], [ "block", 1.0 ], [ "swim", 0.1 ], [ "crawl", 0.3 ] ],
+    "limb_scores": [
+      [ "grip", 0 ],
+      [ "manip", 0 ],
+      [ "lift", 0 ],
+      [ "reaction", 0.1 ],
+      [ "block", 1.0 ],
+      [ "swim", 0.1 ],
+      [ "crawl", 0.3 ]
+    ],
     "flags": [ "IGNORE_TEMP", "BIONIC_LIMB" ],
     "side": "right",
     "sub_parts": [ "karma_hand" ],
@@ -98,7 +106,7 @@
     "type": "sub_body_part",
     "max_coverage": 10,
     "parent": "bp_null",
-    "side": 1,
+    "side": "left",
     "opposite": "karma_hand",
     "name": "karma hand",
     "name_multiple": "karma hands"
@@ -119,6 +127,7 @@
     "limb_type": "sensor",
     "limb_scores": [ [ "vision", 2.0 ], [ "night_vis", 12 ], [ "reaction", 1.4 ] ],
     "side": "both",
+    "similar_bodypart": "eyes",
     "base_hp": 60,
     "drench_capacity": 0,
     "flags": [ "IGNORE_TEMP", "LIMB_UPPER", "BIONIC_LIMB", "CRAFT_IN_DARKNESS" ],
@@ -130,7 +139,7 @@
     "type": "sub_body_part",
     "max_coverage": 10,
     "parent": "bp_null",
-    "side": 2,
+    "side": "right",
     "opposite": "stalker_eye",
     "name": "stalker eye",
     "name_multiple": "stalker eyes"
@@ -151,6 +160,7 @@
     "limb_type": "sensor",
     "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.5 ], [ "reaction", 1 ] ],
     "side": "both",
+    "similar_bodypart": "eyes",
     "base_hp": 60,
     "drench_capacity": 0,
     "flags": [ "IGNORE_TEMP", "LIMB_UPPER" ],
@@ -173,7 +183,7 @@
     "type": "sub_body_part",
     "max_coverage": 10,
     "parent": "bp_null",
-    "side": 2,
+    "side": "right",
     "opposite": "gracken_eye",
     "name": "gracken eye",
     "name_multiple": "gracken eyes"
@@ -216,19 +226,10 @@
     "type": "sub_body_part",
     "max_coverage": 10,
     "parent": "bp_null",
-    "side": 1,
+    "side": "left",
     "opposite": "devil_tail_tip",
     "name": "devil's tail tip",
     "name_multiple": "devil's tail tips"
-  },
-  {
-    "id": "eyes",
-    "type": "body_part",
-    "copy-from": "eyes",
-    "name": "eyes",
-    "limb_type": "sensor",
-    "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.0 ], [ "reaction", 0.7 ] ],
-    "similar_bodyparts": [ "gracken_eyes", "stalker_eyes" ]
   },
   {
     "id": "assist_arm_r",
@@ -278,7 +279,7 @@
     "type": "sub_body_part",
     "max_coverage": 10,
     "parent": "bp_null",
-    "side": 1,
+    "side": "left",
     "opposite": "assist_hand",
     "name": "assistant's  hand",
     "name_multiple": "assistant's hands"

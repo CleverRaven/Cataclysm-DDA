@@ -66,11 +66,6 @@
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
-static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
-static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
-static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
-static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
-static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 
 static const efftype_id effect_allow_sleep( "allow_sleep" );
 static const efftype_id effect_asked_for_item( "asked_for_item" );
@@ -268,12 +263,12 @@ void talk_function::do_eread( npc &p )
 
 void talk_function::do_read_repeatedly( npc &p )
 {
-    p.assign_activity( ACT_MULTIPLE_READ );
+    p.assign_activity( multi_read_activity_actor() );
 }
 
 void talk_function::do_study( npc &p )
 {
-    p.assign_activity( ACT_MULTIPLE_STUDY );
+    p.assign_activity( multi_study_activity_actor() );
 }
 
 void talk_function::dismount( npc &p )
@@ -326,12 +321,12 @@ void talk_function::do_chop_trees( npc &p )
 
 void talk_function::do_farming( npc &p )
 {
-    p.assign_activity( ACT_MULTIPLE_FARM );
+    p.assign_activity( multi_farm_activity_actor() );
 }
 
 void talk_function::do_fishing( npc &p )
 {
-    p.assign_activity( ACT_MULTIPLE_FISH );
+    p.assign_activity( multi_fish_activity_actor() );
 }
 
 void talk_function::revert_activity( npc &p )
@@ -346,7 +341,7 @@ void talk_function::do_craft( npc &p )
 
 void talk_function::do_disassembly( npc &p )
 {
-    p.assign_activity( ACT_MULTIPLE_DIS );
+    p.assign_activity( multi_disassemble_activity_actor() );
 }
 
 void talk_function::goto_location( npc &p )

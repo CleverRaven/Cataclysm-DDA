@@ -48,7 +48,7 @@
     "ammo_type": "chemical_spray",
     "range": 4,
     "count": 100,
-    "effects": [ "GAS_FUNGICIDAL", "STREAM_GAS_FUNGICIDAL", "GAS_INSECTICIDAL", "STREAM_GAS_INSECTICIDAL", "NEVER_MISFIRES", "JET" ]
+    "effects": [ "GAS_FUNGICIDAL", "STREAM_GAS_FUNGICIDAL", "GAS_INSECTICIDAL", "STREAM_GAS_INSECTICIDAL", "JET" ]
   },
   {
     "id": "small_blessing_brigit",

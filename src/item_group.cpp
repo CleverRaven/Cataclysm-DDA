@@ -840,7 +840,7 @@ void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
         return;
     }
     if( type == G_COLLECTION ) {
-        ptr->set_probablility( std::min( 100, ptr->get_probability( true ) ) );
+        ptr->set_probability( std::min( 100, ptr->get_probability( true ) ) );
     }
     sum_prob += ptr->get_probability( true );
 

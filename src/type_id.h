@@ -298,6 +298,9 @@ using shopkeeper_cons_rates_id = string_id<shopkeeper_cons_rates>;
 struct shopkeeper_blacklist;
 using shopkeeper_blacklist_id = string_id<shopkeeper_blacklist>;
 
+struct shopkeeper_whitelist;
+using shopkeeper_whitelist_id = string_id<shopkeeper_whitelist>;
+
 class Skill;
 using skill_id = string_id<Skill>;
 
