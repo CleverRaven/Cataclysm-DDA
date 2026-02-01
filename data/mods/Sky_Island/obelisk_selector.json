@@ -307,6 +307,10 @@
     "type": "effect_on_condition",
     "id": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT",
     "effect": [
+      {
+        "if": { "math": [ "skyisland_merchant_stall == 1" ] },
+        "then": { "run_eocs": "EOC_SKY_ISLAND_RANDOM_MERCHANTS_LEAVE" }
+      },
       { "u_location_variable": { "global_val": "OM_HQ_origin" } },
       {
         "u_location_variable": { "global_val": "OM_HQ_origin_npc" },
