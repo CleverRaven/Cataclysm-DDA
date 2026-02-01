@@ -253,12 +253,16 @@ static std::vector<item_location> get_autopickup_items( item_location &from )
 drop_locations auto_pickup::select_items(
     const std::vector<item_stack::iterator> &from, const tripoint_bub_ms &location )
 {
+    auto start = std::chrono::high_resolution_clock::now(); // debug timing
+    int items_checked = 0; // debug timing
+
     drop_locations result;
     const map_cursor map_location = map_cursor( location );
 
     // iterate over all item stacks found in location
     for( const item_stack::iterator &stack : from ) {
         item *item_entry = &*stack;
+        items_checked++;
         // do not auto pickup owned containers or items
         if( !get_option<bool>( "AUTO_PICKUP_OWNED" ) &&
             item_entry->is_owned_by( get_player_character() ) ) {
@@ -290,6 +294,12 @@ drop_locations auto_pickup::select_items(
                 result.emplace_back( std::make_pair( add_item, it_count ) );
             }
         }
+    }
+
+    if( items_checked > 0 ) { // debug timing
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        debugmsg( "Run time: %d for %d items", duration.count(), items_checked );
     }
     return result;
 }
