@@ -734,7 +734,7 @@
   {
     "type": "mutation",
     "id": "perk_popeye",
-    "name": { "str": "Of sailors and spinach" },
+    "name": { "str": "Of Sailors and Spinach" },
     "points": 0,
     "purifiable": false,
     "valid": false,
