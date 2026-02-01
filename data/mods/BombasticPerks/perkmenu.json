@@ -814,11 +814,11 @@
           },
           { "set_string_var": "perk_tuck_and_roll", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Requires athletics 5",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('swimming') >= 5" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -833,7 +833,7 @@
           },
           { "set_string_var": "perk_reduced_falling_damage", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have <trait_name:perk_tuck_and_roll>, the Parkour Expert proficiency, or dexterity 13.",
+            "set_string_var": "Must have <trait_name:perk_tuck_and_roll> and athletics 7, the Parkour Expert proficiency, or dexterity 13 and athletics 5.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -841,9 +841,14 @@
             "set_condition": "perk_condition",
             "condition": {
               "or": [
-                { "u_has_trait": "perk_tuck_and_roll" },
+                { "and": [ { "u_has_trait": "perk_tuck_and_roll" }, { "math": [ "u_skill('swimming') >= 7" ] } ] },
                 { "u_has_proficiency": "prof_parkour" },
-                { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 13" ] }
+                {
+                  "and": [
+                    { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 13" ] },
+                    { "math": [ "u_skill('swimming') >= 5" ] }
+                  ]
+                }
               ]
             }
           }
@@ -923,11 +928,14 @@
           },
           { "set_string_var": "perk_static_stockpile", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have the <trait_name:perk_tingly> perk",
+            "set_string_var": "Must have the <trait_name:perk_tingly> perk and perk level 8",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_tingly" } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "u_has_trait": "perk_tingly" }, { "math": [ "u_current_level >= 8" ] } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -942,14 +950,19 @@
           },
           { "set_string_var": "perk_slippery_escape", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have the <trait_name:perk_DEX_UP_2> perk or dexterity 12",
+            "set_string_var": "Must have the <trait_name:perk_DEX_UP_2> perk or dexterity 12 and perk level 12",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
           {
             "set_condition": "perk_condition",
             "condition": {
-              "or": [ { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 12" ] }, { "u_has_trait": "perk_DEX_UP_2" } ]
+              "and": [
+                {
+                  "or": [ { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 12" ] }, { "u_has_trait": "perk_DEX_UP_2" } ]
+                },
+                { "math": [ "u_current_level >= 12" ] }
+              ]
             }
           }
         ],
@@ -982,13 +995,20 @@
           },
           { "set_string_var": "perk_quick_recovery", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires dexterity 10",
+            "set_string_var": "Requires dexterity 10 or <trait_name:perk_jumpy> and perk level 6",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
           {
             "set_condition": "perk_condition",
-            "condition": { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 10" ] }
+            "condition": {
+              "and": [
+                { "math": [ "u_current_level >= 6" ] },
+                {
+                  "or": [ { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 10" ] }, { "u_has_trait": "perk_jumpy" } ]
+                }
+              ]
+            }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
