@@ -217,7 +217,9 @@
           },
           {
             "set_condition": "perk_condition",
-            "condition": { "math": [ "u_val('strength_base') + u_val('strength_bonus') >= 13" ] }
+            "condition": {
+              "and": [ { "math": [ "u_val('strength_base') + u_val('strength_bonus') >= 13" ] }, { "math": [ "u_current_level >= 12" ] } ]
+            }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
@@ -239,7 +241,9 @@
           },
           {
             "set_condition": "perk_condition",
-            "condition": { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 13" ] }
+            "condition": {
+              "and": [ { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 13" ] }, { "math": [ "u_current_level >= 12" ] } ]
+            }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
@@ -261,7 +265,12 @@
           },
           {
             "set_condition": "perk_condition",
-            "condition": { "math": [ "u_val('perception_base') + u_val('perception_bonus') >= 13" ] }
+            "condition": {
+              "and": [
+                { "math": [ "u_val('perception_base') + u_val('perception_bonus') >= 13" ] },
+                { "math": [ "u_current_level >= 12" ] }
+              ]
+            }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
@@ -346,11 +355,14 @@
           },
           { "set_string_var": "perk_thick_skin", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have <trait_name:perk_built_tough>.",
+            "set_string_var": "Must have <trait_name:perk_built_tough> and perk level 6.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_built_tough" } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "u_has_trait": "perk_built_tough" }, { "math": [ "u_current_level >= 6" ] } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -365,11 +377,11 @@
           },
           { "set_string_var": "perk_hauler", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Requires athletics 4",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('swimming') >= 4" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -482,11 +494,19 @@
           },
           { "set_string_var": "perk_thick_skull", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Must not have <trait_name:GLASSJAW>. Requires unarmed 4 or melee 4",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                { "not": { "u_has_trait": "GLASSJAW" } },
+                { "or": [ { "math": [ "u_skill('unarmed') >= 4" ] }, { "math": [ "u_skill('melee') >= 4" ] } ] }
+              ]
+            }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -501,7 +521,7 @@
           },
           { "set_string_var": "perk_way_openpalm", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have <trait_name:perk_way_closedfist>, <trait_name:perk_way_pinchedfingers>.  Requires unarmed 2 and cutting 1",
+            "set_string_var": "Must not have <trait_name:perk_way_closedfist>, <trait_name:perk_way_pinchedfingers>.  Requires unarmed 4 and cutting 4",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -510,7 +530,7 @@
             "condition": {
               "and": [
                 { "not": { "or": [ { "u_has_trait": "perk_way_closedfist" }, { "u_has_trait": "perk_way_pinchedfingers" } ] } },
-                { "and": [ { "math": [ "u_skill('unarmed') >= 2" ] }, { "math": [ "u_skill('cutting') >= 1" ] } ] }
+                { "and": [ { "math": [ "u_skill('unarmed') >= 4" ] }, { "math": [ "u_skill('cutting') >= 4" ] } ] }
               ]
             }
           },
@@ -533,7 +553,7 @@
           },
           { "set_string_var": "perk_way_closedfist", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have <trait_name:perk_way_openpalm>, <trait_name:perk_way_pinchedfingers>.  Requires unarmed 2 and bashing 1",
+            "set_string_var": "Must not have <trait_name:perk_way_openpalm>, <trait_name:perk_way_pinchedfingers>.  Requires unarmed 4 and bashing 4",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -542,7 +562,7 @@
             "condition": {
               "and": [
                 { "not": { "or": [ { "u_has_trait": "perk_way_openpalm" }, { "u_has_trait": "perk_way_pinchedfingers" } ] } },
-                { "and": [ { "math": [ "u_skill('unarmed') >= 2" ] }, { "math": [ "u_skill('bashing') >= 1" ] } ] }
+                { "and": [ { "math": [ "u_skill('unarmed') >= 4" ] }, { "math": [ "u_skill('bashing') >= 4" ] } ] }
               ]
             }
           },
@@ -565,7 +585,7 @@
           },
           { "set_string_var": "perk_way_pinchedfingers", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have <trait_name:perk_way_closedfist>, <trait_name:perk_way_openpalm>.  Requires unarmed 2 and piercing 1",
+            "set_string_var": "Must not have <trait_name:perk_way_closedfist>, <trait_name:perk_way_openpalm>.  Requires unarmed 4 and piercing 4",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -574,7 +594,7 @@
             "condition": {
               "and": [
                 { "not": { "or": [ { "u_has_trait": "perk_way_closedfist" }, { "u_has_trait": "perk_way_openpalm" } ] } },
-                { "and": [ { "math": [ "u_skill('unarmed') >= 2" ] }, { "math": [ "u_skill('stabbing') >= 1" ] } ] }
+                { "and": [ { "math": [ "u_skill('unarmed') >= 4" ] }, { "math": [ "u_skill('stabbing') >= 4" ] } ] }
               ]
             }
           },
@@ -621,7 +641,7 @@
           },
           { "set_string_var": "perk_surgical_strikes", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have <trait_name:perk_bloody_mess>.  Melee or guns 2",
+            "set_string_var": "Must not have <trait_name:perk_bloody_mess>.  Melee or guns 5",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -630,7 +650,7 @@
             "condition": {
               "and": [
                 { "not": { "u_has_trait": "perk_bloody_mess" } },
-                { "or": [ { "math": [ "u_skill('melee') >= 2" ] }, { "math": [ "u_skill('gun') >= 2" ] } ] }
+                { "or": [ { "math": [ "u_skill('melee') >= 5" ] }, { "math": [ "u_skill('gun') >= 5" ] } ] }
               ]
             }
           },
@@ -653,11 +673,11 @@
           },
           { "set_string_var": "perk_animal_friend", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Requires survival 6",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('survival') >= 6" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -672,11 +692,11 @@
           },
           { "set_string_var": "perk_quickdraw", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires handguns 2",
+            "set_string_var": "Requires handguns 3",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('pistol') >= 2" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('pistol') >= 3" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -775,11 +795,11 @@
           },
           { "set_string_var": "perk_big_eater", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Must not have <trait_name:LIGHTEATER>.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          { "set_condition": "perk_condition", "condition": { "not": { "u_has_trait": "LIGHTEATER" } } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
