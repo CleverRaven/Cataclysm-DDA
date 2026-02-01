@@ -58,7 +58,9 @@
     "type": "effect_type",
     "id": "effect_xe_onryō_snp",
     "name": [ "Onryō SNP: Activated" ],
-    "desc":  ["Your body is controlled by the Onryō SNP AI.  You feel no pain or exhaustion.  You will continue to bleed out and will also take additional damage each minute from your body operating at levels it shouldn't be considering the damage it has experienced." ],
+    "desc": [
+      "Your body is controlled by the Onryō SNP AI.  You feel no pain or exhaustion.  You will continue to bleed out and will also take additional damage each minute from your body operating at levels it shouldn't be considering the damage it has experienced."
+    ],
     "remove_message": "You feel control of your body return to your nervous system.",
     "max_duration": "2100 s",
     "max_intensity": 1,
