@@ -32,11 +32,9 @@
             [ "shipping_container_tampon_1x1", 20 ],
             [ "shipping_container_men_pads_1x1", 20 ],
             [ "shipping_container_v6_comb_1x1", 20 ],
-            [ "shipping_container_v6_comb_1x1", 20 ],
             [ "shipping_container_v6_diesel_1x1", 20 ],
             [ "shipping_container_v8_comb_1x1", 20 ],
             [ "shipping_container_v8_diesel_1x1", 20 ],
-            [ "shipping_container_v6_comb_1x1", 20 ],
             [ "shipping_container_v12_comb_1x1", 20 ],
             [ "shipping_container_v12_diesel_1x1", 20 ],
             [ "shipping_container_glue_strong_1x1", 20 ],
@@ -950,15 +948,6 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "shipping_container_v6_comb_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "furniture": { " ": [ [ "f_crate_c", 95 ], [ "f_cardboard_box", 5 ] ] },
-      "item": { " ": { "item": "v6_combustion", "chance": 90, "amount": 1 } }
-    }
-  },
-  {
-    "type": "mapgen",
     "nested_mapgen_id": "shipping_container_v6_diesel_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -982,15 +971,6 @@
       "mapgensize": [ 1, 1 ],
       "furniture": { " ": [ [ "f_crate_c", 95 ], [ "f_cardboard_box", 5 ] ] },
       "item": { " ": { "item": "v8_diesel", "chance": 90, "amount": 1 } }
-    }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "shipping_container_v6_comb_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "furniture": { " ": [ [ "f_crate_c", 95 ], [ "f_cardboard_box", 5 ] ] },
-      "item": { " ": { "item": "v6_combustion", "chance": 90, "amount": 1 } }
     }
   },
   {
