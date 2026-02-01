@@ -2452,11 +2452,14 @@
           },
           { "set_string_var": "perk_metamagic_quicken", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires a spell known of level 12 or above",
+            "set_string_var": "Requires a spell known of level 12 or above and perk level 9",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null') >= 12" ] } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "math": [ "u_spell_level('null') >= 12" ] }, { "math": [ "u_current_level >= 9" ] } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -2490,11 +2493,14 @@
           },
           { "set_string_var": "perk_metamagic_reach", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires a spell known of level 6 or above",
+            "set_string_var": "Requires a spell known of level 6 or above and perk level 6",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null') >= 6" ] } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "math": [ "u_spell_level('null') >= 6" ] }, { "math": [ "u_current_level >= 6" ] } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -2597,11 +2603,14 @@
           },
           { "set_string_var": "perk_metamagic_intuitive", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires a spell known of level 14 or above",
+            "set_string_var": "Requires a spell known of level 14 or above and perk level 12",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null') >= 14" ] } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "math": [ "u_spell_level('null') >= 14" ] }, { "math": [ "u_current_level >= 12" ] } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
