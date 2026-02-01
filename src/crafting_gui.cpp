@@ -2139,9 +2139,9 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                     std::string nname = item::nname( i_comp.type, 1 );
                     int filter_pos = uistate.list_item_priority.find( nname );
                     bool enough_materials = req.check_enough_materials(
-                        i_comp, crafting_inv, current[line]->get_component_filter(), batch_size_out
-                    );
-                    if ( filter_pos == -1 && !enough_materials ) {
+                                                i_comp, crafting_inv, current[line]->get_component_filter(), batch_size_out
+                                            );
+                    if( filter_pos == -1 && !enough_materials ) {
                         new_filters_count++;
                         added_filters += nname;
                         added_filters += ",";
@@ -2149,10 +2149,9 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 }
             }
 
-            if ( new_filters_count > 0 )
-            {
-                if ( uistate.list_item_priority.size()
-                        && !string_ends_with( uistate.list_item_priority, "," ) ) {
+            if( new_filters_count > 0 ) {
+                if( uistate.list_item_priority.size()
+                    && !string_ends_with( uistate.list_item_priority, "," ) ) {
                     uistate.list_item_priority += ",";
                 }
                 uistate.list_item_priority += added_filters;
@@ -2162,9 +2161,11 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                     hist.push_back( uistate.list_item_priority );
                 }
 
-                popup( string_format( _( "Added %d components to the priority filter.\nAdded: %s\nNew Filter: %s" ), new_filters_count, added_filters, uistate.list_item_priority ) );
+                popup( string_format( _( "Added %d components to the priority filter.\nAdded: %s\nNew Filter: %s" ),
+                                      new_filters_count, added_filters, uistate.list_item_priority ) );
             } else {
-                popup( string_format( _( "Did not find anything to add to the priority filter.\nFilter: %s" ), uistate.list_item_priority ) );
+                popup( string_format( _( "Did not find anything to add to the priority filter.\nFilter: %s" ),
+                                      uistate.list_item_priority ) );
             }
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Regenerate keybinding tips
