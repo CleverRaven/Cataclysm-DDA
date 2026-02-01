@@ -184,6 +184,7 @@ static const mtype_id mon_breather( "mon_breather" );
 static const mtype_id mon_breather_hub( "mon_breather_hub" );
 static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
 static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
+static const mtype_id mon_devourer_daitya_clone( "mon_devourer_daitya_clone" );
 static const mtype_id mon_fungal_hedgerow( "mon_fungal_hedgerow" );
 static const mtype_id mon_fungal_tendril( "mon_fungal_tendril" );
 static const mtype_id mon_fungal_wall( "mon_fungal_wall" );
@@ -4602,6 +4603,47 @@ bool mattack::zombie_fuse( monster *z )
     critter->death_drops = false;
     critter->quiet_death = true;
     critter->die( &here, z );
+    return true;
+}
+
+bool mattack::eat_clone( monster *z )
+{
+    if( z->get_hp() >= 100 ) {
+        return false;
+    }
+
+    map &here = get_map();
+
+    const int search_range = 8;
+    monster *nearest_clone = nullptr;
+    int nearest_distance = search_range + 1;
+
+    creature_tracker &creatures = get_creature_tracker();
+    for( const tripoint_bub_ms &p : here.points_in_radius( z->pos_bub(), search_range ) ) {
+        monster *critter = creatures.creature_at<monster>( p );
+        if( critter != nullptr && critter->type->id == mon_devourer_daitya_clone ) {
+            int distance = rl_dist( z->pos_bub(), critter->pos_bub() );
+            if( distance < nearest_distance ) {
+                nearest_distance = distance;
+                nearest_clone = critter;
+            }
+        }
+    }
+
+    if( !nearest_clone ) {
+        return false;
+    }
+
+    z->heal( 72, true );
+
+    add_msg_if_player_sees( *z,
+                            _( "An orifice on the side of %s swells and splits open, and a monstrous tongue reaches out grabbing the nearest Daitya clone and sucking it back inside the Daitya!" ),
+                            z->name() );
+
+    nearest_clone->quiet_death = true;
+    nearest_clone->death_drops = false;
+    nearest_clone->die( &here, z );
+
     return true;
 }
 

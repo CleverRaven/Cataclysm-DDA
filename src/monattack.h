@@ -90,6 +90,7 @@ bool grenadier_elite( monster *z );
 bool doot( monster *z );
 bool zombie_fuse( monster *z );
 bool blow_whistle( monster *z );
+bool eat_clone( monster *z );
 bool graze( monster *z );
 
 void taze( monster *z, Creature *target );
