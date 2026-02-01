@@ -358,7 +358,7 @@
     "id": "EOC_LUCID_REBIRTH",
     "type": "effect_on_condition",
     "eoc_type": "PREVENT_DEATH",
-    "condition": {
+    "condition": { "u_has_effect": "effect_lucid_dream" },
       "and": [ { "u_has_effect": "effect_lucid_dream" }, { "not": { "u_has_effect": "effect_xe_onryō_snp_prevented_death" } } ]
     },
     "effect": [
