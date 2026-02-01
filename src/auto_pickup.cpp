@@ -253,8 +253,8 @@ static std::vector<item_location> get_autopickup_items( item_location &from )
 drop_locations auto_pickup::select_items(
     const std::vector<item_stack::iterator> &from, const tripoint_bub_ms &location )
 {
-    bool picking_up_itype_id;
-    itype_id picking_up_last_itype_id;
+    bool picking_up_itype_id = true;
+    itype_id picking_up_last_itype_id = itype_id::NULL_ID();
     drop_locations result;
     const map_cursor map_location = map_cursor( location );
 
