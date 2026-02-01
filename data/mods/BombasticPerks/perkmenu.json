@@ -641,7 +641,7 @@
           },
           { "set_string_var": "perk_surgical_strikes", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have <trait_name:perk_bloody_mess>.  Melee or guns 5",
+            "set_string_var": "Must not have <trait_name:perk_bloody_mess>.  Melee or marksmanship 5",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1024,11 +1024,18 @@
           },
           { "set_string_var": "perk_hobbyist", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Requires 25 levels worth of crafting skills",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "math": [
+                "(u_skill('chemistry') + u_skill('cooking') + u_skill('fabrication') + u_skill('tailor') + u_skill('electronics') + u_skill('survival') ) >= 25"
+              ]
+            }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -1526,11 +1533,14 @@
           },
           { "set_string_var": "perk_belowthebelt", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires Melee 1",
+            "set_string_var": "Requires Melee 4 or Unarmed 4",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('melee') >= 1" ] } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "or": [ { "math": [ "u_skill('melee') >= 4" ] }, { "math": [ "u_skill('unarmed') >= 4" ] } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -1564,11 +1574,19 @@
           },
           { "set_string_var": "perk_dream_armor", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Must have the <trait_name:SLEEPY> trait or the <trait_name:perk_sleepy> perk.  Must not have <trait_name:WAKEFUL>, <trait_name:WAKEFUL2>, or <trait_name:WAKEFUL3> traits.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                { "u_has_any_trait": [ "SLEEPY", "perk_sleepy" ] },
+                { "not": { "u_has_any_trait": [ "WAKEFUL", "WAKEFUL2", "WAKEFUL3" ] } }
+              ]
+            }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -1621,11 +1639,11 @@
           },
           { "set_string_var": "perk_poison_painkill", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Requires perk level 6",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_current_level >= 6" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -1659,11 +1677,11 @@
           },
           { "set_string_var": "perk_radio_infusion", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Requires applied science 4",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('chemistry') >= 4" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -1721,13 +1739,13 @@
           },
           { "set_string_var": "perk_frakenstein", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires electronics 4, and health care 4",
+            "set_string_var": "Requires electronics 4, and health care 6",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
           {
             "set_condition": "perk_condition",
-            "condition": { "and": [ { "math": [ "u_skill('electronics') >= 4" ] }, { "math": [ "u_skill('firstaid') >= 4" ] } ] }
+            "condition": { "and": [ { "math": [ "u_skill('electronics') >= 4" ] }, { "math": [ "u_skill('firstaid') >= 6" ] } ] }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
@@ -1759,11 +1777,26 @@
           },
           { "set_string_var": "perk_olde_guns", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Requires marksmanship 3 and either pistol 5, shotguns 5, submachine guns 5, or rifles 5",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                { "math": [ "u_skill('gun') >= 3" ] },
+                {
+                  "or": [
+                    { "math": [ "u_skill('pistol') >= 5" ] },
+                    { "math": [ "u_skill('rifle') >= 5" ] },
+                    { "math": [ "u_skill('shotgun') >= 5" ] },
+                    { "math": [ "u_skill('smg') >= 5" ] }
+                  ]
+                }
+              ]
+            }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
@@ -1778,11 +1811,11 @@
           },
           { "set_string_var": "revolvers_are_cool", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Requires handguns 6",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('pistol') >= 6" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
@@ -1794,11 +1827,11 @@
           { "set_string_var": "<trait_description:22_is_cool>", "target_var": { "context_val": "trait_description" } },
           { "set_string_var": "22_is_cool", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Requires marksmanship 5",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('gun') >= 5" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
@@ -1813,11 +1846,14 @@
           },
           { "set_string_var": "perk_empath", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Must not have <trait_name:PSYCHOPATH>.  Requires social 7",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "not": { "u_has_trait": "PSYCHOPATH" } }, { "math": [ "u_skill('speech') >= 7" ] } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
