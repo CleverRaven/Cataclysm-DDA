@@ -4748,16 +4748,45 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint_bub_ms 
         p->assign_activity( hacksaw_activity_actor( pnt, it->typeId(), it_pnt ) );
     }
 
-    std::string query = string_format( _( "Cut up metal using your %1$s?" ), it->tname() );
+    std::string query;
+    if( p->activity.moves_left == p->activity.moves_total ) {
+        query += string_format( _( "Cut up metal using your %1$s?" ), it->tname() );
+    } else {
+        query += string_format( _( "Resume cutting up metal using your %1$s?" ), it->tname() );
+    }
+
+    // HACK: Update the player_activity moves_left based on progress stored in the activity_actor.
+    int activity_actor_moves_left = static_cast<const hacksaw_activity_actor &>(
+                                        *p->activity.actor ).moves_left;
+    p->activity.moves_left = activity_actor_moves_left;
+
     query += "\n";
     query += _( "Time to complete: " );
-    int required_moves = p->activity.moves_total;
-    time_duration required_time = time_duration::from_turns( required_moves / p->get_speed() );
+    int required_moves = p->activity.moves_left;
+    add_msg_debug( debugmode::DF_ACTIVITY, "iuse hacksaw required_moves: %d.", required_moves );
+
+    const float weary_mult = p->exertion_adjusted_move_multiplier( p->activity.exertion_level() );
+    time_duration required_time = time_duration::from_turns( required_moves * weary_mult /
+                                  p->get_speed() );
     const std::string time_string = colorize( to_string( required_time, true ), c_light_gray );
     query += time_string;
 
+    if( it->ammo_required() ) {
+        const int charges_needed = it->ammo_required() * required_moves / 100;
+        query += "\n";
+        if( it->ammo_current()->nname( charges_needed ) == "battery" ) {
+            query += string_format( _( "This will require %d kJ." ), charges_needed );
+        } else {
+            query += string_format(
+                         _( "This will require %d %s." ),
+                         charges_needed, it->ammo_current()->nname( charges_needed )
+                     );
+        }
+    }
+
     if( !query_yn( query ) ) {
         p->cancel_activity();
+        p->add_msg_if_player( m_info, _( "You decide not to cut up this metal." ) );
     }
 
     return std::nullopt;
