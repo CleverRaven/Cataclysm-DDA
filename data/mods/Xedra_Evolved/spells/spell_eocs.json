@@ -359,7 +359,6 @@
     "type": "effect_on_condition",
     "eoc_type": "PREVENT_DEATH",
     "condition": { "u_has_effect": "effect_lucid_dream" },
-    },
     "effect": [
       { "math": [ "u_vitamin('blood') = u_blood_before_lucid" ] },
       "u_prevent_death",
