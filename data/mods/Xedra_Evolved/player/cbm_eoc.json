@@ -79,7 +79,7 @@
       "stamina_chance": [ 1 ],
       "hurt_min": [ 1 ],
       "hurt_chance": [ 1, 1 ],
-      "hurt_tick": 60
+      "hurt_tick": [ 60 ]
     },
     "flags": [ "PAIN_IMMUNE" ]
   },
@@ -87,7 +87,7 @@
     "type": "effect_type",
     "id": "effect_xe_onryō_snp_prevented_death",
     "name": [ "Onryō SNP: Aftereffect" ],
-    "desc": "You will be unable to resuscitate even via supernatural means until you heal physically and spiritually.",
+    "desc": [ "You will be unable to resuscitate even via supernatural means until you heal physically and spiritually." ],
     "remove_message": "You feel as though your body has mostly recovered from its near death experience.",
     "max_duration": "2100 s",
     "rating": "bad"
