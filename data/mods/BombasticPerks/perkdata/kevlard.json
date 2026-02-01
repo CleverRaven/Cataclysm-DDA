@@ -6,7 +6,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-  	"player_display": false,
+    "player_display": false,
     "description": "You shouldn't see this; provides integrated armor while Obese for kevlard perk.",
     "integrated_armor": [ "integrated_kevlard_obese" ]
   },
@@ -17,8 +17,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-	  "player_display": false,
-	  "description": "You shouldn't see this; provides integrated armor while Very Obese for kevlard perk.",
+    "player_display": false,
+    "description": "You shouldn't see this; provides integrated armor while Very Obese for kevlard perk.",
     "integrated_armor": [ "integrated_kevlard_veryobese" ]
   },
   {
@@ -28,7 +28,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-	  "player_display": false,
+    "player_display": false,
     "description": "You shouldn't see this; provides integrated armor while Morbidly Obese for kevlard perk.",
     "integrated_armor": [ "integrated_kevlard_morbidlyobese" ]
   },
