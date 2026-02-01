@@ -1131,10 +1131,7 @@
       },
       {
         "condition": {
-          "and": [
-            { "math": [ "u_calories('format': 'percent') >= 300" ] },
-            { "math": [ "u_calories('format': 'percent') < 400" ] }
-          ]
+          "and": [ { "math": [ "u_calories('format': 'percent') >= 300" ] }, { "math": [ "u_calories('format': 'percent') < 400" ] } ]
         },
         "mutations": [ "perk_kevlard_veryobese" ]
       },
