@@ -2067,7 +2067,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_PLAYSTYLE_STORMWROUGHT",
-    "dynamic_line": "Stormwrought Playstyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available\nCurrent EXP: <u_val:available_exp> \nEXP to next level: <u_val:exp_to_perk>.",
+    "dynamic_line": "Stormwrought Playstyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\n<u_val:playstyle_perks_available> playstyle perks available\nCurrent EXP: <u_val:available_exp>\nEXP to next level: <u_val:exp_to_perk>.",
     "responses": [
       {
         "condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_bird" } },
