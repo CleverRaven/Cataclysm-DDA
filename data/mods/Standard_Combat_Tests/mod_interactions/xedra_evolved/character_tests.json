@@ -32,13 +32,9 @@
     "items": {
       "both": {
         "items": [
-          "",
-          "robofac_kevlar_greaves",
-          "armor_nomad_heavyplate",
-          "nomad_bodyglove_2",
-          "boots_combat",
-          "hc_helm_close",
-          "hc_demi_gaunt"
+          "dress_shirt",
+          "dress_shoes",
+          "pants"
         ]
       }
     },
@@ -47,15 +43,14 @@
       "VAMPIRE2",
       "VAMPIRE3",
       "VAMPIRE4",
-      "VAMPIRE5",
+      "BLOOD_DRINKER",
       "VAMPIRE_ANATHEMA",
-      "VAMPIRE_STRENGTH",
       "VAMPIRE_RESILIENCE",
       "VAMPIRE_HEIGHTENED_SENSES",
       "VAMPIRE_HEALTH_BONUS",
       "VAMPIRIC_DODGE",
       "BLOODHEAL",
-      "VAMPIRE_BEAST_CLAWS"
+      "VAMPIRE_BEAST_CLAWS",
       "COAGULANTWEAVE",
       "VAMPIRE_FEAR_GAZE",
       "VAMPIRE_WALK_ON_WALLS",
@@ -91,5 +86,10 @@
       "VAMPIRE_BLOOD_FOR_POTENCY",
       "ANATHEMA_WEAKNESS_SUN_BURN"
     ]
+  },
+    {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "whitelist",
+    "scenarios": [ "evacuee", "scavenger", "survivor", "vampire" ]
   }
 ]
