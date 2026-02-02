@@ -24,16 +24,19 @@
     "id": "EOC_VITAKINESIS_RETURN_FROM_DEATH",
     "eoc_type": "PREVENT_DEATH",
     "condition": { "u_has_effect": "effect_vita_return_from_death" },
-    "effect": [ 
-    { "if": { "u_has_effect": "effect_xe_onryō_snp_prevented_death" },
-    "then": [
-    {
-      "u_message": "You feel your powers begin to go into overdrive before you hear a low, sinister laugh.  Then explosive pain erupts across your body and you fade into oblivion."
-    }
-    ],
-    "else": [
-      { "u_message": "As the wounds overtake you, you feel your powers go into overdrive.", "popup": true },
-      { "run_eocs": [ "EOC_VITAKINESIS_RETURN_FROM_DEATH_START" ] } ]
+    "effect": [
+      {
+        "if": { "u_has_effect": "effect_xe_onryō_snp_prevented_death" },
+        "then": [
+          {
+            "u_message": "You feel your powers begin to go into overdrive before you hear a low, sinister laugh.  Then explosive pain erupts across your body and you fade into oblivion."
+          }
+        ],
+        "else": [
+          { "u_message": "As the wounds overtake you, you feel your powers go into overdrive.", "popup": true },
+          { "run_eocs": [ "EOC_VITAKINESIS_RETURN_FROM_DEATH_START" ] }
+        ]
+      }
     ]
   }
 ]
