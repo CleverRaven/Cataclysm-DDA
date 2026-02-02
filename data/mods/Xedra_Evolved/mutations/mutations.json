@@ -1493,6 +1493,7 @@
     "enchantments": [
       {
         "values": [
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 9999 },
           { "value": "STAMINA_REGEN_MOD", "add": 0.1 },
           { "value": "KCAL", "multiply": -100 },
           { "value": "VITAMIN_ABSORB_MOD", "multiply": -100 },
