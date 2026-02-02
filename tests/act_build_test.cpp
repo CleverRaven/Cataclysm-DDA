@@ -82,7 +82,11 @@ void run_activities( Character &u, int max_moves )
 
     u.assign_activity( multi_build_construction_activity_actor() );
     int turns = 0;
-    while( ( !u.activity.is_null() || u.is_auto_moving() ) && turns < max_moves ) {
+    while( ( !u.activity.is_null() || u.is_auto_moving() ) ) {
+        if( turns == max_moves ) {
+            FAIL( "turn count exceeded, infinite loop possible" );
+            return;
+        }
         u.set_moves( u.get_speed() );
         if( u.is_auto_moving() ) {
             u.setpos( here, here.get_bub( *u.destination_point ) );
@@ -166,6 +170,7 @@ void run_test_case( Character &u )
 
     u.wear_item( item( itype_test_backpack ), false, false );
     u.wear_item( item( itype_wearable_test_lamp ), false, true );
+    //TODO: this test assumes that tools are on-person, but it should also test without tools on-person
     u.i_add( item( itype_test_multitool ) );
     u.i_add( item( itype_hammer ) );
     u.i_add( item( itype_bow_saw ) );
