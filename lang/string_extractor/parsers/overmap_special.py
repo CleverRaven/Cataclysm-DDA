@@ -10,4 +10,4 @@ def parse_overmap_special(json, origin):
 
         for om in overmaps:
             write_text(om.get("camp_name"), origin,
-                    comment="Name of NPC faction camp")
+                       comment="Name of NPC faction camp")
