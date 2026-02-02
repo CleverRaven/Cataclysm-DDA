@@ -183,10 +183,8 @@ Use `EXTRADIMENSIONAL` flag as a catch-all for other-dimensional specials
 Set of clothes takes off ALL items, always
 Frezze water in winter monster and plant part. (3/?)
 Promote "SWIM_UNDER" flag to docks and bridges.
-Light Fur and Sleek Fur cover your Long Tail
-Turn fluffy tail into a limb
 Water frozen in winter veh and thick ice part. (4/5)
-Limbify spiked tail
+Limbify tails
 Allow furniture/vehicles to be vertically dragged
 
 
@@ -416,16 +414,6 @@ Your new pal, Pat (check the Hub)
 Add feldspar chunks to forest/field itemgroups, add feldspar veins to Innawood
 Dimension of sundered spacetime
 Turn various traits into limb-adding mutations
-Old guard doctor quests updated to new labs instead of old labs
-re-balance Pat's mission
-Your pal Pat has a lot more to say
-Give the shocker line a charge-up electrical attack
-[Old Lab Removal] Added nanofab microlab nest
-Pat does recon
-update + add some winter clothes 
-25 more shipping containers
-Move MoM's alien meadow to vanilla
-Fields in the string dimension
 Add tarot reading
 Devourer Evolution
 
@@ -575,7 +563,6 @@ Add sidebar widgets for oxygen levels
 Show time required to pick a lock
 Show time to hacksaw before committing to doing it
 Show objective directions on overmap
-Remove 'This ammo never misfires' from ammo description
 Allow resuming hacksaw cutting metal with different tools
 
 
@@ -1038,16 +1025,9 @@ Add an enchantment that modifies the 'free dodges' stat introduced for Martial A
 [Aftershock] Add esper enkindling tinctures
 [MoM] Add spoiler doc to explain how power learning works
 [XE] Add three vampire hunter professions
-Add missing JSON keys to the Fifth Sun wrist computer for MoM
-I am adding Graphite and Feldspar to the cave ore spawn pool
 [Mods] Use external options in the manipulation of mods skills and proficiencies
-[MoM] Re energize targets vehicle
 [Xedra Evolved] Fix elemental fae joining the Butlerian Jihad
-[MoM] Turn vitakinetic matrix crystals into artifacts
 [Sky Island] Spawn the Island in a void
-[Bombastic Perks] Add more perks
-[Xedra Evolved] Karma Arms rebalance
-[Innawood] Add small ravines to Innawood
 [Sky Island] Mod compatibility
 [Sky Island] Dummy EOCs so the innawood integration does not cause an error
 [No Hope] Actually use defined region settings
@@ -1188,7 +1168,6 @@ Exodii do not pay for clothes or common kitchen goods
 Remove free attack from rabbit feet
 Give krecks a bite attack
 Make riding an animal exerting; add walking gait
-rebalanced container depot content chances
 Flying Polyps are out of phase
 
 
