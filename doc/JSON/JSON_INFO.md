@@ -4423,27 +4423,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         "translucency": 2.0, // How much light the field blocks (higher numbers mean less light can penetrate through)
         "concentration": 1, // How concentrated this intensity of gas is. Generally the thin/hazy cloud intensity will be 1, the standard gas will be 2, and thick gas will be 4. The amount of time a gas mask filter will last will be divided by this value.
         "convection_temperature_mod": 12, // Heat given off by this level of intensity
-        "effects":  // List of effects applied to any creatures within the field as long as they aren't immune to the effect or the field itself
-        [
-          {
-            "effect_id": "webbed", // Effect ID
-            "min_duration": "1 minutes",
-            "max_duration": "5 minutes", // Effect duration randomized between min and max duration
-            "intensity": 1, // Intensity of the effect to apply
-            "body_part": "head", // Bodypart the effect gets applied to, default BP_NULL ("whole body")
-            "is_environmental": false, // If true the environmental effect roll is used to determine if the effect gets applied: <intensity>d3 > <target BP's armor/bionic env resist>d3
-            "immune_in_vehicle": // If true, *standing* inside a vehicle (like without walls or roof) protects from the effect
-            "immune_inside_vehicle": false, // If true being inside a vehicle protects from the effect
-            "immune_outside_vehicle": false, // If true being *outside* a vehicle protects from the effect,
-            "chance_in_vehicle": 2,
-            "chance_inside_vehicle": 2,
-            "chance_outside_vehicle": 2, // 1-in-<chance> chance of the effect being applied when traversing a field in a vehicle, inside a vehicle (as in, under a roof), and outside a vehicle
-            "message": "You're debilitated!", // Message to print when the effect is applied to the player
-            "message_npc": "<npcname> is debilitated!", // Message to print when the effect is applied to an NPC
-            "message_type": "bad", // Type of the above messages - good/bad/mixed/neutral
-            "immunity_data": {...} // See Immunity Data below
-          }
-        ]
+        "effects": [  ] // List of effects applied to any creatures within the field as long as they aren't immune to the effect or the field itself. See field_effect below for syntax
         "scent_neutralization": 3, // Reduce scents at the field's position by this value        
     ],
     "npc_complain": { "chance": 20, "issue": "weed_smoke", "duration": "10 minutes", "speech": "<weed_smoke>" }, // NPCs in this field will complain about being in it once per <duration> if a 1-in-<chance> roll succeeds, giving off a <speech> bark that supports snippets
@@ -4507,6 +4487,33 @@ Defines field emissions
   "qty": 100,             // amount of fields that would be emitted, in a circle, 1 means 1 field; 9 would be 3x3, 16 would be 4x4 square etc
   "chance": 50            // chance to emit one unit of field, from 1 to 100
 },
+```
+
+## field_effect
+Field effect defines what effect/effects will be applied on character or monsters, and what immunity protections can be used to defend against this effect.
+currnetly used as `"effects"` field in `field_type`, and as `passive_effects` in `weather_type`
+
+```jsonc
+[
+  {
+    "effect_id": "webbed", // Effect ID
+    "min_duration": "1 minutes",
+    "max_duration": "5 minutes", // Effect duration randomized between min and max duration
+    "intensity": 1, // Intensity of the effect to apply
+    "body_part": "head", // Bodypart the effect gets applied to, default BP_NULL ("whole body")
+    "is_environmental": false, // If true the environmental effect roll is used to determine if the effect gets applied: intensity amount of d3 vs bodypart environment resistance amount of d3 
+    "immune_in_vehicle": false, // If true, *standing* inside a vehicle (like without walls or roof) protects from the effect
+    "immune_inside_vehicle": false, // If true, being inside a vehicle protects from the effect
+    "immune_outside_vehicle": false, // If true, being *outside* a vehicle protects from the effect,
+    "chance_in_vehicle": 2,
+    "chance_inside_vehicle": 2,
+    "chance_outside_vehicle": 2, // 1-in-<chance> chance of the effect being applied when traversing a field in a vehicle, inside a vehicle (as in, under a roof), and outside a vehicle
+    "message": "You're debilitated!", // Message to print when the effect is applied to the player
+    "message_npc": "<npcname> is debilitated!", // Message to print when the effect is applied to an NPC
+    "message_type": "bad", // Type of the above messages - good/bad/mixed/neutral
+    "immunity_data": {...} // See Immunity Data below
+  }
+]
 ```
 
 ## Immunity data
