@@ -645,6 +645,7 @@ static input_context make_crafting_context( bool highlight_unread_recipes )
     ctxt.register_action( "SCROLL_DOWN" );
     ctxt.register_action( "COMPARE" );
     ctxt.register_action( "PRIORITIZE_MISSING_COMPONENTS" );
+    ctxt.register_action( "DEPRIORITIZE_COMPONENTS" );
     if( highlight_unread_recipes ) {
         ctxt.register_action( "TOGGLE_RECIPE_UNREAD" );
         ctxt.register_action( "MARK_ALL_RECIPES_READ" );
@@ -1362,6 +1363,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         add_action_desc( "CYCLE_BATCH", pgettext( "crafting gui", "Batch" ) );
         add_action_desc( "CHOOSE_CRAFTER", pgettext( "crafting gui", "Choose crafter" ) );
         add_action_desc( "PRIORITIZE_MISSING_COMPONENTS", pgettext( "crafting gui", "Prioritize" ) );
+        add_action_desc( "DEPRIORITIZE_COMPONENTS", pgettext( "crafting gui", "Deprioritize" ) );
         add_action_desc( "HELP_KEYBINDINGS", pgettext( "crafting gui", "Keybindings" ) );
         keybinding_x = isWide ? 5 : 2;
         keybinding_tips = foldstring( enumerate_as_string( act_descs, enumeration_conjunction::none ),
@@ -2165,6 +2167,52 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                                       new_filters_count, added_filters, uistate.list_item_priority ) );
             } else {
                 popup( string_format( _( "Did not find anything to add to the priority filter.\nFilter: %s" ),
+                                      uistate.list_item_priority ) );
+            }
+        } else if( action == "DEPRIORITIZE_COMPONENTS" ) {
+            uistate.read_recipes.insert( current[line]->ident() );
+            recalc_unread = highlight_unread_recipes;
+            ui.invalidate_ui();
+
+            int removed_filters_count = 0;
+            std::string removed_filters;
+            const requirement_data &req = current[line]->simple_requirements();
+            for( const std::vector<item_comp> &comp_list : req.get_components() ) {
+                for( const item_comp &i_comp : comp_list ) {
+                    std::string nname = item::nname( i_comp.type, 1 );
+                    nname += ",";
+                    if( string_starts_with( uistate.list_item_priority, nname ) ) {
+                        removed_filters_count++;
+                        removed_filters += nname;
+                        uistate.list_item_priority.erase( 0, nname.length() );
+                    } else {
+                        std::string find_string = "," + nname;
+                        int filter_pos = uistate.list_item_priority.find( find_string );
+                        if( filter_pos > -1 ) {
+                            removed_filters_count++;
+                            removed_filters += nname;
+                            uistate.list_item_priority.replace( filter_pos, find_string.length(), "," );
+                        }
+                    }
+                }
+            }
+
+            if( !uistate.list_item_priority.empty() ) {
+                uistate.list_item_priority_active = true;
+
+                std::vector<std::string> &hist = uistate.gethistory( "list_item_priority" );
+                if( hist.empty() || hist[hist.size() - 1] != uistate.list_item_priority ) {
+                    hist.push_back( uistate.list_item_priority );
+                }
+            } else {
+                uistate.list_item_priority_active = false;
+            }
+
+            if( removed_filters_count > 0 ) {
+                popup( string_format( _( "Removed %d components from the priority filter.\nRemoved: %s\nNew Filter: %s" ),
+                                      removed_filters_count, removed_filters, uistate.list_item_priority ) );
+            } else {
+                popup( string_format( _( "Did not find anything to remove from the priority filter.\nFilter: %s" ),
                                       uistate.list_item_priority ) );
             }
         } else if( action == "HELP_KEYBINDINGS" ) {
