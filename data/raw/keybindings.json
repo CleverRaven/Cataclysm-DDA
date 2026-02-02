@@ -899,10 +899,7 @@
     "id": "DEPRIORITIZE_COMPONENTS",
     "category": "CRAFTING",
     "name": "Remove components from high priority in Item List",
-    "bindings": [
-      { "input_method": "keyboard_any", "key": "-" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" }
-    ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
     "type": "keybinding",

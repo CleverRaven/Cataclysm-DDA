@@ -2209,8 +2209,9 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             }
 
             if( removed_filters_count > 0 ) {
-                popup( string_format( _( "Removed %d components from the priority filter.\nRemoved: %s\nNew Filter: %s" ),
-                                      removed_filters_count, removed_filters, uistate.list_item_priority ) );
+                popup( string_format(
+                           _( "Removed %d components from the priority filter.\nRemoved: %s\nNew Filter: %s" ),
+                           removed_filters_count, removed_filters, uistate.list_item_priority ) );
             } else {
                 popup( string_format( _( "Did not find anything to remove from the priority filter.\nFilter: %s" ),
                                       uistate.list_item_priority ) );
