@@ -11,7 +11,7 @@
     "difficulty": 5,
     "time": "0 s",
     "book_learn": [ [ "book_nether_sorcery_opening_of_the_way", 5 ] ],
-    "tools": [ [ "book_nether_sorcery_opening_of_the_way", -1 ] ],
+    "tools": [ [ [ "book_nether_sorcery_opening_of_the_way", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -31,9 +31,11 @@
     "condition": {
       "or": [
         { "math": [ "u_effect_intensity('taint') >= 1" ] },
-        { "math": [ "u_effect_duration('attention') >= 30000" ] },
+        { "math": [ "u_effect_duration('attention') >= 1" ] },
         { "math": [ "u_artifact_resonance() >= 5000" ] },
-        { "u_has_any_effect": [ "visuals", "hallu" ] },
+        { "u_has_any_effect": [ "visuals", "hallu", "relative_physics" ] },
+        { "math": [ "u_effect_intensity('creativity') >= 3" ] },
+        { "math": [ "u_vitamin('xedra_knowing_lies') >= 1" ] },
         { "math": [ "u_skill('deduction') >= 9" ] }
       ]
     },
@@ -54,7 +56,8 @@
             "type": "good"
           },
           { "u_lose_trait": "XE_NO_NETHER_SORCERY" },
-          { "u_add_trait": "XE_NETHER_SORCERY" }
+          { "u_add_trait": "XE_NETHER_SORCERY" },
+          { "if": { "u_has_effect": "creativity" }, "then": { "math": [ "u_vitamin('creative_spark') = 0" ] } }
         ]
       }
     ],
