@@ -29,15 +29,7 @@
       { "level": 8, "name": "gun" },
       { "level": 8, "name": "rifle" }
     ],
-    "items": {
-      "both": {
-        "items": [
-          "dress_shirt",
-          "dress_shoes",
-          "pants"
-        ]
-      }
-    },
+    "items": { "both": { "items": [ "dress_shirt", "dress_shoes", "pants" ] } },
     "traits": [
       "VAMPIRE",
       "VAMPIRE2",
@@ -86,7 +78,7 @@
       "ANATHEMA_WEAKNESS_SUN_BURN"
     ]
   },
-    {
+  {
     "type": "SCENARIO_BLACKLIST",
     "subtype": "whitelist",
     "scenarios": [ "evacuee", "scavenger", "survivor", "vampire" ]
