@@ -1,0 +1,36 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_NETHER_SORCERY_RESONANCE_CONSEQUENCES",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [ { "mod_is_loaded": "mindovermatter" }, { "compare_string": [ "XE_NETHER_SORCERY", { "context_val": "school" } ] } ]
+    },
+    "effect": [
+      { "math": [ "_consequence_duration = _difficulty * 10 * rng(0.66, 1.33)" ] },
+      {
+        "u_add_effect": "effect_xe_nether_resonance_consequences",
+        "duration": { "math": [ "_consequence_duration" ] }
+      },
+      {
+        "if": { "x_in_y_chance": { "x": { "math": [ "_difficulty" ] }, "y": 400 } },
+        "then": { "u_add_effect": "attention", "duration": { "math": [ "_difficulty * 250 * rng(0.66, 1.33)" ] } }
+      },
+      {
+        "if": { "x_in_y_chance": { "x": { "math": [ "_difficulty" ] }, "y": 1000 } },
+        "then": { "u_add_effect": "taint", "duration": { "math": [ "_difficulty * 250 * rng(0.66, 1.33)" ] } }
+      },
+      {
+        "if": {
+          "and": [
+            { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') != 0" ] },
+            { "x_in_y_chance": { "x": { "math": [ "_consequence_duration" ] }, "y": 1000 } }
+          ]
+        },
+        "then": { "math": [ "u_vitamin('vitamin_psionic_drain') += (_difficulty / 10 * rng(0.66, 1.33) )" ] }
+      }
+    ]
+  }
+]
