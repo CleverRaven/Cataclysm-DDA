@@ -814,17 +814,6 @@
   },
   {
     "type": "mutation",
-    "id": "BLOODBANK",
-    "name": { "str": "Blood Lungs" },
-    "starting_trait": false,
-    "purifiable": false,
-    "valid": false,
-    "points": 1,
-    "description": "Your fingers have developed bloodsucking properties, you can now suck up blood through them.  You're not sure where the blood goes but with a thought you can use these deposits.",
-    "integrated_armor": [ "integrated_bloodbank" ]
-  },
-  {
-    "type": "mutation",
     "id": "STAMINAFORBLOOD",
     "points": 2,
     "starting_trait": false,
@@ -1837,7 +1826,7 @@
     "id": "VAMPIRE_STORE_MORE_BLOOD",
     "name": { "str": "Inner Vault of Blood" },
     "points": 5,
-    "description": "Your vestigial circulatory system is now better at holding stolen blood.  You can hold five more liters inside you.",
+    "description": "Your vestigial circulatory system is now better at holding stolen blood.  You can hold two and a half more liters inside you.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false
@@ -1963,7 +1952,7 @@
     "id": "VAMPIRE_STORE_MORE_BLOOD_UPGRADE",
     "name": { "str": "Inner Sea of Blood" },
     "points": 10,
-    "description": "Your new power allows you to store even more stolen blood inside your body.  You can hold another ten liters inside you.",
+    "description": "Your new power allows you to store even more stolen blood inside your body.  You can hold another five liters inside you.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false
