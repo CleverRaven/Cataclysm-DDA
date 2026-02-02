@@ -30,9 +30,10 @@
     "id": "EOC_NETHER_SORCERY_FINAL_LEARN_CHECK",
     "condition": {
       "or": [
-        { "math": [ "u_effect_intensity('taint') >= 3" ] },
+        { "math": [ "u_effect_intensity('taint') >= 1" ] },
         { "math": [ "u_effect_duration('attention') >= 30000" ] },
         { "math": [ "u_artifact_resonance() >= 5000" ] },
+        { "u_has_any_effect": [ "visuals", "hallu" ] },
         { "math": [ "u_skill('deduction') >= 9" ] }
       ]
     },

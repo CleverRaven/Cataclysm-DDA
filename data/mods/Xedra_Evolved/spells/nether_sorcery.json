@@ -10,6 +10,33 @@
     "failure_chance_formula_id": "xe_nether_sorcery_failure_chance"
   },
   {
+    "id": "xe_nether_sorcery_summoning_successful_control",
+    "type": "SPELL",
+    "name": { "str": "Control Summon", "//~": "NO_I18N" },
+    "description": { "str": "This spell is used if the summoning control is successful.", "//~": "NO_I18N" },
+    "message": "",
+    "valid_targets": [ "ground", "ally", "hostile" ],
+    "flags": [ "SILENT" ],
+    "spell_class": "XE_NETHER_SORCERY",
+    "magic_type": "xe_nether_sorcery",
+    "effect": "charm_monster",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "max_level": 15,
+    "difficulty": 60,
+    "skill": "magic",
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "min_damage": 10000,
+    "max_damage": 10000,
+    "min_range": 40,
+    "max_range": 40,
+    "min_duration": 7200000,
+    "max_duration": 14400000,
+    "duration_increment": 720000,
+    "targeted_monster_species": [ "SUMMONED_CREATURE" ]
+  },
+  {
     "id": "xe_nether_sorcery_cold_damage_over_time",
     "type": "SPELL",
     "name": "Bound in Ebon Bands",
@@ -85,7 +112,12 @@
             "( rand(u_skill('deduction') ) + rand(u_spell_level('xe_nether_sorcery_summon_kreck_pack') ) + rand(8) + rand(8) + (u_effect_intensity('effect_xe_nether_resonance_consequences') / 500 ) ) > 11 "
           ]
         },
-        "then": [ { "u_cast_spell": { "id": "arcana_summoning_successful_control" }, "loc": { "context_val": "summoning_loc" } } ],
+        "then": [
+          {
+            "u_cast_spell": { "id": "xe_nether_sorcery_summoning_successful_control" },
+            "loc": { "context_val": "summoning_loc" }
+          }
+        ],
         "else": [ { "u_message": "The things you called up resist your attempt to control them!", "type": "bad" } ]
       }
     ]
