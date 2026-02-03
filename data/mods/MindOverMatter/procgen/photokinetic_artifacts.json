@@ -32,7 +32,7 @@
         "max_value": 4,
         "type": "DODGE_CHANCE",
         "increment": 1,
-        "power_per_increment": 1000,
+        "power_per_increment": 200,
         "ench_has": "HELD"
       },
       {
@@ -50,7 +50,7 @@
         "max_value": 2000,
         "type": "LUMINATION",
         "increment": 25,
-        "power_per_increment": 25,
+        "power_per_increment": 5,
         "ench_has": "WIELD"
       },
       {
@@ -59,7 +59,7 @@
         "max_value": 3,
         "type": "MELEE_TO_HIT",
         "increment": 1,
-        "power_per_increment": 500,
+        "power_per_increment": 250,
         "ench_has": "HELD"
       },
       {
@@ -68,7 +68,7 @@
         "max_value": 0.25,
         "type": "RANGE_DODGE",
         "increment": 0.02,
-        "power_per_increment": 750,
+        "power_per_increment": 450,
         "ench_has": "HELD"
       },
       {
@@ -111,7 +111,7 @@
         "max_value": 4,
         "type": "DODGE_CHANCE",
         "increment": 1,
-        "power_per_increment": 1000,
+        "power_per_increment": 200,
         "ench_has": "HELD"
       },
       {
@@ -129,7 +129,7 @@
         "max_value": 2000,
         "type": "LUMINATION",
         "increment": 25,
-        "power_per_increment": 25,
+        "power_per_increment": 5,
         "ench_has": "WIELD"
       },
       {
@@ -138,7 +138,7 @@
         "max_value": 3,
         "type": "MELEE_TO_HIT",
         "increment": 1,
-        "power_per_increment": 500,
+        "power_per_increment": 250,
         "ench_has": "HELD"
       },
       {
@@ -147,7 +147,7 @@
         "max_value": 0.25,
         "type": "RANGE_DODGE",
         "increment": 0.02,
-        "power_per_increment": 750,
+        "power_per_increment": 450,
         "ench_has": "HELD"
       },
       {
