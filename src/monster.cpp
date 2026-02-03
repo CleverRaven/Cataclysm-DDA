@@ -2208,10 +2208,6 @@ bool monster::melee_attack( Creature &target, float accuracy )
             add_effect( effect_downed, 2_turns, true );
             add_msg( _( "%s stumbles and falls as it attacks." ), u_see_me ? disp_name( false,
                      true ) : _( "Something" ) );
-            if( has_effect_with_flag( json_flag_GRAB_FILTER ) &&
-                target.has_effect_with_flag( json_flag_GRAB ) ) {
-                target.add_effect( effect_downed, 2_turns, true );
-            }
         }
     } else if( is_hallucination() || total_dealt > 0 ) {
         // Hallucinations always produce messages but never actually deal damage
