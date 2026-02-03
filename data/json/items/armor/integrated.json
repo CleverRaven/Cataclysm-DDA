@@ -1345,7 +1345,7 @@
           { "type": "hflesh", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "mut_scales", "covered_by_mat": 50, "thickness": 1.0 }
         ],
-        "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r", "tail" ],
         "coverage": 100,
         "encumbrance": 0,
         "breathability": "GOOD"
@@ -1395,7 +1395,7 @@
           { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "mut_scales", "covered_by_mat": 90, "thickness": 2.0 }
         ],
-        "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r", "tail" ],
         "coverage": 100,
         "encumbrance": 2,
         "breathability": "POOR"
@@ -1464,7 +1464,7 @@
           { "type": "flesh", "covered_by_mat": 100, "thickness": 1.5 },
           { "type": "mut_scales", "covered_by_mat": 95, "thickness": 2.5 }
         ],
-        "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r", "tail" ],
         "coverage": 100,
         "encumbrance": 3
       },
@@ -1541,7 +1541,7 @@
           { "type": "mut_scales", "covered_by_mat": 91, "thickness": 6.0 },
           { "type": "mut_bone", "covered_by_mat": 82, "thickness": 4.0 }
         ],
-        "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "covers": [ "arm_l", "arm_r", "leg_l", "leg_r", "tail" ],
         "coverage": 100,
         "encumbrance": 8,
         "layers": [ "NORMAL" ]
