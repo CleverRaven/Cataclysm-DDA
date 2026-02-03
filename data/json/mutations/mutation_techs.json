@@ -785,5 +785,95 @@
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
+  },
+  {
+    "//": "Scaling on these three is 75% of normal",
+    "type": "technique",
+    "id": "TAIL_THICK_BASH",
+    "name": "Thick Tail Bash",
+    "melee_allowed": true,
+    "messages": [ "You thwack %s with your tail", "<npcname> thwacks %s with their tail" ],
+    "unarmed_allowed": true,
+    "weighting": -3,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_tail_thick" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.6 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TAIL_THICK_BASH_NATURAL",
+    "name": "Thick Tail Bash",
+    "melee_allowed": true,
+    "messages": [ "You thwack %s with your tail", "<npcname> thwacks %s with their tail" ],
+    "unarmed_allowed": true,
+    "weighting": 0,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_tail_thick" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "natural_stance" },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.6 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TAIL_THICK_BASH_CRIT",
+    "name": "Thick Tail Bash Crit",
+    "melee_allowed": true,
+    "messages": [ "You slam %s with your tail", "<npcname> slams %s with their tail" ],
+    "unarmed_allowed": true,
+    "reach_ok": false,
+    "crit_tec": true,
+    "attack_vectors": [ "vector_tail_thick" ],
+    "condition": { "not": { "npc_has_flag": "STUMBLES" } },
+    "knockback_dist": 1,
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 3.3 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TAIL_THICK_BASH_CRIT_VS_STUMBLE",
+    "name": "Thick Tail Bash Crit",
+    "melee_allowed": true,
+    "messages": [ "You slam %s with your tail and knock them down", "<npcname> slams %s with their tail and knock them down" ],
+    "unarmed_allowed": true,
+    "reach_ok": false,
+    "crit_tec": true,
+    "attack_vectors": [ "vector_tail_thick" ],
+    "condition": { "npc_has_flag": "STUMBLES" },
+    "knockback_dist": 1,
+    "down_dur": 2,
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 3.3 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
   }
 ]

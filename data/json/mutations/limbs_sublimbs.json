@@ -60,6 +60,36 @@
     "opposite": "tail_fluffy_base"
   },
   {
+    "id": "tail_thick_base",
+    "type": "sub_body_part",
+    "name": "thick tail base",
+    "name_multiple": "thick tail bases",
+    "max_coverage": 10,
+    "parent": "tail_thick",
+    "side": "both",
+    "opposite": "tail_thick_tip"
+  },
+  {
+    "id": "tail_thick_center",
+    "type": "sub_body_part",
+    "name": "thick tail center",
+    "name_multiple": "thick tail centers",
+    "max_coverage": 60,
+    "parent": "tail_thick",
+    "side": "both",
+    "opposite": "tail_thick_center"
+  },
+  {
+    "id": "tail_thick_tip",
+    "type": "sub_body_part",
+    "name": "thick tail tip",
+    "name_multiple": "thick tail tips",
+    "max_coverage": 30,
+    "parent": "tail_thick",
+    "side": "both",
+    "opposite": "tail_thick_base"
+  },
+  {
     "id": "tail_scorpion_base",
     "type": "sub_body_part",
     "name": "scorpion tail base",
