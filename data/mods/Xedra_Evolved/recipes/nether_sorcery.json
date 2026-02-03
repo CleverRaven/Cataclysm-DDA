@@ -44,7 +44,7 @@
         "if": { "math": [ "u_skill('deduction') >= 9" ] },
         "then": [
           {
-            "u_message": "Nothing in this book makes any sense.  It talks in circles, goes on tangents, and abruptly ends thoughts midsentence...but you can see through the words to meaning hidden behind them.  You know enough about the way the universe really works that you can finish the author's thoughts when they don't bother to.  There is true power hidden in this book, and your studies have enabled you to reach out and grasp it.",
+            "u_message": "Nothing in this book makes any sense.  It talks in circles, goes on tangents, and abruptly ends thoughts midsentence…but you can see through the words to meaning hidden behind them.  You know enough about the way the universe really works that you can finish the author's thoughts when they don't bother to.  There is true power hidden in this book, and your studies have enabled you to reach out and grasp it.",
             "type": "good"
           },
           { "u_lose_trait": "XE_NO_NETHER_SORCERY" },
@@ -52,7 +52,7 @@
         ],
         "else": [
           {
-            "u_message": "Others would call the author of this book mad, but they are fools.  They cannot see as you can see, hear as you can hear, feel as you can feel.  The twists and paths are laid plain before you, and you swim through the words like water and reach the whirlpool at the center.  The Opening of the Way, it is called, and the way opens before you. ",
+            "u_message": "Others would call the author of this book mad, but they are fools.  They cannot see as you can see, hear as you can hear, feel as you can feel.  The twists and paths are laid plain before you, and you swim through the words like water and reach the whirlpool at the center.  The Opening of the Way, it is called, and the way opens before you.",
             "type": "good"
           },
           { "u_lose_trait": "XE_NO_NETHER_SORCERY" },
