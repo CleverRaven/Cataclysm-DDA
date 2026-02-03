@@ -125,12 +125,6 @@
     "int_dur_factor": "2100 s",
     "rating": "good",
     "removes_effects": [ "dazed", "blind", "deaf", "stunned" ],
-    "enchantments": [
-      {
-        "condition": "ALWAYS",
-        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 2000 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 2000 } ]
-      }
-    ],
     "scaling_mods": {
       "stamina_min": [ 85000 ],
       "stamina_max": [ 11500 ],
