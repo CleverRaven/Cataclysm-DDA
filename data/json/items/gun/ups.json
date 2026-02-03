@@ -69,7 +69,18 @@
     "reload": 0,
     "modes": [ [ "DEFAULT", "3 rd.", 3 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "high auto", 15 ] ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "IGNITE" ],
-    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON_FOULING", "USE_UPS" ],
+    "flags": [
+      "NO_UNLOAD",
+      "NEVER_JAMS",
+      "NO_UNWIELD",
+      "NO_SALVAGE",
+      "NO_REPAIR",
+      "UNBREAKABLE_MELEE",
+      "NON_FOULING",
+      "NEEDS_NO_LUBE",
+      "USE_UPS",
+      "OVERHEATS"
+    ],
     "overheat_threshold": 200,
     "cooling_value": 2,
     "heat_per_shot": 6,
@@ -109,7 +120,8 @@
       "UNBREAKABLE_MELEE",
       "NON_FOULING",
       "NEEDS_NO_LUBE",
-      "USE_UPS"
+      "USE_UPS",
+      "OVERHEATS"
     ],
     "overheat_threshold": 100,
     "cooling_value": 2,
