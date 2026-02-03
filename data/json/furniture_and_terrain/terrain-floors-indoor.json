@@ -760,7 +760,7 @@
     "name": "red carpet",
     "description": "Soft red carpet.  Can support a roof.",
     "color": "red",
-    "deconstruct": { "items": [ { "item": "r_carpet", "count": 1 }, { "item": "nail", "charges": [ 2, 5 ] } ], "ter_set": "t_floor" }
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor" }
   },
   {
     "type": "terrain",
