@@ -2375,8 +2375,8 @@ static void prioritize_components( const recipe &recipe, Character &crafter )
             std::string nname = item::nname( i_comp.type, 1 );
             int filter_pos = uistate.list_item_priority.find( nname );
             bool enough_materials = req.check_enough_materials(
-                    i_comp, crafting_inv, recipe.get_component_filter(), 1
-                    );
+                                        i_comp, crafting_inv, recipe.get_component_filter(), 1
+                                    );
             if( filter_pos == -1 && !enough_materials ) {
                 new_filters_count++;
                 added_filters += nname;
@@ -2387,7 +2387,7 @@ static void prioritize_components( const recipe &recipe, Character &crafter )
 
     if( new_filters_count > 0 ) {
         if( !uistate.list_item_priority.empty()
-                && !string_ends_with( uistate.list_item_priority, "," ) ) {
+            && !string_ends_with( uistate.list_item_priority, "," ) ) {
             uistate.list_item_priority += ",";
         }
         uistate.list_item_priority += added_filters;
@@ -2398,10 +2398,10 @@ static void prioritize_components( const recipe &recipe, Character &crafter )
         }
 
         popup( string_format( _( "Added %d components to the priority filter.\nAdded: %s\nNew Filter: %s" ),
-                    new_filters_count, added_filters, uistate.list_item_priority ) );
+                              new_filters_count, added_filters, uistate.list_item_priority ) );
     } else {
         popup( string_format( _( "Did not find anything to add to the priority filter.\n\nFilter: %s" ),
-                    uistate.list_item_priority ) );
+                              uistate.list_item_priority ) );
     }
 }
 
