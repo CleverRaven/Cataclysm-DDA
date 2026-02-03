@@ -955,7 +955,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_carpet_base_strconcrete",
+    "abstract": "t_carpet_base_strconcrete",
     "copy-from": "t_carpet_base",
     "bash": {
       "sound": "SMASH!",
@@ -1118,7 +1118,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_carpet_base_linoleum_gray",
+    "abstract": "t_carpet_base_linoleum_gray",
     "copy-from": "t_carpet_base",
     "bash": {
       "sound": "SMASH!",
@@ -1175,7 +1175,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_carpet_base_linoleum_white",
+    "abstract": "t_carpet_base_linoleum_white",
     "copy-from": "t_carpet_base",
     "bash": {
       "sound": "SMASH!",
