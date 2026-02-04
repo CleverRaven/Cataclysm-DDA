@@ -920,7 +920,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
 
         if( any_missing || !save_results ) {
             const region_settings_map_extras settings_mx =
-                region_settings_id( get_option<std::string>( "DEFAULT_REGION" ) )->get_settings_map_extras();
+                overmap_buffer.get_settings(p).get_settings_map_extras();
             auto mx_iter = settings_mx.extras.find( map_extra_collection_id( terrain_type->get_extras() ) );
             if( mx_iter != settings_mx.extras.end() ) {
                 const map_extra_collection &this_ex = **mx_iter;
