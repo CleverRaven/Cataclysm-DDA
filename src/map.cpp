@@ -179,7 +179,8 @@ static const itype_id itype_HEW_printout_data_portal_storm( "HEW_printout_data_p
 static const itype_id itype_HEW_printout_data_radiosphere( "HEW_printout_data_radiosphere" );
 static const itype_id itype_HEW_printout_data_spiral_mine( "HEW_printout_data_spiral_mine" );
 static const itype_id itype_HEW_printout_data_strange_temple( "HEW_printout_data_strange_temple" );
-static const itype_id itype_HEW_printout_data_string_dimension( "HEW_printout_data_string_dimension" );
+static const itype_id
+itype_HEW_printout_data_string_dimension( "HEW_printout_data_string_dimension" );
 static const itype_id itype_HEW_printout_data_vitrified( "HEW_printout_data_vitrified" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_maple_sap( "maple_sap" );
