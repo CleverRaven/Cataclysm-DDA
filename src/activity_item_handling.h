@@ -134,6 +134,7 @@ bool activity_reason_continue( do_activity_reason reason );
 bool activity_reason_quit( do_activity_reason reason );
 // the activity (reason) requires picking up tools
 bool activity_reason_picks_up_tools( do_activity_reason reason );
+void check_npc_revert( Character &you );
 // assigns fetch activity to find requirements
 requirement_check_result fetch_requirements( Character &you, requirement_id what_we_need,
         const activity_id &act_id,
@@ -183,7 +184,6 @@ std::unordered_set<tripoint_abs_ms> tidy_up_locations( Character &you, const act
 std::unordered_set<tripoint_abs_ms> read_locations( Character &you, const activity_id &act_id );
 std::unordered_set<tripoint_abs_ms> study_locations( Character &you, const activity_id &act_id );
 std::unordered_set<tripoint_abs_ms> craft_locations( Character &you, const activity_id &act_id );
-std::unordered_set<tripoint_abs_ms> fetch_locations( Character &you, const activity_id & );
 std::unordered_set<tripoint_abs_ms> fish_locations( Character &you, const activity_id &act_id );
 std::unordered_set<tripoint_abs_ms> mop_locations( Character &you, const activity_id &act_id );
 void prune_same_tile_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set );

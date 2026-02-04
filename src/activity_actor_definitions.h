@@ -120,6 +120,13 @@ class multi_zone_activity_actor : public activity_actor
         requirement_check_result check_requirements( Character &you, activity_reason_info &act_info,
                 const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
                 const std::unordered_set<tripoint_abs_ms> &src_set, bool check_only = false );
+        // assigns fetch activity to find provided requirements
+        requirement_check_result fetch_requirements( Character &you, requirement_id what_we_need,
+                activity_reason_info &act_info, const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
+                const std::unordered_set<tripoint_abs_ms> &src_set );
+        // @return equal types
+        bool can_resume_with_internal( const activity_actor &other_act,
+                                       const Character & ) const override;
 
         // BEGIN interface block
         virtual std::unordered_set<tripoint_abs_ms> multi_activity_locations( Character &you );
@@ -430,16 +437,32 @@ class multi_butchery_activity_actor : public multi_zone_activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue & );
 };
 
-// find items for a multi-activity
+// find and retrieve items for the front multi-activity of the backlog
 // NOTE: ACT_FETCH_REQUIRED is not a multi-activity but still uses the framework
 class fetch_required_activity_actor : public multi_zone_activity_actor
 {
     public:
         using multi_zone_activity_actor::multi_zone_activity_actor;
+        explicit fetch_required_activity_actor( requirement_id fetch_requirements,
+                                                do_activity_reason act_reason, tripoint_abs_ms fetched_item_destination,
+                                                tripoint_abs_ms fetch_for_activity_position ) :
+            fetch_requirements( fetch_requirements ), act_reason( act_reason ),
+            fetched_item_destination( fetched_item_destination ),
+            fetch_for_activity_position( fetch_for_activity_position ) {
+        };
         const activity_id &get_type() const override {
-            static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
-            return ACT_MULTIPLE_CONSTRUCTION;
+            static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
+            return ACT_FETCH_REQUIRED;
         }
+
+        void set_npc_fetch_history( Character &you );
+        std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map( Character &you,
+                const int distance = MAX_VIEW_DISTANCE );
+        bool fetch_activity( Character &you, const tripoint_bub_ms &src_loc,
+                             const activity_id &activity_to_restore, const int distance = MAX_VIEW_DISTANCE );
+        // is the front of the activity backlog a multi-activity?
+        bool fetch_activity_valid( const Character &you ) const;
+
         std::unordered_set<tripoint_abs_ms> multi_activity_locations( Character &you ) override;
         activity_reason_info multi_activity_can_do( Character &you,
                 const tripoint_bub_ms &src_loc ) override;
@@ -449,6 +472,13 @@ class fetch_required_activity_actor : public multi_zone_activity_actor
             return std::make_unique<fetch_required_activity_actor>( *this );
         }
         static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+    private:
+        requirement_id fetch_requirements;
+        do_activity_reason act_reason;
+        // where should this item be placed
+        tripoint_abs_ms fetched_item_destination;
+        // what zone tile was the fetching multi-activity currently processing?
+        tripoint_abs_ms fetch_for_activity_position;
 };
 
 class aim_activity_actor : public activity_actor
