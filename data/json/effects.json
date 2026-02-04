@@ -5408,5 +5408,51 @@
     "name": [ "" ],
     "desc": [ "" ],
     "removes_effects": [ "effect_shocker_zombie_charge_up" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hound_of_tindalos_slobber",
+    "name": [ "Hound Ichor" ],
+    "desc": [ "Your %s is stained with bluish ichor." ],
+    "rating": "bad",
+    "show_in_info": true,
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "remove_message": "The bluish ichor boils away into nothingness.",
+    "enchantments": [
+      {
+        "condition": { "u_is_in_field": "fd_tindalos_gas" },
+        "values": [
+          {
+            "value": "ARTIFACT_RESONANCE",
+            "add": { "math": [ "u_effect_intensity('effect_hound_of_tindalos_slobber', 'bodypart': 'torso') * 250" ] }
+          },
+          {
+            "value": "ARTIFACT_RESONANCE",
+            "add": { "math": [ "u_effect_intensity('effect_hound_of_tindalos_slobber', 'bodypart': 'head') * 250" ] }
+          },
+          {
+            "value": "ARTIFACT_RESONANCE",
+            "add": { "math": [ "u_effect_intensity('effect_hound_of_tindalos_slobber', 'bodypart': 'tail') * 250" ] }
+          },
+          {
+            "value": "ARTIFACT_RESONANCE",
+            "add": { "math": [ "u_effect_intensity('effect_hound_of_tindalos_slobber', 'bodypart': 'arm_l') * 250" ] }
+          },
+          {
+            "value": "ARTIFACT_RESONANCE",
+            "add": { "math": [ "u_effect_intensity('effect_hound_of_tindalos_slobber', 'bodypart': 'arm_r') * 250" ] }
+          },
+          {
+            "value": "ARTIFACT_RESONANCE",
+            "add": { "math": [ "u_effect_intensity('effect_hound_of_tindalos_slobber', 'bodypart': 'leg_l') * 250" ] }
+          },
+          {
+            "value": "ARTIFACT_RESONANCE",
+            "add": { "math": [ "u_effect_intensity('effect_hound_of_tindalos_slobber', 'bodypart': 'leg_r') * 250" ] }
+          }
+        ]
+      }
+    ]
   }
 ]

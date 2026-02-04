@@ -968,7 +968,21 @@
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "exempt",
-    "special_attacks": [ [ "TINDALOS_TELEPORT", 7 ] ],
+    "special_attacks": [
+      [ "TINDALOS_TELEPORT", 7 ],
+      {
+        "type": "bite",
+        "cooldown": 5,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_multiplier": 0 } ],
+        "effects": [ { "id": "effect_hound_of_tindalos_slobber", "duration": 1800, "chance": 100 } ],
+        "hit_dmg_u": "%1$s bites through the angles of your %2$s!",
+        "hit_dmg_npc": "%1$s bites through the angles of <npcname>'s %2$s!",
+        "miss_msg_u": "%1$s tries to bite you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to bite <npcname>, but they dodge!",
+        "no_dmg_msg_u": "",
+        "no_dmg_msg_npc": ""
+      }
+    ],
     "emit_fields": [ { "emit_id": "emit_tindalos_gas_leak", "delay": "1 s" } ],
     "path_settings": { "max_dist": 10 },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
@@ -1016,7 +1030,21 @@
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "exempt",
-    "special_attacks": [ [ "TINDALOS_TELEPORT", 5 ] ],
+    "special_attacks": [
+      [ "TINDALOS_TELEPORT", 5 ],
+      {
+        "type": "bite",
+        "cooldown": 5,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0 } ],
+        "effects": [ { "id": "effect_hound_of_tindalos_slobber", "duration": 180, "chance": 100 } ],
+        "hit_dmg_u": "%1$s bites through the angles of your %2$s!",
+        "hit_dmg_npc": "%1$s bites through the angles of <npcname>'s %2$s!",
+        "miss_msg_u": "%1$s tries to bite you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to bite <npcname>, but they dodge!",
+        "no_dmg_msg_u": "",
+        "no_dmg_msg_npc": ""
+      }
+    ],
     "emit_fields": [ { "emit_id": "emit_tindalos_gas_leak", "delay": "1 s" } ],
     "path_settings": { "max_dist": 10 },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
@@ -1064,7 +1092,22 @@
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "exempt",
-    "special_attacks": [ [ "TINDALOS_TELEPORT", 5 ], [ "DISAPPEAR", 25 ] ],
+    "special_attacks": [
+      [ "TINDALOS_TELEPORT", 5 ],
+      [ "DISAPPEAR", 25 ],
+      {
+        "type": "bite",
+        "cooldown": 5,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.5 } ],
+        "effects": [ { "id": "effect_hound_of_tindalos_slobber", "duration": 15, "chance": 100 } ],
+        "hit_dmg_u": "%1$s bites through the angles of your %2$s!",
+        "hit_dmg_npc": "%1$s bites through the angles of <npcname>'s %2$s!",
+        "miss_msg_u": "%1$s tries to bite you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to bite <npcname>, but they dodge!",
+        "no_dmg_msg_u": "",
+        "no_dmg_msg_npc": ""
+      }
+    ],
     "emit_fields": [ { "emit_id": "emit_tindalos_gas_leak", "delay": "1 s" } ],
     "path_settings": { "max_dist": 10 },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
