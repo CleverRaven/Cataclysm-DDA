@@ -47,6 +47,7 @@
 #include "translations.h"
 #include "units.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 #include "weather.h"
 
 struct bionic;
@@ -1429,6 +1430,11 @@ matec_id talker_character_const::get_random_technique( Creature const &t, bool c
                         dodge_counter,
                         block_counter,
                         blacklist ) );
+}
+
+bool talker_character_const::is_in_vehicle() const
+{
+    return get_map().veh_at( me_chr_const->pos_bub() ).has_value();
 }
 
 void talker_character::attack_target( Creature &t, bool allow_special,
