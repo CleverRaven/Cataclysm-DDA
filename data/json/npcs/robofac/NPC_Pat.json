@@ -2333,9 +2333,7 @@
     "destination": "mine_entrance",
     "difficulty": 5,
     "value": 0,
-    "start": {
-      "assign_mission_target": { "om_terrain": "mine_entrance", "om_special": "Spiral mine", "reveal_radius": 2 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "mine_entrance", "om_special": "Spiral mine", "reveal_radius": 2 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
