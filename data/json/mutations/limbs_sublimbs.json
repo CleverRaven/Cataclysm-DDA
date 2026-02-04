@@ -118,5 +118,35 @@
     "parent": "tail_scorpion",
     "side": 0,
     "opposite": "tail_scorpion_base"
+  },
+  {
+    "id": "tail_club_base",
+    "type": "sub_body_part",
+    "name": "club tail base",
+    "name_multiple": "club tails base",
+    "max_coverage": 10,
+    "parent": "tail_club",
+    "side": 0,
+    "opposite": "tail_club_club"
+  },
+  {
+    "id": "tail_club_center",
+    "type": "sub_body_part",
+    "name": "club tail center",
+    "name_multiple": "club tails center",
+    "max_coverage": 60,
+    "parent": "tail_club",
+    "side": 0,
+    "opposite": "tail_club_center"
+  },
+  {
+    "id": "tail_club_club",
+    "type": "sub_body_part",
+    "name": "club tail mace",
+    "name_multiple": "club tail mace",
+    "max_coverage": 30,
+    "parent": "tail_club",
+    "side": 0,
+    "opposite": "tail_club_base"
   }
 ]

@@ -265,5 +265,73 @@
     "sub_parts": [ "tail_thick_base", "tail_thick_center", "tail_thick_tip" ],
     "smash_message": "You thwap %s with your tail.",
     "smash_efficiency": 0.45
+  },
+  {
+    "id": "tail_club",
+    "type": "body_part",
+    "name": "club tail",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "club tail" },
+    "heading": "tail",
+    "heading_multiple": "tails, club",
+    "encumbrance_text": "Balance is hampered.",
+    "encumbrance_limit": 25,
+    "hp_bar_ui_text": "Cl TAIL",
+    "limb_type": "tail",
+    "main_part": "torso",
+    "opposite_part": "tail_club",
+    "side": "both",
+    "hit_size": 8,
+    "hit_difficulty": 0.5,
+    "hot_morale_mod": 2,
+    "cold_morale_mod": 2,
+    "wet_morale": 0,
+    "fire_warmth_bonus": 150,
+    "squeamish_penalty": 3,
+    "base_hp": 40,
+    "health_limit": 10,
+    "similar_bodypart": "tail",
+    "techniques": [
+      "CLUB_THICK_BASH",
+      "CLUB_THICK_BASH_VS_LARGE",
+      "CLUB_THICK_BASH_NATURAL",
+      "CLUB_THICK_BASH_NATURAL_VS_LARGE",
+      "CLUB_THICK_BASH_CRIT",
+      "CLUB_THICK_BASH_CRIT_VS_LARGE"
+    ],
+    "technique_encumbrance_limit": 5,
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 30,
+        "max_duration": 960
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1.5,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1200
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      }
+    ],
+    "drench_capacity": 700,
+    "bionic_slots": 0,
+    "is_limb": true,
+    "sub_parts": [ "tail_club_base", "tail_club_center", "tail_club_club" ],
+    "smash_message": "You smash %s with your tail.",
+    "smash_efficiency": 0.45
   }
 ]
