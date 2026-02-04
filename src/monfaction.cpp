@@ -7,6 +7,8 @@
 
 #include "debug.h"
 #include "debug_menu.h"
+#include "faction.h"
+#include "game.h"
 #include "generic_factory.h"
 
 // for legacy reasons "monfaction::id" is called "name" in json
@@ -154,6 +156,25 @@ void monfaction::finalize()
     if( detect_base_faction_cycle() ) {
         // break the cycle
         base_faction = mfaction_str_id::NULL_ID();
+    }
+
+    associated_faction = faction_id::NULL_ID();
+    // associate with NPC faction
+    for( const std::pair<const faction_id, faction> &npc_faction : g->faction_manager_ptr->all() ) {
+        mfaction_str_id npc_fac = npc_faction.second.mon_faction;
+        // Nasty: Avoid matching empty string.
+        if( npc_fac.is_empty() ) {
+            continue;
+        }
+        if( !npc_fac.is_null() && npc_fac == id ) {
+            // Error loudly if two factions "own" this monfaction, something has gone wrong.
+            if( !associated_faction.is_null() ) {
+                debugmsg( "Attempting to set NPC faction owner of %s for monfaction %s. Monfaction is already owned by %s.",
+                          npc_fac.c_str(), id.c_str(), associated_faction.c_str() );
+                continue;
+            }
+            associated_faction = npc_faction.first;
+        }
     }
 }
 
