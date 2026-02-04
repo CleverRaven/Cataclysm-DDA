@@ -340,7 +340,7 @@ void overmap_sidebar::draw_debug()
     if( ( draw_data.debug_editor && center_vision != om_vision_level::unseen ) ||
         draw_data.debug_info ) {
         draw_sidebar_text( string_format( "current dimension: %s",
-                                          g->get_dimension_prefix().length() == 0 ? "default" : g->get_dimension_prefix() ), c_white );
+                                          g->get_dimension_prefix().empty() ? "default" : g->get_dimension_prefix() ), c_white );
         draw_sidebar_text( string_format( "abs_omt: %s", cursor_pos.to_string() ), c_white );
         const oter_t &oter = overmap_buffer.ter( cursor_pos ).obj();
         draw_sidebar_text( string_format( "oter: %s (rot %d)", oter.id.str(),
