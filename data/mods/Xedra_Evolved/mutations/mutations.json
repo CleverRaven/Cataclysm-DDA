@@ -1753,21 +1753,11 @@
     "id": "VAMPIRE_WEAKNESS_COLD_BLOODED",
     "name": { "str": "Vampiric weakness: cold as a corpse" },
     "points": -1,
-    "description": "Ambient cold temperature makes you stiff and slow even under winter clothes.  You lose speed and stats based on how low the ambient temperature is.",
+    "description": "Ambient cold temperature makes you stiff and slow even under winter clothes.  The lower the ambient temperature, the lower your speed.",
     "starting_trait": false,
     "valid": false,
     "purifiable": false,
-    "enchantments": [
-      {
-        "values": [
-          { "value": "SPEED", "add": { "math": [ "temperature_vw_cold_mod(65, 1)" ] } },
-          { "value": "STRENGTH", "add": { "math": [ "temperature_vw_cold_mod(65, 0.1)" ] } },
-          { "value": "DEXTERITY", "add": { "math": [ "temperature_vw_cold_mod(65, 0.1)" ] } },
-          { "value": "INTELLIGENCE", "add": { "math": [ "temperature_vw_cold_mod(65, 0.1)" ] } },
-          { "value": "PERCEPTION", "add": { "math": [ "temperature_vw_cold_mod(65, 0.1)" ] } }
-        ]
-      }
-    ],
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "math": [ "temperature_vw_cold_mod(65, 1)" ] } } ] } ],
     "flags": [ "NO_BODY_HEAT" ]
   },
   {

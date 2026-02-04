@@ -277,7 +277,7 @@
     "//": "Copy of temperature_speed_mod(), but affects vampires no matter how cold-immune they are.",
     "//2": "Temperature limit, after which the speed starts to change, in farenheit",
     "num_args": 2,
-    "return": "min(fahrenheit(weather('temperature') - _0, 0)"
+    "return": "min((fahrenheit(weather('temperature')) - _0) * 2, 0)"
   },
   {
     "type": "jmath_function",
