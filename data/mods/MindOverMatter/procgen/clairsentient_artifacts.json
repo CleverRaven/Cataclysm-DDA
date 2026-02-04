@@ -122,7 +122,7 @@
         "max_value": 3,
         "type": "BONUS_DODGE",
         "increment": 1,
-        "power_per_increment": 750,
+        "power_per_increment": 250,
         "ench_has": "HELD"
       },
       {
@@ -131,7 +131,7 @@
         "max_value": 5,
         "type": "DODGE_CHANCE",
         "increment": 1,
-        "power_per_increment": 250,
+        "power_per_increment": 150,
         "ench_has": "HELD"
       },
       {
@@ -149,7 +149,7 @@
         "max_value": 3,
         "type": "MELEE_TO_HIT",
         "increment": 1,
-        "power_per_increment": 750,
+        "power_per_increment": 250,
         "ench_has": "HELD"
       },
       {
@@ -158,8 +158,8 @@
         "max_value": 6,
         "type": "MOTION_ALARM",
         "increment": 1,
-        "power_per_increment": 150,
-        "ench_has": "WIELD"
+        "power_per_increment": 50,
+        "ench_has": "HELD"
       },
       {
         "weight": 100,
@@ -167,8 +167,8 @@
         "max_value": 10,
         "type": "NIGHT_VIS",
         "increment": 1,
-        "power_per_increment": 150,
-        "ench_has": "WIELD"
+        "power_per_increment": 50,
+        "ench_has": "HELD"
       },
       {
         "weight": 50,
@@ -176,8 +176,8 @@
         "max_value": 4,
         "type": "OVERMAP_SIGHT",
         "increment": 1,
-        "power_per_increment": 500,
-        "ench_has": "WIELD"
+        "power_per_increment": 200,
+        "ench_has": "HELD"
       },
       {
         "weight": 50,
@@ -185,7 +185,7 @@
         "max_value": 6,
         "type": "RANGE",
         "increment": 1,
-        "power_per_increment": 400,
+        "power_per_increment": 350,
         "ench_has": "HELD"
       },
       {
@@ -194,7 +194,7 @@
         "max_value": 0.5,
         "type": "RANGE_DODGE",
         "increment": 0.05,
-        "power_per_increment": 750,
+        "power_per_increment": 450,
         "ench_has": "HELD"
       }
     ],
@@ -323,7 +323,7 @@
         "max_value": 3,
         "type": "BONUS_DODGE",
         "increment": 1,
-        "power_per_increment": 750,
+        "power_per_increment": 250,
         "ench_has": "HELD"
       },
       {
@@ -332,7 +332,7 @@
         "max_value": 5,
         "type": "DODGE_CHANCE",
         "increment": 1,
-        "power_per_increment": 250,
+        "power_per_increment": 150,
         "ench_has": "HELD"
       },
       {
@@ -350,7 +350,7 @@
         "max_value": 3,
         "type": "MELEE_TO_HIT",
         "increment": 1,
-        "power_per_increment": 750,
+        "power_per_increment": 250,
         "ench_has": "HELD"
       },
       {
@@ -359,7 +359,7 @@
         "max_value": 6,
         "type": "MOTION_ALARM",
         "increment": 1,
-        "power_per_increment": 150,
+        "power_per_increment": 50,
         "ench_has": "HELD"
       },
       {
@@ -368,7 +368,7 @@
         "max_value": 10,
         "type": "NIGHT_VIS",
         "increment": 1,
-        "power_per_increment": 150,
+        "power_per_increment": 50,
         "ench_has": "HELD"
       },
       {
@@ -377,7 +377,7 @@
         "max_value": 4,
         "type": "OVERMAP_SIGHT",
         "increment": 1,
-        "power_per_increment": 500,
+        "power_per_increment": 200,
         "ench_has": "HELD"
       },
       {
@@ -386,7 +386,7 @@
         "max_value": 6,
         "type": "RANGE",
         "increment": 1,
-        "power_per_increment": 400,
+        "power_per_increment": 350,
         "ench_has": "HELD"
       },
       {
@@ -395,7 +395,7 @@
         "max_value": 0.5,
         "type": "RANGE_DODGE",
         "increment": 0.05,
-        "power_per_increment": 750,
+        "power_per_increment": 450,
         "ench_has": "HELD"
       }
     ],
