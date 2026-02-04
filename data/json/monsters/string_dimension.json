@@ -142,7 +142,7 @@
     "type": "MONSTER",
     "species": [ "CYBORG", "ZOMBIE" ],
     "name": { "str": "frostbitten zomborg hulk" },
-    "description": "A dead, staggering creature, more cyborg than human. Robotic components cover most of its body, with only a few bands of black flesh, frostbitten by long exposure to cold, wrapped around them, tugging and pulling them in awkward directions.  It staggers about, its awkward limbs clanking against armored torso.",
+    "description": "A dead, staggering creature, more cyborg than human.  Robotic components cover most of its body, with only a few bands of black flesh, frostbitten by long exposure to cold, wrapped around them, tugging and pulling them in awkward directions.  It staggers about, its awkward limbs clanking against armored torso.",
     "copy-from": "mon_zombie_base",
     "bodytype": "human",
     "material": [ "qt_steel", "flesh", "exodii_ceramic" ],
