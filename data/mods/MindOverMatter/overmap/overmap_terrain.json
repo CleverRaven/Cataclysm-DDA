@@ -43,7 +43,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "office_cubical_phavian_roof" ],
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_roof",
     "looks_like": "office_cubical_roof",
     "vision_levels": "roof_or_air",
     "name": "office roof",
@@ -56,7 +56,8 @@
     "vision_levels": "underground_dirt",
     "looks_like": "office_cubical",
     "name": "office basement",
-    "color": "light_gray"
+    "color": "light_gray",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -65,7 +66,8 @@
     "vision_levels": "underground_stone",
     "looks_like": "office_cubical",
     "name": "office subbasement",
-    "color": "light_gray"
+    "color": "light_gray",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -305,35 +307,61 @@
       "phavan_office_skyscraper_lab_upper_sw",
       "phavan_office_skyscraper_lab_upper_se"
     ],
-    "copy-from": "generic_office_skyscraper"
+    "copy-from": "generic_office_skyscraper",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
-    "abstract": "alien_meadow",
-    "copy-from": "generic_open_land",
-    "name": "alien meadow",
-    "sym": ",",
-    "color": "red",
-    "travel_cost_type": "field",
-    "spawns": { "group": "GROUP_ALIEN_MEADOW", "population": [ 0, 1 ], "chance": 13 },
-    "flags": [ "REQUIRES_PREDECESSOR" ]
+    "id": [
+      "phavian_hospital_basement_nw",
+      "phavian_hospital_basement_ne",
+      "phavian_hospital_basement_sw",
+      "phavian_hospital_basement_se"
+    ],
+    "looks_like": "generic_hospital",
+    "copy-from": "generic_hospital",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "alien_meadow_core",
-    "copy-from": "alien_meadow",
-    "extend": { "flags": [ "NO_ROTATE" ] }
+    "id": [
+      "phavian_hospital_transition_tunnel_upper",
+      "phavian_hospital_transition_tunnel_lower",
+      "phavian_hospital_elevator_connection"
+    ],
+    "name": "PHAVIAN lab",
+    "looks_like": "microlab_generic",
+    "sym": "L",
+    "see_cost": "full_high",
+    "vision_levels": "underground_stone",
+    "color": "light_red"
   },
   {
     "type": "overmap_terrain",
-    "id": "alien_meadow_join",
-    "copy-from": "alien_meadow",
-    "extend": { "flags": [ "NO_ROTATE" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "alien_meadow_end",
-    "copy-from": "alien_meadow"
+    "id": [
+      "phavian_hospital_main_floor_z3_nw_upper",
+      "phavian_hospital_main_floor_z3_ncw_upper",
+      "phavian_hospital_main_floor_z3_nce_upper",
+      "phavian_hospital_main_floor_z3_ne_upper",
+      "phavian_hospital_main_floor_z3_sw_upper",
+      "phavian_hospital_main_floor_z3_scw_upper",
+      "phavian_hospital_main_floor_z3_sce_upper",
+      "phavian_hospital_main_floor_z3_se_upper",
+      "phavian_hospital_main_floor_z4_nw_lower",
+      "phavian_hospital_main_floor_z4_ncw_lower",
+      "phavian_hospital_main_floor_z4_nce_lower",
+      "phavian_hospital_main_floor_z4_ne_lower",
+      "phavian_hospital_main_floor_z4_sw_lower",
+      "phavian_hospital_main_floor_z4_scw_lower",
+      "phavian_hospital_main_floor_z4_sce_lower",
+      "phavian_hospital_main_floor_z4_se_lower"
+    ],
+    "name": "PHAVIAN lab",
+    "looks_like": "microlab_generic",
+    "sym": "L",
+    "see_cost": "full_high",
+    "vision_levels": "underground_stone",
+    "color": "light_red"
   },
   {
     "type": "overmap_terrain",

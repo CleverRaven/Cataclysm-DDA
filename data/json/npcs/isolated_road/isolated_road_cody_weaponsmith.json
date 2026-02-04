@@ -46,6 +46,11 @@
         "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
       },
       {
+        "text": "[250 merch, 4 days] I need a war hammer.",
+        "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "warhammer", "cost": 250, "wait": 4 } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
         "text": "[200 merch, 3 days] I need a steelshod quarterstaff.",
         "effect": { "run_eocs": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "steel_staff", "cost": 200, "wait": 3 } },
         "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"

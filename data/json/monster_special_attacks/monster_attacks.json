@@ -114,6 +114,103 @@
   {
     "type": "monster_attack",
     "attack_type": "melee",
+    "id": "grab_4",
+    "cooldown": 0,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
+    "grab": true,
+    "grab_data": { "grab_effect": "grabbed" },
+    "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "not": { "u_has_effect": "grabbing_4" } } ] },
+    "//": "We can't count grab filters, so grabbing 3 works as a soft cooldown",
+    "self_effects_onhit": [ { "id": "grabbing_4", "duration": 150, "permanent": false } ],
+    "hit_dmg_u": "%1$s grabs your %2$s with its other hand!",
+    "hit_dmg_npc": "%1$s grabs <npcname>'s %2$s with its other hand!",
+    "miss_msg_u": "%s tries to grab you, but you dodge!",
+    "miss_msg_npc": "%s tries to grab <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s grabs your %2$s with its other hand!",
+    "no_dmg_msg_npc": "%1$s grabs <npcname>'s %2$s with its other hand!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "grab_5",
+    "cooldown": 0,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
+    "grab": true,
+    "grab_data": { "grab_effect": "grabbed" },
+    "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "not": { "u_has_effect": "grabbing_5" } } ] },
+    "//": "We can't count grab filters, so grabbing 3 works as a soft cooldown",
+    "self_effects_onhit": [ { "id": "grabbing_5", "duration": 150, "permanent": false } ],
+    "hit_dmg_u": "%1$s grabs your %2$s with its other hand!",
+    "hit_dmg_npc": "%1$s grabs <npcname>'s %2$s with its other hand!",
+    "miss_msg_u": "%s tries to grab you, but you dodge!",
+    "miss_msg_npc": "%s tries to grab <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s grabs your %2$s with its other hand!",
+    "no_dmg_msg_npc": "%1$s grabs <npcname>'s %2$s with its other hand!"
+  },
+  {
+    "type": "monster_attack",
+    "id": "hekatonkheire_rend",
+    "attack_type": "eoc",
+    "cooldown": 1,
+    "range": 1,
+    "eoc": [ "EOC_HEKATONKHEIRES_RENDING_GRAB_INIT" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_INIT",
+    "effect": [
+      { "math": [ "u_grappled = 0" ] },
+      {
+        "run_eocs": [
+          "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE",
+          "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE2",
+          "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE3",
+          "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE4",
+          "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE5",
+          "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLEDAMAGE_CAST"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE",
+    "condition": { "u_has_effect": "grabbing" },
+    "effect": [ { "math": [ "u_grappled += 1" ] }, { "run_eocs": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE2",
+    "condition": { "u_has_effect": "grabbing_2" },
+    "effect": [ { "math": [ "u_grappled += 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE3",
+    "condition": { "u_has_effect": "grabbing_3" },
+    "effect": [ { "math": [ "u_grappled += 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE4",
+    "condition": { "u_has_effect": "grabbing_4" },
+    "effect": [ { "math": [ "u_grappled += 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLE5",
+    "condition": { "u_has_effect": "grabbing_5" },
+    "effect": [ { "math": [ "u_grappled += 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEKATONKHEIRES_RENDING_GRAB_CHECK_GRAPPLEDAMAGE_CAST",
+    "condition": { "math": [ "u_grappled > 1" ] },
+    "effect": [ { "u_cast_spell": { "id": "HEKATONKHEIRE_REND_AND_TEAR" } } ]
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
     "id": "ranged_pull",
     "cooldown": 15,
     "move_cost": 150,
@@ -337,6 +434,23 @@
   },
   {
     "type": "monster_attack",
+    "attack_type": "bite",
+    "id": "stretch_bite_clone",
+    "cooldown": 10,
+    "move_cost": 300,
+    "//": "No stun on miss/obstacle unlike in the hardcoded attack, raised movecost to compensate",
+    "range": 3,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 9 } ],
+    "min_mul": 0.3,
+    "hit_dmg_u": "%1$s's head shoots out, and its teeth sink into your %2$s!",
+    "hit_dmg_npc": "%1$s's head shoots out, and its teeth sink into <npcname>!",
+    "no_dmg_msg_u": "%1$s's head hits your %2$s, but glances off your armor.",
+    "no_dmg_msg_npc": "%1$s's head hits <npcname>, but glances off their armor.",
+    "miss_msg_u": "%s's head extends to bite you, but you dodge and the head sails past!",
+    "miss_msg_npc": "%s's head extends to bite <npcname>, but they dodge and the head sails past!"
+  },
+  {
+    "type": "monster_attack",
     "attack_type": "melee",
     "id": "stretch_attack",
     "cooldown": 20,
@@ -474,6 +588,40 @@
     "cooldown": 20,
     "move_cost": 150,
     "damage_max_instance": [ { "damage_type": "cut", "amount": 8 } ],
+    "hit_dmg_u": "%1$s claws at your %2$s!",
+    "hit_dmg_npc": "%1$s claws at <npcname>!",
+    "miss_msg_u": "%1$s claws at you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to claw at <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s claws at your %2$s, but fails to penetrate armor.",
+    "no_dmg_msg_npc": "%1$s tries to claw at <npcname>, but fails to penetrate armor.",
+    "dodgeable": true,
+    "blockable": true
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "multi_scratch",
+    "attack_amount": [ 1, 5 ],
+    "cooldown": 20,
+    "move_cost": 150,
+    "damage_max_instance": [ { "damage_type": "cut", "amount": 8 } ],
+    "hit_dmg_u": "%1$s claws at your %2$s!",
+    "hit_dmg_npc": "%1$s claws at <npcname>!",
+    "miss_msg_u": "%1$s claws at you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to claw at <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s claws at your %2$s, but fails to penetrate armor.",
+    "no_dmg_msg_npc": "%1$s tries to claw at <npcname>, but fails to penetrate armor.",
+    "dodgeable": true,
+    "blockable": true
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "multi_scratch_clone",
+    "attack_amount": [ 1, 3 ],
+    "cooldown": 20,
+    "move_cost": 150,
+    "damage_max_instance": [ { "damage_type": "cut", "amount": 5 } ],
     "hit_dmg_u": "%1$s claws at your %2$s!",
     "hit_dmg_npc": "%1$s claws at <npcname>!",
     "miss_msg_u": "%1$s claws at you, but you dodge!",
@@ -655,6 +803,27 @@
   {
     "type": "monster_attack",
     "attack_type": "melee",
+    "id": "hulk_lift_and_smash",
+    "accuracy": 8,
+    "cooldown": 15,
+    "move_cost": 250,
+    "hitsize_min": 12,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 120 } ],
+    "dodgeable": false,
+    "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
+    "blockable": false,
+    "spread_damage": true,
+    "effects": [ { "id": "downed", "chance": 95, "duration": [ 1, 2 ] } ],
+    "hit_dmg_u": "%1$s lifts you off the ground and swings you like a sack, smashing you into the ground!",
+    "hit_dmg_npc": "%1$s pulls its arm back and swings wide, smashing into <npcname>'s %2$s!",
+    "miss_msg_u": "%1$s pulls its arm back and swings wide, but you dodge!",
+    "miss_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> dodges!",
+    "no_dmg_msg_u": "%1$s pulls its arm back and swings wide, but you withstand the blow!",
+    "no_dmg_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> withstands the blow!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
     "id": "bio_op_takedown",
     "cooldown": 10,
     "move_cost": 100,
@@ -807,5 +976,123 @@
     "miss_msg_npc": "%1$s tries to pulls <npcname>'s %2$s in its orifice but misses.",
     "no_dmg_msg_u": "%1$s pulls your %2$s in its orifice and starts crushing it, but can't penetrate your armor.",
     "no_dmg_msg_npc": "%1$s pulls <npcname>'s %2$s in its orifice and starts crushing it, but can't penetrate their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "hulk_wide_swing",
+    "accuracy": 8,
+    "cooldown": 15,
+    "move_cost": 250,
+    "hitsize_min": 12,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 35, "armor_penetration": 10 } ],
+    "dodgeable": true,
+    "blockable": false,
+    "effects": [ { "id": "downed", "chance": 95, "duration": [ 1, 2 ] } ],
+    "hit_dmg_u": "%1$s pulls its arm back and swings wide, smashing into your %2$s!",
+    "hit_dmg_npc": "%1$s pulls its arm back and swings wide, smashing into <npcname>'s %2$s!",
+    "miss_msg_u": "%1$s pulls its arm back and swings wide, but you dodge!",
+    "miss_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> dodges!",
+    "no_dmg_msg_u": "%1$s pulls its arm back and swings wide, but you withstand the blow!",
+    "no_dmg_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> withstands the blow!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "staggering_blow",
+    "accuracy": 5,
+    "cooldown": 15,
+    "move_cost": 175,
+    "hitsize_min": 12,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 20, "armor_penetration": 6 } ],
+    "effects": [
+      { "id": "staggered_character", "chance": 100, "duration": [ 1, 2 ] },
+      { "id": "downed", "chance": 50, "duration": [ 1, 2 ] }
+    ],
+    "hit_dmg_u": "%1$s smashes a heavy fist into your %2$s, sending you reeling!",
+    "hit_dmg_npc": "%1$s smashes a heavy fist into <npcname>'s %2$s, sending them reeling!",
+    "miss_msg_u": "%1$s swings a heavy fist at you, but you dodge!",
+    "miss_msg_npc": "%1$s swings a heavy fist at <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s smashes a heavy fist into your %2$s, but your armor blunts the impact!",
+    "no_dmg_msg_npc": "%1$s smashes a heavy fist into <npcname>'s %2$s, but their armor blunts the impact!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "mon_shocker_chargeup",
+    "accuracy": 8,
+    "cooldown": 8,
+    "move_cost": 100,
+    "range": 5,
+    "dodgeable": false,
+    "blockable": false,
+    "effects_require_dmg": false,
+    "damage_max_instance": [ { "damage_type": "pure", "amount": 0 } ],
+    "eoc": [ "EOC_SHOCKER_ADD_CHARGE_EFFECT" ],
+    "condition": { "math": [ "u_effect_intensity('effect_shocker_zombie_charge_up') <= 5" ] },
+    "hit_dmg_u": "With a crackling sound, %1$s begins glowing brighter!",
+    "hit_dmg_npc": "With a crackling sound, %1$s begins glowing brighter!",
+    "miss_msg_u": "With a crackling sound, %1$s begins glowing brighter!",
+    "miss_msg_npc": "With a crackling sound, %1$s begins glowing brighter!",
+    "no_dmg_msg_u": "With a crackling sound, %1$s begins glowing brighter!",
+    "no_dmg_msg_npc": "With a crackling sound, %1$s begins glowing brighter!"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHOCKER_ADD_CHARGE_EFFECT",
+    "//": "This is necessary because self_effects_always applies an ABSOLUTE intensity so we can't use it to increment the effect",
+    "effect": [ { "u_add_effect": "effect_shocker_zombie_charge_up", "duration": 12 } ]
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "mon_shocker_chargeup_attack",
+    "cooldown": 1,
+    "move_cost": 150,
+    "damage_max_instance": [ { "damage_type": "electric", "amount": 40 } ],
+    "dodgeable": true,
+    "blockable": true,
+    "spread_damage": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_effect_intensity('effect_shocker_zombie_charge_up') >= 4" ] },
+        { "not": { "u_has_flag": "GRAB_FILTER" } },
+        { "not": { "u_has_effect": "maimed_arm" } }
+      ]
+    },
+    "//": "We need a second effect to cancel out the charge-up",
+    "self_effects_onhit": [ { "id": "effect_shocker_zombie_charge_up_removal", "duration": 12 } ],
+    "hit_dmg_u": "%1$s touches your %2$s and unleashes a massive burst of electricity!",
+    "hit_dmg_npc": "%1$s touches <npcname>'s %2$s and unleashes a massive burst of electricity!",
+    "miss_msg_u": "%1$s tries to touch you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s touches your %2$s and unleashes a massive burst of electricity, but you are unaffected.",
+    "no_dmg_msg_npc": "%1$s touches <npcname>'s %2$s and unleashes a massive burst of electricity, but they are unaffected."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "mon_shocker_chargeup_attack_grab",
+    "cooldown": 1,
+    "move_cost": 150,
+    "damage_max_instance": [ { "damage_type": "electric", "amount": 40 } ],
+    "//": "If the shocker is grabbing you, it doesn't need to try to touch you to zap you",
+    "dodgeable": false,
+    "blockable": false,
+    "spread_damage": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_effect_intensity('effect_shocker_zombie_charge_up') >= 4" ] },
+        { "u_has_flag": "GRAB_FILTER" },
+        { "not": { "u_has_effect": "maimed_arm" } }
+      ]
+    },
+    "self_effects_onhit": [ { "id": "effect_shocker_zombie_charge_up_removal", "duration": 12 } ],
+    "hit_dmg_u": "%1$s touches your %2$s and unleashes a massive burst of electricity!",
+    "hit_dmg_npc": "%1$s touches <npcname>'s %2$s and unleashes a massive burst of electricity!",
+    "miss_msg_u": "%1$s tries to touch you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s touches your %2$s and unleashes a massive burst of electricity, but you are unaffected.",
+    "no_dmg_msg_npc": "%1$s touches <npcname>'s %2$s and unleashes a massive burst of electricity, but they are unaffected."
   }
 ]

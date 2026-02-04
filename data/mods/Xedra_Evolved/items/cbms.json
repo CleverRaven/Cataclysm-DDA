@@ -5,7 +5,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Flesh roots seed" },
-    "description": "This seed might be more accurately compared to a bulb, because like a bulb you dug it out of the home it had made and chopped off its extremities and are now preparing to plant it in a new location; only, in this instance the hole was dug into the chest of a dead vampire minion and the new location is nestled against the still-beating heart of a patient.",
+    "description": "This seed might be more accurately described as a bulb.  You dug it out of the home it had made and chopped off its extremities.  You are now preparing to plant it in a new location.  Only, in this instance the hole was dug into the chest of a dead vampire minion and the new location is nestled against the still-beating heart of a patient.",
     "price": "3 kUSD 500 USD",
     "difficulty": 8
   },
@@ -15,7 +15,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Vampire Blood Fuel Cell Generator" },
-    "description": "What reason could anyone have making a bionic power generator that runs off the blood of vampires?  After some thought, one option that occurs to you would be the possibility that by limiting the fuel options, a vampire is also limiting the opportunities for a rogue minion to use its bionics against its master.",
+    "description": "What reason could anyone have for making a bionic power generator that runs off the blood of vampires?  After some thought, one option that occurs to you would be the possibility that by limiting the fuel options, a vampire is also limiting the opportunities for a rogue minion to use its bionics against its master.",
     "price": "3 kUSD 500 USD",
     "difficulty": 2
   },

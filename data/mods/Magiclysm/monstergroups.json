@@ -57,7 +57,7 @@
       { "monster": "mon_giant_heron_ridable_zombie", "weight": 7, "cost_multiplier": 10, "starts": "21 days" },
       { "monster": "mon_owlbear_zombie", "weight": 15, "starts": "28 days" },
       { "monster": "mon_owlbear_zombie_brute", "weight": 1, "cost_multiplier": 15, "starts": "120 days" },
-      { "monster": "mon_troll_zombie", "weight": 3, "cost_multiplier": 13 },
+      { "monster": "mon_troll_zombie", "weight": 1, "cost_multiplier": 13, "starts": "21 days" },
       { "monster": "mon_yulecat_zombie", "weight": 3, "cost_multiplier": 12, "event": "christmas" },
       { "monster": "mon_yulecat_zombie_brute", "weight": 1, "cost_multiplier": 25, "event": "christmas" },
       { "monster": "mon_ogre_spider", "weight": 5, "cost_multiplier": 12, "starts": "240 days" },

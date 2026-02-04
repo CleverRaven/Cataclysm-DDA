@@ -124,7 +124,7 @@
                     "id": "EOC_WEREWOLF_WOLF_FORM_activated_3",
                     "condition": { "math": [ "u_val('mana') >= 20" ] },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.5" ] } },
                       { "math": [ "u_val('mana') -= 20" ] },
                       { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
                       { "u_add_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
@@ -149,7 +149,7 @@
                     "id": "EOC_WEREWOLF_WOLF_FORM_deactivated",
                     "condition": { "u_has_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.5" ] } },
                       {
                         "u_message": "Your body shifts and contracts and you return to your humanoid form.",
                         "type": "neutral"
@@ -198,7 +198,7 @@
                     "id": "EOC_WEREWOLF_HYBRID_FORM_activated_3",
                     "condition": { "math": [ "u_val('mana') >= 20" ] },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.5" ] } },
                       { "math": [ "u_val('mana') -= 20" ] },
                       { "math": [ "u_calories('dont_affect_weariness': true) *= 3" ] },
                       { "math": [ "u_werewolf_healing_tick_counter = 0" ] },
@@ -225,7 +225,7 @@
                     "id": "EOC_WEREWOLF_HYBRID_FORM_deactivated",
                     "condition": { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.5" ] } },
                       {
                         "u_message": "Your body shifts and contracts and you return to your humanoid form.",
                         "type": "neutral"

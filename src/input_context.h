@@ -1,16 +1,14 @@
 #pragma once
 
 #include <functional>
+#include <list>
 #include <map>
+#include <memory>
 #include <optional>
 #include <set>
 #include <string>
 #include <string_view>
 #include <vector>
-
-#if defined(__ANDROID__)
-#include <list>
-#endif
 
 #include "action.h"
 #include "coords_fwd.h"
@@ -37,19 +35,46 @@ class window;
  * This turns this class into an abstraction method between actual
  * input(keyboard, gamepad etc.) and game.
  */
+class input_context;
+struct input_context_handle {
+    input_context *cxtx;
+};
+
+class input_context_stack_impl
+{
+    public:
+        input_context *back();
+        void pop();
+        void push( std::shared_ptr<input_context_handle> const &context );
+
+    private:
+        std::list<std::weak_ptr<input_context_handle>> stack;
+        input_context *reap();
+
+};
+
 class input_context
 {
         friend class keybindings_ui;
-    public:
-#if defined(__ANDROID__)
-        // Whatever's on top is our current input context.
-        static std::list<input_context *> input_context_stack;
-#endif
 
-        input_context() : registered_any_input( false ), category( "default" ),
+        // We use a shared_ptr to an intermediate handle object to resolve lifecycle issues with the
+        // input_context_stack. Each input_context will own a handle which holds a raw pointer back
+        // to the input_context. We store a weak_ptr to the handle in the input_context_stack. The
+        // destructor for input_context will safely destruct the handle, input_context_stack will
+        // lazily reap dead weak_ptrs on the next access.
+        std::shared_ptr<input_context_handle> handle{ new input_context_handle{this} };
+
+    public:
+#if defined(__ANDROID__) || defined(TILES)
+        // Whatever's on top is our current input context.
+        static input_context_stack_impl input_context_stack;
+#endif
+        input_context() : category( "default" ), registered_any_input( false ),
             coordinate_input_received( false ), handling_coordinate_input( false ) {
+#if defined(__ANDROID__) || defined(TILES)
+            input_context_stack.push( handle );
+#endif
 #if defined(__ANDROID__)
-            input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
             register_action( "toggle_language_to_en" );
@@ -58,21 +83,62 @@ class input_context
         // outside that window can be ignored
         explicit input_context( const std::string &category,
                                 const keyboard_mode preferred_keyboard_mode = keyboard_mode::keycode )
-            : registered_any_input( false ), category( category ),
+            : category( category ), registered_any_input( false ),
               coordinate_input_received( false ), handling_coordinate_input( false ),
               preferred_keyboard_mode( preferred_keyboard_mode ) {
+#if defined(__ANDROID__) || defined(TILES)
+            input_context_stack.push( handle );
+#endif
 #if defined(__ANDROID__)
-            input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
             register_action( "toggle_language_to_en" );
         }
 
-#if defined(__ANDROID__)
-        virtual ~input_context() {
-            input_context_stack.remove( this );
+        input_context( const input_context &other ) {
+            reassign( other );
         }
 
+        input_context &operator=( const input_context &other ) {
+            if( this == &other ) {
+                return *this;
+            }
+            reassign( other );
+            return *this;
+        }
+
+        input_context( input_context &&other ) noexcept {
+            reassign( std::move( other ) );
+        }
+
+        input_context &operator=( input_context &&other ) noexcept {
+            reassign( std::move( other ) );
+            return *this;
+        }
+
+        template<typename Rhs>
+        void reassign( Rhs &&other ) {
+            // Don't touch the handle
+#if defined(__ANDROID__)
+            registered_manual_keys = std::forward<Rhs>( other ).registered_manual_keys;
+#endif
+            registered_actions = std::forward<Rhs>( other ).registered_actions;
+            edittext = std::forward<Rhs>( other ).edittext;
+            category = std::forward<Rhs>( other ).category;
+            coordinate = std::forward<Rhs>( other ).coordinate;
+            registered_any_input = std::forward<Rhs>( other ).registered_any_input;
+            coordinate_input_received = std::forward<Rhs>( other ).coordinate_input_received;
+            handling_coordinate_input = std::forward<Rhs>( other ).handling_coordinate_input;
+            iso_mode = std::forward<Rhs>( other ).iso_mode;
+            allow_text_entry = std::forward<Rhs>( other ).allow_text_entry;
+            next_action = std::forward<Rhs>( other ).next_action;
+            timeout = std::forward<Rhs>( other ).timeout;
+            preferred_keyboard_mode = std::forward<Rhs>( other ).preferred_keyboard_mode;
+            action_name_overrides = std::forward<Rhs>( other ).action_name_overrides;
+        }
+
+
+#if defined(__ANDROID__)
         // HACK: hack to allow creating manual keybindings for getch() instances, uilists etc. that don't use an input_context outside of the Android version
         struct manual_key {
             manual_key( int _key, const std::string &_text ) : key( _key ), text( _text ) {}
@@ -82,10 +148,6 @@ class input_context
                 return key == other.key && text == other.text;
             }
         };
-
-        // If true, prevent virtual keyboard from dismissing after a key press while this input context is active.
-        // NOTE: This won't auto-bring up the virtual keyboard, for that use sdltiles.cpp is_string_input()
-        bool allow_text_entry;
 
         void register_manual_key( manual_key mk );
         void register_manual_key( int key, const std::string text = "" );
@@ -111,22 +173,6 @@ class input_context
         bool is_action_registered( const std::string &action_descriptor ) const {
             return std::find( registered_actions.begin(), registered_actions.end(),
                               action_descriptor ) != registered_actions.end();
-        }
-
-        input_context &operator=( const input_context &other ) {
-            registered_actions = other.registered_actions;
-            registered_manual_keys = other.registered_manual_keys;
-            allow_text_entry = other.allow_text_entry;
-            registered_any_input = other.registered_any_input;
-            category = other.category;
-            coordinate = other.coordinate;
-            coordinate_input_received = other.coordinate_input_received;
-            handling_coordinate_input = other.handling_coordinate_input;
-            next_action = other.next_action;
-            iso_mode = other.iso_mode;
-            action_name_overrides = other.action_name_overrides;
-            timeout = other.timeout;
-            return *this;
         }
 
         bool operator==( const input_context &other ) const {
@@ -426,13 +472,20 @@ class input_context
         bool is_event_type_enabled( input_event_t type ) const;
         bool is_registered_action( const std::string &action_name ) const;
     private:
-        bool registered_any_input;
         std::string category; // The input category this context uses.
         point coordinate;
+
+        bool registered_any_input;
         bool coordinate_input_received;
         bool handling_coordinate_input;
-        input_event next_action;
         bool iso_mode = false; // should this context follow the game's isometric settings?
+
+    public:
+        // If true, prevent virtual keyboard from dismissing after a key press while this input context is active.
+        // NOTE: This won't auto-bring up the virtual keyboard, for that use sdltiles.cpp is_string_input()
+        bool allow_text_entry;
+    private:
+        input_event next_action;
         int timeout = -1;
         keyboard_mode preferred_keyboard_mode = keyboard_mode::keycode;
 

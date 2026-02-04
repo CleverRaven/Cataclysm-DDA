@@ -1663,7 +1663,7 @@ void mongroup::wander( const overmap &om )
 
 horde_entity &overmap::spawn_monster( const tripoint_abs_ms &p, mtype_id id )
 {
-    return hordes.spawn_entity( p, id )->second;
+    return ( *hordes.spawn_entity( p, id ) )->second;
 }
 
 // Seeks through the submap looking for open areas.

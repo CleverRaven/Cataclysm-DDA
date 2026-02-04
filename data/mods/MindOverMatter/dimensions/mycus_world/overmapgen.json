@@ -1,0 +1,26 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "mom_mycus_world_default",
+    "copy-from": "generic_open_land",
+    "name": "fungal field",
+    "sym": ".",
+    "travel_cost_type": "field",
+    "looks_like": "meadow_core",
+    "color": "green",
+    "see_cost": "none",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "mom_mycus_world_default" ],
+    "weight": 3,
+    "object": { "fill_ter": "t_region_groundcover" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "mom_mycus_world_default",
+    "weight": 1,
+    "object": { "fill_ter": "t_region_groundcover" }
+  }
+]

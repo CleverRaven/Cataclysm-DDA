@@ -85,7 +85,6 @@
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
-static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_transition_contacts( "transition_contacts" );
@@ -975,7 +974,7 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
     } else {
         // set flag to craft
         craft_in_world.get_item()->set_var( "crafter", name );
-        assign_activity( ACT_MULTIPLE_CRAFT );
+        assign_activity( multi_craft_activity_actor() );
     }
 
     // Morale penalties happen on start, to penalize crafting speed during the craft.
@@ -1937,7 +1936,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                                                               &is_food, &remove_raw]( const inventory_source & inv_source,
         const itype_id & ingredient_type, const int &count ) {
             std::string text;
-            int available;
+            int available = 0;
             const item ingredient = item( ingredient_type );
             std::pair<int, int> kcal_values{ 0, 0 };
 
@@ -3260,7 +3259,7 @@ void npc::do_npc_craft( const std::optional<tripoint_bub_ms> &loc, const recipe_
 
                 selected = item_selection.ret;
                 if( selected == 0 ) {
-                    assign_activity( ACT_MULTIPLE_CRAFT );
+                    assign_activity( multi_craft_activity_actor() );
                 }
             } while( selected >= 1 );
         }

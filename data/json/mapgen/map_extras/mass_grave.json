@@ -67,7 +67,9 @@
         { "group": "mass_grave_casings", "repeat": [ 10, 15 ], "x": [ 2, 22 ], "y": [ 18, 23 ] },
         { "group": "guns_launcher_flame", "chance": 40, "x": [ 2, 5 ], "y": 20 },
         { "item": "stanag30", "repeat": [ 0, 2 ], "x": [ 2, 22 ], "y": [ 18, 23 ] },
-        { "item": "mask_gas", "repeat": [ 0, 3 ], "x": [ 2, 5 ], "y": 20 },
+        { "item": "mask_gas", "chance": 50, "repeat": [ 0, 3 ], "x": [ 2, 5 ], "y": 20 },
+        { "item": "military_papr_mask", "chance": 50, "repeat": [ 0, 3 ], "x": [ 2, 5 ], "y": 20 },
+        { "item": "military_papr_blower_off", "chance": 50, "repeat": [ 0, 3 ], "x": [ 2, 5 ], "y": 20 },
         { "item": "oxygen_tank", "repeat": [ 1, 6 ], "x": 10, "y": [ 20, 22 ] },
         { "item": "gasfilter_med", "repeat": [ 1, 4 ], "x": 10, "y": [ 20, 22 ] }
       ],

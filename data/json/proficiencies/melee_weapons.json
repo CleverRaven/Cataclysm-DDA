@@ -947,7 +947,7 @@
     "id": "prof_unarmed_familiar",
     "category": "prof_combat",
     "name": { "str": "Unarmed Technique Familiarity" },
-    "description": "You know how to punch someone without hurting your wrists.",
+    "description": "You know how to punch someone and make it hurt.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,

@@ -32,5 +32,13 @@
       { "u_lose_effect": [ "effect_shape_of_dust", "effect_technomancer_invisibility" ] },
       { "npc_lose_effect": "telepathic_ignorance" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_ORB_OF_LIGHT_CLASSLESS_REMOVED_ON_DAMAGE",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_effect": "effect_classless_magic_light" },
+    "effect": [ { "u_lose_effect": "effect_classless_magic_light" } ]
   }
 ]

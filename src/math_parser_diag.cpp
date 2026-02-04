@@ -1,6 +1,7 @@
 #include "math_parser_diag.h"
 
 #include <algorithm>
+#include <array>
 #include <cstddef>
 #include <functional>
 #include <list>
@@ -99,8 +100,9 @@ constexpr std::string_view _str_type_of()
     return "cookies";
 }
 
-template <typename T>
-T _read_from_string( std::string_view s, const std::vector<std::pair<std::string, T>> &units )
+template <typename T, size_t N>
+T _read_from_string( std::string_view s,
+                     const std::array<std::pair<std::string_view, T>, N> &units )
 {
     // TODO: LAMBDA_NORETURN_CLANG21x1 can be replaced with [[noreturn]] once we switch to C++23 on all compilers
     auto const error = [s]( char const * suffix, size_t /* offset */ ) LAMBDA_NORETURN_CLANG21x1 {
@@ -228,6 +230,15 @@ double effect_intensity_eval( const_dialogue const &d, char scope,
     effect target =
         d.const_actor( is_beta( scope ) )->get_effect( efftype_id( params[0].str( d ) ), bp );
     return target.is_null() ? -1 : target.get_intensity();
+}
+
+double limb_score_eval( const_dialogue const &d, char scope,
+                        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    const limb_score_id ls( params[0].str( d ) );
+    const bp_type bp_t = io::string_to_enum<bp_type>( kwargs.kwarg_or( "type" ).str( d ) );
+
+    return d.const_actor( is_beta( scope ) )->get_limb_score( ls, bp_t );
 }
 
 double encumbrance_eval( const_dialogue const &d, char scope, std::vector<diag_value> const &params,
@@ -875,6 +886,25 @@ double moon_phase_eval( const_dialogue const & /* d */, char /* scope */,
     return static_cast<int>( get_moon_phase( calendar::turn ) );
 }
 
+double oxygen_eval( const_dialogue const &d, char scope, std::vector<diag_value> const &/*params*/,
+                    diag_kwargs const & /* kwargs */ )
+{
+    return d.const_actor( is_beta( scope ) )->get_oxygen();
+}
+
+void oxygen_ass( double val, dialogue &d, char scope, std::vector<diag_value> const &/*params*/,
+                 diag_kwargs const & /* kwargs */ )
+{
+    d.actor( is_beta( scope ) )->set_oxygen( val );
+}
+
+double oxygen_max_eval( const_dialogue const &d, char scope,
+                        std::vector<diag_value> const &/*params*/,
+                        diag_kwargs const & /* kwargs */ )
+{
+    return d.const_actor( is_beta( scope ) )->get_oxygen_max();
+}
+
 double pain_eval( const_dialogue const &d, char scope, std::vector<diag_value> const & /* params */,
                   diag_kwargs const &kwargs )
 {
@@ -1134,8 +1164,9 @@ void spell_level_adjustment_ass( double val, dialogue &d, char scope,
 double _time_in_unit( double time, std::string_view unit )
 {
     if( !unit.empty() ) {
-        auto const iter = std::find_if( time_duration::units.cbegin(), time_duration::units.cend(),
-        [&unit]( std::pair<std::string, time_duration> const & u ) {
+        decltype( time_duration::units )::const_iterator iter = std::find_if( time_duration::units.cbegin(),
+                time_duration::units.cend(),
+        [&unit]( std::pair<std::string_view, time_duration> const & u ) {
             return u.first == unit;
         } );
 
@@ -1249,8 +1280,9 @@ double time_until_eoc_eval( const_dialogue const &d, char /* scope */,
     diag_value unit_val = kwargs.kwarg_or( "unit" );
 
     effect_on_condition_id eoc_id( params[0].str( d ) );
-    auto const &list = g->queued_global_effect_on_conditions.list;
-    auto const it = std::find_if( list.cbegin(), list.cend(), [&eoc_id]( queued_eoc const & eoc ) {
+    const std::list<queued_eoc> &list = g->queued_global_effect_on_conditions.list;
+    std::list<queued_eoc>::const_iterator it = std::find_if( list.cbegin(),
+    list.cend(), [&eoc_id]( queued_eoc const & eoc ) {
         return eoc.eoc == eoc_id;
     } );
 
@@ -1677,6 +1709,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "distance", { "g", 2, distance_eval } },
     { "effect_intensity", { "un", 1, effect_intensity_eval, {}, { "bodypart" } } },
     { "effect_duration", { "un", 1, effect_duration_eval, {}, { "bodypart", "unit" } } },
+    { "limb_score", { "un", 1, limb_score_eval, {}, { "type" } } },
     { "health", { "un", 0, health_eval, health_ass } },
     { "encumbrance", { "un", 1, encumbrance_eval } },
     { "energy", { "g", 1, energy_eval } },
@@ -1707,6 +1740,8 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "mon_groups_nearby", { "ung", -1, monster_groups_nearby_eval, {}, { "radius", "attitude", "location" } } },
     { "moon_phase", { "g", 0, moon_phase_eval } },
     { "num_input", { "g", 2, num_input_eval } },
+    { "oxygen", { "un", 0, oxygen_eval, oxygen_ass } },
+    { "oxygen_max", { "un", 0, oxygen_max_eval } },
     { "pain", { "un", 0, pain_eval, pain_ass, { "type" } } },
     { "school_level", { "un", 1, school_level_eval } },
     { "school_level_adjustment", { "un", 1, school_level_adjustment_eval, school_level_adjustment_ass } },

@@ -435,9 +435,9 @@
       { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
       { "group": "civilian_phones", "prob": 17, "charges": [ 0, -1 ] },
       [ "ceramic_armor", 1 ],
-      { "group": "box_cereal", "prob": 5 },
-      { "group": "box_cereal2", "prob": 5 },
-      { "group": "box_cereal3", "prob": 5 },
+      { "group": "breakfast_cereal_in_box_full", "prob": 5 },
+      { "group": "breakfast_cereal_in_box_full", "prob": 5 },
+      { "group": "breakfast_cereal_in_box_full", "prob": 5 },
       [ "chain", 10 ],
       [ "chainsaw_off", 7 ],
       [ "char_smoker", 3 ],
@@ -1139,7 +1139,6 @@
     "type": "item_group",
     "id": "pur_tablets_bottle_plastic_small_50",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "pur_tablets", "count": 50 } ]
   }

@@ -118,7 +118,7 @@ inline JsonValue::operator std::string() const
 
 inline JsonValue::operator int() const
 {
-    if( json_.IsNumeric() ) {
+    if( json_.IsIntOrUint() ) {
         return static_cast<int>( json_.AsInt64() );
     }
     throw_error( "Expected an int, got " + flexbuffer_type_to_string( json_.GetType() ) );
@@ -126,7 +126,7 @@ inline JsonValue::operator int() const
 
 inline JsonValue::operator int64_t() const
 {
-    if( json_.IsNumeric() ) {
+    if( json_.IsIntOrUint() ) {
         return static_cast<int64_t>( json_.AsInt64() );
     }
     throw_error( "Expected an int64_t, got " + flexbuffer_type_to_string( json_.GetType() ) );
@@ -134,7 +134,7 @@ inline JsonValue::operator int64_t() const
 
 inline JsonValue::operator uint64_t() const
 {
-    if( json_.IsNumeric() ) {
+    if( json_.IsIntOrUint() ) {
         // These are always stored as signed ints.
         int64_t signed_value = json_.AsInt64();
         if( signed_value >= 0 ) {
@@ -147,7 +147,7 @@ inline JsonValue::operator uint64_t() const
 
 inline JsonValue::operator unsigned() const
 {
-    if( json_.IsNumeric() ) {
+    if( json_.IsIntOrUint() ) {
         // These are always stored as signed ints.
         int64_t signed_value = json_.AsInt64();
         if( signed_value >= 0 ) {
@@ -214,7 +214,7 @@ inline bool JsonValue::test_number() const
 }
 inline bool JsonValue::test_int() const
 {
-    return json_.IsNumeric();
+    return json_.IsIntOrUint();
 }
 inline bool JsonValue::test_float() const
 {

@@ -1425,7 +1425,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         }
     }
 
-    return zone_type_id();
+    return zone_type_id::NULL_ID();
 }
 
 std::vector<zone_data> zone_manager::get_zones( const zone_type_id &type,

@@ -19,6 +19,7 @@
       { "item": "robofac_head_rig" },
       { "item": "robofac_head_rig_nv" },
       { "item": "hm12" },
+      { "item": "robofac_poncho_liner" },
       { "item": "template_armor" },
       { "item": "template_photonics" }
     ]
@@ -96,7 +97,8 @@
       [ "robofac_rubber_helmet", 25 ],
       [ "robofac_nomex_helmet", 25 ],
       [ "robofac_kevlar_helmet", 25 ],
-      [ "robofac_head_rig", 25 ]
+      [ "robofac_head_rig", 25 ],
+      [ "robofac_poncho_liner", 25 ]
     ]
   },
   {

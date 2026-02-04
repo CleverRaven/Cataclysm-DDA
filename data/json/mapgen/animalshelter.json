@@ -422,7 +422,6 @@
     "type": "item_group",
     "id": "calcium_tablet_bottle_plastic_pill_supplement_20",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_supplement",
     "entries": [ { "item": "calcium_tablet", "container-item": "null", "count": 20 } ]
   },
@@ -430,7 +429,6 @@
     "type": "item_group",
     "id": "dogfood_dry_bag_plastic_18",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic",
     "entries": [ { "item": "dogfood_dry", "container-item": "null", "count": 18 } ]
   },
@@ -438,7 +436,6 @@
     "type": "item_group",
     "id": "catfood_dry_bag_plastic_18",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic",
     "entries": [ { "item": "catfood_dry", "container-item": "null", "count": 18 } ]
   },
@@ -446,7 +443,6 @@
     "type": "item_group",
     "id": "antifungal_bottle_plastic_pill_prescription_5",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "antifungal", "container-item": "null", "count": 5 } ]
   }

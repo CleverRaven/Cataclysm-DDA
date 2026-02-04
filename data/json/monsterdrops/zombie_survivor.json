@@ -218,6 +218,7 @@
     "items": [
       [ "gasbomb_makeshift", 30 ],
       [ "molotov", 100 ],
+      [ "gelled_molotov", 5 ],
       [ "pipebomb", 30 ],
       [ "small_homemade_grenade", 30 ],
       [ "40x46mm_hornets_nest_22lr", 5 ],
@@ -428,6 +429,7 @@
       [ "motorbike_armor", 25 ],
       [ "ski_jacket", 10 ],
       [ "coat_winter", 10 ],
+      [ "coat_light_winter", 10 ],
       [ "coat_fur", 1 ],
       [ "coat_faux_fur", 1 ]
     ]

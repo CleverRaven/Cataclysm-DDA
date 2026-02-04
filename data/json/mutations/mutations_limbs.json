@@ -27,12 +27,7 @@
     "ugliness": 1,
     "allow_soft_gear": true,
     "restricts_gear": [ "head_crown" ],
-    "attacks": {
-      "attack_text_u": "You headbutt %s with your horns!",
-      "attack_text_npc": "%1$s headbutts %2$s with their horns!",
-      "chance": 20,
-      "base_damage": [ { "damage_type": "stab", "amount": 3 }, { "damage_type": "bash", "amount": 3 } ]
-    }
+    "integrated_armor": [ "integrated_horns_small" ]
   },
   {
     "type": "mutation",
@@ -48,12 +43,7 @@
     "visibility": 8,
     "ugliness": 2,
     "restricts_gear": [ "head_crown" ],
-    "attacks": {
-      "attack_text_u": "You headbutt %s with your curled horns!",
-      "attack_text_npc": "%1$s headbutts %2$s with their curled horns!",
-      "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 14 }
-    }
+    "integrated_armor": [ "integrated_horns_curled" ]
   },
   {
     "type": "mutation",
@@ -69,12 +59,7 @@
     "ugliness": 2,
     "allow_soft_gear": true,
     "restricts_gear": [ "head_crown" ],
-    "attacks": {
-      "attack_text_u": "You stab %s with your pointed horns!",
-      "attack_text_npc": "%1$s stabs %2$s with their pointed horns!",
-      "chance": 22,
-      "base_damage": { "damage_type": "stab", "amount": 24 }
-    }
+    "integrated_armor": [ "integrated_horns_pointed" ]
   },
   {
     "type": "mutation",
@@ -90,12 +75,7 @@
     "ugliness": 3,
     "allow_soft_gear": true,
     "restricts_gear": [ "head_crown" ],
-    "attacks": {
-      "attack_text_u": "You butt %s with your antlers!",
-      "attack_text_npc": "%1$s butts %2$s with their antlers!",
-      "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 4 }
-    }
+    "integrated_armor": [ "integrated_antlers" ]
   },
   {
     "type": "mutation",
@@ -442,12 +422,7 @@
     "destroys_gear": true,
     "allowed_items": [ "ALLOWS_TALONS" ],
     "restricts_gear": [ "foot_toes_l", "foot_toes_r" ],
-    "attacks": {
-      "attack_text_u": "You slash %s with one of your talons!",
-      "attack_text_npc": "%1$s slashes %2$s with one of their talons!",
-      "chance": 20,
-      "strength_damage": { "damage_type": "cut", "amount": 4 }
-    }
+    "integrated_armor": [ "integrated_toe_talons" ]
   },
   {
     "type": "mutation",
@@ -652,7 +627,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_long" } ] } ]
   },
   {
     "type": "mutation",
@@ -670,13 +645,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "attacks": {
-      "attack_text_u": "You whap %s with your tail!",
-      "attack_text_npc": "%1$s whaps %2$s with their tail!",
-      "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 8 }
-    },
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_thick" } ] } ]
   },
   {
     "type": "mutation",
@@ -716,18 +685,13 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "attacks": {
-      "attack_text_u": "You sting %s with your tail!",
-      "attack_text_npc": "%1$s stings %2$s with their tail!",
-      "chance": 20,
-      "base_damage": { "damage_type": "stab", "amount": 20 }
-    }
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_scorpion" } ] } ]
   },
   {
     "type": "mutation",
     "id": "TAIL_FLUFFY",
     "name": { "str": "Fluffy Tail" },
-    "description": "You have a long, fluffy-furred tail.  It greatly improves your balance, making your ability to dodge much higher.  Prevents wearing non-fabric pants.",
+    "description": "You have a long, fluffy-furred tail.  It greatly improves your balance, making your ability to dodge higher.  Prevents wearing non-fabric pants.",
     "category": [ "LUPINE" ],
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_LONG" ],
@@ -737,8 +701,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "social_modifiers": { "lie": -20, "persuade": 10 },
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 4 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_fluffy" } ] } ]
   },
   {
     "type": "mutation",
@@ -896,14 +859,8 @@
     "flags": [ "QUADRUPED_RUN", "TOUGH_FEET" ],
     "destroys_gear": true,
     "restricts_gear": [ "foot_l", "foot_r" ],
-    "bodytemp_modifiers": [ 25, 50 ],
+    "integrated_armor": [ "integrated_rabbit_feet" ],
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
-    "attacks": {
-      "attack_text_u": "You kick %s with your large feet!",
-      "attack_text_npc": "%1$s kicks %2$s with their large feet!",
-      "chance": 15,
-      "strength_damage": { "damage_type": "bash", "amount": 1.5 }
-    },
     "enchantments": [ "ench_quadruped_movement_full", { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] } ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ]
   },
@@ -1008,13 +965,7 @@
     "flags": [ "TOUGH_FEET" ],
     "destroys_gear": true,
     "restricts_gear": [ "foot_sole_l", "foot_sole_r" ],
-    "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
-    "attacks": {
-      "attack_text_u": "You kick %s with your hooves!",
-      "attack_text_npc": "%1$s kicks %2$s with their hooves!",
-      "chance": 15,
-      "strength_damage": { "damage_type": "bash", "amount": 3 }
-    },
+    "integrated_armor": [ "integrated_hooves" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ]
   },
   {

@@ -104,6 +104,8 @@ static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
 
 static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
+static const fault_id fault_flat_tire_riding_on_rims( "fault_flat_tire_riding_on_rims" );
+static const fault_id fault_punctured_tires( "fault_punctured_tires" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
@@ -146,6 +148,7 @@ static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
+static const std::string flag_FLAT_TIRE( "FLAT_TIRE" );
 static const std::string flag_WIRING( "WIRING" );
 
 //~ Name for an array of electronic power grid appliances, like batteries and solar panels
@@ -4425,11 +4428,62 @@ void vehicle::noise_and_smoke( map &here, int load, time_duration time )
                    _( is_rotorcraft( here ) ? heli_noise : sounds[lvl].first ), true );
 }
 
+void vehicle::check_flats_do_rim_damage_or_sounds( map &here )
+{
+    if( wheelcache.empty() || velocity <= 0 ) {
+        return; // No wheels or (somehow) not moving
+    }
+
+    for( int part_num : wheelcache ) {
+        vehicle_part &vp = parts[part_num];
+
+        const tripoint_bub_ms part_bub_pos = bub_part_pos( here, vp );
+
+        if( vp.get_base().has_fault( fault_punctured_tires ) ) {
+            // Most tire leaks are actually silent or nearly silent! But we don't represent a range of possibilities, so this is a pretty random asspull number.
+            const int leaking_sound_vol = 5;
+            sounds::sound( part_bub_pos, leaking_sound_vol,
+                           sounds::sound_t::sensory,
+                           //~Sound of a vehicle's tire rapidly losing air.
+                           string_format( _( "hissssssss!" ) ) );
+
+            if( one_in( vp.info().durability ) ) {
+                if( vp.fault_set( fault_flat_tire_riding_on_rims ) ) {
+                    vp.base.remove_fault( fault_punctured_tires );
+                    refresh_pivot( here );
+                }
+            }
+        } else if( vp.get_base().has_fault( fault_flat_tire_riding_on_rims ) ) {
+            const int arbitrary_sound_volume = 40;
+            sounds::sound( part_bub_pos, arbitrary_sound_volume,
+                           sounds::sound_t::destructive_activity,
+                           //~Sound of a vehicle's wheel rim grinding against the ground after the rubber tire has gone entirely flat.
+                           string_format( _( "sccchrrrrrk!" ) ) );
+
+            if( one_in( vp.info().durability ) ) {
+                Character *driver = get_driver( here );
+                if( driver == &get_player_character() || get_player_character().sees( here, part_bub_pos ) ) {
+                    add_msg( _( "The %s is damaged by driving with a flat!" ), vp.name() );
+                }
+                // bullshit to work around vehicle::damage_direct() --> vehicle::mod_hp() doing incorrect(??) calculations.
+                // Each damage instance should be worth exactly one 'level' of vehicle part damage.
+                const int one_damage_level = vp.info().durability *
+                                             ( static_cast<double>( itype::damage_scale ) / vp.max_damage() );
+                damage_direct( here, vp, one_damage_level );
+
+                // We may have just invalidated the wheelcache, so it is unsafe to continue iterating. (We're inside a for-loop of wheelcache)
+                // This puts an upper limit of one vp damage per call to this function (per turn), but whatever.
+                return;
+            }
+        }
+    }
+}
+
 int vehicle::wheel_area() const
 {
     int total_area = 0;
     for( const int wheel_index : wheelcache ) {
-        total_area += parts[wheel_index].info().wheel_info->contact_area;
+        total_area += parts[wheel_index].contact_area();
     }
 
     return total_area;
@@ -4641,7 +4695,7 @@ double vehicle::coeff_rolling_drag( map &here ) const
     } else {
         // should really sum each wheel's c_rolling_resistance * its share of vehicle mass
         for( int wheel : wheelcache ) {
-            wheel_factor += parts[wheel].info().wheel_info->rolling_resistance;
+            wheel_factor += parts[wheel].rolling_resistance();
         }
         // mildly increasing rolling resistance for vehicles with more than 4 wheels and mildly
         // decrease it for vehicles with less
@@ -5127,19 +5181,29 @@ float vehicle::steering_effectiveness( map &here ) const
         !get_harnessed_animal( here ) ) {
         return -2.0f;
     }
-    // For now, you just need one wheel working for 100% effective steering.
-    // TODO: return something less than 1.0 if the steering isn't so good
-    // (unbalanced, long wheelbase, back-heavy vehicle with front wheel steering,
-    // etc)
+
+    // total_steering_capacity is a sum of its parts. Each wheel contributes proportional to the total amount of wheels.
+    // e.g. a 4-wheeled vehicle with 1 wheel at 0 total capacity has 0.25+0.25+0.25+0 = 75% total steering.
+    // A 3-wheeled vehicle with wheels at 33%, 67%, and 100% has 0.11 + 0.22 + 0.33 = ~67% total capacity.
+    float total_steering_capacity = 0.0f;
     for( const int p : steering ) {
         const vehicle_part &vp = parts[p];
-        if( vp.is_available() ) {
-            return 1.0f;
+        // Damage linearly degrades capacity.
+        float part_steer_capacity = 1.0f - vp.damage_percent();
+        // TODO: Wheel faults modify steering in a json way, and not this hardcoded check
+        if( vp.get_base().has_fault( fault_punctured_tires ) ) {
+            part_steer_capacity *= 0.5f;
         }
+        if( vp.get_base().has_fault( fault_flat_tire_riding_on_rims ) ) {
+            part_steer_capacity *= 0.1f;
+        }
+        if( !vp.is_available() ) {
+            part_steer_capacity = 0.0f;
+        }
+        total_steering_capacity += ( 1.0f / steering.size() ) * part_steer_capacity;
     }
 
-    // We have steering, but it's all broken.
-    return 0.0f;
+    return total_steering_capacity;
 }
 
 float vehicle::handling_difficulty( map &here ) const
@@ -7029,10 +7093,10 @@ void vehicle::refresh_pivot( map &here ) const
         const vehicle_part &wheel = parts[p];
 
         // TODO: load on tire?
-        const int contact_area = wheel.info().wheel_info->contact_area;
+        const int contact_area = wheel.contact_area();
         float weight_i;  // weighting for the in-line part
         float weight_p;  // weighting for the perpendicular part
-        if( wheel.is_broken() ) {
+        if( wheel.is_broken() || wheel.has_fault_flag( flag_FLAT_TIRE ) ) {
             // broken wheels don't roll on either axis
             weight_i = contact_area * 2.0;
             weight_p = contact_area * 2.0;
@@ -8040,6 +8104,9 @@ bool vehicle::is_foldable() const
         return false;
     }
     for( const vehicle_part &vp : real_parts() ) {
+        if( vp.get_base().has_var( "tied_down_furniture" ) ) {
+            return false;
+        }
         if( !vp.info().folded_volume ) {
             return false;
         }

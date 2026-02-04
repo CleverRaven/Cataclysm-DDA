@@ -36,7 +36,7 @@
     "id": "mon_summon_zombie_gasbag_crawler",
     "name": { "str": "Summon Gangrenous Crawlers", "//~": "NO_I18N" },
     "description": { "str": "Summons 2 permanent gangrenous crawlers.", "//~": "NO_I18N" },
-    "flags": [ "HOSTILE_SUMMON", "PERMANENT", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PERMANENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "self" ],
     "max_level": 1,
     "min_damage": 1,
@@ -76,7 +76,7 @@
     "name": { "str": "Summon Tadpole Constrictors", "//~": "NO_I18N" },
     "description": { "str": "Summons several temporary tadpoles.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
-    "valid_targets": [ "ground", "hostile" ],
+    "valid_targets": [ "ground", "self", "hostile" ],
     "min_damage": 2,
     "max_damage": 5,
     "min_range": 7,
@@ -484,6 +484,27 @@
     "min_duration": 2000,
     "max_duration": 2000,
     "extra_effects": [ { "id": "hit_and_run", "hit_self": true } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "HEKATONKHEIRE_REND_AND_TEAR",
+    "name": { "str": "Rend and Tear", "//~": "NO_I18N" },
+    "description": { "str": "Begins drawing and quartering the victim.", "//~": "NO_I18N" },
+    "base_casting_time": 0,
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "LOUD", "SPLIT_DAMAGE", "RANDOM_DAMAGE" ],
+    "damage_type": "cut",
+    "max_level": 1,
+    "min_damage": { "math": [ "2 * scaling_factor(u_grappled * 4)" ] },
+    "max_damage": { "math": [ "2 * scaling_factor(u_grappled * 6)" ] },
+    "min_range": 1,
+    "max_range": 1,
+    "range_increment": 1,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "aoe_increment": 1
   },
   {
     "type": "SPELL",
@@ -1357,5 +1378,19 @@
       { "u_location_variable": { "context_val": "zombie_horde_target" } },
       { "signal_hordes": { "context_val": "zombie_horde_target" }, "signal_power": { "math": [ "_summon_effect" ] } }
     ]
+  },
+  {
+    "type": "SPELL",
+    "id": "flying_polyp_out_of_phase_spell",
+    "name": { "str": "Polyp Out of Phase", "//~": "NO_I18N" },
+    "description": { "str": "Flying Polyps cast this on spawn.", "//~": "NO_I18N" },
+    "flags": [ "NO_PROJECTILE", "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_polyp_out_of_phase",
+    "valid_targets": [ "self" ],
+    "base_casting_time": 200,
+    "min_duration": 84600,
+    "max_duration": 84600,
+    "shape": "blast"
   }
 ]

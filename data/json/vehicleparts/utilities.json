@@ -164,7 +164,7 @@
     "damage_reduction": { "bash": 1 },
     "size": "10 ml",
     "flags": [ "CARGO", "OBSTACLE", "MWS", "ENABLED_DRAINS_EPOWER", "ADVANCED_MWS", "NO_INSTALL_HIDDEN" ],
-    "pseudo_tools": [ { "id": "mws_weather_sensor_array", "hotkey": "a" }, { "id": "mws_HE_sensor_array", "hotkey": "b" } ],
+    "pseudo_tools": [ { "id": "mws_advanced_weather_sensor_array", "hotkey": "a" }, { "id": "mws_HE_sensor_array", "hotkey": "b" } ],
     "variants": [ { "symbols": "T", "symbols_broken": "#" } ]
   },
   {
@@ -190,7 +190,7 @@
     "damage_reduction": { "bash": 1 },
     "size": "10 ml",
     "flags": [ "CARGO", "OBSTACLE", "MWS", "ENABLED_DRAINS_EPOWER", "ADVANCED_MWS", "NO_INSTALL_HIDDEN" ],
-    "pseudo_tools": [ { "id": "mws_weather_sensor_array", "hotkey": "a" }, { "id": "mws_HE_sensor_array", "hotkey": "b" } ],
+    "pseudo_tools": [ { "id": "mws_advanced_weather_sensor_array", "hotkey": "a" }, { "id": "mws_HE_sensor_array", "hotkey": "b" } ],
     "variants": [ { "symbols": "T", "symbols_broken": "#" } ]
   }
 ]

@@ -404,5 +404,18 @@
     "volume": "900 L",
     "price": "9 kUSD 600 USD",
     "price_postapoc": "75 USD"
+  },
+  {
+    "id": "xedra_genset",
+    "copy-from": "engine_gasoline",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
+    "name": { "str": "prototype multifuel genset" },
+    "//": "Based on DARPA/Logos Technologies genset currently thought to be installed in the DARPA SilentHawk",
+    "description": "A spartan, prototype engine-generator made to burn many types of fuel in the field.  It has a small \"DARPA\" stamp on the casing.",
+    "weight": "15 kg",
+    "volume": "43793 ml",
+    "price": "20000 USD",
+    "price_postapoc": "100 USD 50 cent"
   }
 ]

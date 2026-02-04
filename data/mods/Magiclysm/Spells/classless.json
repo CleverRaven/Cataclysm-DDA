@@ -133,15 +133,11 @@
   {
     "id": "create_atomic_light",
     "type": "SPELL",
-    "name": "Magical Light",
-    "description": "Creates a magical light.",
-    "valid_targets": [ "none" ],
-    "min_range": 0,
-    "max_range": 0,
-    "min_damage": 1,
-    "max_damage": 1,
-    "effect": "spawn_item",
-    "effect_str": "magic_light",
+    "name": "Orb of Light",
+    "description": "Creates an orb of magical light that floats nearby and lets out a soft glow.  Taking any damage will disrupt the enchantment.  Recast to cancel.",
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLASSLESS_CREATE_ORB_OF_LIGHT",
     "shape": "blast",
     "magic_type": "magiclysm_conjuration_magic",
     "flags": [ "CONJURATION_SPELL", "VERBAL", "NO_LEGS" ],
@@ -149,10 +145,22 @@
     "max_level": 20,
     "base_casting_time": 1000,
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
-    "base_energy_cost": 200,
+    "base_energy_cost": { "math": [ "u_effect_intensity('effect_classless_magic_light') > -1 ? 0 : 200" ] },
     "min_duration": 100000,
     "max_duration": 1000000,
     "duration_increment": 45000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLASSLESS_CREATE_ORB_OF_LIGHT",
+    "condition": { "not": { "u_has_effect": "effect_classless_magic_light" } },
+    "effect": [
+      {
+        "u_add_effect": "effect_classless_magic_light",
+        "duration": { "math": [ "( (u_spell_level('create_atomic_light') * 450.00) + 1000.00) * (summoning_proficiency_modifier())" ] }
+      }
+    ],
+    "false_effect": { "u_lose_effect": "effect_classless_magic_light" }
   },
   {
     "id": "blinding_flash",

@@ -282,7 +282,14 @@
     "recurrence": { "math": [ "time_until('sunrise')" ] },
     "global": true,
     "run_for_npcs": true,
-    "condition": { "and": [ "u_is_outside", "u_can_see", { "test_eoc": "EOC_CONDITION_XE_SUNRISE_MORALE_OVERRIDES" } ] },
+    "condition": {
+      "and": [
+        { "current_dimension": "" },
+        "u_is_outside",
+        "u_can_see",
+        { "test_eoc": "EOC_CONDITION_XE_SUNRISE_MORALE_OVERRIDES" }
+      ]
+    },
     "effect": [
       {
         "if": { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] },
@@ -351,7 +358,9 @@
     "recurrence": { "math": [ "time_until('sunset')" ] },
     "global": true,
     "run_for_npcs": true,
-    "condition": { "and": [ "u_is_outside", "u_can_see", { "test_eoc": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES" } ] },
+    "condition": {
+      "and": [ { "current_dimension": "" }, "u_is_outside", "u_can_see", { "test_eoc": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES" } ]
+    },
     "effect": [
       {
         "if": { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] },
@@ -452,5 +461,71 @@
         { "not": { "npc_has_species": "ABERRATION" } }
       ]
     }
+  },
+  {
+    "id": "EOC_SET_TAROT",
+    "type": "effect_on_condition",
+    "effect": [
+      { "set_string_var": "<card_tarot_any>", "target_var": { "u_val": "card_1" }, "parse_tags": true },
+      { "set_string_var": "<card_tarot_any>", "target_var": { "u_val": "card_2" }, "parse_tags": true },
+      { "set_string_var": "<card_tarot_any>", "target_var": { "u_val": "card_3" }, "parse_tags": true }
+    ]
+  },
+  {
+    "id": "EOC_SET_TAROT_MAJOR",
+    "type": "effect_on_condition",
+    "effect": [
+      { "set_string_var": "<card_major_arcana>", "target_var": { "u_val": "card_1" }, "parse_tags": true },
+      { "set_string_var": "<card_major_arcana>", "target_var": { "u_val": "card_2" }, "parse_tags": true },
+      { "set_string_var": "<card_major_arcana>", "target_var": { "u_val": "card_3" }, "parse_tags": true }
+    ]
+  },
+  {
+    "id": "EOC_PRINT_TAROT_RESULT",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "set_string_var": "You pull <u_val:card_1><card_orientation>, <u_val:card_2><card_orientation> and <u_val:card_3><card_orientation>.",
+        "target_var": { "u_val": "result" },
+        "parse_tags": true
+      },
+      { "u_message": "<u_val:result>" }
+    ]
+  },
+  {
+    "id": "EOC_DRAW_TAROT_FULL",
+    "type": "effect_on_condition",
+    "effect": [
+      { "run_eocs": "EOC_SET_TAROT" },
+      {
+        "condition": { "compare_string": [ { "u_val": "card_1" }, { "u_val": "card_2" }, { "u_val": "card_3" } ] },
+        "iterations": 100,
+        "run_eocs": "EOC_SET_TAROT"
+      },
+      { "run_eocs": "EOC_PRINT_TAROT_RESULT" }
+    ]
+  },
+  {
+    "id": "EOC_DRAW_TAROT_MAJOR",
+    "type": "effect_on_condition",
+    "effect": [
+      { "run_eocs": "EOC_SET_TAROT_MAJOR" },
+      {
+        "condition": { "compare_string": [ { "u_val": "card_1" }, { "u_val": "card_2" }, { "u_val": "card_3" } ] },
+        "iterations": 100,
+        "run_eocs": "EOC_SET_TAROT_MAJOR"
+      },
+      { "run_eocs": "EOC_PRINT_TAROT_RESULT" }
+    ]
+  },
+  {
+    "id": "EOC_DRAW_TAROT",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "names": [ "Pull from the full deck", "Pull from the major arcanas" ],
+        "run_eoc_selector": [ "EOC_DRAW_TAROT_FULL", "EOC_DRAW_TAROT_MAJOR" ]
+      }
+    ]
   }
 ]

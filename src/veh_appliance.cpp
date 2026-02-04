@@ -428,7 +428,7 @@ void veh_app_interact::refill( )
         Character &you = get_player_character();
         you.set_moves( 0 );
         you.assign_activity(
-            vehicle_activity_actor( VEHICLE_REFILL, 15_minutes, veh, mount_adjusted,
+            vehicle_activity_actor( VEHICLE_REFILL, 5_minutes, veh, mount_adjusted,
                                     tripoint_rel_ms( a_point, 0 ), veh->index_of_part( pt ), pt->info().id, target ) );
     }
 }

@@ -699,6 +699,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "RIOTBOT", mattack::riotbot );
     add_hardcoded_attack( "DOOT", mattack::doot );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
+    add_hardcoded_attack( "EAT_CLONE", mattack::eat_clone );
 }
 
 void MonsterGenerator::init_defense()
@@ -1326,6 +1327,8 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
         new_attack = std::make_unique<gun_actor>();
     } else if( attack_type == "spell" ) {
         new_attack = std::make_unique<mon_spellcasting_actor>();
+    } else if( attack_type == "eoc" ) {
+        new_attack = std::make_unique<mon_eoc_actor>();
     } else if( attack_type == "invalid" ) {
         new_attack = std::make_unique<invalid_mattack_actor>();
     } else {

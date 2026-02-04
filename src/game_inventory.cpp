@@ -201,8 +201,8 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
 
     item_location location = inv_s.execute();
 
-    //output to global consume menu UI state
-    if( using_consume_menu ) {
+    // If something was chosen output to global consume menu UI state
+    if( using_consume_menu && location != item_location::nowhere ) {
 
         inventory_entry const &e = inv_s.get_highlighted();
         bool const collated = e.is_collation_entry();
@@ -798,8 +798,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return ( loc->is_comestible() && you.can_consume_as_is( *loc ) ) ||
-                   loc->is_medical_tool();
+            return ( loc->is_comestible() && you.can_consume_as_is( *loc ) ) || loc->is_medical_tool();
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -1077,11 +1076,15 @@ item_location game_menus::inv::consume( const std::string &comestible_type_filte
 
     std::string none_message = you.activity.str_values.size() == 2 ?
                                _( "You have nothing else to consume." ) : _( "You have nothing to consume." );
-    return inv_internal( you, preset,
-                         _( "Consume item" ), 1,
-                         none_message,
-                         get_consume_needs_hint( you ),
-                         loc, false, true );
+    item_location returned_location = inv_internal( you, preset,
+                                      _( "Consume item" ), 1,
+                                      none_message,
+                                      get_consume_needs_hint( you ),
+                                      loc, false, true );
+    if( returned_location == item_location::nowhere ) {
+        uistate.consume_uistate.clear();
+    }
+    return returned_location;
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset
@@ -1099,8 +1102,9 @@ class activatable_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return !loc.is_invisible_installed_gunmod( )
-                   && ( loc->type->has_use() || loc->has_relic_activation() );
+            return ( loc->is_craft() || ( ( loc->type->has_use() || loc->has_relic_activation() ) &&
+                                          ( !loc->is_comestible() || loc->type->can_use( "PETFOOD" ) ) ) ) &&
+                   !loc.is_invisible_installed_gunmod();
         }
 
         std::string get_denial( const item_location &loc ) const override {

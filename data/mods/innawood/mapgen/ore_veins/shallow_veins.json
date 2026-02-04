@@ -109,7 +109,8 @@
         "                                                                        ",
         "                                                                        "
       ],
-      "palettes": [ "innawood_ore_vein" ]
+      "palettes": [ "innawood_ore_vein" ],
+      "terrain": { " ": "t_rock" }
     }
   },
   {
@@ -148,7 +149,8 @@
         "                                                                        ",
         "                                                                        "
       ],
-      "palettes": [ "innawood_ore_vein" ]
+      "palettes": [ "innawood_ore_vein" ],
+      "terrain": { " ": "t_rock" }
     }
   }
 ]

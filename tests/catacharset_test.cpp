@@ -10,6 +10,7 @@
 #include "cata_catch.h"
 #include "catacharset.h"
 #include "localized_comparator.h"
+#include "output.h"
 #include "unicode.h"
 
 TEST_CASE( "utf8_width", "[catacharset][nogame]" )
@@ -39,28 +40,12 @@ TEST_CASE( "base64", "[catacharset][nogame]" )
     CHECK( base64_decode( "#aGVsbG8=" ) == "hello" );
 }
 
-TEST_CASE( "utf8_to_wstr", "[catacharset][nogame]" )
+TEST_CASE( "utf8_to_utf32_roundtrip", "[catacharset][nogame]" )
 {
-    // std::mbstowcs' returning -1 workaround
-    char *result = setlocale( LC_ALL, "" );
-    REQUIRE( result );
-    std::string src( u8"Hello, 世界!" );
-    std::wstring dest( L"Hello, 世界!" );
-    CHECK( utf8_to_wstr( src ) == dest );
-    result = setlocale( LC_ALL, "C" );
-    REQUIRE( result );
-}
-
-TEST_CASE( "wstr_to_utf8", "[catacharset][nogame]" )
-{
-    // std::wcstombs' returning -1 workaround
-    char *result = setlocale( LC_ALL, "" );
-    REQUIRE( result );
-    std::wstring src( L"Hello, 世界!" );
-    std::string dest( u8"Hello, 世界!" );
-    CHECK( wstr_to_utf8( src ) == dest );
-    result = setlocale( LC_ALL, "C" );
-    REQUIRE( result );
+    const std::string original = u8"Hello, 世界! à y\u0300 à̸̠你⃫";
+    const std::u32string converted = utf8_to_utf32( original );
+    const std::string roundtrip = utf32_to_utf8( converted );
+    CHECK( roundtrip == original );
 }
 
 TEST_CASE( "localized_compare", "[catacharset][nogame]" )
@@ -98,28 +83,76 @@ static void check_in_place_func( const std::function<void( char32_t & )> &func,
     CHECK( ch == expected );
 }
 
+template <typename Func>
+static void check_pure_func( Func &&func, const char32_t ch, const char32_t expected )
+{
+    CHECK( func( ch ) == expected );
+}
+
 TEST_CASE( "u32_to_lowercase", "[catacharset][nogame]" )
 {
+    // Punctuations
+    check_pure_func( u32_to_lowercase, U'!', U'!' );
+
     // Latin
-    check_in_place_func( u32_to_lowercase, U'a', U'a' );
-    check_in_place_func( u32_to_lowercase, U'A', U'a' );
-    check_in_place_func( u32_to_lowercase, U'é', U'é' );
-    check_in_place_func( u32_to_lowercase, U'É', U'é' );
-    check_in_place_func( u32_to_lowercase, U'ō', U'ō' );
-    check_in_place_func( u32_to_lowercase, U'Ō', U'ō' );
+    check_pure_func( u32_to_lowercase, U'a', U'a' );
+    check_pure_func( u32_to_lowercase, U'A', U'a' );
+    check_pure_func( u32_to_lowercase, U'é', U'é' );
+    check_pure_func( u32_to_lowercase, U'É', U'é' );
+    check_pure_func( u32_to_lowercase, U'ō', U'ō' );
+    check_pure_func( u32_to_lowercase, U'Ō', U'ō' );
+
+    // Greek
+    check_pure_func( u32_to_lowercase, U'Α', U'α' );
+    check_pure_func( u32_to_lowercase, U'α', U'α' );
+    check_pure_func( u32_to_lowercase, U'Σ', U'σ' );
+    check_pure_func( u32_to_lowercase, U'σ', U'σ' );
 
     // Cyrillic
-    check_in_place_func( u32_to_lowercase, U'а', U'а' );
-    check_in_place_func( u32_to_lowercase, U'А', U'а' );
-    check_in_place_func( u32_to_lowercase, U'б', U'б' );
-    check_in_place_func( u32_to_lowercase, U'Б', U'б' );
+    check_pure_func( u32_to_lowercase, U'а', U'а' );
+    check_pure_func( u32_to_lowercase, U'А', U'а' );
+    check_pure_func( u32_to_lowercase, U'б', U'б' );
+    check_pure_func( u32_to_lowercase, U'Б', U'б' );
 
     // CJK
-    check_in_place_func( u32_to_lowercase, U'中', U'中' );
-    check_in_place_func( u32_to_lowercase, U'の', U'の' );
+    check_pure_func( u32_to_lowercase, U'中', U'中' );
+    check_pure_func( u32_to_lowercase, U'の', U'の' );
 
     // Emoji
-    check_in_place_func( u32_to_lowercase, U'😅', U'😅' );
+    check_pure_func( u32_to_lowercase, U'😅', U'😅' );
+}
+
+TEST_CASE( "u32_to_uppercase", "[catacharset][nogame]" )
+{
+    // Punctuations
+    check_pure_func( u32_to_uppercase, U'!', U'!' );
+
+    // Latin
+    check_pure_func( u32_to_uppercase, U'a', U'A' );
+    check_pure_func( u32_to_uppercase, U'A', U'A' );
+    check_pure_func( u32_to_uppercase, U'é', U'É' );
+    check_pure_func( u32_to_uppercase, U'É', U'É' );
+    check_pure_func( u32_to_uppercase, U'ō', U'Ō' );
+    check_pure_func( u32_to_uppercase, U'Ō', U'Ō' );
+
+    // Greek
+    check_pure_func( u32_to_uppercase, U'α', U'Α' );
+    check_pure_func( u32_to_uppercase, U'Α', U'Α' );
+    check_pure_func( u32_to_uppercase, U'σ', U'Σ' );
+    check_pure_func( u32_to_uppercase, U'Σ', U'Σ' );
+
+    // Cyrillic
+    check_pure_func( u32_to_uppercase, U'а', U'А' );
+    check_pure_func( u32_to_uppercase, U'А', U'А' );
+    check_pure_func( u32_to_uppercase, U'б', U'Б' );
+    check_pure_func( u32_to_uppercase, U'Б', U'Б' );
+
+    // CJK
+    check_pure_func( u32_to_uppercase, U'中', U'中' );
+    check_pure_func( u32_to_uppercase, U'の', U'の' );
+
+    // Emoji
+    check_pure_func( u32_to_uppercase, U'😅', U'😅' );
 }
 
 TEST_CASE( "remove_accent", "[catacharset][nogame]" )
@@ -139,6 +172,29 @@ TEST_CASE( "remove_accent", "[catacharset][nogame]" )
 
     // Emoji
     check_in_place_func( remove_accent, U'😅', U'😅' );
+}
+
+TEST_CASE( "uppercase_string", "[catacharset][nogame]" )
+{
+    CHECK( to_upper_case( "Héllσ 中😅" ) == "HÉLLΣ 中😅" );
+    CHECK( uppercase_first_letter( "éllσ" ) == "Éllσ" );
+    CHECK( uppercase_first_letter( "中eé" ) == "中eé" );
+}
+
+TEST_CASE( "lowercase_string", "[catacharset][nogame]" )
+{
+    CHECK( to_lower_case( "HéLLΣ 中😅" ) == "héllσ 中😅" );
+    CHECK( lowercase_first_letter( "Éllσ" ) == "éllσ" );
+    CHECK( lowercase_first_letter( "中Eé" ) == "中Eé" );
+}
+
+TEST_CASE( "remove_punctuations", "[catacharset][nogame]" )
+{
+    CHECK( remove_punctuations( "Hello,_/ world!" ) == "Hello_ world" );
+    CHECK( remove_punctuations( "你好，世界！" ) == "你好世界" );
+    CHECK( remove_punctuations( "Hello, 世界!" ) == "Hello 世界" );
+    CHECK( remove_punctuations( "C'est la vie." ) == "Cest la vie" );
+    CHECK( remove_punctuations( "¡Hola, señor!" ) == "Hola señor" );
 }
 
 TEST_CASE( "utf8_view", "[catacharset][nogame]" )

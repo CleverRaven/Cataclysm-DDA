@@ -565,6 +565,31 @@
   },
   {
     "type": "terrain",
+    "id": "t_floor_rotted",
+    "looks_like": "t_floor",
+    "name": "rotten floor",
+    "description": "What would have once been a sturdy wooden floor is now a half-rotten wreck.  You're not sure how safe walking on this would be.",
+    "symbol": ".",
+    "color": "cyan",
+    "connect_groups": [ "INDOORFLOOR", "WOODFLOOR" ],
+    "connects_to": "WOODFLOOR",
+    "move_cost": 2,
+    "comfort": 1,
+    "roof": "t_wood_treated_roof",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_scrap_floor",
     "name": "simple metal floor",
     "description": "A crudely welded-together metal floor with steel trusses and supporting girders.  Can support a roof.",

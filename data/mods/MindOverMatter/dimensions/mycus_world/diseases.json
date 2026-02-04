@@ -1,0 +1,12 @@
+[
+  {
+    "type": "disease_type",
+    "id": "fungal_contamination",
+    "min_duration": "7 d",
+    "max_duration": "21 d",
+    "min_intensity": 1,
+    "max_intensity": 3,
+    "health_threshold": 210,
+    "symptoms": "fungus"
+  }
+]

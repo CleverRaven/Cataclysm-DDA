@@ -478,7 +478,7 @@
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
+    "effects": [ "NON_FOULING", "RECOVER_80" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 7 }
   },

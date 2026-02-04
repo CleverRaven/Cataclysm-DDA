@@ -133,6 +133,8 @@ static int related_menu_fill( uilist &rmenu,
                               const recipe_subset &available );
 static item get_recipe_result_item( const recipe &rec, Character &crafter );
 static void compare_recipe_with_item( const item &recipe_item, Character &crafter );
+static void prioritize_components( const recipe &recipe, Character &crafter );
+static void deprioritize_components( const recipe &recipe );
 
 static std::string get_cat_unprefixed( std::string_view prefixed_name )
 {
@@ -644,6 +646,8 @@ static input_context make_crafting_context( bool highlight_unread_recipes )
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
     ctxt.register_action( "COMPARE" );
+    ctxt.register_action( "PRIORITIZE_MISSING_COMPONENTS" );
+    ctxt.register_action( "DEPRIORITIZE_COMPONENTS" );
     if( highlight_unread_recipes ) {
         ctxt.register_action( "TOGGLE_RECIPE_UNREAD" );
         ctxt.register_action( "MARK_ALL_RECIPES_READ" );
@@ -1039,6 +1043,11 @@ static recipe_subset filter_recipes( const recipe_subset &available_recipes,
                                        recipe_subset::search_type::proficiency, progress_callback );
                     break;
 
+                case 'b':
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ), crafter,
+                                       recipe_subset::search_type::book, progress_callback );
+                    break;
+
                 case 'l':
                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
                                        recipe_subset::search_type::difficulty, progress_callback );
@@ -1068,7 +1077,9 @@ static recipe_subset filter_recipes( const recipe_subset &available_recipes,
             filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 1 ),
                                recipe_subset::search_type::exclude_name, progress_callback );
         } else {
-            filtered_recipes = filtered_recipes.reduce( qry_filter_str );
+            filtered_recipes = filtered_recipes.reduce( qry_filter_str,
+                               recipe_subset::search_type::name,
+                               std::function<void( size_t, size_t )> {} );
         }
 
         qry_begin = qry_end + 1;
@@ -1096,6 +1107,7 @@ static const std::vector<SearchPrefix> prefixes = {
     { 't', to_translation( "soldering iron" ), to_translation( "<color_cyan>tool</color> required to craft" ) },
     { 'm', to_translation( "yes" ), to_translation( "recipe <color_cyan>memorized</color> (or not)" ) },
     { 'P', to_translation( "Blacksmithing" ), to_translation( "<color_cyan>proficiency</color> used to craft" ) },
+    { 'b', to_translation( "chemistry textbook" ), to_translation( "<color_cyan>source</color> of the recipe" ) },
     { 'l', to_translation( "5" ), to_translation( "<color_cyan>difficulty</color> of the recipe as a number or range" ) },
     { 'r', to_translation( "buttermilk" ), to_translation( "recipe's (<color_cyan>by</color>)<color_cyan>products</color>" ) },
     { 'L', to_translation( "122 cm" ), to_translation( "result can contain item of <color_cyan>length</color>" ) },
@@ -1352,6 +1364,8 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         add_action_desc( "TOGGLE_FAVORITE", pgettext( "crafting gui", "Favorite" ) );
         add_action_desc( "CYCLE_BATCH", pgettext( "crafting gui", "Batch" ) );
         add_action_desc( "CHOOSE_CRAFTER", pgettext( "crafting gui", "Choose crafter" ) );
+        add_action_desc( "PRIORITIZE_MISSING_COMPONENTS", pgettext( "crafting gui", "Prioritize" ) );
+        add_action_desc( "DEPRIORITIZE_COMPONENTS", pgettext( "crafting gui", "Deprioritize" ) );
         add_action_desc( "HELP_KEYBINDINGS", pgettext( "crafting gui", "Keybindings" ) );
         keybinding_x = isWide ? 5 : 2;
         keybinding_tips = foldstring( enumerate_as_string( act_descs, enumeration_conjunction::none ),
@@ -2115,6 +2129,18 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         } else if( action == "COMPARE" && selection_ok( current, line, false ) ) {
             const item recipe_result = get_recipe_result_item( *current[line], *crafter );
             compare_recipe_with_item( recipe_result, *crafter );
+        } else if( action == "PRIORITIZE_MISSING_COMPONENTS" && selection_ok( current, line, false ) ) {
+            uistate.read_recipes.insert( current[line]->ident() );
+            recalc_unread = highlight_unread_recipes;
+            ui.invalidate_ui();
+
+            prioritize_components( *current[line], *crafter );
+        } else if( action == "DEPRIORITIZE_COMPONENTS" ) {
+            uistate.read_recipes.insert( current[line]->ident() );
+            recalc_unread = highlight_unread_recipes;
+            ui.invalidate_ui();
+
+            deprioritize_components( *current[line] );
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Regenerate keybinding tips
             ui.mark_resize();
@@ -2338,6 +2364,93 @@ static void compare_recipe_with_item( const item &recipe_item, Character &crafte
     } while( true );
 }
 
+static void prioritize_components( const recipe &recipe, Character &crafter )
+{
+    int new_filters_count = 0;
+    std::string added_filters;
+    const requirement_data &req = recipe.simple_requirements();
+    const inventory &crafting_inv = crafter.crafting_inventory();
+    for( const std::vector<item_comp> &comp_list : req.get_components() ) {
+        for( const item_comp &i_comp : comp_list ) {
+            std::string nname = item::nname( i_comp.type, 1 );
+            int filter_pos = uistate.list_item_priority.find( nname );
+            bool enough_materials = req.check_enough_materials(
+                                        i_comp, crafting_inv, recipe.get_component_filter(), 1
+                                    );
+            if( filter_pos == -1 && !enough_materials ) {
+                new_filters_count++;
+                added_filters += nname;
+                added_filters += ",";
+            }
+        }
+    }
+
+    if( new_filters_count > 0 ) {
+        if( !uistate.list_item_priority.empty()
+            && !string_ends_with( uistate.list_item_priority, "," ) ) {
+            uistate.list_item_priority += ",";
+        }
+        uistate.list_item_priority += added_filters;
+        uistate.list_item_priority_active = true;
+        std::vector<std::string> &hist = uistate.gethistory( "list_item_priority" );
+        if( hist.empty() || hist[hist.size() - 1] != uistate.list_item_priority ) {
+            hist.push_back( uistate.list_item_priority );
+        }
+
+        popup( string_format( _( "Added %d components to the priority filter.\nAdded: %s\nNew Filter: %s" ),
+                              new_filters_count, added_filters, uistate.list_item_priority ) );
+    } else {
+        popup( string_format( _( "Did not find anything to add to the priority filter.\n\nFilter: %s" ),
+                              uistate.list_item_priority ) );
+    }
+}
+
+static void deprioritize_components( const recipe &recipe )
+{
+    int removed_filters_count = 0;
+    std::string removed_filters;
+    const requirement_data &req = recipe.simple_requirements();
+    for( const std::vector<item_comp> &comp_list : req.get_components() ) {
+        for( const item_comp &i_comp : comp_list ) {
+            std::string nname = item::nname( i_comp.type, 1 );
+            nname += ",";
+            if( string_starts_with( uistate.list_item_priority, nname ) ) {
+                removed_filters_count++;
+                removed_filters += nname;
+                uistate.list_item_priority.erase( 0, nname.length() );
+            } else {
+                std::string find_string = "," + nname;
+                int filter_pos = uistate.list_item_priority.find( find_string );
+                if( filter_pos > -1 ) {
+                    removed_filters_count++;
+                    removed_filters += nname;
+                    uistate.list_item_priority.replace( filter_pos, find_string.length(), "," );
+                }
+            }
+        }
+    }
+
+    if( !uistate.list_item_priority.empty() ) {
+        uistate.list_item_priority_active = true;
+
+        std::vector<std::string> &hist = uistate.gethistory( "list_item_priority" );
+        if( hist.empty() || hist[hist.size() - 1] != uistate.list_item_priority ) {
+            hist.push_back( uistate.list_item_priority );
+        }
+    } else {
+        uistate.list_item_priority_active = false;
+    }
+
+    if( removed_filters_count > 0 ) {
+        popup( string_format(
+                   _( "Removed %d components from the priority filter.\nRemoved: %s\nNew Filter: %s" ),
+                   removed_filters_count, removed_filters, uistate.list_item_priority ) );
+    } else {
+        popup( string_format( _( "Did not find anything to remove from the priority filter.\nFilter: %s" ),
+                              uistate.list_item_priority ) );
+    }
+}
+
 static bool query_is_yes( std::string_view query )
 {
     const std::string_view subquery = query.substr( 2 );
@@ -2350,13 +2463,13 @@ static bool query_is_yes( std::string_view query )
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe )
 {
     if( amount == 1 ) {
-        right_print( w, 1, 1, c_red, string_format( _( "* %s hidden recipe - %s in category *" ), amount,
+        right_print( w, 1, 1, c_red, string_format( _( "* %d hidden recipe - %d in category *" ), amount,
                      num_recipe ) );
     } else if( amount >= 2 ) {
-        right_print( w, 1, 1, c_red, string_format( _( "* %s hidden recipes - %s in category *" ), amount,
+        right_print( w, 1, 1, c_red, string_format( _( "* %d hidden recipes - %d in category *" ), amount,
                      num_recipe ) );
     } else if( amount == 0 ) {
-        right_print( w, 1, 1, c_green, string_format( _( "* No hidden recipe - %s in category *" ),
+        right_print( w, 1, 1, c_green, string_format( _( "* No hidden recipe - %d in category *" ),
                      num_recipe ) );
     }
     //Finish border connection with the recipe tabs

@@ -33,9 +33,9 @@ static const itype_id itype_debug_item_search( "debug_item_search" );
 
 static std::pair<std::string, std::string> get_both( std::string_view a );
 
-template<typename Unit>
+template<typename Unit, size_t N>
 static std::function< bool( const item & )> can_contain_filter( std::string_view hint,
-        std::string_view filter, Unit max, std::vector<std::pair<std::string, Unit>> units,
+        std::string_view filter, Unit max, const std::array<std::pair<std::string_view, Unit>, N> &units,
         std::function<item( itype *, Unit u )> set_function )
 {
     // TODO: LAMBDA_NORETURN_CLANG21x1 can be replaced with [[noreturn]] once we switch to C++23 on all compilers

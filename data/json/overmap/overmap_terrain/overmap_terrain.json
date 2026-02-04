@@ -110,6 +110,45 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "ruined_tower_highlands_basement",
+    "sym": "T",
+    "color": "c_blue",
+    "see_cost": "high",
+    "flags": [ "KNOWN_UP" ],
+    "looks_like": "magic_academy_basement",
+    "vision_levels": "underground_dirt",
+    "travel_cost_type": "basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ruined_tower_highlands_ground",
+    "name": "ruined tower",
+    "sym": "T",
+    "color": "c_blue",
+    "looks_like": "lake_retreat_ground",
+    "see_cost": "high",
+    "vision_levels": "isolated_tower",
+    "travel_cost_type": "structure"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "ruined_tower_highlands_z1",
+      "ruined_tower_highlands_z2",
+      "ruined_tower_highlands_z3",
+      "ruined_tower_highlands_z4",
+      "ruined_tower_highlands_z5"
+    ],
+    "name": "ruined tower",
+    "sym": "T",
+    "color": "blue",
+    "looks_like": "lake_retreat_z1",
+    "see_cost": "all_clear",
+    "vision_levels": "isolated_tower",
+    "travel_cost_type": "roof"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "boat_rental", "boat_rental_1", "boat_rental_2" ],
     "name": "boat rental",
     "sym": "#",
@@ -300,6 +339,7 @@
       "cabin_1",
       "cabin_2",
       "cabin_3",
+      "cabin_3_reverberation_hint",
       "cabin_4",
       "cabin_5",
       "cabin_6",
@@ -338,6 +378,7 @@
       "cabin_roof_1",
       "cabin_roof_2",
       "cabin_roof_3",
+      "cabin_roof_3_reverberation_hint",
       "cabin_roof_4",
       "cabin_roof_5",
       "cabin_roof_6",
@@ -549,7 +590,8 @@
       "radio_tower_odd",
       "radio_tower_top",
       "radio_tower_1",
-      "radio_tower_roof_1"
+      "radio_tower_roof_1",
+      "radio_tower_reverberation_mp3"
     ],
     "vision_levels": "isolated_tower",
     "travel_cost_type": "structure",
@@ -944,6 +986,16 @@
     "sym": "O",
     "color": "brown",
     "see_cost": "spaced_high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "outcrop_bottom",
+    "name": "outcrop base",
+    "vision_levels": "underground_dirt",
+    "travel_cost_type": "other",
+    "sym": "O",
+    "color": "brown",
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",

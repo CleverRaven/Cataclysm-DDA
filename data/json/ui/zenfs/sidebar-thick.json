@@ -146,6 +146,7 @@
       "zenfs_environment_safe",
       "zenfs_spacer_disabled",
       "zenfs_vehicle_readout",
+      "zenfs_oxygen_bar_only_12_layout",
       "compass_all_layout_alt",
       "compass_all_layout",
       "zenfs_spacer_disabled",
@@ -176,6 +177,7 @@
       "zenfs_vehicle_readout",
       "compass_all_layout_alt",
       "compass_all_layout",
+      "oxygen_num_label_layout",
       "zenfs_spacer_disabled",
       "zenfs_spacer_disabled"
     ]

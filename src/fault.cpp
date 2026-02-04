@@ -193,6 +193,21 @@ double fault::encumb_mod_flat() const
     return encumbrance_mod_flat_;
 }
 
+float fault::contact_area_mod() const
+{
+    return contact_area_mod_;
+}
+
+float fault::rolling_resistance_mod() const
+{
+    return rolling_resistance_mod_;
+}
+
+int fault::vehicle_move_penalty_mod() const
+{
+    return vehicle_move_penalty_mod_;
+}
+
 double fault::encumb_mod_mult() const
 {
     return encumbrance_mod_mult_;
@@ -234,6 +249,9 @@ void fault::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "affected_by_degradation", affected_by_degradation_, false );
     optional( jo, was_loaded, "encumbrance_add", encumbrance_mod_flat_, 0 );
     optional( jo, was_loaded, "encumbrance_mult", encumbrance_mod_mult_, 1.f );
+    optional( jo, was_loaded, "contact_area_mod", contact_area_mod_, 1.f );
+    optional( jo, was_loaded, "rolling_resistance_mod", rolling_resistance_mod_, 1.f );
+    optional( jo, was_loaded, "vehicle_move_penalty_mod", vehicle_move_penalty_mod_, 0 );
 
     if( jo.has_array( "melee_damage_mod" ) ) {
         for( JsonObject jo_f : jo.get_array( "melee_damage_mod" ) ) {

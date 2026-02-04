@@ -234,7 +234,7 @@
     "type": "jmath_function",
     "id": "vampire_total_tier_three_traits",
     "num_args": 0,
-    "return": "u_has_trait('BLOODHASTE') + u_has_trait('HYPNOTIC_GAZE') + u_has_trait('MAGICFORBLOOD') + u_has_trait('BLOODBANK') + u_has_trait('VAMPIRE_COMMAND_BEAST') + u_has_trait('VAMPIRE_EARTH_SLUMBER') + u_has_trait('VAMPIRE_CARDIO_BONUS') + u_has_trait('VAMPIRE_MOTION_ALARM') + u_has_trait('VAMPIRE_BONUS_HP') + u_has_trait('VAMPIRE_STORE_MORE_BLOOD') + u_has_trait('VAMPIRE_INSTANT_BLEED') + u_has_trait('VAMPIRE_BIG_STOMACH') + u_has_trait('VAMPIRE_DETECT_VAMPIRES') + u_has_trait('DHAMPIR_REDUCED_PAIN') + u_has_trait('DHAMPIR_MEND_WOUNDS_FASTER') + u_has_trait('DHAMPIR_AVOID_EAT_SLEEP_DRINK')"
+    "return": "u_has_trait('BLOODHASTE') + u_has_trait('HYPNOTIC_GAZE') + u_has_trait('MAGICFORBLOOD') + u_has_trait('VAMPIRE_COMMAND_BEAST') + u_has_trait('VAMPIRE_EARTH_SLUMBER') + u_has_trait('VAMPIRE_CARDIO_BONUS') + u_has_trait('VAMPIRE_MOTION_ALARM') + u_has_trait('VAMPIRE_BONUS_HP') + u_has_trait('VAMPIRE_STORE_MORE_BLOOD') + u_has_trait('VAMPIRE_INSTANT_BLEED') + u_has_trait('VAMPIRE_BIG_STOMACH') + u_has_trait('VAMPIRE_DETECT_VAMPIRES') + u_has_trait('DHAMPIR_REDUCED_PAIN') + u_has_trait('DHAMPIR_MEND_WOUNDS_FASTER') + u_has_trait('DHAMPIR_AVOID_EAT_SLEEP_DRINK')"
   },
   {
     "type": "jmath_function",
@@ -356,5 +356,23 @@
     "id": "werewolf_tier_five_traits",
     "num_args": 0,
     "return": "u_has_trait('WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM') + u_has_trait('WEREWOLF_CLOSE_TEAR_IN_REALITY') + u_has_trait('WEREWOLF_WALK_THROUGH_WALLS') + u_has_trait('WEREWOLF_SUMMON_SHADOW_PACK')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "lucid_dreaming_proficiency_modifier",
+    "num_args": 1,
+    "return": "( (u_proficiency('prof_lucid_dreaming', 'format': 'percent') / 1000) ) * _0"
+  },
+  {
+    "id": "xe_nether_sorcery_failure_chance",
+    "type": "jmath_function",
+    "num_args": 0,
+    "return": "clamp( ( ( (u_pain('type': 'perceived') / 200 ) + ( u_spell_difficulty(_spell_id) / 82 ) + ( ( u_spell_level(_spell_id) / 30 ) * -1) ) + ( ( u_skill('deduction') / 25 ) * -1) + xe_weariness_calcs() ), 0.005, 1)"
+  },
+  {
+    "id": "xe_weariness_calcs",
+    "type": "jmath_function",
+    "num_args": 0,
+    "return": "-0.25 + (u_effect_intensity('weary_1') > -1 ? 0.1 : 0) + (u_effect_intensity('weary_2') > -1 ? 0.25 : 0) + (u_effect_intensity('weary_3') > -1 ? 0.35 : 0) + (u_effect_intensity('weary_4') > -1 ? 0.5 : 0) + (u_effect_intensity('weary_5') > -1 ? 0.65 : 0) + (u_effect_intensity('weary_6') > -1 ? 0.9 : 0)"
   }
 ]

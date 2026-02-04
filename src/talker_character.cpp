@@ -543,6 +543,11 @@ effect talker_character_const::get_effect( const efftype_id &effect_id,
     return me_chr_const->get_effect( effect_id, bp );
 }
 
+float talker_character_const::get_limb_score( const limb_score_id &score, const bp_type &bp ) const
+{
+    return me_chr_const->get_limb_score( score, bp );
+}
+
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
                                    const std::string &bp, bool permanent, bool force,
                                    int intensity )
@@ -761,6 +766,16 @@ int talker_character_const::get_instant_thirst() const
     return me_chr_const->get_instant_thirst();
 }
 
+int talker_character_const::get_oxygen() const
+{
+    return me_chr_const->oxygen;
+}
+
+int talker_character_const::get_oxygen_max() const
+{
+    return me_chr_const->get_oxygen_max();
+}
+
 int talker_character_const::get_stored_kcal() const
 {
     return me_chr_const->get_stored_kcal();
@@ -959,6 +974,11 @@ int talker_character_const::morale_cur() const
     return me_chr_const->get_morale_level();
 }
 
+void talker_character::set_oxygen( int value )
+{
+    me_chr->oxygen = std::clamp( value, 0, get_oxygen_max() );
+}
+
 void talker_character::set_fac_relation( const Character *guy, npc_factions::relationship rule,
         bool should_set_value )
 {
@@ -1057,6 +1077,11 @@ void talker_character::set_pkill( int amount )
 int talker_character_const::get_stamina() const
 {
     return me_chr_const->get_stamina();
+}
+
+int talker_character_const::get_stamina_max() const
+{
+    return me_chr_const->get_stamina_max();
 }
 
 void talker_character::set_stamina( int amount )

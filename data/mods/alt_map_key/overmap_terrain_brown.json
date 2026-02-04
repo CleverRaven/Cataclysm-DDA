@@ -304,6 +304,7 @@
       "cabin_1",
       "cabin_2",
       "cabin_3",
+      "cabin_3_reverberation_hint",
       "cabin_4",
       "cabin_5",
       "cabin_6",
@@ -332,6 +333,7 @@
       "cabin_roof_1",
       "cabin_roof_2",
       "cabin_roof_3",
+      "cabin_roof_3_reverberation_hint",
       "cabin_roof_4",
       "cabin_roof_5",
       "cabin_roof_6",
@@ -340,6 +342,22 @@
       "bandit_cabin_roof"
     ],
     "copy-from": "cabin_roof",
+    "name": "cabin roof",
+    "sym": "C",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_3_reverberation" ],
+    "copy-from": "cabin_3_reverberation",
+    "name": "cabin",
+    "sym": "C",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_roof_3_reverberation" ],
+    "copy-from": "cabin_roof_3_reverberation",
     "name": "cabin roof",
     "sym": "C",
     "color": "brown"
@@ -404,6 +422,14 @@
     ],
     "copy-from": "cabin_lakeside_roof",
     "name": "lakeside cabin roof",
+    "sym": "L",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "xedra_fishing_shack_0", "xedra_fishing_shack_1", "xedra_fishing_shack_2" ],
+    "copy-from": "xedra_fishing_shack_0",
+    "name": "lakeside shack",
     "sym": "L",
     "color": "brown"
   },

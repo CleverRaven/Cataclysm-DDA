@@ -324,54 +324,19 @@ struct queued_eocs {
     std::priority_queue<storage_iter, std::vector<storage_iter>, eoc_compare> queue;
     std::list<queued_eoc> list;
 
-    queued_eocs() = default;
+    queued_eocs();
 
-    queued_eocs( const queued_eocs &rhs ) {
-        list = rhs.list;
-        for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
-            queue.emplace( it );
-        }
-    };
-    queued_eocs( queued_eocs &&rhs ) noexcept {
-        queue.swap( rhs.queue );
-        list.swap( rhs.list );
-    }
+    queued_eocs( const queued_eocs &rhs );
+    queued_eocs( queued_eocs &&rhs ) noexcept;
 
-    queued_eocs &operator=( const queued_eocs &rhs ) {
-        list = rhs.list;
-        // Why doesn't std::priority_queue have a clear() function.
-        queue = {};
-        for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
-            queue.emplace( it );
-        }
-        return *this;
-    }
-    queued_eocs &operator=( queued_eocs &&rhs ) noexcept {
-        queue.swap( rhs.queue );
-        list.swap( rhs.list );
-        return *this;
-    }
+    queued_eocs &operator=( const queued_eocs &rhs );
+    queued_eocs &operator=( queued_eocs &&rhs ) noexcept;
 
-    /* std::priority_queue compatibility layer where performance is less relevant */
-
-    bool empty() const {
-        return queue.empty();
-    }
-
-    const queued_eoc &top() const {
-        return *queue.top();
-    }
-
-    void push( const queued_eoc &eoc ) {
-        auto it = list.emplace( list.end(), eoc );
-        queue.push( it );
-    }
-
-    void pop() {
-        auto it = queue.top();
-        queue.pop();
-        list.erase( it );
-    }
+    /* std::priority_queue compatibility layer */
+    bool empty() const;
+    const queued_eoc &top() const;
+    void push( const queued_eoc &eoc );
+    void pop();
 };
 
 struct aim_type {
@@ -2164,6 +2129,10 @@ class Character : public Creature, public visitable
         item_location try_add( item it, int &copies_remaining, const item *avoid = nullptr,
                                const item *original_inventory_item = nullptr, bool allow_wield = true,
                                bool ignore_pkt_settings = false );
+        /** Checks to see if it's possible to add an item to the inventory. */
+        bool can_add( const item &it, const item *avoid = nullptr,
+                      bool allow_wield = true,
+                      bool ignore_pkt_settings = false );
 
         ret_val<item_location> i_add_or_fill( item &it, bool should_stack = true,
                                               const item *avoid = nullptr,
@@ -2625,6 +2594,10 @@ class Character : public Creature, public visitable
         // gets all the spells known by this character that have this spell class
         // spells returned are a copy, do not try to edit them from here, instead use known_magic::get_spell
         std::vector<spell> spells_known_of_class( const trait_id &spell_class ) const;
+        /**
+        * @param fake_spell - "true" indicates a spell cast by a bionic
+        * @param target - if not provided, defers to spell::select_target()
+        */
         bool cast_spell( spell &sp, bool fake_spell, const std::optional<tripoint_bub_ms> &target );
 
         /** Called when a player triggers a trap, returns true if they don't set it off */
@@ -2913,6 +2886,7 @@ class Character : public Creature, public visitable
         int cash = 0;
         weak_ptr_fast<Creature> last_target;
         std::optional<tripoint_abs_ms> last_target_pos;
+        std::optional<tripoint_abs_ms> last_magic_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
         // FIXME: The presence of camps should be global objects, this should only be knowledge of camps (at best)

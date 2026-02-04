@@ -95,5 +95,104 @@
         "u": { "monster": "mon_leech_stalk" }
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "robofac_monster_corpse_field_team_roof",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           R            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        ".....                   ",
+        ".....                   ",
+        ".....                   ",
+        ".....                   ",
+        ".....                   "
+      ],
+      "terrain": { ".": "t_canvas_roof" },
+      "monster": { "R": { "monster": "mon_robofac_camspy" } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "robofac_monster_corpse_field_team",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "   R                 R  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " %%%                    ",
+        " % %                    ",
+        " %%%                    ",
+        "WWWWW                   ",
+        "W..rW                   ",
+        "D.clW               R   ",
+        "W..tW                   ",
+        "WWWWW                   "
+      ],
+      "terrain": {
+        ".": "t_dirt",
+        "c": "t_dirt",
+        "r": "t_dirt",
+        "l": "t_dirt",
+        "t": "t_dirt",
+        "D": "t_dirt",
+        "W": "t_dirt",
+        "T": "t_dirt",
+        "%": "t_dirt"
+      },
+      "furniture": {
+        "W": "f_canvas_wall",
+        "D": "f_canvas_door_o",
+        "c": "f_camp_chair",
+        "r": "f_tourist_table",
+        "l": "f_tourist_table",
+        "t": "f_tourist_table",
+        "%": "f_sandbag_half"
+      },
+      "item": { "r": { "item": "radio" }, "l": { "item": "laptop" }, "t": { "item": "emf_detector" } },
+      "monster": { "R": { "monster": "mon_robofac_camspy" } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_npcs": [
+        { "class": "robofac_merc_monster_corpse_1", "x": 2, "y": 21 },
+        { "class": "robofac_merc_monster_corpse_2", "x": 2, "y": 17 }
+      ],
+      "place_nested": [ { "chunks": [ "robofac_monster_corpse_field_team_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
   }
 ]

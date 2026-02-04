@@ -369,7 +369,7 @@
     "description": "Turn your own energy into power for a vehicle or appliance.  You need merely touch the vehicle or any part of the power grid to recharge the batteries.",
     "message": "Power flows into your target.",
     "teachable": false,
-    "valid_targets": [ "ground" ],
+    "valid_targets": [ "vehicle" ],
     "spell_class": "ELECTROKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",

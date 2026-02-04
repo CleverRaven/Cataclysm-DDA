@@ -13,7 +13,7 @@
   {
     "id": "PUMP_LASER",
     "type": "ammo_effect",
-    "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "radius": 3, "size": 4, "chance": 50 },
+    "aoe": [ { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "radius": 3, "size": 4, "chance": 50 } ],
     "explosion": { "power": 5000, "max_noise": 35, "distance_factor": 0.5 }
   },
   {
@@ -24,50 +24,50 @@
   {
     "id": "ELECTRO_ANOMALY",
     "type": "ammo_effect",
-    "aoe": { "field_type": "fd_elect_anomaly", "intensity_min": 2, "intensity_max": 3, "radius": 0 }
+    "aoe": [ { "field_type": "fd_elect_anomaly", "intensity_min": 2, "intensity_max": 3, "radius": 0 } ]
   },
   {
     "id": "SMALL_ELECTRIC_BURST",
     "type": "ammo_effect",
-    "aoe": { "field_type": "fd_electricity", "intensity_min": 1, "intensity_max": 2, "chance": 10, "radius": 1 }
+    "aoe": [ { "field_type": "fd_electricity", "intensity_min": 1, "intensity_max": 2, "chance": 10, "radius": 1 } ]
   },
   {
     "id": "TACTICAL_LASER_EXPLOSION",
     "type": "ammo_effect",
-    "trigger_chance": 5,
+    "trigger_chance": 20,
     "explosion": { "power": 500, "max_noise": 35, "distance_factor": 0.2 }
   },
   {
     "id": "DAZZLE_BEAM",
     "type": "ammo_effect",
-    "trail": { "field_type": "fd_dazzling", "intensity_min": 1, "intensity_max": 1 }
+    "trail": [ { "field_type": "fd_dazzling", "intensity_min": 1, "intensity_max": 1 } ]
   },
   {
     "id": "SEISMIC_MAPPING",
     "type": "ammo_effect",
-    "aoe": { "field_type": "fd_clairvoyant", "intensity_min": 10, "intensity_max": 10 }
+    "aoe": [ { "field_type": "fd_clairvoyant", "intensity_min": 10, "intensity_max": 10 } ]
   },
   {
     "id": "TOXIC_FOAM",
     "type": "ammo_effect",
-    "aoe": { "field_type": "fd_toxic_foam", "intensity_min": 1, "intensity_max": 4, "chance": 70, "radius": 1 }
+    "aoe": [ { "field_type": "fd_toxic_foam", "intensity_min": 1, "intensity_max": 4, "chance": 70, "radius": 1 } ]
   },
   {
     "id": "ELECTRIC_CHAIN",
     "type": "ammo_effect",
     "always_cast_spell": true,
-    "spell_data": { "id": "spell_electric_chain" }
+    "spell_data": [ { "id": "spell_electric_chain" } ]
   },
   {
     "id": "FUSION_FAN",
     "type": "ammo_effect",
     "always_cast_spell": true,
-    "spell_data": { "id": "spell_fusion_fan" }
+    "spell_data": [ { "id": "spell_fusion_fan" } ]
   },
   {
     "id": "VAHAGN",
     "type": "ammo_effect",
     "always_cast_spell": true,
-    "spell_data": { "id": "spell_vahagn" }
+    "spell_data": [ { "id": "spell_vahagn" } ]
   }
 ]

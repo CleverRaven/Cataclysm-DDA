@@ -375,7 +375,7 @@
     "apply_message": "You're staggered off-balance.",
     "max_duration": "5 s",
     "base_mods": { "speed_mod": [ -20 ] },
-    "removes_effects": [ "grabbing", "grabbing_2", "grabbing_3" ],
+    "removes_effects": [ "grabbing", "grabbing_2", "grabbing_3", "grabbing_4", "grabbing_5" ],
     "rating": "bad",
     "show_in_info": true
   },
@@ -615,12 +615,51 @@
     ],
     "//": "stats modified by the zombie_fuse special attack.",
     "//1": "scaling:",
-    "//2": "/50 HP: +0,5 melee_skill, +0,5 dodge_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash",
+    "//2": "/50 HP: +0,5 melee_skill, +5 Speed (bigger steps&more to attack with), +4 bash",
     "//3": "/250 HP: +1 size",
     "max_intensity": 500,
-    "base_mods": { "hit_mod": [ 0.01 ], "dodge_mod": [ 0.01 ], "speed_mod": [ 0.1 ], "bash_mod": [ 0.08 ] },
-    "scaling_mods": { "hit_mod": [ 0.01 ], "dodge_mod": [ 0.01 ], "speed_mod": [ 0.1 ], "bash_mod": [ 0.08 ], "size_mod": [ 0.004 ] },
-    "int_decay_step": 0
+    "//4": "Effective max intensity is currently 320.",
+    "base_mods": { "hit_mod": [ 0.01 ], "bash_mod": [ 0.08 ] },
+    "scaling_mods": { "hit_mod": [ 0.01 ], "bash_mod": [ 0.08 ], "size_mod": [ 0.004 ] },
+    "int_decay_step": 0,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -900" ] } },
+          { "type": "cut", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -1500" ] } },
+          { "type": "stab", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -1500" ] } },
+          { "type": "bullet", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / -650" ] } }
+        ],
+        "values": [
+          { "value": "REGEN_HP", "multiply": { "math": [ "u_effect_intensity('grown_of_fuse') / 32" ] } },
+          { "value": "SPEED", "add": { "math": [ "u_effect_intensity('grown_of_fuse') * 0.06" ] } }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "absorbed_electric" },
+        "incoming_damage_mod": [ { "type": "electric", "multiply": -1 } ]
+      },
+      {
+        "condition": { "u_has_effect": "absorbed_acidic" },
+        "incoming_damage_mod": [ { "type": "acid", "multiply": -1 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "absorbed_acidic",
+    "//": "This tells a devourer that it has absorbed an acidic monster (one with the flag ACID_BLOOD or ACIDTRAIL)"
+  },
+  {
+    "type": "effect_type",
+    "id": "absorbed_electric",
+    "//": "This tells a devourer that it has absorbed an electric monster (one with the flag ELECTRIC)"
+  },
+  {
+    "type": "effect_type",
+    "id": "absorbed_pupating",
+    "//": "This tells a devourer that it has absorbed a pupating zombie and can now produce flesh raptors"
   },
   {
     "id": "Shadow_Reveal",
@@ -3963,7 +4002,29 @@
     "type": "effect_type",
     "id": "grabbing_3",
     "name": [ "Grabbing" ],
-    "desc": [ "Grabbing another creature and holding them in place with a second appendage." ],
+    "desc": [ "Grabbing another creature and holding them in place with a third appendage." ],
+    "max_intensity": 1,
+    "show_in_info": true,
+    "//": "-dodge (can't really miss something holding you)",
+    "base_mods": { "dodge_mod": [ -8 ] },
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_4",
+    "name": [ "Grabbing" ],
+    "desc": [ "Grabbing another creature and holding them in place with a fourth appendage." ],
+    "max_intensity": 1,
+    "show_in_info": true,
+    "//": "-dodge (can't really miss something holding you)",
+    "base_mods": { "dodge_mod": [ -8 ] },
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_5",
+    "name": [ "Grabbing" ],
+    "desc": [ "Grabbing another creature and holding them in place with a fifth appendage." ],
     "max_intensity": 1,
     "show_in_info": true,
     "//": "-dodge (can't really miss something holding you)",
@@ -5209,6 +5270,17 @@
   },
   {
     "type": "effect_type",
+    "id": "magic_channeling",
+    "name": [ "Channeling" ],
+    "show_intensity": true,
+    "desc": [ "You are channeling supernatural powers." ],
+    "max_duration": "1 m",
+    "max_intensity": 1000,
+    "int_add_val": 1,
+    "rating": "neutral"
+  },
+  {
+    "type": "effect_type",
     "id": "subaquatic_sonar",
     "name": [ "Subaquatic SONAR" ],
     "desc": [
@@ -5335,5 +5407,36 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_shocker_zombie_charge_up",
+    "name": [ "Crackling" ],
+    "desc": [ "Sparks occasionally crackle across the monster's skin." ],
+    "rating": "good",
+    "max_intensity": 5,
+    "int_add_val": 1,
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "LUMINATION", "add": { "math": [ "u_effect_intensity('effect_shocker_zombie_charge_up') * 3" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_shocker_zombie_charge_up_removal",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "effect_shocker_zombie_charge_up" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_polyp_out_of_phase",
+    "name": [ "Out of Phase" ],
+    "desc": [ "You are not entirely present in baseline reality." ],
+    "rating": "good",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RANGE_DODGE", "add": 0.66 } ] } ]
   }
 ]

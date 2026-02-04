@@ -4457,7 +4457,7 @@ You or NPC is teleported to `target_var` coordinates
 | "u_teleport", / "npc_teleport" | **mandatory** | [variable object](#variable-object) | location to teleport; should use `target_var`, created previously |
 | "success_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was successful |
 | "fail_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was failed, like if coordinates contained creature or impassable obstacle (like wall) |
-| "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead |
+| "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead. For the vehicle, collision test will be skipped. |
 | "force_safe" | optional | boolean | default false; if true, teleportation cannot^(tm) fail.  If there is a creature or obstacle at the target coordinate, the closest passable point within 5 horizontal tiles is picked instead.  If there is no point, the creature remains where they are. |
 
 ##### Valid talkers:
@@ -5445,7 +5445,7 @@ Subtract this many turns from the alpha talker's moves.
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
-| "turn_cost" | **mandatory** | number, duration, [variable object](#variable-object) or value between two | how long the action takes (can be specified in number of turns (as decimal), or as a duration) |
+| "turn_cost" | **mandatory** | number, duration, [variable object](#variable-object) or value between two | how long the action takes as a duration |
 
 ##### Examples
 
@@ -5453,14 +5453,6 @@ Subtract this many turns from the alpha talker's moves.
 {
   "effect": [
     { "turn_cost": "1 sec" }
-  ]
-}
-```
-
-```jsonc
-{
-  "effect": [
-    { "turn_cost": 0.6 }
   ]
 }
 ```
@@ -5516,7 +5508,7 @@ search_data is an array, that allow to filter specific items from the list. At t
 | "material" | string, [variable object](#variable-object) or array of strings or variable objects | filter the list of items by their material |
 | "uses_energy" | boolean | filter the list of items by whether or not they use energy. `true` would pick only items that use energy, `false` would pick all items that do not use energy |
 | "is_chargeable" | boolean | filter the list of items by whether or not they are chargeable.  `true` will only return electrical items that can hold more charge.  `false` will only return electrical items that cannot hold more charge (ie, fully charged items or ups / bionic items).
-| "worn_only" | boolean | return only items you you wear (clothes) |
+| "worn_only" | boolean | return only items you wear (clothes) |
 | "wielded_only" | boolean | return only item you hold in your hands right now. if you hold nothing, and picking object is not manual, it return string `none` |
 | "held_only" | boolean | return both items you wear and item you hold in your hands |
 | "condition" | condition object | allows to use same conditions as EoC. Alpha talker in this case is whoever runs the effect, and beta is the item |

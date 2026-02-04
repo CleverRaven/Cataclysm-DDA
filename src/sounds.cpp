@@ -1390,7 +1390,7 @@ void sfx::generate_melee_sound( const tripoint_bub_ms &source, const tripoint_bu
     if( test_mode ) {
         return;
     }
-    // If creating a new thread for each invocation is to much, we have to consider a thread
+    // If creating a new thread for each invocation is too much, we have to consider a thread
     // pool or maybe a single thread that works continuously, but that requires a queue or similar
     // to coordinate its work.
     try {

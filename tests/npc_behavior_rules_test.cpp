@@ -167,7 +167,7 @@ TEST_CASE( "NPC-rules-close-doors", "[npc_rules]" )
 TEST_CASE( "NPC-rules-avoid-locks", "[npc_rules]" )
 {
     /* Avoid locked doors rule
-    * Target is a the north side of a locked door (otherwise inaccessible room)
+    * Target is on the north side of a locked door (otherwise inaccessible room)
     * We can open the door, but our rules forbid it
     * Test succeeds if NPC fails to path to other side of door
     *

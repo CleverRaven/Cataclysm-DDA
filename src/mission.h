@@ -150,9 +150,11 @@ tripoint_abs_omt target_closest_lab_entrance( const tripoint_abs_omt &origin, in
         mission *miss );
 bool reveal_road( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
                   overmapbuffer &omb );
-tripoint_abs_omt reveal_om_ter( const std::string &omter, int reveal_rad, bool must_see,
+tripoint_abs_omt reveal_om_ter( tripoint_abs_omt origin, const std::string &omter, int reveal_rad,
+                                bool must_see,
                                 int target_z = 0 );
-tripoint_abs_omt target_om_ter( const std::string &omter, int reveal_rad, mission *miss,
+tripoint_abs_omt target_om_ter( tripoint_abs_omt origin, const std::string &omter, int reveal_rad,
+                                mission *miss,
                                 bool must_see, int target_z = 0 );
 tripoint_abs_omt target_om_ter_random(
     const std::string &omter, int reveal_rad, mission *miss, bool must_see, int range,

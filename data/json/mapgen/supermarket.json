@@ -127,7 +127,7 @@
         "ъ": { "chunks": [ "shelf_commercial_nuts_crackers" ] },
         "Ю": { "chunks": [ "shelf_commercial_chocolate" ] },
         "ю": { "chunks": [ "shelf_commercial_candy" ] },
-        "И": { "chunks": [ "shelf_commercial_pet_food" ] },
+        "И": { "chunks": [ "shelf_commercial_pet_food_in_container" ] },
         "и": { "chunks": [ "shelf_commercial_pet_accessories" ] },
         "Ό": { "chunks": [ "shelf_commercial_baby_accessories_food" ] },
         "Д": { "chunks": [ "shelf_commercial_baby_hygiene" ] },
@@ -728,12 +728,12 @@
     }
   },
   {
-    "nested_mapgen_id": "shelf_commercial_pet_food",
+    "nested_mapgen_id": "shelf_commercial_pet_food_in_container",
     "type": "mapgen",
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
-      "place_items": [ { "item": "SUS_shelf_commercial_pet_food", "x": 0, "y": 0 } ]
+      "place_items": [ { "item": "SUS_shelf_commercial_pet_food_in_container", "x": 0, "y": 0 } ]
     }
   },
   {

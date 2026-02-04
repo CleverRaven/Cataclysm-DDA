@@ -85,12 +85,24 @@
     "types": [ [ "t_swater_sh", 6 ], [ "t_swater_dp", 1 ], [ "t_water_murky", 12 ] ]
   },
   {
+    "type": "forest_biome_mapgen",
+    "id": "biome_forest_thick_default",
+    "copy-from": "biome_forest_thick_default",
+    "extend": { "terrains": [ "ravine", "ravine_2way", "ravine_3way", "ravine_edge", "ravine_corner", "ravine_edge_ground" ] }
+  },
+  {
+    "type": "forest_biome_mapgen",
+    "id": "biome_forest_default",
+    "copy-from": "biome_forest_default",
+    "extend": { "terrains": [ "ravine", "ravine_2way", "ravine_3way", "ravine_edge", "ravine_corner", "ravine_edge_ground" ] }
+  },
+  {
     "type": "region_settings",
     "id": "default",
     "copy-from": "default",
     "cities": null,
     "highways": null,
     "place_roads": false,
-    "feature_flag_settings": { "blacklist": [ "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII", "HIGHLANDS" ], "whitelist": [  ] }
+    "feature_flag_settings": { "blacklist": [ "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII", "EXTRADIMENSIONAL" ], "whitelist": [  ] }
   }
 ]

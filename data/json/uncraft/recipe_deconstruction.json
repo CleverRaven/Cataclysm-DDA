@@ -6091,6 +6091,12 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "deck_of_tarot_cards",
+    "copy-from": "deck_of_cards",
+    "type": "uncraft",
+    "components": [ [ [ "cardboard", 20 ] ] ]
+  },
+  {
     "result": "kevlar_shears",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -7634,6 +7640,22 @@
     "time": "10 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "yarn", 40 ] ] ]
+  },
+  {
+    "result": "xlsocks_wool",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "yarn", 80 ] ] ]
+  },
+  {
+    "result": "xssocks_wool",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "yarn", 30 ] ] ]
   },
   {
     "result": "bottle_metal",

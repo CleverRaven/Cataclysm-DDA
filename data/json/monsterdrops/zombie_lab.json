@@ -19,6 +19,7 @@
           { "group": "electronics", "prob": 40 },
           { "group": "radio", "prob": 15 },
           { "item": "balthazar_radio", "prob": 10 },
+          { "item": "xedra_field_notes", "prob": 10 },
           { "group": "textbooks", "prob": 25 },
           { "group": "lab_files_generic", "prob": 15 }
         ]

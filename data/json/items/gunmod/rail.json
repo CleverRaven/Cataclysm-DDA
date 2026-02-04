@@ -55,6 +55,63 @@
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
   },
   {
+    "id": "mipim",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "GUNMOD" ],
+    "name": { "str": "army flashlight-laser module" },
+    "description": "Officially designated as Mini Integrated Pointing Illumination Module (MIPIM), also known as AN/PEQ-16, it is a little squarey box, mounted on a firearm side rail, that combines both laser sight and flashlight.",
+    "weight": "68 g",
+    "volume": "360 ml",
+    "longest_side": "104 mm",
+    "price": "2200 USD",
+    "price_postapoc": "15 USD",
+    "install_time": "10 m",
+    "material": [ "steel", "plastic" ],
+    "symbol": ":",
+    "color": "brown",
+    "location": "rail",
+    "mod_targets": [ "pistol", "shotgun", "smg", "rifle", "crossbow", "launcher" ],
+    "min_skills": [ [ "weapon", 1 ] ],
+    "charges_per_use": 1,
+    "is_visible_when_installed": true,
+    "flags": [ "LASER_SIGHT" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the army flashlight-laser module flashlight on.",
+      "target": "mipim_on",
+      "need_charges": 1,
+      "need_charges_msg": "The mounted flashlight's batteries are dead."
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "mipim_on",
+    "copy-from": "mipim",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "GUNMOD" ],
+    "name": { "str": "army flashlight-laser module (on)", "str_pl": "army flashlight-laser modules (on)" },
+    "//": "about 30 m of work off a single battery",
+    "power_draw": "31 W",
+    "revert_to": "mipim",
+    "use_action": {
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You turn the army flashlight-laser module off.",
+      "target": "mipim",
+      "ammo_scale": 0
+    },
+    "light": 160,
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "SPAWN_ACTIVE" ] }
+  },
+  {
     "id": "offset_grip",
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],

@@ -740,32 +740,27 @@
       ],
       "palettes": [ "lab_common_palette" ],
       "place_monster": [
+        { "monster": [ "mon_secubot", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ], "x": 0, "y": 0, "chance": 100 },
         {
-          "monster": [ "mon_secubot", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
-          "x": 0,
-          "y": 0,
-          "chance": 100
-        },
-        {
-          "monster": [ "mon_secubot", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
+          "monster": [ "mon_secubot", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
           "x": 0,
           "y": 3,
           "chance": 100
         },
         {
-          "monster": [ "mon_secubot", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
+          "monster": [ "mon_secubot", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
           "x": 0,
           "y": 6,
           "chance": 100
         },
         {
-          "monster": [ "mon_secubot", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
+          "monster": [ "mon_secubot", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
           "x": 0,
           "y": 9,
           "chance": 100
         },
         {
-          "monster": [ "mon_secubot", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
+          "monster": [ "mon_secubot", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
           "x": 0,
           "y": 12,
           "chance": 100
@@ -812,32 +807,27 @@
       ],
       "palettes": [ "lab_common_palette" ],
       "place_monster": [
+        { "monster": [ "mon_secubot", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ], "x": 5, "y": 0, "chance": 100 },
         {
-          "monster": [ "mon_secubot", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
-          "x": 5,
-          "y": 0,
-          "chance": 100
-        },
-        {
-          "monster": [ "mon_secubot", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
+          "monster": [ "mon_secubot", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
           "x": 5,
           "y": 3,
           "chance": 100
         },
         {
-          "monster": [ "mon_secubot", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
+          "monster": [ "mon_secubot", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
           "x": 5,
           "y": 6,
           "chance": 100
         },
         {
-          "monster": [ "mon_secubot", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
+          "monster": [ "mon_secubot", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
           "x": 5,
           "y": 9,
           "chance": 100
         },
         {
-          "monster": [ "mon_secubot", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
+          "monster": [ "mon_secubot", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
           "x": 5,
           "y": 12,
           "chance": 100
@@ -886,31 +876,31 @@
       "furniture": { "6": "f_vent_toxic_belch" },
       "place_monster": [
         {
-          "monster": [ "mon_gasbomb_hack", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "monster": [ "mon_gasbomb_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
           "x": 0,
           "y": 0,
           "chance": 100
         },
         {
-          "monster": [ "mon_gasbomb_hack", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "monster": [ "mon_gasbomb_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
           "x": 0,
           "y": 3,
           "chance": 100
         },
         {
-          "monster": [ "mon_gasbomb_hack", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "monster": [ "mon_gasbomb_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
           "x": 0,
           "y": 6,
           "chance": 100
         },
         {
-          "monster": [ "mon_gasbomb_hack", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "monster": [ "mon_gasbomb_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
           "x": 0,
           "y": 9,
           "chance": 100
         },
         {
-          "monster": [ "mon_gasbomb_hack", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "monster": [ "mon_gasbomb_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
           "x": 0,
           "y": 12,
           "chance": 100
@@ -959,31 +949,31 @@
       "furniture": { "6": "f_vent_toxic_belch" },
       "place_monster": [
         {
-          "monster": [ "mon_gasbomb_hack", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "monster": [ "mon_gasbomb_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
           "x": 5,
           "y": 0,
           "chance": 100
         },
         {
-          "monster": [ "mon_gasbomb_hack", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "monster": [ "mon_gasbomb_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
           "x": 5,
           "y": 3,
           "chance": 100
         },
         {
-          "monster": [ "mon_gasbomb_hack", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "monster": [ "mon_gasbomb_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
           "x": 5,
           "y": 6,
           "chance": 100
         },
         {
-          "monster": [ "mon_gasbomb_hack", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "monster": [ "mon_gasbomb_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
           "x": 5,
           "y": 9,
           "chance": 100
         },
         {
-          "monster": [ "mon_gasbomb_hack", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "monster": [ "mon_gasbomb_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
           "x": 5,
           "y": 12,
           "chance": 100

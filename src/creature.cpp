@@ -417,7 +417,8 @@ bool Creature::is_likely_underwater( const map &here ) const
 {
     return is_underwater() ||
            ( has_flag( mon_flag_AQUATIC ) &&
-             here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub( here ) ) );
+             ( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub( here ) ) ||
+               here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, pos_bub( here ) ) ) );
 }
 
 bool Creature::hallucination_die( map *here, Creature *killer )

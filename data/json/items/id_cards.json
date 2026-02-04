@@ -352,5 +352,17 @@
     "flags": [ "TRADER_AVOID" ],
     "price_postapoc": "0 cent",
     "category": "keys"
+  },
+  {
+    "type": "ITEM",
+    "id": "id_anduril_ar",
+    "copy-from": "card_plastic_abstract",
+    "color": "blue",
+    "name": { "str": "Anduril Industries ID card" },
+    "description": "An ID card for an Anduril Industries software engineer.",
+    "price": "600 USD",
+    "extend": { "flags": [ "ANDURIL_AR_CARD" ] },
+    "price_postapoc": "2 USD 50 cent",
+    "category": "keys"
   }
 ]

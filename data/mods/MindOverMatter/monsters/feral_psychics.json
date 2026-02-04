@@ -1520,6 +1520,14 @@
           "cooldown": { "math": [ "17 + rand(32)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "monster_message": "The lights around %1$s waver and shapes appear near %3$s."
+        },
+        {
+          "id": "psi_teleport3_oubliette",
+          "type": "spell",
+          "spell_data": { "id": "teleport_oubliette_monster", "min_level": 6 },
+          "cooldown": { "math": [ "25 + rand(50)" ] },
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "monster_message": "%1$s touches %3$s and the air around %3$s warps."
         }
       ],
       "flags": [ "CLIMBS", "HARDTOSHOOT", "TELEPORT_IMMUNE" ]

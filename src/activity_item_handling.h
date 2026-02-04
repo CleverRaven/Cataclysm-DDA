@@ -19,6 +19,7 @@ class player_activity;
 class vehicle;
 class vpart_reference;
 class zone_data;
+class zone_manager;
 enum zone_activity_stage : int;
 
 struct requirement_failure_reasons {
@@ -99,10 +100,12 @@ bool ignore_contents( Character &you, const tripoint_abs_ms &src );
 bool ignore_zone_position( Character &you, const tripoint_abs_ms &src, bool ignore_contents );
 
 // of `items` at `src`, do any need to be sorted?
+// If pickup_failure is true on return, at least one item can't be sorted because it can't be picked up.
+// Note that this check is performed before the presence of a destination has been made.
 bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
                         zone_sorting::unload_sort_options zone_unload_options,
                         const std::vector<item_location> &other_activity_items,
-                        const zone_sorting::zone_items &items );
+                        const zone_sorting::zone_items &items, bool *pickup_failure );
 bool can_unload( item *it );
 void add_item( const std::optional<vpart_reference> &vp, const tripoint_bub_ms &src_bub,
                const item &it );
@@ -264,8 +267,19 @@ bool vehicle_repair_do( Character &you, const activity_reason_info &act_info,
 
 void revert_npc_post_activity( Character &you, activity_id act_id, bool no_locations );
 bool out_of_moves( Character &you, activity_id act_id );
-std::optional<bool> route( Character &you, const tripoint_bub_ms &src_bub, activity_id act_id,
+std::optional<bool> route( Character &you, player_activity &act, const tripoint_bub_ms &src_bub,
                            requirement_failure_reasons &fail_reason, bool check_only );
 void activity_failure_message( Character &you, activity_id new_activity,
                                const requirement_failure_reasons &fail_reason, bool no_locations );
+
+zone_type_id get_zone_for_act( const tripoint_bub_ms &src_loc, const zone_manager &mgr,
+                               const activity_id &act_id, const faction_id &fac_id );
+void add_basecamp_storage_to_loot_zone_list(
+    zone_manager &mgr, const tripoint_bub_ms &src_loc, Character &you,
+    std::vector<tripoint_bub_ms> &loot_zone_spots, std::vector<tripoint_bub_ms> &combined_spots );
+bool are_requirements_nearby(
+    const std::vector<tripoint_bub_ms> &loot_spots, const requirement_id &needed_things,
+    Character &you, const activity_id &activity_to_restore, bool in_loot_zones,
+    const tripoint_bub_ms &src_loc );
+
 } //namespace multi_activity_actor

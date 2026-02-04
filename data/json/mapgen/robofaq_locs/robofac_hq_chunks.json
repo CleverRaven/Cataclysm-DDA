@@ -103,6 +103,15 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "robofac_hq_surface_merc_2",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "chief_meteorologist_pat", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "robofachqy_window_sand_wall",
     "object": { "mapgensize": [ 8, 8 ], "set": [ { "line": "furniture", "id": "f_sandbag_wall", "x": 0, "y": 0, "x2": 7, "y2": 0 } ] }
   },

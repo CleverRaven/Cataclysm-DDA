@@ -90,7 +90,7 @@
     "gender": "female",
     "name_suffix": "Bone Seer",
     "class": "NC_BONE_SEER",
-    "attitude": 7,
+    "attitude": 0,
     "mission": 3,
     "chat": "TALK_BONE_SEER",
     "faction": "no_faction",

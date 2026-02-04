@@ -14,6 +14,12 @@ if (WIN32)
 endif ()
 
 file(GLOB CATACLYSM_DDA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+if (MSVC)
+    set_source_files_properties(
+        ${CMAKE_CURRENT_SOURCE_DIR}/mapgen.cpp
+        PROPERTIES COMPILE_OPTIONS "/bigobj"
+    )
+endif()
 
 list(REMOVE_ITEM CATACLYSM_DDA_SOURCES ${MAIN_CPP} ${MESSAGES_CPP})
 
@@ -171,7 +177,6 @@ if (CURSES)
             ${CATACLYSM_DDA_SOURCES}
             ${CATACLYSM_DDA_HEADERS})
     target_include_directories(cataclysm-common INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-
     target_link_libraries(cataclysm-common PUBLIC third-party)
 
     if (WIN32)

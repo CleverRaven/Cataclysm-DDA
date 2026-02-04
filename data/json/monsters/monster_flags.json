@@ -683,5 +683,20 @@
     "type": "monster_flag",
     "//": "This monster has significant armor, and it is much harder to pulp it without a proper tool",
     "//2": "Rule of thumb: if monster has something like a spine character wants to break, and it is covered by any armor, use this flag"
+  },
+  {
+    "id": "ONE_DIMENSIONAL_X",
+    "type": "monster_flag",
+    "//": "Monsters that exist in the x dimension, for creatures that exist in fewer than 3"
+  },
+  {
+    "id": "ONE_DIMENSIONAL_Y",
+    "type": "monster_flag",
+    "//": "Monsters that exist in the y dimension, for creatures that exist in fewer than 3"
+  },
+  {
+    "id": "ONE_DIMENSIONAL_Z",
+    "type": "monster_flag",
+    "//": "Monsters that exist in the z dimension, for creatures that exist in fewer than 3"
   }
 ]

@@ -9,10 +9,12 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
 #include "construction.h"
@@ -61,7 +63,7 @@ static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
 void game::print_all_tile_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                                const std::string &area_name, int column,
+                                const std::string_view area_name, int column,
                                 int &line,
                                 const int last_line,
                                 const visibility_variables &cache )
@@ -177,7 +179,7 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
 }
 
 void game::print_terrain_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                               const std::string &area_name, int column, int &line )
+                               const std::string_view area_name, int column, int &line )
 {
     map &here = get_map();
 
@@ -185,14 +187,15 @@ void game::print_terrain_info( const tripoint_bub_ms &lp, const catacurses::wind
 
     // Print OMT type and terrain type on first two lines
     // if can't fit in one line.
-    std::string tile = uppercase_first_letter( here.tername( lp ) );
+    const std::string tile = uppercase_first_letter( here.tername( lp ) );
     std::string area = uppercase_first_letter( area_name );
     if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
         area = e->string_id;
     }
     mvwprintz( w_look, point( column, line++ ), c_yellow, area );
+    mvwprintz( w_look, point( column, line++ ), c_light_blue, _( "-----TERRAIN-----" ) );
     mvwprintz( w_look, point( column, line++ ), c_white, tile );
-    std::string desc = string_format( here.ter( lp ).obj().description );
+    std::string desc = string_format( here.ter( lp ).obj().description.translated() );
     std::vector<std::string> lines = foldstring( desc, max_width );
     int numlines = lines.size();
     wattron( w_look, c_light_gray );
@@ -280,13 +283,18 @@ void game::print_furniture_info( const tripoint_bub_ms &lp, const catacurses::wi
     }
     const int max_width = getmaxx( w_look ) - column - 1;
 
+    // Print an empty line as padding IF and only if we're going to print any furniture info.
+    mvwprintw( w_look, point( column, line++ ), "" );
+
+    mvwprintz( w_look, point( column, line++ ), c_light_blue, _( "-----FURNITURE-----" ) );
+
     // Print furniture name in white
     std::string desc = uppercase_first_letter( here.furnname( lp ) );
     mvwprintz( w_look, point( column, line++ ), c_white, desc );
 
     // Print each line of furniture description in gray
     const furn_id &f = here.furn( lp );
-    desc = string_format( f.obj().description );
+    desc = string_format( f.obj().description.translated() );
     std::vector<std::string> lines = foldstring( desc, max_width );
     int numlines = lines.size();
     wattron( w_look, c_light_gray );
@@ -482,6 +490,19 @@ void game::print_debug_info( const tripoint_bub_ms &lp, const catacurses::window
                    lp.to_string_writable() );
         mvwprintz( w_look, point( column, ++line ), c_white, "tripoint_abs_ms: %s",
                    here.get_abs( lp ).to_string_writable() );
+
+        for( const std::pair<const field_type_id, field_entry> &fd : here.field_at( lp ) ) {
+            mvwprintz( w_look, point( column, ++line ), c_white, "field: " );
+            mvwprintz( w_look, point( column + utf8_width( "field: " ), line ), c_yellow, "%s",
+                       fd.first.id().c_str() );
+            mvwprintz( w_look, point( column, ++line ), c_white, "age: %s (%d seconds)",
+                       to_string( fd.second.get_field_age() ), to_seconds<int>( fd.second.get_field_age() ) );
+            mvwprintz( w_look, point( column, ++line ), c_white, "intensity: %d",
+                       fd.second.get_field_intensity() );
+            mvwprintz( w_look, point( column, ++line ), c_white, "causer: %s",
+                       fd.second.get_causer() == nullptr ? "none" : fd.second.get_causer()->disp_name() );
+            mvwprintz( w_look, point( column, ++line ), c_white, "\n" );
+        }
     }
 }
 

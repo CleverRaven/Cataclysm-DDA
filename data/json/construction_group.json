@@ -2149,5 +2149,10 @@
     "type": "construction_group",
     "id": "install_glass_onto_window_bars",
     "name": "Install glass onto window with bars"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_flagpole_indoor_wooden",
+    "name": "Build a wooden indoor flagpole"
   }
 ]

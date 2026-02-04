@@ -198,7 +198,7 @@ void relic_procgen_data::load( const JsonObject &jo, std::string_view )
     for( const JsonObject jo_inner : jo.get_array( "passive_add_procgen_values" ) ) {
         int weight = 0;
         mandatory( jo_inner, was_loaded, "weight", weight );
-        relic_procgen_data::enchantment_value_passive<int> val;
+        relic_procgen_data::enchantment_value_passive<float> val;
         val.load( jo_inner );
 
         passive_add_procgen_values.add( val, weight );
@@ -673,9 +673,9 @@ int relic_procgen_data::power_level( const enchant_cache &ench ) const
 {
     int power = 0;
 
-    for( const std::pair<relic_procgen_data::enchantment_value_passive<int>, int>
+    for( const std::pair<relic_procgen_data::enchantment_value_passive<float>, int>
          &add_val_passive : passive_add_procgen_values ) {
-        int val = ench.get_value_add( add_val_passive.first.type );
+        float val = ench.get_value_add( add_val_passive.first.type );
         if( val != 0 ) {
             power += static_cast<float>( add_val_passive.first.power_per_increment ) /
                      static_cast<float>( add_val_passive.first.increment ) * val;
@@ -748,10 +748,10 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                 break;
             }
             case relic_procgen_data::type::passive_enchantment_add: {
-                const relic_procgen_data::enchantment_value_passive<int> *add = passive_add_procgen_values.pick();
+                const relic_procgen_data::enchantment_value_passive<float> *add = passive_add_procgen_values.pick();
                 if( add != nullptr ) {
                     enchant_cache ench;
-                    int value = rng( add->min_value, add->max_value );
+                    float value = rng_float( add->min_value, add->max_value );
                     if( value == 0 ) {
                         break;
                     }

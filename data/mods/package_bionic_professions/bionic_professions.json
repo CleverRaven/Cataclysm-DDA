@@ -611,14 +611,7 @@
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sheath", "contents-item": "knife_combat" },
-          {
-            "item": "modular_m27_assault_rifle",
-            "variant": "modular_h&k416a5",
-            "ammo-item": "556",
-            "charges": 30,
-            "contents-item": [ "shoulder_strap", "acog_scope" ],
-            "custom-flags": [ "auto_wield" ]
-          },
+          { "group": "h&k416a5_any", "ammo-item": "556", "charges": 30, "custom-flags": [ "auto_wield" ] },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" }
         ]

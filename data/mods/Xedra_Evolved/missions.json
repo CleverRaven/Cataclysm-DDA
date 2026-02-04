@@ -105,5 +105,51 @@
       "success_lie": "",
       "failure": ""
     }
+  },
+  {
+    "id": "MISSION_LOW_VAMPIRE_HUNTER",
+    "type": "mission_definition",
+    "name": { "str": "Kill a vampire" },
+    "description": "You prepared for so long to kill vampires, and there's no way you let all that preparation be for nothing.  Kill a vampire to show that you can and will hunt them!",
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "VAMPIRE",
+    "monster_kill_goal": 1,
+    "difficulty": 3,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 30,
+          "max_bonus": 50,
+          "duration": "24 hours",
+          "decay_start": "12 hours"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_VAMPIRE_HUNTER",
+    "type": "mission_definition",
+    "name": { "str": "Kill ten vampires" },
+    "description": "The end of society is no excuse to stop the hunt.  In fact, it's another reason to continue your work.  Kill ten vampires, so the world will be a little more free of them.",
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "VAMPIRE",
+    "monster_kill_goal": 10,
+    "difficulty": 5,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 30,
+          "max_bonus": 50,
+          "duration": "24 hours",
+          "decay_start": "12 hours"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
   }
 ]

@@ -1,96 +1,5 @@
 [
   {
-    "id": "head",
-    "type": "body_part",
-    "name": "head",
-    "copy-from": "head",
-    "limb_type": "head",
-    "limb_scores": [ [ "reaction", 0.3 ] ],
-    "is_vital": true,
-    "similar_bodyparts": [ "head_dragonfly" ]
-  },
-  {
-    "id": "eyes",
-    "type": "body_part",
-    "copy-from": "eyes",
-    "name": "eyes",
-    "limb_type": "sensor",
-    "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.0 ], [ "reaction", 0.7 ] ],
-    "similar_bodyparts": [ "eyes_bulging", "eyes_insect_1" ]
-  },
-  {
-    "type": "body_part",
-    "id": "arm_l",
-    "name": "left arm",
-    "copy-from": "arm_l",
-    "limb_type": "arm",
-    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "balance", 0.15 ], [ "block", 1.0 ], [ "swim", 0.1 ], [ "crawl", 0.3 ] ],
-    "similar_bodyparts": [ "arm_bionic_basic_l" ]
-  },
-  {
-    "type": "body_part",
-    "id": "arm_r",
-    "copy-from": "arm_r",
-    "limb_type": "arm",
-    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "balance", 0.15 ], [ "block", 1.0 ], [ "swim", 0.1 ], [ "crawl", 0.3 ] ],
-    "similar_bodyparts": [ "arm_bionic_basic_r" ]
-  },
-  {
-    "type": "body_part",
-    "id": "hand_l",
-    "copy-from": "hand_l",
-    "name": "left hand",
-    "limb_type": "hand",
-    "limb_scores": [ [ "grip", 0.5 ], [ "manip", 0.5, 1.0 ], [ "swim", 0.15 ] ],
-    "similar_bodyparts": [ "hand_bionic_basic_l" ]
-  },
-  {
-    "type": "body_part",
-    "id": "hand_r",
-    "copy-from": "hand_r",
-    "name": "right hand",
-    "limb_type": "hand",
-    "limb_scores": [ [ "grip", 0.5 ], [ "manip", 0.5, 1.0 ], [ "swim", 0.15 ] ],
-    "similar_bodyparts": [ "hand_bionic_basic_r" ]
-  },
-  {
-    "type": "body_part",
-    "id": "leg_l",
-    "copy-from": "leg_l",
-    "name": "left leg",
-    "limb_type": "leg",
-    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "move_speed", 0.5 ], [ "swim", 0.15 ], [ "block", 1 ], [ "crawl", 0.2 ] ],
-    "similar_bodyparts": [ "leg_bionic_basic_l" ]
-  },
-  {
-    "type": "body_part",
-    "id": "leg_r",
-    "copy-from": "leg_r",
-    "name": "right leg",
-    "limb_type": "leg",
-    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "move_speed", 0.5 ], [ "swim", 0.15 ], [ "block", 1 ], [ "crawl", 0.2 ] ],
-    "similar_bodyparts": [ "leg_bionic_basic_r" ]
-  },
-  {
-    "type": "body_part",
-    "id": "foot_l",
-    "copy-from": "foot_l",
-    "name": "left foot",
-    "limb_type": "foot",
-    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "footing", 0.5 ], [ "swim", 0.1 ] ],
-    "sub_parts": [ "foot_sole_l", "foot_arch_l", "foot_toes_l", "foot_ankle_l", "foot_heel_l" ],
-    "similar_bodyparts": [ "foot_bionic_basic_l" ]
-  },
-  {
-    "type": "body_part",
-    "id": "foot_r",
-    "copy-from": "foot_r",
-    "name": "right foot",
-    "limb_type": "foot",
-    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "footing", 0.5 ], [ "swim", 0.1 ] ],
-    "similar_bodyparts": [ "foot_bionic_basic_r" ]
-  },
-  {
     "type": "body_part",
     "id": "debug_torso",
     "limb_type": "torso",
@@ -128,7 +37,7 @@
     "sub_parts": [ "eyes_bulging_l", "eyes_bulging_r" ],
     "limb_type": "sensor",
     "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.0 ], [ "reaction", 0.7 ] ],
-    "similar_bodyparts": [  ],
+    "similar_bodypart": "eyes",
     "hit_size": 0.9,
     "hit_difficulty": 1.25
   },
@@ -145,8 +54,8 @@
     "limb_type": "sensor",
     "encumbrance_text": "Your vision is impaired!",
     "main_part": "head",
-    "opposite_part": "eyes_insect_1",
     "hit_size": 1.2,
+    "similar_bodypart": "eyes",
     "limb_scores": [ [ "vision", 0.65 ], [ "night_vis", 0.8 ], [ "reaction", 0.8 ] ],
     "armor": { "cut": 3 },
     "sub_parts": [ "eyes_compound_l", "eyes_compound_r" ],
@@ -202,6 +111,7 @@
     "encumbrance_threshold": 0,
     "encumbrance_limit": 75,
     "armor": { "cut": 3 },
+    "similar_bodypart": "head",
     "sub_parts": [
       "head_dragonfly_forehead",
       "head_dragonfly_crown",
@@ -302,7 +212,7 @@
     "ugliness": -2,
     "ugliness_mandatory": 1,
     "sub_parts": [ "arm_feathers_shoulder_l", "arm_feathers_upper_l", "arm_feathers_elbow_l", "arm_feathers_lower_l" ],
-    "similar_bodyparts": [  ]
+    "similar_bodypart": null
   },
   {
     "type": "body_part",
@@ -796,7 +706,7 @@
     "flags": [ "LIMB_LOWER", "HEAL_OVERRIDE" ],
     "sub_parts": [ "leg_hip_r", "leg_upper_r", "leg_knee_r", "leg_lower_r", "leg_draped_r" ],
     "encumbrance_per_weight": [
-      { "weight": "1 mg", "encumbrance": 1.5 },
+      { "weight": "1 mg", "encumbrance": 1 },
       { "weight": "300 g", "encumbrance": 6 },
       { "weight": "800 g", "encumbrance": 12 },
       { "weight": "1300 g", "encumbrance": 30 },
@@ -859,7 +769,7 @@
     "flags": [ "LIMB_LOWER", "HEAL_OVERRIDE" ],
     "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l", "leg_draped_l" ],
     "encumbrance_per_weight": [
-      { "weight": "1 mg", "encumbrance": 1.5 },
+      { "weight": "1 mg", "encumbrance": 1 },
       { "weight": "300 g", "encumbrance": 6 },
       { "weight": "800 g", "encumbrance": 12 },
       { "weight": "1300 g", "encumbrance": 30 },
@@ -1438,6 +1348,7 @@
     "drench_capacity": 1000,
     "smash_message": "You elbow-smash the %s.",
     "no_power_effect": "no_power_arm_l",
+    "similar_bodypart": "arm_l",
     "effects_on_hit": [
       {
         "id": "staggered_character",
@@ -1498,6 +1409,7 @@
     "drench_capacity": 1000,
     "smash_message": "You elbow-smash the %s.",
     "no_power_effect": "no_power_arm_r",
+    "similar_bodypart": "arm_r",
     "effects_on_hit": [
       {
         "id": "staggered_character",
@@ -1552,6 +1464,7 @@
     "squeamish_penalty": 0,
     "base_hp": 150,
     "drench_capacity": 300,
+    "similar_bodypart": "hand_l",
     "smash_message": "You smash the %s with your fist.",
     "sub_parts": [ "hand_bionic_basic_wrist_l", "hand_bionic_basic_palm_l", "hand_bionic_basic_back_l", "hand_bionic_basic_fingers_l" ],
     "flags": [ "IGNORE_TEMP", "BIONIC_LIMB" ],
@@ -1584,6 +1497,7 @@
     "squeamish_penalty": 0,
     "base_hp": 150,
     "drench_capacity": 300,
+    "similar_bodypart": "hand_r",
     "smash_message": "You smash the %s with your fist.",
     "sub_parts": [ "hand_bionic_basic_wrist_r", "hand_bionic_basic_palm_r", "hand_bionic_basic_back_r", "hand_bionic_basic_fingers_r" ],
     "flags": [ "IGNORE_TEMP", "BIONIC_LIMB" ],
@@ -1612,6 +1526,7 @@
     "hit_difficulty": 0.9,
     "limb_type": "leg",
     "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "move_speed", 0.6 ], [ "swim", 0.15 ], [ "block", 1 ], [ "crawl", 0.5 ] ],
+    "similar_bodypart": "leg_l",
     "side": "left",
     "hot_morale_mod": 0.0,
     "cold_morale_mod": 0.0,
@@ -1685,6 +1600,7 @@
     "hit_difficulty": 0.9,
     "limb_type": "leg",
     "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "move_speed", 0.6 ], [ "swim", 0.15 ], [ "block", 1 ], [ "crawl", 0.5 ] ],
+    "similar_bodypart": "leg_r",
     "side": "right",
     "hot_morale_mod": 0.0,
     "cold_morale_mod": 0.0,
@@ -1771,6 +1687,7 @@
       "foot_bionic_basic_ankle_l",
       "foot_bionic_basic_heel_l"
     ],
+    "similar_bodypart": "foot_l",
     "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB" ],
     "power_efficiency": 1000,
     "feels_discomfort": false,
@@ -1810,6 +1727,7 @@
       "foot_bionic_basic_ankle_r",
       "foot_bionic_basic_heel_r"
     ],
+    "similar_bodypart": "foot_r",
     "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB" ],
     "power_efficiency": 1000,
     "feels_discomfort": false,

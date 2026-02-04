@@ -374,7 +374,7 @@
       { "proficiency": "prof_machining_basic", "time_multiplier": 1.5, "skill_penalty": 1.25 }
     ],
     "time": "1 h 30m",
-    "byproducts": [ [ "scrap", 7.5 ] ],
+    "byproducts": [ [ "scrap", 7 ] ],
     "tools": [ [ [ "fake_lathe", 50 ] ] ],
     "components": [
       [
@@ -403,7 +403,7 @@
       { "proficiency": "prof_machining_basic", "time_multiplier": 1.5, "skill_penalty": 1.25 }
     ],
     "time": "1 h 30m",
-    "byproducts": [ [ "scrap", 7.5 ] ],
+    "byproducts": [ [ "scrap", 7 ] ],
     "tools": [ [ [ "fake_mill_vertical", 50 ] ] ],
     "components": [
       [

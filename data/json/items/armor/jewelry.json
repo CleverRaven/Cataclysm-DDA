@@ -962,8 +962,8 @@
     "sided": true,
     "armor": [
       {
-        "encumbrance": 20,
-        "coverage": 0,
+        "encumbrance": 0,
+        "coverage": 20,
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
       }

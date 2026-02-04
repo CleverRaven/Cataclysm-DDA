@@ -12,7 +12,7 @@
       { "item": "matrix_crystal_telekinesis", "prob": 10 },
       { "item": "matrix_crystal_telepathy", "prob": 10 },
       { "item": "matrix_crystal_teleportation", "prob": 10 },
-      { "item": "matrix_crystal_vitakinesis", "prob": 10 },
+      { "group": "vitakinetic_matrix_crystals_group", "prob": 10 },
       { "item": "matrix_crystal_coruscating", "prob": 1 }
     ]
   },
@@ -30,7 +30,7 @@
       { "item": "matrix_crystal_telekinesis", "prob": 10 },
       { "item": "matrix_crystal_telepathy", "prob": 10 },
       { "item": "matrix_crystal_teleportation", "prob": 10 },
-      { "item": "matrix_crystal_vitakinesis", "prob": 10 },
+      { "group": "vitakinetic_matrix_crystals_group", "prob": 10 },
       { "item": "matrix_crystal_coruscating", "prob": 1 }
     ]
   },
@@ -48,7 +48,7 @@
       { "item": "matrix_crystal_telekinesis", "prob": 1 },
       { "item": "matrix_crystal_telepathy", "prob": 1 },
       { "item": "matrix_crystal_teleportation", "prob": 1 },
-      { "item": "matrix_crystal_vitakinesis", "prob": 1 }
+      { "group": "vitakinetic_matrix_crystals_group", "prob": 1 }
     ]
   },
   {
@@ -142,6 +142,15 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "vitakinetic_matrix_crystals_group",
+    "entries": [
+      { "group": "vitakinetic_crystal_awakening_artifact_procgen", "prob": 1 },
+      { "group": "vitakinetic_crystal_artifact_procgen", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "matrix_crystal_clair_dust_group",
     "items": [
       { "item": "matrix_crystal_clair_dust", "prob": 3, "container-item": "test_tube" },
@@ -230,7 +239,21 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "dist_matrix_crystal_skyscraper_lab_group",
-    "items": [ [ "matrix_crystal_drained", 4 ], [ "matrix_crystal_clairsentience", 1 ], [ "matrix_crystal_telepathy", 1 ] ]
+    "entries": [
+      { "group": "clairsentient_matrix_crystals_group", "prob": 1 },
+      { "item": "matrix_crystal_drained", "prob": 4 },
+      { "item": "matrix_crystal_telepathy", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "dist_matrix_crystal_hospital_lab_group",
+    "entries": [
+      { "group": "biokinetic_matrix_crystals_group", "prob": 1 },
+      { "item": "matrix_crystal_drained", "prob": 4 },
+      { "item": "matrix_crystal_vitakinesis", "prob": 1 }
+    ]
   },
   {
     "type": "item_group",

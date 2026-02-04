@@ -81,7 +81,7 @@
               "shield_max_hp": 600,
               "shield_regen": 2,
               "shield_regen_rate": 1,
-              "turn_cost": 1,
+              "turn_cost": { "math": [ "1" ] },
               "success_message": "a",
               "failure_message": "b"
             }

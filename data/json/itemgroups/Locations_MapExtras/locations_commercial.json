@@ -28,7 +28,7 @@
       { "item": "mp3", "prob": 9, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "game_watch", "prob": 2, "charges": [ 0, 50 ] },
-      { "item": "deck_of_cards", "prob": 2 },
+      { "group": "decks_of_cards", "prob": 2 },
       { "item": "roadmap", "prob": 40 },
       { "item": "trailmap", "prob": 20 },
       { "item": "file", "prob": 10 },
@@ -144,8 +144,8 @@
       { "group": "salty_snacks", "prob": 80 },
       { "item": "peanut_shelled", "count": -1, "prob": 20 },
       { "item": "almond_shelled", "count": -1, "prob": 20 },
-      { "group": "box_cereal", "prob": 25 },
-      { "group": "box_cereal3", "prob": 25 },
+      { "group": "breakfast_cereal_in_box_full", "prob": 25 },
+      { "group": "breakfast_cereal_in_box_full", "prob": 25 },
       [ "soup_tomato", 25 ],
       [ "soup_chicken", 25 ],
       { "group": "box_lasagne_1lb", "prob": 5 },
@@ -163,7 +163,7 @@
       { "item": "dry_beans", "count": -1, "prob": 20 },
       { "item": "dry_lentils", "count": -1, "prob": 20 },
       { "item": "cookies", "count": -1, "prob": 25 },
-      { "prob": 40, "group": "bread_bag_plastic_14" }
+      { "prob": 40, "group": "bread_in_bag" }
     ]
   },
   {
@@ -356,7 +356,7 @@
       { "item": "tazer", "prob": 3, "charges": [ 0, 100 ] },
       { "item": "mp3", "prob": 12, "charges": [ 0, 100 ] },
       { "item": "game_watch", "prob": 2, "charges": [ 0, 50 ] },
-      [ "deck_of_cards", 2 ],
+      { "group": "decks_of_cards", "prob": 2 },
       { "group": "sex_accessories_domestic", "prob": 5 },
       [ "hammer_sledge", 2 ],
       [ "hammer_sledge_short", 2 ],
@@ -558,6 +558,8 @@
       [ "cestus", 1 ],
       [ "battleaxe", 1 ],
       [ "warhammer", 1 ],
+      [ "warhammer_fake", 10 ],
+      [ "warhammer_inferior", 20 ],
       [ "morningstar", 1 ],
       [ "bokken", 7 ],
       [ "broadsword_inferior", 20 ],
@@ -853,7 +855,7 @@
       { "item": "air_launcher", "prob": 5 },
       { "item": "portable_game", "prob": 60 },
       { "item": "game_watch", "prob": 15 },
-      { "item": "deck_of_cards", "prob": 25 },
+      { "group": "decks_of_cards", "prob": 25 },
       { "item": "folded_inflatable_boat", "prob": 10 },
       { "item": "hand_pump", "prob": 15 },
       { "prob": 135, "group": "toastem_box_small_8" },
@@ -1269,7 +1271,7 @@
       { "item": "strawberries", "prob": 5, "custom-flags": [ "IRRADIATED" ] },
       [ "chocolate", 20 ],
       [ "waffleiron", 60 ],
-      { "prob": 30, "group": "bread_bag_plastic_14" },
+      { "prob": 30, "group": "bread_in_bag" },
       [ "peanutbutter", 20 ],
       [ "pot", 80 ]
     ]
@@ -1859,7 +1861,7 @@
       { "item": "saline", "prob": 20, "charges": [ 1, 5 ] },
       { "prob": 15, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
       { "prob": 15, "group": "calcium_tablet_bottle_plastic_pill_supplement_1_20" },
-      { "item": "nyquil", "prob": 5, "charges": [ 1, 5 ] },
+      { "group": "any_cough_syrup_in_bottle", "prob": 5 },
       { "item": "disinfectant", "prob": 15, "charges": [ 1, 10 ] },
       [ "protein_powder", 15 ],
       { "item": "smoxygen_tank", "prob": 20, "charges": [ 0, 12 ] },
@@ -1934,7 +1936,7 @@
     "items": [
       [ "oj", 35 ],
       [ "cooked_pumpkin", 25 ],
-      { "prob": 10, "group": "bread_bag_plastic_14" },
+      { "prob": 10, "group": "bread_in_bag" },
       [ "fruit_waffles", 5 ],
       [ "grahmcrackers", 5 ]
     ]
@@ -2120,7 +2122,6 @@
     "type": "item_group",
     "id": "egg_bird_unfert_carton_egg_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "carton_egg",
     "entries": [ { "item": "egg_bird_unfert", "count": 10 } ]
   },
@@ -2128,7 +2129,6 @@
     "type": "item_group",
     "id": "antifungal_bottle_plastic_pill_prescription_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "antifungal", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -2136,7 +2136,6 @@
     "type": "item_group",
     "id": "cattlefodder_bag_canvas_50",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_canvas",
     "entries": [ { "item": "cattlefodder", "count": 50 } ]
   },
@@ -2144,7 +2143,6 @@
     "type": "item_group",
     "id": "birdfood_bag_canvas_60",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_canvas",
     "entries": [ { "item": "birdfood", "count": 60 } ]
   },

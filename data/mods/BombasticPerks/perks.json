@@ -1,9 +1,5 @@
 [
   {
-    "type": "mutation_type",
-    "id": "perk"
-  },
-  {
     "type": "mutation",
     "id": "perk_perk_menu",
     "name": { "str": "Open Perk Menu" },
@@ -239,8 +235,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You're very good at the follow-through when your enemies are reeling.  When in melee combat with an enemy that is dazed or stunned, you do +33% extra bash damage.",
-    "category": [ "perk" ]
+    "description": "You're very good at the follow-through when your enemies are reeling.  When in melee combat with an enemy that is dazed or stunned, you do +33% extra bash damage."
   },
   {
     "type": "mutation",
@@ -331,8 +326,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You inspire your allies to protect you when you're seriously injured.  If attacked when your head or torso health are at 50% or lower, all allies within 15 meters will take 20% reduced damage for one minute.  This effect can only trigger once every five minutes.",
-    "category": [ "perk" ]
+    "description": "You inspire your allies to protect you when you're seriously injured.  If attacked when your head or torso health are at 50% or lower, all allies within 15 meters will take 20% reduced damage for one minute.  This effect can only trigger once every five minutes."
   },
   {
     "type": "mutation",
@@ -570,8 +564,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You get knocked down, but you get up again.  There is a 75% chance when you are downed that you will stand up again immediately.",
-    "category": [ "perk" ]
+    "description": "You get knocked down, but you get up again.  There is a 75% chance when you are downed that you will stand up again immediately."
   },
   {
     "type": "mutation",
@@ -585,13 +578,27 @@
   },
   {
     "type": "mutation",
+    "id": "perk_running_in_heels",
+    "name": { "str": "Running in Heels" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You have mastered the ways of the 90s action heroine.  Heels only encumber you as much as normal shoes.",
+    "enchantments": [
+      {
+        "condition": { "u_has_worn_with_flag": "HIGH_HEELS" },
+        "encumbrance_modifier": [ { "part": "foot_l", "add": -35 }, { "part": "foot_r", "add": -35 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_early_to_rise",
     "name": { "str": "Early to Rise" },
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "That health, wealth, and wisdom is coming any day now.  When you wake up between 4 and 7 a.m., you gain a mood boost for that morning.",
-    "category": [ "perk" ]
+    "description": "That health, wealth, and wisdom is coming any day now.  When you wake up between 4 and 7 a.m., you gain a mood boost for that morning."
   },
   {
     "type": "mutation",
@@ -600,8 +607,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Run without rhythm.  After a short wind-up period, you gain 5 effective dodge and +1 bonus dodge attempt as long as you keep running.",
-    "category": [ "perk" ]
+    "description": "Run without rhythm.  After a short wind-up period, you gain 5 effective dodge and +1 bonus dodge attempt as long as you keep running."
   },
   {
     "type": "mutation",
@@ -682,7 +688,7 @@
   {
     "type": "mutation",
     "id": "perk_troubleseeker",
-    "name": { "str": "Trouble seeker" },
+    "name": { "str": "Trouble Seeker" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -693,6 +699,18 @@
     "deactivated_eocs": [ "EOC_troubleseek_off" ],
     "processed_eocs": [ "EOC_troubleseeking" ],
     "time": 20000
+  },
+  {
+    "type": "mutation",
+    "id": "perk_second_wind",
+    "name": { "str": "Second Wind" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Anyone can pause and catch their breath but you're extremely good at doing so.  You can regenerate one-third of your stamina over ten seconds, once every fifteen minutes.  Being hit will interrupt the regeneration.",
+    "active": true,
+    "activation_msg": "",
+    "activated_eocs": [ "EOC_perk_second_wind" ]
   },
   {
     "type": "mutation",
@@ -711,13 +729,12 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Drinking blood makes you feel really good.  REALLY good.  So good that all your aches and pains just seem to fade away.  Every time you drink blood, you heal a bit of damage and lose a bit of pain.",
-    "category": [ "perk" ]
+    "description": "Drinking blood makes you feel really good.  REALLY good.  So good that all your aches and pains just seem to fade away.  Every time you drink blood, you heal a bit of damage and lose a bit of pain."
   },
   {
     "type": "mutation",
     "id": "perk_popeye",
-    "name": { "str": "Of sailors and spinach" },
+    "name": { "str": "Of Sailors and Spinach" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -810,8 +827,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Your Nana told you about the evil eye and how to protect yourself when you were a small child.  You don't remember her telling you the evil eye was giant, disembodied, and on fire, but some of the things she taught you work all the same.  You are immune to the Tainted Mind effect as long as you're wearing a holy symbol necklace, and can use some salt to remove it if you do acquire it.",
-    "category": [ "perk" ]
+    "description": "Your Nana told you about the evil eye and how to protect yourself when you were a small child.  You don't remember her telling you the evil eye was giant, disembodied, and on fire, but some of the things she taught you work all the same.  You are immune to the Tainted Mind effect as long as you're wearing a holy symbol necklace, and can use some salt to remove it if you do acquire it."
   },
   {
     "type": "mutation",
@@ -955,8 +971,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "The way you take care of the enemies is commendable, so much so that someone or something seems to praise your ways of fighting.  For every kills you have made, a praise may be given in the message log.",
-    "category": [ "perk" ]
+    "description": "The way you take care of the enemies is commendable, so much so that someone or something seems to praise your ways of fighting.  For every kills you have made, a praise may be given in the message log."
   },
   {
     "type": "mutation",
@@ -965,8 +980,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "After some time surviving in the apocalypse, you realized that you don't have to fight fair in melee combat.  Now you can hit below the belt on most humanoid monsters.",
-    "category": [ "perk" ]
+    "description": "After some time surviving in the apocalypse, you realized that you don't have to fight fair in melee combat.  Now you can hit below the belt on most humanoid monsters."
   },
   {
     "type": "mutation",
@@ -975,8 +989,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You've always had a passion for people, and a deep understanding of their thoughts and feelings.  Now that almost everyone's dead that has to extend to other things too!  When you kill a creature gain some of its abilities temporarily.",
-    "category": [ "perk" ]
+    "description": "You've always had a passion for people, and a deep understanding of their thoughts and feelings.  Now that almost everyone's dead that has to extend to other things too!  When you kill a creature gain some of its abilities temporarily."
   },
   {
     "type": "mutation",
@@ -1061,8 +1074,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Before Cataclysm, you always used dice to determine the damage in the game.  Now, the power of fate allows you to use dice to deal additional mysterious damage.  Throwing dice using a sling or similar weapon deals additional damage, which depends on the number of sides of the dice.",
-    "category": [ "perk" ]
+    "description": "Before Cataclysm, you always used dice to determine the damage in the game.  Now, the power of fate allows you to use dice to deal additional mysterious damage.  Throwing dice using a sling or similar weapon deals additional damage, which depends on the number of sides of the dice."
   },
   {
     "type": "mutation",
@@ -1071,8 +1083,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You've always been greatly affected by the phases of the moon.  During a full moon, you gain a +3 bonus to all stats.  During a waxing moon, you gain a +1 bonus to all stats, and during a new moon, you suffer a -2 penalty to all stats.",
-    "category": [ "perk" ]
+    "description": "You've always been greatly affected by the phases of the moon.  During a full moon, you gain a +3 bonus to all stats.  During a waxing moon, you gain a +1 bonus to all stats, and during a new moon, you suffer a -2 penalty to all stats."
   },
   {
     "type": "mutation",
@@ -1101,8 +1112,34 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Just like mama used to make and it tastes just as good too.  When you eat chicken noodle soup, you heal a small amount of HP on all limbs and cure any cold, flu, and poisoning you're suffering from.",
-    "category": [ "perk" ]
+    "description": "Just like mama used to make and it tastes just as good too.  When you eat chicken noodle soup, you heal a small amount of HP on all limbs and cure any cold, flu, and poisoning you're suffering from."
+  },
+  {
+    "type": "mutation",
+    "id": "perk_kevlard",
+    "name": { "str": "Kevlard" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Conventional wisdom says it's not healthy to be fat, but you're nothing if not unconventional.  Your natural padding acts as a ballistic vest, and the fatter you are, the more protection you'll get.  You must be at least Obese to receive any benefit.",
+    "enchantments": [
+      {
+        "condition": {
+          "and": [ { "math": [ "u_calories('format': 'percent') >= 200" ] }, { "math": [ "u_calories('format': 'percent') < 300" ] } ]
+        },
+        "mutations": [ "perk_kevlard_obese" ]
+      },
+      {
+        "condition": {
+          "and": [ { "math": [ "u_calories('format': 'percent') >= 300" ] }, { "math": [ "u_calories('format': 'percent') < 400" ] } ]
+        },
+        "mutations": [ "perk_kevlard_veryobese" ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_calories('format': 'percent') >= 400" ] } ] },
+        "mutations": [ "perk_kevlard_morbidlyobese" ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -1195,7 +1232,6 @@
     "purifiable": false,
     "valid": false,
     "description": "Your blood has always been thicker than most, making you lose less of it when bleeding.",
-    "category": [ "perk" ],
     "flags": [ "BLEEDSLOW" ]
   },
   {
@@ -1206,7 +1242,6 @@
     "purifiable": false,
     "valid": false,
     "description": "People often say that they feel safer when they sleep, but in your case you are literally safer when asleep.  As long as you sleep, most attacks won't injure you.",
-    "category": [ "perk" ],
     "enchantments": [ { "condition": { "u_has_effect": "sleep" }, "values": [ { "value": "ARMOR_ALL", "add": -100 } ] } ]
   },
   {
@@ -1216,8 +1251,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You hate the feeling of your blood leaking so much that it empowers you.  Deal more melee damage the more you are bleeding.",
-    "category": [ "perk" ],
+    "description": "You hate the feeling of your blood leaking so much that it empowers you.  You deal more melee damage the more you are bleeding.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -1233,7 +1267,6 @@
     "purifiable": false,
     "valid": false,
     "description": "You know how to leverage your allies' presence when talking with others, granting you a small boost to lying, persuading and intimidating for each nearby ally.",
-    "category": [ "perk" ],
     "enchantments": [
       {
         "values": [
@@ -1253,12 +1286,11 @@
   {
     "type": "mutation",
     "id": "perk_poison_painkill",
-    "name": { "str": "Numb from the toxin" },
+    "name": { "str": "Numb from the Toxin" },
     "points": 0,
     "purifiable": false,
     "valid": false,
     "description": "Poisons tend to make you feel numb.  When poisoned, feel 80% less pain.",
-    "category": [ "perk" ],
     "enchantments": [
       {
         "condition": {
@@ -1278,11 +1310,11 @@
   {
     "type": "mutation",
     "id": "perk_unopenable_grip",
-    "name": { "str": "Unopenable grip" },
+    "name": { "str": "Unopenable Grip" },
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "After being stolen the things you held in your hands countless times, your grip became strong enough to keep anything in your hands as long as you will it.  Activate to toggle the ability to drop your held item.",
+    "description": "After having things you held in your hands stolen countless times, your grip became strong enough to keep anything in your hands as long as you will it.  Activate to toggle the ability to drop your held item.",
     "category": [ "perk" ],
     "active": true,
     "activated_is_setup": false,
@@ -1290,13 +1322,21 @@
   },
   {
     "type": "mutation",
+    "id": "perk_boomstick_blast",
+    "name": { "str": "Boomstick Blast" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "People hit by shotgun blasts always seem to go flying in actions movies, but it doesn't work that way in real life.  At least, it didn't.\n\nWhen you damage a target within 2 squares using a shotgun and do at least 15 damage, your target will suffer knockback."
+  },
+  {
+    "type": "mutation",
     "id": "perk_radio_infusion",
-    "name": { "str": "Radioactive infusion" },
+    "name": { "str": "Radioactive Infusion" },
     "points": 0,
     "purifiable": false,
     "valid": false,
     "description": "You somehow learned to focus on an item to make it emit radiation forever.  You still have trouble understanding how this could ever be useful, but maybe you might find a use for it.  Activate to use.",
-    "category": [ "perk" ],
     "active": true,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_radio_infusion" ]
@@ -1309,7 +1349,6 @@
     "purifiable": false,
     "valid": false,
     "description": "You love the rush of taking different drugs at once, and now this rush is much more impactful than before.  You gain +3 speed for each recreational or combat-enhancing drug currently affecting you.",
-    "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": { "math": [ "speedball_counter()" ] } } ] } ]
   },
   {
@@ -1320,7 +1359,6 @@
     "purifiable": false,
     "valid": false,
     "description": "You cannot forget anything at all, ever.  This grants you the ability to memorize books for you to read in your head later and makes you able to store mental images so detailled it's almost as if you were taking pictures with your mind.",
-    "category": [ "perk" ],
     "integrated_armor": [ "integrated_memory" ]
   },
   {
@@ -1331,7 +1369,6 @@
     "purifiable": false,
     "valid": false,
     "description": "Your blood might not be able to make weapons, but it still can make anything coated with sturdier but unable to be repaired.  Activate to use.",
-    "category": [ "perk" ],
     "active": true,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_forge_blood" ]
@@ -1344,7 +1381,6 @@
     "purifiable": false,
     "valid": false,
     "description": "You've found that you can move just a little bit quicker the more dexterous you are.  Unfortunately, this applies comes at a loss to your max carry weight.  Gain 2 speed for every point of DEX away from 8 and lose 4 kg of carry weight.",
-    "category": [ "perk" ],
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -1363,8 +1399,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
-    "category": [ "perk" ]
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
   },
   {
     "type": "mutation",
@@ -1373,8 +1408,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
-    "category": [ "perk" ]
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
   },
   {
     "type": "mutation",
@@ -1383,8 +1417,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
-    "category": [ "perk" ]
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
   },
   {
     "type": "mutation",
@@ -1393,8 +1426,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
-    "category": [ "perk" ]
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
   },
   {
     "type": "mutation",
@@ -1403,8 +1435,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
-    "category": [ "perk" ]
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
   },
   {
     "type": "mutation",
@@ -1413,8 +1444,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
-    "category": [ "perk" ]
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
   },
   {
     "type": "mutation",
@@ -1424,7 +1454,6 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "category": [ "perk" ],
     "enchantments": [
       {
         "condition": { "and": [ { "u_has_wielded_with_flag": "RELOAD_ONE" }, { "u_has_wielded_with_skill": "pistol" } ] },
@@ -1444,7 +1473,6 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "category": [ "perk" ],
     "enchantments": [
       {
         "condition": { "u_has_wielded_with_ammotype": "22" },
@@ -1460,7 +1488,6 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "category": [ "perk" ],
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND" ],
@@ -1475,8 +1502,16 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "category": [ "perk" ],
     "active": true,
     "activated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_DIFFERENT_PATHS_OF_CLOSETLAND" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_ewwww_de_zombie",
+    "name": { "str": "Ewwww de Zombie" },
+    "description": "The zombies have some way to distinguish between the living and the dead, and you're sure that smell is a big part of it.  That's why they don't attack the ferals, because they're dirty and covered in zombie blood.  If you covered yourself in zombie blood, you bet you could sneak past them.\n\nYou can make Ewwww de Zombie from tainted blood and flesh.  Coat yourself with it and zombies will ignore you.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false
   }
 ]

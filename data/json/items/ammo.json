@@ -115,6 +115,7 @@
     "color": "red",
     "flags": [ "TRADER_AVOID" ],
     "material": [ "wood" ],
+    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 6000, "qualities_needed": { "STRIKING_SURFACE": 1 } },
     "ammo_type": "match"
   },
   {
@@ -498,7 +499,7 @@
     "weight": "20 g",
     "ammo_type": "plutonium",
     "count": 5,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF" ]
   },
   {
     "type": "ITEM",
@@ -518,7 +519,7 @@
     "weight": "38 g",
     "ammo_type": "uranium",
     "count": 1,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF" ]
   },
   {
     "type": "ITEM",
@@ -578,7 +579,7 @@
     "loudness": 0,
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "recovery_chance": 99,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
+    "effects": [ "NON_FOULING" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 7 },
     "thrown_damage": { "damage_type": "bash", "amount": 7 }
@@ -601,7 +602,7 @@
     "dispersion": 14,
     "loudness": 0,
     "recovery_chance": 90,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NON_FOULING" ]
   },
   {
     "type": "ITEM",
@@ -623,8 +624,7 @@
     "dispersion": 12,
     "loudness": 0,
     "count": 40,
-    "recovery_chance": 50,
-    "effects": [ "NEVER_MISFIRES" ]
+    "recovery_chance": 50
   },
   {
     "type": "ITEM",
@@ -646,8 +646,7 @@
     "dispersion": 12,
     "loudness": 0,
     "count": 20,
-    "recovery_chance": 10,
-    "effects": [ "NEVER_MISFIRES" ]
+    "recovery_chance": 10
   },
   {
     "type": "ITEM",
@@ -671,7 +670,7 @@
     "loudness": 0,
     "count": 50,
     "recovery_chance": 95,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NON_FOULING" ]
   },
   {
     "type": "ITEM",
@@ -693,7 +692,7 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NOGIB", "NON_FOULING" ]
   },
   {
     "type": "ITEM",
@@ -725,10 +724,10 @@
     "symbol": "=",
     "color": "brown",
     "description": "A fluffy down feather from a bird.  Useful for making cozy bedclothes.",
-    "material": [ "cotton" ],
+    "material": [ "down_feathers" ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
-    "weight": "1 g",
+    "weight": "10 mg",
     "ammo_type": "components",
     "stack_size": 100,
     "count": 20
@@ -1620,7 +1619,6 @@
     "color": "brown",
     "count": 50,
     "ammo_type": "tinder",
-    "effects": [ "NEVER_MISFIRES" ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -1644,7 +1642,6 @@
     "loudness": 0,
     "count": 7,
     "recovery_chance": 80,
-    "effects": [ "NEVER_MISFIRES" ],
     "use_action": [ "RPGDIE" ]
   },
   {
@@ -1668,7 +1665,6 @@
     "loudness": 0,
     "count": 7,
     "recovery_chance": 90,
-    "effects": [ "NEVER_MISFIRES" ],
     "use_action": [ "RPGDIE" ]
   },
   {
@@ -1795,7 +1791,7 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NOGIB", "NON_FOULING" ]
   },
   {
     "type": "ITEM",
@@ -1817,6 +1813,6 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NOGIB", "NON_FOULING" ]
   }
 ]

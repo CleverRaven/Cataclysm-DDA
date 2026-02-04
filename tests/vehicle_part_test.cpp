@@ -36,7 +36,7 @@
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
-static const ammotype ammo_flammable( "flammable" );
+static const ammotype ammo_test_liquid( "test_liquid" );
 static const ammotype ammo_water( "water" );
 
 static const damage_type_id damage_bash( "bash" );
@@ -308,9 +308,9 @@ static void check_part_ammo_capacity( vpart_id part_type, itype_id item_type, am
 TEST_CASE( "verify_vehicle_tank_refill", "[vehicle]" )
 {
     check_part_ammo_capacity( vpart_ap_fridge_test, itype_fridge_test, ammo_water, 1600 );
-    check_part_ammo_capacity( vpart_ap_fridge_test, itype_fridge_test, ammo_flammable, 444444 );
+    check_part_ammo_capacity( vpart_ap_fridge_test, itype_fridge_test, ammo_test_liquid, 444444 );
     check_part_ammo_capacity( vpart_tank_test, itype_metal_tank_test, ammo_water, 240 );
-    check_part_ammo_capacity( vpart_tank_test, itype_metal_tank_test, ammo_flammable, 60000 );
+    check_part_ammo_capacity( vpart_tank_test, itype_metal_tank_test, ammo_test_liquid, 60000 );
 }
 
 TEST_CASE( "check_capacity_fueltype_handling", "[vehicle]" )
@@ -325,7 +325,7 @@ TEST_CASE( "check_capacity_fueltype_handling", "[vehicle]" )
             //vp.ammo_capacity( item::find_type( vp.ammo_current() )->ammo->type );
         }
         THEN( "using explicit ammotype for ammo_capacity returns expected value" ) {
-            CHECK( vp.ammo_capacity( ammo_flammable ) == 60000 );
+            CHECK( vp.ammo_capacity( ammo_test_liquid ) == 60000 );
         }
     }
 

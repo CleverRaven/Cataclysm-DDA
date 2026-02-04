@@ -368,5 +368,32 @@
       "sound_fail": "whack!",
       "items": [ { "item": "material_aluminium_ingot", "count": [ 4, 8 ] }, { "item": "scrap", "count": [ 2, 6 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_indoor_flagpole_wooden",
+    "name": "wooden indoor flagpole",
+    "description": "A 2.5-meter tall wooden flagpole on a weighted stand.  You could hoist up a flag here.",
+    "symbol": "F",
+    "color": "brown",
+    "move_cost_mod": 2,
+    "coverage": 20,
+    "required_str": 1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "ORGANIC" ],
+    "max_volume": "2 L",
+    "deconstruct": {
+      "items": [ { "item": "nail", "charges": [ 2, 6 ] }, { "item": "2x4", "count": 1 }, { "item": "stick_long", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 30,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "nail", "charges": [ 2, 6 ] },
+        { "item": "2x4", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 2, 6 ] }
+      ]
+    }
   }
 ]

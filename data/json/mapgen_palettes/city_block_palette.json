@@ -87,7 +87,7 @@
       "Q": [
         { "item": "preserved_food", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "dry_goods", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "pet_food", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "pet_food_in_container", "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "condiments", "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "pantry_liquids", "chance": 10 }
       ],

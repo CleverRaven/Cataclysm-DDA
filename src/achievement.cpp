@@ -500,7 +500,7 @@ static std::optional<std::string> text_for_requirement(
     } else if( current_value.type() == cata_variant_type::int_ ) {
         int current = current_value.get<int>();
         int target = req.target.get<int>();
-        result = string_format( _( "%s/%s %s" ), current, target,
+        result = string_format( _( "%d/%d %s" ), current, target,
                                 req.statistic->description().translated( target ) );
     } else {
         // The tricky part here is formatting an arbitrary cata_variant value.

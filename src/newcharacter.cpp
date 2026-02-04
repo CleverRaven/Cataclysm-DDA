@@ -722,6 +722,10 @@ void Character::randomize_hobbies()
 
 void Character::add_random_hobby( std::vector<profession_id> &choices )
 {
+    if( choices.empty() ) {
+        return;
+    }
+
     const profession_id hobby = random_entry_removed( choices );
     hobbies.insert( &*hobby );
 

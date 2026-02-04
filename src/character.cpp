@@ -6,7 +6,6 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
-#include <cwctype>
 #include <functional>
 #include <memory>
 #include <numeric>
@@ -116,7 +115,6 @@ static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
-static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_READ( "ACT_READ" );
@@ -295,6 +293,7 @@ static const material_id material_mc_steel( "mc_steel" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 
+static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_walk( "walk" );
 
 static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
@@ -389,6 +388,63 @@ int character_max_dex = 20;
 int character_max_per = 20;
 int character_max_int = 20;
 
+
+queued_eocs::queued_eocs() = default;
+
+queued_eocs::queued_eocs( const queued_eocs &rhs )
+{
+    list = rhs.list;
+    for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
+        queue.emplace( it );
+    }
+}
+
+queued_eocs::queued_eocs( queued_eocs &&rhs ) noexcept
+{
+    queue.swap( rhs.queue );
+    list.swap( rhs.list );
+}
+
+queued_eocs &queued_eocs::operator=( const queued_eocs &rhs )
+{
+    list = rhs.list;
+    // Why doesn't std::priority_queue have a clear() function.
+    queue = {};
+    for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
+        queue.emplace( it );
+    }
+    return *this;
+}
+queued_eocs &queued_eocs::operator=( queued_eocs &&rhs ) noexcept
+{
+    queue.swap( rhs.queue );
+    list.swap( rhs.list );
+    return *this;
+}
+
+bool queued_eocs::empty() const
+{
+    return queue.empty();
+}
+
+const queued_eoc &queued_eocs::top() const
+{
+    return *queue.top();
+}
+
+void queued_eocs::push( const queued_eoc &eoc )
+{
+    auto it = list.emplace( list.end(), eoc );
+    queue.push( it );
+}
+
+void queued_eocs::pop()
+{
+    auto it = queue.top();
+    queue.pop();
+    list.erase( it );
+}
+
 void Character::queue_effects( const std::vector<effect_on_condition_id> &effects )
 {
     for( const effect_on_condition_id &eoc_id : effects ) {
@@ -404,7 +460,9 @@ void Character::queue_effect( const std::string &name, const time_duration &dela
                               const time_duration &effect_duration )
 {
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#ifndef __clang__
+# pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#endif
     global_variables::impl_t ctx = {
         { "effect", diag_value{ name } },
         { "duration", diag_value{ to_turns<int>( effect_duration ) } }
@@ -1519,6 +1577,13 @@ void Character::mount_creature( monster &z )
         // mech night-vision counts as optics for overmap sight range.
         g->update_overmap_seen();
     }
+
+    // Switch from potentially invalid crouch or prone to trot
+    // Trot is sustained and doesn't spend stamina, so it's a good default for animal riding
+    if( get_steed_type() == steed_type::ANIMAL ) {
+        set_movement_mode( move_mode_run );
+    }
+
     mod_moves( -100 );
 }
 
@@ -1824,6 +1889,8 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
         practice( skill_dodge, difficulty * 2, difficulty );
     }
     martial_arts_data->ma_ondodge_effects( *this );
+
+    magic->break_channeling( *this );
 
     // For adjacent attackers check for techniques usable upon successful dodge
     if( source && square_dist( pos_bub(), source->pos_bub() ) == 1 ) {
@@ -3151,6 +3218,9 @@ void Character::calc_bmi_encumb( std::map<bodypart_id, encumbrance_data> &vals )
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         int penalty = std::floor( elem.second.get_bmi_encumbrance_scalar() * std::max( 0.0f,
                                   get_bmi_fat() - static_cast<float>( elem.second.get_bmi_encumbrance_threshold() ) ) );
+        if( !needs_food() ) {
+            penalty = 0;
+        }
         vals[elem.first.id()].encumbrance += penalty;
     }
 }
@@ -4196,10 +4266,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
 
         const fault_fix &fix = opt.fix;
-        assign_activity( ACT_MEND_ITEM, to_moves<int>( opt.time_to_fix ) );
-        activity.name = opt.fault.str();
-        activity.str_values.emplace_back( fix.id.str() );
-        activity.targets.push_back( std::move( obj ) );
+        assign_activity( mend_item_activity_actor( opt.time_to_fix, obj, opt.fault, fix.id ) );
     }
 }
 
@@ -4376,16 +4443,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
-    if( actually_used->is_comestible() ) {
-        const bool ret = consume_effects( *used );
-        const int consumed = used->activation_consume( charges_used.value(), pt, this );
-        if( consumed == 0 ) {
-            // Nothing was consumed from within the item. "Eat" the item itself away.
-            i_rem( actually_used );
-        }
-        return ret;
-    }
-
     actually_used->activation_consume( charges_used.value(), pt, this );
 
     if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ) {
@@ -4517,9 +4574,7 @@ void Character::shout( std::string msg, bool order )
     constexpr int minimum_noise = 2;
 
     if( noise <= base ) {
-        std::wstring wstr( utf8_to_wstr( msg ) );
-        std::transform( wstr.begin(), wstr.end(), wstr.begin(), towlower );
-        msg = wstr_to_utf8( wstr );
+        msg = to_lower_case( msg );
     }
 
     // Screaming underwater is not good for oxygen and harder to do overall
@@ -5935,7 +5990,18 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
     const bool water_walking = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) &&
                                has_flag( json_flag_WATERWALKING );
 
+
     if( is_mounted() ) {
+        // Ignore mech movemodes
+        // TODO: Figure what to do with mech movemodes
+        if( get_steed_type() != steed_type::MECH ) {
+            run_cost_effect_mul( 1.0 / get_modifier( character_modifier_move_mode_move_cost_mod ),
+                                 //TODO get these strings from elsewhere
+                                 is_running() ? _( "Running" ) :
+                                 is_crouching() ? _( "Crouching" ) :
+                                 is_prone() ? _( "Prone" ) : _( "Walking" )
+                               );
+        }
         return effects;
     }
 
@@ -6060,7 +6126,6 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
 
     run_cost_effect_mul( 1.0 / get_modifier( character_modifier_stamina_move_cost_mod ),
                          _( "Stamina" ) );
-
     run_cost_effect_mul( 1.0 / get_modifier( character_modifier_move_mode_move_cost_mod ),
                          //TODO get these strings from elsewhere
                          is_running() ? _( "Running" ) :
@@ -8061,6 +8126,7 @@ void Character::pause()
     }
     // on-pause effects for martial arts
     martial_arts_data->ma_onpause_effects( *this );
+    magic->channel_magic( *this );
 
     if( is_npc() ) {
         // The stuff below doesn't apply to NPCs

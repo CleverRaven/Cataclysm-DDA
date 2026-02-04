@@ -632,7 +632,7 @@ void enchant_cache::load( const JsonObject &jo, std::string_view,
             try {
                 const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
                                                 ( value_obj.get_string( "value" ) );
-                const int add = value_obj.get_int( "add", 0 );
+                const double add = value_obj.get_float( "add", 0 );
                 if( add != 0 ) {
                     values_add.emplace( value, add );
                 }
@@ -1054,7 +1054,7 @@ void enchant_cache::set_has( enchantment::has value )
     active_conditions.first = value;
 }
 
-void enchant_cache::add_value_add( enchant_vals::mod value, int add_value )
+void enchant_cache::add_value_add( enchant_vals::mod value, float add_value )
 {
     values_add[value] = add_value;
 }

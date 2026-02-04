@@ -232,6 +232,11 @@ static bool overlap( const rectangle<point> &lhs, const rectangle<point> &rhs )
            rhs.p_min.x < lhs.p_max.x && rhs.p_min.y < lhs.p_max.y;
 }
 
+size_t ui_adaptor::ui_stack_size()
+{
+    return ui_stack.size();
+}
+
 // This function does two things:
 // 1. Ensure that any UI that would be overwritten by redrawing a lower invalidated
 //    UI also gets redrawn.

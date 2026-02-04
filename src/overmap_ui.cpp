@@ -135,10 +135,11 @@ void overmap_sidebar::draw_sidebar_text( const std::string_view &original_text,
     ImGui::NewLine();
 }
 
-overmap_sidebar::overmap_sidebar( overmap_ui::overmap_draw_data_t &data ) :
+overmap_sidebar::overmap_sidebar( overmap_ui::overmap_draw_data_t &data,
+                                  const input_context &ictxt ) :
     cataimgui::window( _( "OVERMAP_SIDEBAR" ),
                        ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoNav ),
-    draw_data( data )
+    draw_data( data ), ictxt( ictxt )
 {
     init();
 }
@@ -186,9 +187,8 @@ void overmap_sidebar::draw_controls()
 
 void overmap_sidebar::print_hint( const std::string &action, nc_color color )
 {
-    const input_context &ctxt = draw_data.ictxt;
     draw_sidebar_text( string_format( _( "%s - %s" ),
-                                      ctxt.get_desc( action ), ctxt.get_action_name( action ) ), color );
+                                      ictxt.get_desc( action ), ictxt.get_action_name( action ) ), color );
 }
 
 void overmap_sidebar::draw_tile_info()
@@ -276,10 +276,9 @@ void overmap_sidebar::draw_settings_info()
 
 void overmap_sidebar::draw_quick_reference()
 {
-    const input_context &ctxt = draw_data.ictxt;
     draw_sidebar_text( _( "Use movement keys to pan." ), c_magenta );
     draw_sidebar_text( string_format( _( "Press %s to preview route." ),
-                                      ctxt.get_desc( "CHOOSE_DESTINATION" ) ), c_magenta );
+                                      ictxt.get_desc( "CHOOSE_DESTINATION" ) ), c_magenta );
     draw_sidebar_text( _( "Press again to confirm." ), c_magenta );
     print_hint( "LEVEL_UP" );
     print_hint( "LEVEL_DOWN" );
@@ -340,6 +339,8 @@ void overmap_sidebar::draw_debug()
 
     if( ( draw_data.debug_editor && center_vision != om_vision_level::unseen ) ||
         draw_data.debug_info ) {
+        draw_sidebar_text( string_format( "current dimension: %s",
+                                          g->get_dimension_prefix().empty() ? "default" : g->get_dimension_prefix() ), c_white );
         draw_sidebar_text( string_format( "abs_omt: %s", cursor_pos.to_string() ), c_white );
         const oter_t &oter = overmap_buffer.ter( cursor_pos ).obj();
         draw_sidebar_text( string_format( "oter: %s (rot %d)", oter.id.str(),
@@ -437,8 +438,12 @@ void overmap_sidebar::draw_mission_info()
             msg = _( "Below us" );
         }
         // One OMT is 24 tiles across, at 1x1 meters each, so we can simply do number of OMTs * 24
-        draw_sidebar_text( string_format( _( "Distance: %d tiles | %s" ),
-                                          distance, length_to_string_approx( distance * 24_meter ) ), c_white );
+        units::length actual_distance = distance * 24_meter;
+        const std::string dir_arrow = direction_arrow( direction_from( cursor_pos.xy(), target.xy() ) );
+        //~Parenthesis is a real-world value for distance. Example string: "223 tiles (5.35km) ⇗"
+        const std::string distance_str = string_format( _( "%1$d tiles (%2$s) %3$s" ),
+                                         distance, length_to_string_approx( actual_distance ), dir_arrow );
+        draw_sidebar_text( string_format( _( "Distance: %s" ), distance_str ), c_white );
         if( !msg.empty() ) {
             draw_sidebar_text( msg, c_white );
         }
@@ -2063,7 +2068,7 @@ static tripoint_abs_omt display()
     tripoint_abs_omt &orig = data.origin_pos;
     std::vector<tripoint_abs_omt> &display_path = data.display_path;
     tripoint_abs_omt &select = data.select;
-    input_context &ictxt = data.ictxt;
+    input_context ictxt( "OVERMAP" );
 
     const int previous_zoom = g->get_zoom();
     g->set_zoom( overmap_zoom_level );
@@ -2078,7 +2083,7 @@ static tripoint_abs_omt display()
     data.ui = std::make_shared<ui_adaptor>();
     std::shared_ptr<ui_adaptor> ui = data.ui;
 
-    overmap_sidebar om_sidebar( data );
+    overmap_sidebar om_sidebar( data, ictxt );
 
     ui->on_screen_resize( []( ui_adaptor & ui ) {
         /**

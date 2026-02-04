@@ -61,6 +61,20 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "warp_flesh_floor_tokens",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_ITEMS",
+    "skill_used": "survival",
+    "time": "1 m",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [ [ [ "warptoken", 1 ] ], [ [ "any_blood", 6, "LIST" ] ], [ [ "meat_offal", 2, "LIST" ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "warp_waterwalking_stone",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",

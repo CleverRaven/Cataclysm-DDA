@@ -86,6 +86,8 @@ Format:
 * `"shopkeeper_consumption_rates"` optional to define item consumption rates for this shopkeeper. Default is to consume all items before restocking
 * `"shopkeeper_price_rules"` optional to define personal price rules with the same format as faction price rules (see [FACTIONS.md](FACTIONS.md)). These take priority over faction rules
 * `"shopkeeper_blacklist"` optional to define blacklists for this shopkeeper
+* `"shopkeeper_whitelist"` optional to define whitelist for this shopkeeper. syntax is the same as for blacklist, but `message` field should be ignored
+* `"whitelist_message"` if whitelist is used, this will be printed on every item that is not matched by whitelist
 * `"restock_interval"`: optional. Default is 6 days
 
 #### Shopkeeper item groups
@@ -129,6 +131,23 @@ Specifies blacklist of items that shopkeeper will not accept for trade.  Format 
       "item": "hammer",
       "condition": { "compare_string": [ "yes", { "npc_val": "bool_test_hammer_hater" } ] },
       "message": "<npcname> hates this item"
+    },
+    { "category": "ammo" },
+    { "group": "EXODII_basic_trade" }
+  ]
+```
+
+#### Shopkeeper whiteliste
+Specifies whitelist of items, shopkeeper will not accept anything else.  Format is similar to `shopkeeper_blacklist`.  `message` will have to be defined among the instance instead of being inside of it
+
+```jsonc
+  "type": "shopkeeper_whitelist",
+  "id": "basic_whitelist",
+  "message": "<npcname> will never buy this.",
+  "entries": [
+    {
+      "item": "hammer",
+      "condition": { "compare_string": [ "yes", { "npc_val": "bool_test_hammer_hater" } ] }
     },
     { "category": "ammo" },
     { "group": "EXODII_basic_trade" }
@@ -1351,6 +1370,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | distance(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | g  | Return distance between two targets.<br/>Arguments are location variables or special strings (`u`, `npc`). `u` means your location. `npc` means NPC's location.<br/><br/>Example:<br/>`"condition": { "math": [ "distance('u', loc) <= 50"] }`|
 | effect_intensity(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters intensity of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set intensity of effect.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso') > 1"] }`|
 | effect_duration(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return the characters duration of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set duration of effect.<br/>`unit`: `s`/`v` - Specify the unit of the duration. Omitting will use seconds.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_duration('bite', 'bodypart': 'torso') > 1"] }`<br/>`{ "math": [ "_thing = u_effect_duration('yrax_overcharged', 'bodypart': 'torso', 'unit': 'hours')" ] }`|
+| limb_score(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the character limb score.<br/>Argument is limb score id.<br/><br/>Optional kwargs:<br/>`type`: `s`/`v` - Specifies the type of bodypart of which score should be picked, like `arm` or `sensor`, see the full list in [JSON_INFO.md#Body_parts](JSON_INFO.md#Body_parts).<br/><br/> Example:<br/>`{ "math": [ "_foo = u_limb_score('lift', 'type': 'arm')" ] }`|
 | encumbrance(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total encumbrance of a body part.<br/>Argument is bodypart ID. <br/> For items, returns typical encumbrance of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_encumbrance('torso') > 0"] }`|
 | health(`d`/`v`)    |  ✅   |   ✅  | u, n  | Return character current health .<br/><br/>Example:<br/>`{ "math": [ "u_health() -= 1" ] }`|
 | energy(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return a numeric value (in millijoules) for an energy string (see [Units](JSON_INFO.md#units)).<br/><br/>Example:<br/>`{ "math": [ "u_val('power') -= energy('25 kJ')" ] }`|
@@ -1375,6 +1395,8 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | mon_groups_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster groups |
 | moon_phase()     |  ✅  |   ❌   | N/A<br/>(global)  | Returns current phase of the Moon. <pre>MOON_NEW = 0,<br/>WAXING_CRESCENT = 1,<br/>HALF_MOON_WAXING = 2,<br/>WAXING_GIBBOUS = 3,<br/>FULL = 4,<br/>WANING_GIBBOUS = 5,<br/>HALF_MOON_WANING = 6,<br/>WANING_CRESCENT = 7 |
 | num_input(`s`/`v`,`d`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Prompt the player for a number.<br/>Arguments are Prompt text, Default Value:<br/>`"math": [ "u_value_to_set = num_input('Playstyle Perks Cost?', 4)" ]`|
+| oxygen()   |  ✅  |   ✅   | u, n  | Return or set the characters oxygen level.<br/><br/>Example:<br/>`{ "math": [ "u_oxygen() -= 1" ] }` Reduces the alpha talker's oxygen level by 1 provided it was greater than 0<br/>|
+| oxygen_max()   |  ✅  |   ❌   | u, n  | Return the characters max oxygen level.<br/><br/>Example:<br/>`{ "math": [ "u_oxygen() = max(u_oxygen(), 0.5 * u_oxygen_max())" ] }` Increases the alpha talker's oxygen level to half the max if it was below that<br/>|
 | pain()     |  ✅  |   ✅   | u, n  | Return or set pain.  Optional kwargs:<br/>`type`: `s/v` - return the value of specific format or assign in specific way.  Can be `perceived` ( for return, return pain value minus painkillers; for assigning, apply pain taking into account possible mutations, effects, cbms etc (pain sentitivity or pain deafness, for example)) or `raw` (for return, return flat amount of pain; for assigning, bypasses all checks).  If not used, `raw` is used by default. <br/> Example:<br/>`{ "math": [ "n_pain() = u_pain() + 9000" ] }` <br/>`{ "math": [ "u_pain('type': 'perceived' ) >= 40" ] }` <br/>`{ "math": [ "u_pain('type': 'perceived' ) += 22" ] }` |
 | proficiency(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set proficiency<br/>Argument is proficiency ID.<br/><br/> Optional kwargs:<br/>`format`: `s` - `percent` return or set how many percent done the learning is. `permille` does likewise for permille. `time_spent` return or set total time spent. `time_left` return or set the remaining time. `total_time_required` return total time required to train a given proficiency (read only).<br/>`direct`: `true`/`false`/`d` - false (default) perform the adjustment by practicing the proficiency for the given amount of time. This will likely result in different values than specified. `true` perform the adjustment directly, bypassing other factors that may affect it.<br/><br/>Example:<br/>`{ "math": [ "u_proficiency('prof_intro_chemistry', 'format': 'percent') = 50" ] }`|
 | school_level(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the highest level of spells known of that school.<br/>Argument is school ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_school_level('MAGUS') >= 3"] }`|
@@ -1453,6 +1475,7 @@ These can be read or written to with `val()`.
 | `sleep_deprivation` | ✅ | Current sleep deprivation level. |
 | `sold` | ✅ | Amount of money the avatar has sold the Character |
 | `stamina` | ✅ | Current stamina level. |
+| `stamina_max` | ❌ | Maximum stamina level. |
 | `stim` | ✅ | Current stim level. |
 | `strength`<br/>`dexterity`<br/>`intelligence`<br/>`perception` | ✅ | Current attributes |
 | `strength_base`<br/>`dexterity_base`<br/>`intelligence_base`<br/>`perception_base` | ✅ | Base attributes |

@@ -382,12 +382,16 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_show_hordes", overmap_show_hordes );
     json.member( "overmap_show_revealed_omts", overmap_show_revealed_omts );
     json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
-    json.member( "vmenu_show_items", vmenu_show_items );
-    json.member( "list_item_sort", list_item_sort );
+    json.member( "vmenu_tab", vmenu_tab );
+    json.member( "vmenu_item_sort", vmenu_item_sort );
+    json.member( "vmenu_monster_sort", vmenu_monster_sort );
+    json.member( "vmenu_terfurn_sort", vmenu_terfurn_sort );
     json.member( "read_items", read_items );
     json.member( "list_item_filter_active", list_item_filter_active );
     json.member( "list_item_downvote_active", list_item_downvote_active );
     json.member( "list_item_priority_active", list_item_priority_active );
+    json.member( "list_monster_filter_active", list_monster_filter_active );
+    json.member( "list_terfurn_filter_active", list_terfurn_filter_active );
     json.member( "construction_filter", construction_filter );
     json.member( "last_construction", last_construction );
     json.member( "construction_tab", construction_tab );
@@ -402,6 +406,8 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
     json.member( "overmap_fast_travel", overmap_fast_travel );
     json.member( "overmap_fast_scroll", overmap_fast_scroll );
+    json.member( "tileset_zoom", tileset_zoom );
+    json.member( "overmap_tileset_zoom", overmap_tileset_zoom );
     json.member( "distraction_noise", distraction_noise );
     json.member( "distraction_pain", distraction_pain );
     json.member( "distraction_attack", distraction_attack );
@@ -483,6 +489,8 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
     jo.read( "overmap_fast_travel", overmap_fast_travel );
     jo.read( "overmap_fast_scroll", overmap_fast_scroll );
+    jo.read( "tileset_zoom", tileset_zoom );
+    jo.read( "overmap_tileset_zoom", overmap_tileset_zoom );
     jo.read( "overmap_sidebar_uistate", overmap_sidebar_state );
     jo.read( "distraction_noise", distraction_noise );
     jo.read( "distraction_pain", distraction_pain );
@@ -500,18 +508,16 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "distraction_oxygen", distraction_oxygen );
     jo.read( "distraction_withdrawal", distraction_withdrawal );
     jo.read( "numpad_navigation", numpad_navigation );
-
-    if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
-        // This is an old save: 1 means view items, 2 means view monsters,
-        // -1 means uninitialized
-        vmenu_show_items = jo.get_int( "list_item_mon", -1 ) != 2;
-    }
-
-    jo.read( "list_item_sort", list_item_sort );
+    jo.read( "vmenu_tab", vmenu_tab );
+    jo.read( "vmenu_item_sort", vmenu_item_sort );
+    jo.read( "vmenu_monster_sort", vmenu_monster_sort );
+    jo.read( "vmenu_terfurn_sort", vmenu_terfurn_sort );
     jo.read( "read_items", read_items );
     jo.read( "list_item_filter_active", list_item_filter_active );
     jo.read( "list_item_downvote_active", list_item_downvote_active );
     jo.read( "list_item_priority_active", list_item_priority_active );
+    jo.read( "list_monster_filter_active", list_monster_filter_active );
+    jo.read( "list_terfurn_filter_active", list_terfurn_filter_active );
 
     jo.read( "construction_filter", construction_filter );
     jo.read( "last_construction", last_construction );
@@ -524,7 +530,7 @@ void uistatedata::deserialize( const JsonObject &jo )
             v.push_back( line );
         }
     }
-    // fetch list_item settings from input_history
+    // fetch surroundings menu settings from input_history
     if( !gethistory( "item_filter" ).empty() ) {
         list_item_filter = gethistory( "item_filter" ).back();
     }
@@ -533,6 +539,12 @@ void uistatedata::deserialize( const JsonObject &jo )
     }
     if( !gethistory( "list_item_priority" ).empty() ) {
         list_item_priority = gethistory( "list_item_priority" ).back();
+    }
+    if( !gethistory( "monster_filter" ).empty() ) {
+        monster_filter = gethistory( "monster_filter" ).back();
+    }
+    if( !gethistory( "terfurn_filter" ).empty() ) {
+        terfurn_filter = gethistory( "terfurn_filter" ).back();
     }
 
     jo.read( "lastreload", lastreload );

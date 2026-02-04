@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <functional>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <string_view>
@@ -19,6 +20,7 @@
 class JsonArray;
 class JsonObject;
 class JsonOut;
+class Character;
 
 class recipe_dictionary
 {
@@ -157,7 +159,8 @@ class recipe_subset
             description_result,
             proficiency,
             difficulty,
-            activity_level
+            activity_level,
+            book
         };
 
         /** Find marked favorite recipes */
@@ -172,13 +175,17 @@ class recipe_subset
         /** Find expanded recipes */
         std::vector<const recipe *> expanded() const;
 
-        /** Find recipes matching query (left anchored partial matches are supported) */
+        /** Find recipes matching query (left anchored partial matches are supported). Character is not necessarily needed in all searches */
         std::vector<const recipe *> search(
             std::string_view txt, search_type key = search_type::name,
+            std::optional<std::reference_wrapper<const Character>> crafter = std::nullopt,
             const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         /** Find recipes matching query and return a new recipe_subset */
         recipe_subset reduce(
             std::string_view txt, search_type key = search_type::name,
+            const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
+        recipe_subset reduce(
+            std::string_view txt, const Character &crafter, search_type key = search_type::name,
             const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         /** Set intersection between recipe_subsets */
         recipe_subset intersection( const recipe_subset &subset ) const;
