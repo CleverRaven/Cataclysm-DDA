@@ -656,7 +656,7 @@ void finalize_martial_arts()
         // The vector needs both a limb and a contact area, so we can substitute safely
         std::vector<bodypart_str_id> similar_bp;
         for( const bodypart_str_id &bp : vector.limbs ) {
-            for( const bodypart_str_id &similar : bp->similar_bodyparts ) {
+            for( const bodypart_str_id &similar : bp->get_all_combined_similar_bodyparts() ) {
                 similar_bp.emplace_back( similar );
             }
         }
@@ -665,7 +665,7 @@ void finalize_martial_arts()
 
         std::vector<sub_bodypart_str_id> similar_sbp;
         for( const sub_bodypart_str_id &sbp : vector.contact_area ) {
-            for( const sub_bodypart_str_id &similar : sbp->similar_bodyparts ) {
+            for( const sub_bodypart_str_id &similar : sbp->get_all_combined_similar_sub_bodyparts() ) {
                 similar_sbp.emplace_back( similar );
             }
         }

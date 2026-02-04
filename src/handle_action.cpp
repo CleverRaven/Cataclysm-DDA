@@ -114,9 +114,6 @@ enum class direction : unsigned int;
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
-static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
-static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
-static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -147,6 +144,9 @@ static const json_character_flag
 json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 
 static const material_id material_glass( "glass" );
+
+static const move_mode_id move_mode_run( "run" );
+static const move_mode_id move_mode_walk( "walk" );
 
 static const quality_id qual_CUT( "CUT" );
 
@@ -1672,7 +1672,7 @@ static void loot()
             player_character.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
             break;
         case MultiFarmPlots:
-            player_character.assign_activity( ACT_MULTIPLE_FARM );
+            player_character.assign_activity( multi_farm_activity_actor() );
             break;
         case Multichoptrees:
             player_character.assign_activity( multi_chop_trees_activity_actor() );
@@ -1693,13 +1693,13 @@ static void loot()
             player_character.assign_activity( multi_mine_activity_actor() );
             break;
         case MultiDis:
-            player_character.assign_activity( ACT_MULTIPLE_DIS );
+            player_character.assign_activity( multi_disassemble_activity_actor() );
             break;
         case MultiMopping:
             player_character.assign_activity( multi_mop_activity_actor() );
             break;
         case MultiStudy:
-            player_character.assign_activity( ACT_MULTIPLE_STUDY );
+            player_character.assign_activity( multi_study_activity_actor() );
             break;
         default:
             debugmsg( "Unsupported flag" );
@@ -1852,7 +1852,13 @@ static void fire()
 static void open_movement_mode_menu()
 {
     avatar &player_character = get_avatar();
-    const std::vector<move_mode_id> &modes = move_modes_by_speed();
+    std::vector<move_mode_id> modes;
+    const bool riding_animal = player_character.get_steed_type() == steed_type::ANIMAL;
+    if( riding_animal ) {
+        modes = { move_mode_walk, move_mode_run };
+    } else {
+        modes = move_modes_by_speed();
+    }
     const int cycle = 1027;
     uilist as_m;
 
@@ -1874,7 +1880,15 @@ static void open_movement_mode_menu()
 
     if( as_m.ret != UILIST_CANCEL ) {
         if( as_m.ret == cycle ) {
-            player_character.cycle_move_mode();
+            if( riding_animal ) {
+                if( player_character.current_movement_mode() == move_mode_walk ) {
+                    player_character.set_movement_mode( move_mode_run );
+                } else {
+                    player_character.set_movement_mode( move_mode_walk );
+                }
+            } else {
+                player_character.cycle_move_mode();
+            }
         } else {
             player_character.set_movement_mode( modes[as_m.ret] );
         }

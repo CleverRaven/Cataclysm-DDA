@@ -876,7 +876,7 @@
     "id": "f_string_dimension_housing",
     "name": "metal container",
     "looks_like": "f_safe_c",
-    "description": "An extremely very dense metal box.  It has a door that's obviously open and closed by a heavy lever.  A golden plate is affixed to the door, covered in letters you do not understand.  Examine it to use the lever on the door.",
+    "description": "An extremely dense metal box.  It has a door with a heavy latch.  A golden plate is affixed to the door, covered in letters you do not understand.  Examine it to use the lever on the door.",
     "symbol": "O",
     "color": "yellow",
     "move_cost_mod": -1,
@@ -884,5 +884,56 @@
     "coverage": 100,
     "flags": [ "NOITEM", "BLOCKSDOOR" ],
     "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_STRING_DIMENSION_ZIGGURAT_PORTAL" ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_tall_vent_pipe",
+    "looks_like": "f_vent_pipe",
+    "name": "tall vent pipe",
+    "description": "A thick pipe for some sort of ventilation system.  It looks sturdy enough to climb.",
+    "symbol": "|",
+    "color": "dark_gray",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "CLIMBABLE", "ALLOW_ON_OPEN_AIR" ],
+    "deconstruct": { "items": [ { "item": "pipe", "count": 2 }, { "item": "lc_steel_chunk", "count": 2 } ] },
+    "bash": {
+      "str_min": 10,
+      "str_max": 15,
+      "sound": "whack!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_string_nuclear_fuel_cell",
+    "name": "lead tube",
+    "looks_like": "t_machinery_heavy",
+    "description": "A massive lead tube covered in otherworldly symbols that you do not understand.",
+    "symbol": "|",
+    "color": "light_gray",
+    "coverage": 80,
+    "move_cost_mod": 6,
+    "max_volume": "800 L",
+    "required_str": -1,
+    "flags": [ "SEALED", "REDUCE_SCENT", "PERMEABLE", "CONTAINER", "FLAMMABLE" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 45,
+      "explosive": 10,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "furn_set": "f_reactor_meltdown",
+      "items": [
+        { "item": "scrap", "count": [ 4, 16 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 6 ] },
+        { "item": "uranium", "count": [ 10, 50 ] },
+        { "item": "uran_cell", "charges": [ 10, 150 ] },
+        { "item": "plutonium", "count": [ 0, 20 ] },
+        { "item": "lead", "charges": [ 12, 18 ] }
+      ]
+    }
   }
 ]

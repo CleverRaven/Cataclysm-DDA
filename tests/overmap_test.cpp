@@ -743,39 +743,39 @@ TEST_CASE( "highway_find_intersection_bounds", "[overmap]" )
     highway_grid.set_grid_origin( point_abs_om::zero );
     point_abs_om pos = highway_grid.get_grid_origin();
 
-    const int c_seperation = get_option<int>( "HIGHWAY_GRID_COLUMN_SEPARATION" );
-    const int r_seperation = get_option<int>( "HIGHWAY_GRID_ROW_SEPARATION" );
+    const int c_separation = get_option<int>( "HIGHWAY_GRID_COLUMN_SEPARATION" );
+    const int r_separation = get_option<int>( "HIGHWAY_GRID_ROW_SEPARATION" );
 
-    const int col_test = c_seperation / 2;
-    const int row_test = r_seperation / 2;
-    const int col_test_2 = c_seperation * 1.5;
-    const int row_test_2 = r_seperation * 1.5;
+    const int col_test = c_separation / 2;
+    const int row_test = r_separation / 2;
+    const int col_test_2 = c_separation * 1.5;
+    const int row_test_2 = r_separation * 1.5;
 
     //check points in 8 directions of origin
     std::vector<std::pair<point_rel_om, point_rel_om>> input_output_pairs = {
         //inside quadrants surrounding origin + 0,0
         { point_rel_om( col_test, 0 ), point_rel_om( 0, 0 ) },
-        { point_rel_om( -col_test, 0 ), point_rel_om( -c_seperation, 0 ) },
+        { point_rel_om( -col_test, 0 ), point_rel_om( -c_separation, 0 ) },
         { point_rel_om( 0, row_test ), point_rel_om( 0, 0 ) },
-        { point_rel_om( 0, -row_test ), point_rel_om( 0, -r_seperation ) },
+        { point_rel_om( 0, -row_test ), point_rel_om( 0, -r_separation ) },
         { point_rel_om( col_test, row_test ), point_rel_om( 0, 0 ) },
-        { point_rel_om( -col_test, row_test ), point_rel_om( -c_seperation, 0 ) },
-        { point_rel_om( col_test, -row_test ), point_rel_om( 0, -r_seperation ) },
+        { point_rel_om( -col_test, row_test ), point_rel_om( -c_separation, 0 ) },
+        { point_rel_om( col_test, -row_test ), point_rel_om( 0, -r_separation ) },
         //on grid points
         { point_rel_om( 0, 0 ), point_rel_om( 0, 0 ) },
-        { point_rel_om( -c_seperation, 0 ), point_rel_om( -c_seperation, 0 ) },
-        { point_rel_om( c_seperation, 0 ), point_rel_om( c_seperation, 0 ) },
-        { point_rel_om( 0, -r_seperation ), point_rel_om( 0, -r_seperation ) },
-        { point_rel_om( 0, r_seperation ), point_rel_om( 0, r_seperation ) },
+        { point_rel_om( -c_separation, 0 ), point_rel_om( -c_separation, 0 ) },
+        { point_rel_om( c_separation, 0 ), point_rel_om( c_separation, 0 ) },
+        { point_rel_om( 0, -r_separation ), point_rel_om( 0, -r_separation ) },
+        { point_rel_om( 0, r_separation ), point_rel_om( 0, r_separation ) },
         //outside quadrants surrounding origin + 0,0
-        { point_rel_om( col_test_2, 0 ), point_rel_om( c_seperation, 0 ) },
-        { point_rel_om( -col_test_2, 0 ), point_rel_om( -c_seperation * 2, 0 ) },
-        { point_rel_om( 0, row_test_2 ), point_rel_om( 0, r_seperation ) },
-        { point_rel_om( 0, -row_test_2 ), point_rel_om( 0, -r_seperation * 2 ) },
-        { point_rel_om( col_test_2, row_test_2 ), point_rel_om( c_seperation, r_seperation ) },
-        { point_rel_om( -col_test_2, row_test_2 ), point_rel_om( -c_seperation * 2, r_seperation ) },
-        { point_rel_om( col_test_2, -row_test_2 ), point_rel_om( c_seperation, -r_seperation * 2 ) },
-        { point_rel_om( -col_test_2, -row_test_2 ), point_rel_om( -c_seperation * 2, -r_seperation * 2 ) }
+        { point_rel_om( col_test_2, 0 ), point_rel_om( c_separation, 0 ) },
+        { point_rel_om( -col_test_2, 0 ), point_rel_om( -c_separation * 2, 0 ) },
+        { point_rel_om( 0, row_test_2 ), point_rel_om( 0, r_separation ) },
+        { point_rel_om( 0, -row_test_2 ), point_rel_om( 0, -r_separation * 2 ) },
+        { point_rel_om( col_test_2, row_test_2 ), point_rel_om( c_separation, r_separation ) },
+        { point_rel_om( -col_test_2, row_test_2 ), point_rel_om( -c_separation * 2, r_separation ) },
+        { point_rel_om( col_test_2, -row_test_2 ), point_rel_om( c_separation, -r_separation * 2 ) },
+        { point_rel_om( -col_test_2, -row_test_2 ), point_rel_om( -c_separation * 2, -r_separation * 2 ) }
     };
 
     for( const std::pair<point_rel_om, point_rel_om> &p : input_output_pairs ) {

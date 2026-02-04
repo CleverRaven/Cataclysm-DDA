@@ -6413,23 +6413,6 @@ bool game::take_screenshot() const
 }
 #endif
 
-template<>
-std::string io::enum_to_string<list_item_sort_mode>( list_item_sort_mode data )
-{
-    switch( data ) {
-        case list_item_sort_mode::count:
-        case list_item_sort_mode::DISTANCE:
-            return "DISTANCE";
-        case list_item_sort_mode::NAME:
-            return "NAME";
-        case list_item_sort_mode::CATEGORY_DISTANCE:
-            return "CATEGORY_DISTANCE";
-        case list_item_sort_mode::CATEGORY_NAME:
-            return "CATEGORY_NAME";
-    }
-    cata_fatal( "Invalid list item sort mode" );
-}
-
 void game::list_surroundings()
 {
     temp_exit_fullscreen();
@@ -7543,7 +7526,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
         grabbed = false;
     }
     if( u.grab_point != tripoint_rel_ms::zero && !grabbed && !furniture_move ) {
-        add_msg( m_warning, _( "Can't find grabbed object." ) );
+        debugmsg( "Can't find grabbed object." );
         u.grab( object_type::NONE );
     }
 
@@ -7638,7 +7621,14 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
             add_msg( m_warning, _( "You cannot pass obstacles whilst mounted." ) );
             return false;
         }
-        const double base_moves = u.run_cost( mcost, diag ) * 100.0 / crit->get_speed();
+        double crit_speed;
+        if( crit->has_flag( mon_flag_RIDEABLE_MECH ) ) {
+            crit_speed = crit->get_speed();
+        } else {
+            // Approximate animal walk speed by halving base speed
+            crit_speed = crit->get_speed() / 2.0;
+        }
+        const double base_moves = u.run_cost( mcost, diag ) * 100.0 / crit_speed;
         const double encumb_moves = u.get_weight() / 4800.0_gram;
         u.mod_moves( -static_cast<int>( std::ceil( base_moves + encumb_moves ) ) );
         crit->use_mech_power( u.current_movement_mode()->mech_power_use() );
@@ -8592,20 +8582,12 @@ bool game::grabbed_furn_move( const tripoint_rel_ms &dp )
         return false;
     }
 
-    int ramp_z_offset = 0;
-    // Furniture could be on a ramp at different time than player so adjust for that.
-    if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, fpos + dp.xy() ) ) {
-        ramp_z_offset = 1;
-    } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fpos + dp.xy() ) ) {
-        ramp_z_offset = -1;
-    }
-
     const bool pushing_furniture = dp.xy() ==  u.grab_point.xy();
     const bool pulling_furniture = dp.xy() == -u.grab_point.xy();
     const bool shifting_furniture = !pushing_furniture && !pulling_furniture;
 
     // Intended destination of furniture.
-    const tripoint_bub_ms fdest = fpos + tripoint_rel_ms( dp.xy(), ramp_z_offset );
+    const tripoint_bub_ms fdest = fpos + dp;
 
     // Unfortunately, game::is_empty fails for tiles we're standing on,
     // which will forbid pulling, so:
@@ -8762,8 +8744,6 @@ bool game::grabbed_furn_move( const tripoint_rel_ms &dp )
         return true;
     }
 
-    u.grab_point.z() += ramp_z_offset;
-
     if( shifting_furniture ) {
         // We didn't move
         tripoint_rel_ms d_sum = u.grab_point + dp;
@@ -8787,7 +8767,7 @@ bool game::grabbed_furn_move( const tripoint_rel_ms &dp )
     return false;
 }
 
-bool game::grabbed_move( const tripoint_rel_ms &dp, const bool via_ramp )
+bool game::grabbed_move( const tripoint_rel_ms &dp, const bool via_ramp, bool stairs_move )
 {
     if( u.get_grab_type() == object_type::NONE ) {
         return false;
@@ -8795,7 +8775,7 @@ bool game::grabbed_move( const tripoint_rel_ms &dp, const bool via_ramp )
 
     // vehicle: pulling, pushing, or moving around the grabbed object.
     if( u.get_grab_type() == object_type::VEHICLE ) {
-        return grabbed_veh_move( dp );
+        return grabbed_veh_move_helper( dp, stairs_move );
     }
 
     if( u.get_grab_type() == object_type::FURNITURE ) {
@@ -8842,7 +8822,8 @@ void game::on_move_effects()
     }
 
     if( u.is_running() ) {
-        if( !u.can_run() ) {
+        // If mounted, don't break trot
+        if( !u.is_mounted() && !u.can_run() ) {
             u.toggle_run_mode();
         }
         if( u.get_stamina() <= 0 ) {
@@ -9292,9 +9273,6 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( force ) {
         // Let go of a grabbed cart.
         u.grab( object_type::NONE );
-    } else if( u.grab_point != tripoint_rel_ms::zero ) {
-        add_msg( m_info, _( "You can't drag things up and down stairs." ) );
-        return;
     }
 
     // TODO: Use u.posz() instead of m.abs_sub
@@ -9475,6 +9453,18 @@ void game::vertical_move( int movez, bool force, bool peeking )
         pos = pos - ms_shift;
         old_pos = old_pos - ms_shift;
         stairs = stairs - ms_shift;
+    }
+
+    if( u.grab_point != tripoint_rel_ms::zero ) {
+        u.grab_point.z() = u.grab_point.z() - movez;
+        const std::optional<tripoint_rel_ms> dir = choose_direction(
+                    _( "Select a direction to push grabbed object towards." ) );
+        if( !dir ) {
+            u.grab( object_type::NONE );
+        } else { // Try to vertically move whatever we're grabbing.
+            const tripoint_rel_ms new_rel = pos - old_pos - u.grab_point;
+            grabbed_move( new_rel + *dir, false, true );
+        }
     }
 
     // if an NPC or monster is on the stairs when player ascends/descends

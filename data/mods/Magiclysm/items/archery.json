@@ -21,7 +21,6 @@
       "NEVER_JAMS",
       "SHEATH_BOW"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 10,
     "ammo": [ "arrow_orichalcum", "arrow" ],

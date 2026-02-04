@@ -916,8 +916,12 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
 
     for( std::pair<item *, bool> it_pair : items ) {
         item *it = it_pair.first;
-        const zone_type_id zone_type_id = mgr.get_near_zone_type_for_item( *it, abspos,
-                                          MAX_VIEW_DISTANCE, fac_id );
+        const zone_type_id dest_zone_type_id = mgr.get_near_zone_type_for_item( *it, abspos,
+                                               MAX_VIEW_DISTANCE, fac_id );
+
+        if( dest_zone_type_id == zone_type_id::NULL_ID() ) {
+            continue;
+        }
 
         if( !you.can_add( *it ) ) {
             *pickup_failure = true;
@@ -930,7 +934,7 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
         }
 
         const std::unordered_set<tripoint_abs_ms> dest_set =
-            mgr.get_near( zone_type_id, abspos, MAX_VIEW_DISTANCE, it, fac_id );
+            mgr.get_near( dest_zone_type_id, abspos, MAX_VIEW_DISTANCE, it, fac_id );
 
         //if we're unloading all or a corpse
         if( zone_unload_options.unload_all || ( zone_unload_options.unload_corpses && it->is_corpse() ) ) {
@@ -3501,7 +3505,7 @@ bool farm_do( Character &you, const activity_reason_info &act_info,
                here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
         you.assign_activity( churn_activity_actor( 18000, item_location() ) );
-        you.backlog.emplace_front( ACT_MULTIPLE_FARM );
+        you.backlog.emplace_front( multi_farm_activity_actor() );
         you.activity.placement = src;
         return false;
     } else if( reason == do_activity_reason::NEEDS_PLANTING ) {
@@ -3520,7 +3524,7 @@ bool farm_do( Character &you, const activity_reason_info &act_info,
                 continue;
             }
             iexamine::plant_seed( you, src_loc, itype_id( seed ) );
-            you.backlog.emplace_front( ACT_MULTIPLE_FARM );
+            you.backlog.emplace_front( multi_farm_activity_actor() );
             return false;
         }
     }
@@ -3573,7 +3577,7 @@ bool read_do( Character &you, const activity_reason_info &act_info,
             const time_duration time_taken = you.time_to_read( *books[0], you );
             item_location book = item_location( you, books[0] );
             item_location ereader;
-            you.backlog.emplace_front( ACT_MULTIPLE_READ );
+            you.backlog.emplace_front( multi_read_activity_actor() );
             you.assign_activity( read_activity_actor( time_taken, book, ereader, true ) );
             return false;
         }
@@ -3593,7 +3597,7 @@ bool study_do( Character &you, const activity_reason_info &act_info,
             you.may_activity_occupancy_after_end_items_loc.push_back( book_loc );
             const time_duration time_taken = you.time_to_read( *book_loc, you );
             item_location ereader;
-            you.backlog.emplace_front( ACT_MULTIPLE_STUDY );
+            you.backlog.emplace_front( multi_study_activity_actor() );
             you.assign_activity( read_activity_actor( time_taken, book_loc, ereader, true ) );
             return false;
         }
@@ -3681,7 +3685,7 @@ bool fish_do( Character &you, const activity_reason_info &act_info,
     const do_activity_reason &reason = act_info.reason;
 
     if( reason == do_activity_reason::NEEDS_FISHING && you.has_quality( qual_FISHING_ROD, 1 ) ) {
-        you.backlog.emplace_front( ACT_MULTIPLE_FISH );
+        you.backlog.emplace_front( multi_fish_activity_actor() );
         // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
         you.activity = player_activity();
         item_location best_rod_loc( you, &you.best_item_with_quality( qual_FISHING_ROD ) );
@@ -3766,7 +3770,7 @@ bool craft_do( Character &you, const activity_reason_info &act_info,
                 you.lighting_craft_speed_multiplier( to_craft->get_making() ) > 0 ) {
                 player_activity act = player_activity( craft_activity_actor( to_craft, false ) );
                 you.assign_activity( act );
-                you.backlog.emplace_front( ACT_MULTIPLE_CRAFT );
+                you.backlog.emplace_front( multi_craft_activity_actor() );
                 you.backlog.front().auto_resume = true;
                 return false;
             }
@@ -3801,7 +3805,7 @@ bool disassemble_do( Character &you, const activity_reason_info &act_info,
                     // Keep doing
                     // After assignment of disassemble activity (not multitype anymore)
                     // the backlog will not be nuked in do_player_activity()
-                    you.backlog.emplace_back( ACT_MULTIPLE_DIS );
+                    you.backlog.emplace_back( multi_disassemble_activity_actor() );
                     break;
                 }
             }

@@ -389,15 +389,5 @@
     "id": "GROUP_EGG_PIGEON",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_pigeon_passenger_chick", "weight": 5 }, { "monster": "mon_pigeon_chick", "weight": 95 } ]
-  },
-  {
-    "id": "GROUP_ALIEN_MEADOW",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_nether_unviable_butterfly", "weight": 5 } ]
-  },
-  {
-    "id": "GROUP_ALIEN_TRAP_TREE",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_nether_unviable_butterfly", "weight": 5 } ]
   }
 ]

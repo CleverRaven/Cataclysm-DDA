@@ -343,6 +343,11 @@ static std::string trim_substring( std::string_view text, float width )
 {
     std::string ellipsis = "\u2026";
     float ellipsis_width = ImGui::CalcTextSize( ellipsis.c_str() ).x;
+
+    if( width < ellipsis_width ) {
+        return ellipsis;
+    }
+
     // estimate number of visible characters by ellipsis width
     int visible_chars = width / ellipsis_width;
     float last_free = 0.f;
@@ -421,7 +426,7 @@ static std::string trim_by_width( std::string_view text, float width )
         if( str_width > width || ( str_width == width && i + 1 < color_segments.size() ) ) {
             // This segment won't fit OR
             // This segment just fits and there's another segment coming
-            // truncate_substring already appends the ellipsis
+            // trim_substring already appends the ellipsis
             temp_str = color_open_tag
                        .append( trim_substring( temp_str, temp_width - ( str_width - width ) ) )
                        .append( color_close_tag );

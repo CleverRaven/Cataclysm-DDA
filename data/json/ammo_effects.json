@@ -116,11 +116,6 @@
     "//": "Generate a small cloud of smoke at the source. Hardcoded"
   },
   {
-    "id": "NEVER_MISFIRES",
-    "type": "ammo_effect",
-    "//": "Firing ammo without this flag may trigger a misfiring, this is independent of the weapon flags. Hardcoded"
-  },
-  {
     "id": "NO_DAMAGE_SCALING",
     "type": "ammo_effect",
     "//": "Always set 100% damage due to hit in the weakpoint. Hardcoded"

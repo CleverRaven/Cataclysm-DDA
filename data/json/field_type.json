@@ -2241,5 +2241,26 @@
     "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.0 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true
+  },
+  {
+    "id": "fd_meadow_portal",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "swirling portal",
+        "color": "magenta",
+        "sym": "*",
+        "dangerous": true,
+        "monster_spawn_chance": 6000,
+        "monster_spawn_count": 1,
+        "monster_spawn_radius": 1,
+        "monster_spawn_group": "GROUP_ALIEN_MEADOW"
+      }
+    ],
+    "description_affix": "under",
+    "priority": 8,
+    "display_items": true,
+    "display_field": true,
+    "looks_like": "fd_fatigue"
   }
 ]

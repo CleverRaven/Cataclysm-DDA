@@ -235,7 +235,7 @@
     "subtypes": [ "TOOL" ],
     "name": { "str": "ThirstTrouncer Dispenser" },
     "looks_like": "water_purifier",
-    "description": "This turbocharged water purifier can turn any water into pure ThirstTrouncer.  Even sewage will be processed, purified and turned into the most hydrating substance ever made through clever application of the principes that rule the purification of water.  Warning: do not consume if hydrated.",
+    "description": "This turbocharged water purifier can turn any water into pure ThirstTrouncer.  Even sewage will be processed, purified and turned into the most hydrating substance ever made through clever application of the principles that rule the purification of water.  Warning: do not consume if hydrated.",
     "longest_side": "200 mm",
     "material": [ "plastic", "steel" ],
     "symbol": ";",

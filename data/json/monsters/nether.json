@@ -547,6 +547,17 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 7,
     "bleed_rate": 40,
+    "special_attacks": [
+      {
+        "id": "flying_polyp_out_of_phase",
+        "type": "spell",
+        "spell_data": { "id": "flying_polyp_out_of_phase_spell" },
+        "cooldown": 1,
+        "allow_no_target": true,
+        "condition": { "not": { "u_has_effect": "effect_polyp_out_of_phase" } },
+        "monster_message": ""
+      }
+    ],
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "exempt",
@@ -1219,6 +1230,7 @@
     "dodge": 8,
     "bleed_rate": 40,
     "vision_day": 50,
+    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "//": "a good candidate for an alien anatomy harvest",
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
