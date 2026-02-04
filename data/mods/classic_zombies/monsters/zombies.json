@@ -92,6 +92,6 @@
     "categories": [ "CLASSIC" ],
     "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "extend": { "flags": [ "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "PATH_AVOID_FALL" ] },
-    "delete": { "flags": [ "UNBREAKABLE_MORALE", "CLUMSY_ATTACKS" ] }
+    "delete": { "flags": [ "CLUMSY_ATTACKS" ] }
   }
 ]
