@@ -364,5 +364,17 @@
     "extend": { "flags": [ "ANDURIL_AR_CARD" ] },
     "price_postapoc": "2 USD 50 cent",
     "category": "keys"
+  },
+  {
+    "type": "ITEM",
+    "id": "id_exodii_string_dimension",
+    "copy-from": "card_plastic_abstract",
+    "color": "yellow",
+    "name": { "str": "strange plastic key" },
+    "description": "A thick plastic key that with an archaic-looking, angled bit.",
+    "price": "0 cent",
+    "extend": { "flags": [ "EXODII_STRING_DIMENSION_CARD" ] },
+    "price_postapoc": "0 cent",
+    "category": "keys"
   }
 ]
