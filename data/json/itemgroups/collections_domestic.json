@@ -1479,14 +1479,14 @@
     "id": "coke_bag_zipper_1_8",
     "subtype": "collection",
     "container-item": "bag_zipper",
-    "entries": [ { "item": "coke", "container-item": "null", "count": [ 1, 8 ] } ]
+    "entries": [ { "item": "coke", "container-item": "null", "count": [ 10, 80 ] } ]
   },
   {
     "type": "item_group",
     "id": "meth_bag_zipper_1_6",
     "subtype": "collection",
     "container-item": "bag_zipper",
-    "entries": [ { "item": "meth", "container-item": "null", "count": [ 1, 6 ] } ]
+    "entries": [ { "item": "meth", "container-item": "null", "count": [ 20, 120 ] } ]
   },
   {
     "type": "item_group",
@@ -2180,7 +2180,7 @@
     "id": "heroin_bag_zipper_1_4",
     "subtype": "collection",
     "container-item": "bag_zipper",
-    "entries": [ { "item": "heroin", "container-item": "null", "count": [ 1, 4 ] } ]
+    "entries": [ { "item": "heroin", "container-item": "null", "count": [ 50, 200 ] } ]
   },
   {
     "type": "item_group",
