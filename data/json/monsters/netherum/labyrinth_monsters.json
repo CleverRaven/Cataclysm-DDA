@@ -157,5 +157,22 @@
     "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "HEARS", "GOODHEARING", "PRIORITIZE_TARGETS" ],
     "armor": { "bash": 32, "cut": 28, "acid": 0, "heat": 0, "bullet": 35 }
+  },
+  {
+    "id": "fixbot",
+    "type": "MONSTER",
+    "name": { "str": "rouge fixbot", "~": "'rouge' as in red, not 'rogue': a pun based on the common misspelling.  If not possible to translate the pun, 'rogue fixbot' is probably a better name to translate." },
+    "default_faction": "defense_bot",
+    "species": [ "ROBOT" ],
+    "volume": "1750 ml",
+    "weight": "8 kg",
+    "hp": 20,
+    "material": [ "steel" ],
+    "symbol": "e",
+    "aggression": 0,
+    "morale": 50,
+    "luminance": 5,
+    "death_function": { "message": "The %s's fizzles, sparks, and explodes!", "corpse_type": "NO_CORPSE" },
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "BIOLOGICALPROOF", "INTERIOR_AMMO", "STUN_IMMUNE", "PACIFIST" ]
   }
 ]
