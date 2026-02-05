@@ -879,7 +879,6 @@
   {
     "type": "technique",
     "id": "TAIL_THICK_BASH_CRIT_VS_STUMBLE",
-    "//": "",
     "name": "Thick Tail Bash Crit",
     "melee_allowed": true,
     "messages": [ "You slam %s with your tail and knock them down", "<npcname> slams %s with their tail and knock them down" ],
