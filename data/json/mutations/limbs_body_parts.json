@@ -291,12 +291,12 @@
     "health_limit": 10,
     "similar_bodypart": "tail",
     "techniques": [
-      "CLUB_THICK_BASH",
-      "CLUB_THICK_BASH_VS_LARGE",
-      "CLUB_THICK_BASH_NATURAL",
-      "CLUB_THICK_BASH_NATURAL_VS_LARGE",
-      "CLUB_THICK_BASH_CRIT",
-      "CLUB_THICK_BASH_CRIT_VS_LARGE"
+      "TAIL_CLUB_BASH",
+      "TAIL_CLUB_BASH_VS_LARGE",
+      "TAIL_CLUB_BASH_NATURAL",
+      "TAIL_CLUB_BASH_NATURAL_VS_LARGE",
+      "TAIL_CLUB_BASH_CRIT",
+      "TAIL_CLUB_BASH_CRIT_VS_LARGE"
     ],
     "technique_encumbrance_limit": 5,
     "effects_on_hit": [
