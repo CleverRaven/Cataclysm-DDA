@@ -93,6 +93,7 @@ void activity_type::load( const JsonObject &jo )
     optional( jo, was_loaded, "interruptable_with_kb", interruptable_with_kb_, true );
     optional( jo, was_loaded, "can_resume", can_resume_, true );
     optional( jo, was_loaded, "multi_activity", multi_activity_, false );
+    optional( jo, was_loaded, "fetch_items_to_zone", fetch_items_to_zone_, true );
     optional( jo, was_loaded, "refuel_fires", refuel_fires, false );
     optional( jo, was_loaded, "auto_needs", auto_needs, false );
     optional( jo, was_loaded, "completion_eoc", completion_EOC );
