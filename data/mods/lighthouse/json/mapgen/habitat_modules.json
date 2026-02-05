@@ -1,0 +1,193 @@
+[
+  {
+    "type": "palette",
+    "id": "communal_shower",
+    "palettes": [ "base" ],
+    "furniture": { "s": "f_shower", "L": "f_locker" },
+    "terrain": { "_": "t_linoleum_white" }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_communal_showers_n",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "####+#+####",
+        "#s_#_#_#_s#",
+        "##_#_#_#_##",
+        "#s_#_#_#_s#",
+        "##_#_#_#_##",
+        "#s_#_#_#_s#",
+        "##_#_#_#_##",
+        "#__#_#_#__#",
+        "#____#____#",
+        "#LLLL#LLLL#",
+        "###########"
+      ],
+      "palettes": [ "communal_shower" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_communal_showers_n",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "####+#+####",
+        "#s_#_#_#_s#",
+        "#s_#_#_#_s#",
+        "#s_#_#_#_s#",
+        "#s_#_#_#_s#",
+        "#s_#_#_#_s#",
+        "#s_#_#_#_s#",
+        "#s_#_#_#_s#",
+        "#____#____#",
+        "#LLLL#LLLL#",
+        "###########"
+      ],
+      "palettes": [ "communal_shower" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_communal_showers_e",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#L__#s#s#s#",
+        "#L________#",
+        "#L_########",
+        "#L________+",
+        "###########",
+        "#L________+",
+        "#L_########",
+        "#L________#",
+        "#L__#s#s#s#",
+        "###########"
+      ],
+      "palettes": [ "communal_shower" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_communal_showers_e",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#L_sssssss#",
+        "#L________#",
+        "#L_########",
+        "#L________+",
+        "###########",
+        "#L________+",
+        "#L_########",
+        "#L________#",
+        "#L_sssssss#",
+        "###########"
+      ],
+      "palettes": [ "communal_shower" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_communal_showers_s",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#LLLL#LLLL#",
+        "#____#____#",
+        "#__#_#_#__#",
+        "##_#_#_#_##",
+        "#s_#_#_#_s#",
+        "##_#_#_#_##",
+        "#s_#_#_#_s#",
+        "##_#_#_#_##",
+        "#s_#_#_#_s#",
+        "####+#+####"
+      ],
+      "palettes": [ "communal_shower" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_communal_showers_s",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#LLLL#LLLL#",
+        "#____#____#",
+        "#s_#_#_#_s#",
+        "#s_#_#_#_s#",
+        "#s_#_#_#_s#",
+        "#s_#_#_#_s#",
+        "#s_#_#_#_s#",
+        "#s_#_#_#_s#",
+        "#s_#_#_#_s#",
+        "####+#+####"
+      ],
+      "palettes": [ "communal_shower" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_communal_showers_w",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#s#s#s#__L#",
+        "#________L#",
+        "########_L#",
+        "+________L#",
+        "###########",
+        "+________L#",
+        "########_L#",
+        "#________L#",
+        "#s#s#s#__L#",
+        "###########"
+      ],
+      "palettes": [ "communal_shower" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_communal_showers_w",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#sssssss_L#",
+        "#________L#",
+        "########_L#",
+        "+________L#",
+        "###########",
+        "+________L#",
+        "########_L#",
+        "#________L#",
+        "#sssssss_L#",
+        "###########"
+      ],
+      "palettes": [ "communal_shower" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

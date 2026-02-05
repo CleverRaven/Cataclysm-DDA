@@ -1,43 +1,155 @@
 [
   {
+    "om_terrain": [ "hab_unit_central" ],
+    "type": "mapgen",
+    "object": {
+      "rows": [
+        "########################",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "########################"
+      ],
+      "palettes": [ "base" ],
+      "place_nested": [
+        { "chunks": [ "11x11_stairs_bloc" ], "x": 0, "y": 0 },
+        { "chunks": [ "11x11_communal_showers_s" ], "x": 13, "y": 0 },
+        { "chunks": [ "11x11_micro_apartment_n" ], "x": 0, "y": 13 },
+        { "chunks": [ "11x11_micro_apartment_n" ], "x": 13, "y": 13 },
+        { "chunks": [ "2x2_door_h" ], "x": 11, "y": 0, "flags": { "north": [ "ROAD" ] } },
+        { "chunks": [ "2x2_door_v" ], "x": 23, "y": 11, "flags": { "east": [ "ROAD" ] } },
+        { "chunks": [ "2x2_door_h" ], "x": 11, "y": 23, "flags": { "south": [ "ROAD" ] } },
+        { "chunks": [ "2x2_door_v" ], "x": 0, "y": 11, "flags": { "west": [ "ROAD" ] } },
+        { "chunks": [ "2x2_walkway" ], "x": 11, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
+        { "chunks": [ "2x2_walkway" ], "x": 22, "y": 11, "flags": { "east": [ "SIDEWALK" ] } },
+        { "chunks": [ "2x2_walkway" ], "x": 11, "y": 22, "flags": { "south": [ "SIDEWALK" ] } },
+        { "chunks": [ "2x2_walkway" ], "x": 0, "y": 11, "flags": { "west": [ "SIDEWALK" ] } }
+      ]
+    }
+  },
+  {
     "om_terrain": [ "hab_unit", "shop_unit", "park_unit" ],
     "type": "mapgen",
     "object": {
-      "fill_ter": "t_floor",
       "rows": [
-        "_##########++##########_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_#____________________#_",
-        "_######################_",
-        "________________________"
+        "########################",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "#______________________#",
+        "########################"
       ],
-      "terrain": { "#": "t_concrete_wall", "_": "t_sidewalk", "+": "t_sidewalk" }
+      "palettes": [ "base" ],
+      "place_nested": [
+        {
+          "chunks": [ "11x11_micro_apartment_s" ],
+          "else_chunks": [ "11x11_stairs_bloc" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": { "north": [ "SOURCE_DRINK" ], "east": [ "SOURCE_DRINK" ], "south": [ "SOURCE_DRINK" ], "west": [ "SOURCE_DRINK" ] }
+        },
+        { "chunks": [ "11x11_communal_showers_s" ], "x": 13, "y": 0 },
+        { "chunks": [ "11x11_micro_apartment_n" ], "x": 0, "y": 13 },
+        { "chunks": [ "11x11_micro_apartment_n" ], "x": 13, "y": 13 },
+        { "chunks": [ "2x2_door_h" ], "x": 11, "y": 0, "flags": { "north": [ "ROAD" ] } },
+        { "chunks": [ "2x2_door_v" ], "x": 23, "y": 11, "flags": { "east": [ "ROAD" ] } },
+        { "chunks": [ "2x2_door_h" ], "x": 11, "y": 23, "flags": { "south": [ "ROAD" ] } },
+        { "chunks": [ "2x2_door_v" ], "x": 0, "y": 11, "flags": { "west": [ "ROAD" ] } },
+        { "chunks": [ "2x2_walkway" ], "x": 11, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
+        { "chunks": [ "2x2_walkway" ], "x": 22, "y": 11, "flags": { "east": [ "SIDEWALK" ] } },
+        { "chunks": [ "2x2_walkway" ], "x": 11, "y": 22, "flags": { "south": [ "SIDEWALK" ] } },
+        { "chunks": [ "2x2_walkway" ], "x": 0, "y": 11, "flags": { "west": [ "SIDEWALK" ] } }
+      ]
     }
   },
   {
     "type": "city_building",
-    "id": "hab_unit_building",
+    "id": "hab_unit_building_1",
     "locations": [ "space" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hab_unit_north" } ],
+    "flags": [ "LIGHTHOUSE" ]
+  },
+  {
+    "type": "city_building",
+    "id": "hab_unit_building_2",
+    "locations": [ "space" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hab_unit_north" }, { "point": [ 0, 0, -1 ], "overmap": "hab_unit_north" } ],
+    "flags": [ "LIGHTHOUSE" ]
+  },
+  {
+    "type": "city_building",
+    "id": "hab_unit_central_building_1",
+    "locations": [ "space" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hab_unit_central_north" } ],
+    "flags": [ "LIGHTHOUSE" ]
+  },
+  {
+    "type": "city_building",
+    "id": "hab_unit_central_building_2",
+    "locations": [ "space" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "hab_unit_central_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "hab_unit_central_north" }
+    ],
+    "flags": [ "LIGHTHOUSE" ]
+  },
+  {
+    "type": "city_building",
+    "id": "hab_unit_central_building_3",
+    "locations": [ "space" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "hab_unit_central_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "hab_unit_central_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "hab_unit_central_north" }
+    ],
+    "flags": [ "LIGHTHOUSE" ]
+  },
+  {
+    "type": "city_building",
+    "id": "hab_unit_building_3",
+    "locations": [ "space" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "hab_unit_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "hab_unit_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "hab_unit_north" }
+    ],
     "flags": [ "LIGHTHOUSE" ]
   },
   {
@@ -50,5 +162,477 @@
     "travel_cost_type": "structure",
     "see_cost": "high",
     "flags": [ "RISK_HIGH", "GENERIC_LOOT", "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hab_unit_central",
+    "name": "hab unit central",
+    "sym": "^",
+    "color": "light_green",
+    "vision_levels": "city_building",
+    "travel_cost_type": "structure",
+    "see_cost": "high",
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT", "SIDEWALK", "SOURCE_DRINK" ]
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_stairs_bloc",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#         #",
+        "#         #",
+        "#         #",
+        "#      ####",
+        "#      #   ",
+        "#      #   ",
+        "#      #   ",
+        "#      #   ",
+        "#      #   ",
+        "########   "
+      ],
+      "palettes": [ "base" ],
+      "place_nested": [ { "chunks": [ "11x11_stairs_bloc_unit" ], "x": 0, "y": 0 }, { "chunks": [ "7x7_stairwell" ], "x": 7, "y": 4 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_stairs_bloc_unit",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#====# #TTc",
+        "#    + # hc",
+        "#====# +  c",
+        "###### ####",
+        "#====# #   ",
+        "#    + #   ",
+        "#=  =# #   ",
+        "#=  =# #   ",
+        "#====# #   ",
+        "######+#   "
+      ],
+      "palettes": [ "base" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_stairs_bloc_unit",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#=#=#=#=#=#",
+        "#+#+#+#+#+#",
+        "#         #",
+        "#####  ####",
+        "#=#=#  #   ",
+        "#+#+#  #   ",
+        "#      #   ",
+        "#+#+#  #   ",
+        "#=#=#  #   ",
+        "#####++#   "
+      ],
+      "palettes": [ "base" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_micro_apartment_n",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [ { "chunks": [ "11x11_micro_apartment_v" ], "x": 0, "y": 0 }, { "chunks": [ "1x1_door" ], "x": 5, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_micro_apartment_s",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [ { "chunks": [ "11x11_micro_apartment_v" ], "x": 0, "y": 0 }, { "chunks": [ "1x1_door" ], "x": 5, "y": 10 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_micro_apartment_v",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#$%_+.+_%$#",
+        "#####.#####",
+        "#$%_+.+_%$#",
+        "#####.#####",
+        "#$%_+.+_%$#",
+        "#####.#####",
+        "#$%_+.+_%$#",
+        "#####.#####",
+        "#$%_+.+_%$#",
+        "###########"
+      ],
+      "terrain": {
+        "#": "t_concrete_wall",
+        "_": "t_floor_container",
+        "+": "t_door_c",
+        ".": "t_concrete",
+        "$": "t_wall_control",
+        "%": "t_ret_furn_target"
+      },
+      "place_nested": [
+        { "chunks": [ "2x2_micro_apartment_furniture_w" ], "x": 1, "y": 1 },
+        { "chunks": [ "2x2_micro_apartment_furniture_w" ], "x": 1, "y": 3 },
+        { "chunks": [ "2x2_micro_apartment_furniture_w" ], "x": 1, "y": 5 },
+        { "chunks": [ "2x2_micro_apartment_furniture_w" ], "x": 1, "y": 7 },
+        { "chunks": [ "2x2_micro_apartment_furniture_w" ], "x": 1, "y": 9 },
+        { "chunks": [ "2x2_micro_apartment_furniture_e" ], "x": 8, "y": 1 },
+        { "chunks": [ "2x2_micro_apartment_furniture_e" ], "x": 8, "y": 3 },
+        { "chunks": [ "2x2_micro_apartment_furniture_e" ], "x": 8, "y": 5 },
+        { "chunks": [ "2x2_micro_apartment_furniture_e" ], "x": 8, "y": 7 },
+        { "chunks": [ "2x2_micro_apartment_furniture_e" ], "x": 8, "y": 9 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_micro_apartment_e",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [ { "chunks": [ "11x11_micro_apartment_h" ], "x": 0, "y": 0 }, { "chunks": [ "1x1_door" ], "x": 10, "y": 5 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_micro_apartment_w",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [ { "chunks": [ "11x11_micro_apartment_h" ], "x": 0, "y": 0 }, { "chunks": [ "1x1_door" ], "x": 0, "y": 5 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_micro_apartment_h",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#$#$#$#$#$#",
+        "#%#%#%#%#%#",
+        "#_#_#_#_#_#",
+        "#+#+#+#+#+#",
+        "#.........#",
+        "#+#+#+#+#+#",
+        "#_#_#_#_#_#",
+        "#%#%#%#%#%#",
+        "#$#$#$#$#$#",
+        "###########"
+      ],
+      "terrain": {
+        "#": "t_concrete_wall",
+        "_": "t_floor_container",
+        "+": "t_door_c",
+        ".": "t_concrete",
+        "$": "t_wall_control",
+        "%": "t_ret_furn_target"
+      },
+      "place_nested": [
+        { "chunks": [ "2x2_micro_apartment_furniture_s" ], "x": 1, "y": 1 },
+        { "chunks": [ "2x2_micro_apartment_furniture_s" ], "x": 3, "y": 1 },
+        { "chunks": [ "2x2_micro_apartment_furniture_s" ], "x": 5, "y": 1 },
+        { "chunks": [ "2x2_micro_apartment_furniture_s" ], "x": 7, "y": 1 },
+        { "chunks": [ "2x2_micro_apartment_furniture_s" ], "x": 9, "y": 1 },
+        { "chunks": [ "2x2_micro_apartment_furniture_n" ], "x": 1, "y": 8 },
+        { "chunks": [ "2x2_micro_apartment_furniture_n" ], "x": 3, "y": 8 },
+        { "chunks": [ "2x2_micro_apartment_furniture_n" ], "x": 5, "y": 8 },
+        { "chunks": [ "2x2_micro_apartment_furniture_n" ], "x": 7, "y": 8 },
+        { "chunks": [ "2x2_micro_apartment_furniture_n" ], "x": 9, "y": 8 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "2x2_micro_apartment_furniture_n",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "2 ",
+        "1 "
+      ],
+      "parameters": {
+        "micro_apartment_palette": {
+          "type": "palette_id",
+          "scope": "nest",
+          "default": { "distribution": [ "micro_apartment_palette_bed", "micro_apartment_palette_shower", "micro_apartment_palette_null" ] }
+        }
+      },
+      "palettes": [ { "param": "micro_apartment_palette" } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "2x2_micro_apartment_furniture_s",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "1 ",
+        "2 "
+      ],
+      "parameters": {
+        "micro_apartment_palette": {
+          "type": "palette_id",
+          "scope": "nest",
+          "default": { "distribution": [ "micro_apartment_palette_bed", "micro_apartment_palette_shower", "micro_apartment_palette_null" ] }
+        }
+      },
+      "palettes": [ { "param": "micro_apartment_palette" } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "2x2_micro_apartment_furniture_w",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "12",
+        "  "
+      ],
+      "parameters": {
+        "micro_apartment_palette": {
+          "type": "palette_id",
+          "scope": "nest",
+          "default": { "distribution": [ "micro_apartment_palette_bed", "micro_apartment_palette_shower", "micro_apartment_palette_null" ] }
+        }
+      },
+      "palettes": [ { "param": "micro_apartment_palette" } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "2x2_micro_apartment_furniture_e",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "21",
+        "  "
+      ],
+      "parameters": {
+        "micro_apartment_palette": {
+          "type": "palette_id",
+          "scope": "nest",
+          "default": { "distribution": [ "micro_apartment_palette_bed", "micro_apartment_palette_shower", "micro_apartment_palette_null" ] }
+        }
+      },
+      "palettes": [ { "param": "micro_apartment_palette" } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "2x2_door_h",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "++",
+        "  "
+      ],
+      "palettes": [ "base" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "2x2_door_v",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "+ ",
+        "+ "
+      ],
+      "palettes": [ "base" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "1x1_door",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "+" ],
+      "palettes": [ "base" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "2x2_walkway",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "__",
+        "__"
+      ],
+      "palettes": [ "base" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "2x2_end",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "__",
+        "##"
+      ],
+      "palettes": [ "base" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "7x7_stairwell",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "####   ",
+        "#  +   ",
+        "#  +   ",
+        "####   ",
+        "#>>    ",
+        "#t     ",
+        "#t     "
+      ],
+      "palettes": [ "base" ],
+      "place_nested": [ { "chunks": [ "3x3_stairs" ], "x": 1, "y": 4 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "3x3_stairs",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        { "else_chunks": [ "3x3_stairs_top" ], "x": 0, "y": 0, "flags": { "above": [ "SIDEWALK" ] } },
+        { "else_chunks": [ "3x3_stairs_bottom" ], "x": 0, "y": 0, "flags": { "below": [ "SIDEWALK" ] } },
+        {
+          "chunks": [ "3x3_stairs_middle" ],
+          "x": 0,
+          "y": 0,
+          "flags": { "above": [ "SIDEWALK" ], "below": [ "SIDEWALK" ] }
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "3x3_stairs_top",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ">> ",
+        "00i",
+        "iii"
+      ],
+      "palettes": [ "base" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "3x3_stairs_middle",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ">> ",
+        "<<i",
+        "iii"
+      ],
+      "palettes": [ "base" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "3x3_stairs_bottom",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "<< ",
+        "   ",
+        "   "
+      ],
+      "palettes": [ "base" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "micro_apartment_palette_shower",
+    "furniture": { "1": "f_shower_retractable", "2": "f_null" }
+  },
+  {
+    "type": "palette",
+    "id": "micro_apartment_palette_bed",
+    "furniture": { "1": "f_bed_retractable", "2": "f_bed" }
+  },
+  {
+    "type": "palette",
+    "id": "micro_apartment_palette_null",
+    "furniture": { "1": "f_null", "2": "f_null" }
+  },
+  {
+    "type": "palette",
+    "id": "base",
+    "terrain": {
+      "#": "t_concrete_wall",
+      "_": "t_floor_container",
+      "+": "t_door_c",
+      ".": "t_concrete",
+      "$": "t_wall_control",
+      "%": "t_ret_furn_target",
+      "i": "t_metal_railing",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up",
+      "0": "t_open_air"
+    },
+    "furniture": { "t": "f_dumpster", "T": "f_table", "=": "f_utility_shelf", "h": "f_chair", "c": "f_counter" }
   }
 ]

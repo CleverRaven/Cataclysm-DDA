@@ -25,14 +25,14 @@
     "object": {
       "fill_ter": "t_hard_vacuum",
       "place_nested": [
-        { "chunks": [ "24x24_wall_h_lighthouse" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK", "ROAD" ] } },
-        { "chunks": [ "24x24_wall_h_lighthouse" ], "x": 0, "y": 22, "flags": { "south": [ "SIDEWALK", "ROAD" ] } },
-        { "chunks": [ "24x24_wall_v_lighthouse" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK", "ROAD" ] } },
-        { "chunks": [ "24x24_wall_v_lighthouse" ], "x": 22, "y": 0, "flags": { "east": [ "SIDEWALK", "ROAD" ] } },
-        { "chunks": [ "2x2_corner_lighthouse" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK", "ROAD" ] } },
-        { "chunks": [ "2x2_corner_lighthouse" ], "x": 22, "y": 0, "flags": { "north_east": [ "SIDEWALK", "ROAD" ] } },
-        { "chunks": [ "2x2_corner_lighthouse" ], "x": 0, "y": 22, "flags": { "south_west": [ "SIDEWALK", "ROAD" ] } },
-        { "chunks": [ "2x2_corner_lighthouse" ], "x": 22, "y": 22, "flags": { "south_east": [ "SIDEWALK", "ROAD" ] } }
+        { "chunks": [ "24x24_wall_h_lighthouse" ], "x": 0, "y": 0, "flags": { "north": [ "ROAD", "SIDEWALK" ] } },
+        { "chunks": [ "24x24_wall_h_lighthouse" ], "x": 0, "y": 22, "flags": { "south": [ "ROAD", "SIDEWALK" ] } },
+        { "chunks": [ "24x24_wall_v_lighthouse" ], "x": 0, "y": 0, "flags": { "west": [ "ROAD", "SIDEWALK" ] } },
+        { "chunks": [ "24x24_wall_v_lighthouse" ], "x": 22, "y": 0, "flags": { "east": [ "ROAD", "SIDEWALK" ] } },
+        { "chunks": [ "2x2_corner_lighthouse" ], "x": 0, "y": 0, "flags": { "north_west": [ "ROAD", "SIDEWALK" ] } },
+        { "chunks": [ "2x2_corner_lighthouse" ], "x": 22, "y": 0, "flags": { "north_east": [ "ROAD", "SIDEWALK" ] } },
+        { "chunks": [ "2x2_corner_lighthouse" ], "x": 0, "y": 22, "flags": { "south_west": [ "ROAD", "SIDEWALK" ] } },
+        { "chunks": [ "2x2_corner_lighthouse" ], "x": 22, "y": 22, "flags": { "south_east": [ "ROAD", "SIDEWALK" ] } }
       ]
     }
   },

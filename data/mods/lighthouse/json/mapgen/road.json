@@ -150,6 +150,12 @@
           "y": 0,
           "flags_any": { "east": [ "SIDEWALK" ], "north_east": [ "SIDEWALK" ], "north_west": [ "SIDEWALK" ], "west": [ "SIDEWALK" ] }
         }
+      ],
+      "place_vehicles": [
+        { "vehicle": "tram_car", "x": 15, "y": 6, "chance": 25, "rotation": 270 },
+        { "vehicle": "tram_car", "x": 15, "y": 18, "chance": 25, "rotation": 270 },
+        { "vehicle": "tram_car", "x": 8, "y": 5, "chance": 25, "rotation": 90 },
+        { "vehicle": "tram_car", "x": 8, "y": 17, "chance": 25, "rotation": 90 }
       ]
     }
   },
