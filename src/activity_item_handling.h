@@ -253,7 +253,7 @@ bool construction_do( Character &you, const activity_reason_info &act_info,
 bool farm_do( Character &you, const activity_reason_info &act_info,
               const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc );
 bool fetch_do( Character &you, const activity_reason_info &act_info,
-               const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
+               const tripoint_abs_ms &, const tripoint_bub_ms & );
 bool craft_do( Character &you, const activity_reason_info &act_info,
                const tripoint_abs_ms &, const tripoint_bub_ms & );
 bool disassemble_do( Character &you, const activity_reason_info &act_info,

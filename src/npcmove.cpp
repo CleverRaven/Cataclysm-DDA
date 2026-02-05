@@ -3445,7 +3445,7 @@ bool npc::find_job_to_perform()
             assign_activity( multi_disassemble_activity_actor() );
             return true;
         } else if( elem == ACT_MULTIPLE_CONSTRUCTION ) {
-            assign_activity( multi_disassemble_activity_actor() );
+            assign_activity( multi_build_construction_activity_actor() );
             return true;
         } else if( elem == ACT_MULTIPLE_BUTCHER ) {
             assign_activity( multi_butchery_activity_actor() );

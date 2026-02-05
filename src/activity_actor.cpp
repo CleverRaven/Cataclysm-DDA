@@ -15,6 +15,7 @@
 #include <queue>
 #include <set>
 #include <string>
+#include <tuple>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -5002,7 +5003,7 @@ requirement_check_result multi_zone_activity_actor::check_requirements( Characte
     return requirement_check_result::SKIP_LOCATION_NO_MATCH;
 }
 
-bool multi_zone_activity_actor::can_resume_with_internal( const activity_actor &other_act,
+bool multi_zone_activity_actor::can_resume_with_internal( const activity_actor &,
         const Character & ) const
 {
     return true;
@@ -5066,11 +5067,8 @@ activity_reason_info fetch_required_activity_actor::multi_activity_can_do(
 
 void fetch_required_activity_actor::set_npc_fetch_history( Character &you )
 {
-    if( !you.backlog.empty() ) {
-        player_activity &act_prev = you.backlog.front();
-        if( !fetch_requirements.is_empty() && you.as_npc() ) {
-            you.as_npc()->job.fetch_history[fetch_requirements.str()] = calendar::turn;
-        }
+    if( !fetch_requirements.is_empty() && you.as_npc() ) {
+        you.as_npc()->job.fetch_history[fetch_requirements.str()] = calendar::turn;
     }
 }
 
@@ -5105,7 +5103,7 @@ std::unordered_set<tripoint_abs_ms> fetch_required_activity_actor::multi_activit
 
 bool fetch_required_activity_actor::multi_activity_do( Character &you,
         const activity_reason_info &act_info,
-        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+        const tripoint_abs_ms &, const tripoint_bub_ms &src_loc )
 {
     const do_activity_reason &reason = act_info.reason;
 

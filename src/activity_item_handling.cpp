@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "activity_type.h"
 #include "avatar.h"
 #include "butchery.h"
 #include "calendar.h"
@@ -3626,7 +3627,7 @@ bool tidy_up_do( Character &you, const activity_reason_info &act_info,
 }
 
 bool fetch_do( Character &you, const activity_reason_info &act_info,
-               const tripoint_abs_ms &, const tripoint_bub_ms &src_loc )
+               const tripoint_abs_ms &, const tripoint_bub_ms & )
 {
     const do_activity_reason &reason = act_info.reason;
 

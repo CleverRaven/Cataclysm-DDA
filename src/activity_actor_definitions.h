@@ -125,7 +125,7 @@ class multi_zone_activity_actor : public activity_actor
                 activity_reason_info &act_info, const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
                 const std::unordered_set<tripoint_abs_ms> &src_set );
         // @return equal types
-        bool can_resume_with_internal( const activity_actor &other_act,
+        bool can_resume_with_internal( const activity_actor &,
                                        const Character & ) const override;
 
         // BEGIN interface block
@@ -457,9 +457,9 @@ class fetch_required_activity_actor : public multi_zone_activity_actor
 
         void set_npc_fetch_history( Character &you );
         std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map( Character &you,
-                const int distance = MAX_VIEW_DISTANCE );
+                int distance = MAX_VIEW_DISTANCE );
         bool fetch_activity( Character &you, const tripoint_bub_ms &src_loc,
-                             const activity_id &activity_to_restore, const int distance = MAX_VIEW_DISTANCE );
+                             const activity_id &activity_to_restore, int distance = MAX_VIEW_DISTANCE );
         // is the front of the activity backlog a multi-activity?
         bool fetch_activity_valid( const Character &you ) const;
 
@@ -467,14 +467,14 @@ class fetch_required_activity_actor : public multi_zone_activity_actor
         activity_reason_info multi_activity_can_do( Character &you,
                 const tripoint_bub_ms &src_loc ) override;
         bool multi_activity_do( Character &you, const activity_reason_info &act_info,
-                                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
+                                const tripoint_abs_ms &, const tripoint_bub_ms &src_loc ) override;
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<fetch_required_activity_actor>( *this );
         }
         static std::unique_ptr<activity_actor> deserialize( JsonValue & );
     private:
         requirement_id fetch_requirements;
-        do_activity_reason act_reason;
+        do_activity_reason act_reason = do_activity_reason::UNKNOWN_ACTIVITY;
         // where should this item be placed
         tripoint_abs_ms fetched_item_destination;
         // what zone tile was the fetching multi-activity currently processing?

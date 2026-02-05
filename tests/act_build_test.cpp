@@ -82,7 +82,7 @@ void run_activities( Character &u, int max_moves )
 
     u.assign_activity( multi_build_construction_activity_actor() );
     int turns = 0;
-    while( ( !u.activity.is_null() || u.is_auto_moving() ) ) {
+    while( !u.activity.is_null() || u.is_auto_moving() ) {
         if( turns == max_moves ) {
             FAIL( "turn count exceeded, infinite loop possible" );
             return;
