@@ -179,6 +179,6 @@
     "diff": 1,
     "speed": 80,
     "color": "red",
-    "special_attacks": [ [ "TAZER", 5 ], [ "PARROT_AT_DANGER", 100 ]
+    "special_attacks": [ [ "TAZER", 5 ], [ "PARROT_AT_DANGER", 100 ] ]
   }
 ]
