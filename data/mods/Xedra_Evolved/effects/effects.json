@@ -4169,6 +4169,22 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_bloodthorne_druid_prevent_vampirism",
+    "name": [ "Sapshield" ],
+    "desc": [ "You are protected against the vampires' curse." ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bloodthorne_druid_prevent_vampirism_active",
+    "name": [ "Sapshield Active" ],
+    "desc": [ "You are protected against the vampires' curse." ],
+    "show_in_info": true,
+    "removes_effects": [ "vampire_virus" ],
+    "remove_message": "Your sapshield fades away."
+  },
+  {
+    "type": "effect_type",
     "id": "effect_bloodthorne_druid_thorn_prison",
     "name": [ "Henge of Iron Thorns" ],
     "desc": [ "You are imprisoned in a thick tangle of thorns." ],

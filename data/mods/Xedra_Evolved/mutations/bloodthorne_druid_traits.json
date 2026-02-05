@@ -79,6 +79,16 @@
   },
   {
     "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_PREVENT_VAMPIRISM",
+    "name": { "str": "Sanguinary Sapshield" },
+    "points": 2,
+    "description": "The most insidious threat the blood-drinkers is that their condition is infectious, and so they convert those who would oppose them into their sympathizers.  Your heartvines will definitively prevent this outcome, but you still must defend yourself against the curse.  While in the wild, you can draw on the wild's power to protect yourself.",
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "bloodthorne_druid_prevent_vampirism_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "BLOODTHORNE_DRUID_WHIP_TARGETS_IN_NATURE",
     "name": { "str": "Verdant Scourge" },
     "points": 2,
