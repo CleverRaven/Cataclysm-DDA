@@ -104,10 +104,10 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     } );
 }
 
-std::vector<const item *> Character::get_ammo( const ammotype &at ) const
+std::vector<item_location> Character::get_ammo( const ammotype &at ) const
 {
-    return cache_get_items_with( "is_ammo", &item::is_ammo, [at]( const item & it ) {
-        return it.ammo_type() == at;
+    return cache_get_items_with( "is_ammo", &item::is_ammo, [at]( const item_location & it ) {
+        return it->ammo_type() == at;
     } );
 }
 

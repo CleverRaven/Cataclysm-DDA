@@ -183,7 +183,7 @@ static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 
 template<typename T>
-static item_location form_loc_recursive( T &loc, item &it )
+item_location form_loc_recursive( T &loc, item &it )
 {
     item *parent = loc.find_parent( it );
     if( parent != nullptr ) {
@@ -192,6 +192,10 @@ static item_location form_loc_recursive( T &loc, item &it )
 
     return item_location( loc, &it );
 }
+
+//explict template instantiation
+template item_location form_loc_recursive<Character>( Character &loc, item &it );
+template item_location form_loc_recursive<npc>( npc &loc, item &it );
 
 static item_location form_loc( Character &you, map *here, const tripoint_bub_ms &p, item &it )
 {

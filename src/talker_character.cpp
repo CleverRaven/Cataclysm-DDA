@@ -908,9 +908,9 @@ bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
 int talker_character_const::item_rads( const flag_id &flag, aggregate_type agg_func ) const
 {
     std::vector<int> rad_vals;
-    me_chr_const->cache_visit_items_with( flag, [&]( const item & it ) {
-        if( me_chr_const->is_worn( it ) || me_chr_const->is_wielding( it ) ) {
-            rad_vals.emplace_back( it.irradiation );
+    me_chr_const->cache_visit_items_with( flag, [&]( const item_location & it ) {
+        if( me_chr_const->is_worn( *it ) || me_chr_const->is_wielding( *it ) ) {
+            rad_vals.emplace_back( it->irradiation );
         }
     } );
     return aggregate( rad_vals, agg_func );
