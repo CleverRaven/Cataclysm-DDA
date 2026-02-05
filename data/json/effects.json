@@ -5505,8 +5505,8 @@
   {
     "type": "effect_type",
     "id": "effect_hunting_horror_poison_light_sensitive",
-    "name": [ "" ],
-    "desc": [ "" ],
+    "name": [ "Uncomfortable" ],
+    "desc": [ "The light is making you itchy and painful." ],
     "apply_message": "Your skin itches as the light falls on you.",
     "remove_message": "The itching fades as the light does.",
     "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 20 ], "pain_max_val": [ 30 ], "pain_tick": [ 30 ] },
