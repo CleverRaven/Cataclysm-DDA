@@ -1061,12 +1061,15 @@
         "entries": [
           { "item": "jeans" },
           { "item": "longshirt" },
+          { "item": "trenchcoat_leather" },
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "sheath", "contents-item": "knife_hunting" },
-          { "group": "charged_smart_phone" },
+          { "group": "charged_smart_phone", "contents-item": "mag_deduction" },
           { "group": "starter_wallet_full" },
+          { "item": "garlic_powder", "count": 100, "container-item": "null", "entry-wrapper": "bag_plastic" },
           { "item": "wristwatch" },
+          { "item": "holy_symbol", "variant": "cross_necklace" },
           {
             "item": "compcrossbow",
             "ammo-item": "bolt_steel",
@@ -1106,12 +1109,14 @@
         "entries": [
           { "item": "jeans" },
           { "item": "longshirt" },
+          { "item": "trenchcoat_leather" },
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "sheath", "contents-item": "knife_combat_marine" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "item": "wristwatch" },
+          { "item": "holy_symbol", "variant": "cross_necklace" },
           {
             "item": "compcrossbow",
             "ammo-item": "bolt_cf",
@@ -1154,12 +1159,14 @@
         "entries": [
           { "item": "jeans" },
           { "item": "longshirt" },
+          { "item": "trenchcoat_leather" },
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "sheath", "contents-item": "knife_combat_marine" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "item": "wristwatch" },
+          { "item": "holy_symbol", "variant": "cross_necklace" },
           {
             "item": "compcrossbow",
             "ammo-item": "bolt_cf",
