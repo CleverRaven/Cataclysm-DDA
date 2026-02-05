@@ -1185,7 +1185,7 @@
     "melee_skill": 7,
     "melee_dice": 1,
     "melee_dice_sides": 12,
-    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 6, "armor_multiplier": 0.6 } ],
     "attack_effs": [ { "id": "effect_hunting_horror_poison", "duration": 10, "chance": 10 } ],
     "dodge": 8,
     "families": [ "prof_wp_netherium_abomination" ],
@@ -1202,7 +1202,8 @@
       {
         "id": "scratch",
         "cooldown": 6,
-        "damage_max_instance": [ { "damage_type": "cut", "amount": 12 } ],
+        "accuracy": 7,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.6 } ],
         "effects": [ { "id": "effect_hunting_horror_poison", "duration": 450, "chance": 50 } ]
       }
     ],

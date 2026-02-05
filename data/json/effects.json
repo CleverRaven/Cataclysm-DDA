@@ -5500,7 +5500,7 @@
         "ench_effects": [ { "effect": "effect_hunting_horror_poison_light_sensitive", "intensity": 1 } ]
       }
     ],
-    "flags": [ "SUNBURN_SUPERNATURAL" ]
+    "flags": [ "SUNBURN", "SUNBURN_SUPERNATURAL" ]
   },
   {
     "type": "effect_type",
