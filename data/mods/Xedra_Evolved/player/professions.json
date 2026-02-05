@@ -1066,7 +1066,7 @@
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "sheath", "contents-item": "knife_hunting" },
-          { "group": "charged_smart_phone", "contents-item": "mag_deduction" },
+          { "group": "charged_smart_phone", "contents-item": [ "mag_deduction", "paperback_romance_diodes" ] },
           { "group": "starter_wallet_full" },
           { "item": "garlic_powder", "count": 100, "container-item": "null", "entry-wrapper": "bag_plastic" },
           { "item": "wristwatch" },
