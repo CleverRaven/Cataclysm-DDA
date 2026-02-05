@@ -5493,7 +5493,7 @@
     "miss_messages": [ [ "You feel bad inside.", 2 ] ],
     "rating": "bad",
     "show_in_info": true,
-    "blood_analysis_description": "Unknown Contaminent",
+    "blood_analysis_description": "Unknown Contaminant",
     "enchantments": [
       {
         "condition": { "math": [ "u_val('fine_detail_vision_mod') <= 3" ] },
