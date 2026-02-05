@@ -4975,18 +4975,16 @@ requirement_check_result multi_zone_activity_actor::check_requirements( Characte
         bool tool_pickup = multi_activity_actor::activity_reason_picks_up_tools( reason );
         // is it even worth fetching anything if there isn't enough nearby?
         if( !multi_activity_actor::are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots,
-                what_we_need, you,
-                act_id, tool_pickup, src_loc ) ) {
+                what_we_need, you, act_id, tool_pickup, src_loc ) ) {
+            const tripoint_bub_ms you_pos_bub = you.pos_bub();
             if( zone ) {
-                you.add_msg_player_or_npc( m_info,
-                                           _( "The required items are not available to complete the %s task at zone %s." ), act_id.c_str(),
-                                           zone->get_name(),
-                                           _( "The required items are not available to complete the %s task at zone %s." ), act_id.c_str(),
-                                           zone->get_name() );
+                add_msg_if_player_sees( you_pos_bub, m_info, string_format(
+                                            _( "The required items are not available to complete the %s task at zone %s." ),
+                                            act_id.c_str(), zone->get_name() ) );
             } else {
-                you.add_msg_player_or_npc( m_info,
-                                           _( "The required items are not available to complete the %s task." ), act_id.c_str(),
-                                           _( "The required items are not available to complete the %s task." ), act_id.c_str() );
+                add_msg_if_player_sees( you_pos_bub, m_info, string_format(
+                                            _( "The required items are not available to complete the %s task." ),
+                                            act_id.c_str() ) );
             }
             //TODO: this is hacky, move it
             if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
