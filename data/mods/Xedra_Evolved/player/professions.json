@@ -1025,6 +1025,7 @@
           { "item": "pockknife" },
           { "item": "water_clean" },
           { "item": "wristwatch" },
+          { "item": "holy_symbol_wood" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "item": "knife_combat", "container-item": "sheath" }
