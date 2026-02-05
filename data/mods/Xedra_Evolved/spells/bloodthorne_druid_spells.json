@@ -85,7 +85,7 @@
     "type": "SPELL",
     "name": "Sanguinary Sapshield",
     "description": "While in a forest, draw on the power of nature to protect yourself from the vampire's insidious curse.  If infected, the shield will activate, purge the curse, and protect you from further curses for a period afterwards.",
-    "message": "",
+    "message": "You draw the vitality of nature into yourself and infuse it into your blood.",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
     "magic_type": "xedra_bloodthorne_sorcery",
@@ -95,7 +95,16 @@
     "effect": "attack",
     "effect_str": "effect_bloodthorne_druid_prevent_vampirism",
     "shape": "blast",
-    "min_range": 1,
+    "min_duration": {
+      "math": [
+        "61988 + (4381 * bloodthorn_druid_traits_sum() ) + (2418 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) + (u_skill('deduction') * 1542)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "153153 + (13741 * bloodthorn_druid_traits_sum() ) + (6791 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) + (u_skill('deduction') * 3913)"
+      ]
+    },
     "base_casting_time": 150,
     "base_energy_cost": { "math": [ "max( ( 500 - (bloodthorn_druid_traits_sum() * 5) ), 200)" ] }
   },

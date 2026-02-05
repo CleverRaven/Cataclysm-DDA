@@ -4177,7 +4177,7 @@
   {
     "type": "effect_type",
     "id": "effect_bloodthorne_druid_prevent_vampirism_active",
-    "name": [ "Sapshield Active" ],
+    "name": [ "Blooming Sapshield" ],
     "desc": [ "You are protected against the vampires' curse." ],
     "show_in_info": true,
     "removes_effects": [ "vampire_virus" ],
