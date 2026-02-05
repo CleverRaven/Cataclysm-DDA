@@ -229,7 +229,13 @@
     "base_hp": 35,
     "health_limit": 10,
     "similar_bodypart": "tail",
-    "techniques": [ "TAIL_THICK_BASH", "TAIL_THICK_BASH_NATURAL", "TAIL_THICK_BASH_CRIT", "TAIL_THICK_BASH_CRIT_VS_STUMBLE" ],
+    "techniques": [
+      "TAIL_THICK_BASH",
+      "TAIL_THICK_BASH_NATURAL",
+      "TAIL_THICK_BASH_CRIT_VS_LARGE",
+      "TAIL_THICK_BASH_CRIT",
+      "TAIL_THICK_BASH_CRIT_VS_STUMBLE"
+    ],
     "technique_encumbrance_limit": 5,
     "effects_on_hit": [
       {
