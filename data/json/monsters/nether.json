@@ -1186,10 +1186,26 @@
     "melee_dice": 1,
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "attack_effs": [ { "id": "effect_hunting_horror_poison", "duration": 10, "chance": 10 } ],
     "dodge": 8,
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "exempt",
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 6,
+        "accuracy": 7,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ],
+        "effects": [ { "id": "effect_hunting_horror_poison", "duration": 900, "chance": 100 } ]
+      },
+      {
+        "id": "scratch",
+        "cooldown": 6,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 12 } ],
+        "effects": [ { "id": "effect_hunting_horror_poison", "duration": 450, "chance": 50 } ]
+      }
+    ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [
