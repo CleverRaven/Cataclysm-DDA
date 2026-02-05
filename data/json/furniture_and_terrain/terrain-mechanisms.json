@@ -1142,8 +1142,8 @@
       "despawn_monsters": false,
       "terrain_changes": { "t_door_metal_locked": "t_door_metal_o" },
       "query": true,
-      "query_msg": "Are you sure you want to open this door?",
-      "success_msg": "You opened the door!",
+      "query_msg": "The large plastic key looks like it will fit in this odd keyhole.  Use it?",
+      "success_msg": "The key fits in the lock with a soft, plasticky noise.  The door opens!",
       "redundant_msg": "The door is already open."
     }
   }
