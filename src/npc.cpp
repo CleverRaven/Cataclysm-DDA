@@ -1921,9 +1921,9 @@ void npc::decide_needs()
     needrank[need_weapon] = evaluate_weapon( weap );
     needrank[need_food] = 15 - get_hunger();
     needrank[need_drink] = 15 - get_thirst();
-    cache_visit_items_with( "is_food", &item::is_food, [&]( const item & it ) {
-        needrank[ need_food ] += nutrition_for( it ) / 4.0;
-        needrank[ need_drink ] += it.get_comestible()->quench / 4.0;
+    cache_visit_items_with( "is_food", &item::is_food, [&]( const item_location & it ) {
+        needrank[ need_food ] += nutrition_for( *it ) / 4.0;
+        needrank[ need_drink ] += it->get_comestible()->quench / 4.0;
     } );
     needs.clear();
     size_t j;

@@ -884,7 +884,7 @@ void surroundings_menu::draw_item_tab()
                     }
                     ImGui::SameLine( 0, 0 );
                     ImGui::PopID();
-                    nc_color color = prio_plus ? c_yellow : prio_minus ? c_red : itm->color_in_inventory();
+                    nc_color color = prio_plus ? c_yellow : prio_minus ? c_red : it->get_selected_color();
                     std::string newness_str;
                     nc_color newness_color;
                     if( highlight_new ) {
@@ -1027,7 +1027,7 @@ void surroundings_menu::draw_monster_tab()
                 cataimgui::draw_colored_text( sees ? "!" : " ", c_yellow );
 
                 ImGui::TableNextColumn();
-                nc_color mon_color = mon->basic_symbol_color();
+                nc_color mon_color = it->get_selected_color();
                 cataimgui::TextColoredTrimmed( it->get_selected_name(), mon_color );
 
                 ImGui::TableNextColumn();
@@ -1144,8 +1144,7 @@ void surroundings_menu::draw_terfurn_tab()
                 }
                 ImGui::SameLine( 0, 0 );
                 ImGui::PopID();
-                const map_data_common_t *terfurn = it->get_selected_entity();
-                nc_color color = terfurn->color();
+                nc_color color = it->get_selected_color();
                 cataimgui::TextColoredTrimmed( it->get_selected_name(), color );
 
                 ImGui::TableNextColumn();

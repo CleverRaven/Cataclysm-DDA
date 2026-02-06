@@ -38,6 +38,10 @@ namespace sounds
 enum class sound_t : int;
 } // namespace sounds
 
+// this might not be the ideal place for this, but for now it'll do
+template<typename T>
+item_location form_loc_recursive( T &loc, item &it );
+
 /**
  * Transform an item into a specific type.
  * Optionally activate it.

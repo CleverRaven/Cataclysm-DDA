@@ -900,7 +900,8 @@ void vehicle::honk_horn( map &here ) const
 void vehicle::reload_seeds( map *here, const tripoint_bub_ms &pos )
 {
     Character &player_character = get_player_character();
-    std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed );
+    std::vector<item_location> seed_inv = player_character.cache_get_items_with( "is_seed",
+                                          &item::is_seed );
 
     auto seed_entries = iexamine::get_seed_entries( seed_inv );
     seed_entries.emplace( seed_entries.begin(), itype_id::NULL_ID(), _( "No seed" ), 0 );
