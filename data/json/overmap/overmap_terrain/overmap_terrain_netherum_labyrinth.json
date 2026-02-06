@@ -1,20 +1,20 @@
 [
   {
     "type": "overmap_terrain",
-    "name": "sparkling chasm",
+    "name": "labyrinthian structures",
     "id": "labyrinth_hall",
     "sym": "%",
-    "color": "dark_gray",
+    "color": "light_blue",
     "see_cost": "high",
     "travel_cost_type": "impassable",
     "flags": [ "LINEAR", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
-    "name": "sparkling chasm",
+    "name": "terminal",
     "id": "labyrinth_entrance",
     "sym": "%",
-    "color": "dark_gray",
+    "color": "red",
     "see_cost": "high",
     "travel_cost_type": "impassable",
     "flags": [ "SHOULD_NOT_SPAWN" ]
