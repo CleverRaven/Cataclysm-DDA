@@ -23,6 +23,7 @@
     "name": "nothing",
     "description": "A speck in the darkness.",
     "symbol": ".",
+    "light_emitted": 100,
     "color": "white",
     "flags": [ "TRANSPARENT", "WALL" ]
   },
@@ -32,6 +33,7 @@
     "name": "nothing",
     "description": "A speck in the darkness.",
     "symbol": "*",
+    "light_emitted": 200,
     "color": "white",
     "flags": [ "TRANSPARENT", "WALL" ]
   },
@@ -41,6 +43,7 @@
     "name": "nothing",
     "description": "A speck in the darkness.",
     "symbol": ".",
+    "light_emitted": 75,
     "color": "light_gray",
     "flags": [ "TRANSPARENT", "WALL" ]
   },
@@ -50,6 +53,7 @@
     "name": "nothing",
     "description": "A speck in the darkness.",
     "symbol": "*",
+    "light_emitted": 150,
     "color": "light_gray",
     "flags": [ "TRANSPARENT", "WALL" ]
   },
@@ -77,11 +81,11 @@
     "type": "terrain",
     "id": "t_string_z",
     "name": "impossibly thin yellow line",
-    "description": "You perceive a yellow line here.  It seems impossibly thin - you're not even sure it has width in any meaningful sense.  In your mind's eye the space around it shimmers, and you feel you could walk upon it.",
+    "description": "You perceive a yellow line here that extends up and down.  It seems impossibly thin - you're not even sure it has width in any meaningful sense.  In your mind's eye the space around it shimmers, and you feel you could walk upon it.  Or perhaps climb it?",
     "symbol": ".",
     "color": "yellow",
     "move_cost": 1,
-    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "ONE_DIMENSIONAL_Z" ]
+    "flags": [ "TRANSPARENT", "ONE_DIMENSIONAL_Z", "GOES_DOWN", "GOES_UP" ]
   },
   {
     "type": "terrain",
@@ -177,7 +181,7 @@
     "symbol": ".",
     "color": "red",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "ROUGH", "PAINFUL" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   }
 ]
