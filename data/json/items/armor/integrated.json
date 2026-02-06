@@ -1182,7 +1182,8 @@
     ]
   },
   {
-    "//": "We need to keep this because limbs can't have material-based armor coverage, or provide tool qualities currently.",
+    "//": "We need to keep this because limbs can't have material-based armor coverage or provide tool qualities currently.",
+    "//2": "No encumbrance because the pincer has awful manip limb scores to represent being a bad hand",
     "id": "integrated_giant_pincer",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -1203,7 +1204,7 @@
     "armor": [
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 6.4 } ],
-        "covers": [ "hand_r" ],
+        "covers": [ "crustacean_pincer_r" ],
         "coverage": 80
       }
     ]
