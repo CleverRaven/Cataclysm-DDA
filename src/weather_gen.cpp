@@ -37,7 +37,7 @@ constexpr double daily_seasonal_range_K = 2.0;
 // Increases daily temperature variation by this much at the coldest time of the year, decreases it this much at the warmest time of the year, In kelvins.
 constexpr double seasonality_magnitude_K = 12;
 // Greatest absolute change from the year's average temperature, in kelvins
-// Mean normal monthly temperatures over the year is 30.47-73.86F (-0.85-23.25C)  
+// Mean normal monthly temperatures over the year is 30.47-73.86F (-0.85-23.25C)
 // Annual recorded minimum to maximum temperatures range from ~10-90F (-17.78-37.78C), lows of 0F & highs of 100F happen every few years. Any and all noise should stay bound within this range.
 constexpr double noise_magnitude_K = 6;
 // Greatest absolute change from a day's average through noise, in kelvins
@@ -142,10 +142,11 @@ static units::temperature weather_temperature_from_common_data( const weather_ge
     const double baseline(
         wg.base_temperature +
         seasonal_temp_mod[season] +
-        dayv * (daily_magnitude_K + daily_seasonal_range_K * (-seasonality + 1) / 2) + 
+        dayv * ( daily_magnitude_K + daily_seasonal_range_K * ( -seasonality + 1 ) / 2 ) +
         seasonality * seasonality_magnitude_K );
 
-    const double T = baseline + raw_noise_4d( x, y, z, modSEED ) * (1 + (1 + -seasonality) * seasonal_noise_magnitude / 2) * noise_magnitude_K;
+    const double T = baseline + raw_noise_4d( x, y, z, modSEED ) *
+                     (1 + (1 + -seasonality) * seasonal_noise_magnitude / 2) * noise_magnitude_K;
 
     return units::from_celsius( T );
 }
