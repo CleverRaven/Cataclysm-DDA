@@ -7,7 +7,7 @@
     "color": "dark_gray",
     "see_cost": "high",
     "travel_cost_type": "impassable",
-    "flags": [ "LINEAR" ]
+    "flags": [ "LINEAR", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -16,7 +16,8 @@
     "sym": "%",
     "color": "dark_gray",
     "see_cost": "high",
-    "travel_cost_type": "impassable"
+    "travel_cost_type": "impassable",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
