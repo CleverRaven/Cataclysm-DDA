@@ -1,24 +1,36 @@
 [
   {
     "type": "overmap_terrain",
-    "name": "solid rock",
-    "//": "should be indistinguishable from deep_rock.  Not supposed to be able to see it.",
+    "name": "sparkling chasm",
     "id": "labyrinth_hall",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": "high",
     "travel_cost_type": "impassable",
-    "flags": [ "LINEAR", "SHOULD_NOT_SPAWN" ]
+    "flags": [ "LINEAR" ]
   },
   {
     "type": "overmap_terrain",
-    "name": "solid rock",
-    "//": "should be indistinguishable from deep_rock.  Not supposed to be able to see it.",
+    "name": "sparkling chasm",
     "id": "labyrinth_entrance",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": "high",
+    "travel_cost_type": "impassable"
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "sparkling chasm",
+    "id": "netherum_labyrinth_sparkling_chasm",
+    "sym": "%",
+    "color": "dark_gray",
+    "see_cost": "high",
     "travel_cost_type": "impassable",
-    "flags": [ "SHOULD_NOT_SPAWN" ]
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "netherum_labyrinth_sparkling_chasm",
+    "terrains": [ "netherum_labyrinth_sparkling_chasm" ]
   }
 ]
