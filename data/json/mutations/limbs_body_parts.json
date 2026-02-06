@@ -12,7 +12,7 @@
     "hit_size": 3,
     "hit_difficulty": 1.4,
     "limb_type": "hand",
-    "techniques": [ "BRUTAL", "WBLOCK_2" ],
+    "techniques": [ "TECH_CRAB_PUNCH", "BRUTAL", "WBLOCK_2" ],
     "squeamish_penalty": 3,
     "env_protection": 3,
     "base_hp": 90,
