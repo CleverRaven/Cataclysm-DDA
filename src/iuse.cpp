@@ -8839,17 +8839,6 @@ std::optional<int> iuse::post_up( Character *p, item *it, const tripoint_bub_ms 
     return 0;
 }
 
-std::optional<int> iuse::melatonin_tablet( Character *p, item *it, const tripoint_bub_ms & )
-{
-    p->add_msg_if_player( _( "You pop a %s." ), it->tname() );
-    if( p->has_effect( effect_melatonin ) ) {
-        p->add_msg_if_player( m_warning,
-                              _( "Simply taking more melatonin won't help.  You have to go to sleep for it to work." ) );
-    }
-    p->add_effect( effect_melatonin, 16_hours );
-    return 1;
-}
-
 std::optional<int> iuse::coin_flip( Character *p, item *it, const tripoint_bub_ms & )
 {
     p->add_msg_if_player( m_info, _( "You flip a %s." ), it->tname() );

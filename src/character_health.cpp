@@ -1467,6 +1467,9 @@ void Character::update_needs( int rate_multiplier )
                 if( has_effect( effect_disrupted_sleep ) || has_effect( effect_recently_coughed ) ) {
                     recovered *= .5;
                 }
+                if( has_effect( effect_melatonin ) ) {
+                    recovered *= .8;
+                }
                 mod_sleepiness( -recovered );
 
                 // Sleeping on the ground, no bionic = 1x rest_modifier
@@ -1477,10 +1480,6 @@ void Character::update_needs( int rate_multiplier )
                 // Sleeping on a bed, bionic         = 6x rest_modifier
                 // Sleeping on a comfy bed, bionic   = 9x rest_modifier
                 float rest_modifier = ( has_flag( json_flag_STOP_SLEEP_DEPRIVATION ) ? 3 : 1 );
-                // Melatonin supplements also add a flat bonus to recovery speed
-                if( has_effect( effect_melatonin ) ) {
-                    rest_modifier += 1;
-                }
 
                 const int comfort = get_comfort_at( pos_bub() ).comfort;
                 if( comfort >= comfort_data::COMFORT_VERY_COMFORTABLE ) {
@@ -1509,6 +1508,7 @@ void Character::update_needs( int rate_multiplier )
             mod_sleepiness( -3 ); // Fish sleep less in water
         }
     }
+
     if( is_avatar() && wasnt_sleepinessd && get_sleepiness() > sleepiness_levels::DEAD_TIRED &&
         !lying ) {
         if( !activity ) {
@@ -1518,7 +1518,6 @@ void Character::update_needs( int rate_multiplier )
             g->cancel_activity_query( _( "You're feeling tired." ) );
         }
     }
-
     if( current_stim < 0 ) {
         set_stim( std::min( current_stim + rate_multiplier, 0 ) );
     } else if( current_stim > 0 ) {

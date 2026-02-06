@@ -198,6 +198,7 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_mech_recon_vision( "mech_recon_vision" );
+static const efftype_id effect_melatonin( "melatonin" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -5317,7 +5318,11 @@ void Character::fall_asleep()
         // In practice, the sleepiness from filling the tank from (no msg) to Time For Bed
         // will last about 8 days.
     } else {
-        fall_asleep( 10_hours );    // default max sleep time.
+        time_duration sleep_duration = 10_hours;  // default max sleep time
+        if( has_effect( effect_melatonin ) ) {
+            sleep_duration = 12_hours;  // Artificial sleep hormone boost allows you to sleep longer
+        }
+        fall_asleep( sleep_duration );
     }
 }
 
@@ -6938,6 +6943,10 @@ bool Character::can_sleep()
     } else {
         // Make it harder for insomniac to get around the trait
         sleepy -= current_stim;
+    }
+
+    if( has_effect( effect_melatonin ) ) {
+        sleepy += 4;
     }
 
     sleepy += rng( -8, 8 );
