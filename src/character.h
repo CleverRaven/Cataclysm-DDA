@@ -50,7 +50,6 @@
 #include "point.h"
 #include "ranged.h"
 #include "ret_val.h"
-#include "safe_reference.h"
 #include "sleep.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -2204,7 +2203,7 @@ class Character : public Creature, public visitable
         /**
          * Returns the items that are ammo and have the matching ammo type.
          */
-        std::vector<const item *> get_ammo( const ammotype &at ) const;
+        std::vector<item_location> get_ammo( const ammotype &at ) const;
 
         /**
          * Searches for ammo or magazines that can be used to reload obj
@@ -2953,23 +2952,23 @@ class Character : public Creature, public visitable
          * @param do_func A lambda function to apply on all items that pass the filters.
          */
         void cache_visit_items_with( const itype_id &type,
-                                     const std::function<void( item & )> &do_func );
+                                     const std::function<void( item_location & )> &do_func );
         void cache_visit_items_with( const flag_id &type_flag,
-                                     const std::function<void( item & )> &do_func );
+                                     const std::function<void( item_location & )> &do_func );
         void cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
-                                     const std::function<void( item & )> &do_func );
+                                     const std::function<void( item_location & )> &do_func );
         void cache_visit_items_with( const std::string &key, const itype_id &type,
                                      const flag_id &type_flag, bool( item::*filter_func )() const,
-                                     const std::function<void( item & )> &do_func );
+                                     const std::function<void( item_location & )> &do_func );
         void cache_visit_items_with( const itype_id &type,
-                                     const std::function<void( const item & )> &do_func ) const;
+                                     const std::function<void( const item_location & )> &do_func ) const;
         void cache_visit_items_with( const flag_id &type_flag,
-                                     const std::function<void( const item & )> &do_func ) const;
+                                     const std::function<void( const item_location & )> &do_func ) const;
         void cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
-                                     const std::function<void( const item & )> &do_func ) const;
+                                     const std::function<void( const item_location & )> &do_func ) const;
         void cache_visit_items_with( const std::string &key, const itype_id &type,
                                      const flag_id &type_flag, bool( item::*filter_func )() const,
-                                     const std::function<void( const item & )> &do_func ) const;
+                                     const std::function<void( const item_location & )> &do_func ) const;
         /**
         * @brief Returns true if the character has an item with given flag and/or that passes the given boolean item function, using or creating caches from @ref inv_search_caches.
         * @brief If you want to iterate over the entire cache, `cache_visit_items_with` should be used instead, as it's more optimized for processing entire caches.
@@ -3008,26 +3007,26 @@ class Character : public Creature, public visitable
          * If it returns true, the item is added to the return vector. These results are not cached, unlike filter_func.
          * @return A vector of pointers to all items that pass the criteria.
          */
-        std::vector<item *> cache_get_items_with( const itype_id &type,
-                const std::function<bool( item & )> &do_and_check_func = return_true<item> );
-        std::vector<item *> cache_get_items_with( const flag_id &type_flag,
-                const std::function<bool( item & )> &do_and_check_func = return_true<item> );
-        std::vector<item *> cache_get_items_with( const std::string &key,
+        std::vector<item_location> cache_get_items_with( const itype_id &type,
+                const std::function<bool( item_location & )> &do_and_check_func = return_true<item_location> );
+        std::vector<item_location> cache_get_items_with( const flag_id &type_flag,
+                const std::function<bool( item_location & )> &do_and_check_func = return_true<item_location> );
+        std::vector<item_location> cache_get_items_with( const std::string &key,
                 bool( item::*filter_func )() const,
-                const std::function<bool( item & )> &do_and_check_func = return_true<item> );
-        std::vector<item *> cache_get_items_with( const std::string &key, const itype_id &type,
+                const std::function<bool( item_location & )> &do_and_check_func = return_true<item_location> );
+        std::vector<item_location> cache_get_items_with( const std::string &key, const itype_id &type,
                 const flag_id &type_flag, bool( item::*filter_func )() const,
-                const std::function<bool( item & )> &do_and_check_func = return_true<item> );
-        std::vector<const item *> cache_get_items_with( const itype_id &type,
-                const std::function<bool( const item & )> &check_func = return_true<item> ) const;
-        std::vector<const item *> cache_get_items_with( const flag_id &type_flag,
-                const std::function<bool( const item & )> &check_func = return_true<item> ) const;
-        std::vector<const item *> cache_get_items_with( const std::string &key,
+                const std::function<bool( item_location & )> &do_and_check_func = return_true<item_location> );
+        std::vector<item_location> cache_get_items_with( const itype_id &type,
+                const std::function<bool( const item_location & )> &check_func = return_true<item_location> ) const;
+        std::vector<item_location> cache_get_items_with( const flag_id &type_flag,
+                const std::function<bool( const item_location & )> &check_func = return_true<item_location> ) const;
+        std::vector<item_location> cache_get_items_with( const std::string &key,
                 bool( item::*filter_func )() const,
-                const std::function<bool( const item & )> &check_func = return_true<item> ) const;
-        std::vector<const item *> cache_get_items_with( const std::string &key, const itype_id &type,
+                const std::function<bool( const item_location & )> &check_func = return_true<item_location> ) const;
+        std::vector<item_location> cache_get_items_with( const std::string &key, const itype_id &type,
                 const flag_id &type_flag, bool( item::*filter_func )() const,
-                const std::function<bool( const item & )> &check_func = return_true<item> ) const;
+                const std::function<bool( const item_location & )> &check_func = return_true<item_location> ) const;
         /**
          * Add an item to existing @ref inv_search_caches that it meets the criteria for. Will NOT create any new caches.
          */
@@ -4260,7 +4259,7 @@ class Character : public Creature, public visitable
             itype_id type;
             flag_id type_flag;
             bool ( item::*filter_func )() const;
-            std::list<safe_reference<item>> items;
+            std::list<item_location> items;
         };
         mutable std::unordered_map<std::string, inv_search_cache> inv_search_caches;
     protected:

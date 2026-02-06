@@ -472,8 +472,8 @@ void remove_radio_mod( item &it, Character &p )
 // Checks that the player can smoke
 std::optional<std::string> iuse::can_smoke( const Character &you )
 {
-    auto cigs = you.cache_get_items_with( flag_LITCIG, []( const item & it ) {
-        return it.active;
+    auto cigs = you.cache_get_items_with( flag_LITCIG, []( const item_location & it ) {
+        return it->active;
     } );
 
     if( !cigs.empty() ) {
@@ -2563,7 +2563,7 @@ std::optional<int> iuse::directional_antenna( Character *p, item *it, const trip
         map_stack items = get_map().i_at( p->pos_bub() );
         for( item &an_item : items ) {
             if( an_item.typeId() == itype_radio_on ) {
-                radios.push_back( &an_item );
+                radios.emplace_back( map_cursor( p->pos_bub() ), &an_item );
             }
         }
     }
@@ -4119,11 +4119,12 @@ std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint_b
             }
             for( npc *n : friends_w_game ) {
                 // this vector may be empty, so a nullptr would be passed
-                std::vector<item *> nit = n->cache_get_items_with( it->typeId(), []( const item & i ) {
-                    return i.ammo_sufficient( nullptr );
+                std::vector<item_location> nit = n->cache_get_items_with( it->typeId(), [](
+                const item_location & i ) {
+                    return i->ammo_sufficient( nullptr );
                 } );
-                portable_game_activity_actor portable_game_act( 15_minutes, item_location( *n, nit.front() ),
-                        entertain_players, winner );
+                portable_game_activity_actor portable_game_act( 15_minutes, nit.front(), entertain_players,
+                        winner );
                 n->assign_activity( portable_game_act );
             }
         }
