@@ -617,6 +617,12 @@ std::pair<std::string, nc_color> display::hunger_text_color( const Character &u 
 
 std::pair<std::string, nc_color> display::weight_text_color( const Character &u )
 {
+    // Remove after 0.J.
+    // NPCs with the default mod should always be spawned at healthy weight. But some older saves had NPCs generated without normal weight.
+    // Just in case, debug mode always shows the real value.
+    if( !u.needs_food() && !debug_mode ) {
+        return { _( translate_marker( "Normal" ) ), c_light_gray };
+    }
     const float bmi = u.get_bmi_fat();
     std::string weight_string;
     nc_color weight_color = c_light_gray;
