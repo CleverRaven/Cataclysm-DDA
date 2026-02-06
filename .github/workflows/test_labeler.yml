@@ -22,6 +22,9 @@ jobs:
         if [[ "${{ github.event.workflow_run.name }}" == "General build matrix" ]]; then
           echo "label=BasicBuildPassed" >> $GITHUB_OUTPUT
         fi
+        if [[ "${{ github.event.workflow_run.name }}" == "IWYU (include-what-you-use)" ]]; then
+          echo "label=IWYUPassed" >> $GITHUB_OUTPUT
+        fi
     - name: Download success artifact from basic build
       if: ${{ github.event.workflow_run.name == 'General build matrix' }}
       uses: dawidd6/action-download-artifact@v3.1.4
