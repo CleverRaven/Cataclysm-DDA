@@ -443,7 +443,7 @@
     "tools": [ [ [ "fakeitem_infinityore", -1 ] ] ],
     "components": [ [ [ "warptoken_material", 1 ] ] ],
     "flags": [ "BLIND_EASY" ],
-    "//": "25 cents steel per token"
+    "//": "Treating ch_steel as 2.5x as valuable as mc_steel: 25 cents steel per token"
   },
   {
     "result": "qt_steel_chunk",
@@ -460,7 +460,7 @@
     "tools": [ [ [ "fakeitem_infinityore", -1 ] ] ],
     "components": [ [ [ "warptoken_material", 2 ] ] ],
     "flags": [ "BLIND_EASY" ],
-    "//": "25 cents steel per token"
+    "//": "Treating qt_steel as 5x as valuable as mc_steel: 25 cents steel per token"
   },
   {
     "result": "budget_steel_lump",
@@ -547,9 +547,9 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinityore", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 4 ] ] ],
+    "components": [ [ [ "warptoken_material", 5 ] ] ],
     "flags": [ "BLIND_EASY" ],
-    "//": "25 cents steel per token"
+    "//": "Treating ch_steel as 2.5x as valuable as mc_steel: 25 cents steel per token"
   },
   {
     "result": "qt_steel_lump",
@@ -564,9 +564,9 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinityore", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 8 ] ] ],
+    "components": [ [ [ "warptoken_material", 10 ] ] ],
     "flags": [ "BLIND_EASY" ],
-    "//": "25 cents steel per token"
+    "//": "Treating qt_steel as 5x as valuable as mc_steel: 25 cents steel per token"
   },
   {
     "result": "sheet_metal",
