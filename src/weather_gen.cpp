@@ -146,7 +146,7 @@ static units::temperature weather_temperature_from_common_data( const weather_ge
         seasonality * seasonality_magnitude_K );
 
     const double T = baseline + raw_noise_4d( x, y, z, modSEED ) *
-                     (1 + (1 + -seasonality) * seasonal_noise_magnitude / 2) * noise_magnitude_K;
+                     ( 1 + ( 1 + -seasonality ) * seasonal_noise_magnitude / 2 ) * noise_magnitude_K;
 
     return units::from_celsius( T );
 }
