@@ -372,7 +372,7 @@
     "visibility": 10,
     "ugliness": 9,
     "restricts_gear": [ "hand_r" ],
-    "integrated_armor": [ "integrated_giant_pincer" ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "hand_r" }, { "gain": "crustacean_pincer_r" } ] } ]
   },
   {
     "type": "mutation",
