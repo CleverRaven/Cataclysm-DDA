@@ -117,6 +117,7 @@
   {
     "type": "overmap_terrain",
     "id": [
+      "string_dimension_dome_x2y1z-2",
       "string_dimension_dome_x0y0z-1",
       "string_dimension_dome_x1y0z-1",
       "string_dimension_dome_x2y0z-1",
