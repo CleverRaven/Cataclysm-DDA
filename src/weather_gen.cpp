@@ -32,10 +32,17 @@ constexpr double coldest_hour = 5;
 // Out of 24 hours
 constexpr double daily_magnitude_K = 5;
 // Greatest absolute change from a day's average temperature, in kelvins
-constexpr double seasonality_magnitude_K = 15;
+// Daily variation on temperatures averages from 12.9-16.6F (7.16-9.22) with a stdev. of 5-7F depending on the day of the year.
+constexpr double daily_seasonal_range_K = 2.0;
+// Increases daily temperature variation by this much at the coldest time of the year, decreases it this much at the warmest time of the year, In kelvins.
+constexpr double seasonality_magnitude_K = 12;
 // Greatest absolute change from the year's average temperature, in kelvins
-constexpr double noise_magnitude_K = 8;
-// Greatest absolute day-to-day noise, in kelvins
+// Mean normal monthly temperatures over the year is 30.47-73.86F (-0.85-23.25C)  
+// Annual recorded minimum to maximum temperatures range from ~10-90F (-17.78-37.78C), lows of 0F & highs of 100F happen every few years. Any and all noise should stay bound within this range.
+constexpr double noise_magnitude_K = 6;
+// Greatest absolute change from a day's average through noise, in kelvins
+constexpr double seasonal_noise_magnitude = 0.5;
+// Multiplier for noise magnitude that varies with the season, 0.5 means noise is 1.5x as strong in midwinter and 1.0x as strong in midsummer.
 } //namespace
 
 weather_generator::weather_generator() = default;
@@ -135,10 +142,10 @@ static units::temperature weather_temperature_from_common_data( const weather_ge
     const double baseline(
         wg.base_temperature +
         seasonal_temp_mod[season] +
-        dayv * daily_magnitude_K +
+        dayv * (daily_magnitude_K + daily_seasonal_range_K * (-seasonality + 1) / 2) + 
         seasonality * seasonality_magnitude_K );
 
-    const double T = baseline + raw_noise_4d( x, y, z, modSEED ) * noise_magnitude_K;
+    const double T = baseline + raw_noise_4d( x, y, z, modSEED ) * (1 + (1 + -seasonality) * seasonal_noise_magnitude / 2) * noise_magnitude_K;
 
     return units::from_celsius( T );
 }
