@@ -177,7 +177,10 @@ static const itype_id itype_HEW_printout_data_morgantown( "HEW_printout_data_mor
 static const itype_id itype_HEW_printout_data_physics_lab( "HEW_printout_data_physics_lab" );
 static const itype_id itype_HEW_printout_data_portal_storm( "HEW_printout_data_portal_storm" );
 static const itype_id itype_HEW_printout_data_radiosphere( "HEW_printout_data_radiosphere" );
+static const itype_id itype_HEW_printout_data_spiral_mine( "HEW_printout_data_spiral_mine" );
 static const itype_id itype_HEW_printout_data_strange_temple( "HEW_printout_data_strange_temple" );
+static const itype_id
+itype_HEW_printout_data_string_dimension( "HEW_printout_data_string_dimension" );
 static const itype_id itype_HEW_printout_data_vitrified( "HEW_printout_data_vitrified" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_maple_sap( "maple_sap" );
@@ -5846,6 +5849,10 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                         "cabin_3_reverberation_hint", 10, false );
                 const tripoint_abs_omt closest_monster_corpse = overmap_buffer.find_closest( veh_position,
                         "corpse_bowels_mid", 10, false );
+                const tripoint_abs_omt closest_spiral_mine = overmap_buffer.find_closest( veh_position,
+                        "mine_spiral_finale_s", 10, false );
+                const tripoint_abs_omt closest_string_dimension = overmap_buffer.find_closest( veh_position,
+                        "string_dimension_crossroads", 10, false );
                 if( trig_dist( veh_position, closest_vitrified_farm ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_vitrified, calendar::turn_zero ) );
                 }
@@ -5886,6 +5893,12 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 }
                 if( trig_dist( veh_position, closest_radiosphere ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_radiosphere, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_spiral_mine ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_spiral_mine, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_string_dimension ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_string_dimension, calendar::turn_zero ) );
                 }
                 if( trig_dist( veh_position, closest_monster_corpse ) < 1 ) {
                     cur_veh.add_item( here, vp, item( itype_mws_monster_corpse_weather_data, calendar::turn_zero ) );
