@@ -1990,7 +1990,8 @@ bool Character::has_min_manipulators() const
 bool Character::has_two_arms_lifting() const
 {
     // 0.5f is one "standard" arm, so if you have more than that you barely qualify. Same with hands.
-    return get_limb_score( limb_score_lift, bp_type::arm ) > 0.5f && get_limb_score( limb_score_grip, bp_type::hand ) > 0.5f;
+    return get_limb_score( limb_score_lift, bp_type::arm ) > 0.5f &&
+           get_limb_score( limb_score_grip, bp_type::hand ) > 0.5f;
 }
 
 std::set<matec_id> Character::get_limb_techs() const
