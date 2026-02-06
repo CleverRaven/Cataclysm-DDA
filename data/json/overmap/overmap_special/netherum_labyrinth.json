@@ -4,7 +4,7 @@
     "id": "labyrinthine_structure",
     "subtype": "mutable",
     "locations": [ "netherum_labyrinth_sparkling_chasm" ],
-    "occurrences": [ 100, 100 ],
+    "occurrences": [ 1, 1 ],
     "flags": [ "EXODII", "EXTRADIMENSIONAL", "NETHERUM_LABYRINTH", "GLOBALLY_UNIQUE" ],
     "check_for_locations_area": [ { "type": [ "netherum_labyrinth_sparkling_chasm" ], "from": [ 10, 10, 0 ], "to": [ -10, -10, 0 ] } ],
     "joins": [ "passage_to_passage" ],
