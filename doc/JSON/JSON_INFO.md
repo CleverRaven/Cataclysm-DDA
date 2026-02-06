@@ -1212,6 +1212,7 @@ Here are the currently defined limb scores:
 | `manipulator_score`    | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.  The manipulator scores of each limb type are aggregated and the best limb group is chosen for checks.
 | `manipulator_max`      | The upper limit of manipulator score the limb can contribute to.
 | `lifting_score`        | Modifies melee attack stamina and move cost, as well as a number of STR checks.  A sum above 0.5 qualifies for wielding two-handed weapons and similar checks.  Arms below 0.1 lift score don't count as working for the purposes of melee combat.
+| `grip_score`           | Modifies chance to escape traps, ability to wield two-handed weapons, chance mounts are spooked if approaching enemies, and ability to resist being disarmed.
 | `blocking_score`       | The blocking limb is chosen by a roll weighted by eligible limbs' block score, and blocking efficiency is multiplied by the target limb's score.
 | `breathing_score`      | Modifies stamina recovery speed and shout volume.
 | `vision_score`         | Modifies ranged dispersion, ranged and melee weakpoint hit chances.
