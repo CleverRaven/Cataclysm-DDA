@@ -1656,7 +1656,7 @@
     "id": "spell_scroll_biomancer_swim_frog",
     "//": "Biomancer spell",
     "name": { "str": "Scroll of Limbs of the Frog", "str_pl": "Scrolls of Limbs of the Frog" },
-    "description": "Swim with the fishes, with your froggy hands and legs.",
+    "description": "Swim with the fish, with your froggy hands and legs.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_swim_frog" ] }
   },
   {

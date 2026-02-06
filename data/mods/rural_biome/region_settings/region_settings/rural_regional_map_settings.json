@@ -234,7 +234,7 @@
     "base_pressure": 1015.0,
     "base_wind": 3.4,
     "base_wind_distrib_peaks": 80,
-    "base_wind_season_variation": 50
+    "base_wind_season_variation": 0
   },
   {
     "type": "map_extra_collection",

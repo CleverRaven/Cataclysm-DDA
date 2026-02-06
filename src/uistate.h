@@ -13,7 +13,6 @@
 #include "item_location.h"
 #include "json.h"
 #include "omdata.h"
-#include "surroundings_menu.h"
 #include "type_id.h"
 
 constexpr int DEFAULT_TILESET_ZOOM = 16;
@@ -217,7 +216,14 @@ class uistatedata
         bool numpad_navigation = false;
 
         // V Menu Stuff
-        list_item_sort_mode list_item_sort = list_item_sort_mode::DISTANCE;
+        // enum serialization relies on string conversion,
+        // which doesn't make too much sense for flag enums
+        // so we store them as ints instead
+        // todo: turn into surroundings_menu_sort_flags
+        // when flag enums can be serialized as numbers
+        int vmenu_item_sort = 0;
+        int vmenu_monster_sort = 0;
+        int vmenu_terfurn_sort = 0;
         std::set<itype_id> read_items;
 
         // These five aren't serialized because deserialize can extract them

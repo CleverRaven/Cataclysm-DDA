@@ -107,6 +107,8 @@ class talker_character_const: virtual public const_talker
         // effects and values
         bool has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
         effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
+        float get_limb_score( const limb_score_id &score,
+                              const bp_type &bp = bp_type::num_types ) const override;
         bool is_deaf() const override;
         bool is_mute() const override;
         diag_value const *maybe_get_value( const std::string &var_name ) const override;
@@ -190,6 +192,7 @@ class talker_character_const: virtual public const_talker
         int get_addiction_turns( const addiction_id &add_id ) const override;
         int get_pkill() const override;
         int get_stamina() const override;
+        int get_stamina_max() const override;
         int get_sleep_deprivation() const override;
         int get_kill_xp() const override;
         int get_age() const override;

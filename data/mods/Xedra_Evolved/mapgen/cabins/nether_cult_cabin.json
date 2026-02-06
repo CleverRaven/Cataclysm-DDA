@@ -167,7 +167,8 @@
           { "item": "homebooks", "chance": 75 },
           { "item": "esoteric_books", "chance": 50 },
           { "item": "deduction_books", "chance": 25 },
-          { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] }
+          { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] },
+          { "item": "nether_sorcery_books", "chance": 15 }
         ],
         "Ȼ": [ { "item": "SUS_bathroom_cabinet", "chance": 50 } ],
         "D": [ { "item": "nether_cabin_ritual_prep_clothes", "repeat": [ 2, 8 ] } ],

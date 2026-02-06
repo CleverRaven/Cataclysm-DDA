@@ -429,7 +429,7 @@
         "math": [
           "u_max_blood_amount_for_graph",
           "=",
-          "5400 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000)"
+          "5400 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 2300) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 5600)"
         ]
       },
       { "run_eocs": "EOC_VAMPIRE_BLOOD_MAX_LIMIT" }
@@ -442,16 +442,16 @@
       "math": [
         "u_vitamin('human_blood_vitamin')",
         ">=",
-        "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000)"
+        "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 2300) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 5600)"
       ]
     },
     "effect": [
       {
         "if": { "u_has_trait": "VAMPIRE_STORE_MORE_BLOOD_UPGRADE" },
-        "then": { "math": [ "u_vitamin('human_blood_vitamin') = 32600" ] },
+        "then": { "math": [ "u_vitamin('human_blood_vitamin') = 13500" ] },
         "else": {
           "if": { "u_has_trait": "VAMPIRE_STORE_MORE_BLOOD" },
-          "then": { "math": [ "u_vitamin('human_blood_vitamin') = 14600" ] },
+          "then": { "math": [ "u_vitamin('human_blood_vitamin') = 7900" ] },
           "else": { "math": [ "u_vitamin('human_blood_vitamin') = 5600" ] }
         }
       }
@@ -2957,7 +2957,6 @@
           "BLOODHASTE",
           "MAGICFORBLOOD",
           "HYPNOTIC_GAZE",
-          "BLOODBANK",
           "VAMPIRE_COMMAND_BEAST",
           "VAMPIRE_EARTH_SLUMBER",
           "VAMPIRE_CARDIO_BONUS",
@@ -2988,7 +2987,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ANATHEMA_MIND_CHAOS",
-    "//": "Checks the variable every time the player drinks vampire blood with the weakness.  If the effect triggers, it gives a random mental negative.  If if cannot give one, it gives a negative effect for a while.  If the effect doesn't trigger, it increments the variable.",
+    "//": "Checks the variable every time the player drinks vampire blood with the weakness.  If the effect triggers, it gives a random mental negative.  If it cannot give one, it gives a negative effect for a while.  If the effect doesn't trigger, it increments the variable.",
     "//2": "It doesn't give nyctophobia and pyromania for obvious reasons.",
     "condition": { "x_in_y_chance": { "x": { "math": [ "u_counter_anathema_mind_chaos" ] }, "y": 100 } },
     "effect": [

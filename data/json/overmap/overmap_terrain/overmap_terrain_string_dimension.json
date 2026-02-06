@@ -69,5 +69,96 @@
     "type": "overmap_terrain",
     "id": "string_dimension_plane_end",
     "copy-from": "generic_string_dimension_plane"
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_string_dimension_field",
+    "copy-from": "generic_open_land",
+    "name": "fields",
+    "sym": ",",
+    "color": "white",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "string_dimension_field_core",
+    "copy-from": "generic_string_dimension_field",
+    "extend": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "string_dimension_field_end",
+    "copy-from": "generic_string_dimension_field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "string_dimension_field_vent_a", "string_dimension_field_vent_b" ],
+    "vision_levels": "open_land",
+    "name": "grassy field",
+    "sym": ",",
+    "color": "red",
+    "see_cost": "all_clear"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "string_dimension_field_vent_a_-1",
+      "string_dimension_field_vent_b_-1",
+      "string_dimension_field_vent_a_-2",
+      "string_dimension_field_vent_a_-3"
+    ],
+    "vision_levels": "underground_stone",
+    "name": "underground cistern",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": "full_high",
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "string_dimension_dome_x0y0z-1",
+      "string_dimension_dome_x1y0z-1",
+      "string_dimension_dome_x2y0z-1",
+      "string_dimension_dome_x0y1z-1",
+      "string_dimension_dome_x1y1z-1",
+      "string_dimension_dome_x2y1z-1",
+      "string_dimension_dome_x0y2z-1",
+      "string_dimension_dome_x1y2z-1",
+      "string_dimension_dome_x2y2z-1",
+      "string_dimension_dome_x0y0z0",
+      "string_dimension_dome_x1y0z0",
+      "string_dimension_dome_x2y0z0",
+      "string_dimension_dome_x0y1z0",
+      "string_dimension_dome_x1y1z0",
+      "string_dimension_dome_x2y1z0",
+      "string_dimension_dome_x0y2z0",
+      "string_dimension_dome_x1y2z0",
+      "string_dimension_dome_x2y2z0",
+      "string_dimension_dome_x0y0z1",
+      "string_dimension_dome_x1y0z1",
+      "string_dimension_dome_x2y0z1",
+      "string_dimension_dome_x0y1z1",
+      "string_dimension_dome_x1y1z1",
+      "string_dimension_dome_x2y1z1",
+      "string_dimension_dome_x0y2z1",
+      "string_dimension_dome_x1y2z1",
+      "string_dimension_dome_x2y2z1",
+      "string_dimension_dome_x0y0z2",
+      "string_dimension_dome_x1y0z2",
+      "string_dimension_dome_x2y0z2",
+      "string_dimension_dome_x0y1z2",
+      "string_dimension_dome_x1y1z2",
+      "string_dimension_dome_x2y1z2",
+      "string_dimension_dome_x0y2z2",
+      "string_dimension_dome_x1y2z2",
+      "string_dimension_dome_x2y2z2"
+    ],
+    "vision_levels": "industrial_building",
+    "name": "domed fortress",
+    "sym": "o",
+    "color": "light_gray",
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE" ]
   }
 ]

@@ -885,6 +885,24 @@
   },
   {
     "type": "keybinding",
+    "id": "PRIORITIZE_MISSING_COMPONENTS",
+    "category": "CRAFTING",
+    "name": "Add missing components to high priority in Item List",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "+" },
+      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] },
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DEPRIORITIZE_COMPONENTS",
+    "category": "CRAFTING",
+    "name": "Remove components from high priority in Item List",
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "LEVEL_UP",
     "name": "Go up",
     "bindings": [

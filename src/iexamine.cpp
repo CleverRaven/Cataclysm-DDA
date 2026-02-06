@@ -2012,8 +2012,15 @@ void iexamine::locked_object_pickable( Character &you, const tripoint_bub_ms &ex
     } );
 
     for( item *it : picklocks ) {
-        if( !query_yn( _( "Pick the lock of %1$s using your %2$s?" ),
-                       target_name, it->tname() ) ) {
+        int required_moves = lockpick_activity_actor::lockpicking_moves( item_location{you, it}, you );
+        time_duration required_time = time_duration::from_turns( required_moves / you.get_speed() );
+        const std::string time_string = colorize( to_string( required_time, true ), c_light_gray );
+        std::string query = string_format( _( "Pick the lock of %1$s using your %2$s?" ),
+                                           target_name, it->tname() );
+        query += "\n";
+        query += _( "Time to attempt: " );
+        query += time_string;
+        if( !query_yn( query ) ) {
             return;
         }
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
@@ -2559,10 +2566,10 @@ void iexamine::fungus( Character &you, const tripoint_bub_ms &examp )
 /**
  *  Make lists of unique seed types and names for the menu(no multiple hemp seeds etc)
  */
-std::vector<seed_tuple> iexamine::get_seed_entries( const std::vector<item *> &seed_inv )
+std::vector<seed_tuple> iexamine::get_seed_entries( const std::vector<item_location> &seed_inv )
 {
     std::map<itype_id, int> seed_map;
-    for( const item *seed : seed_inv ) {
+    for( const item_location &seed : seed_inv ) {
         seed_map[seed->typeId()] += ( seed->charges > 0 ? seed->charges : 1 );
     }
 
@@ -2630,7 +2637,7 @@ void iexamine::dirtmound( Character &you, const tripoint_bub_ms &examp )
         add_msg(m_info, _("It is too dark to plant anything now."));
         return;
     }*/
-    std::vector<item *> seed_inv = you.cache_get_items_with( "is_seed", &item::is_seed );
+    std::vector<item_location> seed_inv = you.cache_get_items_with( "is_seed", &item::is_seed );
     if( seed_inv.empty() ) {
         add_msg( m_info, _( "You have no seeds to plant." ) );
         return;
@@ -2905,7 +2912,7 @@ void iexamine::fertilize_plant( Character &you, const tripoint_bub_ms &tile,
 itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
                                       bool ask_player )
 {
-    std::vector<item *> f_inv = you.cache_get_items_with( flag_FERTILIZER );
+    std::vector<item_location> f_inv = you.cache_get_items_with( flag_FERTILIZER );
     if( f_inv.empty() ) {
         add_msg( m_info, _( "You have no fertilizer for the %s." ), pname );
         return itype_id();
@@ -2913,7 +2920,7 @@ itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
 
     std::vector<itype_id> f_types;
     std::vector<std::string> f_names;
-    for( const item * const &f : f_inv ) {
+    for( const item_location &f : f_inv ) {
         if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
             f_types.push_back( f->typeId() );
             f_names.push_back( f->tname() );
@@ -3729,7 +3736,7 @@ void iexamine::fvat_empty( Character &you, const tripoint_bub_ms &examp )
         // Code shamelessly stolen from the crop planting function!
         std::vector<itype_id> b_types;
         std::vector<std::string> b_names;
-        for( const item *b : b_inv ) {
+        for( const item_location &b : b_inv ) {
             if( std::find( b_types.begin(), b_types.end(), b->typeId() ) == b_types.end() ) {
                 b_types.push_back( b->typeId() );
                 b_names.push_back( item::nname( b->typeId() ) );
@@ -3960,7 +3967,7 @@ void iexamine::compost_empty( Character &you, const tripoint_bub_ms &examp )
         // Code shamelessly stolen from the crop planting function!
         std::vector<itype_id> b_types;
         std::vector<std::string> b_names;
-        for( const item *b : b_inv ) {
+        for( const item_location &b : b_inv ) {
             if( std::find( b_types.begin(), b_types.end(), b->typeId() ) == b_types.end() ) {
                 b_types.push_back( b->typeId() );
                 b_names.push_back( item::nname( b->typeId() ) );
@@ -5215,8 +5222,8 @@ static int findBestGasDiscount( Character &you )
 {
     int discount = 0;
 
-    you.cache_visit_items_with( flag_GAS_DISCOUNT, [&discount]( const item & it ) {
-        discount = std::max( discount, getGasDiscountCardQuality( it ) );
+    you.cache_visit_items_with( flag_GAS_DISCOUNT, [&discount]( const item_location & it ) {
+        discount = std::max( discount, getGasDiscountCardQuality( *it ) );
     } );
 
     return discount;
@@ -5504,7 +5511,8 @@ void iexamine::pay_gas( Character &you, const tripoint_bub_ms &examp )
     }
 
     if( refund == choice ) {
-        std::vector<item *> cash_cards = you.cache_get_items_with( "is_cash_card", &item::is_cash_card );
+        std::vector<item_location> cash_cards = you.cache_get_items_with( "is_cash_card",
+                                                &item::is_cash_card );
         if( cash_cards.empty() ) {
             popup( _( "You do not have a cash card to refund money!" ) );
             return;
@@ -5522,10 +5530,10 @@ void iexamine::pay_gas( Character &you, const tripoint_bub_ms &examp )
 
         // getGasPricePerLiter( platinum_discount) min price to avoid exploit
         int amount_money = amount_fuel * getGasPricePerLiter( 3 ) / 1000.0f;
-        std::sort( cash_cards.begin(), cash_cards.end(), []( item * l, const item * r ) {
+        std::sort( cash_cards.begin(), cash_cards.end(), []( item_location & l, const item_location & r ) {
             return l->ammo_remaining( ) > r->ammo_remaining( );
         } );
-        for( item * const &cc : cash_cards ) {
+        for( item_location &cc : cash_cards ) {
             if( amount_money == 0 ) {
                 break;
             }

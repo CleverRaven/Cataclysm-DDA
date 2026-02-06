@@ -8,12 +8,12 @@
 #include <string>
 #include <unordered_set>
 #include <vector>
-#include <imgui/imgui.h>
 #include <stddef.h>
 
 #include "cata_imgui.h"
 #include "color.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "input_context.h"
 #include "map_entity_stack.h"
 #include "translations.h"
@@ -21,22 +21,9 @@
 class avatar;
 class Character;
 class Creature;
-template <typename T> struct enum_traits;
 class item;
 class map;
 struct map_data_common_t;
-
-enum class surroundings_menu_tab_enum : int {
-    items = 0,
-    monsters,
-    terfurn,
-    num_tabs
-};
-
-template<>
-struct enum_traits<surroundings_menu_tab_enum> {
-    static constexpr surroundings_menu_tab_enum last = surroundings_menu_tab_enum::num_tabs;
-};
 
 class tab_data
 {
@@ -47,7 +34,7 @@ class tab_data
         input_context ctxt;
         std::string title;
 
-        bool draw_categories = false;
+        surroundings_menu_sort_flags sort_flags = surroundings_menu_sort_flags::DEFAULT;
         // each group will start at a new line
         // currently roughly grouped by actions on an entry and actions on the list as a whole
         std::vector<std::unordered_set<std::string>> hotkey_groups;
@@ -198,6 +185,7 @@ class surroundings_menu : public cataimgui::window
         void draw_examine_info();
         void draw_category_separator( const std::string &category, std::string &last_category,
                                       int target_col );
+        std::vector<std::unordered_set<std::string>> get_shown_hotkeys( const tab_data *tab );
         void draw_hotkey_buttons( const tab_data *tab );
         float get_hotkey_buttons_height( const tab_data *tab );
 
@@ -237,19 +225,18 @@ class surroundings_menu : public cataimgui::window
         avatar &you;
         std::optional<tripoint_bub_ms> &path_end;
         const tripoint_rel_ms stored_view_offset;
+        const int min_width;
 
         cataimgui::scroll info_scroll = cataimgui::scroll::none;
 
         int width;
         int info_height;
-        float magic_number_other_elements_height = ImGui::GetTextLineHeight() * 3 +
-                ImGui::GetStyle().FramePadding.y * 2;
 
         item_tab_data item_data;
         monster_tab_data monster_data;
         terfurn_tab_data terfurn_data;
 
-        const int dist_width = 7;
+        const int dist_width = 8; // width of the distance column, to display e.g. "15 DN_SE"
         const int page_scroll = 10;
 };
 

@@ -405,10 +405,12 @@
             { "npc_near_om_location": "cabin_3_reverberation_hint", "range": 3 },
             { "npc_near_om_location": "radiosphere_radio_tower_top", "range": 3 },
             { "npc_near_om_location": "radio_tower_reverberation_mp3", "range": 3 },
+            { "npc_near_om_location": "string_dimension_crossroads", "range": 3 },
             { "math": [ "robofac_pat_lost_signal_highlands == 1" ] },
             { "math": [ "robofac_pat_lost_signal_radiosphere == 1" ] },
             { "math": [ "robofac_pat_lost_signal_cabin_reverb == 1" ] },
-            { "math": [ "robofac_pat_lost_signal_labyrinth == 1" ] }
+            { "math": [ "robofac_pat_lost_signal_labyrinth == 1" ] },
+            { "math": [ "robofac_pat_lost_signal_string_dimension == 1" ] }
           ]
         }
       ]
@@ -648,6 +650,19 @@
       },
       {
         "if": {
+          "and": [
+            { "npc_near_om_location": "string_dimension_crossroads", "range": 3 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_string_dimension" } ] } }
+          ]
+        },
+        "then": [
+          { "u_message": "Your earpiece is filled with static and your HUD glitches.", "popup": true },
+          { "u_add_var": "robofac_pat_saw_string_dimension", "value": "yes" },
+          { "math": [ "robofac_pat_lost_signal_string_dimension = 1" ] }
+        ]
+      },
+      {
+        "if": {
           "and": [ { "npc_near_om_location": "field", "range": 10 }, { "math": [ "robofac_pat_lost_signal_highlands == 1" ] } ]
         },
         "then": [
@@ -692,6 +707,18 @@
             "popup": true
           },
           { "math": [ "robofac_pat_lost_signal_cabin_reverb = 0" ] }
+        ]
+      },
+      {
+        "if": {
+          "and": [ { "npc_near_om_location": "field", "range": 10 }, { "math": [ "robofac_pat_lost_signal_string_dimension == 1" ] } ]
+        },
+        "then": [
+          {
+            "u_message": "You hear a chirp in your earpiece and Pat's voice comes over the line: \"There ya' are - once that last storm stahrted, I lost ya'.  I'll catch up as images come through, and we can talk latah.  Over.\"",
+            "popup": true
+          },
+          { "math": [ "robofac_pat_lost_signal_string_dimension = 0" ] }
         ]
       }
     ]

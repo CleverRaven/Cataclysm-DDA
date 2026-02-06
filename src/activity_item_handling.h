@@ -100,10 +100,12 @@ bool ignore_contents( Character &you, const tripoint_abs_ms &src );
 bool ignore_zone_position( Character &you, const tripoint_abs_ms &src, bool ignore_contents );
 
 // of `items` at `src`, do any need to be sorted?
+// If pickup_failure is true on return, at least one item can't be sorted because it can't be picked up.
+// Note that this check is performed before the presence of a destination has been made.
 bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
                         zone_sorting::unload_sort_options zone_unload_options,
                         const std::vector<item_location> &other_activity_items,
-                        const zone_sorting::zone_items &items );
+                        const zone_sorting::zone_items &items, bool *pickup_failure );
 bool can_unload( item *it );
 void add_item( const std::optional<vpart_reference> &vp, const tripoint_bub_ms &src_bub,
                const item &it );

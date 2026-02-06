@@ -1812,14 +1812,14 @@ point_abs_om overmap_feature_grid::get_grid_origin() const
 std::vector<overmap_feature_grid_node>
 overmap_feature_grid::find_grid_adjacent_features( const point_abs_om &generated_om_pos )
 {
-    const int c_seperation = column_separation;
-    const int r_seperation = row_separation;
+    const int c_separation = column_separation;
+    const int r_separation = row_separation;
 
     //generate adjacent intersection points
     std::vector<overmap_feature_grid_node> adjacent_features;
     for( const point &cardinal : four_adjacent_offsets ) {
-        const point_abs_om p( generated_om_pos.x() + cardinal.x * c_seperation,
-                              generated_om_pos.y() + cardinal.y * r_seperation );
+        const point_abs_om p( generated_om_pos.x() + cardinal.x * c_separation,
+                              generated_om_pos.y() + cardinal.y * r_separation );
         if( !feature_point_exists( p ) ) {
             generate_feature_point( p );
         }

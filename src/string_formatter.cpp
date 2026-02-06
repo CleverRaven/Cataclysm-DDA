@@ -39,3 +39,9 @@ std::string string_vprintf( fmt::string_view format, fmt::printf_args args )
         return err.what();
     }
 }
+
+auto fmt::formatter<cata_path>::format( const cata_path &path,
+                                        fmt::format_context &ctx ) const -> decltype( ctx.out() )
+{
+    return formatter<std::string_view>::format( path.generic_u8string(), ctx );
+}

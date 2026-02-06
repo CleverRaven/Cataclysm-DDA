@@ -438,5 +438,48 @@
       { "item": "exodii_wiring_kit_reference", "prob": 100 },
       { "item": "exodii_wire_kit", "prob": 100, "count": [ 1, 4 ] }
     ]
+  },
+  {
+    "id": "exodii_unwanted_bathroom_medicine",
+    "type": "item_group",
+    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "group": "birth_control", "prob": 50 }, { "group": "estrogen_hrt", "prob": 3 } ], "prob": 95 },
+      { "item": "comb_lice", "prob": 10 },
+      { "item": "eyedrops", "prob": 15, "count": 10 },
+      { "item": "steroid_eyedrops", "prob": 5, "count": 5 },
+      { "item": "pepto", "prob": 60, "charges": [ 1, -1 ], "container-item": "bottle_plastic_small" },
+      { "prob": 60, "group": "tums_bottle_plastic_small_1_20" },
+      { "item": "inhaler", "prob": 25, "charges": [ 10, 100 ] },
+      { "group": "tampon_box_used", "prob": 20 },
+      { "group": "menstrual_pad_box_used", "prob": 20 },
+      { "item": "menstrual_cup", "prob": 2 },
+      { "group": "alcohol_wipes_box_used", "prob": 60 },
+      { "group": "alcohol_wipes_box_full", "prob": 20 },
+      {
+        "distribution": [
+          {
+            "item": "pills_sleep",
+            "prob": 60,
+            "count": [ 1, 10 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          },
+          {
+            "item": "melatonin_tablet",
+            "prob": 40,
+            "count": [ 1, 30 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          }
+        ],
+        "prob": 10
+      },
+      {
+        "distribution": [ { "item": "nyquil", "prob": 60, "charges": [ 1, -1 ] }, { "item": "dayquil", "prob": 20, "charges": [ 1, -1 ] } ],
+        "prob": 50
+      }
+    ]
   }
 ]

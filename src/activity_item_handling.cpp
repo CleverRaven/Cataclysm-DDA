@@ -414,7 +414,7 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
 
 std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
                                         const std::list<item> &items,
-                                        map *here, const tripoint_bub_ms &where )
+                                        map *here, const tripoint_bub_ms &where, bool allow_overflow )
 {
     if( items.empty() ) {
         return {};
@@ -509,9 +509,11 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
     }
     std::vector<item_location> items_dropped;
     for( const item &it : items ) {
-        item &dropped_item = here->add_item_or_charges( where, it );
-        items_dropped.emplace_back( map_cursor( here, where ), &dropped_item );
-        item( it ).handle_pickup_ownership( you );
+        item &dropped_item = here->add_item_or_charges( where, it, allow_overflow );
+        if( !dropped_item.is_null() ) {
+            items_dropped.emplace_back( map_cursor( here, where ), &dropped_item );
+            item( it ).handle_pickup_ownership( you );
+        }
     }
 
     you.recoil = MAX_RECOIL;
@@ -542,7 +544,7 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
 
 std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
         item_drop_reason reason,
-        const std::list<item> &items, tripoint_bub_ms dest )
+        const std::list<item> &items, tripoint_bub_ms dest, bool allow_overflow )
 {
     map &here = get_map();
 
@@ -551,19 +553,19 @@ std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
         dest = you.pos_bub( here );
     }
 
-    return put_into_vehicle_or_drop_ret_locs( you, reason, items, &here, dest );
+    return put_into_vehicle_or_drop_ret_locs( you, reason, items, &here, dest, false, allow_overflow );
 }
 
 std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
         item_drop_reason reason,
         const std::list<item> &items,
-        map *here, const tripoint_bub_ms &where, bool force_ground )
+        map *here, const tripoint_bub_ms &where, bool force_ground, bool allow_overflow )
 {
     const std::optional<vpart_reference> vp = here->veh_at( where ).cargo();
     if( vp && !force_ground ) {
         return try_to_put_into_vehicle( you, reason, items, *vp );
     }
-    return drop_on_map( you, reason, items, here, where );
+    return drop_on_map( you, reason, items, here, where, allow_overflow );
 }
 
 static double get_capacity_fraction( int capacity, int volume )
@@ -904,16 +906,27 @@ bool ignore_zone_position( Character &you, const tripoint_abs_ms &src,
 bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
                         unload_sort_options zone_unload_options,
                         const std::vector<item_location> &other_activity_items,
-                        const zone_items &items )
+                        const zone_items &items, bool *pickup_failure )
 {
     const zone_manager &mgr = zone_manager::get_manager();
     const faction_id fac_id = _fac_id( you );
     const tripoint_abs_ms &abspos = you.pos_abs();
 
+    *pickup_failure = false;
+
     for( std::pair<item *, bool> it_pair : items ) {
         item *it = it_pair.first;
-        const zone_type_id zone_type_id = mgr.get_near_zone_type_for_item( *it, abspos,
-                                          MAX_VIEW_DISTANCE, fac_id );
+        const zone_type_id dest_zone_type_id = mgr.get_near_zone_type_for_item( *it, abspos,
+                                               MAX_VIEW_DISTANCE, fac_id );
+
+        if( dest_zone_type_id == zone_type_id::NULL_ID() ) {
+            continue;
+        }
+
+        if( !you.can_add( *it ) ) {
+            *pickup_failure = true;
+            continue;
+        }
 
         if( sort_skip_item( you, it, other_activity_items,
                             zone_unload_options.ignore_favorite, src ) ) {
@@ -921,7 +934,7 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
         }
 
         const std::unordered_set<tripoint_abs_ms> dest_set =
-            mgr.get_near( zone_type_id, abspos, MAX_VIEW_DISTANCE, it, fac_id );
+            mgr.get_near( dest_zone_type_id, abspos, MAX_VIEW_DISTANCE, it, fac_id );
 
         //if we're unloading all or a corpse
         if( zone_unload_options.unload_all || ( zone_unload_options.unload_corpses && it->is_corpse() ) ) {
@@ -3492,7 +3505,7 @@ bool farm_do( Character &you, const activity_reason_info &act_info,
                here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
         you.assign_activity( churn_activity_actor( 18000, item_location() ) );
-        you.backlog.emplace_front( ACT_MULTIPLE_FARM );
+        you.backlog.emplace_front( multi_farm_activity_actor() );
         you.activity.placement = src;
         return false;
     } else if( reason == do_activity_reason::NEEDS_PLANTING ) {
@@ -3500,8 +3513,8 @@ bool farm_do( Character &you, const activity_reason_info &act_info,
         for( const zone_data &zone : zones ) {
             const itype_id seed =
                 dynamic_cast<const plot_options &>( zone.get_options() ).get_seed();
-            std::vector<item *> seed_inv = you.cache_get_items_with( "is_seed", itype_id( seed ), {},
-                                           &item::is_seed );
+            std::vector<item_location> seed_inv = you.cache_get_items_with( "is_seed", itype_id( seed ), {},
+                                                  &item::is_seed );
             if( seed_inv.empty() ) {
                 // we don't have the required seed, even though we should at this point.
                 // move onto the next tile, and if need be that will prompt a fetch seeds activity.
@@ -3511,7 +3524,7 @@ bool farm_do( Character &you, const activity_reason_info &act_info,
                 continue;
             }
             iexamine::plant_seed( you, src_loc, itype_id( seed ) );
-            you.backlog.emplace_front( ACT_MULTIPLE_FARM );
+            you.backlog.emplace_front( multi_farm_activity_actor() );
             return false;
         }
     }
@@ -3526,7 +3539,7 @@ bool chop_planks_do( Character &you, const activity_reason_info &act_info,
 
     if( reason == do_activity_reason::NEEDS_CHOPPING && you.has_quality( qual_AXE, 1 ) ) {
         if( chop_plank_activity( you, src_loc ) ) {
-            you.backlog.emplace_front( ACT_MULTIPLE_CHOP_PLANKS );
+            you.backlog.emplace_front( multi_chop_planks_activity_actor() );
             return false;
         }
     }
@@ -3564,7 +3577,7 @@ bool read_do( Character &you, const activity_reason_info &act_info,
             const time_duration time_taken = you.time_to_read( *books[0], you );
             item_location book = item_location( you, books[0] );
             item_location ereader;
-            you.backlog.emplace_front( ACT_MULTIPLE_READ );
+            you.backlog.emplace_front( multi_read_activity_actor() );
             you.assign_activity( read_activity_actor( time_taken, book, ereader, true ) );
             return false;
         }
@@ -3584,7 +3597,7 @@ bool study_do( Character &you, const activity_reason_info &act_info,
             you.may_activity_occupancy_after_end_items_loc.push_back( book_loc );
             const time_duration time_taken = you.time_to_read( *book_loc, you );
             item_location ereader;
-            you.backlog.emplace_front( ACT_MULTIPLE_STUDY );
+            you.backlog.emplace_front( multi_study_activity_actor() );
             you.assign_activity( read_activity_actor( time_taken, book_loc, ereader, true ) );
             return false;
         }
@@ -3659,7 +3672,7 @@ bool chop_trees_do( Character &you, const activity_reason_info &act_info,
 
     if( reason == do_activity_reason::NEEDS_TREE_CHOPPING && you.has_quality( qual_AXE, 1 ) ) {
         if( chop_tree_activity( you, src_loc ) ) {
-            you.backlog.emplace_front( ACT_MULTIPLE_CHOP_TREES );
+            you.backlog.emplace_front( multi_chop_trees_activity_actor() );
             return false;
         }
     }
@@ -3672,7 +3685,7 @@ bool fish_do( Character &you, const activity_reason_info &act_info,
     const do_activity_reason &reason = act_info.reason;
 
     if( reason == do_activity_reason::NEEDS_FISHING && you.has_quality( qual_FISHING_ROD, 1 ) ) {
-        you.backlog.emplace_front( ACT_MULTIPLE_FISH );
+        you.backlog.emplace_front( multi_fish_activity_actor() );
         // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
         you.activity = player_activity();
         item_location best_rod_loc( you, &you.best_item_with_quality( qual_FISHING_ROD ) );
@@ -3705,7 +3718,7 @@ bool mop_do( Character &you, const activity_reason_info &act_info,
 
     if( reason == do_activity_reason::NEEDS_MOP ) {
         if( mop_activity( you, src_loc ) ) {
-            you.backlog.emplace_front( ACT_MULTIPLE_MOP );
+            you.backlog.emplace_front( multi_mop_activity_actor() );
             return false;
         }
     }
@@ -3719,7 +3732,7 @@ bool vehicle_deconstruction_do( Character &you, const activity_reason_info &act_
 
     if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
         if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, VEHICLE_REMOVE ) ) {
-            you.backlog.emplace_front( ACT_VEHICLE_DECONSTRUCTION );
+            you.backlog.emplace_front( multi_vehicle_deconstruct_activity_actor() );
             return false;
         }
         you.activity_vehicle_part_index = -1;
@@ -3734,7 +3747,7 @@ bool vehicle_repair_do( Character &you, const activity_reason_info &act_info,
 
     if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
         if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, VEHICLE_REPAIR ) ) {
-            you.backlog.emplace_front( ACT_VEHICLE_REPAIR );
+            you.backlog.emplace_front( multi_vehicle_repair_activity_actor() );
             return false;
         }
 
@@ -3757,7 +3770,7 @@ bool craft_do( Character &you, const activity_reason_info &act_info,
                 you.lighting_craft_speed_multiplier( to_craft->get_making() ) > 0 ) {
                 player_activity act = player_activity( craft_activity_actor( to_craft, false ) );
                 you.assign_activity( act );
-                you.backlog.emplace_front( ACT_MULTIPLE_CRAFT );
+                you.backlog.emplace_front( multi_craft_activity_actor() );
                 you.backlog.front().auto_resume = true;
                 return false;
             }
@@ -3792,7 +3805,7 @@ bool disassemble_do( Character &you, const activity_reason_info &act_info,
                     // Keep doing
                     // After assignment of disassemble activity (not multitype anymore)
                     // the backlog will not be nuked in do_player_activity()
-                    you.backlog.emplace_back( ACT_MULTIPLE_DIS );
+                    you.backlog.emplace_back( multi_disassemble_activity_actor() );
                     break;
                 }
             }

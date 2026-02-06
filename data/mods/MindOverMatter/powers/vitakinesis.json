@@ -578,7 +578,7 @@
   {
     "id": "vita_blood_purge_no_mutagens",
     "type": "SPELL",
-    "name": { "str": "[Ψ]Blood Purge Remove Mutagens", "//~": "NO_I18N" },
+    "name": { "str": "[Ψ]Blood Purge Additional Purging", "//~": "NO_I18N" },
     "description": {
       "str": "Blood purge's additional ability to remove other substances contaminating your bloodstream.  It's a bug if you have it.",
       "//~": "NO_I18N"
@@ -586,7 +586,7 @@
     "valid_targets": [ "self" ],
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "effect": "effect_on_condition",
-    "effect_str": "EOC_VITAKIN_MUTAGEN_PURGE",
+    "effect_str": "EOC_VITAKIN_BLOOD_PURGE",
     "shape": "blast"
   },
   {

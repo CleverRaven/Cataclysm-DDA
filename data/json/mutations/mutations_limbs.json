@@ -645,13 +645,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "attacks": {
-      "attack_text_u": "You whap %s with your tail!",
-      "attack_text_npc": "%1$s whaps %2$s with their tail!",
-      "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 8 }
-    },
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_thick" } ] } ]
   },
   {
     "type": "mutation",
@@ -691,18 +685,13 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "attacks": {
-      "attack_text_u": "You sting %s with your tail!",
-      "attack_text_npc": "%1$s stings %2$s with their tail!",
-      "chance": 20,
-      "base_damage": { "damage_type": "stab", "amount": 20 }
-    }
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_scorpion" } ] } ]
   },
   {
     "type": "mutation",
     "id": "TAIL_FLUFFY",
     "name": { "str": "Fluffy Tail" },
-    "description": "You have a long, fluffy-furred tail.  It greatly improves your balance, making your ability to dodge much higher.  Prevents wearing non-fabric pants.",
+    "description": "You have a long, fluffy-furred tail.  It greatly improves your balance, making your ability to dodge higher.  Prevents wearing non-fabric pants.",
     "category": [ "LUPINE" ],
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_LONG" ],
@@ -712,8 +701,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "social_modifiers": { "lie": -20, "persuade": 10 },
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 4 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_fluffy" } ] } ]
   },
   {
     "type": "mutation",
@@ -871,14 +859,8 @@
     "flags": [ "QUADRUPED_RUN", "TOUGH_FEET" ],
     "destroys_gear": true,
     "restricts_gear": [ "foot_l", "foot_r" ],
-    "bodytemp_modifiers": [ 25, 50 ],
+    "integrated_armor": [ "integrated_rabbit_feet" ],
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
-    "attacks": {
-      "attack_text_u": "You kick %s with your large feet!",
-      "attack_text_npc": "%1$s kicks %2$s with their large feet!",
-      "chance": 15,
-      "strength_damage": { "damage_type": "bash", "amount": 1.5 }
-    },
     "enchantments": [ "ench_quadruped_movement_full", { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] } ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ]
   },

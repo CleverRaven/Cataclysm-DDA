@@ -10,5 +10,11 @@
     "dependencies": [ "dda" ],
     "conflicts": [ "aftershock_exoplanet", "backrooms", "desertpack", "tropicata", "classic_zombies", "innawood", "Isolation_Protocol" ],
     "version": "3.5"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DEFAULT_REGION",
+    "stype": "string_input",
+    "value": "default_nohope"
   }
 ]

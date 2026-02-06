@@ -3,6 +3,7 @@
 #define CATA_SRC_UNITS_H
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <cmath>
 #include <cstddef>
@@ -14,7 +15,6 @@
 #include <string_view>
 #include <type_traits>
 #include <utility>
-#include <vector>
 
 #include "flexbuffer_json.h"
 #include "json.h"
@@ -1202,19 +1202,19 @@ inline units::angle acos( double x )
     return from_radians( std::acos( x ) );
 }
 
-const std::vector<std::pair<std::string, energy>> energy_units = { {
+constexpr std::array<std::pair<std::string_view, energy>, 3> energy_units = { {
         { "mJ", 1_mJ },
         { "J", 1_J },
         { "kJ", 1_kJ },
     }
 };
-const std::vector<std::pair<std::string, power>> power_units = { {
+constexpr std::array<std::pair<std::string_view, power>, 3> power_units = { {
         { "mW", 1_mW },
         { "W", 1_W },
         { "kW", 1_kW },
     }
 };
-const std::vector<std::pair<std::string, mass>> mass_units = { {
+constexpr std::array<std::pair<std::string_view, mass>, 3> mass_units = { {
         { "mg", 1_milligram },
         { "g", 1_gram },
         { "kg", 1_kilogram },
@@ -1223,7 +1223,7 @@ const std::vector<std::pair<std::string, mass>> mass_units = { {
 // NOTE: Due to string matching, any string that is a subset of another must come after the one it partially matches.
 // Because e.g. 'cent' will be read as a valid unit before 'cents', our order-of-iteration must check if the string is actually
 // 'cents' first, otherwise it will assume it is 'cent' and fail when parsing the 's' in 'cents'.
-const std::vector<std::pair<std::string, money>> money_units = { {
+constexpr std::array<std::pair<std::string_view, money>, 6> money_units = { {
         { "cents", 1_cent },
         { "cent", 1_cent },
         { "dollars", 1_USD },
@@ -1232,19 +1232,19 @@ const std::vector<std::pair<std::string, money>> money_units = { {
         { "kUSD", 1_kUSD },
     }
 };
-const std::vector<std::pair<std::string, volume>> volume_units = { {
+constexpr std::array<std::pair<std::string_view, volume>, 2> volume_units = { {
         { "ml", 1_ml },
         { "L", 1_liter }
     }
 };
-const std::vector<std::pair<std::string, length>> length_units = { {
+constexpr std::array<std::pair<std::string_view, length>, 4> length_units = { {
         { "mm", 1_mm },
         { "cm", 1_cm },
         { "meter", 1_meter },
         { "km", 1_km }
     }
 };
-const std::vector<std::pair<std::string, angle>> angle_units = { {
+constexpr std::array<std::pair<std::string_view, angle>, 3> angle_units = { {
         { "arcmin", 1_arcmin },
         { "°", 1_degrees },
         { "rad", 1_radians },
@@ -1252,16 +1252,17 @@ const std::vector<std::pair<std::string, angle>> angle_units = { {
 };
 // AFAIK unused, and it's probably not wise to use them...
 // If you need to serialize/deserialize, because of the offset, temperature_delta_units is more appropriate.
-const std::vector<std::pair<std::string, temperature>> temperature_units = { {
+constexpr std::array<std::pair<std::string_view, temperature>, 1> temperature_units = { {
         { "K", 1_K }
     }
 };
-const std::vector<std::pair<std::string, temperature_delta>> temperature_delta_units = { {
+constexpr std::array<std::pair<std::string_view, temperature_delta>, 2> temperature_delta_units
+= { {
         { "mC", 1.0_mC_delta },
         { "C", 1_C_delta }
     }
 };
-const std::vector<std::pair<std::string, ememory>> ememory_units = { {
+constexpr std::array<std::pair<std::string_view, ememory>, 4> ememory_units = { {
         { "KB", 1_KB },
         { "MB", 1_MB },
         { "GB", 1_GB },
@@ -1297,9 +1298,9 @@ units::temperature &operator+=( units::temperature &T, const units::temperature_
 namespace detail
 {
 
-template<typename T, typename Error>
+template<typename T, size_t N, typename Error>
 T read_from_json_string_common( const std::string_view s,
-                                const std::vector<std::pair<std::string, T>> &units, Error &&error )
+                                const std::array<std::pair<std::string_view, T>, N> &units, Error &&error )
 {
     size_t i = 0;
     // returns whether we are at the end of the string
@@ -1313,17 +1314,17 @@ T read_from_json_string_common( const std::string_view s,
         if( skip_spaces() ) {
             error( "invalid quantity string: missing unit", i );
         }
-        for( const std::pair<std::string, T> &pair : units ) {
-            const std::string &unit = pair.first;
+        for( const std::pair<std::string_view, T> &p : units ) {
+            const std::string_view &unit = p.first;
             if( s.size() >= unit.size() + i && s.compare( i, unit.size(), unit ) == 0 ) {
                 i += unit.size();
-                return pair.second;
+                return p.second;
             }
         }
         std::string error_msg = "Invalid quantity string: unknown unit.  Valid units are:";
-        for( const std::pair<std::string, T> &pair : units ) {
+        for( const std::pair<std::string_view, T> &p : units ) {
             error_msg += "\n";
-            error_msg += pair.first;
+            error_msg += p.first;
         }
         error( error_msg.c_str(), i );
         // above always throws but lambdas cannot be marked [[noreturn]]
@@ -1360,8 +1361,9 @@ T read_from_json_string_common( const std::string_view s,
 
 } // namespace detail
 
-template<typename T>
-T read_from_json_string( const JsonValue &jv, const std::vector<std::pair<std::string, T>> &units )
+template<typename T, size_t N>
+T read_from_json_string( const JsonValue &jv,
+                         const std::array<std::pair<std::string_view, T>, N> &units )
 {
     const auto error = [&]( const char *const msg, size_t offset ) {
         jv.throw_error( offset, msg );
@@ -1372,13 +1374,13 @@ T read_from_json_string( const JsonValue &jv, const std::vector<std::pair<std::s
     return detail::read_from_json_string_common<T>( s, units, error );
 }
 
-template<typename T>
+template<typename T, size_t N>
 void dump_to_json_string( T t, JsonOut &jsout,
-                          const std::vector<std::pair<std::string, T>> &units )
+                          const std::array<std::pair<std::string_view, T>, N> &units )
 {
     // deduplicate unit strings and choose the shortest representations
     std::map<T, std::string> sorted_units;
-    for( const std::pair<std::string, T> &p : units ) {
+    for( const std::pair<std::string_view, T> &p : units ) {
         const auto it = sorted_units.find( p.second );
         if( it != sorted_units.end() ) {
             if( p.first.length() < it->second.length() ) {

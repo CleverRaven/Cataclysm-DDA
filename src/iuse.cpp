@@ -336,13 +336,9 @@ static const mtype_id mon_vortex( "mon_vortex" );
 static const mutation_category_id mutation_category_CATTLE( "CATTLE" );
 static const mutation_category_id mutation_category_MYCUS( "MYCUS" );
 
-static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
-static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
-
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_GLARE( "GLARE" );
 static const quality_id qual_HOTPLATE( "HOTPLATE" );
-static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
 static const quality_id qual_SCREW_FINE( "SCREW_FINE" );
 
@@ -353,7 +349,6 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
-static const skill_id skill_traps( "traps" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
@@ -477,8 +472,8 @@ void remove_radio_mod( item &it, Character &p )
 // Checks that the player can smoke
 std::optional<std::string> iuse::can_smoke( const Character &you )
 {
-    auto cigs = you.cache_get_items_with( flag_LITCIG, []( const item & it ) {
-        return it.active;
+    auto cigs = you.cache_get_items_with( flag_LITCIG, []( const item_location & it ) {
+        return it->active;
     } );
 
     if( !cigs.empty() ) {
@@ -2568,7 +2563,7 @@ std::optional<int> iuse::directional_antenna( Character *p, item *it, const trip
         map_stack items = get_map().i_at( p->pos_bub() );
         for( item &an_item : items ) {
             if( an_item.typeId() == itype_radio_on ) {
-                radios.push_back( &an_item );
+                radios.emplace_back( map_cursor( p->pos_bub() ), &an_item );
             }
         }
     }
@@ -3190,32 +3185,10 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint_bub_m
         return std::nullopt;
     }
 
-    int qual = it->get_quality( qual_LOCKPICK );
-    if( qual < 1 ) {
-        debugmsg( "Item %s with 'PICK_LOCK' use action requires LOCKPICK quality of at least 1.",
-                  it->typeId().c_str() );
-        qual = 1;
-    }
-
-    /** @EFFECT_DEX speeds up door lock picking */
-    /** @EFFECT_LOCKPICK speeds up door lock picking */
-    int duration_proficiency_factor = 10;
-
-    if( you.has_proficiency( proficiency_prof_lockpicking ) ) {
-        duration_proficiency_factor = 5;
-    }
-    if( you.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
-        duration_proficiency_factor = 1;
-    }
-    time_duration duration = 5_seconds;
-    if( !it->has_flag( flag_PERFECT_LOCKPICK ) ) {
-        duration = std::max( 30_seconds,
-                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( you.dex_cur ) / 4.0f +
-                                     you.get_skill_level( skill_traps ) ) ) * duration_proficiency_factor );
-    }
-
-    you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
-                         item_location( you, it ), get_map().get_abs( *target ) ) );
+    you.assign_activity( lockpick_activity_actor::use_item( item_location( you, it ),
+                         get_map().get_abs( *target ),
+                         *p
+                                                          ) );
     return 1;
 }
 
@@ -4146,11 +4119,12 @@ std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint_b
             }
             for( npc *n : friends_w_game ) {
                 // this vector may be empty, so a nullptr would be passed
-                std::vector<item *> nit = n->cache_get_items_with( it->typeId(), []( const item & i ) {
-                    return i.ammo_sufficient( nullptr );
+                std::vector<item_location> nit = n->cache_get_items_with( it->typeId(), [](
+                const item_location & i ) {
+                    return i->ammo_sufficient( nullptr );
                 } );
-                portable_game_activity_actor portable_game_act( 15_minutes, item_location( *n, nit.front() ),
-                        entertain_players, winner );
+                portable_game_activity_actor portable_game_act( 15_minutes, nit.front(), entertain_players,
+                        winner );
                 n->assign_activity( portable_game_act );
             }
         }
@@ -4768,10 +4742,52 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint_bub_ms 
         }
         return std::nullopt;
     }
+    // Assign activity to calculate total_moves via ::start _before_ asking for confirmation.
     if( p->pos_bub() == it_pnt ) {
         p->assign_activity( hacksaw_activity_actor( pnt, item_location{ *p, it } ) );
     } else {
         p->assign_activity( hacksaw_activity_actor( pnt, it->typeId(), it_pnt ) );
+    }
+
+    std::string query;
+    if( p->activity.moves_left == p->activity.moves_total ) {
+        query += string_format( _( "Cut up metal using your %1$s?" ), it->tname() );
+    } else {
+        query += string_format( _( "Resume cutting up metal using your %1$s?" ), it->tname() );
+    }
+
+    // HACK: Update the player_activity moves_left based on progress stored in the activity_actor.
+    int activity_actor_moves_left = static_cast<const hacksaw_activity_actor &>(
+                                        *p->activity.actor ).moves_left;
+    p->activity.moves_left = activity_actor_moves_left;
+
+    query += "\n";
+    query += _( "Time to complete: " );
+    int required_moves = p->activity.moves_left;
+    add_msg_debug( debugmode::DF_ACTIVITY, "iuse hacksaw required_moves: %d.", required_moves );
+
+    const float weary_mult = p->exertion_adjusted_move_multiplier( p->activity.exertion_level() );
+    time_duration required_time = time_duration::from_turns( required_moves * weary_mult /
+                                  p->get_speed() );
+    const std::string time_string = colorize( to_string( required_time, true ), c_light_gray );
+    query += time_string;
+
+    if( it->ammo_required() ) {
+        const int charges_needed = it->ammo_required() * required_moves / 100;
+        query += "\n";
+        if( it->ammo_current()->nname( charges_needed ) == "battery" ) {
+            query += string_format( _( "This will require %d kJ." ), charges_needed );
+        } else {
+            query += string_format(
+                         _( "This will require %d %s." ),
+                         charges_needed, it->ammo_current()->nname( charges_needed )
+                     );
+        }
+    }
+
+    if( !query_yn( query ) ) {
+        p->cancel_activity();
+        p->add_msg_if_player( m_info, _( "You decide not to cut up this metal." ) );
     }
 
     return std::nullopt;

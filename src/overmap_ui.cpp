@@ -339,6 +339,8 @@ void overmap_sidebar::draw_debug()
 
     if( ( draw_data.debug_editor && center_vision != om_vision_level::unseen ) ||
         draw_data.debug_info ) {
+        draw_sidebar_text( string_format( "current dimension: %s",
+                                          g->get_dimension_prefix().empty() ? "default" : g->get_dimension_prefix() ), c_white );
         draw_sidebar_text( string_format( "abs_omt: %s", cursor_pos.to_string() ), c_white );
         const oter_t &oter = overmap_buffer.ter( cursor_pos ).obj();
         draw_sidebar_text( string_format( "oter: %s (rot %d)", oter.id.str(),
@@ -436,8 +438,12 @@ void overmap_sidebar::draw_mission_info()
             msg = _( "Below us" );
         }
         // One OMT is 24 tiles across, at 1x1 meters each, so we can simply do number of OMTs * 24
-        draw_sidebar_text( string_format( _( "Distance: %d tiles | %s" ),
-                                          distance, length_to_string_approx( distance * 24_meter ) ), c_white );
+        units::length actual_distance = distance * 24_meter;
+        const std::string dir_arrow = direction_arrow( direction_from( cursor_pos.xy(), target.xy() ) );
+        //~Parenthesis is a real-world value for distance. Example string: "223 tiles (5.35km) ⇗"
+        const std::string distance_str = string_format( _( "%1$d tiles (%2$s) %3$s" ),
+                                         distance, length_to_string_approx( actual_distance ), dir_arrow );
+        draw_sidebar_text( string_format( _( "Distance: %s" ), distance_str ), c_white );
         if( !msg.empty() ) {
             draw_sidebar_text( msg, c_white );
         }

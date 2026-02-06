@@ -190,5 +190,10 @@
       "hayfield_turnR",
       "hayfield_end"
     ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "string_dimension_field_core",
+    "terrains": [ "string_dimension_field_core" ]
   }
 ]

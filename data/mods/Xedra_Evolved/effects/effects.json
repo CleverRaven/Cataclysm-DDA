@@ -3630,7 +3630,7 @@
         "values": [
           {
             "value": "MAX_MANA",
-            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 250 )" ] }
+            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_destabilizing_strikes') ), 250 )" ] }
           }
         ]
       }
@@ -3652,7 +3652,7 @@
         "values": [
           {
             "value": "MAX_MANA",
-            "add": { "math": [ "-max( 500 - ( 12.5 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 125 )" ] }
+            "add": { "math": [ "-max( 500 - ( 12.5 * u_spell_level('xedra_chronomancer_stabilize_timeline') ), 125 )" ] }
           }
         ]
       }
@@ -3844,6 +3844,17 @@
     "main_parts_only": true,
     "base_mods": { "pain_min": [ 2 ], "pain_tick": [ 10 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_tick": [ 10 ] },
     "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_holy_burnt_carrying_holy",
+    "name": [ "Unworthy of the holy" ],
+    "desc": [ "You are wearing a holy symbol.  It will cause you severe pain until you take it off." ],
+    "rating": "bad",
+    "apply_message": "You wince in pain as you put on the holy symbol.",
+    "remove_message": "The pain subsides as you take off the holy symbol.",
+    "base_mods": { "pain_amount": [ 5 ], "pain_min": [ 1 ], "pain_max": [ 3 ], "pain_max_val": [ 100 ] },
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",

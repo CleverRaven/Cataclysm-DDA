@@ -6,7 +6,9 @@
 #include <string>
 #include <vector>
 
+#include "color.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "point.h"
 
 template<typename T>
@@ -21,6 +23,7 @@ class map_entity_stack
                 const T *entity;
                 std::optional<std::string> cached_name;
                 std::optional<std::string> cached_distance_string;
+                std::optional<nc_color> cached_color;
 
                 //only expected to be used for things like lists and vectors
                 entity_group() : count( 0 ), entity( nullptr ) {};
@@ -31,6 +34,7 @@ class map_entity_stack
         int selected_index = 0;
         void make_name_cache();
         void make_distance_string_cache();
+        void make_color_cache();
     public:
         std::vector<entity_group> entities;
         int totalcount;
@@ -41,6 +45,7 @@ class map_entity_stack
         std::string get_selected_name();
         std::string get_selected_distance_string();
         int get_selected_index() const;
+        nc_color get_selected_color();
 
         void select_next();
         void select_prev();
@@ -55,7 +60,8 @@ class map_entity_stack
         // through all older entity groups for a match.
         void add_at_pos( const T *entity, const tripoint_rel_ms &pos, int count = 1 );
 
-        bool compare( const map_entity_stack<T> &rhs, bool use_category = false ) const;
+        bool compare( const map_entity_stack<T> &rhs,
+                      surroundings_menu_sort_flags sort_flags = surroundings_menu_sort_flags::DEFAULT ) const;
         std::string get_category() const;
 };
 

@@ -242,6 +242,7 @@
   {
     "type": "ITEM",
     "subtypes": [ "ARTIFACT" ],
+    "category": "artifacts",
     "id": "matrix_crystal_pyrokinesis_artifact",
     "name": { "str_sp": "strange crystal, red" },
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing red light in its depths.  Holding it, you feel hot.",
@@ -384,6 +385,21 @@
     "description": "Concentrated matrix crystal dust.  It glitters green even in complete darkness.",
     "copy-from": "matrix_crystal_biokin_dust_refined",
     "color": "green"
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "category": "artifacts",
+    "id": "matrix_crystal_vitakinesis_artifact",
+    "name": { "str_sp": "strange crystal, green" },
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing green light in its depths.  Holding it, you feel healthier.",
+    "color": "green",
+    "symbol": "+",
+    "volume": "10 ml",
+    "weight": "150 g",
+    "longest_side": "21 mm",
+    "looks_like": "matrix_crystal_vitakinesis",
+    "flags": [ "MATRIX_CRYSTAL_VITAKINESIS", "RELIC_PINK" ]
   },
   {
     "type": "ITEM",

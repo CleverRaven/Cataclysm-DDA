@@ -1206,7 +1206,7 @@ clean: clean-tests clean-lang
 	rm -f $(CHKJSON_BIN)
 	rm -f $(TEST_MO)
 	rm -rf zzip.dSYM
-	rm -f zzip zzip.*
+	rm -f zzip zzip.* zstd.a
 
 distclean:
 	rm -rf *$(BINDIST_DIR)

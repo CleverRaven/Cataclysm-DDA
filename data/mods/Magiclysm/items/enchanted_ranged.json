@@ -246,7 +246,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "ammo": [ "arrow" ],
     "min_strength": 8,

@@ -5,12 +5,17 @@
 #include "character.h"
 #include "color.h"
 #include "creature.h"
+#include "enums.h"
+#include "enum_traits.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_search.h"
+#include "item_tname.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "mapdata.h"
 #include "monster.h"
+#include "output.h"
 #include "string_formatter.h"
 #include "translation.h"
 #include "translations.h"
@@ -165,6 +170,39 @@ int map_entity_stack<T>::get_selected_index() const
 }
 
 template<typename T>
+nc_color map_entity_stack<T>::get_selected_color()
+{
+    if( entities.empty() || selected_index < 0 ||
+        selected_index >= static_cast<int>( entities.size() ) ) {
+        return c_light_gray;
+    }
+
+    if( !entities[selected_index].cached_color ) {
+        make_color_cache();
+    }
+
+    return *entities[selected_index].cached_color;
+}
+
+template<>
+void map_entity_stack<item>::make_color_cache()
+{
+    entities[selected_index].cached_color = get_selected_entity()->color_in_inventory();
+}
+
+template<>
+void map_entity_stack<Creature>::make_color_cache()
+{
+    entities[selected_index].cached_color = get_selected_entity()->basic_symbol_color();
+}
+
+template<>
+void map_entity_stack<map_data_common_t>::make_color_cache()
+{
+    entities[selected_index].cached_color = get_selected_entity()->color();
+}
+
+template<typename T>
 map_entity_stack<T>::map_entity_stack() : totalcount( 0 )
 {
     entities.emplace_back();
@@ -238,18 +276,29 @@ std::string map_entity_stack<map_data_common_t>::get_category() const
 }
 
 template<typename T>
-bool map_entity_stack<T>::compare( const map_entity_stack<T> &, bool ) const
+bool map_entity_stack<T>::compare( const map_entity_stack<T> &, surroundings_menu_sort_flags ) const
 {
     return false;
 }
 
 template<>
-bool map_entity_stack<item>::compare( const map_entity_stack<item> &rhs, bool use_category ) const
+bool map_entity_stack<item>::compare( const map_entity_stack<item> &rhs,
+                                      surroundings_menu_sort_flags sort_flags ) const
 {
-    bool compare_dist = rl_dist( tripoint_rel_ms(), entities[0].pos ) <
-                        rl_dist( tripoint_rel_ms(), rhs.entities[0].pos );
+    bool compare_dist;
+    if( sort_flags & surroundings_menu_sort_flags::NAME ) {
+        const item *lhs_it = get_selected_entity();
+        const item *rhs_it = rhs.get_selected_entity();
 
-    if( !use_category ) {
+        compare_dist = localized_compare(
+                           to_lower_case( lhs_it->tname( get_selected_count(), tname::unprefixed_tname ) ),
+                           to_lower_case( rhs_it->tname( rhs.get_selected_count(), tname::unprefixed_tname ) ) );
+    } else {
+        compare_dist = rl_dist( tripoint_rel_ms(), entities[0].pos ) <
+                       rl_dist( tripoint_rel_ms(), rhs.entities[0].pos );
+    }
+
+    if( !( sort_flags & surroundings_menu_sort_flags::CATEGORY ) ) {
         return compare_dist;
     }
 
@@ -263,14 +312,32 @@ bool map_entity_stack<item>::compare( const map_entity_stack<item> &rhs, bool us
     return lhs_cat < rhs_cat;
 }
 
+static std::string mon_name( const map_entity_stack<Creature> &map_stack )
+{
+    std::string mon_name;
+    const Creature *critter = map_stack.get_selected_entity();
+    if( critter->is_monster() ) {
+        return critter->as_monster()->name();
+    } else {
+        return critter->disp_name();
+    }
+}
+
+
 template<>
 bool map_entity_stack<Creature>::compare( const map_entity_stack<Creature> &rhs,
-        bool use_category ) const
+        surroundings_menu_sort_flags sort_flags ) const
 {
-    bool compare_dist = rl_dist( tripoint_rel_ms(), entities[0].pos ) <
-                        rl_dist( tripoint_rel_ms(), rhs.entities[0].pos );
+    bool compare_dist;
+    if( sort_flags & surroundings_menu_sort_flags::NAME ) {
+        compare_dist = localized_compare( to_lower_case( mon_name( *this ) ),
+                                          to_lower_case( mon_name( rhs ) ) );
+    } else {
+        compare_dist = rl_dist( tripoint_rel_ms(), entities[0].pos ) <
+                       rl_dist( tripoint_rel_ms(), rhs.entities[0].pos );
+    }
 
-    if( !use_category ) {
+    if( !( sort_flags & surroundings_menu_sort_flags::CATEGORY ) ) {
         return compare_dist;
     }
 
@@ -287,12 +354,20 @@ bool map_entity_stack<Creature>::compare( const map_entity_stack<Creature> &rhs,
 
 template<>
 bool map_entity_stack<map_data_common_t>::compare( const map_entity_stack<map_data_common_t> &rhs,
-        bool use_category ) const
+        surroundings_menu_sort_flags sort_flags ) const
 {
-    bool compare_dist = rl_dist( tripoint_rel_ms(), entities[0].pos ) <
-                        rl_dist( tripoint_rel_ms(), rhs.entities[0].pos );
+    bool compare_dist;
+    if( sort_flags & surroundings_menu_sort_flags::NAME ) {
+        const map_data_common_t *lhs_it = get_selected_entity();
+        const map_data_common_t *rhs_it = rhs.get_selected_entity();
+        compare_dist = localized_compare( to_lower_case( lhs_it->name() ),
+                                          to_lower_case( rhs_it->name() ) );
+    } else {
+        compare_dist = rl_dist( tripoint_rel_ms(), entities[0].pos ) <
+                       rl_dist( tripoint_rel_ms(), rhs.entities[0].pos );
+    }
 
-    if( !use_category ) {
+    if( !( sort_flags & surroundings_menu_sort_flags::CATEGORY ) ) {
         return compare_dist;
     }
 

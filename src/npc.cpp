@@ -1921,9 +1921,9 @@ void npc::decide_needs()
     needrank[need_weapon] = evaluate_weapon( weap );
     needrank[need_food] = 15 - get_hunger();
     needrank[need_drink] = 15 - get_thirst();
-    cache_visit_items_with( "is_food", &item::is_food, [&]( const item & it ) {
-        needrank[ need_food ] += nutrition_for( it ) / 4.0;
-        needrank[ need_drink ] += it.get_comestible()->quench / 4.0;
+    cache_visit_items_with( "is_food", &item::is_food, [&]( const item_location & it ) {
+        needrank[ need_food ] += nutrition_for( *it ) / 4.0;
+        needrank[ need_drink ] += it->get_comestible()->quench / 4.0;
     } );
     needs.clear();
     size_t j;
@@ -2090,6 +2090,16 @@ ret_val<void> npc::wants_to_buy( const item &it, int at_price ) const
 
     if( it.is_filthy() ) {
         return ret_val<void>::make_failure( _( "Will not buy filthy items" ) );
+    }
+
+    if( myclass->has_whitelist() ) {
+        const shopkeeper_whitelist &wl = myclass->get_shopkeeper_whitelist();
+        icg_entry const *wl_icg = myclass->get_shopkeeper_whitelist().matches( it, *this );
+        if( wl_icg != nullptr ) {
+            return ret_val<void>::make_success();
+        } else {
+            return ret_val<void>::make_failure( wl.message.translated() );
+        }
     }
 
     icg_entry const *bl = myclass->get_shopkeeper_blacklist().matches( it, *this );
