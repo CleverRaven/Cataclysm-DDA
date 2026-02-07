@@ -123,7 +123,7 @@ Property                 | Description
 `melee_dice`             | (integer) Number of dice rolled on monster melee attack to determine bash damage
 `melee_dice_sides`       | (integer) Number of sides on each die rolled by `melee_dice`
 `grab_strength`          | (integer) Intensity of grab effect, from `1` to `n`. A default zombie has a grab strength of `20`
-`melee_training_cap`     | (integer) The maximum melee skill levels learnable by fighting this monster. If not defined defaults to `melee_skill + 2`.
+`melee_training_cap`     | (integer) The maximum melee skill levels learnable by fighting this monster. If not defined defaults to max skill level (currently 10).
 `armor`                  | (object) Monster's protection from different types of damage
 `weakpoints`             | (array of objects) Weakpoints in the monster's protection
 `weakpoint_sets`         | (array of strings) Weakpoint sets to apply to the monster. Defined in [`monster_weakpoints`](/data/json/monster_weakpoints)

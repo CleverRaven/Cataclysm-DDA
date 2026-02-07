@@ -50,6 +50,24 @@
     "special_attacks": [ { "id": "TEST_COOLDOWN", "cooldown": 7 } ]
   },
   {
+    "id": "mon_zombie_test_training_cap0",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie",
+    "//COMMENT": "This has a manually defined melee_skill so that changes to the base zombie monster don't require contributors to change tests like Melee_skill_training_caps",
+    "melee_skill": 4,
+    "melee_training_cap": 0,
+    "categories": [ "CLASSIC" ]
+  },
+  {
+    "id": "mon_zombie_test_training_cap6",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie",
+    "//COMMENT": "This has a manually defined melee_skill so that changes to the base zombie monster don't require contributors to change tests like Melee_skill_training_caps",
+    "melee_skill": 4,
+    "melee_training_cap": 6,
+    "categories": [ "CLASSIC" ]
+  },
+  {
     "type": "MONSTER",
     "id": "mon_test_shearable",
     "copy-from": "mon_test_non_shearable",
