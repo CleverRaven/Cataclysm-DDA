@@ -51,6 +51,7 @@
     "based_on": "neither",
     "can_resume": false,
     "multi_activity": true,
+    "fetch_items_to_zone": false,
     "auto_needs": true
   },
   {
@@ -199,6 +200,7 @@
     "based_on": "neither",
     "can_resume": false,
     "multi_activity": true,
+    "fetch_items_to_zone": false,
     "auto_needs": true
   },
   {

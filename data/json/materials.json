@@ -542,6 +542,16 @@
   },
   {
     "type": "material",
+    "id": "hair",
+    "name": "Hair",
+    "density": 1.4,
+    "copy-from": "sclerotin_light",
+    "chip_resist": 11,
+    "breathability": "GOOD",
+    "soft": true
+  },
+  {
+    "type": "material",
     "id": "sclerotin",
     "name": "Hardened Sclerotin",
     "density": 1.9,

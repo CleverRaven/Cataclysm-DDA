@@ -80,7 +80,7 @@
       "msg": "You turn the army flashlight-laser module flashlight on.",
       "target": "mipim_on",
       "need_charges": 1,
-      "need_charges_msg": "The mounted flashlight's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "pocket_data": [
       {

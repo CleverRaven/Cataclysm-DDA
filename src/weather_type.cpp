@@ -121,6 +121,14 @@ void weather_type::load( const JsonObject &jo, std::string_view )
     if( duration_min > duration_max ) {
         jo.throw_error( "duration_min must be less than or equal to duration_max" );
     }
+
+    if( jo.has_array( "passive_effects" ) ) {
+        for( JsonObject job : jo.get_array( "passive_effects" ) ) {
+            field_effect fe;
+            fe.deserialize( job );
+            passive_effect.emplace_back( fe );
+        }
+    }
     optional( jo, was_loaded, "debug_cause_eoc", debug_cause_eoc );
     optional( jo, was_loaded, "debug_leave_eoc", debug_leave_eoc );
 

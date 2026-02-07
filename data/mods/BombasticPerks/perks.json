@@ -734,7 +734,7 @@
   {
     "type": "mutation",
     "id": "perk_popeye",
-    "name": { "str": "Of sailors and spinach" },
+    "name": { "str": "Of Sailors and Spinach" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -984,6 +984,17 @@
   },
   {
     "type": "mutation",
+    "id": "perk_hairsuit",
+    "name": { "str": "Hairsuit" },
+    "//": "An obvious pun on the word `hirsute`",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You've gained the ability to weave your long and luxurious hair into a protective and form-fitting bodysuit.  High heels and handgun skills sold separately.",
+    "integrated_armor": [ "hair_suit_off" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_empath",
     "name": { "str": "Empath" },
     "points": 0,
@@ -1116,6 +1127,33 @@
   },
   {
     "type": "mutation",
+    "id": "perk_kevlard",
+    "name": { "str": "Kevlard" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Conventional wisdom says it's not healthy to be fat, but you're nothing if not unconventional.  Your natural padding acts as a ballistic vest, and the fatter you are, the more protection you'll get.  You must be at least Obese to receive any benefit.",
+    "enchantments": [
+      {
+        "condition": {
+          "and": [ { "math": [ "u_calories('format': 'percent') >= 200" ] }, { "math": [ "u_calories('format': 'percent') < 300" ] } ]
+        },
+        "mutations": [ "perk_kevlard_obese" ]
+      },
+      {
+        "condition": {
+          "and": [ { "math": [ "u_calories('format': 'percent') >= 300" ] }, { "math": [ "u_calories('format': 'percent') < 400" ] } ]
+        },
+        "mutations": [ "perk_kevlard_veryobese" ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_calories('format': 'percent') >= 400" ] } ] },
+        "mutations": [ "perk_kevlard_morbidlyobese" ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_nocturnal",
     "name": { "str": "Nocturnal" },
     "points": 0,
@@ -1224,7 +1262,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You hate the feeling of your blood leaking so much that it empowers you.  Deal more melee damage the more you are bleeding.",
+    "description": "You hate the feeling of your blood leaking so much that it empowers you.  You deal more melee damage the more you are bleeding.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -1259,7 +1297,7 @@
   {
     "type": "mutation",
     "id": "perk_poison_painkill",
-    "name": { "str": "Numb from the toxin" },
+    "name": { "str": "Numb from the Toxin" },
     "points": 0,
     "purifiable": false,
     "valid": false,
