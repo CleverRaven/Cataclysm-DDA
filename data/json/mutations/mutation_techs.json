@@ -223,6 +223,17 @@
   },
   {
     "type": "technique",
+    "id": "TECH_CRAB_PUNCH",
+    "//": "This is just base punch for crabs",
+    "name": "Punch",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You snip %s with your pincer", "<npcname> snips %s with their pincer" ],
+    "description": "A basic crustacean punch",
+    "attack_vectors": [ "vector_crab_pincer" ]
+  },
+  {
+    "type": "technique",
     "id": "HOOVES_KICK",
     "name": "Hoof Kick",
     "melee_allowed": true,

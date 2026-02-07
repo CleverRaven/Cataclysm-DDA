@@ -361,7 +361,7 @@
     "type": "mutation",
     "id": "CRUSTACEAN_CLAW",
     "name": { "str": "Giant Pincer" },
-    "description": "Instead of your right hand, you now have a giant claw resembling ones found on crabs.  It encumbers you greatly, but you can use it in melee combat to deal massive damage.",
+    "description": "Instead of your right hand, you now have a giant claw resembling ones found on crabs.  It's really not good at being a human hand, but you can use it in melee combat to deal massive damage.",
     "category": [ "CRUSTACEAN" ],
     "types": [ "HANDS" ],
     "prereqs": [ "CRUSTACEAN_CARAPACE" ],
@@ -372,6 +372,7 @@
     "visibility": 10,
     "ugliness": 9,
     "restricts_gear": [ "hand_r" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "hand_r" }, { "gain": "crustacean_pincer_r" } ] } ],
     "integrated_armor": [ "integrated_giant_pincer" ]
   },
   {

@@ -1,5 +1,25 @@
 [
   {
+    "id": "crustacean_pincer_wrist_r",
+    "type": "sub_body_part",
+    "name": "crustacean pincer wrist",
+    "name_multiple": "pincer wrists",
+    "max_coverage": 20,
+    "parent": "crustacean_pincer_r",
+    "side": "right",
+    "opposite": "hand_wrist_l"
+  },
+  {
+    "id": "crustacean_pincer_claws_r",
+    "type": "sub_body_part",
+    "name": "crustacean pincer claws",
+    "name_multiple": "pincer claws",
+    "max_coverage": 80,
+    "parent": "crustacean_pincer_r",
+    "side": "right",
+    "opposite": "hand_fingers_l"
+  },
+  {
     "id": "tail_long_base",
     "type": "sub_body_part",
     "name": "long tail base",
