@@ -198,9 +198,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        ".": "t_string_xyz"
-      },
+      "terrain": { ".": "t_string_xyz" },
       "monster": { ".": { "monster": "mon_linelander_yellow", "chance": 1 } }
     }
   },
@@ -234,10 +232,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        ".": "t_string_z",
-        " ": "t_open_air"
-      },
+      "terrain": { ".": "t_string_z", " ": "t_open_air" },
       "monster": { ".": { "monster": "mon_linelander_yellow", "chance": 1 } }
     }
   },
