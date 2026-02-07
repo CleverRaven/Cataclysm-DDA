@@ -2001,7 +2001,7 @@
       "ammo_scale": 0,
       "type": "transform",
       "menu_text": "Turn off",
-      "msg": "The %s flickers for a moment as it becomes opaque.",
+      "msg": "Your optical cloak flickers for a moment as it becomes opaque.",
       "target": "optical_cloak"
     }
   },

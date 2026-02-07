@@ -39,7 +39,7 @@
     "price_postapoc": "10 cent",
     "use_action": {
       "type": "transform",
-      "msg": "You adjust the %s to cover your mouth.",
+      "msg": "You adjust the bandana to cover your mouth.",
       "target": "bandana",
       "menu_text": "Cover mouth"
     },
