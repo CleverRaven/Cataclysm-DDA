@@ -218,7 +218,6 @@
       { "u_message": "Having already consumed a bezoar you cannot consume another", "type": "bad" },
       { "u_lose_morale": "morale_vomited" },
       { "u_cast_spell": { "id": "bezoar_vomit", "hit_self": true } }
-
     ]
   },
   {
