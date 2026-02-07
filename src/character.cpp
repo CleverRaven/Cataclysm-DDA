@@ -6945,10 +6945,6 @@ bool Character::can_sleep()
         sleepy -= current_stim;
     }
 
-    if( has_effect( effect_melatonin ) ) {
-        sleepy += 4;
-    }
-
     sleepy += rng( -8, 8 );
     bool result = sleepy > 0;
 
