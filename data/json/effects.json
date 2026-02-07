@@ -5484,5 +5484,37 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hunting_horror_poison",
+    "name": [ "Poisoned" ],
+    "desc": [ "You have been poisoned!" ],
+    "miss_messages": [ [ "You feel bad inside.", 2 ] ],
+    "rating": "bad",
+    "show_in_info": true,
+    "blood_analysis_description": "Unknown Contaminant",
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') <= 3" ] },
+        "ench_effects": [ { "effect": "effect_hunting_horror_poison_light_sensitive", "intensity": 1 } ]
+      }
+    ],
+    "flags": [ "SUNBURN", "SUNBURN_SUPERNATURAL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hunting_horror_poison_light_sensitive",
+    "name": [ "Uncomfortable" ],
+    "desc": [ "The light is making you itchy and painful." ],
+    "apply_message": "Your skin itches as the light falls on you.",
+    "remove_message": "The itching fades as the light does.",
+    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 20 ], "pain_max_val": [ 30 ], "pain_tick": [ 30 ] },
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.9 },
+      { "limb_score": "reaction", "modifier": 0.9 },
+      { "limb_score": "vision", "modifier": 0.8 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]
