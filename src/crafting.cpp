@@ -34,7 +34,6 @@
 #include "effect_on_condition.h"
 #include "enum_traits.h"
 #include "enums.h"
-#include "explosion.h"
 #include "faction.h"
 #include "flag.h"
 #include "game.h"
