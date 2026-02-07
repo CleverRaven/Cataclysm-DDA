@@ -223,6 +223,29 @@ if (CURSES)
         endif()
 endif ()
 
+# We use rpmalloc in 'header only mode' by directly including its source file.
+file(GLOB RPMALLOC_FILES rpmalloc/**/*)
+add_library(
+        rpmalloc
+        INTERFACE)
+
+target_sources(
+        rpmalloc
+        INTERFACE
+        ${RPMALLOC_FILES})
+
+target_include_directories(
+        rpmalloc
+        SYSTEM
+        INTERFACE
+        ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_link_libraries(
+        third-party
+        INTERFACE
+        rpmalloc
+        )
+
 # Zstandard
 file(GLOB ZSTD_HEADERS zstd/**/*.h)
 file(GLOB ZSTD_SOURCES zstd/common/*.c zstd/compress/*.c zstd/decompress/*.c)

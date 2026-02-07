@@ -175,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\cata_allocator_c.c">
+      <AdditionalOptions>/experimental:c11atomics %(AdditionalOptions)</AdditionalOptions>
       <ForcedIncludeFiles />
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
