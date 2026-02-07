@@ -54,5 +54,12 @@
     "name": [ "" ],
     "desc": [ "" ],
     "flags": [ "WATCH", "ALARMCLOCK" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_consumed_bezoar",
+    "//": "Hidden, but provides effect limiting bezoar consumption",
+    "name": [ "" ],
+    "desc": [ "" ]
   }
 ]
