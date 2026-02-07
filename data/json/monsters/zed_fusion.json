@@ -420,11 +420,11 @@
         "damage_max_instance": [ { "damage_type": "pure", "amount": 0 } ],
         "eoc": [ "EOC_DAITYA_SPAWN_CLONES" ],
         "hit_dmg_u": "An orifice on the side of %s swells and splits open, and a gore-smeared smaller version of this abomination hurls itself free!",
-        "hit_dmg_npc": "A orifice on the side of %s swells and splits open, and gore-smeared smaller version of this abomination hurls itself free!",
-        "no_dmg_msg_u": "A orifice on the side of %s swells and splits open, and gore-smeared smaller version of this abomination hurls itself free!",
-        "no_dmg_msg_npc": "A orifice on the side of %s swells and splits open, and gore-smeared smaller version of this abomination hurls itself free!",
-        "miss_msg_u": "A orifice on the side of %s swells and splits open, and gore-smeared smaller version of this abomination hurls itself free!",
-        "miss_msg_npc": "A orifice on the side of %s swells and splits open, and gore-smeared smaller version of this abomination hurls itself free!"
+        "hit_dmg_npc": "An orifice on the side of %s swells and splits open, and a gore-smeared smaller version of this abomination hurls itself free!",
+        "no_dmg_msg_u": "An orifice on the side of %s swells and splits open, and a gore-smeared smaller version of this abomination hurls itself free!",
+        "no_dmg_msg_npc": "An orifice on the side of %s swells and splits open, and a gore-smeared smaller version of this abomination hurls itself free!",
+        "miss_msg_u": "An orifice on the side of %s swells and splits open, and a gore-smeared smaller version of this abomination hurls itself free!",
+        "miss_msg_npc": "An orifice on the side of %s swells and splits open, and a gore-smeared smaller version of this abomination hurls itself free!"
       }
     ],
     "death_drops": {
