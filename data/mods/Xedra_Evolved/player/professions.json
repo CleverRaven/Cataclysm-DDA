@@ -1154,6 +1154,7 @@
         "entries": [
           { "item": "jeans" },
           { "item": "longshirt" },
+          { "item": "trenchcoat_aramid" },
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "sheath", "contents-item": "knife_combat_marine" },
