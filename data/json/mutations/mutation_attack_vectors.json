@@ -22,5 +22,14 @@
     "strict_limb_definition": true,
     "encumbrance_limit": 4,
     "bp_hp_limit": 50
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_tail_club",
+    "limbs": [ "tail_club" ],
+    "contact_area": [ "tail_club_center", "tail_club_club" ],
+    "strict_limb_definition": true,
+    "encumbrance_limit": 4,
+    "bp_hp_limit": 50
   }
 ]
