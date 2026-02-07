@@ -1141,7 +1141,17 @@
       [ [ "mutagen_bird", 3 ], [ "iv_mutagen_bird", 1 ] ],
       [ [ "purifier", 4 ], [ "iv_purifier", 1 ] ]
     ],
-    "flags": [ "SECRET" ]
+    "flags": [ "SECRET" ],
+    "result_eocs": [
+      {
+        "id": "EOC_STUDY_ALPHA_MUTAGEN",
+        "condition": { "u_has_intelligence": 9 },
+        "effect": [
+          { "u_message": "You realize that from reading this that you need at least one to two more doses of primer than usual to make the irreversible change compared to other mutagens.", "type": "mixed" }
+        ],
+        "false_effect": [ { "u_message": "Yep this is a recipe for some advanced substance.", "type": "mixed" } ]
+      }
+    ]
   },
   {
     "type": "recipe",
