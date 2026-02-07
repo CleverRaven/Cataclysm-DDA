@@ -1,0 +1,56 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_perk_boomstick_blast_monster",
+    "eoc_type": "EVENT",
+    "required_event": "monster_takes_damage",
+    "condition": "has_beta",
+    "effect": [
+      {
+        "if": { "and": [ { "npc_has_trait": "perk_boomstick_blast" }, { "npc_has_wielded_with_skill": "shotgun" } ] },
+        "then": [
+          { "npc_location_variable": { "context_val": "player_position" } },
+          {
+            "if": { "and": [ "has_alpha", { "math": [ "distance('u', _player_position) <= 2" ] } ] },
+            "then": [
+              {
+                "u_knockback": { "math": [ "max((_damage / 25),5)" ] },
+                "stun": 0,
+                "dam_mult": 0.5,
+                "direction_var": { "context_val": "player_position" }
+              },
+              { "u_add_effect": "downed", "duration": 1 }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_perk_boomstick_blast_character",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": "has_beta",
+    "effect": [
+      {
+        "if": { "and": [ { "npc_has_trait": "perk_boomstick_blast" }, { "npc_has_wielded_with_skill": "shotgun" } ] },
+        "then": [
+          { "npc_location_variable": { "context_val": "player_position" } },
+          {
+            "if": { "and": [ "has_alpha", { "math": [ "distance('u', _player_position) <= 2" ] } ] },
+            "then": [
+              {
+                "u_knockback": { "math": [ "max((_damage / 25),5)" ] },
+                "stun": 0,
+                "dam_mult": 0.5,
+                "direction_var": { "context_val": "player_position" }
+              },
+              { "u_add_effect": "downed", "duration": 1 }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -19,8 +19,7 @@
     "range": 110,
     "damage": { "damage_type": "bullet", "amount": 80, "armor_penetration": 30 },
     "dispersion": 15,
-    "recoil": 2200,
-    "effects": [ "NEVER_MISFIRES" ]
+    "recoil": 2200
   },
   {
     "id": "afs_25mm_shot",
@@ -53,7 +52,7 @@
     "count": 15,
     "ammo_type": "afs_25mm",
     "range": 110,
-    "effects": [ "FRAG_25mm", "NEVER_MISFIRES" ],
+    "effects": [ "FRAG_25mm" ],
     "damage": { "damage_type": "bullet", "amount": 70, "armor_penetration": 15 },
     "dispersion": 15
   },
@@ -94,7 +93,6 @@
     "stack_size": 1,
     "recoil": 100,
     "flags": [ "CASELESS_ROUNDS" ],
-    "effects": [ "NEVER_MISFIRES" ],
     "damage": { "damage_type": "bullet", "amount": 60, "armor_penetration": 30 },
     "critical_multiplier": 10,
     "dispersion": 0

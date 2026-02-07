@@ -47,6 +47,7 @@
 #include "translations.h"
 #include "units.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 #include "weather.h"
 
 struct bionic;
@@ -543,6 +544,11 @@ effect talker_character_const::get_effect( const efftype_id &effect_id,
     return me_chr_const->get_effect( effect_id, bp );
 }
 
+float talker_character_const::get_limb_score( const limb_score_id &score, const bp_type &bp ) const
+{
+    return me_chr_const->get_limb_score( score, bp );
+}
+
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
                                    const std::string &bp, bool permanent, bool force,
                                    int intensity )
@@ -903,9 +909,9 @@ bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
 int talker_character_const::item_rads( const flag_id &flag, aggregate_type agg_func ) const
 {
     std::vector<int> rad_vals;
-    me_chr_const->cache_visit_items_with( flag, [&]( const item & it ) {
-        if( me_chr_const->is_worn( it ) || me_chr_const->is_wielding( it ) ) {
-            rad_vals.emplace_back( it.irradiation );
+    me_chr_const->cache_visit_items_with( flag, [&]( const item_location & it ) {
+        if( me_chr_const->is_worn( *it ) || me_chr_const->is_wielding( *it ) ) {
+            rad_vals.emplace_back( it->irradiation );
         }
     } );
     return aggregate( rad_vals, agg_func );
@@ -1072,6 +1078,11 @@ void talker_character::set_pkill( int amount )
 int talker_character_const::get_stamina() const
 {
     return me_chr_const->get_stamina();
+}
+
+int talker_character_const::get_stamina_max() const
+{
+    return me_chr_const->get_stamina_max();
 }
 
 void talker_character::set_stamina( int amount )
@@ -1419,6 +1430,11 @@ matec_id talker_character_const::get_random_technique( Creature const &t, bool c
                         dodge_counter,
                         block_counter,
                         blacklist ) );
+}
+
+bool talker_character_const::is_in_vehicle() const
+{
+    return get_map().veh_at( me_chr_const->pos_bub() ).has_value();
 }
 
 void talker_character::attack_target( Creature &t, bool allow_special,

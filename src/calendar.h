@@ -2,12 +2,13 @@
 #ifndef CATA_SRC_CALENDAR_H
 #define CATA_SRC_CALENDAR_H
 
+#include <array>
 #include <limits>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <type_traits>
 #include <utility>
-#include <vector>
 #include <climits>
 
 #include "units_fwd.h"
@@ -354,7 +355,7 @@ class time_duration
         /// Returns a random duration in the range [low, hi].
         friend time_duration rng( time_duration lo, time_duration hi );
 
-        static const std::vector<std::pair<std::string, time_duration>> units;
+        static const std::array<std::pair<std::string_view, time_duration>, 15> units;
 };
 
 /// @see x_in_y(int,int)

@@ -2609,6 +2609,16 @@ void veh_interact::display_stats( map &here ) const
     i += 1;
 
     if( is_ground ) {
+        if( debug_mode ) {
+            fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
+                            _( "Contact area:   <color_light_blue>%d</color>" ),
+                            veh->wheel_area() );
+            i += 1;
+            fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
+                            _( "Total wheel traction:   <color_light_blue>%5.2f</color>" ),
+                            here.vehicle_wheel_traction( *veh ) );
+            i += 1;
+        }
         fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                         _( "Rolling drag:   <color_light_blue>%5.2f</color>" ),
                         veh->coeff_rolling_drag( here ) );

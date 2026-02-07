@@ -1,0 +1,172 @@
+[
+  {
+    "id": "crustacean_pincer_wrist_r",
+    "type": "sub_body_part",
+    "name": "crustacean pincer wrist",
+    "name_multiple": "pincer wrists",
+    "max_coverage": 20,
+    "parent": "crustacean_pincer_r",
+    "side": "right",
+    "opposite": "hand_wrist_l"
+  },
+  {
+    "id": "crustacean_pincer_claws_r",
+    "type": "sub_body_part",
+    "name": "crustacean pincer claws",
+    "name_multiple": "pincer claws",
+    "max_coverage": 80,
+    "parent": "crustacean_pincer_r",
+    "side": "right",
+    "opposite": "hand_fingers_l"
+  },
+  {
+    "id": "tail_long_base",
+    "type": "sub_body_part",
+    "name": "long tail base",
+    "name_multiple": "tail bases",
+    "max_coverage": 10,
+    "parent": "tail_long",
+    "side": "both",
+    "opposite": "tail_long_tip"
+  },
+  {
+    "id": "tail_long_center",
+    "type": "sub_body_part",
+    "name": "long tail center",
+    "name_multiple": "long tail centers",
+    "max_coverage": 60,
+    "parent": "tail_long",
+    "side": "both",
+    "opposite": "tail_long_center"
+  },
+  {
+    "id": "tail_long_tip",
+    "type": "sub_body_part",
+    "name": "long tail tip",
+    "name_multiple": "long tail tips",
+    "max_coverage": 30,
+    "parent": "tail_long",
+    "side": "both",
+    "opposite": "tail_long_base"
+  },
+  {
+    "id": "tail_fluffy_base",
+    "type": "sub_body_part",
+    "name": "fluffy tail base",
+    "name_multiple": "tail bases",
+    "max_coverage": 10,
+    "parent": "tail_fluffy",
+    "side": "both",
+    "opposite": "tail_fluffy_tip"
+  },
+  {
+    "id": "tail_fluffy_center",
+    "type": "sub_body_part",
+    "name": "fluffy tail center",
+    "name_multiple": "fluffy tail centers",
+    "max_coverage": 60,
+    "parent": "tail_fluffy",
+    "side": "both",
+    "opposite": "tail_fluffy_center"
+  },
+  {
+    "id": "tail_fluffy_tip",
+    "type": "sub_body_part",
+    "name": "fluffy tail tip",
+    "name_multiple": "fluffy tail tips",
+    "max_coverage": 30,
+    "parent": "tail_fluffy",
+    "side": "both",
+    "opposite": "tail_fluffy_base"
+  },
+  {
+    "id": "tail_thick_base",
+    "type": "sub_body_part",
+    "name": "thick tail base",
+    "name_multiple": "thick tail bases",
+    "max_coverage": 10,
+    "parent": "tail_thick",
+    "side": "both",
+    "opposite": "tail_thick_tip"
+  },
+  {
+    "id": "tail_thick_center",
+    "type": "sub_body_part",
+    "name": "thick tail center",
+    "name_multiple": "thick tail centers",
+    "max_coverage": 60,
+    "parent": "tail_thick",
+    "side": "both",
+    "opposite": "tail_thick_center"
+  },
+  {
+    "id": "tail_thick_tip",
+    "type": "sub_body_part",
+    "name": "thick tail tip",
+    "name_multiple": "thick tail tips",
+    "max_coverage": 30,
+    "parent": "tail_thick",
+    "side": "both",
+    "opposite": "tail_thick_base"
+  },
+  {
+    "id": "tail_scorpion_base",
+    "type": "sub_body_part",
+    "name": "scorpion tail base",
+    "name_multiple": "scorpion tail bases",
+    "max_coverage": 10,
+    "parent": "tail_scorpion",
+    "side": 0,
+    "opposite": "tail_scorpion_stinger"
+  },
+  {
+    "id": "tail_scorpion_center",
+    "type": "sub_body_part",
+    "name": "scorpion tail center",
+    "name_multiple": "scorpion tail centers",
+    "max_coverage": 60,
+    "parent": "tail_scorpion",
+    "side": 0,
+    "opposite": "tail_scorpion_center"
+  },
+  {
+    "id": "tail_scorpion_stinger",
+    "type": "sub_body_part",
+    "name": "scorpion tail stinger",
+    "name_multiple": "scorpion tail stingers",
+    "max_coverage": 30,
+    "parent": "tail_scorpion",
+    "side": 0,
+    "opposite": "tail_scorpion_base"
+  },
+  {
+    "id": "tail_club_base",
+    "type": "sub_body_part",
+    "name": "club tail base",
+    "name_multiple": "club tails base",
+    "max_coverage": 10,
+    "parent": "tail_club",
+    "side": 0,
+    "opposite": "tail_club_club"
+  },
+  {
+    "id": "tail_club_center",
+    "type": "sub_body_part",
+    "name": "club tail center",
+    "name_multiple": "club tails center",
+    "max_coverage": 60,
+    "parent": "tail_club",
+    "side": 0,
+    "opposite": "tail_club_center"
+  },
+  {
+    "id": "tail_club_club",
+    "type": "sub_body_part",
+    "name": "club tail mace",
+    "name_multiple": "club tail mace",
+    "max_coverage": 30,
+    "parent": "tail_club",
+    "side": 0,
+    "opposite": "tail_club_base"
+  }
+]

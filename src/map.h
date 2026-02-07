@@ -1899,6 +1899,8 @@ class map
         * direction from 'p', leaving a stump behind at 'p'.
         */
         void cut_down_tree( tripoint_bub_ms p, point_rel_ms dir );
+
+        void maybe_apply_field_effect( const std::vector<field_effect> &vfe, Creature &critter ) const;
     protected:
         /**
          * Radiation-related plant (and fungus?) death.

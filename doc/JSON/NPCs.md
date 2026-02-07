@@ -86,6 +86,8 @@ Format:
 * `"shopkeeper_consumption_rates"` optional to define item consumption rates for this shopkeeper. Default is to consume all items before restocking
 * `"shopkeeper_price_rules"` optional to define personal price rules with the same format as faction price rules (see [FACTIONS.md](FACTIONS.md)). These take priority over faction rules
 * `"shopkeeper_blacklist"` optional to define blacklists for this shopkeeper
+* `"shopkeeper_whitelist"` optional to define whitelist for this shopkeeper. syntax is the same as for blacklist, but `message` field should be ignored
+* `"whitelist_message"` if whitelist is used, this will be printed on every item that is not matched by whitelist
 * `"restock_interval"`: optional. Default is 6 days
 
 #### Shopkeeper item groups
@@ -129,6 +131,23 @@ Specifies blacklist of items that shopkeeper will not accept for trade.  Format 
       "item": "hammer",
       "condition": { "compare_string": [ "yes", { "npc_val": "bool_test_hammer_hater" } ] },
       "message": "<npcname> hates this item"
+    },
+    { "category": "ammo" },
+    { "group": "EXODII_basic_trade" }
+  ]
+```
+
+#### Shopkeeper whiteliste
+Specifies whitelist of items, shopkeeper will not accept anything else.  Format is similar to `shopkeeper_blacklist`.  `message` will have to be defined among the instance instead of being inside of it
+
+```jsonc
+  "type": "shopkeeper_whitelist",
+  "id": "basic_whitelist",
+  "message": "<npcname> will never buy this.",
+  "entries": [
+    {
+      "item": "hammer",
+      "condition": { "compare_string": [ "yes", { "npc_val": "bool_test_hammer_hater" } ] }
     },
     { "category": "ammo" },
     { "group": "EXODII_basic_trade" }
@@ -1351,6 +1370,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | distance(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | g  | Return distance between two targets.<br/>Arguments are location variables or special strings (`u`, `npc`). `u` means your location. `npc` means NPC's location.<br/><br/>Example:<br/>`"condition": { "math": [ "distance('u', loc) <= 50"] }`|
 | effect_intensity(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters intensity of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set intensity of effect.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso') > 1"] }`|
 | effect_duration(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return the characters duration of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set duration of effect.<br/>`unit`: `s`/`v` - Specify the unit of the duration. Omitting will use seconds.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_duration('bite', 'bodypart': 'torso') > 1"] }`<br/>`{ "math": [ "_thing = u_effect_duration('yrax_overcharged', 'bodypart': 'torso', 'unit': 'hours')" ] }`|
+| limb_score(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the character limb score.<br/>Argument is limb score id.<br/><br/>Optional kwargs:<br/>`type`: `s`/`v` - Specifies the type of bodypart of which score should be picked, like `arm` or `sensor`, see the full list in [JSON_INFO.md#Body_parts](JSON_INFO.md#Body_parts).<br/><br/> Example:<br/>`{ "math": [ "_foo = u_limb_score('lift', 'type': 'arm')" ] }`|
 | encumbrance(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total encumbrance of a body part.<br/>Argument is bodypart ID. <br/> For items, returns typical encumbrance of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_encumbrance('torso') > 0"] }`|
 | health(`d`/`v`)    |  ✅   |   ✅  | u, n  | Return character current health .<br/><br/>Example:<br/>`{ "math": [ "u_health() -= 1" ] }`|
 | energy(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return a numeric value (in millijoules) for an energy string (see [Units](JSON_INFO.md#units)).<br/><br/>Example:<br/>`{ "math": [ "u_val('power') -= energy('25 kJ')" ] }`|
@@ -1455,6 +1475,7 @@ These can be read or written to with `val()`.
 | `sleep_deprivation` | ✅ | Current sleep deprivation level. |
 | `sold` | ✅ | Amount of money the avatar has sold the Character |
 | `stamina` | ✅ | Current stamina level. |
+| `stamina_max` | ❌ | Maximum stamina level. |
 | `stim` | ✅ | Current stim level. |
 | `strength`<br/>`dexterity`<br/>`intelligence`<br/>`perception` | ✅ | Current attributes |
 | `strength_base`<br/>`dexterity_base`<br/>`intelligence_base`<br/>`perception_base` | ✅ | Base attributes |

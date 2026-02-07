@@ -1,0 +1,35 @@
+[
+  {
+    "type": "attack_vector",
+    "id": "vector_crab_pincer",
+    "limbs": [ "crustacean_pincer_r" ],
+    "contact_area": [ "crustacean_pincer_claws_r" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_tail_sting",
+    "limbs": [ "tail_scorpion" ],
+    "contact_area": [ "tail_scorpion_stinger" ],
+    "strict_limb_definition": true,
+    "encumbrance_limit": 2,
+    "bp_hp_limit": 50
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_tail_thick",
+    "limbs": [ "tail_thick" ],
+    "contact_area": [ "tail_thick_center", "tail_thick_tip" ],
+    "strict_limb_definition": true,
+    "encumbrance_limit": 4,
+    "bp_hp_limit": 50
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_tail_club",
+    "limbs": [ "tail_club" ],
+    "contact_area": [ "tail_club_center", "tail_club_club" ],
+    "strict_limb_definition": true,
+    "encumbrance_limit": 4,
+    "bp_hp_limit": 50
+  }
+]

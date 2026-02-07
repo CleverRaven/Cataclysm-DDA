@@ -177,7 +177,10 @@ static const itype_id itype_HEW_printout_data_morgantown( "HEW_printout_data_mor
 static const itype_id itype_HEW_printout_data_physics_lab( "HEW_printout_data_physics_lab" );
 static const itype_id itype_HEW_printout_data_portal_storm( "HEW_printout_data_portal_storm" );
 static const itype_id itype_HEW_printout_data_radiosphere( "HEW_printout_data_radiosphere" );
+static const itype_id itype_HEW_printout_data_spiral_mine( "HEW_printout_data_spiral_mine" );
 static const itype_id itype_HEW_printout_data_strange_temple( "HEW_printout_data_strange_temple" );
+static const itype_id
+itype_HEW_printout_data_string_dimension( "HEW_printout_data_string_dimension" );
 static const itype_id itype_HEW_printout_data_vitrified( "HEW_printout_data_vitrified" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_maple_sap( "maple_sap" );
@@ -3908,7 +3911,6 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
     std::vector<item> contents;
     map_stack items = i_at( p );
     std::vector<std::string> wheel_damage_messages;
-    int damage_levels = 0;
 
     for( auto i = items.begin(); i != items.end() && power > 0; ) {
         if( i->made_of( phase_id::LIQUID ) ) {
@@ -4035,27 +4037,12 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
                                 damaged_item_name );
     }
 
-    if( damage_levels > 0 ) {
-        veh->damage_direct( bubble_map, *vp_wheel, damage_levels );
+    const bool player_is_driver = veh != nullptr && &get_player_character() == veh->get_driver( *this );
+    const bool player_sees_damage = get_player_character().sees( *this, p );
 
-        const bool player_is_driver = veh != nullptr && &get_player_character() == veh->get_driver( *this );
-        const bool player_sees_damage = get_player_character().sees( *this, p );
-
-        if( !wheel_damage_messages.empty() && ( player_is_driver || player_sees_damage ) ) {
-            for( const std::string &msg : wheel_damage_messages ) {
-                add_msg( m_bad, msg );
-            }
-        }
-
-        bool existing = false;
-        for( int wheel : veh->wheelcache ) {
-            if( veh->bub_part_pos( *this, veh->part( wheel ) ) == p ) {
-                existing = true;
-                break;
-            }
-        }
-        if( existing ) {
-            add_msg( m_bad, _( "The %s has been degraded by the damage" ), vp_wheel->name() );
+    if( !wheel_damage_messages.empty() && ( player_is_driver || player_sees_damage ) ) {
+        for( const std::string &msg : wheel_damage_messages ) {
+            add_msg( m_bad, msg );
         }
     }
 
@@ -5862,6 +5849,10 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                         "cabin_3_reverberation_hint", 10, false );
                 const tripoint_abs_omt closest_monster_corpse = overmap_buffer.find_closest( veh_position,
                         "corpse_bowels_mid", 10, false );
+                const tripoint_abs_omt closest_spiral_mine = overmap_buffer.find_closest( veh_position,
+                        "mine_spiral_finale_s", 10, false );
+                const tripoint_abs_omt closest_string_dimension = overmap_buffer.find_closest( veh_position,
+                        "string_dimension_crossroads", 10, false );
                 if( trig_dist( veh_position, closest_vitrified_farm ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_vitrified, calendar::turn_zero ) );
                 }
@@ -5902,6 +5893,12 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 }
                 if( trig_dist( veh_position, closest_radiosphere ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_radiosphere, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_spiral_mine ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_spiral_mine, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_string_dimension ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_string_dimension, calendar::turn_zero ) );
                 }
                 if( trig_dist( veh_position, closest_monster_corpse ) < 1 ) {
                     cur_veh.add_item( here, vp, item( itype_mws_monster_corpse_weather_data, calendar::turn_zero ) );
@@ -6712,6 +6709,16 @@ void map::remove_trap( const tripoint_bub_ms &p )
         const auto iter = std::find( traps.begin(), traps.end(), p );
         if( iter != traps.end() ) {
             traps.erase( iter );
+        }
+        // If this tile is a phased terrain placeholder (PHASE_BACK), restore
+        // the original terrain stored for this tile when removing the trap.
+        if( ter( p )->has_flag( "PHASE_BACK" ) ) {
+            if( has_original_terrain_at( p ) ) {
+                const ter_id orig = get_original_terrain_at( p );
+                ter_set( p, orig );
+            } else {
+                ter_set( p, ter( p ).obj().bash->ter_set );
+            }
         }
     }
 }

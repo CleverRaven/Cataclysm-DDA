@@ -216,19 +216,29 @@ class uistatedata
         bool numpad_navigation = false;
 
         // V Menu Stuff
-        list_item_sort_mode list_item_sort = list_item_sort_mode::DISTANCE;
+        // enum serialization relies on string conversion,
+        // which doesn't make too much sense for flag enums
+        // so we store them as ints instead
+        // todo: turn into surroundings_menu_sort_flags
+        // when flag enums can be serialized as numbers
+        int vmenu_item_sort = 0;
+        int vmenu_monster_sort = 0;
+        int vmenu_terfurn_sort = 0;
         std::set<itype_id> read_items;
 
-        // These three aren't serialized because deserialize can extract them
+        // These five aren't serialized because deserialize can extract them
         // from the history
         std::string list_item_filter; // NOLINT(cata-serialize)
         std::string list_item_downvote; // NOLINT(cata-serialize)
         std::string list_item_priority; // NOLINT(cata-serialize)
-        bool vmenu_show_items = true; // false implies show monsters
+        std::string monster_filter; // NOLINT(cata-serialize)
+        std::string terfurn_filter; // NOLINT(cata-serialize)
+        surroundings_menu_tab_enum vmenu_tab = surroundings_menu_tab_enum::items;
         bool list_item_filter_active = false;
         bool list_item_downvote_active = false;
         bool list_item_priority_active = false;
-        bool list_item_init = false; // NOLINT(cata-serialize)
+        bool list_monster_filter_active = false;
+        bool list_terfurn_filter_active = false;
 
         // construction menu selections
         std::string construction_filter;

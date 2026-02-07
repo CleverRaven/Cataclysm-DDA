@@ -19,6 +19,7 @@
 #include "to_string_id.h"
 #include "type_id.h"  // IWYU pragma: keep
 
+class cata_variant; // IWYU pragma: keep
 class JsonOut;
 class JsonValue;
 enum class mutagen_technique : int;

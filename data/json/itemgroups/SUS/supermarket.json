@@ -1,5 +1,306 @@
 [
   {
+    "id": "tea_bag_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_bag", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "id": "tea_green_bag_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_green_bag", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "id": "tea_fruit_bag_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_fruit_bag", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "id": "herbal_tea_bag_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "herbal_tea_bag", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "id": "tea_bag_dandelion_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_bag_dandelion", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "id": "tea_bag_chamomile_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_bag_chamomile", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "id": "milk_cream_bottle_2",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic",
+    "entries": [ { "item": "milk_cream", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "id": "veggy_salad_bowl_2",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bowl_plastic",
+    "entries": [ { "item": "veggy_salad", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "id": "sushi_veggyroll_bowl_2",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bowl_plastic",
+    "entries": [ { "item": "sushi_veggyroll", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "id": "onion_rings_box_6",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "onion_rings", "container-item": "null", "count": 6 } ]
+  },
+  {
+    "id": "chicken_fried_box_6",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "chicken_fried", "container-item": "null", "count": 6 } ]
+  },
+  {
+    "id": "flour_bag_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "flour", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "bread_flour_bag_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "bread_flour", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "flour_wheat_free_bag_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "flour_wheat_free", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "sugar_bag_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "yeast_bag_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "id": "spaghetti_raw_bag_30",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "spaghetti_raw", "container-item": "null", "count": 30 } ]
+  },
+  {
+    "id": "lasagne_raw_bag_30",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "lasagne_raw", "container-item": "null", "count": 30 } ]
+  },
+  {
+    "id": "noodles_fast_bag_5",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "noodles_fast", "container-item": "null", "count": 5 } ]
+  },
+  {
+    "id": "cheese_hard_wrapper_8",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "cheese_hard", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "id": "spread_peanutbutter_2",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "can_food",
+    "entries": [ { "item": "spread_peanutbutter", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "id": "pepper_bottle_plastic_small_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "pepper", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "garlic_powder_bottle_plastic_small_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "chilly_p_bottle_plastic_small_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "chilly-p", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "thyme_bowl_plastic_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bowl_plastic",
+    "entries": [ { "item": "thyme", "container-item": "null", "count": 3 } ]
+  },
+  {
+    "id": "mustard_powder_bottle_plastic_small_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "mustard_powder", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "oats_bag_plastic_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "oats", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "id": "crackers_box_16",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "crackers", "container-item": "null", "count": 16 } ]
+  },
+  {
+    "id": "oyster_crackers_box_20",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "oyster_crackers", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "id": "peanut_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "peanut", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "peanut_shelled_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "peanut_shelled", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "chestnut_roasted_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "chestnut_roasted", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "pistachio_shelled_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "pistachio_shelled", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "pistachio_roasted_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "pistachio_roasted", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "almond_roasted_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "almond_roasted", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "cashews_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "cashews", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "pecan_shelled_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "pecan_shelled", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "pecan_roasted_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "pecan_roasted", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "cheese_bag_8",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "cheese", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "id": "mozzarella_cheese_bag_1",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "mozzarella_cheese", "container-item": "null", "count": 1 } ]
+  },
+  {
+    "id": "mascarpone_container_1",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "cup_plastic",
+    "entries": [ { "item": "mascarpone", "container-item": "null", "count": 1 } ]
+  },
+  {
+    "id": "pecorino_cheese_wrapper_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "pecorino_cheese", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "cottage_cheese_tub_1",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "plastic_bucket",
+    "entries": [ { "item": "cottage_cheese", "container-item": "null", "count": 1 } ]
+  },
+  {
     "id": "commercial_sauces_dressings",
     "type": "item_group",
     "subtype": "distribution",
@@ -27,16 +328,16 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "salt", 1 ],
-      [ "seasoning_salt", 1 ],
-      [ "pepper", 1 ],
-      [ "garlic_powder", 1 ],
-      [ "curry_powder", 1 ],
-      [ "chilly-p", 1 ],
-      [ "seasoning_italian", 1 ],
-      [ "wild_herbs", 1 ],
-      [ "thyme", 1 ],
-      [ "mustard_powder", 1 ]
+      { "group": "salt_bottle_plastic_small_full", "prob": 1 },
+      { "group": "seasoning_salt_bottle_plastic_small_full", "prob": 1 },
+      { "group": "pepper_bottle_plastic_small_full", "prob": 1 },
+      { "group": "garlic_powder_bottle_plastic_small_full", "prob": 1 },
+      { "group": "curry_powder_bottle_plastic_small_full", "prob": 1 },
+      { "group": "chilly_p_bottle_plastic_small_full", "prob": 1 },
+      { "group": "seasoning_italian_bottle_plastic_small_full", "prob": 1 },
+      { "group": "wild_herbs_jar_glass_sealed_20_inf", "prob": 1 },
+      { "group": "thyme_bowl_plastic_full", "prob": 1 },
+      { "group": "mustard_powder_bottle_plastic_small_full", "prob": 1 }
     ]
   },
   {
@@ -50,7 +351,7 @@
     "id": "commercial_oil_vinegar",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "cooking_oil", 1 ], [ "vinegar", 1 ] ]
+    "items": [ { "item": "cooking_oil", "prob": 1, "count": 1, "container-item": "jug_plastic" }, [ "vinegar", 1 ] ]
   },
   {
     "id": "SUS_shelf_commercial_oil_vinegar",
@@ -63,7 +364,7 @@
     "id": "commercial_exotic_food",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "noodles_fast", 1 ] ]
+    "items": [ { "group": "noodles_fast_bag_5", "prob": 1 } ]
   },
   {
     "id": "SUS_shelf_commercial_exotic_food",
@@ -76,7 +377,12 @@
     "id": "commercial_grains",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "dry_rice", 1 ], [ "dry_lentils", 1 ], [ "dry_beans", 1 ], [ "oats", 1 ] ]
+    "items": [
+      { "group": "dry_rice_bag_plastic_full", "count": 1 },
+      { "group": "dry_lentils_bag_plastic_full", "count": 1 },
+      { "group": "dry_beans_bag_plastic_full", "count": 1 },
+      { "group": "oats_bag_plastic_full", "count": 1 }
+    ]
   },
   {
     "id": "SUS_shelf_commercial_grains",
@@ -89,7 +395,13 @@
     "id": "commercial_baking",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "flour", 1 ], [ "bread_flour", 1 ], [ "flour_wheat_free", 1 ], [ "yeast", 1 ], [ "sugar", 1 ] ]
+    "items": [
+      { "group": "flour_bag_50", "prob": 1 },
+      { "group": "bread_flour_bag_50", "prob": 1 },
+      { "group": "flour_wheat_free_bag_50", "prob": 1 },
+      { "group": "yeast_bag_10", "prob": 1 },
+      { "group": "sugar_bag_50", "prob": 1 }
+    ]
   },
   {
     "id": "SUS_shelf_commercial_baking",
@@ -102,7 +414,7 @@
     "id": "commercial_pasta",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "spaghetti_raw", 1 ], [ "lasagne_raw", 1 ] ]
+    "items": [ { "group": "spaghetti_raw_bag_30", "prob": 1 }, { "group": "lasagne_raw_bag_30", "prob": 1 } ]
   },
   {
     "id": "SUS_shelf_commercial_pasta",
@@ -195,12 +507,12 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "tea_bag", 1 ],
-      [ "tea_green_bag", 1 ],
-      [ "tea_fruit_bag", 1 ],
-      [ "herbal_tea_bag", 1 ],
-      [ "tea_bag_dandelion", 1 ],
-      [ "tea_bag_chamomile", 1 ]
+      { "group": "tea_bag_box_10", "prob": 1 },
+      { "group": "tea_green_bag_box_10", "prob": 1 },
+      { "group": "tea_fruit_bag_box_10", "prob": 1 },
+      { "group": "herbal_tea_bag_box_10", "prob": 1 },
+      { "group": "tea_bag_dandelion_box_10", "prob": 1 },
+      { "group": "tea_bag_chamomile_box_10", "prob": 1 }
     ]
   },
   {
@@ -235,7 +547,7 @@
     "id": "commercial_spreads",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "jam_fruit", 1 ], [ "honey_bottled", 1 ], [ "spread_peanutbutter", 1 ] ]
+    "items": [ [ "jam_fruit", 12 ], [ "honey_bottled", 12 ], { "group": "spread_peanutbutter_2", "prob": 8 } ]
   },
   {
     "id": "SUS_shelf_commercial_spreads",
@@ -248,7 +560,7 @@
     "id": "commercial_sweet_snacks",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "chocolate", 1 ], [ "protein_bar_zero", 1 ], [ "protein_bar_peanut", 1 ], [ "protein_bar_milk", 1 ] ]
+    "items": [ [ "chocolate", 8 ], [ "protein_bar_zero", 6 ], [ "protein_bar_peanut", 6 ], [ "protein_bar_milk", 6 ] ]
   },
   {
     "id": "SUS_shelf_commercial_sweet_snacks",
@@ -261,7 +573,7 @@
     "id": "commercial_butter_cream",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "butter", 1 ], [ "milk_cream", 1 ] ]
+    "items": [ { "group": "butter_wrapper_32", "prob": 10 }, { "group": "milk_cream_bottle_2", "prob": 10 } ]
   },
   {
     "id": "SUS_shelf_commercial_butter_cream",
@@ -289,12 +601,12 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "prob": 1, "item": "cheese_hard", "count": 8 },
-      { "prob": 1, "item": "cheese", "count": 8 },
-      { "prob": 1, "item": "mozzarella_cheese", "count": 1 },
-      { "prob": 1, "item": "mascarpone", "count": 1 },
-      { "prob": 1, "item": "pecorino_cheese", "count": 4 },
-      { "prob": 1, "item": "cottage_cheese", "count": 1 }
+      { "prob": 1, "group": "cheese_hard_wrapper_8" },
+      { "prob": 1, "group": "cheese_bag_8" },
+      { "prob": 1, "group": "mozzarella_cheese_bag_1" },
+      { "prob": 1, "group": "mascarpone_container_1" },
+      { "prob": 1, "group": "pecorino_cheese_wrapper_4" },
+      { "prob": 1, "group": "cottage_cheese_tub_1" }
     ]
   },
   {
@@ -335,7 +647,7 @@
     "id": "commercial_meat_beef",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "meat", 1 ] ]
+    "items": [ [ "meat", 4 ] ]
   },
   {
     "id": "SUS_shelf_commercial_meat_beef",
@@ -348,7 +660,7 @@
     "id": "commercial_meat_pork",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "meat", 1 ], [ "porkbelly", 1 ], [ "bacon_uncut", 1 ] ]
+    "items": [ [ "meat", 4 ], [ "porkbelly", 2 ], [ "bacon_uncut", 3 ] ]
   },
   {
     "id": "SUS_shelf_commercial_meat_pork",
@@ -374,7 +686,7 @@
     "id": "commercial_meat_seafood",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "fish", 1 ], [ "lobster", 1 ], [ "mollusk", 1 ] ]
+    "items": [ [ "fish", 4 ], [ "lobster", 1 ], [ "mollusk", 1 ] ]
   },
   {
     "id": "SUS_shelf_commercial_meat_seafood",
@@ -491,17 +803,17 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "crackers", 1 ],
-      [ "oyster_crackers", 1 ],
-      [ "peanut", 1 ],
-      [ "peanut_shelled", 1 ],
-      [ "chestnut_roasted", 1 ],
-      [ "pistachio_shelled", 1 ],
-      [ "pistachio_roasted", 1 ],
-      [ "almond_roasted", 1 ],
-      [ "cashews", 1 ],
-      [ "pecan_shelled", 1 ],
-      [ "pecan_roasted", 1 ]
+      { "group": "crackers_box_16", "prob": 1 },
+      { "group": "oyster_crackers_box_20", "prob": 1 },
+      { "group": "peanut_bag_plastic_4", "prob": 1 },
+      { "group": "peanut_shelled_bag_plastic_4", "prob": 1 },
+      { "group": "chestnut_roasted_bag_plastic_4", "prob": 1 },
+      { "group": "pistachio_shelled_bag_plastic_4", "prob": 1 },
+      { "group": "pistachio_roasted_bag_plastic_4", "prob": 1 },
+      { "group": "almond_roasted_bag_plastic_4", "prob": 1 },
+      { "group": "cashews_bag_plastic_4", "prob": 1 },
+      { "group": "pecan_shelled_bag_plastic_4", "prob": 1 },
+      { "group": "pecan_roasted_bag_plastic_4", "prob": 1 }
     ]
   },
   {
@@ -536,7 +848,7 @@
       [ "candy5", 1 ],
       [ "candy3gator", 1 ],
       [ "cow_candy", 1 ],
-      [ "powder_candy", 1 ],
+      { "item": "powder_candy", "prob": 1, "container-item": "bag_plastic_small" },
       [ "candy_bracelet", 1 ],
       [ "candycigarette", 1 ],
       [ "candy_coated_peanuts", 1 ]
@@ -685,7 +997,7 @@
     "id": "commercial_household_dish_cleaning",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "soap", 1 ], [ "liquid_soap", 1 ], [ "sponge", 1 ], [ "brush", 1 ], [ "dish_towel", 1 ] ]
+    "items": [ [ "soap", 6 ], [ "liquid_soap", 1 ], [ "sponge", 1 ], [ "brush", 1 ], [ "dish_towel", 3 ] ]
   },
   {
     "id": "SUS_shelf_commercial_dish_cleaning",
@@ -698,7 +1010,7 @@
     "id": "commercial_cleaning_supplies",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "soap", 1 ], [ "liquid_soap", 1 ] ]
+    "items": [ [ "soap", 6 ], [ "liquid_soap", 1 ] ]
   },
   {
     "id": "SUS_shelf_commercial_cleaning_supplies",
@@ -711,7 +1023,7 @@
     "id": "commercial_toilet_paper",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "toilet_paper", 1 ] ]
+    "items": [ [ "toilet_paper", 12 ] ]
   },
   {
     "id": "SUS_shelf_commercial_toilet_paper",
@@ -745,7 +1057,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "soap", 1 ],
+      [ "soap", 6 ],
       [ "liquid_soap", 1 ],
       [ "house_coat", 1 ],
       [ "bath_toy", 1 ],
@@ -925,13 +1237,13 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "chili", 1 ],
-      [ "ravioli", 1 ],
-      [ "veggy_salad", 1 ],
-      [ "sushi_veggyroll", 1 ],
-      [ "sauerkraut", 1 ],
-      [ "onion_rings", 1 ],
-      [ "chicken_fried", 1 ]
+      { "group": "chili_in_can", "prob": 4 },
+      { "group": "ravioli_in_can", "prob": 4 },
+      { "group": "veggy_salad_bowl_2", "prob": 3 },
+      { "group": "sushi_veggyroll_bowl_2", "prob": 6 },
+      { "group": "sauerkraut_jar_glass_sealed_2", "prob": 2 },
+      { "group": "onion_rings_box_6", "prob": 8 },
+      { "group": "chicken_fried_box_6", "prob": 8 }
     ]
   },
   {

@@ -50,7 +50,6 @@
 #include "point.h"
 #include "ranged.h"
 #include "ret_val.h"
-#include "safe_reference.h"
 #include "sleep.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -324,54 +323,19 @@ struct queued_eocs {
     std::priority_queue<storage_iter, std::vector<storage_iter>, eoc_compare> queue;
     std::list<queued_eoc> list;
 
-    queued_eocs() = default;
+    queued_eocs();
 
-    queued_eocs( const queued_eocs &rhs ) {
-        list = rhs.list;
-        for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
-            queue.emplace( it );
-        }
-    };
-    queued_eocs( queued_eocs &&rhs ) noexcept {
-        queue.swap( rhs.queue );
-        list.swap( rhs.list );
-    }
+    queued_eocs( const queued_eocs &rhs );
+    queued_eocs( queued_eocs &&rhs ) noexcept;
 
-    queued_eocs &operator=( const queued_eocs &rhs ) {
-        list = rhs.list;
-        // Why doesn't std::priority_queue have a clear() function.
-        queue = {};
-        for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
-            queue.emplace( it );
-        }
-        return *this;
-    }
-    queued_eocs &operator=( queued_eocs &&rhs ) noexcept {
-        queue.swap( rhs.queue );
-        list.swap( rhs.list );
-        return *this;
-    }
+    queued_eocs &operator=( const queued_eocs &rhs );
+    queued_eocs &operator=( queued_eocs &&rhs ) noexcept;
 
-    /* std::priority_queue compatibility layer where performance is less relevant */
-
-    bool empty() const {
-        return queue.empty();
-    }
-
-    const queued_eoc &top() const {
-        return *queue.top();
-    }
-
-    void push( const queued_eoc &eoc ) {
-        auto it = list.emplace( list.end(), eoc );
-        queue.push( it );
-    }
-
-    void pop() {
-        auto it = queue.top();
-        queue.pop();
-        list.erase( it );
-    }
+    /* std::priority_queue compatibility layer */
+    bool empty() const;
+    const queued_eoc &top() const;
+    void push( const queued_eoc &eoc );
+    void pop();
 };
 
 struct aim_type {
@@ -2164,6 +2128,10 @@ class Character : public Creature, public visitable
         item_location try_add( item it, int &copies_remaining, const item *avoid = nullptr,
                                const item *original_inventory_item = nullptr, bool allow_wield = true,
                                bool ignore_pkt_settings = false );
+        /** Checks to see if it's possible to add an item to the inventory. */
+        bool can_add( const item &it, const item *avoid = nullptr,
+                      bool allow_wield = true,
+                      bool ignore_pkt_settings = false );
 
         ret_val<item_location> i_add_or_fill( item &it, bool should_stack = true,
                                               const item *avoid = nullptr,
@@ -2235,7 +2203,7 @@ class Character : public Creature, public visitable
         /**
          * Returns the items that are ammo and have the matching ammo type.
          */
-        std::vector<const item *> get_ammo( const ammotype &at ) const;
+        std::vector<item_location> get_ammo( const ammotype &at ) const;
 
         /**
          * Searches for ammo or magazines that can be used to reload obj
@@ -2984,23 +2952,23 @@ class Character : public Creature, public visitable
          * @param do_func A lambda function to apply on all items that pass the filters.
          */
         void cache_visit_items_with( const itype_id &type,
-                                     const std::function<void( item & )> &do_func );
+                                     const std::function<void( item_location & )> &do_func );
         void cache_visit_items_with( const flag_id &type_flag,
-                                     const std::function<void( item & )> &do_func );
+                                     const std::function<void( item_location & )> &do_func );
         void cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
-                                     const std::function<void( item & )> &do_func );
+                                     const std::function<void( item_location & )> &do_func );
         void cache_visit_items_with( const std::string &key, const itype_id &type,
                                      const flag_id &type_flag, bool( item::*filter_func )() const,
-                                     const std::function<void( item & )> &do_func );
+                                     const std::function<void( item_location & )> &do_func );
         void cache_visit_items_with( const itype_id &type,
-                                     const std::function<void( const item & )> &do_func ) const;
+                                     const std::function<void( const item_location & )> &do_func ) const;
         void cache_visit_items_with( const flag_id &type_flag,
-                                     const std::function<void( const item & )> &do_func ) const;
+                                     const std::function<void( const item_location & )> &do_func ) const;
         void cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
-                                     const std::function<void( const item & )> &do_func ) const;
+                                     const std::function<void( const item_location & )> &do_func ) const;
         void cache_visit_items_with( const std::string &key, const itype_id &type,
                                      const flag_id &type_flag, bool( item::*filter_func )() const,
-                                     const std::function<void( const item & )> &do_func ) const;
+                                     const std::function<void( const item_location & )> &do_func ) const;
         /**
         * @brief Returns true if the character has an item with given flag and/or that passes the given boolean item function, using or creating caches from @ref inv_search_caches.
         * @brief If you want to iterate over the entire cache, `cache_visit_items_with` should be used instead, as it's more optimized for processing entire caches.
@@ -3039,26 +3007,26 @@ class Character : public Creature, public visitable
          * If it returns true, the item is added to the return vector. These results are not cached, unlike filter_func.
          * @return A vector of pointers to all items that pass the criteria.
          */
-        std::vector<item *> cache_get_items_with( const itype_id &type,
-                const std::function<bool( item & )> &do_and_check_func = return_true<item> );
-        std::vector<item *> cache_get_items_with( const flag_id &type_flag,
-                const std::function<bool( item & )> &do_and_check_func = return_true<item> );
-        std::vector<item *> cache_get_items_with( const std::string &key,
+        std::vector<item_location> cache_get_items_with( const itype_id &type,
+                const std::function<bool( item_location & )> &do_and_check_func = return_true<item_location> );
+        std::vector<item_location> cache_get_items_with( const flag_id &type_flag,
+                const std::function<bool( item_location & )> &do_and_check_func = return_true<item_location> );
+        std::vector<item_location> cache_get_items_with( const std::string &key,
                 bool( item::*filter_func )() const,
-                const std::function<bool( item & )> &do_and_check_func = return_true<item> );
-        std::vector<item *> cache_get_items_with( const std::string &key, const itype_id &type,
+                const std::function<bool( item_location & )> &do_and_check_func = return_true<item_location> );
+        std::vector<item_location> cache_get_items_with( const std::string &key, const itype_id &type,
                 const flag_id &type_flag, bool( item::*filter_func )() const,
-                const std::function<bool( item & )> &do_and_check_func = return_true<item> );
-        std::vector<const item *> cache_get_items_with( const itype_id &type,
-                const std::function<bool( const item & )> &check_func = return_true<item> ) const;
-        std::vector<const item *> cache_get_items_with( const flag_id &type_flag,
-                const std::function<bool( const item & )> &check_func = return_true<item> ) const;
-        std::vector<const item *> cache_get_items_with( const std::string &key,
+                const std::function<bool( item_location & )> &do_and_check_func = return_true<item_location> );
+        std::vector<item_location> cache_get_items_with( const itype_id &type,
+                const std::function<bool( const item_location & )> &check_func = return_true<item_location> ) const;
+        std::vector<item_location> cache_get_items_with( const flag_id &type_flag,
+                const std::function<bool( const item_location & )> &check_func = return_true<item_location> ) const;
+        std::vector<item_location> cache_get_items_with( const std::string &key,
                 bool( item::*filter_func )() const,
-                const std::function<bool( const item & )> &check_func = return_true<item> ) const;
-        std::vector<const item *> cache_get_items_with( const std::string &key, const itype_id &type,
+                const std::function<bool( const item_location & )> &check_func = return_true<item_location> ) const;
+        std::vector<item_location> cache_get_items_with( const std::string &key, const itype_id &type,
                 const flag_id &type_flag, bool( item::*filter_func )() const,
-                const std::function<bool( const item & )> &check_func = return_true<item> ) const;
+                const std::function<bool( const item_location & )> &check_func = return_true<item_location> ) const;
         /**
          * Add an item to existing @ref inv_search_caches that it meets the criteria for. Will NOT create any new caches.
          */
@@ -4291,7 +4259,7 @@ class Character : public Creature, public visitable
             itype_id type;
             flag_id type_flag;
             bool ( item::*filter_func )() const;
-            std::list<safe_reference<item>> items;
+            std::list<item_location> items;
         };
         mutable std::unordered_map<std::string, inv_search_cache> inv_search_caches;
     protected:

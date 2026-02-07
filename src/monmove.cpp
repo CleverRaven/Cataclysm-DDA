@@ -1894,9 +1894,9 @@ bool monster::attack_at( const tripoint_bub_ms &p )
     const map &here = get_map();
 
     // Aquatic monsters that are underwater should not be able to attack
-    // through thick ice above them, except they may attack other monsters
+    // through tile above them, except they may attack other monsters
     // that are also underwater (fish fighting under the ice).
-    if( is_underwater() && here.has_flag( ter_furn_flag::TFLAG_THICK_ICE, p ) ) {
+    if( is_underwater() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, p ) ) {
         creature_tracker &creatures = get_creature_tracker();
         monster *target_mon = creatures.creature_at<monster>( p );
         if( !( target_mon != nullptr && target_mon->is_underwater() ) ) {
@@ -2034,7 +2034,10 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
 
 
     //Check for moving into/out of water
-    bool was_water = underwater;
+    // Use map-based check for current location because `underwater` member
+    // always out-of-sync for monsters; was_water only affects messaging, not logic.
+    // This will remove tons of unnecessary msg.
+    bool was_water = is_likely_underwater( here );
     bool will_be_water =
         on_ground && (
             // AQUATIC monsters always "swim under" the vehicles, while other swimming monsters are forced to surface

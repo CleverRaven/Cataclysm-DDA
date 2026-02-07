@@ -320,6 +320,7 @@ void DynamicDataLoader::initialize()
     add( "scenario", &scenario::load_scenario );
     add( "SCENARIO_BLACKLIST", &scen_blacklist::load_scen_blacklist );
     add( "shopkeeper_blacklist", &shopkeeper_blacklist::load_blacklist );
+    add( "shopkeeper_whitelist", &shopkeeper_whitelist::load_whitelist );
     add( "shopkeeper_consumption_rates", &shopkeeper_cons_rates::load_rate );
     add( "enchantment", &enchantment::load_enchantment );
     add( "hit_range", &Creature::load_hit_range );
@@ -754,6 +755,7 @@ void DynamicDataLoader::unload_data()
     scent_type::reset();
     score::reset();
     shopkeeper_blacklist::reset();
+    shopkeeper_whitelist::reset();
     shopkeeper_cons_rates::reset();
     Skill::reset();
     SNIPPET.clear_snippets();
@@ -903,6 +905,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Scent Types" ), &scent_type::finalize_all },
             { _( "Scores" ), &score::finalize_all },
             { _( "Shopkeeper Blacklists" ), &shopkeeper_blacklist::finalize_all },
+            { _( "Shopkeeper Whitelists" ), &shopkeeper_whitelist::finalize_all },
             { _( "Shopkeeper Consumption Rates" ), &shopkeeper_cons_rates::finalize_all },
             { _( "Terrain" ), &finalize_terrain },
             { _( "Terrain/Furniture Transforms" ), &ter_furn_transform::finalize_all },

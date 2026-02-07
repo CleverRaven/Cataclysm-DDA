@@ -814,17 +814,6 @@
   },
   {
     "type": "mutation",
-    "id": "BLOODBANK",
-    "name": { "str": "Blood Lungs" },
-    "starting_trait": false,
-    "purifiable": false,
-    "valid": false,
-    "points": 1,
-    "description": "Your fingers have developed bloodsucking properties, you can now suck up blood through them.  You're not sure where the blood goes but with a thought you can use these deposits.",
-    "integrated_armor": [ "integrated_bloodbank" ]
-  },
-  {
-    "type": "mutation",
     "id": "STAMINAFORBLOOD",
     "points": 2,
     "starting_trait": false,
@@ -1504,6 +1493,7 @@
     "enchantments": [
       {
         "values": [
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 9999 },
           { "value": "STAMINA_REGEN_MOD", "add": 0.1 },
           { "value": "KCAL", "multiply": -100 },
           { "value": "VITAMIN_ABSORB_MOD", "multiply": -100 },
@@ -1697,14 +1687,21 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_WEAKNESS_HOLY_BURN",
-    "name": { "str": "Vampiric weakness: rebuked by holy ground" },
+    "name": { "str": "Vampiric weakness: rebuked by the holy" },
     "points": -1,
-    "description": "Your flesh will burn should you ever enter a sanctified area.  Only places that are holy will burn you, so holy places filled with vampires or unholy humans are safe for you to enter.",
+    "description": "Your flesh will burn should you ever enter a sanctified area.  Only places that are holy will burn you, so holy places filled with vampires or unholy humans are safe for you to enter.  Holy symbols won't burn you, but wearing them will cause you severe pain.",
     "starting_trait": false,
     "valid": false,
     "purifiable": false,
+    "enchantments": [
+      {
+        "condition": { "u_has_worn_with_flag": "WARDING_SYMBOL" },
+        "ench_effects": [ { "effect": "effect_xe_holy_burnt_carrying_holy", "intensity": 1 } ]
+      }
+    ],
     "//": "Unsafe: churches, cathedrals, synagogues, rural churches, eventual other holy places.",
-    "//2": "Safe: Vampire-filled holy places, the New England Community Church, anywhere not unsafe."
+    "//2": "Safe: Vampire-filled holy places, the New England Community Church, anywhere not unsafe.",
+    "//3": "The desired behavior is that carrying holy symbols and books (WARDING_SYMBOL and INSPIRATIONAL flags) is sufficient to cause pain.  Since there's no way to do this without constantly scanning the player's inventory, the full implementation will wait."
   },
   {
     "type": "mutation",
@@ -1756,18 +1753,11 @@
     "id": "VAMPIRE_WEAKNESS_COLD_BLOODED",
     "name": { "str": "Vampiric weakness: cold as a corpse" },
     "points": -1,
-    "description": "You now lack any body heat.  You feel colder at all times, and being cold will slow you down.",
+    "description": "Ambient cold temperature makes you stiff and slow even under winter clothes.  The lower the ambient temperature, the lower your speed.",
     "starting_trait": false,
     "valid": false,
     "purifiable": false,
-    "enchantments": [
-      {
-        "values": [
-          { "value": "CLIMATE_CONTROL_HEAT", "add": -20 },
-          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
-        ]
-      }
-    ],
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "math": [ "temperature_vw_cold_mod(65, 1)" ] } } ] } ],
     "flags": [ "NO_BODY_HEAT" ]
   },
   {
@@ -1830,7 +1820,7 @@
     "id": "VAMPIRE_STORE_MORE_BLOOD",
     "name": { "str": "Inner Vault of Blood" },
     "points": 5,
-    "description": "Your vestigial circulatory system is now better at holding stolen blood.  You can hold five more liters inside you.",
+    "description": "Your vestigial circulatory system is now better at holding stolen blood.  You can hold two and a half more liters inside you.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false
@@ -1956,7 +1946,7 @@
     "id": "VAMPIRE_STORE_MORE_BLOOD_UPGRADE",
     "name": { "str": "Inner Sea of Blood" },
     "points": 10,
-    "description": "Your new power allows you to store even more stolen blood inside your body.  You can hold another ten liters inside you.",
+    "description": "Your new power allows you to store even more stolen blood inside your body.  You can hold another five liters inside you.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false

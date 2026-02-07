@@ -293,6 +293,7 @@ static const material_id material_mc_steel( "mc_steel" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 
+static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_walk( "walk" );
 
 static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
@@ -386,6 +387,63 @@ int character_max_str = 20;
 int character_max_dex = 20;
 int character_max_per = 20;
 int character_max_int = 20;
+
+
+queued_eocs::queued_eocs() = default;
+
+queued_eocs::queued_eocs( const queued_eocs &rhs )
+{
+    list = rhs.list;
+    for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
+        queue.emplace( it );
+    }
+}
+
+queued_eocs::queued_eocs( queued_eocs &&rhs ) noexcept
+{
+    queue.swap( rhs.queue );
+    list.swap( rhs.list );
+}
+
+queued_eocs &queued_eocs::operator=( const queued_eocs &rhs )
+{
+    list = rhs.list;
+    // Why doesn't std::priority_queue have a clear() function.
+    queue = {};
+    for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
+        queue.emplace( it );
+    }
+    return *this;
+}
+queued_eocs &queued_eocs::operator=( queued_eocs &&rhs ) noexcept
+{
+    queue.swap( rhs.queue );
+    list.swap( rhs.list );
+    return *this;
+}
+
+bool queued_eocs::empty() const
+{
+    return queue.empty();
+}
+
+const queued_eoc &queued_eocs::top() const
+{
+    return *queue.top();
+}
+
+void queued_eocs::push( const queued_eoc &eoc )
+{
+    auto it = list.emplace( list.end(), eoc );
+    queue.push( it );
+}
+
+void queued_eocs::pop()
+{
+    auto it = queue.top();
+    queue.pop();
+    list.erase( it );
+}
 
 void Character::queue_effects( const std::vector<effect_on_condition_id> &effects )
 {
@@ -1519,6 +1577,13 @@ void Character::mount_creature( monster &z )
         // mech night-vision counts as optics for overmap sight range.
         g->update_overmap_seen();
     }
+
+    // Switch from potentially invalid crouch or prone to trot
+    // Trot is sustained and doesn't spend stamina, so it's a good default for animal riding
+    if( get_steed_type() == steed_type::ANIMAL ) {
+        set_movement_mode( move_mode_run );
+    }
+
     mod_moves( -100 );
 }
 
@@ -1921,11 +1986,12 @@ bool Character::has_min_manipulators() const
     return get_limb_score( limb_score_manip ) > MIN_MANIPULATOR_SCORE;
 }
 
-/** Returns true if the character has two functioning arms */
+/** Returns true if the character has two functioning arms and two human-like hands */
 bool Character::has_two_arms_lifting() const
 {
-    // 0.5f is one "standard" arm, so if you have more than that you barely qualify.
-    return get_limb_score( limb_score_lift, bp_type::arm ) > 0.5f;
+    // 0.5f is one "standard" arm, so if you have more than that you barely qualify. Same with hands.
+    return get_limb_score( limb_score_lift, bp_type::arm ) > 0.5f &&
+           get_limb_score( limb_score_grip, bp_type::hand ) > 0.5f;
 }
 
 std::set<matec_id> Character::get_limb_techs() const
@@ -2165,8 +2231,8 @@ void Character::process_turn()
     // Didn't just pick something up
     last_item = itype_id::NULL_ID();
 
-    cache_visit_items_with( "is_relic", &item::is_relic, [this]( item & it ) {
-        it.process_relic( this, pos_bub() );
+    cache_visit_items_with( "is_relic", &item::is_relic, [this]( item_location & it ) {
+        it->process_relic( this, pos_bub() );
     } );
 
     suffer();
@@ -3688,8 +3754,8 @@ float Character::active_light() const
     float lumination = 0.0f;
 
     int maxlum = 0;
-    cache_visit_items_with( "is_emissive", &item::is_emissive, [&maxlum]( const item & it ) {
-        const int lumit = it.getlight_emit();
+    cache_visit_items_with( "is_emissive", &item::is_emissive, [&maxlum]( const item_location & it ) {
+        const int lumit = it->getlight_emit();
         if( maxlum < lumit ) {
             maxlum = lumit;
         }
@@ -4720,14 +4786,14 @@ void Character::recalculate_enchantment_cache()
 {
     enchantment_cache->clear();
 
-    cache_visit_items_with( "is_relic", &item::is_relic, [this]( const item & it ) {
-        for( const enchant_cache &ench : it.get_proc_enchantments() ) {
-            if( ench.is_active( *this, it ) ) {
+    cache_visit_items_with( "is_relic", &item::is_relic, [this]( const item_location & it ) {
+        for( const enchant_cache &ench : it->get_proc_enchantments() ) {
+            if( ench.is_active( *this, *it ) ) {
                 enchantment_cache->force_add( ench );
             }
         }
-        for( const enchantment &ench : it.get_defined_enchantments() ) {
-            if( ench.is_active( *this, it ) ) {
+        for( const enchantment &ench : it->get_defined_enchantments() ) {
+            if( ench.is_active( *this, *it ) ) {
                 enchantment_cache->force_add( ench, *this );
             }
         }
@@ -5452,13 +5518,13 @@ const
     std::pair<float, item> best_weapon = std::make_pair( 0.0f, item() );
 
     cache_visit_items_with( "best_damage_" + dmg_type.str(), &item::is_melee, [&best_weapon, this,
-                  dmg_type]( const item & it ) {
+                  dmg_type]( const item_location & it ) {
         damage_instance di;
-        roll_damage( dmg_type, false, di, true, it, attack_vector_id::NULL_ID(),
+        roll_damage( dmg_type, false, di, true, *it, attack_vector_id::NULL_ID(),
                      sub_bodypart_str_id::NULL_ID(), 1.f );
         for( damage_unit &du : di.damage_units ) {
             if( du.type == dmg_type && best_weapon.first < du.amount ) {
-                best_weapon = std::make_pair( du.amount, it );
+                best_weapon = std::make_pair( du.amount, *it );
             }
         }
     } );
@@ -5477,8 +5543,8 @@ units::energy Character::available_ups() const
     }
 
     bool has_bio_powered_ups = false;
-    cache_visit_items_with( flag_IS_UPS, [&has_bio_powered_ups]( const item & it ) {
-        if( it.has_flag( flag_USES_BIONIC_POWER ) && !has_bio_powered_ups ) {
+    cache_visit_items_with( flag_IS_UPS, [&has_bio_powered_ups]( const item_location & it ) {
+        if( it->has_flag( flag_USES_BIONIC_POWER ) && !has_bio_powered_ups ) {
             has_bio_powered_ups = true;
         }
     } );
@@ -5486,9 +5552,8 @@ units::energy Character::available_ups() const
         available_charges += get_power_level();
     }
 
-    cache_visit_items_with( flag_IS_UPS, [&available_charges]( const item & it ) {
-        available_charges += units::from_kilojoule( static_cast<std::int64_t>( it.ammo_remaining(
-                             ) ) );
+    cache_visit_items_with( flag_IS_UPS, [&available_charges]( const item_location & it ) {
+        available_charges += units::from_kilojoule( static_cast<std::int64_t>( it->ammo_remaining( ) ) );
     } );
 
     return available_charges;
@@ -5507,8 +5572,8 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from bionic
     bool has_bio_powered_ups = false;
-    cache_visit_items_with( flag_IS_UPS, [&has_bio_powered_ups]( const item & it ) {
-        if( it.has_flag( flag_USES_BIONIC_POWER ) && !has_bio_powered_ups ) {
+    cache_visit_items_with( flag_IS_UPS, [&has_bio_powered_ups]( const item_location & it ) {
+        if( it->has_flag( flag_USES_BIONIC_POWER ) && !has_bio_powered_ups ) {
             has_bio_powered_ups = true;
         }
     } );
@@ -5520,12 +5585,12 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from inventory
     if( qty != 0_kJ ) {
-        cache_visit_items_with( flag_IS_UPS, [&qty]( item & it ) {
-            if( it.is_tool() && it.type->tool->fuel_efficiency >= 0 ) {
-                qty -= it.energy_consume( qty, tripoint_bub_ms::zero, nullptr,
-                                          it.type->tool->fuel_efficiency );
+        cache_visit_items_with( flag_IS_UPS, [&qty]( item_location & it ) {
+            if( it->is_tool() && it->type->tool->fuel_efficiency >= 0 ) {
+                qty -= it->energy_consume( qty, tripoint_bub_ms::zero, nullptr,
+                                           it->type->tool->fuel_efficiency );
             } else {
-                qty -= it.energy_consume( qty, tripoint_bub_ms::zero, nullptr );
+                qty -= it->energy_consume( qty, tripoint_bub_ms::zero, nullptr );
             }
         } );
     }
@@ -5925,7 +5990,18 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
     const bool water_walking = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) &&
                                has_flag( json_flag_WATERWALKING );
 
+
     if( is_mounted() ) {
+        // Ignore mech movemodes
+        // TODO: Figure what to do with mech movemodes
+        if( get_steed_type() != steed_type::MECH ) {
+            run_cost_effect_mul( 1.0 / get_modifier( character_modifier_move_mode_move_cost_mod ),
+                                 //TODO get these strings from elsewhere
+                                 is_running() ? _( "Running" ) :
+                                 is_crouching() ? _( "Crouching" ) :
+                                 is_prone() ? _( "Prone" ) : _( "Walking" )
+                               );
+        }
         return effects;
     }
 
@@ -6050,7 +6126,6 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
 
     run_cost_effect_mul( 1.0 / get_modifier( character_modifier_stamina_move_cost_mod ),
                          _( "Stamina" ) );
-
     run_cost_effect_mul( 1.0 / get_modifier( character_modifier_move_mode_move_cost_mod ),
                          //TODO get these strings from elsewhere
                          is_running() ? _( "Running" ) :

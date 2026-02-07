@@ -269,6 +269,7 @@ Aramaic
 arapaimas
 Arapaimidae
 arbalist
+arcanas
 archdruid
 Archeotech
 Archie
@@ -2485,6 +2486,7 @@ haha
 Hai
 hai
 Haitian
+Hairsuit
 hakama
 halakhic
 halazone
@@ -3173,6 +3175,10 @@ Ketubot
 Kev
 Kevin
 Kevlar
+kevlard
+kevlard i
+kevlard ii
+kevlard iii
 keybind
 keybinding
 keybindings

@@ -598,12 +598,12 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 {
     map &here = get_map();
 
-    // Prevent player from melee-attacking creatures that are underwater under thick ice
+    // Prevent player from melee-attacking creatures that are swimming under terrain.
     if( t.is_underwater() ) {
         const tripoint_bub_ms tpos = t.pos_bub( here );
-        if( here.has_flag( ter_furn_flag::TFLAG_THICK_ICE, tpos ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, tpos ) ) {
             if( is_avatar() ) {
-                add_msg_if_player( m_info, _( "You can't reach that through the thick ice." ) );
+                add_msg_if_player( m_info, _( "You can't reach that through the solid surface." ) );
             }
             return false;
         }

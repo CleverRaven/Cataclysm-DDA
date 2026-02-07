@@ -493,7 +493,7 @@
     "id": "photokinetic_irradiation_aura_monster",
     "type": "SPELL",
     "name": { "str": "[Ψ]Irradiation Aura Monster", "//~": "NO_I18N" },
-    "description": { "str": "Unleash a an aura of radioactive fields  Click, click, click.", "//~": "NO_I18N" },
+    "description": { "str": "Unleash an aura of radioactive fields  Click, click, click.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "CONCENTRATE", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS" ],
     "effect": "emit",

@@ -491,19 +491,35 @@
     "id": "coat_winter",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "winter coat" },
-    "description": "A padded coat with deep pockets and a hood.  Very warm.",
+    "name": { "str": "puffer jacket" },
+    "description": "A down-filled jacket with deep pockets and a hood.  Very warm.",
     "weight": "1340 g",
     "volume": "6750 ml",
     "price": "140 USD",
     "price_postapoc": "7 USD 50 cent",
-    "material": [ "cotton" ],
+    "material": [ "nylon", "down_feathers" ],
     "symbol": "[",
     "looks_like": "coat_rain",
     "color": "light_red",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 18, 27 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 18, 21 ] }
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 16, 25 ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "down_feathers", "covered_by_mat": 100, "thickness": 4 }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 16, 16 ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "down_feathers", "covered_by_mat": 100, "thickness": 4 }
+        ]
+      }
     ],
     "pocket_data": [
       {
@@ -3945,5 +3961,67 @@
     "warmth": 5,
     "flags": [ "VARSIZE", "OUTER" ],
     "armor": [ { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100 } ]
+  },
+  {
+    "id": "coat_light_winter",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "shell jacket" },
+    "description": "A lightweight waterproof shell jacket designed to block wind and rain.  It has deep pockets and provides a moderate amount of warmth.",
+    "weight": "880 g",
+    "volume": "2150 ml",
+    "price": "140 USD",
+    "price_postapoc": "5 USD ",
+    "material": [ "nylon", "cotton" ],
+    "symbol": "[",
+    "looks_like": "coat_winter",
+    "color": "light_blue",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 12, 14 ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.25 }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 12, 12 ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.25 }
+        ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "18 cm",
+        "moves": 90
+      }
+    ],
+    "warmth": 40,
+    "material_thickness": 1,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER" ]
   }
 ]

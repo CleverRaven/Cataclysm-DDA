@@ -73,6 +73,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "json.h"
+#include "lightmap.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
@@ -159,6 +160,7 @@ static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
 static const activity_id ACT_E_FILE( "ACT_E_FILE" );
+static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FISH( "ACT_FISH" );
@@ -188,8 +190,15 @@ static const activity_id ACT_MILK( "ACT_MILK" );
 static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
+static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
+static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
+static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
+static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
@@ -224,7 +233,9 @@ static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_UNLOAD( "ACT_UNLOAD" );
 static const activity_id ACT_UNLOAD_LOOT( "ACT_UNLOAD_LOOT" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
+static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_FOLD( "ACT_VEHICLE_FOLD" );
+static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_VEHICLE_UNFOLD( "ACT_VEHICLE_UNFOLD" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
@@ -1256,22 +1267,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
         return;
     }
 
-    int qual = 0;
-    if( type.has_value() ) {
-        item veh_tool = item( type.value(), calendar::turn );
-        for( const std::pair<const quality_id, int> &quality : type.value()->qualities ) {
-            if( quality.first == qual_SAW_M ) {
-                qual = quality.second;
-            }
-        }
-        for( const std::pair<const quality_id, int> &quality : type.value()->charged_qualities ) {
-            if( quality.first == qual_SAW_M ) {
-                qual = std::max( qual, quality.second );
-            }
-        }
-    } else {
-        qual = tool->get_quality( qual_SAW_M );
-    }
+    int qual = get_tool_quality();
     if( qual < 2 ) {
         if( !testing ) {
             debugmsg( "Item %s with 'HACKSAW' use action requires SAW_M quality of at least 2.",
@@ -1281,12 +1277,13 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
         return;
     }
 
-    //Speed of hacksaw action is the SAW_M quality over 2, 2 being the hacksaw level.
-    //3 makes the speed one-and-a-half times, and the total moves 66% of hacksaw. 4 is twice the speed, 50% the moves, etc, 5 is 2.5 times the speed, 40% the original time
-    //done because it's easy to code, and diminising returns on cutting speed make sense as the limiting factor becomes aligning the tool and controlling it instead of the actual cutting
-    act.moves_total = moves_before_quality / ( qual / 2 );
+    // Speed based on the SAW_M quality.  A hacksaw, at SAW_M 2, matches the duration in JSON data.
+    // The reciprocating saw has SAW_M 3 and it cuts twice as fast as a hacksaw since it's an 800
+    // watt power tool.  SAW_M 4 is thrice as fast as a hacksaw and so on.
+    act.moves_total = moves_before_quality / ( qual - 1 );
     add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
     act.moves_left = act.moves_total;
+    moves_left = act.moves_left;
 }
 
 static void tool_out_of_charges( Character &who, const std::string &tool_name )
@@ -1300,8 +1297,9 @@ static void tool_out_of_charges( Character &who, const std::string &tool_name )
     who.cancel_activity();
 }
 
-void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+void hacksaw_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    moves_left = act.moves_left;
     map &here = get_map();
 
     std::string method = "HACKSAW";
@@ -1417,18 +1415,58 @@ void hacksaw_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
-//TODO: Make hacksawing resumable with different tools with the same SAW_M quality.
-//Potentially make it possible to resume with different SAW_M quality and recalculate time to completion partway through.
-//This is really not a big deal, and will cost a few minutes of in game time and part of a medium battery charge at worst as someone accidentally cancels the activity_actor and has to start again
-//If a few minutes are life and death, sawing metal may not be the wise choice in the first place.
-bool hacksaw_activity_actor::can_resume_with_internal( const activity_actor &other,
-        const Character &/*who*/ ) const
+float hacksaw_activity_actor::exertion_level() const
 {
-    const hacksaw_activity_actor &actor = static_cast<const hacksaw_activity_actor &>
-                                          ( other );
-    return actor.target == target && ( ( veh_pos.has_value() &&
-                                         veh_pos.value() == actor.veh_pos.value_or( tripoint_bub_ms::max ) ) ||
-                                       actor.tool.operator == ( tool ) );
+    if( tool->ammo_required() ) {
+        return LIGHT_EXERCISE;
+    } else {
+        return get_type()->exertion_level();
+    }
+}
+
+int hacksaw_activity_actor::get_tool_quality() const
+{
+    int qual = 0;
+    if( type.has_value() ) {
+        item veh_tool = item( type.value(), calendar::turn );
+        for( const std::pair<const quality_id, int> &quality : type.value()->qualities ) {
+            if( quality.first == qual_SAW_M ) {
+                qual = quality.second;
+            }
+        }
+        for( const std::pair<const quality_id, int> &quality : type.value()->charged_qualities ) {
+            if( quality.first == qual_SAW_M ) {
+                qual = std::max( qual, quality.second );
+            }
+        }
+    } else {
+        qual = tool->get_quality( qual_SAW_M );
+    }
+
+    return qual;
+}
+
+void hacksaw_activity_actor::set_resume_values_internal( const activity_actor &other,
+        const Character &/*who*/ )
+{
+    // This method recalculates moves_left based on tool quality comparison but it doesn't have
+    // access to update the moves_left on the corresponding player_activity.  You must set the
+    // player_activity's moves_left separately after resuming the activity_actor.
+
+    const hacksaw_activity_actor &actor = static_cast<const hacksaw_activity_actor &>( other );
+
+    int actor_qual = actor.get_tool_quality();
+    int qual = get_tool_quality();
+
+    int new_moves_left = -1;
+    if( actor_qual > 1 ) {
+        new_moves_left = moves_left * ( qual - 1 ) / ( actor_qual - 1 );
+    }
+    add_msg_debug( debugmode::DF_ACTIVITY,
+                   "Hacksaw resume.  Actor quality: %d, quality: %d, moves_left: %d, new_moves_left: %d.",
+                   actor_qual, qual, moves_left, new_moves_left );
+    moves_left = new_moves_left;
+    tool = actor.tool;
 }
 
 void hacksaw_activity_actor::serialize( JsonOut &jsout ) const
@@ -1438,6 +1476,7 @@ void hacksaw_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "tool", tool );
     jsout.member( "type", type );
     jsout.member( "veh_pos", veh_pos );
+    jsout.member( "moves_left", moves_left );
     jsout.end_object();
 }
 
@@ -1449,6 +1488,7 @@ std::unique_ptr<activity_actor> hacksaw_activity_actor::deserialize( JsonValue &
     data.read( "tool", actor.tool );
     data.read( "type", actor.type );
     data.read( "veh_pos", actor.veh_pos );
+    data.read( "moves_left", actor.moves_left );
     return actor.clone();
 }
 
@@ -2576,6 +2616,57 @@ std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+std::unordered_set<tripoint_abs_ms> multi_read_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::read_locations( you, get_type() );
+}
+
+activity_reason_info multi_read_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::read_can_do( ACT_MULTIPLE_READ, you,
+            src_loc );
+}
+bool multi_read_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::read_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_read_activity_actor::deserialize( JsonValue & )
+{
+    multi_read_activity_actor actor;
+    return actor.clone();
+}
+
+activity_reason_info multi_study_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::study_can_do( ACT_MULTIPLE_STUDY, you,
+            src_loc );
+}
+
+std::unordered_set<tripoint_abs_ms> multi_study_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::study_locations( you, get_type() );
+}
+
+bool multi_study_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::study_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_study_activity_actor::deserialize( JsonValue & )
+{
+    multi_study_activity_actor actor;
+    return actor.clone();
+}
+
 void study_spell_activity_actor::start( player_activity &act, Character &who )
 {
     if( learning ) {
@@ -3196,13 +3287,13 @@ std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonVal
 }
 
 lockpick_activity_actor lockpick_activity_actor::use_item(
-    int moves_total,
     const item_location &lockpick,
-    const tripoint_abs_ms &target
+    const tripoint_abs_ms &target,
+    const Character &who
 )
 {
     return lockpick_activity_actor {
-        moves_total,
+        lockpicking_moves( lockpick, who ),
         lockpick,
         std::nullopt,
         target
@@ -3219,6 +3310,49 @@ lockpick_activity_actor lockpick_activity_actor::use_bionic(
         item( itype_pseudo_bio_picklock ),
         target
     };
+}
+
+int lockpick_activity_actor::lockpicking_moves(
+    const item_location &lockpick_location,
+    const Character &who
+)
+{
+    const item *lockpick = lockpick_location.get_item();
+    int qual;
+    if( !lockpick ) {
+        debugmsg( "Lost lockpick item for lockpicking activity." );
+        qual = 1;
+    } else {
+        qual = lockpick->get_quality( qual_LOCKPICK );
+    }
+    if( qual < 1 ) {
+        debugmsg( "Item %s with 'PICK_LOCK' use action requires LOCKPICK quality of at least 1.",
+                  lockpick->typeId().c_str() );
+        qual = 1;
+    }
+
+    /** @EFFECT_LOCKPICK speeds up door lock picking */
+    int duration_proficiency_factor = 1;
+    if( !who.has_proficiency( proficiency_prof_lockpicking ) ) {
+        duration_proficiency_factor *= proficiency_prof_lockpicking->default_time_multiplier();
+    }
+    if( !who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
+        duration_proficiency_factor *= proficiency_prof_lockpicking_expert->default_time_multiplier();
+    }
+
+    // Weighting of skills that matches success calculations in finish()
+    const float weighted_skill_average = ( 3.0f * who.get_skill_level(
+            skill_traps ) + who.get_skill_level( skill_mechanics ) ) / 4.0f;
+
+    if( lockpick->has_flag( flag_PERFECT_LOCKPICK ) ) {
+        return to_moves<int>( 5_seconds );
+    } else {
+        /** @EFFECT_DEX speeds up door lock picking */
+        return to_moves<int>(
+                   std::max( 30_seconds,
+                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( who.dex_cur ) / 4.0f +
+                                     weighted_skill_average ) ) * duration_proficiency_factor ) );
+    }
 }
 
 void lockpick_activity_actor::start( player_activity &act, Character & )
@@ -3304,18 +3438,18 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     // Get a bonus from your lockpick quality if the quality is higher than 3, or a penalty if it is lower. For a bobby pin this puts you at -2, for a locksmith kit, +2.
     const float tool_effect = ( it->get_quality( qual_LOCKPICK ) - 3 ) - ( it->damage() / 2000.0 );
 
-    // Without at least a basic lockpick proficiency, your skill level is effectively 6 levels lower.
-    int proficiency_effect = -3;
-    int duration_proficiency_factor = 10;
-    if( who.has_proficiency( proficiency_prof_lockpicking ) ) {
-        // If you have the basic lockpick prof, negate the above penalty
-        proficiency_effect = 0;
-        duration_proficiency_factor = 5;
+    // With both Proficiencies your skill is effectively 3 levels higher.
+    int proficiency_effect = 3;
+    int duration_proficiency_factor = 1;
+    if( !who.has_proficiency( proficiency_prof_lockpicking ) ) {
+        // Without any lockpick proficiency, your skill level is effectively 3 levels lower.
+        proficiency_effect -= 3;
+        duration_proficiency_factor *= proficiency_prof_lockpicking->default_time_multiplier();
     }
-    if( who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
-        // If you have the locksmith proficiency, your skill level is effectively 4 levels higher.
-        proficiency_effect = 3;
-        duration_proficiency_factor = 1;
+    if( !who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
+        // No bonus or penalty if you have only the basic proficiency.
+        proficiency_effect -= 3;
+        duration_proficiency_factor *= proficiency_prof_lockpicking_expert->default_time_multiplier();
     }
 
     // We get our average roll by adding the above factors together. For a person with no skill, average stats, no proficiencies, and an improvised lockpick, mean_roll will be 2.
@@ -4298,16 +4432,16 @@ void atm_activity_actor::do_turn( player_activity &act, Character &who )
         // while the ATM activity is time-based, this option runs until invalid
         act.moves_left = calendar::INDEFINITELY_LONG;
         // get cash card
-        item *destination_cash_card;
-        const std::vector<item *> cash_cards = who.cache_get_items_with( "is_cash_card",
-                                               &item::is_cash_card );
+        item_location destination_cash_card;
+        const std::vector<item_location> cash_cards = who.cache_get_items_with( "is_cash_card",
+                &item::is_cash_card );
         if( cash_cards.empty() ) {
             popup( _( "You do not have a cash card." ) );
             act.set_to_null();
             return;
         }
-        destination_cash_card = *std::max_element( cash_cards.begin(), cash_cards.end(), []( const item * a,
-        const item * b ) {
+        destination_cash_card = *std::max_element( cash_cards.begin(),
+        cash_cards.end(), []( const item_location & a, const item_location & b ) {
             return a->ammo_remaining() < b->ammo_remaining();
         } );
 
@@ -4346,8 +4480,8 @@ void atm_activity_actor::do_turn( player_activity &act, Character &who )
         // while the ATM activity is time-based, this option runs until invalid
         act.moves_left = calendar::INDEFINITELY_LONG;
         // get first available cash card
-        item *destination_cash_card;
-        std::vector<item *> cash_cards_on_hand = who.cache_get_items_with( "is_cash_card",
+        item_location destination_cash_card;
+        std::vector<item_location> cash_cards_on_hand = who.cache_get_items_with( "is_cash_card",
                 &item::is_cash_card );
         // if there aren't any, then we're done
         if( cash_cards_on_hand.empty() ) {
@@ -4359,7 +4493,7 @@ void atm_activity_actor::do_turn( player_activity &act, Character &who )
 
         bool card_transferred = false;
         // find first available non-destination cash card with e-cash, re-run next turn
-        for( item *cash_card_withdraw : cash_cards_on_hand ) {
+        for( item_location &cash_card_withdraw : cash_cards_on_hand ) {
             if( cash_card_withdraw == destination_cash_card ||
                 cash_card_withdraw->ammo_remaining() <= 0 ||
                 cash_card_withdraw->typeId() != itype_cash_card ) {
@@ -4399,7 +4533,7 @@ void atm_activity_actor::finish( player_activity &act, Character &who )
         who.use_charges( itype_cash_card, cash_amount );
         who.cash += cash_amount;
     } else if( option_selected == withdraw_money ) {
-        std::vector<item *> cash_cards_on_hand = who.cache_get_items_with( "is_cash_card",
+        std::vector<item_location> cash_cards_on_hand = who.cache_get_items_with( "is_cash_card",
                 &item::is_cash_card );
         if( cash_cards_on_hand.empty() ) {
             //Just in case we run into an edge case
@@ -4411,13 +4545,14 @@ void atm_activity_actor::finish( player_activity &act, Character &who )
         int inserted = 0;
         int remaining = cash_amount;
 
-        std::sort( cash_cards_on_hand.begin(), cash_cards_on_hand.end(), []( item * one, item * two ) {
+        std::sort( cash_cards_on_hand.begin(), cash_cards_on_hand.end(), []( item_location one,
+        item_location  two ) {
             int balance_one = one->ammo_remaining();
             int balance_two = two->ammo_remaining();
             return balance_one > balance_two;
         } );
 
-        for( item * const &cc : cash_cards_on_hand ) {
+        for( item_location &cc : cash_cards_on_hand ) {
             if( inserted == cash_amount ) {
                 break;
             }
@@ -4587,6 +4722,295 @@ std::unique_ptr<activity_actor> fish_activity_actor::deserialize( JsonValue &jsi
     data.read( "fishing_rod", actor.fishing_rod );
     data.read( "fishing_duration", actor.fishing_duration );
 
+    return actor.clone();
+}
+
+activity_reason_info multi_fish_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::fish_can_do( ACT_MULTIPLE_FISH, you,
+            src_loc );
+}
+std::optional<requirement_id> multi_fish_activity_actor::multi_activity_requirements(
+    Character &you, activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
+{
+    return multi_activity_actor::fish_requirements( you, act_info, src_loc );
+}
+bool multi_fish_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::fish_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_fish_activity_actor::deserialize( JsonValue & )
+{
+    multi_fish_activity_actor actor;
+    return actor.clone();
+}
+
+std::unordered_set<tripoint_abs_ms> multi_zone_activity_actor::multi_activity_locations(
+    Character  &you )
+{
+    return multi_activity_actor::generic_locations( you, get_type() );
+}
+
+std::optional<requirement_id> multi_zone_activity_actor::multi_activity_requirements(
+    Character &, activity_reason_info &, const tripoint_bub_ms &, const zone_data * )
+{
+    return std::nullopt;
+}
+
+void multi_zone_activity_actor::do_turn( player_activity &act, Character &you )
+{
+    simulate_turn( act, you, false );
+    // If this activity still exists, end it
+    if( !act.is_null() && act.is_multi_type() ) {
+        act.set_to_null();
+    }
+}
+
+bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &you,
+        bool check_only )
+{
+    map &here = get_map();
+    const tripoint_abs_ms abspos = here.get_abs( you.pos_bub() );
+    // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
+    player_activity current_act_copy = act;
+    activity_id current_activity = current_act_copy.id();
+
+    std::unordered_set<tripoint_abs_ms> src_set = multi_activity_locations( you );
+    std::vector<tripoint_abs_ms> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+    // now loop through the work-spot tiles and judge whether its worth traveling to it yet
+    // or if we need to fetch something first.
+
+    // check: if a fetch activity was assigned but there's nothing to fetch, restore previous activity from backlog
+    // may cause infinite loop if something goes wrong
+    //TODO: check whether a fetch activity should be assigned before it is
+    if( current_activity == ACT_FETCH_REQUIRED && src_sorted.empty() ) {
+        // remind what you failed to fetch
+        if( !check_only ) {
+            if( !you.backlog.empty() ) {
+                player_activity &act_prev = you.backlog.front();
+                if( !act_prev.str_values.empty() && you.as_npc() ) {
+                    you.as_npc()->job.fetch_history[act_prev.str_values.back()] = calendar::turn;
+                }
+            }
+        }
+        return true;
+    }
+
+    requirement_failure_reasons req_fail_reason;
+
+    for( const tripoint_abs_ms &src : src_sorted ) {
+        const tripoint_bub_ms &src_bub = here.get_bub( src );
+        if( !check_only ) {
+            if( !here.inbounds( src_bub ) ) {
+                if( zone_sorting::sorter_out_of_bounds( you, current_activity ) ) {
+                    return false;
+                }
+                //TODO: remove dummy argument
+                zone_activity_stage dummy;
+                if( !zone_sorting::route_to_destination( you, act, src_bub, dummy ) ) {
+                    continue;
+                }
+            }
+        }
+
+        you.invalidate_crafting_inventory();
+        // can we do the activity for position src_loc? if so, what stage of the activity?
+        activity_reason_info act_info = multi_activity_can_do( you, src_bub );
+
+        // do we have requirements for this activity stage? if so, are they satisfied?
+        // see activity_handlers.h enum for requirement_check_result
+        req_fail_reason = requirement_failure_reasons();
+        const requirement_check_result req_res = check_requirements( you, act_info, src, src_bub, src_set,
+                check_only );
+        if( req_res == requirement_check_result::RETURN_EARLY ) {
+            return true;
+        }
+        req_fail_reason.convert_requirement_check_result( req_res );
+        if( req_fail_reason.check_skip_location() ) {
+            continue;
+        }
+
+        //route to destination if needed
+        std::optional<bool> route_result = multi_activity_actor::route(
+                                               you, current_act_copy, src_bub, req_fail_reason, check_only );
+        if( !route_result ) {
+            continue;
+        }
+        if( *route_result ) {
+            return true;
+        }
+
+        // darkness is checked for in work locations
+        // but there is a niche case (e.g. constructions) where the player is in darkness but the work location is not
+        // this can create infinite loops
+        // we can't check player.pos() for darkness before they've traveled to the work location
+        // but now that the player is there, check
+        if( !multi_activity_actor::can_do_in_dark( current_activity ) &&
+            you.fine_detail_vision_mod( you.pos_bub() ) > LIGHT_AMBIENT_DIM ) {
+            you.add_msg_player_or_npc( m_info, _( "It is too dark to work here." ),
+                                       _( "%s aborts the %s activity because it's too dark to continue." ), you.disp_name(),
+                                       current_activity.c_str() );
+            return false;
+        }
+
+        // do the activity!
+        if( !check_only ) {
+            if( !multi_activity_do( you, act_info, src, src_bub ) ) {
+                // if the activity was successful
+                // then a new activity was assigned
+                // and the backlog was given the multi-act
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    if( !check_only ) {
+        if( multi_activity_actor::out_of_moves( you, current_activity ) ) {
+            return false;
+        }
+        multi_activity_actor::revert_npc_post_activity( you, current_activity, src_set.empty() );
+    }
+    // scanned every location, tried every path.
+    if( !check_only ) {
+        if( you.is_npc() ) {
+            multi_activity_actor::activity_failure_message( you, current_activity, req_fail_reason,
+                    src_sorted.empty() );
+        }
+    }
+    return false;
+}
+
+/** Check if this activity can not be done immediately because it has some requirements */
+requirement_check_result multi_zone_activity_actor::check_requirements( Character &you,
+        activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
+        const std::unordered_set<tripoint_abs_ms> &src_set,
+        bool check_only )
+{
+    map &here = get_map();
+    zone_manager &mgr = zone_manager::get_manager();
+    const activity_id act_id = get_type();
+
+    bool &can_do_it = act_info.can_do;
+    const do_activity_reason &reason = act_info.reason;
+    const faction_id fac_id = you.get_faction_id();
+    const zone_data *zone =
+        mgr.get_zone_at( src, multi_activity_actor::get_zone_for_act( src_loc, mgr, act_id, fac_id ),
+                         fac_id );
+
+    const bool needs_to_be_in_zone = multi_activity_actor::activity_must_be_in_zone( act_id, src_loc );
+    // some activities require the target tile to be part of a zone.
+    // tidy up activity doesn't - it wants things that may not be in a zone already - things that may have been left lying around.
+    if( needs_to_be_in_zone && !zone ) {
+        can_do_it = false;
+        return requirement_check_result::SKIP_LOCATION_NO_ZONE;
+    }
+    // requirements were pre-satisfied
+    if( can_do_it ) {
+        return requirement_check_result::CAN_DO_LOCATION;
+    }
+    if( reason == do_activity_reason::REFUSES_THIS_WORK ) {
+        you.add_msg_if_player( m_info,
+                               _( "There's a human corpse there.  You wouldn't want to butcher it by accident." ) );
+        if( you.is_npc() ) {
+            add_msg_if_player_sees( you, m_info, _( "%s refuses to butcher a human corpse." ),
+                                    you.disp_name() );
+        }
+    }
+
+    if( multi_activity_actor::activity_reason_quit( reason ) ) {
+        return multi_activity_actor::requirement_fail( you, reason, act_id, zone );
+    } else if( multi_activity_actor::activity_reason_continue( reason ) ) {
+        // we can do it, but we need to fetch some stuff first
+        // before we set the task to fetch components - is it even worth it? are the components anywhere?
+        if( you.is_npc() ) {
+            if( zone ) {
+                add_msg_if_player_sees( you, m_info,
+                                        _( "%s is trying to find necessary items to do the %s job on zone %s, reason %s" ),
+                                        you.disp_name(), act_id.c_str(), zone->get_name(), do_activity_reason_string[int( reason )] );
+            } else {
+                add_msg_if_player_sees( you, m_info,
+                                        _( "%s is trying to find necessary items to do the %s job, reason %s" ),
+                                        you.disp_name(), act_id.c_str(), do_activity_reason_string[int( reason )] );
+            }
+        }
+
+        //set up loot and in-range locations
+        std::vector<tripoint_bub_ms> loot_zone_spots;
+        std::vector<tripoint_bub_ms> combined_spots;
+        for( const tripoint_bub_ms &elem : mgr.get_point_set_loot(
+                 you.pos_abs(), MAX_VIEW_DISTANCE, you.is_npc(), fac_id ) ) {
+            loot_zone_spots.emplace_back( elem );
+            combined_spots.emplace_back( elem );
+        }
+        for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE,
+                PICKUP_RANGE ) ) {
+            combined_spots.push_back( elem );
+        }
+        multi_activity_actor::add_basecamp_storage_to_loot_zone_list( mgr, src_loc, you, loot_zone_spots,
+                combined_spots );
+
+        //begin requirements
+        std::optional<requirement_id> activity_requirements = multi_activity_requirements( you, act_info,
+                src_loc, zone );
+        //end requirements
+
+        // requirement check was invalid, skip this location
+        if( !activity_requirements || *activity_requirements == requirement_id::NULL_ID() ) {
+            return requirement_check_result::SKIP_LOCATION;
+        }
+        // Remove the requirements already met
+        requirement_id what_we_need = multi_activity_actor::remove_met_requirements( *activity_requirements,
+                                      you );
+
+        bool tool_pickup = multi_activity_actor::activity_reason_picks_up_tools( reason );
+        // is it even worth fetching anything if there isn't enough nearby?
+        if( !multi_activity_actor::are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots,
+                what_we_need, you,
+                act_id, tool_pickup, src_loc ) ) {
+            if( zone ) {
+                you.add_msg_player_or_npc( m_info,
+                                           _( "The required items are not available to complete the %s task at zone %s." ), act_id.c_str(),
+                                           zone->get_name(),
+                                           _( "The required items are not available to complete the %s task at zone %s." ), act_id.c_str(),
+                                           zone->get_name() );
+            } else {
+                you.add_msg_player_or_npc( m_info,
+                                           _( "The required items are not available to complete the %s task." ), act_id.c_str(),
+                                           _( "The required items are not available to complete the %s task." ), act_id.c_str() );
+            }
+            //TODO: this is hacky, move it
+            if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
+                reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
+                you.activity_vehicle_part_index = -1;
+            }
+            return requirement_check_result::SKIP_LOCATION;
+        } else {
+            if( !check_only ) {
+                return multi_activity_actor::fetch_requirements( you, what_we_need, act_id,
+                        act_info, src, src_loc, src_set );
+            }
+            return requirement_check_result::RETURN_EARLY;
+        }
+    }
+    return requirement_check_result::SKIP_LOCATION_NO_MATCH;
+}
+
+void multi_zone_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> multi_mine_activity_actor::deserialize( JsonValue & )
+{
+    multi_mine_activity_actor actor;
     return actor.clone();
 }
 
@@ -5354,6 +5778,39 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonValue &js
     data.read( "long", actor.is_long );
     data.read( "activity_override", actor.activity_override );
 
+    return actor.clone();
+}
+
+activity_reason_info multi_craft_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::craft_can_do( ACT_MULTIPLE_CRAFT, you,
+            src_loc );
+}
+
+std::optional<requirement_id> multi_craft_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
+{
+    return multi_activity_actor::craft_requirements( you, act_info, src_loc );
+}
+
+std::unordered_set<tripoint_abs_ms> multi_craft_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::craft_locations( you, get_type() );
+}
+
+bool multi_craft_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::craft_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_craft_activity_actor::deserialize( JsonValue & )
+{
+    multi_craft_activity_actor actor;
     return actor.clone();
 }
 
@@ -7282,6 +7739,33 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
+activity_reason_info multi_disassemble_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::disassemble_can_do( ACT_MULTIPLE_DIS, you,
+            src_loc );
+}
+
+std::optional<requirement_id> multi_disassemble_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
+{
+    return multi_activity_actor::disassemble_requirements( you, act_info, src_loc );
+}
+
+bool multi_disassemble_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::disassemble_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_disassemble_activity_actor::deserialize( JsonValue & )
+{
+    multi_disassemble_activity_actor actor;
+    return actor.clone();
+}
+
 void oxytorch_activity_actor::start( player_activity &act, Character &who )
 {
     const map &here = get_map();
@@ -8625,6 +9109,29 @@ std::unique_ptr<activity_actor> chop_planks_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
+activity_reason_info multi_chop_planks_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::chop_planks_can_do( ACT_MULTIPLE_CHOP_PLANKS, you, src_loc );
+}
+std::optional<requirement_id> multi_chop_planks_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
+{
+    return multi_activity_actor::chop_planks_requirements( you, act_info, src_loc );
+}
+bool multi_chop_planks_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::chop_planks_do( you, act_info, src, src_loc );
+}
+std::unique_ptr<activity_actor> multi_chop_planks_activity_actor::deserialize( JsonValue & )
+{
+    multi_chop_planks_activity_actor actor;
+    return actor.clone();
+}
+
 void chop_tree_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
@@ -8727,6 +9234,35 @@ std::unique_ptr<activity_actor> chop_tree_activity_actor::deserialize( JsonValue
     return actor.clone();
 }
 
+std::unordered_set<tripoint_abs_ms> multi_chop_trees_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::no_same_tile_locations( you, get_type() );
+}
+
+activity_reason_info multi_chop_trees_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::chop_trees_can_do( ACT_MULTIPLE_CHOP_TREES, you, src_loc );
+}
+std::optional<requirement_id> multi_chop_trees_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
+{
+    return multi_activity_actor::chop_trees_requirements( you, act_info, src_loc );
+}
+bool multi_chop_trees_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::chop_trees_do( you, act_info, src, src_loc );
+}
+std::unique_ptr<activity_actor> multi_chop_trees_activity_actor::deserialize( JsonValue & )
+{
+    multi_chop_trees_activity_actor actor;
+    return actor.clone();
+}
+
 void churn_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
@@ -8763,6 +9299,31 @@ std::unique_ptr<activity_actor> churn_activity_actor::deserialize( JsonValue &js
     data.read( "moves", actor.moves );
     data.read( "tool", actor.tool );
 
+    return actor.clone();
+}
+
+activity_reason_info multi_farm_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::farm_can_do( ACT_MULTIPLE_FARM, you,
+            src_loc );
+}
+std::optional<requirement_id> multi_farm_activity_actor::multi_activity_requirements(
+    Character &you, activity_reason_info &act_info, const tripoint_bub_ms &src_loc,
+    const zone_data *zone )
+{
+    return multi_activity_actor::farm_requirements( you, act_info, src_loc, zone );
+}
+bool multi_farm_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::farm_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_farm_activity_actor::deserialize( JsonValue & )
+{
+    multi_farm_activity_actor actor;
     return actor.clone();
 }
 
@@ -9478,6 +10039,30 @@ std::unique_ptr<activity_actor> jackhammer_activity_actor::deserialize( JsonValu
     return actor.clone();
 }
 
+std::unordered_set<tripoint_abs_ms> multi_mine_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::no_same_tile_locations( you, get_type() );
+}
+
+activity_reason_info multi_mine_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::mine_can_do( ACT_MULTIPLE_MINE, you, src_loc );
+}
+std::optional<requirement_id> multi_mine_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
+{
+    return multi_activity_actor::mining_requirements( you, act_info, src_loc );
+}
+bool multi_mine_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::mine_do( you, act_info, src, src_loc );
+}
+
 void mop_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
@@ -9492,6 +10077,7 @@ void mop_activity_actor::finish( player_activity &act, Character &who )
         map &here = get_map();
         here.mop_spills( here.get_bub( act.placement ) );
     }
+    act.set_to_null();
     activity_handlers::resume_for_multi_activities( who );
 }
 
@@ -9512,6 +10098,31 @@ std::unique_ptr<activity_actor> mop_activity_actor::deserialize( JsonValue &jsin
 
     data.read( "moves", actor.moves );
 
+    return actor.clone();
+}
+
+std::unordered_set<tripoint_abs_ms> multi_mop_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::mop_locations( you, get_type() );
+}
+
+activity_reason_info multi_mop_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::mop_can_do( ACT_MULTIPLE_MOP, you, src_loc );
+}
+
+bool multi_mop_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::mop_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_mop_activity_actor::deserialize( JsonValue & )
+{
+    multi_mop_activity_actor actor;
     return actor.clone();
 }
 
@@ -10105,6 +10716,59 @@ std::unique_ptr<activity_actor> vehicle_activity_actor::deserialize( JsonValue &
 
     return actor.clone();
 }
+
+activity_reason_info multi_vehicle_deconstruct_activity_actor::multi_activity_can_do(
+    Character &you,
+    const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::vehicle_deconstruction_can_do( ACT_VEHICLE_DECONSTRUCTION, you,
+            src_loc );
+}
+std::optional<requirement_id> multi_vehicle_deconstruct_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
+{
+    return multi_activity_actor::vehicle_work_requirements( you, act_info, src_loc );
+}
+bool multi_vehicle_deconstruct_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::vehicle_deconstruction_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_vehicle_deconstruct_activity_actor::deserialize( JsonValue & )
+{
+    multi_vehicle_deconstruct_activity_actor actor;
+    return actor.clone();
+}
+
+activity_reason_info multi_vehicle_repair_activity_actor::multi_activity_can_do(
+    Character &you,
+    const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::vehicle_repair_can_do( ACT_VEHICLE_REPAIR, you,
+            src_loc );
+}
+std::optional<requirement_id> multi_vehicle_repair_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
+{
+    return multi_activity_actor::vehicle_work_requirements( you, act_info, src_loc );
+}
+bool multi_vehicle_repair_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::vehicle_repair_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_vehicle_repair_activity_actor::deserialize( JsonValue & )
+{
+    multi_vehicle_repair_activity_actor actor;
+    return actor.clone();
+}
+
 
 bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only ) const
 {
@@ -11586,7 +12250,7 @@ std::unique_ptr<activity_actor> butchery_activity_actor::deserialize( JsonValue 
         bd_instance.corpse.deserialize( jo.get_object( "corpse" ) );
         bd_instance.progress = time_duration::from_seconds<int>( jo.get_int( "progress" ) );
         bd_instance.req = requirement_id( jo.get_string( "req" ) );
-        bd_instance.req_speed_bonus = jo.get_int( "req_speed_bonus" );
+        bd_instance.req_speed_bonus = jo.get_float( "req_speed_bonus" );
         bd_instance.time_to_butcher = time_duration::from_seconds<int>( jo.get_int( "time_to_butcher" ) );
         new_bd.emplace_back( bd_instance );
     }
@@ -11804,7 +12468,6 @@ void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
 
 bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you )
 {
-
     const map &here = get_map();
 
     num_processed = 0;
@@ -11844,8 +12507,18 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
         const zone_sorting::zone_items items = zone_sorting::populate_items( src_bub );
 
         // check if there is valid destination for any item of the tile
+        bool pickup_failure;
         bool has_items_to_work_on = zone_sorting::has_items_to_sort( you, src, zone_unload_options,
-                                    other_activity_items, items );
+                                    other_activity_items, items, &pickup_failure );
+
+        if( pickup_failure && !pickup_failure_reported ) {
+            pickup_failure_reported = true;
+            add_msg_if_player_sees( you,
+                                    _( "At least one item to be sorted is too large/heavy for %s to sort.  "
+                                       "Emptying the inventory and freeing up the hands will allow for more efficient sorting." ),
+                                    you.disp_name() );
+        }
+
         if( !has_items_to_work_on ) {
             continue;
         }
@@ -11879,6 +12552,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     // Dropping off
     if( !dropoff_coords.empty() && !picked_up_stuff.empty() ) {
         auto dest_iter = dropoff_coords.begin();
+
         while( dest_iter != dropoff_coords.end() ) {
             const tripoint_abs_ms drop_dest = *dest_iter;
             // Sometimes we loop back to here while still picking stuff up (because we spent all our moves picking up)
@@ -11901,10 +12575,10 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                     }
 
                     // FIXME HACK: teleports item onto ground
-                    you.mod_moves( -you.item_handling_cost( **iter ) );
                     std::vector<item_location> dropped_crap = put_into_vehicle_or_drop_ret_locs( you,
-                            item_drop_reason::deliberate, { **iter }, here.get_bub( drop_dest ) );
+                            item_drop_reason::deliberate, { **iter }, here.get_bub( drop_dest ), false );
                     if( !dropped_crap.empty() ) {
+                        you.mod_moves( -you.item_handling_cost( **iter ) );
                         if( const vehicle_cursor *veh_curs = iter->veh_cursor() ) {
                             vehicle &cart_with_items = veh_curs->veh;
                             cart_with_items.remove_item( cart_with_items.part( veh_curs->part ), iter->get_item() );
@@ -11976,6 +12650,11 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             return;
         }
 
+        if( zt_id == zone_type_id::NULL_ID() ) {
+            // After unloading, this item isn't going anywhere else.
+            continue;
+        }
+
         // Picking up
 
         if( !picked_up_stuff.empty() ) {
@@ -12014,19 +12693,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             thisitem_loc = you.try_add( copy_thisitem );
         }
         if( !thisitem_loc ) {
-            if( !dropoff_coords.empty() && !picked_up_stuff.empty() ) {
-                you.add_msg_if_player( m_info,
-                                       _( "Not enough space to pick up %s during sorting, moving to destination with %zu current items." ),
-                                       copy_thisitem.tname(), picked_up_stuff.size() );
-                break; // Stop trying to pick stuff up
-            } else if( num_processed == 1 ) {  // This is the very first item to process
-                you.add_msg_if_player( m_bad, _( "Couldn't pick up any item during sorting, aborting." ) );
-                stage = LAST;
-                return;
-            } else {
-                debugmsg( "Unexpected condition encountered while sorting items at %d, %s.", num_processed,
-                          copy_thisitem.tname() );
-            }
+            continue;
         }
         // Pickup cost
         you.mod_moves( -you.item_handling_cost( copy_thisitem ) );
@@ -12070,8 +12737,88 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         //this location is sorted
         stage = THINK;
         dropoff_coords.clear();
+
     } else if( !dropoff_coords.empty() && !you.has_destination() )  {
-        zone_sorting::route_to_destination( you, act, here.get_bub( dropoff_coords.front() ), stage );
+        bool match = false;
+        tripoint_abs_ms destination;
+
+        // Find a dropoff location that can take all the items picked up.
+        for( tripoint_abs_ms &dest : dropoff_coords ) {
+            std::vector<item_location> placed_items;
+
+            match = true;
+
+            for( item_location &item : picked_up_stuff ) {
+                std::vector<item_location> placed_item = put_into_vehicle_or_drop_ret_locs( you,
+                        item_drop_reason::deliberate, { *item }, here.get_bub( dest ), false );
+
+                if( placed_item.empty() ) {
+                    match = false;
+                    break;
+
+                } else {
+                    placed_items.emplace_back( placed_item.front() );
+                }
+            }
+
+            // Get rid of the placed items, as we really only wanted to know if they COULD be placed.
+            for( item_location &item : placed_items ) {
+                item.remove_item();
+            }
+
+            if( match ) {
+                destination = dest;
+                break;
+            }
+        }
+
+        if( !match ) {
+            // Couldn't find any destination that would take all items. Fallback to one that can accept
+            // the first one that has a usable destination.
+            // Note that we always have to be able to handle the situation where a destination is full
+            // when we get there due to things happening in the mean time (like other characters sorting
+            // stuff into that location as we move there), so we leave the handling of unsortable items
+            // in the inventory to that handling for now.
+            for( tripoint_abs_ms &dest : dropoff_coords ) {
+                std::vector<item_location> placed_items;
+
+                match = true;
+
+                for( item_location &item : picked_up_stuff ) {
+                    std::vector<item_location> placed_item = put_into_vehicle_or_drop_ret_locs( you,
+                            item_drop_reason::deliberate, { *item }, here.get_bub( dest ), false );
+
+                    if( placed_item.empty() ) {
+                        match = false;
+                        break;
+
+                    } else {
+                        placed_items.emplace_back( placed_item.front() );
+                        match = true;
+                        break;
+                    }
+                }
+
+                // Get rid of the placed items, as we really only wanted to know if they COULD be placed.
+                for( item_location &item : placed_items ) {
+                    item.remove_item();
+                }
+
+                if( match ) {
+                    destination = dest;
+                    break;
+                }
+            }
+        }
+
+        if( !match ) {
+            add_msg( m_bad, _( "None of the items picked up can be sorted because they won't fit anywhere." ) );
+            stage = LAST;
+            return;
+        }
+
+        zone_sorting::route_to_destination( you, act, here.get_bub( destination ), stage );
+
     } else if( !you.has_destination() ) {
         debugmsg( "Sort activity has items to sort but no valid destination, this is a bug" );
         // Completely kick us out of this activity, something's gone wrong and we don't know what's going on.
@@ -12091,6 +12838,7 @@ void zone_sort_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "other_activity_items", other_activity_items );
     jsout.member( "picked_up_stuff", picked_up_stuff );
     jsout.member( "dropoff_coords", dropoff_coords );
+    jsout.member( "pickup_failure_reported", pickup_failure_reported );
 
     jsout.end_object();
 }
@@ -12109,7 +12857,10 @@ std::unique_ptr<activity_actor> zone_sort_activity_actor::deserialize( JsonValue
     data.read( "other_activity_items", actor.other_activity_items );
     data.read( "picked_up_stuff", actor.picked_up_stuff );
     data.read( "dropoff_coords", actor.dropoff_coords );
-
+    // Element introduced 2026-01-26. Existence check to be removed when support for older saves is dropped.
+    if( data.has_bool( "pickup_failure_reported" ) ) {
+        data.read( "pickup_failure_reported", actor.pickup_failure_reported );
+    }
     return actor.clone();
 }
 
@@ -12175,6 +12926,16 @@ deserialize_functions = {
     { ACT_MOP, &mop_activity_actor::deserialize },
     { ACT_MOVE_ITEMS, &move_items_activity_actor::deserialize },
     { ACT_MOVE_LOOT, &zone_sort_activity_actor::deserialize },
+    { ACT_MULTIPLE_CHOP_PLANKS, &multi_chop_planks_activity_actor::deserialize },
+    { ACT_MULTIPLE_CHOP_TREES, &multi_chop_trees_activity_actor::deserialize },
+    { ACT_MULTIPLE_CRAFT, &multi_craft_activity_actor::deserialize },
+    { ACT_MULTIPLE_DIS, &multi_disassemble_activity_actor::deserialize },
+    { ACT_MULTIPLE_FARM, &multi_farm_activity_actor::deserialize },
+    { ACT_MULTIPLE_FISH, &multi_fish_activity_actor::deserialize },
+    { ACT_MULTIPLE_MINE, &multi_mine_activity_actor::deserialize },
+    { ACT_MULTIPLE_MOP, &multi_mop_activity_actor::deserialize },
+    { ACT_MULTIPLE_READ, &multi_read_activity_actor::deserialize },
+    { ACT_MULTIPLE_STUDY, &multi_study_activity_actor::deserialize },
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
     { ACT_OPERATION, &bionic_operation_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
@@ -12207,7 +12968,9 @@ deserialize_functions = {
     { ACT_UNLOAD, &unload_activity_actor::deserialize },
     { ACT_UNLOAD_LOOT, &unload_loot_activity_actor::deserialize },
     { ACT_VEHICLE, &vehicle_activity_actor::deserialize },
+    { ACT_VEHICLE_DECONSTRUCTION, &multi_vehicle_deconstruct_activity_actor::deserialize },
     { ACT_VEHICLE_FOLD, &vehicle_folding_activity_actor::deserialize },
+    { ACT_VEHICLE_REPAIR, &multi_vehicle_repair_activity_actor::deserialize },
     { ACT_VEHICLE_UNFOLD, &vehicle_unfolding_activity_actor::deserialize },
     { ACT_VIBE, &vibe_activity_actor::deserialize },
     { ACT_WAIT, &wait_activity_actor::deserialize },

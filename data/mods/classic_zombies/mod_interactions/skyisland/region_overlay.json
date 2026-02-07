@@ -1,0 +1,9 @@
+[
+  {
+    "type": "region_settings",
+    "id": "dimension_sky_island_region",
+    "copy-from": "dimension_sky_island_region",
+    "urbanity_increase": [ -1, 0, 0, -1 ],
+    "feature_flag_settings": { "whitelist": [ "CLASSIC" ], "extend": { "blacklist": [ "SKY_ISLAND" ] } }
+  }
+]

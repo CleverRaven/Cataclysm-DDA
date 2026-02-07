@@ -8,7 +8,28 @@
     "description": "An attempt at an entirely new way to play CDDA, inspired by games like Escape from Tarkov and Dark and Darker.  Begin on a floating island in the sky and warp down to random spots on the earth below to conduct expeditions for items you need.  Permadeath is gone - you will return to the island on death but lose any items you had on you.  Build up your stockpile, carry out missions for unique rewards, customize your home island, unlock upgrades, and be prudent about what you take on any given outing.  Be aware that 'PLAY NOW' will NOT work, you MUST make a custom character.",
     "category": "total_conversion",
     "dependencies": [ "dda" ],
+    "conflicts": [ "backrooms", "MA" ],
     "version": "0.4.0",
     "loading_images": [ "skyisland1.png" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERRIDE_VEHICLE_INIT_STATE",
+    "//": "If true, initial status and amount of fuel for all spawned vehicles will be overridden by values of VEHICLE_STATUS_AT_SPAWN and VEHICLE_FUEL_AT_SPAWN options.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "VEHICLE_STATUS_AT_SPAWN",
+    "//": "All vehicles spawn in this status.  -1 is lightly damaged (default), 0 is undamaged, 1 is disabled (destroyed tires or engine).  Values are read only if OVERRIDE_VEHICLE_INIT_STATE is set to true.",
+    "stype": "int",
+    "value": 0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DEFAULT_REGION",
+    "stype": "string_input",
+    "value": "default_skyisland"
   }
 ]

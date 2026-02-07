@@ -1367,6 +1367,13 @@ conditional_t::func f_is_avatar_passenger( bool is_npc )
     };
 }
 
+conditional_t::func f_is_in_vehicle( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_in_vehicle();
+    };
+}
+
 conditional_t::func f_no_assigned_mission()
 {
     return []( const_dialogue const & d ) {
@@ -2011,6 +2018,17 @@ conditional_t::func f_is_on_terrain( const JsonObject &jo, std::string_view memb
     };
 }
 
+conditional_t::func f_is_on_furniture( const JsonObject &jo, std::string_view member,
+                                       bool is_npc )
+{
+    const map &here = get_map();
+
+    str_or_var furn_type = get_str_or_var( jo.get_member( member ), member, true );
+    return [furn_type, is_npc, &here]( const_dialogue const & d ) {
+        return here.furn( d.const_actor( is_npc )->pos_bub( here ) ) == furn_id( furn_type.evaluate( d ) );
+    };
+}
+
 conditional_t::func f_is_on_terrain_with_flag( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
@@ -2019,6 +2037,17 @@ conditional_t::func f_is_on_terrain_with_flag( const JsonObject &jo, std::string
     str_or_var terrain_type = get_str_or_var( jo.get_member( member ), member, true );
     return [terrain_type, is_npc, &here]( const_dialogue const & d ) {
         return here.ter( d.const_actor( is_npc )->pos_bub( here ) )->has_flag( terrain_type.evaluate( d ) );
+    };
+}
+
+conditional_t::func f_is_on_furniture_with_flag( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    const map &here = get_map();
+
+    str_or_var furn_type = get_str_or_var( jo.get_member( member ), member, true );
+    return [furn_type, is_npc, &here]( const_dialogue const & d ) {
+        return here.furn( d.const_actor( is_npc )->pos_bub( here ) )->has_flag( furn_type.evaluate( d ) );
     };
 }
 
@@ -2251,6 +2280,7 @@ std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_ge
     { "sleep_deprivation", &const_talker::get_sleep_deprivation },
     { "sold", &const_talker::sold },
     { "stamina", &const_talker::get_stamina },
+    { "stamina_max", &const_talker::get_stamina_max },
     { "stim", &const_talker::get_stim },
     { "strength_base", &const_talker::get_str_max },
     { "strength_bonus", &const_talker::get_str_bonus },
@@ -2500,6 +2530,8 @@ parsers = {
     {"u_has_wielded_with_ammotype", "npc_has_wielded_with_ammotype", jarg::member, &conditional_fun::f_has_wielded_with_ammotype },
     {"u_is_on_terrain", "npc_is_on_terrain", jarg::member, &conditional_fun::f_is_on_terrain },
     {"u_is_on_terrain_with_flag", "npc_is_on_terrain_with_flag", jarg::member, &conditional_fun::f_is_on_terrain_with_flag },
+    {"u_is_on_furniture", "npc_is_on_furniture", jarg::member, &conditional_fun::f_is_on_furniture },
+    {"u_is_on_furniture_with_flag", "npc_is_on_furniture_with_flag", jarg::member, &conditional_fun::f_is_on_furniture_with_flag },
     {"u_is_in_field", "npc_is_in_field", jarg::member, &conditional_fun::f_is_in_field },
     {"u_has_move_mode", "npc_has_move_mode", jarg::member, &conditional_fun::f_has_move_mode },
     {"u_can_see_location", "npc_can_see_location", jarg::member, &conditional_fun::f_can_see_location },
@@ -2601,6 +2633,7 @@ parsers_simple = {
     {"u_is_sinking", "npc_is_sinking", &conditional_fun::f_is_sinking },
     {"u_is_on_rails", "npc_is_on_rails", &conditional_fun::f_is_on_rails },
     {"u_is_avatar_passenger", "npc_is_avatar_passenger", &conditional_fun::f_is_avatar_passenger },
+    {"u_is_in_vehicle", "npc_is_in_vehicle", &conditional_fun::f_is_in_vehicle },
     {"is_rotten", &conditional_fun::f_is_rotten },
 };
 

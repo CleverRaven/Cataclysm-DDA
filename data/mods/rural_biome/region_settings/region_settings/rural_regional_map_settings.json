@@ -34,7 +34,7 @@
     "ocean_start_north": 500,
     "ocean_start_east": 10,
     "ocean_start_west": 1000,
-    "ocean_start_south": 0,
+    "ocean_start_south": null,
     "sandy_beach_width": 6
   },
   {
@@ -234,7 +234,7 @@
     "base_pressure": 1015.0,
     "base_wind": 3.4,
     "base_wind_distrib_peaks": 80,
-    "base_wind_season_variation": 50
+    "base_wind_season_variation": 0
   },
   {
     "type": "map_extra_collection",

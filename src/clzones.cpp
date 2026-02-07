@@ -25,6 +25,7 @@
 #include "item.h"
 #include "item_category.h"
 #include "item_group.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "itype.h"
@@ -32,6 +33,7 @@
 #include "localized_comparator.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "memory_fast.h"
 #include "output.h"
 #include "path_info.h"
@@ -310,7 +312,8 @@ unload_options::query_unload_result unload_options::query_unload()
 plot_options::query_seed_result plot_options::query_seed()
 {
     Character &player_character = get_player_character();
-    std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed );
+    std::vector<item_location> seed_inv = player_character.cache_get_items_with( "is_seed",
+                                          &item::is_seed );
     zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
     const std::unordered_set<tripoint_abs_ms> zone_src_set =
@@ -320,7 +323,7 @@ plot_options::query_seed_result plot_options::query_seed()
         tripoint_bub_ms elem_loc = here.get_bub( elem );
         for( item &it : here.i_at( elem_loc ) ) {
             if( it.is_seed() ) {
-                seed_inv.push_back( &it );
+                seed_inv.emplace_back( map_cursor( elem_loc ), &it );
             }
         }
     }
@@ -1425,7 +1428,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         }
     }
 
-    return zone_type_id();
+    return zone_type_id::NULL_ID();
 }
 
 std::vector<zone_data> zone_manager::get_zones( const zone_type_id &type,

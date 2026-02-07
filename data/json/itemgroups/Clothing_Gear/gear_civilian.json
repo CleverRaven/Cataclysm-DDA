@@ -127,7 +127,7 @@
       { "item": "radiocontrol", "prob": 5, "charges": [ 0, 100 ] },
       [ "RPG_die", 1 ],
       [ "metal_RPG_die", 1 ],
-      [ "deck_of_cards", 1 ]
+      { "group": "decks_of_cards", "prob": 1 }
     ]
   },
   {

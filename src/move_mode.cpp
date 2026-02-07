@@ -56,9 +56,11 @@ void move_mode::load( const JsonObject &jo, std::string_view/*src*/ )
     optional( jo, was_loaded, "symbol_color", _symbol_color, nc_color_reader{} );
 
     mandatory( jo, was_loaded, "exertion_level", _exertion_level, activity_level_reader{} );
+    optional( jo, was_loaded, "exertion_level_animal_riding", _exertion_level_animal_riding,
+              activity_level_reader{} );
 
     mandatory( jo, was_loaded, "change_good_none", change_messages_success[steed_type::NONE] );
-    mandatory( jo, was_loaded, "change_good_animal", change_messages_success[steed_type::ANIMAL] );
+    optional( jo, was_loaded, "change_good_animal", change_messages_success[steed_type::ANIMAL] );
     mandatory( jo, was_loaded, "change_good_mech", change_messages_success[steed_type::MECH] );
 
     optional( jo, was_loaded, "change_bad_none", change_messages_fail[steed_type::NONE],
@@ -174,6 +176,11 @@ float move_mode::stamina_mult() const
 float move_mode::exertion_level() const
 {
     return _exertion_level;
+}
+
+float move_mode::exertion_level_animal_riding() const
+{
+    return _exertion_level_animal_riding;
 }
 
 float move_mode::move_speed_mult() const

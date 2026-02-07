@@ -13,5 +13,80 @@
     "city_distance": [ 0, -1 ],
     "occurrences": [ 0, 5 ],
     "flags": [ "MAN_MADE", "EXTRADIMENSIONAL", "STRING_DIMENSION" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "string_dimension_cistern_vent_a",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "string_dimension_field_vent_a_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "string_dimension_field_vent_a_-1_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "string_dimension_field_vent_a_-2_north" },
+      { "point": [ 0, 0, -3 ], "overmap": "string_dimension_field_vent_a_-3_north" }
+    ],
+    "locations": [ "string_dimension_field_core" ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, 15 ],
+    "flags": [ "MAN_MADE", "EXTRADIMENSIONAL", "STRING_DIMENSION" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "string_dimension_cistern_vent_b",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "string_dimension_field_vent_b_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "string_dimension_field_vent_b_-1_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "string_dimension_field_vent_a_-2_north" },
+      { "point": [ 0, 0, -3 ], "overmap": "string_dimension_field_vent_a_-3_north" }
+    ],
+    "locations": [ "string_dimension_field_core" ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, 15 ],
+    "flags": [ "MAN_MADE", "EXTRADIMENSIONAL", "STRING_DIMENSION" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "string_dimension_dome",
+    "overmaps": [
+      { "point": [ 0, 0, -1 ], "overmap": "string_dimension_dome_x0y0z-1" },
+      { "point": [ 1, 0, -1 ], "overmap": "string_dimension_dome_x1y0z-1" },
+      { "point": [ 2, 0, -1 ], "overmap": "string_dimension_dome_x2y0z-1" },
+      { "point": [ 0, 1, -1 ], "overmap": "string_dimension_dome_x0y1z-1" },
+      { "point": [ 1, 1, -1 ], "overmap": "string_dimension_dome_x1y1z-1" },
+      { "point": [ 2, 1, -1 ], "overmap": "string_dimension_dome_x2y1z-1" },
+      { "point": [ 0, 2, -1 ], "overmap": "string_dimension_dome_x0y2z-1" },
+      { "point": [ 1, 2, -1 ], "overmap": "string_dimension_dome_x1y2z-1" },
+      { "point": [ 2, 2, -1 ], "overmap": "string_dimension_dome_x2y2z-1" },
+      { "point": [ 0, 0, 0 ], "overmap": "string_dimension_dome_x0y0z0" },
+      { "point": [ 1, 0, 0 ], "overmap": "string_dimension_dome_x1y0z0" },
+      { "point": [ 2, 0, 0 ], "overmap": "string_dimension_dome_x2y0z0" },
+      { "point": [ 0, 1, 0 ], "overmap": "string_dimension_dome_x0y1z0" },
+      { "point": [ 1, 1, 0 ], "overmap": "string_dimension_dome_x1y1z0" },
+      { "point": [ 2, 1, 0 ], "overmap": "string_dimension_dome_x2y1z0" },
+      { "point": [ 0, 2, 0 ], "overmap": "string_dimension_dome_x0y2z0" },
+      { "point": [ 1, 2, 0 ], "overmap": "string_dimension_dome_x1y2z0" },
+      { "point": [ 2, 2, 0 ], "overmap": "string_dimension_dome_x2y2z0" },
+      { "point": [ 0, 0, 1 ], "overmap": "string_dimension_dome_x0y0z1" },
+      { "point": [ 1, 0, 1 ], "overmap": "string_dimension_dome_x1y0z1" },
+      { "point": [ 2, 0, 1 ], "overmap": "string_dimension_dome_x2y0z1" },
+      { "point": [ 0, 1, 1 ], "overmap": "string_dimension_dome_x0y1z1" },
+      { "point": [ 1, 1, 1 ], "overmap": "string_dimension_dome_x1y1z1" },
+      { "point": [ 2, 1, 1 ], "overmap": "string_dimension_dome_x2y1z1" },
+      { "point": [ 0, 2, 1 ], "overmap": "string_dimension_dome_x0y2z1" },
+      { "point": [ 1, 2, 1 ], "overmap": "string_dimension_dome_x1y2z1" },
+      { "point": [ 2, 2, 1 ], "overmap": "string_dimension_dome_x2y2z1" },
+      { "point": [ 0, 0, 2 ], "overmap": "string_dimension_dome_x0y0z2" },
+      { "point": [ 1, 0, 2 ], "overmap": "string_dimension_dome_x1y0z2" },
+      { "point": [ 2, 0, 2 ], "overmap": "string_dimension_dome_x2y0z2" },
+      { "point": [ 0, 1, 2 ], "overmap": "string_dimension_dome_x0y1z2" },
+      { "point": [ 1, 1, 2 ], "overmap": "string_dimension_dome_x1y1z2" },
+      { "point": [ 2, 1, 2 ], "overmap": "string_dimension_dome_x2y1z2" },
+      { "point": [ 0, 2, 2 ], "overmap": "string_dimension_dome_x0y2z2" },
+      { "point": [ 1, 2, 2 ], "overmap": "string_dimension_dome_x1y2z2" },
+      { "point": [ 2, 2, 2 ], "overmap": "string_dimension_dome_x2y2z2" }
+    ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 70, 100 ],
+    "rotate": false,
+    "locations": [ "string_dimension_field_core" ],
+    "flags": [ "MAN_MADE", "EXTRADIMENSIONAL", "STRING_DIMENSION", "GLOBALLY_UNIQUE" ]
   }
 ]

@@ -57,7 +57,7 @@
     "harvest": "zombie_humanoid_headless",
     "decay": "zombie_decay_bone",
     "upgrades": { "half_life": 96, "into_group": "GROUP_ZOMBIE_BRAINLESS_UPGRADE" },
-    "extend": { "flags": [ "NOHEAD", "GEN_DORMANT" ] },
+    "extend": { "flags": [ "NOHEAD", "GEN_DORMANT", "CLUMSY_ATTACKS" ] },
     "delete": { "flags": [ "SEES" ], "special_attacks": [ "bite_humanoid" ] },
     "//3": "Removed Bite attack to reflect damage to mouth.",
     "//4": "Has NOHEAD flag to reflect the head is already catastrophically damaged.  Only detects through hearing."
@@ -109,14 +109,7 @@
     "extend": {
       "flags": [ "SMELLS", "PUSH_VEH" ],
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
-      "special_attacks": [
-        {
-          "id": "smash",
-          "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ],
-          "throw_strength": 35,
-          "cooldown": 10
-        }
-      ]
+      "special_attacks": [ { "id": "staggering_blow" } ]
     }
   },
   {
@@ -146,7 +139,15 @@
     "extend": {
       "flags": [ "SMELLS", "PUSH_VEH" ],
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
-      "special_attacks": [ { "id": "smash", "throw_strength": 72, "cooldown": 30 } ]
+      "special_attacks": [
+        { "id": "staggering_blow" },
+        {
+          "id": "smash",
+          "throw_strength": 72,
+          "cooldown": 30,
+          "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] }
+        }
+      ]
     },
     "delete": { "flags": [ "STUMBLES" ] },
     "revive_forms": [
@@ -174,7 +175,13 @@
     "harvest": "zombie_grabber",
     "grab_strength": 37,
     "special_attacks": [
-      { "id": "smash", "throw_strength": 72, "cooldown": 30 },
+      { "id": "staggering_blow" },
+      {
+        "id": "smash",
+        "throw_strength": 72,
+        "cooldown": 30,
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] }
+      },
       { "id": "grab", "cooldown": 11 },
       { "id": "grab_3", "cooldown": 12 },
       { "id": "ranged_pull", "cooldown": 20, "grab_data": { "pull_weight_ratio": 1.5 } },
@@ -205,7 +212,13 @@
     "vision_night": 40,
     "harvest": "zombie_humanoid_shadow",
     "special_attacks": [
-      { "id": "smash", "throw_strength": 48, "cooldown": 40 },
+      { "id": "staggering_blow" },
+      {
+        "id": "smash",
+        "throw_strength": 48,
+        "cooldown": 40,
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] }
+      },
       { "id": "stretch_attack", "cooldown": 40 },
       { "id": "longswipe" },
       { "id": "cut_throat" }
@@ -274,7 +287,7 @@
     "harvest": "zombie_humanoid_headless",
     "decay": "zombie_decay_bone",
     "upgrades": { "half_life": 112, "into": "mon_zombie_skull" },
-    "extend": { "flags": [ "GOODHEARING", "NOHEAD" ] },
+    "extend": { "flags": [ "GOODHEARING", "NOHEAD", "CLUMSY_ATTACKS" ] },
     "delete": { "special_attacks": [ "bite_humanoid" ] },
     "//3": "Removed Bite as this creature does not have a 'mouth'."
   },
@@ -426,6 +439,7 @@
       { "id": "scratch_humanoid" },
       { "id": "bite_humanoid" },
       { "id": "smash", "throw_strength": 96 },
+      { "id": "hulk_lift_and_smash" },
       { "id": "hulk_wide_swing" }
     ],
     "death_drops": "mon_zombie_hulk_death_drops",
@@ -651,7 +665,8 @@
       }
     ],
     "upgrades": { "half_life": 140, "into": "mon_zombie_hunter" },
-    "fungalize_into": "mon_zombie_runner_dusted"
+    "fungalize_into": "mon_zombie_runner_dusted",
+    "extend": { "flags": [ "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_regenerating",
@@ -769,7 +784,7 @@
     "grab_strength": 15,
     "special_attacks": [ { "id": "grab" }, [ "SHRIEK_ALERT", 20 ], [ "SHRIEK_STUN", 1 ], { "id": "scratch_humanoid" } ],
     "upgrades": false,
-    "extend": { "flags": [ "SMELLS", "KEENNOSE" ] }
+    "extend": { "flags": [ "SMELLS", "KEENNOSE", "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_shady",
@@ -784,7 +799,7 @@
     "vision_night": 40,
     "harvest": "zombie_humanoid_shadow",
     "upgrades": { "half_life": 112, "into_group": "GROUP_ZOMBIE_SHADY_UPGRADES" },
-    "extend": { "flags": [ "SMELLS", "NIGHT_INVISIBILITY" ] }
+    "extend": { "flags": [ "SMELLS", "NIGHT_INVISIBILITY", "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_shrieker",
@@ -835,7 +850,7 @@
     ],
     "upgrades": false,
     "armor": { "bash": 5, "cut": 3, "bullet": 2, "electric": 2 },
-    "extend": { "flags": [ "GOODHEARING", "NOHEAD" ] }
+    "extend": { "flags": [ "GOODHEARING", "NOHEAD", "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_ocular",
@@ -854,7 +869,8 @@
     "vision_day": 100,
     "special_attacks": [ { "id": "grab", "cooldown": 6 }, { "id": "scratch_humanoid", "cooldown": 15 } ],
     "upgrades": false,
-    "armor": { "bash": 5, "cut": 3, "bullet": 2, "electric": 2 }
+    "armor": { "bash": 5, "cut": 3, "bullet": 2, "electric": 2 },
+    "extend": { "flags": [ "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_smoker",
@@ -924,7 +940,8 @@
     "dodge": 1,
     "death_drops": "mon_zombie_swimmer_death_drops",
     "upgrades": { "half_life": 120, "into": "mon_zombie_swimmer" },
-    "categories": [ "CLASSIC" ]
+    "categories": [ "CLASSIC" ],
+    "extend": { "flags": [ "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_swimmer",
@@ -943,7 +960,7 @@
     "//grab": "Tier 2 mob, but webbed hands don't sound very grabby",
     "death_drops": "mon_zombie_swimmer_death_drops",
     "upgrades": { "half_life": 168, "into": "mon_zombie_mancroc" },
-    "extend": { "flags": [ "WATER_CAMOUFLAGE" ] }
+    "extend": { "flags": [ "WATER_CAMOUFLAGE", "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_technician",
@@ -959,7 +976,7 @@
     "vision_night": 2,
     "death_drops": "mon_zombie_technician_death_drops",
     "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 3 },
-    "extend": { "weakpoint_sets": [ "wps_humanoid_open_helmet" ] }
+    "extend": { "weakpoint_sets": [ "wps_humanoid_open_helmet" ], "flags": [ "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_miner",
@@ -977,7 +994,7 @@
     "death_drops": "mon_zombie_miner_death_drops",
     "upgrades": { "half_life": 140, "into_group": "GROUP_ZOMBIE_MINER_UPGRADE" },
     "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 1 },
-    "extend": { "weakpoint_sets": [ "wps_humanoid_open_helmet" ] }
+    "extend": { "weakpoint_sets": [ "wps_humanoid_open_helmet" ], "flags": [ "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_thorny",
@@ -999,7 +1016,7 @@
     "death_drops": "mon_zombie_thorny_death_drops",
     "upgrades": false,
     "armor": { "bash": 2, "cut": 4, "bullet": 3, "electric": 1 },
-    "extend": { "flags": [ "SMELLS", "RANGED_ATTACKER", "PARALYZEVENOM" ] }
+    "extend": { "flags": [ "SMELLS", "RANGED_ATTACKER", "PARALYZEVENOM", "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_reenactor",

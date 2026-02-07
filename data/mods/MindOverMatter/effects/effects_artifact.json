@@ -111,5 +111,21 @@
     "rating": "good",
     "removes_effects": [ "effect_pyrokinetic_aura_damage" ],
     "enchantments": [ { "emitter": "emit_pyrokinetic_aura_4" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_regeneration",
+    "name": [ "Tingling Skin" ],
+    "desc": [ "Your entire body is tingling slightly." ],
+    "rating": "bad",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MENDING_MODIFIER", "multiply": 15 },
+          { "value": "REGEN_HP", "multiply": 1.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.8 }
+        ]
+      }
+    ]
   }
 ]

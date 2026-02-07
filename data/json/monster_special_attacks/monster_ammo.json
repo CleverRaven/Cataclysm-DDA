@@ -20,7 +20,7 @@
     "ammo_type": "bile",
     "range": 4,
     "count": 1,
-    "effects": [ "NEVER_MISFIRES", "BILE_JET", "BILE_STINK", "BILE_BLIND" ]
+    "effects": [ "BILE_JET", "BILE_STINK", "BILE_BLIND" ]
   },
   {
     "id": "boomer_bile_adv",
@@ -37,7 +37,7 @@
     "ammo_type": "bile",
     "range": 4,
     "count": 1,
-    "effects": [ "NEVER_MISFIRES", "BILE_JET_ADV", "BILE_GLOW", "BILE_BOMB_ADV", "BILE_STINK", "BILE_IRRITATE", "BILE_BLIND" ]
+    "effects": [ "BILE_JET_ADV", "BILE_GLOW", "BILE_BOMB_ADV", "BILE_STINK", "BILE_IRRITATE", "BILE_BLIND" ]
   },
   {
     "id": "BILE_BOMB",

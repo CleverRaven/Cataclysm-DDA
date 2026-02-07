@@ -81,17 +81,7 @@
         "success_message": "Your surroundings warp and fold into the recesses of the world you know."
       },
       { "u_location_variable": { "context_val": "player_teleport_loc" }, "z_adjust": 0, "z_override": true },
-      { "u_teleport": { "context_val": "player_teleport_loc" } },
-      {
-        "if": { "math": [ "u_string_dimension_ziggurat_exit >= 1" ] },
-        "then": [
-          {
-            "u_message": "As you pulled the hypercube free, there was an immense explosion of light.  The object is gone and you're back in the world you know.",
-            "popup": true
-          },
-          { "clear_dimension": "string_dimension" }
-        ]
-      }
+      { "u_teleport": { "context_val": "player_teleport_loc" } }
     ],
     "false_effect": [
       {
@@ -120,8 +110,29 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STRING_DIMENSION_ZIGGURAT_RETURN",
-    "condition": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
-    "effect": [ { "math": [ "u_string_dimension_ziggurat_exit += 1" ] }, { "run_eocs": "EOC_PORTAL_STRING_DIMENSION_RETURN" } ],
-    "false_effect": { "u_message": "An invisible, repulsive field keeps you from touching the hypercube.", "popup": true }
+    "effect": [
+      {
+        "if": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        "then": {
+          "u_message": "You touched the cube and there was an immense explosion of light.  The object is gone and you're back in the world you know.",
+          "popup": true
+        },
+        "else": [
+          {
+            "u_message": "You pull the hypercube free and space around you violently bends before snapping back in place!",
+            "popup": true
+          },
+          { "u_spawn_item": "string_dimension_hypercube", "count": 1 }
+        ]
+      },
+      { "u_transform_radius": 5, "ter_furn_transform": "string_dimension_ziggurat_transform" },
+      { "math": [ "u_string_dimension_ziggurat_exit += 1" ] },
+      { "run_eocs": "EOC_PORTAL_STRING_DIMENSION_RETURN" }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "string_dimension_ziggurat_transform",
+    "furniture": [ { "result": [ "f_string_dimension_housing_imploded" ], "valid_furniture": [ "f_string_dimension_housing" ] } ]
   }
 ]

@@ -93,7 +93,6 @@ static const ammo_effect_str_id ammo_effect_BLACKPOWDER( "BLACKPOWDER" );
 static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
 static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
 static const ammo_effect_str_id ammo_effect_MATCHHEAD( "MATCHHEAD" );
-static const ammo_effect_str_id ammo_effect_NEVER_MISFIRES( "NEVER_MISFIRES" );
 static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
@@ -995,10 +994,6 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             _( "This ammo has been loaded with <bad>blackpowder</bad>, and will quickly "
                "clog up most guns, and cause rust if the gun is not cleaned." ) );
     }
-    if( ammo.ammo_effects.count( ammo_effect_NEVER_MISFIRES ) &&
-        parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
-        fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
-    }
     if( parts->test( iteminfo_parts::AMMO_FX_RECOVER ) ) {
         if( ammo.recovery_chance <= 75 ) {
             fx.emplace_back( _( "Stands a <bad>very low</bad> chance of remaining intact once fired." ) );
@@ -1566,7 +1561,7 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( iternum != 0 ) {
                 mod_loc_str += "; ";
             }
-            mod_loc_str += string_format( "<bold>%s</bold> %s", elem.second, elem.first.name() );
+            mod_loc_str += string_format( "<bold>%d</bold> %s", elem.second, elem.first.name() );
             iternum++;
         }
         mod_loc_str += ".";

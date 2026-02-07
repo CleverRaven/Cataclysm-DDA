@@ -8,7 +8,7 @@
     "looks_like": "t_pavement",
     "color": "yellow",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER"
   },
   {
@@ -20,7 +20,7 @@
     "looks_like": "t_floor",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": { "ter_set": "t_water_sh", "items": [ { "item": "nail", "charges": [ 6, 12 ] }, { "item": "2x4", "count": 8 } ] },
     "bash": {
@@ -67,7 +67,7 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 6,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": { "ter_set": "t_dock_deep_pile", "items": [ { "item": "spike", "count": 8 }, { "item": "log", "count": 4 } ] },
     "looks_like": "t_wall_log_half",
@@ -90,7 +90,7 @@
     "symbol": "8",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": {
       "ter_set": "t_dock_deep_frame",
@@ -117,7 +117,7 @@
     "symbol": "8",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": { "ter_set": "t_water_sh", "items": [ { "item": "nail", "charges": [ 6, 12 ] }, { "item": "2x4", "count": 8 } ] },
     "bash": {
@@ -140,7 +140,7 @@
     "symbol": "8",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": {
       "ter_set": "t_water_dp",
@@ -166,7 +166,7 @@
     "symbol": "8",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": {
       "ter_set": "t_water_moving_dp",
@@ -254,7 +254,7 @@
     "looks_like": "t_metal_floor",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": {
       "ter_set": "t_water_sh",
@@ -305,7 +305,7 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 6,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": { "ter_set": "t_concrete_dock_deep_pile", "items": [ { "item": "spike", "count": 8 }, { "item": "pipe", "count": 4 } ] },
     "looks_like": "t_sconc_wall_halfway",
@@ -326,7 +326,7 @@
     "symbol": "8",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": {
       "ter_set": "t_metal_dock_deep_frame",
@@ -351,7 +351,7 @@
     "symbol": "8",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": { "ter_set": "t_water_dp", "items": [ { "item": "sheet_metal", "count": [ 2, 4 ] }, { "item": "scrap", "count": 8 } ] },
     "bash": {

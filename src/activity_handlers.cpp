@@ -64,23 +64,11 @@ static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
-static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
-static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
-static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
-static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
-static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
-static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
-static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
-static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
-static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
-static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
-static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
-static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
 static const ammotype ammo_battery( "battery" );
 
@@ -114,22 +102,10 @@ const std::map< activity_id, std::function<void( player_activity *, Character * 
 activity_handlers::do_turn_functions = {
     { ACT_FILL_LIQUID, fill_liquid_do_turn },
     { ACT_START_FIRE, start_fire_do_turn },
-    { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
-    { ACT_MULTIPLE_MINE, multiple_mine_do_turn },
-    { ACT_MULTIPLE_MOP, multiple_mop_do_turn },
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
-    { ACT_MULTIPLE_FARM, multiple_farm_do_turn },
-    { ACT_MULTIPLE_CHOP_PLANKS, multiple_chop_planks_do_turn },
-    { ACT_MULTIPLE_CRAFT, multiple_craft_do_turn },
-    { ACT_MULTIPLE_DIS, multiple_dis_do_turn },
-    { ACT_MULTIPLE_READ, multiple_read_do_turn },
-    { ACT_MULTIPLE_STUDY, multiple_study_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
-    { ACT_VEHICLE_DECONSTRUCTION, vehicle_deconstruction_do_turn },
-    { ACT_VEHICLE_REPAIR, vehicle_repair_do_turn },
-    { ACT_MULTIPLE_CHOP_TREES, chop_trees_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },
@@ -338,6 +314,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                                 here.furn_set( source_pos, furn_f_compost_empty );
                             }
                         }
+                    } else if( iexamine::has_keg( source_pos ) ) {
+                        add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
+                                 liquid.type_name( 1 ), here.furnname( source_pos ) );
                     }
                     act_ref.set_to_null();
                 }

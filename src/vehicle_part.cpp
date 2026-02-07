@@ -105,6 +105,9 @@ void vehicle_part::set_base( item &&new_base )
 std::string vehicle_part::name( bool with_prefix ) const
 {
     std::string res;
+    if( debug_mode ) {
+        res += string_format( "(dam %d,deg %d)", base.damage_level( true ), base.degradation() );
+    }
     if( with_prefix ) {
         res += base.damage_indicator() + base.degradation_symbol() + " ";
         if( !base.type->degrade_increments() ) {
@@ -517,6 +520,11 @@ bool vehicle_part::has_fault_flag( const std::string &searched_flag ) const
     return base.has_fault_flag( searched_flag );
 }
 
+bool vehicle_part::has_fault( const fault_id &fault ) const
+{
+    return base.has_fault( fault );
+}
+
 std::set<fault_id> vehicle_part::faults_potential() const
 {
     return base.faults_potential();
@@ -822,4 +830,15 @@ float vehicle_part::rolling_resistance() const
     }
 
     return rolling_resistance;
+}
+
+int vehicle_part::move_penalty() const
+{
+    int move_penalty = 0;
+
+    for( const fault_id &ft : faults() ) {
+        move_penalty += ft.obj().vehicle_move_penalty_mod();
+    }
+
+    return move_penalty;
 }
