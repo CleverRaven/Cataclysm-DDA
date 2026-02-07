@@ -2,7 +2,7 @@
 #ifdef __cplusplus
 
 #include <new>
-#include <rpmalloc.h>
+#include <rpmalloc/rpmalloc.h>
 
 #ifndef __CRTDECL
 #define __CRTDECL
