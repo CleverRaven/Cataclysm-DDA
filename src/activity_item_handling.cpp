@@ -44,7 +44,6 @@
 #include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
-#include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
 #include "lightmap.h"
@@ -67,7 +66,6 @@
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
-#include "rng.h"
 #include "stomach.h"
 #include "temp_crafting_inventory.h"
 #include "translations.h"
@@ -96,7 +94,6 @@ static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
-static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
@@ -152,7 +149,6 @@ static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
 static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
 static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
-static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_MOPPING( "MOPPING" );
@@ -723,9 +719,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     // Check that we can pick it up.
     if( !it.made_of_from_type( phase_id::LIQUID ) ) {
         you.mod_moves( -activity_handlers::move_cost( it, src, dest ) );
-        if( activity_to_restore == ACT_TIDY_UP ) {
-            it.erase_var( "activity_var" );
-        } else if( activity_to_restore == ACT_FETCH_REQUIRED ) {
+        if( activity_to_restore == ACT_FETCH_REQUIRED ) {
             it.set_var( "activity_var", you.name );
         }
         put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, &here, dest );
@@ -1879,19 +1873,6 @@ activity_reason_info chop_planks_can_do( const activity_id &, Character &you,
     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
 }
 
-activity_reason_info tidy_up_can_do( const activity_id &, Character &you,
-                                     const tripoint_bub_ms &src_loc, const int distance )
-{
-
-    map &here = get_map();
-    zone_manager &mgr = zone_manager::get_manager();
-
-    if( mgr.has_near( zone_type_LOOT_UNSORTED, here.get_abs( src_loc ), distance, _fac_id( you ) ) ||
-        mgr.has_near( zone_type_CAMP_STORAGE, here.get_abs( src_loc ), distance, _fac_id( you ) ) ) {
-        return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
-    }
-    return activity_reason_info::fail( do_activity_reason::NO_ZONE );
-}
 activity_reason_info construction_can_do( const activity_id &, Character &you,
         const tripoint_bub_ms &src_loc )
 {
@@ -2095,8 +2076,7 @@ activity_reason_info disassemble_can_do( const activity_id &, Character &you,
 
 bool can_do_in_dark( const activity_id &act_id )
 {
-    return act_id == ACT_TIDY_UP ||
-           act_id == ACT_MULTIPLE_MOP ||
+    return act_id == ACT_MULTIPLE_MOP ||
            act_id == ACT_MOVE_LOOT ||
            act_id == ACT_FETCH_REQUIRED;
 }
@@ -2488,8 +2468,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         return multi_activity_actor::read_can_do( act, you, src_loc );
     } else if( act == ACT_MULTIPLE_CHOP_PLANKS ) {
         return multi_activity_actor::chop_planks_can_do( act, you, src_loc );
-    } else if( act == ACT_TIDY_UP ) {
-        return multi_activity_actor::tidy_up_can_do( act, you, src_loc );
     } else if( act == ACT_MULTIPLE_CONSTRUCTION ) {
         return multi_activity_actor::construction_can_do( act, you, src_loc );
     } else if( act == ACT_MULTIPLE_FARM ) {
@@ -2820,23 +2798,6 @@ std::vector<std::tuple<tripoint_bub_ms, itype_id, int>>
     return final_map;
 }
 
-namespace
-{
-
-void _tidy_move_items( Character &you, item_stack &stack, tripoint_bub_ms const &src_loc,
-                       tripoint_bub_ms const &dst_loc, const std::optional<vpart_reference> &vpr_src,
-                       activity_id const &activity_to_restore )
-{
-    for( item &it : stack ) {
-        if( it.has_var( "activity_var" ) && it.get_var( "activity_var", "" ) == you.name ) {
-            move_item( you, it, it.count(), src_loc, dst_loc, vpr_src, activity_to_restore );
-            break;
-        }
-    }
-}
-
-} // namespace
-
 static bool construction_activity( Character &you, const zone_data * /*zone*/,
                                    const tripoint_bub_ms &src_loc,
                                    const activity_reason_info &act_info,
@@ -2871,51 +2832,6 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
     }
     you.backlog.emplace_front( activity_to_restore );
     you.assign_activity( build_construction_activity_actor( here.get_abs( src_loc ) ) );
-    return true;
-}
-
-static bool tidy_activity( Character &you, const tripoint_bub_ms &src_loc,
-                           const activity_id &activity_to_restore,
-                           const int distance = MAX_VIEW_DISTANCE )
-{
-    zone_manager &mgr = zone_manager::get_manager();
-    map &here = get_map();
-    tripoint_abs_ms loot_abspos = here.get_abs( src_loc );
-    tripoint_bub_ms loot_src_lot;
-    const auto &zone_src_set = mgr.get_near( zone_type_LOOT_UNSORTED, loot_abspos, distance, nullptr,
-                               _fac_id( you ) );
-    if( !zone_src_set.empty() ) {
-        const std::vector<tripoint_abs_ms> &zone_src_sorted = get_sorted_tiles_by_distance(
-                    loot_abspos, zone_src_set );
-        // Find the nearest unsorted zone to dump objects at
-        for( const tripoint_abs_ms &src_elem : zone_src_sorted ) {
-            if( !here.can_put_items_ter_furn( here.get_bub( src_elem ) ) ) {
-                continue;
-            }
-            loot_src_lot = here.get_bub( src_elem );
-            break;
-        }
-    }
-    if( loot_src_lot == tripoint_bub_ms() ) {
-        return false;
-    }
-    if( const std::optional<vpart_reference> ovp = here.veh_at( src_loc ).cargo() ) {
-        vehicle_stack vs = ovp->items();
-        _tidy_move_items( you, vs, src_loc, loot_src_lot, ovp, activity_to_restore );
-    }
-    map_stack stack = here.i_at( src_loc );
-    _tidy_move_items( you, stack, src_loc, loot_src_lot, std::nullopt, activity_to_restore );
-
-    // we are adjacent to an unsorted zone, we came here to just drop items we are carrying
-    if( mgr.has( zone_type_LOOT_UNSORTED, here.get_abs( src_loc ), _fac_id( you ) ) ) {
-        for( item *inv_elem : you.inv_dump() ) {
-            if( inv_elem->has_var( "activity_var" ) ) {
-                inv_elem->erase_var( "activity_var" );
-                put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { *inv_elem }, &here, src_loc );
-                you.i_rem( inv_elem );
-            }
-        }
-    }
     return true;
 }
 
@@ -3317,68 +3233,6 @@ std::unordered_set<tripoint_abs_ms> construction_locations( Character &you,
     return src_set;
 }
 
-std::unordered_set<tripoint_abs_ms> tidy_up_locations( Character &you, const activity_id & )
-{
-
-    map &here = get_map();
-    std::unordered_set<tripoint_abs_ms> src_set;
-
-    tripoint_bub_ms unsorted_spot;
-    std::unordered_set<tripoint_abs_ms> unsorted_set =
-        zone_manager::get_manager().get_near( zone_type_LOOT_UNSORTED, you.pos_abs(), MAX_VIEW_DISTANCE,
-                nullptr, _fac_id( you ) );
-    if( !unsorted_set.empty() ) {
-        unsorted_spot = here.get_bub( random_entry( unsorted_set ) );
-    }
-    bool found_one_point = false;
-    bool found_route = true;
-    for( const tripoint_bub_ms &elem : here.points_in_radius( you.pos_bub(),
-            MAX_VIEW_DISTANCE ) ) {
-        // There's no point getting the entire list of all items to tidy up now.
-        // the activity will run again after pathing to the first tile anyway.
-        // tidy up activity has no requirements that will discount a square and
-        // have the requirement to skip and scan the next one, ( other than checking path )
-        // shortcircuiting the need to scan the entire map continuously can improve performance
-        // especially if NPCs have a backlog of moves or there is a lot of them
-        if( !found_route ) {
-            found_route = true;
-            continue;
-        }
-        if( found_one_point ) {
-            break;
-        }
-        for( const item &stack_elem : here.i_at( elem ) ) {
-            if( stack_elem.has_var( "activity_var" ) && stack_elem.get_var( "activity_var", "" ) == you.name ) {
-                const furn_t &f = here.furn( elem ).obj();
-                if( !f.has_flag( ter_furn_flag::TFLAG_PLANT ) ) {
-                    src_set.insert( here.get_abs( elem ) );
-                    found_one_point = true;
-                    // only check for a valid path, as that is all that is needed to tidy something up.
-                    if( square_dist( you.pos_bub(), elem ) > 1 ) {
-                        std::vector<tripoint_bub_ms> route = route_adjacent( you, elem );
-                        if( route.empty() ) {
-                            found_route = false;
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-    }
-    if( src_set.empty() && unsorted_spot != tripoint_bub_ms::zero ) {
-        for( const item *inv_elem : you.inv_dump() ) {
-            if( inv_elem->has_var( "activity_var" ) ) {
-                // we've gone to tidy up all the things lying around, now tidy up the things we picked up.
-                src_set.insert( here.get_abs( unsorted_spot ) );
-                break;
-            }
-        }
-    }
-    multi_activity_actor::prune_dangerous_field_locations( src_set );
-
-    return src_set;
-}
-
 std::unordered_set<tripoint_abs_ms> read_locations( Character &you, const activity_id &act_id )
 {
 
@@ -3607,19 +3461,6 @@ bool construction_do( Character &you, const activity_reason_info &act_info,
             return false;
         }
         if( construction_activity( you, zone, src_loc, act_info, ACT_MULTIPLE_CONSTRUCTION ) ) {
-            return false;
-        }
-    }
-    return true;
-}
-
-bool tidy_up_do( Character &you, const activity_reason_info &act_info,
-                 const tripoint_abs_ms &, const tripoint_bub_ms &src_loc )
-{
-    const do_activity_reason &reason = act_info.reason;
-
-    if( reason == do_activity_reason::CAN_DO_FETCH ) {
-        if( !tidy_activity( you, src_loc, ACT_TIDY_UP, MAX_VIEW_DISTANCE ) ) {
             return false;
         }
     }
@@ -3920,9 +3761,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
 {
     std::unordered_set<tripoint_abs_ms> src_set;
     //TODO: move to individual activity actors
-    if( act_id == ACT_TIDY_UP ) {
-        src_set = multi_activity_actor::tidy_up_locations( you, act_id );
-    } else if( act_id == ACT_MULTIPLE_READ ) {
+    if( act_id == ACT_MULTIPLE_READ ) {
         src_set = multi_activity_actor::read_locations( you, act_id );
     } else if( act_id == ACT_MULTIPLE_STUDY ) {
         src_set = multi_activity_actor::study_locations( you, act_id );
@@ -3962,7 +3801,6 @@ static requirement_check_result generic_multi_activity_check_requirement(
 
     const bool needs_to_be_in_zone = multi_activity_actor::activity_must_be_in_zone( act_id, src_loc );
     // some activities require the target tile to be part of a zone.
-    // tidy up activity doesn't - it wants things that may not be in a zone already - things that may have been left lying around.
     if( needs_to_be_in_zone && !zone ) {
         can_do_it = false;
         return requirement_check_result::SKIP_LOCATION_NO_ZONE;
@@ -4110,8 +3948,6 @@ static bool generic_multi_activity_do(
         return multi_activity_actor::study_do( you, act_info, src, src_loc );
     } else if( act_id == ACT_MULTIPLE_CHOP_PLANKS ) {
         return multi_activity_actor::chop_planks_do( you, act_info, src, src_loc );
-    } else if( act_id == ACT_TIDY_UP ) {
-        return multi_activity_actor::tidy_up_do( you, act_info, src, src_loc );
     } else if( act_id == ACT_MULTIPLE_CONSTRUCTION ) {
         return multi_activity_actor::construction_do( you, act_info, src, src_loc );
     } else if( act_id == ACT_MULTIPLE_FARM ) {

@@ -228,7 +228,6 @@ static const activity_id ACT_STASH( "ACT_STASH" );
 static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_TENT_DECONSTRUCT( "ACT_TENT_DECONSTRUCT" );
 static const activity_id ACT_TENT_PLACE( "ACT_TENT_PLACE" );
-static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
@@ -4700,7 +4699,6 @@ void fish_activity_actor::finish( player_activity &act, Character &who )
     who.add_msg_if_player( m_info, _( "You finish fishing" ) );
     if( !who.backlog.empty() && who.backlog.front().id() == ACT_MULTIPLE_FISH ) {
         who.backlog.clear();
-        who.assign_activity( ACT_TIDY_UP );
     }
 }
 
