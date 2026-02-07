@@ -136,7 +136,6 @@ static Font_Ptr overmap_font;
 static SDL_Window_Ptr window;
 static SDL_Renderer_Ptr renderer;
 static SDL_PixelFormat_Ptr format;
-static SDL_Texture_Ptr display_buffer;
 static GeometryRenderer_Ptr geometry;
 #if defined(__ANDROID__)
 static SDL_Texture_Ptr touch_joystick;
@@ -237,12 +236,7 @@ static void InitSDL()
 static bool SetupRenderTarget()
 {
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
-    display_buffer.reset( SDL_CreateTexture( renderer.get(), SDL_PIXELFORMAT_ARGB8888,
-                          SDL_TEXTUREACCESS_TARGET, WindowWidth / scaling_factor, WindowHeight / scaling_factor ) );
-    if( printErrorIf( !display_buffer, "Failed to create window buffer" ) ) {
-        return false;
-    }
-    if( printErrorIf( SDL_SetRenderTarget( renderer.get(), display_buffer.get() ) != 0,
+    if( printErrorIf( SDL_SetRenderTarget( renderer.get(), nullptr ) != 0,
                       "SDL_SetRenderTarget failed" ) ) {
         return false;
     }
@@ -384,7 +378,6 @@ static void WinCreate()
             dbg( D_ERROR ) <<
                            "Failed to initialize display buffer under accelerated rendering, falling back to software rendering.";
             software_renderer = true;
-            display_buffer.reset();
             renderer.reset();
         }
     }
@@ -454,7 +447,6 @@ static void WinDestroy()
     gamepad::quit();
     geometry.reset();
     format.reset();
-    display_buffer.reset();
     renderer.reset();
     ::window.reset();
 }
@@ -549,18 +541,6 @@ void refresh_display()
         return;
     }
 
-    // Select default target (the window), copy rendered buffer
-    // there, present it, select the buffer as target again.
-    SetRenderTarget( renderer, nullptr );
-    ClearScreen();
-#if defined(__ANDROID__)
-    SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
-                       TERMINAL_HEIGHT * fontheight );
-    RenderCopy( renderer, display_buffer, NULL, &dstrect );
-#else
-    RenderCopy( renderer, display_buffer, nullptr, nullptr );
-#endif
-
 #if defined(__ANDROID__)
     draw_terminal_size_preview();
     if( g ) {
@@ -570,7 +550,7 @@ void refresh_display()
 #endif
     draw_gamepad_radial_menu();
     SDL_RenderPresent( renderer.get() );
-    SetRenderTarget( renderer, display_buffer );
+    ClearScreen();
 }
 
 // only update if the set interval has elapsed
@@ -582,12 +562,6 @@ static void try_sdl_update()
     } else {
         needupdate = true;
     }
-}
-
-//for resetting the render target after updating texture caches in cata_tiles.cpp
-void set_displaybuffer_rendertarget()
-{
-    SetRenderTarget( renderer, display_buffer );
 }
 
 void clear_window_area( const catacurses::window &win_ )
