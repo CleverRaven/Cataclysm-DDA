@@ -97,6 +97,28 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_PROTECT_FROM_VAMPIRISM",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_bloodthorne_druid_prevent_vampirism" },
+        { "compare_string": [ "vampire_virus", { "context_val": "effect" } ] }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "effect_bloodthorne_druid_prevent_vampirism" },
+      { "u_message": "As you feel the burning in your veins, your sapshield creaks to life.", "type": "good" },
+      {
+        "u_add_effect": "effect_bloodthorne_druid_prevent_vampirism_active",
+        "duration": {
+          "math": [ "300 + ( ( (20 * bloodthorn_druid_traits_sum() ) + (5 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ) ) " ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD",
     "effect": [
       {
