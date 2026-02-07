@@ -12,7 +12,8 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinitree1", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 6 ] ] ],
+    "components": [ [ [ "warptoken_material", 10 ] ] ],
+    "//": "3000 g unworked wood per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -28,8 +29,9 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinitree1", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 1 ] ] ],
-    "result_mult": 2,
+    "components": [ [ [ "warptoken_material", 5 ] ] ],
+    "result_mult": 4,
+    "//": "~1950 g worked wood per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -46,6 +48,43 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinitree1", -1 ] ] ],
     "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "//": "3000 g unworked wood per token",
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "stick",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_MATERIALS",
+    "id_suffix": "from_tokens",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 s",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_infinitree1", -1 ] ] ],
+    "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "result_mult": 2,
+    "//": "3000 g unworked wood per token",
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "splinter",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_MATERIALS",
+    "id_suffix": "from_tokens",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 s",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_infinitree1", -1 ] ] ],
+    "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "result_mult": 20,
+    "//": "3000 g unworked wood per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -61,8 +100,8 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinitree1", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 5 ] ] ],
-    "result_mult": 2,
+    "components": [ [ [ "warptoken_material", 6 ] ] ],
+    "//": "2000 g worked wood per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -78,7 +117,9 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinitree1", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "components": [ [ [ "warptoken_material", 3 ] ] ],
+    "result_mult": 2,
+    "//": "~1900 g worked wood per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -94,7 +135,8 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinitree1", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 2 ] ] ],
+    "components": [ [ [ "warptoken_material", 3 ] ] ],
+    "//": "~1900 g worked wood per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -110,7 +152,8 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinitree1", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 10 ] ] ],
+    "components": [ [ [ "warptoken_material", 25 ] ] ],
+    "//": "~1950 g worked wood per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -126,7 +169,27 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinityore", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 20 ] ] ],
+    "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "charges": 15,
+    "//": "30 cents steel per token",
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "pipe_fittings",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_MATERIALS",
+    "id_suffix": "from_tokens",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 s",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_infinityore", -1 ] ] ],
+    "components": [ [ [ "warptoken_material", 4 ] ] ],
+    "result_mult": 3,
+    "//": "375 g steel per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -142,7 +205,9 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinityore", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 6 ] ] ],
+    "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "result_mult": 3,
+    "//": "30 cents copper per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -159,6 +224,8 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinityore", -1 ] ] ],
     "components": [ [ [ "warptoken_material", 3 ] ] ],
+    "result_mult": 2,
+    "//": "400 g steel per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -175,6 +242,8 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinityore", -1 ] ] ],
     "components": [ [ [ "warptoken_material", 5 ] ] ],
+    "charges": 15,
+    "//": "30 cents steel per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -190,7 +259,9 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinityore", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "components": [ [ [ "warptoken_material", 2 ] ] ],
+    "result_mult": 5,
+    "//": "375 g steel per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -207,6 +278,7 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinitystone", -1 ] ] ],
     "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "//": "10000 g soil per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -223,6 +295,8 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinitystone", -1 ] ] ],
     "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "result_mult": 6,
+    "//": "30 cents clay per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -238,7 +312,9 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinitystone", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 3 ] ] ],
+    "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "result_mult": 30,
+    "//": "30 cents cement per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -255,7 +331,8 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinitystone", -1 ] ] ],
     "components": [ [ [ "warptoken_material", 1 ] ] ],
-    "result_mult": 5,
+    "result_mult": 1250,
+    "//": "10000 g sand per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -272,6 +349,8 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinitystone", -1 ] ] ],
     "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "result_mult": 3,
+    "//": "30 cents clay per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -287,8 +366,9 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinitystone", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 1 ] ] ],
-    "result_mult": 5,
+    "components": [ [ [ "warptoken_material", 2 ] ] ],
+    "result_mult": 3,
+    "//": "10000 g soil per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -304,7 +384,9 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinitystone", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 5 ] ] ],
+    "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "result_mult": 3,
+    "//": "30 cents limestone per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -320,7 +402,8 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinitystone", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 5 ] ] ],
+    "components": [ [ [ "warptoken_material", 3 ] ] ],
+    "//": "5200 g stone per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -336,7 +419,9 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinitystone", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 2 ] ] ],
+    "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "result_mult": 8,
+    "//": "5200 g stone per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -353,7 +438,8 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinityore", -1 ] ] ],
     "components": [ [ [ "warptoken_material", 1 ] ] ],
-    "result_mult": 5,
+    "result_mult": 3,
+    "//": "30 cents steel per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -569,6 +655,23 @@
     "//": "Treating qt_steel as 5x as valuable as mc_steel: 25 cents steel per token"
   },
   {
+    "result": "sheet_metal_small",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_MATERIALS",
+    "id_suffix": "from_tokens",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 s",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_infinityore", -1 ] ] ],
+    "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "//": "25 cents steel per token",
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "sheet_metal",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
@@ -581,7 +684,8 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinityore", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 20 ] ] ],
+    "components": [ [ [ "warptoken_material", 15 ] ] ],
+    "//": "400 g steel per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -597,7 +701,8 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinityore", -1 ] ] ],
-    "components": [ [ [ "warptoken_material", 100 ] ] ],
+    "components": [ [ [ "warptoken_material", 50 ] ] ],
+    "//": "400 g steel per token",
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -614,6 +719,7 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_infinityore", -1 ] ] ],
     "components": [ [ [ "warptoken_material", 250 ] ] ],
+    "//": "400 g steel per token",
     "flags": [ "BLIND_EASY" ]
   }
 ]
