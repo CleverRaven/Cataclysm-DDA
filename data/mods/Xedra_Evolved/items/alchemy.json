@@ -211,7 +211,7 @@
     "id": "EOC_DREAM_BEZOAR",
     "condition": { "not": { "u_has_effect": "consumed_bezoar" } },
     "effect": [
-      { "math": [ "u_proficiency('prof_lucid_dreaming', 'format': 'percent') += 5 )" ] },
+      { "math": [ "u_proficiency('prof_lucid_dreaming', 'format': 'percent') += 5" ] },
       { "u_add_effect": "consumed_bezoar", "duration": "PERMANENT" }
     ],
     "false_effect": [
