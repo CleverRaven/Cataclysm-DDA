@@ -1,0 +1,44 @@
+[
+  {
+    "id": [ "AG_HIREABLE_1" ],
+    "type": "talk_topic",
+    "dynamic_line": "I'm just looking for my next job.  So if you can't help with that, I rather we be on our own separate ways.",
+    "responses": [
+      { "text": "Well then, what does it cost to hire you.", "topic": "AG_HIREABLE_2" },
+      { "text": "Ha I prefer the cheerful sort anyways.", "topic": "TALK_DONE" },
+      { "text": "Well whatever.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "AG_HIREABLE_2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "gendered_line": "The salvor's demeanor changes completely when they realize you aren't here to waste time.  \"25k and I'm with you for the the time being.\"",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      { "text": "I might be back.", "topic": "TALK_DONE" },
+      {
+        "text": "[25,000 USD] You have a deal.",
+        "topic": "AG_HIREABLE_3",
+        "effect": [
+          {
+            "u_spend_cash": 2500000,
+            "true_eocs": { "id": "_AG_HIREABLE_FOLLOW", "effect": [ { "npc_change_class": "NC_NONE" }, "follow" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "AG_HIREABLE_3",
+    "type": "talk_topic",
+    "dynamic_line": { "npc_following": true, "yes": "I guess you are the boss.", "no": "Well I guess thats a non-starter then." },
+    "responses": [
+      {
+        "truefalsetext": { "condition": "npc_following", "true": "Glad to have you on board.", "false": "Maybe some other day." },
+        "topic": "TALK_DONE"
+      }
+    ]
+  }
+]
