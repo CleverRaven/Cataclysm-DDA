@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "activity_type.h"
 #include "avatar.h"
 #include "butchery.h"
 #include "calendar.h"
@@ -242,7 +243,9 @@ struct act_item {
           consumed_moves( consumed_moves ) {}
 };
 
-static void check_npc_revert( Character &you )
+namespace multi_activity_actor
+{
+void check_npc_revert( Character &you )
 {
     if( you.is_npc() ) {
         npc *guy = dynamic_cast<npc *>( &you );
@@ -251,6 +254,7 @@ static void check_npc_revert( Character &you )
         }
     }
 }
+} //namespace multi_activity_actor
 
 // TODO: Deliberately unified with multidrop. Unify further.
 static bool same_type( const std::list<item> &items )
@@ -2286,7 +2290,10 @@ requirement_id remove_met_requirements( requirement_id base_req_id, Character &y
     requirement_data::alter_tool_comp_vector reduced_tool_reqs_vector;
     requirement_data::alter_quali_req_vector reduced_quality_reqs_vector;
 
-    const inventory &inv = you.crafting_inventory();
+    // We cannot assume that required items on the ground when the multi-activity starts
+    // will *always* be in the multi-activity work area to meet requirements.
+    // Therefore, items on the ground aren't counted here for met requirements.
+    const inventory &inv = you.crafting_inventory( tripoint_bub_ms::zero, -1 );
 
     for( std::vector<tool_comp> &tools : tool_reqs_vector ) {
         bool found = false;
@@ -2532,29 +2539,23 @@ void add_basecamp_storage_to_loot_zone_list(
 }
 } //namespace multi_activity_actor
 
-static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map( Character &you,
-        const int distance = MAX_VIEW_DISTANCE )
+std::vector<std::tuple<tripoint_bub_ms, itype_id, int>>
+        fetch_required_activity_actor::requirements_map( Character &you,
+                const int distance )
 {
     std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirement_map;
-    if( you.backlog.empty() || you.backlog.front().str_values.empty() ) {
+    if( !fetch_activity_valid( you ) ) {
         return requirement_map;
     }
-    const requirement_data things_to_fetch = requirement_id( you.backlog.front().str_values[0] ).obj();
-    const activity_id activity_to_restore = you.backlog.front().id();
     // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
-    requirement_id things_to_fetch_id = things_to_fetch.id();
+    requirement_id things_to_fetch_id = fetch_requirements;
+    const requirement_data things_to_fetch = *fetch_requirements;
+    const activity_id activity_to_restore = you.backlog.front().id();
     std::vector<std::vector<item_comp>> req_comps = things_to_fetch.get_components();
     std::vector<std::vector<tool_comp>> tool_comps = things_to_fetch.get_tools();
     std::vector<std::vector<quality_requirement>> quality_comps = things_to_fetch.get_qualities();
     zone_manager &mgr = zone_manager::get_manager();
-    const bool pickup_task = you.backlog.front().id() == ACT_MULTIPLE_FARM ||
-                             you.backlog.front().id() == ACT_MULTIPLE_CHOP_PLANKS ||
-                             you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
-                             you.backlog.front().id() == ACT_MULTIPLE_CHOP_TREES ||
-                             you.backlog.front().id() == ACT_VEHICLE_DECONSTRUCTION ||
-                             you.backlog.front().id() == ACT_VEHICLE_REPAIR ||
-                             you.backlog.front().id() == ACT_MULTIPLE_FISH ||
-                             you.backlog.front().id() == ACT_MULTIPLE_MINE;
+    const bool pickup_task = activity_to_restore->fetch_items_to_zone();
     // where it is, what it is, how much of it, and how much in total is required of that item.
     std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> final_map;
     std::vector<tripoint_bub_ms> loot_spots;
@@ -2562,7 +2563,7 @@ static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map(
     std::vector<tripoint_bub_ms> combined_spots;
     std::map<itype_id, int> total_map;
     map &here = get_map();
-    tripoint_bub_ms src_loc = here.get_bub( you.backlog.front().placement );
+    const tripoint_bub_ms &src_loc = here.get_bub( fetch_for_activity_position );
     for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc,
             PICKUP_RANGE - 1 ) ) {
         already_there_spots.push_back( elem );
@@ -2918,29 +2919,35 @@ static bool tidy_activity( Character &you, const tripoint_bub_ms &src_loc,
     return true;
 }
 
-static bool fetch_activity(
+bool fetch_required_activity_actor::fetch_activity(
     Character &you, const tripoint_bub_ms &src_loc, const activity_id &activity_to_restore,
-    const int distance = MAX_VIEW_DISTANCE )
+    int distance )
 {
-    map &here = get_map();
-    if( !here.can_put_items_ter_furn( here.get_bub(
-                                          you.backlog.front().coords.back() ) ) ) {
+    if( !fetch_activity_valid( you ) ) {
         return false;
     }
-    const std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> mental_map_2 =
+    const activity_id fetch_for_activity = you.backlog.front().id();
+    map &here = get_map();
+    if( !here.can_put_items_ter_furn( here.get_bub( fetched_item_destination ) ) ) {
+        return false;
+    }
+    const std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> mental_item_map =
                 requirements_map( you, distance );
     int pickup_count = 1;
     map_stack items_there = here.i_at( src_loc );
     const units::volume volume_allowed = you.free_space();
     const units::mass weight_allowed = you.weight_capacity() - you.weight_carried();
+
+    // if the items are in vehicle cargo, move them to their position
     const std::optional<vpart_reference> ovp = here.veh_at( src_loc ).cargo();
     if( ovp ) {
         for( item &veh_elem : ovp->items() ) {
-            for( auto elem : mental_map_2 ) {
+            for( auto elem : mental_item_map ) {
                 if( std::get<0>( elem ) == src_loc && veh_elem.typeId() == std::get<1>( elem ) ) {
-                    if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
+                    if( fetch_for_activity == ACT_MULTIPLE_CONSTRUCTION ) {
+                        //TODO: this teleports the item, assign an item moving activity
                         move_item( you, veh_elem, veh_elem.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
-                                   here.get_bub( you.backlog.front().coords.back() ), ovp,
+                                   here.get_bub( fetched_item_destination ), ovp,
                                    activity_to_restore );
                         return true;
                     }
@@ -2950,26 +2957,19 @@ static bool fetch_activity(
     }
     for( auto item_iter = items_there.begin(); item_iter != items_there.end(); item_iter++ ) {
         item &it = *item_iter;
-        for( auto elem : mental_map_2 ) {
+        for( auto elem : mental_item_map ) {
             if( std::get<0>( elem ) == src_loc && it.typeId() == std::get<1>( elem ) ) {
-                // construction/crafting tasks want the required item moved near the work spot.
-                if( !you.backlog.empty() && ( you.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ||
-                                              you.backlog.front().id() == ACT_MULTIPLE_DIS ) ) {
+                // some tasks (construction/crafting) want the required item moved near the work spot.
+                if( !fetch_for_activity->fetch_items_to_zone() ) {
+                    //TODO: this teleports the item, assign an item moving activity
                     move_item( you, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
-                               here.get_bub( you.backlog.front().coords.back() ), ovp,
-                               activity_to_restore );
+                               here.get_bub( fetched_item_destination ), ovp, activity_to_restore );
 
                     return true;
-                    // other tasks want the tool picked up
-                } else if( !you.backlog.empty() && ( you.backlog.front().id() == ACT_MULTIPLE_FARM ||
-                                                     you.backlog.front().id() == ACT_MULTIPLE_CHOP_PLANKS ||
-                                                     you.backlog.front().id() == ACT_VEHICLE_DECONSTRUCTION ||
-                                                     you.backlog.front().id() == ACT_VEHICLE_REPAIR ||
-                                                     you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
-                                                     you.backlog.front().id() == ACT_MULTIPLE_CHOP_TREES ||
-                                                     you.backlog.front().id() == ACT_MULTIPLE_FISH ||
-                                                     you.backlog.front().id() == ACT_MULTIPLE_MINE ||
-                                                     you.backlog.front().id() == ACT_MULTIPLE_MOP ) ) {
+                    // other tasks want the item picked up
+                } else {
+                    // TODO: most of this `else` block should be handled by exactly one function call
+
                     if( it.volume() > volume_allowed || it.weight() > weight_allowed ) {
                         add_msg_if_player_sees( you, _( "%1s failed to fetch tools." ), you.name );
                         continue;
@@ -3004,7 +3004,7 @@ static bool fetch_activity(
             }
         }
     }
-    // if we got here, then the fetch failed for reasons that weren't predicted before setting it.
+    // if we got here, then the fetch failed for reasons that weren't predicted before assigning it.
     // nothing was moved or picked up, and nothing can be moved or picked up
     // so call the whole thing off to stop it looping back to this point ad nauseum.
     you.set_moves( 0 );
@@ -3430,26 +3430,6 @@ std::unordered_set<tripoint_abs_ms> craft_locations( Character &you, const activ
     return src_set;
 }
 
-std::unordered_set<tripoint_abs_ms> fetch_locations( Character &you, const activity_id & )
-{
-
-    map &here = get_map();
-    std::unordered_set<tripoint_abs_ms> src_set;
-
-    // get the right zones for the items in the requirements.
-    // we previously checked if the items are nearby before we set the fetch task
-    // but we will check again later, to be sure nothings changed.
-    std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> mental_map =
-                requirements_map( you, MAX_VIEW_DISTANCE );
-    for( const auto &elem : mental_map ) {
-        const tripoint_bub_ms &elem_point = std::get<0>( elem );
-        src_set.insert( here.get_abs( elem_point ) );
-    }
-    multi_activity_actor::prune_dangerous_field_locations( src_set );
-
-    return src_set;
-}
-
 std::unordered_set<tripoint_abs_ms> fish_locations( Character &you, const activity_id &act_id )
 {
 
@@ -3555,7 +3535,7 @@ bool butcher_do( Character &you, const activity_reason_info &act_info,
     if( reason == do_activity_reason::NEEDS_BUTCHERING ||
         reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
         if( butcher_corpse_activity( you, src_loc, reason ) ) {
-            you.backlog.emplace_front( ACT_MULTIPLE_BUTCHER );
+            you.backlog.emplace_front( multi_butchery_activity_actor() );
             return false;
         }
     }
@@ -3622,7 +3602,7 @@ bool construction_do( Character &you, const activity_reason_info &act_info,
 
     if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ) {
         if( here.partial_con_at( src_loc ) ) {
-            you.backlog.emplace_front( ACT_MULTIPLE_CONSTRUCTION );
+            you.backlog.emplace_front( multi_build_construction_activity_actor() );
             you.assign_activity( build_construction_activity_actor( src ) );
             return false;
         }
@@ -3647,19 +3627,19 @@ bool tidy_up_do( Character &you, const activity_reason_info &act_info,
 }
 
 bool fetch_do( Character &you, const activity_reason_info &act_info,
-               const tripoint_abs_ms &, const tripoint_bub_ms &src_loc )
+               const tripoint_abs_ms &, const tripoint_bub_ms & )
 {
     const do_activity_reason &reason = act_info.reason;
 
     if( reason == do_activity_reason::CAN_DO_FETCH ) {
-        if( fetch_activity( you, src_loc, ACT_FETCH_REQUIRED, MAX_VIEW_DISTANCE ) ) {
-            if( !you.is_npc() ) {
-                // Npcs will automatically start the next thing in the backlog, players need to be manually prompted
-                // Because some player activities are necessarily not marked as auto-resume.
-                activity_handlers::resume_for_multi_activities( you );
-            }
-            return false;
+        //if( fetch_activity( you, src_loc, ACT_FETCH_REQUIRED, MAX_VIEW_DISTANCE ) ) {
+        if( !you.is_npc() ) {
+            // Npcs will automatically start the next thing in the backlog, players need to be manually prompted
+            // Because some player activities are necessarily not marked as auto-resume.
+            activity_handlers::resume_for_multi_activities( you );
         }
+        return false;
+        //}
     }
     return true;
 }
@@ -3949,7 +3929,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
     } else if( act_id == ACT_MULTIPLE_CRAFT ) {
         src_set = multi_activity_actor::craft_locations( you, act_id );
     } else if( act_id == ACT_FETCH_REQUIRED ) {
-        src_set = multi_activity_actor::fetch_locations( you, act_id );
+        //src_set = multi_activity_actor::fetch_locations( you, act_id );
     } else if( act_id == ACT_MULTIPLE_MOP ) {
         src_set = multi_activity_actor::mop_locations( you, act_id );
     } else if( act_id == ACT_MULTIPLE_CONSTRUCTION ) {

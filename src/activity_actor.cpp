@@ -15,6 +15,7 @@
 #include <queue>
 #include <set>
 #include <string>
+#include <tuple>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -190,8 +191,10 @@ static const activity_id ACT_MILK( "ACT_MILK" );
 static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
@@ -4763,10 +4766,13 @@ std::optional<requirement_id> multi_zone_activity_actor::multi_activity_requirem
 
 void multi_zone_activity_actor::do_turn( player_activity &act, Character &you )
 {
+    activity_id prior_act = get_type();
     simulate_turn( act, you, false );
     // If this activity still exists, end it
-    if( !act.is_null() && act.is_multi_type() ) {
-        act.set_to_null();
+    if( !act.is_null() && ( prior_act == you.activity.id() ) ) {
+        // Nuke the current activity, leaving the backlog alone
+        // No multi_zone_activity_actor functions will be called from this point, so `this` can be nullptr
+        you.activity = player_activity();
     }
 }
 
@@ -4784,19 +4790,16 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
     // now loop through the work-spot tiles and judge whether its worth traveling to it yet
     // or if we need to fetch something first.
 
-    // check: if a fetch activity was assigned but there's nothing to fetch, restore previous activity from backlog
+    // check: if a fetch activity was assigned but there's nothing to fetch, end fetch activity (restoring backlog)
     // may cause infinite loop if something goes wrong
-    //TODO: check whether a fetch activity should be assigned before it is
+    // TODO: this could be moved to a multi_zone_activity_actor virtual function for post-location checking
     if( current_activity == ACT_FETCH_REQUIRED && src_sorted.empty() ) {
         // remind what you failed to fetch
         if( !check_only ) {
-            if( !you.backlog.empty() ) {
-                player_activity &act_prev = you.backlog.front();
-                if( !act_prev.str_values.empty() && you.as_npc() ) {
-                    you.as_npc()->job.fetch_history[act_prev.str_values.back()] = calendar::turn;
-                }
-            }
+            fetch_required_activity_actor *as_fetch = static_cast<fetch_required_activity_actor *>( this );
+            as_fetch->set_npc_fetch_history( you );
         }
+        act.set_to_null();
         return true;
     }
 
@@ -4834,7 +4837,9 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
             continue;
         }
 
-        //route to destination if needed
+        // route to destination if needed
+        // this stores a destination_activity that is resumed via
+        // can_resume_with_internal() in Character::assign_activity()
         std::optional<bool> route_result = multi_activity_actor::route(
                                                you, current_act_copy, src_bub, req_fail_reason, check_only );
         if( !route_result ) {
@@ -4972,18 +4977,16 @@ requirement_check_result multi_zone_activity_actor::check_requirements( Characte
         bool tool_pickup = multi_activity_actor::activity_reason_picks_up_tools( reason );
         // is it even worth fetching anything if there isn't enough nearby?
         if( !multi_activity_actor::are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots,
-                what_we_need, you,
-                act_id, tool_pickup, src_loc ) ) {
+                what_we_need, you, act_id, tool_pickup, src_loc ) ) {
+            const tripoint_bub_ms you_pos_bub = you.pos_bub();
             if( zone ) {
-                you.add_msg_player_or_npc( m_info,
-                                           _( "The required items are not available to complete the %s task at zone %s." ), act_id.c_str(),
-                                           zone->get_name(),
-                                           _( "The required items are not available to complete the %s task at zone %s." ), act_id.c_str(),
-                                           zone->get_name() );
+                add_msg_if_player_sees( you_pos_bub, m_info, string_format(
+                                            _( "The required items are not available to complete the %s task at zone %s." ),
+                                            act_id.c_str(), zone->get_name() ) );
             } else {
-                you.add_msg_player_or_npc( m_info,
-                                           _( "The required items are not available to complete the %s task." ), act_id.c_str(),
-                                           _( "The required items are not available to complete the %s task." ), act_id.c_str() );
+                add_msg_if_player_sees( you_pos_bub, m_info, string_format(
+                                            _( "The required items are not available to complete the %s task." ),
+                                            act_id.c_str() ) );
             }
             //TODO: this is hacky, move it
             if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
@@ -4993,8 +4996,7 @@ requirement_check_result multi_zone_activity_actor::check_requirements( Characte
             return requirement_check_result::SKIP_LOCATION;
         } else {
             if( !check_only ) {
-                return multi_activity_actor::fetch_requirements( you, what_we_need, act_id,
-                        act_info, src, src_loc, src_set );
+                return fetch_requirements( you, what_we_need, act_info, src, src_loc, src_set );
             }
             return requirement_check_result::RETURN_EARLY;
         }
@@ -5002,10 +5004,127 @@ requirement_check_result multi_zone_activity_actor::check_requirements( Characte
     return requirement_check_result::SKIP_LOCATION_NO_MATCH;
 }
 
+bool multi_zone_activity_actor::can_resume_with_internal( const activity_actor &,
+        const Character & ) const
+{
+    return true;
+}
+
+requirement_check_result multi_zone_activity_actor::fetch_requirements( Character &you,
+        requirement_id what_we_need, activity_reason_info &act_info, const tripoint_abs_ms &src,
+        const tripoint_bub_ms &src_loc, const std::unordered_set<tripoint_abs_ms> &src_set )
+{
+
+    map &here = get_map();
+
+    if( you.as_npc() && you.as_npc()->job.fetch_history.count( what_we_need.str() ) != 0 &&
+        you.as_npc()->job.fetch_history[what_we_need.str()] == calendar::turn ) {
+        // this may be a failed fetch already. Quit task to avoid infinite loop.
+        you.activity = player_activity();
+        you.backlog.clear();
+        multi_activity_actor::check_npc_revert( you );
+        return requirement_check_result::SKIP_LOCATION;
+    }
+    // come back here after successfully fetching your stuff
+    std::vector<tripoint_bub_ms> local_src_set;
+    local_src_set.reserve( src_set.size() );
+    for( const tripoint_abs_ms &elem : src_set ) {
+        local_src_set.push_back( here.get_bub( elem ) );
+    }
+    std::vector<tripoint_bub_ms> candidates;
+    for( const tripoint_bub_ms &point_elem :
+         here.points_in_radius( src_loc, PICKUP_RANGE - 1, 0 ) ) {
+        // we don't want to place the components where they could interfere with our ( or someone else's ) construction spots
+        if( ( std::find( local_src_set.begin(), local_src_set.end(),
+                         point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
+            continue;
+        }
+        candidates.push_back( point_elem );
+    }
+    if( candidates.empty() ) {
+        you.activity = player_activity();
+        you.backlog.clear();
+        multi_activity_actor::check_npc_revert( you );
+        return requirement_check_result::SKIP_LOCATION_NO_LOCATION;
+    }
+
+    you.assign_activity( fetch_required_activity_actor( what_we_need, act_info.reason, here.get_abs(
+                             candidates[std::max( 0, static_cast<int>( candidates.size() / 2 ) )] ), src ) );
+    return requirement_check_result::RETURN_EARLY;
+}
+
 void multi_zone_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.end_object();
+}
+
+activity_reason_info fetch_required_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::fetch_can_do( ACT_FETCH_REQUIRED, you,
+            src_loc );
+}
+
+void fetch_required_activity_actor::set_npc_fetch_history( Character &you )
+{
+    if( !fetch_requirements.is_empty() && you.as_npc() ) {
+        you.as_npc()->job.fetch_history[fetch_requirements.str()] = calendar::turn;
+    }
+}
+
+bool fetch_required_activity_actor::fetch_activity_valid( const Character &you ) const
+{
+    if( you.backlog.empty() ) {
+        debugmsg( "fetch activity assigned without a corresponding multi-activity" );
+        return false;
+    }
+    return true;
+}
+
+std::unordered_set<tripoint_abs_ms> fetch_required_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    map &here = get_map();
+    std::unordered_set<tripoint_abs_ms> src_set;
+
+    // get the right zones for the items in the requirements.
+    // we previously checked if the items are nearby before we set the fetch task
+    // but we will check again later, to be sure nothings changed.
+    std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> mental_map =
+                requirements_map( you, MAX_VIEW_DISTANCE );
+    for( const auto &elem : mental_map ) {
+        const tripoint_bub_ms &elem_point = std::get<0>( elem );
+        src_set.insert( here.get_abs( elem_point ) );
+    }
+    multi_activity_actor::prune_dangerous_field_locations( src_set );
+
+    return src_set;
+}
+
+bool fetch_required_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &, const tripoint_bub_ms &src_loc )
+{
+    const do_activity_reason &reason = act_info.reason;
+
+    if( reason == do_activity_reason::CAN_DO_FETCH ) {
+        if( fetch_activity( you, src_loc, ACT_FETCH_REQUIRED, MAX_VIEW_DISTANCE ) ) {
+            if( !you.is_npc() ) {
+                // Npcs will automatically start the next thing in the backlog, players need to be manually prompted
+                // Because some player activities are necessarily not marked as auto-resume.
+                activity_handlers::resume_for_multi_activities( you );
+            }
+            return false;
+        }
+    }
+    return true;
+}
+
+std::unique_ptr<activity_actor> fetch_required_activity_actor::deserialize( JsonValue & )
+{
+    fetch_required_activity_actor actor;
+    return actor.clone();
 }
 
 std::unique_ptr<activity_actor> multi_mine_activity_actor::deserialize( JsonValue & )
@@ -8111,6 +8230,40 @@ std::unique_ptr<activity_actor> build_construction_activity_actor::deserialize( 
     JsonObject data = jsin.get_object();
     data.read( "construction_location", actor.construction_location );
 
+    return actor.clone();
+}
+
+activity_reason_info multi_build_construction_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::construction_can_do( ACT_MULTIPLE_CONSTRUCTION, you,
+            src_loc );
+}
+
+std::optional<requirement_id> multi_build_construction_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
+{
+    return multi_activity_actor::construction_requirements( you, act_info, src_loc );
+}
+
+std::unordered_set<tripoint_abs_ms>
+multi_build_construction_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    return multi_activity_actor::construction_locations( you, get_type() );
+}
+
+bool multi_build_construction_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::construction_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_build_construction_activity_actor::deserialize( JsonValue & )
+{
+    multi_build_construction_activity_actor actor;
     return actor.clone();
 }
 
@@ -12259,6 +12412,33 @@ std::unique_ptr<activity_actor> butchery_activity_actor::deserialize( JsonValue 
     return actor.clone();
 }
 
+activity_reason_info multi_butchery_activity_actor::multi_activity_can_do(
+    Character &you, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::butcher_can_do( ACT_MULTIPLE_BUTCHER, you,
+            src_loc );
+}
+
+std::optional<requirement_id> multi_butchery_activity_actor::multi_activity_requirements(
+    Character &you,
+    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
+{
+    return multi_activity_actor::butcher_requirements( you, act_info, src_loc );
+}
+
+bool multi_butchery_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    return multi_activity_actor::butcher_do( you, act_info, src, src_loc );
+}
+
+std::unique_ptr<activity_actor> multi_butchery_activity_actor::deserialize( JsonValue & )
+{
+    multi_butchery_activity_actor actor;
+    return actor.clone();
+}
+
 void wait_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( initial_wait_time );
@@ -12897,6 +13077,7 @@ deserialize_functions = {
     { ACT_DROP, &drop_activity_actor::deserialize },
     { ACT_E_FILE, &efile_activity_actor::deserialize },
     { ACT_EBOOKSAVE, &ebooksave_activity_actor::deserialize },
+    { ACT_FETCH_REQUIRED, &fetch_required_activity_actor::deserialize },
     { ACT_FIELD_DRESS, &butchery_activity_actor::deserialize },
     { ACT_FIRSTAID, &firstaid_activity_actor::deserialize },
     { ACT_FISH, &fish_activity_actor::deserialize },
@@ -12926,8 +13107,10 @@ deserialize_functions = {
     { ACT_MOP, &mop_activity_actor::deserialize },
     { ACT_MOVE_ITEMS, &move_items_activity_actor::deserialize },
     { ACT_MOVE_LOOT, &zone_sort_activity_actor::deserialize },
+    { ACT_MULTIPLE_BUTCHER, &multi_butchery_activity_actor::deserialize },
     { ACT_MULTIPLE_CHOP_PLANKS, &multi_chop_planks_activity_actor::deserialize },
     { ACT_MULTIPLE_CHOP_TREES, &multi_chop_trees_activity_actor::deserialize },
+    { ACT_MULTIPLE_CONSTRUCTION, &multi_build_construction_activity_actor::deserialize },
     { ACT_MULTIPLE_CRAFT, &multi_craft_activity_actor::deserialize },
     { ACT_MULTIPLE_DIS, &multi_disassemble_activity_actor::deserialize },
     { ACT_MULTIPLE_FARM, &multi_farm_activity_actor::deserialize },
