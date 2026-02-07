@@ -887,6 +887,18 @@
   },
   {
     "type": "furniture",
+    "id": "f_string_dimension_housing_imploded",
+    "name": "imploded clump of metal",
+    "description": "An extremely dense ball of imploded metal.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "coverage": 100,
+    "flags": [ "NOITEM", "BLOCKSDOOR" ]
+  },
+  {
+    "type": "furniture",
     "id": "f_tall_vent_pipe",
     "looks_like": "f_vent_pipe",
     "name": "tall vent pipe",
