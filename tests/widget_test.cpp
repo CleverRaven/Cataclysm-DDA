@@ -718,9 +718,11 @@ TEST_CASE( "widgets_showing_avatar_attributes", "[widget][avatar]" )
         widget focus_w = widget_test_focus_num.obj();
 
         ava.set_focus( 75 );
-        CHECK( focus_w.layout( ava ) == "FOCUS: 75" );
+        // The Focus widget has been changed to show distance from equilibrium. During these tests, equilibrium is 100.
+        CHECK( focus_w.layout( ava ) == "FOCUS: 25" );
         ava.set_focus( 120 );
-        CHECK( focus_w.layout( ava ) == "FOCUS: 120" );
+        // In this case we're above the equilibrium and our focus_pool is going to drop, so we want to display a negative number.
+        CHECK( focus_w.layout( ava ) == "FOCUS: -20" );
     }
 
     SECTION( "mana pool" ) {
@@ -1893,17 +1895,17 @@ TEST_CASE( "layout_widgets_in_columns", "[widget][layout][columns]" )
 
     // Three columns
     // string ruler:                     1234567890123456789012345678901234567890
-    CHECK( three_w.layout( ava, 36 ) == "MOVE: 50     SPEED: 100   FOCUS: 120" );
-    CHECK( three_w.layout( ava, 37 ) == "MOVE: 50     SPEED: 100   FOCUS: 120 " );
-    CHECK( three_w.layout( ava, 38 ) == "MOVE: 50      SPEED: 100   FOCUS: 120 " );
-    CHECK( three_w.layout( ava, 39 ) == "MOVE: 50      SPEED: 100    FOCUS: 120 " );
-    CHECK( three_w.layout( ava, 40 ) == "MOVE: 50      SPEED: 100    FOCUS: 120  " );
-    CHECK( three_w.layout( ava, 41 ) == "MOVE: 50       SPEED: 100    FOCUS: 120  " );
-    CHECK( three_w.layout( ava, 42 ) == "MOVE: 50       SPEED: 100     FOCUS: 120  " );
-    CHECK( three_w.layout( ava, 43 ) == "MOVE: 50       SPEED: 100     FOCUS: 120   " );
-    CHECK( three_w.layout( ava, 44 ) == "MOVE: 50        SPEED: 100     FOCUS: 120   " );
-    CHECK( three_w.layout( ava, 45 ) == "MOVE: 50        SPEED: 100      FOCUS: 120   " );
-    CHECK( three_w.layout( ava, 46 ) == "MOVE: 50        SPEED: 100      FOCUS: 120    " );
+    CHECK( three_w.layout( ava, 36 ) == "MOVE: 50     SPEED: 100   FOCUS: -20" );
+    CHECK( three_w.layout( ava, 37 ) == "MOVE: 50     SPEED: 100   FOCUS: -20 " );
+    CHECK( three_w.layout( ava, 38 ) == "MOVE: 50      SPEED: 100   FOCUS: -20 " );
+    CHECK( three_w.layout( ava, 39 ) == "MOVE: 50      SPEED: 100    FOCUS: -20 " );
+    CHECK( three_w.layout( ava, 40 ) == "MOVE: 50      SPEED: 100    FOCUS: -20  " );
+    CHECK( three_w.layout( ava, 41 ) == "MOVE: 50       SPEED: 100    FOCUS: -20  " );
+    CHECK( three_w.layout( ava, 42 ) == "MOVE: 50       SPEED: 100     FOCUS: -20  " );
+    CHECK( three_w.layout( ava, 43 ) == "MOVE: 50       SPEED: 100     FOCUS: -20   " );
+    CHECK( three_w.layout( ava, 44 ) == "MOVE: 50        SPEED: 100     FOCUS: -20   " );
+    CHECK( three_w.layout( ava, 45 ) == "MOVE: 50        SPEED: 100      FOCUS: -20   " );
+    CHECK( three_w.layout( ava, 46 ) == "MOVE: 50        SPEED: 100      FOCUS: -20    " );
     // string ruler:                     1234567890123456789012345678901234567890123456
 
     // Four columns
@@ -1929,19 +1931,19 @@ TEST_CASE( "layout_widgets_in_columns", "[widget][layout][columns]" )
     // Layout keeps labels vertically aligned for layouts with the same number of widgets
     // string ruler:                    123456789012345678901234567890123456789012345678
     CHECK( stat_w.layout( ava, 48 ) == "STR: 8       DEX: 8       INT: 8      PER: 8    " );
-    CHECK( four_w.layout( ava, 48 ) == "MOVE: 50     SPEED: 100   FOCUS: 120  MANA: 1000" );
+    CHECK( four_w.layout( ava, 48 ) == "MOVE: 50     SPEED: 100   FOCUS: -20  MANA: 1000" );
 
     // string ruler:                    1234567890123456789012345678901234567890123456789012
     CHECK( stat_w.layout( ava, 52 ) == "STR: 8        DEX: 8        INT: 8       PER: 8     " );
-    CHECK( four_w.layout( ava, 52 ) == "MOVE: 50      SPEED: 100    FOCUS: 120   MANA: 1000 " );
+    CHECK( four_w.layout( ava, 52 ) == "MOVE: 50      SPEED: 100    FOCUS: -20   MANA: 1000 " );
 
     // string ruler:                    12345678901234567890123456789012345678901234567890123456
     CHECK( stat_w.layout( ava, 56 ) == "STR: 8         DEX: 8         INT: 8        PER: 8      " );
-    CHECK( four_w.layout( ava, 56 ) == "MOVE: 50       SPEED: 100     FOCUS: 120    MANA: 1000  " );
+    CHECK( four_w.layout( ava, 56 ) == "MOVE: 50       SPEED: 100     FOCUS: -20    MANA: 1000  " );
 
     // string ruler:                    123456789012345678901234567890123456789012345678901234567890
     CHECK( stat_w.layout( ava, 60 ) == "STR: 8          DEX: 8          INT: 8         PER: 8       " );
-    CHECK( four_w.layout( ava, 60 ) == "MOVE: 50        SPEED: 100      FOCUS: 120     MANA: 1000   " );
+    CHECK( four_w.layout( ava, 60 ) == "MOVE: 50        SPEED: 100      FOCUS: -20     MANA: 1000   " );
 }
 
 TEST_CASE( "widgets_showing_weather_conditions", "[widget][weather]" )
@@ -2718,7 +2720,7 @@ TEST_CASE( "widget_rows_in_columns", "[widget]" )
         const std::string expected = string_join( std::vector<std::string> {
             brown_dot, brown_dot, brown_dot, "         MOVE:  0    STR: 8    \n",
             brown_dot, h_brown_dot, brown_dot, "         SPEED: 100  DEX: 8    \n",
-            brown_dot, brown_dot, brown_dot, "         FOCUS: 100  INT: 8    \n",
+            brown_dot, brown_dot, brown_dot, "         FOCUS: 0    INT: 8    \n",
             "            MANA: 1000  PER: 8    "
         }, "" );
         widget wgt = widget_test_layout_rows_in_columns.obj();
@@ -2751,7 +2753,7 @@ TEST_CASE( "widget_rows_in_columns", "[widget]" )
                 brown_dot,
                 brown_dot,
                 brown_dot,
-                "         FOCUS: 100  INT: 8   \n"
+                "         FOCUS: 0    INT: 8   \n"
             }, "" ),
             "                                               MANA: 1000  PER: 8   "
         }, "" );
