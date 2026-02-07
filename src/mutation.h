@@ -227,7 +227,7 @@ struct mutation_branch {
         // Additional bonuses
         std::optional<int> scent_intensity;
 
-        int butchering_quality = 0;
+        std::map<quality_id, int> provided_qualities;
 
         cata::value_ptr<mut_transform> transform;
 
