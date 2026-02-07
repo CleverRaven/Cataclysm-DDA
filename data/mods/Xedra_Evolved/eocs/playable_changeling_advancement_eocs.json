@@ -96,13 +96,22 @@
       "and": [ { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" }, { "math": [ "u_changeling_advancement_dreams_counter >= 1" ] } ]
     },
     "effect": [
-      { "u_message": "XE_CHANGELING_NOBLE", "type": "neutral", "snippet": true },
-      { "math": [ "u_vitamin('mutagen_fair_folk_noble') += 2500" ] },
-      { "math": [ "u_vitamin('mutagen') += 1000" ] },
-      { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_fair_folk_noble') -= 2500" ] },
-      { "math": [ "u_vitamin('mutagen') -= 1000" ] },
-      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYABLE_CHANGELING_NOBLE_GAIN_NEW_TRAIT",
+            "effect": [
+              { "u_message": "XE_CHANGELING_NOBLE", "type": "neutral", "snippet": true },
+              { "math": [ "u_vitamin('mutagen_fair_folk_noble') += 2500" ] },
+              { "math": [ "u_vitamin('mutagen') += 1000" ] },
+              { "u_mutate": 0 },
+              { "math": [ "u_vitamin('mutagen_fair_folk_noble') -= 2500" ] },
+              { "math": [ "u_vitamin('mutagen') -= 1000" ] },
+              { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+            ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -117,13 +126,22 @@
       ]
     },
     "effect": [
-      { "u_message": "XE_CHANGELING_COMMONER_BROWNIE", "type": "neutral", "snippet": true },
-      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_brownie') += 2500" ] },
-      { "math": [ "u_vitamin('mutagen') += 1000" ] },
-      { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_brownie') -= 2500" ] },
-      { "math": [ "u_vitamin('mutagen') -= 1000" ] },
-      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYABLE_CHANGELING_BROWNIE_GAIN_NEW_TRAIT",
+            "effect": [
+              { "u_message": "XE_CHANGELING_COMMONER_BROWNIE", "type": "neutral", "snippet": true },
+              { "math": [ "u_vitamin('mutagen_fair_folk_commoner_brownie') += 2500" ] },
+              { "math": [ "u_vitamin('mutagen') += 1000" ] },
+              { "u_mutate": 0 },
+              { "math": [ "u_vitamin('mutagen_fair_folk_commoner_brownie') -= 2500" ] },
+              { "math": [ "u_vitamin('mutagen') -= 1000" ] },
+              { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+            ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -138,13 +156,22 @@
       ]
     },
     "effect": [
-      { "u_message": "XE_CHANGELING_COMMONER_POOKA", "type": "neutral", "snippet": true },
-      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_pooka') += 2500" ] },
-      { "math": [ "u_vitamin('mutagen') += 1000" ] },
-      { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_pooka') -= 2500" ] },
-      { "math": [ "u_vitamin('mutagen') -= 1000" ] },
-      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYABLE_CHANGELING_POOKA_GAIN_NEW_TRAIT",
+            "effect": [
+              { "u_message": "XE_CHANGELING_COMMONER_POOKA", "type": "neutral", "snippet": true },
+              { "math": [ "u_vitamin('mutagen_fair_folk_commoner_pooka') += 2500" ] },
+              { "math": [ "u_vitamin('mutagen') += 1000" ] },
+              { "u_mutate": 0 },
+              { "math": [ "u_vitamin('mutagen_fair_folk_commoner_pooka') -= 2500" ] },
+              { "math": [ "u_vitamin('mutagen') -= 1000" ] },
+              { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+            ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -159,13 +186,22 @@
       ]
     },
     "effect": [
-      { "u_message": "XE_CHANGELING_COMMONER_SELKIE", "type": "neutral", "snippet": true },
-      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_selkie') += 2500" ] },
-      { "math": [ "u_vitamin('mutagen') += 1000" ] },
-      { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_selkie') -= 2500" ] },
-      { "math": [ "u_vitamin('mutagen') -= 1000" ] },
-      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYABLE_CHANGELING_SELKIE_GAIN_NEW_TRAIT",
+            "effect": [
+              { "u_message": "XE_CHANGELING_COMMONER_SELKIE", "type": "neutral", "snippet": true },
+              { "math": [ "u_vitamin('mutagen_fair_folk_commoner_selkie') += 2500" ] },
+              { "math": [ "u_vitamin('mutagen') += 1000" ] },
+              { "u_mutate": 0 },
+              { "math": [ "u_vitamin('mutagen_fair_folk_commoner_selkie') -= 2500" ] },
+              { "math": [ "u_vitamin('mutagen') -= 1000" ] },
+              { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+            ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -180,13 +216,22 @@
       ]
     },
     "effect": [
-      { "u_message": "XE_CHANGELING_COMMONER_TROW", "type": "neutral", "snippet": true },
-      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_trow') += 2500" ] },
-      { "math": [ "u_vitamin('mutagen') += 1000" ] },
-      { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_trow') -= 2500" ] },
-      { "math": [ "u_vitamin('mutagen') -= 1000" ] },
-      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYABLE_CHANGELING_TROW_GAIN_NEW_TRAIT",
+            "effect": [
+              { "u_message": "XE_CHANGELING_COMMONER_TROW", "type": "neutral", "snippet": true },
+              { "math": [ "u_vitamin('mutagen_fair_folk_commoner_trow') += 2500" ] },
+              { "math": [ "u_vitamin('mutagen') += 1000" ] },
+              { "u_mutate": 0 },
+              { "math": [ "u_vitamin('mutagen_fair_folk_commoner_trow') -= 2500" ] },
+              { "math": [ "u_vitamin('mutagen') -= 1000" ] },
+              { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+            ]
+          }
+        ]
+      }
     ]
   },
   {
