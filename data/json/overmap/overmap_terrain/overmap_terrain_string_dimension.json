@@ -72,6 +72,19 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "string_dimension_plane_z_stack_0",
+      "string_dimension_plane_z_stack_1+",
+      "string_dimension_plane_z_stack_1-"
+    ],
+    "vision_levels": "isolated_tower",
+    "name": "z-stack",
+    "sym": "+",
+    "color": "yellow",
+    "see_cost": "low"
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_string_dimension_field",
     "copy-from": "generic_open_land",
     "name": "fields",
