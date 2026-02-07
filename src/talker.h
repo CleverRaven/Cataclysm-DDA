@@ -735,6 +735,9 @@ class const_talker
         virtual bool is_passenger( Character & ) const {
             return false;
         }
+        virtual bool is_in_vehicle() const {
+            return false;
+        }
 };
 
 class talker: virtual public const_talker

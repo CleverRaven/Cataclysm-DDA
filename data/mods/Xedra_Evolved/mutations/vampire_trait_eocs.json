@@ -264,6 +264,10 @@
           { "npc_assign_activity": "ACT_VAMPIRE_DRINKING_BLOOD", "duration": "3 seconds" },
           { "message": "You are drinking from an NPC.", "type": "debug" },
           {
+            "if": { "and": [ { "u_has_worn_with_flag": "WARDING_SYMBOL" }, { "npc_has_trait": "VAMPIRE_WEAKNESS_HOLY_BURN" } ] },
+            "then": [ { "npc_message": "The holy symbol they wear burns you!", "type": "bad" }, { "math": [ "n_pain() += rng(10,15)" ] } ]
+          },
+          {
             "if": { "or": [ { "math": [ "u_vitamin('blood') <= -40000" ] }, { "math": [ "u_vitamin('redcells') <= -40000" ] } ] },
             "then": "u_die"
           }
@@ -292,6 +296,12 @@
               {
                 "if": { "or": [ { "u_has_species": "CHANGELING" }, { "u_has_species": "HOMULLUS" }, { "u_has_trait": "FAE_CREATURE" } ] },
                 "then": [ { "math": [ "n_vampire_just_drank_fae_blood = 1" ] } ]
+              },
+              {
+                "if": {
+                  "and": [ "u_is_npc", { "u_has_worn_with_flag": "WARDING_SYMBOL" }, { "npc_has_trait": "VAMPIRE_WEAKNESS_HOLY_BURN" } ]
+                },
+                "then": [ { "npc_message": "The holy symbol they wear burns you!", "type": "bad" }, { "math": [ "n_pain() += rng(10,15)" ] } ]
               },
               { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT", "alpha_talker": "npc", "time_in_future": 2 },
               { "u_add_effect": "effect_vampire_drunk_from_in_combat", "duration": "48 hours" },

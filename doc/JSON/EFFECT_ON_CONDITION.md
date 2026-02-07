@@ -1185,9 +1185,9 @@ NPC is dead
 | ------ | --------- | ---- | ------- | --- | ---- |
 | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
-### `u_is_on_terrain`, `npc_is_on_terrain`
+### `u_is_on_terrain`, `npc_is_on_terrain`, `u_is_on_furniture`, `npc_is_on_furniture`
 - type: string or [variable object](#variable-object)
-- return true if alpha or beta talker stand on specific terrain
+- return true if alpha or beta talker stand on specific terrain or furniture
 
 #### Valid talkers:
 
@@ -1201,9 +1201,9 @@ check do you stand on grass
 { "u_is_on_terrain": "t_grass" }
 ```
 
-### `u_is_on_terrain_with_flag`, `npc_is_on_terrain_with_flag`
+### `u_is_on_terrain_with_flag`, `npc_is_on_terrain_with_flag`, `u_is_on_furniture_with_flag`, `npc_is_on_furniture_with_flag`
 - type: string or [variable object](#variable-object)
-- return true if alpha or beta talker stand on terrain with specific flag
+- return true if alpha or beta talker stand on terrain or furniture with specific flag
 
 #### Valid talkers:
 
@@ -1687,6 +1687,22 @@ You can see selected location.
 
 ```jsonc
 "u_is_avatar_passenger"
+```
+
+### `u_is_in_vehicle`, `npc_is_in_vehicle`
+- type: simple string
+- return true if alpha or beta talker is in a vehicle, ie physically standing on it
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+
+```jsonc
+"u_is_in_vehicle"
 ```
 
 ### `has_ammo`

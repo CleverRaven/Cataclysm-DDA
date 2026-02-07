@@ -163,9 +163,10 @@
     "use_action": [
       {
         "target": "cell_phone_flashlight",
+        "menu_text": "Light up the screen",
         "msg": "You light up the screen.",
         "need_charges": 1,
-        "need_charges_msg": "The cellphone's batteries need more charge.",
+        "need_charges_msg": "The batteries are dead.",
         "type": "transform"
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
@@ -254,11 +255,11 @@
       "EBOOKSAVE",
       {
         "type": "transform",
-        "menu_text": "Turn on the screen",
-        "msg": "You power up the screen.",
+        "menu_text": "Light up the screen",
+        "msg": "You light up the screen.",
         "target": "eink_tablet_pc_on",
         "need_charges": 1,
-        "need_charges_msg": "The tablet batteries are dead."
+        "need_charges_msg": "The batteries are dead."
       },
       { "type": "link_up", "cable_length": 4, "charge_rate": "10 W" }
     ],
@@ -610,7 +611,7 @@
         "msg": "You light up the screen.",
         "menu_text": "Light up the screen",
         "need_charges": 1,
-        "need_charges_msg": "The laptop's batteries need more charge.",
+        "need_charges_msg": "The batteries are dead.",
         "type": "transform"
       },
       { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
@@ -642,8 +643,8 @@
       {
         "ammo_scale": 0,
         "target": "laptop",
-        "msg": "You stop lighting up the screen.",
-        "menu_text": "Turn off",
+        "msg": "You turn off the screen.",
+        "menu_text": "Turn off the screen",
         "type": "transform"
       },
       { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
@@ -766,7 +767,7 @@
       "type": "transform",
       "msg": "You turn the EMF detector on.",
       "target": "emf_detector_on",
-      "need_charges_msg": "It's dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "faults": [ { "fault_group": "electronic_general" } ],
@@ -856,7 +857,7 @@
         "msg": "You activate the flashlight app.",
         "menu_text": "Turn on flashlight",
         "need_charges": 1,
-        "need_charges_msg": "The smartphone's charge is too low.",
+        "need_charges_msg": "The batteries are dead.",
         "type": "transform"
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
@@ -932,7 +933,7 @@
         "msg": "You activate the flashlight app.",
         "menu_text": "Turn on flashlight",
         "need_charges": 1,
-        "need_charges_msg": "The smartphone's charge is too low.",
+        "need_charges_msg": "The batteries are dead.",
         "type": "transform"
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" },
@@ -1066,7 +1067,7 @@
       "target": "UPS_ON",
       "msg": "You turn the charger on.",
       "need_charges": 1,
-      "need_charges_msg": "The charger's battery is empty.",
+      "need_charges_msg": "The batteries are dead.",
       "type": "transform"
     },
     "melee_damage": { "bash": 8 },

@@ -3,6 +3,7 @@
     "id": "mon_feral_elf_pipe",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_pipe",
+    "species": [ "ELF", "FERAL" ],
     "special_attacks": [
       {
         "type": "gun",
@@ -116,6 +117,7 @@
     "id": "mon_feral_dwarf_pipe",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_pipe",
+    "species": [ "DWARF", "FERAL" ],
     "special_attacks": [
       {
         "type": "gun",
@@ -230,6 +232,7 @@
     "id": "mon_feral_elf_crowbar",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_crowbar",
+    "species": [ "ELF", "FERAL" ],
     "special_attacks": [
       {
         "type": "gun",
@@ -341,6 +344,7 @@
     "id": "mon_feral_dwarf_crowbar",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_crowbar",
+    "species": [ "DWARF", "FERAL" ],
     "special_attacks": [
       {
         "type": "gun",
@@ -457,6 +461,7 @@
     "description": "Dragging a large axe along the ground, this elf's expression is one of twisted glee.  Their movements are more fluid than those of the feral humans, but no less unsettling.",
     "symbol": "E",
     "proportional": { "hp": 0.82, "speed": 1.03, "weight": 0.85 },
+    "species": [ "ELF", "FERAL" ],
     "dodge": 3,
     "vision_night": 8,
     "harvest": "demihuman",
@@ -472,6 +477,7 @@
     "name": { "str": "deranged axedwarf", "str_pl": "deranged axedwarves" },
     "description": "This dwarf holds the traditional dwarven weapon with none of the skill and craft of the axedwarves of old.  The axehead is pitted but still looks sharp, and the zombies around them ignore them as they hold it.",
     "symbol": "D",
+    "species": [ "DWARF", "FERAL" ],
     "proportional": { "hp": 1.1, "speed": 0.9, "volume": 0.7, "weight": 0.9 },
     "armor": { "bash": 2 },
     "vision_day": 15,

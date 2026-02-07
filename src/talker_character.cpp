@@ -47,6 +47,7 @@
 #include "translations.h"
 #include "units.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 #include "weather.h"
 
 struct bionic;
@@ -908,9 +909,9 @@ bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
 int talker_character_const::item_rads( const flag_id &flag, aggregate_type agg_func ) const
 {
     std::vector<int> rad_vals;
-    me_chr_const->cache_visit_items_with( flag, [&]( const item & it ) {
-        if( me_chr_const->is_worn( it ) || me_chr_const->is_wielding( it ) ) {
-            rad_vals.emplace_back( it.irradiation );
+    me_chr_const->cache_visit_items_with( flag, [&]( const item_location & it ) {
+        if( me_chr_const->is_worn( *it ) || me_chr_const->is_wielding( *it ) ) {
+            rad_vals.emplace_back( it->irradiation );
         }
     } );
     return aggregate( rad_vals, agg_func );
@@ -1429,6 +1430,11 @@ matec_id talker_character_const::get_random_technique( Creature const &t, bool c
                         dodge_counter,
                         block_counter,
                         blacklist ) );
+}
+
+bool talker_character_const::is_in_vehicle() const
+{
+    return get_map().veh_at( me_chr_const->pos_bub() ).has_value();
 }
 
 void talker_character::attack_target( Creature &t, bool allow_special,

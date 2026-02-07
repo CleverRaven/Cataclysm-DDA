@@ -127,7 +127,7 @@
         "menu_text": "Turn on",
         "msg": "You turn the radio on.",
         "need_charges": 1,
-        "need_charges_msg": "It's dead."
+        "need_charges_msg": "The batteries are dead."
       }
     ],
     "pocket_data": [

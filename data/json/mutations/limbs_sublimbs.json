@@ -1,5 +1,25 @@
 [
   {
+    "id": "crustacean_pincer_wrist_r",
+    "type": "sub_body_part",
+    "name": "crustacean pincer wrist",
+    "name_multiple": "pincer wrists",
+    "max_coverage": 20,
+    "parent": "crustacean_pincer_r",
+    "side": "right",
+    "opposite": "hand_wrist_l"
+  },
+  {
+    "id": "crustacean_pincer_claws_r",
+    "type": "sub_body_part",
+    "name": "crustacean pincer claws",
+    "name_multiple": "pincer claws",
+    "max_coverage": 80,
+    "parent": "crustacean_pincer_r",
+    "side": "right",
+    "opposite": "hand_fingers_l"
+  },
+  {
     "id": "tail_long_base",
     "type": "sub_body_part",
     "name": "long tail base",
@@ -118,5 +138,35 @@
     "parent": "tail_scorpion",
     "side": 0,
     "opposite": "tail_scorpion_base"
+  },
+  {
+    "id": "tail_club_base",
+    "type": "sub_body_part",
+    "name": "club tail base",
+    "name_multiple": "club tails base",
+    "max_coverage": 10,
+    "parent": "tail_club",
+    "side": 0,
+    "opposite": "tail_club_club"
+  },
+  {
+    "id": "tail_club_center",
+    "type": "sub_body_part",
+    "name": "club tail center",
+    "name_multiple": "club tails center",
+    "max_coverage": 60,
+    "parent": "tail_club",
+    "side": 0,
+    "opposite": "tail_club_center"
+  },
+  {
+    "id": "tail_club_club",
+    "type": "sub_body_part",
+    "name": "club tail mace",
+    "name_multiple": "club tail mace",
+    "max_coverage": 30,
+    "parent": "tail_club",
+    "side": 0,
+    "opposite": "tail_club_base"
   }
 ]

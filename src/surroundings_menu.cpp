@@ -465,15 +465,12 @@ void monster_tab_data::apply_filter()
     uistate.monster_filter = filter;
     uistate.vmenu_monster_sort = static_cast<int>( sort_flags );
 
-    // todo: filter_from_string<Creature>
-    // for now just matching creature name
-    // auto z = item_filter_from_string( filter );
+    auto filter_function = creature_filter_from_string( uistate.monster_filter );
 
     // first apply regular filter
-    std::copy_if( monster_list.begin(), monster_list.end(),
-    std::back_inserter( filtered_list ), []( const map_entity_stack<Creature> *a ) {
-        return lcmatch( remove_color_tags( a->get_selected_entity()->disp_name() ),
-                        uistate.monster_filter );
+    std::copy_if( monster_list.begin(), monster_list.end(), std::back_inserter( filtered_list ),
+    [filter_function]( const map_entity_stack<Creature> *monster_stack ) {
+        return filter_function( *monster_stack->get_selected_entity() );
     } );
 
     // then apply regular sorting
@@ -655,14 +652,12 @@ void terfurn_tab_data::apply_filter()
     uistate.terfurn_filter = filter;
     uistate.vmenu_terfurn_sort = static_cast<int>( sort_flags );
 
-    // todo: filter_from_string<map_data_common_t>
-    // for now just matching creature name
-    // auto z = item_filter_from_string( filter );
+    auto filter_function = terfurn_filter_from_string( uistate.terfurn_filter );
 
     // first apply regular filter
-    std::copy_if( terfurn_list.begin(), terfurn_list.end(),
-    std::back_inserter( filtered_list ), []( const map_entity_stack<map_data_common_t> *a ) {
-        return lcmatch( remove_color_tags( a->get_selected_entity()->name() ), uistate.terfurn_filter );
+    std::copy_if( terfurn_list.begin(), terfurn_list.end(), std::back_inserter( filtered_list ),
+    [filter_function]( const map_entity_stack<map_data_common_t> *terfurn_stack ) {
+        return filter_function( *terfurn_stack->get_selected_entity() );
     } );
 
     // then apply regular sorting
@@ -884,7 +879,7 @@ void surroundings_menu::draw_item_tab()
                     }
                     ImGui::SameLine( 0, 0 );
                     ImGui::PopID();
-                    nc_color color = prio_plus ? c_yellow : prio_minus ? c_red : itm->color_in_inventory();
+                    nc_color color = prio_plus ? c_yellow : prio_minus ? c_red : it->get_selected_color();
                     std::string newness_str;
                     nc_color newness_color;
                     if( highlight_new ) {
@@ -1027,7 +1022,7 @@ void surroundings_menu::draw_monster_tab()
                 cataimgui::draw_colored_text( sees ? "!" : " ", c_yellow );
 
                 ImGui::TableNextColumn();
-                nc_color mon_color = mon->basic_symbol_color();
+                nc_color mon_color = it->get_selected_color();
                 cataimgui::TextColoredTrimmed( it->get_selected_name(), mon_color );
 
                 ImGui::TableNextColumn();
@@ -1144,8 +1139,7 @@ void surroundings_menu::draw_terfurn_tab()
                 }
                 ImGui::SameLine( 0, 0 );
                 ImGui::PopID();
-                const map_data_common_t *terfurn = it->get_selected_entity();
-                nc_color color = terfurn->color();
+                nc_color color = it->get_selected_color();
                 cataimgui::TextColoredTrimmed( it->get_selected_name(), color );
 
                 ImGui::TableNextColumn();

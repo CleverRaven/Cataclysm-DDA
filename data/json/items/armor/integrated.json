@@ -1182,6 +1182,8 @@
     ]
   },
   {
+    "//": "We need to keep this because limbs can't have material-based armor coverage or provide tool qualities currently.",
+    "//2": "No encumbrance because the pincer has awful manip limb scores to represent being a bad hand",
     "id": "integrated_giant_pincer",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -1196,22 +1198,16 @@
     "symbol": ",",
     "color": "brown",
     "warmth": 10,
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "uneven" },
-    "//": "Assuming that it'd be shorter than 90cm but still long enough to slightly upset balance. Also given it does more bash than cut, I went with any striking surface as opposed to line. Not sure why it falls under shivs",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -4 ], [ "PRY", 1 ], [ "HAMMER", 1 ] ],
-    "environmental_protection": 3,
     "techniques": [ "BRUTAL", "WBLOCK_2" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "ALLOWS_TALONS" ],
     "armor": [
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 6.4 } ],
-        "covers": [ "hand_r" ],
-        "coverage": 80,
-        "encumbrance": 30
+        "covers": [ "crustacean_pincer_r" ],
+        "coverage": 80
       }
-    ],
-    "melee_damage": { "bash": 12, "cut": 3 },
-    "weapon_category": [ "SHIVS" ]
+    ]
   },
   {
     "id": "integrated_shell",

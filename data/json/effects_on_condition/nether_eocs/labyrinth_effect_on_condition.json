@@ -3,10 +3,18 @@
     "type": "effect_on_condition",
     "id": "EOC_LS_Teleport_to_labyrinth",
     "effect": [
+      {
+        "u_travel_to_dimension": "netherum_labyrinth",
+        "npc_travel_radius": 0,
+        "region_type": "netherum_labyrinth",
+        "npc_travel_filter": "none",
+        "fail_message": "Nope!",
+        "success_message": "Zwoink."
+      },
       { "u_location_variable": { "u_val": "player_location_before_labyrinth" } },
       {
         "u_location_variable": { "global_val": "original_labyrinth_portal_loc" },
-        "target_params": { "om_terrain": "labyrinth_entrance", "om_special": "labyrinthine_structure", "cant_see": true, "z": -7 },
+        "target_params": { "om_terrain": "labyrinth_entrance", "om_special": "labyrinthine_structure" },
         "furniture": "f_scrap_antenna",
         "target_max_radius": 20,
         "x_adjust": 1
@@ -18,16 +26,37 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LS_Exit_labyrinth",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        { "not": "u_driving" },
+        { "current_dimension": "netherum_labyrinth" }
+      ]
+    },
     "effect": [
+      {
+        "u_travel_to_dimension": "",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "You feel a prickle at the edge of your senses.",
+        "success_message": "Your surroundings warp and fold into the recesses of the world you know."
+      },
       { "u_teleport": { "u_val": "player_location_before_labyrinth" }, "force": true },
       { "u_message": "Zworunk", "popup": true }
-    ]
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LS_Exit_labyrinth_sparkling_chasm",
     "effect": [
-      { "u_teleport": { "u_val": "player_location_before_labyrinth" }, "force": true },
+      {
+        "u_travel_to_dimension": "",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "You feel a prickle at the edge of your senses.",
+        "success_message": "Your surroundings warp and fold into the recesses of the world you know."
+      },
       {
         "u_message": "As you fall into the chasm, you see a multitude of stars, spots, and other shapes.  It's like you're sinking ever further into quicksand, yet falling through the air at the same time.  Your head throbs with pain as the pressure increases, and you black out.  When you come to, you're back in reality: disoriented but unharmed.",
         "popup": true
