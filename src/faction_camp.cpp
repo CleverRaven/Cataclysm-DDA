@@ -5749,7 +5749,7 @@ bool basecamp::distribute_food( bool player_command )
             std::string fail_msg = _( "No suitable items are located at the drop points…" );
             fail_msg += "\n\n";
             fail_msg += string_format(
-                            _( "%d items were skipped for being unsuitable (not food, or too disgusting to eat, or already rotten, etc. )" ),
+                            _( "%d items were skipped for being unsuitable (not food, or too disgusting to eat, or already rotten, etc.  )" ),
                             num_skipped );
             popup( fail_msg );
         }
