@@ -4540,7 +4540,7 @@ void cata_tiles::void_bullet()
 }
 void cata_tiles::void_hit()
 {
-    constexpr auto max_age = std::chrono::milliseconds( 50 );
+    const std::chrono::milliseconds max_age = std::chrono::milliseconds( 50 );
     const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
     while( !hit_animations.empty() && now - hit_animations.back().timestamp > max_age ) {
         hit_animations.pop_back();
