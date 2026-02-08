@@ -62,7 +62,7 @@
         "type": "MONSTER",
         "name": {
             "str_sp": "generic vampire",
-            "//~": "NO_I18N",
+            "//~": "NO_I18N" },
           "eoc": [ "EOC_VAMPIRE_DRINK_BLOOD", "EOC_FERAL_VAMPIRE_GAIN_RANDOM_BUFF" ]
         },
         {
@@ -160,18 +160,18 @@
       {
         "if": { "npc_has_flag": "BLEEDSLOW2" },
         "then": [
-          { "math": [ "n_vitamin('blood') -= _vampire_amount_drained / 3" ] },
-          { "math": [ "n_vitamin('redcells') -= _vampire_amount_drained / 3" ] }
+          { "math": [ "n_vitamin("blood") -= _vampire_amount_drained / 3" ] },
+          { "math": [ "n_vitamin("redcells") -= _vampire_amount_drained / 3" ] }
         ],
         "else": {
           "if": { "npc_has_flag": "BLEEDSLOW" },
           "then": [
-            { "math": [ "n_vitamin('blood') -= _vampire_amount_drained / 1.5" ] },
-            { "math": [ "n_vitamin('redcells') -= _vampire_amount_drained / 1.5" ] }
+            { "math": [ "n_vitamin("blood") -= _vampire_amount_drained / 1.5" ] },
+            { "math": [ "n_vitamin("redcells") -= _vampire_amount_drained / 1.5" ] }
           ],
           "else": [
-            { "math": [ "n_vitamin('blood') -= _vampire_amount_drained" ] },
-            { "math": [ "n_vitamin('redcells') -= _vampire_amount_drained" ] }
+            { "math": [ "n_vitamin("blood") -= _vampire_amount_drained" ] },
+            { "math": [ "n_vitamin("redcells") -= _vampire_amount_drained" ] }
           ]
         }
       }
@@ -252,7 +252,7 @@
     "type": "MONSTER",
     "copy-from": "mon_vampire_generic",
     "name": { "str_sp": "moroi" },
-    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren't for the dried blood caked around their mouth and down the front of their clothes.  The light glints against what look to be sharp fangs in their mouth.  They move with inhuman speed and fluidity.",
+    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren"t for the dried blood caked around their mouth and down the front of their clothes.  The light glints against what look to be sharp fangs in their mouth.  They move with inhuman speed and fluidity.",
     "speed": 95,
     "melee_skill": 4,
     "melee_dice": 2,
@@ -316,7 +316,7 @@
     "type": "MONSTER",
     "copy-from": "mon_vampire_generic",
     "name": { "str_sp": "moroi" },
-    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren't for the dried blood caked around their mouth and down the front of their clothes.  The light glints against what look to be sharp fangs in their mouth.  Their skin has a waxen appearance and their muscles bulge oddly.",
+    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren"t for the dried blood caked around their mouth and down the front of their clothes.  The light glints against what look to be sharp fangs in their mouth.  Their skin has a waxen appearance and their muscles bulge oddly.",
     "hp": 145,
     "melee_skill": 4,
     "melee_dice": 2,
@@ -360,12 +360,12 @@
           "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
           "self_effects_always": [ { "id": "effect_vampire_monster_resilience", "duration": [ 25, 45 ] } ],
           "condition": { "not": { "u_has_effect": "effect_vampire_monster_resilience" } },
-          "hit_dmg_u": "%1$s' s skin takes on a waxen sheen.",
-          "hit_dmg_npc": "%1$s' s skin takes on a waxen sheen.",
+          "hit_dmg_u": "%1$s" s skin takes on a waxen sheen.",
+          "hit_dmg_npc": "%1$s" s skin takes on a waxen sheen.",
           "miss_msg_u": "",
           "miss_msg_npc": "",
-          "no_dmg_msg_u": "%1$s's skin takes on a waxen sheen.",
-          "no_dmg_msg_npc": "%1$s' s skin takes on a waxen sheen.",
+          "no_dmg_msg_u": "%1$s"s skin takes on a waxen sheen.",
+          "no_dmg_msg_npc": "%1$s" s skin takes on a waxen sheen.",
           "dodgeable": false,
           "uncanny_dodgeable": false,
           "blockable": false
@@ -393,7 +393,7 @@
     "type": "MONSTER",
     "copy-from": "mon_vampire_generic",
     "name": { "str_sp": "moroi" },
-    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren't for the dried blood caked around their mouth and down the front of their clothes.  There is a red light in their eyes, and they hunch over almost as though they want to drop to all fours.  When they do open their mouth, every single one of their teeth is a jagged fang.",
+    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren"t for the dried blood caked around their mouth and down the front of their clothes.  There is a red light in their eyes, and they hunch over almost as though they want to drop to all fours.  When they do open their mouth, every single one of their teeth is a jagged fang.",
     "speed": 80,
     "melee_skill": 4,
     "melee_dice": 2,
@@ -422,8 +422,8 @@
           "hit_dmg_npc": "",
           "miss_msg_u": "",
           "miss_msg_npc": "",
-          "no_dmg_msg_u": "%1$s' s skin takes on a waxen sheen.",
-          "no_dmg_msg_npc": "%1$s' s skin takes on a waxen sheen.",
+          "no_dmg_msg_u": "%1$s" s skin takes on a waxen sheen.",
+          "no_dmg_msg_npc": "%1$s" s skin takes on a waxen sheen.",
           "dodgeable": false,
           "uncanny_dodgeable": false,
           "blockable": false
@@ -458,7 +458,7 @@
     "type": "MONSTER",
     "copy-from": "mon_vampire_generic",
     "name": { "str_sp": "moroi" },
-    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren't for the dried blood caked around their mouth and down the front of their clothes.  You have to stare straight at them for your eyes to register that they're there.",
+    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren"t for the dried blood caked around their mouth and down the front of their clothes.  You have to stare straight at them for your eyes to register that they"re there.",
     "speed": 80,
     "melee_skill": 4,
     "melee_dice": 2,
@@ -707,7 +707,7 @@
         "fake_skills": [ [ "gun", 2 ], [ "shotgun", 2 ] ],
         "fake_dex": 8,
         "fake_per": 9,
-        "//": "(ferals don't care about max-effective range.)",
+        "//": "(ferals don"t care about max-effective range.)",
         "ranges": [ [ 2, 25, "DEFAULT" ] ],
         "condition": { "test_eoc": "is_disarmed" },
         "require_targeting_player": false,
@@ -805,7 +805,7 @@
     "id": "mon_renfield_bionic_monster",
     "type": "MONSTER",
     "name": { "str": "cyber-renfield" },
-    "description": "A renfield enhanced with cybernetic modules.  These bloodhunting monstrosities will crash through brick walls in search of their masters' foes.  Someone with enough surgical skills might be able to pull some useful bionics from their corpse.  Bionic claws snikt in and out until it finds a target for its hate.",
+    "description": "A renfield enhanced with cybernetic modules.  These bloodhunting monstrosities will crash through brick walls in search of their masters" foes.  Someone with enough surgical skills might be able to pull some useful bionics from their corpse.  Bionic claws snikt in and out until it finds a target for its hate.",
     "default_faction": "vampire",
     "bodytype": "human",
     "species": [ "CYBORG", "RENFIELD" ],
@@ -1003,8 +1003,8 @@
     "copy-from": "mon_civilian_stationary",
     "description": "They just stand there, staring into the void, with a vacant expression on their face.  A multitude of small puncture scars can be seen on their neck.",
     "default_faction": "vampire",
-    "//": "Vampire faction so they aren't killed by the vampires.  They're food, not foe.",
-    "//2": "Being fed and locked does wonders to keep them alive, so they don't die over time like the other civilians.",
+    "//": "Vampire faction so they aren"t killed by the vampires.  They"re food, not foe.",
+    "//2": "Being fed and locked does wonders to keep them alive, so they don"t die over time like the other civilians.",
     "upgrades": false,
     "//3": "When possible, apply a permanent dazed effect to them without needing a spell.  This effects allows vampires to drink from them at all times.",
     "delete": { "flags": [ "CAN_OPEN_DOORS" ] },
@@ -1071,7 +1071,7 @@
     "id": "mon_negative_polymorph_arion",
     "type": "MONSTER",
     "name": { "str_sp": "δαίμων ἵππος" },
-    "description": "You didn't feed your responsibility and now it will feed itself.",
+    "description": "You didn"t feed your responsibility and now it will feed itself.",
     "default_faction": "jabberwock",
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
@@ -1108,7 +1108,7 @@
         "cooldown": 3,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 15 } ],
         "infection_chance": 15,
-        "//": "Bite for targets whose blood the arion does not want or cannot drink.  Should never target the player unless they can't bleed or have unappetizing blood.",
+        "//": "Bite for targets whose blood the arion does not want or cannot drink.  Should never target the player unless they can"t bleed or have unappetizing blood.",
         "condition": {
           "or": [
             { "npc_has_flag": "BLEED_IMMUNE" },
@@ -1145,11 +1145,11 @@
           ]
         },
         "hit_dmg_u": "%1$s bites your %2$s with its fang-filled maw!",
-        "hit_dmg_npc": "%1$s bites <npcname>'s %2$s with its fang-filled maw!",
+        "hit_dmg_npc": "%1$s bites <npcname>"s %2$s with its fang-filled maw!",
         "miss_msg_u": "%1$s tries to bite you, but you dodge!",
         "miss_msg_npc": "%1$s tries to bite <npcname>, but they dodge!",
-        "no_dmg_msg_u": "%1$s tries to bite your %2$s, but can't penetrate your armor.",
-        "no_dmg_msg_npc": "%1$s tries to bite <npcname>'s %2$s, but can't penetrate their armor."
+        "no_dmg_msg_u": "%1$s tries to bite your %2$s, but can"t penetrate your armor.",
+        "no_dmg_msg_npc": "%1$s tries to bite <npcname>"s %2$s, but can"t penetrate their armor."
       },
       {
         "type": "monster_attack",
@@ -1261,18 +1261,18 @@
       {
         "if": { "npc_has_flag": "BLEEDSLOW2" },
         "then": [
-          { "math": [ "n_vitamin('blood')", "-=", "_vampire_amount_drained / 3" ] },
-          { "math": [ "n_vitamin('redcells')", "-=", "_vampire_amount_drained / 3" ] }
+          { "math": [ "n_vitamin("blood")", "-=", "_vampire_amount_drained / 3" ] },
+          { "math": [ "n_vitamin("redcells")", "-=", "_vampire_amount_drained / 3" ] }
         ],
         "else": {
           "if": { "npc_has_flag": "BLEEDSLOW" },
           "then": [
-            { "math": [ "n_vitamin('blood')", "-=", "_vampire_amount_drained / 1.5" ] },
-            { "math": [ "n_vitamin('redcells')", "-=", "_vampire_amount_drained / 1.5" ] }
+            { "math": [ "n_vitamin("blood")", "-=", "_vampire_amount_drained / 1.5" ] },
+            { "math": [ "n_vitamin("redcells")", "-=", "_vampire_amount_drained / 1.5" ] }
           ],
           "else": [
-            { "math": [ "n_vitamin('blood')", "-=", "_vampire_amount_drained" ] },
-            { "math": [ "n_vitamin('redcells')", "-=", "_vampire_amount_drained" ] }
+            { "math": [ "n_vitamin("blood")", "-=", "_vampire_amount_drained" ] },
+            { "math": [ "n_vitamin("redcells")", "-=", "_vampire_amount_drained" ] }
           ]
         }
       }
@@ -1308,7 +1308,7 @@
     "id": "mon_vampire_moroi",
     "type": "MONSTER",
     "name": { "str_sp": "moroi" },
-    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren't for the dried blood caked around their mouth and down the front of their clothes.  The light glints against what look to be sharp fangs in their mouth.",
+    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren"t for the dried blood caked around their mouth and down the front of their clothes.  The light glints against what look to be sharp fangs in their mouth.",
     "default_faction": "vampire",
     "bodytype": "human",
     "species": [ "VAMPIRE", "HUMAN" ],
@@ -1555,7 +1555,7 @@
         "fake_skills": [ [ "gun", 2 ], [ "shotgun", 2 ] ],
         "fake_dex": 8,
         "fake_per": 9,
-        "//": "(ferals don't care about max-effective range.)",
+        "//": "(ferals don"t care about max-effective range.)",
         "ranges": [ [ 2, 25, "DEFAULT" ] ],
         "condition": { "test_eoc": "is_disarmed" },
         "require_targeting_player": false,
@@ -1652,7 +1652,7 @@
     "id": "mon_renfield_bionic_monster",
     "type": "MONSTER",
     "name": { "str": "cyber-renfield" },
-    "description": "A renfield enhanced with cybernetic modules.  These bloodhunting monstrosities will crash through brick walls in search of their masters' foes.  Someone with enough surgical skills might be able to pull some useful bionics from their corpse.  Bionic claws snikt in and out until it finds a target for its hate.",
+    "description": "A renfield enhanced with cybernetic modules.  These bloodhunting monstrosities will crash through brick walls in search of their masters" foes.  Someone with enough surgical skills might be able to pull some useful bionics from their corpse.  Bionic claws snikt in and out until it finds a target for its hate.",
     "default_faction": "vampire",
     "bodytype": "human",
     "species": [ "CYBORG", "RENFIELD" ],
@@ -1895,7 +1895,7 @@
     "id": "mon_negative_polymorph_arion",
     "type": "MONSTER",
     "name": { "str_sp": "δαίμων ἵππος" },
-    "description": "You didn't feed your responsibility and now it will feed itself.",
+    "description": "You didn"t feed your responsibility and now it will feed itself.",
     "default_faction": "jabberwock",
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
@@ -1932,7 +1932,7 @@
         "cooldown": 3,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 15 } ],
         "infection_chance": 15,
-        "//": "Bite for targets whose blood the arion does not want or cannot drink.  Should never target the player unless they can't bleed or have unappetizing blood.",
+        "//": "Bite for targets whose blood the arion does not want or cannot drink.  Should never target the player unless they can"t bleed or have unappetizing blood.",
         "condition": {
           "or": [
             { "npc_has_flag": "BLEED_IMMUNE" },
@@ -1969,11 +1969,11 @@
           ]
         },
         "hit_dmg_u": "%1$s bites your %2$s with its fang-filled maw!",
-        "hit_dmg_npc": "%1$s bites <npcname>'s %2$s with its fang-filled maw!",
+        "hit_dmg_npc": "%1$s bites <npcname>"s %2$s with its fang-filled maw!",
         "miss_msg_u": "%1$s tries to bite you, but you dodge!",
         "miss_msg_npc": "%1$s tries to bite <npcname>, but they dodge!",
-        "no_dmg_msg_u": "%1$s tries to bite your %2$s, but can't penetrate your armor.",
-        "no_dmg_msg_npc": "%1$s tries to bite <npcname>'s %2$s, but can't penetrate their armor."
+        "no_dmg_msg_u": "%1$s tries to bite your %2$s, but can"t penetrate your armor.",
+        "no_dmg_msg_npc": "%1$s tries to bite <npcname>"s %2$s, but can"t penetrate their armor."
       },
       {
         "type": "monster_attack",
@@ -2027,11 +2027,11 @@
         "cooldown": 1,
         "move_cost": 100,
         "hit_dmg_u": "%1$s fastens onto your %2$s and greedily drinks your blood!",
-        "hit_dmg_npc": "%1$s fastens onto <npcname>'s %2$s and greedily drinks their blood!",
+        "hit_dmg_npc": "%1$s fastens onto <npcname>"s %2$s and greedily drinks their blood!",
         "miss_msg_u": "%1$s tries to fasten onto you, but you dodge!",
         "miss_msg_npc": "%1$s tries to fasten onto you <npcname>, but they dodge!",
-        "no_dmg_msg_u": "%1$s tries to fasten onto your %2$s, but can't penetrate your armor.",
-        "no_dmg_msg_npc": "%1$s tries to fasten onto <npcname>'s %2$s, but can't penetrate their armor."
+        "no_dmg_msg_u": "%1$s tries to fasten onto your %2$s, but can"t penetrate your armor.",
+        "no_dmg_msg_npc": "%1$s tries to fasten onto <npcname>"s %2$s, but can"t penetrate their armor."
       },
       {
         "type": "monster_attack",
@@ -2045,11 +2045,11 @@
         "cooldown": 1,
         "move_cost": 100,
         "hit_dmg_u": "%1$s fastens onto your %2$s and greedily drinks your blood!",
-        "hit_dmg_npc": "%1$s fastens onto <npcname>'s %2$s and greedily drinks their blood!",
+        "hit_dmg_npc": "%1$s fastens onto <npcname>"s %2$s and greedily drinks their blood!",
         "miss_msg_u": "%1$s tries to fasten onto you, but you dodge!",
         "miss_msg_npc": "%1$s tries to fasten onto <npcname>, but they dodge!",
-        "no_dmg_msg_u": "%1$s tries to fasten onto your %2$s, but can't penetrate your armor.",
-        "no_dmg_msg_npc": "%1$s tries to fasten onto <npcname>'s %2$s, but can't penetrate their armor."
+        "no_dmg_msg_u": "%1$s tries to fasten onto your %2$s, but can"t penetrate your armor.",
+        "no_dmg_msg_npc": "%1$s tries to fasten onto <npcname>"s %2$s, but can"t penetrate their armor."
       }
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER", "WARM", "EATS" ],
@@ -2064,26 +2064,26 @@
       {
         "if": { "npc_has_any_trait": [ "VAMPIRE", "DHAMPIR" ] },
         "then": [
-          { "math": [ "n_vitamin('blood') -= _arion_amount_drained" ] },
-          { "math": [ "n_vitamin('redcells') -= _arion_amount_drained" ] },
-          { "math": [ "n_vitamin('human_blood_vitamin') -= _arion_amount_drained" ] }
+          { "math": [ "n_vitamin("blood") -= _arion_amount_drained" ] },
+          { "math": [ "n_vitamin("redcells") -= _arion_amount_drained" ] },
+          { "math": [ "n_vitamin("human_blood_vitamin") -= _arion_amount_drained" ] }
         ]
       },
       {
         "if": { "npc_has_flag": "BLEEDSLOW2" },
         "then": [
-          { "math": [ "n_vitamin('blood') -= _arion_amount_drained / 3" ] },
-          { "math": [ "n_vitamin('redcells') -= _arion_amount_drained / 3" ] }
+          { "math": [ "n_vitamin("blood") -= _arion_amount_drained / 3" ] },
+          { "math": [ "n_vitamin("redcells") -= _arion_amount_drained / 3" ] }
         ],
         "else": {
           "if": { "npc_has_flag": "BLEEDSLOW" },
           "then": [
-            { "math": [ "n_vitamin('blood') -= _arion_amount_drained / 1.5" ] },
-            { "math": [ "n_vitamin('redcells') -= _arion_amount_drained / 1.5" ] }
+            { "math": [ "n_vitamin("blood") -= _arion_amount_drained / 1.5" ] },
+            { "math": [ "n_vitamin("redcells") -= _arion_amount_drained / 1.5" ] }
           ],
           "else": [
-            { "math": [ "n_vitamin('blood') -= _arion_amount_drained" ] },
-            { "math": [ "n_vitamin('redcells') -= _arion_amount_drained" ] }
+            { "math": [ "n_vitamin("blood") -= _arion_amount_drained" ] },
+            { "math": [ "n_vitamin("redcells") -= _arion_amount_drained" ] }
           ]
         }
       }
@@ -2096,8 +2096,8 @@
     "copy-from": "mon_civilian_stationary",
     "description": "They just stand there, staring into the void, with a vacant expression on their face.  A multitude of small puncture scars can be seen on their neck.",
     "default_faction": "vampire",
-    "//": "Vampire faction so they aren't killed by the vampires.  They're food, not foe.",
-    "//2": "Being fed and locked does wonders to keep them alive, so they don't die over time like the other civilians.",
+    "//": "Vampire faction so they aren"t killed by the vampires.  They"re food, not foe.",
+    "//2": "Being fed and locked does wonders to keep them alive, so they don"t die over time like the other civilians.",
     "upgrades": false
   }
 ]
