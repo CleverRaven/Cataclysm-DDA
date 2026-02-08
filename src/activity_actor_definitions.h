@@ -307,6 +307,9 @@ class multi_farm_activity_actor : public multi_zone_activity_actor
                 const zone_data *zone = nullptr ) override;
         bool multi_activity_do( Character &you, const activity_reason_info &act_info,
                                 const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
+        static std::optional<itype_id> query_fertilizer( Character &you );
+        static ret_val<void> can_fertilize( Character &you, const tripoint_bub_ms &tile );
+
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<multi_farm_activity_actor>( *this );
         }

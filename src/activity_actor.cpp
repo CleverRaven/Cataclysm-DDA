@@ -9472,6 +9472,49 @@ bool multi_farm_activity_actor::multi_activity_do( Character &you,
     return multi_activity_actor::farm_do( you, act_info, src, src_loc );
 }
 
+std::optional<itype_id> multi_farm_activity_actor::query_fertilizer( Character &you )
+{
+    std::vector<item_location> f_inv = you.cache_get_items_with( flag_FERTILIZER );
+    if( f_inv.empty() ) {
+        add_msg( m_info, _( "You have no fertilizer." ) );
+        return std::nullopt;
+    }
+
+    std::vector<itype_id> f_types;
+    std::vector<std::string> f_names;
+    for( const item_location &f : f_inv ) {
+        if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
+            f_types.push_back( f->typeId() );
+            f_names.push_back( f->tname() );
+        }
+    }
+
+    // Choose fertilizer from list
+    int f_index = 0;
+    if( f_types.size() > 1 ) {
+        f_index = uilist( _( "Use which fertilizer?" ), f_names );
+    }
+    if( f_index < 0 ) {
+        return std::nullopt;
+    }
+
+    return f_types[f_index];
+
+}
+
+ret_val<void> multi_farm_activity_actor::can_fertilize( Character &you,
+        const tripoint_bub_ms &tile )
+{
+    map &here = get_map();
+    if( !here.has_flag_furn( ter_furn_flag::TFLAG_PLANT, tile ) ) {
+        return ret_val<void>::make_failure( _( "Tile isn't a plant" ) );
+    }
+    if( here.i_at( tile ).size() > 1 ) {
+        return ret_val<void>::make_failure( _( "Tile is already fertilized" ) );
+    }
+    return ret_val<void>::make_success();
+}
+
 std::unique_ptr<activity_actor> multi_farm_activity_actor::deserialize( JsonValue & )
 {
     multi_farm_activity_actor actor;

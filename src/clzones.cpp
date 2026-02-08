@@ -8,6 +8,7 @@
 #include <string>
 #include <tuple>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_path.h"
@@ -365,6 +366,19 @@ plot_options::query_seed_result plot_options::query_seed()
     }
 }
 
+bool plot_options::query_fertilizer()
+{
+    std::optional<itype_id> selected_fertilizer =
+        multi_farm_activity_actor::query_fertilizer( get_player_character() );
+    itype_id previous_fertilizer = fertilizer;
+    if( !selected_fertilizer ) {
+        fertilizer = itype_id();
+    } else {
+        fertilizer = *selected_fertilizer;
+    }
+    return previous_fertilizer != fertilizer;
+}
+
 bool blueprint_options::query_at_creation()
 {
     return query_con() != canceled;
@@ -407,7 +421,9 @@ bool loot_options::query()
 
 bool plot_options::query()
 {
-    return query_seed() == changed;
+    plot_options::query_seed_result query_seed_result = query_seed();
+    bool query_fertilizer_result = query_fertilizer();
+    return query_seed_result == changed || query_fertilizer_result;
 }
 
 bool unload_options::query()

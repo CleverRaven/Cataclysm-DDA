@@ -2843,12 +2843,9 @@ void iexamine::harvest_plant( Character &you, const tripoint_bub_ms &examp, bool
 ret_val<void> iexamine::can_fertilize( Character &you, const tripoint_bub_ms &tile,
                                        const itype_id &fertilizer )
 {
-    map &here = get_map();
-    if( !here.has_flag_furn( ter_furn_flag::TFLAG_PLANT, tile ) ) {
-        return ret_val<void>::make_failure( _( "Tile isn't a plant" ) );
-    }
-    if( here.i_at( tile ).size() > 1 ) {
-        return ret_val<void>::make_failure( _( "Tile is already fertilized" ) );
+    ret_val<void> fertilize_check = multi_farm_activity_actor::can_fertilize( you, tile );
+    if( !fertilize_check.success() ) {
+        return fertilize_check;
     }
     if( ( fertilizer->count_by_charges() && !you.has_charges( fertilizer, 1 ) ) ||
         !you.has_amount( fertilizer, 1 ) ) {
@@ -2912,35 +2909,18 @@ void iexamine::fertilize_plant( Character &you, const tripoint_bub_ms &tile,
 itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
                                       bool ask_player )
 {
+    std::optional<itype_id> fertilizer_selected = multi_farm_activity_actor::query_fertilizer( you );
+
     std::vector<item_location> f_inv = you.cache_get_items_with( flag_FERTILIZER );
-    if( f_inv.empty() ) {
-        add_msg( m_info, _( "You have no fertilizer for the %s." ), pname );
+    if( !fertilizer_selected ) {
         return itype_id();
     }
 
-    std::vector<itype_id> f_types;
-    std::vector<std::string> f_names;
-    for( const item_location &f : f_inv ) {
-        if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
-            f_types.push_back( f->typeId() );
-            f_names.push_back( f->tname() );
-        }
-    }
-
-    if( ask_player && !query_yn( _( "Fertilize the %s" ), pname ) ) {
+    if( ask_player && !query_yn( _( "Fertilize the %s?" ), pname ) ) {
         return itype_id();
     }
 
-    // Choose fertilizer from list
-    int f_index = 0;
-    if( f_types.size() > 1 ) {
-        f_index = uilist( _( "Use which fertilizer?" ), f_names );
-    }
-    if( f_index < 0 ) {
-        return itype_id();
-    }
-
-    return f_types[f_index];
+    return *fertilizer_selected;
 
 }
 void iexamine::aggie_plant( Character &you, const tripoint_bub_ms &examp )
