@@ -64,7 +64,6 @@ static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
-static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
 static const ammotype ammo_battery( "battery" );
@@ -99,7 +98,6 @@ const std::map< activity_id, std::function<void( player_activity *, Character * 
 activity_handlers::do_turn_functions = {
     { ACT_FILL_LIQUID, fill_liquid_do_turn },
     { ACT_START_FIRE, start_fire_do_turn },
-    { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },
