@@ -3459,7 +3459,8 @@ void monster::process_one_effect( effect &it, bool is_new )
         }
     } else if( id == effect_run ) {
         effect_cache[FLEEING] = true;
-    } else if( id == effect_no_sight || id == effect_blind || has_effect_with_flag ( json_flag_BLIND ) ) {
+    } else if( id == effect_no_sight || id == effect_blind ||
+               has_effect_with_flag( json_flag_BLIND ) ) {
         effect_cache[VISION_IMPAIRED] = true;
     } else if( ( id == effect_bleed || id == effect_dripping_mechanical_fluid ) &&
                x_in_y( it.get_intensity(), it.get_max_intensity() ) ) {
