@@ -107,5 +107,36 @@
     "stim": 20,
     "spoils_in": "540 days",
     "variants": [  ]
+  },
+  {
+    "id": "cereal_milk",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "cereal with milk" },
+    "description": "Tasty breakfast cereal.  It takes you back to your childhood.  Tastes a lot better now with milk.",
+    "color": "yellow",
+    "symbol": "%",
+    "looks_like": "cereal",
+    "price": "3 USD",
+    "price_postapoc": "2 USD",
+    "weight": "368 g",
+    "volume": "250 ml",
+    "material": [ "junk" ],
+    "spoils_in": "1 days",
+    "flags": [ "USE_EAT_VERB", "EATEN_COLD" ],
+    "quench": 68,
+    "calories": 486,
+    "fun": 15,
+    "charges": 1,
+    "phase": "liquid",
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "cereal", "name": { "str_sp": "sugary cereal with milk" } },
+      { "type": "COMPONENT_ID", "condition": "cereal2", "name": { "str_sp": "whole-grain cereal with milk" } },
+      { "type": "COMPONENT_ID", "condition": "cereal3", "name": { "str_sp": "corn flakes cereal with milk" } },
+      { "type": "COMPONENT_ID", "condition": "cereal_fp1", "name": { "str_sp": "foodplace cereal with milk" } },
+      { "type": "COMPONENT_ID", "condition": "cereal_fp2", "name": { "str_sp": "Carpenter Crunch cereal with milk" } },
+      { "type": "COMPONENT_ID", "condition": "cereal_fp4", "name": { "str_sp": "Sugar Chomps cereal with milk" } }
+    ]
   }
 ]
