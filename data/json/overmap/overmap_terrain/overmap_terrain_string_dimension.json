@@ -72,7 +72,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "string_dimension_plane_z_stack_0", "string_dimension_plane_z_stack_1+", "string_dimension_plane_z_stack_1-" ],
+    "id": [ "string_dimension_plane_z_stack_0", "string_dimension_plane_z_stack_1", "string_dimension_plane_z_stack_-1" ],
     "vision_levels": "isolated_tower",
     "name": "z-stack",
     "sym": "+",

@@ -203,7 +203,7 @@
     }
   },
   {
-    "om_terrain": "string_dimension_plane_z_stack_1+",
+    "om_terrain": "string_dimension_plane_z_stack_1",
     "type": "mapgen",
     "object": {
       "rows": [
@@ -237,7 +237,7 @@
     }
   },
   {
-    "om_terrain": "string_dimension_plane_z_stack_1-",
+    "om_terrain": "string_dimension_plane_z_stack_-1",
     "type": "mapgen",
     "object": {
       "rows": [
