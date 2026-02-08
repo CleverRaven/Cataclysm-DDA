@@ -2423,10 +2423,6 @@ void monster::stumble_involuntary()
             }
         }
     }
-    const tripoint_bub_ms below( pos_bub() + tripoint::below );
-    if( here.valid_move( pos_bub(), below, false, true ) ) {
-        valid_stumbles.push_back( below );
-    }
 
     creature_tracker &creatures = get_creature_tracker();
     while( !valid_stumbles.empty() && !is_dead() ) {
