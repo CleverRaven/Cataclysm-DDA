@@ -11,6 +11,11 @@
         {
           "and": [
             { "not": "u_is_outside" },
+            { "not": "u_is_in_vehicle" },
+            { "not": { "u_is_on_furniture": "f_large_groundsheet" } },
+            { "not": { "u_is_on_furniture": "f_fema_groundsheet" } },
+            { "not": { "u_is_on_furniture": "f_center_groundsheet" } },
+            { "not": { "u_is_on_furniture": "f_groundsheet" } },
             { "not": { "u_is_on_terrain": "t_improvised_shelter_filled" } },
             { "not": { "u_is_on_terrain": "t_improvised_shelter" } },
             { "not": { "u_is_on_terrain": "t_arvore_living_tent" } }
@@ -42,6 +47,11 @@
         {
           "and": [
             { "not": "u_is_outside" },
+            { "not": "u_is_in_vehicle" },
+            { "not": { "u_is_on_furniture": "f_large_groundsheet" } },
+            { "not": { "u_is_on_furniture": "f_fema_groundsheet" } },
+            { "not": { "u_is_on_furniture": "f_center_groundsheet" } },
+            { "not": { "u_is_on_furniture": "f_groundsheet" } },
             { "not": { "u_is_on_terrain": "t_improvised_shelter_filled" } },
             { "not": { "u_is_on_terrain": "t_improvised_shelter" } },
             { "not": { "u_is_on_terrain": "t_arvore_living_tent" } }
