@@ -2211,7 +2211,6 @@ bool monster::melee_attack( Creature &target, float accuracy )
         } else if( target.is_avatar() ) {
             add_msg( _( "You dodge an attack from an unseen source." ) );
         }
-       
     } else if( is_hallucination() || total_dealt > 0 ) {
         // Hallucinations always produce messages but never actually deal damage
         if( u_see_my_spot ) {
