@@ -3710,7 +3710,7 @@ std::optional<bool> route( Character &you, player_activity &act, const tripoint_
         if( !check_only ) {
             if( you.get_moves() <= 0 ) {
                 // Restart activity and break from cycle.
-                you.assign_activity( act_id );
+                you.assign_activity( act );
                 return true;
             }
             // set the destination and restart activity after player arrives there
