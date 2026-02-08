@@ -538,15 +538,6 @@
     "auto_needs": true
   },
   {
-    "id": "ACT_FERTILIZE_PLOT",
-    "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
-    "verb": "fertilizing plots",
-    "based_on": "neither",
-    "can_resume": false,
-    "auto_needs": true
-  },
-  {
     "id": "ACT_START_FIRE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

@@ -59,5 +59,14 @@
     "activity_level": "MODERATE_EXERCISE",
     "verb": "tidying up",
     "based_on": "time"
+  },
+  {
+    "id": "ACT_FERTILIZE_PLOT",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "fertilizing plots",
+    "based_on": "time",
+    "can_resume": false,
+    "auto_needs": true
   }
 ]

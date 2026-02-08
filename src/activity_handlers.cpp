@@ -100,8 +100,7 @@ activity_handlers::do_turn_functions = {
     { ACT_START_FIRE, start_fire_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
-    { ACT_FIND_MOUNT, find_mount_do_turn },
-    { ACT_FERTILIZE_PLOT, fertilize_plot_do_turn }
+    { ACT_FIND_MOUNT, find_mount_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -1037,99 +1036,4 @@ static void cleanup_tiles( std::unordered_set<tripoint_abs_ms> &tiles, fn &clean
             tiles.erase( current );
         }
     }
-}
-
-static void perform_zone_activity_turn(
-    Character *you, const zone_type_id &ztype,
-    const std::function<bool( const tripoint_bub_ms & )> &tile_filter,
-    const std::function<void ( Character &you, const tripoint_bub_ms & )> &tile_action,
-    const std::string &finished_msg )
-{
-    const zone_manager &mgr = zone_manager::get_manager();
-    map &here = get_map();
-    const tripoint_abs_ms abspos = you->pos_abs();
-    std::unordered_set<tripoint_abs_ms> unsorted_tiles = mgr.get_near( ztype, abspos );
-
-    cleanup_tiles( unsorted_tiles, tile_filter );
-
-    // sort remaining tiles by distance
-    const std::vector<tripoint_abs_ms> &tiles =
-        get_sorted_tiles_by_distance( abspos, unsorted_tiles );
-
-    for( const tripoint_abs_ms &tile : tiles ) {
-        const tripoint_bub_ms &tile_loc = here.get_bub( tile );
-
-        std::vector<tripoint_bub_ms> route =
-            here.route( *you, pathfinding_target::point( tile_loc ) );
-        if( route.size() > 1 ) {
-            route.pop_back();
-
-            you->set_destination( route, you->activity );
-            you->activity.set_to_null();
-            return;
-        } else {
-            // we are at destination already
-            /* Perform action */
-            tile_action( *you, tile_loc );
-            if( you->get_moves() <= 0 ) {
-                return;
-            }
-        }
-    }
-    add_msg( m_info, finished_msg );
-    you->activity.set_to_null();
-}
-
-void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character *you )
-{
-    itype_id fertilizer;
-
-    auto have_fertilizer = [&]() {
-        return !fertilizer.is_empty() && you->has_amount( fertilizer, 1 );
-    };
-
-    auto check_fertilizer = [&]( bool ask_user = true ) -> void {
-        if( act->str_values.empty() )
-        {
-            act->str_values.emplace_back( "" );
-        }
-        fertilizer = itype_id( act->str_values[0] );
-
-        /* If unspecified, or if we're out of what we used before, ask */
-        if( ask_user && !have_fertilizer() )
-        {
-            fertilizer = iexamine::choose_fertilizer( *you, "plant",
-                    false /* Don't confirm action with player */ );
-            act->str_values[0] = fertilizer.str();
-        }
-    };
-
-
-    const auto reject_tile = [&]( const tripoint_bub_ms & tile ) {
-        check_fertilizer();
-        ret_val<void> can_fert = iexamine::can_fertilize( *you, tile, fertilizer );
-        return !can_fert.success();
-    };
-
-    const auto fertilize = [&]( Character & you, const tripoint_bub_ms & tile ) {
-        check_fertilizer();
-        if( have_fertilizer() ) {
-            iexamine::fertilize_plant( you, tile, fertilizer );
-            if( !have_fertilizer() ) {
-                add_msg( m_info, _( "You have run out of %s." ), item::nname( fertilizer ) );
-            }
-        }
-    };
-
-    check_fertilizer();
-    if( !have_fertilizer() ) {
-        act->set_to_null();
-        return;
-    }
-
-    perform_zone_activity_turn( you,
-                                zone_type_FARM_PLOT,
-                                reject_tile,
-                                fertilize,
-                                _( "You fertilized every plot you could." ) );
 }
