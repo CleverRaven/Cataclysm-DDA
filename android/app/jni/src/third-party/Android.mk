@@ -2,7 +2,7 @@ include $(CLEAR_VARS)
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/third-party $(LOCAL_PATH)
 
-LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/third-party
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/third-party $(LOCAL_PATH)/third-party/mimalloc
 
 LOCAL_MODULE := third-party
 
