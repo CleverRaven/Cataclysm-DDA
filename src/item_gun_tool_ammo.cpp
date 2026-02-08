@@ -2917,18 +2917,18 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
     }
 
     // Normally efficiency is the chance to get a charge every charge_interval, but if we're catching up from
-    // time spent ouside the reality bubble it should be applied as a percentage of the total instead.
+    // time spent outside the reality bubble it should be applied as a percentage of the total instead.
     bool short_time_passed = turns_elapsed <= link().charge_interval;
 
     if( turns_elapsed < 1 || ( short_time_passed &&
                                !calendar::once_every( time_duration::from_turns( link().charge_interval ) ) ) ) {
-        // To early to get any charge
+        // Too early to get any charge
         return link().charge_rate;
     }
 
     if( power_in ) {
         int available_charges = linked_veh.connected_battery_power_level( here ).first;
-        int wanted_charges = ammo_capacity( itype_battery->ammo->type ) - ammo_remaining( );
+        int wanted_charges = ammo_capacity( ammo_battery ) - ammo_remaining( );
 
         // Nothing to charge or nothing to charge with
         if( wanted_charges == 0 || available_charges == 0 ) {
@@ -2945,8 +2945,9 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
             // Multiple charges - get minimum from available charges, possible transfer in given time and
             // amount of charges destination needs to charge itself to full with given efficiency.
             // Subtract that value from the source and after reduction by efficiency add it to the destination.
-            int possible_transfer = turns_elapsed * 1.0f / link().charge_interval;
-            int required_charges = wanted_charges / link().efficiency;
+            int possible_transfer =
+                static_cast<int>( turns_elapsed * 1.0f / link().charge_interval );
+            int required_charges = static_cast<int>( wanted_charges / link().efficiency );
             int spent_charges = std::min( { possible_transfer, available_charges, required_charges } );
             int deficit = linked_veh.discharge_battery( here, spent_charges, true );
             int actual_spent = spent_charges - deficit;
@@ -2981,8 +2982,9 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
             // Multiple charges - get minimum from available charges, possible transfer in given time and
             // amount of charges destination needs to charge itself to full with given efficiency.
             // Subtract that value from the source and after reduction by efficiency add it to the destination.
-            int possible_transfer = turns_elapsed * 1.0f / link().charge_interval;
-            int required_charges = wanted_charges / link().efficiency;
+            int possible_transfer =
+                static_cast<int>( turns_elapsed * 1.0f / link().charge_interval );
+            int required_charges = static_cast<int>( wanted_charges / link().efficiency );
             int spent_charges = std::min( { possible_transfer, available_charges, required_charges } );
             // Avoid rounding error on full charge
             int received_charges = spent_charges == required_charges
