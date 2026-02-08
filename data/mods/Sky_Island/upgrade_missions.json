@@ -2699,7 +2699,7 @@
         { "u_learn_recipe": "warp_vortex_token" },
         { "u_learn_recipe": "warp_healing_salve" },
         { "u_learn_recipe": "warphaulbag" },
-        { "u_learn_recipe": "sky_island_warped_pond" },
+        { "run_eocs": [ "EOC_grant_pond_recipe" ] },
         {
           "u_message": "You have proved your ability to survive to the island, to the warpstream, and to yourself.\nMore unlockable upgrades will be available as you progress, and you may experience exits and targets in new locations.",
           "type": "mixed"
@@ -2710,6 +2710,12 @@
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_grant_pond_recipe",
+    "condition": { "not": { "mod_is_loaded": "voidblock" } },
+    "effect": [ { "u_learn_recipe": "sky_island_warped_pond" } ]
   },
   {
     "id": "upgradekey_rankup1",
@@ -2773,17 +2779,20 @@
         { "math": [ "islandrank = 4" ] },
         { "u_forget_recipe": "upgradekey_rankup2" },
         { "u_learn_recipe": "warphome" },
-        { "u_learn_recipe": "warp_autodoc_inert" },
+        { "run_eocs": [ "EOC_grant_autodoc_recipe" ] },
         {
           "u_message": "That you are still here, fighting on, makes your determination clear.  This new existence is strange and unpredictable, but you can adapt.  It's how you made it this far, and you're not about to stop now.\nMore unlockable upgrades will be available as you progress, and you may experience exits and targets in new locations.",
           "type": "mixed"
         },
-        {
-          "u_message": "Your mind expands.  You have learned to craft:\nHomeward mote\nAutodoc copyplate\n",
-          "type": "mixed"
-        }
+        { "u_message": "Your mind expands.  You have learned to craft:\nHomeward mote\n", "type": "mixed" }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_grant_autodoc_recipe",
+    "condition": { "not": { "mod_is_loaded": "voidblock" } },
+    "effect": [ { "u_learn_recipe": "warp_autodoc_inert" }, { "u_message": "Autodoc copyplate\n", "type": "mixed" } ]
   },
   {
     "id": "upgradekey_rankup2",

@@ -1,0 +1,35 @@
+[
+  {
+    "type": "palette",
+    "id": "voidblock_underground",
+    "terrain": {
+      ".": "t_rock",
+      " ": "t_dirt_underground",
+      ",": "t_open_air",
+      "X": "t_warprock",
+      ":": "t_rock_floor",
+      "m": "t_moss_underground",
+      "r": "t_water_moving_sh_underground",
+      "R": "t_water_moving_dp_underground",
+      "W": "t_water_dp_underground",
+      "C": "t_rock_coal",
+      "H": "t_rock_halite",
+      "N": "t_rock_niter",
+      "S": "t_rock_brimstone",
+      "U": "t_rock_copper",
+      "A": "t_rock_silver",
+      "G": "t_rock_gold",
+      "L": "t_rock_aluminum",
+      "T": "t_rock_cassiterite",
+      "P": "t_rock_galena",
+      "I": "t_rock_hematite",
+      "o": "t_dirt_underground",
+      "0": "t_dirt_underground",
+      "O": "t_dirt_underground",
+      "x": "t_dirt_underground",
+      ">": "t_slope_up",
+      "<": "t_slope_down"
+    },
+    "furniture": { "o": "f_boulder_small", "0": "f_boulder_medium", "O": "f_boulder_large", "x": "f_rubble_rock" }
+  }
+]

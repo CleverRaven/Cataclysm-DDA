@@ -1,0 +1,184 @@
+[
+  {
+    "result": "log",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_MATERIALS",
+    "id_suffix": "from_tokens",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 s",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_infinitree1", -1 ] ] ],
+    "components": [ [ [ "warptoken_material", 6 ] ] ],
+    "qualities": [
+    {
+      "id": "AXE",
+      "level": 1
+    }
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "2x4",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_MATERIALS",
+    "id_suffix": "from_tokens",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 s",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_infinitree1", -1 ] ] ],
+    "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "qualities": [
+    {
+      "id": "SAW_W",
+      "level": 2
+    }
+    ],
+    "result_mult": 2,
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "stick_long",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_MATERIALS",
+    "id_suffix": "from_tokens",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 s",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "stick_long", -1 ] ] ],
+    "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "withered",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_MATERIALS",
+    "id_suffix": "from_tokens",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 s",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "withered", -1 ] ] ],
+    "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "wood_panel",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_MATERIALS",
+    "id_suffix": "from_tokens",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 s",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_infinitree1", -1 ] ] ],
+    "components": [ [ [ "warptoken_material", 5 ] ] ],
+    "qualities": [
+    {
+      "id": "SAW_W",
+      "level": 2
+    }
+    ],
+    "result_mult": 2,
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "wooden_post_short",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_MATERIALS",
+    "id_suffix": "from_tokens",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 s",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_infinitree1", -1 ] ] ],
+    "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "qualities": [
+    {
+      "id": "SAW_W",
+      "level": 2
+    }
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "wooden_post",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_MATERIALS",
+    "id_suffix": "from_tokens",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 s",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_infinitree1", -1 ] ] ],
+    "components": [ [ [ "warptoken_material", 2 ] ] ],
+    "qualities": [
+    {
+      "id": "SAW_W",
+      "level": 2
+    }
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "wood_beam",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_MATERIALS",
+    "id_suffix": "from_tokens",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 s",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_infinitree1", -1 ] ] ],
+    "components": [ [ [ "warptoken_material", 10 ] ] ],
+    "qualities": [
+    {
+      "id": "SAW_W",
+      "level": 2
+    }
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "cottonwood_tree_boll",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_MATERIALS",
+    "id_suffix": "from_tokens",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 s",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_infinitree1", -1 ] ] ],
+    "components": [ [ [ "warptoken_material", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  }
+]
