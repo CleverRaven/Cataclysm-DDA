@@ -2382,6 +2382,9 @@ void monster::stumble()
     while( !valid_stumbles.empty() && !is_dead() ) {
         const tripoint_bub_ms dest = random_entry_removed( valid_stumbles );
         if( can_move_to( dest ) &&
+            // Don't stumble into dangerous tiles if monster has AVOID_DANGER flag
+            // Makes it do that your pets don't stumble into traps and fireplaces 
+            know_danger_at( &here, dest ) &&
             //Stop zombies and other non-breathing monsters wandering INTO water
             //(Unless they can swim/are aquatic)
             //But let them wander OUT of water if they are there.
