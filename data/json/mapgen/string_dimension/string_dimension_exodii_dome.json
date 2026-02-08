@@ -59,7 +59,9 @@
         "G": "f_exodii_generator_4",
         "L": "f_rack"
       },
-      "computers": { "t": { "name": "Strange Terminal", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_SD_Entrance_Controls" ] } }
+      "computers": {
+        "t": { "name": "Strange Terminal", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_SD_Entrance_Controls" ] }
+      }
     }
   },
   {
