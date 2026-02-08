@@ -363,5 +363,64 @@
     "sub_parts": [ "tail_club_base", "tail_club_center", "tail_club_club" ],
     "smash_message": "You smash %s with your tail.",
     "smash_efficiency": 0.45
+  },
+  {
+    "id": "tail_bovine",
+    "type": "body_part",
+    "name": "cattle tail",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "cattle tail" },
+    "heading": "tail",
+    "heading_multiple": "tails, cattle",
+    "encumbrance_text": "Balance is hampered.",
+    "encumbrance_limit": 15,
+    "hp_bar_ui_text": "C TAIL",
+    "limb_type": "tail",
+    "main_part": "torso",
+    "opposite_part": "tail_bovine",
+    "side": "both",
+    "hit_size": 3,
+    "hit_difficulty": 0.1,
+    "hot_morale_mod": 2,
+    "cold_morale_mod": 2,
+    "wet_morale": -15,
+    "fire_warmth_bonus": 150,
+    "squeamish_penalty": 6,
+    "base_hp": 15,
+    "health_limit": 2,
+    "similar_bodypart": "tail",
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 30,
+        "max_duration": 960
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1.5,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1200
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      }
+    ],
+    "drench_capacity": 300,
+    "bionic_slots": 0,
+    "is_limb": true,
+    "sub_parts": [ "tail_bovine_base", "tail_bovine_center", "tail_bovine_tip" ],
+    "smash_message": "You thwap %s with your tail.",
+    "smash_efficiency": 0.25
   }
 ]
