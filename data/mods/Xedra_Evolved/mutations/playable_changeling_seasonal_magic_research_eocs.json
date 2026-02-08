@@ -917,7 +917,8 @@
         "u_roll_remainder": [
           "changeling_winter_walk_on_water_spell",
           "changeling_winter_freeze_target_in_place_spell",
-          "changeling_winter_walk_in_silence"
+          "changeling_winter_walk_in_silence",
+          "changeling_winter_create_field_of_ice_spell"
         ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
