@@ -1,0 +1,130 @@
+[
+  {
+    "type": "npc",
+    "id": "si_exodii_cbm_merchant",
+    "name_suffix": "Merchant",
+    "class": "NC_SKY_ISLAND_EXODII_CBM_MERCHANT",
+    "name_unique": "┟┰┰┵═┼╧┤",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_SI_EXODII_MERCHANT",
+    "faction": "exodii",
+    "personality": { "aggression": -2, "bravery": 2, "collector": 2, "altruism": -1 }
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SKY_ISLAND_EXODII_CBM_MERCHANT",
+    "name": { "str": "Cyborg, type 1" },
+    "job_description": "I'm a cyborg.",
+    "traits": [
+      { "trait": "EXODII_BODY_1" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "sells_belongings": false,
+    "bonus_str": { "rng": [ 0, 6 ] },
+    "bonus_dex": { "rng": [ 0, 6 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": { "rng": [ 0, 4 ] },
+    "shopkeeper_item_group": [
+      { "group": "EXODII_CBM_Store_Tier1", "rigid": true },
+      { "group": "EXODII_CBM_Store_tier1_extra", "rigid": true },
+      { "group": "EXODII_CBM_Store_Tier2", "rigid": true },
+      {
+        "group": "EXODII_CBM_Store_Tier3",
+        "rigid": true,
+        "strict": true,
+        "condition": { "math": [ "islandrank >= 3" ] }
+      },
+      {
+        "group": "EXODII_CBM_Store_Tier4",
+        "rigid": true,
+        "strict": true,
+        "condition": { "math": [ "islandrank >= 4" ] }
+      }
+    ],
+    "shopkeeper_consumption_rates": "basic_shop_rates",
+    "shopkeeper_whitelist": "si_exodii_cbm_merchant_whitelist",
+    "weapon_override": "si_exodii_cbm_merchant_wield",
+    "carry_override": "si_exodii_cbm_merchant_carried",
+    "worn_override": "EMPTY_GROUP",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": 0 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "mechanics", "bonus": { "one_in": 2 } },
+      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 7, 10 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "speech", "bonus": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "si_exodii_cbm_merchant_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "exodii_plasma_projectile" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "si_exodii_cbm_merchant_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "caotel_plasma_ring" } ]
+  },
+  {
+    "type": "shopkeeper_whitelist",
+    "id": "si_exodii_cbm_merchant_whitelist",
+    "message": "<npcname> jerks their head up and to their right before pointing to a bowl of precious gems.",
+    "entries": [
+      { "item": "pearl" },
+      { "item": "ruby" },
+      { "item": "emerald" },
+      { "item": "sapphire" },
+      { "item": "blue_topaz" },
+      { "item": "alexandrite" },
+      { "item": "amethyst" },
+      { "item": "aquamarine" },
+      { "item": "citrine" },
+      { "item": "diamond" },
+      { "item": "garnet" },
+      { "item": "malachite" },
+      { "item": "onyx" },
+      { "item": "opal" },
+      { "item": "peridot" },
+      { "item": "tourmaline" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SI_EXODII_MERCHANT",
+    "dynamic_line": "*looks up as you approach the merchant stall with a faint hum of what you guess are motors.  Most of their body is somewhat dingy metal carved with a fine series of characters you don't recognize, but a human face is still visible and they have a blue scarf wrapped around their upper right arm.  They nod at you and gesture to a series of devices spread out on the counter.",
+    "responses": [
+      {
+        "text": "Uh, hi?",
+        "topic": "TALK_SI_EXODII_MERCHANT_HELLO",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "u_tried_talking_to_si_exodii_cbm_merchant" } ] } },
+        "effect": { "u_add_var": "u_tried_talking_to_si_exodii_cbm_merchant", "value": "yes" }
+      },
+      { "text": "What've you got for trade?", "effect": "start_trade", "topic": "TALK_SI_EXODII_MERCHANT" },
+      { "text": "Later.  <end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SI_EXODII_MERCHANT_HELLO",
+    "dynamic_line": "*looks at you and then touches two metallic knuckles to the side of their forehead.  They wobble their head from side to side and then say, \"┑└┘┝┝┥┯┄╤╨╱╳╲?  ╪╝╚╋┸┲┹╅.\"  When they're done, they look at you and smile.",
+    "responses": [
+      {
+        "text": "Uh, never mind then.  What've you got for trade?  Trade?  *you gesture at the counter*",
+        "effect": "start_trade",
+        "topic": "TALK_SI_EXODII_MERCHANT"
+      },
+      { "text": "Bye.", "topic": "TALK_DONE" }
+    ]
+  }
+]
