@@ -63,7 +63,7 @@
         "type": "MONSTER",
         "name": {
             "str_sp": "generic vampire",
-            "//~": "NO_I18N"
+            "//~": "NO_I18N",
           "eoc": [ "EOC_VAMPIRE_DRINK_BLOOD", "EOC_FERAL_VAMPIRE_GAIN_RANDOM_BUFF" ]
         },
         {
