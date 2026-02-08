@@ -1,0 +1,86 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DEFAULT_REGION",
+    "stype": "string_input",
+    "value": "nulland"
+  },
+  {
+    "id": "nulland",
+    "copy-from": "default",
+    "type": "region_settings",
+    "rivers": null,
+    "lakes": null,
+    "ocean": null,
+    "ravines": null,
+    "forests": null,
+    "forest_composition": "no_forests",
+    "forest_trails": null,
+    "map_extras": "no_map_extras",
+    "highways": null,
+    "cities": "nulland_city",
+    "urbanity_increase": [ 0, 0, 0, 0 ],
+    "default_oter": [
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "outer_space",
+      "outer_space",
+      "outer_space",
+      "outer_space",
+      "outer_space",
+      "outer_space",
+      "outer_space",
+      "outer_space",
+      "outer_space",
+      "outer_space",
+      "deep_rock"
+    ],
+    "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "LIGHTHOUSE" ] }
+  },
+  {
+    "id": "nulland_city",
+    "copy-from": "default",
+    "type": "region_settings_city",
+    "shop_radius": 50,
+    "shop_sigma": 0,
+    "park_radius": 100,
+    "park_sigma": 0,
+    "houses": [
+      [ "hab_unit_building_1", 3 ],
+      [ "hab_unit_building_2", 3 ],
+      [ "hab_unit_building_3", 6 ],
+      [ "hab_unit_central_building_1", 1 ],
+      [ "hab_unit_central_building_2", 1 ],
+      [ "hab_unit_central_building_3", 2 ]
+    ],
+    "parks": [ [ "park_unit_building", 1 ] ],
+    "shops": [ [ "shop_unit_building", 1 ] ]
+  },
+  {
+    "type": "scenario",
+    "id": "wilderness",
+    "name": "Wilderness",
+    "points": 0,
+    "description": "You find yourself among trees.  The screaming and moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
+    "start_name": "Wilderness",
+    "allowed_locs": [ "sloc_space" ],
+    "reveal_locale": false,
+    "distance_initial_visibility": 0,
+    "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_space",
+    "name": "Space",
+    "terrain": [ "outer_space" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  }
+]

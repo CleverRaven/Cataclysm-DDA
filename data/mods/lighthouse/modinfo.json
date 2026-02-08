@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "lighthouse",
+    "name": "Project Lighthouse",
+    "authors": [ "BalthazarArgall" ],
+    "description": "4D adventures.",
+    "category": "total_conversion",
+    "dependencies": [ "dda" ],
+    "path": "json/"
+  }
+]
