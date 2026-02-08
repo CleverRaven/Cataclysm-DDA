@@ -56,10 +56,11 @@
         ".": [ [ "f_null", 199 ], [ "f_wreckage", 1 ] ],
         "R": "f_wreckage",
         "C": "f_capacitor",
-        "O": "f_exodii_portal_enclosure",
+        "O": "f_exodii_floor_portal_enclosure",
         "G": "f_exodii_generator_4",
         "L": "f_rack"
-      }
+      },
+      "computers": { "t": { "name": "Strange Terminal", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_SD_Entrance_Controls" ] } }
     }
   },
   {
