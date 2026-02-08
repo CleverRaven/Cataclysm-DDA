@@ -38,10 +38,10 @@ concurrency:
 # For github provided runners: https://github.com/actions/runner-images
 # See also our publicized docs about compiler support: https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/c++/COMPILER_SUPPORT.md
 #
-# At the time of writing (June 2025), the feature matrix for the above criteria looks like this:
+# At the time of writing (Jan 2026), the feature matrix for the above criteria looks like this:
 # | name                                 | OS       | compiler | newest/ oldest | tiles | sound | localize | cmake | backtrace | lto | sanitize | mods |
 # | ------------------------------------ | -------- | -------- | -------------- | ----- | ----- | -------- | ----- | --------- | --- | -------- | ---- |
-# | Basic Build and Test                 | ubuntu   | clang-13 | oldest (clang) |       |       | yes      |       |           |     |          | yes  |
+# | Basic Build and Test                 | ubuntu   | clang-14 | oldest (clang) |       |       | yes      |       |           |     |          | yes  |
 # | Clang 18, Ubuntu, Tiles, ASan        | ubuntu   | clang-18 | newest (clang) | yes   |       | yes      |       | yes       |     | address  |      |
 # | GCC 9, Curses, LTO                   | ubuntu   | gcc-9    | oldest   (gcc) |       |       | yes      |       | yes       | yes |          |      |
 # | GCC 14, Ubuntu, Curses               | ubuntu   | gcc-14   | newest   (gcc) |       |       | yes      |       |           |     |          |      |
@@ -96,7 +96,7 @@ jobs:
       max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
       matrix:
         include:
-          - compiler: clang++-13
+          - compiler: clang++-14
             os: ubuntu-22.04
             tiles: 0
             sound: 0
@@ -110,7 +110,7 @@ jobs:
             mods: --mods=magiclysm
             title: Basic Build and Test (Clang oldest supported, Ubuntu, Curses)
             ccache_limit: 4.5G
-            ccache_key: linux-llvm-13
+            ccache_key: linux-llvm-14
 
           - compiler: clang++
             os: macos-15
