@@ -1,0 +1,22 @@
+[
+  {
+    "type": "talk_topic",
+    "//": "uses bastardized ancient Akkadian, because why English?  Maybe could explain it's in cuniform, but fun to see 'strange' words."
+    "id": "COMP_LS_SD_Entrance_Controls",
+    "dynamic_line": "&You see a black computer screen, with blinking green text and a con awaiting input.  It looks controlled by a trackball.\n\n<color_light_green> @Awīlu > _</color>",
+    "responses": [
+      { "text": "Activate exit protocol", "topic": "COMP_LS_SD_Entrance_Controls2" },
+      { "text": "[Step away]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_SD_Entrance_Controls2",
+    "//": "options are 'yes' and 'not yet'"
+    "dynamic_line": "&<color_light_green> @Awīlu > īnu -nērubu -@Awīlu\n<color_light_green>nērub ašram ellam",
+    "responses": [
+      { "text": "[select 'annu']", "effect": { "run_eocs": "EOC_LS_SD_Teleport_to_labyrinth" }, "topic": "TALK_DONE" },
+      { "text": "[select 'adīni lā']", "topic": "COMP_LS_SD_Entrance_Controls" }
+    ]
+  }
+]
