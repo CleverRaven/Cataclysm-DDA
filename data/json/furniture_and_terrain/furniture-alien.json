@@ -326,6 +326,19 @@
   },
   {
     "type": "furniture",
+    "id": "f_exodii_lamp_string_warped",
+    "name": "warped utility light",
+    "description": "This bizarre lamp is only in two dimensions - it has no depth, like an impossibly thin cardboard cutout.  The bulbs emit an eerie greenish glow, and some parts of it have a curved appearance as though the metal were grown in a lab.",
+    "symbol": "T",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "coverage": 5,
+    "required_str": -1,
+    "light_emitted": 90,
+    "flags": [ "TRANSPARENT", "NOITEM" ]
+  },
+  {
+    "type": "furniture",
     "id": "f_exodii_pump",
     "name": "clanking fluid pump",
     "looks_like": "t_machinery_heavy",
@@ -976,5 +989,51 @@
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_utility_shelf_string_warped",
+    "name": "warped utility shelf",
+    "symbol": "{",
+    "description": "What was once a simple heavy-duty plastic and metal shelving unit has been seemingly cleaved in three pieces which now mysteriously float in space in a stair-like pattern, disconnected entirely in space frome one another.",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": -1,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "TRANSPARENT", "SMALL_HIDE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 2, 12 ] },
+        { "item": "pipe", "count": [ 4, 8 ] }
+      ]
+    },
+    "max_volume": "1500 L",
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "plastic_chunk", "count": [ 1, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
+        { "item": "pipe", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_crate_o_string_warped",
+    "name": "glowing metal crate",
+    "description": "This box certainly resembles a large storage crate, but its panels are made up entirely of impossibly thin planes of magenta light.",
+    "symbol": "X",
+    "color": "magenta",
+    "move_cost_mod": 5,
+    "coverage": 80,
+    "required_str": -1,
+    "light_emitted": 40,
+    "max_volume": "1000 L",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "NO_SIGHT", "HIDE_PLACE", "BLOCKSDOOR", "MOUNTABLE", "SMALL_HIDE" ]
   }
 ]

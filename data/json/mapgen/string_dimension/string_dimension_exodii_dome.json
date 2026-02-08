@@ -2,7 +2,7 @@
   {
     "//": "bottom level, labyrinth access",
     "type": "mapgen",
-    "om_terrain": "string_dimension_dome_x2y1z-2",
+    "om_terrain": "string_dimension_dome_x1y1z-2",
     "object": {
       "rows": [
         "           %%%%%%%%%%##.",
@@ -15,7 +15,7 @@
         " %%%%%###CCCCC##...#RR  ",
         " %%%%##..,.,.,R.R.##RRR ",
         " %%%%#...,,,,,..R###RRRR",
-        " %%%##@..,......R###.RRR",
+        " %%%##...,......R###.RRR",
         " %%%#....,.....,,C#G.#R ",
         "%%%%####,,..,,,,.C#G.#% ",
         "%%%%#tO+....,..,,C#G.#% ",
@@ -37,7 +37,6 @@
         "C": "t_scrap_floor",
         "O": "t_scrap_floor",
         "G": "t_scrap_floor",
-        "@": "t_scrap_floor",
         "L": "t_scrap_floor",
         "#": "t_scrap_wall",
         "%": "t_rock",
@@ -64,6 +63,145 @@
     }
   },
   {
+    "//": "bottom level, labyrinth access",
+    "type": "mapgen",
+    "om_terrain": "string_dimension_dome_x2y0z-2",
+    "object": {
+      "rows": [
+        "                        ",
+        " ###                    ",
+        " #                      ",
+        " #...         ##  ...   ",
+        " #..         ##..<..#   ",
+        " #    ..     #......#   ",
+        "               ...      ",
+        "      ##   ###...       ",
+        "   ...   .   ..         ",
+        "   ..       ..          ",
+        "           ..    .      ",
+        "    .   ##..    ...     ",
+        "        #..    ####     ",
+        "        ..              ",
+        "       ..        ...    ",
+        "      ..        L.      ",
+        "     ..                 ",
+        "    ..                  ",
+        "   .....                ",
+        "  ..   ..o#             ",
+        " ...    .o#       .     ",
+        "#..     ..       uuu#   ",
+        "#.                      ",
+        ".                       "
+      ],
+      "terrain": {
+        ".": "t_scrap_floor",
+        "L": "t_scrap_floor",
+        "u": "t_scrap_floor",
+        "o": "t_scrap_floor",
+        "<": "t_stairs_up",
+        "#": "t_scrap_wall",
+        " ": [
+          [ "t_string_void", 194 ],
+          [ "t_string_point_big", 1 ],
+          [ "t_string_point_big", 1 ],
+          [ "t_string_point_small_gray", 2 ],
+          [ "t_string_point_small_gray", 2 ]
+        ]
+      },
+      "furniture": {
+        ".": [ [ "f_null", 199 ], [ "f_wreckage", 1 ] ],
+        "L": "f_exodii_lamp_string_warped",
+        "u": "f_utility_shelf_string_warped",
+        "o": "f_metal_crate_o_string_warped"
+      }
+    }
+  },
+  {
+    "//": "bottom level, labyrinth access",
+    "type": "mapgen",
+    "om_terrain": "string_dimension_dome_x0y2z-2",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     * *                ",
+        "                        ",
+        "        *               ",
+        "   ***                  ",
+        "        *               ",
+        "      *   *             ",
+        "    *  *                ",
+        "                        ",
+        "        *               ",
+        "                        "
+      ],
+      "terrain": {
+        "*": "t_string_z",
+        " ": [
+          [ "t_string_void", 194 ],
+          [ "t_string_point_big", 1 ],
+          [ "t_string_point_big", 1 ],
+          [ "t_string_point_small_gray", 2 ],
+          [ "t_string_point_small_gray", 2 ]
+        ]
+      }
+    }
+  },
+  {
+    "//": "bottom level, labyrinth access",
+    "type": "mapgen",
+    "om_terrain": "string_dimension_dome_z-2",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": [
+          [ "t_string_void", 194 ],
+          [ "t_string_point_big", 1 ],
+          [ "t_string_point_big", 1 ],
+          [ "t_string_point_small_gray", 2 ],
+          [ "t_string_point_small_gray", 2 ]
+        ]
+      }
+    }
+  },
+  {
     "//": "sundered basement level",
     "type": "mapgen",
     "om_terrain": [
@@ -77,7 +215,7 @@
         "   | | | | |      # |          | | | | |          |         | | | | |   ",
         "---+-+-+-+-+-----.#-+----------+-+-+-+-+----------+---------+-+-+-+-+---",
         "   | | | | |     .# |          | | | | |          |         | | ... |   ",
-        "---+-+-+-+-+-----.#-+----------+-+-+-+-+----------+---------+-+...+-+---",
+        "---+-+-+-+-+-----.#-+----------+-+-+-+-+----------+---------+-+..>+-+---",
         "   | | | | |     .D |          | | | | |          |         | |..<| |   ",
         "---+-+-+-+-+-----.#-+----------+-+-+-+-+----------+---------+-...-+-+---",
         "   | | | | |     .# |          | | | | |          |         |D..... |   ",
@@ -155,6 +293,7 @@
         "+": "t_string_xy",
         "H": "t_string_xy",
         "<": "t_stairs_up",
+        ">": "t_stairs_down",
         "D": [ [ "t_door_metal_c", 1 ], [ "t_door_metal_o", 1 ], [ "t_door_metal_locked", 1 ] ],
         " ": [
           [ "t_string_void", 194 ],
