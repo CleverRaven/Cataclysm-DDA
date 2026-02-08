@@ -2185,6 +2185,10 @@ bool monster::melee_attack( Creature &target, float accuracy )
     if( hitspread < 0 ) {
         bool monster_missed = monster_hit_roll < 0.0;
         // Miss
+        if( has_flag( mon_flag_CLUMSY_ATTACKS ) && one_in( 4 ) ) {
+                    add_effect( effect_downed, 2_turns, true );
+                    add_msg_if_player_sees( you, m_info, _( "%s stumbles and falls as it attacks." ), you.disp_name() );
+                }
         if( u_see_my_spot && !target.in_sleep_state() ) {
             if( target.is_avatar() ) {
                 if( monster_missed ) {
@@ -2199,11 +2203,6 @@ bool monster::melee_attack( Creature &target, float accuracy )
                 } else {
                     add_msg( _( "%1$s dodges %2$s attack." ),
                              target.disp_name(), u_see_me ? name() : _( "something" ) );
-                }
-                if( has_flag( mon_flag_CLUMSY_ATTACKS ) && one_in( 4 ) ) {
-                    add_effect( effect_downed, 2_turns, true );
-                    add_msg( _( "%s stumbles and falls as it attacks." ), u_see_me ? disp_name( false,
-                             true ) : _( "Something" ) );
                 }
             }
         } else if( target.is_avatar() ) {
