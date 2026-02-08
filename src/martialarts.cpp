@@ -1439,9 +1439,9 @@ std::vector<matec_id> character_martial_arts::get_all_techniques( const item_loc
         tecs.insert( tecs.end(), weapon_techs.begin(), weapon_techs.end() );
     }
     // If we have any items that also provide techniques
-    const std::vector<const item *> tech_providing_items = u.cache_get_items_with(
+    const std::vector<item_location> tech_providing_items = u.cache_get_items_with(
                 json_flag_PROVIDES_TECHNIQUES );
-    for( const item *it : tech_providing_items ) {
+    for( const item_location &it : tech_providing_items ) {
         const std::set<matec_id> &item_techs = it->get_techniques();
         tecs.insert( tecs.end(), item_techs.begin(), item_techs.end() );
     }

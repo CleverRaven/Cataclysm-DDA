@@ -11,8 +11,8 @@
     "copy-from": "default",
     "ocean_start_north": 10,
     "ocean_start_east": 100,
-    "ocean_start_west": 0,
-    "ocean_start_south": 0
+    "ocean_start_west": null,
+    "ocean_start_south": null
   },
   {
     "type": "region_settings_forest",

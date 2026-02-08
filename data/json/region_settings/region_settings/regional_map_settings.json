@@ -81,7 +81,7 @@
     "ocean_start_north": 500,
     "ocean_start_east": 10,
     "ocean_start_west": 1000,
-    "ocean_start_south": 0,
+    "ocean_start_south": null,
     "sandy_beach_width": 6
   },
   {
@@ -1644,7 +1644,7 @@
   {
     "type": "weather_generator",
     "id": "default",
-    "base_temperature": 6.5,
+    "base_temperature": 11.1,
     "base_humidity": 70.0,
     "base_pressure": 1015.0,
     "base_wind": 3.4,

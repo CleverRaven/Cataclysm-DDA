@@ -1493,6 +1493,7 @@
     "enchantments": [
       {
         "values": [
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 9999 },
           { "value": "STAMINA_REGEN_MOD", "add": 0.1 },
           { "value": "KCAL", "multiply": -100 },
           { "value": "VITAMIN_ABSORB_MOD", "multiply": -100 },
@@ -1752,18 +1753,11 @@
     "id": "VAMPIRE_WEAKNESS_COLD_BLOODED",
     "name": { "str": "Vampiric weakness: cold as a corpse" },
     "points": -1,
-    "description": "You now lack any body heat.  You feel colder at all times, and being cold will slow you down.",
+    "description": "Ambient cold temperature makes you stiff and slow even under winter clothes.  The lower the ambient temperature, the lower your speed.",
     "starting_trait": false,
     "valid": false,
     "purifiable": false,
-    "enchantments": [
-      {
-        "values": [
-          { "value": "CLIMATE_CONTROL_HEAT", "add": -20 },
-          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
-        ]
-      }
-    ],
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "math": [ "temperature_vw_cold_mod(65, 1)" ] } } ] } ],
     "flags": [ "NO_BODY_HEAT" ]
   },
   {

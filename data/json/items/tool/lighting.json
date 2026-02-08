@@ -61,7 +61,7 @@
         "target": "electric_lantern_on",
         "msg": "You turn the lamp on.",
         "need_charges": 1,
-        "need_charges_msg": "The lantern has no batteries."
+        "need_charges_msg": "The batteries are dead."
       },
       { "type": "link_up", "cable_length": 2, "charge_rate": "20 W" }
     ],
@@ -113,7 +113,7 @@
       "msg": "You turn the flashlight on.",
       "target": "flashlight_on",
       "need_charges": 1,
-      "need_charges_msg": "The flashlight's batteries are dead.",
+      "need_charges_msg": "The batteries are dead.",
       "damage_failure_msg": "You press the button on your %s, but nothing happens."
     },
     "pocket_data": [
@@ -175,7 +175,7 @@
       "msg": "You turn the flashlight on.",
       "target": "diving_flashlight_small_on",
       "need_charges": 1,
-      "need_charges_msg": "The flashlight's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "pocket_data": [
       {
@@ -229,7 +229,7 @@
       "msg": "You turn the flashlight on.",
       "target": "diving_flashlight_small_hipower_on",
       "need_charges": 1,
-      "need_charges_msg": "The flashlight's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "pocket_data": [
       {
@@ -284,7 +284,7 @@
         "msg": "You turn the flashlight on.",
         "target": "diving_flashlight_variable_on_hi",
         "need_charges": 1,
-        "need_charges_msg": "The flashlight's batteries are dead."
+        "need_charges_msg": "The batteries are dead."
       },
       {
         "type": "link_up",
@@ -596,7 +596,7 @@
         "msg": "You turn the heavy-duty flashlight on.",
         "target": "heavy_flashlight_on",
         "need_charges": 1,
-        "need_charges_msg": "The heavy-duty flashlight's battery is dead."
+        "need_charges_msg": "The batteries are dead."
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
@@ -833,7 +833,7 @@
       "target": "reading_light_on",
       "msg": "You switch on the reading light.",
       "need_charges": 1,
-      "need_charges_msg": "The reading light winks out.",
+      "need_charges_msg": "The batteries are dead.",
       "type": "transform"
     },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 13 } } ],
@@ -879,7 +879,7 @@
         "target": "smart_lamp_on",
         "msg": "You turn the smart lamp on.",
         "need_charges": 1,
-        "need_charges_msg": "The smart lamp batteries are dead.",
+        "need_charges_msg": "The batteries are dead.",
         "type": "transform"
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "6 W" }
