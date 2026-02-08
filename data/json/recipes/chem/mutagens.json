@@ -1148,11 +1148,11 @@
         "condition": { "u_has_intelligence": 9 },
         "effect": [
           {
-            "u_message": "You realize that from reading this that you need at least one to two more doses of primer than usual to make the irreversible change compared to other mutagens.",
+            "u_message": "You realize from reading this that you need at least one to two more doses of primer than usual to make the irreversible change compared to other mutagens.",
             "type": "mixed"
           }
         ],
-        "false_effect": [ { "u_message": "Yep this is a recipe for some advanced substance.", "type": "mixed" } ]
+        "false_effect": [ { "u_message": "Yep, this is a recipe for some advanced substance.", "type": "mixed" } ]
       }
     ]
   },
