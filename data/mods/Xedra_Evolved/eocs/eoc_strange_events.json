@@ -8,7 +8,19 @@
       "and": [
         { "not": { "u_has_trait": "LILIN_TRAITS" } },
         { "math": [ "u_characters_nearby('radius': 45)", "==", "0" ] },
-        { "not": "u_is_outside" },
+        {
+          "and": [
+            { "not": "u_is_outside" },
+            { "not": "u_is_in_vehicle" },
+            { "not": { "u_is_on_furniture": "f_large_groundsheet" } },
+            { "not": { "u_is_on_furniture": "f_fema_groundsheet" } },
+            { "not": { "u_is_on_furniture": "f_center_groundsheet" } },
+            { "not": { "u_is_on_furniture": "f_groundsheet" } },
+            { "not": { "u_is_on_terrain": "t_improvised_shelter_filled" } },
+            { "not": { "u_is_on_terrain": "t_improvised_shelter" } },
+            { "not": { "u_is_on_terrain": "t_arvore_living_tent" } }
+          ]
+        },
         { "x_in_y_chance": { "x": 1, "y": 2 } },
         { "math": [ "time_since('cataclysm', 'unit':'days')", "<=", "20" ] },
         { "not": { "u_has_effect": "effect_lilin_attack_warning_cooldown" } }
@@ -32,7 +44,19 @@
         { "not": { "u_has_trait": "LILIN_TRAITS" } },
         { "math": [ "u_characters_nearby('radius': 45)", "==", "0" ] },
         { "not": "is_day" },
-        { "not": "u_is_outside" },
+        {
+          "and": [
+            { "not": "u_is_outside" },
+            { "not": "u_is_in_vehicle" },
+            { "not": { "u_is_on_furniture": "f_large_groundsheet" } },
+            { "not": { "u_is_on_furniture": "f_fema_groundsheet" } },
+            { "not": { "u_is_on_furniture": "f_center_groundsheet" } },
+            { "not": { "u_is_on_furniture": "f_groundsheet" } },
+            { "not": { "u_is_on_terrain": "t_improvised_shelter_filled" } },
+            { "not": { "u_is_on_terrain": "t_improvised_shelter" } },
+            { "not": { "u_is_on_terrain": "t_arvore_living_tent" } }
+          ]
+        },
         {
           "x_in_y_chance": {
             "x": {
