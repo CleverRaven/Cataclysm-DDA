@@ -1353,11 +1353,11 @@
     "type": "effect_type",
     "id": "melatonin",
     "name": [ "Melatonin Supplements" ],
-    "desc": [ "You took some melatonin supplements.  These will help with sleep deprivation." ],
-    "max_duration": 100800,
-    "dur_add_perc": 60,
-    "rating": "good",
-    "blood_analysis_description": "Melatonin"
+    "desc": [ "You took some melatonin supplements.  It makes you fall asleep more easily, and you sleep longer." ],
+    "max_duration": "14 h",
+    "rating": "neutral",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 4 }, { "value": "SLEEPINESS", "add": 0.2 } ] } ],
+    "blood_analysis_description": "Elevated sleep hormone levels (Melatonin)"
   },
   {
     "type": "effect_type",

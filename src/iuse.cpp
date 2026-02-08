@@ -201,7 +201,6 @@ static const efftype_id effect_jetinjector( "jetinjector" );
 static const efftype_id effect_lack_sleep( "lack_sleep" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_lying_down( "lying_down" );
-static const efftype_id effect_melatonin( "melatonin" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
@@ -8838,17 +8837,6 @@ std::optional<int> iuse::post_up( Character *p, item *it, const tripoint_bub_ms 
     p->add_msg_if_player( m_good, _( "You put up the %s." ), copy_item.tname() );
 
     return 0;
-}
-
-std::optional<int> iuse::melatonin_tablet( Character *p, item *it, const tripoint_bub_ms & )
-{
-    p->add_msg_if_player( _( "You pop a %s." ), it->tname() );
-    if( p->has_effect( effect_melatonin ) ) {
-        p->add_msg_if_player( m_warning,
-                              _( "Simply taking more melatonin won't help.  You have to go to sleep for it to work." ) );
-    }
-    p->add_effect( effect_melatonin, 16_hours );
-    return 1;
 }
 
 std::optional<int> iuse::coin_flip( Character *p, item *it, const tripoint_bub_ms & )
