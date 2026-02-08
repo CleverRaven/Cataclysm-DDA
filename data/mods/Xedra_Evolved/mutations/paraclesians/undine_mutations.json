@@ -138,8 +138,9 @@
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Undine learns how to convert salt water into freshwater and vice versa.",
+    "description": "Upon gaining this ability the Undine learns how to convert salt water into freshwater and vice versa.  The undine may also manipulate liquids, no longer needing pots to boil or hold them while crafting.",
     "category": [ "UNDINE" ],
+    "provided_qualities": { "BOIL": 2, "CONTAIN": 1, "CHEM": 1 },
     "purifiable": false
   },
   {
