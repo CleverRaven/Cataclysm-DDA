@@ -18,6 +18,11 @@
     "base_hp": 90,
     "limb_scores": [ [ "grip", 0 ], [ "manip", 0.1, 0.5 ], [ "swim", 0 ] ],
     "bionic_slots": 0,
+    "qualities": [
+      { "quality": "BUTCHER", "level": -4, "disable_percent": 0.5 },
+      { "quality": "PRY", "level": 1, "disable_percent": 0.5 },
+      { "quality": "HAMMER", "level": 1, "disable_percent": 0.5 }
+    ],
     "smash_message": "You smash the %s with your pincer.",
     "smash_efficiency": 2,
     "sub_parts": [ "crustacean_pincer_wrist_r", "crustacean_pincer_claws_r" ],
