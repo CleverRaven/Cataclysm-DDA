@@ -971,7 +971,7 @@ void monster::move()
         return;
     }
     if( has_effect( effect_stunned ) || has_effect( effect_psi_stunned ) ) {
-        stumble();
+        stumble_involuntary();
         moves = 0;
         return;
     }
@@ -2391,6 +2391,48 @@ void monster::stumble()
             !( avoid_water &&
                here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest ) &&
                !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ) &&
+            ( creatures.creature_at( dest, is_hallucination() ) == nullptr ) ) {
+            if( move_to( dest, true, false ) ) {
+                break;
+            }
+        }
+    }
+}
+
+/**
+ * Forced stumble in a random direction
+ */
+void monster::stumble_involuntary()
+{
+    add_msg_debug( debugmode::DF_MONMOVE, "%s starting monmove::stumble_involuntary", name() );
+    // Only move every 10 turns.
+    if( !one_in( 10 ) ) {
+        return;
+    }
+
+    map &here = get_map();
+    std::vector<tripoint_bub_ms> valid_stumbles;
+    valid_stumbles.reserve( 11 );
+    for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1 ) ) {
+        if( dest != pos_bub() ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
+                valid_stumbles.emplace_back( dest + tripoint::below );
+            } else  if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
+                valid_stumbles.emplace_back( dest + tripoint::above );
+            } else {
+                valid_stumbles.push_back( dest );
+            }
+        }
+    }
+    const tripoint_bub_ms below( pos_bub() + tripoint::below );
+    if( here.valid_move( pos_bub(), below, false, true ) ) {
+        valid_stumbles.push_back( below );
+    }
+
+    creature_tracker &creatures = get_creature_tracker();
+    while( !valid_stumbles.empty() && !is_dead() ) {
+        const tripoint_bub_ms dest = random_entry_removed( valid_stumbles );
+        if( can_move_to( dest ) &&
             ( creatures.creature_at( dest, is_hallucination() ) == nullptr ) ) {
             if( move_to( dest, true, false ) ) {
                 break;
