@@ -368,8 +368,8 @@
   {
     "type": "jmath_function",
     "id": "lucid_dreaming_proficiency_modifier",
-    "num_args": 1,
-    "return": "( (u_proficiency('prof_lucid_dreaming', 'format': 'percent') / 1000) ) * _0"
+    "num_args": 0,
+    "return": "1 + ( ( (u_proficiency('prof_lucid_dreaming', 'format': 'percent') / 1000) ) * 3)"
   },
   {
     "id": "xe_nether_sorcery_failure_chance",

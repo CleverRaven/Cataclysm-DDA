@@ -187,6 +187,28 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "dream_bezoar",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "chemistry",
+    "skills_required": [ "deduction", 1 ],
+    "difficulty": 2,
+    "time": "24 m",
+    "flags": [ "SECRET" ],
+    "book_learn": [ [ "mag_deduction_tabloid", 2 ], [ "mag_deduction", 1 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [
+      [ [ "bezoar", 1 ] ],
+      [ [ "mugwort", 3 ] ],
+      [ [ "water_clean", 1 ] ],
+      [ [ "chem_ethanol", 100 ] ],
+      [ [ "lotus_blossom", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "spiritshow_dust",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ALCHEMY",
