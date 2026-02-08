@@ -127,7 +127,7 @@ bool activity_handlers::resume_for_multi_activities( Character &you )
     if( !you.backlog.empty() ) {
         player_activity &back_act = you.backlog.front();
         if( back_act.is_multi_type() ) {
-            assign_multi_activity( you, back_act );
+            you.assign_activity( back_act );
             you.backlog.pop_front();
             return true;
         }

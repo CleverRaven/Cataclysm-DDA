@@ -161,6 +161,7 @@ static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
 static const activity_id ACT_E_FILE( "ACT_E_FILE" );
+static const activity_id ACT_FERTILIZE_PLANT( "ACT_FERTILIZE_PLANT" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
@@ -9453,6 +9454,81 @@ std::unique_ptr<activity_actor> churn_activity_actor::deserialize( JsonValue &js
     return actor.clone();
 }
 
+void fertilize_plant_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( initial_moves );
+    act.moves_left = act.moves_total;
+}
+
+void fertilize_plant_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( !fertilizer.is_valid() ) {
+        return;
+    }
+
+    map &here = get_map();
+
+    std::list<item> planted;
+    if( fertilizer->count_by_charges() ) {
+        planted = who.use_charges( fertilizer, 1 );
+    } else {
+        planted = who.use_amount( fertilizer, 1 );
+    }
+
+    // Reduce the amount of time it takes until the next stage of the plant by
+    // 20% of a seasons length. (default 2.8 days).
+    const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
+
+    // Can't use item_stack::only_item() since there might be fertilizer
+    map_stack items = here.i_at( plant_position );
+    const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+        return it.is_seed();
+    } );
+    if( seed == items.end() ) {
+        debugmsg( "Missing seed for plant at %s", plant_position.to_string() );
+        here.i_clear( plant_position );
+        here.furn_set( plant_position, furn_str_id::NULL_ID() );
+        return;
+    }
+
+    // TODO: item should probably clamp the value on its own
+    seed->set_birthday( seed->birthday() - fertilizerEpoch );
+    // The plant furniture has the NOITEM token which prevents adding items on that square,
+    // spawned items are moved to an adjacent field instead, but the fertilizer token
+    // must be on the square of the plant, therefore this hack:
+    const furn_id &old_furn = here.furn( plant_position );
+    here.furn_set( plant_position, furn_str_id::NULL_ID() );
+    here.spawn_item( plant_position, fertilizer, 1, 1, calendar::turn );
+    here.furn_set( plant_position, old_furn );
+
+    //~ %1$s: plant name, %2$s: fertilizer name
+    add_msg( m_info, _( "You fertilize the %1$s with the %2$s." ), seed->get_plant_name(),
+             planted.front().tname() );
+
+    act.set_to_null();
+    activity_handlers::resume_for_multi_activities( who );
+}
+
+void fertilize_plant_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "plant_position", plant_position );
+    jsout.member( "fertilizer", fertilizer );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> fertilize_plant_activity_actor::deserialize( JsonValue &jsin )
+{
+    fertilize_plant_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "plant_position", actor.plant_position );
+    data.read( "fertilizer", actor.fertilizer );
+
+    return actor.clone();
+}
+
 activity_reason_info multi_farm_activity_actor::multi_activity_can_do(
     Character &you, const tripoint_bub_ms &src_loc )
 {
@@ -13118,6 +13194,7 @@ deserialize_functions = {
     { ACT_DROP, &drop_activity_actor::deserialize },
     { ACT_E_FILE, &efile_activity_actor::deserialize },
     { ACT_EBOOKSAVE, &ebooksave_activity_actor::deserialize },
+    { ACT_FERTILIZE_PLANT, &fertilize_plant_activity_actor::deserialize },
     { ACT_FETCH_REQUIRED, &fetch_required_activity_actor::deserialize },
     { ACT_FIELD_DRESS, &butchery_activity_actor::deserialize },
     { ACT_FIRSTAID, &firstaid_activity_actor::deserialize },

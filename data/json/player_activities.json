@@ -811,6 +811,13 @@
     "based_on": "time"
   },
   {
+    "id": "ACT_FERTILIZE_PLANT",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "fertilizing plants",
+    "based_on": "time"
+  },
+  {
     "id": "ACT_SHAVE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
