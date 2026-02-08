@@ -21,6 +21,14 @@ if (MSVC)
     )
 endif()
 
+if (NOT WARN_STALE_DATA)
+    set_source_files_properties(
+        ${CMAKE_CURRENT_SOURCE_DIR}/flexbuffer_cache.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/options.cpp
+        PROPERTIES COMPILE_DEFINITIONS NO_STALE_DATA_WARN
+    )
+endif()
+
 list(REMOVE_ITEM CATACLYSM_DDA_SOURCES ${MAIN_CPP} ${MESSAGES_CPP})
 
 file(GLOB CATACLYSM_DDA_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.h)

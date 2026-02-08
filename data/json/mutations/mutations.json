@@ -5795,7 +5795,7 @@
     "vitamin_cost": 90,
     "visibility": 8,
     "ugliness": 6,
-    "butchering_quality": 4,
+    "provided_qualities": { "BUTCHER": 4 },
     "integrated_armor": [ "integrated_mandibles" ],
     "attacks": {
       "attack_text_u": "You bite %s with your fangs!",
