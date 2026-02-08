@@ -2347,7 +2347,7 @@ bool monster::push_to( const tripoint_bub_ms &p, const int boost, const size_t d
 }
 
 /**
- * Stumble in a random direction, but with some caveats.
+ * Wander in a random direction, but with some caveats.
  */
 void monster::stumble()
 {
@@ -2382,8 +2382,7 @@ void monster::stumble()
     while( !valid_stumbles.empty() && !is_dead() ) {
         const tripoint_bub_ms dest = random_entry_removed( valid_stumbles );
         if( can_move_to( dest ) &&
-            // Don't stumble into dangerous tiles if monster has AVOID_DANGER flag
-            // Makes it so that your pets don't stumble into traps and fireplaces
+            // Don't wander into dangerous tiles if monster has AVOID_DANGER flag
             know_danger_at( &here, dest ) &&
             //Stop zombies and other non-breathing monsters wandering INTO water
             //(Unless they can swim/are aquatic)
