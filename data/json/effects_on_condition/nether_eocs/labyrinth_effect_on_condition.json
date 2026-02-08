@@ -19,9 +19,32 @@
         "target_max_radius": 20,
         "x_adjust": 1
       },
+      { "assign_mission": "LS_return_home" },
       { "u_teleport": { "global_val": "original_labyrinth_portal_loc" }, "fail_message": "Nope!", "force": true },
       { "u_message": "Zwoink.", "popup": true }
     ]
+  },
+  {
+    "id": "LS_return_home",
+    "type": "mission_definition",
+    "name": { "str": "Return home from the Labyrinth" },
+    "description": "I think I can use the computer terminal near the entrance.",
+    "goal": "MGOAL_CONDITION",
+    "difficulty": 2,
+    "value": 0,
+    "start": { "assign_mission_target": { "global_val": "original_labyrinth_portal_loc" } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": ".",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
+      "inquire": ".",
+      "success": ".",
+      "success_lie": ".",
+      "failure": "."
+    }
   },
   {
     "type": "effect_on_condition",
@@ -42,6 +65,7 @@
         "success_message": "Your surroundings warp and fold into the recesses of the world you know."
       },
       { "u_teleport": { "u_val": "player_location_before_labyrinth" }, "force": true },
+      { "clear_mission": "LS_return_home" },
       { "u_message": "Zworunk", "popup": true }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
