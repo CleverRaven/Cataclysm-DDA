@@ -72,7 +72,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_garage", "s_garage_1", "s_garage_2" ],
+    "id": [ "s_garage", "s_garage_1", "s_garage_2", "s_garage_kill" ],
     "copy-from": "generic_city_building",
     "name": "garage",
     "sym": "O",
@@ -81,7 +81,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_garage_roof", "s_garage_roof_1", "s_garage_roof_2", "s_garage_upper_roof_2" ],
+    "id": [ "s_garage_roof", "s_garage_roof_1", "s_garage_roof_2", "s_garage_upper_roof_2", "s_garage_kill_roof" ],
     "copy-from": "generic_city_building",
     "name": "garage roof",
     "sym": "O",
