@@ -2349,6 +2349,14 @@
     "requirements": [  ]
   },
   {
+    "id": "achievement_reach_string_dimension",
+    "type": "achievement",
+    "name": "String Theory",
+    "manually_given": true,
+    "description": "Reach the dimension of sundered spacetime, and live to tell the tale.",
+    "requirements": [  ]
+  },
+  {
     "id": "achievement_LIXA_finale",
     "type": "achievement",
     "name": { "str": "Trigintaduonion" },

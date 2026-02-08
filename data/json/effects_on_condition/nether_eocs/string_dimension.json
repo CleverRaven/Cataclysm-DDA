@@ -81,7 +81,8 @@
         "success_message": "Your surroundings warp and fold into the recesses of the world you know."
       },
       { "u_location_variable": { "context_val": "player_teleport_loc" }, "z_adjust": 0, "z_override": true },
-      { "u_teleport": { "context_val": "player_teleport_loc" } }
+      { "u_teleport": { "context_val": "player_teleport_loc" } },
+      { "give_achievement": "achievement_reach_string_dimension" }
     ],
     "false_effect": [
       {
