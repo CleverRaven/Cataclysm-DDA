@@ -57,7 +57,6 @@
           "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ],
           "eoc": [ "EOC_VAMPIRE_DRINK_BLOOD", "EOC_FERAL_VAMPIRE_DRINK_GAIN_RANDOM_BUFF" ]
         },
-
     {
         "abstract": "mon_vampire_generic",
         "type": "MONSTER",
