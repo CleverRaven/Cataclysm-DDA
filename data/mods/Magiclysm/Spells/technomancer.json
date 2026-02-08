@@ -829,7 +829,7 @@
     "min_range": 1,
     "magic_type": "magiclysm_channeling_magic",
     "base_energy_cost": 500,
-    "base_casting_time": 1440000
+    "base_casting_time": 720000
   },
   {
     "id": "technomancer_gain_electronics_computer_spell",
