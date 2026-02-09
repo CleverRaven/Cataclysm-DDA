@@ -972,29 +972,13 @@ TEST_CASE( "widgets_showing_Sun_and_Moon_position", "[widget]" )
     time_point tp( calendar::turn_zero );
     set_time( tp );
     sundial_w._width = 9;
-    CHECK( sundial_w.layout( ava ) ==
-           "SKY: [<color_c_white> </color><color_c_white> </color>"
-           "<color_c_white>🌑</color><color_c_white> </color><color_c_white> </color>"
-           "<color_c_white> </color><color_c_white> </color>]" );
+    CHECK( sundial_w.layout( ava ) == "SKY: [<color_c_white>  ○    </color>]" );
     sundial_w._width = 15;
-    CHECK( sundial_w.layout( ava ) ==
-           "SKY: [<color_c_white> </color><color_c_white> </color>"
-           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
-           "<color_c_white>🌑</color><color_c_white> </color><color_c_white> </color>"
-           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
-           "<color_c_white> </color><color_c_white> </color>]" );
+    CHECK( sundial_w.layout( ava ) == "SKY: [<color_c_white>     ○       </color>]" );
     sundial_w._width = 20;
-    CHECK( sundial_w.layout( ava ) ==
-           "SKY: [<color_c_white> </color><color_c_white> </color>"
-           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
-           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
-           "<color_c_white>🌑</color><color_c_white> </color><color_c_white> </color>"
-           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
-           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
-           "<color_c_white> </color>]" );
+    CHECK( sundial_w.layout( ava ) == "SKY: [<color_c_white>        ○         </color>]" );
     ava.set_pos_abs_only( { 0, 0, -1 } );
-    CHECK( sundial_w.layout( ava ) ==
-           R"(SKY: [??????????????????])" );
+    CHECK( sundial_w.layout( ava ) == "SKY: [??????????????????]" );
 
     // 02:00
     ava.set_pos_abs_only( orig_pos );

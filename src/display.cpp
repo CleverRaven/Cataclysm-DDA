@@ -310,6 +310,8 @@ std::string display::sundial_text_color( const Character &u, int width )
     if( !can_creature_see_sky( u ) ) {
         ret += ( width > 0 ? std::string( width, '?' ) : "" );
     } else {
+        nc_color current_clr = c_white;
+        std::string chars = "";
         for( int i = 0; i < width; i++ ) {
             std::string ch = " ";
             nc_color clr = c_white;
@@ -329,8 +331,15 @@ std::string display::sundial_text_color( const Character &u, int width )
             } else if( i == moon_pos_idx ) {
                 ch = moon_phases[get_moon_phase( calendar::turn )];
             }
-            ret += colorize( ch, clr );
+
+            if( clr != current_clr ) {
+                ret += colorize( chars, current_clr );
+                current_clr = clr;
+                chars = "";
+            }
+            chars += ch;
         }
+        ret += colorize( chars, current_clr );
     }
     return ret + "]";
 }
