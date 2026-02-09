@@ -3406,7 +3406,8 @@ void basecamp::start_crafting( const mission_id &miss_id )
                                   0_hours, guy_to_send );
     if( comp != nullptr ) {
         components.consume_components();
-        for( const item &results : making->create_results( num_to_make ) ) {
+        item_components used = components.consumed_components();
+        for( const item &results : making->create_results( num_to_make, &used ) ) {
             comp->companion_mission_inv.add_item( results );
         }
         for( const item &byproducts : making->create_byproducts( num_to_make ) ) {
