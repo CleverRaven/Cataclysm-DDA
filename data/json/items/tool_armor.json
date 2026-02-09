@@ -2258,7 +2258,7 @@
           { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 2 }
         ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 100,
         "encumbrance": 37
       },
@@ -2372,7 +2372,7 @@
           { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 },
           { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1 }
         ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 100,
         "encumbrance": 38
       },
@@ -2441,7 +2441,7 @@
     "armor": [
       {
         "material": [ { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 } ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 100,
         "encumbrance": 35
       }
