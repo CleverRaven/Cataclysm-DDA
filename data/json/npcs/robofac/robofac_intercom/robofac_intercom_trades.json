@@ -441,10 +441,7 @@
       {
         "text": "[Deposit a \"stable portal\" datasheet.]",
         "condition": {
-          "and": [
-            { "u_has_items": { "item": "HEW_printout_data_portal", "count": 1 } },
-            { "math": [ "HEW_portal_data_sold < 1" ] }
-          ]
+          "and": [ { "u_has_items": { "item": "HEW_printout_data_portal", "count": 1 } }, { "math": [ "HEW_portal_data_sold < 1" ] } ]
         },
         "effect": [
           { "u_consume_item": "HEW_printout_data_portal", "count": 1, "popup": true },
