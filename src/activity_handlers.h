@@ -156,13 +156,6 @@ struct activity_reason_info {
     }
 };
 
-// activity_item_handling.cpp
-void activity_on_turn_drop();
-// return true if there is an activity that can be done potentially
-// return false if no work can be found or if we're routing to the activity's next destination
-bool generic_multi_activity_handler( player_activity &act, Character &you,
-                                     bool check_only = false );
-void activity_on_turn_fetch( player_activity &, Character *you );
 int get_auto_consume_moves( Character &you, bool food );
 bool try_fuel_fire( player_activity &act, Character &you, bool starting_fire = false );
 

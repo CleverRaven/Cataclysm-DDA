@@ -22,7 +22,6 @@
 
 #include "active_item_cache.h"
 #include "activity_actor_definitions.h"
-#include "activity_handlers.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -3439,9 +3438,6 @@ bool npc::find_job_to_perform()
         } else if( elem == ACT_MULTIPLE_BUTCHER ) {
             assign_activity( multi_butchery_activity_actor() );
             return true;
-        } else if( generic_multi_activity_handler( scan_act, *this->as_character(), true ) ) {
-            assign_activity( elem );
-            return true;
         }
     }
     return false;
@@ -4138,16 +4134,6 @@ bool npc::can_do_pulp()
 bool npc::do_player_activity()
 {
     int old_moves = moves;
-    if( moves > 200 && activity && activity.is_multi_type() ) {
-        // a huge backlog of a multi-activity type can forever loop
-        // instead; just scan the map ONCE for a task to do, and if it returns false
-        // then stop scanning, abandon the activity, and kill the backlog of moves.
-        if( !generic_multi_activity_handler( activity, *this->as_character(), true ) ) {
-            revert_after_activity();
-            set_moves( 0 );
-            return true;
-        }
-    }
     // the multi-activity types can sometimes cancel the activity, and return without using up any moves.
     // ( when they are setting a destination etc. )
     // normally this isn't a problem, but in the main game loop, if the NPC has a huge backlog of moves;

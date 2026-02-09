@@ -15,7 +15,6 @@
 
 class item_location;
 class player_activity;
-class vehicle;
 class vpart_reference;
 class zone_data;
 class zone_manager;
