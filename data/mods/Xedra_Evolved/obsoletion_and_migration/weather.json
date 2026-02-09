@@ -6,7 +6,7 @@
     "color": "dark_gray",
     "map_color": "i_blue",
     "sym": "%",
-    "sun_sym": "⚫️",
+    "sun_sym": "☉",
     "ranged_penalty": 0,
     "sight_penalty": 1.0,
     "light_modifier": -145,

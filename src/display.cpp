@@ -226,8 +226,8 @@ std::string display::sundial_time_text_color( const Character &u, int width )
 
 std::string display::sundial_text_color( const Character &u, int width )
 {
-    const std::vector<std::string > moon_phases { "🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘" };
-
+    // Not using "correct" symbols, 🌖 and so forth, because they're not in unifont.
+    const std::vector<std::string > moon_phases { "○", "☽", "◐", "◕", "●", "◕", "◑ ", "☾" };
     auto left_right_highlight_index = []( int azm_idx, int covers, int width ) {
         // Indexes to cover `covers` places centered around `azm_idx` but slide the cover indexes
         // so that they stay within 0 to `width`. Use this to color the sky proportional to how much
@@ -325,11 +325,9 @@ std::string display::sundial_text_color( const Character &u, int width )
             }
 
             if( i == sun_pos_idx ) {
-                ch = "\uFE0E";
-                ch += weather.weather_id->get_sun_symbol();
+                ch = weather.weather_id->get_sun_symbol();
             } else if( i == moon_pos_idx ) {
-                ch = "\uFE0E";
-                ch += moon_phases[get_moon_phase( calendar::turn )];
+                ch = moon_phases[get_moon_phase( calendar::turn )];
             }
             ret += colorize( ch, clr );
         }
