@@ -12,16 +12,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "full_basic_lab_roof",
-    "name": "science lab roof",
-    "vision_levels": "roof_or_air",
-    "sym": "L",
-    "color": "blue",
-    "see_cost": "all_clear",
-    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "lab_stairs",
     "vision_levels": "underground_stone",
     "name": "science lab",
