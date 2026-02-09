@@ -246,7 +246,7 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 1 } ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 85,
         "encumbrance": 0
       }
@@ -284,7 +284,7 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 1 } ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 85,
         "encumbrance": 0
       }
@@ -322,7 +322,7 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 5 } ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 85,
         "encumbrance": 0
       }
@@ -360,7 +360,7 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 3 } ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 85,
         "encumbrance": 0
       }
@@ -398,7 +398,7 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 3 } ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 85,
         "encumbrance": 0
       }
@@ -436,7 +436,7 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 2 } ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 85,
         "encumbrance": 0
       }
@@ -468,7 +468,7 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 2 } ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 85,
         "encumbrance": 0
       }
