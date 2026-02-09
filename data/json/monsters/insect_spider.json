@@ -57,7 +57,7 @@
     "dissect": "dissect_troglobite_sample_small",
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SMELLS", "HEARS", "GOODHEARING", "BASHES", "BORES", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL" ],
+    "flags": [ "SMELLS", "HEARS", "GOODHEARING", "BASHES", "BORES", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL", "ACID_BLOOD" ],
     "armor": { "bash": 6, "electric": 3 }
   },
   {
@@ -2616,6 +2616,7 @@
     "flags": [
       "ACIDPROOF",
       "SHORTACIDTRAIL",
+      "ACID_BLOOD",
       "HEARS",
       "POISON",
       "SEES",

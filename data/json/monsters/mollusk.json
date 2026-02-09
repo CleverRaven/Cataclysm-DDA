@@ -119,7 +119,7 @@
     "special_attacks": [ [ "ACID", 10 ], [ "GRAZE", 130 ], [ "BROWSE", 130 ], [ "EAT_CROP", 130 ] ],
     "anger_triggers": [ "HURT" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "SMELLS", "BASHES", "ACIDPROOF", "ACIDTRAIL", "EATS" ],
+    "flags": [ "SEES", "SMELLS", "BASHES", "ACIDPROOF", "ACIDTRAIL", "EATS", "ACID_BLOOD" ],
     "armor": { "bash": 2, "cut": 8, "bullet": 5, "electric": 3 }
   },
   {
@@ -215,7 +215,7 @@
     "special_attacks": [ [ "ACID", 10 ], [ "GRAZE", 130 ], [ "BROWSE", 130 ], [ "EAT_CROP", 130 ] ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "SMELLS", "BASHES", "ACIDPROOF", "ACIDTRAIL", "EATS" ],
+    "flags": [ "SEES", "SMELLS", "BASHES", "ACIDPROOF", "ACIDTRAIL", "EATS", "ACID_BLOOD" ],
     "armor": { "bash": 8, "cut": 2, "bullet": 2, "electric": 3 }
   },
   {
