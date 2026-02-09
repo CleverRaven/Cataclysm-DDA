@@ -158,13 +158,6 @@ std::optional<requirement_id> vehicle_work_requirements( Character &you,
 
 //general function for non-specific multi activities
 std::unordered_set<tripoint_abs_ms> generic_locations( Character &you, const activity_id &act_id );
-std::unordered_set<tripoint_abs_ms> construction_locations( Character &you,
-        const activity_id &act_id );
-std::unordered_set<tripoint_abs_ms> read_locations( Character &you, const activity_id &act_id );
-std::unordered_set<tripoint_abs_ms> study_locations( Character &you, const activity_id &act_id );
-std::unordered_set<tripoint_abs_ms> craft_locations( Character &you, const activity_id &act_id );
-std::unordered_set<tripoint_abs_ms> fish_locations( Character &you, const activity_id &act_id );
-std::unordered_set<tripoint_abs_ms> mop_locations( Character &you, const activity_id &act_id );
 void prune_same_tile_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set );
 void prune_dark_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set,
                            const activity_id &act_id );

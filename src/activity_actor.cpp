@@ -2619,12 +2619,6 @@ std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
-std::unordered_set<tripoint_abs_ms> multi_read_activity_actor::multi_activity_locations(
-    Character &you )
-{
-    return multi_activity_actor::read_locations( you, get_type() );
-}
-
 bool multi_read_activity_actor::multi_activity_do( Character &you,
         const activity_reason_info &act_info,
         const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
@@ -2636,12 +2630,6 @@ std::unique_ptr<activity_actor> multi_read_activity_actor::deserialize( JsonValu
 {
     multi_read_activity_actor actor;
     return actor.clone();
-}
-
-std::unordered_set<tripoint_abs_ms> multi_study_activity_actor::multi_activity_locations(
-    Character &you )
-{
-    return multi_activity_actor::study_locations( you, get_type() );
 }
 
 bool multi_study_activity_actor::multi_activity_do( Character &you,
@@ -5868,12 +5856,6 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonValue &js
     return actor.clone();
 }
 
-std::unordered_set<tripoint_abs_ms> multi_craft_activity_actor::multi_activity_locations(
-    Character &you )
-{
-    return multi_activity_actor::craft_locations( you, get_type() );
-}
-
 bool multi_craft_activity_actor::multi_activity_do( Character &you,
         const activity_reason_info &act_info,
         const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
@@ -8173,13 +8155,6 @@ std::unique_ptr<activity_actor> build_construction_activity_actor::deserialize( 
     return actor.clone();
 }
 
-std::unordered_set<tripoint_abs_ms>
-multi_build_construction_activity_actor::multi_activity_locations(
-    Character &you )
-{
-    return multi_activity_actor::construction_locations( you, get_type() );
-}
-
 bool multi_build_construction_activity_actor::multi_activity_do( Character &you,
         const activity_reason_info &act_info,
         const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
@@ -10251,12 +10226,6 @@ std::unique_ptr<activity_actor> mop_activity_actor::deserialize( JsonValue &jsin
     data.read( "moves", actor.moves );
 
     return actor.clone();
-}
-
-std::unordered_set<tripoint_abs_ms> multi_mop_activity_actor::multi_activity_locations(
-    Character &you )
-{
-    return multi_activity_actor::mop_locations( you, get_type() );
 }
 
 bool multi_mop_activity_actor::multi_activity_do( Character &you,

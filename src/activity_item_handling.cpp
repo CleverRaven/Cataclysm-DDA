@@ -3187,10 +3187,8 @@ void prune_dangerous_field_locations( std::unordered_set<tripoint_abs_ms> &src_s
     }
 }
 
-// for any multi activity without a specified function below
 std::unordered_set<tripoint_abs_ms> generic_locations( Character &you, const activity_id &act_id )
 {
-
     zone_manager &mgr = zone_manager::get_manager();
     std::unordered_set<tripoint_abs_ms> src_set;
 
@@ -3200,7 +3198,7 @@ std::unordered_set<tripoint_abs_ms> generic_locations( Character &you, const act
 
     // prune the set to remove tiles that are never gonna work out.
     multi_activity_actor::prune_dangerous_field_locations( src_set );
-    if( !can_do_in_dark( act_id ) ) {
+    if( !multi_activity_actor::can_do_in_dark( act_id ) ) {
         multi_activity_actor::prune_dark_locations( you, src_set, act_id );
     }
     return src_set;
@@ -3209,20 +3207,25 @@ std::unordered_set<tripoint_abs_ms> generic_locations( Character &you, const act
 std::unordered_set<tripoint_abs_ms> no_same_tile_locations( Character &you,
         const activity_id &act_id )
 {
-    std::unordered_set<tripoint_abs_ms> src_set = generic_locations( you, act_id );
-    prune_same_tile_locations( you, src_set );
+    std::unordered_set<tripoint_abs_ms> src_set = multi_activity_actor::generic_locations( you,
+            act_id );
+    multi_activity_actor::prune_same_tile_locations( you, src_set );
 
     return src_set;
 }
 
-std::unordered_set<tripoint_abs_ms> construction_locations( Character &you,
-        const activity_id &act_id )
-{
+} // namespace multi_activity_actor
 
+std::unordered_set<tripoint_abs_ms>
+multi_build_construction_activity_actor::multi_activity_locations(
+    Character &you )
+{
+    const activity_id act_id = get_type();
     map &here = get_map();
 
     // multiple construction will form a list of targets based on blueprint zones and unfinished constructions
-    std::unordered_set<tripoint_abs_ms> src_set = generic_locations( you, act_id );
+    std::unordered_set<tripoint_abs_ms> src_set = multi_activity_actor::generic_locations( you,
+            act_id );
     for( const tripoint_bub_ms &elem : here.points_in_radius( you.pos_bub(), MAX_VIEW_DISTANCE ) ) {
         partial_con *pc = here.partial_con_at( elem );
         if( pc ) {
@@ -3236,9 +3239,10 @@ std::unordered_set<tripoint_abs_ms> construction_locations( Character &you,
     return src_set;
 }
 
-std::unordered_set<tripoint_abs_ms> read_locations( Character &you, const activity_id &act_id )
+std::unordered_set<tripoint_abs_ms> multi_read_activity_actor::multi_activity_locations(
+    Character &you )
 {
-
+    const activity_id act_id = get_type();
     map &here = get_map();
     const tripoint_bub_ms localpos = you.pos_bub();
     std::unordered_set<tripoint_abs_ms> src_set;
@@ -3252,8 +3256,10 @@ std::unordered_set<tripoint_abs_ms> read_locations( Character &you, const activi
     return src_set;
 }
 
-std::unordered_set<tripoint_abs_ms> study_locations( Character &you, const activity_id &act_id )
+std::unordered_set<tripoint_abs_ms> multi_study_activity_actor::multi_activity_locations(
+    Character &you )
 {
+    const activity_id act_id = get_type();
     map &here = get_map();
     zone_manager &mgr = zone_manager::get_manager();
     const tripoint_abs_ms abspos = here.get_abs( you.pos_bub() );
@@ -3271,9 +3277,10 @@ std::unordered_set<tripoint_abs_ms> study_locations( Character &you, const activ
     return src_set;
 }
 
-std::unordered_set<tripoint_abs_ms> craft_locations( Character &you, const activity_id &act_id )
+std::unordered_set<tripoint_abs_ms> multi_craft_activity_actor::multi_activity_locations(
+    Character &you )
 {
-
+    const activity_id act_id = get_type();
     map &here = get_map();
     const tripoint_bub_ms localpos = you.pos_bub();
     std::unordered_set<tripoint_abs_ms> src_set;
@@ -3287,11 +3294,13 @@ std::unordered_set<tripoint_abs_ms> craft_locations( Character &you, const activ
     return src_set;
 }
 
-std::unordered_set<tripoint_abs_ms> fish_locations( Character &you, const activity_id &act_id )
+std::unordered_set<tripoint_abs_ms> multi_fish_activity_actor::multi_activity_locations(
+    Character &you )
 {
-
+    const activity_id act_id = get_type();
     map &here = get_map();
-    std::unordered_set<tripoint_abs_ms> src_set = generic_locations( you, act_id );
+    std::unordered_set<tripoint_abs_ms> src_set = multi_activity_actor::generic_locations( you,
+            act_id );
 
     for( auto src_set_iter = src_set.begin(); src_set_iter != src_set.end(); ) {
         const tripoint_bub_ms set_pt = here.get_bub( *src_set_iter );
@@ -3305,11 +3314,13 @@ std::unordered_set<tripoint_abs_ms> fish_locations( Character &you, const activi
     return src_set;
 }
 
-std::unordered_set<tripoint_abs_ms> mop_locations( Character &you, const activity_id &act_id )
+std::unordered_set<tripoint_abs_ms> multi_mop_activity_actor::multi_activity_locations(
+    Character &you )
 {
-
+    const activity_id act_id = get_type();
     map &here = get_map();
-    std::unordered_set<tripoint_abs_ms> src_set = generic_locations( you, act_id );
+    std::unordered_set<tripoint_abs_ms> src_set = multi_activity_actor::generic_locations( you,
+            act_id );
     for( auto src_set_iter = src_set.begin(); src_set_iter != src_set.end(); ) {
         const tripoint_bub_ms set_pt = here.get_bub( *src_set_iter );
         if( !here.mopsafe_field_at( set_pt ) ) {
@@ -3321,6 +3332,8 @@ std::unordered_set<tripoint_abs_ms> mop_locations( Character &you, const activit
     return src_set;
 }
 
+namespace multi_activity_actor
+{
 
 bool farm_do( Character &you, const activity_reason_info &act_info,
               const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
