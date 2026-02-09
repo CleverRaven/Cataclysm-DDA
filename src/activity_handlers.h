@@ -66,6 +66,7 @@ enum class do_activity_reason : int {
     NEEDS_HARVESTING,       //* For farming - tile is harvestable now.
     NEEDS_PLANTING,         //* For farming - tile can be planted
     NEEDS_TILLING,          //* For farming - tile can be tilled
+    NEEDS_FERTILIZING,          //* For farming - tile can be fertilized
     BLOCKING_TILE,          // Something has made it's way onto the tile, so the activity cannot proceed
     NEEDS_BOOK_TO_LEARN,    //* There is book to learn
     NEEDS_CHOPPING,         //* There is wood there to be chopped
@@ -194,7 +195,6 @@ bool resume_for_multi_activities( Character &you );
 
 /** activity_do_turn functions: */
 void chop_trees_do_turn( player_activity *act, Character *you );
-void fertilize_plot_do_turn( player_activity *act, Character *you );
 void fetch_do_turn( player_activity *act, Character *you );
 void fill_liquid_do_turn( player_activity *act, Character *you );
 void find_mount_do_turn( player_activity *act, Character *you );

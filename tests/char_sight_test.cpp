@@ -66,7 +66,7 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
     map &here = get_map();
 
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     g->reset_light_level();
     scoped_weather_override weather_clear( WEATHER_CLEAR );
 
@@ -131,7 +131,7 @@ TEST_CASE( "npc_light_and_fine_detail_vision_mod", "[character][npc][sight][ligh
     n.set_body();
 
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     tripoint const u_shift = GENERATE( tripoint::zero, tripoint::above );
     CAPTURE( u_shift );
     // Allow player to float for purpose of purely testing this and not factoring in terrain potentially blocking vision etc
@@ -181,7 +181,7 @@ TEST_CASE( "character_sight_limits", "[character][sight][vision]" )
     map &here = get_map();
 
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     g->reset_light_level();
     scoped_weather_override weather_clear( WEATHER_CLEAR );
 
@@ -277,7 +277,7 @@ TEST_CASE( "ursine_vision", "[character][ursine][vision]" )
     map &here = get_map();
 
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     g->reset_light_level();
     scoped_weather_override weather_clear( WEATHER_CLEAR );
 

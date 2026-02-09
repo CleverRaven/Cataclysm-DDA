@@ -538,15 +538,6 @@
     "auto_needs": true
   },
   {
-    "id": "ACT_FERTILIZE_PLOT",
-    "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
-    "verb": "fertilizing plots",
-    "based_on": "neither",
-    "can_resume": false,
-    "auto_needs": true
-  },
-  {
     "id": "ACT_START_FIRE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -817,6 +808,13 @@
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "planting seeds",
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_FERTILIZE_PLANT",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "fertilizing plants",
     "based_on": "time"
   },
   {

@@ -126,7 +126,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
 {
     map &here = get_map();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     clear_vehicles();
     set_time_to_day();
 
@@ -205,7 +205,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
 TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     clear_vehicles();
     set_time( midday );
     map &here = get_map();

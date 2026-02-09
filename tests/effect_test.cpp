@@ -646,7 +646,7 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
     static const tripoint_bub_ms target_location{ 5, 0, 0 };
     clear_npcs();
     clear_vehicles();
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     Character &player = get_player_character();
     const damage_instance cut_damage = damage_instance( damage_cut, 50, 50 );
@@ -763,7 +763,7 @@ TEST_CASE( "Vitamin_Effects", "[effect][vitamins]" )
 static void test_deadliness( const effect &applied, const int expected_dead, const int margin )
 {
     creature_tracker &creatures = get_creature_tracker();
-    clear_map();
+    clear_map_without_vision();
     std::vector<monster *> mons;
 
     // Place a hundred debug monsters, our subjects
