@@ -152,7 +152,6 @@ requirement_id synthesize_requirements(
 // eliminates satisfied requirements from tools/qualities, keeps items
 requirement_id remove_met_requirements( requirement_id base_req_id, Character &you );
 
-/* begin TODO: move to activity actor */
 std::optional<requirement_id> vehicle_work_requirements( Character &you,
         activity_reason_info &act_info, const tripoint_bub_ms &src_loc );
 
@@ -164,39 +163,6 @@ void prune_dark_locations( Character &you, std::unordered_set<tripoint_abs_ms> &
 void prune_dangerous_field_locations( std::unordered_set<tripoint_abs_ms> &src_set );
 std::unordered_set<tripoint_abs_ms> no_same_tile_locations( Character &you,
         const activity_id &act_id );
-
-bool mine_do( Character &you, const activity_reason_info &act_info,
-              const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool mop_do( Character &you, const activity_reason_info &act_info,
-             const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool fish_do( Character &you, const activity_reason_info &act_info,
-              const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool chop_trees_do( Character &you, const activity_reason_info &act_info,
-                    const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool butcher_do( Character &you, const activity_reason_info &act_info,
-                 const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool read_do( Character &you, const activity_reason_info &act_info,
-              const tripoint_abs_ms &, const tripoint_bub_ms & );
-bool study_do( Character &you, const activity_reason_info &act_info,
-               const tripoint_abs_ms &src, const tripoint_bub_ms & );
-bool chop_planks_do( Character &you, const activity_reason_info &act_info,
-                     const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool construction_do( Character &you, const activity_reason_info &act_info,
-                      const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc );
-bool farm_do( Character &you, const activity_reason_info &act_info,
-              const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc );
-bool fetch_do( Character &you, const activity_reason_info &act_info,
-               const tripoint_abs_ms &, const tripoint_bub_ms & );
-bool craft_do( Character &you, const activity_reason_info &act_info,
-               const tripoint_abs_ms &, const tripoint_bub_ms & );
-bool disassemble_do( Character &you, const activity_reason_info &act_info,
-                     const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool vehicle_deconstruction_do( Character &you, const activity_reason_info &act_info,
-                                const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool vehicle_repair_do( Character &you, const activity_reason_info &act_info,
-                        const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-
-/* end TODO: move to activity actor */
 
 void revert_npc_post_activity( Character &you, activity_id act_id, bool no_locations );
 bool out_of_moves( Character &you, activity_id act_id );
