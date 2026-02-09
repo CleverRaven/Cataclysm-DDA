@@ -62,7 +62,7 @@
         "type": "MONSTER",
         "name": {
             "str_sp": "generic vampire",
-            "//~": "NO_I18N",
+            "//~": "NO_I18N" },
           "eoc": [ "EOC_VAMPIRE_DRINK_BLOOD", "EOC_FERAL_VAMPIRE_GAIN_RANDOM_BUFF" ]
         },
         {
@@ -1159,7 +1159,7 @@
         "condition": {
           "and": [
             { "u_has_flag": "GRAB_FILTER" },
-            { "npc_has_flag": "GRAB" },
+            { "npc_has_flag": "GRAB" } ] },
         "default_faction": "vampire",
         "bodytype": "human",
         "species": [
@@ -1214,7 +1214,7 @@
         "harvest": "vampire",
         "path_settings": {
             "max_dist": 5
-        },
+        } },
         {
           "type": "monster_attack",
           "attack_type": "melee",
@@ -1243,13 +1243,10 @@
           "dodgeable": false,
           "uncanny_dodgeable": false,
           "blockable": false
-        }
+        } ]
       }
-    ]
-  }
-      ],
+    ],
       "flags": [ "FILTHY", "KEENNOSE" ]
-    },
     "death_drops": "revenant_death_drops"
   },
   {
