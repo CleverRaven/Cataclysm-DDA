@@ -3988,14 +3988,7 @@
     "visibility": 5,
     "ugliness": 4,
     "restricts_gear": [ "mouth" ],
-    "attacks": {
-      "attack_text_u": "You bite %s!",
-      "attack_text_npc": "%1$s bites %2$s!",
-      "blocker_mutations": [ "FANGS" ],
-      "body_part": "mouth",
-      "chance": 20,
-      "base_damage": { "damage_type": "cut", "amount": 5 }
-    }
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_bear" } ] } ]
   },
   {
     "type": "mutation",
