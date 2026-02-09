@@ -355,7 +355,14 @@
     "weight": "1050 g",
     "volume": "540 ml",
     "price": "1 kUSD 150 USD",
-    "valid_mod_locations": [ [ "barrel", 1 ], [ "barrel threading", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "barrel threading", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ]
+    ],
     "built_in_mods": [ "match_trigger", "barrel_threading" ]
   },
   {
