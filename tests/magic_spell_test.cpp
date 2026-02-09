@@ -691,7 +691,7 @@ TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack
 {
     // World setup
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
 
     // Locations for avatar and monster
     const tripoint_bub_ms dummy_loc = { 60, 60, 0 };
@@ -748,7 +748,7 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
 {
     map &here = get_map();
 
-    clear_map();
+    clear_map_without_vision();
 
     // Avatar/spellcaster and summoned mummy locations
     const tripoint_bub_ms dummy_loc = { 60, 60, 0 };
@@ -820,7 +820,7 @@ TEST_CASE( "spell_effect_-_recover_energy", "[magic][spell][effect][recover_ener
     // Yer a wizard, ya dummy
     avatar &dummy = get_avatar();
     clear_character( dummy );
-    clear_map();
+    clear_map_without_vision();
 
     SECTION( "recover stamina" ) {
         spell_id montage_id( "test_spell_montage" );

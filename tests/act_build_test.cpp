@@ -162,7 +162,7 @@ construction setup_testcase( Character &u, std::string const &constr,
 void run_test_case( Character &u )
 {
     calendar::turn = calendar::turn_zero + 9_hours + 30_minutes;
-    clear_map();
+    clear_map_without_vision();
     scoped_weather_override weather_clear( WEATHER_CLEAR );
     clear_avatar();
     map &here = get_map();

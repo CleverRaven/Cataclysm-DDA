@@ -296,7 +296,7 @@ void match( item_location loc, const final_result &result )
 void test_scenario::run()
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     const container_location cur_container_loc = value.get<container_location>();
     const scenario cur_scenario = value.get<scenario>();
