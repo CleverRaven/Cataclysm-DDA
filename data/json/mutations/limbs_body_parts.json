@@ -29,6 +29,93 @@
     "unarmed_damage": [ { "damage_type": "bash", "amount": 12 }, { "damage_type": "cut", "amount": 3 } ]
   },
   {
+    "id": "slime_omnicell",
+    "type": "body_part",
+    "name": "Slime",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "slime" },
+    "heading": "slime",
+    "heading_multiple": "slime",
+    "hp_bar_ui_text": "SLIME",
+    "encumbrance_text": "Dodging and melee is hampered.",
+    "main_part": "slime_omnicell",
+    "opposite_part": "slime_omnicell",
+    "connected_to": "slime_omnicell",
+    "limb_types": [
+      [ "sensor", 1.0 ],
+      [ "head", 1.0 ],
+      [ "torso", 1.0 ],
+      [ "hand", 1.0 ],
+      [ "arm", 1.0 ],
+      [ "leg", 1.0 ],
+      [ "foot", 1.0 ]
+    ],
+    "limb_scores": [
+      [ "grip", 0.6 ],
+      [ "lift", 0.7 ],
+      [ "manip", 0.7 ],
+      [ "block", 0.7 ],
+      [ "vision", 1.0 ],
+      [ "night_vis", 1.0 ],
+      [ "swim", 1.2 ],
+      [ "balance", 1.1 ],
+      [ "reaction", 1.6 ],
+      [ "footing", 1.5 ],
+      [ "move_speed", 1.0 ],
+      [ "crawl", 1.5 ]
+    ],
+    "encumbrance_threshold": 6,
+    "is_vital": true,
+    "hit_size": 60,
+    "hit_difficulty": 1,
+    "side": "both",
+    "hot_morale_mod": 2,
+    "cold_morale_mod": 2,
+    "fire_warmth_bonus": 150,
+    "squeamish_penalty": 0,
+    "base_hp": 450,
+    "drench_capacity": 4000,
+    "smash_message": "You smash the %s with a pseudopod.",
+    "bionic_slots": 80,
+    "windage_effect": "winded",
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 3,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 45,
+        "max_duration": 1800
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1.5,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      },
+      {
+        "id": "winded",
+        "dmg_type": "bash",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 5,
+        "chance": 10,
+        "chance_dmg_scaling": 2,
+        "max_duration": 15
+      }
+    ],
+    "sub_parts": [ "slime_omnicell_sub" ]
+  },
+  {
     "id": "tail",
     "//": "Used as a default for similar_bodypart to work for armor.",
     "type": "body_part",

@@ -20,6 +20,16 @@
     "opposite": "hand_fingers_l"
   },
   {
+    "id": "slime_omnicell_sub",
+    "type": "sub_body_part",
+    "name": "omnicell",
+    "name_multiple": "omnicells",
+    "max_coverage": 100,
+    "parent": "slime_omnicell",
+    "side": "both",
+    "opposite": "slime_omnicell_sub"
+  },
+  {
     "id": "tail_long_base",
     "type": "sub_body_part",
     "name": "long tail base",
