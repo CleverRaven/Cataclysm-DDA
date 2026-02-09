@@ -258,6 +258,7 @@ static const ter_str_id ter_t_window_alarm( "t_window_alarm" );
 static const ter_str_id ter_t_window_empty( "t_window_empty" );
 static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
 
+static const trap_str_id tr_portal( "tr_portal" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
@@ -5823,10 +5824,9 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             if( vpi.has_flag( VPFLAG_ADVANCED_MWS ) ) {
                 const tripoint_abs_omt veh_position = cur_veh.pos_abs_omt();
                 const tripoint_bub_ms veh_position_bub = cur_veh.pos_bub( here );
-                static const trap_str_id portal_trap( "tr_portal" );
                 bool portal_nearby = false;
                 for( const tripoint_bub_ms &p : points_in_radius( veh_position_bub, 50 ) ) {
-                    if( here.tr_at( p ).id == portal_trap ) {
+                    if( here.tr_at( p ).id == tr_portal ) {
                         portal_nearby = true;
                         break;
                     }
