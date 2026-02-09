@@ -996,9 +996,9 @@ TEST_CASE( "widgets_showing_Sun_and_Moon_position", "[widget]" )
     CHECK( sundial_w.layout( ava ) ==
            R"(SKY: [??????????????????])" );
 
-    return; // TODO update the rest of the tests!
     // 02:00
     ava.set_pos_abs_only( orig_pos );
+    return; // TODO update the rest of the tests!
     tp += 2_hours;
     set_time( tp );
     sundial_w._width = 9;
