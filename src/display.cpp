@@ -255,45 +255,55 @@ std::string display::sundial_text_color( const Character &u, int width )
 
     std::pair<units::angle, units::angle> sun_pos = sun_azimuth_altitude( calendar::turn );
 
-    weather_manager &weather = get_weather();
-    const float sun_light = sun_light_at( calendar::turn );
-    const float incident_sun_light = incident_sunlight( weather.weather_id, calendar::turn );
-    const float moon_light = moon_light_at( calendar::turn );
-    const float incident_moon_light = incident_moonlight( weather.weather_id, calendar::turn );
-
-    const int range_day = u.sight_range( default_daylight_level() );
-    const int sun_highlight = u.sight_range( sun_light ) * width / range_day;
-    const int sun_weather_highlight = u.sight_range( incident_sun_light ) * width / range_day;
-
-    const int moon_highlight = u.sight_range( moon_light ) * width / range_day;
-    const int moon_weather_highlight = u.sight_range( incident_moon_light ) * width / range_day;
-
     float azm_sun = to_degrees( normalize( sun_pos.first + 90_degrees ) );
     if( azm_sun > 270.f ) {
         azm_sun -= 360.f;
     }
-    // TODO: correct moonrise and moonset. It seems that the moon magically comes up at night in
-    // this game...
+    // TODO: moonrise and moonset. It seems that the moon magically stays overhead currently.
     float azm_moon = azm_sun + 180.0f;
     if( azm_moon > 270.f ) {
         azm_moon -= 360.f;
     }
 
     const float scale = 180.f / width;
-    const int azm_pos_sun = static_cast<int>( std::round( azm_sun / scale ) ) - 1;
-    const int azm_pos_moon = static_cast<int>( std::round( azm_moon / scale ) ) - 1;
+    const int sun_pos_idx = static_cast<int>( std::round( azm_sun / scale ) ) - 1;
+    const int moon_pos_idx = static_cast<int>( std::round( azm_moon / scale ) ) - 1;
 
-    int sun_left_idx, sun_right_idx, sun_left_weather_idx, sun_right_weather_idx;
-    std::tie( sun_left_idx, sun_right_idx ) = left_right_highlight_index( azm_pos_sun, sun_highlight,
-            width );
-    std::tie( sun_left_weather_idx, sun_right_weather_idx ) = left_right_highlight_index( azm_pos_sun,
+    weather_manager &weather = get_weather();
+    const int range_day = u.sight_range( default_daylight_level() );
+
+    // Sunlight that makes it through the weather is highlighted blue in proportion to sight_range
+    const float incident_sun_light = incident_sunlight( weather.weather_id, calendar::turn );
+    const int sun_highlight = u.sight_range( incident_sun_light ) * width / range_day;
+    int sun_left_highlight_idx;
+    int sun_right_highlight_idx;
+    std::tie( sun_left_highlight_idx, sun_right_highlight_idx ) = left_right_highlight_index( sun_pos_idx,
+            sun_highlight, width );
+
+    // Sunlight ignoring the weather will be covered by weather symbols to show the light reduction
+    const float ideal_sun_light = sun_light_at( calendar::turn );
+    const int sun_weather_highlight = u.sight_range( ideal_sun_light ) * width / range_day;
+    int sun_left_idx;
+    int sun_right_idx;
+    std::tie( sun_left_idx, sun_right_idx ) = left_right_highlight_index( sun_pos_idx,
             sun_weather_highlight, width );
-    int moon_left_idx, moon_right_idx, moon_left_weather_idx, moon_right_weather_idx;
-    std::tie( moon_left_idx, moon_right_idx ) = left_right_highlight_index( azm_pos_moon,
-            moon_highlight, width );
-    std::tie( moon_left_weather_idx,
-              moon_right_weather_idx ) = left_right_highlight_index( azm_pos_moon, moon_weather_highlight,
+
+    // Same for moonlight; illumination after weather is highlighted yellow
+    const float incident_moon_light = incident_moonlight( weather.weather_id, calendar::turn );
+    const int moon_highlight = u.sight_range( incident_moon_light ) * width / range_day;
+    int moon_left_highlight_idx;
+    int moon_right_highlight_idx;
+    std::tie( moon_left_highlight_idx,
+              moon_right_highlight_idx ) = left_right_highlight_index( moon_pos_idx, moon_highlight,
                                          width );
+
+    // Moonlight ignoring weather shows weather glyphs to hint at the cloud cover
+    const float ideal_moon_light = moon_light_at( calendar::turn );
+    const int moon_weather_highlight = u.sight_range( ideal_moon_light ) * width / range_day;
+    int moon_left_idx;
+    int moon_right_idx;
+    std::tie( moon_left_idx, moon_right_idx ) = left_right_highlight_index( moon_pos_idx,
+            moon_weather_highlight, width );
 
     std::string ret = "[";
     if( !can_creature_see_sky( u ) ) {
@@ -303,23 +313,20 @@ std::string display::sundial_text_color( const Character &u, int width )
             std::string ch = " ";
             nc_color clr = c_white;
 
-            if( i >= sun_left_weather_idx && i <= sun_right_weather_idx ) {
+            if( i >= sun_left_highlight_idx && i <= sun_right_highlight_idx ) {
                 clr = hilite( clr );
-            } else if( i >= sun_left_idx && i <= sun_right_idx ) {
-                ch = weather.weather_id->get_symbol();
-                clr = weather.weather_id->color;
-            } else if( i >= moon_left_weather_idx && i <= moon_right_weather_idx ) {
+            } else if( i >= moon_left_highlight_idx && i <= moon_right_highlight_idx ) {
                 clr = yellow_background( clr );
-            } else if( i >= moon_left_idx && i <= moon_right_idx ) {
+            } else if( ( i >= sun_left_idx && i <= sun_right_idx ) ||
+                       ( i >= moon_left_idx && i <= moon_right_idx ) ) {
                 ch = weather.weather_id->get_symbol();
                 clr = weather.weather_id->color;
             }
 
-            if( i == azm_pos_moon ) {
-                ch = moon_phases[get_moon_phase( calendar::turn )];
-            }
-            if( i == azm_pos_sun ) {
+            if( i == sun_pos_idx ) {
                 ch = weather.weather_id->get_sun_symbol();
+            } else if( i == moon_pos_idx ) {
+                ch = moon_phases[get_moon_phase( calendar::turn )];
             }
             ret += colorize( ch, clr );
         }
