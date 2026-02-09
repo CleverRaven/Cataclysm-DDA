@@ -49,9 +49,9 @@
     "id": "nulland_city",
     "copy-from": "default",
     "type": "region_settings_city",
-    "shop_radius": 20,
+    "shop_radius": 0,
     "shop_sigma": 0,
-    "park_radius": 40,
+    "park_radius": 0,
     "park_sigma": 0,
     "houses": [
       [ "hab_unit_building_z1", 3 ],

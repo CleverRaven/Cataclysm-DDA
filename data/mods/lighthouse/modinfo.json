@@ -1,10 +1,10 @@
 [
   {
     "type": "MOD_INFO",
-    "id": "lighthouse",
-    "name": "Project Lighthouse",
+    "id": "diffraction",
+    "name": "Diffraction",
     "authors": [ "BalthazarArgall" ],
-    "description": "4D adventures.",
+    "description": "Space cataclysm.",
     "category": "total_conversion",
     "dependencies": [ "dda" ],
     "path": "json/"

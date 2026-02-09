@@ -15,7 +15,7 @@
     "vision_levels": "city_building",
     "travel_cost_type": "structure",
     "see_cost": "high",
-    "flags": [ "RISK_HIGH", "GENERIC_LOOT", "SIDEWALK" ]
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT", "SIDEWALK", "SOURCE_FUEL" ]
   },
   {
     "om_terrain": [ "store_unit" ],

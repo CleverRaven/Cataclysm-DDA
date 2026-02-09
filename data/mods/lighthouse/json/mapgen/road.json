@@ -136,7 +136,8 @@
             "south_west": [ "SIDEWALK" ],
             "west": [ "SIDEWALK" ],
             "north_west": [ "SIDEWALK" ]
-          }
+          },
+          "else_chunks": [ [ "24x24_airlock_open", 2 ], [ "24x24_airlock_closed", 5 ], [ "null_nest", 3 ] ]
         },
         {
           "else_chunks": [ "24x24_end_n_lighthouse" ],
@@ -192,7 +193,15 @@
         "____..            ..____"
       ],
       "palettes": [ "road_palette" ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [
+        {
+          "else_chunks": [ [ "24x24_sidewalk_airlock_open", 2 ], [ "24x24_sidewalk_airlock_closed", 5 ], [ "null_nest", 3 ] ],
+          "x": 0,
+          "y": 0,
+          "flags_any": { "east": [ "SOURCE_FUEL" ], "west": [ "SOURCE_FUEL" ] }
+        }
+      ]
     }
   },
   {
@@ -558,9 +567,8 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": "road_four_way",
+    "om_terrain": [ "road_four_way", "road_nesw_manhole" ],
     "object": {
-      "fallback_predecessor_mapgen": "field",
       "fill_ter": "t_concrete_wall",
       "rows": [
         "     _.*..*..*..*._     ",
@@ -748,11 +756,162 @@
     }
   },
   {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_sidewalk_airlock_open",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "____...*..*..*..*...____",
+        "#__###............###__#",
+        "#__###............###__#",
+        "____...*..*..*..*...____",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_sidewalk_airlock_closed",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "____...*..*..*..*...____",
+        "########################",
+        "########################",
+        "____...*..*..*..*...____",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "road_palette" ],
+      "remove_vehicles": [ { "vehicles": [  ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_airlock_open",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     _.*..*..*..*._     ",
+        "     ..............     ",
+        "     ..............     ",
+        "     _.*..*..*..*._     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_airlock_closed",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     _.*..*..*..*._     ",
+        "     ##############     ",
+        "     ##############     ",
+        "     _.*..*..*..*._     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "road_palette" ],
+      "remove_vehicles": [ { "vehicles": [  ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "null_nest",
+    "object": { "mapgensize": [ 24, 24 ], "rotation": [ 0, 3 ] }
+  },
+  {
     "//": "END_NESTED/////////////////////////////////////////////////////////////////////////////////////////////",
     "type": "effect_on_condition",
     "id": "EOC_VANILLA_ROAD_WEIGHT",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "effect": [ { "math": [ "vanilla_road_weight = 1" ] } ]
+    "effect": [ { "math": [ "vanilla_road_weight = 0" ] } ]
   }
 ]
