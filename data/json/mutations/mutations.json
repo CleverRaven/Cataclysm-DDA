@@ -6681,7 +6681,7 @@
         ]
       }
     ],
-    "flags": [ "TOUGH_FEET" ]
+    "flags": [ "TOUGH_FEET", "SUFFOCATION_IMMUNE" ]
   },
   {
     "type": "mutation",
