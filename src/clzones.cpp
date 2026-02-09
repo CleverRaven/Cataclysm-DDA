@@ -566,12 +566,14 @@ void plot_options::serialize( JsonOut &json ) const
 {
     json.member( "mark", mark );
     json.member( "seed", seed );
+    json.member( "fertilizer", fertilizer );
 }
 
 void plot_options::deserialize( const JsonObject &jo_zone )
 {
     jo_zone.read( "mark", mark );
     jo_zone.read( "seed", seed );
+    jo_zone.read( "fertilizer", fertilizer );
 }
 
 void unload_options::serialize( JsonOut &json ) const

@@ -178,7 +178,6 @@ static const itype_id itype_dahlia_root( "dahlia_root" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_fake_milling_item( "fake_milling_item" );
 static const itype_id itype_fake_smoke_plume( "fake_smoke_plume" );
-static const itype_id itype_fertilizer( "fertilizer" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );

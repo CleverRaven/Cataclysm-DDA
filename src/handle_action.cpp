@@ -111,8 +111,6 @@ enum class direction : unsigned int;
 #include "sdltiles.h"
 #endif
 
-static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
-
 static const bionic_id bio_remote( "bio_remote" );
 
 static const damage_type_id damage_cut( "cut" );
@@ -1496,7 +1494,6 @@ static void loot()
     Character &player_character = get_player_character();
     int flags = 0;
     zone_manager &mgr = zone_manager::get_manager();
-    const bool has_fertilizer = player_character.cache_has_item_with( flag_FERTILIZER );
 
     // reset any potentially disabled zones from a past activity
     mgr.reset_disabled();

@@ -9,15 +9,12 @@
 #include <stdexcept>
 #include <string>
 #include <type_traits>
-#include <unordered_map>
 #include <unordered_set>
 #include <utility>
 
-#include "activity_actor.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "clzones.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -59,7 +56,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
@@ -90,8 +86,6 @@ static const itype_id itype_pseudo_magazine_mod( "pseudo_magazine_mod" );
 
 static const skill_id skill_survival( "survival" );
 
-static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
-
 using namespace activity_handlers;
 
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -108,19 +102,6 @@ activity_handlers::finish_functions = {
     { ACT_START_FIRE, start_fire_finish },
     { ACT_REPAIR_ITEM, repair_item_finish }
 };
-
-static void assign_multi_activity( Character &you, const player_activity &act )
-{
-    const bool requires_actor = activity_actors::deserialize_functions.find( act.id() ) !=
-                                activity_actors::deserialize_functions.end();
-    if( requires_actor ) {
-        // the activity uses `activity_actor` and requires `player_activity::actor` to be set
-        you.assign_activity( player_activity( act ) );
-    } else {
-        // the activity uses the older type of player_activity where `player_activity::actor` is not used
-        you.assign_activity( act.id() );
-    }
-}
 
 bool activity_handlers::resume_for_multi_activities( Character &you )
 {

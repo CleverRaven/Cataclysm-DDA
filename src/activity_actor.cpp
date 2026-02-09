@@ -9578,7 +9578,7 @@ std::optional<itype_id> multi_farm_activity_actor::query_fertilizer( Character &
 
 }
 
-ret_val<void> multi_farm_activity_actor::can_fertilize( Character &you,
+ret_val<void> multi_farm_activity_actor::can_fertilize( Character &,
         const tripoint_bub_ms &tile )
 {
     map &here = get_map();
