@@ -308,16 +308,14 @@
   {
     "type": "effect_on_condition",
     "id": "lab_mutant_start",
-    "effect": [
-      { "u_cast_spell": { "id": "SPELL_ALLY_WITH_MUTANTS" } }
-    ]
+    "effect": [ { "u_cast_spell": { "id": "SPELL_ALLY_WITH_MUTANTS" } } ]
   },
   {
     "type": "SPELL",
     "id": "SPELL_ALLY_WITH_MUTANTS",
     "name": { "str": "SPELL_ALLY_WITH_MUTANTS", "//~": "NO_I18N" },
     "description": { "str": "SPELL_ALLY_WITH_MUTANTS", "//~": "NO_I18N" },
-    "valid_targets": [ "any" ],
+    "valid_targets": [ "hostile" ],
     "shape": "blast",
     "effect": "charm_monster",
     "min_damage": 99999,
