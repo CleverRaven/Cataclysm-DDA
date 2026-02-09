@@ -173,6 +173,7 @@ static const json_character_flag json_flag_ANIMALDISCORD2( "ANIMALDISCORD2" );
 static const json_character_flag json_flag_ANIMALEMPATH( "ANIMALEMPATH" );
 static const json_character_flag json_flag_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+static const json_character_flag json_flag_BLIND( "BLIND" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_flesh( "flesh" );
@@ -3458,7 +3459,8 @@ void monster::process_one_effect( effect &it, bool is_new )
         }
     } else if( id == effect_run ) {
         effect_cache[FLEEING] = true;
-    } else if( id == effect_no_sight || id == effect_blind ) {
+    } else if( id == effect_no_sight || id == effect_blind ||
+               has_effect_with_flag( json_flag_BLIND ) ) {
         effect_cache[VISION_IMPAIRED] = true;
     } else if( ( id == effect_bleed || id == effect_dripping_mechanical_fluid ) &&
                x_in_y( it.get_intensity(), it.get_max_intensity() ) ) {
