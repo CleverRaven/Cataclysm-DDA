@@ -168,5 +168,35 @@
     "parent": "tail_club",
     "side": 0,
     "opposite": "tail_club_base"
+  },
+  {
+    "id": "tail_bovine_base",
+    "type": "sub_body_part",
+    "name": "cattle tail base",
+    "name_multiple": "cattle tails base",
+    "max_coverage": 10,
+    "parent": "tail_bovine",
+    "side": 0,
+    "opposite": "tail_bovine_tip"
+  },
+  {
+    "id": "tail_bovine_center",
+    "type": "sub_body_part",
+    "name": "cattle tail center",
+    "name_multiple": "cattle tails center",
+    "max_coverage": 60,
+    "parent": "tail_bovine",
+    "side": 0,
+    "opposite": "tail_bovine_center"
+  },
+  {
+    "id": "tail_bovine_tip",
+    "type": "sub_body_part",
+    "name": "cattle tail mace",
+    "name_multiple": "cattle tail mace",
+    "max_coverage": 30,
+    "parent": "tail_bovine",
+    "side": 0,
+    "opposite": "tail_bovine_base"
   }
 ]
