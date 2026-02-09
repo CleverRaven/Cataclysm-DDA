@@ -101,28 +101,28 @@
   },
   {
     "type": "city_building",
-    "id": "hab_unit_building_1",
+    "id": "hab_unit_building_z1",
     "locations": [ "space" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hab_unit_north" } ],
     "flags": [ "LIGHTHOUSE" ]
   },
   {
     "type": "city_building",
-    "id": "hab_unit_building_2",
+    "id": "hab_unit_building_z2",
     "locations": [ "space" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hab_unit_north" }, { "point": [ 0, 0, -1 ], "overmap": "hab_unit_north" } ],
     "flags": [ "LIGHTHOUSE" ]
   },
   {
     "type": "city_building",
-    "id": "hab_unit_central_building_1",
+    "id": "hab_unit_central_building_z1",
     "locations": [ "space" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hab_unit_central_north" } ],
     "flags": [ "LIGHTHOUSE" ]
   },
   {
     "type": "city_building",
-    "id": "hab_unit_central_building_2",
+    "id": "hab_unit_central_building_z2",
     "locations": [ "space" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "hab_unit_central_north" },
@@ -132,7 +132,7 @@
   },
   {
     "type": "city_building",
-    "id": "hab_unit_central_building_3",
+    "id": "hab_unit_central_building_z3",
     "locations": [ "space" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "hab_unit_central_north" },
@@ -143,7 +143,7 @@
   },
   {
     "type": "city_building",
-    "id": "hab_unit_building_3",
+    "id": "hab_unit_building_z3",
     "locations": [ "space" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "hab_unit_north" },
@@ -194,13 +194,16 @@
         "########   "
       ],
       "palettes": [ "base" ],
-      "place_nested": [ { "chunks": [ "11x11_stairs_bloc_unit" ], "x": 0, "y": 0 }, { "chunks": [ "7x7_stairwell" ], "x": 7, "y": 4 } ],
+      "place_nested": [
+        { "chunks": [ "11x11_stairs_bloc_janitor", "11x11_stairs_bloc_storage" ], "x": 0, "y": 0 },
+        { "chunks": [ "7x7_stairwell" ], "x": 7, "y": 4 }
+      ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "11x11_stairs_bloc_unit",
+    "nested_mapgen_id": "11x11_stairs_bloc_janitor",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 3 ],
@@ -223,7 +226,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "11x11_stairs_bloc_unit",
+    "nested_mapgen_id": "11x11_stairs_bloc_storage",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 3 ],
@@ -631,7 +634,8 @@
       "i": "t_metal_railing",
       ">": "t_stairs_down",
       "<": "t_stairs_up",
-      "0": "t_open_air"
+      "0": "t_open_air",
+      "-": "t_door_metal_c"
     },
     "furniture": { "t": "f_dumpster", "T": "f_table", "=": "f_utility_shelf", "h": "f_chair", "c": "f_counter" }
   }
