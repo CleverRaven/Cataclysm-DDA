@@ -1080,6 +1080,7 @@ Character status value  | Description
 `SLEEPINESS`               | Affects how fast your sleepiness grows over time - bigger value makes you tired faster. Since it's a percent, using `multiply` is recommended.
 `SLEEPINESS_REGEN`         | Affects how much of your sleepiness and sleep deprivation drops when resting. Since it's a percent, using `multiply` is recommended.
 `SLEEPY`                | The higher this the easier you fall asleep.
+`SMASH_BONUS`           | The higher this is, the better you are at smashing things.  Unlike increasing strength or boosting melee damage, this doesn't increase damage against enemies.
 `SOCIAL_INTIMIDATE`     | Affects your ability to intimidate.
 `SOCIAL_LIE`            | Affects your ability to lie.
 `SOCIAL_PERSUADE`       | Affects your ability to persuade.

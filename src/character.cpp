@@ -3026,9 +3026,9 @@ std::map<damage_type_id, int> Character::smash_ability() const
 {
     int bonus = 0;
     std::map<damage_type_id, int> ret;
-
-    ///\EFFECT_STR increases smashing capability
+    ///\EFFECT_STR and SMASH_BONUS increase smashing capability
     bonus += get_arm_str();
+    bonus += enchantment_cache->get_value_add( enchant_vals::mod::SMASH_BONUS );
     if( is_mounted() ) {
         auto *mon = mounted_creature.get();
         bonus += mon->mech_str_addition() + mon->type->melee_dice * mon->type->melee_sides;
