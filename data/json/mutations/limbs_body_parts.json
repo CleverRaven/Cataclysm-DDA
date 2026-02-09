@@ -1,5 +1,26 @@
 [
   {
+    "id": "muzzle_bear",
+    "copy-from": "mouth",
+    "type": "body_part",
+    "name": "muzzle",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "muzzle" },
+    "heading": "muzzle",
+    "heading_multiple": "muzzle",
+    "opposite_part": "muzzle_bear",
+    "hit_size": 0.65,
+    "limb_type": "mouth",
+    "limb_scores": [ [ "breathing", 0.9 ], [ "manip", 0.05, 0.2 ], [ "consume_liquid", 1.0 ], [ "consume_solid", 1.5 ] ],
+    "side": "both",
+    "base_hp": 75,
+    "bionic_slots": 4,
+    "flags": [ "LIMB_UPPER" ],
+    "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks", "mouth_chin" ],
+    "//": "We'll assume that if you've mutated far enough to have a bear mouth, biting is a primary attack for you",
+    "techniques": [ "TECH_BEAR_BITE" ],
+    "unarmed_damage": [ { "damage_type": "bash", "amount": 9 }, { "damage_type": "stab", "amount": 5 } ]
+  },
+  {
     "id": "crustacean_pincer_r",
     "copy-from": "hand_r",
     "type": "body_part",
