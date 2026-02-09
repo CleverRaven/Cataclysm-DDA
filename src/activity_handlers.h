@@ -194,27 +194,11 @@ namespace activity_handlers
 bool resume_for_multi_activities( Character &you );
 
 /** activity_do_turn functions: */
-void chop_trees_do_turn( player_activity *act, Character *you );
-void fetch_do_turn( player_activity *act, Character *you );
 void fill_liquid_do_turn( player_activity *act, Character *you );
 void find_mount_do_turn( player_activity *act, Character *you );
-void multiple_butcher_do_turn( player_activity *act, Character *you );
-void multiple_chop_planks_do_turn( player_activity *act, Character *you );
-void multiple_construction_do_turn( player_activity *act, Character *you );
-void multiple_craft_do_turn( player_activity *act, Character *you );
-void multiple_dis_do_turn( player_activity *act, Character *you );
-void multiple_farm_do_turn( player_activity *act, Character *you );
-void multiple_fish_do_turn( player_activity *act, Character *you );
-void multiple_read_do_turn( player_activity *act, Character *you );
-void multiple_study_do_turn( player_activity *act, Character *you );
-void multiple_mine_do_turn( player_activity *act, Character *you );
-void multiple_mop_do_turn( player_activity *act, Character *you );
 void repair_item_do_turn( player_activity *act, Character *you );
 void start_fire_do_turn( player_activity *act, Character *you );
-void tidy_up_do_turn( player_activity *act, Character *you );
 void travel_do_turn( player_activity *act, Character *you );
-void vehicle_deconstruction_do_turn( player_activity *act, Character *you );
-void vehicle_repair_do_turn( player_activity *act, Character *you );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, Character * )> >
