@@ -1526,6 +1526,7 @@ bool are_requirements_nearby(
     return needed_things.obj().can_make_with_inventory( temp_inv, is_crafting_component );
 }
 
+} //namespace multi_activity_actor
 
 //common function for deconstruction/repair
 activity_reason_info vehicle_work_can_do( const activity_id &, Character &you,
@@ -1575,10 +1576,11 @@ activity_reason_info vehicle_work_can_do( const activity_id &, Character &you,
     return activity_reason_info::ok( result );
 }
 
-activity_reason_info vehicle_deconstruction_can_do( const activity_id &act, Character &you,
-        const tripoint_bub_ms &src_loc )
+activity_reason_info multi_vehicle_deconstruct_activity_actor::multi_activity_can_do(
+    Character &you,
+    const tripoint_bub_ms &src_loc )
 {
-
+    const activity_id act = get_type();
     Character &player_character = get_player_character();
     map &here = get_map();
 
@@ -1643,10 +1645,10 @@ activity_reason_info vehicle_deconstruction_can_do( const activity_id &act, Char
     return activity_reason_info::fail( failed_work );
 }
 
-activity_reason_info vehicle_repair_can_do( const activity_id &act, Character &you,
+activity_reason_info multi_vehicle_repair_activity_actor::multi_activity_can_do( Character &you,
         const tripoint_bub_ms &src_loc )
 {
-
+    const activity_id act = get_type();
     Character &player_character = get_player_character();
     map &here = get_map();
 
@@ -1702,8 +1704,8 @@ activity_reason_info vehicle_repair_can_do( const activity_id &act, Character &y
     return activity_reason_info::fail( failed_work );
 }
 
-activity_reason_info mine_can_do( const activity_id &, Character &you,
-                                  const tripoint_bub_ms &src_loc )
+activity_reason_info multi_mine_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
 {
 
     map &here = get_map();
@@ -1722,8 +1724,8 @@ activity_reason_info mine_can_do( const activity_id &, Character &you,
     }
 }
 
-activity_reason_info mop_can_do( const activity_id &, Character &you,
-                                 const tripoint_bub_ms &src_loc )
+activity_reason_info multi_mop_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
 {
 
     map &here = get_map();
@@ -1739,8 +1741,8 @@ activity_reason_info mop_can_do( const activity_id &, Character &you,
     }
 }
 
-activity_reason_info fish_can_do( const activity_id &, Character &you,
-                                  const tripoint_bub_ms &src_loc )
+activity_reason_info multi_fish_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
 {
 
     map &here = get_map();
@@ -1758,8 +1760,8 @@ activity_reason_info fish_can_do( const activity_id &, Character &you,
     }
 }
 
-activity_reason_info chop_trees_can_do( const activity_id &, Character &you,
-                                        const tripoint_bub_ms &src_loc )
+activity_reason_info multi_chop_trees_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
 {
 
     map &here = get_map();
@@ -1775,8 +1777,9 @@ activity_reason_info chop_trees_can_do( const activity_id &, Character &you,
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
     }
 }
-activity_reason_info butcher_can_do( const activity_id &, Character &you,
-                                     const tripoint_bub_ms &src_loc )
+
+activity_reason_info multi_butchery_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
 {
     map &here = get_map();
 
@@ -1837,8 +1840,8 @@ activity_reason_info butcher_can_do( const activity_id &, Character &you,
     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
 }
 
-activity_reason_info read_can_do( const activity_id &, Character &you,
-                                  const tripoint_bub_ms & )
+activity_reason_info multi_read_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms & )
 {
     const item_filter filter = [&you]( const item & i ) {
         // Check well lit after
@@ -1853,8 +1856,8 @@ activity_reason_info read_can_do( const activity_id &, Character &you,
     return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
 }
 
-activity_reason_info study_can_do( const activity_id &, Character &you,
-                                   const tripoint_bub_ms &src_loc )
+activity_reason_info multi_study_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
 {
     map &here = get_map();
     zone_manager &mgr = zone_manager::get_manager();
@@ -1872,7 +1875,7 @@ activity_reason_info study_can_do( const activity_id &, Character &you,
     return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
 }
 
-activity_reason_info chop_planks_can_do( const activity_id &, Character &you,
+activity_reason_info multi_chop_planks_activity_actor::multi_activity_can_do( Character &you,
         const tripoint_bub_ms &src_loc )
 {
 
@@ -1891,7 +1894,7 @@ activity_reason_info chop_planks_can_do( const activity_id &, Character &you,
     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
 }
 
-activity_reason_info construction_can_do( const activity_id &, Character &you,
+activity_reason_info multi_build_construction_activity_actor::multi_activity_can_do( Character &you,
         const tripoint_bub_ms &src_loc )
 {
 
@@ -1926,8 +1929,8 @@ activity_reason_info construction_can_do( const activity_id &, Character &you,
     }
     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
 }
-activity_reason_info farm_can_do( const activity_id &, Character &you,
-                                  const tripoint_bub_ms &src_loc )
+activity_reason_info multi_farm_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
 {
 
     map &here = get_map();
@@ -2012,17 +2015,17 @@ activity_reason_info farm_can_do( const activity_id &, Character &you,
     return activity_reason_info::fail( do_activity_reason::NEEDS_PLANTING );
 }
 
-activity_reason_info fetch_can_do( const activity_id &, Character &,
-                                   const tripoint_bub_ms & )
+activity_reason_info fetch_required_activity_actor::multi_activity_can_do( Character &,
+        const tripoint_bub_ms & )
 {
-    // we check if its possible to get all the requirements for fetching at two other places.
+    // We check if it's possible to get all the requirements for fetching at two other places:
     // 1. before we even assign the fetch activity and;
     // 2. when we form the src_set to loop through at the beginning of the fetch activity.
     return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
 }
 
-activity_reason_info craft_can_do( const activity_id &, Character &you,
-                                   const tripoint_bub_ms &src_loc )
+activity_reason_info multi_craft_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
 {
     // only npc is supported
     npc *p = you.as_npc();
@@ -2047,7 +2050,7 @@ activity_reason_info craft_can_do( const activity_id &, Character &you,
     return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
 }
 
-activity_reason_info disassemble_can_do( const activity_id &, Character &you,
+activity_reason_info multi_disassemble_activity_actor::multi_activity_can_do( Character &you,
         const tripoint_bub_ms &src_loc )
 {
 
@@ -2097,6 +2100,9 @@ activity_reason_info disassemble_can_do( const activity_id &, Character &you,
         return activity_reason_info::fail( do_activity_reason::NO_COMPONENTS );
     }
 }
+
+namespace multi_activity_actor
+{
 
 bool can_do_in_dark( const activity_id &act_id )
 {
@@ -2470,46 +2476,6 @@ std::optional<requirement_id> disassemble_requirements( Character &,
 }
 
 } //namespace multi_activity_actor
-
-
-static activity_reason_info can_do_activity_there( const activity_id &act, Character &you,
-        const tripoint_bub_ms &src_loc )
-{
-    //TODO: move to individual activity actors
-    if( act == ACT_VEHICLE_DECONSTRUCTION ) {
-        return multi_activity_actor::vehicle_deconstruction_can_do( act, you, src_loc );
-    } else if( act == ACT_VEHICLE_REPAIR ) {
-        return multi_activity_actor::vehicle_repair_can_do( act, you, src_loc );
-    } else if( act == ACT_MULTIPLE_MINE ) {
-        return multi_activity_actor::mine_can_do( act, you, src_loc );
-    } else if( act == ACT_MULTIPLE_MOP ) {
-        return multi_activity_actor::mop_can_do( act, you, src_loc );
-    } else if( act == ACT_MULTIPLE_FISH ) {
-        return multi_activity_actor::fish_can_do( act, you, src_loc );
-    } else if( act == ACT_MULTIPLE_CHOP_TREES ) {
-        return multi_activity_actor::chop_trees_can_do( act, you, src_loc );
-    } else if( act == ACT_MULTIPLE_BUTCHER ) {
-        return multi_activity_actor::butcher_can_do( act, you, src_loc );
-    } else if( act == ACT_MULTIPLE_READ ) {
-        return multi_activity_actor::read_can_do( act, you, src_loc );
-    } else if( act == ACT_MULTIPLE_CHOP_PLANKS ) {
-        return multi_activity_actor::chop_planks_can_do( act, you, src_loc );
-    } else if( act == ACT_MULTIPLE_CONSTRUCTION ) {
-        return multi_activity_actor::construction_can_do( act, you, src_loc );
-    } else if( act == ACT_MULTIPLE_FARM ) {
-        return multi_activity_actor::farm_can_do( act, you, src_loc );
-    } else if( act == ACT_FETCH_REQUIRED ) {
-        return multi_activity_actor::fetch_can_do( act, you, src_loc );
-    } else if( act == ACT_MULTIPLE_CRAFT ) {
-        return multi_activity_actor::craft_can_do( act, you, src_loc );
-    } else if( act == ACT_MULTIPLE_DIS ) {
-        return multi_activity_actor::disassemble_can_do( act, you, src_loc );
-    } else if( act == ACT_MULTIPLE_STUDY ) {
-        return multi_activity_actor::study_can_do( act, you, src_loc );
-    }
-    // Shouldn't get here because the zones were checked previously. if it does, set enum reason as "no zone"
-    return activity_reason_info::fail( do_activity_reason::NO_ZONE );
-}
 
 namespace multi_activity_actor
 {
