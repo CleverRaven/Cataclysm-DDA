@@ -284,11 +284,16 @@ std::string display::sundial_text_color( const Character &u, int width )
     const int azm_pos_moon = static_cast<int>( std::round( azm_moon / scale ) ) - 1;
 
     int sun_left_idx, sun_right_idx, sun_left_weather_idx, sun_right_weather_idx;
-    std::tie(sun_left_idx, sun_right_idx) = left_right_highlight_index( azm_pos_sun, sun_highlight, width);
-    std::tie(sun_left_weather_idx, sun_right_weather_idx) = left_right_highlight_index( azm_pos_sun, sun_weather_highlight, width);
+    std::tie( sun_left_idx, sun_right_idx ) = left_right_highlight_index( azm_pos_sun, sun_highlight,
+            width );
+    std::tie( sun_left_weather_idx, sun_right_weather_idx ) = left_right_highlight_index( azm_pos_sun,
+            sun_weather_highlight, width );
     int moon_left_idx, moon_right_idx, moon_left_weather_idx, moon_right_weather_idx;
-    std::tie(moon_left_idx, moon_right_idx) = left_right_highlight_index( azm_pos_moon, moon_highlight, width);
-    std::tie(moon_left_weather_idx, moon_right_weather_idx) = left_right_highlight_index( azm_pos_moon, moon_weather_highlight, width);
+    std::tie( moon_left_idx, moon_right_idx ) = left_right_highlight_index( azm_pos_moon,
+            moon_highlight, width );
+    std::tie( moon_left_weather_idx,
+              moon_right_weather_idx ) = left_right_highlight_index( azm_pos_moon, moon_weather_highlight,
+                                         width );
 
     std::string ret = "[";
     if( !can_creature_see_sky( u ) ) {
@@ -305,7 +310,7 @@ std::string display::sundial_text_color( const Character &u, int width )
                 clr = weather.weather_id->color;
             } else if( i >= moon_left_weather_idx && i <= moon_right_weather_idx ) {
                 clr = yellow_background( clr );
-            } else if(i >= moon_left_idx && i <= moon_right_idx) {
+            } else if( i >= moon_left_idx && i <= moon_right_idx ) {
                 ch = weather.weather_id->get_symbol();
                 clr = weather.weather_id->color;
             }
