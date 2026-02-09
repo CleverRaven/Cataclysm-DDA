@@ -153,27 +153,8 @@ requirement_id synthesize_requirements(
 requirement_id remove_met_requirements( requirement_id base_req_id, Character &you );
 
 /* begin TODO: move to activity actor */
-
-std::optional<requirement_id> construction_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & );
 std::optional<requirement_id> vehicle_work_requirements( Character &you,
         activity_reason_info &act_info, const tripoint_bub_ms &src_loc );
-std::optional<requirement_id> mining_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & );
-std::optional<requirement_id> farm_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms &, const zone_data *zone );
-std::optional<requirement_id> chop_planks_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & );
-std::optional<requirement_id> chop_trees_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & );
-std::optional<requirement_id> butcher_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & );
-std::optional<requirement_id> fish_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & );
-std::optional<requirement_id> craft_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & );
-std::optional<requirement_id> disassemble_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & );
 
 //general function for non-specific multi activities
 std::unordered_set<tripoint_abs_ms> generic_locations( Character &you, const activity_id &act_id );

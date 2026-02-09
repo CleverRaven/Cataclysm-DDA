@@ -2335,9 +2335,12 @@ requirement_id remove_met_requirements( requirement_id base_req_id, Character &y
     return hash_and_cache_requirement_data( reduced_reqs );
 }
 
+} //namespace multi_activity_actor
+
 // returns nullopt if src_loc should be skipped
-std::optional<requirement_id> construction_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & )
+std::optional<requirement_id> multi_build_construction_activity_actor::multi_activity_requirements(
+    Character &,
+    activity_reason_info &act_info, const tripoint_bub_ms &, const zone_data * )
 {
     if( act_info.reason == do_activity_reason::NO_COMPONENTS ) {
         if( !act_info.con_idx ) {
@@ -2350,6 +2353,9 @@ std::optional<requirement_id> construction_requirements( Character &,
     }
     return requirement_id::NULL_ID();
 }
+
+namespace multi_activity_actor
+{
 
 std::optional<requirement_id> vehicle_work_requirements( Character &you,
         activity_reason_info &act_info, const tripoint_bub_ms &src_loc )
@@ -2376,13 +2382,15 @@ std::optional<requirement_id> vehicle_work_requirements( Character &you,
                 reqs = vpi.repair_requirements();
             }
         }
-        return hash_and_cache_requirement_data( reqs );
+        return multi_activity_actor::hash_and_cache_requirement_data( reqs );
     }
     return requirement_id::NULL_ID();
 }
 
-std::optional<requirement_id> mining_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & )
+} //namespace multi_activity_actor
+
+std::optional<requirement_id> multi_mine_activity_actor::multi_activity_requirements( Character &,
+        activity_reason_info &act_info, const tripoint_bub_ms &, const zone_data * )
 {
     if( act_info.reason == do_activity_reason::NEEDS_MINING ) {
         return requirement_data_mining_standard;
@@ -2390,7 +2398,7 @@ std::optional<requirement_id> mining_requirements( Character &,
     return requirement_id::NULL_ID();
 }
 
-std::optional<requirement_id> farm_requirements( Character &,
+std::optional<requirement_id> multi_farm_activity_actor::multi_activity_requirements( Character &,
         activity_reason_info &act_info, const tripoint_bub_ms &, const zone_data *zone )
 {
 
@@ -2409,15 +2417,17 @@ std::optional<requirement_id> farm_requirements( Character &,
         };
         requirement_data::alter_quali_req_vector quality_comp_vector; //no qualities required
         requirement_data::alter_tool_comp_vector tool_comp_vector; //no tools required
-        return synthesize_requirements( requirement_comp_vector, quality_comp_vector, tool_comp_vector );
+        return multi_activity_actor::synthesize_requirements( requirement_comp_vector, quality_comp_vector,
+                tool_comp_vector );
     } else if( reason == do_activity_reason::NEEDS_CUT_HARVESTING ) {
         return requirement_data_multi_farm_cut_harvesting;
     }
     return requirement_id::NULL_ID();
 }
 
-std::optional<requirement_id> chop_planks_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & )
+std::optional<requirement_id> multi_chop_planks_activity_actor::multi_activity_requirements(
+    Character &,
+    activity_reason_info &act_info, const tripoint_bub_ms &, const zone_data * )
 {
     if( act_info.reason == do_activity_reason::NEEDS_CHOPPING ) {
         return requirement_data_multi_chopping_planks;
@@ -2425,8 +2435,9 @@ std::optional<requirement_id> chop_planks_requirements( Character &,
     return requirement_id::NULL_ID();
 }
 
-std::optional<requirement_id> chop_trees_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & )
+std::optional<requirement_id> multi_chop_trees_activity_actor::multi_activity_requirements(
+    Character &,
+    activity_reason_info &act_info, const tripoint_bub_ms &, const zone_data * )
 {
     if( act_info.reason == do_activity_reason::NEEDS_TREE_CHOPPING ) {
         return requirement_data_multi_chopping_trees;
@@ -2434,8 +2445,9 @@ std::optional<requirement_id> chop_trees_requirements( Character &,
     return requirement_id::NULL_ID();
 }
 
-std::optional<requirement_id> butcher_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & )
+std::optional<requirement_id> multi_butchery_activity_actor::multi_activity_requirements(
+    Character &,
+    activity_reason_info &act_info, const tripoint_bub_ms &, const zone_data * )
 {
     if( act_info.reason == do_activity_reason::NEEDS_BUTCHERING ) {
         return requirement_data_multi_butcher;
@@ -2445,8 +2457,8 @@ std::optional<requirement_id> butcher_requirements( Character &,
     return requirement_id::NULL_ID();
 }
 
-std::optional<requirement_id> fish_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & )
+std::optional<requirement_id> multi_fish_activity_actor::multi_activity_requirements( Character &,
+        activity_reason_info &act_info, const tripoint_bub_ms &, const zone_data * )
 {
     if( act_info.reason == do_activity_reason::NEEDS_FISHING ) {
         return requirement_data_multi_fishing;
@@ -2454,28 +2466,27 @@ std::optional<requirement_id> fish_requirements( Character &,
     return requirement_id::NULL_ID();
 }
 
-std::optional<requirement_id> craft_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & )
+std::optional<requirement_id> multi_craft_activity_actor::multi_activity_requirements( Character &,
+        activity_reason_info &act_info, const tripoint_bub_ms &, const zone_data * )
 {
     if( act_info.reason == do_activity_reason::NEEDS_CRAFT ) {
-        return synthesize_requirements( act_info.req.get_components(),
-                                        act_info.req.get_qualities(), act_info.req.get_tools() );
+        return multi_activity_actor::synthesize_requirements( act_info.req.get_components(),
+                act_info.req.get_qualities(), act_info.req.get_tools() );
     }
     return requirement_id::NULL_ID();
 }
 
-std::optional<requirement_id> disassemble_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & )
+std::optional<requirement_id> multi_disassemble_activity_actor::multi_activity_requirements(
+    Character &,
+    activity_reason_info &act_info, const tripoint_bub_ms &, const zone_data * )
 {
     if( act_info.reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
         requirement_data::alter_item_comp_vector requirement_comp_vector; //no items required
-        return synthesize_requirements( requirement_comp_vector,
-                                        act_info.req.get_qualities(), act_info.req.get_tools() );
+        return multi_activity_actor::synthesize_requirements( requirement_comp_vector,
+                act_info.req.get_qualities(), act_info.req.get_tools() );
     }
     return requirement_id::NULL_ID();
 }
-
-} //namespace multi_activity_actor
 
 namespace multi_activity_actor
 {
