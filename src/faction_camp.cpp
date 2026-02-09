@@ -50,6 +50,7 @@
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
+#include "item_components.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "item_pocket.h"
