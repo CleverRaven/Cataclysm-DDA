@@ -277,8 +277,9 @@ std::string display::sundial_text_color( const Character &u, int width )
     const int sun_highlight = u.sight_range( incident_sun_light ) * width / range_day;
     int sun_left_highlight_idx;
     int sun_right_highlight_idx;
-    std::tie( sun_left_highlight_idx, sun_right_highlight_idx ) = left_right_highlight_index( sun_pos_idx,
-            sun_highlight, width );
+    std::tie( sun_left_highlight_idx,
+              sun_right_highlight_idx ) = left_right_highlight_index( sun_pos_idx,
+                                          sun_highlight, width );
 
     // Sunlight ignoring the weather will be covered by weather symbols to show the light reduction
     const float ideal_sun_light = sun_light_at( calendar::turn );
@@ -295,7 +296,7 @@ std::string display::sundial_text_color( const Character &u, int width )
     int moon_right_highlight_idx;
     std::tie( moon_left_highlight_idx,
               moon_right_highlight_idx ) = left_right_highlight_index( moon_pos_idx, moon_highlight,
-                                         width );
+                                           width );
 
     // Moonlight ignoring weather shows weather glyphs to hint at the cloud cover
     const float ideal_moon_light = moon_light_at( calendar::turn );
