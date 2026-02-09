@@ -111,8 +111,6 @@ enum class direction : unsigned int;
 #include "sdltiles.h"
 #endif
 
-static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
-
 static const bionic_id bio_remote( "bio_remote" );
 
 static const damage_type_id damage_cut( "cut" );
@@ -1479,7 +1477,6 @@ static void loot()
         SortLoot = 2,
         SortLootStatic = 4,
         SortLootPersonal = 8,
-        FertilizePlots = 16,
         ConstructPlots = 64,
         MultiFarmPlots = 128,
         Multichoptrees = 256,
@@ -1497,7 +1494,6 @@ static void loot()
     Character &player_character = get_player_character();
     int flags = 0;
     zone_manager &mgr = zone_manager::get_manager();
-    const bool has_fertilizer = player_character.cache_has_item_with( flag_FERTILIZER );
 
     // reset any potentially disabled zones from a past activity
     mgr.reset_disabled();
@@ -1517,7 +1513,6 @@ static void loot()
     flags |= g->check_near_zone( zone_type_UNLOAD_ALL, player_character.pos_bub() ) ||
              g->check_near_zone( zone_type_STRIP_CORPSES, player_character.pos_bub() ) ? UnloadLoot : 0;
     if( g->check_near_zone( zone_type_FARM_PLOT, player_character.pos_bub() ) ) {
-        flags |= FertilizePlots;
         flags |= MultiFarmPlots;
     }
     flags |= g->check_near_zone( zone_type_CONSTRUCTION_BLUEPRINT,
@@ -1567,13 +1562,6 @@ static void loot()
         menu.addentry_desc( UnloadLoot, true, 'U', _( "Unload nearby containers" ),
                             wrap60( _( "Unloads any corpses or containers that are in their respective zones." ) ) );
     }
-
-    if( flags & FertilizePlots ) {
-        menu.addentry_desc( FertilizePlots, has_fertilizer, 'f',
-                            !has_fertilizer ? _( "Fertilize plots… you don't have any fertilizer" ) : _( "Fertilize plots" ),
-                            wrap60( _( "Fertilize any nearby Farm: Plot zones." ) ) );
-    }
-
     if( flags & ConstructPlots ) {
         menu.addentry_desc( ConstructPlots, true, 'c', _( "Construct plots" ),
                             wrap60( _( "Work on any nearby Blueprint: construction zones." ) ) );
@@ -1662,9 +1650,6 @@ static void loot()
             break;
         case UnloadLoot:
             player_character.assign_activity( unload_loot_activity_actor() );
-            break;
-        case FertilizePlots:
-            player_character.assign_activity( ACT_FERTILIZE_PLOT );
             break;
         case ConstructPlots:
             player_character.assign_activity( multi_build_construction_activity_actor() );

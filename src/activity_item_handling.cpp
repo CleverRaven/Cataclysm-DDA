@@ -412,6 +412,24 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
     return result;
 }
 
+static itype_id get_first_fertilizer_itype( Character &you, const tripoint_abs_ms &src )
+{
+    const zone_manager &mgr = zone_manager::get_manager();
+    std::vector<zone_data> zones = mgr.get_zones( zone_type_FARM_PLOT, src, _fac_id( you ) );
+    for( const zone_data &zone : zones ) {
+        const itype_id fertilizer =
+            dynamic_cast<const plot_options &>( zone.get_options() ).get_fertilizer();
+        if( fertilizer.is_valid() ) {
+            std::vector<item_location> fertilizer_inv = you.cache_get_items_with( fertilizer );
+            if( fertilizer_inv.empty() ) {
+                continue;
+            }
+            return fertilizer_inv.front()->typeId();
+        }
+    }
+    return itype_id::NULL_ID();
+}
+
 std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
                                         const std::list<item> &items,
                                         map *here, const tripoint_bub_ms &where, bool allow_overflow )
@@ -1947,6 +1965,12 @@ activity_reason_info farm_can_do( const activity_id &, Character &you,
                 // We can harvest this plant without any tools.
                 return activity_reason_info::ok( do_activity_reason::NEEDS_HARVESTING );
             }
+        }
+        // there's a plant that isn't overgrown or harvestable, apply fertilizer if possible
+        else if( here.has_flag_furn( ter_furn_flag::TFLAG_PLANT, src_loc ) &&
+                 multi_farm_activity_actor::can_fertilize( you, src_loc ).success() &&
+                 !get_first_fertilizer_itype( you, here.get_abs( src_loc ) ).is_null() ) {
+            return activity_reason_info::ok( do_activity_reason::NEEDS_FERTILIZING );
         } else if( here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) && !here.has_furn( src_loc ) ) {
             if( you.has_quality( qual_DIG, 1 ) ) {
                 // we have a shovel/hoe already, great
@@ -2368,6 +2392,8 @@ std::optional<requirement_id> farm_requirements( Character &,
 
     if( reason == do_activity_reason::NEEDS_TILLING ) {
         return requirement_data_multi_farm_tilling;
+    } else if( reason == do_activity_reason::NEEDS_FERTILIZING ) {
+        // no requirements
     } else if( reason == do_activity_reason::NEEDS_PLANTING ) {
         // we can't hardcode individual seed types in JSON, so make a custom requirement
         requirement_data::alter_item_comp_vector requirement_comp_vector = { {
@@ -3361,6 +3387,13 @@ bool farm_do( Character &you, const activity_reason_info &act_info,
             you.backlog.emplace_front( multi_farm_activity_actor() );
             return false;
         }
+    } else if( reason == do_activity_reason::NEEDS_FERTILIZING ) {
+        itype_id used_fertilizer = get_first_fertilizer_itype( you, src );
+        if( !used_fertilizer.is_null() ) {
+            iexamine::fertilize_plant( you, src_loc, used_fertilizer );
+            you.backlog.emplace_front( multi_farm_activity_actor() );
+        }
+        return false;
     }
     return true;
 }
@@ -3710,7 +3743,7 @@ std::optional<bool> route( Character &you, player_activity &act, const tripoint_
         if( !check_only ) {
             if( you.get_moves() <= 0 ) {
                 // Restart activity and break from cycle.
-                you.assign_activity( act_id );
+                you.assign_activity( act );
                 return true;
             }
             // set the destination and restart activity after player arrives there
