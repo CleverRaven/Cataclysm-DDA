@@ -346,5 +346,20 @@
       "void_spider_lair_a1_west": "deep_rock",
       "void_spider_lair_a2_west": "deep_rock"
     }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "Removed in 0.J experimental",
+    "oter_ids": {
+      "full_basic_lab_roof": "omt_obsolete",
+      "lab_escape_cells": "omt_obsolete",
+      "lab_escape_entrance": "omt_obsolete",
+      "ants_lab": "omt_obsolete",
+      "ants_lab_stairs": "omt_obsolete",
+      "ice_lab": "omt_obsolete",
+      "ice_lab_stairs": "omt_obsolete",
+      "ice_lab_core": "omt_obsolete",
+      "ice_lab_finale": "omt_obsolete"
+    }
   }
 ]

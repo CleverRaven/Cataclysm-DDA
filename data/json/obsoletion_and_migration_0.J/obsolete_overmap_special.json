@@ -100,5 +100,20 @@
     "type": "overmap_special_migration",
     "id": "void_spider_lair",
     "//": "Migrated to its own region in 0.J experimental"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Lab",
+    "//": "Removed in 0.J experimental"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Lab with Anthill",
+    "//": "Removed in 0.J experimental"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Ice Lab",
+    "//": "Removed in 0.J experimental"
   }
 ]
