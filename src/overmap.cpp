@@ -1078,8 +1078,6 @@ bool overmap::generate_sub( const int z )
                 sewer_points.emplace_back( p.xy() );
             }
         },
-        { oter_type_slimepit_down.id(), add_goo_point },
-        { oter_type_slimepit_bottom.id(), add_goo_point },
         {
             oter_type_central_lab_core.id(),
             [&]( const tripoint_om_omt & p )
