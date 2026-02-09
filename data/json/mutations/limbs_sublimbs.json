@@ -205,7 +205,7 @@
     "name": "raptor tail base",
     "name_multiple": "raptor tail bases",
     "max_coverage": 10,
-    "parent": "tail_fluffy",
+    "parent": "tail_raptor",
     "side": "both",
     "opposite": "tail_raptor_tip"
   },
@@ -215,7 +215,7 @@
     "name": "raptor tail center",
     "name_multiple": "raptor tail centers",
     "max_coverage": 50,
-    "parent": "tail_fluffy",
+    "parent": "tail_raptor",
     "side": "both",
     "opposite": "tail_raptor_center"
   },
@@ -226,7 +226,7 @@
     "name": "raptor tail tip",
     "name_multiple": "raptor tail tips",
     "max_coverage": 40,
-    "parent": "tail_fluffy",
+    "parent": "tail_raptor",
     "side": "both",
     "opposite": "tail_raptor_base"
   }
