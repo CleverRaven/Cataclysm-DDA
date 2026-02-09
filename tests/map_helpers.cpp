@@ -52,13 +52,18 @@ void clear_radiation()
     for( int z = -1; z <= OVERMAP_HEIGHT; ++z ) {
         for( int x = 0; x < mapsize; ++x ) {
             for( int y = 0; y < mapsize; ++y ) {
-                here.set_radiation( tripoint_bub_ms{ x, y, z}, 0 );
+                here.set_radiation( tripoint_bub_ms{ x, y, z }, 0 );
             }
         }
     }
 }
 
 void wipe_map_terrain( map *target )
+{
+    wipe_map_terrain_with_vision( target, true );
+}
+
+void wipe_map_terrain_with_vision( map *target, bool with_vision )
 {
     map &here = target ? *target : get_map();
     const int mapsize = here.getmapsize() * SEEX;
@@ -67,7 +72,11 @@ void wipe_map_terrain( map *target )
         for( int x = 0; x < mapsize; ++x ) {
             for( int y = 0; y < mapsize; ++y ) {
                 here.set( tripoint_bub_ms{ x, y, z}, terrain, furn_str_id::NULL_ID() );
-                here.partial_con_remove( { x, y, z } );
+                if( with_vision ) {
+                    here.partial_con_remove( { x, y, z } );
+                } else {
+                    here.partial_con_remove_no_vision_for_testing( { x, y, z } );
+                }
             }
         }
     }
@@ -138,6 +147,17 @@ static std::bitset<24 * 24> passable_omt{ ~impassable_omt };
 
 void clear_map( int zmin, int zmax )
 {
+    clear_map_with_vision( zmin, zmax, true );
+}
+
+void clear_map_without_vision( int zmin, int zmax )
+{
+    clear_map_with_vision( zmin, zmax, false );
+}
+
+void clear_map_with_vision( int zmin, int zmax, bool with_vision )
+{
+
     map &here = get_map();
     if( const tripoint_abs_sm &abs_sub = here.get_abs_sub(); abs_sub.z() != 0 ) {
         // Reset z level to 0
@@ -150,7 +170,7 @@ void clear_map( int zmin, int zmax )
     }
     clear_zones();
     clear_npcs();
-    wipe_map_terrain();
+    wipe_map_terrain_with_vision( nullptr, with_vision );
     clear_creatures();
     here.clear_traps();
     for( int z = zmin; z <= zmax; ++z ) {
@@ -173,7 +193,7 @@ void clear_map( int zmin, int zmax )
 void clear_map_and_put_player_underground()
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     // Make sure the player doesn't block the path of the monster being tested.
     get_player_character().setpos( here, tripoint_bub_ms{ 0, 0, -2 } );
 }
@@ -221,7 +241,7 @@ void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_i
     constexpr int z_surface = 0;
     constexpr int z_bottom = -2;
 
-    clear_map( z_bottom - 1, z_surface + 1 );
+    clear_map_with_vision( z_bottom - 1, z_surface + 1, /* with_vision = */ false );
 
     map &here = get_map();
     const tripoint_bub_ms p1( 0, 0, z_bottom - 1 );

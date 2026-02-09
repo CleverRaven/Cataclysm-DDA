@@ -1978,7 +1978,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
 
     map &m = get_map();
     Character &u = get_player_character();
-    clear_map();
+    clear_map_without_vision();
     clear_character( u, true );
     item_location cont1( map_cursor( u.pos_abs() ), &m.add_item_or_charges( u.pos_bub(),
                          cont_nest_rigid ) );
