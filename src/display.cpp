@@ -254,18 +254,19 @@ std::string display::sundial_text_color( const Character &u, int width )
     width -= 2;
 
     std::pair<units::angle, units::angle> sun_pos = sun_azimuth_altitude( calendar::turn );
-
-    float azm_sun = to_degrees( normalize( sun_pos.first + 90_degrees ) );
-    if( azm_sun > 270.f ) {
+    float azm_sun = to_degrees( sun_pos.first );
+    azm_sun += 180.f; // Show south, i.e. midday, as center of the sundial.
+    if( azm_sun > 360.f ) {
         azm_sun -= 360.f;
     }
+    const units::angle alt_sun = sun_pos.second;
     // TODO: moonrise and moonset. It seems that the moon magically stays overhead currently.
     float azm_moon = azm_sun + 180.0f;
-    if( azm_moon > 270.f ) {
+    if( azm_moon > 360.f ) {
         azm_moon -= 360.f;
     }
 
-    const float scale = 180.f / width;
+    const float scale = 360.f / width;
     const int sun_pos_idx = static_cast<int>( std::round( azm_sun / scale ) ) - 1;
     const int moon_pos_idx = static_cast<int>( std::round( azm_moon / scale ) ) - 1;
 
@@ -316,6 +317,20 @@ std::string display::sundial_text_color( const Character &u, int width )
             std::string ch = " ";
             nc_color clr = c_white;
 
+            if( i == sun_pos_idx ) {
+                if( is_twilight( calendar::turn ) ) {
+                    ch = "_";
+                    clr = c_red;
+                } else if( alt_sun >= -6_degrees && alt_sun <= 60_degrees ) {
+                    ch = weather.weather_id->get_sun_symbol();
+                    clr = c_yellow;
+                } else if( alt_sun > 60_degrees ) {
+                    ch = weather.weather_id->get_sun_symbol();
+                }
+            } else if( i == moon_pos_idx ) {
+                ch = moon_phases[get_moon_phase( calendar::turn )];
+            }
+
             if( i >= sun_left_highlight_idx && i <= sun_right_highlight_idx ) {
                 clr = hilite( clr );
             } else if( i >= moon_left_highlight_idx && i <= moon_right_highlight_idx ) {
@@ -324,12 +339,6 @@ std::string display::sundial_text_color( const Character &u, int width )
                        ( i >= moon_left_idx && i <= moon_right_idx ) ) {
                 ch = weather.weather_id->get_symbol();
                 clr = weather.weather_id->color;
-            }
-
-            if( i == sun_pos_idx ) {
-                ch = weather.weather_id->get_sun_symbol();
-            } else if( i == moon_pos_idx ) {
-                ch = moon_phases[get_moon_phase( calendar::turn )];
             }
 
             if( clr != current_clr ) {

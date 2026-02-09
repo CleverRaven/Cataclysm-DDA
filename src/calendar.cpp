@@ -351,7 +351,7 @@ bool is_day( const time_point &p )
     return sun_altitude( p ) >= sunrise_angle;
 }
 
-static bool is_twilight( const time_point &p )
+bool is_twilight( const time_point &p )
 {
     units::angle altitude = sun_altitude( p );
     return altitude >= civil_dawn && altitude <= sunrise_angle;
