@@ -46,7 +46,7 @@ static void test_repair( const std::vector<item> &tools, bool plug_in_tools, boo
 {
     map &here = get_map();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     Character &player_character = get_player_character();

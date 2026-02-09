@@ -157,7 +157,6 @@ void clear_map_without_vision( int zmin, int zmax )
 
 void clear_map_with_vision( int zmin, int zmax, bool with_vision )
 {
-
     map &here = get_map();
     if( const tripoint_abs_sm &abs_sub = here.get_abs_sub(); abs_sub.z() != 0 ) {
         // Reset z level to 0

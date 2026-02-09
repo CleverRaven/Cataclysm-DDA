@@ -184,7 +184,7 @@ TEST_CASE( "Healing/mending_bonuses", "[character][limb]" )
 
 TEST_CASE( "drying_rate", "[character][limb]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     standard_npc dude( "Test NPC" );
     clear_character( dude, true );

@@ -122,7 +122,7 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
 
     avatar &u = get_avatar();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     advanced_inventory advinv;
 
     advinv.init();

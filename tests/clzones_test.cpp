@@ -83,7 +83,7 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
     CAPTURE( in_vehicle );
 
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     tripoint_abs_ms const start = here.get_abs( tripoint_bub_ms::zero + tripoint::east );
     dummy.set_pos_abs_only( start );
@@ -129,7 +129,7 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
 // shelf life and whether the container prevents rotting.
 TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
 {
-    clear_map();
+    clear_map_without_vision();
     zone_manager &zm = zone_manager::get_manager();
 
     const tripoint_abs_ms origin_pos;
