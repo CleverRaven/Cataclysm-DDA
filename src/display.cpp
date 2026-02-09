@@ -312,7 +312,7 @@ std::string display::sundial_text_color( const Character &u, int width )
         ret += ( width > 0 ? std::string( width, '?' ) : "" );
     } else {
         nc_color current_clr = c_white;
-        std::string chars = "";
+        std::string chars;
         for( int i = 0; i < width; i++ ) {
             std::string ch = " ";
             nc_color clr = c_white;
