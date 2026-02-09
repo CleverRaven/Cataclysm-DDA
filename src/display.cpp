@@ -203,7 +203,7 @@ std::string display::time_string( const Character &u )
     // Return exact time if character has a watch, or approximate time if can see the sky
     if( u.has_watch() ) {
         return to_string_time_of_day( calendar::turn );
-    } else if( is_creature_outside( u ) ) {
+    } else if( can_creature_see_sky( u ) ) {
         return display::time_approx();
     } else {
         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
@@ -216,7 +216,7 @@ std::string display::sundial_time_text_color( const Character &u, int width )
     // Return exact time if character has a watch, or approximate time if can see the sky
     if( u.has_watch() ) {
         return to_string_time_of_day( calendar::turn );
-    } else if( is_creature_outside( u ) ) {
+    } else if( can_creature_see_sky( u ) ) {
         return display::sundial_text_color( u, width );
     } else {
         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence

@@ -115,6 +115,7 @@ struct weather_sum {
     int wind_amount = 0;
 };
 bool is_creature_outside( const Creature &target );
+bool can_creature_see_sky( const Creature &target );
 void wet_character( Character &target, int amount );
 weather_type_id get_bad_weather();
 std::string get_shortdirstring( int angle );
