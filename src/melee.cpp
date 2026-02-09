@@ -287,8 +287,8 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
     }
 
     // If the item is an armor that covers many body parts, it also takes less damage (ex. sturdy work coveralls)
-    if( shield->get_covered_body_parts() ) {
-        damage_chance *= std::max( 1, shield->get_covered_body_parts()->count() );
+    if( shield->get_covered_body_parts() != NULL ) {
+        damage_chance *= std::max( 1, shield->get_covered_body_parts().count() );
     }
 
     if( damage_chance > 0 && !one_in( damage_chance ) ) {
