@@ -410,6 +410,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_lab_medical",
+    "name": "Medical area Trans-Coast Logistics, populated by mutants",
+    "terrain": [ { "om_terrain": "lab_health_z-3_B", "om_terrain_match_type": "TYPE" } ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_mall_loading_area",
     "name": "Mall (loading area)",
     "terrain": [ "mall_a_12" ]
