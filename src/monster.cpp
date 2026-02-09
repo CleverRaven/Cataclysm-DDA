@@ -2187,7 +2187,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
         // Miss
         if( has_flag( mon_flag_CLUMSY_ATTACKS ) && one_in( 4 ) ) {
             add_effect( effect_downed, 2_turns, true );
-            if( target.is_avatar() ) {
+            if( target.is_avatar() && u_see_my_spot && !target.in_sleep_state() ) {
                 add_msg( _( "%s stumbles and falls as it attacks you." ),
                          u_see_me ? disp_name() : _( "something" ) );
             }
