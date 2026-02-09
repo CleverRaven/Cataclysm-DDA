@@ -325,9 +325,11 @@ std::string display::sundial_text_color( const Character &u, int width )
             }
 
             if( i == sun_pos_idx ) {
-                ch = weather.weather_id->get_sun_symbol();
+                ch = "\uFE0E";
+                ch += weather.weather_id->get_sun_symbol();
             } else if( i == moon_pos_idx ) {
-                ch = moon_phases[get_moon_phase( calendar::turn )];
+                ch = "\uFE0E";
+                ch += moon_phases[get_moon_phase( calendar::turn )];
             }
             ret += colorize( ch, clr );
         }
