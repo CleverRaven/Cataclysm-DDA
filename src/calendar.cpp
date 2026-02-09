@@ -369,7 +369,7 @@ bool is_dawn( const time_point &p )
     return now < 12_hours && is_twilight( p );
 }
 
-static float moon_light_at( const time_point &p )
+float moon_light_at( const time_point &p )
 {
     int current_phase = static_cast<int>( get_moon_phase( p ) );
     if( current_phase > static_cast<int>( MOON_PHASE_MAX ) / 2 ) {

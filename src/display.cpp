@@ -226,65 +226,95 @@ std::string display::sundial_time_text_color( const Character &u, int width )
 
 std::string display::sundial_text_color( const Character &u, int width )
 {
-    const std::vector<std::pair<std::string, nc_color> > d_glyphs {
-        { "*", c_yellow },
-        { "+", c_yellow },
-        { ".", c_brown },
-        { "_", c_red }
-    };
-    const std::vector<std::pair<std::string, nc_color> > n_glyphs {
-        { "C", c_white },
-        { "c", c_light_blue },
-        { ",", c_blue },
-        { "_", c_cyan }
-    };
+    const std::vector<std::string > moon_phases { "🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘" };
 
-    auto get_glyph = []( int x, int w, int num_glyphs ) {
-        int hw = ( w / 2 ) > 0 ? w / 2 : 1;
-        return clamp<int>( ( std::abs( x - hw ) * num_glyphs ) / hw, 0, num_glyphs - 1 );
+    auto left_right_highlight_index = []( int azm_idx, int covers, int width ) {
+        // Indexes to cover `covers` places centered around `azm_idx` but slide the cover indexes
+        // so that they stay within 0 to `width`. Use this to color the sky proportional to how much
+        // illumination it's providing to the player.
+        const int max_index = width - 1;
+        if( covers <= 1 ) { // Don't hightlight just 1 tile because that's the moon tile anyway.
+            return std::make_pair( -1, -1 );
+        } else if( covers >= width ) {
+            return std::make_pair( 0, max_index );
+        }
+        int left = azm_idx - covers / 2;
+        int right = left + covers - 1;
+        if( left < 0 ) {
+            right -= left;
+            left = 0;
+        }
+        if( right > max_index ) {
+            left -= right - max_index;
+            right = max_index;
+        }
+        return std::make_pair( left, right );
     };
-
-    std::pair<units::angle, units::angle> sun_pos = sun_azimuth_altitude( calendar::turn );
-    const int h = hour_of_day<int>( calendar::turn );
-    const int h_dawn = hour_of_day<int>( sunset( calendar::turn ) ) - 12;
-    const float light = sun_light_at( calendar::turn );
-    float azm = to_degrees( normalize( sun_pos.first + 90_degrees ) );
-    if( azm > 270.f ) {
-        azm -= 360.f;
-    }
 
     width -= 2;
+
+    std::pair<units::angle, units::angle> sun_pos = sun_azimuth_altitude( calendar::turn );
+
+    weather_manager &weather = get_weather();
+    const float sun_light = sun_light_at( calendar::turn );
+    const float incident_sun_light = incident_sunlight( weather.weather_id, calendar::turn );
+    const float moon_light = moon_light_at( calendar::turn );
+    const float incident_moon_light = incident_moonlight( weather.weather_id, calendar::turn );
+
+    const int range_day = u.sight_range( default_daylight_level() );
+    const int sun_highlight = u.sight_range( sun_light ) * width / range_day;
+    const int sun_weather_highlight = u.sight_range( incident_sun_light ) * width / range_day;
+
+    const int moon_highlight = u.sight_range( moon_light ) * width / range_day;
+    const int moon_weather_highlight = u.sight_range( incident_moon_light ) * width / range_day;
+
+    float azm_sun = to_degrees( normalize( sun_pos.first + 90_degrees ) );
+    if( azm_sun > 270.f ) {
+        azm_sun -= 360.f;
+    }
+    // TODO: correct moonrise and moonset. It seems that the moon magically comes up at night in
+    // this game...
+    float azm_moon = azm_sun + 180.0f;
+    if( azm_moon > 270.f ) {
+        azm_moon -= 360.f;
+    }
+
     const float scale = 180.f / width;
-    const int azm_pos = static_cast<int>( std::round( azm / scale ) ) - 1;
-    const int night_h = h >= h_dawn + 12 ? h - ( h_dawn + 12 ) : h + ( 12 - h_dawn );
+    const int azm_pos_sun = static_cast<int>( std::round( azm_sun / scale ) ) - 1;
+    const int azm_pos_moon = static_cast<int>( std::round( azm_moon / scale ) ) - 1;
+
+    int sun_left_idx, sun_right_idx, sun_left_weather_idx, sun_right_weather_idx;
+    std::tie(sun_left_idx, sun_right_idx) = left_right_highlight_index( azm_pos_sun, sun_highlight, width);
+    std::tie(sun_left_weather_idx, sun_right_weather_idx) = left_right_highlight_index( azm_pos_sun, sun_weather_highlight, width);
+    int moon_left_idx, moon_right_idx, moon_left_weather_idx, moon_right_weather_idx;
+    std::tie(moon_left_idx, moon_right_idx) = left_right_highlight_index( azm_pos_moon, moon_highlight, width);
+    std::tie(moon_left_weather_idx, moon_right_weather_idx) = left_right_highlight_index( azm_pos_moon, moon_weather_highlight, width);
+
     std::string ret = "[";
-    if( g->is_sheltered( u.pos_bub() ) ) {
+    if( !can_creature_see_sky( u ) ) {
         ret += ( width > 0 ? std::string( width, '?' ) : "" );
     } else {
         for( int i = 0; i < width; i++ ) {
             std::string ch = " ";
             nc_color clr = c_white;
-            int i_dist = std::abs( i - azm_pos );
-            float f_dist = ( i_dist * 2 ) / static_cast<float>( width );
-            float l_dist = ( f_dist * f_dist * 80.f ) + 30.f;
-            if( h >= h_dawn && h < h_dawn + 12 ) {
-                // day
-                if( i_dist == 0 ) {
-                    int glyph = get_glyph( i, width, d_glyphs.size() );
-                    ch = d_glyphs[glyph].first;
-                    clr = d_glyphs[glyph].second;
-                }
-            } else {
-                // night
-                int n_dist = std::abs( ( night_h * width ) / 12 - i );
-                if( n_dist == 0 ) {
-                    int glyph = get_glyph( i, width, n_glyphs.size() );
-                    ch = n_glyphs[glyph].first;
-                    clr = n_glyphs[glyph].second;
-                }
-            }
-            if( light > l_dist ) {
+
+            if( i >= sun_left_weather_idx && i <= sun_right_weather_idx ) {
                 clr = hilite( clr );
+            } else if( i >= sun_left_idx && i <= sun_right_idx ) {
+                ch = weather.weather_id->get_symbol();
+                clr = weather.weather_id->color;
+            } else if( i >= moon_left_weather_idx && i <= moon_right_weather_idx ) {
+                clr = yellow_background( clr );
+            } else if(i >= moon_left_idx && i <= moon_right_idx) {
+                ch = weather.weather_id->get_symbol();
+                clr = weather.weather_id->color;
+            }
+
+            if( i == azm_pos_moon ) {
+                ch = moon_phases[get_moon_phase( calendar::turn )];
+            }
+            if( i == azm_pos_sun ) {
+                ch = weather.weather_id->get_sun_symbol();
             }
             ret += colorize( ch, clr );
         }

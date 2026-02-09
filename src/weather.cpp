@@ -146,6 +146,11 @@ float incident_sunlight( const weather_type_id &wtype, const time_point &t )
     return std::max<float>( 0.0f, sun_light_at( t ) * wtype->light_multiplier + wtype->light_modifier );
 }
 
+float incident_moonlight( const weather_type_id &wtype, const time_point &t )
+{
+    return std::max<float>( 0.0f, moon_light_at( t ) * wtype->light_multiplier + wtype->light_modifier );
+}
+
 float incident_sun_irradiance( const weather_type_id &wtype, const time_point &t )
 {
     return std::max<float>( 0.0f, sun_irradiance( t ) * wtype->sun_multiplier );

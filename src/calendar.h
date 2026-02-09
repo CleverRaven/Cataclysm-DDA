@@ -647,6 +647,7 @@ float max_sun_irradiance();
  *  For most situations you actually want to call the below function which also
  *  includes moonlight. */
 float sun_light_at( const time_point &p );
+float moon_light_at( const time_point &p );
 
 /* Returns sun irradiance (W/m2) on a flat surface*/
 float sun_irradiance( const time_point &p );
