@@ -331,6 +331,34 @@
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "usp45mag" ] } ]
   },
   {
+    "id": "usp_45_tactical",
+    "copy-from": "usp_45",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "USP Tactical pistol" },
+    "description": "A semi-automatic pistol chambered in .45 ACP with a factory-threaded extended barrel for mounting muzzle devices.  Accepts USP magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "usp_45_tactical",
+        "name": { "str": "USP .45 Tactical pistol" },
+        "description": "The USP Tactical is a variant of the popular USP .45 featuring an extended threaded barrel and adjustable target trigger.  Designed with special operations forces in mind, it can accept suppressors and other muzzle devices directly."
+      },
+      {
+        "id": "mk23",
+        "name": { "str": "MK 23 MOD 0 pistol" },
+        "description": "Jokingly referred to as \"The World's Only Crew-Served Pistol\", this massive pistol was designed as a primary weapon for select \"special operators\".  Its cumbersome nature, the introduction of the derivative HK USP series, and the logistics of getting .45 ACP ammunition in theater doomed this behemoth to US SOCOM armories.  Like the USP, the MK 23 is a remarkably reliable gun; someone could probably take out a nuclear-equipped walking tank with this in their holster."
+      }
+    ],
+    "barrel_length": "136 mm",
+    "longest_side": "270 mm",
+    "weight": "1050 g",
+    "volume": "540 ml",
+    "price": "1 kUSD 150 USD",
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "barrel threading", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "built_in_mods": [ "match_trigger", "barrel_threading" ]
+  },
+  {
     "id": "walther_ppq_45",
     "copy-from": "gun_base_45_semi_pistol",
     "looks_like": "glock_17",

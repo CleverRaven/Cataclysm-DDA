@@ -33,6 +33,28 @@
     "flags": [ "IRREMOVABLE" ]
   },
   {
+    "id": "barrel_threading",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
+    "name": { "str": "barrel threading" },
+    "description": "Precision-cut threads on the muzzle end of a barrel, allowing attachment of muzzle devices such as suppressors and compensators.  Threading a barrel is a permanent modification that requires careful machining to ensure proper alignment.",
+    "weight": "100 g",
+    "integral_weight": "0 g",
+    "volume": "50 ml",
+    "integral_volume": "0 ml",
+    "price": "200 USD",
+    "price_postapoc": "5 USD",
+    "install_time": "30 m",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "barrel threading",
+    "mod_targets": [ "pistol" ],
+    "min_skills": [ [ "weapon", 3 ] ],
+    "add_mod": [ [ "muzzle", 1 ] ],
+    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+  },
+  {
     "id": "barrel_small",
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
