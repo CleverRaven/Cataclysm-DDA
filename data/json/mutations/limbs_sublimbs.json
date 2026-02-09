@@ -53,7 +53,7 @@
     "id": "tail_fluffy_base",
     "type": "sub_body_part",
     "name": "fluffy tail base",
-    "name_multiple": "tail bases",
+    "name_multiple": "fluffy tail bases",
     "max_coverage": 10,
     "parent": "tail_fluffy",
     "side": "both",
@@ -198,5 +198,36 @@
     "parent": "tail_bovine",
     "side": 0,
     "opposite": "tail_bovine_base"
+  },
+  {
+    "id": "tail_raptor_base",
+    "type": "sub_body_part",
+    "name": "raptor tail base",
+    "name_multiple": "raptor tail bases",
+    "max_coverage": 10,
+    "parent": "tail_fluffy",
+    "side": "both",
+    "opposite": "tail_raptor_tip"
+  },
+  {
+    "id": "tail_raptor_center",
+    "type": "sub_body_part",
+    "name": "raptor tail center",
+    "name_multiple": "raptor tail centers",
+    "max_coverage": 50,
+    "parent": "tail_fluffy",
+    "side": "both",
+    "opposite": "tail_raptor_center"
+  },
+  {
+    "id": "tail_raptor_tip",
+    "//": "Higher tip ratio due to feathers",
+    "type": "sub_body_part",
+    "name": "raptor tail tip",
+    "name_multiple": "raptor tail tips",
+    "max_coverage": 40,
+    "parent": "tail_fluffy",
+    "side": "both",
+    "opposite": "tail_raptor_base"
   }
 ]
