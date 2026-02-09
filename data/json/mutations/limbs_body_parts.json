@@ -57,11 +57,14 @@
       [ "vision", 1.0 ],
       [ "night_vis", 1.0 ],
       [ "swim", 1.2 ],
+      [ "breathing", 0.8 ],
       [ "balance", 1.1 ],
       [ "reaction", 1.6 ],
       [ "footing", 1.5 ],
       [ "move_speed", 1.0 ],
-      [ "crawl", 1.5 ]
+      [ "crawl", 1.5 ],
+      [ "consume_liquid", 4.0 ],
+      [ "consume_solid", 2.5 ]
     ],
     "encumbrance_threshold": 6,
     "is_vital": true,
