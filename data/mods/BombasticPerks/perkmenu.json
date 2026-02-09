@@ -1723,6 +1723,25 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_smash_boost" } },
+        "text": "Gain [<trait_name:perk_smash_boost>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_smash_boost>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_smash_boost>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_smash_boost", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires melee 3",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('melee') >= 3" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_dice_addition_damage" } },
         "text": "Gain [<trait_name:perk_dice_addition_damage>]",
         "effect": [

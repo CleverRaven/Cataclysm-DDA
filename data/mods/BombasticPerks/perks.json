@@ -1354,6 +1354,16 @@
   },
   {
     "type": "mutation",
+    "id": "perk_smash_boost",
+    "name": { "str": "Thing-Breaker" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Years of venting your rage on inanimate objects taught you how to hit them to maximize damage.  You are more likely to successfully smash things, and your upper range of smashable things is higher.  This knowledge doesn't apply against anything that moves.",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SMASH_BONUS", "add": 10 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_speedballing",
     "name": { "str": "Speedballing" },
     "points": 0,
