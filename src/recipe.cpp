@@ -764,6 +764,11 @@ static void set_new_comps( item &newit, int amount, item_components *used, bool 
 std::vector<item> recipe::create_result( bool set_components, bool is_food,
         item_components *used ) const
 {
+    // Defensive check: prevent segfault if recipe has no ingredients
+    if( requirements_.is_empty() ) {
+        return {}; // return empty vector instead of crashing
+    }
+    
     item newit( result_, calendar::turn, item::default_charges_tag{} );
 
     if( !variant().empty() ) {
