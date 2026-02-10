@@ -308,7 +308,7 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
                                        you.mutation_name( mut_id ) );
                 you.deactivate_mutation( mut_id );
             } else {
-                you.magic->mod_stamina( -mut_id->cost );
+                you.mod_stamina( -mut_id->cost );
             }
         }
 

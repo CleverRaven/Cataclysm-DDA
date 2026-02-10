@@ -455,7 +455,7 @@ void avatar::power_mutations()
                                        ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                        ( !mut_data.sleepiness || get_sleepiness() <= 400 ) &&
                                        ( !mut_data.mana || magic->available_mana() >= mut_data.cost ) && 
-                                       ( !mut_data.stamina || get_stamina() >= mut_data.cost  ) && ) {
+                                       ( !mut_data.stamina || get_stamina() >= mut_data.cost  ) ) {
                                 add_msg_if_player( m_neutral,
                                                    string_format( mut_data.activation_msg.translated(), mutation_name( mut_data.id ) ) );
                                 // Reset menu in advance
