@@ -985,11 +985,11 @@ TEST_CASE( "widgets_showing_Sun_and_Moon_position", "[widget]" )
         CHECK( sundial_w.layout( ava ) == "SKY: [<color_c_white>          ○       </color>]" );
         set_time( calendar::turn_zero + 5_hours );
         CHECK( sundial_w.layout( ava ) == "SKY: [<color_c_white>            ○     </color>]" );
-        set_time( calendar::turn_zero + 5_hours + 15_minutes );
+        set_time( calendar::turn_zero + 5_hours + 10_minutes );
         CHECK( sundial_w.layout( ava ) == "SKY: [<color_c_white>            ○     </color>]" );
-        set_time( calendar::turn_zero + 5_hours + 30_minutes ); // Sky begins to brighten, but no sun
+        set_time( calendar::turn_zero + 5_hours + 20_minutes ); // Sky begins to brighten, but no sun
         CHECK( sundial_w.layout( ava ) ==
-               "SKY: [<color_c_white>   </color><color_h_white>  </color>"
+               "SKY: [<color_c_white>    </color><color_h_white> </color>"
                "<color_c_white>       ○     </color>]" );
         set_time( calendar::turn_zero + 5_hours + 45_minutes ); // Rising sun is a red underscore
         CHECK( sundial_w.layout( ava ) ==

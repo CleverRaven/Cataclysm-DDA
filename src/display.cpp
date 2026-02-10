@@ -233,7 +233,7 @@ std::string display::sundial_text_color( const Character &u, int width )
         // so that they stay within 0 to `width`. Use this to color the sky proportional to how much
         // illumination it's providing to the player.
         const int max_index = width - 1;
-        if( covers <= 1 ) { // Don't hightlight just 1 tile because that's the moon tile anyway.
+        if( covers <= 0 ) {
             return std::make_pair( -1, -1 );
         } else if( covers >= width ) {
             return std::make_pair( 0, max_index );
