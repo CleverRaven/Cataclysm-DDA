@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <climits>
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
@@ -12753,7 +12754,8 @@ void zone_sort_activity_actor::do_turn( player_activity &act, Character &you )
 
 void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
 {
-    const zone_manager &mgr = zone_manager::get_manager();
+    zone_manager &mgr = zone_manager::get_manager();
+    mgr.cache_avatar_location();
     coord_set.clear();
     for( const tripoint_abs_ms &p :
          mgr.get_near( zone_type_LOOT_UNSORTED, you.pos_abs(), MAX_VIEW_DISTANCE, nullptr,
@@ -12766,6 +12768,8 @@ void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
 bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you )
 {
     const map &here = get_map();
+    zone_manager &mgr = zone_manager::get_manager();
+    mgr.cache_avatar_location();
 
     num_processed = 0;
 
@@ -12836,6 +12840,27 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
     return true;
 }
 
+void zone_sort_activity_actor::return_items_to_source( Character &you,
+        const tripoint_bub_ms &src_bub )
+{
+    for( item_location &item : picked_up_stuff ) {
+        if( item.get_item() ) {
+            // Place the item back at the source tile
+            put_into_vehicle_or_drop_ret_locs( you, item_drop_reason::deliberate,
+            { *item }, src_bub );
+            // Remove from carrier (inventory or grabbed vehicle)
+            if( const vehicle_cursor *veh_curs = item.veh_cursor() ) {
+                vehicle &cart = veh_curs->veh;
+                cart.remove_item( cart.part( veh_curs->part ), item.get_item() );
+            } else if( item.carrier() ) {
+                item.carrier()->i_rem( item.get_item() );
+            }
+        }
+    }
+    picked_up_stuff.clear();
+    dropoff_coords.clear();
+}
+
 void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 {
     map &here = get_map();
@@ -12902,9 +12927,28 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 dest_iter = dropoff_coords.erase( dest_iter ); // Done dropping stuff here.
             } else {
                 dest_iter++; // Evaluate next dropoff
-                // FIXME: If none of the adjacent squares were valid, but we have other squares that we could drop them at then we need to handle that.
-                // That means we need to path to a new one. But only if there's nothing to pick up for sorting(?)
             }
+        }
+
+        // After the dropoff loop: if items remain and destinations exist but none were adjacent,
+        // route to the nearest dropoff destination.
+        if( !picked_up_stuff.empty() && !dropoff_coords.empty() ) {
+            tripoint_abs_ms nearest_dest = dropoff_coords.front();
+            int nearest_dist = INT_MAX;
+            for( const tripoint_abs_ms &dest : dropoff_coords ) {
+                int dist = square_dist( abspos, dest );
+                if( dist < nearest_dist ) {
+                    nearest_dist = dist;
+                    nearest_dest = dest;
+                }
+            }
+            if( !zone_sorting::route_to_destination( you, act, here.get_bub( nearest_dest ), stage ) ) {
+                // Can't reach any dropoff. Put items back at source.
+                return_items_to_source( you, src_bub );
+                coord_set.erase( src );
+                stage = THINK;
+            }
+            return;
         }
     }
 
@@ -13114,7 +13158,12 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             return;
         }
 
-        zone_sorting::route_to_destination( you, act, here.get_bub( destination ), stage );
+        if( !zone_sorting::route_to_destination( you, act, here.get_bub( destination ), stage ) ) {
+            // Can't reach destination. Put items back at source and skip this source tile.
+            return_items_to_source( you, src_bub );
+            coord_set.erase( src );
+            stage = THINK;
+        }
 
     } else if( !you.has_destination() ) {
         debugmsg( "Sort activity has items to sort but no valid destination, this is a bug" );

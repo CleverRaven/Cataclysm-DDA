@@ -940,8 +940,17 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
         }
 
         if( !you.can_add( *it ) ) {
-            *pickup_failure = true;
-            continue;
+            bool vehicle_can_hold = false;
+            if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
+                const tripoint_bub_ms cart_pos = you.pos_bub() + you.as_avatar()->grab_point;
+                if( std::optional<vpart_reference> ovp = get_map().veh_at( cart_pos ).cargo() ) {
+                    vehicle_can_hold = ovp->items().free_volume() >= it->volume();
+                }
+            }
+            if( !vehicle_can_hold ) {
+                *pickup_failure = true;
+                continue;
+            }
         }
 
         if( sort_skip_item( you, it, other_activity_items,
