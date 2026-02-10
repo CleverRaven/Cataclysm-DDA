@@ -16213,7 +16213,7 @@ private:
         if (result.hasExpandedExpression()) {
             stream << "with expansion:\n";
             Colour colourGuard(Colour::ReconstructedExpression);
-            stream << result.getExpandedExpression() << '\n';
+            stream << Column(result.getExpandedExpression()).indent(2) << '\n';
         }
     }
     void printMessage() const {
