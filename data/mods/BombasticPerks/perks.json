@@ -1355,12 +1355,17 @@
   {
     "type": "mutation",
     "id": "perk_smash_boost",
-    "name": { "str": "Thing-Breaker" },
+    "name": { "str": "Smashing for Wimps" },
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Years of venting your rage on inanimate objects taught you how to hit them to maximize damage.  You are more likely to successfully smash things, and your upper range of smashable things is higher.  This knowledge doesn't apply against anything that moves.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SMASH_BONUS", "add": 10 } ] } ]
+    "description": "Strong you might not be, but you can still break things down by hitting them the right way.  You get a bonus to youe smashing ability that increases the weaker you are.",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "SMASH_BONUS", "add": { "math": [ "16 - clamp(u_val('strength'), 0, 16)" ] } } ]
+      }
+    ]
   },
   {
     "type": "mutation",
