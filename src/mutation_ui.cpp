@@ -316,7 +316,7 @@ void avatar::power_mutations()
                 }
                 if( md.thirst ) {
                     if( number_of_resource > 0 ) {
-                        //~ Resources consumed by a mutation: "kcal & thirst & sleepiness & mana"
+                        //~ Resources consumed by a mutation: "kcal & thirst & sleepiness & mana & stamina"
                         resource_unit += _( " &" );
                     }
                     resource_unit += _( " thirst" );
@@ -324,10 +324,17 @@ void avatar::power_mutations()
                 }
                 if( md.sleepiness ) {
                     if( number_of_resource > 0 ) {
-                        //~ Resources consumed by a mutation: "kcal & thirst & sleepiness & mana"
+                        //~ Resources consumed by a mutation: "kcal & thirst & sleepiness & mana & stamina"
                         resource_unit += _( " &" );
                     }
                     resource_unit += _( " sleepiness" );
+                }
+                if( md.stamina ) {
+                    if( number_of_resource > 0 ) {
+                        //~ Resources consumed by a mutation: "kcal & thirst & sleepiness & mana & stamina"
+                        resource_unit += _( " &" );
+                    }
+                    resource_unit += _( " stamina" );
                 }
                 if( md.mana ) {
                     resource_unit += _( " mana" );
@@ -447,7 +454,8 @@ void avatar::power_mutations()
                             } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
                                        ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                        ( !mut_data.sleepiness || get_sleepiness() <= 400 ) &&
-                                       ( !mut_data.mana || magic->available_mana() >= mut_data.cost ) ) {
+                                       ( !mut_data.mana || magic->available_mana() >= mut_data.cost ) && 
+                                       ( !mut_data.stamina || get_stamina() >= mut_data.cost  ) && ) {
                                 add_msg_if_player( m_neutral,
                                                    string_format( mut_data.activation_msg.translated(), mutation_name( mut_data.id ) ) );
                                 // Reset menu in advance

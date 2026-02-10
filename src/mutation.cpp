@@ -419,8 +419,9 @@ bool Character::can_power_mutation( const trait_id &mut ) const
     bool thirst = mut->thirst && get_thirst() >= 260;
     bool sleepiness = mut->sleepiness && get_sleepiness() >= sleepiness_levels::EXHAUSTED;
     bool mana = mut->mana && magic->available_mana() <= mut->cost;
+    bool stamina = mut->stamina && get_stamina() <= mut->cost;
 
-    return !hunger && !sleepiness && !thirst && !mana;
+    return !hunger && !sleepiness && !thirst && !mana && !stamina;
 }
 
 void Character::mutation_reflex_trigger( const trait_id &mut )
@@ -863,6 +864,9 @@ void Character::activate_cached_mutation( const trait_id &mut )
         }
         if( mdata.mana ) {
             magic->mod_mana( *this, -cost );
+        }
+        if( mdata.stamina ) {
+            mod_stamina( -cost );
         }
         tdata.powered = true;
         recalc_sight_limits();
