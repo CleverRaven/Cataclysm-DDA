@@ -14,6 +14,8 @@ cata_test_opts="--min-duration 20 --use-colour yes --rng-seed time --order lex $
 export PATH=$HOME/.local/bin:$PATH
 # export so run_test can read it when executed by parallel
 export cata_test_opts 
+# sdl2-compat has a memory leak
+export LSAN_OPTIONS=suppressions=tests/lsan_suppressions.txt
 
 function run_test
 {
