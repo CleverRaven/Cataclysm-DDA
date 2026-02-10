@@ -179,8 +179,6 @@ static const oter_str_id oter_afs_ruins_dynamic( "afs_ruins_dynamic" );
 static const oter_str_id oter_ants_es( "ants_es" );
 static const oter_str_id oter_ants_esw( "ants_esw" );
 static const oter_str_id oter_ants_ew( "ants_ew" );
-static const oter_str_id oter_ants_lab( "ants_lab" );
-static const oter_str_id oter_ants_lab_stairs( "ants_lab_stairs" );
 static const oter_str_id oter_ants_ne( "ants_ne" );
 static const oter_str_id oter_ants_nes( "ants_nes" );
 static const oter_str_id oter_ants_nesw( "ants_nesw" );
@@ -193,13 +191,8 @@ static const oter_str_id oter_central_lab( "central_lab" );
 static const oter_str_id oter_central_lab_core( "central_lab_core" );
 static const oter_str_id oter_central_lab_finale( "central_lab_finale" );
 static const oter_str_id oter_central_lab_stairs( "central_lab_stairs" );
-static const oter_str_id oter_ice_lab( "ice_lab" );
-static const oter_str_id oter_ice_lab_core( "ice_lab_core" );
-static const oter_str_id oter_ice_lab_finale( "ice_lab_finale" );
-static const oter_str_id oter_ice_lab_stairs( "ice_lab_stairs" );
 static const oter_str_id oter_lab( "lab" );
 static const oter_str_id oter_lab_core( "lab_core" );
-static const oter_str_id oter_lab_finale( "lab_finale" );
 static const oter_str_id oter_lab_stairs( "lab_stairs" );
 static const oter_str_id oter_open_air( "open_air" );
 static const oter_str_id oter_tower_lab( "tower_lab" );
@@ -6343,7 +6336,6 @@ void map::draw_lab( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
     // To distinguish between types of labs
-    bool ice_lab = true;
     bool central_lab = false;
     bool tower_lab = false;
 
@@ -6355,24 +6347,13 @@ void map::draw_lab( mapgendata &dat )
     int bw = 0;
 
     if( terrain_type == oter_lab || terrain_type == oter_lab_stairs
-        || terrain_type == oter_lab_core || terrain_type == oter_ants_lab
-        || terrain_type == oter_ants_lab_stairs || terrain_type == oter_ice_lab
-        || terrain_type == oter_ice_lab_stairs || terrain_type == oter_ice_lab_core
+        || terrain_type == oter_lab_core
         || terrain_type == oter_central_lab || terrain_type == oter_central_lab_stairs
         || terrain_type == oter_central_lab_core || terrain_type == oter_tower_lab
         || terrain_type == oter_tower_lab_stairs ) {
 
-        ice_lab = is_ot_match( "ice_lab", terrain_type, ot_match_type::prefix );
         central_lab = is_ot_match( "central_lab", terrain_type, ot_match_type::prefix );
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
-
-        if( ice_lab ) {
-            units::temperature_delta temperature = units::from_fahrenheit_delta( -20 + 30 * dat.zlevel() );
-            set_temperature_mod( p2, temperature );
-            set_temperature_mod( p2 + point( SEEX, 0 ), temperature );
-            set_temperature_mod( p2 + point( 0, SEEY ), temperature );
-            set_temperature_mod( p2 + point( SEEX, SEEY ), temperature );
-        }
 
         // Check for adjacent sewers; used below
         tw = 0;
@@ -6870,11 +6851,8 @@ void map::draw_lab( mapgendata &dat )
             switch( rng( 1, 7 ) ) {
                 // full flooding/sewage
                 case 1: {
-                    if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ||
-                        is_ot_match( "ice", terrain_type, ot_match_type::contains ) ) {
+                    if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ) {
                         // don't flood if stairs because the floor below will not be flooded.
-                        // don't flood if ice lab because there's no mechanic for freezing
-                        // liquid floors.
                         break;
                     }
                     const ter_id &fluid_type = one_in( 3 ) ? ter_t_sewage : ter_t_water_sh;
@@ -6898,11 +6876,8 @@ void map::draw_lab( mapgendata &dat )
                 }
                 // minor flooding/sewage
                 case 2: {
-                    if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ||
-                        is_ot_match( "ice", terrain_type, ot_match_type::contains ) ) {
+                    if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ) {
                         // don't flood if stairs because the floor below will not be flooded.
-                        // don't flood if ice lab because there's no mechanic for freezing
-                        // liquid floors.
                         break;
                     }
                     const ter_id &fluid_type = one_in( 3 ) ? ter_t_sewage : ter_t_water_sh;
@@ -7024,20 +6999,10 @@ void map::draw_lab( mapgendata &dat )
                 }
             }
         }
-    } else if( terrain_type == oter_lab_finale || terrain_type == oter_ice_lab_finale ||
-               terrain_type == oter_central_lab_finale || terrain_type == oter_tower_lab_finale ) {
+    } else if( terrain_type == oter_central_lab_finale || terrain_type == oter_tower_lab_finale ) {
 
-        ice_lab = is_ot_match( "ice_lab", terrain_type, ot_match_type::prefix );
         central_lab = is_ot_match( "central_lab", terrain_type, ot_match_type::prefix );
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
-
-        if( ice_lab ) {
-            units::temperature_delta temperature_d = units::from_fahrenheit_delta( -20 + 30 * dat.zlevel() );
-            set_temperature_mod( p2, temperature_d );
-            set_temperature_mod( p2 + point( SEEX, 0 ), temperature_d );
-            set_temperature_mod( p2 + point( 0, SEEY ), temperature_d );
-            set_temperature_mod( p2 + point( SEEX, SEEY ), temperature_d );
-        }
 
         tw = ( is_ot_match( "lab", dat.north(), ot_match_type::contains ) &&
                !is_ot_match( "lab_subway", dat.north(), ot_match_type::contains ) ) ? 0 : 2;

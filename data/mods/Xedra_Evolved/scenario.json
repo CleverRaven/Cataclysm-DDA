@@ -21,12 +21,6 @@
     "id": "heli_crash"
   },
   {
-    "copy-from": "lab_staff",
-    "type": "scenario",
-    "extend": { "professions": [ "zebra_investigator" ] },
-    "id": "lab_staff"
-  },
-  {
     "type": "scenario",
     "id": "paraclesian_birth",
     "name": "Paraclesian Birth",

@@ -186,6 +186,7 @@ Promote "SWIM_UNDER" flag to docks and bridges.
 Water frozen in winter veh and thick ice part. (4/5)
 Limbify tails
 Allow furniture/vehicles to be vertically dragged
+Shift Alpha Exodii Labyrinth to its own dimension
 
 
 
@@ -416,6 +417,8 @@ Dimension of sundered spacetime
 Turn various traits into limb-adding mutations
 Add tarot reading
 Devourer Evolution
+Multilevel Exodii dungeon in the string dimension
+Hunting horrors have a poison that makes you burn in light
 
 
 ## Interface:
@@ -564,6 +567,8 @@ Show time required to pick a lock
 Show time to hacksaw before committing to doing it
 Show objective directions on overmap
 Allow resuming hacksaw cutting metal with different tools
+Add missing components to view priority from crafting menu
+Add deprioritize components of a recipe to the crafting menu
 
 
 ## Mods:
@@ -1034,6 +1039,7 @@ Add an enchantment that modifies the 'free dodges' stat introduced for Martial A
 [XE] The holy-burnt suffer from wearing holy symbols.
 [Bombastic Perks] Change the way you get playstyle perks
 [Bombastic Perks] Add more prerequisites for perks
+[Xedra Evolved] Make Nether Sorcery learnable
 
 
 
@@ -1169,6 +1175,8 @@ Remove free attack from rabbit feet
 Give krecks a bite attack
 Make riding an animal exerting; add walking gait
 Flying Polyps are out of phase
+Adjusts default game temperatures to be more in line with Boston, MA
+Melatonin makes sense now
 
 
 ## Bugfixes:
@@ -1606,6 +1614,8 @@ Fix basic typos in code and comments
 Fix typos in code and comments
 Fix another edge case with zone sorting
 Fix monster infighting slowing game down
+Support copy from in string extractor for overmap special
+Adjusts region seasonal wind variation so it actually does something
 
 
 ## Performance:
@@ -1641,6 +1651,7 @@ don’t call std::pow for squaring numbers
 don’t compute the size of far away hordes when drawing the world map
 can_contain: calculate pocket volume once (huge speed up in special cases)
 Shrink binary by using constexpr arrays for units constants
+Speed up autopickup by skipping items that were already checked
 
 
 ## Infrastructure:
@@ -1825,6 +1836,9 @@ move ACT_MULTIPLE_MOP, ACT_MULTIPLE_CHOP_PLANKS, ACT_MULTIPLE_CHOP_TREES to acti
 move ACT_VEHICLE_REPAIR, ACT_VEHICLE_DECONSTRUCTION to activity_actor
 Move ACT_MULTIPLE_FISH/FARM/READ/STUDY to activity_actors
 move ACT_MULTIPLE_CRAFT, ACT_MULTIPLE_DIS(assembly) to activity_actors
+Make inv_search_cache operate on item_location
+move ACT_MULTIPLE_BUTCHER, ACT_FETCH_REQUIRED, ACT_MULTIPLE_CONSTRUCTION to activity_actors
+obsolete ACT_TIDY_UP
 
 
 ## Build:
