@@ -227,7 +227,7 @@ std::string display::sundial_time_text_color( const Character &u, int width )
 std::string display::sundial_text_color( const Character &u, int width )
 {
     // Not using "correct" symbols, 🌖 and so forth, because they're not in unifont.
-    const std::vector<std::string > moon_phases { "○", "☽", "◐", "◕", "●", "◕", "◑ ", "☾" };
+    const std::vector<std::string > moon_phases { "○", "☽", "◑", "◕", "●", "◕", "◐", "☾" };
     auto left_right_highlight_index = []( int azm_idx, int covers, int width ) {
         // Indexes to cover `covers` places centered around `azm_idx` but slide the cover indexes
         // so that they stay within 0 to `width`. Use this to color the sky proportional to how much
@@ -256,19 +256,19 @@ std::string display::sundial_text_color( const Character &u, int width )
     std::pair<units::angle, units::angle> sun_pos = sun_azimuth_altitude( calendar::turn );
     float azm_sun = to_degrees( sun_pos.first );
     azm_sun += 180.f; // Show south, i.e. midday, as center of the sundial.
-    if( azm_sun > 360.f ) {
+    if( azm_sun >= 360.f ) {
         azm_sun -= 360.f;
     }
     const units::angle alt_sun = sun_pos.second;
     // TODO: moonrise and moonset. It seems that the moon magically stays overhead currently.
     float azm_moon = azm_sun + 180.0f;
-    if( azm_moon > 360.f ) {
+    if( azm_moon >= 360.f ) {
         azm_moon -= 360.f;
     }
 
-    const float scale = 360.f / width;
-    const int sun_pos_idx = static_cast<int>( std::round( azm_sun / scale ) ) - 1;
-    const int moon_pos_idx = static_cast<int>( std::round( azm_moon / scale ) ) - 1;
+    const float scale = 360.f / ( width - 1 );
+    const int sun_pos_idx = static_cast<int>( std::round( azm_sun / scale ) );
+    const int moon_pos_idx = static_cast<int>( std::round( azm_moon / scale ) );
 
     weather_manager &weather = get_weather();
     const int range_day = std::min( u.sight_range( default_daylight_level() ), u.unimpaired_range() );
@@ -342,13 +342,17 @@ std::string display::sundial_text_color( const Character &u, int width )
             }
 
             if( clr != current_clr ) {
-                ret += colorize( chars, current_clr );
+                if( chars.size() > 0 ) {
+                    ret += colorize( chars, current_clr );
+                }
                 current_clr = clr;
                 chars = "";
             }
             chars += ch;
         }
-        ret += colorize( chars, current_clr );
+        if( chars.size() > 0 ) {
+            ret += colorize( chars, current_clr );
+        }
     }
     return ret + "]";
 }
