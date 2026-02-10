@@ -1359,7 +1359,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Strong you might not be, but you can still break things down by hitting them the right way.  You get a bonus to youe smashing ability that increases the weaker you are.",
+    "description": "Strong you might not be, but you can still break things down by hitting them the right way.  You get a bonus to your smashing ability that increases the weaker you are.",
     "enchantments": [
       {
         "condition": "ALWAYS",
