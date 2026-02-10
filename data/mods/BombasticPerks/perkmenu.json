@@ -2710,7 +2710,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_SELECT_PLAYSTYLE",
-    "dynamic_line": "<context_val:trait_name>: \"<context_val:trait_description>\"\nCosts <u_val:playstyle_cost> + 1 perk points, <context_val:trait_requirement_description>.\n<context_val:trait_additional_details>",
+    "dynamic_line": "<context_val:trait_name>: \"<context_val:trait_description>\"\nCosts 1 playstyle perk point, <context_val:trait_requirement_description>.\n<context_val:trait_additional_details>",
     "responses": [
       {
         "text": "Select Perk.",
