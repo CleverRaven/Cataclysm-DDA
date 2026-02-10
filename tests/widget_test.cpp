@@ -1135,18 +1135,18 @@ TEST_CASE( "widgets_showing_Sun_and_Moon_position", "[widget]" )
 
         ava.set_mutation( trait_NIGHTVISION );
         CHECK( sundial_w.layout( ava ) ==
-                "SKY: [<color_c_white>        </color><color_c_white_yellow>◑</color>"
-                "<color_c_white>         </color>]" );
+               "SKY: [<color_c_white>        </color><color_c_white_yellow>◑</color>"
+               "<color_c_white>         </color>]" );
 
         ava.set_mutation( trait_NIGHTVISION2 );
         CHECK( sundial_w.layout( ava ) ==
-                "SKY: [<color_c_white>       </color><color_c_white_yellow> ◑</color>"
-                "<color_c_white>         </color>]" );
+               "SKY: [<color_c_white>       </color><color_c_white_yellow> ◑</color>"
+               "<color_c_white>         </color>]" );
 
         ava.set_mutation( trait_NIGHTVISION3 );
         CHECK( sundial_w.layout( ava ) ==
-                "SKY: [<color_c_white>       </color><color_c_white_yellow> ◑ </color>"
-                "<color_c_white>        </color>]" );
+               "SKY: [<color_c_white>       </color><color_c_white_yellow> ◑ </color>"
+               "<color_c_white>        </color>]" );
 
         clear_avatar();
     }
