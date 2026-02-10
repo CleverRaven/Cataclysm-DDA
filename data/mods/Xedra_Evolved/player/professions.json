@@ -314,7 +314,7 @@
     "type": "profession",
     "id": "xe_specter",
     "name": "Xedra Offworld Team: Specter",
-    "description": "Part of Xedra's Offworld Acquisitions team, you were trained to infiltrate any human compatible cultures that were discovered.  You never found any with technology worth stealing and you aren't sure what that says about humanity.",
+    "description": "Part of Xedra's Offworld Acquisitions team, you were trained to infiltrate any human compatible cultures that were discovered.  Your personal best aquisition was a network firewall that steals the soul of failed hackers and you aren't sure what that says about humanity.",
     "traits": [ "XEDRA_CYBORG" ],
     "proficiencies": [ "prof_wp_syn_armored", "prof_auto_pistols_familiar" ],
     "points": 6,
