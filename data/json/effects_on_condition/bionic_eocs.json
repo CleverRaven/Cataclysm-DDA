@@ -108,7 +108,7 @@
     "type": "effect_on_condition",
     "id": "bio_noise_quiet_burn",
     "condition": {
-      "or": [ { "u_has_bionics": "bio_ethanol" }, { "u_has_bionics": "bio_lampoil" } ],
+      "or": [ { "u_has_bionics": "bio_ethanol" }, { "u_has_bionics": "bio_lampoil" } ] },
       "effect": [
         { "if": { "one_in_chance": 120 }, "then": [ { "u_make_sound": "Hiss!!!", "volume": 10, "type": "movement" } ] },
         {
