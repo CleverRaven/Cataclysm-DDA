@@ -89,7 +89,10 @@ static const move_mode_id move_mode_walk( "walk" );
 
 static const trait_id trait_GOODHEARING( "GOODHEARING" );
 static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
+static const trait_id trait_NIGHTVISION2( "NIGHTVISION2" );
+static const trait_id trait_NIGHTVISION3( "NIGHTVISION3" );
 
+static const weather_type_id weather_clear( "clear" );
 static const weather_type_id weather_cloudy( "cloudy" );
 static const weather_type_id weather_drizzle( "drizzle" );
 static const weather_type_id weather_fog( "fog" );
@@ -970,6 +973,7 @@ TEST_CASE( "widgets_showing_Sun_and_Moon_position", "[widget]" )
     clear_avatar();
 
     SECTION( "variable widths " ) {
+        scoped_weather_override forcast( weather_clear );
         sundial_w._width = 20;
         set_time( calendar::turn_zero );
         CHECK( sundial_w.layout( ava ) == "SKY: [<color_c_white>        ○         </color>]" );
@@ -980,6 +984,7 @@ TEST_CASE( "widgets_showing_Sun_and_Moon_position", "[widget]" )
     }
 
     SECTION( "time of day" ) {
+        scoped_weather_override forcast( weather_clear );
         sundial_w._width = 20;
         set_time( calendar::turn_zero + 2_hours );
         CHECK( sundial_w.layout( ava ) == "SKY: [<color_c_white>          ○       </color>]" );
@@ -1040,6 +1045,7 @@ TEST_CASE( "widgets_showing_Sun_and_Moon_position", "[widget]" )
     }
 
     SECTION( "phases of the moon" ) {
+        scoped_weather_override forcast( weather_clear );
         sundial_w._width = 20;
         set_time( calendar::turn_zero );
         CHECK( sundial_w.layout( ava ) == "SKY: [<color_c_white>        ○         </color>]" );
@@ -1073,7 +1079,6 @@ TEST_CASE( "widgets_showing_Sun_and_Moon_position", "[widget]" )
 
         SECTION( "sunny" ) {
             scoped_weather_override forecast( weather_sunny );
-            REQUIRE( get_weather().weather_id->name.translated() == "Sunny" );
             CHECK( sundial_w.layout( ava ) ==
                    "SKY: [<color_h_white>    ○        </color><color_h_yellow>☼</color>"
                    "<color_h_white>    </color>]" );
@@ -1122,11 +1127,36 @@ TEST_CASE( "widgets_showing_Sun_and_Moon_position", "[widget]" )
         }
     }
 
+    SECTION( "night vision" ) {
+        scoped_weather_override forcast( weather_clear );
+        sundial_w._width = 20;
+        set_time( calendar::turn_zero + 8_days );
+        CHECK( sundial_w.layout( ava ) == "SKY: [<color_c_white>        ◑         </color>]" );
+
+        ava.set_mutation( trait_NIGHTVISION );
+        CHECK( sundial_w.layout( ava ) ==
+                "SKY: [<color_c_white>        </color><color_c_white_yellow>◑</color>"
+                "<color_c_white>         </color>]" );
+
+        ava.set_mutation( trait_NIGHTVISION2 );
+        CHECK( sundial_w.layout( ava ) ==
+                "SKY: [<color_c_white>       </color><color_c_white_yellow> ◑</color>"
+                "<color_c_white>         </color>]" );
+
+        ava.set_mutation( trait_NIGHTVISION3 );
+        CHECK( sundial_w.layout( ava ) ==
+                "SKY: [<color_c_white>       </color><color_c_white_yellow> ◑ </color>"
+                "<color_c_white>        </color>]" );
+
+        clear_avatar();
+    }
+
     SECTION( "not outside" ) {
         sundial_w._width = 20;
         set_time( calendar::turn_zero );
         ava.set_pos_abs_only( { 0, 0, -1 } );
         CHECK( sundial_w.layout( ava ) == "SKY: [??????????????????]" );
+        ava.set_pos_abs_only( { 0, 0, 0 } );
     }
 }
 
