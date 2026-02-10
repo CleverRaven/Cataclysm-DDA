@@ -1765,7 +1765,7 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "shark teeth" },
-    "description": "A set of razor-sharp shark teeths.",
+    "description": "A set of razor-sharp shark teeth.",
     "weight": "125 g",
     "volume": "250 ml",
     "price": "0 cent",
