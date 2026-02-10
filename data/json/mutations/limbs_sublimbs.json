@@ -229,5 +229,36 @@
     "parent": "tail_raptor",
     "side": "both",
     "opposite": "tail_raptor_base"
+  },
+  {
+    "id": "tail_finned_base",
+    "type": "sub_body_part",
+    "name": "finned tail base",
+    "name_multiple": "finned tail bases",
+    "max_coverage": 10,
+    "parent": "tail_finned",
+    "side": "both",
+    "opposite": "tail_finned_tip"
+  },
+  {
+    "id": "tail_finned_center",
+    "type": "sub_body_part",
+    "name": "finned tail center",
+    "name_multiple": "finned tail centers",
+    "max_coverage": 50,
+    "parent": "tail_finned",
+    "side": "both",
+    "opposite": "tail_finned_center"
+  },
+  {
+    "id": "tail_finned_tip",
+    "//": "Higher tip ratio due to fin",
+    "type": "sub_body_part",
+    "name": "finned tail tip",
+    "name_multiple": "finned tail tips",
+    "max_coverage": 40,
+    "parent": "tail_finned",
+    "side": "both",
+    "opposite": "tail_finned_base"
   }
 ]
