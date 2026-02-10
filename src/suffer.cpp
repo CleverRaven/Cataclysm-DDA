@@ -300,7 +300,7 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
             }
         }
 
-         if( mut_id->stamina ) {
+        if( mut_id->stamina ) {
             // no enough stamina
             if( you.get_stamina() < mut_id->cost ) {
                 you.add_msg_if_player( m_warning,
