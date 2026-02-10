@@ -890,36 +890,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "Lab",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "lab_stairs" },
-      { "point": [ 0, 0, 1 ], "overmap": "full_basic_lab_roof" },
-      { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] }
-    ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road" } ],
-    "locations": [ "field", "forest_without_trail" ],
-    "city_distance": [ 10, -1 ],
-    "occurrences": [ 2, 100 ],
-    "flags": [ "LAB", "OVERMAP_UNIQUE", "MAN_MADE" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "Lab with Anthill",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "lab_stairs" },
-      { "point": [ 0, 0, 1 ], "overmap": "full_basic_lab_roof" },
-      { "point": [ 3, 1, 0 ], "overmap": "anthill_north" },
-      { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] }
-    ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road" } ],
-    "locations": [ "field", "forest_without_trail" ],
-    "city_distance": [ 10, -1 ],
-    "occurrences": [ 2, 100 ],
-    "flags": [ "ANT", "OVERMAP_UNIQUE", "MAN_MADE" ],
-    "spawns": { "group": "GROUP_ANT_SURFACE", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] }
-  },
-  {
-    "type": "overmap_special",
     "id": "Central Lab",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "central_lab_entrance" },
@@ -968,20 +938,6 @@
     "occurrences": [ 2, 100 ],
     "flags": [ "OVERMAP_UNIQUE", "LAB", "WILDERNESS", "MAN_MADE" ],
     "rotate": false
-  },
-  {
-    "type": "overmap_special",
-    "id": "Ice Lab",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "ice_lab_stairs" },
-      { "point": [ 0, 0, 1 ], "overmap": "full_basic_lab_roof" },
-      { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] }
-    ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road" } ],
-    "locations": [ "field", "forest_without_trail" ],
-    "city_distance": [ 10, -1 ],
-    "occurrences": [ 2, 100 ],
-    "flags": [ "LAB", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
