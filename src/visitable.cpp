@@ -10,6 +10,7 @@
 #include <utility>
 
 #include "bionics.h"
+#include "bodypart.h"
 #include "character.h"
 #include "character_attire.h"
 #include "colony.h"
@@ -47,7 +48,6 @@ static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_any( "any" );
 static const itype_id itype_apparatus( "apparatus" );
 
-static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_SMOKE_PIPE( "SMOKE_PIPE" );
 
 /** @relates visitable */
@@ -210,6 +210,22 @@ bool Character::has_quality( const quality_id &qual, int level, int qty ) const
         }
     }
 
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        const auto &q = mut->provided_qualities.find( qual );
+        if( q != mut->provided_qualities.end() ) {
+            return true;
+        }
+    }
+
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        for( const bp_qualities_provided &bp_q : bp->qualities ) {
+            if( bp_q.quality == qual && bp_q.level >= level &&
+                float( get_part_hp_cur( bp ) ) / float( get_part_hp_max( bp ) ) >= bp_q.disable_percent ) {
+                return true;
+            }
+        }
+    }
+
     return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
@@ -278,9 +294,20 @@ int Character::max_quality( const quality_id &qual ) const
         res = std::max( res, bio.get_quality( qual ) );
     }
 
-    if( qual == qual_BUTCHER ) {
-        for( const trait_id &mut : get_functioning_mutations() ) {
-            res = std::max( res, mut->butchering_quality );
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        const auto &q = mut->provided_qualities.find( qual );
+        if( q != mut->provided_qualities.end() ) {
+            res = std::max( res, q->second );
+        }
+    }
+
+
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        for( const bp_qualities_provided &bp_q : bp->qualities ) {
+            if( bp_q.quality == qual &&
+                float( get_part_hp_cur( bp ) ) / float( get_part_hp_max( bp ) ) >= bp_q.disable_percent ) {
+                res = std::max( res, bp_q.level );
+            }
         }
     }
 

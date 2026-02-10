@@ -72,7 +72,7 @@ static void wield_check_from_ground( avatar &guy, const itype_id &item_name,
 
 TEST_CASE( "Wield_test", "[wield]" )
 {
-    clear_map();
+    clear_map_without_vision();
     item knife_hunting( itype_knife_hunting );
     item knife_combat( itype_knife_combat );
     item sheath( itype_sheath );
@@ -366,7 +366,7 @@ TEST_CASE( "Wield_test", "[wield]" )
 
 TEST_CASE( "Wield_time_test", "[wield]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     SECTION( "A knife in a sheath in cargo pants in a plastic bag in a backpack" ) {
         item backpack( itype_backpack );

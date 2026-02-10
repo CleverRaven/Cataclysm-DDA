@@ -473,6 +473,15 @@ void body_part_type::load( const JsonObject &jo, std::string_view )
         }
     }
 
+    if( jo.has_array( "qualities" ) ) {
+        qualities.clear();
+        for( const JsonObject qual_jo : jo.get_array( "qualities" ) ) {
+            bp_qualities_provided qual;
+            qual.load( qual_jo );
+            qualities.push_back( qual );
+        }
+    }
+
     if( jo.has_array( "temp_mod" ) ) {
         JsonArray temp_array = jo.get_array( "temp_mod" );
         temp_min = units::from_legacy_bodypart_temp_delta( temp_array.get_int( 0 ) );
@@ -509,6 +518,14 @@ void bp_onhit_effect::load( const JsonObject &jo )
     optional( jo, false, "duration", duration, 1 );
     optional( jo, false, "duration_dmg_scaling", duration_dmg_scaling, 0.0f );
     optional( jo, false, "max_duration", max_duration, INT_MAX );
+}
+
+void bp_qualities_provided::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "quality", quality );
+    mandatory( jo, false, "level", level );
+    optional( jo, false, "disable_percent", disable_percent, numeric_bound_reader<float> {0.f, 1.f},
+              0.f );
 }
 
 void body_part_type::reset()

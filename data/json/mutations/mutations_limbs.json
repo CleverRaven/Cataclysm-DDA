@@ -361,7 +361,7 @@
     "type": "mutation",
     "id": "CRUSTACEAN_CLAW",
     "name": { "str": "Giant Pincer" },
-    "description": "Instead of your right hand, you now have a giant claw resembling ones found on crabs.  It encumbers you greatly, but you can use it in melee combat to deal massive damage.",
+    "description": "Instead of your right hand, you now have a giant claw resembling ones found on crabs.  It's really not good at being a human hand, but you can use it in melee combat to deal massive damage.",
     "category": [ "CRUSTACEAN" ],
     "types": [ "HANDS" ],
     "prereqs": [ "CRUSTACEAN_CARAPACE" ],
@@ -372,7 +372,7 @@
     "visibility": 10,
     "ugliness": 9,
     "restricts_gear": [ "hand_r" ],
-    "integrated_armor": [ "integrated_giant_pincer" ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "hand_r" }, { "gain": "crustacean_pincer_r" } ] } ]
   },
   {
     "type": "mutation",
@@ -661,13 +661,7 @@
     "ugliness": 2,
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
-    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "attacks": {
-      "attack_text_u": "You club %s with your tail!",
-      "attack_text_npc": "%1$s clubs %2$s with their tail!",
-      "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 18 }
-    }
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_club" } ] } ]
   },
   {
     "type": "mutation",
@@ -718,7 +712,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_bovine" } ] } ]
   },
   {
     "type": "mutation",
@@ -735,7 +729,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 3 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_raptor" } ] } ]
   },
   {
     "type": "mutation",
@@ -752,8 +746,8 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.25 } ] } ],
-    "wet_protection": [ { "part": "leg_l", "good": 3 }, { "part": "leg_r", "good": 3 } ]
+    "wet_protection": [ { "part": "leg_l", "good": 3 }, { "part": "leg_r", "good": 3 } ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_finned" } ] } ]
   },
   {
     "type": "mutation",

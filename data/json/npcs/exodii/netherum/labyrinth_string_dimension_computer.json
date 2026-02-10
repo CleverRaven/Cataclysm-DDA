@@ -1,0 +1,33 @@
+[
+  {
+    "type": "talk_topic",
+    "//": "uses bastardized anglicised ancient Akkadian, because why English and why accurately shown in cuniform?  Probably doesn't make real sense, which is fine. KÁ refers to the cuniform sign for 'gate,' used in the Epic of Gilgamesh.",
+    "id": "COMP_LS_SD_Entrance_Controls",
+    "dynamic_line": "&You see a black computer screen.  A circular cursor flickers on the screen, displayed at a very low resolution.  The cursor looks to be controlled by a red trackball on the machine.  Only one option appears:\n\n<color_light_green> [KÁ]</color>",
+    "responses": [
+      { "text": "[Select \"KÁ\"] ", "topic": "COMP_LS_SD_Entrance_Controls2" },
+      { "text": "[Step away]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_SD_Entrance_Controls2",
+    "//": "options are roughly 'yes' and 'not yet'",
+    "dynamic_line": "&The screen starts to auto-populate with text, and then two options appear at the bottom:\n\n<color_light_green> @Awīlu > īnu -nērubu -KÁ -@Awīlu\n<color_light_green> nērub ašram ellam\n\n<color_yellow> [annu]\n\n<color_yellow> [adīni lā]",
+    "responses": [
+      {
+        "text": "[Select \"annu\"] (enter the Labyrinthine Structure alpha test 0.1, which is still low on content and lacking combat balance)",
+        "condition": { "u_has_trait": "LS_Alphatest" },
+        "effect": { "run_eocs": "EOC_LS_SD_Teleport_to_labyrinth" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Select \"annu\"]",
+        "condition": { "not": { "u_has_trait": "LS_Alphatest" } },
+        "effect": { "u_message": "The screen glitches and the terminal reboots.", "popup": true },
+        "topic": "COMP_LS_SD_Entrance_Controls"
+      },
+      { "text": "[Select \"adīni lā\"]", "topic": "COMP_LS_SD_Entrance_Controls" }
+    ]
+  }
+]

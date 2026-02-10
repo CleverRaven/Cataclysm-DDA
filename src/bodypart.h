@@ -184,6 +184,16 @@ struct bp_onhit_effect {
     void load( const JsonObject &jo );
 };
 
+struct bp_qualities_provided {
+
+    quality_id quality;
+    int level;
+    // 0-1, if limb HP is below this percentage, it is deactivated
+    float disable_percent = 0;
+
+    void load( const JsonObject &jo );
+};
+
 struct body_part_type {
     public:
         /**
@@ -224,6 +234,8 @@ struct body_part_type {
 
         // Limb-specific attacks
         std::set<matec_id> techniques;
+
+        std::vector<bp_qualities_provided> qualities;
 
         // Effect to trigger on being winded
         efftype_id windage_effect;

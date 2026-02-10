@@ -51,6 +51,7 @@
     "based_on": "neither",
     "can_resume": false,
     "multi_activity": true,
+    "fetch_items_to_zone": false,
     "auto_needs": true
   },
   {
@@ -97,13 +98,6 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": "mopping",
     "based_on": "speed"
-  },
-  {
-    "id": "ACT_TIDY_UP",
-    "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
-    "verb": "tidying up",
-    "based_on": "neither"
   },
   {
     "id": "ACT_VEHICLE_DECONSTRUCTION",
@@ -199,6 +193,7 @@
     "based_on": "neither",
     "can_resume": false,
     "multi_activity": true,
+    "fetch_items_to_zone": false,
     "auto_needs": true
   },
   {
@@ -543,15 +538,6 @@
     "auto_needs": true
   },
   {
-    "id": "ACT_FERTILIZE_PLOT",
-    "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
-    "verb": "fertilizing plots",
-    "based_on": "neither",
-    "can_resume": false,
-    "auto_needs": true
-  },
-  {
     "id": "ACT_START_FIRE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -822,6 +808,13 @@
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "planting seeds",
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_FERTILIZE_PLANT",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "fertilizing plants",
     "based_on": "time"
   },
   {

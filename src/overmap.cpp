@@ -75,12 +75,8 @@ static const oter_str_id oter_field( "field" );
 static const oter_str_id oter_forest( "forest" );
 static const oter_str_id oter_forest_thick( "forest_thick" );
 static const oter_str_id oter_forest_water( "forest_water" );
-static const oter_str_id oter_ice_lab( "ice_lab" );
-static const oter_str_id oter_ice_lab_core( "ice_lab_core" );
 static const oter_str_id oter_lab( "lab" );
 static const oter_str_id oter_lab_core( "lab_core" );
-static const oter_str_id oter_lab_escape_cells( "lab_escape_cells" );
-static const oter_str_id oter_lab_escape_entrance( "lab_escape_entrance" );
 static const oter_str_id oter_lab_train_depot( "lab_train_depot" );
 static const oter_str_id oter_open_air( "open_air" );
 static const oter_str_id oter_sewer_end_north( "sewer_end_north" );
@@ -91,14 +87,9 @@ static const oter_str_id oter_subway_end_north( "subway_end_north" );
 static const oter_str_id oter_subway_isolated( "subway_isolated" );
 static const oter_str_id oter_underground_sub_station( "underground_sub_station" );
 
-static const oter_type_str_id oter_type_ants_queen( "ants_queen" );
 static const oter_type_str_id oter_type_bridge( "bridge" );
 static const oter_type_str_id oter_type_central_lab_core( "central_lab_core" );
 static const oter_type_str_id oter_type_central_lab_stairs( "central_lab_stairs" );
-static const oter_type_str_id oter_type_ice_lab_core( "ice_lab_core" );
-static const oter_type_str_id oter_type_ice_lab_stairs( "ice_lab_stairs" );
-static const oter_type_str_id oter_type_lab_core( "lab_core" );
-static const oter_type_str_id oter_type_lab_stairs( "lab_stairs" );
 static const oter_type_str_id oter_type_microlab_sub_connector( "microlab_sub_connector" );
 static const oter_type_str_id oter_type_railroad_bridge( "railroad_bridge" );
 static const oter_type_str_id oter_type_road( "road" );
@@ -1067,7 +1058,6 @@ bool overmap::generate_sub( const int z )
     std::vector<city> ant_points;
     std::vector<city> goo_points;
     std::vector<city> lab_points;
-    std::vector<city> ice_lab_points;
     std::vector<city> central_lab_points;
     std::vector<point_om_omt> lab_train_points;
     std::vector<point_om_omt> central_lab_train_points;
@@ -1080,42 +1070,6 @@ bool overmap::generate_sub( const int z )
             {
                 ter_set( p, oter_sewer_isolated.id() );
                 sewer_points.emplace_back( p.xy() );
-            }
-        },
-        {
-            oter_type_lab_core.id(),
-            [&]( const tripoint_om_omt & p )
-            {
-                lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
-            }
-        },
-        {
-            oter_type_lab_stairs.id(),
-            [&]( const tripoint_om_omt & p )
-            {
-                if( z == -1 ) {
-                    lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
-                } else {
-                    ter_set( p, oter_lab.id() );
-                }
-            }
-        },
-        {
-            oter_type_ice_lab_core.id(),
-            [&]( const tripoint_om_omt & p )
-            {
-                ice_lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
-            }
-        },
-        {
-            oter_type_ice_lab_stairs.id(),
-            [&]( const tripoint_om_omt & p )
-            {
-                if( z == -1 ) {
-                    ice_lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
-                } else {
-                    ter_set( p, oter_ice_lab.id() );
-                }
             }
         },
         {
@@ -1199,14 +1153,6 @@ bool overmap::generate_sub( const int z )
         requires_sub |= lab;
         if( !lab && ter( tripoint_om_omt( i.pos, z ) ) == oter_lab_core ) {
             ter_set( tripoint_om_omt( i.pos, z ), oter_lab.id() );
-        }
-    }
-    for( city &i : ice_lab_points ) {
-        bool ice_lab = build_lab( tripoint_om_omt( i.pos, z ), i.size, &lab_train_points, "ice_",
-                                  lab_train_odds );
-        requires_sub |= ice_lab;
-        if( !ice_lab && ter( tripoint_om_omt( i.pos, z ) ) == oter_ice_lab_core ) {
-            ter_set( tripoint_om_omt( i.pos, z ), oter_ice_lab.id() );
         }
     }
     for( city &i : central_lab_points ) {
@@ -2611,8 +2557,6 @@ bool overmap::build_lab(
     const oter_id labt_stairs( labt.id().str() + "_stairs" );
     const oter_id labt_core( labt.id().str() + "_core" );
     const oter_id labt_finale( labt.id().str() + "_finale" );
-    const oter_id labt_ants( "ants_lab" );
-    const oter_id labt_ants_stairs( "ants_lab_stairs" );
 
     ter_set( p, labt );
     generated_lab.push_back( p );
@@ -2631,15 +2575,7 @@ bool overmap::build_lab(
         if( dist <= s * 2 ) { // increase radius to compensate for sparser new algorithm
             int dist_increment = s > 3 ? 3 : 2; // Determines at what distance the odds of placement decreases
             if( one_in( dist / dist_increment + 1 ) ) { // odds diminish farther away from the stairs
-                // make an ants lab if it's a basic lab and ants were there before.
-                if( prefix.empty() && check_ot( "ants", ot_match_type::type, cand ) ) {
-                    // skip over a queen's chamber.
-                    if( ter( cand )->get_type_id() != oter_type_ants_queen ) {
-                        ter_set( cand, labt_ants );
-                    }
-                } else {
-                    ter_set( cand, labt );
-                }
+                ter_set( cand, labt );
                 generated_lab.push_back( cand );
                 // add new candidates, don't backtrack
                 for( const point &offset : four_adjacent_offsets ) {
@@ -2683,13 +2619,9 @@ bool overmap::build_lab(
             do {
                 stair = p + point( rng( -s, s ), rng( -s, s ) );
                 tries++;
-            } while( ( ter( stair ) != labt && ter( stair ) != labt_ants ) && tries < 15 );
+            } while( ter( stair ) != labt  && tries < 15 );
             if( tries < 15 ) {
-                if( ter( stair ) == labt_ants ) {
-                    ter_set( stair, labt_ants_stairs );
-                } else {
-                    ter_set( stair, labt_stairs );
-                }
+                ter_set( stair, labt_stairs );
                 numstairs++;
             }
         }
@@ -2737,35 +2669,6 @@ bool overmap::build_lab(
                     break;
                 }
             }
-        }
-    }
-
-    // 4th story of labs is a candidate for lab escape, as long as there's no train or finale.
-    if( prefix.empty() && p.z() == -4 && train_odds == 0 && numstairs > 0 ) {
-        tripoint_om_omt cell;
-        int tries = 0;
-        int adjacent_labs = 0;
-
-        // Find a space bordering just one lab to the south.
-        do {
-            cell = p + point( rng( -s * 1.5 - 1, s * 1.5 + 1 ), rng( -s * 1.5 - 1, s * 1.5 + 1 ) );
-            tries++;
-
-            adjacent_labs = 0;
-            for( const point &offset : four_adjacent_offsets ) {
-                if( is_ot_match( "lab", ter( cell + offset ), ot_match_type::contains ) &&
-                    !is_ot_match( "lab_subway", ter( cell + offset ), ot_match_type::contains ) ) {
-                    ++adjacent_labs;
-                }
-            }
-        } while( tries < 50 && (
-                     ter( cell ) == labt_stairs ||
-                     ter( cell ) == labt_finale ||
-                     ter( cell + point::south ) != labt ||
-                     adjacent_labs != 1 ) );
-        if( tries < 50 ) {
-            ter_set( cell, oter_lab_escape_cells.id() );
-            ter_set( cell + point::south, oter_lab_escape_entrance.id() );
         }
     }
 
@@ -3847,10 +3750,9 @@ void overmap::place_mongroups()
         const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
         const om_noise::om_noise_layer_ocean f( global_base_point(), g->get_seed() );
         const point_abs_om this_om = pos();
-        const int northern_ocean = settings_ocean.ocean_start_north;
-        const int eastern_ocean = settings_ocean.ocean_start_east;
-        const int western_ocean = settings_ocean.ocean_start_west;
-        const int southern_ocean = settings_ocean.ocean_start_south;
+        const bool oceans_disabled = !settings_ocean.ocean_start_north.has_value() &&
+                                     !settings_ocean.ocean_start_east.has_value() &&
+                                     !settings_ocean.ocean_start_west.has_value() && !settings_ocean.ocean_start_south.has_value();
 
         // noise threshold adjuster for deep ocean. Increase to make deep ocean move further from the shore.
         constexpr float DEEP_OCEAN_THRESHOLD_ADJUST = 1.25;
@@ -3858,7 +3760,7 @@ void overmap::place_mongroups()
         // code taken from place_oceans, but noise threshold increased to determine "deep ocean".
         const auto is_deep_ocean = [&]( const point_om_omt & p ) {
             // credit to ehughsbaird for thinking up this inbounds solution to infinite flood fill lag.
-            if( northern_ocean == 0 && eastern_ocean == 0 && western_ocean == 0 && southern_ocean == 0 ) {
+            if( oceans_disabled ) {
                 // you know you could just turn oceans off in global_settings.json right?
                 return false;
             }

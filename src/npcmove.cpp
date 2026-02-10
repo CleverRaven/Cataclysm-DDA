@@ -115,8 +115,10 @@ enum class side : int;
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
@@ -125,7 +127,6 @@ static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
-static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
@@ -3432,6 +3433,12 @@ bool npc::find_job_to_perform()
         } else if( elem == ACT_MULTIPLE_DIS ) {
             assign_activity( multi_disassemble_activity_actor() );
             return true;
+        } else if( elem == ACT_MULTIPLE_CONSTRUCTION ) {
+            assign_activity( multi_build_construction_activity_actor() );
+            return true;
+        } else if( elem == ACT_MULTIPLE_BUTCHER ) {
+            assign_activity( multi_butchery_activity_actor() );
+            return true;
         } else if( generic_multi_activity_handler( scan_act, *this->as_character(), true ) ) {
             assign_activity( elem );
             return true;
@@ -4131,8 +4138,7 @@ bool npc::can_do_pulp()
 bool npc::do_player_activity()
 {
     int old_moves = moves;
-    if( moves > 200 && activity && ( activity.is_multi_type() ||
-                                     activity.id() == ACT_TIDY_UP ) ) {
+    if( moves > 200 && activity && activity.is_multi_type() ) {
         // a huge backlog of a multi-activity type can forever loop
         // instead; just scan the map ONCE for a task to do, and if it returns false
         // then stop scanning, abandon the activity, and kill the backlog of moves.

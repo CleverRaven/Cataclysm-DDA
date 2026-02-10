@@ -4,16 +4,34 @@
     "id": "COMP_LS_Exit_Controls",
     "dynamic_line": "&You see a strangely mundane black computer screen, with a blinking green cursor awaiting input.\n\n<color_light_green> @User > _</color>",
     "responses": [
-      { "text": "Activate exit protocol", "topic": "COMP_LS_Exit_Controls2" },
+      {
+        "text": "Activate exit protocol: home gate",
+        "condition": { "compare_string": [ "yes", { "u_val": "traveled_home_to_labyrinth" } ] },
+        "topic": "COMP_LS_Exit_Controls2_home"
+      },
+      {
+        "text": "Activate exit protocol: KÁ gate",
+        "condition": { "compare_string": [ "yes", { "u_val": "traveled_string_dimension_to_labyrinth" } ] },
+        "topic": "COMP_LS_Exit_Controls2_string_dimension"
+      },
       { "text": "Log off.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "COMP_LS_Exit_Controls2",
+    "id": "COMP_LS_Exit_Controls2_home",
     "dynamic_line": "&<color_light_green> @User > skill -EXIT -@User\n<color_light_green>Really exit?  You will not be able to return to the same place.",
     "responses": [
       { "text": "Yes.", "effect": { "run_eocs": "EOC_LS_Exit_labyrinth" }, "topic": "TALK_DONE" },
+      { "text": "No.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Exit_Controls2_string_dimension",
+    "dynamic_line": "&<color_light_green> @User > skill -EXIT -@User\n<color_light_green>Really exit?  You will not be able to return to the same place.",
+    "responses": [
+      { "text": "Yes.", "effect": { "run_eocs": "EOC_LS_SD_Exit_labyrinth" }, "topic": "TALK_DONE" },
       { "text": "No.", "topic": "TALK_DONE" }
     ]
   },

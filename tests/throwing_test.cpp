@@ -174,7 +174,7 @@ static constexpr throw_test_pstats hi_skill_athlete_stats = { MAX_SKILL, 12, 12,
 TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
 {
     avatar &p = get_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     SECTION( "test_player_vs_zombie_rock_basestats" ) {
         test_throwing_player_versus( p, "mon_zombie", itype_rock, 1, lo_skill_base_stats, { 0.78, 0.10 }, { 5, 3 } );
@@ -219,7 +219,7 @@ TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
 TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
 {
     avatar &p = get_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     // we already cover low stats in the sanity tests and we only cover a few
     // ranges here because what we're really trying to capture is the effect
@@ -307,7 +307,7 @@ static void test_player_kills_monster(
 TEST_CASE( "player_kills_zombie_before_reach", "[throwing],[balance][scenario]" )
 {
     avatar &p = get_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     SECTION( "test_player_kills_zombie_with_rock_basestats" ) {
         test_player_kills_monster( p, "mon_zombie", itype_rock, 15, 1, lo_skill_base_stats, 500 );

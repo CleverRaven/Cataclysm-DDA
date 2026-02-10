@@ -10,7 +10,6 @@
 #include "game.h"
 #include "item.h"
 #include "map.h"
-#include "map_scale_constants.h"
 #include "requirements.h"
 #include "type_id.h"
 
@@ -134,6 +133,7 @@ bool activity_reason_continue( do_activity_reason reason );
 bool activity_reason_quit( do_activity_reason reason );
 // the activity (reason) requires picking up tools
 bool activity_reason_picks_up_tools( do_activity_reason reason );
+void check_npc_revert( Character &you );
 // assigns fetch activity to find requirements
 requirement_check_result fetch_requirements( Character &you, requirement_id what_we_need,
         const activity_id &act_id,
@@ -179,11 +179,9 @@ std::optional<requirement_id> disassemble_requirements( Character &,
 std::unordered_set<tripoint_abs_ms> generic_locations( Character &you, const activity_id &act_id );
 std::unordered_set<tripoint_abs_ms> construction_locations( Character &you,
         const activity_id &act_id );
-std::unordered_set<tripoint_abs_ms> tidy_up_locations( Character &you, const activity_id & );
 std::unordered_set<tripoint_abs_ms> read_locations( Character &you, const activity_id &act_id );
 std::unordered_set<tripoint_abs_ms> study_locations( Character &you, const activity_id &act_id );
 std::unordered_set<tripoint_abs_ms> craft_locations( Character &you, const activity_id &act_id );
-std::unordered_set<tripoint_abs_ms> fetch_locations( Character &you, const activity_id & );
 std::unordered_set<tripoint_abs_ms> fish_locations( Character &you, const activity_id &act_id );
 std::unordered_set<tripoint_abs_ms> mop_locations( Character &you, const activity_id &act_id );
 void prune_same_tile_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set );
@@ -217,8 +215,6 @@ activity_reason_info study_can_do( const activity_id &, Character &you,
                                    const tripoint_bub_ms &src_loc );
 activity_reason_info chop_planks_can_do( const activity_id &, Character &you,
         const tripoint_bub_ms &src_loc );
-activity_reason_info tidy_up_can_do( const activity_id &, Character &you,
-                                     const tripoint_bub_ms &src_loc, int distance = MAX_VIEW_DISTANCE );
 activity_reason_info construction_can_do( const activity_id &, Character &you,
         const tripoint_bub_ms &src_loc );
 activity_reason_info farm_can_do( const activity_id &, Character &you,
@@ -246,14 +242,12 @@ bool study_do( Character &you, const activity_reason_info &act_info,
                const tripoint_abs_ms &src, const tripoint_bub_ms & );
 bool chop_planks_do( Character &you, const activity_reason_info &act_info,
                      const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool tidy_up_do( Character &you, const activity_reason_info &act_info,
-                 const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
 bool construction_do( Character &you, const activity_reason_info &act_info,
                       const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc );
 bool farm_do( Character &you, const activity_reason_info &act_info,
               const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc );
 bool fetch_do( Character &you, const activity_reason_info &act_info,
-               const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
+               const tripoint_abs_ms &, const tripoint_bub_ms & );
 bool craft_do( Character &you, const activity_reason_info &act_info,
                const tripoint_abs_ms &, const tripoint_bub_ms & );
 bool disassemble_do( Character &you, const activity_reason_info &act_info,

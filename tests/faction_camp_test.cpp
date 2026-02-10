@@ -36,7 +36,7 @@ static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 TEST_CASE( "camp_calorie_counting", "[camp]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     map &m = get_map();
     const tripoint_abs_ms zone_loc = m.get_abs( tripoint_bub_ms{ 5, 5, 0 } );
     REQUIRE( m.inbounds( zone_loc ) );

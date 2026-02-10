@@ -195,5 +195,10 @@
     "type": "overmap_location",
     "id": "string_dimension_field_core",
     "terrains": [ "string_dimension_field_core" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "string_dimension_plane_core",
+    "terrains": [ "string_dimension_plane_core" ]
   }
 ]

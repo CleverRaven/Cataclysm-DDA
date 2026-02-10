@@ -1,5 +1,25 @@
 [
   {
+    "id": "crustacean_pincer_wrist_r",
+    "type": "sub_body_part",
+    "name": "crustacean pincer wrist",
+    "name_multiple": "pincer wrists",
+    "max_coverage": 20,
+    "parent": "crustacean_pincer_r",
+    "side": "right",
+    "opposite": "hand_wrist_l"
+  },
+  {
+    "id": "crustacean_pincer_claws_r",
+    "type": "sub_body_part",
+    "name": "crustacean pincer claws",
+    "name_multiple": "pincer claws",
+    "max_coverage": 80,
+    "parent": "crustacean_pincer_r",
+    "side": "right",
+    "opposite": "hand_fingers_l"
+  },
+  {
     "id": "tail_long_base",
     "type": "sub_body_part",
     "name": "long tail base",
@@ -33,7 +53,7 @@
     "id": "tail_fluffy_base",
     "type": "sub_body_part",
     "name": "fluffy tail base",
-    "name_multiple": "tail bases",
+    "name_multiple": "fluffy tail bases",
     "max_coverage": 10,
     "parent": "tail_fluffy",
     "side": "both",
@@ -118,5 +138,127 @@
     "parent": "tail_scorpion",
     "side": 0,
     "opposite": "tail_scorpion_base"
+  },
+  {
+    "id": "tail_club_base",
+    "type": "sub_body_part",
+    "name": "club tail base",
+    "name_multiple": "club tails base",
+    "max_coverage": 10,
+    "parent": "tail_club",
+    "side": 0,
+    "opposite": "tail_club_club"
+  },
+  {
+    "id": "tail_club_center",
+    "type": "sub_body_part",
+    "name": "club tail center",
+    "name_multiple": "club tails center",
+    "max_coverage": 60,
+    "parent": "tail_club",
+    "side": 0,
+    "opposite": "tail_club_center"
+  },
+  {
+    "id": "tail_club_club",
+    "type": "sub_body_part",
+    "name": "club tail mace",
+    "name_multiple": "club tail mace",
+    "max_coverage": 30,
+    "parent": "tail_club",
+    "side": 0,
+    "opposite": "tail_club_base"
+  },
+  {
+    "id": "tail_bovine_base",
+    "type": "sub_body_part",
+    "name": "cattle tail base",
+    "name_multiple": "cattle tails base",
+    "max_coverage": 10,
+    "parent": "tail_bovine",
+    "side": 0,
+    "opposite": "tail_bovine_tip"
+  },
+  {
+    "id": "tail_bovine_center",
+    "type": "sub_body_part",
+    "name": "cattle tail center",
+    "name_multiple": "cattle tails center",
+    "max_coverage": 60,
+    "parent": "tail_bovine",
+    "side": 0,
+    "opposite": "tail_bovine_center"
+  },
+  {
+    "id": "tail_bovine_tip",
+    "type": "sub_body_part",
+    "name": "cattle tail mace",
+    "name_multiple": "cattle tail mace",
+    "max_coverage": 30,
+    "parent": "tail_bovine",
+    "side": 0,
+    "opposite": "tail_bovine_base"
+  },
+  {
+    "id": "tail_raptor_base",
+    "type": "sub_body_part",
+    "name": "raptor tail base",
+    "name_multiple": "raptor tail bases",
+    "max_coverage": 10,
+    "parent": "tail_raptor",
+    "side": "both",
+    "opposite": "tail_raptor_tip"
+  },
+  {
+    "id": "tail_raptor_center",
+    "type": "sub_body_part",
+    "name": "raptor tail center",
+    "name_multiple": "raptor tail centers",
+    "max_coverage": 50,
+    "parent": "tail_raptor",
+    "side": "both",
+    "opposite": "tail_raptor_center"
+  },
+  {
+    "id": "tail_raptor_tip",
+    "//": "Higher tip ratio due to feathers",
+    "type": "sub_body_part",
+    "name": "raptor tail tip",
+    "name_multiple": "raptor tail tips",
+    "max_coverage": 40,
+    "parent": "tail_raptor",
+    "side": "both",
+    "opposite": "tail_raptor_base"
+  },
+  {
+    "id": "tail_finned_base",
+    "type": "sub_body_part",
+    "name": "finned tail base",
+    "name_multiple": "finned tail bases",
+    "max_coverage": 10,
+    "parent": "tail_finned",
+    "side": "both",
+    "opposite": "tail_finned_tip"
+  },
+  {
+    "id": "tail_finned_center",
+    "type": "sub_body_part",
+    "name": "finned tail center",
+    "name_multiple": "finned tail centers",
+    "max_coverage": 50,
+    "parent": "tail_finned",
+    "side": "both",
+    "opposite": "tail_finned_center"
+  },
+  {
+    "id": "tail_finned_tip",
+    "//": "Higher tip ratio due to fin",
+    "type": "sub_body_part",
+    "name": "finned tail tip",
+    "name_multiple": "finned tail tips",
+    "max_coverage": 40,
+    "parent": "tail_finned",
+    "side": "both",
+    "opposite": "tail_finned_base"
   }
 ]

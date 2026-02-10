@@ -314,14 +314,14 @@
     "type": "jmath_function",
     "id": "bloodthorn_druid_traits_sum",
     "num_args": 0,
-    "return": "u_has_trait('BLOODTHORNE_DRUID_SYMBIOTIC_PLANT') + u_has_trait('BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP') + u_has_trait('BLOODTHORNE_DRUID_REGAIN_BLOOD') + u_has_trait('BLOODTHORNE_DRUID_BONUS_MANA_REGEN') + u_has_trait('BLOODTHORNE_DRUID_STOP_BLEEDING') + u_has_trait('BLOODTHORNE_DRUID_WHIP_TARGETS_IN_NATURE') + u_has_trait('BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES') + u_has_trait('BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD') + u_has_trait('BLOODTHORNE_DRUID_SUMMON_THORNHOUND') + u_has_trait('BLOODTHORNE_DRUID_SLOWER_BLEEDING') + u_has_trait('BLOODTHORNE_DRUID_CREATE_THORN_PRISON')"
+    "return": "u_has_trait('BLOODTHORNE_DRUID_SYMBIOTIC_PLANT') + u_has_trait('BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP') + u_has_trait('BLOODTHORNE_DRUID_REGAIN_BLOOD') + u_has_trait('BLOODTHORNE_DRUID_BONUS_MANA_REGEN') + u_has_trait('BLOODTHORNE_DRUID_PREVENT_VAMPIRISM') + u_has_trait('BLOODTHORNE_DRUID_STOP_BLEEDING') + u_has_trait('BLOODTHORNE_DRUID_WHIP_TARGETS_IN_NATURE') + u_has_trait('BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES') + u_has_trait('BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD') + u_has_trait('BLOODTHORNE_DRUID_SUMMON_THORNHOUND') + u_has_trait('BLOODTHORNE_DRUID_SLOWER_BLEEDING') + u_has_trait('BLOODTHORNE_DRUID_CREATE_THORN_PRISON')"
   },
   {
     "type": "jmath_function",
     "id": "bloodthorn_druid_traits_sum_as_npc",
     "//": "For when the caster is the beta talker",
     "num_args": 0,
-    "return": "n_has_trait('BLOODTHORNE_DRUID_SYMBIOTIC_PLANT') + n_has_trait('BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP') + n_has_trait('BLOODTHORNE_DRUID_REGAIN_BLOOD')+ n_has_trait('BLOODTHORNE_DRUID_BONUS_MANA_REGEN') + n_has_trait('BLOODTHORNE_DRUID_STOP_BLEEDING') + n_has_trait('BLOODTHORNE_DRUID_WHIP_TARGETS_IN_NATURE') + n_has_trait('BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES') + n_has_trait('BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD') + n_has_trait('BLOODTHORNE_DRUID_SUMMON_THORNHOUND') + n_has_trait('BLOODTHORNE_DRUID_SLOWER_BLEEDING') + n_has_trait('BLOODTHORNE_DRUID_CREATE_THORN_PRISON')"
+    "return": "n_has_trait('BLOODTHORNE_DRUID_SYMBIOTIC_PLANT') + n_has_trait('BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP') + n_has_trait('BLOODTHORNE_DRUID_REGAIN_BLOOD')+ n_has_trait('BLOODTHORNE_DRUID_BONUS_MANA_REGEN') + n_has_trait('BLOODTHORNE_DRUID_PREVENT_VAMPIRISM') + n_has_trait('BLOODTHORNE_DRUID_STOP_BLEEDING') + n_has_trait('BLOODTHORNE_DRUID_WHIP_TARGETS_IN_NATURE') + n_has_trait('BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES') + n_has_trait('BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD') + n_has_trait('BLOODTHORNE_DRUID_SUMMON_THORNHOUND') + n_has_trait('BLOODTHORNE_DRUID_SLOWER_BLEEDING') + n_has_trait('BLOODTHORNE_DRUID_CREATE_THORN_PRISON')"
   },
   {
     "type": "jmath_function",
@@ -368,8 +368,8 @@
   {
     "type": "jmath_function",
     "id": "lucid_dreaming_proficiency_modifier",
-    "num_args": 1,
-    "return": "( (u_proficiency('prof_lucid_dreaming', 'format': 'percent') / 1000) ) * _0"
+    "num_args": 0,
+    "return": "1 + ( ( (u_proficiency('prof_lucid_dreaming', 'format': 'percent') / 1000) ) * 3)"
   },
   {
     "id": "xe_nether_sorcery_failure_chance",

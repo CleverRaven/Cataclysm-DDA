@@ -1082,7 +1082,7 @@ reference at least one body part or sub body part.
   Only one step of substitution occurs ( Ie. an armor covering `arm_l` will cover `arm_bear_l`, but not any similar bps defined in `arm_bear_l` ).
   Any coverage of a similar sbp will imply coverage of the substitute subpart's parent for the sub-part in question:  Armor covering the elbows will cover similar elbows on other limbs, but not any of the other locations.
 | `armor`                | (_optional_) An object containing damage resistance values. Ex: `"armor": { "bash": 2, "cut": 1 }`. See [Part Resistance](#part-resistance) for details.
-
+| `qualities`            | (_optional_) Object that defines potential tool qualities this bodypart provide; `quality` and `level` fields are self-explanatory, `disable_percent` removes a quality if limb HP is less than percent defined
 ```jsonc
 {
   "id": "arm_l",
@@ -1116,6 +1116,7 @@ reference at least one body part or sub body part.
   "smash_message": "You elbow-smash the %s.",
   "bionic_slots": 20,
   "similar_bodyparts": [ "arm_bear_l" ],
+  "qualities": [ { "quality": "HAMMER", "level": 1, "disable_percent": 0.5 }, { "quality": "BUTCHER", "level": 2 } ],
   "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
 }
 ```
@@ -1212,6 +1213,7 @@ Here are the currently defined limb scores:
 | `manipulator_score`    | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.  The manipulator scores of each limb type are aggregated and the best limb group is chosen for checks.
 | `manipulator_max`      | The upper limit of manipulator score the limb can contribute to.
 | `lifting_score`        | Modifies melee attack stamina and move cost, as well as a number of STR checks.  A sum above 0.5 qualifies for wielding two-handed weapons and similar checks.  Arms below 0.1 lift score don't count as working for the purposes of melee combat.
+| `grip_score`           | Modifies chance to escape traps, ability to wield two-handed weapons, chance mounts are spooked if approaching enemies, and ability to resist being disarmed.
 | `blocking_score`       | The blocking limb is chosen by a roll weighted by eligible limbs' block score, and blocking efficiency is multiplied by the target limb's score.
 | `breathing_score`      | Modifies stamina recovery speed and shout volume.
 | `vision_score`         | Modifies ranged dispersion, ranged and melee weakpoint hit chances.

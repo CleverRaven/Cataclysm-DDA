@@ -21,7 +21,7 @@
       "msg": "You turn the flashlight on.",
       "target": "pyrokinetic_flashlight_on",
       "need_charges": 1,
-      "need_charges_msg": "The flashlight's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "pocket_data": [
       {
@@ -69,7 +69,7 @@
       "type": "transform",
       "target": "pyrokinetic_lamp_on",
       "need_charges": 1,
-      "need_charges_msg": "The lamp's batteries are dead.",
+      "need_charges_msg": "The batteries are dead.",
       "msg": "You open the lamp's cover.",
       "menu_text": "Open cover"
     },

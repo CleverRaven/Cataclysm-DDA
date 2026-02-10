@@ -3988,14 +3988,7 @@
     "visibility": 5,
     "ugliness": 4,
     "restricts_gear": [ "mouth" ],
-    "attacks": {
-      "attack_text_u": "You bite %s!",
-      "attack_text_npc": "%1$s bites %2$s!",
-      "blocker_mutations": [ "FANGS" ],
-      "body_part": "mouth",
-      "chance": 20,
-      "base_damage": { "damage_type": "cut", "amount": 5 }
-    }
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_bear" } ] } ]
   },
   {
     "type": "mutation",
@@ -4087,14 +4080,7 @@
     "ugliness": 4,
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 6 },
-    "attacks": {
-      "attack_text_u": "You nip at %s!",
-      "attack_text_npc": "%1$s nips and harries %2$s!",
-      "blocker_mutations": [ "FANGS" ],
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": { "damage_type": "cut", "amount": 4 }
-    }
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_lupine" } ] } ]
   },
   {
     "type": "mutation",
@@ -5001,13 +4987,15 @@
     "vitamin_cost": 210,
     "visibility": 8,
     "ugliness": 9,
-    "flags": [ "SLUDGE_IMMUNE" ],
-    "encumbrance_always": [ [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
+    "flags": [ "SLUDGE_IMMUNE", "TOUGH_FEET" ],
     "destroys_gear": true,
-    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r", "leg_stub_r", "leg_stub_l" ],
+    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
     "enchantments": [
       {
         "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": 0.25 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.75 } ]
+      },
+      {
+        "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "leg_r" }, { "lose": "foot_r" }, { "lose": "foot_l" }, { "gain": "gastropod_foot" } ]
       }
     ]
   },
@@ -5795,7 +5783,7 @@
     "vitamin_cost": 90,
     "visibility": 8,
     "ugliness": 6,
-    "butchering_quality": 4,
+    "provided_qualities": { "BUTCHER": 4 },
     "integrated_armor": [ "integrated_mandibles" ],
     "attacks": {
       "attack_text_u": "You bite %s with your fangs!",

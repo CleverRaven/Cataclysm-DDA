@@ -964,7 +964,7 @@ TEST_CASE( "widgets_showing_Sun_and_Moon_position", "[widget]" )
     widget sundial_w = widget_test_sundial_text.obj();
 
     avatar &ava = get_avatar();
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     const tripoint_abs_ms orig_pos = ava.pos_abs();
 
@@ -1673,7 +1673,7 @@ TEST_CASE( "moon_and_lighting_widgets", "[widget]" )
 
     avatar &ava = get_avatar();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     set_time( calendar::turn_zero );
     CHECK( w_light.layout( ava ) == "LIGHTING: <color_c_black_white>very dark</color>" );
@@ -1717,7 +1717,7 @@ TEST_CASE( "compass_widget", "[widget][compass]" )
     const tripoint_bub_ms north = ava.pos_bub() + tripoint( 0, -15, 0 );
 
     SECTION( "No monsters" ) {
-        clear_map();
+        clear_map_without_vision();
         set_time( calendar::turn_zero + 12_hours );
         g->mon_info_update();
         CHECK( c5s_N.layout( ava, sidebar_width ) ==
@@ -1732,7 +1732,7 @@ TEST_CASE( "compass_widget", "[widget][compass]" )
     }
 
     SECTION( "1 monster NE" ) {
-        clear_map();
+        clear_map_without_vision();
         set_time( calendar::turn_zero + 12_hours );
         monster &mon1 = spawn_test_monster( "mon_test_CBM", northeast );
         g->mon_info_update();
@@ -1754,7 +1754,7 @@ TEST_CASE( "compass_widget", "[widget][compass]" )
     }
 
     SECTION( "1 monster N" ) {
-        clear_map();
+        clear_map_without_vision();
         set_time( calendar::turn_zero + 12_hours );
         monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
         g->mon_info_update();
@@ -1776,7 +1776,7 @@ TEST_CASE( "compass_widget", "[widget][compass]" )
     }
 
     SECTION( "3 same monsters N" ) {
-        clear_map();
+        clear_map_without_vision();
         set_time( calendar::turn_zero + 12_hours );
         monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
         //NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1803,7 +1803,7 @@ TEST_CASE( "compass_widget", "[widget][compass]" )
     }
 
     SECTION( "3 different monsters N" ) {
-        clear_map();
+        clear_map_without_vision();
         set_time( calendar::turn_zero + 12_hours );
         monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
         //NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -2007,7 +2007,7 @@ TEST_CASE( "multi-line_overmap_text_widget", "[widget][overmap]" )
     // Use mission target to invalidate the om cache
     msn.set_target( ava.pos_abs_omt() + tripoint( 5, 0, 0 ) );
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     ava.on_mission_assignment( msn );
 
     // Mission marker is a red asterisk when it's along the border
@@ -2136,7 +2136,7 @@ TEST_CASE( "Dynamic_height_for_multiline_widgets", "[widget]" )
     const tripoint_bub_ms north = ava.pos_bub() + tripoint( 0, -15, 0 );
 
     SECTION( "No monsters (0 lines, bumped to 1 line when drawing)" ) {
-        clear_map();
+        clear_map_without_vision();
         set_time( calendar::turn_zero + 12_hours );
         g->mon_info_update();
         CHECK( c5s_legend3.layout( ava, sidebar_width ).empty() );
@@ -2144,7 +2144,7 @@ TEST_CASE( "Dynamic_height_for_multiline_widgets", "[widget]" )
     }
 
     SECTION( "1 monster N (1 line)" ) {
-        clear_map();
+        clear_map_without_vision();
         set_time( calendar::turn_zero + 12_hours );
         monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
         g->mon_info_update();
@@ -2157,7 +2157,7 @@ TEST_CASE( "Dynamic_height_for_multiline_widgets", "[widget]" )
     }
 
     SECTION( "2 different monsters N (2 lines)" ) {
-        clear_map();
+        clear_map_without_vision();
         set_time( calendar::turn_zero + 12_hours );
         monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
         //NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -2174,7 +2174,7 @@ TEST_CASE( "Dynamic_height_for_multiline_widgets", "[widget]" )
     }
 
     SECTION( "3 different monsters N (3 lines)" ) {
-        clear_map();
+        clear_map_without_vision();
         set_time( calendar::turn_zero + 12_hours );
         monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
         //NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -2701,7 +2701,7 @@ TEST_CASE( "widget_rows_in_columns", "[widget]" )
 {
     avatar &ava = get_avatar();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     // Setup overmap
     fill_overmap_area( ava, oter_id( "field" ) );
     ava.reset_all_missions();
@@ -2863,7 +2863,7 @@ TEST_CASE( "W_NO_PADDING_widget_flag", "[widget]" )
 {
     avatar &ava = get_avatar();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     ava.reset_all_missions();
     ava.set_focus( 100 );
     ava.movecounter = 0;

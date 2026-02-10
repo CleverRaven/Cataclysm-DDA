@@ -314,7 +314,7 @@ TEST_CASE( "estimated_reading_time_for_a_book", "[reading][book][time]" )
 TEST_CASE( "reasons_for_not_being_able_to_read", "[reading][reasons]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     Character &dummy = get_avatar();
     dummy.set_body();
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );

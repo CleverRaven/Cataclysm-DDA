@@ -237,7 +237,7 @@
       "msg": "You activate your %s.",
       "target": "military_nvg_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "material_thickness": 1,
     "pocket_data": [
@@ -297,7 +297,7 @@
       "msg": "You activate your %s.",
       "target": "advanced_gpnvg_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "material_thickness": 1,
     "pocket_data": [
@@ -365,7 +365,7 @@
       "msg": "You activate your %s.",
       "target": "enhanced_nvg_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "material_thickness": 1,
     "pocket_data": [
@@ -518,7 +518,7 @@
         "coverage": 90
       },
       {
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "encumbrance": 5,
         "coverage": 100
@@ -673,7 +673,7 @@
         "coverage": 90
       },
       {
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "encumbrance": 5,
         "coverage": 100

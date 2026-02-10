@@ -175,9 +175,13 @@ static const itype_id itype_HEW_printout_data_lixa( "HEW_printout_data_lixa" );
 static const itype_id itype_HEW_printout_data_monster_corpse( "HEW_printout_data_monster_corpse" );
 static const itype_id itype_HEW_printout_data_morgantown( "HEW_printout_data_morgantown" );
 static const itype_id itype_HEW_printout_data_physics_lab( "HEW_printout_data_physics_lab" );
+static const itype_id itype_HEW_printout_data_portal( "HEW_printout_data_portal" );
 static const itype_id itype_HEW_printout_data_portal_storm( "HEW_printout_data_portal_storm" );
 static const itype_id itype_HEW_printout_data_radiosphere( "HEW_printout_data_radiosphere" );
+static const itype_id itype_HEW_printout_data_spiral_mine( "HEW_printout_data_spiral_mine" );
 static const itype_id itype_HEW_printout_data_strange_temple( "HEW_printout_data_strange_temple" );
+static const itype_id
+itype_HEW_printout_data_string_dimension( "HEW_printout_data_string_dimension" );
 static const itype_id itype_HEW_printout_data_vitrified( "HEW_printout_data_vitrified" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_maple_sap( "maple_sap" );
@@ -254,6 +258,7 @@ static const ter_str_id ter_t_window_alarm( "t_window_alarm" );
 static const ter_str_id ter_t_window_empty( "t_window_empty" );
 static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
 
+static const trap_str_id tr_portal( "tr_portal" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
@@ -5818,6 +5823,14 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             cur_veh.add_item( here, vp, item( itype_mws_weather_data, calendar::turn_zero ) );
             if( vpi.has_flag( VPFLAG_ADVANCED_MWS ) ) {
                 const tripoint_abs_omt veh_position = cur_veh.pos_abs_omt();
+                const tripoint_bub_ms veh_position_bub = cur_veh.pos_bub( here );
+                bool portal_nearby = false;
+                for( const tripoint_bub_ms &p : points_in_radius( veh_position_bub, 50 ) ) {
+                    if( here.tr_at( p ).id == tr_portal ) {
+                        portal_nearby = true;
+                        break;
+                    }
+                }
                 const tripoint_abs_omt closest_vitrified_farm = overmap_buffer.find_closest( veh_position,
                         "unvitrified_orchard", 10, false );
                 const tripoint_abs_omt closest_lixa = overmap_buffer.find_closest( veh_position, "LIXA_surface_1a",
@@ -5846,6 +5859,13 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                         "cabin_3_reverberation_hint", 10, false );
                 const tripoint_abs_omt closest_monster_corpse = overmap_buffer.find_closest( veh_position,
                         "corpse_bowels_mid", 10, false );
+                const tripoint_abs_omt closest_spiral_mine = overmap_buffer.find_closest( veh_position,
+                        "mine_spiral_finale_s", 10, false );
+                const tripoint_abs_omt closest_string_dimension = overmap_buffer.find_closest( veh_position,
+                        "string_dimension_crossroads", 10, false );
+                if( portal_nearby ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_portal, calendar::turn_zero ) );
+                }
                 if( trig_dist( veh_position, closest_vitrified_farm ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_vitrified, calendar::turn_zero ) );
                 }
@@ -5886,6 +5906,12 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 }
                 if( trig_dist( veh_position, closest_radiosphere ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_radiosphere, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_spiral_mine ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_spiral_mine, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_string_dimension ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_string_dimension, calendar::turn_zero ) );
                 }
                 if( trig_dist( veh_position, closest_monster_corpse ) < 1 ) {
                     cur_veh.add_item( here, vp, item( itype_mws_monster_corpse_weather_data, calendar::turn_zero ) );
@@ -6598,6 +6624,21 @@ partial_con *map::partial_con_at( const tripoint_bub_ms &p )
 
 void map::partial_con_remove( const tripoint_bub_ms &p )
 {
+    partial_con_remove_impl( p );
+    memory_cache_dec_set_dirty( p, true );
+    avatar &player_character = get_avatar();
+    if( player_character.sees( *this, p ) ) {
+        player_character.memorize_clear_decoration( get_abs( p ), "tr_" );
+    }
+}
+
+void map::partial_con_remove_no_vision_for_testing( const tripoint_bub_ms &p )
+{
+    partial_con_remove_impl( p );
+}
+
+void map::partial_con_remove_impl( const tripoint_bub_ms &p )
+{
     if( !inbounds( p ) ) {
         return;
     }
@@ -6608,11 +6649,6 @@ void map::partial_con_remove( const tripoint_bub_ms &p )
         return;
     }
     current_submap->partial_constructions.erase( tripoint_sm_ms( l, p.z() ) );
-    memory_cache_dec_set_dirty( p, true );
-    avatar &player_character = get_avatar();
-    if( player_character.sees( *this, p ) ) {
-        player_character.memorize_clear_decoration( get_abs( p ), "tr_" );
-    }
 }
 
 void map::partial_con_set( const tripoint_bub_ms &p, const partial_con &con )

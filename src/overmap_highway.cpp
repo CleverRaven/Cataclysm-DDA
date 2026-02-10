@@ -534,14 +534,10 @@ std::pair<bool, std::bitset<HIGHWAY_MAX_CONNECTIONS>> overmap::highway_handle_oc
     if( settings->overmap_ocean ) {
         const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
         // Not ideal as oceans can start later than these settings but it's at least reliably stopping before them
-        const int ocean_start_north = settings_ocean.ocean_start_north == 0 ? INT_MAX :
-                                      settings_ocean.ocean_start_north;
-        const int ocean_start_east = settings_ocean.ocean_start_east == 0 ? INT_MAX :
-                                     settings_ocean.ocean_start_east;
-        const int ocean_start_west = settings_ocean.ocean_start_west == 0 ? INT_MAX :
-                                     settings_ocean.ocean_start_west;
-        const int ocean_start_south = settings_ocean.ocean_start_south == 0 ? INT_MAX :
-                                      settings_ocean.ocean_start_south;
+        const int ocean_start_north = settings_ocean.ocean_start_north.value_or( INT_MAX );
+        const int ocean_start_east = settings_ocean.ocean_start_east.value_or( INT_MAX );
+        const int ocean_start_west = settings_ocean.ocean_start_west.value_or( INT_MAX );
+        const int ocean_start_south = settings_ocean.ocean_start_south.value_or( INT_MAX );
         // Don't place highways over the ocean
         if( this_om.y() <= -ocean_start_north || this_om.x() >= ocean_start_east ||
             this_om.y() >= ocean_start_south || this_om.x() <= -ocean_start_west ) {

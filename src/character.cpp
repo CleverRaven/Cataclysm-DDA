@@ -198,6 +198,7 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_mech_recon_vision( "mech_recon_vision" );
+static const efftype_id effect_melatonin( "melatonin" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -1986,11 +1987,12 @@ bool Character::has_min_manipulators() const
     return get_limb_score( limb_score_manip ) > MIN_MANIPULATOR_SCORE;
 }
 
-/** Returns true if the character has two functioning arms */
+/** Returns true if the character has two functioning arms and two human-like hands */
 bool Character::has_two_arms_lifting() const
 {
-    // 0.5f is one "standard" arm, so if you have more than that you barely qualify.
-    return get_limb_score( limb_score_lift, bp_type::arm ) > 0.5f;
+    // 0.5f is one "standard" arm, so if you have more than that you barely qualify. Same with hands.
+    return get_limb_score( limb_score_lift, bp_type::arm ) > 0.5f &&
+           get_limb_score( limb_score_grip, bp_type::hand ) > 0.5f;
 }
 
 std::set<matec_id> Character::get_limb_techs() const
@@ -3024,9 +3026,9 @@ std::map<damage_type_id, int> Character::smash_ability() const
 {
     int bonus = 0;
     std::map<damage_type_id, int> ret;
-
-    ///\EFFECT_STR increases smashing capability
+    ///\EFFECT_STR and SMASH_BONUS increase smashing capability
     bonus += get_arm_str();
+    bonus += enchantment_cache->get_value_add( enchant_vals::mod::SMASH_BONUS );
     if( is_mounted() ) {
         auto *mon = mounted_creature.get();
         bonus += mon->mech_str_addition() + mon->type->melee_dice * mon->type->melee_sides;
@@ -5215,6 +5217,9 @@ void Character::assign_activity( const player_activity &act )
     } else {
         if( activity ) {
             backlog.push_front( activity );
+            if( backlog.size() > 100 ) {
+                debugmsg( "activity backlog exceeded 100, likely an infinite loop" );
+            }
         }
 
         activity = act;
@@ -5317,7 +5322,11 @@ void Character::fall_asleep()
         // In practice, the sleepiness from filling the tank from (no msg) to Time For Bed
         // will last about 8 days.
     } else {
-        fall_asleep( 10_hours );    // default max sleep time.
+        time_duration sleep_duration = 10_hours;  // default max sleep time
+        if( has_effect( effect_melatonin ) ) {
+            sleep_duration = 12_hours;  // Artificial sleep hormone boost allows you to sleep longer
+        }
+        fall_asleep( sleep_duration );
     }
 }
 
