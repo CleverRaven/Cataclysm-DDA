@@ -969,7 +969,7 @@ TEST_CASE( "widgets_showing_Sun_and_Moon_position", "[widget]" )
     clear_map();
     clear_avatar();
 
-    SECTION( "variable widths ") {
+    SECTION( "variable widths " ) {
         sundial_w._width = 20;
         set_time( calendar::turn_zero );
         CHECK( sundial_w.layout( ava ) == "SKY: [<color_c_white>        ○         </color>]" );
@@ -989,46 +989,46 @@ TEST_CASE( "widgets_showing_Sun_and_Moon_position", "[widget]" )
         CHECK( sundial_w.layout( ava ) == "SKY: [<color_c_white>            ○     </color>]" );
         set_time( calendar::turn_zero + 5_hours + 30_minutes ); // Sky begins to brighten, but no sun
         CHECK( sundial_w.layout( ava ) ==
-                "SKY: [<color_c_white>   </color><color_h_white>  </color>"
-                "<color_c_white>       ○     </color>]" );
+               "SKY: [<color_c_white>   </color><color_h_white>  </color>"
+               "<color_c_white>       ○     </color>]" );
         set_time( calendar::turn_zero + 5_hours + 45_minutes ); // Rising sun is a red underscore
         CHECK( sundial_w.layout( ava ) ==
-                "SKY: [<color_h_white>    </color><color_h_red>_</color>"
-                "<color_h_white>        ○  </color><color_c_white>  </color>]" );
+               "SKY: [<color_h_white>    </color><color_h_red>_</color>"
+               "<color_h_white>        ○  </color><color_c_white>  </color>]" );
         set_time( calendar::turn_zero + 6_hours ); // Sun has risen and has brightened the whole sky
         CHECK( sundial_w.layout( ava ) ==
-                "SKY: [<color_h_white>    </color><color_h_yellow>☼</color>"
-                "<color_h_white>        ○    </color>]" );
+               "SKY: [<color_h_white>    </color><color_h_yellow>☼</color>"
+               "<color_h_white>        ○    </color>]" );
         set_time( calendar::turn_zero + 8_hours );
         CHECK( sundial_w.layout( ava ) ==
-                "SKY: [<color_h_white>     </color><color_h_yellow>☼</color>"
-                "<color_h_white>        ○   </color>]" );
+               "SKY: [<color_h_white>     </color><color_h_yellow>☼</color>"
+               "<color_h_white>        ○   </color>]" );
         set_time( calendar::turn_zero + 12_hours + 5_minutes );
         CHECK( sundial_w.layout( ava ) ==
-                "SKY: [<color_h_white>        </color><color_h_yellow>☼</color>"
-                "<color_h_white>        ○</color>]" );
+               "SKY: [<color_h_white>        </color><color_h_yellow>☼</color>"
+               "<color_h_white>        ○</color>]" );
         set_time( calendar::turn_zero + 12_hours + 10_minutes ); // moon wrapped around the display
         CHECK( sundial_w.layout( ava ) ==
-                "SKY: [<color_h_white>○        </color><color_h_yellow>☼</color>"
-                "<color_h_white>        </color>]" );
+               "SKY: [<color_h_white>○        </color><color_h_yellow>☼</color>"
+               "<color_h_white>        </color>]" );
         set_time( calendar::turn_zero + 58_days + 12_hours ); // White sun when illumination is max
         CHECK( sundial_w.layout( ava ) == "SKY: [<color_h_white>○        ☼        </color>]" );
         set_time( calendar::turn_zero + 16_hours );
         CHECK( sundial_w.layout( ava ) ==
-                "SKY: [<color_h_white>   ○        </color><color_h_yellow>☼</color>"
-                "<color_h_white>     </color>]" );
+               "SKY: [<color_h_white>   ○        </color><color_h_yellow>☼</color>"
+               "<color_h_white>     </color>]" );
         set_time( calendar::turn_zero + 18_hours + 15_minutes ); // sun is still up
         CHECK( sundial_w.layout( ava ) ==
-                "SKY: [<color_h_white>    ○        </color><color_h_yellow>☼</color>"
-                "<color_h_white>    </color>]" );
+               "SKY: [<color_h_white>    ○        </color><color_h_yellow>☼</color>"
+               "<color_h_white>    </color>]" );
         set_time( calendar::turn_zero + 18_hours + 30_minutes ); // sun is setting and some light is gone
         CHECK( sundial_w.layout( ava ) ==
-                "SKY: [<color_c_white>   </color><color_h_white> ○        </color>"
-                "<color_h_red>_</color><color_h_white>    </color>]" );
+               "SKY: [<color_c_white>   </color><color_h_white> ○        </color>"
+               "<color_h_red>_</color><color_h_white>    </color>]" );
         set_time( calendar::turn_zero + 18_hours + 45_minutes ); // sun is down but still providing light
         CHECK( sundial_w.layout( ava ) ==
-                "SKY: [<color_c_white>     ○      </color><color_h_white>  </color>"
-                "<color_c_white>    </color>]" );
+               "SKY: [<color_c_white>     ○      </color><color_h_white>  </color>"
+               "<color_c_white>    </color>]" );
         set_time( calendar::turn_zero + 20_hours );
         CHECK( sundial_w.layout( ava ) == "SKY: [<color_c_white>     ○            </color>]" );
         set_time( calendar::turn_zero + 22_hours );
@@ -1049,16 +1049,16 @@ TEST_CASE( "widgets_showing_Sun_and_Moon_position", "[widget]" )
         CHECK( sundial_w.layout( ava ) == "SKY: [<color_c_white>        ◑         </color>]" );
         set_time( calendar::turn_zero + 12_days );
         CHECK( sundial_w.layout( ava ) ==
-                "SKY: [<color_c_white>       </color><color_c_white_yellow> ◕ </color>"
-                "<color_c_white>        </color>]" );
+               "SKY: [<color_c_white>       </color><color_c_white_yellow> ◕ </color>"
+               "<color_c_white>        </color>]" );
         set_time( calendar::turn_zero + 16_days );
         CHECK( sundial_w.layout( ava ) ==
-                "SKY: [<color_c_white>      </color><color_c_white_yellow>  ●  </color>"
-                "<color_c_white>       </color>]" );
+               "SKY: [<color_c_white>      </color><color_c_white_yellow>  ●  </color>"
+               "<color_c_white>       </color>]" );
         set_time( calendar::turn_zero + 20_days ); // Waxing and waning gibbous share a symbol, sadly
         CHECK( sundial_w.layout( ava ) ==
-                "SKY: [<color_c_white>       </color><color_c_white_yellow> ◕ </color>"
-                "<color_c_white>        </color>]" );
+               "SKY: [<color_c_white>       </color><color_c_white_yellow> ◕ </color>"
+               "<color_c_white>        </color>]" );
         set_time( calendar::turn_zero + 23_days );
         CHECK( sundial_w.layout( ava ) == "SKY: [<color_c_white>        ◐         </color>]" );
         set_time( calendar::turn_zero + 27_days );
@@ -1075,50 +1075,50 @@ TEST_CASE( "widgets_showing_Sun_and_Moon_position", "[widget]" )
             scoped_weather_override forecast( weather_sunny );
             REQUIRE( get_weather().weather_id->name.translated() == "Sunny" );
             CHECK( sundial_w.layout( ava ) ==
-                    "SKY: [<color_h_white>    ○        </color><color_h_yellow>☼</color>"
-                    "<color_h_white>    </color>]" );
+                   "SKY: [<color_h_white>    ○        </color><color_h_yellow>☼</color>"
+                   "<color_h_white>    </color>]" );
         }
 
         SECTION( "cloudy" ) {
             scoped_weather_override forecast( weather_cloudy );
             CHECK( sundial_w.layout( ava ) ==
-                    "SKY: [<color_h_white>    ○        </color><color_h_yellow>⛅</color>"
-                    "<color_h_white>    </color>]" );
+                   "SKY: [<color_h_white>    ○        </color><color_h_yellow>⛅</color>"
+                   "<color_h_white>    </color>]" );
         }
 
         SECTION( "drizzle" ) {
             scoped_weather_override forecast( weather_drizzle );
             CHECK( sundial_w.layout( ava ) ==
-                    "SKY: [<color_h_white>    ○        </color><color_h_yellow>☂</color>"
-                    "<color_h_white>    </color>]" );
+                   "SKY: [<color_h_white>    ○        </color><color_h_yellow>☂</color>"
+                   "<color_h_white>    </color>]" );
         }
 
         SECTION( "snowing" ) {
             scoped_weather_override forecast( weather_snowing );
             CHECK( sundial_w.layout( ava ) ==
-                    "SKY: [<color_h_white>    ○        </color><color_h_yellow>☃</color>"
-                    "<color_h_white>    </color>]" );
+                   "SKY: [<color_h_white>    ○        </color><color_h_yellow>☃</color>"
+                   "<color_h_white>    </color>]" );
         }
 
         SECTION( "lightning" ) {
             scoped_weather_override forecast( weather_lightning );
             CHECK( sundial_w.layout( ava ) ==
-                    "SKY: [<color_c_yellow>%%%%%%%</color><color_h_white>      </color>"
-                    "<color_h_yellow>⛈</color><color_h_white>    </color>]" );
+                   "SKY: [<color_c_yellow>%%%%%%%</color><color_h_white>      </color>"
+                   "<color_h_yellow>⛈</color><color_h_white>    </color>]" );
         }
 
         SECTION( "fog" ) {
             scoped_weather_override forecast( weather_fog );
             CHECK( sundial_w.layout( ava ) ==
-                    "SKY: [<color_c_light_gray>~~~~~</color><color_h_white>        </color>"
-                    "<color_h_yellow>⛆</color><color_h_white>    </color>]" );
+                   "SKY: [<color_c_light_gray>~~~~~</color><color_h_white>        </color>"
+                   "<color_h_yellow>⛆</color><color_h_white>    </color>]" );
         }
 
         SECTION( "portal_storm" ) {
             scoped_weather_override forecast( weather_portal_storm );
             CHECK( sundial_w.layout( ava ) ==
-                    "SKY: [<color_h_white>    ○        </color><color_h_yellow>✺</color>"
-                    "<color_h_white>    </color>]" );
+                   "SKY: [<color_h_white>    ○        </color><color_h_yellow>✺</color>"
+                   "<color_h_white>    </color>]" );
         }
     }
 
