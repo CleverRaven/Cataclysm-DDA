@@ -407,5 +407,35 @@
     "type": "MIGRATION",
     "id": "fruit_cooked",
     "replace": "apple"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "duster_survivor",
+    "replace": "duster"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_duster_survivor",
+    "replace": "xl_duster"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_duster_survivor",
+    "replace": "xs_duster"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sleeveless_duster_survivor",
+    "replace": "sleeveless_duster"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "trenchcoat_survivor",
+    "replace": "trenchcoat"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sleeveless_trenchcoat_survivor",
+    "replace": "sleeveless_trenchcoat"
   }
 ]
