@@ -615,8 +615,8 @@ endif
 # OSX
 ifeq ($(NATIVE), osx)
   DEFINES += -DMACOSX
-  CXXFLAGS += -mmacosx-version-min=10.15
-  CFLAGS += -mmacosx-version-min=10.15
+  CXXFLAGS += -mmacosx-version-min=10.15 -mcx16
+  CFLAGS += -mmacosx-version-min=10.15 -mcx16
   LDFLAGS += -mmacosx-version-min=10.15 -framework CoreFoundation -Wl,-headerpad_max_install_names
   # doesn't use GNU ar
   THIN_AR=0
@@ -648,6 +648,7 @@ ifeq ($(NATIVE), osx)
       endif
     endif
   endif
+  # What.
   TARGETSYSTEM=LINUX
   ifneq ($(OS), Linux)
     BINDIST_CMD = tar -s"@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@" -czvf $(BINDIST) $(BINDIST_DIR)
@@ -949,6 +950,8 @@ else
 endif
 
 ifeq ($(TARGETSYSTEM),LINUX)
+  CFLAGS += -mcx16
+  CXXFLAGS += -mcx16
   BINDIST_EXTRAS += cataclysm-launcher
   ifneq ("$(wildcard LICENSE-SDL.txt)","")
     SDL2_solib = $(shell ldd $(TARGET) | grep libSDL2-2\.0 | cut -d ' ' -f 3)
@@ -962,6 +965,8 @@ ifeq ($(TARGETSYSTEM),LINUX)
 endif
 
 ifeq ($(TARGETSYSTEM),CYGWIN)
+  CFLAGS += -mcx16
+  CXXFLAGS += -mcx16
   BINDIST_EXTRAS += cataclysm-launcher
   DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
 endif

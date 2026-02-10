@@ -1,5 +1,29 @@
 #include "cata_allocator.h"
-#include "cata_allocator_c.h"
+
+#ifndef __has_feature
+#define __has_feature(x) 0
+#endif
+
+// snmalloc isn't compatible with any sanitizers.
+#if !defined(__SANITIZE_ADDRESS__) && !__has_feature(address_sanitizer)
+#define CATA_USE_SNMALLOC
+#endif
+
+#ifdef CATA_USE_SNMALLOC
+// Disable asserts and slower debug code in the allocator.
+#ifndef NDEBUG
+#define NDEBUG
+#endif
+#define SNMALLOC_USE_WAIT_ON_ADDRESS 1
+#ifdef __ANDROID__
+#define MALLOC_USABLE_SIZE_QUALIFIER const
+#endif
+// Static redirection of malloc doesn't work on Windows.
+#ifndef _WIN32
+#include <snmalloc/override/malloc.cc> // NOLINT(bugprone-suspicious-include)
+#endif
+#include <snmalloc/override/new.cc> // NOLINT(bugprone-suspicious-include)
+#endif
 
 #if defined(TILES) || defined(SDL_SOUND)
 #define SDL_SET_MEMORY_FUNCTIONS
@@ -12,12 +36,13 @@
 
 void cata::init_allocator()
 {
-    [[maybe_unused]] alloc_funcs funcs = cata_get_alloc_funcs();
 #ifdef SDL_SET_MEMORY_FUNCTIONS
+#ifdef CATA_USE_SNMALLOC
     SDL_SetMemoryFunctions(
-        funcs.mallocp,
-        funcs.callocp,
-        funcs.reallocp,
-        funcs.freep );
+        snmalloc::libc::malloc,
+        snmalloc::libc::calloc,
+        snmalloc::libc::realloc,
+        snmalloc::libc::free );
+#endif
 #endif
 }
