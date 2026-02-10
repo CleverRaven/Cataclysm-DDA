@@ -341,6 +341,7 @@
             { "compare_string": [ "yes", { "u_val": "dialogue_intercom_accepted_robofac_intercom_mws_4" } ] },
             {
               "or": [
+                { "u_has_items": { "item": "HEW_printout_data_portal", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_portal_storm", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_vitrified", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_exodii", "count": 1 } },

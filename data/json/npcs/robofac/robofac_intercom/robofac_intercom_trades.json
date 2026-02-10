@@ -416,6 +416,7 @@
   {
     "id": [
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA",
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_PORTAL",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_STORM",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_VITRIFIED",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_EXODII",
@@ -438,7 +439,19 @@
     "dynamic_line": "Excellent; please deposit the printouts in the intercom's tray.",
     "responses": [
       {
-        "text": "[Deposit a portal storm datasheet.]",
+        "text": "[Deposit a \"stable portal\" datasheet.]",
+        "condition": {
+          "and": [ { "u_has_items": { "item": "HEW_printout_data_portal", "count": 1 } }, { "math": [ "HEW_portal_data_sold < 1" ] } ]
+        },
+        "effect": [
+          { "u_consume_item": "HEW_printout_data_portal", "count": 1, "popup": true },
+          { "math": [ "HEW_portal_data_sold++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 5 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_PORTAL"
+      },
+      {
+        "text": "[Deposit a \"unstable portal\" datasheet.]",
         "condition": {
           "and": [
             { "u_has_items": { "item": "HEW_printout_data_portal_storm", "count": 1 } },
@@ -685,6 +698,17 @@
       },
       { "text": "That would be all.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_PORTAL",
+    "type": "talk_topic",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of coins.  \"We have forwarded the recording to Research and thank you for your continued cooperation.\"",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
+        { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_4", "success": true }
+      ]
+    }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_STORM",
