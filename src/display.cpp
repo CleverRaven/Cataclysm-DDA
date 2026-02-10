@@ -342,7 +342,7 @@ std::string display::sundial_text_color( const Character &u, int width )
             }
 
             if( clr != current_clr ) {
-                if( chars.size() > 0 ) {
+                if( !chars.empty() ) {
                     ret += colorize( chars, current_clr );
                 }
                 current_clr = clr;
@@ -350,7 +350,7 @@ std::string display::sundial_text_color( const Character &u, int width )
             }
             chars += ch;
         }
-        if( chars.size() > 0 ) {
+        if( !chars.empty() ) {
             ret += colorize( chars, current_clr );
         }
     }
