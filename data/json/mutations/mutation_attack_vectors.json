@@ -3,7 +3,14 @@
     "type": "attack_vector",
     "id": "vector_bear_bite",
     "limbs": [ "muzzle_bear" ],
-    "contact_area": [ "mouth_chin", "mouth_lips" ],
+    "contact_area": [ "mouth_lips" ],
+    "encumbrance_limit": 1
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_lupine_bite",
+    "limbs": [ "muzzle_lupine" ],
+    "contact_area": [ "mouth_lips" ],
     "encumbrance_limit": 1
   },
   {

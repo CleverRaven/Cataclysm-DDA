@@ -4080,14 +4080,7 @@
     "ugliness": 4,
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 6 },
-    "attacks": {
-      "attack_text_u": "You nip at %s!",
-      "attack_text_npc": "%1$s nips and harries %2$s!",
-      "blocker_mutations": [ "FANGS" ],
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": { "damage_type": "cut", "amount": 4 }
-    }
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_lupine" } ] } ]
   },
   {
     "type": "mutation",

@@ -2118,7 +2118,7 @@
           { "type": "plastic", "covered_by_mat": 30, "thickness": 1 }
         ],
         "//": "The exhale valve, speech diaphragm, and, if a mask has them, the communications unit and drinking tube, are located over the mouth and nose sections. They're represented by the plastic content.",
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "specifically_covers": [ "mouth_lips", "mouth_nose", "mouth_chin" ],
         "coverage": 100,
         "encumbrance": [ 20, 40 ],
@@ -2130,7 +2130,7 @@
           { "type": "plastic", "covered_by_mat": 25, "thickness": 1 }
         ],
         "//": "Most modern gas masks possess plastic filter mounts on either one or both of the cheek sections, which this plastic represents. Again, we can tactically handwave away the outliers.",
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "specifically_covers": [ "mouth_cheeks" ],
         "coverage": 100,
         "encumbrance": 20,
@@ -2258,7 +2258,7 @@
           { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 2 }
         ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 100,
         "encumbrance": 37
       },
@@ -2372,7 +2372,7 @@
           { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 },
           { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1 }
         ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 100,
         "encumbrance": 38
       },
@@ -2441,7 +2441,7 @@
     "armor": [
       {
         "material": [ { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 } ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 100,
         "encumbrance": 35
       }
