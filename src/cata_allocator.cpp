@@ -22,7 +22,6 @@
 
 void cata::init_allocator()
 {
-    [[maybe_unused]] alloc_funcs funcs = cata_get_alloc_funcs();
 #ifdef SDL_SET_MEMORY_FUNCTIONS
     SDL_SetMemoryFunctions(
         mi_new,
