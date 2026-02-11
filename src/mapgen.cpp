@@ -1189,10 +1189,6 @@ class mapgen_factory
                     result.insert( elem.generator_id );
                 }
             }
-            // Used in C++ code only, see calls to `oter_mapgen.generate()` below
-            result.insert( "lab_1side" );
-            result.insert( "lab_4side" );
-            result.insert( "lab_finale_1level" );
             return result;
         }
 
