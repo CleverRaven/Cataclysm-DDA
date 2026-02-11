@@ -48,7 +48,7 @@
 
 ### Lore owner: ?
 
-| Faction synopis | Last Updated |
+| Faction synopsis | Last Updated |
 | --- | --- |
 | Placeholder text, maybe one or two paragraphs | 06/15/2023 |
 | Faction Goals | 06/15/2023 |
@@ -65,7 +65,7 @@
 
 ### Lore owner: @I-am_erk
 
-| Faction synopis | Last Updated |
+| Faction synopsis | Last Updated |
 | --- | ---|
 | Placeholder text, maybe one or two paragraphs | 06/15/2023 |
 | Faction Goals | 06/15/2023 |
@@ -83,7 +83,7 @@
 
 ### Lore owner:
 
-| Faction synopis | Last Updated |
+| Faction synopsis | Last Updated |
 | --- | ---|
 | Placeholder text, maybe one or two paragraphs |  |
 | Faction Goals |  |
@@ -99,7 +99,7 @@
 
 ### Lore owner: @Candlebury
 
-| Faction synopis | Last Updated |
+| Faction synopsis | Last Updated |
 | --- | --- |
 | Placeholder text, maybe one or two paragraphs | 06/15/2023 |
 | Faction Goals | 06/15/2023 |
@@ -115,7 +115,7 @@
 
 ### Lore owner:
 
-| Faction synopis | Last Updated |
+| Faction synopsis | Last Updated |
 | --- | ---|
 | Placeholder text, maybe one or two paragraphs |  |
 | Faction Goals |  |
@@ -131,7 +131,7 @@
 
 ### Lore owner:
 
-| Faction synopis | Last Updated |
+| Faction synopsis | Last Updated |
 | --- | ---|
 | Placeholder text, maybe one or two paragraphs |  |
 | Faction Goals |  |
@@ -147,7 +147,7 @@
 
 ### Lore owner: @Maleclypse
 
-| Faction synopis | Last Updated |
+| Faction synopsis | Last Updated |
 | --- | ---|
 | Placeholder text, maybe one or two paragraphs |  |
 | Faction Goals |  |
@@ -163,7 +163,7 @@
 
 ### Lore owner:
 
-| Faction synopis | Last Updated |
+| Faction synopsis | Last Updated |
 | --- | ---|
 | Placeholder text, maybe one or two paragraphs |  |
 | Faction Goals |  |
@@ -179,7 +179,7 @@
 
 ### Lore owner:
 
-| Faction synopis | Last Updated |
+| Faction synopsis | Last Updated |
 | --- | ---|
 | Placeholder text, maybe one or two paragraphs |  |
 | Faction Goals |  |
@@ -195,7 +195,7 @@
 
 ### Lore owner:
 
-| Faction synopis | Last Updated |
+| Faction synopsis | Last Updated |
 | --- | ---|
 | Placeholder text, maybe one or two paragraphs |  |
 | Faction Goals |  |
@@ -211,7 +211,7 @@
 
 ### Lore owner:
 
-| Faction synopis | Last Updated |
+| Faction synopsis | Last Updated |
 | --- | ---|
 | Placeholder text, maybe one or two paragraphs |  |
 | Faction Goals |  |
@@ -227,7 +227,7 @@
 
 ### Lore owner:
 
-| Faction synopis | Last Updated |
+| Faction synopsis | Last Updated |
 | --- | ---|
 | Placeholder text, maybe one or two paragraphs |  |
 | Faction Goals |  |
