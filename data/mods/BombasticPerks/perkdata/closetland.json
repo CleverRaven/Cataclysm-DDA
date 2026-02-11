@@ -141,7 +141,9 @@
         "u_location_variable": { "u_val": "closetland_arrival_point" },
         "terrain": "t_closetland_floor_olight",
         "target_min_radius": 0,
-        "target_max_radius": 24
+        "target_max_radius": 24,
+        "z_override": true,
+        "z_adjust": 0
       },
       { "u_teleport": { "u_val": "closetland_arrival_point" } },
       { "u_lose_effect": "blind" }
