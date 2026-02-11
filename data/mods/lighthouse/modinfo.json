@@ -1,10 +1,10 @@
 [
   {
     "type": "MOD_INFO",
-    "id": "diffraction",
-    "name": "Diffraction",
+    "id": "hunvre",
+    "name": "Hunvre",
     "authors": [ "BalthazarArgall" ],
-    "description": "Space cataclysm.",
+    "description": "A sci-fi, claustrophobic spin on DDA.",
     "category": "total_conversion",
     "dependencies": [ "dda" ],
     "path": "json/"

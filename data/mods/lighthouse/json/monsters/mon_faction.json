@@ -1,0 +1,8 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "euzhvil",
+    "neutral": [ "mech_bot", "passive_machine" ],
+    "by_mood": [ "exodii", "isolated_artisans", "yrax" ]
+  }
+]

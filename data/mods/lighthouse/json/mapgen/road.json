@@ -137,7 +137,7 @@
             "west": [ "SIDEWALK" ],
             "north_west": [ "SIDEWALK" ]
           },
-          "else_chunks": [ [ "24x24_airlock_open", 2 ], [ "24x24_airlock_closed", 5 ], [ "null_nest", 3 ] ]
+          "else_chunks": [ [ "24x24_airlock_open", 2 ], [ "24x24_airlock_closed", 5 ], [ "null", 3 ] ]
         },
         {
           "else_chunks": [ "24x24_end_n_lighthouse" ],
@@ -196,7 +196,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
         {
-          "else_chunks": [ [ "24x24_sidewalk_airlock_open", 2 ], [ "24x24_sidewalk_airlock_closed", 5 ], [ "null_nest", 3 ] ],
+          "else_chunks": [ [ "24x24_sidewalk_airlock_open", 2 ], [ "24x24_sidewalk_airlock_closed", 5 ], [ "null", 3 ] ],
           "x": 0,
           "y": 0,
           "flags_any": { "east": [ "SOURCE_FUEL" ], "west": [ "SOURCE_FUEL" ] }
@@ -824,6 +824,7 @@
         "                        "
       ],
       "palettes": [ "road_palette" ],
+      "terrain": { "#": "t_airlock_control" },
       "remove_vehicles": [ { "vehicles": [  ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -900,11 +901,6 @@
       "remove_vehicles": [ { "vehicles": [  ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "null_nest",
-    "object": { "mapgensize": [ 24, 24 ], "rotation": [ 0, 3 ] }
   },
   {
     "//": "END_NESTED/////////////////////////////////////////////////////////////////////////////////////////////",

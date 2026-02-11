@@ -71,5 +71,22 @@
     "type": "ter_furn_transform",
     "id": "furn_to_null",
     "furniture": [ { "result": "f_null", "valid_furniture": [ "f_null", "f_shower_retractable", "f_bed_retractable" ] } ]
+  },
+  {
+    "id": "EOC_INTERACT_AIRLOCK",
+    "type": "effect_on_condition",
+    "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "piratable_tile" } },
+      {
+        "if": { "map_terrain_id": "t_airlock_control", "loc": { "context_val": "piratable_tile" } },
+        "then": { "mapgen_update": "open_airlock", "target_var": { "context_val": "piratable_tile" } },
+        "else": { "u_message": "ERROR" }
+      }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "open_airlock",
+    "object": { "place_nested": [ { "chunks": [ "24x24_sidewalk_airlock_open" ], "x": 0, "y": 0 } ] }
   }
 ]

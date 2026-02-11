@@ -41,6 +41,7 @@
     "id": "recycler",
     "name": "Recycler",
     "description": "You recycle as a hobby.",
-    "points": 0
+    "points": 0,
+    "items": { "both": { "entries": [ { "item": "jeans" }, { "item": "smart_phone_diffraction" } ] } }
   }
 ]
