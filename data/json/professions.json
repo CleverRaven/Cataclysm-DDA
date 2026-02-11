@@ -8060,6 +8060,21 @@
   },
   {
     "type": "profession",
+    "id": "mutant_patient_none",
+    "name": "Human Mutant",
+    "description": "You were the control case in the scientists' experiments - after they were done playing God with you, they injected some kind of drug that made you normal again.  Unfortunately, you know this world is no longer a place for normality.  Will you embrace the changes again?",
+    "npc_background": "BG_survival_story_EVACUEE",
+    "points": -1,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16
+  }
+  {
+    "type": "profession",
     "id": "mutant_patient_fish",
     "name": "Fish Mutant",
     "description": "You have become a creature from the deep, like a monster from a cheap horror flick.  Only, it is far too real.",
@@ -8067,8 +8082,8 @@
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+      "male": { "entries": [ { "item": "loincloth" } ] },
+      "female": { "entries": [ { "item": "chestwrap" }, { "item": "loincloth" } ] }
     },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
@@ -8083,7 +8098,9 @@
       "THIRST",
       "SMELLY2",
       "FANGS",
-      "NIGHTVISION"
+      "NIGHTVISION",
+      "MEMBRANE",
+      "DEX_UP"
     ]
   },
   {
@@ -8093,11 +8110,7 @@
     "description": "Forget about great responsibility - after everything that's been done to you, it's a miracle you don't have eight eyes.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" }, { "item": "cloak" } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8109,10 +8122,11 @@
       "PADDED_FEET",
       "RAP_TALONS",
       "POISRESIST",
-      "MANDIBLES",
+      "FANGS_SPIDER",
       "NIGHTVISION",
       "STRONG_LEGS",
-      "CHITIN2"
+      "CHITIN2",
+      "ASOCIAL2"
     ]
   },
   {
@@ -8124,8 +8138,8 @@
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+      "male": { "entries": [ { "item": "loincloth" } ] },
+      "female": { "entries": [ { "item": "chestwrap" }, { "item": "loincloth" } ] }
     },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
@@ -8141,7 +8155,10 @@
       "GROWL",
       "NIGHTVISION",
       "PAWS",
-      "ANIMAL_FEET"
+      "ANIMAL_FEET",
+      "MANSBESTFRIEND",
+      "SOCIAL2",
+      "MUZZLE"
     ]
   },
   {
@@ -8153,8 +8170,8 @@
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+      "male": { "entries": [ { "item": "loincloth" } ] },
+      "female": { "entries": [ { "item": "chestwrap" }, { "item": "loincloth" } ] }
     },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
@@ -8164,7 +8181,6 @@
       "SPINES",
       "CARNIVORE",
       "TAIL_STUB",
-      "TERRIFYING",
       "STR_UP",
       "RESISTCHILL",
       "PADDED_FEET",
@@ -8181,13 +8197,13 @@
     "type": "profession",
     "id": "mutant_patient_insect",
     "name": "Insect Mutant",
-    "description": "Reckless experimentation has turned you into .",
+    "description": "Alike to The Fly, you are now a disturbing mix of human and bug.  But, bugs are nothing if not tenacious - and so shall you be.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+      "male": { "entries": [ { "item": "loincloth" } ] },
+      "female": { "entries": [ { "item": "chestwrap" }, { "item": "loincloth" } ] }
     },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
@@ -8212,7 +8228,7 @@
     "type": "profession",
     "id": "mutant_patient_feline",
     "name": "Feline Mutant",
-    "description": "Reckless experimentation has turned you into .",
+    "description": "Considering the you always complained about Mondays, this was probably inevitable.  Too bad you can't eat lasagna to complete the fit.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
     "items": {
@@ -8227,6 +8243,7 @@
       "GROWL",
       "FANGS",
       "FELINE_EYE",
+      "FELINE_NV",
       "SNOUT",
       "WHISKERS",
       "SLEEPY",
@@ -8305,7 +8322,7 @@
     "name": "Avian Mutant",
     "description": "The free skies of the surface seem so far away now.  Will you ever spread your wings again?",
     "npc_background": "BG_survival_story_EVACUEE",
-    "points": -1,
+    "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -8325,7 +8342,9 @@
       "SCREECH",
       "MUTE_BIRD",
       "NOMAD",
-      "WINGS_STUB"
+      "WINGS_STUB",
+      "LIGHTEATER",
+      "EAGLEEYED"
     ]
   },
   {
@@ -8335,11 +8354,7 @@
     "description": "The experiments turned you into a hulking beast of fur and muscle.  It took a while to stop bonking your head on doorways, but that's the least of your problems now.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" }, { "item": "cloak" } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8369,8 +8384,8 @@
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+      "male": { "entries": [ { "item": "xsboxer_briefs" } ] },
+      "female": { "entries": [ { "item": "xs_bra" }, { "item": "xsboy" } ] }
     },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
@@ -8455,6 +8470,123 @@
   },
   {
     "type": "profession",
+    "id": "mutant_patient_plant",
+    "name": "Plant Mutant",
+    "description": "Mutation has turned you into a bizarre mix of tree and human.  While you're slower than you used to be, you're sturdy as an oak.",
+    "npc_background": "BG_survival_story_EVACUEE",
+    "points": 3,
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" }, { "item": "cloak" } ] } },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "DISRESISTANT",
+      "FASTHEALER",
+      "COLDBLOOD2",
+      "PLANTSKIN",
+      "BARK",
+      "LEAVES",
+      "THORNS",
+      "HAIRROOTS",
+      "VINES2",
+      "SEASONAL_AFFECTIVE",
+      "PONDEROUS1",
+      "SUNLIGHT_DEPENDENT"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_lizard",
+    "name": "Lizard Mutant",
+    "description": "It's a good thing you always thought dinosaurs were cool, considering you've practically become one.  Hopefully you don't also go extinct.",
+    "npc_background": "BG_survival_story_EVACUEE",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
+      "male": { "entries": [ { "item": "loincloth" } ] },
+      "female": { "entries": [ { "item": "chestwrap" }, { "item": "loincloth" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "CARNIVORE",
+      "FASTHEALER",
+      "COLDBLOOD2",
+      "SCALES",
+      "TALONS",
+      "HISS",
+      "LIZ_EYE",
+      "LIZ_IR",
+      "TAIL_THICK",
+      "VERY_TALL",
+      "FORKED_TONGUE",
+      "FANGS",
+      "SLIT_NOSTRILS"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_cow",
+    "name": "Bovine Mutant",
+    "description": "You've mutated into a minotaur, though unlike Asterios you've no hunger for human flesh, or any meat for that matter.  Still, you'll plow through anyone who gets in your way.",
+    "npc_background": "BG_survival_story_EVACUEE",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
+      "male": { "entries": [ { "item": "loincloth" } ] },
+      "female": { "entries": [ { "item": "chestwrap" }, { "item": "loincloth" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "HERBIVORE",
+      "RUMINANT",
+      "CANINE_EARS",
+      "DENSE_BONES",
+      "BOVINE_BULK",
+      "HUGE",
+      "STR_UP_2",
+      "HORNS",
+      "FUR",
+      "TAIL_CATTLE",
+      "THICKSKIN",
+      "HOOVES",
+      "PONDEROUS1"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_rat",
+    "name": "Rat Mutant",
+    "description": "Once you're free of this place, you'll be able to make all the rules.  Have all the cheese you want.  Hopefully the normal humans will tolerate your rather unsightly appearance…",
+    "npc_background": "BG_survival_story_EVACUEE",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
+      "male": { "entries": [ { "item": "loincloth" } ] },
+      "female": { "entries": [ { "item": "chestwrap" }, { "item": "loincloth" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "GROWL",
+      "FUR",
+      "UGLY",
+      "TAIL_RAT",
+      "MUZZLE_RAT",
+      "WHISKERS_RAT",
+      "NIGHTVISION",
+      "PAWS",
+      "CLAWS_RAT",
+      "POISRESIST",
+      "DISRESISTANT",
+      "SLEEPY",
+      "HUNGER",
+      "MET_RAT",
+      "SOCIAL1"
+    ]
+  },
+  {
+    "type": "profession",
     "id": "mutant_patient_catgirl",
     "name": { "male": "Cat Boy", "female": "Cat Girl" },
     "description": "By some strange whim of fate, your mutations turned you into the spitting image of an anime character.  Unfortunately, while you might look pretty (by some standards) you don't really have anything useful to help you survive.",
@@ -8470,9 +8602,10 @@
     "traits": [
       "FELINE_EARS",
       "TAIL_LONG",
-      "PRETTY",
+      "BEAUTIFUL",
       "NAILS",
-      "CARNIVORE"
+      "CARNIVORE",
+      "VANITY"
     ]
   }
 ]
