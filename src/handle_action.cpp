@@ -2393,13 +2393,57 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     act = player_character.get_next_auto_move_direction();
                     const point_rel_ms dest_next = get_delta_from_movement_action( act, iso_rotate::yes );
                     if( dest_next == point_rel_ms::zero ) {
+                        add_msg_debug( debugmode::DF_ACTIVITY,
+                                       "auto_move: get_next returned zero, aborting.  pos=(%d,%d)",
+                                       player_character.pos_bub().x(), player_character.pos_bub().y() );
+                        DebugLog( D_INFO, DC_ALL ) << "auto_move: get_next returned zero, aborting at pos=("
+                                                   << player_character.pos_bub().x() << ","
+                                                   << player_character.pos_bub().y() << ")";
                         player_character.abort_automove();
                     }
                     dest_delta = dest_next;
                 }
+                const tripoint_bub_ms pos_before = player_character.pos_bub();
+                const tripoint_bub_ms dest_tile = pos_before +
+                                                  tripoint_rel_ms( dest_delta, 0 );
+                const ter_id ter_before = here.ter( dest_tile );
+                const furn_id furn_before = here.furn( dest_tile );
                 if( !avatar_action::move( player_character, here, tripoint_rel_ms( dest_delta, 0 ) ) ) {
                     // auto-move should be canceled due to a failed move or obstacle
+                    add_msg_debug( debugmode::DF_ACTIVITY,
+                                   "auto_move: move(%d,%d) FAILED at pos=(%d,%d), aborting",
+                                   dest_delta.x(), dest_delta.y(),
+                                   player_character.pos_bub().x(), player_character.pos_bub().y() );
+                    DebugLog( D_INFO, DC_ALL ) << "auto_move: move(" << dest_delta.x() << ","
+                                               << dest_delta.y() << ") FAILED at pos=("
+                                               << player_character.pos_bub().x() << ","
+                                               << player_character.pos_bub().y() << "), aborting";
                     player_character.abort_automove();
+                } else if( player_character.pos_bub() == pos_before &&
+                           dest_delta != point_rel_ms::zero ) {
+                    // Move "succeeded" but player didn't move. Check if terrain or
+                    // furniture changed (door opened) - if so, next step will walk through.
+                    const ter_id ter_after = here.ter( dest_tile );
+                    const furn_id furn_after = here.furn( dest_tile );
+                    if( ter_before != ter_after || furn_before != furn_after ) {
+                        add_msg_debug( debugmode::DF_ACTIVITY,
+                                       "auto_move: pos unchanged but ter/furn changed at (%d,%d), continuing",
+                                       dest_tile.x(), dest_tile.y() );
+                        DebugLog( D_INFO, DC_ALL ) << "auto_move: pos unchanged but ter/furn changed at ("
+                                                   << dest_tile.x() << "," << dest_tile.y()
+                                                   << "), continuing (door opened?)";
+                    } else {
+                        // Genuine collision - walk_move returns true for "handled"
+                        // even when grabbed_veh_move hit an obstacle.
+                        add_msg_debug( debugmode::DF_ACTIVITY,
+                                       "auto_move: move(%d,%d) returned OK but pos unchanged at (%d,%d), aborting",
+                                       dest_delta.x(), dest_delta.y(),
+                                       pos_before.x(), pos_before.y() );
+                        DebugLog( D_INFO, DC_ALL ) << "auto_move: move returned OK but pos unchanged at ("
+                                                   << pos_before.x() << "," << pos_before.y()
+                                                   << "), aborting";
+                        player_character.abort_automove();
+                    }
                 }
 
                 if( get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MOPPING" ) &&
