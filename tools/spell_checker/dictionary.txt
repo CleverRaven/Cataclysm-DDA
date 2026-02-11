@@ -1879,6 +1879,7 @@ Europe
 European
 Europeans
 eusocial
+euzhvil
 EVA
 evac
 evacs
@@ -2783,6 +2784,7 @@ Hungarian
 hunllef
 Huntington
 Huntz
+Hunvre
 hurly
 Hutchinson
 Huxley
