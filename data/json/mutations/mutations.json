@@ -6400,7 +6400,7 @@
     "prereqs2": [ "TROGLO2", "TROGLO3" ],
     "points": -3,
     "vitamin_cost": 160,
-    "purifiability": false,
+    "purifiable": false,
     "flags": [ "SUNBURN" ]
   },
   {
