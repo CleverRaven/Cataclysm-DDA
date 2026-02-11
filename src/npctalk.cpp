@@ -73,6 +73,7 @@
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -1224,28 +1225,22 @@ void game::chat( const std::optional<tripoint_bub_ms> &p )
             break;
         case NPC_CHAT_SENTENCE: {
             std::string popupdesc = _( "Enter a sentence to yell" );
-            string_input_popup popup;
-            popup.title( _( "Yell a sentence" ) )
-            .width( 64 )
-            .description( popupdesc )
-            .identifier( "sentence" )
-            .max_length( 128 )
-            .query();
-            yell_msg = popup.text();
+            string_input_popup_imgui popup( 80 );
+            popup.set_label( _( "Yell a sentence" ) );
+            popup.set_description( popupdesc );
+            popup.set_identifier( "sentence" );
+            yell_msg = popup.query();
             is_order = false;
             break;
         }
         case NPC_CHAT_EMOTE: {
             std::string popupdesc =
                 _( "What do you want to emote?  (This will have no in-game effect!)" );
-            string_input_popup popup;
-            popup.title( _( "Emote" ) )
-            .width( 64 )
-            .description( popupdesc )
-            .identifier( "sentence" )
-            .max_length( 128 )
-            .query();
-            emote_msg = popup.text();
+            string_input_popup_imgui popup( 80 );
+            popup.set_label( _( "Emote" ) );
+            popup.set_description( popupdesc );
+            popup.set_identifier( "sentence" );
+            emote_msg = popup.query();
             is_order = false;
             break;
         }
@@ -5842,19 +5837,20 @@ talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view
             i18n ? i18n_vals[index].evaluate( d ).translated() : str_vals[index].evaluate( d );
 
         if( input_params.has_value() ) {
-            string_input_popup popup;
-            popup
-            .title( input_params.value().title ? input_params.value().title->evaluate( d ).translated() : "" )
-            .description( input_params.value().description ? input_params.value().description->evaluate(
-                              d ).translated() : "" )
-            .width( input_params.value().width )
-            .identifier( input_params.value().identifier ? input_params.value().identifier->evaluate(
-                             d ) : "" );
-
+            std::string label = input_params.value().title ? input_params.value().title->evaluate(
+                                    d ).translated() : "";
             std::string str_temp = input_params.value().default_text ?
                                    input_params.value().default_text->evaluate( d ).translated() : "";
-            popup.edit( str_temp );
-            if( !popup.canceled() ) {
+            string_input_popup_imgui popup( input_params.value().width + label.size(), str_temp );
+            popup.set_label( input_params.value().title ? input_params.value().title->evaluate(
+                                 d ).translated() : "" );
+            popup.set_description( input_params.value().description ?
+                                   input_params.value().description->evaluate( d ).translated() : "" );
+            popup.set_identifier( input_params.value().identifier ? input_params.value().identifier->evaluate(
+                                      d ) : "" );
+
+            str_temp = popup.query();
+            if( !popup.cancelled() ) {
                 str = str_temp;
             }
         }

@@ -37,6 +37,7 @@
 #include "game_constants.h"
 #include "input_context.h"
 #include "input_enums.h"
+#include "input_popup.h"
 #include "item.h"
 #include "json.h"
 #include "loading_ui.h"
@@ -69,7 +70,6 @@
 #include "skill_ui.h"
 #include "start_location.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
@@ -360,6 +360,15 @@ static std::string pools_to_string( const avatar &u, pool_type pool )
             return _( "Survivor" );
     }
     return "If you see this, this is a bug";
+}
+
+static bool filter_query( std::string &filterstring, const std::string &description )
+{
+    string_input_popup_imgui filter_popup( 60, filterstring );
+    filter_popup.set_label( _( "Search:" ) );
+    filter_popup.set_description( description );
+    filterstring = filter_popup.query();
+    return !filter_popup.cancelled();
 }
 
 static void set_points( tab_manager &tabs, avatar &u, pool_type & );
@@ -2217,12 +2226,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
             traits_sorter.sort_by_points = !traits_sorter.sort_by_points;
             recalc_traits = true;
         } else if( action == "FILTER" ) {
-            string_input_popup()
-            .title( _( "Search:" ) )
-            .width( 10 )
-            .description( _( "Search by trait name." ) )
-            .edit( filterstring );
-            recalc_traits = true;
+            recalc_traits = filter_query( filterstring, _( "Search by trait name." ) );
         } else if( action == "RESET_FILTER" ) {
             if( !filterstring.empty() ) {
                 filterstring.clear();
@@ -2752,12 +2756,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
             profession_sorter.sort_by_points = !profession_sorter.sort_by_points;
             recalc_profs = true;
         } else if( action == "FILTER" ) {
-            string_input_popup()
-            .title( _( "Search:" ) )
-            .width( 60 )
-            .description( _( "Search by profession name." ) )
-            .edit( filterstring );
-            recalc_profs = true;
+            recalc_profs = filter_query( filterstring, _( "Search by profession name." ) );
         } else if( action == "RESET_FILTER" ) {
             if( !filterstring.empty() ) {
                 filterstring.clear();
@@ -3138,12 +3137,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
             profession_sorter.sort_by_points = !profession_sorter.sort_by_points;
             recalc_hobbies = true;
         } else if( action == "FILTER" ) {
-            string_input_popup()
-            .title( _( "Search:" ) )
-            .width( 60 )
-            .description( _( "Search by background name." ) )
-            .edit( filterstring );
-            recalc_hobbies = true;
+            recalc_hobbies = filter_query( filterstring, _( "Search by background name." ) );
         } else if( action == "RESET_FILTER" ) {
             if( !filterstring.empty() ) {
                 filterstring.clear();
@@ -3820,12 +3814,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
             scenario_sorter.sort_by_points = !scenario_sorter.sort_by_points;
             recalc_scens = true;
         } else if( action == "FILTER" ) {
-            string_input_popup()
-            .title( _( "Search:" ) )
-            .width( 60 )
-            .description( _( "Search by scenario name." ) )
-            .edit( filterstring );
-            recalc_scens = true;
+            recalc_scens = filter_query( filterstring, _( "Search by scenario name." ) );
         } else if( action == "RESET_FILTER" ) {
             if( !filterstring.empty() ) {
                 filterstring.clear();
@@ -4762,13 +4751,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                    // Don't edit names when sharing maps
                    !MAP_SHARING::isSharing() ) {
 
-            string_input_popup popup;
             switch( current_selector ) {
                 case char_creation::NAME: {
-                    popup.title( _( "Enter name.  Cancel to delete all." ) )
-                    .text( you.name )
-                    .only_digits( false );
-                    you.name = popup.query_string();
+                    string_input_popup_imgui popup( 60, you.name );
+                    popup.set_description( _( "Enter name.  Cancel to delete all." ) );
+                    you.name = popup.query();
                     no_name_entered = you.name.empty();
                     break;
                 }
@@ -5029,21 +5016,20 @@ std::optional<std::string> query_for_template_name()
     std::string title = _( "Name of template:" );
     std::string desc = _( "Keep in mind you may not use special characters like / in filenames" );
 
-    string_input_popup spop;
-    spop.title( title );
-    spop.description( desc );
-    spop.width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 );
+    string_input_popup_imgui spop( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 );
+    spop.set_label( title );
+    spop.set_description( desc );
     for( int character : fname_char_blacklist ) {
-        spop.add_callback( character, []() {
+        spop.add_callback( callback_input( character ), []() {
             return true;
         } );
     }
 
-    spop.query_string( true );
-    if( spop.canceled() ) {
+    std::string ret = spop.query();
+    if( spop.cancelled() ) {
         return std::nullopt;
     } else {
-        return spop.text();
+        return ret;
     }
 }
 
