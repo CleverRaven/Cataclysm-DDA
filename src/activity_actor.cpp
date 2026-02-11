@@ -65,6 +65,7 @@
 #include "harvest.h"
 #include "iexamine.h"
 #include "inventory.h"
+#include "inventory_ui.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_contents.h"
@@ -225,6 +226,7 @@ static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
+static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_STASH( "ACT_STASH" );
 static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_TENT_DECONSTRUCT( "ACT_TENT_DECONSTRUCT" );
@@ -289,9 +291,14 @@ static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
 
 static const furn_str_id furn_f_gunsafe_mj( "f_gunsafe_mj" );
 static const furn_str_id furn_f_gunsafe_ml( "f_gunsafe_ml" );
+static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
+static const furn_str_id furn_f_kiln_metal_empty( "f_kiln_metal_empty" );
+static const furn_str_id furn_f_kiln_portable_empty( "f_kiln_portable_empty" );
+static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
 static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
 static const furn_str_id furn_f_safe_c( "f_safe_c" );
 static const furn_str_id furn_f_safe_o( "f_safe_o" );
+static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 
@@ -11267,6 +11274,162 @@ std::unique_ptr<activity_actor> heat_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+void fire_start_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = initial_moves;
+    act.moves_left = initial_moves;
+}
+
+void fire_start_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    tripoint_bub_ms where = here.get_bub( fire_placement );
+    if( !here.is_flammable( where ) ) {
+        try_fuel_fire( act, who, true );
+        if( !here.is_flammable( where ) ) {
+            if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, where ) ||
+                here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, where ) ) {
+                who.add_msg_if_player( m_info, _( "You can't light a fire on water." ) );
+            } else {
+                who.add_msg_if_player( m_info, _( "There's nothing to light there." ) );
+            }
+            who.cancel_activity();
+            return;
+        }
+    }
+
+    // Sometimes when an item is dropped it causes the whole item* to get set to null.
+    // This null pointer gets cast to a reference at some point, causing UB and
+    // segfaults. It looks like something is supposed to catch this, maybe
+    // get_safe_reference in item.cpp, but it's not working so we check for a
+    // null pointer here.
+    //
+    if( !fire_starter ) {
+        add_msg( m_bad, _( "You have lost the item you were using to start the fire." ) );
+        who.cancel_activity();
+        return;
+    }
+
+    item &firestarter = *fire_starter;
+
+    const furn_id f_id = here.furn( here.get_bub( fire_placement ) );
+    const bool is_smoker = f_id == furn_f_smoking_rack ||
+                           f_id == furn_f_metal_smoking_rack;
+
+    if( firestarter.has_flag( flag_REQUIRES_TINDER ) && !is_smoker ) {
+        if( !here.tinder_at( where ) ) {
+            inventory_filter_preset preset( []( const item_location & loc ) {
+                return loc->has_flag( flag_TINDER );
+            } );
+            inventory_pick_selector inv_s( who, preset );
+            inv_s.add_nearby_items( PICKUP_RANGE );
+            inv_s.add_character_items( who );
+
+            inv_s.set_title( _( "Select tinder to use for lighting a fire" ) );
+
+            item_location tinder;
+            if( inv_s.empty() || !( tinder = inv_s.execute() ) ) {
+                who.add_msg_if_player( m_info, _( "This item requires tinder to light." ) );
+                who.cancel_activity();
+                return;
+            }
+
+            item copy = *tinder;
+            bool count_by_charges = tinder->count_by_charges();
+            if( count_by_charges ) {
+                tinder->charges--;
+                copy.charges = 1;
+            }
+            here.add_item_or_charges( where, copy );
+            if( !count_by_charges || tinder->charges <= 0 ) {
+                tinder.remove_item();
+            }
+        }
+    }
+
+    const use_function *usef = firestarter.type->get_use( "firestarter" );
+    if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
+        add_msg( m_bad, _( "You have lost the item you were using to start the fire." ) );
+        who.cancel_activity();
+        return;
+    }
+
+    who.mod_moves( -who.get_moves() );
+    const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+    const float light = actor->light_mod( &here, who.pos_bub( here ) );
+    act.moves_left -= light * 100;
+    if( light < 0.1 ) {
+        add_msg( m_bad, _( "There is not enough sunlight to start a fire now.  You stop trying." ) );
+        who.cancel_activity();
+    }
+}
+
+void fire_start_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+
+    static const std::string iuse_name_string( "firestarter" );
+
+    item &it = *fire_starter;
+    item *used_tool = it.get_usable_item( iuse_name_string );
+    if( used_tool == nullptr ) {
+        debugmsg( "Lost tool used for starting fire" );
+        act.set_to_null();
+        return;
+    }
+
+    const use_function *use_fun = used_tool->get_use( iuse_name_string );
+    const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>
+                                     ( use_fun->get_actor_ptr() );
+    if( actor == nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act.set_to_null();
+        return;
+    }
+
+    who.practice( skill_survival, potential_skill_gain, 5 );
+
+    const furn_id &f_id = here.furn( here.get_bub( act.placement ) );
+    const bool is_smoking_rack = f_id == furn_f_metal_smoking_rack ||
+                                 f_id == furn_f_smoking_rack;
+    const bool is_kiln = f_id == furn_f_kiln_empty ||
+                         f_id == furn_f_kiln_metal_empty || f_id == furn_f_kiln_portable_empty;
+
+    firestarter_actor::start_type st = firestarter_actor::start_type::FIRE;
+
+    if( is_smoking_rack ) {
+        st = firestarter_actor::start_type::SMOKER;
+    } else if( is_kiln ) {
+        st = firestarter_actor::start_type::KILN;
+    }
+
+    it.activation_consume( 1, who.pos_bub(), &who );
+
+    firestarter_actor::resolve_firestarter_use( &who, &here, here.get_bub( fire_placement ),
+            st );
+
+    act.set_to_null();
+}
+
+void fire_start_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "fire_placement", fire_placement );
+    jsout.member( "fire_starter", fire_starter );
+    jsout.member( "potential_skill_gain", potential_skill_gain );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> fire_start_activity_actor::deserialize( JsonValue &jsin )
+{
+    fire_start_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "fire_placement", actor.fire_placement );
+    data.read( "fire_starter", actor.fire_starter );
+    data.read( "potential_skill_gain", actor.potential_skill_gain );
+    return actor.clone();
+}
+
 void socialize_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( initial_moves );
@@ -12981,6 +13144,7 @@ deserialize_functions = {
     { ACT_SOCIALIZE, &socialize_activity_actor::deserialize },
     { ACT_SPELLCASTING, &spellcasting_activity_actor::deserialize },
     { ACT_START_ENGINES, &start_engines_activity_actor::deserialize },
+    { ACT_START_FIRE, &fire_start_activity_actor::deserialize },
     { ACT_STASH, &stash_activity_actor::deserialize },
     { ACT_STUDY_SPELL, &study_spell_activity_actor::deserialize },
     { ACT_TENT_DECONSTRUCT, &tent_deconstruct_activity_actor::deserialize },
