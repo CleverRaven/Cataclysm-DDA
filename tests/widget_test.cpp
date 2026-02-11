@@ -1154,7 +1154,6 @@ TEST_CASE( "widgets_showing_Sun_and_Moon_position", "[widget]" )
     SECTION( "not outside" ) {
         sundial_w._width = 20;
         set_time( calendar::turn_zero );
-        clear_map();
         ava.set_pos_abs_only( { 0, 0, -1 } );
         CHECK( sundial_w.layout( ava ) == "SKY: [??????????????????]" );
         ava.set_pos_abs_only( { 0, 0, 0 } );
