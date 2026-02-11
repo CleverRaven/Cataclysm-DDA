@@ -191,7 +191,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "transponder earpiece (off)", "str_pl": "transponder earpieces (off)" },
-    "description": "A small radio transponder attached to an over-the-ear earpiece.  It has two small cables for connecting to AR headsets.  If you have a compatible headset and it is switched on, Pat can keep track of you and communicate via radio.  Active it to switch it on.",
+    "description": "An earpiece with an inline transponder and two small cables custom-fit for AR headsets.  If you have a compatible headset and it is switched on, Pat can keep track of you and communicate via radio.  Active it to switch it on.",
     "weight": "10 g",
     "volume": "10 ml",
     "price": "20 USD",
@@ -201,7 +201,7 @@
     "armor": [ { "coverage": 10, "covers": "head", "specifically_covers": [ "head_ear_l" ] } ],
     "symbol": ";",
     "color": "green",
-    "flags": [ "ELECTRONIC", "OVERSIZE", "POWERARMOR_COMPATIBLE", "SKINTIGHT", "TRADER_AVOID", "PADDED" ],
+    "flags": [ "ELECTRONIC", "OVERSIZE", "POWERARMOR_COMPATIBLE", "SKINTIGHT", "TRADER_AVOID", "SOFT" ],
     "use_action": {
       "type": "transform",
       "menu_text": "Switch on the transponder.",
@@ -217,7 +217,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "transponder earpiece (on)", "str_pl": "transponder earpieces (on)" },
-    "description": "A small radio transponder attached to an over-the-ear earpiece.  It has two small cables for connecting to AR headsets.  If you have a compatible headset and it is switched on, Pat can keep track of you and communicate via radio.  It is currently active.  Active it to switch it off.",
+    "description": "An earpiece with an inline transponder and two small cables custom-fit for AR headsets.  It has two small cables for connecting to AR headsets.  If you have a compatible headset and it is switched on, Pat can keep track of you and communicate via radio.  It is currently active.  Active it to switch it off.",
     "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "use_action": {
       "type": "transform",
