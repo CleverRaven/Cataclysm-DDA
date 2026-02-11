@@ -106,17 +106,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lab_surface_brick_basementD1_hidden_lab_stairs", "lab_surface_brick_basementE1" ],
-    "vision_levels": "underground_dirt",
-    "name": "lab basement",
-    "sym": "L",
-    "color": "white",
-    "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 1, 5 ], "chance": 50 },
-    "see_cost": "full_high",
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
     "id": [ "lab_surface_brick_blockC0" ],
     "name": "research facility entrance",
     "copy-from": "generic_road",

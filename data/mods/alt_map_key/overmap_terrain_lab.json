@@ -88,14 +88,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lab_surface_brick_basementD1_hidden_lab_stairs", "lab_surface_brick_basementE1" ],
-    "copy-from": "lab_surface_brick_basementD1_hidden_lab_stairs",
-    "name": "lab basement",
-    "sym": "L",
-    "color": "pink"
-  },
-  {
-    "type": "overmap_terrain",
     "id": [ "lab_surface_brick_blockA0", "lab_surface_brick_blockB0" ],
     "copy-from": "lab_surface_brick_blockA0",
     "name": "research facility garden",
