@@ -376,7 +376,7 @@
         "is": ">=",
         "target": 1,
         "visible": "when_achievement_completed",
-        "description": "Enter a lab finale room"
+        "description": "Enter a distorted lab"
       }
     ]
   },

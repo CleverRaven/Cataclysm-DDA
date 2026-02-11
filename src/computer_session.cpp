@@ -717,8 +717,7 @@ void computer_session::action_map_subway()
 {
     helper_map(
     []( const oter_id & oter ) {
-        return ( oter->get_type_id() == oter_type_subway ) ||
-               is_ot_match( "lab_train_depot", oter, ot_match_type::contains );
+        return ( oter->get_type_id() == oter_type_subway );
     },
     _( "Subway map data downloaded.  Press any key…" ), COMPACT_MAP_SUBWAY );
 }

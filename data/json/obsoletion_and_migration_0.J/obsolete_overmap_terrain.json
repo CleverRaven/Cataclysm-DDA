@@ -351,6 +351,12 @@
     "type": "oter_id_migration",
     "//": "Removed in 0.J experimental",
     "oter_ids": {
+      "lodge_basement_laboratory_entrance": "omt_obsolete",
+      "lab": "empty_rock",
+      "lab_stairs": "empty_rock",
+      "lab_core": "empty_rock",
+      "lab_finale": "empty_rock",
+      "lab_train_depot": "empty_rock",
       "office_tower_2_a1_tower_lab": "field",
       "tower_lab": "open_air",
       "tower_lab_stairs": "open_air",

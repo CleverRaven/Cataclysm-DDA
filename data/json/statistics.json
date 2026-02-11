@@ -859,14 +859,14 @@
     "id": "avatar_enters_lab_finale",
     "type": "event_transformation",
     "event_transformation": "avatar_enters_oter_type",
-    "value_constraints": { "oter_type_id": { "equals_any": [ "oter_type_str_id", [ "lab_finale" ] ] } }
+    "value_constraints": { "oter_type_id": { "equals_any": [ "oter_type_str_id", [ "microlab_portal_elevator" ] ] } }
   },
   {
     "id": "num_avatar_enters_lab_finale",
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_enters_lab_finale",
-    "description": { "str": "lab finale entered", "str_pl": "lab finales entered" }
+    "description": { "str": "distorted lab entered", "str_pl": "distorted labs entered" }
   },
   {
     "id": "avatar_cuts_tree",

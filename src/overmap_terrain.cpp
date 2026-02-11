@@ -861,22 +861,6 @@ bool oter_t::has_connection( om_direction::type dir ) const
     return om_lines::has_segment( line, dir );
 }
 
-bool oter_t::is_hardcoded() const
-{
-    // TODO: This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
-    static const std::set<std::string> hardcoded_mapgen = {
-        "tower_lab",
-        "tower_lab_stairs",
-        "tower_lab_finale",
-        "lab",
-        "lab_core",
-        "lab_stairs",
-        "lab_finale"
-    };
-
-    return hardcoded_mapgen.find( get_mapgen_id() ) != hardcoded_mapgen.end();
-}
-
 void overmap_terrains::load( const JsonObject &jo, const std::string &src )
 {
     terrain_types.load( jo, src );
@@ -901,16 +885,13 @@ void overmap_terrains::check_consistency()
 
         if( has_mapgen_for( mid ) ) {
             if( test_mode ) {
-                if( elem.is_hardcoded() ) {
-                    debugmsg( "Mapgen terrain \"%s\" exists in both JSON and a hardcoded function.  Consider removing the latter.",
-                              mid.c_str() );
-                } else if( elem.has_uniform_terrain() ) {
+                if( elem.has_uniform_terrain() ) {
                     debugmsg( "Mapgen terrain \"%s\" specifies a uniform_terrain which is incompatible with additional JSON mapgen.",
                               mid.c_str() );
                 }
             }
             check_mapgen_consistent_with( mid, elem );
-        } else if( !elem.is_hardcoded() && !elem.has_uniform_terrain() ) {
+        } else if( !elem.has_uniform_terrain() ) {
             debugmsg( "No mapgen terrain exists for \"%s\".", mid.c_str() );
         }
     }

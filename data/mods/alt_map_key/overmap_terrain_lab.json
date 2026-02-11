@@ -1,46 +1,6 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "lab",
-    "copy-from": "lab",
-    "name": "science lab",
-    "sym": "L",
-    "color": "magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_stairs",
-    "copy-from": "lab_stairs",
-    "name": "science lab",
-    "sym": "L",
-    "color": "pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_core",
-    "copy-from": "lab_core",
-    "name": "science lab",
-    "sym": "L",
-    "color": "magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_finale",
-    "copy-from": "lab_finale",
-    "name": "science lab",
-    "sym": "L",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_train_depot",
-    "copy-from": "lab_train_depot",
-    "name": "science train depot",
-    "sym": "L",
-    "color": "magenta"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "lab_subway_vent_shaft_surface",
     "copy-from": "lab_subway_vent_shaft_surface",
     "name": "Lab access shaft",
