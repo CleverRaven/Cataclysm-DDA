@@ -402,6 +402,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "charges_per_use": 1,
+    "etransfer_rate": "30 MB",
     "use_action": [
       {
         "type": "transform",
