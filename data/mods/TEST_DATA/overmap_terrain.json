@@ -3,7 +3,6 @@
     "type": "overmap_terrain",
     "id": "test_forest_very_thick",
     "copy-from": "forest_thick",
-    "mapgen": [ { "builtin": "forest" } ],
-    "flags": [ "SHOULD_NOT_SPAWN" ]
+    "mapgen": [ { "builtin": "forest" } ]
   }
 ]
