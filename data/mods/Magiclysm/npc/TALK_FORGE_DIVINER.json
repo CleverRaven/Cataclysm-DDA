@@ -581,8 +581,6 @@
     "dynamic_line": "Deeply buried secret installations where shady government organizations conducted unethical experiments, free from moral constrains.  Did such places really exist before the Cataclysm, or did humanity's collective mistrust, superstition and conspiracy theories cause the portal storms to dream these places into existence?  I honestly can't tell, but I suppose it doesn't matter now.  These places do exist, and are ripe with mysteries, dangers, and loot.  You'll have to specify which kind you're looking for.",
     "responses": [
       { "text": "Just a normal one.", "topic": "TALK_FORGE_LORD_DIVINER_LAB_NORMAL" },
-      { "text": "A central lab.", "topic": "TALK_FORGE_LORD_DIVINER_LAB_CENTRAL" },
-      { "text": "An ice lab.", "topic": "TALK_FORGE_LORD_DIVINER_LAB_ICE" },
       { "text": "A nether lab.", "topic": "TALK_FORGE_LORD_DIVINER_LAB_NETHER" },
       { "text": "On second thought, maybe I'll go for something else…", "topic": "TALK_NONE" },
       { "text": "You know what?  Never mind.", "topic": "TALK_DONE" }
@@ -606,46 +604,6 @@
       },
       { "text": "About something else…", "topic": "TALK_NONE" },
       { "text": "Nevermind.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "id": "TALK_FORGE_LORD_DIVINER_LAB_CENTRAL",
-    "type": "talk_topic",
-    "dynamic_line": "A larger lab with more dangers and more treasures.  I'll mark it on your map for one denarius.",
-    "responses": [
-      {
-        "text": "It's a deal.",
-        "topic": "TALK_DONE",
-        "condition": { "u_has_item": "denarius" },
-        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_LAB_CENTRAL" }, { "u_consume_item": "denarius" } ]
-      },
-      {
-        "text": "I can't afford that right now.",
-        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
-        "condition": { "not": { "u_has_item": "denarius" } }
-      },
-      { "text": "About something else…", "topic": "TALK_NONE" },
-      { "text": "Nevermind.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "id": "TALK_FORGE_LORD_DIVINER_LAB_ICE",
-    "type": "talk_topic",
-    "dynamic_line": "It's an incredibly cold place, that lab.  The deeper parts might even be below absolute zero.  Now this was of course not possible during the old laws of physics, but times change.  Times change.  I'll mark one on your map for one denarius.",
-    "responses": [
-      {
-        "text": "Cool.  It's a deal.",
-        "topic": "TALK_DONE",
-        "condition": { "u_has_item": "denarius" },
-        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_LAB_ICE" }, { "u_consume_item": "denarius" } ]
-      },
-      {
-        "text": "I can't afford that right now.",
-        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
-        "condition": { "not": { "u_has_item": "denarius" } }
-      },
-      { "text": "About something else…", "topic": "TALK_NONE" },
-      { "text": "Actually, I got cold feet.", "topic": "TALK_DONE" }
     ]
   },
   {

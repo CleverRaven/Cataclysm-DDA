@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "lab_train_depot", "central_lab_train_depot" ],
+    "om_terrain": [ "lab_train_depot" ],
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

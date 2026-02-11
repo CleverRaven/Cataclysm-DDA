@@ -187,10 +187,6 @@ static const oter_str_id oter_ants_ns( "ants_ns" );
 static const oter_str_id oter_ants_nsw( "ants_nsw" );
 static const oter_str_id oter_ants_sw( "ants_sw" );
 static const oter_str_id oter_ants_wn( "ants_wn" );
-static const oter_str_id oter_central_lab( "central_lab" );
-static const oter_str_id oter_central_lab_core( "central_lab_core" );
-static const oter_str_id oter_central_lab_finale( "central_lab_finale" );
-static const oter_str_id oter_central_lab_stairs( "central_lab_stairs" );
 static const oter_str_id oter_lab( "lab" );
 static const oter_str_id oter_lab_core( "lab_core" );
 static const oter_str_id oter_lab_stairs( "lab_stairs" );
@@ -6336,7 +6332,6 @@ void map::draw_lab( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
     // To distinguish between types of labs
-    bool central_lab = false;
     bool tower_lab = false;
 
     point_bub_ms p2;
@@ -6348,11 +6343,9 @@ void map::draw_lab( mapgendata &dat )
 
     if( terrain_type == oter_lab || terrain_type == oter_lab_stairs
         || terrain_type == oter_lab_core
-        || terrain_type == oter_central_lab || terrain_type == oter_central_lab_stairs
-        || terrain_type == oter_central_lab_core || terrain_type == oter_tower_lab
+        || terrain_type == oter_tower_lab
         || terrain_type == oter_tower_lab_stairs ) {
 
-        central_lab = is_ot_match( "central_lab", terrain_type, ot_match_type::prefix );
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         // Check for adjacent sewers; used below
@@ -6820,10 +6813,7 @@ void map::draw_lab( mapgendata &dat )
         }
 
         int light_odds = 0;
-        // central labs are always fully lit, other labs have half chance of some lights.
-        if( central_lab ) {
-            light_odds = 1;
-        } else if( one_in( 2 ) ) {
+        if( one_in( 2 ) ) {
             // Create a spread of densities, from all possible lights on, to 1/3, ...
             // to ~1 per segment.
             light_odds = std::pow( rng( 1, 12 ), 1.6 );
@@ -6999,9 +6989,8 @@ void map::draw_lab( mapgendata &dat )
                 }
             }
         }
-    } else if( terrain_type == oter_central_lab_finale || terrain_type == oter_tower_lab_finale ) {
+    } else if( terrain_type == oter_tower_lab_finale ) {
 
-        central_lab = is_ot_match( "central_lab", terrain_type, ot_match_type::prefix );
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         tw = ( is_ot_match( "lab", dat.north(), ot_match_type::contains ) &&
@@ -7302,10 +7291,7 @@ void map::draw_lab( mapgendata &dat )
         maybe_insert_stairs( terrain_type, ter_t_stairs_down );
 
         int light_odds = 0;
-        // central labs are always fully lit, other labs have half chance of some lights.
-        if( central_lab ) {
-            light_odds = 1;
-        } else if( one_in( 2 ) ) {
+        if( one_in( 2 ) ) {
             light_odds = std::pow( rng( 1, 12 ), 1.6 );
         }
         if( light_odds > 0 ) {

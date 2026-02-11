@@ -67,9 +67,6 @@ static const mongroup_id GROUP_SUBWAY_CITY( "GROUP_SUBWAY_CITY" );
 static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_ZOMBIE_HORDE( "GROUP_ZOMBIE_HORDE" );
 
-static const oter_str_id oter_central_lab( "central_lab" );
-static const oter_str_id oter_central_lab_core( "central_lab_core" );
-static const oter_str_id oter_central_lab_train_depot( "central_lab_train_depot" );
 static const oter_str_id oter_empty_rock( "empty_rock" );
 static const oter_str_id oter_field( "field" );
 static const oter_str_id oter_forest( "forest" );
@@ -88,8 +85,6 @@ static const oter_str_id oter_subway_isolated( "subway_isolated" );
 static const oter_str_id oter_underground_sub_station( "underground_sub_station" );
 
 static const oter_type_str_id oter_type_bridge( "bridge" );
-static const oter_type_str_id oter_type_central_lab_core( "central_lab_core" );
-static const oter_type_str_id oter_type_central_lab_stairs( "central_lab_stairs" );
 static const oter_type_str_id oter_type_microlab_sub_connector( "microlab_sub_connector" );
 static const oter_type_str_id oter_type_railroad_bridge( "railroad_bridge" );
 static const oter_type_str_id oter_type_road( "road" );
@@ -1058,9 +1053,7 @@ bool overmap::generate_sub( const int z )
     std::vector<city> ant_points;
     std::vector<city> goo_points;
     std::vector<city> lab_points;
-    std::vector<city> central_lab_points;
     std::vector<point_om_omt> lab_train_points;
-    std::vector<point_om_omt> central_lab_train_points;
 
     std::unordered_map<oter_type_id, std::function<void( const tripoint_om_omt &p )>>
     oter_above_actions = {
@@ -1070,20 +1063,6 @@ bool overmap::generate_sub( const int z )
             {
                 ter_set( p, oter_sewer_isolated.id() );
                 sewer_points.emplace_back( p.xy() );
-            }
-        },
-        {
-            oter_type_central_lab_core.id(),
-            [&]( const tripoint_om_omt & p )
-            {
-                central_lab_points.emplace_back( p.xy(), rng( std::max( 1, 7 + z ), 9 + z ) );
-            }
-        },
-        {
-            oter_type_central_lab_stairs.id(),
-            [&]( const tripoint_om_omt & p )
-            {
-                ter_set( p, oter_central_lab.id() );
             }
         },
     };
@@ -1139,13 +1118,9 @@ bool overmap::generate_sub( const int z )
     connect_closest_points( sewer_points, z, *overmap_connection_sewer_tunnel );
 
     // A third of overmaps have labs with a 1-in-2 chance of being subway connected.
-    // If the central lab exists, all labs which go down to z=4 will have a subway to central.
     int lab_train_odds = 0;
     if( z == -2 && one_in( 3 ) ) {
         lab_train_odds = 2;
-    }
-    if( z == -4 && !central_lab_points.empty() ) {
-        lab_train_odds = 1;
     }
 
     for( city &i : lab_points ) {
@@ -1153,14 +1128,6 @@ bool overmap::generate_sub( const int z )
         requires_sub |= lab;
         if( !lab && ter( tripoint_om_omt( i.pos, z ) ) == oter_lab_core ) {
             ter_set( tripoint_om_omt( i.pos, z ), oter_lab.id() );
-        }
-    }
-    for( city &i : central_lab_points ) {
-        bool central_lab = build_lab( tripoint_om_omt( i.pos, z ), i.size, &central_lab_train_points,
-                                      "central_", lab_train_odds );
-        requires_sub |= central_lab;
-        if( !central_lab && ter( tripoint_om_omt( i.pos, z ) ) == oter_central_lab_core ) {
-            ter_set( tripoint_om_omt( i.pos, z ), oter_central_lab.id() );
         }
     }
 
@@ -1204,7 +1171,6 @@ bool overmap::generate_sub( const int z )
     std::vector<point_om_omt>
     subway_lab_train_points; // real points for subway, excluding train depot points
     create_real_train_lab_points( lab_train_points, subway_lab_train_points );
-    create_real_train_lab_points( central_lab_train_points, subway_lab_train_points );
 
     subway_points.insert( subway_points.end(), subway_lab_train_points.begin(),
                           subway_lab_train_points.end() );
@@ -1259,7 +1225,6 @@ bool overmap::generate_sub( const int z )
         }
     };
     create_train_depots( oter_lab_train_depot.id(), lab_train_points );
-    create_train_depots( oter_central_lab_train_depot.id(), central_lab_train_points );
 
     for( city &i : cities ) {
         tripoint_om_omt omt_pos( i.pos, z );
@@ -2627,8 +2592,8 @@ bool overmap::build_lab(
         }
     }
 
-    // We need a finale on the bottom of labs.  Central labs have a chance of additional finales.
-    if( numstairs == 0 || ( prefix == "central_" && one_in( -p.z() - 1 ) ) ) {
+    // We need a finale on the bottom of labs.
+    if( numstairs == 0 ) {
         tripoint_om_omt finale;
         int tries = 0;
         do {

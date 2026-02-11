@@ -115,5 +115,10 @@
     "type": "overmap_special_migration",
     "id": "Ice Lab",
     "//": "Removed in 0.J experimental"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Central Lab",
+    "//": "Removed in 0.J experimental"
   }
 ]

@@ -89,17 +89,6 @@
   },
   {
     "type": "monstergroup",
-    "id": "GROUP_CENTRAL_LAB",
-    "monsters": [
-      { "monster": "mon_feral_scientist_psychic", "weight": 10, "cost_multiplier": 10 },
-      { "monster": "mon_feral_security_psychic", "weight": 12, "cost_multiplier": 4 },
-      { "monster": "mon_feral_security_captain_psychic", "weight": 6, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_scientist_phavian", "weight": 50 },
-      { "monster": "mon_zombie_scientist_phavian", "weight": 20, "pack_size": [ 1, 3 ] }
-    ]
-  },
-  {
-    "type": "monstergroup",
     "id": "GROUP_LAB",
     "monsters": [
       { "monster": "mon_feral_scientist_psychic", "weight": 15, "cost_multiplier": 10 },

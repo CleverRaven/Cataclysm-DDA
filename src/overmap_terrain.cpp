@@ -865,16 +865,6 @@ bool oter_t::is_hardcoded() const
 {
     // TODO: This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
     static const std::set<std::string> hardcoded_mapgen = {
-        "ants_lab",
-        "ants_lab_stairs",
-        "ice_lab",
-        "ice_lab_stairs",
-        "ice_lab_core",
-        "ice_lab_finale",
-        "central_lab",
-        "central_lab_stairs",
-        "central_lab_core",
-        "central_lab_finale",
         "tower_lab",
         "tower_lab_stairs",
         "tower_lab_finale",
