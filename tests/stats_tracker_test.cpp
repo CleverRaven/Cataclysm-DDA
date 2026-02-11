@@ -34,7 +34,7 @@ static const event_statistic_id event_statistic_first_omt( "first_omt" );
 static const event_statistic_id
 event_statistic_last_oter_type_avatar_entered( "last_oter_type_avatar_entered" );
 static const event_statistic_id
-event_statistic_num_avatar_enters_lab_finale( "num_avatar_enters_lab_finale" );
+event_statistic_num_avatar_enters_oter_test( "num_avatar_enters_oter_test" );
 static const event_statistic_id
 event_statistic_num_avatar_monster_kills( "num_avatar_monster_kills" );
 static const event_statistic_id
@@ -368,16 +368,16 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
     }
 
     SECTION( "equals_any" ) {
-        const oter_id lab_finale( "lab_finale" );
-        const oter_id central_lab_finale( "central_lab_finale" );
+        const oter_id forest( "forest" );
+        const oter_id forest_thick( "forest_thick" );
         send_game_start( b, u_id );
-        CHECK( event_statistic_num_avatar_enters_lab_finale->value( s ) == cata_variant( 0 ) );
-        b.send<event_type::avatar_enters_omt>( tripoint::zero, lab_finale );
-        CHECK( event_statistic_num_avatar_enters_lab_finale->value( s ) == cata_variant( 1 ) );
+        CHECK( event_statistic_num_avatar_enters_oter_test->value( s ) == cata_variant( 0 ) );
+        b.send<event_type::avatar_enters_omt>( tripoint::zero, forest );
+        CHECK( event_statistic_num_avatar_enters_oter_test->value( s ) == cata_variant( 1 ) );
 
         calendar::turn += 1_minutes;
-        b.send<event_type::avatar_enters_omt>( tripoint::below, central_lab_finale );
-        CHECK( event_statistic_num_avatar_enters_lab_finale->value( s ) == cata_variant( 2 ) );
+        b.send<event_type::avatar_enters_omt>( tripoint::below, forest_thick );
+        CHECK( event_statistic_num_avatar_enters_oter_test->value( s ) == cata_variant( 2 ) );
     }
 
     SECTION( "invalid_values_filtered_out" ) {
