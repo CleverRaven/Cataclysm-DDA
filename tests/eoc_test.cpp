@@ -373,6 +373,8 @@ TEST_CASE( "EOC_transform_radius", "[eoc][timed_event]" )
     calendar::turn += 2_seconds;
     get_timed_events().process();
     check_ter_in_radius( start, eoc_range, ter_t_grass );
+
+    g->place_player_overmap( project_to<coords::omt>( start ) );
 }
 
 TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
