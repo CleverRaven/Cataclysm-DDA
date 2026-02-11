@@ -220,7 +220,7 @@
     "components": [
       [ [ "2x4", 6 ] ],
       [ [ "wood_sheet", 2 ], [ "wood_panel", 4 ] ],
-      [ [ "cordage_36_leather", 4 ], [ "string_36", 4 ], [ "cordage_36", 4 ] ]
+      [ [ "cordage_36_leather", 8 ], [ "string_36", 8 ], [ "cordage_36", 8 ] ]
     ],
     "pre_special": "check_empty",
     "post_terrain": "f_rack_primitive"

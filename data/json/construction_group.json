@@ -922,7 +922,7 @@
   {
     "type": "construction_group",
     "id": "build_wooden_rack_primitive",
-    "name": "Build Primitive Wooden Rack"
+    "name": "Build Simple Wooden Rack"
   },
   {
     "type": "construction_group",
