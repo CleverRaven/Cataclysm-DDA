@@ -4434,6 +4434,18 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
     };
 }
 
+talk_effect_fun_t::func f_dimension_name( const JsonObject &jo, std::string_view member,
+        std::string_view )
+{
+    var_info var = read_var_info( jo.get_object( member ) );
+    var_type type = var.type;
+    std::string var_name = var.name;
+
+    return [var_name, type]( dialogue & d ) {
+        write_var_value( type, var_name, &d, g->get_dimension_prefix() );
+    };
+}
+
 talk_effect_fun_t::func f_location_variable_adjust( const JsonObject &jo,
         std::string_view member, std::string_view )
 {
@@ -8095,6 +8107,7 @@ parsers = {
     { "u_learn_martial_art", "npc_learn_martial_art", jarg::member, &talk_effect_fun::f_learn_martial_art },
     { "u_forget_martial_art", "npc_forget_martial_art", jarg::member, &talk_effect_fun::f_forget_martial_art },
     { "u_location_variable", "npc_location_variable", jarg::object, &talk_effect_fun::f_location_variable },
+    { "dimension_name", jarg::object, &talk_effect_fun::f_dimension_name },
     { "u_transform_radius", "npc_transform_radius", jarg::member | jarg::array, &talk_effect_fun::f_transform_radius },
     { "u_explosion", "npc_explosion", jarg::member, &talk_effect_fun::f_explosion },
     { "u_query_tile", "npc_query_tile", jarg::member, &talk_effect_fun::f_query_tile },
