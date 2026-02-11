@@ -6383,6 +6383,7 @@
     "name": { "str": "Troglobite" },
     "description": "Sunlight makes you extremely uncomfortable, resulting in large penalties to all stats.",
     "category": [ "TROGLOBITE" ],
+    "purifiable": false,
     "types": [ "SUNLIGHT" ],
     "prereqs": [ "TROGLO2" ],
     "points": -5,
@@ -6399,6 +6400,7 @@
     "prereqs2": [ "TROGLO2", "TROGLO3" ],
     "points": -3,
     "vitamin_cost": 160,
+    "purifiability": false,
     "flags": [ "SUNBURN" ]
   },
   {
@@ -6447,6 +6449,7 @@
     "name": { "str": "Subterranean Build" },
     "description": "Your frame has adapted for life in confined spaces.  You seem a little shorter and bulkier, trading mobility for muscle mass.  (+2 Strength, -2 Dexterity)",
     "category": [ "TROGLOBITE" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_TROGLOBITE" ],
     "points": 0,
     "vitamin_cost": 60,
