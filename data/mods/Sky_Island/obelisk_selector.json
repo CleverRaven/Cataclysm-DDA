@@ -214,7 +214,7 @@
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
-          "om_terrain": "lab_stairs",
+          "om_terrain": "microlab_generic_edge",
           "om_terrain_match_type": "CONTAINS",
           "search_range": 200,
           "min_distance": 0,
