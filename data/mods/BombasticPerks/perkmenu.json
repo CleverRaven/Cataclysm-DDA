@@ -2220,7 +2220,7 @@
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
-        "condition": { "not": { "u_has_trait": "perk_secret_closet_teleporter_paths" } },
+        "condition": { "not": { "or": [ { "u_has_trait": "perk_secret_closet_teleporter_paths" }, { "mod_is_loaded": "skyisland" } ] } },
         "text": "Gain [<trait_name:perk_secret_closet_teleporter_paths>]",
         "effect": [
           { "set_string_var": "<trait_name:perk_secret_closet_teleporter_paths>", "target_var": { "context_val": "trait_name" } },
