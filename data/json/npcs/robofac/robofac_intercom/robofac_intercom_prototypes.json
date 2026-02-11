@@ -931,7 +931,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_PT_2",
     "type": "talk_topic",
-    "dynamic_line": "Very well; we will need one coin for materials costs, as well as the anchor itself and the environment suit you wish to combine it with.  As usual, I encourage you to remove everything from the pockets before handing them over for processing.  We'll need one day for construction and one day to verify efficacy.",
+    "dynamic_line": "Very well; we will need one coin for materials costs, the S02a cleansuit, and our standard issue environment suit.  I encourage you to remove everything from the pockets and battery compartment before handing them over for processing.  We'll need one day for construction and one day to verify efficacy.",
     "responses": [
       {
         "text": "[1 HGC, cleansuit, environment suit] I'll see you in two days.",
