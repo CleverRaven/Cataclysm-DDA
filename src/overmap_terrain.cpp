@@ -4,7 +4,6 @@
 #include <cstring>
 #include <optional>
 #include <ostream>
-#include <set>
 #include <vector>
 
 #include "cached_options.h"

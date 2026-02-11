@@ -3,9 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <climits>
-#include <cmath>
 #include <cstdint>
-#include <cstdlib>
 #include <functional>
 #include <limits>
 #include <list>
@@ -67,7 +65,6 @@
 #include "mapdata.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
-#include "mapgenformat.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
@@ -110,17 +107,9 @@ static const field_type_str_id field_fd_blood( "fd_blood" );
 static const field_type_str_id field_fd_fire( "fd_fire" );
 
 static const furn_str_id furn_f_ash( "f_ash" );
-static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_console( "f_console" );
-static const furn_str_id furn_f_counter( "f_counter" );
-static const furn_str_id furn_f_dresser( "f_dresser" );
-static const furn_str_id furn_f_flower_fungal( "f_flower_fungal" );
-static const furn_str_id furn_f_fridge( "f_fridge" );
-static const furn_str_id furn_f_fungal_clump( "f_fungal_clump" );
-static const furn_str_id furn_f_rack( "f_rack" );
 static const furn_str_id furn_f_rubble( "f_rubble" );
 static const furn_str_id furn_f_sign( "f_sign" );
-static const furn_str_id furn_f_table( "f_table" );
 static const furn_str_id furn_f_toilet( "f_toilet" );
 static const furn_str_id furn_f_vending_c( "f_vending_c" );
 static const furn_str_id furn_f_vending_c_networked( "f_vending_c_networked" );
@@ -130,50 +119,17 @@ static const furn_str_id furn_f_vending_reinforced_networked( "f_vending_reinfor
 static const furn_str_id furn_f_vending_reinforced_off( "f_vending_reinforced_off" );
 static const furn_str_id furn_f_wreckage( "f_wreckage" );
 
-static const item_group_id Item_spawn_data_ammo_rare( "ammo_rare" );
-static const item_group_id Item_spawn_data_bed( "bed" );
-static const item_group_id Item_spawn_data_bionics( "bionics" );
-static const item_group_id Item_spawn_data_bionics_common( "bionics_common" );
-static const item_group_id Item_spawn_data_chem_lab( "chem_lab" );
-static const item_group_id Item_spawn_data_cleaning( "cleaning" );
-static const item_group_id Item_spawn_data_cloning_vat( "cloning_vat" );
-static const item_group_id Item_spawn_data_dissection( "dissection" );
-static const item_group_id Item_spawn_data_dresser( "dresser" );
-static const item_group_id Item_spawn_data_goo( "goo" );
-static const item_group_id Item_spawn_data_guns_rare( "guns_rare" );
-static const item_group_id Item_spawn_data_lab_dorm( "lab_dorm" );
-static const item_group_id Item_spawn_data_mut_lab( "mut_lab" );
-static const item_group_id Item_spawn_data_teleport( "teleport" );
-
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_ash( "ash" );
 static const itype_id itype_avgas( "avgas" );
 static const itype_id itype_diesel( "diesel" );
 static const itype_id itype_gasoline( "gasoline" );
 static const itype_id itype_glass_shard( "glass_shard" );
-static const itype_id itype_heavy_battery_cell( "heavy_battery_cell" );
-static const itype_id itype_id_science( "id_science" );
 static const itype_id itype_jp8( "jp8" );
-static const itype_id itype_laser_rifle( "laser_rifle" );
-static const itype_id itype_plasma( "plasma" );
-static const itype_id itype_plasma_gun( "plasma_gun" );
-static const itype_id itype_plut_cell( "plut_cell" );
-static const itype_id itype_recipe_atomic_battery( "recipe_atomic_battery" );
-static const itype_id itype_recipe_caseless( "recipe_caseless" );
-static const itype_id itype_rm13_armor( "rm13_armor" );
 static const itype_id itype_rock( "rock" );
-static const itype_id itype_v29( "v29" );
 static const itype_id itype_water( "water" );
 
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
 static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
-static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
-static const mongroup_id GROUP_LAB( "GROUP_LAB" );
-static const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
-static const mongroup_id GROUP_LAB_SECURITY( "GROUP_LAB_SECURITY" );
-static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
-static const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
-static const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
 
 static const oter_str_id oter_afs_ruins_dynamic( "afs_ruins_dynamic" );
 static const oter_str_id oter_ants_es( "ants_es" );
@@ -189,55 +145,23 @@ static const oter_str_id oter_ants_sw( "ants_sw" );
 static const oter_str_id oter_ants_wn( "ants_wn" );
 static const oter_str_id oter_open_air( "open_air" );
 
-static const oter_type_str_id oter_type_road( "road" );
-static const oter_type_str_id oter_type_sewer( "sewer" );
-
-static const ter_str_id ter_t_bars( "t_bars" );
-static const ter_str_id ter_t_card_science( "t_card_science" );
-static const ter_str_id ter_t_concrete_wall( "t_concrete_wall" );
-static const ter_str_id ter_t_cvdbody( "t_cvdbody" );
-static const ter_str_id ter_t_cvdmachine( "t_cvdmachine" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
-static const ter_str_id ter_t_door_glass_frosted_c( "t_door_glass_frosted_c" );
-static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
-static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
-static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_floor_burnt( "t_floor_burnt" );
-static const ter_str_id ter_t_fungus_floor_in( "t_fungus_floor_in" );
-static const ter_str_id ter_t_fungus_wall( "t_fungus_wall" );
 static const ter_str_id ter_t_grass( "t_grass" );
-static const ter_str_id ter_t_marloss( "t_marloss" );
 static const ter_str_id ter_t_metal_floor( "t_metal_floor" );
 static const ter_str_id ter_t_pseudo_phase( "t_pseudo_phase" );
-static const ter_str_id ter_t_radio_tower( "t_radio_tower" );
-static const ter_str_id ter_t_reinforced_door_glass_c( "t_reinforced_door_glass_c" );
-static const ter_str_id ter_t_reinforced_glass( "t_reinforced_glass" );
-static const ter_str_id ter_t_reinforced_glass_lab( "t_reinforced_glass_lab" );
-static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
-static const ter_str_id ter_t_sewage( "t_sewage" );
 static const ter_str_id ter_t_snow( "t_snow" );
 static const ter_str_id ter_t_snow_metal_floor( "t_snow_metal_floor" );
-static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
-static const ter_str_id ter_t_stairs_up( "t_stairs_up" );
-static const ter_str_id ter_t_strconc_floor( "t_strconc_floor" );
-static const ter_str_id ter_t_thconc_floor( "t_thconc_floor" );
-static const ter_str_id ter_t_thconc_floor_olight( "t_thconc_floor_olight" );
-static const ter_str_id ter_t_vat( "t_vat" );
 static const ter_str_id ter_t_wall_burnt( "t_wall_burnt" );
 static const ter_str_id ter_t_wall_prefab_metal( "t_wall_prefab_metal" );
-static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
-static const trap_str_id tr_dissector( "tr_dissector" );
 static const trap_str_id tr_drain( "tr_drain" );
 static const trap_str_id tr_glow( "tr_glow" );
-static const trap_str_id tr_goo( "tr_goo" );
 static const trap_str_id tr_hum( "tr_hum" );
-static const trap_str_id tr_portal( "tr_portal" );
 static const trap_str_id tr_shadow( "tr_shadow" );
 static const trap_str_id tr_snake( "tr_snake" );
-static const trap_str_id tr_telepad( "tr_telepad" );
 
 static const vpart_location_id vpart_location_structure( "structure" );
 
