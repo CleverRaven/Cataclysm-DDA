@@ -580,23 +580,34 @@
     "prereqs": [ "WINGS_STUB" ],
     "points": 1,
     "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You begin buzzing your wings.",
     "vitamin_cost": 220,
     "visibility": 4,
     "ugliness": 4,
     "flags": [ "WINGS_1" ],
+    "cost": 115,
+    "stamina": true,
+    "time": "1 s",
     "restricts_gear": [ "torso" ],
-    "transform": { "target": "WINGS_INSECT_active", "msg_transform": "You begin buzzing your wings.", "active": true, "moves": 20 }
+    "active_flags": [ "ONE_STORY_FALL", "MUSCLE_VEH_BOOST" ],
+    "//": "We apply WINGS_INSECT_active as a mutation because there are sound penalties with custom messages hard-coded to its id.",
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ],
+        "mutations": [ "WINGS_INSECT_active" ]
+      }
+    ]
   },
   {
     "type": "mutation",
     "id": "WINGS_INSECT_active",
-    "copy-from": "WINGS_INSECT",
     "name": { "str": "Insect Wings (Buzzing)" },
     "description": "You're fluttering your wings as fast as you can.  This doesn't generate enough lift to move you, but it does increase your movement speed.  If you're not burdened, you can fall short distances without harm.",
     "valid": false,
-    "flags": [ "WINGS_1", "MUSCLE_VEH_BOOST" ],
-    "transform": { "target": "WINGS_INSECT", "msg_transform": "Your wings go still.", "active": false, "moves": 0 },
-    "enchantments": [ "ench_wings_insect_active" ]
+    "points": 0,
+    "player_display": false
   },
   {
     "type": "mutation",
