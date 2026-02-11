@@ -211,6 +211,22 @@
   },
   {
     "type": "construction",
+    "id": "constr_rack_primitive",
+    "group": "build_wooden_rack_primitive",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "240 m",
+    "qualities": [ [ { "id": "CHISEL", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [
+      [ [ "2x4", 6 ] ],
+      [ [ "wood_sheet", 2 ], [ "wood_panel", 4 ] ],
+      [ [ "cordage_36_leather", 4 ], [ "string_36", 4 ], [ "cordage_36", 4 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_rack_primitive"
+  },
+  {
+    "type": "construction",
     "id": "constr_safe",
     "group": "build_safe",
     "category": "FURN",

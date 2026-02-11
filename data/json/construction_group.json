@@ -921,6 +921,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_wooden_rack_primitive",
+    "name": "Build Primitive Wooden Rack"
+  },
+  {
+    "type": "construction_group",
     "id": "build_wooden_railing",
     "name": "Build Wooden Railing"
   },
