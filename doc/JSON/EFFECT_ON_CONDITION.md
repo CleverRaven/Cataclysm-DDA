@@ -3771,7 +3771,7 @@ Save the condition  `season is not winter, and it is a daytime` into `random_enc
 
 
 #### `dimension_name`
-Store string from set_string_var in the [variable](#variable-object) object target_var 
+Store string from dimension_name in the [variable](#variable-object) object. The default dimension is currently an empty string.
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
