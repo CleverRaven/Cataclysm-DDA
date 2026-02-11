@@ -196,6 +196,7 @@
         ]
       },
       { "clear_dimension": "dimension_sky_island_mission" },
+      { "if": { "mod_is_loaded": "bombastic_perks" }, "then": { "clear_dimension": "dimension_perk_closetland" } },
       { "math": [ "timeawayfromhome = 0 - bonuspulses" ] }
     ]
   },

@@ -94,6 +94,21 @@
                 "if": { "not": { "math": [ "has_var(u_closetland_arrival_point)" ] } },
                 "then": { "run_eocs": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_INITIAL_ARRIVAL" },
                 "else": [ { "u_teleport": { "u_val": "closetland_arrival_point" } }, { "u_lose_effect": "blind" } ]
+              },
+              {
+                "if": {
+                  "and": [
+                    { "mod_is_loaded": "skyisland" },
+                    { "not": { "math": [ "has_var(u_closetland_has_been_told_about_skyisland_risk)" ] } }
+                  ]
+                },
+                "then": [
+                  {
+                    "u_message": "The walls of the closet seem to vibrate to your heartbeat, you feel certain that failing a raid will cause the walls here to briefly vanish, ejecting everything here into nothingness.",
+                    "popup": true
+                  },
+                  { "math": [ "u_closetland_has_been_told_about_skyisland_risk = true" ] }
+                ]
               }
             ],
             "else": [
