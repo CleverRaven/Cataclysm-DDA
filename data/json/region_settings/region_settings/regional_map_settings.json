@@ -798,7 +798,6 @@
       [ "office_tower_2", 150 ],
       [ "office_skyscraper", 300 ],
       [ "office_tower_large", 300 ],
-      [ "office_tower_hiddenlab", 50 ],
       [ "mall", 200 ],
       [ "home_improvement_superstore_new", 150 ],
       [ "lumberyard", 75 ],

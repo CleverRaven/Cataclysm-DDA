@@ -191,9 +191,6 @@ static const oter_str_id oter_lab( "lab" );
 static const oter_str_id oter_lab_core( "lab_core" );
 static const oter_str_id oter_lab_stairs( "lab_stairs" );
 static const oter_str_id oter_open_air( "open_air" );
-static const oter_str_id oter_tower_lab( "tower_lab" );
-static const oter_str_id oter_tower_lab_finale( "tower_lab_finale" );
-static const oter_str_id oter_tower_lab_stairs( "tower_lab_stairs" );
 
 static const oter_type_str_id oter_type_road( "road" );
 static const oter_type_str_id oter_type_sewer( "sewer" );
@@ -6331,8 +6328,6 @@ static const int EAST_EDGE = 2 * SEEX  - 1;
 void map::draw_lab( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
-    // To distinguish between types of labs
-    bool tower_lab = false;
 
     point_bub_ms p2;
 
@@ -6342,11 +6337,7 @@ void map::draw_lab( mapgendata &dat )
     int bw = 0;
 
     if( terrain_type == oter_lab || terrain_type == oter_lab_stairs
-        || terrain_type == oter_lab_core
-        || terrain_type == oter_tower_lab
-        || terrain_type == oter_tower_lab_stairs ) {
-
-        tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
+        || terrain_type == oter_lab_core ) {
 
         // Check for adjacent sewers; used below
         tw = 0;
@@ -6525,12 +6516,10 @@ void map::draw_lab( mapgendata &dat )
                         !has_flag_ter( ter_furn_flag::TFLAG_DOOR, east_border ) ) {
                         // TODO: create a ter_reset function that does ter_set,
                         // furn_set, and i_clear?
-                        ter_str_id lw_type = tower_lab ? ter_t_reinforced_glass : ter_t_concrete_wall;
-                        ter_str_id tw_type = tower_lab ? ter_t_reinforced_glass : ter_t_concrete_wall;
-                        ter_str_id rw_type = tower_lab && rw == 2 ? ter_t_reinforced_glass :
-                                             ter_t_concrete_wall;
-                        ter_str_id bw_type = tower_lab && bw == 2 ? ter_t_reinforced_glass :
-                                             ter_t_concrete_wall;
+                        ter_str_id lw_type = ter_t_concrete_wall;
+                        ter_str_id tw_type = ter_t_concrete_wall;
+                        ter_str_id rw_type = ter_t_concrete_wall;
+                        ter_str_id bw_type = ter_t_concrete_wall;
                         for( int i = 0; i < SEEX * 2; i++ ) {
                             ter_set( point_bub_ms( 23, i ), rw_type );
                             furn_set( point_bub_ms( 23, i ), furn_str_id::NULL_ID() );
@@ -6831,11 +6820,6 @@ void map::draw_lab( mapgendata &dat )
             }
         }
 
-        if( tower_lab ) {
-            place_spawns( GROUP_LAB, 1, point_bub_ms::zero, point_bub_ms( EAST_EDGE, SOUTH_EDGE ),
-                          abs_sub.z(), 0.02f );
-        }
-
         // Lab special effects.
         if( one_in( 10 ) ) {
             switch( rng( 1, 7 ) ) {
@@ -6986,323 +6970,6 @@ void map::draw_lab( mapgendata &dat )
                                   center.xy() + point( 2, 2 ), center.z(), 1, true );
 
                     break;
-                }
-            }
-        }
-    } else if( terrain_type == oter_tower_lab_finale ) {
-
-        tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
-
-        tw = ( is_ot_match( "lab", dat.north(), ot_match_type::contains ) &&
-               !is_ot_match( "lab_subway", dat.north(), ot_match_type::contains ) ) ? 0 : 2;
-        rw = ( is_ot_match( "lab", dat.east(), ot_match_type::contains ) &&
-               !is_ot_match( "lab_subway", dat.east(), ot_match_type::contains ) ) ? 1 : 2;
-        bw = ( is_ot_match( "lab", dat.south(), ot_match_type::contains ) &&
-               !is_ot_match( "lab_subway", dat.south(), ot_match_type::contains ) ) ? 1 : 2;
-        lw = ( is_ot_match( "lab", dat.west(), ot_match_type::contains ) &&
-               !is_ot_match( "lab_subway", dat.west(), ot_match_type::contains ) ) ? 0 : 2;
-
-        const int hardcoded_finale_map_weight = 500; // weight of all hardcoded maps.
-        // If you remove the usage of "lab_finale_1level" here, remove it from mapgen_factory::get_usages above as well.
-        if( oter_mapgen.generate( dat, "lab_finale_1level", hardcoded_finale_map_weight ) ) {
-            // If the map template hasn't handled borders, handle them in code.
-            // Rotated maps cannot handle borders and have to be caught in code.
-            // We determine if a border isn't handled by checking the east-facing
-            // border space where the door normally is -- it should be a wall or door.
-            tripoint_bub_ms east_border( 23, 11, abs_sub.z() );
-            if( !has_flag_ter( ter_furn_flag::TFLAG_WALL, east_border ) &&
-                !has_flag_ter( ter_furn_flag::TFLAG_DOOR, east_border ) ) {
-                // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
-                ter_str_id lw_type = tower_lab ? ter_t_reinforced_glass : ter_t_concrete_wall;
-                ter_str_id tw_type = tower_lab ? ter_t_reinforced_glass : ter_t_concrete_wall;
-                ter_str_id rw_type = tower_lab && rw == 2 ? ter_t_reinforced_glass : ter_t_concrete_wall;
-                ter_str_id bw_type = tower_lab && bw == 2 ? ter_t_reinforced_glass : ter_t_concrete_wall;
-                for( int i = 0; i < SEEX * 2; i++ ) {
-                    ter_set( point_bub_ms( 23, i ), rw_type );
-                    furn_set( point_bub_ms( 23, i ), furn_str_id::NULL_ID() );
-                    i_clear( tripoint_bub_ms( 23, i, dat.zlevel() ) );
-
-                    ter_set( point_bub_ms( i, 23 ), bw_type );
-                    furn_set( point_bub_ms( i, 23 ), furn_str_id::NULL_ID() );
-                    i_clear( tripoint_bub_ms( i, 23, dat.zlevel() ) );
-
-                    if( lw == 2 ) {
-                        ter_set( point_bub_ms( 0, i ), lw_type );
-                        furn_set( point_bub_ms( 0, i ), furn_str_id::NULL_ID() );
-                        i_clear( tripoint_bub_ms( 0, i, dat.zlevel() ) );
-                    }
-                    if( tw == 2 ) {
-                        ter_set( point_bub_ms( i, 0 ), tw_type );
-                        furn_set( point_bub_ms( i, 0 ), furn_str_id::NULL_ID() );
-                        i_clear( tripoint_bub_ms( i, 0, dat.zlevel() ) );
-                    }
-                }
-                if( rw != 2 ) {
-                    ter_set( point_bub_ms( 23, 11 ), ter_t_door_metal_c );
-                    ter_set( point_bub_ms( 23, 12 ), ter_t_door_metal_c );
-                }
-                if( bw != 2 ) {
-                    ter_set( point_bub_ms( 11, 23 ), ter_t_door_metal_c );
-                    ter_set( point_bub_ms( 12, 23 ), ter_t_door_metal_c );
-                }
-            }
-        } else { // then no json maps for lab_finale_1level were found
-            // Start by setting up a large, empty room.
-            for( int i = 0; i < SEEX * 2; i++ ) {
-                for( int j = 0; j < SEEY * 2; j++ ) {
-                    if( i < lw || i > EAST_EDGE - rw || j < tw || j > SOUTH_EDGE - bw ) {
-                        ter_set( point_bub_ms( i, j ), ter_t_concrete_wall );
-                    } else {
-                        ter_set( point_bub_ms( i, j ), ter_t_thconc_floor );
-                    }
-                }
-            }
-            if( rw == 1 ) {
-                ter_set( point_bub_ms( EAST_EDGE, SEEY - 1 ), ter_t_door_metal_c );
-                ter_set( point_bub_ms( EAST_EDGE, SEEY ), ter_t_door_metal_c );
-            }
-            if( bw == 1 ) {
-                ter_set( point_bub_ms( SEEX - 1, SOUTH_EDGE ), ter_t_door_metal_c );
-                ter_set( point_bub_ms( SEEX, SOUTH_EDGE ), ter_t_door_metal_c );
-            }
-
-            int loot_variant; //only used for weapons testing variant.
-            computer *tmpcomp = nullptr;
-            switch( rng( 1, 5 ) ) {
-                // Weapons testing - twice as common because it has 4 variants.
-                case 1:
-                case 2:
-                    loot_variant = rng( 1, 100 ); //The variants have a 67/22/7/4 split.
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( 6, 6 ), point_bub_ms( 6, 6 ), abs_sub.z(), 1,
-                                  true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( SEEX * 2 - 7, 6 ),
-                                  point_bub_ms( SEEX * 2 - 7, 6 ), abs_sub.z(), 1, true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( 6, SEEY * 2 - 7 ),
-                                  point_bub_ms( 6, SEEY * 2 - 7 ), abs_sub.z(), 1, true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ),
-                                  point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ), abs_sub.z(), 1, true );
-                    spawn_item( point_bub_ms( SEEX - 4, SEEY - 2 ), itype_id_science );
-                    if( loot_variant <= 96 ) {
-                        mtrap_set( this, tripoint_bub_ms( SEEX - 3, SEEY - 3, dat.zlevel() ), tr_dissector );
-                        mtrap_set( this, tripoint_bub_ms( SEEX + 2, SEEY - 3, dat.zlevel() ), tr_dissector );
-                        mtrap_set( this, tripoint_bub_ms( SEEX - 3, SEEY + 2, dat.zlevel() ), tr_dissector );
-                        mtrap_set( this, tripoint_bub_ms( SEEX + 2, SEEY + 2, dat.zlevel() ), tr_dissector );
-                        line( this, ter_t_reinforced_glass, point_bub_ms( SEEX + 1, SEEY + 1 ), point_bub_ms( SEEX - 2,
-                                SEEY + 1 ),
-                              dat.zlevel() );
-                        line( this, ter_t_reinforced_glass, point_bub_ms( SEEX - 2, SEEY ), point_bub_ms( SEEX - 2,
-                                SEEY - 2 ),
-                              dat.zlevel() );
-                        line( this, ter_t_reinforced_glass, point_bub_ms( SEEX - 1, SEEY - 2 ), point_bub_ms( SEEX + 1,
-                                SEEY - 2 ),
-                              dat.zlevel() );
-                        ter_set( point_bub_ms( SEEX + 1, SEEY - 1 ), ter_t_reinforced_glass );
-                        ter_set( point_bub_ms( SEEX + 1, SEEY ), ter_t_reinforced_door_glass_c );
-                        furn_set( point_bub_ms( SEEX - 1, SEEY - 1 ), furn_f_table );
-                        furn_set( point_bub_ms( SEEX, SEEY - 1 ), furn_f_table );
-                        furn_set( point_bub_ms( SEEX - 1, SEEY ), furn_f_table );
-                        furn_set( point_bub_ms( SEEX, SEEY ), furn_f_table );
-                        if( loot_variant <= 67 ) {
-                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), itype_UPS_off );
-                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), itype_heavy_battery_cell );
-                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), itype_v29 );
-                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), itype_laser_rifle, dice( 1, 0 ) );
-                            spawn_item( point_bub_ms( SEEX, SEEY ), itype_plasma_gun );
-                            spawn_item( point_bub_ms( SEEX, SEEY ), itype_plasma );
-                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), itype_recipe_atomic_battery );
-                            spawn_item( point_bub_ms( SEEX + 1, SEEY ), itype_plut_cell, rng( 8, 20 ) );
-                        } else if( loot_variant < 89 ) {
-                            spawn_item( point_bub_ms( SEEX, SEEY ), itype_recipe_atomic_battery );
-                            spawn_item( point_bub_ms( SEEX + 1, SEEY ), itype_plut_cell, rng( 8, 20 ) );
-                        }  else { // loot_variant between 90 and 96.
-                            spawn_item( point_bub_ms( SEEX - 1, SEEY - 1 ), itype_rm13_armor );
-                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), itype_plut_cell );
-                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), itype_plut_cell );
-                            spawn_item( point_bub_ms( SEEX, SEEY ), itype_recipe_caseless );
-                        }
-                    } else { // 4% of the lab ends will be this weapons testing end.
-                        mtrap_set( this, tripoint_bub_ms( SEEX - 4, SEEY - 3, dat.zlevel() ), tr_dissector );
-                        mtrap_set( this, tripoint_bub_ms( SEEX + 3, SEEY - 3, dat.zlevel() ), tr_dissector );
-                        mtrap_set( this, tripoint_bub_ms( SEEX - 4, SEEY + 2, dat.zlevel() ), tr_dissector );
-                        mtrap_set( this, tripoint_bub_ms( SEEX + 3, SEEY + 2, dat.zlevel() ), tr_dissector );
-
-                        furn_set( point_bub_ms( SEEX - 2, SEEY - 1 ), furn_f_rack );
-                        furn_set( point_bub_ms( SEEX - 1, SEEY - 1 ), furn_f_rack );
-                        furn_set( point_bub_ms( SEEX, SEEY - 1 ), furn_f_rack );
-                        furn_set( point_bub_ms( SEEX + 1, SEEY - 1 ), furn_f_rack );
-                        furn_set( point_bub_ms( SEEX - 2, SEEY ), furn_f_rack );
-                        furn_set( point_bub_ms( SEEX - 1, SEEY ), furn_f_rack );
-                        furn_set( point_bub_ms( SEEX, SEEY ), furn_f_rack );
-                        furn_set( point_bub_ms( SEEX + 1, SEEY ), furn_f_rack );
-                        line( this, ter_t_reinforced_door_glass_c, point_bub_ms( SEEX - 2, SEEY - 2 ),
-                              point_bub_ms( SEEX + 1, SEEY - 2 ), dat.zlevel() );
-                        line( this, ter_t_reinforced_door_glass_c, point_bub_ms( SEEX - 2, SEEY + 1 ),
-                              point_bub_ms( SEEX + 1, SEEY + 1 ), dat.zlevel() );
-                        line( this, ter_t_reinforced_glass, point_bub_ms( SEEX - 3, SEEY - 2 ), point_bub_ms( SEEX - 3,
-                                SEEY + 1 ),
-                              dat.zlevel() );
-                        line( this, ter_t_reinforced_glass, point_bub_ms( SEEX + 2, SEEY - 2 ), point_bub_ms( SEEX + 2,
-                                SEEY + 1 ),
-                              dat.zlevel() );
-                        place_items( Item_spawn_data_ammo_rare, 96,
-                                     point_bub_ms( SEEX - 2, SEEY - 1 ),
-                                     point_bub_ms( SEEX + 1, SEEY - 1 ), abs_sub.z(), false,
-                                     calendar::start_of_cataclysm );
-                        place_items( Item_spawn_data_guns_rare, 96, point_bub_ms( SEEX - 2, SEEY ),
-                                     point_bub_ms( SEEX + 1, SEEY ), abs_sub.z(), false,
-                                     calendar::start_of_cataclysm );
-                        spawn_item( point_bub_ms( SEEX + 1, SEEY ), itype_plut_cell, rng( 1, 10 ) );
-                    }
-                    break;
-                // Netherworld access
-                case 3: {
-                    bool monsters_end = false;
-                    if( !one_in( 4 ) ) { // Trapped netherworld monsters
-                        monsters_end = true;
-                        tw = rng( SEEY + 3, SEEY + 5 );
-                        bw = tw + 4;
-                        lw = rng( SEEX - 6, SEEX - 2 );
-                        rw = lw + 6;
-                        for( int i = lw; i <= rw; i++ ) {
-                            for( int j = tw; j <= bw; j++ ) {
-                                if( j == tw || j == bw ) {
-                                    if( ( i - lw ) % 2 == 0 ) {
-                                        ter_set( point_bub_ms( i, j ), ter_t_concrete_wall );
-                                    } else {
-                                        ter_set( point_bub_ms( i, j ), ter_t_reinforced_glass );
-                                    }
-                                } else if( ( i - lw ) % 2 == 0 || j == tw + 2 ) {
-                                    ter_set( point_bub_ms( i, j ), ter_t_concrete_wall );
-                                } else { // Empty space holds monsters!
-                                    place_spawns( GROUP_NETHER, 1, point_bub_ms( i, j ), point_bub_ms( i, j ), abs_sub.z(), 1, true );
-                                }
-                            }
-                        }
-                    }
-
-                    spawn_item( point_bub_ms( SEEX - 1, 8 ), itype_id_science );
-                    tmpcomp = add_computer( { SEEX,  8, abs_sub.z() },
-                                            _( "Sub-prime contact console" ), 7 );
-                    if( monsters_end ) { //only add these options when there are monsters.
-                        tmpcomp->add_option( _( "Terminate Specimens" ), COMPACT_TERMINATE, 2 );
-                        tmpcomp->add_option( _( "Release Specimens" ), COMPACT_RELEASE, 3 );
-                    }
-                    tmpcomp->add_option( _( "Toggle Portal" ), COMPACT_PORTAL, 8 );
-                    tmpcomp->add_option( _( "Activate Resonance Cascade" ), COMPACT_CASCADE, 10 );
-                    tmpcomp->add_failure( COMPFAIL_MANHACKS );
-                    tmpcomp->add_failure( COMPFAIL_SECUBOTS );
-                    tmpcomp->set_access_denied_msg(
-                        _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
-                    ter_set( point_bub_ms( SEEX - 2, 4 ), ter_t_radio_tower );
-                    ter_set( point_bub_ms( SEEX + 1, 4 ), ter_t_radio_tower );
-                    ter_set( point_bub_ms( SEEX - 2, 7 ), ter_t_radio_tower );
-                    ter_set( point_bub_ms( SEEX + 1, 7 ), ter_t_radio_tower );
-                }
-                break;
-
-                // Bionics
-                case 4: {
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( 6, 6 ), point_bub_ms( 6, 6 ), abs_sub.z(), 1,
-                                  true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( SEEX * 2 - 7, 6 ),
-                                  point_bub_ms( SEEX * 2 - 7, 6 ), abs_sub.z(), 1, true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( 6, SEEY * 2 - 7 ),
-                                  point_bub_ms( 6, SEEY * 2 - 7 ), abs_sub.z(), 1, true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ),
-                                  point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ), abs_sub.z(), 1, true );
-                    mtrap_set( this, tripoint_bub_ms( SEEX - 2, SEEY - 2, dat.zlevel() ), tr_dissector );
-                    mtrap_set( this, tripoint_bub_ms( SEEX + 1, SEEY - 2, dat.zlevel() ), tr_dissector );
-                    mtrap_set( this, tripoint_bub_ms( SEEX - 2, SEEY + 1, dat.zlevel() ), tr_dissector );
-                    mtrap_set( this, tripoint_bub_ms( SEEX + 1, SEEY + 1, dat.zlevel() ), tr_dissector );
-                    square_furn( this, furn_f_counter, point_bub_ms( SEEX - 1, SEEY - 1 ), point_bub_ms( SEEX, SEEY ) );
-                    int item_count = 0;
-                    while( item_count < 5 ) {
-                        item_count +=
-                            place_items(
-                                Item_spawn_data_bionics, 75, point_bub_ms( SEEX - 1, SEEY - 1 ),
-                                point_bub_ms( SEEX, SEEY ), abs_sub.z(), false, calendar::start_of_cataclysm ).size();
-                    }
-                    line( this, ter_t_reinforced_glass, point_bub_ms( SEEX - 2, SEEY - 2 ), point_bub_ms( SEEX + 1,
-                            SEEY - 2 ),
-                          dat.zlevel() );
-                    line( this, ter_t_reinforced_glass, point_bub_ms( SEEX - 2, SEEY + 1 ), point_bub_ms( SEEX + 1,
-                            SEEY + 1 ),
-                          dat.zlevel() );
-                    line( this, ter_t_reinforced_glass, point_bub_ms( SEEX - 2, SEEY - 1 ), point_bub_ms( SEEX - 2,
-                            SEEY ),
-                          dat.zlevel() );
-                    line( this, ter_t_reinforced_glass, point_bub_ms( SEEX + 1, SEEY - 1 ), point_bub_ms( SEEX + 1,
-                            SEEY ),
-                          dat.zlevel() );
-                    spawn_item( point_bub_ms( SEEX - 4, SEEY - 3 ), itype_id_science );
-                    furn_set( point_bub_ms( SEEX - 3, SEEY - 3 ), furn_f_console );
-                    tmpcomp = add_computer( { SEEX - 3,  SEEY - 3, abs_sub.z() },
-                                            _( "Bionic access" ), 3 );
-                    tmpcomp->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
-                    tmpcomp->add_option( _( "Open Chambers" ), COMPACT_RELEASE, 5 );
-                    tmpcomp->add_failure( COMPFAIL_MANHACKS );
-                    tmpcomp->add_failure( COMPFAIL_SECUBOTS );
-                    tmpcomp->set_access_denied_msg(
-                        _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
-                }
-                break;
-
-                // CVD Forge
-                case 5:
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( 6, 6 ), point_bub_ms( 6, 6 ), dat.zlevel(), 1,
-                                  true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( SEEX * 2 - 7, 6 ),
-                                  point_bub_ms( SEEX * 2 - 7, 6 ), dat.zlevel(), 1, true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( 6, SEEY * 2 - 7 ),
-                                  point_bub_ms( 6, SEEY * 2 - 7 ), dat.zlevel(), 1, true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ),
-                                  point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ), dat.zlevel(), 1, true );
-                    line( this, ter_t_cvdbody, point_bub_ms( SEEX - 2, SEEY - 2 ), point_bub_ms( SEEX - 2, SEEY + 1 ),
-                          dat.zlevel() );
-                    line( this, ter_t_cvdbody, point_bub_ms( SEEX - 1, SEEY - 2 ), point_bub_ms( SEEX - 1, SEEY + 1 ),
-                          dat.zlevel() );
-                    line( this, ter_t_cvdbody, point_bub_ms( SEEX, SEEY - 1 ), point_bub_ms( SEEX, SEEY + 1 ),
-                          dat.zlevel() );
-                    line( this, ter_t_cvdbody, point_bub_ms( SEEX + 1, SEEY - 2 ), point_bub_ms( SEEX + 1, SEEY + 1 ),
-                          dat.zlevel() );
-                    ter_set( point_bub_ms( SEEX, SEEY - 2 ), ter_t_cvdmachine );
-                    spawn_item( point_bub_ms( SEEX, SEEY - 3 ), itype_id_science );
-                    break;
-            }
-        } // end use_hardcoded_lab_finale
-
-        // Handle stairs in the unlikely case they are needed.
-
-        const auto maybe_insert_stairs = [this]( const oter_id & terrain,
-        const ter_str_id & t_stair_type ) {
-            if( is_ot_match( "stairs", terrain, ot_match_type::contains ) ) {
-                const auto predicate = [this]( const tripoint_bub_ms & p ) {
-                    return ter( p ) == ter_t_thconc_floor && furn( p ) == furn_str_id::NULL_ID() &&
-                           tr_at( p ).is_null();
-                };
-                const tripoint_range<tripoint_bub_ms> range = points_in_rectangle( tripoint_bub_ms{ 0, 0, abs_sub.z() },
-                { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z() } );
-                if( const auto p = random_point( range, predicate ) ) {
-                    ter_set( *p, t_stair_type );
-                }
-            }
-        };
-        maybe_insert_stairs( dat.above(), ter_t_stairs_up );
-        maybe_insert_stairs( terrain_type, ter_t_stairs_down );
-
-        int light_odds = 0;
-        if( one_in( 2 ) ) {
-            light_odds = std::pow( rng( 1, 12 ), 1.6 );
-        }
-        if( light_odds > 0 ) {
-            for( int i = 0; i < SEEX * 2; i++ ) {
-                for( int j = 0; j < SEEY * 2; j++ ) {
-                    if( !( ( i * j ) % 2 || ( i + j ) % 4 ) && one_in( light_odds ) ) {
-                        const ter_id &nearby_ter = ter( point_bub_ms( i, j ) );
-                        if( nearby_ter == ter_t_thconc_floor || nearby_ter == ter_t_strconc_floor ) {
-                            ter_set( point_bub_ms( i, j ), ter_t_thconc_floor_olight );
-                        }
-                    }
                 }
             }
         }
