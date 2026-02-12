@@ -187,7 +187,7 @@
     "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "footing", 0.6 ], [ "swim", 0.0 ] ],
     "smash_message": "You kick down the %s, smashing it.",
     "techniques": [ "TECH_AVIAN_KICK" ],
-    "bionic_slots": 2,
+    "bionic_slots": 1,
     "sub_parts": [ "avian_talon_bottom_l", "avian_talon_top_l", "avian_talon_talons_l", "avian_talon_ankle_l", "avian_talon_rear_l" ],
     "flags": [ "LIMB_LOWER" ],
     "unarmed_damage": [ { "damage_type": "cut", "amount": 6 } ]
@@ -209,7 +209,7 @@
     "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "footing", 0.6 ], [ "swim", 0.0 ] ],
     "smash_message": "You kick down the %s, smashing it.",
     "techniques": [ "TECH_AVIAN_KICK" ],
-    "bionic_slots": 2,
+    "bionic_slots": 1,
     "sub_parts": [ "avian_talon_bottom_r", "avian_talon_top_r", "avian_talon_talons_r", "avian_talon_ankle_r", "avian_talon_rear_r" ],
     "flags": [ "LIMB_LOWER" ],
     "unarmed_damage": [ { "damage_type": "cut", "amount": 6 } ]
