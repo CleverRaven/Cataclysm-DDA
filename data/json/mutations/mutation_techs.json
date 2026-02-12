@@ -37,7 +37,7 @@
     "melee_allowed": true,
     "messages": [ "You bite %s", "<npcname> bites %s" ],
     "unarmed_allowed": true,
-    "weighting": -5,
+    "weighting": 10,
     "reach_ok": false,
     "attack_vectors": [ "vector_bite" ],
     "condition": {
@@ -116,11 +116,9 @@
       }
     ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.24 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -380,8 +378,8 @@
     "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
     "condition": { "math": [ "u_val('size') >= n_val('size')" ] },
     "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
@@ -399,8 +397,8 @@
     "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
     "condition": { "math": [ "u_val('size') < n_val('size')" ] },
     "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
@@ -495,11 +493,11 @@
       }
     ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 4.4 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.24 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
-      { "stat": "arpen", "type": "cut", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.5 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "unarmed", "scale": 0.5 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -564,9 +562,9 @@
     "crit_tec": true,
     "attack_vectors": [ "vector_headbutt" ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 2.2 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.12 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.03 },
       { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.5 },
       { "stat": "arpen", "type": "cut", "scaling-stat": "unarmed", "scale": 0.5 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
@@ -632,9 +630,9 @@
     "crit_tec": true,
     "attack_vectors": [ "vector_headbutt" ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 4.4 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.33 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -698,9 +696,9 @@
     "crit_tec": true,
     "attack_vectors": [ "vector_headbutt" ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 0.33 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -765,9 +763,9 @@
     "crit_tec": true,
     "attack_vectors": [ "vector_headbutt" ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 3.3 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.6 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -826,9 +824,9 @@
     "crit_tec": true,
     "attack_vectors": [ "vector_tail_sting" ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 0.5 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -895,9 +893,9 @@
     "condition": { "and": [ { "math": [ "u_val('size') >= n_val('size')" ] }, { "not": { "npc_has_flag": "STUMBLES" } } ] },
     "knockback_dist": 1,
     "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 3.3 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.6 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -914,9 +912,9 @@
     "attack_vectors": [ "vector_tail_thick" ],
     "condition": { "not": { "npc_has_flag": "STUMBLES" } },
     "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 3.3 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.6 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -935,9 +933,9 @@
     "knockback_dist": 1,
     "down_dur": 2,
     "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 3.3 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.6 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -1057,9 +1055,9 @@
     "attack_vectors": [ "vector_tail_club" ],
     "condition": { "math": [ "u_val('size') >= n_val('size')" ] },
     "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 4.4 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.5 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -1076,9 +1074,9 @@
     "attack_vectors": [ "vector_tail_club" ],
     "condition": { "math": [ "u_val('size') < n_val('size')" ] },
     "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 4.4 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.5 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
