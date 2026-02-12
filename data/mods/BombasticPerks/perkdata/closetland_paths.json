@@ -80,7 +80,7 @@
     "effect": [
       {
         "set_string_var": "Destination 1",
-        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:" },
         "target_var": { "u_val": "perk_closetland_paths_destination_name_1" }
       },
       { "u_location_variable": { "u_val": "perk_closetland_paths_destination_1" }, "min_radius": 0, "max_radius": 0 }
@@ -92,7 +92,7 @@
     "effect": [
       {
         "set_string_var": "Destination 1",
-        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:" },
         "target_var": { "u_val": "perk_closetland_paths_destination_name_2" }
       },
       { "u_location_variable": { "u_val": "perk_closetland_paths_destination_2" }, "min_radius": 0, "max_radius": 0 }
@@ -104,7 +104,7 @@
     "effect": [
       {
         "set_string_var": "Destination 1",
-        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:" },
         "target_var": { "u_val": "perk_closetland_paths_destination_name_3" }
       },
       { "u_location_variable": { "u_val": "perk_closetland_paths_destination_3" }, "min_radius": 0, "max_radius": 0 }

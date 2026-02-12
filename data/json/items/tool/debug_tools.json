@@ -137,7 +137,7 @@
               "effect": [
                 {
                   "set_string_var": "",
-                  "string_input": { "title": "", "description": "fault_id or fault_type_id", "identifier": "debug_apply_fault", "width": 30 },
+                  "string_input": { "title": "", "description": "fault_id or fault_type_id", "identifier": "debug_apply_fault" },
                   "target_var": { "context_val": "str" }
                 },
                 {

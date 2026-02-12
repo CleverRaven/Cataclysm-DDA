@@ -207,11 +207,12 @@ struct mutation_branch {
         bool destroys_gear = false;
         // Allow soft (fabric) gear on restricted body parts
         bool allow_soft_gear  = false;
-        // IF any of the four are true, it drains that as the "cost"
+        // If any of the five are true, it drains that as the "cost"
         bool sleepiness       = false;
         bool hunger        = false;
         bool thirst        = false;
         bool mana       = false;
+        bool stamina       = false;
         // How many points it costs in character creation
         int points     = 0;
         // How many mutagen vitamins are consumed to gain this trait
