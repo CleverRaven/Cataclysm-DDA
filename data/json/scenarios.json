@@ -581,7 +581,7 @@
     "description": "You were an experimental subject confined to a government black site.  While were luckier than your fellow mutants, remaining mostly human, you still likely bear some scars of the scientists' experiments.  Unforunately, the facility has fallen to chaos, and everyone is either dead or insane, and you don't know where you can get a keycard to bypass the defense turrets and escape.",
     "start_name": "Locked Lab",
     "professions": [
-      "mutant_patient_human",
+      "mutant_patient_none",
       "mutant_patient_bird",
       "mutant_patient_beast",
       "mutant_patient_cow",
