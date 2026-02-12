@@ -701,7 +701,6 @@ string_input_params string_input_params::parse_string_input_params( const JsonOb
     optional( jo, false, "title", p.title );
     optional( jo, false, "description", p.description );
     optional( jo, false, "default_text", p.default_text );
-    optional( jo, false, "width", p.width, 20 );
     optional( jo, false, "identifier", p.identifier );
     return p;
 }

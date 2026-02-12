@@ -4207,14 +4207,7 @@
     "destroys_gear": true,
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 15 },
-    "attacks": {
-      "attack_text_u": "You tear into %s with your saber teeth!",
-      "attack_text_npc": "%1$s tears into %2$s with their saber teeth!",
-      "body_part": "mouth",
-      "chance": 20,
-      "base_damage": { "damage_type": "stab", "amount": 25 },
-      "strength_damage": { "damage_type": "stab", "amount": 1 }
-    }
+    "integrated_armor": [ "integrated_saber_teeth" ]
   },
   {
     "type": "mutation",
@@ -5464,14 +5457,7 @@
     "visibility": 10,
     "ugliness": 8,
     "social_modifiers": { "intimidate": 5 },
-    "attacks": {
-      "attack_text_u": "You tear into %s with your teeth!",
-      "attack_text_npc": "%1$s tears into %2$s with their teeth!",
-      "body_part": "mouth",
-      "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
-      "chance": 20,
-      "base_damage": { "damage_type": "stab", "amount": 25 }
-    },
+    "integrated_armor": [ "integrated_shark_teeth" ],
     "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": -0.7 } ] } ]
   },
   {

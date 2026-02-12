@@ -3770,6 +3770,26 @@ Save the condition  `season is not winter, and it is a daytime` into `random_enc
 ```
 
 
+#### `dimension_name`
+Store string from dimension_name in the [variable](#variable-object) object. The default dimension is currently an empty string.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "dimension_name" | **mandatory** | [variable object](#variable-object) | variable, that accept the value; usually `context_val` |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+Saves the current dimension into `dimension_name` variable and display it in a message:
+```jsonc
+{ "dimension_name": { "u_val": "dim_name" } }, { "u_message": "Dimension Name: '<u_val:dim_name>'" },
+```
+
+
 #### `u_location_variable`, `npc_location_variable`
 Search a specific coordinates of map around `u_`, `npc_` or `target_params` and save them in [variable](#variable-object)
 

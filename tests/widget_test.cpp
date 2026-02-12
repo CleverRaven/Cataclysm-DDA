@@ -2043,20 +2043,19 @@ TEST_CASE( "multi-line_overmap_text_widget", "[widget][overmap]" )
         CHECK( overmap_w.layout( ava ) == string_join( forest_3x3, "" ) );
     }
 
-    SECTION( "central lab" ) {
-        const std::string blue_L = "<color_c_light_blue>L</color>";
-        const std::string h_blue_L = "<color_h_light_blue>L</color>";
-        //const std::string blue_L_red = "<color_c_light_blue_red>L</color>";
-        fill_overmap_area( ava, oter_id( "central_lab" ) );
+    SECTION( "swamp" ) {
+        const std::string cyan_F = "<color_c_cyan>F</color>";
+        const std::string h_cyan_F = "<color_h_cyan>F</color>";
+        fill_overmap_area( ava, oter_id( "forest_water" ) );
         // Mission marker southwest of avatar position (x-2, y+2)
         msn.set_target( ava.pos_abs_omt() + tripoint( -2, 2, 0 ) );
         // (red star on lower left corner of map)
-        const std::vector<std::string> lab_3x3 = {
-            blue_L, blue_L, blue_L, "\n",
-            blue_L, h_blue_L, blue_L, "\n",
-            red_star, blue_L, blue_L
+        const std::vector<std::string> swamp_3x3 = {
+            cyan_F, cyan_F, cyan_F, "\n",
+            cyan_F, h_cyan_F, cyan_F, "\n",
+            red_star, cyan_F, cyan_F
         };
-        CHECK( overmap_w.layout( ava ) == string_join( lab_3x3, "" ) );
+        CHECK( overmap_w.layout( ava ) == string_join( swamp_3x3, "" ) );
     }
 
     // TODO: Horde indicators

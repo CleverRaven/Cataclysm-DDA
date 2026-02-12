@@ -1723,6 +1723,25 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_smash_boost" } },
+        "text": "Gain [<trait_name:perk_smash_boost>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_smash_boost>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_smash_boost>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_smash_boost", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires melee 3",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('melee') >= 3" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_dice_addition_damage" } },
         "text": "Gain [<trait_name:perk_dice_addition_damage>]",
         "effect": [
@@ -2695,8 +2714,7 @@
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_mutate_towards": { "context_val": "trait_id" }, "category": "ANY", "use_vitamins": false },
-          { "math": [ "u_num_perks--" ] },
-          { "math": [ "u_perks_toward_playstyle++" ] }
+          { "math": [ "u_num_perks--" ] }
         ]
       },
       {
@@ -2710,7 +2728,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_SELECT_PLAYSTYLE",
-    "dynamic_line": "<context_val:trait_name>: \"<context_val:trait_description>\"\nCosts <u_val:playstyle_cost> + 1 perk points, <context_val:trait_requirement_description>.\n<context_val:trait_additional_details>",
+    "dynamic_line": "<context_val:trait_name>: \"<context_val:trait_description>\"\nCosts 1 playstyle perk point, <context_val:trait_requirement_description>.\n<context_val:trait_additional_details>",
     "responses": [
       {
         "text": "Select Perk.",

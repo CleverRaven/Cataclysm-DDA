@@ -109,7 +109,6 @@ bool activity_handlers::resume_for_multi_activities( Character &you )
         player_activity &back_act = you.backlog.front();
         if( back_act.is_multi_type() ) {
             you.assign_activity( back_act );
-            you.backlog.pop_front();
             return true;
         }
     }
@@ -921,86 +920,6 @@ void activity_handlers::find_mount_do_turn( player_activity *act, Character *you
             you->set_destination( route, player_activity( ACT_FIND_MOUNT ) );
         }
     }
-}
-
-void activity_handlers::tidy_up_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_fish_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_construction_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_mine_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_mop_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_chop_planks_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_butcher_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_craft_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_dis_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_read_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_study_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::vehicle_deconstruction_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::vehicle_repair_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::chop_trees_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_farm_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::fetch_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
 }
 
 template<typename fn>

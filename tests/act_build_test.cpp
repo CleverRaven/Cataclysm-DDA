@@ -127,6 +127,8 @@ construction get_construction( std::string const &name )
 construction setup_testcase( Character &u, std::string const &constr,
                              tripoint_bub_ms const &build_loc, tripoint_bub_ms const &loot_loc )
 {
+    u.backlog.clear();
+    u.cancel_activity();
     construction build = get_construction( constr );
 
     zone_manager &zmgr = zone_manager::get_manager();

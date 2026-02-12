@@ -1744,7 +1744,6 @@
     "material": [ "bone" ],
     "symbol": ",",
     "color": "white",
-    "warmth": 5,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
     "techniques": [ "FANGS_BITE", "FANGS_BITE_NATURAL", "FANGS_BITE_CRIT" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
@@ -1758,6 +1757,62 @@
       }
     ],
     "melee_damage": { "stab": 9 }
+  },
+  {
+    "id": "integrated_saber_teeth",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "saber teeth" },
+    "description": "A pair of enormous teeth, hanging over your lip, dagger-sharp and more than sturdy enough to use in combat.",
+    "weight": "125 g",
+    "volume": "250 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "bone" ],
+    "symbol": ";",
+    "color": "white",
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
+    "techniques": [ "FANGS_BITE", "FANGS_BITE_NATURAL", "FANGS_BITE_CRIT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_lips" ],
+        "coverage": 100,
+        "encumbrance": 0
+      }
+    ],
+    "melee_damage": { "stab": 18 }
+  },
+  {
+    "id": "integrated_shark_teeth",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "shark teeth" },
+    "description": "A set of razor-sharp shark teeth.",
+    "weight": "125 g",
+    "volume": "250 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "bone" ],
+    "symbol": ";",
+    "color": "white",
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
+    "techniques": [ "FANGS_BITE", "FANGS_BITE_NATURAL", "FANGS_BITE_CRIT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_lips" ],
+        "coverage": 100,
+        "encumbrance": 0
+      }
+    ],
+    "melee_damage": { "stab": 24 }
   },
   {
     "id": "integrated_vampire_fangs",
@@ -1811,7 +1866,7 @@
       "HOOVES_KICK_CRIT",
       "HOOVES_KICK_CRIT_AGAINST_LARGE"
     ],
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "WATER_FRIENDLY", "PROVIDES_TECHNIQUES", "SKINTIGHT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "WATER_FRIENDLY", "PROVIDES_TECHNIQUES", "SKINTIGHT", "SOFT" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2.5 } ],

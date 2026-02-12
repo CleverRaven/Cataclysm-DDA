@@ -2619,49 +2619,10 @@ std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
-std::unordered_set<tripoint_abs_ms> multi_read_activity_actor::multi_activity_locations(
-    Character &you )
-{
-    return multi_activity_actor::read_locations( you, get_type() );
-}
-
-activity_reason_info multi_read_activity_actor::multi_activity_can_do(
-    Character &you, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::read_can_do( ACT_MULTIPLE_READ, you,
-            src_loc );
-}
-bool multi_read_activity_actor::multi_activity_do( Character &you,
-        const activity_reason_info &act_info,
-        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::read_do( you, act_info, src, src_loc );
-}
-
 std::unique_ptr<activity_actor> multi_read_activity_actor::deserialize( JsonValue & )
 {
     multi_read_activity_actor actor;
     return actor.clone();
-}
-
-activity_reason_info multi_study_activity_actor::multi_activity_can_do(
-    Character &you, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::study_can_do( ACT_MULTIPLE_STUDY, you,
-            src_loc );
-}
-
-std::unordered_set<tripoint_abs_ms> multi_study_activity_actor::multi_activity_locations(
-    Character &you )
-{
-    return multi_activity_actor::study_locations( you, get_type() );
-}
-
-bool multi_study_activity_actor::multi_activity_do( Character &you,
-        const activity_reason_info &act_info,
-        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::study_do( you, act_info, src, src_loc );
 }
 
 std::unique_ptr<activity_actor> multi_study_activity_actor::deserialize( JsonValue & )
@@ -4727,24 +4688,6 @@ std::unique_ptr<activity_actor> fish_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
-activity_reason_info multi_fish_activity_actor::multi_activity_can_do(
-    Character &you, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::fish_can_do( ACT_MULTIPLE_FISH, you,
-            src_loc );
-}
-std::optional<requirement_id> multi_fish_activity_actor::multi_activity_requirements(
-    Character &you, activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
-{
-    return multi_activity_actor::fish_requirements( you, act_info, src_loc );
-}
-bool multi_fish_activity_actor::multi_activity_do( Character &you,
-        const activity_reason_info &act_info,
-        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::fish_do( you, act_info, src, src_loc );
-}
-
 std::unique_ptr<activity_actor> multi_fish_activity_actor::deserialize( JsonValue & )
 {
     multi_fish_activity_actor actor;
@@ -5056,13 +4999,6 @@ void multi_zone_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.end_object();
-}
-
-activity_reason_info fetch_required_activity_actor::multi_activity_can_do(
-    Character &you, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::fetch_can_do( ACT_FETCH_REQUIRED, you,
-            src_loc );
 }
 
 void fetch_required_activity_actor::set_npc_fetch_history( Character &you )
@@ -5897,33 +5833,6 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonValue &js
     data.read( "activity_override", actor.activity_override );
 
     return actor.clone();
-}
-
-activity_reason_info multi_craft_activity_actor::multi_activity_can_do(
-    Character &you, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::craft_can_do( ACT_MULTIPLE_CRAFT, you,
-            src_loc );
-}
-
-std::optional<requirement_id> multi_craft_activity_actor::multi_activity_requirements(
-    Character &you,
-    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
-{
-    return multi_activity_actor::craft_requirements( you, act_info, src_loc );
-}
-
-std::unordered_set<tripoint_abs_ms> multi_craft_activity_actor::multi_activity_locations(
-    Character &you )
-{
-    return multi_activity_actor::craft_locations( you, get_type() );
-}
-
-bool multi_craft_activity_actor::multi_activity_do( Character &you,
-        const activity_reason_info &act_info,
-        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::craft_do( you, act_info, src, src_loc );
 }
 
 std::unique_ptr<activity_actor> multi_craft_activity_actor::deserialize( JsonValue & )
@@ -7857,27 +7766,6 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
-activity_reason_info multi_disassemble_activity_actor::multi_activity_can_do(
-    Character &you, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::disassemble_can_do( ACT_MULTIPLE_DIS, you,
-            src_loc );
-}
-
-std::optional<requirement_id> multi_disassemble_activity_actor::multi_activity_requirements(
-    Character &you,
-    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
-{
-    return multi_activity_actor::disassemble_requirements( you, act_info, src_loc );
-}
-
-bool multi_disassemble_activity_actor::multi_activity_do( Character &you,
-        const activity_reason_info &act_info,
-        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::disassemble_do( you, act_info, src, src_loc );
-}
-
 std::unique_ptr<activity_actor> multi_disassemble_activity_actor::deserialize( JsonValue & )
 {
     multi_disassemble_activity_actor actor;
@@ -8230,34 +8118,6 @@ std::unique_ptr<activity_actor> build_construction_activity_actor::deserialize( 
     data.read( "construction_location", actor.construction_location );
 
     return actor.clone();
-}
-
-activity_reason_info multi_build_construction_activity_actor::multi_activity_can_do(
-    Character &you, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::construction_can_do( ACT_MULTIPLE_CONSTRUCTION, you,
-            src_loc );
-}
-
-std::optional<requirement_id> multi_build_construction_activity_actor::multi_activity_requirements(
-    Character &you,
-    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
-{
-    return multi_activity_actor::construction_requirements( you, act_info, src_loc );
-}
-
-std::unordered_set<tripoint_abs_ms>
-multi_build_construction_activity_actor::multi_activity_locations(
-    Character &you )
-{
-    return multi_activity_actor::construction_locations( you, get_type() );
-}
-
-bool multi_build_construction_activity_actor::multi_activity_do( Character &you,
-        const activity_reason_info &act_info,
-        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::construction_do( you, act_info, src, src_loc );
 }
 
 std::unique_ptr<activity_actor> multi_build_construction_activity_actor::deserialize( JsonValue & )
@@ -9261,23 +9121,6 @@ std::unique_ptr<activity_actor> chop_planks_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
-activity_reason_info multi_chop_planks_activity_actor::multi_activity_can_do( Character &you,
-        const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::chop_planks_can_do( ACT_MULTIPLE_CHOP_PLANKS, you, src_loc );
-}
-std::optional<requirement_id> multi_chop_planks_activity_actor::multi_activity_requirements(
-    Character &you,
-    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
-{
-    return multi_activity_actor::chop_planks_requirements( you, act_info, src_loc );
-}
-bool multi_chop_planks_activity_actor::multi_activity_do( Character &you,
-        const activity_reason_info &act_info,
-        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::chop_planks_do( you, act_info, src, src_loc );
-}
 std::unique_ptr<activity_actor> multi_chop_planks_activity_actor::deserialize( JsonValue & )
 {
     multi_chop_planks_activity_actor actor;
@@ -9392,23 +9235,6 @@ std::unordered_set<tripoint_abs_ms> multi_chop_trees_activity_actor::multi_activ
     return multi_activity_actor::no_same_tile_locations( you, get_type() );
 }
 
-activity_reason_info multi_chop_trees_activity_actor::multi_activity_can_do( Character &you,
-        const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::chop_trees_can_do( ACT_MULTIPLE_CHOP_TREES, you, src_loc );
-}
-std::optional<requirement_id> multi_chop_trees_activity_actor::multi_activity_requirements(
-    Character &you,
-    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
-{
-    return multi_activity_actor::chop_trees_requirements( you, act_info, src_loc );
-}
-bool multi_chop_trees_activity_actor::multi_activity_do( Character &you,
-        const activity_reason_info &act_info,
-        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::chop_trees_do( you, act_info, src, src_loc );
-}
 std::unique_ptr<activity_actor> multi_chop_trees_activity_actor::deserialize( JsonValue & )
 {
     multi_chop_trees_activity_actor actor;
@@ -9527,25 +9353,6 @@ std::unique_ptr<activity_actor> fertilize_plant_activity_actor::deserialize( Jso
     data.read( "fertilizer", actor.fertilizer );
 
     return actor.clone();
-}
-
-activity_reason_info multi_farm_activity_actor::multi_activity_can_do(
-    Character &you, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::farm_can_do( ACT_MULTIPLE_FARM, you,
-            src_loc );
-}
-std::optional<requirement_id> multi_farm_activity_actor::multi_activity_requirements(
-    Character &you, activity_reason_info &act_info, const tripoint_bub_ms &src_loc,
-    const zone_data *zone )
-{
-    return multi_activity_actor::farm_requirements( you, act_info, src_loc, zone );
-}
-bool multi_farm_activity_actor::multi_activity_do( Character &you,
-        const activity_reason_info &act_info,
-        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::farm_do( you, act_info, src, src_loc );
 }
 
 std::optional<itype_id> multi_farm_activity_actor::query_fertilizer( Character &you )
@@ -10315,24 +10122,6 @@ std::unordered_set<tripoint_abs_ms> multi_mine_activity_actor::multi_activity_lo
     return multi_activity_actor::no_same_tile_locations( you, get_type() );
 }
 
-activity_reason_info multi_mine_activity_actor::multi_activity_can_do( Character &you,
-        const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::mine_can_do( ACT_MULTIPLE_MINE, you, src_loc );
-}
-std::optional<requirement_id> multi_mine_activity_actor::multi_activity_requirements(
-    Character &you,
-    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
-{
-    return multi_activity_actor::mining_requirements( you, act_info, src_loc );
-}
-bool multi_mine_activity_actor::multi_activity_do( Character &you,
-        const activity_reason_info &act_info,
-        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::mine_do( you, act_info, src, src_loc );
-}
-
 void mop_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
@@ -10369,25 +10158,6 @@ std::unique_ptr<activity_actor> mop_activity_actor::deserialize( JsonValue &jsin
     data.read( "moves", actor.moves );
 
     return actor.clone();
-}
-
-std::unordered_set<tripoint_abs_ms> multi_mop_activity_actor::multi_activity_locations(
-    Character &you )
-{
-    return multi_activity_actor::mop_locations( you, get_type() );
-}
-
-activity_reason_info multi_mop_activity_actor::multi_activity_can_do( Character &you,
-        const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::mop_can_do( ACT_MULTIPLE_MOP, you, src_loc );
-}
-
-bool multi_mop_activity_actor::multi_activity_do( Character &you,
-        const activity_reason_info &act_info,
-        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::mop_do( you, act_info, src, src_loc );
 }
 
 std::unique_ptr<activity_actor> multi_mop_activity_actor::deserialize( JsonValue & )
@@ -10987,24 +10757,11 @@ std::unique_ptr<activity_actor> vehicle_activity_actor::deserialize( JsonValue &
     return actor.clone();
 }
 
-activity_reason_info multi_vehicle_deconstruct_activity_actor::multi_activity_can_do(
-    Character &you,
-    const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::vehicle_deconstruction_can_do( ACT_VEHICLE_DECONSTRUCTION, you,
-            src_loc );
-}
 std::optional<requirement_id> multi_vehicle_deconstruct_activity_actor::multi_activity_requirements(
     Character &you,
     activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
 {
     return multi_activity_actor::vehicle_work_requirements( you, act_info, src_loc );
-}
-bool multi_vehicle_deconstruct_activity_actor::multi_activity_do( Character &you,
-        const activity_reason_info &act_info,
-        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::vehicle_deconstruction_do( you, act_info, src, src_loc );
 }
 
 std::unique_ptr<activity_actor> multi_vehicle_deconstruct_activity_actor::deserialize( JsonValue & )
@@ -11013,24 +10770,11 @@ std::unique_ptr<activity_actor> multi_vehicle_deconstruct_activity_actor::deseri
     return actor.clone();
 }
 
-activity_reason_info multi_vehicle_repair_activity_actor::multi_activity_can_do(
-    Character &you,
-    const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::vehicle_repair_can_do( ACT_VEHICLE_REPAIR, you,
-            src_loc );
-}
 std::optional<requirement_id> multi_vehicle_repair_activity_actor::multi_activity_requirements(
     Character &you,
     activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
 {
     return multi_activity_actor::vehicle_work_requirements( you, act_info, src_loc );
-}
-bool multi_vehicle_repair_activity_actor::multi_activity_do( Character &you,
-        const activity_reason_info &act_info,
-        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::vehicle_repair_do( you, act_info, src, src_loc );
 }
 
 std::unique_ptr<activity_actor> multi_vehicle_repair_activity_actor::deserialize( JsonValue & )
@@ -12527,27 +12271,6 @@ std::unique_ptr<activity_actor> butchery_activity_actor::deserialize( JsonValue 
 
     actor.bd = new_bd;
     return actor.clone();
-}
-
-activity_reason_info multi_butchery_activity_actor::multi_activity_can_do(
-    Character &you, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::butcher_can_do( ACT_MULTIPLE_BUTCHER, you,
-            src_loc );
-}
-
-std::optional<requirement_id> multi_butchery_activity_actor::multi_activity_requirements(
-    Character &you,
-    activity_reason_info &act_info, const tripoint_bub_ms &src_loc, const zone_data * )
-{
-    return multi_activity_actor::butcher_requirements( you, act_info, src_loc );
-}
-
-bool multi_butchery_activity_actor::multi_activity_do( Character &you,
-        const activity_reason_info &act_info,
-        const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
-{
-    return multi_activity_actor::butcher_do( you, act_info, src, src_loc );
 }
 
 std::unique_ptr<activity_actor> multi_butchery_activity_actor::deserialize( JsonValue & )
