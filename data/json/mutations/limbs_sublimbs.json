@@ -260,5 +260,35 @@
     "parent": "tail_finned",
     "side": "both",
     "opposite": "tail_finned_base"
+  },
+  {
+    "id": "tail_rat_base",
+    "type": "sub_body_part",
+    "name": "rat tail base",
+    "name_multiple": "tail bases",
+    "max_coverage": 10,
+    "parent": "tail_rat",
+    "side": "both",
+    "opposite": "tail_rat_tip"
+  },
+  {
+    "id": "tail_rat_center",
+    "type": "sub_body_part",
+    "name": "long tail center",
+    "name_multiple": "rat tail centers",
+    "max_coverage": 60,
+    "parent": "tail_lontail_ratg",
+    "side": "both",
+    "opposite": "tail_rat_center"
+  },
+  {
+    "id": "tail_rat_tip",
+    "type": "sub_body_part",
+    "name": "rat tail tip",
+    "name_multiple": "long tail tips",
+    "max_coverage": 30,
+    "parent": "tail_rat",
+    "side": "both",
+    "opposite": "tail_rat_base"
   }
 ]

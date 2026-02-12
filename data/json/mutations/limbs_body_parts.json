@@ -689,5 +689,27 @@
     "sub_parts": [ "tail_finned_base", "tail_finned_center", "tail_finned_tip" ],
     "smash_message": "You thwap %s with your tail.",
     "smash_efficiency": 0.25
+  },
+  {
+    "id": "tail_rat",
+    "copy-from": "tail_long",
+    "type": "body_part",
+    "name": "rat tail",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "rat tail" },
+    "heading": "tail",
+    "heading_multiple": "tails, rat",
+    "encumbrance_text": "Balance is hampered.",
+    "encumbrance_limit": 25,
+    "hp_bar_ui_text": "R TAIL",
+    "limb_type": "tail",
+    "main_part": "torso",
+    "opposite_part": "tail_rat",
+    "side": "both",
+    "wet_morale": 0,
+    "squeamish_penalty": 0,
+    "limb_scores": [ [ "balance", 0.05 ], [ "reaction", 0.15 ] ],
+    "//": "This is a separate part so that the various furs don't provide armor coverage",
+    "similar_bodypart": "tail_rat",
+    "sub_parts": [ "tail_rat_base", "tail_rat_center", "tail_rat_tip" ]
   }
 ]
