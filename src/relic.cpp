@@ -545,7 +545,7 @@ static bool can_recharge_lunar( const item &it, Character *carrier, const tripoi
 }
 
 // checks if the relic is in the appropriate location to be able to recharge from being in a forest.
-static bool can_recharge_forest( Character *carrier, const tripoint_bub_ms &pos )
+static bool can_recharge_forest( const tripoint_bub_ms &pos )
 {
     const tripoint_abs_omt omt_were_at = project_to<coords::omt>( get_map().get_abs( pos ) );
     return get_map().is_outside( pos ) && overmap_buffer.ter( omt_were_at )->is_wooded() &&
@@ -609,7 +609,7 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint_bub_m
             return;
         }
         case relic_recharge_type::FOREST: {
-            if( can_recharge_forest( carrier, pos ) ) {
+            if( can_recharge_forest( pos ) ) {
                 charge.accumulate_charge( parent );
             }
             return;
