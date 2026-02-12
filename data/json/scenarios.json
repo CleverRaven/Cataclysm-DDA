@@ -599,8 +599,7 @@
       "mutant_patient_trog",
       "mutant_patient_elfa",
       "mutant_patient_bear",
-      "mutant_patient_lupine",
-      "mutant_patient_catgirl"
+      "mutant_patient_lupine"
     ],
     "allowed_locs": [ "sloc_lab_medical" ],
     "map_extra": "mx_lab_concourse_area",
