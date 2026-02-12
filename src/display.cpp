@@ -271,7 +271,8 @@ std::string display::sundial_text_color( const Character &u, int width )
     const int moon_pos_idx = static_cast<int>( std::round( azm_moon / scale ) );
 
     weather_manager &weather = get_weather();
-    const int range_day = std::min( u.sight_range( default_daylight_level() ), u.unimpaired_range() );
+    const int range_day = std::max( 1, std::min( u.sight_range( default_daylight_level() ),
+                                                 u.unimpaired_range() ) );
 
     // Sunlight that makes it through the weather is highlighted blue in proportion to sight_range
     const float incident_sun_light = incident_sunlight( weather.weather_id, calendar::turn );
