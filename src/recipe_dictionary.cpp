@@ -25,6 +25,7 @@
 #include "enums.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "init.h"
 #include "input.h"
 #include "inventory.h"
@@ -881,6 +882,19 @@ void recipe_dictionary::check_consistency()
                 debugmsg(
                     "recipe %s has subcategory %s which is invalid or doesn't match category %s",
                     r.ident().str(), r.subcategory, r.category.str() );
+            }
+        }
+
+        if( !r.nested_category_data.empty() ) {
+            int min_diff = MAX_SKILL;
+            for( const recipe_id &res : r.nested_category_data ) {
+                if( res.obj().difficulty < min_diff ) {
+                    min_diff = res.obj().difficulty;
+                }
+            }
+            if( r.difficulty < min_diff ) {
+                debugmsg( "nested recipe %s doesn't have the minimum difficulty of the recipes nested inside.  Its difficulty is %i and the minimum is %i.  This will create discrepencies in the crafting menu.",
+                          r.ident().str(), r.difficulty, min_diff );
             }
         }
     }
