@@ -609,7 +609,7 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint_bub_m
             return;
         }
         case relic_recharge_type::FOREST: {
-            if( can_recharge_forest( parent, carrier, pos ) ) {
+            if( can_recharge_forest( carrier, pos ) ) {
                 charge.accumulate_charge( parent );
             }
             return;
