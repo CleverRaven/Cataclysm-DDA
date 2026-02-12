@@ -8080,7 +8080,7 @@
     "description": "You have become a creature from the deep, like a monster from a cheap horror flick.  Only, it is far too real.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] } },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8106,7 +8106,7 @@
     "description": "Forget about great responsibility - after everything that's been done to you, it's a miracle you don't have eight eyes.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OUTER" ] } ] } },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8132,7 +8132,7 @@
     "description": "Being cooped up in here has been awful.  You need friends, and your fellow mutants aren't good company.  Hopefully once you escape, you'll find a pack to take you in.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] } },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8160,7 +8160,7 @@
     "description": "It's not clear exactly what kind of beast you became, but that's not important anymore.  All that matters is the hunt.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] } },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8188,7 +8188,7 @@
     "description": "Alike to The Fly, you are now a disturbing mix of human and bug.  But, bugs are nothing if not tenacious - and so shall you be.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OUTER" ] } ] } },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8215,7 +8215,7 @@
     "description": "Considering the you always complained about Mondays, this was probably inevitable.  Too bad you can't eat lasagna to complete the fit.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] } },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8244,7 +8244,7 @@
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
     "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
@@ -8273,7 +8273,7 @@
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
     "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
@@ -8304,7 +8304,7 @@
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
     "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
@@ -8335,7 +8335,7 @@
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
     "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OUTER", "OVERSIZE" ] } ] }
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
     },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
@@ -8347,7 +8347,7 @@
       "GROWL",
       "URSINE_EYE",
       "STR_UP_2",
-      "HUGE",
+      "LARGE",
       "MUZZLE_BEAR",
       "DENSE_BONES",
       "FAT",
@@ -8393,7 +8393,7 @@
     "description": "All the world will be your enemy, and when they catch you, they will kill you.  But first, they must catch you…  Be cunning, and full of tricks, and you shall never be destroyed.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] } },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8451,7 +8451,7 @@
     "description": "Mutation has turned you into a bizarre mix of tree and human.  While you're slower than you used to be, you're sturdy as an oak.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OUTER" ] } ] } },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8476,7 +8476,7 @@
     "description": "It's a good thing you always thought dinosaurs were cool, considering you've practically become one.  Hopefully you don't also go extinct.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] } },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8513,8 +8513,8 @@
       "CANINE_EARS",
       "DENSE_BONES",
       "BOVINE_BULK",
-      "HUGE",
-      "STR_UP_2",
+      "LARGE",
+      "STR_UP",
       "HORNS",
       "FUR",
       "TAIL_CATTLE",
@@ -8530,7 +8530,7 @@
     "description": "Once you're free of this place, you'll be able to make all the rules.  Have all the cheese you want.  Hopefully the normal humans will tolerate your rather unsightly appearance…",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] } },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8558,7 +8558,7 @@
     "description": "It was hard enough to adjust to having tentacles instead of arms and legs; now the world's coming to an end, too.  At least your annoying neighbors won't bother you anymore.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "BELTED" ] } ] } },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
