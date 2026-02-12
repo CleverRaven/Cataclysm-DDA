@@ -43,6 +43,7 @@
     "condition": {
       "and": [
         { "not": { "u_has_effect": "natural_stance" } },
+        { "not": { "u_has_any_trait": [ "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAPTOR", "MUZZLE_RAT" ] } },
         { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
       ]
     },
@@ -75,7 +76,12 @@
     "reach_ok": false,
     "attack_vectors": [ "vector_bite" ],
     "condition": {
-      "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
+      "and": [
+        { "not": { "u_has_any_trait": [ "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAPTOR", "MUZZLE_RAT" ] } },
+        {
+          "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
+        }
+      ]
     },
     "tech_effects": [
       {

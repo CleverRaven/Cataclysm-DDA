@@ -4523,6 +4523,7 @@
     "category": [ "LIZARD" ],
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
+    "prereqs2": [ "FANGS" ],
     "points": 0,
     "mixed_effect": true,
     "vitamin_cost": 160,

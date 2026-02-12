@@ -17,7 +17,7 @@
     "type": "attack_vector",
     "id": "vector_reptile_bite",
     "limbs": [ "muzzle_long" ],
-    "contact_area": [ "mouth_lips" ],
+    "contact_area": [ "muzzle_long_lips" ],
     "encumbrance_limit": 1
   },
   {
