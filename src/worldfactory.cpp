@@ -2096,6 +2096,7 @@ bool WORLD::has_compression_enabled() const
            std::filesystem::exists( ( world_folder_path / "overmaps.dict" ).get_unrelative_path() );
 }
 
+
 bool WORLD::set_compression_enabled( bool enabled ) const
 {
     // Return immediately if we're already in the desired state.

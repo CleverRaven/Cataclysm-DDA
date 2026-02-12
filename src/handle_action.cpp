@@ -2892,7 +2892,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_SAVE:
             if( query_yn( _( "Save and quit?" ) ) ) {
-                if( save() ) {
+                if( save( true ) ) {
                     player_character.set_moves( 0 );
                     uquit = QUIT_SAVED;
                 } else if( save_is_dirty && query_yn( _( "Unable to save, quit anyway?" ) ) ) {

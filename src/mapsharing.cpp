@@ -7,6 +7,7 @@
 
 #include "filesystem.h"
 #include "ofstream_wrapper.h"
+#include "save_transaction.h"
 
 #if defined(__linux__)
 #include <unistd.h>
@@ -163,6 +164,11 @@ void ofstream_wrapper::close()
     if( ec2 ) {
         // Leave the temp path, so the user can move it if possible.
         throw std::runtime_error( "moving temporary file \"" + temp_path.u8string() + "\" failed" );
+    }
+
+    if( save_transaction::wants_full_fsync() ) {
+        fsync_file( path );
+        fsync_directory( path.parent_path() );
     }
 
 #if defined(EMSCRIPTEN)

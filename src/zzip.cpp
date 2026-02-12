@@ -483,6 +483,13 @@ bool zzip::add_file( std::filesystem::path const &zzip_relative_path, std::strin
     return true;
 }
 
+bool zzip::flush()
+{
+    if( file_ ) {
+        return file_->flush();
+    }
+    return true;
+}
 
 bool zzip::copy_files( std::vector<std::filesystem::path> const &zzip_relative_paths,
                        zzip const &from, bool shrink_to_fit )

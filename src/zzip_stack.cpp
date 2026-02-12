@@ -43,6 +43,21 @@ bool zzip_stack::add_file( std::filesystem::path const &zzip_relative_path,
     return ret;
 }
 
+bool zzip_stack::flush()
+{
+    bool ok = true;
+    if( hot_ ) {
+        ok = hot_->flush() && ok;
+    }
+    if( warm_ ) {
+        ok = warm_->flush() && ok;
+    }
+    if( cold_ ) {
+        ok = cold_->flush() && ok;
+    }
+    return ok;
+}
+
 bool zzip_stack::copy_files_to( std::vector<std::filesystem::path> const &zzip_relative_paths,
                                 zzip &to )
 {

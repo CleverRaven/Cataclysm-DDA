@@ -18,8 +18,14 @@
 #include <emscripten.h>
 #endif
 
+#if !defined(_WIN32) && !defined(EMSCRIPTEN)
+#include <fcntl.h>
+#include <unistd.h>
+#endif
+
 #include "cata_utility.h"
 #include "debug.h"
+#include "save_transaction.h"
 
 #if defined(_WIN32)
 #   include "platform_win.h"
@@ -182,6 +188,10 @@ bool rename_file( const std::filesystem::path &old_path, const std::filesystem::
     do {
         std::filesystem::rename( old_path, new_path, ec );
     } while( ec && ++attempts < 3 );
+    if( !ec && save_transaction::wants_full_fsync() ) {
+        fsync_file( new_path );
+        fsync_directory( new_path.parent_path() );
+    }
     return !ec;
 }
 
@@ -569,6 +579,75 @@ bool copy_file( const cata_path &source_path, const cata_path &dest_path )
     return write_to_file( dest_path, [&]( std::ostream & dest_stream ) {
         dest_stream << source_stream.rdbuf();
     }, nullptr ) &&source_stream;
+}
+
+bool fsync_file( const std::filesystem::path &path )
+{
+#if defined(EMSCRIPTEN)
+    setFsNeedsSync();
+    return true;
+#elif defined(_WIN32)
+    HANDLE h = CreateFileW( path.c_str(), GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+                            nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );
+    if( h == INVALID_HANDLE_VALUE ) {
+        DebugLog( D_ERROR, D_MAIN ) << "fsync_file: failed to open " << path.u8string();
+        save_transaction::notify_sync_failure();
+        return false;
+    }
+    bool ok = FlushFileBuffers( h ) != 0;
+    if( !ok ) {
+        DebugLog( D_ERROR, D_MAIN ) << "fsync_file: FlushFileBuffers failed for "
+                                    << path.u8string();
+        save_transaction::notify_sync_failure();
+    }
+    CloseHandle( h );
+    return ok;
+#else
+    int fd = open( path.c_str(), O_RDONLY );
+    if( fd < 0 ) {
+        DebugLog( D_ERROR, D_MAIN ) << "fsync_file: failed to open " << path.u8string();
+        save_transaction::notify_sync_failure();
+        return false;
+    }
+    int ret;
+#if defined(__APPLE__)
+    ret = fcntl( fd, F_FULLFSYNC );
+#else
+    ret = fdatasync( fd );
+#endif
+    if( ret != 0 ) {
+        DebugLog( D_ERROR, D_MAIN ) << "fsync_file: sync failed for " << path.u8string();
+        save_transaction::notify_sync_failure();
+    }
+    close( fd );
+    return ret == 0;
+#endif
+}
+
+bool fsync_directory( const std::filesystem::path &dir )
+{
+#if defined(EMSCRIPTEN)
+    setFsNeedsSync();
+    return true;
+#elif defined(_WIN32)
+    // NTFS journals directory metadata; no explicit sync needed.
+    static_cast<void>( dir );
+    return true;
+#else
+    int fd = open( dir.c_str(), O_RDONLY );
+    if( fd < 0 ) {
+        DebugLog( D_ERROR, D_MAIN ) << "fsync_directory: failed to open " << dir.u8string();
+        save_transaction::notify_sync_failure();
+        return false;
+    }
+    int ret = fsync( fd );
+    if( ret != 0 ) {
+        DebugLog( D_ERROR, D_MAIN ) << "fsync_directory: fsync failed for " << dir.u8string();
+        save_transaction::notify_sync_failure();
+    }
+    close( fd );
+    return ret == 0;
+#endif
 }
 
 std::string ensure_valid_file_name( const std::string &file_name )

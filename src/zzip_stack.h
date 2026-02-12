@@ -49,6 +49,12 @@ class zzip_stack
         bool add_file( std::filesystem::path const &zzip_relative_path, std::string_view content );
 
         /**
+         * Synchronously write modified mmap'd data for all loaded zzips in the stack to disk.
+         * Returns true on success.
+         */
+        bool flush();
+
+        /**
          * Directly copies the most recent version of the given files into the destination zzip.
          */
         bool copy_files_to( std::vector<std::filesystem::path> const &zzip_relative_paths,

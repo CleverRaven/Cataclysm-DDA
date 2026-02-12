@@ -114,6 +114,13 @@ std::vector<P> get_directories( const P &root_path = P(),
 bool copy_file( const std::string &source_path, const std::string &dest_path );
 bool copy_file( const cata_path &source_path, const cata_path &dest_path );
 
+// Flush file data to durable storage.  Opens the file, calls fdatasync/equivalent, closes.
+// Returns true on success, false on failure (logged via DebugLog).
+bool fsync_file( const std::filesystem::path &path );
+// Flush directory metadata to durable storage (ensures renames are durable).
+// Returns true on success, false on failure (logged via DebugLog).
+bool fsync_directory( const std::filesystem::path &dir );
+
 /**
  *  Replace invalid characters in a string with a default character; can be used to ensure that a file name is compliant with most file systems.
  *  @param file_name Name of the file to check.

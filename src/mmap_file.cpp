@@ -277,14 +277,20 @@ struct file_impl : mmap_file::impl {
     bool flush( size_t offset, size_t length ) override {
         char *base_ptr = reinterpret_cast<char *>( base() ) + offset;
 #ifdef _WIN32
-        FlushViewOfFile( base_ptr, length );
-        FlushFileBuffers( file );
+        if( !FlushViewOfFile( base_ptr, length ) ) {
+            return false;
+        }
+        if( !FlushFileBuffers( file ) ) {
+            return false;
+        }
 #else
         // msync requires the base pointer to be rounded to a page boundary.
         size_t page_offset = offset % 4096;
         base_ptr -= page_offset;
         length += page_offset;
-        msync( base_ptr, length, MS_SYNC );
+        if( msync( base_ptr, length, MS_SYNC ) != 0 ) {
+            return false;
+        }
 #endif
         return true;
     }
@@ -373,15 +379,15 @@ size_t mmap_file::len() const
     return pimpl->len();
 }
 
-void mmap_file::flush()
+bool mmap_file::flush()
 {
-    flush( 0, len() );
+    return flush( 0, len() );
 }
 
-void mmap_file::flush( size_t offset, size_t length )
+bool mmap_file::flush( size_t offset, size_t length )
 {
     if( !base() || !len() || offset + length > len() ) {
-        return;
+        return true;
     }
-    pimpl->flush( offset, length );
+    return pimpl->flush( offset, length );
 }

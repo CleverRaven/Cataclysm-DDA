@@ -75,6 +75,7 @@
 #include "pimpl.h"
 #include "popup.h"
 #include "safemode_ui.h"
+#include "save_transaction.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -321,6 +322,9 @@ bool game::load( const save_t &name )
     map &here = get_map();
 
     const cata_path worldpath = PATH_INFO::world_base_save_path();
+
+    // Recover from an interrupted transactional save if needed
+    save_transaction::recover_if_needed( worldpath.get_unrelative_path() );
     const cata_path save_file_path = PATH_INFO::world_base_save_path() /
                                      ( name.base_path() + SAVE_EXTENSION );
 
@@ -609,6 +613,9 @@ bool game::save_player_data()
             z.reset();
             saved_data = rename_file( tmp_path, save_path );
         }
+        if( z.has_value() && save_transaction::wants_full_fsync() ) {
+            z->flush();
+        }
     } else {
         saved_data = write_to_file( playerfile + SAVE_EXTENSION, [&]( std::ostream & fout ) {
             serialize_json( fout );
@@ -723,7 +730,7 @@ bool game::save_external_options_record()
     return saved_externals;
 }
 
-bool game::save()
+bool game::save( bool full_fsync )
 {
     if( save_is_dirty ) {
         popup( _( "The game is in an unsupported state after using debug tools and cannot be saved." ) );
@@ -734,6 +741,21 @@ bool game::save()
             std::chrono::steady_clock::now() - time_of_last_load );
     std::chrono::seconds total_time_played = time_played_at_last_load + time_since_load;
     events().send<event_type::game_save>( time_since_load, total_time_played );
+
+    // Begin transactional save: create a backup snapshot so that if the game
+    // crashes or is killed mid-save, the backup is restored on the next load.
+    std::optional<save_transaction> txn;
+    try {
+        txn.emplace(
+            PATH_INFO::world_base_save_path().get_unrelative_path(),
+            full_fsync ? save_transaction::fsync_level::full
+            : save_transaction::fsync_level::markers_only );
+    } catch( const std::exception &e ) {
+        DebugLog( D_WARNING, D_MAIN ) << "save_transaction setup failed: " << e.what();
+        debugmsg( "Transactional save backup failed: %s\n"
+                  "Saving will continue without rollback protection.", e.what() );
+    }
+
     try {
         if( !save_player_data() ||
             !save_achievements() ||
@@ -767,6 +789,12 @@ bool game::save()
             // is called.
             EM_ASM( window.game_unsaved = false; );
 #endif
+            if( txn && !txn->commit() ) {
+                // Commit failed — the transaction destructor will restore
+                // the backup.  Report failure so the caller doesn't quit.
+                debugmsg( "save transaction commit failed" );
+                return false;
+            }
             return true;
         }
     } catch( std::ios::failure & ) {

@@ -57,14 +57,16 @@ class mmap_file
         /**
          * Synchronously write modified parts of the file to disk.
          * Use sparingly, this is slow.
+         * Returns false if the sync syscall failed.
          */
-        void flush();
+        bool flush();
         /**
          * Synchronously write modified parts of the file to disk
          * within the range specified by [offset, len].
          * Use sparingly, this is slow.
+         * Returns false if the sync syscall failed.
          */
-        void flush( size_t offset, size_t len );
+        bool flush( size_t offset, size_t len );
 
         // Opaque type to platform specific mmap implementation.
         struct impl;

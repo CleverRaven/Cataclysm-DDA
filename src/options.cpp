@@ -2850,6 +2850,7 @@ void options_manager::add_options_world_default()
              "a reasonable pace." ),
          true
        );
+
 }
 
 void options_manager::add_options_debug()

@@ -88,6 +88,12 @@ class zzip
         bool add_file( std::filesystem::path const &zzip_relative_path, std::string_view content );
 
         /**
+         * Synchronously write modified parts of the file to disk.
+         * Returns true on success (or if the zzip is not backed by a file).
+         */
+        bool flush();
+
+        /**
          * Directly copies compressed entries from one zzip to another, keeping the same path.
          * If `from` was not opened with the same dictionary, the copied files may not be readable.
          */

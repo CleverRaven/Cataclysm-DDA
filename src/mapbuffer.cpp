@@ -28,6 +28,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
+#include "save_transaction.h"
 #include "point.h"
 #include "popup.h"
 #include "std_hash_fs_path.h"
@@ -356,6 +357,9 @@ void mapbuffer::save_quad(
         if( z->compact_to( tmp_path.get_unrelative_path(), 2.0 ) ) {
             z.reset();
             rename_file( tmp_path, zzip_name );
+        }
+        if( z.has_value() && save_transaction::wants_full_fsync() ) {
+            z->flush();
         }
     }
 }

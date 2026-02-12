@@ -248,8 +248,11 @@ class game
         void unserialize_impl( const JsonObject &data );
     public:
 
-        /** Returns false if saving failed. */
-        bool save();
+        /** Returns false if saving failed.
+         *  @param full_fsync When true, every written file is fsynced (Save & Exit).
+         *                    When false, only transaction markers are fsynced (quicksave).
+         */
+        bool save( bool full_fsync = false );
 
         /** Returns a list of currently active character saves. */
         std::vector<std::string> list_active_saves();

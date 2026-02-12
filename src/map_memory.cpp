@@ -22,6 +22,7 @@
 #include "json_loader.h"
 #include "map_memory.h"
 #include "path_info.h"
+#include "save_transaction.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "worldfactory.h"
@@ -547,6 +548,10 @@ bool map_memory::save( const tripoint_abs_ms &pos )
     }
     if( z ) {
         z->compact( 3.0 );
+        if( save_transaction::wants_full_fsync() ) {
+            z->flush();
+            fsync_directory( dirname.get_unrelative_path() );
+        }
     }
 
     dbg( D_INFO ) << "[SAVE] Done.";
