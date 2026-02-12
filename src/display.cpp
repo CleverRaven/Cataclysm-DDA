@@ -253,6 +253,13 @@ std::string display::sundial_text_color( const Character &u, int width )
 
     width -= 2;
 
+    std::string ret = "[";
+    const int range_day = std::min( u.sight_range( default_daylight_level() ), u.unimpaired_range() );
+    if( !can_creature_see_sky( u ) || range_day <= 0 ) {
+        ret += ( width > 0 ? std::string( width, '?' ) : "" );
+        return ret + "]";
+    }
+
     std::pair<units::angle, units::angle> sun_pos = sun_azimuth_altitude( calendar::turn );
     float azm_sun = to_degrees( sun_pos.first );
     azm_sun += 180.f; // Show south, i.e. midday, as center of the sundial.
@@ -271,7 +278,6 @@ std::string display::sundial_text_color( const Character &u, int width )
     const int moon_pos_idx = static_cast<int>( std::round( azm_moon / scale ) );
 
     weather_manager &weather = get_weather();
-    const int range_day = std::min( u.sight_range( default_daylight_level() ), u.unimpaired_range() );
 
     // Sunlight that makes it through the weather is highlighted blue in proportion to sight_range
     const float incident_sun_light = incident_sunlight( weather.weather_id, calendar::turn );
@@ -307,52 +313,47 @@ std::string display::sundial_text_color( const Character &u, int width )
     std::tie( moon_left_idx, moon_right_idx ) = left_right_highlight_index( moon_pos_idx,
             moon_weather_highlight, width );
 
-    std::string ret = "[";
-    if( !can_creature_see_sky( u ) ) {
-        ret += ( width > 0 ? std::string( width, '?' ) : "" );
-    } else {
-        nc_color current_clr = c_white;
-        std::string chars;
-        for( int i = 0; i < width; i++ ) {
-            std::string ch = " ";
-            nc_color clr = c_white;
+    nc_color current_clr = c_white;
+    std::string chars;
+    for( int i = 0; i < width; i++ ) {
+        std::string ch = " ";
+        nc_color clr = c_white;
 
-            if( i == sun_pos_idx ) {
-                if( is_twilight( calendar::turn ) ) {
-                    ch = "_";
-                    clr = c_red;
-                } else if( alt_sun >= -6_degrees && alt_sun <= 60_degrees ) {
-                    ch = weather.weather_id->get_sun_symbol();
-                    clr = c_yellow;
-                } else if( alt_sun > 60_degrees ) {
-                    ch = weather.weather_id->get_sun_symbol();
-                }
-            } else if( i == moon_pos_idx ) {
-                ch = moon_phases[get_moon_phase( calendar::turn )];
+        if( i == sun_pos_idx ) {
+            if( is_twilight( calendar::turn ) ) {
+                ch = "_";
+                clr = c_red;
+            } else if( alt_sun >= -6_degrees && alt_sun <= 60_degrees ) {
+                ch = weather.weather_id->get_sun_symbol();
+                clr = c_yellow;
+            } else if( alt_sun > 60_degrees ) {
+                ch = weather.weather_id->get_sun_symbol();
             }
-
-            if( i >= sun_left_highlight_idx && i <= sun_right_highlight_idx ) {
-                clr = hilite( clr );
-            } else if( i >= moon_left_highlight_idx && i <= moon_right_highlight_idx ) {
-                clr = yellow_background( clr );
-            } else if( ( i >= sun_left_idx && i <= sun_right_idx ) ||
-                       ( i >= moon_left_idx && i <= moon_right_idx ) ) {
-                ch = weather.weather_id->get_symbol();
-                clr = weather.weather_id->color;
-            }
-
-            if( clr != current_clr ) {
-                if( !chars.empty() ) {
-                    ret += colorize( chars, current_clr );
-                }
-                current_clr = clr;
-                chars = "";
-            }
-            chars += ch;
+        } else if( i == moon_pos_idx ) {
+            ch = moon_phases[get_moon_phase( calendar::turn )];
         }
-        if( !chars.empty() ) {
-            ret += colorize( chars, current_clr );
+
+        if( i >= sun_left_highlight_idx && i <= sun_right_highlight_idx ) {
+            clr = hilite( clr );
+        } else if( i >= moon_left_highlight_idx && i <= moon_right_highlight_idx ) {
+            clr = yellow_background( clr );
+        } else if( ( i >= sun_left_idx && i <= sun_right_idx ) ||
+                   ( i >= moon_left_idx && i <= moon_right_idx ) ) {
+            ch = weather.weather_id->get_symbol();
+            clr = weather.weather_id->color;
         }
+
+        if( clr != current_clr ) {
+            if( !chars.empty() ) {
+                ret += colorize( chars, current_clr );
+            }
+            current_clr = clr;
+            chars = "";
+        }
+        chars += ch;
+    }
+    if( !chars.empty() ) {
+        ret += colorize( chars, current_clr );
     }
     return ret + "]";
 }
