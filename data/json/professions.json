@@ -8062,7 +8062,7 @@
     "type": "profession",
     "id": "mutant_patient_none",
     "name": "Human Mutant",
-    "description": "You were the control case in the scientists' experiments - after they were done playing God with you, they injected some kind of drug that made you normal again.  Unfortunately, you know this world is no longer a place for normality.  Will you embrace the changes again?",
+    "description": "You were the control case in the scientists' experiments - after they were done playing God with you, they injected some kind of drug that made you normal again.  Unfortunately, you know this world is no longer a place for normality.  Will you embrace the changes once again?",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": -1,
     "items": {
@@ -8080,11 +8080,7 @@
     "description": "You have become a creature from the deep, like a monster from a cheap horror flick.  Only, it is far too real.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "loincloth" } ] },
-      "female": { "entries": [ { "item": "chestwrap" }, { "item": "loincloth" } ] }
-    },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8110,7 +8106,7 @@
     "description": "Forget about great responsibility - after everything that's been done to you, it's a miracle you don't have eight eyes.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" }, { "item": "cloak" } ] } },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OUTER" ] } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8136,11 +8132,7 @@
     "description": "Being cooped up in here has been awful.  You need friends, and your fellow mutants aren't good company.  Hopefully once you escape, you'll find a pack to take you in.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "loincloth" } ] },
-      "female": { "entries": [ { "item": "chestwrap" }, { "item": "loincloth" } ] }
-    },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8168,11 +8160,7 @@
     "description": "It's not clear exactly what kind of beast you became, but that's not important anymore.  All that matters is the hunt.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "loincloth" } ] },
-      "female": { "entries": [ { "item": "chestwrap" }, { "item": "loincloth" } ] }
-    },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8200,11 +8188,7 @@
     "description": "Alike to The Fly, you are now a disturbing mix of human and bug.  But, bugs are nothing if not tenacious - and so shall you be.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "loincloth" } ] },
-      "female": { "entries": [ { "item": "chestwrap" }, { "item": "loincloth" } ] }
-    },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OUTER" ] } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8231,11 +8215,7 @@
     "description": "Considering the you always complained about Mondays, this was probably inevitable.  Too bad you can't eat lasagna to complete the fit.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8354,7 +8334,7 @@
     "description": "The experiments turned you into a hulking beast of fur and muscle.  It took a while to stop bonking your head on doorways, but that's the least of your problems now.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" }, { "item": "cloak" } ] } },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OUTER", "OVERSIZE" ] } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8364,8 +8344,8 @@
       "URSINE_EARS",
       "GROWL",
       "URSINE_EYE",
-      "STR_UP",
-      "LARGE",
+      "STR_UP_2",
+      "HUGE",
       "MUZZLE_BEAR",
       "DENSE_BONES",
       "FAT",
@@ -8382,11 +8362,7 @@
     "description": "One might think being shrunk down to the size of a child might be an issue in this world of violence.  Well, you'll prove them wrong!  You just have to be… craftier.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "xsboxer_briefs" } ] },
-      "female": { "entries": [ { "item": "xs_bra" }, { "item": "xsboy" } ] }
-    },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "UNDERSIZE" ] } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8413,11 +8389,7 @@
     "description": "All the world will be your enemy, and when they catch you, they will kill you.  But first, they must catch you…  Be cunning, and full of tricks, and you shall never be destroyed.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8475,7 +8447,7 @@
     "description": "Mutation has turned you into a bizarre mix of tree and human.  While you're slower than you used to be, you're sturdy as an oak.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" }, { "item": "cloak" } ] } },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OUTER" ] } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8500,11 +8472,7 @@
     "description": "It's a good thing you always thought dinosaurs were cool, considering you've practically become one.  Hopefully you don't also go extinct.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "loincloth" } ] },
-      "female": { "entries": [ { "item": "chestwrap" }, { "item": "loincloth" } ] }
-    },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8530,11 +8498,7 @@
     "description": "You've mutated into a minotaur, though unlike Asterios you've no hunger for human flesh, or any meat for that matter.  Still, you'll plow through anyone who gets in your way.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "loincloth" } ] },
-      "female": { "entries": [ { "item": "chestwrap" }, { "item": "loincloth" } ] }
-    },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8560,11 +8524,7 @@
     "description": "Once you're free of this place, you'll be able to make all the rules.  Have all the cheese you want.  Hopefully the normal humans will tolerate your rather unsightly appearance…",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "loincloth" } ] },
-      "female": { "entries": [ { "item": "chestwrap" }, { "item": "loincloth" } ] }
-    },
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] } },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8583,6 +8543,34 @@
       "HUNGER",
       "MET_RAT",
       "SOCIAL1"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_cephalopod",
+    "name": "Cephalopod Mutant",
+    "description": "It was hard enough to adjust to having tentacles instead of arms and legs; now the world's coming to an end, too.  At least your annoying neighbors won't bother you anymore.",
+    "npc_background": "BG_survival_story_EVACUEE",
+    "points": 3,
+    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "BELTED" ] } ] } },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "BEAK",
+      "MUT_CEPH",
+      "INT_UP_2",
+      "THIRST",
+      "CAMO1",
+      "LEG_TENTACLES",
+      "ARM_TENTACLES_4",
+      "THICKSKIN",
+      "SHELL",
+      "POISRESIST",
+      "SLIMY",
+      "DEX_UP_2",
+      "MOUTH_TENTACLES",
+      "CEPH_EYES",
+      "CEPH_VISION"
     ]
   },
   {
