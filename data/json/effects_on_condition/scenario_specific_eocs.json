@@ -307,8 +307,25 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "lab_mutant_start",
+    "id": "EOC_LAB_MUTANT_FRIENDS",
     "effect": [ { "u_cast_spell": { "id": "SPELL_ALLY_WITH_MUTANTS" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LAB_MUTANT_NO_MUTAGENS",
+    "//": "Deletes boxes containing mutagens and locutus.  Leaves barrels of slurry intact.",
+    "effect": {
+    "u_map_run_item_eocs": "all",
+	  "min_radius": 0,
+	  "max_radius": 50,
+      "search_data": [  { "id": "box_small_plastic" } ],
+      "true_eocs": [
+        {
+          "id": "EOC_DELETE_STARTER_MUTAGENS",
+          "effect": [ "npc_die" ]
+        }
+      ]
+    }
   },
   {
     "type": "SPELL",
