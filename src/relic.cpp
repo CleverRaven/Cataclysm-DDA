@@ -18,7 +18,6 @@
 #include "magic_enchantment.h"
 #include "map.h"
 #include "omdata.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "rng.h"
 #include "translations.h"
