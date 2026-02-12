@@ -7,6 +7,7 @@
 
 #include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
 #include "enum_conversions.h"
