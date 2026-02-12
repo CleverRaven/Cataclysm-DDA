@@ -17,11 +17,16 @@
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
+#include "omdata.h"
+#include "overmapbuffer.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
 #include "weather.h"
 #include "weather_type.h"
+
+static const oter_type_str_id oter_type_forest( "forest" );
+static const oter_type_str_id oter_type_forest_thick( "forest_thick" );
 
 /*
  * A little helper function to tell if you can load one ammo into a gun.
@@ -63,6 +68,7 @@ std::string enum_to_string<relic_recharge_type>( relic_recharge_type type )
         case relic_recharge_type::FULL_MOON: return "full_moon";
         case relic_recharge_type::NEW_MOON: return "new_moon";
         case relic_recharge_type::SOLAR_CLOUDY: return "solar_cloudy";
+        case relic_recharge_type::FOREST: return "forest";
         case relic_recharge_type::NUM: break;
     }
     // *INDENT-ON*
@@ -540,6 +546,14 @@ static bool can_recharge_lunar( const item &it, Character *carrier, const tripoi
              carrier->is_worn( it ) || carrier->is_wielding( it ) );
 }
 
+// checks if the relic is in the appropriate location to be able to recharge from being in a forest.
+static bool can_recharge_forest( const item &it, Character *carrier, const tripoint_bub_ms &pos )
+{
+    return get_map().is_outside( pos ) && overmap_buffer.ter( carrier->pos_abs_omt() ).obj().is_wooded() &&
+           ( carrier == nullptr ||
+             carrier->is_worn( it ) || carrier->is_wielding( it ) );
+}
+
 void relic::try_recharge( item &parent, Character *carrier, const tripoint_bub_ms &pos )
 {
     if( charge.regenerate_ammo && item_can_not_load_ammo( parent ) ) {
@@ -592,6 +606,12 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint_bub_m
         case relic_recharge_type::SOLAR_CLOUDY: {
             if( can_recharge_solar( parent, carrier, pos ) &&
                 get_weather().weather_id->light_modifier < 0 ) {
+                charge.accumulate_charge( parent );
+            }
+            return;
+        }  
+        case relic_recharge_type::FOREST: {
+            if( can_recharge_forest( parent, carrier, pos ) ) {
                 charge.accumulate_charge( parent );
             }
             return;

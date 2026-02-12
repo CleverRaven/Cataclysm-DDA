@@ -92,6 +92,7 @@ The various ways this artifact can charge and use charges.
 - **lunar** This artifact takes 'time' amount of time to recharge, only recharges at night time.
 - **full_moon** This artifact takes 'time' amount of time to recharge, only recharges on the nights of the full moon
 - **new_moon** This artifact takes 'time' amount of time to recharge, only recharges on the nights of the new moon
+- **forest** This artifact takes 'time' amount of time to recharge, only recharges in a wooded area (forest, thick forest, and swamp tiles) and character is outside.
 
 #### recharge_conditions
 
