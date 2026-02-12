@@ -138,7 +138,13 @@
     "item": "black_box_transcript",
     "start": {
       "effect": { "u_spawn_item": "black_box" },
-      "assign_mission_target": { "om_terrain": "lab_stairs", "om_special": "Lab", "reveal_radius": 3, "random": true, "z": 0 }
+      "assign_mission_target": {
+        "om_terrain": "microlab_generic_surface",
+        "om_special": "4x4_microlab_surface",
+        "reveal_radius": 3,
+        "random": true,
+        "z": 0
+      }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_EXPLORE_SARCOPHAGUS",
