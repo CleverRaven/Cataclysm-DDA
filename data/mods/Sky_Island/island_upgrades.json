@@ -408,7 +408,7 @@
         "        ||||+|||        ",
         "        |Th...T|        ",
         "        |......|        ",
-        "        |......|        ",
+        "        |cccccc|        ",
         "        |CCCCCC|        ",
         "                        ",
         "                        ",
@@ -426,6 +426,7 @@
       "terrain": {
         ".": "t_floor",
         "C": "t_traderwall",
+        "c": "t_floor",
         "g": "t_floor",
         "h": "t_floor",
         "|": "t_traderwall_stone",
@@ -434,7 +435,8 @@
         "t": "t_floor",
         "B": "t_floor"
       },
-      "furniture": { "h": "f_chair", "T": "f_table", "B": "f_bed", "t": "f_coffee_table" },
+      "furniture": { "h": "f_chair", "T": "f_table", "B": "f_bed", "t": "f_coffee_table", "c": "f_counter" },
+      "faction_owner": [ { "id": "sky_island_traders", "x": [ 8, 15 ], "y": [ 5, 12 ] } ],
       "place_nested": [ { "chunks": [ "mx_skyisland_merchant_stall_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },

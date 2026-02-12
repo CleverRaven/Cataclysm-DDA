@@ -8,8 +8,8 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_SI_EXODII_MERCHANT",
-    "faction": "exodii",
-    "personality": { "aggression": -2, "bravery": 2, "collector": 2, "altruism": -1 }
+    "faction": "sky_island_traders",
+    "personality": { "aggression": -2, "bravery": 2, "collector": 6, "altruism": -1 }
   },
   {
     "type": "npc_class",
@@ -120,7 +120,7 @@
     "dynamic_line": "*looks at you and then touches two metallic knuckles to the side of their forehead.  They wobble their head from side to side and then say, \"┑└┘┝┝┥┯┄╤╨╱╳╲?  ╪╝╚╋┸┲┹╅.\"  When they're done, they look at you and smile.",
     "responses": [
       {
-        "text": "Uh, never mind then.  What've you got for trade?  Trade?  *you gesture at the counter*",
+        "text": "Uh, never mind then.  What've you got for trade?  Trade?  *you gesture at the things on the counter*",
         "effect": "start_trade",
         "topic": "TALK_SI_EXODII_MERCHANT"
       },

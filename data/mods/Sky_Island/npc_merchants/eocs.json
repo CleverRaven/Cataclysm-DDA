@@ -20,6 +20,10 @@
         "mapgen_update": "nest_sky_island_exodii_merchant_add",
         "om_terrain": "sky_island_edge_north",
         "target_var": { "global_val": "OM_island_north" }
+      },
+      {
+        "u_message": "As you return to the island, you notice the trade stall in the north has an occupant.",
+        "type": "good"
       }
     ]
   },
@@ -36,6 +40,10 @@
         "mapgen_update": "nest_sky_island_human_ammo_merchant_add",
         "om_terrain": "sky_island_edge_north",
         "target_var": { "global_val": "OM_island_north" }
+      },
+      {
+        "u_message": "As you return to the island, you notice the trade stall in the north has an occupant.",
+        "type": "good"
       }
     ]
   },
