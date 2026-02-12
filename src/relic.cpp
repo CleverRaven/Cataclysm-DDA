@@ -549,7 +549,8 @@ static bool can_recharge_lunar( const item &it, Character *carrier, const tripoi
 // checks if the relic is in the appropriate location to be able to recharge from being in a forest.
 static bool can_recharge_forest( const item &it, Character *carrier, const tripoint_bub_ms &pos )
 {
-    return get_map().is_outside( pos ) && overmap_buffer.ter( carrier->pos_abs_omt() ).obj().is_wooded() &&
+    return get_map().is_outside( pos ) &&
+           overmap_buffer.ter( carrier->pos_abs_omt() ).obj().is_wooded() &&
            ( carrier == nullptr ||
              carrier->is_worn( it ) || carrier->is_wielding( it ) );
 }
