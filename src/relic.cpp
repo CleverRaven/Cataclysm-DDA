@@ -18,15 +18,13 @@
 #include "magic_enchantment.h"
 #include "map.h"
 #include "omdata.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
 #include "weather.h"
 #include "weather_type.h"
-
-static const oter_type_str_id oter_type_forest( "forest" );
-static const oter_type_str_id oter_type_forest_thick( "forest_thick" );
 
 /*
  * A little helper function to tell if you can load one ammo into a gun.
@@ -549,9 +547,8 @@ static bool can_recharge_lunar( const item &it, Character *carrier, const tripoi
 // checks if the relic is in the appropriate location to be able to recharge from being in a forest.
 static bool can_recharge_forest( const item &it, Character *carrier, const tripoint_bub_ms &pos )
 {
-    return get_map().is_outside( pos ) && overmap_buffer.ter( carrier->pos_abs_omt() ).obj().is_wooded() &&
-           ( carrier == nullptr ||
-             carrier->is_worn( it ) || carrier->is_wielding( it ) );
+    const tripoint_abs_omt omt_were_at = project_to<coords::omt>( get_map().get_abs( pos ) );
+	return get_map().is_outside( pos ) && overmap_buffer.ter( omt_were_at )->is_wooded() && !overmap_buffer.is_in_city( omt_were_at );
 }
 
 void relic::try_recharge( item &parent, Character *carrier, const tripoint_bub_ms &pos )
