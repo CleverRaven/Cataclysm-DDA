@@ -272,7 +272,7 @@
     "name": "Kick",
     "crit_ok": true,
     "unarmed_allowed": true,
-    "messages": [ "You kick %s", "<npcname> kicks %s" ],
+    "messages": [ "You slash %s with your talons", "<npcname> slashes %s with their talons" ],
     "description": "A bird kick",
     "attack_vectors": [ "vector_avian_talons", "vector_avian_talons_rear" ]
   },
