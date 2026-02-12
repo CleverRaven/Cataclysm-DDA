@@ -12681,7 +12681,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             bool thisitem_shares_existing_dest = false;
             for( const tripoint_abs_ms &possible_dest : dropoff_coords ) {
                 zone_type_id zt_dest = mgr.get_near_zone_type_for_item( thisitem, possible_dest, 0, fac_id );
-                if( zt_dest != zone_type_id() ) {
+                if( zt_dest == zt_id ) {
                     // Found a valid destination.
                     thisitem_shares_existing_dest = true;
                     break;
