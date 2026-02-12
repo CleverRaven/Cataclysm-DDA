@@ -8334,7 +8334,9 @@
     "description": "The experiments turned you into a hulking beast of fur and muscle.  It took a while to stop bonking your head on doorways, but that's the least of your problems now.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OUTER", "OVERSIZE" ] } ] } },
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OUTER", "OVERSIZE" ] } ] }
+    },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8362,7 +8364,9 @@
     "description": "One might think being shrunk down to the size of a child might be an issue in this world of violence.  Well, you'll prove them wrong!  You just have to be… craftier.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "UNDERSIZE" ] } ] } },
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "UNDERSIZE" ] } ] }
+    },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8498,7 +8502,9 @@
     "description": "You've mutated into a minotaur, though unlike Asterios you've no hunger for human flesh, or any meat for that matter.  Still, you'll plow through anyone who gets in your way.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
-    "items": { "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] } },
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
+    },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
     "traits": [
@@ -8587,13 +8593,6 @@
     },
     "flags": [ "SCEN_ONLY" ],
     "age_lower": 16,
-    "traits": [
-      "FELINE_EARS",
-      "TAIL_LONG",
-      "BEAUTIFUL",
-      "NAILS",
-      "CARNIVORE",
-      "VANITY"
-    ]
+    "traits": [ "FELINE_EARS", "TAIL_LONG", "BEAUTIFUL", "NAILS", "CARNIVORE", "VANITY" ]
   }
 ]
