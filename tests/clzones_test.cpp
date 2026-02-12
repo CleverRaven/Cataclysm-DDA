@@ -34,12 +34,16 @@ static const itype_id
 itype_test_watertight_open_sealed_container_250ml( "test_watertight_open_sealed_container_250ml" );
 static const itype_id itype_test_wine( "test_wine" );
 
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_wall( "t_wall" );
+
 static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart" );
 
 static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
 static const zone_type_id zone_type_LOOT_PDRINK( "LOOT_PDRINK" );
 static const zone_type_id zone_type_LOOT_PFOOD( "LOOT_PFOOD" );
+static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 
 namespace
@@ -322,4 +326,64 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
             }
         }
     }
+}
+
+// When all destination zone tiles are completely walled off (unreachable by A*),
+// the sort activity should skip items rather than picking them up. Items must
+// remain at the source tile.
+TEST_CASE( "zone_sorting_skips_items_with_unreachable_destinations",
+           "[zones][items][activities][sorting]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+
+    // Player at east of origin (matching existing test pattern)
+    const tripoint_bub_ms start_pos = tripoint_bub_ms::zero + tripoint::east;
+    const tripoint_abs_ms start_abs = here.get_abs( start_pos );
+    dummy.set_pos_abs_only( start_abs );
+
+    // Source: LOOT_UNSORTED zone at player position
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start_abs );
+
+    // Place a food item at the source tile
+    here.add_item_or_charges( start_pos, item( itype_test_apple ) );
+    REQUIRE( count_items_or_charges( start_pos, itype_test_apple, std::nullopt ) == 1 );
+
+    // Destination: LOOT_FOOD zone at a tile 5 tiles east, with floor terrain
+    const tripoint_bub_ms dest_pos = start_pos + tripoint( 5, 0, 0 );
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    here.ter_set( dest_pos, ter_t_floor );
+
+    // Wall off all 8 neighbors of the destination tile
+    for( int dx = -1; dx <= 1; dx++ ) {
+        for( int dy = -1; dy <= 1; dy++ ) {
+            if( dx == 0 && dy == 0 ) {
+                continue;
+            }
+            here.ter_set( dest_pos + tripoint( dx, dy, 0 ), ter_t_wall );
+        }
+    }
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+
+    // Verify the destination is recognized for sorting
+    item test_food( itype_test_apple );
+    zone_manager &zm = zone_manager::get_manager();
+    REQUIRE( zm.get_near_zone_type_for_item( test_food, start_abs ) == zone_type_LOOT_FOOD );
+
+    // Run the sort activity
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    // Item should remain at source tile (not picked up)
+    CHECK( count_items_or_charges( start_pos, itype_test_apple, std::nullopt ) == 1 );
+    // Player inventory should not contain the food item
+    CHECK( dummy.charges_of( itype_test_apple ) == 0 );
+    // Activity should have completed (no hang)
+    CHECK( !dummy.activity );
 }

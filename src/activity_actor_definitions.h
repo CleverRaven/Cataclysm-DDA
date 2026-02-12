@@ -4003,8 +4003,9 @@ class zone_sort_activity_actor : public zone_activity_actor
         // Place(s) that the current stuff can be dropped off at.
         std::vector<tripoint_abs_ms> dropoff_coords;
         bool pickup_failure_reported = false;
-        // Tiles where routing failed this session (both sources and destinations).
-        // Prevents retrying A* for locations known to be unreachable.
+        // Source tiles where routing failed this session (written in stage_think).
+        // Prevents retrying A* for sources known to be unreachable.
+        // Destination reachability is probed fresh per-source in stage_do.
         std::unordered_set<tripoint_abs_ms> unreachable_dests;
 
         // Returns all picked up items to the source tile and clears sorting state.
