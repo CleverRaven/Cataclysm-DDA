@@ -8600,21 +8600,5 @@
       "CEPH_EYES",
       "CEPH_VISION"
     ]
-  },
-  {
-    "type": "profession",
-    "id": "mutant_patient_catgirl",
-    "name": { "male": "Cat Boy", "female": "Cat Girl" },
-    "description": "By some strange whim of fate, your mutations turned you into the spitting image of an anime character.  Unfortunately, while you might look pretty (by some standards) you don't really have anything useful to help you survive.",
-    "npc_background": "BG_survival_story_EVACUEE",
-    "points": 4,
-    "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    },
-    "flags": [ "SCEN_ONLY" ],
-    "age_lower": 16,
-    "traits": [ "FELINE_EARS", "TAIL_LONG", "BEAUTIFUL", "NAILS", "CARNIVORE", "VANITY" ]
   }
 ]
