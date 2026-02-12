@@ -1,5 +1,30 @@
 [
   {
+    "//": "Top level 'lab_spawn_XXXXX' templates are for use in floorplans.",
+    "//2": "Spawn for a room at least 7x7, walls often but not guaranteed.",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_spawn_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_nested": [
+        { "chunks": [ [ "lab_room_7x7", 97 ], [ "lab_room_7x7_rare", 3 ] ], "x": 0, "y": 0 },
+        { "chunks": [ "lab_maybe_effects_7x7" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "//": "Spawn for a room exactly 7x7 with doors only in the center of each wall.",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_spawn_7x7_crossdoors",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "place_nested": [
+        { "chunks": [ [ "lab_room_7x7", 33 ], [ "lab_room_7x7_crossdoors", 63 ], [ "lab_room_7x7_rare", 3 ] ], "x": 0, "y": 0 },
+        { "chunks": [ "lab_maybe_effects_7x7" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
     "type": "mapgen",
     "om_terrain": [ "arcology_exterior_nw_corner_uplifts", "arcology_exterior_nw_corner_robots" ],
     "//": "Arcology general principles.  Ground floor will be mostly shops and the like.  Living quarters and administration/white collar goes up.  Manufacturing and secure locations go down. Mostly filled with nested chunks respecting hallways. Stairs and elevators are in center generally.  Make separate specials that have unique locations inside of them.",
