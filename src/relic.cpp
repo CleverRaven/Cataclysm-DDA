@@ -548,7 +548,8 @@ static bool can_recharge_lunar( const item &it, Character *carrier, const tripoi
 static bool can_recharge_forest( Character *carrier, const tripoint_bub_ms &pos )
 {
     const tripoint_abs_omt omt_were_at = project_to<coords::omt>( get_map().get_abs( pos ) );
-	return get_map().is_outside( pos ) && overmap_buffer.ter( omt_were_at )->is_wooded() && !overmap_buffer.is_in_city( omt_were_at );
+    return get_map().is_outside( pos ) && overmap_buffer.ter( omt_were_at )->is_wooded() &&
+           !overmap_buffer.is_in_city( omt_were_at );
 }
 
 void relic::try_recharge( item &parent, Character *carrier, const tripoint_bub_ms &pos )
