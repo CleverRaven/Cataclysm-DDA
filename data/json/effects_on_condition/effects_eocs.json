@@ -115,13 +115,13 @@
             "min_radius": 1,
             "max_radius": 4
           },
-          { "u_set_field": "fd_blood", "radius": 1, "intensity": 3 }
+          { "u_set_field": "fd_blood", "radius": 1, "intensity": 3 },
+          "u_die"
         ],
         "else": { "math": [ "u_vitamin('mutant_toxin') += u_vitamin('dermatik_larva_size') / 3" ] }
       },
       { "u_lose_effect": "dermatik_visible" },
-      { "math": [ "u_vitamin('dermatik_larva_size') = 0" ] },
-      "u_die"
+      { "math": [ "u_vitamin('dermatik_larva_size') = 0" ] }
     ]
   },
   {
