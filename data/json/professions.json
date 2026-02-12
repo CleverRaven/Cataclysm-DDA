@@ -8251,7 +8251,7 @@
   {
     "type": "profession",
     "id": "mutant_patient_trog",
-    "name": "Subterranian Mutant",
+    "name": "Subterranean Mutant",
     "description": "Your large, glowing eyes and starkly pallid skin suggest you have become some kind of cave creature.  The thought of the surface terrifies you, but anything is better than here.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 3,
