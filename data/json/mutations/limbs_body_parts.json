@@ -67,6 +67,28 @@
     "unarmed_damage": [ { "damage_type": "bash", "amount": 3 }, { "damage_type": "stab", "amount": 8 } ]
   },
   {
+    "id": "muzzle_long",
+    "copy-from": "mouth",
+    "type": "body_part",
+    "name": "muzzle",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "muzzle" },
+    "heading": "muzzle",
+    "heading_multiple": "muzzle",
+    "opposite_part": "muzzle_long",
+    "hit_size": 0.65,
+    "limb_type": "mouth",
+    "limb_scores": [ [ "breathing", 0.8 ], [ "manip", 0.05, 0.2 ], [ "consume_liquid", 1.0 ], [ "consume_solid", 2.0 ] ],
+    "side": "both",
+    "similar_bodypart": "muzzle",
+    "base_hp": 75,
+    "bionic_slots": 3,
+    "flags": [ "LIMB_UPPER" ],
+    "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks", "mouth_chin" ],
+    "//": "We'll assume that if you've mutated far enough to have a reptilian mouth, biting is a primary attack for you",
+    "techniques": [ "TECH_REPTILE_BITE" ],
+    "unarmed_damage": [ { "damage_type": "bash", "amount": 3 }, { "damage_type": "stab", "amount": 16 } ]
+  },
+  {
     "id": "crustacean_pincer_r",
     "copy-from": "hand_r",
     "type": "body_part",

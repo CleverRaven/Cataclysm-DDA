@@ -4530,14 +4530,7 @@
     "ugliness": 8,
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 20 },
-    "attacks": {
-      "attack_text_u": "You bite a chunk out of %s!",
-      "attack_text_npc": "%1$s bites a chunk out of %2$s!",
-      "blocker_mutations": [ "FANGS" ],
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": { "damage_type": "stab", "amount": 18 }
-    }
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_long" } ] } ]
   },
   {
     "type": "mutation",
