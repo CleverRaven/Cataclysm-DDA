@@ -606,7 +606,7 @@
     "map_extra": "mx_lab_concourse_area",
     "requirement": "achievement_reach_trans_coast_lab",
     "flags": [ "CHALLENGE", "LONE_START" ],
-    "eoc": [ "lab_mutant_start" ]
+    "eoc": [ "EOC_LAB_MUTANT_FRIENDS", "EOC_LAB_MUTANT_NO_MUTAGENS" ]
   },
   {
     "type": "scenario",
