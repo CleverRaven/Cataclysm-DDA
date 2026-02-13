@@ -132,9 +132,9 @@ jobs:
 
     - name: Configure ccache
       run: |
-        $env:CDDA_CCACHE_PATH\ccache.exe -M 10G
-        $env:CDDA_CCACHE_PATH\ccache.exe -s -v
-        $env:CDDA_CCACHE_PATH\ccache.exe -z
+        & "$env:CDDA_CCACHE_PATH\ccache.exe" -M 10G
+        & "$env:CDDA_CCACHE_PATH\ccache.exe" -s -v
+        & "$env:CDDA_CCACHE_PATH\ccache.exe" -z
 
     - name: Symlink intermediates to C
       run: |
@@ -158,19 +158,19 @@ jobs:
     - name: Post-build ccache manipulation
       if: ${{ !failure() }}
       run: |
-        $env:CDDA_CCACHE_PATH\ccache.exe -s -v
-        $env:CDDA_CCACHE_PATH\ccache.exe --evict-older-than ${env:STEPS_GET_CACHE_AGE_OUTPUTS_CCACHE_AGE}s
-        $env:CDDA_CCACHE_PATH\ccache.exe -s -v
-        $env:CDDA_CCACHE_PATH\ccache.exe -M ${{ env.CCACHE_LIMIT }}
-        $env:CDDA_CCACHE_PATH\ccache.exe -c
-        $env:CDDA_CCACHE_PATH\ccache.exe -s -v
+        & "$env:CDDA_CCACHE_PATH\ccache.exe" -s -v
+        & "$env:CDDA_CCACHE_PATH\ccache.exe" --evict-older-than ${env:STEPS_GET_CACHE_AGE_OUTPUTS_CCACHE_AGE}s
+        & "$env:CDDA_CCACHE_PATH\ccache.exe" -s -v
+        & "$env:CDDA_CCACHE_PATH\ccache.exe" -M ${{ env.CCACHE_LIMIT }}
+        & "$env:CDDA_CCACHE_PATH\ccache.exe" -c
+        & "$env:CDDA_CCACHE_PATH\ccache.exe" -s -v
       env:
         STEPS_GET_CACHE_AGE_OUTPUTS_CCACHE_AGE: ${{ steps.get-cache-age.outputs.ccache-age }}
 
     - name: clear ccache on PRs
       if: ${{ github.ref_name != 'master' }}
       run: |
-        $env:CDDA_CCACHE_PATH\ccache.exe -C
+        & "$env:CDDA_CCACHE_PATH\ccache.exe" -C
 
     - name: Dump vcpkg logs if build failed
       if: failure()
