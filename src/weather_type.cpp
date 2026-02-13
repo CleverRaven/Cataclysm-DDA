@@ -102,7 +102,8 @@ void weather_type::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "map_color", map_color, nc_color_reader{} );
 
     mandatory( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader );
-    mandatory( jo, was_loaded, "sun_sym", sun_symbol, unicode_codepoint_from_symbol_reader );
+    optional( jo, was_loaded, "sun_sym", sun_symbol, unicode_codepoint_from_symbol_reader,
+              static_cast<uint32_t>( 0x263C ) ); // ☼
 
     mandatory( jo, was_loaded, "ranged_penalty", ranged_penalty );
     mandatory( jo, was_loaded, "sight_penalty", sight_penalty );
