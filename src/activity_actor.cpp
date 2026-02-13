@@ -12486,7 +12486,7 @@ void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
     zone_manager &mgr = zone_manager::get_manager();
     mgr.cache_avatar_location();
     coord_set.clear();
-    unreachable_dests.clear();
+    unreachable_sources.clear();
     for( const tripoint_abs_ms &p :
          mgr.get_near( zone_type_LOOT_UNSORTED, you.pos_abs(), MAX_VIEW_DISTANCE, nullptr,
                        you.get_faction_id() ) ) {
@@ -12507,13 +12507,31 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
     dropoff_coords.clear();
     picked_up_stuff.clear();
 
+    // Clear unreachable_sources when position or grab state changed -
+    // both affect which tiles are reachable. force_clear_unreachable handles
+    // fresh construction and deserialization (default values could match state).
+    const object_type cur_grab_type = you.is_avatar() ?
+                                      you.as_avatar()->get_grab_type() : object_type::NONE;
+    const tripoint_rel_ms cur_grab_point = you.is_avatar() ?
+                                           you.as_avatar()->grab_point : tripoint_rel_ms::zero;
+    if( force_clear_unreachable ||
+        you.pos_abs() != last_think_position ||
+        cur_grab_type != last_think_grab_type ||
+        cur_grab_point != last_think_grab_point ) {
+        unreachable_sources.clear();
+        force_clear_unreachable = false;
+    }
+    last_think_position = you.pos_abs();
+    last_think_grab_type = cur_grab_type;
+    last_think_grab_point = cur_grab_point;
+
     // Sort sources by A* route distance. Pre-sort by Chebyshev (lower bound),
     // compute A* lazily, stop when chebyshev > best_route + 1.
     // Tiles past the cutoff are appended in Chebyshev order as fallback.
     std::vector<std::pair<int, tripoint_abs_ms>> candidates;
     candidates.reserve( coord_set.size() );
     for( const tripoint_abs_ms &p : coord_set ) {
-        if( unreachable_dests.count( p ) ) {
+        if( unreachable_sources.count( p ) ) {
             continue;
         }
         candidates.emplace_back( square_dist( you.pos_abs(), p ), p );
@@ -12549,7 +12567,7 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
         } else {
             const int dist = zone_sorting::route_length( you, p_bub );
             if( dist == INT_MAX ) {
-                unreachable_dests.emplace( candidates[i].second );
+                unreachable_sources.emplace( candidates[i].second );
                 continue;
             }
             computed.emplace_back( dist, candidates[i].second );
@@ -12570,7 +12588,7 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
         src_sorted.emplace_back( entry.second );
     }
     for( size_t i = cutoff; i < candidates.size(); i++ ) {
-        if( !unreachable_dests.count( candidates[i].second ) ) {
+        if( !unreachable_sources.count( candidates[i].second ) ) {
             src_sorted.emplace_back( candidates[i].second );
         }
     }
@@ -12655,11 +12673,15 @@ void zone_sort_activity_actor::return_items_to_source( Character &you,
         return !loc.get_item();
     } );
     if( stale != picked_up_stuff.end() ) {
-        DebugLog( D_INFO, DC_ALL ) << "zone_sort return_items: purged "
-                                   << std::distance( stale, picked_up_stuff.end() )
-                                   << " stale item_locations";
+        add_msg_debug( debugmode::DF_ACTIVITY,
+                       "zone_sort return_items: purged %zu stale item_locations",
+                       static_cast<size_t>( std::distance( stale, picked_up_stuff.end() ) ) );
         picked_up_stuff.erase( stale, picked_up_stuff.end() );
     }
+    // Carrier removal can trigger restacking, invalidating later item_locations.
+    // The get_item() check catches this - items are likely merged on the carrier
+    // rather than lost, but are skipped by return logic.
+    // Fixing this requires reworking item_location lifetime guarantees.
     int return_failures = 0;
     for( item_location &item : picked_up_stuff ) {
         if( item.get_item() ) {
@@ -12668,8 +12690,9 @@ void zone_sort_activity_actor::return_items_to_source( Character &you,
                     you, item_drop_reason::deliberate, { *item }, src_bub );
             if( returned.empty() ) {
                 // Placement failed - keep item on carrier rather than silently destroying it.
-                DebugLog( D_INFO, DC_ALL ) << "zone_sort return_items: failed to place '"
-                                           << item->tname() << "' at source, keeping on carrier";
+                add_msg_debug( debugmode::DF_ACTIVITY,
+                               "zone_sort return_items: failed to place '%s' at source, keeping on carrier",
+                               item->tname() );
                 return_failures++;
                 continue;
             }
@@ -12709,12 +12732,6 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                    src.x(), src.y(), src.z(),
                    you.has_destination() ? 1 : 0,
                    picked_up_stuff.size(), dropoff_coords.size() );
-    DebugLog( D_INFO, DC_ALL ) << "zone_sort DO: pos=(" << you.pos_bub().x() << "," << you.pos_bub().y()
-                               << ") src=(" << src.x() << "," << src.y() << "," << src.z()
-                               << ") has_dest=" << you.has_destination()
-                               << " picked=" << picked_up_stuff.size()
-                               << " dropoffs=" << dropoff_coords.size()
-                               << " unreachable=" << unreachable_dests.size();
 
     // Dropping off
     if( !dropoff_coords.empty() && !picked_up_stuff.empty() ) {
@@ -12821,6 +12838,8 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
 
     const std::optional<vpart_reference> vp = here.veh_at( src_bub ).cargo();
+    // Track whether any sortable item failed pickup due to carry/cart capacity.
+    bool cart_or_carry_blocked = false;
     //Skip items that have already been processed
     for( zone_sorting::zone_items::iterator it = items.begin() + num_processed; it < items.end();
          ++it ) {
@@ -12917,6 +12936,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             thisitem_loc = you.try_add( copy_thisitem );
         }
         if( !thisitem_loc ) {
+            cart_or_carry_blocked = true;
             continue;
         }
         // Pickup cost
@@ -12962,10 +12982,24 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     }
 
     if( picked_up_stuff.empty() ) {
-        // No items picked up - remove source to prevent infinite THINK/DO loop.
-        add_msg_debug( debugmode::DF_ACTIVITY,
-                       "zone_sort DO: no items picked up at src, erasing src, back to THINK" );
-        coord_set.erase( src );
+        bool cart_at_source = false;
+        if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
+            const tripoint_bub_ms cart_pos = you.pos_bub() + you.as_avatar()->grab_point;
+            cart_at_source = ( cart_pos == src_bub );
+        }
+        if( cart_or_carry_blocked && cart_at_source ) {
+            // Items exist and are sortable, but cart is on source tile blocking
+            // vehicle pickup and inventory couldn't hold them. Don't erase -
+            // mark unreachable so THINK skips until state changes.
+            add_msg_debug( debugmode::DF_ACTIVITY,
+                           "zone_sort DO: cart on source blocked sortable items" );
+            unreachable_sources.emplace( src );
+        } else {
+            // No items picked up - remove source to prevent infinite THINK/DO loop.
+            add_msg_debug( debugmode::DF_ACTIVITY,
+                           "zone_sort DO: no items picked up at src, erasing src, back to THINK" );
+            coord_set.erase( src );
+        }
         stage = THINK;
         dropoff_coords.clear();
     } else if( !dropoff_coords.empty() && !you.has_destination() )  {
@@ -12977,7 +13011,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         if( stale != picked_up_stuff.end() ) {
             add_msg_debug( debugmode::DF_ACTIVITY,
                            "zone_sort DO: purged %zu stale item_locations from picked_up_stuff",
-                           std::distance( stale, picked_up_stuff.end() ) );
+                           static_cast<size_t>( std::distance( stale, picked_up_stuff.end() ) ) );
             picked_up_stuff.erase( stale, picked_up_stuff.end() );
         }
         if( picked_up_stuff.empty() ) {
@@ -13072,15 +13106,11 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                        "zone_sort DO: routing to dest (%d,%d,%d) with %zu items",
                        destination.x(), destination.y(), destination.z(),
                        picked_up_stuff.size() );
-        DebugLog( D_INFO, DC_ALL ) << "zone_sort DO: routing to dest ("
-                                   << destination.x() << "," << destination.y() << ","
-                                   << destination.z() << ") with " << picked_up_stuff.size() << " items";
         if( !zone_sorting::route_to_destination( you, act, here.get_bub( destination ), stage ) ) {
             // Can't reach destination. Return items to source and retry.
             // Don't erase source -- other items may have different reachable destinations.
             add_msg_debug( debugmode::DF_ACTIVITY,
                            "zone_sort DO: route to dest FAILED, returning items, back to THINK" );
-            DebugLog( D_INFO, DC_ALL ) << "zone_sort DO: route to dest FAILED, returning items";
             return_items_to_source( you, src_bub );
             stage = THINK;
         }
@@ -13105,7 +13135,7 @@ void zone_sort_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "picked_up_stuff", picked_up_stuff );
     jsout.member( "dropoff_coords", dropoff_coords );
     jsout.member( "pickup_failure_reported", pickup_failure_reported );
-    jsout.member( "unreachable_dests", unreachable_dests );
+    jsout.member( "unreachable_sources", unreachable_sources );
 
     jsout.end_object();
 }
@@ -13128,8 +13158,10 @@ std::unique_ptr<activity_actor> zone_sort_activity_actor::deserialize( JsonValue
     if( data.has_bool( "pickup_failure_reported" ) ) {
         data.read( "pickup_failure_reported", actor.pickup_failure_reported );
     }
-    if( data.has_member( "unreachable_dests" ) ) {
-        data.read( "unreachable_dests", actor.unreachable_dests );
+    if( data.has_member( "unreachable_sources" ) ) {
+        data.read( "unreachable_sources", actor.unreachable_sources );
+    } else if( data.has_member( "unreachable_dests" ) ) {
+        data.read( "unreachable_dests", actor.unreachable_sources );
     }
     return actor.clone();
 }

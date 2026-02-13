@@ -9,7 +9,6 @@
 #include <list>
 #include <memory>
 #include <optional>
-#include <ostream>
 #include <queue>
 #include <set>
 #include <string>
@@ -910,6 +909,9 @@ static std::vector<tripoint_bub_ms> route_with_grab(
         parent.resize( total_states );
     }
 
+    // Only closed and open need clearing. gscore and parent retain stale data
+    // but are never read for states where open[state] is false, which is reset
+    // above. This invariant must be maintained if the A* logic is modified.
     std::fill( closed.begin(), closed.end(), false );
     std::fill( open.begin(), open.end(), false );
 
@@ -943,9 +945,9 @@ static std::vector<tripoint_bub_ms> route_with_grab(
         states_explored++;
         const int cur_g = gscore[cur_state];
         if( cur_g > max_length ) {
-            DebugLog( D_INFO, DC_ALL ) << "route_with_grab: ABORTED at max_length="
-                                       << max_length << " states_explored=" << states_explored
-                                       << " grab=(" << start_grab.x() << "," << start_grab.y() << ")";
+            add_msg_debug( debugmode::DF_ACTIVITY,
+                           "route_with_grab: ABORTED max_length=%d explored=%d grab=(%d,%d)",
+                           max_length, states_explored, start_grab.x(), start_grab.y() );
             return ret;
         }
 
@@ -1076,16 +1078,10 @@ static std::vector<tripoint_bub_ms> route_with_grab(
 
     if( !done ) {
         add_msg_debug( debugmode::DF_ACTIVITY,
-                       "route_with_grab: NO PATH FOUND from (%d,%d) grab=(%d,%d) to (%d,%d) explored=%d",
+                       "route_with_grab: NO PATH FOUND (%d,%d) grab=(%d,%d) to (%d,%d) explored=%d bounds=(%d,%d)-(%d,%d)",
                        start.x(), start.y(), start_grab.x(), start_grab.y(),
-                       target.center.x(), target.center.y(), states_explored );
-        DebugLog( D_INFO, DC_ALL ) << "route_with_grab: NO PATH FOUND from ("
-                                   << start.x() << "," << start.y()
-                                   << ") grab=(" << start_grab.x() << "," << start_grab.y()
-                                   << ") to (" << target.center.x() << "," << target.center.y()
-                                   << ") explored=" << states_explored
-                                   << " bounds=(" << min_bound.x() << "," << min_bound.y()
-                                   << ")-(" << max_bound.x() << "," << max_bound.y() << ")";
+                       target.center.x(), target.center.y(), states_explored,
+                       min_bound.x(), min_bound.y(), max_bound.x(), max_bound.y() );
         return ret;
     }
 
@@ -1103,12 +1099,6 @@ static std::vector<tripoint_bub_ms> route_with_grab(
                    ret.size(), start.x(), start.y(),
                    target.center.x(), target.center.y(),
                    ret.empty() ? -1 : ret.front().x(), ret.empty() ? -1 : ret.front().y() );
-    DebugLog( D_INFO, DC_ALL ) << "route_with_grab: found path len=" << ret.size()
-                               << " from (" << start.x() << "," << start.y()
-                               << ") grab=(" << start_grab.x() << "," << start_grab.y()
-                               << ") to (" << target.center.x() << "," << target.center.y()
-                               << ") first_step=(" << ( ret.empty() ? -1 : ret.front().x() )
-                               << "," << ( ret.empty() ? -1 : ret.front().y() ) << ")";
     return ret;
 }
 
@@ -1122,8 +1112,19 @@ bool route_to_destination( Character &you, player_activity &act,
     // (position, grab_direction) state so both player and cart can move.
     bool used_grab_routing = false;
     if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
-        used_grab_routing = true;
-        route = route_with_grab( here, you, pathfinding_target::adjacent( dest ) );
+        const tripoint_bub_ms veh_pos = you.pos_bub() + you.as_avatar()->grab_point;
+        const optional_vpart_position ovp = here.veh_at( veh_pos );
+        if( ovp && ovp->vehicle().get_points().size() == 1 ) {
+            // Single-tile vehicle: use grab-aware A*. If no path found,
+            // treat as unreachable (don't fall back to player-only routing
+            // which would cause cart collisions).
+            used_grab_routing = true;
+            route = route_with_grab( here, you, pathfinding_target::adjacent( dest ) );
+        } else {
+            // Multi-tile vehicle or no vehicle at grab point: use normal
+            // pathfinding (grab-aware A* doesn't support multi-tile).
+            route = here.route( you, pathfinding_target::adjacent( dest ) );
+        }
     } else {
         route = here.route( you, pathfinding_target::adjacent( dest ) );
     }
@@ -1134,10 +1135,6 @@ bool route_to_destination( Character &you, player_activity &act,
                    used_grab_routing ? "grab_astar" : "normal_astar",
                    route.size(),
                    route.empty() ? "FAILED" : "OK" );
-    DebugLog( D_INFO, DC_ALL ) << "route_to_dest: dest=(" << dest.x() << "," << dest.y()
-                               << ") " << ( used_grab_routing ? "grab_astar" : "normal_astar" )
-                               << " route_len=" << route.size()
-                               << " " << ( route.empty() ? "FAILED" : "OK" );
 
     if( route.empty() ) {
         add_msg( m_info, _( "%s can't reach the source tile.  Try to sort out loot without a cart." ),
@@ -1312,6 +1309,8 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
             if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
                 const tripoint_bub_ms cart_pos = you.pos_bub() + you.as_avatar()->grab_point;
                 if( std::optional<vpart_reference> ovp = get_map().veh_at( cart_pos ).cargo() ) {
+                    // Approximation: only checks volume, not weight or other cargo constraints.
+                    // If this over-reports, the empty-pickup guard in stage_do handles it.
                     vehicle_can_hold = ovp->items().free_volume() >= it->volume();
                 }
             }
@@ -1566,7 +1565,13 @@ int route_length( const Character &you, const tripoint_bub_ms &dest )
     std::vector<tripoint_bub_ms> route;
 
     if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
-        route = route_with_grab( here, you, pathfinding_target::adjacent( dest ) );
+        const tripoint_bub_ms veh_pos = you.pos_bub() + you.as_avatar()->grab_point;
+        const optional_vpart_position ovp = here.veh_at( veh_pos );
+        if( ovp && ovp->vehicle().get_points().size() == 1 ) {
+            route = route_with_grab( here, you, pathfinding_target::adjacent( dest ) );
+        } else {
+            route = here.route( you, pathfinding_target::adjacent( dest ) );
+        }
     } else {
         route = here.route( you, pathfinding_target::adjacent( dest ) );
     }
