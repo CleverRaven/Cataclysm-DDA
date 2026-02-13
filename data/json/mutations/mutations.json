@@ -4672,7 +4672,7 @@
     "vitamin_cost": 160,
     "visibility": 7,
     "ugliness": 4,
-    "encumbrance_always": [ [ "mouth", 10 ] ]
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_slit_nostrils_breathing_penalty", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",
