@@ -197,7 +197,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 6, "coverage": 100, "covers": [ "mouth" ] } ],
+    "armor": [ { "encumbrance": 6, "coverage": 100, "covers": [ "mouth", "muzzle" ] } ],
     "variant_type": "generic",
     "variants": [
       {
