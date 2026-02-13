@@ -185,7 +185,8 @@
       { "class": "robofac_chop_shop_merc_3", "x": 19, "y": 24 },
       { "class": "robofac_chop_shop_merc_4", "x": 38, "y": 23 },
       { "class": "robofac_chop_shop_merc_5", "x": 24, "y": 23 },
-      { "class": "robofac_chop_shop_merc_6", "x": 40, "y": 30 }
+      { "class": "robofac_chop_shop_merc_6", "x": 40, "y": 30 },
+      { "class": "robofac_chop_shop_scientist_1", "x": 46, "y": 10 }
     ],
     "faction_owner": [
       { "id": "robofac_auxiliaries_chop_shop", "x": [ 0, 23 ], "y": [ 0, 23 ] },
@@ -376,6 +377,9 @@
       { "point": [ 4, 0, 1 ], "overmap": "robofac_strip_mall_roof_5_north" }
     ],
     "locations": [ "wilderness" ],
+    "connections": [
+      { "point": [ 4, 2, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ], "existing": true }
+    ],
     "city_distance": [ 1, 10 ],
     "city_sizes": [ 5, -1 ],
     "occurrences": [ 30, 100 ],

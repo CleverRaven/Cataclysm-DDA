@@ -14,7 +14,8 @@
       "MISSION_ROBOFAC_INTERCOM_MWS_3_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_MWS_4_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_ACCEPTED",
-      "MISSION_ROBOFAC_INTERCOM_IVAS_ACCEPTED"
+      "MISSION_ROBOFAC_INTERCOM_IVAS_ACCEPTED",
+      "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ACCEPTED"
     ],
     "type": "talk_topic",
     "dynamic_line": "What would you like to discuss?",
@@ -120,6 +121,17 @@
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "ivas" }
         ],
         "topic": "MISSION_ROBOFAC_INTERCOM_IVAS_COMPLETE"
+      },
+      {
+        "text": "Dr. Harlow is dead.",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" },
+            { "math": [ "robofac_chop_shop_scientist_1_is_dead == 1" ] }
+          ]
+        },
+        "effect": { "finish_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP", "success": true },
+        "topic": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_COMPLETE"
       },
       {
         "text": "[Contract: Return to sender]",
@@ -270,6 +282,18 @@
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER"
+      },
+      {
+        "text": "[Contract: Post-Apocalyptic IRB]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_chop_shop" } ] } },
+            { "not": { "math": [ "robofac_chop_shop_scientist_1_is_dead == 1" ] } },
+            { "math": [ "ancilla_fortress_placed == 1" ] }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_OFFER"
       },
       {
         "text": "I need a new NRE recorder.",
@@ -1332,6 +1356,50 @@
     "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   },
   {
+    "id": [
+      "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_OFFER",
+      "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ADVICE_Resistance",
+      "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ADVICE_Experiments"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "When the portal storms started, alien structures started to appear all over the surrounding area.  We sent a field team to recover and study them, and we have been in constant contact since.  However, we have since learned that the project lead, Dr. Michael Harlow, has been performing unethical human experimentation at his field site, without approval from our Institutional Review Board.  While we would usually take the IRB report to the authorities, there are no more authorities.  The IRB has unanimously determined that these experiments must be put to an end.  However, Dr. Harlow has indicated that the experiments will not stop, so they must be stopped by force.\"\n\n\"We want you to travel to the field site, execute Dr. Harlow, and free any living prisoners he may still have.  If Dr. Harlow's mercenaries resist, you are authorized to respond with deadly force.  Given the severity of Dr. Harlow's ethics violations, this is the most utilitarian outcome.\"\n\n\"We offer the standard hazard pay of 4 HGC for this contract, and you may keep anything valuable you find at the site.",
+    "responses": [
+      {
+        "text": "I'll do it.  I'll kill the scientist.",
+        "effect": { "assign_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" },
+        "topic": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ACCEPTED"
+      },
+      { "text": "What sort of resistance might there be?", "topic": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ADVICE_Resistance" },
+      {
+        "text": "What sort of experiments is Dr. Harlow doing?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ADVICE_Experiments"
+      },
+      { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ADVICE_Resistance",
+    "type": "talk_topic",
+    "dynamic_line": "The doctor has hired a mercenary team well known to us, all of which are former law enforcement.  Proceed with caution."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ADVICE_Experiments",
+    "type": "talk_topic",
+    "//": "The Hub in fact sactioned these experiments, but Melchior has determined that the experiments are endangering the Hub, and must be stopped.  The real justification is that they no longer expect the research to produce practical results, yet Dr. Harlow has refused to bend the knee and stop.",
+    "dynamic_line": "Dr. Harlow discovered some sort of alien robotics, and has been performing unsactioned medical procedures in an attempt to implant them in living humans.  The experiments are unethical and a failure to boot, and thus must be stopped."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "A makeshift facility has been set up in a nearby dentist's office.  We will transfer the coordinates."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": "The intercom's tray slides open, filled with your payment.  \"The IRB thanks you for your service to ethics, and has asked us to remind you that the details of this assignment are to remain classified.",
+    "responses": [ { "text": "Right.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
     "type": "mission_definition",
     "name": { "str": "Data Retrieval" },
@@ -1748,7 +1816,7 @@
     "name": { "str": "Augmented Reality" },
     "description": "The intercom has asked me to retrieve something called a <color_yellow>Military Visual Augmentation System</color>, which looks like a VR headset.  They're sending me to an in-town office to fetch it.  Use the <color_yellow>ID card</color> to gain access.",
     "goal": "MGOAL_NULL",
-    "destination": "corpse_surface",
+    "destination": "office_warehouse_anduril",
     "difficulty": 5,
     "value": 0,
     "start": {
@@ -1764,6 +1832,46 @@
         { "u_spawn_item": "RobofacCoin", "count": 4 },
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_ivas", "value": "yes" },
         { "math": [ "u_hub01_completed_missions++" ] }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP",
+    "type": "mission_definition",
+    "name": { "str": "Post-Apocalyptic IRB" },
+    "description": "The intercom has asked me to <color_yellow>kill a rogue scientist named Dr. Harlow</color>, who they say is performing unethical experiments on live humans.  I am also authorized to use lethal force against anyone who resists, and to pillage the site.",
+    "goal": "MGOAL_NULL",
+    "destination": "robofac_strip_mall_x1y0",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "robofac_strip_mall_x1y0",
+        "om_special": "robofac_strip_mall",
+        "reveal_radius": 4,
+        "random": false
+      },
+      "effect": { "math": [ "robofac_chop_shop_scientist_1_kill_orders = 1" ] }
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "RobofacCoin", "count": 4 },
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_chop_shop", "value": "yes" },
+        { "math": [ "u_hub01_completed_missions++" ] },
+        { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_CLEAN_UP_MERCS" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

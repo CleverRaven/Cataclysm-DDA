@@ -101,7 +101,8 @@
             "then": [
               { "math": [ "faction_like('robofac') = -100" ] },
               { "math": [ "faction_respect('robofac') = -100" ] },
-              { "math": [ "faction_trust('robofac') = -100" ] }
+              { "math": [ "faction_trust('robofac') = -100" ] },
+              { "run_eocs": "EOC_ROBOFAC_LOCK_INTERCOM" }
             ]
           }
         ]
@@ -122,7 +123,8 @@
             "then": [
               { "math": [ "faction_like('robofac') = -100" ] },
               { "math": [ "faction_respect('robofac') = -100" ] },
-              { "math": [ "faction_trust('robofac') = -100" ] }
+              { "math": [ "faction_trust('robofac') = -100" ] },
+              { "run_eocs": "EOC_ROBOFAC_LOCK_INTERCOM" }
             ]
           }
         ],

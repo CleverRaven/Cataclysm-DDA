@@ -62,7 +62,7 @@
   {
     "id": [ "NC_ROBOFAC_SCIENTIST_CHOP_SHOP" ],
     "type": "talk_topic",
-    "dynamic_line": "&The scientist looks started to see you, jerking back in their chair, their face partially obscured by solder smoke.  Their voice is both quivering and indignant.  \"Wh-who are you?  How did you get in here?  D-don't know who I am?!  Leave, or I'll have y-y-you killed!\"",
+    "dynamic_line": "&The scientist looks surprised see you.  Their voice is both quivering and indignant.  \"Wh-who are you?  How did you get in here?  D-don't know who I am?!  Leave, or I'll have y-y-you killed!\"",
     "responses": [
       {
         "text": "I'm just here for the alien tech.  It's a small metal box with a glowing core.  Where is it?",
@@ -97,11 +97,11 @@
   {
     "id": [ "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_EXODII_1" ],
     "type": "talk_topic",
-    "dynamic_line": "Is that it?  It's in my desk.  Take it and go, before I call the guards.",
+    "dynamic_line": "&The scientist produces the item from their lab coat.  Here, take it.  But you won't get away with this.  They'll come for you.",
     "responses": [
-      { "text": "In the desk?  I'll come get it.", "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_2" },
+      { "text": "This is all I needed.  I'll be going.", "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_2" },
       {
-        "text": "[Start a fight] Not if I kill you first.",
+        "text": "[Start a fight] If you're dead, who's going to tell them?",
         "effect": [
           "insult_combat",
           { "u_message": "The scientist covers their face with their arms \"No, please!\"" },
@@ -126,7 +126,8 @@
       { "math": [ "faction_trust('robofac_auxiliaries_chop_shop') = -100" ] },
       { "math": [ "faction_like('robofac') = -100" ] },
       { "math": [ "faction_respect('robofac') = -100" ] },
-      { "math": [ "faction_trust('robofac') = -100" ] }
+      { "math": [ "faction_trust('robofac') = -100" ] },
+      { "run_eocs": "EOC_ROBOFAC_LOCK_INTERCOM" }
     ]
   }
 ]
