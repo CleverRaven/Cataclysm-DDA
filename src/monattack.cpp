@@ -2024,22 +2024,6 @@ static void poly_keep_speed( monster &mon, const mtype_id &id )
     mon.set_speed_base( old_speed );
 }
 
-static void poly_keep_hp( monster &mon, const mtype_id &id )
-{
-    // Retain old HP after polymorph
-    const int old_hp = mon.get_hp();
-    mon.poly( id );
-    mon.set_hp( old_hp );
-}
-
-static void poly_keep_anger( monster &mon, const mtype_id &id )
-{
-    // Retain old anger after polymorph
-    const int old_anger = mon.anger;
-    mon.poly( id );
-    mon.anger = old_anger;
-}
-
 static bool blobify( monster &blob, monster &target )
 {
     //~ %1$s and %2$s - monster names
