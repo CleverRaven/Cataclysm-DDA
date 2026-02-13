@@ -185,7 +185,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "dust mask" },
     "description": "A simple piece of cotton that straps over the mouth.  Provides a small amount of protection from airborne illness and dust.",
-    "weight": "168 g",
+    "weight": "6 g",
     "volume": "100 ml",
     "price": "8 USD",
     "price_postapoc": "10 cent",
