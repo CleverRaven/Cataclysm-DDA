@@ -3265,6 +3265,10 @@
   },
   {
     "type": "effect_type",
+    "id": "dermatik_cured"
+  },
+  {
+    "type": "effect_type",
     "id": "dermatik_visible",
     "name": [ "Wriggling Skin", "Crawling Lump", "Distended Flesh" ],
     "desc": [

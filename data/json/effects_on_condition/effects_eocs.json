@@ -98,7 +98,12 @@
     "id": "EOC_DERMATIK_BIRTH",
     "eoc_type": "EVENT",
     "required_event": "character_loses_effect",
-    "condition": { "compare_string": [ "dermatik", { "context_val": "effect" } ] },
+    "condition": { 
+      "and": [
+        {"compare_string": [ "dermatik", { "context_val": "effect" } ] },
+        {"not": { "u_has_effect" : "dermatik_cured"}}
+      ]
+    },
     "effect": [
       {
         "if": { "math": [ "u_vitamin('dermatik_larva_size') >= 1440" ] },

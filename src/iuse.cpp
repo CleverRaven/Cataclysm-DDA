@@ -180,6 +180,7 @@ static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_dazed( "dazed" );
 static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_dermatik_cured( "dermatik_cured" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_earphones( "earphones" );
@@ -734,6 +735,7 @@ std::optional<int> iuse::antiparasitic( Character *p, item *, const tripoint_bub
     }
     p->add_msg_if_player( _( "You take some antiparasitic medication." ) );
     if( p->has_effect( effect_dermatik ) ) {
+        p->add_effect( effect_dermatik_cured, 1_turns, true );
         p->remove_effect( effect_dermatik );
         p->add_msg_if_player( m_good, _( "The itching sensation under your skin fades away." ) );
     }
