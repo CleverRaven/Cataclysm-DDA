@@ -3350,7 +3350,6 @@ bool multi_farm_activity_actor::multi_activity_do( Character &you,
                here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
         you.assign_activity( churn_activity_actor( 18000, item_location() ) );
-        you.backlog.emplace_front( multi_farm_activity_actor() );
         you.activity.placement = src;
         return false;
     } else if( reason == do_activity_reason::NEEDS_PLANTING ) {
@@ -3369,14 +3368,12 @@ bool multi_farm_activity_actor::multi_activity_do( Character &you,
                 continue;
             }
             iexamine::plant_seed( you, src_loc, itype_id( seed ) );
-            you.backlog.emplace_front( multi_farm_activity_actor() );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_FERTILIZING ) {
         itype_id used_fertilizer = get_first_fertilizer_itype( you, src );
         if( !used_fertilizer.is_null() ) {
             iexamine::fertilize_plant( you, src_loc, used_fertilizer );
-            you.backlog.emplace_front( multi_farm_activity_actor() );
         }
         return false;
     }
@@ -3392,7 +3389,6 @@ bool multi_chop_planks_activity_actor::multi_activity_do( Character &you,
 
     if( reason == do_activity_reason::NEEDS_CHOPPING && you.has_quality( qual_AXE, 1 ) ) {
         if( chop_plank_activity( you, src_loc ) ) {
-            you.backlog.emplace_front( multi_chop_planks_activity_actor() );
             return false;
         }
     }
@@ -3409,7 +3405,6 @@ bool multi_butchery_activity_actor::multi_activity_do( Character &you,
     if( reason == do_activity_reason::NEEDS_BUTCHERING ||
         reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
         if( butcher_corpse_activity( you, src_loc, reason ) ) {
-            you.backlog.emplace_front( multi_butchery_activity_actor() );
             return false;
         }
     }
@@ -3432,7 +3427,6 @@ bool multi_read_activity_actor::multi_activity_do( Character &you,
             const time_duration time_taken = you.time_to_read( *books[0], you );
             item_location book = item_location( you, books[0] );
             item_location ereader;
-            you.backlog.emplace_front( multi_read_activity_actor() );
             you.assign_activity( read_activity_actor( time_taken, book, ereader, true ) );
             return false;
         }
@@ -3453,7 +3447,6 @@ bool multi_study_activity_actor::multi_activity_do( Character &you,
             you.may_activity_occupancy_after_end_items_loc.push_back( book_loc );
             const time_duration time_taken = you.time_to_read( *book_loc, you );
             item_location ereader;
-            you.backlog.emplace_front( multi_study_activity_actor() );
             you.assign_activity( read_activity_actor( time_taken, book_loc, ereader, true ) );
             return false;
         }
@@ -3479,7 +3472,6 @@ bool multi_build_construction_activity_actor::multi_activity_do( Character &you,
 
     if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ) {
         if( here.partial_con_at( src_loc ) ) {
-            you.backlog.emplace_front( multi_build_construction_activity_actor() );
             you.assign_activity( build_construction_activity_actor( src ) );
             return false;
         }
@@ -3498,7 +3490,6 @@ bool multi_chop_trees_activity_actor::multi_activity_do( Character &you,
 
     if( reason == do_activity_reason::NEEDS_TREE_CHOPPING && you.has_quality( qual_AXE, 1 ) ) {
         if( chop_tree_activity( you, src_loc ) ) {
-            you.backlog.emplace_front( multi_chop_trees_activity_actor() );
             return false;
         }
     }
@@ -3512,7 +3503,6 @@ bool multi_fish_activity_actor::multi_activity_do( Character &you,
     const do_activity_reason &reason = act_info.reason;
 
     if( reason == do_activity_reason::NEEDS_FISHING && you.has_quality( qual_FISHING_ROD, 1 ) ) {
-        you.backlog.emplace_front( multi_fish_activity_actor() );
         // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
         you.activity = player_activity();
         item_location best_rod_loc( you, &you.best_item_with_quality( qual_FISHING_ROD ) );
@@ -3531,7 +3521,6 @@ bool multi_mine_activity_actor::multi_activity_do( Character &you,
 
     if( reason == do_activity_reason::NEEDS_MINING ) {
         // if have enough batteries to continue etc.
-        you.backlog.emplace_front( multi_mine_activity_actor() );
         if( mine_activity( you, src_loc ) ) {
             return false;
         }
@@ -3547,7 +3536,6 @@ bool multi_mop_activity_actor::multi_activity_do( Character &you,
 
     if( reason == do_activity_reason::NEEDS_MOP ) {
         if( mop_activity( you, src_loc ) ) {
-            you.backlog.emplace_front( multi_mop_activity_actor() );
             return false;
         }
     }
@@ -3562,7 +3550,6 @@ bool multi_vehicle_deconstruct_activity_actor::multi_activity_do( Character &you
 
     if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
         if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, VEHICLE_REMOVE ) ) {
-            you.backlog.emplace_front( multi_vehicle_deconstruct_activity_actor() );
             return false;
         }
         you.activity_vehicle_part_index = -1;
@@ -3578,7 +3565,6 @@ bool multi_vehicle_repair_activity_actor::multi_activity_do( Character &you,
 
     if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
         if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, VEHICLE_REPAIR ) ) {
-            you.backlog.emplace_front( multi_vehicle_repair_activity_actor() );
             return false;
         }
 
@@ -3602,8 +3588,6 @@ bool multi_craft_activity_actor::multi_activity_do( Character &you,
                 you.lighting_craft_speed_multiplier( to_craft->get_making() ) > 0 ) {
                 player_activity act = player_activity( craft_activity_actor( to_craft, false ) );
                 you.assign_activity( act );
-                you.backlog.emplace_front( multi_craft_activity_actor() );
-                you.backlog.front().auto_resume = true;
                 return false;
             }
         }
@@ -3635,10 +3619,6 @@ bool multi_disassemble_activity_actor::multi_activity_do( Character &you,
                     act.position = qty;
                     act.index = false;
                     you.assign_activity( act );
-                    // Keep doing
-                    // After assignment of disassemble activity (not multitype anymore)
-                    // the backlog will not be nuked in do_player_activity()
-                    you.backlog.emplace_back( multi_disassemble_activity_actor() );
                     break;
                 }
             }
@@ -3739,11 +3719,10 @@ std::optional<bool> route( Character &you, player_activity &act, const tripoint_
     return false;
 }
 
-bool out_of_moves( Character &you, activity_id act_id )
+bool out_of_moves( Character &you )
 {
     if( you.get_moves() <= 0 ) {
         // Restart activity and break from cycle.
-        you.assign_activity( act_id );
         you.activity_vehicle_part_index = -1;
         return true;
     }
@@ -3753,16 +3732,13 @@ bool out_of_moves( Character &you, activity_id act_id )
 void revert_npc_post_activity( Character &you, activity_id act_id, bool no_locations )
 {
     // if we got here, we need to revert otherwise NPC will be stuck in AI Limbo and have a head explosion.
-    if( you.backlog.empty() || no_locations ) {
+    if( you.is_npc() && ( you.backlog.empty() || no_locations ) ) {
         /**
         * This should really be a debug message, but too many places rely on this broken behavior.
         * debugmsg( "Reverting %s activity for %s, probable infinite loop", activity_to_restore.c_str(),
         *           you.get_name() );
         */
         check_npc_revert( you );
-        if( player_activity( act_id ).is_multi_type() ) {
-            you.assign_activity( activity_id::NULL_ID() );
-        }
     }
     you.activity_vehicle_part_index = -1;
 }

@@ -114,6 +114,7 @@ class multi_zone_activity_actor : public activity_actor
         void do_turn( player_activity &act, Character &you ) override;
         void finish( player_activity &, Character & ) override {};
         // for allowing a return value from do_turn
+        // @return whether this activity should continue to the next turn
         bool simulate_turn( player_activity &act, Character &you, bool check_only );
 
         /** Check whether activity can be done immediately if it has requirements */

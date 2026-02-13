@@ -164,7 +164,7 @@ std::unordered_set<tripoint_abs_ms> no_same_tile_locations( Character &you,
         const activity_id &act_id );
 
 void revert_npc_post_activity( Character &you, activity_id act_id, bool no_locations );
-bool out_of_moves( Character &you, activity_id act_id );
+bool out_of_moves( Character &you );
 std::optional<bool> route( Character &you, player_activity &act, const tripoint_bub_ms &src_bub,
                            requirement_failure_reasons &fail_reason, bool check_only );
 void activity_failure_message( Character &you, activity_id new_activity,
