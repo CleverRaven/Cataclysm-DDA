@@ -1566,9 +1566,9 @@ static activity_reason_info vehicle_work_can_do( const activity_id &, Character 
                 already_working_indexes.push_back( guy.activity_vehicle_part_index );
             }
         }
-        if( player_character.activity_vehicle_part_index != -1 ) {
-            already_working_indexes.push_back( player_character.activity_vehicle_part_index );
-        }
+    }
+    if( you.is_npc() && player_character.activity_vehicle_part_index != -1 ) {
+        already_working_indexes.push_back( player_character.activity_vehicle_part_index );
     }
     return activity_reason_info::ok( result );
 }
