@@ -431,7 +431,7 @@ static itype_id get_first_fertilizer_itype( Character &you, const tripoint_abs_m
 
 std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
                                         const std::list<item> &items,
-                                        map *here, const tripoint_bub_ms &where, bool allow_overflow )
+                                        map *here, const tripoint_bub_ms &where )
 {
     if( items.empty() ) {
         return {};
@@ -526,11 +526,9 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
     }
     std::vector<item_location> items_dropped;
     for( const item &it : items ) {
-        item &dropped_item = here->add_item_or_charges( where, it, allow_overflow );
-        if( !dropped_item.is_null() ) {
-            items_dropped.emplace_back( map_cursor( here, where ), &dropped_item );
-            item( it ).handle_pickup_ownership( you );
-        }
+        item &dropped_item = here->add_item_or_charges( where, it );
+        items_dropped.emplace_back( map_cursor( here, where ), &dropped_item );
+        item( it ).handle_pickup_ownership( you );
     }
 
     you.recoil = MAX_RECOIL;
@@ -561,7 +559,7 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
 
 std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
         item_drop_reason reason,
-        const std::list<item> &items, tripoint_bub_ms dest, bool allow_overflow )
+        const std::list<item> &items, tripoint_bub_ms dest )
 {
     map &here = get_map();
 
@@ -570,19 +568,19 @@ std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
         dest = you.pos_bub( here );
     }
 
-    return put_into_vehicle_or_drop_ret_locs( you, reason, items, &here, dest, false, allow_overflow );
+    return put_into_vehicle_or_drop_ret_locs( you, reason, items, &here, dest );
 }
 
 std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
         item_drop_reason reason,
         const std::list<item> &items,
-        map *here, const tripoint_bub_ms &where, bool force_ground, bool allow_overflow )
+        map *here, const tripoint_bub_ms &where, bool force_ground )
 {
     const std::optional<vpart_reference> vp = here->veh_at( where ).cargo();
     if( vp && !force_ground ) {
         return try_to_put_into_vehicle( you, reason, items, *vp );
     }
-    return drop_on_map( you, reason, items, here, where, allow_overflow );
+    return drop_on_map( you, reason, items, here, where );
 }
 
 static double get_capacity_fraction( int capacity, int volume )
