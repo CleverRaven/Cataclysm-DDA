@@ -39,27 +39,37 @@ jobs:
     env:
         COMPILER: clang++-18
     steps:
+    - name: checkout repository
+      if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false) }}
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      with:
+        persist-credentials: false
+    - name: cache clang-tidy plugin
+      id: plugin-cache
+      if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false) }}
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        path: build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so
+        key: clang-tidy-plugin-llvm18-ubuntu2404-${{ hashFiles('tools/clang-tidy-plugin/**', 'build-scripts/clang-tidy-build.sh', 'CMakeLists.txt', 'CMakeModules/**') }}
     - name: install LLVM 18
-      if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+      if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && steps.plugin-cache.outputs.cache-hit != 'true' }}
       run: |
           sudo apt-get update
           sudo apt install llvm-18 llvm-18-dev llvm-18-tools clang-18 clang-tidy-18 clang-tools-18 libclang-18-dev
           sudo apt install python3-pip ninja-build cmake
           pip3 install --user lit
-    - name: checkout repository
-      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
-      with:
-        persist-credentials: false
     - uses: ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28 # master
     - name: build clang-tidy plugin
-      if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+      if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && steps.plugin-cache.outputs.cache-hit != 'true' }}
       run: bash ./build-scripts/clang-tidy-build.sh
     - name: upload plugin
+      if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false) }}
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
         name: cata-analyzer-plugin
         path: build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so
         retention-days: 1
+        if-no-files-found: ignore
 
 
   run-clang-tidy:
@@ -83,13 +93,13 @@ jobs:
         TILES: 1
         SOUND: 1
         LOCALIZE: 1
-    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false) }}
     steps:
     - name: install dependencies
       run: |
           sudo apt-get update
           sudo apt install clang-18 clang-tidy-18 cmake ccache jq
-          sudo apt install libflac-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev gettext 
+          sudo apt install libflac-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev gettext
     - name: checkout repository
       uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       with:
