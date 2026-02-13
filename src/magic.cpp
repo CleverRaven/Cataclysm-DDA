@@ -173,6 +173,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::TARGET_TELEPORT: return "TARGET_TELEPORT";
         case spell_flag::SWAP_POS: return "SWAP_POS";
         case spell_flag::CONCENTRATE: return "CONCENTRATE";
+        case spell_flag::TOUCH_REQUIRED: return "TOUCH_REQUIRED";
         case spell_flag::RANDOM_AOE: return "RANDOM_AOE";
         case spell_flag::RANDOM_DAMAGE: return "RANDOM_DAMAGE";
         case spell_flag::RANDOM_DURATION: return "RANDOM_DURATION";

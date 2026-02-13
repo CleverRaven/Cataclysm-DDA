@@ -67,6 +67,7 @@ enum class spell_flag : int {
     TARGET_TELEPORT, // aoe is teleport variance from target
     NO_LEGS, // legs do not affect casting time
     CONCENTRATE, // focus affects spell fail %
+    TOUCH_REQUIRED, // attack spell requires an unarmed roll vs dodge to successfully affect the target
     RANDOM_AOE, // picks random number between min+increment*level and max instead of normal behavior
     RANDOM_DAMAGE, // picks random number between min+increment*level and max instead of normal behavior
     RANDOM_DURATION, // picks random number between min+increment*level and max instead of normal behavior
