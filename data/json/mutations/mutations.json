@@ -4225,6 +4225,8 @@
     "active": true,
     "vitamin_cost": 160,
     "activated_is_setup": false,
+    "stamina": true,
+    "cost": 2000,
     "activated_eocs": [ "EOC_FELINE_LEAP" ],
     "//": "This is differentiated from the other two leaps by a shorter range yet a shorter prep time. Probably less useful than them since it will still exhaust you."
   },

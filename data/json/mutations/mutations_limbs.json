@@ -988,6 +988,8 @@
     "visibility": 3,
     "ugliness": 1,
     "activated_is_setup": false,
+    "stamina": true,
+    "cost": 2000,
     "activated_eocs": [ "EOC_SHORT_LEAP" ]
   },
   {
@@ -1005,6 +1007,8 @@
     "visibility": 3,
     "ugliness": 1,
     "activated_is_setup": false,
+    "stamina": true,
+    "cost": 6000,
     "activated_eocs": [ "EOC_CRUSHING_LEAP" ]
   },
   {
@@ -1059,6 +1063,8 @@
     "ugliness": 2,
     "flags": [ "TOUGH_FEET" ],
     "activated_is_setup": false,
+    "stamina": true,
+    "cost": 2500,
     "activated_eocs": [ "EOC_AVIAN_LEAP" ],
     "destroys_gear": true,
     "allowed_items": [ "ALLOWS_TALONS" ],
