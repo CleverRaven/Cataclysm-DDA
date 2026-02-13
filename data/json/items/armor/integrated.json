@@ -1401,9 +1401,9 @@
           { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "mut_scales", "covered_by_mat": 90, "thickness": 1.0 }
         ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 90,
-        "encumbrance": 1,
+        "encumbrance": 0,
         "breathability": "POOR",
         "layers": [ "PERSONAL" ]
       }
@@ -1546,9 +1546,9 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "mut_scales", "covered_by_mat": 85, "thickness": 4.0 }
         ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 100,
-        "encumbrance": 2
+        "encumbrance": 0
       }
     ]
   },

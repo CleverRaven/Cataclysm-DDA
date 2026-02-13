@@ -1,5 +1,41 @@
 [
   {
+    "id": "muzzle_long_lips",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "muzzle_long",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "lips"
+  },
+  {
+    "id": "muzzle_long_nostrils",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "muzzle_long",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nostrils"
+  },
+  {
+    "id": "muzzle_long_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "muzzle_long",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks"
+  },
+  {
+    "id": "muzzle_long_chin",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "muzzle_long",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "chin"
+  },
+  {
     "id": "crustacean_pincer_wrist_r",
     "type": "sub_body_part",
     "name": "crustacean pincer wrist",
