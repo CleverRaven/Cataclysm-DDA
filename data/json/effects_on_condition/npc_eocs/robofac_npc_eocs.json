@@ -4,5 +4,26 @@
     "id": "ROBOFAC_PAT_DEATH",
     "eoc_type": "NPC_DEATH",
     "effect": [ { "math": [ "robofac_pat_is_dead = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ROBOFAC_ROBOFAC_SCIENTIST_CHOP_SHOP_DEATH",
+    "eoc_type": "NPC_DEATH",
+    "effect": [
+      { "math": [ "robofac_chop_shop_scientist_1_is_dead = 1" ] },
+      {
+        "if": {
+          "and": [
+            { "math": [ "robofac_chop_shop_mercs_spotted == 1" ] },
+            { "not": { "math": [ "robofac_chop_shop_scientist_1_kill_orders == 1" ] } }
+          ]
+        },
+        "then": [
+          { "math": [ "faction_like('robofac') = -100" ] },
+          { "math": [ "faction_respect('robofac') = -100" ] },
+          { "math": [ "faction_trust('robofac') = -100" ] }
+        ]
+      }
+    ]
   }
 ]

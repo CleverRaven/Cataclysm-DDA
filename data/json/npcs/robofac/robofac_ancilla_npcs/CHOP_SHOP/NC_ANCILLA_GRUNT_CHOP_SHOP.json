@@ -1,0 +1,133 @@
+[
+  {
+    "type": "npc",
+    "id": "robofac_chop_shop_merc_2",
+    "//": "just a grunt",
+    "name_unique": "armed mercenary",
+    "class": "NC_ANCILLA_GRUNT_CHOP_SHOP",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ROBOFAC_MERC_CHOP_SHOP",
+    "faction": "robofac_auxiliaries_chop_shop"
+  },
+  {
+    "type": "npc",
+    "id": "robofac_chop_shop_merc_3",
+    "//": "just a grunt",
+    "name_unique": "armed mercenary",
+    "class": "NC_ANCILLA_GRUNT_CHOP_SHOP",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ROBOFAC_MERC_CHOP_SHOP",
+    "faction": "robofac_auxiliaries_chop_shop"
+  },
+  {
+    "type": "npc",
+    "id": "robofac_chop_shop_merc_4",
+    "//": "just a grunt",
+    "name_unique": "armed mercenary",
+    "class": "NC_ANCILLA_GRUNT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ROBOFAC_MERC_CHOP_SHOP",
+    "faction": "robofac_auxiliaries_chop_shop"
+  },
+  {
+    "type": "npc",
+    "id": "robofac_chop_shop_merc_5",
+    "//": "just a grunt",
+    "name_unique": "armed mercenary",
+    "class": "NC_ANCILLA_GRUNT_CHOP_SHOP",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ROBOFAC_MERC_CHOP_SHOP",
+    "faction": "robofac_auxiliaries_chop_shop"
+  },
+  {
+    "type": "npc",
+    "id": "robofac_chop_shop_merc_6",
+    "//": "just a grunt",
+    "name_unique": "armed mercenary",
+    "class": "NC_ANCILLA_GRUNT_CHOP_SHOP",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ROBOFAC_MERC_CHOP_SHOP",
+    "faction": "robofac_auxiliaries_chop_shop"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ANCILLA_GRUNT_CHOP_SHOP",
+    "name": { "str": "Mercenary" },
+    "job_description": "Fighting in the name of Hub 01 and money, mostly money.",
+    "common": false,
+    "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "NC_ANCILLA_GRUNT_CHOP_SHOP_worn",
+    "carry_override": "NC_ANCILLA_GRUNT_CHOP_SHOP_carry",
+    "weapon_override": "NC_ANCILLA_GRUNT_CHOP_SHOP_wield",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ANCILLA_GRUNT_CHOP_SHOP_worn",
+    "subtype": "collection",
+    "items": [
+      { "group": "military_ballistic_vest_pristine" },
+      { "item": "legpouch_large", "contents-group": "army_mags_m4" },
+      { "group": "NC_BOUNTY_HUNTER_pants" },
+      { "item": "pants_army" },
+      { "group": "NC_BOUNTY_HUNTER_coat" },
+      { "item": "boots_combat" },
+      { "item": "slingpack" },
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" },
+      { "item": "holster" },
+      { "item": "survivor_machete_qt", "container-item": "scabbard" },
+      { "item": "gloves_fingerless_mod" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ANCILLA_GRUNT_CHOP_SHOP_carry",
+    "subtype": "collection",
+    "items": [
+      { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+      { "item": "stanag30", "ammo-item": "556", "charges": 30 },
+      { "item": "glock17_22", "charges": 22, "ammo-item": "9mmP", "count": [ 1, 2 ] },
+      { "item": "9mmP", "count": [ 1, 2 ] },
+      { "item": "556", "count": 2 },
+      { "group": "any_MRE", "count": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ANCILLA_GRUNT_CHOP_SHOP_wield",
+    "subtype": "collection",
+    "items": [ { "group": "longguns_cop_loaded" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_CHOP_SHOP",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "&This merc's gear is drab, a bit bloody, and hangs loose on them.  They look like they haven't washed in some time.  Their eyes are wide and they stare off into the distance.  They address you in an emotionless tone: \"Talk to David.  He's the boss.\"",
+      "&The merc doesn't even look at you.  They just stare off at the horizon.",
+      "&The merc jumps nervously as you approach, stares a moment, and speaks, looking suddenly disgusted: \"Talk to David, not me.\"",
+      "&The merc sits slowly rubbing the back of their neck, staring at the ground.  They don't acknowledge you.",
+      "&The merc is silently cleaning the outside of their bloodied firearm. \"Fuck off.\" they say, their voice completely lacking any emotion.",
+      "&You think the merc may be crying.  Their eyes are bloodshot and wet.  They ignore you.",
+      "&This merc is filthy, and clearly hasn't washed in a while.  They nervously rub their hands together before staring sternly at you.  Then, they look at the other mercs and just motion toward them with a nod of their head.",
+      "Fuck off.  I don't feel like talkin'.  Talk to the boss.",
+      "Get tha fuck outta'heah, ya' fuckin' shit.",
+      "I don't want anything to do with you, dude.  Go talk to Dave, or get the fuck outta dodge."
+    ],
+    "responses": [ { "text": "Bye.", "topic": "TALK_DONE" } ]
+  }
+]

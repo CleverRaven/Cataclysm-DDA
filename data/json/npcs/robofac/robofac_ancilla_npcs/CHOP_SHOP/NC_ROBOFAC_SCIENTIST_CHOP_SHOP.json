@@ -1,0 +1,132 @@
+[
+  {
+    "type": "npc",
+    "id": "robofac_chop_shop_scientist_1",
+    "name_unique": "Michael Harlow",
+    "name_suffix": "Hub Scientist",
+    "class": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP",
+    "attitude": 1,
+    "mission": 7,
+    "chat": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP",
+    "death_eocs": [ "ROBOFAC_ROBOFAC_SCIENTIST_CHOP_SHOP_DEATH" ],
+    "faction": "robofac_auxiliaries_chop_shop"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP",
+    "name": { "str": "Hub Mercenary" },
+    "job_description": "Fighting in the name of Hub 01 and money, mostly money.",
+    "common": false,
+    "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_worn",
+    "carry_override": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_carry",
+    "weapon_override": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_wield",
+    "skills": [
+      { "skill": "firstaid", "bonus": 8 },
+      { "skill": "electronics", "bonus": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" },
+      { "item": "socks" },
+      { "item": "robofac_enviro_suit" },
+      { "item": "basic_papr_helmet", "contents-item": [ "diving_flashlight_small_hipower" ] },
+      { "item": "basic_papr_belt_off" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_carry",
+    "subtype": "collection",
+    "items": [
+      { "item": "RobofacCoin", "count": [ 15, 18 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_wield",
+    "subtype": "collection",
+    "items": [
+      { "item": "soldering_iron_portable" }
+    ]
+  },
+  {
+    "id": [ "NC_ROBOFAC_SCIENTIST_CHOP_SHOP" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The scientist looks started to see you, jerking back in their chair, their face partially obscured by solder smoke.  Their voice is both quivering and indignant.  \"Wh-who are you?  How did you get in here?  D-don't know who I am?!  Leave, or I'll have y-y-you killed!\"",
+    "responses": [
+      {
+        "text": "I'm just here for the alien tech.  It's a small metal box with a glowing core.  Where is it?",
+        "condition": { "u_has_mission": "MISSION_EXODII_CHOP_SHOP" },
+        "effect": { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_REPORTED_YOU_TO_HUB", "time_in_future": [ "120 seconds", "240 seconds" ] },
+        "topic": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_EXODII_1"
+      },
+      {
+        "text": "The intercom sent me.  Your program has been shut down.  Anything to say for yourself?",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_CHOP_SHOP" },
+        "topic": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_KILL_ORDERS_1"
+      },
+      {
+        "text": "[Start a fight] Not if I kill you first.",
+        "effect": [
+          "insult_combat",
+          { "u_message": "The scientist covers their face with their arms \"No, please!\"" },
+          { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_SCIENTIST_1_REPORTED_YOU_TO_HUB", "time_in_future": [ "120 seconds", "240 seconds" ] },
+          { "u_faction_rep": -100 }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I don't want any trouble.  I'm leaving.",
+        "effect": [
+          { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_HATES_YOU", "time_in_future": [ "60 seconds", "120 seconds" ] }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": [ "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_EXODII_1" ],
+    "type": "talk_topic",
+    "dynamic_line": "Is that it?  It's in my desk.  Take it and go, before I call the guards.",
+    "responses": [
+      { "text": "In the desk?  I'll come get it.", "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_2" },
+      {
+        "text": "[Start a fight] Not if I kill you first.",
+        "effect": [
+          "insult_combat",
+          { "u_message": "The scientist covers their face with their arms \"No, please!\"" },
+          { "u_faction_rep": -100 }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ROBOFAC_CHOP_SHOP_SCIENTIST_1_REPORTED_YOU_TO_HUB",
+    "condition": {
+      "and": [
+        { "not": { "math": [ "robofac_chop_shop_scientist_1_is_dead == 1" ] } },
+        { "not": { "math": [ "robofac_chop_shop_scientist_1_kill_orders == 1" ] } }
+      ]
+    },
+    "effect": [
+      { "math": [ "faction_like('robofac_auxiliaries_chop_shop') = -100" ] },
+      { "math": [ "faction_respect('robofac_auxiliaries_chop_shop') = -100" ] },
+      { "math": [ "faction_trust('robofac_auxiliaries_chop_shop') = -100" ] },
+      { "math": [ "faction_like('robofac') = -100" ] },
+      { "math": [ "faction_respect('robofac') = -100" ] },
+      { "math": [ "faction_trust('robofac') = -100" ] }
+    ]
+  }
+]
