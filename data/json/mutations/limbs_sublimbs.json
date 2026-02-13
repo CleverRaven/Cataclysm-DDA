@@ -36,6 +36,42 @@
     "name": "chin"
   },
   {
+    "id": "muzzle_rodent_lips",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "muzzle_rodent",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "lips"
+  },
+  {
+    "id": "muzzle_rodent_nose",
+    "type": "sub_body_part",
+    "max_coverage": 15,
+    "parent": "muzzle_rodent",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nostrils"
+  },
+  {
+    "id": "muzzle_rodent_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "muzzle_rodent",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks"
+  },
+  {
+    "id": "muzzle_rodent_chin",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "muzzle_rodent",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "chin"
+  },
+  {
     "id": "crustacean_pincer_wrist_r",
     "type": "sub_body_part",
     "name": "crustacean pincer wrist",
