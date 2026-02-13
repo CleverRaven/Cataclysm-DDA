@@ -3729,7 +3729,7 @@ bool out_of_moves( Character &you )
     return false;
 }
 
-void revert_npc_post_activity( Character &you, activity_id act_id, bool no_locations )
+void revert_npc_post_activity( Character &you, activity_id, bool no_locations )
 {
     // if we got here, we need to revert otherwise NPC will be stuck in AI Limbo and have a head explosion.
     if( you.is_npc() && ( you.backlog.empty() || no_locations ) ) {

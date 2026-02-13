@@ -39,8 +39,6 @@
 #include "type_id.h"
 #include "weather_type.h"
 
-static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
-
 static const construction_str_id construction_constr_floor( "constr_floor" );
 static const construction_str_id
 construction_constr_ov_smreb_cage_thconc_floor( "constr_ov_smreb_cage_thconc_floor" );
