@@ -94,7 +94,7 @@ jobs:
 
     - name: Integrate vcpkg
       run: |
-        vcpkg integrate install --vcpkg-root '$env:RUNNER_WORKSPACE\b\vcpkg'
+        vcpkg integrate install --vcpkg-root "$env:RUNNER_WORKSPACE\b\vcpkg"
       env:
         RUNNER_WORKSPACE: ${{ runner.workspace }}
 
