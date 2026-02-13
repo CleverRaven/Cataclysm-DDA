@@ -673,8 +673,9 @@ static void damage_targets( const spell &sp, Creature &caster,
 void spell_effect::attack( const spell &sp, Creature &caster, const tripoint_bub_ms &epicenter )
 {
     const std::set<tripoint_bub_ms> area = spell_effect_area( sp, epicenter, caster );
-    if( (sp.has_flag( spell_flag::TOUCH_REQUIRED ) && ) || !sp.has_flag( spell_flag::TOUCH_REQUIRED )  ) {
-        damage_targets( sp, caster, area ); 
+    if( ( sp.has_flag( spell_flag::TOUCH_REQUIRED ) && ) ||
+        !sp.has_flag( spell_flag::TOUCH_REQUIRED ) ) {
+        damage_targets( sp, caster, area );
     } else {
         caster.add_msg_if_player( m_bad, _( "Your target avoids your attempt to touch them!" ) );
     }
