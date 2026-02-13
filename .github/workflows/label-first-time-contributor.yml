@@ -13,16 +13,20 @@ jobs:
   triage:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
 
       - name: Check if user has any merged PRs in this reposiory
         id: pr-check
         run: |
-          author="${{ github.event.pull_request.user.login }}"
+          author="${GITHUB_EVENT_PULL_REQUEST_USER_LOGIN}"
           pr_count=$(gh pr list --state merged --author $author --json number | jq 'length')
 
           echo "Debug: $author with $pr_count merged PRs."
           echo "pr_count=$pr_count" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_EVENT_PULL_REQUEST_USER_LOGIN: ${{ github.event.pull_request.user.login }}
 
       - name: Label contributors with no merged PRs
         if: steps.pr-check.outputs.pr_count == 0
