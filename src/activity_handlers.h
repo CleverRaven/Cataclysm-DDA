@@ -189,7 +189,6 @@ bool resume_for_multi_activities( Character &you );
 void fill_liquid_do_turn( player_activity *act, Character *you );
 void find_mount_do_turn( player_activity *act, Character *you );
 void repair_item_do_turn( player_activity *act, Character *you );
-void start_fire_do_turn( player_activity *act, Character *you );
 void travel_do_turn( player_activity *act, Character *you );
 
 // defined in activity_handlers.cpp
@@ -198,7 +197,6 @@ do_turn_functions;
 
 /** activity_finish functions: */
 void repair_item_finish( player_activity *act, Character *you );
-void start_fire_finish( player_activity *act, Character *you );
 
 int move_cost( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest );
 int move_cost_cart( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest,
