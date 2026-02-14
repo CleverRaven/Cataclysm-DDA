@@ -4277,5 +4277,18 @@
     "autolearn": true,
     "components": [ [ [ "helmet_mounting_brackets", 1 ] ], [ [ "helmet_motor", 1 ], [ "helmet_motor_raised", 1 ] ] ],
     "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "THREAD_CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ]
+  },
+  {
+    "result": "xl_mask_dust",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": true,
+    "reversible": { "time": "10 m" },
+    "using": [ [ "tailoring_cotton_patchwork", 1 ] ]
   }
 ]
