@@ -165,6 +165,7 @@ static const activity_id ACT_E_FILE( "ACT_E_FILE" );
 static const activity_id ACT_FERTILIZE_PLANT( "ACT_FERTILIZE_PLANT" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
+static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
@@ -265,6 +266,7 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 static const efftype_id effect_asocial_dissatisfied( "asocial_dissatisfied" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_gliding( "gliding" );
@@ -12440,6 +12442,61 @@ std::unique_ptr<activity_actor> multi_butchery_activity_actor::deserialize( Json
     return actor.clone();
 }
 
+void find_mount_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    //npc only activity
+    if( who.is_avatar() ) {
+        act.set_to_null();
+        return;
+    }
+    npc &guy = dynamic_cast<npc &>( who );
+    auto strong_monster = guy.chosen_mount.lock();
+    monster *mon = strong_monster.get();
+    if( !mon ) {
+        act.set_to_null();
+        guy.revert_after_activity();
+        return;
+    }
+    if( rl_dist( guy.pos_bub(), mon->pos_bub() ) <= 1 ) {
+        if( mon->has_effect( effect_controlled ) ) {
+            mon->remove_effect( effect_controlled );
+        }
+        act.set_to_null();
+        if( who.can_mount( *mon ) ) {
+            guy.revert_after_activity();
+            guy.chosen_mount = weak_ptr_fast<monster>();
+            who.mount_creature( *mon );
+        } else {
+            guy.revert_after_activity();
+            return;
+        }
+    } else {
+        const std::vector<tripoint_bub_ms> route =
+            route_adjacent( who, guy.chosen_mount.lock()->pos_bub() );
+        if( route.empty() ) {
+            act.set_to_null();
+            guy.revert_after_activity();
+            mon->remove_effect( effect_controlled );
+            return;
+        } else {
+            who.activity = player_activity();
+            mon->add_effect( effect_controlled, 40_turns );
+            who.set_destination( route, player_activity( find_mount_activity_actor() ) );
+        }
+    }
+}
+
+void find_mount_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> find_mount_activity_actor::deserialize( JsonValue & )
+{
+    return find_mount_activity_actor().clone();
+}
+
 void wait_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( initial_wait_time );
@@ -13000,6 +13057,7 @@ deserialize_functions = {
     { ACT_FERTILIZE_PLANT, &fertilize_plant_activity_actor::deserialize },
     { ACT_FETCH_REQUIRED, &fetch_required_activity_actor::deserialize },
     { ACT_FIELD_DRESS, &butchery_activity_actor::deserialize },
+    { ACT_FIND_MOUNT, &find_mount_activity_actor::deserialize },
     { ACT_FIRSTAID, &firstaid_activity_actor::deserialize },
     { ACT_FISH, &fish_activity_actor::deserialize },
     { ACT_FORAGE, &forage_activity_actor::deserialize },
