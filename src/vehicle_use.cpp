@@ -2140,7 +2140,7 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
                     g->setremoteveh( nullptr );
                 } );
             } else if( controls_here && has_engine_type_not( fuel_type_muscle, true ) ) {
-                menu.add( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ) )
+                menu.add( engine_on ? colorize( _( "Turn off the engine" ), c_pink ) : _( "Turn on the engine" ) )
                 .hotkey( "TOGGLE_ENGINE" )
                 .skip_theft_check()
                 .on_submit( [this, here] {
