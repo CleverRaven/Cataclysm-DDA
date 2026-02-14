@@ -6624,7 +6624,28 @@
     "thirst": true,
     "visibility": 10,
     "ugliness": 10,
-    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 } ] } ]
+    "enchantments": [
+      { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 } ] },
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "gain": "slime_omnicell" },
+          { "lose": "head" },
+          { "lose": "eyes" },
+          { "lose": "torso" },
+          { "lose": "mouth" },
+          { "lose": "arm_r" },
+          { "lose": "arm_l" },
+          { "lose": "hand_r" },
+          { "lose": "hand_l" },
+          { "lose": "leg_r" },
+          { "lose": "leg_l" },
+          { "lose": "foot_r" },
+          { "lose": "foot_l" }
+        ]
+      }
+    ],
+    "flags": [ "TOUGH_FEET", "SUFFOCATION_IMMUNE" ]
   },
   {
     "type": "mutation",
