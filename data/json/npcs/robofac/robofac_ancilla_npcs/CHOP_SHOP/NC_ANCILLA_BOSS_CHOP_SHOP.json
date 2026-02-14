@@ -76,9 +76,7 @@
     "type": "item_group",
     "id": "NC_ANCILLA_BOSS_CHOP_SHOP_wield",
     "subtype": "collection",
-    "items": [
-      { "item": "ak74_semi", "contents-item": [ "shoulder_strap", "suppressor" ] }
-    ]
+    "items": [ { "item": "ak74_semi", "contents-item": [ "shoulder_strap", "suppressor" ] } ]
   },
   {
     "id": [ "NC_ANCILLA_BOSS_CHOP_SHOP" ],
@@ -208,16 +206,14 @@
       {
         "text": "I'm here for the scientist, and just the scientist, on orders from the intercom.  I'll give you and your team one chance to back down.",
         "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" },
-        "trial": {
-          "type": "INTIMIDATE",
-          "difficulty": 20,
-          "mod": [ [ "BRAVERY", -1 ], [ "FEAR", 3 ] ]
-        },
+        "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "BRAVERY", -1 ], [ "FEAR", 3 ] ] },
         "success": {
           "topic": "TALK_DONE",
           "effect": [
             "flee",
-            { "u_message": "The mercenary makes a quick hand motion and shouts \"Fuck this, this hellhole isn't worth it.  Let's get out of here.\"" }
+            {
+              "u_message": "The mercenary makes a quick hand motion and shouts \"Fuck this, this hellhole isn't worth it.  Let's get out of here.\""
+            }
           ]
         },
         "failure": {
@@ -232,16 +228,14 @@
       {
         "text": "I'm here for the alien tech.  I'll give you and your team one chance to back down.",
         "condition": { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" },
-        "trial": {
-          "type": "INTIMIDATE",
-          "difficulty": 20,
-          "mod": [ [ "BRAVERY", -1 ], [ "FEAR", 3 ] ]
-        },
+        "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "BRAVERY", -1 ], [ "FEAR", 3 ] ] },
         "success": {
           "topic": "TALK_DONE",
           "effect": [
             "flee",
-            { "u_message": "The mercenary makes a quick hand motion and shouts \"Fuck this, this hellhole isn't worth it.  Let's get out of here.\"" }
+            {
+              "u_message": "The mercenary makes a quick hand motion and shouts \"Fuck this, this hellhole isn't worth it.  Let's get out of here.\""
+            }
           ]
         },
         "failure": {
@@ -269,25 +263,19 @@
     "id": [ "NC_ANCILLA_BOSS_CHOP_SHOP_WHO_FAILED_1" ],
     "type": "talk_topic",
     "dynamic_line": "&The mercenary chambers a round in their firearm.  \"I'm the one telling you to go.  Last warning.  No more questions.  Leave, or you're dead.  It's that simple.\"",
-    "responses": [
-      { "text": "Alright, I hear your warning.", "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_2" }
-    ]
+    "responses": [ { "text": "Alright, I hear your warning.", "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_2" } ]
   },
   {
     "id": [ "NC_ANCILLA_BOSS_CHOP_SHOP_WHAT_FAILED_1" ],
     "type": "talk_topic",
     "dynamic_line": "&The mercenary chambers a round in their firearm.  \"Somewhere you don't belong, and definitely don't want to be.  Final warning.  No more questions.  Leave, or we shoot.\"",
-    "responses": [
-      { "text": "Alright, I hear your warning.", "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_2" }
-    ]
+    "responses": [ { "text": "Alright, I hear your warning.", "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_2" } ]
   },
   {
     "id": [ "NC_ANCILLA_BOSS_CHOP_SHOP_WHO_ELSE_FAILED_1" ],
     "type": "talk_topic",
     "dynamic_line": "&The mercenary chambers a round in their firearm.  \"Just us and the guy who told us to shoot anyone that comes by.  Last chance.  No more questions.  Leave.  Or I'll fill you with holes, and the doc can turn you into one of his fucked up experiments.\"",
-    "responses": [
-      { "text": "Alright, I hear your warning.", "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_2" }
-    ]
+    "responses": [ { "text": "Alright, I hear your warning.", "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_2" } ]
   },
   {
     "type": "effect_on_condition",

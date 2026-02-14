@@ -55,16 +55,9 @@
     "difficulty": 5,
     "value": 0,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "robofac_strip_mall_x1y0",
-        "om_special": "robofac_strip_mall",
-        "reveal_radius": 4,
-        "random": false
-      }
+      "assign_mission_target": { "om_terrain": "robofac_strip_mall_x1y0", "om_special": "robofac_strip_mall", "reveal_radius": 4, "random": false }
     },
-    "end": {
-      "effect": { "u_add_var": "mission_completed_exodii_mission_chop_shop", "value": "yes" }
-    },
+    "end": { "effect": { "u_add_var": "mission_completed_exodii_mission_chop_shop", "value": "yes" } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -562,7 +555,11 @@
     },
     "responses": [
       { "text": "Why can't one of you do this?", "topic": "TALK_EXODII_MERCHANT_mission_3_explain" },
-      { "text": "So one of those scientists from the bunker abducted one of your people?  You want me to find them?  I'll do it.", "effect": { "assign_mission": "EXODII_MISSION_CHOP_SHOP" }, "topic": "TALK_DONE" },
+      {
+        "text": "So one of those scientists from the bunker abducted one of your people?  You want me to find them?  I'll do it.",
+        "effect": { "assign_mission": "EXODII_MISSION_CHOP_SHOP" },
+        "topic": "TALK_DONE"
+      },
       { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
@@ -574,7 +571,11 @@
       "str": "Ol' Rubik don't want'n 'em kennin' us'n be involved.  Folk o' this kind we've spied in otherlands, an' we ken it be perilous t'let 'em learn o'er much about us'n."
     },
     "responses": [
-      { "text": "Right, so you don't want them to know that you're involved.  I'll do it.", "effect": { "assign_mission": "EXODII_MISSION_CHOP_SHOP" }, "topic": "TALK_DONE" },
+      {
+        "text": "Right, so you don't want them to know that you're involved.  I'll do it.",
+        "effect": { "assign_mission": "EXODII_MISSION_CHOP_SHOP" },
+        "topic": "TALK_DONE"
+      },
       { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]

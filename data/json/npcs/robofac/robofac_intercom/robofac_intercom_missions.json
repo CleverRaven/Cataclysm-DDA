@@ -1369,7 +1369,10 @@
         "effect": { "assign_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" },
         "topic": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ACCEPTED"
       },
-      { "text": "What sort of resistance might there be?", "topic": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ADVICE_Resistance" },
+      {
+        "text": "What sort of resistance might there be?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ADVICE_Resistance"
+      },
       {
         "text": "What sort of experiments is Dr. Harlow doing?",
         "topic": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ADVICE_Experiments"

@@ -25,10 +25,7 @@
     "worn_override": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_worn",
     "carry_override": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_carry",
     "weapon_override": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_wield",
-    "skills": [
-      { "skill": "firstaid", "bonus": 8 },
-      { "skill": "electronics", "bonus": 8 }
-    ]
+    "skills": [ { "skill": "firstaid", "bonus": 8 }, { "skill": "electronics", "bonus": 8 } ]
   },
   {
     "type": "item_group",
@@ -48,17 +45,13 @@
     "type": "item_group",
     "id": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_carry",
     "subtype": "collection",
-    "items": [
-      { "item": "exodii_chop_shop_head", "count": 1 }
-    ]
+    "items": [ { "item": "exodii_chop_shop_head", "count": 1 } ]
   },
   {
     "type": "item_group",
     "id": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_wield",
     "subtype": "collection",
-    "items": [
-      { "item": "soldering_iron_portable" }
-    ]
+    "items": [ { "item": "soldering_iron_portable" } ]
   },
   {
     "id": [ "NC_ROBOFAC_SCIENTIST_CHOP_SHOP" ],
@@ -81,16 +74,17 @@
         "effect": [
           "hostile",
           { "u_message": "The scientist covers their face with their arms \"No, please!\"" },
-          { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_SCIENTIST_1_REPORTED_YOU_TO_HUB", "time_in_future": [ "120 seconds", "240 seconds" ] },
+          {
+            "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_SCIENTIST_1_REPORTED_YOU_TO_HUB",
+            "time_in_future": [ "120 seconds", "240 seconds" ]
+          },
           { "u_faction_rep": -100 }
         ],
         "topic": "TALK_DONE"
       },
       {
         "text": "I don't want any trouble.  I'm leaving.",
-        "effect": [
-          { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_HATES_YOU", "time_in_future": [ "60 seconds", "120 seconds" ] }
-        ],
+        "effect": [ { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_HATES_YOU", "time_in_future": [ "60 seconds", "120 seconds" ] } ],
         "topic": "TALK_DONE"
       }
     ]
@@ -102,10 +96,7 @@
     "responses": [
       {
         "text": "That's all I need.  I'll take that and be going.",
-        "effect": [
-          { "u_spawn_item": "exodii_chop_shop_head" },
-          { "npc_consume_item": "exodii_chop_shop_head", "count": 1 }
-        ],
+        "effect": [ { "u_spawn_item": "exodii_chop_shop_head" }, { "npc_consume_item": "exodii_chop_shop_head", "count": 1 } ],
         "topic": "TALK_DONE"
       },
       {
@@ -123,12 +114,7 @@
     "id": [ "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_KILL_ORDERS_1" ],
     "type": "talk_topic",
     "dynamic_line": "&The scientist scowls, points a finger at you, and starts to shout.  \"Impossible!  My work is on the verge of major breakthroughs!  It's much too important!  You're wrong!  Leave, and I won't escalate this any further!\"",
-    "responses": [
-      {
-        "text": "If you say so.",
-        "topic": "TALK_DONE"
-      }
-    ]
+    "responses": [ { "text": "If you say so.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "effect_on_condition",

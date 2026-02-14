@@ -454,8 +454,13 @@
       },
       {
         "text": "I found the missing Exodii.  I'm sorry to say that they're dead, but I recovered their head.",
-        "condition": { "and": [ { "u_has_items": { "item": "exodii_chop_shop_head", "count": 1 } }, { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" } ] },
-        "effect": [ { "u_consume_item": "exodii_chop_shop_head", "count": 1, "popup": true }, { "finish_mission": "EXODII_MISSION_CHOP_SHOP", "success": true } ],
+        "condition": {
+          "and": [ { "u_has_items": { "item": "exodii_chop_shop_head", "count": 1 } }, { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" } ]
+        },
+        "effect": [
+          { "u_consume_item": "exodii_chop_shop_head", "count": 1, "popup": true },
+          { "finish_mission": "EXODII_MISSION_CHOP_SHOP", "success": true }
+        ],
         "topic": "TALK_EXODII_MERCHANT_mission_3_complete"
       },
       { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
