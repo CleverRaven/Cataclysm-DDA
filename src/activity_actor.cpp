@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <climits>
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
@@ -12,6 +13,7 @@
 #include <list>
 #include <map>
 #include <optional>
+#include <ostream>
 #include <queue>
 #include <set>
 #include <string>
@@ -12579,6 +12581,11 @@ void zone_activity_actor::do_turn( player_activity &act, Character &you )
         stage_init( act, you );
     }
     if( stage == THINK ) {
+        add_msg_debug( debugmode::DF_ACTIVITY,
+                       "zone_sort do_turn: THINK pos=(%d,%d) has_dest=%d coords=%zu",
+                       you.pos_bub().x(), you.pos_bub().y(),
+                       you.has_destination() ? 1 : 0,
+                       coord_set.size() );
         if( !stage_think( act, you ) ) {
             return;
         }
@@ -12637,8 +12644,10 @@ void zone_sort_activity_actor::do_turn( player_activity &act, Character &you )
 
 void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
 {
-    const zone_manager &mgr = zone_manager::get_manager();
+    zone_manager &mgr = zone_manager::get_manager();
+    mgr.cache_avatar_location();
     coord_set.clear();
+    unreachable_sources.clear();
     for( const tripoint_abs_ms &p :
          mgr.get_near( zone_type_LOOT_UNSORTED, you.pos_abs(), MAX_VIEW_DISTANCE, nullptr,
                        you.get_faction_id() ) ) {
@@ -12650,16 +12659,103 @@ void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
 bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you )
 {
     const map &here = get_map();
+    zone_manager &mgr = zone_manager::get_manager();
+    mgr.cache_avatar_location();
 
     num_processed = 0;
+    // Clear stale state from previous source. Fresh destinations are computed
+    // in stage_do when items are picked up from the new source.
+    dropoff_coords.clear();
+    picked_up_stuff.clear();
 
-    // copy remaining zone positions, sort by closest distance
-    std::unordered_set<tripoint_abs_ms> src_set;
-    src_set.reserve( coord_set.size() );
-    for( const tripoint_abs_ms &p : coord_set ) {
-        src_set.emplace( p );
+    // Clear unreachable_sources when position or grab state changed -
+    // both affect which tiles are reachable. force_clear_unreachable handles
+    // fresh construction and deserialization (default values could match state).
+    const object_type cur_grab_type = you.is_avatar() ?
+                                      you.as_avatar()->get_grab_type() : object_type::NONE;
+    const tripoint_rel_ms cur_grab_point = you.is_avatar() ?
+                                           you.as_avatar()->grab_point : tripoint_rel_ms::zero;
+    if( force_clear_unreachable ||
+        you.pos_abs() != last_think_position ||
+        cur_grab_type != last_think_grab_type ||
+        cur_grab_point != last_think_grab_point ) {
+        unreachable_sources.clear();
+        force_clear_unreachable = false;
     }
-    const auto &src_sorted = get_sorted_tiles_by_distance( you.pos_abs(), src_set );
+    last_think_position = you.pos_abs();
+    last_think_grab_type = cur_grab_type;
+    last_think_grab_point = cur_grab_point;
+
+    // Sort sources by A* route distance. Pre-sort by Chebyshev (lower bound),
+    // compute A* lazily, stop when chebyshev > best_route + 1.
+    // Tiles past the cutoff are appended in Chebyshev order as fallback.
+    std::vector<std::pair<int, tripoint_abs_ms>> candidates;
+    candidates.reserve( coord_set.size() );
+    for( const tripoint_abs_ms &p : coord_set ) {
+        if( unreachable_sources.count( p ) ) {
+            continue;
+        }
+        candidates.emplace_back( square_dist( you.pos_abs(), p ), p );
+    }
+    std::sort( candidates.begin(), candidates.end(),
+    []( const std::pair<int, tripoint_abs_ms> &a, const std::pair<int, tripoint_abs_ms> &b ) {
+        return a.first < b.first;
+    } );
+
+    std::vector<std::pair<int, tripoint_abs_ms>> computed;
+    computed.reserve( candidates.size() );
+    std::vector<tripoint_abs_ms> oob_tiles; // out-of-bounds, handled by iteration loop
+    int best_route = INT_MAX;
+    size_t cutoff = candidates.size();
+
+    for( size_t i = 0; i < candidates.size(); i++ ) {
+        const int cheb = candidates[i].first;
+        if( best_route != INT_MAX && cheb > best_route + 1 ) {
+            cutoff = i;
+            break;
+        }
+        const tripoint_bub_ms p_bub = here.get_bub( candidates[i].second );
+        if( !here.inbounds( p_bub ) ) {
+            // Skip OOB tiles here - route_with_grab can't clip them.
+            // The iteration loop's !inbounds() handler will route closer.
+            oob_tiles.emplace_back( candidates[i].second );
+            continue;
+        }
+        if( cheb <= 1 ) {
+            // Already adjacent - no pathfinding needed
+            computed.emplace_back( 0, candidates[i].second );
+            best_route = 0;
+        } else {
+            const int dist = zone_sorting::route_length( you, p_bub );
+            if( dist == INT_MAX ) {
+                unreachable_sources.emplace( candidates[i].second );
+                continue;
+            }
+            computed.emplace_back( dist, candidates[i].second );
+            best_route = std::min( best_route, dist );
+        }
+    }
+
+    // Sort the computed portion by actual route distance
+    std::sort( computed.begin(), computed.end(),
+    []( const std::pair<int, tripoint_abs_ms> &a, const std::pair<int, tripoint_abs_ms> &b ) {
+        return a.first < b.first;
+    } );
+
+    // Build final list: route-sorted, then remaining in Chebyshev order, then OOB tiles
+    std::vector<tripoint_abs_ms> src_sorted;
+    src_sorted.reserve( candidates.size() );
+    for( const auto &entry : computed ) {
+        src_sorted.emplace_back( entry.second );
+    }
+    for( size_t i = cutoff; i < candidates.size(); i++ ) {
+        if( !unreachable_sources.count( candidates[i].second ) ) {
+            src_sorted.emplace_back( candidates[i].second );
+        }
+    }
+    for( const tripoint_abs_ms &p : oob_tiles ) {
+        src_sorted.emplace_back( p );
+    }
 
     // iterate over zone positions and look for items to move
     for( const tripoint_abs_ms &src : src_sorted ) {
@@ -12708,16 +12804,77 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
         // before we move any item, check if player is at or
         // adjacent to the loot source tile
         if( !is_adjacent_or_closer ) {
-            // check if we found path to source / adjacent tile
+            add_msg_debug( debugmode::DF_ACTIVITY,
+                           "zone_sort THINK: routing to source (%d,%d,%d) from (%d,%d)",
+                           src.x(), src.y(), src.z(),
+                           you.pos_bub().x(), you.pos_bub().y() );
+            // Route to source. Can't skip: post-cutoff fallback tiles weren't pre-evaluated by route_length.
             if( !zone_sorting::route_to_destination( you, act, src_bub, stage ) ) {
+                add_msg_debug( debugmode::DF_ACTIVITY,
+                               "zone_sort THINK: route to source FAILED, trying next" );
                 continue;
             }
             return false;
         }
+        add_msg_debug( debugmode::DF_ACTIVITY,
+                       "zone_sort THINK: adjacent to source (%d,%d,%d), entering DO",
+                       src.x(), src.y(), src.z() );
         stage = DO;
         break;
     }
     return true;
+}
+
+void zone_sort_activity_actor::return_items_to_source( Character &you,
+        const tripoint_bub_ms &src_bub )
+{
+    // Purge stale item_locations (can expire if items merged during multi-turn pickup)
+    auto stale = std::remove_if( picked_up_stuff.begin(), picked_up_stuff.end(),
+    []( const item_location & loc ) {
+        return !loc.get_item();
+    } );
+    if( stale != picked_up_stuff.end() ) {
+        add_msg_debug( debugmode::DF_ACTIVITY,
+                       "zone_sort return_items: purged %zu stale item_locations",
+                       static_cast<size_t>( std::distance( stale, picked_up_stuff.end() ) ) );
+        picked_up_stuff.erase( stale, picked_up_stuff.end() );
+    }
+    // Carrier removal can trigger restacking, invalidating later item_locations.
+    // The get_item() check catches this - items are likely merged on the carrier
+    // rather than lost, but are skipped by return logic.
+    // Fixing this requires reworking item_location lifetime guarantees.
+    int return_failures = 0;
+    for( item_location &item : picked_up_stuff ) {
+        if( item.get_item() ) {
+            // Place the item back at the source tile
+            std::vector<item_location> returned = put_into_vehicle_or_drop_ret_locs(
+                    you, item_drop_reason::deliberate, { *item }, src_bub );
+            if( returned.empty() ) {
+                // Placement failed - keep item on carrier rather than silently destroying it.
+                add_msg_debug( debugmode::DF_ACTIVITY,
+                               "zone_sort return_items: failed to place '%s' at source, keeping on carrier",
+                               item->tname() );
+                return_failures++;
+                continue;
+            }
+            // Remove from carrier (inventory or grabbed vehicle)
+            if( const vehicle_cursor *veh_curs = item.veh_cursor() ) {
+                vehicle &cart = veh_curs->veh;
+                cart.remove_item( cart.part( veh_curs->part ), item.get_item() );
+            } else if( item.carrier() ) {
+                item.carrier()->i_rem( item.get_item() );
+            }
+        }
+    }
+    if( return_failures > 0 ) {
+        add_msg_if_player_sees( you, m_warning,
+                                _( "%s couldn't return %d item(s) to source during sorting." ),
+                                you.disp_name(), return_failures );
+        DebugLog( D_WARNING, DC_ALL ) << "zone_sort return_items: " << return_failures
+                                      << " items could not be placed at source, kept on carrier";
+    }
+    picked_up_stuff.clear();
+    dropoff_coords.clear();
 }
 
 void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
@@ -12729,6 +12886,13 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     const tripoint_abs_ms src( placement );
     const tripoint_bub_ms src_bub = here.get_bub( src );
     const tripoint_abs_ms abspos = you.pos_abs();
+
+    add_msg_debug( debugmode::DF_ACTIVITY,
+                   "zone_sort DO: pos=(%d,%d) src=(%d,%d,%d) has_dest=%d picked=%zu dropoffs=%zu",
+                   you.pos_bub().x(), you.pos_bub().y(),
+                   src.x(), src.y(), src.z(),
+                   you.has_destination() ? 1 : 0,
+                   picked_up_stuff.size(), dropoff_coords.size() );
 
     // Dropping off
     if( !dropoff_coords.empty() && !picked_up_stuff.empty() ) {
@@ -12785,9 +12949,35 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 dest_iter = dropoff_coords.erase( dest_iter ); // Done dropping stuff here.
             } else {
                 dest_iter++; // Evaluate next dropoff
-                // FIXME: If none of the adjacent squares were valid, but we have other squares that we could drop them at then we need to handle that.
-                // That means we need to path to a new one. But only if there's nothing to pick up for sorting(?)
             }
+        }
+
+        // Items remain but no adjacent destinations. Route to nearest reachable
+        // dropoff, trying closest-first. Skip if still at source (keep picking up).
+        if( !picked_up_stuff.empty() && !dropoff_coords.empty() &&
+            !you.has_destination() && square_dist( you.pos_bub(), src_bub ) > 1 ) {
+            std::sort( dropoff_coords.begin(), dropoff_coords.end(),
+            [&abspos]( const tripoint_abs_ms & a, const tripoint_abs_ms & b ) {
+                return square_dist( abspos, a ) < square_dist( abspos, b );
+            } );
+
+            bool routed = false;
+            auto dest_it = dropoff_coords.begin();
+            while( dest_it != dropoff_coords.end() ) {
+                if( zone_sorting::route_to_destination( you, act, here.get_bub( *dest_it ), stage ) ) {
+                    routed = true;
+                    break;
+                }
+                dest_it = dropoff_coords.erase( dest_it );
+            }
+
+            if( !routed ) {
+                // All dropoff destinations unreachable. Return items to source.
+                // Don't erase source -- other items may have different reachable destinations.
+                return_items_to_source( you, src_bub );
+                stage = THINK;
+            }
+            return;
         }
     }
 
@@ -12795,6 +12985,9 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     // before we move any item, check if player is at or
     // adjacent to the loot source tile
     if( !is_adjacent_or_closer ) {
+        add_msg_debug( debugmode::DF_ACTIVITY,
+                       "zone_sort DO: NOT adjacent to src (dist=%d), back to THINK",
+                       square_dist( you.pos_bub(), src_bub ) );
         stage = THINK;
         return;
     }
@@ -12806,6 +12999,8 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
 
     const std::optional<vpart_reference> vp = here.veh_at( src_bub ).cargo();
+    // Track whether any sortable item failed pickup due to carry/cart capacity.
+    bool cart_or_carry_blocked = false;
     //Skip items that have already been processed
     for( zone_sorting::zone_items::iterator it = items.begin() + num_processed; it < items.end();
          ++it ) {
@@ -12854,17 +13049,46 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             }
         }
 
+        // For first item: build dropoff_coords with route probing before pickup.
+        // Always rebuild - previous item may have failed pickup and left stale coords.
+        if( picked_up_stuff.empty() ) {
+            dropoff_coords.clear();
+            for( const tripoint_abs_ms &possible_dest : dest_set ) {
+                const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
+                if( !here.inbounds( dest_bub ) || here.is_open_air( dest_bub ) ) {
+                    continue;
+                }
+                // Probe actual routeability - same A* as route_to_destination.
+                const int dist = zone_sorting::route_length( you, dest_bub );
+                if( dist == INT_MAX ) {
+                    continue;
+                }
+                dropoff_coords.emplace_back( possible_dest );
+            }
+            if( dropoff_coords.empty() ) {
+                add_msg_debug( debugmode::DF_ACTIVITY,
+                               "zone_sort DO: item '%s' has no routable dests (%zu checked), skip",
+                               thisitem.tname(), dest_set.size() );
+                continue;
+            }
+        }
+
         // FIXME HACK: teleports thisitem into inventory
         item copy_thisitem( thisitem );
         item_location thisitem_loc;
         if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
-            // Resolve the item location if we put it into a vehicle...
+            // Try putting item into grabbed vehicle, but not if cart IS the
+            // source tile - that would cause infinite re-pickup.
             const tripoint_bub_ms cart_position = you.pos_bub() + you.as_avatar()->grab_point;
-            if( std::optional<vpart_reference> ovp = get_map().veh_at( cart_position ).cargo() ) {
-                vehicle &veh = ovp->vehicle();
-                std::optional<vehicle_stack::iterator> vehstack = veh.add_item( here, ovp->part(), copy_thisitem );
-                if( vehstack ) {
-                    thisitem_loc = item_location( vehicle_cursor( veh, ovp->part_index() ), &*vehstack.value() );
+            if( cart_position != src_bub ) {
+                if( std::optional<vpart_reference> ovp = get_map().veh_at( cart_position ).cargo() ) {
+                    vehicle &veh = ovp->vehicle();
+                    std::optional<vehicle_stack::iterator> vehstack = veh.add_item( here, ovp->part(),
+                            copy_thisitem );
+                    if( vehstack ) {
+                        thisitem_loc = item_location( vehicle_cursor( veh, ovp->part_index() ),
+                                                      &*vehstack.value() );
+                    }
                 }
             }
         }
@@ -12873,6 +13097,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             thisitem_loc = you.try_add( copy_thisitem );
         }
         if( !thisitem_loc ) {
+            cart_or_carry_blocked = true;
             continue;
         }
         // Pickup cost
@@ -12888,10 +13113,14 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         num_processed--;
 
         if( dropoff_coords.empty() ) {
+            // Defensive fallback - 4a normally handles this. Probe fresh.
             for( const tripoint_abs_ms &possible_dest : dest_set ) {
                 const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
-                if( here.is_open_air( dest_bub ) ) {
-                    you.add_msg_if_player( _( "You can't sort things into the air!" ) );
+                if( !here.inbounds( dest_bub ) || here.is_open_air( dest_bub ) ) {
+                    continue;
+                }
+                const int dist = zone_sorting::route_length( you, dest_bub );
+                if( dist == INT_MAX ) {
                     continue;
                 }
                 dropoff_coords.emplace_back( possible_dest );
@@ -12914,11 +13143,139 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     }
 
     if( picked_up_stuff.empty() ) {
-        //this location is sorted
+        bool cart_at_source = false;
+        if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
+            const tripoint_bub_ms cart_pos = you.pos_bub() + you.as_avatar()->grab_point;
+            cart_at_source = ( cart_pos == src_bub );
+        }
+        if( cart_or_carry_blocked && cart_at_source ) {
+            // Items exist and are sortable, but cart is on source tile blocking
+            // vehicle pickup and inventory couldn't hold them. Don't erase -
+            // mark unreachable so THINK skips until state changes.
+            add_msg_debug( debugmode::DF_ACTIVITY,
+                           "zone_sort DO: cart on source blocked sortable items" );
+            unreachable_sources.emplace( src );
+        } else {
+            // No items picked up - remove source to prevent infinite THINK/DO loop.
+            add_msg_debug( debugmode::DF_ACTIVITY,
+                           "zone_sort DO: no items picked up at src, erasing src, back to THINK" );
+            coord_set.erase( src );
+        }
         stage = THINK;
         dropoff_coords.clear();
     } else if( !dropoff_coords.empty() && !you.has_destination() )  {
-        zone_sorting::route_to_destination( you, act, here.get_bub( dropoff_coords.front() ), stage );
+        // Purge item_locations invalidated by inventory restacking.
+        auto stale = std::remove_if( picked_up_stuff.begin(), picked_up_stuff.end(),
+        []( const item_location & loc ) {
+            return !loc.get_item();
+        } );
+        if( stale != picked_up_stuff.end() ) {
+            add_msg_debug( debugmode::DF_ACTIVITY,
+                           "zone_sort DO: purged %zu stale item_locations from picked_up_stuff",
+                           static_cast<size_t>( std::distance( stale, picked_up_stuff.end() ) ) );
+            picked_up_stuff.erase( stale, picked_up_stuff.end() );
+        }
+        if( picked_up_stuff.empty() ) {
+            // All items merged into stacks, nothing to deliver.
+            add_msg_debug( debugmode::DF_ACTIVITY,
+                           "zone_sort DO: all picked items lost (merged?), back to THINK" );
+            coord_set.erase( src );
+            stage = THINK;
+            dropoff_coords.clear();
+            return;
+        }
+
+        bool match = false;
+        tripoint_abs_ms destination;
+
+        // Find a dropoff location that can take all the items picked up.
+        for( tripoint_abs_ms &dest : dropoff_coords ) {
+            std::vector<item_location> placed_items;
+
+            match = true;
+
+            for( item_location &item : picked_up_stuff ) {
+                std::vector<item_location> placed_item = put_into_vehicle_or_drop_ret_locs( you,
+                        item_drop_reason::deliberate, { *item }, here.get_bub( dest ) );
+
+                if( placed_item.empty() ) {
+                    match = false;
+                    break;
+
+                } else {
+                    placed_items.emplace_back( placed_item.front() );
+                }
+            }
+
+            // Get rid of the placed items, as we really only wanted to know if they COULD be placed.
+            for( item_location &item : placed_items ) {
+                item.remove_item();
+            }
+
+            if( match ) {
+                destination = dest;
+                break;
+            }
+        }
+
+        if( !match ) {
+            // Couldn't find any destination that would take all items. Fallback to one that can accept
+            // the first one that has a usable destination.
+            // Note that we always have to be able to handle the situation where a destination is full
+            // when we get there due to things happening in the mean time (like other characters sorting
+            // stuff into that location as we move there), so we leave the handling of unsortable items
+            // in the inventory to that handling for now.
+            for( tripoint_abs_ms &dest : dropoff_coords ) {
+                std::vector<item_location> placed_items;
+
+                match = true;
+
+                for( item_location &item : picked_up_stuff ) {
+                    std::vector<item_location> placed_item = put_into_vehicle_or_drop_ret_locs( you,
+                            item_drop_reason::deliberate, { *item }, here.get_bub( dest ) );
+
+                    if( placed_item.empty() ) {
+                        match = false;
+                        break;
+
+                    } else {
+                        placed_items.emplace_back( placed_item.front() );
+                        match = true;
+                        break;
+                    }
+                }
+
+                // Get rid of the placed items, as we really only wanted to know if they COULD be placed.
+                for( item_location &item : placed_items ) {
+                    item.remove_item();
+                }
+
+                if( match ) {
+                    destination = dest;
+                    break;
+                }
+            }
+        }
+
+        if( !match ) {
+            add_msg( m_bad, _( "None of the items picked up can be sorted because they won't fit anywhere." ) );
+            stage = LAST;
+            return;
+        }
+
+        add_msg_debug( debugmode::DF_ACTIVITY,
+                       "zone_sort DO: routing to dest (%d,%d,%d) with %zu items",
+                       destination.x(), destination.y(), destination.z(),
+                       picked_up_stuff.size() );
+        if( !zone_sorting::route_to_destination( you, act, here.get_bub( destination ), stage ) ) {
+            // Can't reach destination. Return items to source and retry.
+            // Don't erase source -- other items may have different reachable destinations.
+            add_msg_debug( debugmode::DF_ACTIVITY,
+                           "zone_sort DO: route to dest FAILED, returning items, back to THINK" );
+            return_items_to_source( you, src_bub );
+            stage = THINK;
+        }
+
     } else if( !you.has_destination() ) {
         debugmsg( "Sort activity has items to sort but no valid destination, this is a bug" );
         // Completely kick us out of this activity, something's gone wrong and we don't know what's going on.
@@ -12939,6 +13296,7 @@ void zone_sort_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "picked_up_stuff", picked_up_stuff );
     jsout.member( "dropoff_coords", dropoff_coords );
     jsout.member( "pickup_failure_reported", pickup_failure_reported );
+    jsout.member( "unreachable_sources", unreachable_sources );
 
     jsout.end_object();
 }
@@ -12960,6 +13318,11 @@ std::unique_ptr<activity_actor> zone_sort_activity_actor::deserialize( JsonValue
     // Element introduced 2026-01-26. Existence check to be removed when support for older saves is dropped.
     if( data.has_bool( "pickup_failure_reported" ) ) {
         data.read( "pickup_failure_reported", actor.pickup_failure_reported );
+    }
+    if( data.has_member( "unreachable_sources" ) ) {
+        data.read( "unreachable_sources", actor.unreachable_sources );
+    } else if( data.has_member( "unreachable_dests" ) ) {
+        data.read( "unreachable_dests", actor.unreachable_sources );
     }
     return actor.clone();
 }

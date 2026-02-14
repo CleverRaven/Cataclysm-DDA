@@ -4038,6 +4038,23 @@ class zone_sort_activity_actor : public zone_activity_actor
         // Place(s) that the current stuff can be dropped off at.
         std::vector<tripoint_abs_ms> dropoff_coords;
         bool pickup_failure_reported = false;
+        // Source tiles where routing failed or cart blocked pickup this cycle.
+        // Cleared when player position or grab state changes (per stage_think).
+        // Destination reachability is probed fresh per-source in stage_do.
+        std::unordered_set<tripoint_abs_ms> unreachable_sources;
+
+        // State for position-based clearing of unreachable_sources.
+        // When position or grab orientation changes, sources are re-probed.
+        tripoint_abs_ms last_think_position; // NOLINT(cata-serialize)
+        object_type last_think_grab_type = object_type::NONE; // NOLINT(cata-serialize)
+        tripoint_rel_ms last_think_grab_point; // NOLINT(cata-serialize)
+        // Forces a clear on first stage_think call (fresh construction or deserialization).
+        // Avoids edge case where default-initialized values match real game state.
+        bool force_clear_unreachable = true; // NOLINT(cata-serialize)
+
+        // Returns all picked up items to the source tile and clears sorting state.
+        // Used when routing to a destination fails.
+        void return_items_to_source( Character &you, const tripoint_bub_ms &src_bub );
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

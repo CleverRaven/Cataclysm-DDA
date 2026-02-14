@@ -330,6 +330,66 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
     }
 }
 
+// When all destination zone tiles are completely walled off (unreachable by A*),
+// the sort activity should skip items rather than picking them up. Items must
+// remain at the source tile.
+TEST_CASE( "zone_sorting_skips_items_with_unreachable_destinations",
+           "[zones][items][activities][sorting]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+
+    // Player at east of origin (matching existing test pattern)
+    const tripoint_bub_ms start_pos = tripoint_bub_ms::zero + tripoint::east;
+    const tripoint_abs_ms start_abs = here.get_abs( start_pos );
+    dummy.set_pos_abs_only( start_abs );
+
+    // Source: LOOT_UNSORTED zone at player position
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start_abs );
+
+    // Place a food item at the source tile
+    here.add_item_or_charges( start_pos, item( itype_test_apple ) );
+    REQUIRE( count_items_or_charges( start_pos, itype_test_apple, std::nullopt ) == 1 );
+
+    // Destination: LOOT_FOOD zone at a tile 5 tiles east, with floor terrain
+    const tripoint_bub_ms dest_pos = start_pos + tripoint( 5, 0, 0 );
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    here.ter_set( dest_pos, ter_t_floor );
+
+    // Wall off all 8 neighbors of the destination tile
+    for( int dx = -1; dx <= 1; dx++ ) {
+        for( int dy = -1; dy <= 1; dy++ ) {
+            if( dx == 0 && dy == 0 ) {
+                continue;
+            }
+            here.ter_set( dest_pos + tripoint( dx, dy, 0 ), ter_t_wall );
+        }
+    }
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+
+    // Verify the destination is recognized for sorting
+    item test_food( itype_test_apple );
+    zone_manager &zm = zone_manager::get_manager();
+    REQUIRE( zm.get_near_zone_type_for_item( test_food, start_abs ) == zone_type_LOOT_FOOD );
+
+    // Run the sort activity
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    // Item should remain at source tile (not picked up)
+    CHECK( count_items_or_charges( start_pos, itype_test_apple, std::nullopt ) == 1 );
+    // Player inventory should not contain the food item
+    CHECK( dummy.charges_of( itype_test_apple ) == 0 );
+    // Activity should have completed (no hang)
+    CHECK( !dummy.activity );
+}
+
 // Grab-aware A* destination probing should find paths for single-tile vehicles.
 // When player is at the source, items are picked up because route_length confirms
 // the destination is reachable through grab-aware pathfinding.
@@ -445,4 +505,70 @@ TEST_CASE( "zone_sorting_with_grabbed_multi_tile_vehicle",
 
     // Item picked up (normal pathfinding found destination reachable)
     CHECK( count_items_or_charges( start_pos, itype_test_apple, std::nullopt ) == 0 );
+}
+
+// When the grabbed cart sits on the source tile and inventory is full,
+// the sort activity should terminate cleanly without hanging.
+TEST_CASE( "zone_sorting_cart_on_source_full_inventory",
+           "[zones][items][activities][sorting][vehicle]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+
+    // Source tile is one tile south, where we'll also put the cart
+    const tripoint_bub_ms src_pos = start_pos + tripoint::south;
+    const tripoint_abs_ms src_abs = here.get_abs( src_pos );
+    here.ter_set( src_pos, ter_t_floor );
+
+    // Spawn shopping cart at the source tile and grab it
+    vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart,
+                                      src_pos, 0_degrees, 0, 0 );
+    REQUIRE( cart != nullptr );
+    cart->set_owner( dummy );
+    dummy.grab( object_type::VEHICLE, tripoint_rel_ms::south );
+    REQUIRE( dummy.get_grab_type() == object_type::VEHICLE );
+
+    // Create zones
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, src_abs );
+
+    const tripoint_bub_ms dest_pos = start_pos + tripoint( 5, 0, 0 );
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    here.ter_set( dest_pos, ter_t_floor );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+
+    // Place food item at source
+    here.add_item_or_charges( src_pos, item( itype_test_apple ) );
+    REQUIRE( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 1 );
+
+    // Fill player inventory so items can't be picked up.
+    // Limit iterations to avoid slow test if character has large capacity.
+    for( int i = 0; i < 500 && dummy.can_add( item( itype_test_apple ) ); i++ ) {
+        dummy.i_add( item( itype_test_apple ) );
+    }
+    REQUIRE( !dummy.can_add( item( itype_test_apple ) ) );
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    zone_manager &zm = zone_manager::get_manager();
+    item test_food( itype_test_apple );
+    REQUIRE( zm.get_near_zone_type_for_item( test_food,
+             here.get_abs( start_pos ) ) == zone_type_LOOT_FOOD );
+
+    // Run the sort activity
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    // Item should remain at source (not picked up - cart blocked, inventory full)
+    CHECK( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) >= 1 );
+    // Activity should have completed cleanly (no hang)
+    CHECK( !dummy.activity );
 }
