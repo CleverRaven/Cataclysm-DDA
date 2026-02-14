@@ -503,9 +503,7 @@
               { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
               { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] }
             ]
-          },
-          { "run_eocs": [ "EOC_SUPPRESS_MORALITY" ] },
-          { "run_eocs": [ "EOC_SUPPRESS_IMMORALITY" ] }
+          }
         ]
       }
     ]
@@ -542,8 +540,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_ADD_ONE_WEAKNESS_SUCCESS",
-    "//": "Workaround to the below not working due to the roll_remainder used.  When this will be fixed, remove this EOC as the others give a message informing the player of the new weakness.",
-    "effect": [ { "u_message": "You gain a new vampiric weakness.", "type": "bad" } ]
+    "//": "Workaround to the below not working due to the roll_remainder used.  When this will be fixed, remove this message as the others give a message informing the player of the new weakness.",
+    "effect": [
+      { "u_message": "You gain a new vampiric weakness.", "type": "bad" },
+      { "run_eocs": [ "EOC_SUPPRESS_MORALITY" ] },
+      { "run_eocs": [ "EOC_SUPPRESS_IMMORALITY" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
