@@ -334,6 +334,7 @@
       { "u_lose_trait": "VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD" },
       { "u_lose_trait": "VAMPIRE_WEAKNESS_BLOOD_CRAVING" },
       { "u_lose_trait": "VAMPIRE_WEAKNESS_NO_FUN" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_GUILT" },
       { "u_lose_effect": "vampire_need_living_blood" },
       { "u_lose_morale": "morale_vw_no_fun" },
       { "run_eocs": "EOC_VAMPIRE_ADD_WEAKNESSES" },

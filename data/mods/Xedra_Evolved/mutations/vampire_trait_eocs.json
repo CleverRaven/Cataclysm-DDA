@@ -503,7 +503,9 @@
               { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
               { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] }
             ]
-          }
+          },
+          { "run_eocs": [ "EOC_SUPPRESS_MORALITY" ] },
+          { "run_eocs": [ "EOC_SUPPRESS_IMMORALITY" ] }
         ]
       }
     ]
@@ -528,7 +530,8 @@
           "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD",
           "VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD",
           "VAMPIRE_WEAKNESS_BLOOD_CRAVING",
-          "VAMPIRE_WEAKNESS_NO_FUN"
+          "VAMPIRE_WEAKNESS_NO_FUN",
+          "VAMPIRE_WEAKNESS_GUILT"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS_SUCCESS" ],
@@ -639,6 +642,14 @@
         "type": "bad"
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_GUILT_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_GUILT", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "You feel unbearable remorse for a moment, then it subsides and waits to strike.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -3106,6 +3117,56 @@
       {
         "u_message": "You're not a mentor, so you're not supposed to see this.  Please open a GitHub bug report.",
         "type": "popup"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUPPRESS_MORALITY",
+    "condition": { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_GUILT" } },
+    "//": "Replaces vegan, pacifist, spiritual, etc until the player gains the weakness",
+    "//2": "Put all traits based on morality here so they're extinguished by the final tier of vampirism.",
+    "//3": "This doesn't suppress meat intolerance as it is a physiological issue.",
+    "effect": [
+      {
+        "if": { "u_has_trait": "SPIRITUAL" },
+        "then": [ { "u_lose_trait": "SPIRITUAL", "suppress_message": true }, { "math": [ "u_suppressed_spiritual = 1" ] } ]
+      },
+      {
+        "if": { "u_has_trait": "VEGAN" },
+        "then": [ { "u_lose_trait": "VEGAN", "suppress_message": true }, { "math": [ "u_suppressed_vegan = 1" ] } ]
+      },
+      {
+        "if": { "u_has_trait": "PACIFIST" },
+        "then": [ { "u_lose_trait": "PACIFIST", "suppress_message": true }, { "math": [ "u_suppressed_pacifist = 1" ] } ]
+      },
+      {
+        "if": { "math": [ "u_suppressed_uncaring == 1" ] },
+        "then": [ { "u_add_trait": "PSYCHOPATH", "suppress_message": true }, { "math": [ "u_suppressed_uncaring = 0" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUPPRESS_IMMORALITY",
+    "condition": { "u_has_trait": "VAMPIRE_WEAKNESS_GUILT" },
+    "//": "Replaces uncaring so it is inactive but regained when the weakness is removed.",
+    "effect": [
+      {
+        "if": { "u_has_trait": "PSYCHOPATH" },
+        "then": [ { "u_lose_trait": "PSYCHOPATH", "suppress_message": true }, { "math": [ "u_suppressed_uncaring = 1" ] } ]
+      },
+      {
+        "if": { "math": [ "u_suppressed_spiritual == 1" ] },
+        "then": [ { "u_add_trait": "SPIRITUAL", "suppress_message": true }, { "math": [ "u_suppressed_spiritual = 0" ] } ]
+      },
+      {
+        "if": { "math": [ "u_suppressed_vegan == 1" ] },
+        "then": [ { "u_add_trait": "VEGAN", "suppress_message": true }, { "math": [ "u_suppressed_vegan = 0" ] } ]
+      },
+      {
+        "if": { "math": [ "u_suppressed_pacifist == 1" ] },
+        "then": [ { "u_add_trait": "PACIFIST", "suppress_message": true }, { "math": [ "u_suppressed_pacifist = 0" ] } ]
       }
     ]
   },

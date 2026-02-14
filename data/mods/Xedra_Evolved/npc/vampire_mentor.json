@@ -3,7 +3,6 @@
     "type": "npc",
     "id": "xe_vampire_mentor",
     "//": "Maybe there will be non-mentor vampire NPCs someday.  For now, there's only the mentors.",
-    "//2": "When vampires will gain random weaknesses, no mentor will ever have the Barred from Mortal Joys weakness.",
     "name_suffix": "vampire",
     "class": "NC_NPC_XE_VAMPIRE_MENTOR",
     "attitude": 0,
@@ -543,6 +542,8 @@
     "id": "EOC_VAMPIRE_5",
     "effect": [
       { "finish_mission": "GET_COMPONENTS_FOR_TIER_5", "success": true },
+      { "run_eocs": [ "EOC_SUPPRESS_MORALITY" ] },
+      { "run_eocs": [ "EOC_SUPPRESS_IMMORALITY" ] },
       { "u_add_trait": "BLOOD_DRINKER" },
       { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
       { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
