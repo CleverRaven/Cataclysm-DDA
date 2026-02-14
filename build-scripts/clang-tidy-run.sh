@@ -5,7 +5,7 @@
 echo "Using bash version $BASH_VERSION"
 set -exo pipefail
 
-num_jobs=3
+num_jobs=4
 
 # enable all the switches by default
 BACKTRACE=${BACKTRACE:-1}
@@ -122,7 +122,7 @@ function analyze_files_in_random_order
     if [ -n "$1" ]
     then
         echo "$1" | shuf | \
-            xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh -quiet
+            xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh -quiet -p .
     else
         echo "No files to analyze"
     fi

@@ -99,12 +99,14 @@ void RedundantParenthesesCheck::registerMatchers( MatchFinder *Finder )
         this
     );
     Finder->addMatcher(
-        expr(
-            hasParent(
-                parenExpr( hasParent( isStmtOrImplicitCastWithinStmt() ) ).bind( "paren_expr" )
-            ),
-            unless( binaryOperator( isAssignmentOperator() ) )
-        ).bind( "child_expr" ),
+        parenExpr(
+            hasParent( isStmtOrImplicitCastWithinStmt() ),
+            has(
+                expr(
+                    unless( binaryOperator( isAssignmentOperator() ) )
+                ).bind( "child_expr" )
+            )
+        ).bind( "paren_expr" ),
         this
     );
 }
@@ -117,13 +119,10 @@ static void CheckExpr( RedundantParenthesesCheck &Check, const MatchFinder::Matc
         return;
     }
 
-    SourceRange OuterRange = OuterExpr->getSourceRange();
-    SourceRange InnerRange = InnerExpr->getSourceRange();
+    const SourceRange OuterRange = OuterExpr->getSourceRange();
+    const SourceRange InnerRange = InnerExpr->getSourceRange();
 
-    const SourceManager *SM = Result.SourceManager;
-    SourceLocation ExpansionBegin = SM->getFileLoc( OuterRange.getBegin() );
-    if( ExpansionBegin != OuterRange.getBegin() ) {
-        // This means we're inside a macro expansion
+    if( OuterRange.getBegin().isMacroID() ) {
         return;
     }
 
