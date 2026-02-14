@@ -1861,12 +1861,7 @@
     "difficulty": 5,
     "value": 0,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "robofac_strip_mall_x1y0",
-        "om_special": "robofac_strip_mall",
-        "reveal_radius": 4,
-        "random": false
-      },
+      "assign_mission_target": { "om_terrain": "robofac_strip_mall_x1y0", "om_special": "robofac_strip_mall", "reveal_radius": 4, "random": false },
       "effect": { "math": [ "robofac_chop_shop_scientist_1_kill_orders = 1" ] }
     },
     "end": {

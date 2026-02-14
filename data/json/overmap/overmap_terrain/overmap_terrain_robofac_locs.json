@@ -9,7 +9,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "robofac_strip_mall_x4y0", "robofac_strip_mall_x0y1", "robofac_strip_mall_x1y1", "robofac_strip_mall_x2y1", "robofac_strip_mall_x3y1", "robofac_strip_mall_x4y1" ],
+    "id": [
+      "robofac_strip_mall_x4y0",
+      "robofac_strip_mall_x0y1",
+      "robofac_strip_mall_x1y1",
+      "robofac_strip_mall_x2y1",
+      "robofac_strip_mall_x3y1",
+      "robofac_strip_mall_x4y1"
+    ],
     "name": "parking lot",
     "copy-from": "s_lot"
   },

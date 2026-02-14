@@ -6749,9 +6749,7 @@
       { "point": [ 4, 0, 1 ], "overmap": "robofac_strip_mall_roof_5_north" }
     ],
     "locations": [ "land" ],
-    "connections": [
-      { "point": [ 4, 2, 0 ], "terrain": "road", "connection": "local_road", "from": [ 4, 1, 0 ], "existing": true }
-    ],
+    "connections": [ { "point": [ 4, 2, 0 ], "terrain": "road", "connection": "local_road", "from": [ 4, 1, 0 ], "existing": true } ],
     "city_distance": [ 1, 10 ],
     "city_sizes": [ 5, -1 ],
     "occurrences": [ 15, 100 ],
