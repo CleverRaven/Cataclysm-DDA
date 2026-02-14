@@ -187,6 +187,12 @@ Water frozen in winter veh and thick ice part. (4/5)
 Limbify tails
 Allow furniture/vehicles to be vertically dragged
 Shift Alpha Exodii Labyrinth to its own dimension
+Replace integrated crab pincer with replacing your hand with a crab pincer
+Monsters check for `BLIND` flag, not `blind` effect
+Turn Cattle Tail into a body part
+Allow mutations to be powered by Stamina, apply it to Insect Wings
+Expose dimension names to EOC
+Add `forest` artifact recharge option
 
 
 
@@ -419,6 +425,25 @@ Add tarot reading
 Devourer Evolution
 Multilevel Exodii dungeon in the string dimension
 Hunting horrors have a poison that makes you burn in light
+Hunting horrors have a poison that makes you burn in light
+Add club tail as a body part
+Tweak ziggurat exit from string dimension
+z-stack 'towers' in string dimension
+Achievement for visiting the string dimension
+Bring back gastropod foot
+Turn bear muzzle into a body part
+Exodii pay more for certain goods
+Turn raptor tail into a body part
+HEW system can detect shimmering portals
+Adds Exodii labyrinth portal floor to string dimension dungeon
+Turn Lupine muzzle into a body part
+[Old Lab Removal] Removing old lab specials
+Turn finned tail into a body part
+Switch `SABER_TEETH` to integrated teeth
+Remove free attack from SHARKTEETH, turn into an integrated item
+Turn Rodent Tail into a body part
+[Old Lab Removal] Complete Ripouts
+Make reptilian muzzle a body part
 
 
 ## Interface:
@@ -569,6 +594,9 @@ Show objective directions on overmap
 Allow resuming hacksaw cutting metal with different tools
 Add missing components to view priority from crafting menu
 Add deprioritize components of a recipe to the crafting menu
+Monsters get hit sprite drawn over them when they're hit
+Mention how much food is skipped when camp distribution fails
+Improve the sundial to show illumination, weather, and moon phase
 
 
 ## Mods:
@@ -1040,6 +1068,16 @@ Add an enchantment that modifies the 'free dodges' stat introduced for Martial A
 [Bombastic Perks] Change the way you get playstyle perks
 [Bombastic Perks] Add more prerequisites for perks
 [Xedra Evolved] Make Nether Sorcery learnable
+[XE] Direct drinking from those wearing holy symbols burns the holy-burnt.
+[Xedra Evolved] Sapshield
+[Xedra Evolved] Improve vampire hunter gear
+Hairsuit perk for Bombastic Perks
+[Sky Island] Rebalance the infinity material crafts
+[Xedra Evolved] Make lilin attack conditions more stringent
+[XE] Rework unholy devastation so it isn't limited by stat caps.
+[Xedra Evolved] Give Undine inherent liquid-containing qualities
+[Magiclysm] Slower imbue with lightning
+Add the Smashing for Wimps perk.
 
 
 
@@ -1177,6 +1215,10 @@ Make riding an animal exerting; add walking gait
 Flying Polyps are out of phase
 Adjusts default game temperatures to be more in line with Boston, MA
 Melatonin makes sense now
+Melatonin makes sense now
+Raw flour is no longer easily edible, remove NUTRIENT_OVERRIDE From unfermented vinegar
+Remove above-and-beyond damage bonus on mutation natural weapon crits
+Require FANGS for lupine and ursine muzzles 
 
 
 ## Bugfixes:
@@ -1616,6 +1658,24 @@ Fix another edge case with zone sorting
 Fix monster infighting slowing game down
 Support copy from in string extractor for overmap special
 Adjusts region seasonal wind variation so it actually does something
+[Magiclysm/Xedra Evolved] Homullus Backstage applies to other species
+[Xedra Evolved] Fix commoner changeling initial advancement
+Adds different steel variants to skyisland.
+Rework No Trace Yet I Wish
+Items not charging from grid-connected appliances (wall wiring)
+Deep Cold Marksman profession now starts with correct rifle case size
+Camp crafted food vitamins, toxins fixed
+Fix stumbles and falls message displaying for other people
+[Bombastic Perks] Remove double dipping for each level towards playstyle perks
+[Bombastic Perks] Fix playstyle perk requirement message
+Fix multi-activity backlog not clearing
+Fix data transfer to Hub 01 VAH
+Can comfortably wear Pat's earpiece and a helmet
+Fix Hub 01 hazardous materials suit dialogue
+hooves don't conflict with appropriately sized shoes
+Fix perishable foods getting sorted into the same zone as nonperishables
+Make curing dermatikk infestation not kill you
+Fix crash to desktop when sleeping caused by sundial division by zero
 
 
 ## Performance:
@@ -1652,6 +1712,8 @@ don’t compute the size of far away hordes when drawing the world map
 can_contain: calculate pocket volume once (huge speed up in special cases)
 Shrink binary by using constexpr arrays for units constants
 Speed up autopickup by skipping items that were already checked
+Speed up tests with faster map teardown
+Even faster tests with less map memory manipulation
 
 
 ## Infrastructure:
@@ -1839,6 +1901,10 @@ move ACT_MULTIPLE_CRAFT, ACT_MULTIPLE_DIS(assembly) to activity_actors
 Make inv_search_cache operate on item_location
 move ACT_MULTIPLE_BUTCHER, ACT_FETCH_REQUIRED, ACT_MULTIPLE_CONSTRUCTION to activity_actors
 obsolete ACT_TIDY_UP
+move ACT_MULTIPLE_BUTCHER, ACT_FETCH_REQUIRED, ACT_MULTIPLE_CONSTRUCTION to activity_actors
+obsolete ACT_TIDY_UP
+Obsolete ACT_FERTILIZE_PLOT, replace with fertilize_plant_activity_actor
+multi-activity overhaul part 7: cleanup dead legacy code
 
 
 ## Build:
