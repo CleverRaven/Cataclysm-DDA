@@ -84,7 +84,7 @@
     "dynamic_line": "&The mercenary points their firearm at you and stares you down.  Their eyes are fierce, wide, and bloodshot.  In the background, another merc starts talking into their radio.",
     "responses": [
       {
-        "text": "[Put your hands up] Woah! Easy!",
+        "text": "[Put your hands up] Woah!  Easy!",
         "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_2",
         "effect": [
           { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_HATES_YOU", "time_in_future": [ "60 seconds", "120 seconds" ] },
