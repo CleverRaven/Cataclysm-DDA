@@ -22,6 +22,13 @@
   },
   {
     "type": "attack_vector",
+    "id": "vector_rodent_bite",
+    "limbs": [ "muzzle_rodent" ],
+    "contact_area": [ "muzzle_rodent_lips" ],
+    "encumbrance_limit": 1
+  },
+  {
+    "type": "attack_vector",
     "id": "vector_crab_pincer",
     "limbs": [ "crustacean_pincer_r" ],
     "contact_area": [ "crustacean_pincer_claws_r" ]
