@@ -5516,5 +5516,14 @@
       { "limb_score": "vision", "modifier": 0.8 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_slit_nostrils_breathing_penalty",
+    "//": "Hidden effect, provides the limb score penalty from Slit Nostrils",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.9 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]
