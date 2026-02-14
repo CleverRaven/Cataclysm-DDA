@@ -174,5 +174,64 @@
       "RANGED_ATTACKER"
     ],
     "armor": { "bash": 20, "cut": 5, "bullet": 10 }
+  },
+  {
+    "id": "mon_civilian_wendi",
+    "type": "MONSTER",
+    "name": { "str": "stray soul" },
+    "description": "A sing songy voice repeats lullaby sounding lyrics over and over as though comforting themselves.  Thin and with every limb just a little longer than what feels normal when you look at them.  Despite their sorrowful lamentations their interspersed laughter betrays a vicious glee.",
+    "looks_like": "mon_civilian_panic",
+    "default_faction": "human",
+    "bodytype": "human",
+    "species": [ "HUMAN" ],
+    "material": [ "hflesh" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "chat_topics": [ "TALK_CIVILIAN_WENDI" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 75,
+    "speed": 90,
+    "symbol": "@",
+    "color": "white",
+    "diff": 2,
+    "aggression": -50,
+    "morale": -50,
+    "vision_day": 10,
+    "melee_dice": 1,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
+    "special_attacks": [
+      {
+    "type": "monster_attack",
+    "id": "debug_self_poly",
+    "attack_type": "polymorph_special",
+   "cooldown": 50,
+    "mon_id": "mon_cryptid_wendigo",
+   "poly_keep_speed": true,
+    "poly_keep_hp": true,
+    "poly_keep_anger": true,
+    "condition": {
+                "or": [
+                  { "npc_has_effect": "grabbed", "bodypart": "arm_r" },
+                  { "npc_has_effect": "grabbed", "bodypart": "arm_l" },
+                  { "npc_has_effect": "grabbed", "bodypart": "head" },
+                  { "npc_has_effect": "grabbed", "bodypart": "torso" },
+                  { "npc_has_effect": "grabbed", "bodypart": "leg_l" },
+                  { "npc_has_effect": "grabbed", "bodypart": "leg_r" }
+                ]
+              }
+      }, 
+      [ "PARROT", 5 ]
+    ],
+    "//": "They are human after all",
+    "harvest": "human",
+    "dissect": "dissect_human_sample_single",
+    "//COMMENT": "There is intentionally no death function here, GUILT_HUMAN is special-cased to apply the same penalties as murdering a NPC.",
+    "death_function": {  },
+    "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "dodge": 1,
+    "death_drops": "default_zombie_death_drops",
+    "flags": [ "SEES", "HEARS", "WARM", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "CONVERSATION", "GUILT_HUMAN", "APPEARS_NEUTRAL" ]
   }
 ]
