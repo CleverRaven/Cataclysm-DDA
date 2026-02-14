@@ -202,6 +202,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "special_attacks": [
+      { "id": "grab", "cooldown": 1 },
       {
     "type": "monster_attack",
     "id": "debug_self_poly",
