@@ -40,7 +40,8 @@
       { "item": "socks" },
       { "item": "robofac_enviro_suit" },
       { "item": "basic_papr_helmet", "contents-item": [ "diving_flashlight_small_hipower" ] },
-      { "item": "basic_papr_belt_off" }
+      { "item": "basic_papr_belt_off" },
+      { "item": "coat_lab" }
     ]
   },
   {
@@ -48,7 +49,7 @@
     "id": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_carry",
     "subtype": "collection",
     "items": [
-      { "item": "RobofacCoin", "count": [ 15, 18 ] }
+      { "item": "exodii_chop_shop_head", "count": 1 }
     ]
   },
   {
@@ -62,23 +63,23 @@
   {
     "id": [ "NC_ROBOFAC_SCIENTIST_CHOP_SHOP" ],
     "type": "talk_topic",
-    "dynamic_line": "&The scientist looks surprised see you.  Their voice is both quivering and indignant.  \"Wh-who are you?  How did you get in here?  D-don't know who I am?!  Leave, or I'll have y-y-you killed!\"",
+    "dynamic_line": "&The scientist looks shocked to see you, and quickly tucks a large object under their lab coat.  They then address you with a quivering, yet indignant tone.  \"Wh-who are you?  How did you get in here?  D-don't know who I am?!  Leave, or I'll have y-y-you killed!\"",
     "responses": [
       {
-        "text": "I'm just here for the alien tech.  It's a small metal box with a glowing core.  Where is it?",
-        "condition": { "u_has_mission": "MISSION_EXODII_CHOP_SHOP" },
+        "text": "I'm here for the alien - the robot.  Where is it?",
+        "condition": { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" },
         "effect": { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_REPORTED_YOU_TO_HUB", "time_in_future": [ "120 seconds", "240 seconds" ] },
         "topic": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_EXODII_1"
       },
       {
-        "text": "The intercom sent me.  Your program has been shut down.  Anything to say for yourself?",
-        "condition": { "u_has_mission": "MISSION_ROBOFAC_CHOP_SHOP" },
+        "text": "The intercom sent me.  Your program has been shut down by the IRB.  Anything to say for yourself?",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" },
         "topic": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_KILL_ORDERS_1"
       },
       {
-        "text": "[Start a fight] Not if I kill you first.",
+        "text": "Not if I kill you first.",
         "effect": [
-          "insult_combat",
+          "hostile",
           { "u_message": "The scientist covers their face with their arms \"No, please!\"" },
           { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_SCIENTIST_1_REPORTED_YOU_TO_HUB", "time_in_future": [ "120 seconds", "240 seconds" ] },
           { "u_faction_rep": -100 }
@@ -97,16 +98,34 @@
   {
     "id": [ "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_EXODII_1" ],
     "type": "talk_topic",
-    "dynamic_line": "&The scientist produces the item from their lab coat.  Here, take it.  But you won't get away with this.  They'll come for you.",
+    "dynamic_line": "&The scientist scowls and pulls an object out of their labcoat - the head of some otherworldly robot.  \"The head is all that's left.\"  He then cracks a wide, toothy smile, \"the rest has been… used.\"  The scientist giggles, then takes on a dismissive tone.  \"Here, take it.  But you won't get away with this, you know.  They'll come for you.\"",
     "responses": [
-      { "text": "This is all I needed.  I'll be going.", "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_2" },
       {
-        "text": "[Start a fight] If you're dead, who's going to tell them?",
+        "text": "That's all I need.  I'll take that and be going.",
         "effect": [
-          "insult_combat",
+          { "u_spawn_item": "exodii_chop_shop_head" },
+          { "npc_consume_item": "exodii_chop_shop_head", "count": 1 }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "If you're dead, who's going to tell them?",
+        "effect": [
+          "hostile",
           { "u_message": "The scientist covers their face with their arms \"No, please!\"" },
           { "u_faction_rep": -100 }
         ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": [ "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_KILL_ORDERS_1" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The scientist scowls, points a finger at you, and starts to shout.  \"Impossible!  My work is on the verge of major breakthroughs!  It's much too important!  You're wrong!  Leave, and I won't escalate this any further!\"",
+    "responses": [
+      {
+        "text": "If you say so.",
         "topic": "TALK_DONE"
       }
     ]

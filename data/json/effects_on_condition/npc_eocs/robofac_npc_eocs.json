@@ -29,6 +29,17 @@
     ]
   },
   {
+    "type": "effect_on_condition",
+    "id": "EOC_ROBOFAC_CHOP_SHOP_REPORTED_YOU_TO_HUB",
+    "condition": { "not": { "math": [ "robofac_chop_shop_scientist_1_is_dead == 1" ] } },
+    "effect": [
+      { "math": [ "faction_like('robofac') = -100" ] },
+      { "math": [ "faction_respect('robofac') = -100" ] },
+      { "math": [ "faction_trust('robofac') = -100" ] },
+      { "run_eocs": "EOC_ROBOFAC_LOCK_INTERCOM" }
+    ]
+  },
+  {
     "type": "mapgen",
     "update_mapgen_id": "remove_robofac_intercom",
     "object": { "remove_npcs": [ { "class": "robofac_intercom", "x": 19, "y": 11 } ] }

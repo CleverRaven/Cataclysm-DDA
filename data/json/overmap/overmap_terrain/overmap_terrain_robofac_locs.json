@@ -1,0 +1,34 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "robofac_strip_mall_x0y0", "robofac_strip_mall_x1y0", "robofac_strip_mall_x2y0", "robofac_strip_mall_x3y0" ],
+    "name": "strip mall",
+    "sym": "v",
+    "color": "light_red",
+    "copy-from": "generic_city_building"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "robofac_strip_mall_x4y0", "robofac_strip_mall_x0y1", "robofac_strip_mall_x1y1", "robofac_strip_mall_x2y1", "robofac_strip_mall_x3y1", "robofac_strip_mall_x4y1" ],
+    "name": "parking lot",
+    "copy-from": "s_lot"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "robofac_strip_mall_roof_1", "robofac_strip_mall_roof_2", "robofac_strip_mall_roof_3", "robofac_strip_mall_roof_4" ],
+    "name": "strip mall roof",
+    "sym": "v",
+    "color": "light_red",
+    "see_cost": "none",
+    "vision_levels": "roof_or_air"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "robofac_strip_mall_roof_5",
+    "name": "open air",
+    "see_cost": "none",
+    "vision_levels": "roof_or_air",
+    "sym": ".",
+    "color": "blue"
+  }
+]

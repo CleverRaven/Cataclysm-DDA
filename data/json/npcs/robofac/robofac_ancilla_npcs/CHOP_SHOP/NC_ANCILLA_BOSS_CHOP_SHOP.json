@@ -108,9 +108,9 @@
         ]
       },
       {
-        "text": "[Start a fight] Hey, fuck you!",
+        "text": "Hey, fuck you!",
         "effect": [
-          "insult_combat",
+          "hostile",
           { "u_message": "The mercenary makes a quick hand motion and shouts \"Kill'em!\"" },
           { "u_faction_rep": -100 },
           {
@@ -188,29 +188,30 @@
       {
         "text": "I know what you're doing here, and I'm not leaving until you're all dead.",
         "effect": [
-          "insult_combat",
+          "hostile",
           { "u_message": "The mercenary makes a quick hand motion and shouts \"Kill'em!\"" },
           { "u_faction_rep": -100 }
         ],
         "topic": "TALK_DONE",
-        "condition": { "u_has_mission": "MISSION_ROBOFAC_CHOP_SHOP" }
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" }
       },
       {
         "text": "I'm here for the alien tech, and I'm not leaving until I get it.",
         "effect": [
-          "insult_combat",
+          "hostile",
           { "u_message": "The mercenary makes a quick hand motion and shouts \"Kill'em!\"" },
           { "u_faction_rep": -100 }
         ],
         "topic": "TALK_DONE",
-        "condition": { "u_has_mission": "MISSION_EXODII_CHOP_SHOP" }
+        "condition": { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" }
       },
       {
         "text": "I'm here for the scientist, and just the scientist, on orders from the intercom.  I'll give you and your team one chance to back down.",
-        "condition": { "u_has_mission": "MISSION_ROBOFAC_CHOP_SHOP" },
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" },
         "trial": {
           "type": "INTIMIDATE",
-          "difficulty": 10
+          "difficulty": 20,
+          "mod": [ [ "BRAVERY", -1 ], [ "FEAR", 3 ] ]
         },
         "success": {
           "topic": "TALK_DONE",
@@ -221,7 +222,7 @@
         },
         "failure": {
           "effect": [
-            "insult_combat",
+            "hostile",
             { "u_message": "The mercenary makes a quick hand motion and shouts \"Kill'em!\"" },
             { "u_faction_rep": -100 }
           ],
@@ -230,10 +231,11 @@
       },
       {
         "text": "I'm here for the alien tech.  I'll give you and your team one chance to back down.",
-        "condition": { "u_has_mission": "MISSION_EXODII_CHOP_SHOP" },
+        "condition": { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" },
         "trial": {
           "type": "INTIMIDATE",
-          "difficulty": 10
+          "difficulty": 20,
+          "mod": [ [ "BRAVERY", -1 ], [ "FEAR", 3 ] ]
         },
         "success": {
           "topic": "TALK_DONE",
@@ -244,7 +246,7 @@
         },
         "failure": {
           "effect": [
-            "insult_combat",
+            "hostile",
             { "u_message": "The mercenary makes a quick hand motion and shouts \"Kill'em!\"" },
             { "u_faction_rep": -100 }
           ],
@@ -254,7 +256,7 @@
       {
         "text": "Fuck you, I'm not leaving.",
         "effect": [
-          "insult_combat",
+          "hostile",
           { "u_message": "The mercenary makes a quick hand motion and shouts \"Kill'em!\"" },
           { "u_faction_rep": -100 }
         ],

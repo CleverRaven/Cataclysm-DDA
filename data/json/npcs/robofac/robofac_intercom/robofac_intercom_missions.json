@@ -1391,7 +1391,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ACCEPTED",
     "type": "talk_topic",
-    "dynamic_line": "A makeshift facility has been set up in a nearby dentist's office.  We will transfer the coordinates."
+    "dynamic_line": "A makeshift laboratory and medical facility has been set up in a nearby dentist's office, where the alien structure was found.  We will transfer the coordinates.  We suggest you don't speak with Dr. Harlow, or anyone else.  Just execute your orders as quickly as possible."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_COMPLETE",
