@@ -1389,7 +1389,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ADVICE_Experiments",
     "type": "talk_topic",
     "//": "The Hub in fact sactioned these experiments, but Melchior has determined that the experiments are endangering the Hub, and must be stopped.  The real justification is that they no longer expect the research to produce practical results, yet Dr. Harlow has refused to bend the knee and stop.",
-    "dynamic_line": "Dr. Harlow discovered some sort of alien robotics, and has been performing unsactioned medical procedures in an attempt to implant them in living humans.  The experiments are unethical and a failure to boot, and thus must be stopped."
+    "dynamic_line": "Dr. Harlow discovered some sort of alien robotics, and has been performing unsanctioned medical procedures in an attempt to implant them in living humans.  The experiments are unethical and a failure to boot, and thus must be stopped."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ACCEPTED",
