@@ -98,6 +98,7 @@ void WORLD::COPY_WORLD( const WORLD *world_to_copy )
     world_name = world_to_copy->world_name + "_copy";
     WORLD_OPTIONS = world_to_copy->WORLD_OPTIONS;
     active_mod_order = world_to_copy->active_mod_order;
+    is_compressed = world_to_copy->is_compressed;
 }
 
 cata_path WORLD::folder_path() const
@@ -2090,16 +2091,20 @@ void load_external_option( const JsonObject &jo )
 
 bool WORLD::has_compression_enabled() const
 {
-    cata_path world_folder_path = folder_path();
-    return std::filesystem::exists( ( world_folder_path / "maps.dict" ).get_unrelative_path() ) ||
-           std::filesystem::exists( ( world_folder_path / "mmr.dict" ).get_unrelative_path() ) ||
-           std::filesystem::exists( ( world_folder_path / "overmaps.dict" ).get_unrelative_path() );
+    if( !is_compressed.has_value() ) {
+        cata_path world_folder_path = folder_path();
+        is_compressed.emplace(
+            std::filesystem::exists( ( world_folder_path / "maps.dict" ).get_unrelative_path() ) ||
+            std::filesystem::exists( ( world_folder_path / "mmr.dict" ).get_unrelative_path() ) ||
+            std::filesystem::exists( ( world_folder_path / "overmaps.dict" ).get_unrelative_path() ) );
+    }
+    return is_compressed.value();
 }
 
-bool WORLD::set_compression_enabled( bool enabled ) const
+bool WORLD::set_compression_enabled( bool enabled )
 {
     // Return immediately if we're already in the desired state.
-    if( enabled == has_compression_enabled() ) {
+    if( enabled == is_compressed ) {
         return true;
     }
     static_popup popup;
@@ -2271,7 +2276,6 @@ bool WORLD::set_compression_enabled( bool enabled ) const
                 std::error_code ec;
                 std::filesystem::remove( file.get_unrelative_path(), ec );
             }
-
         }
     } else {
         std::vector<cata_path> dimension_folders = get_directories( world_folder_path / "dimensions" );
@@ -2396,6 +2400,7 @@ bool WORLD::set_compression_enabled( bool enabled ) const
             }
         }
     }
+    is_compressed = enabled;
     return true;
 }
 
