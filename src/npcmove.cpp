@@ -2865,7 +2865,7 @@ bool npc::wont_hit_friend( const tripoint_bub_ms &tar, const item &it, bool thro
         // TODO: Extract common functions with turret target selection
         units::angle safe_angle_ally = safe_angle;
         units::angle ally_angle = coord_to_angle( pos_bub(), ally.pos_bub() );
-        units::angle angle_diff = units::fabs( ally_angle - target_angle );
+        units::angle angle_diff = units::abs( ally_angle - target_angle );
         angle_diff = std::min( 360_degrees - angle_diff, angle_diff );
         if( angle_diff < safe_angle_ally ) {
             // TODO: Disable NPC whining is it's other NPC who prevents aiming
