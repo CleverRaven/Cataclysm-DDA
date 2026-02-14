@@ -117,6 +117,11 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
 void move_item( Character &you, const std::optional<vpart_reference> &vpr_src,
                 const tripoint_bub_ms &src_bub, const std::unordered_set<tripoint_abs_ms> &dest_set,
                 item &it, int &num_processed );
+
+// Returns A* route length from the player to a tile adjacent to dest.
+// Uses grab-aware routing when the player is dragging a vehicle.
+// Returns INT_MAX if unreachable.
+int route_length( const Character &you, const tripoint_bub_ms &dest );
 } //namespace zone_sorting
 
 
