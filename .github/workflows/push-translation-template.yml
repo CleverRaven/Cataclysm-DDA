@@ -15,7 +15,7 @@ permissions:
 jobs:
   push-template:
     runs-on: ubuntu-latest
-    if: >
+    if: >-
       ${{ github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.conclusion == 'success' &&
       ( github.event.workflow_run.status == 'success' || github.event.workflow_run.status == 'completed' ) &&
@@ -31,7 +31,9 @@ jobs:
           sudo apt install python3-pip
           sudo pip3 install polib
       - name: "Checkout"
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
       - name: "Generate translation template"
         run: |
           lang/update_pot.sh

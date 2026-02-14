@@ -29,25 +29,37 @@ jobs:
           sudo apt install llvm-19-dev clang-19 libclang-19-dev
           sudo apt install cmake
     - name: checkout IWYU repository
-      uses: actions/checkout@v4
+      id: iwyu-checkout
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       with:
         repository: include-what-you-use/include-what-you-use
         path: include-what-you-use-src
         ref: clang_19
+        persist-credentials: false
     - name: checkout own repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       with:
         path: Cataclysm-DDA
+        persist-credentials: false
+    - name: cache IWYU build
+      id: iwyu-cache
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        path: iwyu-build
+        key: iwyu-clang19-ubuntu2404-${{ steps.iwyu-checkout.outputs.commit }}
     - name: build IWYU
-      id: build-iwyu
+      if: steps.iwyu-cache.outputs.cache-hit != 'true'
       run: |
         cmake -B iwyu-build -DCMAKE_PREFIX_PATH=/usr/lib/llvm-19 -DCMAKE_BUILD_TYPE=Release include-what-you-use-src
         cmake --build iwyu-build --parallel 4
+    - name: set IWYU paths
+      id: build-iwyu
+      run: |
         echo "IWYU_SRC_DIR=${PWD}/include-what-you-use-src">> "$GITHUB_OUTPUT"
         echo "IWYU_BIN_DIR=${PWD}/iwyu-build/bin">> "$GITHUB_OUTPUT"
     - name: determine changed files
       if: ${{ github.event_name == 'pull_request' }}
-      uses: actions/github-script@v7
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
       with:
         script: |
           var fs = require('fs');
@@ -80,7 +92,7 @@ jobs:
 
         # and include database too, for get_affected_files.py
         make includes -j4 --silent TILES=${TILES:-0} SOUND=${SOUND:-0} LOCALIZE=${LOCALIZE:-0}
-    - uses: ammaraskar/gcc-problem-matcher@master
+    - uses: ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28 # master
     - name: run IWYU
       working-directory: Cataclysm-DDA
       env:

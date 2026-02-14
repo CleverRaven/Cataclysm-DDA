@@ -637,6 +637,8 @@ bool is_day( const time_point &p );
 bool is_dusk( const time_point &p );
 /** Returns true if it's currently dawn - between sunrise and twilight_duration after sunrise. */
 bool is_dawn( const time_point &p );
+/** Returns true if it's currently dusk or dawn */
+bool is_twilight( const time_point &p );
 /** How much light is provided in full daylight */
 float default_daylight_level();
 /* Irradiance (W/m2) on clear day when sun is at 90 degrees */
@@ -647,6 +649,7 @@ float max_sun_irradiance();
  *  For most situations you actually want to call the below function which also
  *  includes moonlight. */
 float sun_light_at( const time_point &p );
+float moon_light_at( const time_point &p );
 
 /* Returns sun irradiance (W/m2) on a flat surface*/
 float sun_irradiance( const time_point &p );

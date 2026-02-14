@@ -1,5 +1,77 @@
 [
   {
+    "id": "muzzle_long_lips",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "muzzle_long",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "lips"
+  },
+  {
+    "id": "muzzle_long_nostrils",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "muzzle_long",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nostrils"
+  },
+  {
+    "id": "muzzle_long_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "muzzle_long",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks"
+  },
+  {
+    "id": "muzzle_long_chin",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "muzzle_long",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "chin"
+  },
+  {
+    "id": "muzzle_rodent_lips",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "muzzle_rodent",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "lips"
+  },
+  {
+    "id": "muzzle_rodent_nose",
+    "type": "sub_body_part",
+    "max_coverage": 15,
+    "parent": "muzzle_rodent",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nostrils"
+  },
+  {
+    "id": "muzzle_rodent_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "muzzle_rodent",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks"
+  },
+  {
+    "id": "muzzle_rodent_chin",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "muzzle_rodent",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "chin"
+  },
+  {
     "id": "crustacean_pincer_wrist_r",
     "type": "sub_body_part",
     "name": "crustacean pincer wrist",
@@ -260,5 +332,35 @@
     "parent": "tail_finned",
     "side": "both",
     "opposite": "tail_finned_base"
+  },
+  {
+    "id": "tail_rat_base",
+    "type": "sub_body_part",
+    "name": "rat tail base",
+    "name_multiple": "tail bases",
+    "max_coverage": 10,
+    "parent": "tail_rat",
+    "side": "both",
+    "opposite": "tail_rat_tip"
+  },
+  {
+    "id": "tail_rat_center",
+    "type": "sub_body_part",
+    "name": "long tail center",
+    "name_multiple": "rat tail centers",
+    "max_coverage": 60,
+    "parent": "tail_lontail_ratg",
+    "side": "both",
+    "opposite": "tail_rat_center"
+  },
+  {
+    "id": "tail_rat_tip",
+    "type": "sub_body_part",
+    "name": "rat tail tip",
+    "name_multiple": "long tail tips",
+    "max_coverage": 30,
+    "parent": "tail_rat",
+    "side": "both",
+    "opposite": "tail_rat_base"
   }
 ]

@@ -39,16 +39,25 @@ jobs:
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
-          echo "tag_name=cdda-experimental-${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
-          echo "release_name=Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
-      - uses: actions/checkout@v4
+          echo "tag_name=cdda-experimental-${STEPS_GET_TIMESTAMP_OUTPUTS_TIME}" >> $GITHUB_OUTPUT
+          echo "release_name=Cataclysm-DDA experimental build ${STEPS_GET_TIMESTAMP_OUTPUTS_TIME}" >> $GITHUB_OUTPUT
+        env:
+          STEPS_GET_TIMESTAMP_OUTPUTS_TIME: ${{ steps.get-timestamp.outputs.time }}
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
       - name: Generate Release Notes
         id: generate-release-notes
         run: |
           npm install @actions/github@8
-          node build-scripts/generate-release-notes.js '${{ secrets.GITHUB_TOKEN }}' '${{ steps.generate_env_vars.outputs.tag_name }}' "$(git log -1 --format='%H')" > notes.txt
+          node build-scripts/generate-release-notes.js '${{ secrets.GITHUB_TOKEN }}' "${STEPS_GENERATE_ENV_VARS_OUTPUTS_TAG_NAME}" "$(git log -1 --format='%H')" > notes.txt
+        env:
+          STEPS_GENERATE_ENV_VARS_OUTPUTS_TAG_NAME: ${{ steps.generate_env_vars.outputs.tag_name }}
       - run: |
-          gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --notes-file notes.txt --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}" --target "$(git log -1 --format='%H')"
+          gh release create ${STEPS_GENERATE_ENV_VARS_OUTPUTS_TAG_NAME} --notes-file notes.txt --prerelease --title "${STEPS_GENERATE_ENV_VARS_OUTPUTS_RELEASE_NAME}" --target "$(git log -1 --format='%H')"
+        env:
+          STEPS_GENERATE_ENV_VARS_OUTPUTS_TAG_NAME: ${{ steps.generate_env_vars.outputs.tag_name }}
+          STEPS_GENERATE_ENV_VARS_OUTPUTS_RELEASE_NAME: ${{ steps.generate_env_vars.outputs.release_name }}
 
   compose-tilesets:
     uses: ./.github/workflows/compose-tilesets.yml
@@ -151,9 +160,10 @@ jobs:
     env:
         ZSTD_CLEVEL: 17
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-tags: true
+          persist-credentials: false
       - name: Get soundpack
         if: matrix.sound == 1
         run: |
@@ -161,21 +171,21 @@ jobs:
           mv '${{ github.workspace }}/CDDA-Soundpacks/sound/CC-Sounds' '${{ github.workspace }}/data/sound'
       - name: Fetch tileset artifact into build
         if: matrix.tiles == 1
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           pattern: tileset-*
           path: gfx
           merge-multiple: true
       - name: Fetch translations artifact into build
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: translations
       - name: Install dependencies (windows msvc) (1/4)
         if: runner.os == 'Windows'
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce # v2
       - name: Install dependencies (windows msvc) (2/4)
         if: runner.os == 'Windows'
-        uses: lukka/run-vcpkg@v11
+        uses: lukka/run-vcpkg@7d259227a1fb6471a0253dd5ab7419835228f7d7 # v11
         id: runvcpkg
         with:
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
@@ -186,7 +196,7 @@ jobs:
           vcpkg integrate install --vcpkg-root '${{ runner.workspace }}\b\vcpkg'
       - name: Install dependencies (windows msvc) (4/4)
         if: runner.os == 'Windows'
-        uses: msys2/setup-msys2@v2
+        uses: msys2/setup-msys2@4f806de0a5a7294ffabaff804b38a9b435a73bda # v2
         with:
           msystem: mingw64
           install: >-
@@ -209,10 +219,10 @@ jobs:
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel
       - name: Install Emscripten (WebAssembly)
         if: matrix.wasm
-        uses: mymindstorm/setup-emsdk@v13
+        uses: mymindstorm/setup-emsdk@d233ac12b0102f74ca199f5dad7a4e2c13a8a745 # v13
       - name: Install runtime dependencies (mac)
         if: runner.os == 'macOS'
-        uses: BrettDong/setup-sdl2-frameworks@v2
+        uses: BrettDong/setup-sdl2-frameworks@a8ca795ef904417e9ddcb010ef6bf2d11779dbe3 # v2
         with:
           sdl2: 2.30.11
           sdl2-ttf: 2.24.0
@@ -225,7 +235,7 @@ jobs:
           pip3 install --break-system-packages dmgbuild biplist
       - name: install macports (mac)
         if: runner.os == 'macOS' && matrix.tiles == 1
-        uses: melusina-org/setup-macports@v1
+        uses: melusina-org/setup-macports@c7eb59386def259a274627092566a7f7b8d219b1 # v1
       - name: install macports packages (mac)
         if: runner.os == 'macOS' && matrix.tiles == 1
         run: |
@@ -235,10 +245,12 @@ jobs:
         run: |
           cat >VERSION.txt <<EOL
           build type: ${{ matrix.artifact }}
-          build number: ${{ needs.release.outputs.timestamp }}
+          build number: ${NEEDS_RELEASE_OUTPUTS_TIMESTAMP}
           commit sha: ${{ github.sha }}
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
+        env:
+          NEEDS_RELEASE_OUTPUTS_TIMESTAMP: ${{ needs.release.outputs.timestamp }}
       - name: Compile translations (windows)
         if: runner.os == 'Windows'
         shell: msys2 {0}
@@ -283,7 +295,7 @@ jobs:
           mv Cataclysm.dmg cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
       - name: Set up JDK (android)
         if: runner.os == 'Linux' && matrix.android != 'none'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
         with:
           java-version: '11'
           distribution: 'adopt'   

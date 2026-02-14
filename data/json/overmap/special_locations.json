@@ -92,11 +92,6 @@
   },
   {
     "type": "overmap_location",
-    "id": "lab_subway",
-    "terrains": [ "deep_rock" ]
-  },
-  {
-    "type": "overmap_location",
     "id": "road",
     "terrains": [ "ranch_camp_77", "road", "road_nesw_manhole" ]
   },

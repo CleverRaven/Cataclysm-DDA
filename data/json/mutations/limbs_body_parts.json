@@ -67,6 +67,50 @@
     "unarmed_damage": [ { "damage_type": "bash", "amount": 3 }, { "damage_type": "stab", "amount": 8 } ]
   },
   {
+    "id": "muzzle_long",
+    "copy-from": "mouth",
+    "type": "body_part",
+    "name": "muzzle",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "muzzle" },
+    "heading": "muzzle",
+    "heading_multiple": "muzzle",
+    "opposite_part": "muzzle_long",
+    "hit_size": 0.65,
+    "limb_type": "mouth",
+    "limb_scores": [ [ "breathing", 0.8 ], [ "manip", 0.05, 0.2 ], [ "consume_liquid", 1.3 ], [ "consume_solid", 2.0 ] ],
+    "side": "both",
+    "similar_bodypart": "muzzle",
+    "base_hp": 75,
+    "bionic_slots": 3,
+    "flags": [ "LIMB_UPPER" ],
+    "sub_parts": [ "muzzle_long_lips", "muzzle_long_nostrils", "muzzle_long_cheeks", "muzzle_long_chin" ],
+    "//": "We'll assume that if you've mutated far enough to have a reptilian mouth, biting is a primary attack for you",
+    "techniques": [ "TECH_REPTILE_BITE" ],
+    "unarmed_damage": [ { "damage_type": "bash", "amount": 3 }, { "damage_type": "stab", "amount": 16 } ]
+  },
+  {
+    "id": "muzzle_rodent",
+    "copy-from": "mouth",
+    "type": "body_part",
+    "name": "muzzle",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "muzzle" },
+    "heading": "muzzle",
+    "heading_multiple": "muzzle",
+    "opposite_part": "muzzle_rodent",
+    "hit_size": 0.65,
+    "limb_type": "mouth",
+    "limb_scores": [ [ "breathing", 0.95 ], [ "manip", 0.05, 0.2 ], [ "consume_liquid", 1.1 ], [ "consume_solid", 1.25 ] ],
+    "side": "both",
+    "similar_bodypart": "muzzle",
+    "base_hp": 75,
+    "bionic_slots": 3,
+    "flags": [ "LIMB_UPPER" ],
+    "sub_parts": [ "muzzle_rodent_lips", "muzzle_rodent_nose", "muzzle_rodent_cheeks", "muzzle_rodent_chin" ],
+    "//": "We'll assume that if you've mutated far enough to have a reptilian mouth, biting is a primary attack for you",
+    "techniques": [ "TECH_RODENT_BITE" ],
+    "unarmed_damage": [ { "damage_type": "bash", "amount": 3 }, { "damage_type": "stab", "amount": 10 } ]
+  },
+  {
     "id": "crustacean_pincer_r",
     "copy-from": "hand_r",
     "type": "body_part",
@@ -400,13 +444,7 @@
     "base_hp": 35,
     "health_limit": 10,
     "similar_bodypart": "tail",
-    "techniques": [
-      "TAIL_THICK_BASH",
-      "TAIL_THICK_BASH_NATURAL",
-      "TAIL_THICK_BASH_CRIT_VS_LARGE",
-      "TAIL_THICK_BASH_CRIT",
-      "TAIL_THICK_BASH_CRIT_VS_STUMBLE"
-    ],
+    "techniques": [ "TAIL_THICK_BASH", "TAIL_THICK_BASH_NATURAL", "TAIL_THICK_BASH_CRIT_VS_LARGE", "TAIL_THICK_BASH_CRIT_VS_STUMBLE" ],
     "technique_encumbrance_limit": 5,
     "effects_on_hit": [
       {
@@ -472,8 +510,7 @@
       "TAIL_CLUB_BASH_VS_LARGE",
       "TAIL_CLUB_BASH_NATURAL",
       "TAIL_CLUB_BASH_NATURAL_VS_LARGE",
-      "TAIL_CLUB_BASH_CRIT",
-      "TAIL_CLUB_BASH_CRIT_VS_LARGE"
+      "TAIL_CLUB_BASH_CRIT"
     ],
     "technique_encumbrance_limit": 5,
     "effects_on_hit": [
@@ -689,5 +726,27 @@
     "sub_parts": [ "tail_finned_base", "tail_finned_center", "tail_finned_tip" ],
     "smash_message": "You thwap %s with your tail.",
     "smash_efficiency": 0.25
+  },
+  {
+    "id": "tail_rat",
+    "copy-from": "tail_long",
+    "type": "body_part",
+    "name": "rat tail",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "rat tail" },
+    "heading": "tail",
+    "heading_multiple": "tails, rat",
+    "encumbrance_text": "Balance is hampered.",
+    "encumbrance_limit": 25,
+    "hp_bar_ui_text": "R TAIL",
+    "limb_type": "tail",
+    "main_part": "torso",
+    "opposite_part": "tail_rat",
+    "side": "both",
+    "wet_morale": 0,
+    "squeamish_penalty": 0,
+    "limb_scores": [ [ "balance", 0.05 ], [ "reaction", 0.15 ] ],
+    "//": "This is a separate part so that the various furs don't provide armor coverage",
+    "similar_bodypart": "tail_rat",
+    "sub_parts": [ "tail_rat_base", "tail_rat_center", "tail_rat_tip" ]
   }
 ]

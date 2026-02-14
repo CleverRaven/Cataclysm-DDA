@@ -3982,6 +3982,7 @@
     "category": [ "URSINE" ],
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
+    "prereqs2": [ "FANGS" ],
     "points": 0,
     "mixed_effect": true,
     "vitamin_cost": 160,
@@ -4073,6 +4074,7 @@
     "category": [ "BEAST", "LUPINE" ],
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
+    "prereqs2": [ "FANGS" ],
     "points": 0,
     "mixed_effect": true,
     "vitamin_cost": 160,
@@ -4299,14 +4301,7 @@
     "points": 2,
     "vitamin_cost": 160,
     "visibility": 3,
-    "ugliness": 3,
-    "attacks": {
-      "attack_text_u": "You bite into %s with your ratlike incisors!",
-      "attack_text_npc": "%1$s bites %2$s with their ratlike incisors!",
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": [ { "damage_type": "cut", "amount": 3 }, { "damage_type": "bash", "amount": 3 } ]
-    }
+    "ugliness": 3
   },
   {
     "type": "mutation",
@@ -4320,7 +4315,8 @@
     "vitamin_cost": 160,
     "visibility": 6,
     "ugliness": 4,
-    "restricts_gear": [ "mouth" ]
+    "restricts_gear": [ "mouth" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_rodent" } ] } ]
   },
   {
     "type": "mutation",
@@ -4523,6 +4519,7 @@
     "category": [ "LIZARD" ],
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
+    "prereqs2": [ "FANGS" ],
     "points": 0,
     "mixed_effect": true,
     "vitamin_cost": 160,
@@ -4530,14 +4527,7 @@
     "ugliness": 8,
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 20 },
-    "attacks": {
-      "attack_text_u": "You bite a chunk out of %s!",
-      "attack_text_npc": "%1$s bites a chunk out of %2$s!",
-      "blocker_mutations": [ "FANGS" ],
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": { "damage_type": "stab", "amount": 18 }
-    }
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_long" } ] } ]
   },
   {
     "type": "mutation",
@@ -4676,7 +4666,7 @@
     "vitamin_cost": 160,
     "visibility": 7,
     "ugliness": 4,
-    "encumbrance_always": [ [ "mouth", 10 ] ]
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_slit_nostrils_breathing_penalty", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",

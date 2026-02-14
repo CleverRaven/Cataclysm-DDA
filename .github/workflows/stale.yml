@@ -15,7 +15,7 @@ jobs:
       - name: get-time
         run: |
           echo "time=$(date +%I)" >> $GITHUB_ENV
-      - uses: actions/stale@main
+      - uses: actions/stale@b5d41d4e1d5dceea10e7104786b73624c18a190f # main
         id: stale
         with:
           stale-issue-label: stale

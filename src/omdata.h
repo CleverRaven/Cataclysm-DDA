@@ -594,8 +594,6 @@ struct oter_t {
             return type->has_flag( flag );
         }
 
-        bool is_hardcoded() const;
-
         bool is_rotatable() const {
             return type->is_rotatable();
         }

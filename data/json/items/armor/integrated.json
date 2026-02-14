@@ -1401,9 +1401,9 @@
           { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "mut_scales", "covered_by_mat": 90, "thickness": 1.0 }
         ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 90,
-        "encumbrance": 1,
+        "encumbrance": 0,
         "breathability": "POOR",
         "layers": [ "PERSONAL" ]
       }
@@ -1546,9 +1546,9 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "mut_scales", "covered_by_mat": 85, "thickness": 4.0 }
         ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 100,
-        "encumbrance": 2
+        "encumbrance": 0
       }
     ]
   },
@@ -1919,7 +1919,7 @@
     "material": [ "bone" ],
     "symbol": "V",
     "color": "light_gray",
-    "techniques": [ "SMALL_HORNS_RAM_BASH", "SMALL_HORNS_RAM_NATURAL", "SMALL_HORNS_RAM_CRIT" ],
+    "techniques": [ "SMALL_HORNS_RAM_BASH", "SMALL_HORNS_RAM_NATURAL" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
@@ -1945,7 +1945,7 @@
     "material": [ "bone" ],
     "symbol": "V",
     "color": "dark_gray",
-    "techniques": [ "CURLED_HORNS_BASH", "CURLED_HORNS_BASH_NATURAL", "CURLED_HORNS_BASH_CRIT" ],
+    "techniques": [ "CURLED_HORNS_BASH", "CURLED_HORNS_BASH_NATURAL" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
@@ -1971,7 +1971,7 @@
     "material": [ "bone" ],
     "symbol": "V",
     "color": "dark_gray",
-    "techniques": [ "POINTED_HORNS_STAB", "POINTED_HORNS_STAB_NATURAL", "POINTED_HORNS_STAB_CRIT" ],
+    "techniques": [ "POINTED_HORNS_STAB", "POINTED_HORNS_STAB_NATURAL" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
@@ -1997,7 +1997,7 @@
     "material": [ "bone" ],
     "symbol": "V",
     "color": "dark_gray",
-    "techniques": [ "ANTLERS_BASH", "ANTLERS_BASH_NATURAL", "ANTLERS_BASH_CRIT" ],
+    "techniques": [ "ANTLERS_BASH", "ANTLERS_BASH_NATURAL" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "AURA", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
