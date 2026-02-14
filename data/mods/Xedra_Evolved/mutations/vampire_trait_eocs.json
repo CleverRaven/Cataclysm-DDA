@@ -3124,20 +3124,20 @@
     "type": "effect_on_condition",
     "id": "EOC_SUPPRESS_MORALITY",
     "condition": { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_GUILT" } },
-    "//": "Replaces vegan, pacifist, spiritual, etc until the player gains the weakness",
+    "//": "Replaces vegan, pacifist, spiritual, etc on tier 5 vampires until the player gains the weakness.  Tier 3 and 4 don't suppress these by not having the trait.",
     "//2": "Put all traits based on morality here so they're extinguished by the final tier of vampirism.",
     "//3": "This doesn't suppress meat intolerance as it is a physiological issue.",
     "effect": [
       {
-        "if": { "u_has_trait": "SPIRITUAL" },
+        "if": { "and": [ { "u_has_trait": "SPIRITUAL" }, { "u_has_trait": "BLOOD_DRINKER" } ] },
         "then": [ { "u_lose_trait": "SPIRITUAL", "suppress_message": true }, { "math": [ "u_suppressed_spiritual = 1" ] } ]
       },
       {
-        "if": { "u_has_trait": "VEGAN" },
+        "if": { "and": [ { "u_has_trait": "VEGAN" }, { "u_has_trait": "BLOOD_DRINKER" } ] },
         "then": [ { "u_lose_trait": "VEGAN", "suppress_message": true }, { "math": [ "u_suppressed_vegan = 1" ] } ]
       },
       {
-        "if": { "u_has_trait": "PACIFIST" },
+        "if": { "and": [ { "u_has_trait": "PACIFIST" }, { "u_has_trait": "BLOOD_DRINKER" } ] },
         "then": [ { "u_lose_trait": "PACIFIST", "suppress_message": true }, { "math": [ "u_suppressed_pacifist = 1" ] } ]
       },
       {

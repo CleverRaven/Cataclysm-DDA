@@ -65,6 +65,10 @@
               { "u_lose_trait": "VAMPIRE_WEAKNESS_GUILT" },
               { "u_lose_effect": "vampire_need_living_blood" },
               { "u_lose_morale": "morale_vw_no_fun" },
+              {
+                "if": { "math": [ "u_suppressed_uncaring == 1" ] },
+                "then": [ { "u_add_trait": "PSYCHOPATH", "suppress_message": true }, { "math": [ "u_suppressed_uncaring = 0" ] } ]
+              },
               { "math": [ "u_spell_level('vampire_magic_for_blood_spell') = -1" ] },
               { "math": [ "u_spell_level('spell_hypnotic_gaze') = -1" ] },
               { "math": [ "u_spell_level('vampire_command_beast_spell') = -1" ] },
