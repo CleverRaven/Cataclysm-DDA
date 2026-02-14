@@ -13160,14 +13160,30 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
         // For first item: build dropoff_coords with route probing before pickup.
         // Always rebuild - previous item may have failed pickup and left stale coords.
+        // Sort by Chebyshev distance first so nearby destinations are probed
+        // first (populates route cache for later route_to_destination calls).
         if( picked_up_stuff.empty() ) {
             dropoff_coords.clear();
+            std::vector<std::pair<int, tripoint_abs_ms>> dest_candidates;
+            dest_candidates.reserve( dest_set.size() );
             for( const tripoint_abs_ms &possible_dest : dest_set ) {
                 const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
                 if( !here.inbounds( dest_bub ) || here.is_open_air( dest_bub ) ) {
                     continue;
                 }
-                // Probe actual routeability - same A* as route_to_destination.
+                dest_candidates.emplace_back( square_dist( abspos, possible_dest ), possible_dest );
+            }
+            std::sort( dest_candidates.begin(), dest_candidates.end(),
+            []( const std::pair<int, tripoint_abs_ms> &a, const std::pair<int, tripoint_abs_ms> &b ) {
+                return a.first < b.first;
+            } );
+            for( const auto &[cheb, possible_dest] : dest_candidates ) {
+                if( cheb <= 1 ) {
+                    // Adjacent - always reachable, skip A* probe
+                    dropoff_coords.emplace_back( possible_dest );
+                    continue;
+                }
+                const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
                 const int dist = zone_sorting::route_length( you, dest_bub );
                 if( dist == INT_MAX ) {
                     continue;
@@ -13230,11 +13246,25 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
         if( dropoff_coords.empty() ) {
             // Defensive fallback - 4a normally handles this. Probe fresh.
+            // Sort by Chebyshev so nearby destinations are probed first.
+            std::vector<std::pair<int, tripoint_abs_ms>> fallback_dests;
             for( const tripoint_abs_ms &possible_dest : dest_set ) {
                 const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
                 if( !here.inbounds( dest_bub ) || here.is_open_air( dest_bub ) ) {
                     continue;
                 }
+                fallback_dests.emplace_back( square_dist( abspos, possible_dest ), possible_dest );
+            }
+            std::sort( fallback_dests.begin(), fallback_dests.end(),
+            []( const std::pair<int, tripoint_abs_ms> &a, const std::pair<int, tripoint_abs_ms> &b ) {
+                return a.first < b.first;
+            } );
+            for( const auto &[cheb, possible_dest] : fallback_dests ) {
+                if( cheb <= 1 ) {
+                    dropoff_coords.emplace_back( possible_dest );
+                    continue;
+                }
+                const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
                 const int dist = zone_sorting::route_length( you, dest_bub );
                 if( dist == INT_MAX ) {
                     continue;
