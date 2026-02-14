@@ -79,7 +79,6 @@
       { "mapgen_update": "remove_robofac_mercs", "om_terrain": "robofac_strip_mall_x2y1" },
       { "mapgen_update": "remove_robofac_mercs", "om_terrain": "robofac_strip_mall_x3y1" },
       { "mapgen_update": "remove_robofac_mercs", "om_terrain": "robofac_strip_mall_x4y1" }
-
     ]
   }
 ]

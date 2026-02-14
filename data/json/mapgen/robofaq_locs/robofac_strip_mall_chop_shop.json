@@ -1,15 +1,26 @@
 [
   {
     "type": "mapgen",
-    "om_terrain":
+    "om_terrain": [
       [
-        [ "robofac_strip_mall_x0y0", "robofac_strip_mall_x1y0", "robofac_strip_mall_x2y0", "robofac_strip_mall_x3y0", "robofac_strip_mall_x4y0" ],
-        [ "robofac_strip_mall_x0y1", "robofac_strip_mall_x1y1", "robofac_strip_mall_x2y1", "robofac_strip_mall_x3y1", "robofac_strip_mall_x4y1" ]
+        "robofac_strip_mall_x0y0",
+        "robofac_strip_mall_x1y0",
+        "robofac_strip_mall_x2y0",
+        "robofac_strip_mall_x3y0",
+        "robofac_strip_mall_x4y0"
       ],
+      [
+        "robofac_strip_mall_x0y1",
+        "robofac_strip_mall_x1y1",
+        "robofac_strip_mall_x2y1",
+        "robofac_strip_mall_x3y1",
+        "robofac_strip_mall_x4y1"
+      ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "Я1......................sssssssssssssssssssssssss2......................s3......................ssssssssssssssssssssssss", 
+        "Я1......................sssssssssssssssssssssssss2......................s3......................ssssssssssssssssssssssss",
         "#.......................#########################.......................#.......................#sLpppppppppppppyyyyyyy;",
         "#.......................#Su#Su#cdcdlf #km  m 8  #.......................#.......................#sspppppppppppppyyyyDDy;",
         "#.......................#  #  #dcfl  R#  7    7k#.......................#.......................#sspppppppppppppyyyyDDy;",
@@ -154,11 +165,7 @@
         "l": { "item": "dentist_supplies", "chance": 95 },
         "r": { "item": "SUS_shelf_commercial_magazines", "chance": 70 }
       },
-      "item": {
-        "E": [ { "item": "bot_prototype_cyborg" } ],
-        "R": [ { "item": "tazer" } ],
-        "k": [ { "item": "bucket_5gal" } ]
-      },
+      "item": { "E": [ { "item": "bot_prototype_cyborg" } ], "R": [ { "item": "tazer" } ], "k": [ { "item": "bucket_5gal" } ] },
       "place_loot": [
         { "item": "hacksaw", "x": 39, "y": 6 },
         { "item": "hammer_sledge_short", "x": 39, "y": 7 },
@@ -179,33 +186,40 @@
         "8": { "monster": "mon_civilian_parent_robofac_chop_shop" },
         "7": { "monster": "mon_civilian_stationary_robofac_chop_shop" }
       },
-    "place_npcs": [
-      { "class": "robofac_chop_shop_merc_1", "x": 33, "y": 28 },
-      { "class": "robofac_chop_shop_merc_2", "x": 35, "y": 29 },
-      { "class": "robofac_chop_shop_merc_3", "x": 19, "y": 24 },
-      { "class": "robofac_chop_shop_merc_4", "x": 38, "y": 23 },
-      { "class": "robofac_chop_shop_merc_5", "x": 24, "y": 23 },
-      { "class": "robofac_chop_shop_merc_6", "x": 40, "y": 30 },
-      { "class": "robofac_chop_shop_scientist_1", "x": 46, "y": 10 }
-    ],
-    "faction_owner": [
-      { "id": "robofac_auxiliaries_chop_shop", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-      { "id": "robofac_auxiliaries_chop_shop", "x": [ 0, 23 ], "y": [ 24, 47 ] },
-      { "id": "robofac_auxiliaries_chop_shop", "x": [ 24, 47 ], "y": [ 0, 23 ] },
-      { "id": "robofac_auxiliaries_chop_shop", "x": [ 24, 47 ], "y": [ 24, 47 ] },
-      { "id": "robofac_auxiliaries_chop_shop", "x": [ 48, 71 ], "y": [ 0, 23 ] },
-      { "id": "robofac_auxiliaries_chop_shop", "x": [ 48, 71 ], "y": [ 24, 47 ] },
-      { "id": "robofac_auxiliaries_chop_shop", "x": [ 72, 95 ], "y": [ 0, 23 ] },
-      { "id": "robofac_auxiliaries_chop_shop", "x": [ 72, 95 ], "y": [ 24, 47 ] },
-      { "id": "robofac_auxiliaries_chop_shop", "x": [ 96, 119 ], "y": [ 0, 23 ] },
-      { "id": "robofac_auxiliaries_chop_shop", "x": [ 96, 119 ], "y": [ 24, 47 ] }
-
-    ]
+      "place_npcs": [
+        { "class": "robofac_chop_shop_merc_1", "x": 33, "y": 28 },
+        { "class": "robofac_chop_shop_merc_2", "x": 35, "y": 29 },
+        { "class": "robofac_chop_shop_merc_3", "x": 19, "y": 24 },
+        { "class": "robofac_chop_shop_merc_4", "x": 38, "y": 23 },
+        { "class": "robofac_chop_shop_merc_5", "x": 24, "y": 23 },
+        { "class": "robofac_chop_shop_merc_6", "x": 40, "y": 30 },
+        { "class": "robofac_chop_shop_scientist_1", "x": 46, "y": 10 }
+      ],
+      "faction_owner": [
+        { "id": "robofac_auxiliaries_chop_shop", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "robofac_auxiliaries_chop_shop", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "robofac_auxiliaries_chop_shop", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "robofac_auxiliaries_chop_shop", "x": [ 24, 47 ], "y": [ 24, 47 ] },
+        { "id": "robofac_auxiliaries_chop_shop", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "robofac_auxiliaries_chop_shop", "x": [ 48, 71 ], "y": [ 24, 47 ] },
+        { "id": "robofac_auxiliaries_chop_shop", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "robofac_auxiliaries_chop_shop", "x": [ 72, 95 ], "y": [ 24, 47 ] },
+        { "id": "robofac_auxiliaries_chop_shop", "x": [ 96, 119 ], "y": [ 0, 23 ] },
+        { "id": "robofac_auxiliaries_chop_shop", "x": [ 96, 119 ], "y": [ 24, 47 ] }
+      ]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "robofac_strip_mall_roof_1", "robofac_strip_mall_roof_2", "robofac_strip_mall_roof_3", "robofac_strip_mall_roof_4", "robofac_strip_mall_roof_5" ] ],
+    "om_terrain": [
+      [
+        "robofac_strip_mall_roof_1",
+        "robofac_strip_mall_roof_2",
+        "robofac_strip_mall_roof_3",
+        "robofac_strip_mall_roof_4",
+        "robofac_strip_mall_roof_5"
+      ]
+    ],
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
