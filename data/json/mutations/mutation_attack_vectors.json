@@ -35,6 +35,18 @@
   },
   {
     "type": "attack_vector",
+    "id": "vector_avian_talons",
+    "limbs": [ "avian_talon_l", "avian_talon_r" ],
+    "contact_area": [ "avian_talon_talons_l", "avian_talon_talons_r", "avian_talon_bottom_l", "avian_talon_bottom_r" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_avian_talons_rear",
+    "limbs": [ "avian_talon_l", "avian_talon_r" ],
+    "contact_area": [ "avian_talon_rear_l", "avian_talon_rear_r" ]
+  },
+  {
+    "type": "attack_vector",
     "id": "vector_tail_sting",
     "limbs": [ "tail_scorpion" ],
     "contact_area": [ "tail_scorpion_stinger" ],
