@@ -7,30 +7,34 @@ on:
 
 jobs:
   labeling:
-    if: github.repository == 'CleverRaven/Cataclysm-DDA'
+    if: >-
+      github.repository == 'CleverRaven/Cataclysm-DDA' &&
+      github.event.workflow_run.event == 'pull_request'
     runs-on: ubuntu-latest
     steps:
     - name: setLabel
       id: setLabel
       run: |
-        if [[ "${{ github.event.workflow_run.name }}" == "astyle" ]]; then
+        if [[ "${GITHUB_EVENT_WORKFLOW_RUN_NAME}" == "astyle" ]]; then
           echo "label=astyled" >> $GITHUB_OUTPUT
         fi
-        if [[ "${{ github.event.workflow_run.name }}" == "JSON Validation" ]]; then
+        if [[ "${GITHUB_EVENT_WORKFLOW_RUN_NAME}" == "JSON Validation" ]]; then
           echo "label=json-styled" >> $GITHUB_OUTPUT
         fi
-        if [[ "${{ github.event.workflow_run.name }}" == "General build matrix" ]]; then
+        if [[ "${GITHUB_EVENT_WORKFLOW_RUN_NAME}" == "General build matrix" ]]; then
           echo "label=BasicBuildPassed" >> $GITHUB_OUTPUT
         fi
-        if [[ "${{ github.event.workflow_run.name }}" == "IWYU (include-what-you-use)" ]]; then
+        if [[ "${GITHUB_EVENT_WORKFLOW_RUN_NAME}" == "IWYU (include-what-you-use)" ]]; then
           echo "label=IWYUPassed" >> $GITHUB_OUTPUT
         fi
-        if [[ "${{ github.event.workflow_run.name }}" == "build-clang-tidy" ]]; then
+        if [[ "${GITHUB_EVENT_WORKFLOW_RUN_NAME}" == "build-clang-tidy" ]]; then
           echo "label=ClangPassed" >> $GITHUB_OUTPUT
         fi
+      env:
+        GITHUB_EVENT_WORKFLOW_RUN_NAME: ${{ github.event.workflow_run.name }}
     - name: Download success artifact from basic build
       if: ${{ github.event.workflow_run.name == 'General build matrix' }}
-      uses: dawidd6/action-download-artifact@v3.1.4
+      uses: dawidd6/action-download-artifact@09f2f74827fd3a8607589e5ad7f9398816f540fe # v3.1.4
       with:
         workflow: ${{ github.event.workflow_run.name }}
         run_id: ${{ github.event.workflow_run.id }}
@@ -40,7 +44,7 @@ jobs:
       id: set-basic-build-success
       run: echo "basic-build-success=$( cat basic-build )" >> $GITHUB_OUTPUT
     - name: Download pr id artifact
-      uses: dawidd6/action-download-artifact@v3.1.4
+      uses: dawidd6/action-download-artifact@09f2f74827fd3a8607589e5ad7f9398816f540fe # v3.1.4
       with:
         workflow: ${{ github.event.workflow_run.name }}
         run_id: ${{ github.event.workflow_run.id }}
@@ -51,7 +55,7 @@ jobs:
       run: echo "pr-id=$( cat pull_request_id )" >> $GITHUB_OUTPUT
     - name: set-label
       if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.conclusion != 'skipped' || steps.set-basic-build-success.outputs.basic-build-success == 'true' }}
-      uses: actions/github-script@v7
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
       with:
         script: |
             if ('${{ steps.set-pr-id.outputs.pr-id }}'.trim().length == 0) {
@@ -66,7 +70,7 @@ jobs:
             }
     - name: remove-label
       if: ${{ github.event.workflow_run.conclusion == 'failure' && steps.set-basic-build-success.outputs.basic-build-success != 'true' }}
-      uses: actions/github-script@v7
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
       with:
         script: |
             if ('${{ steps.set-pr-id.outputs.pr-id }}'.trim().length == 0) {

@@ -36,6 +36,42 @@
     "name": "chin"
   },
   {
+    "id": "muzzle_rodent_lips",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "muzzle_rodent",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "lips"
+  },
+  {
+    "id": "muzzle_rodent_nose",
+    "type": "sub_body_part",
+    "max_coverage": 15,
+    "parent": "muzzle_rodent",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nostrils"
+  },
+  {
+    "id": "muzzle_rodent_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "muzzle_rodent",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks"
+  },
+  {
+    "id": "muzzle_rodent_chin",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "muzzle_rodent",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "chin"
+  },
+  {
     "id": "crustacean_pincer_wrist_r",
     "type": "sub_body_part",
     "name": "crustacean pincer wrist",
@@ -54,6 +90,106 @@
     "parent": "crustacean_pincer_r",
     "side": "right",
     "opposite": "hand_fingers_l"
+  },
+  {
+    "id": "avian_talon_bottom_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "avian_talon_l",
+    "side": "left",
+    "opposite": "avian_talon_bottom_r",
+    "name_multiple": "talon bottoms",
+    "name": "left talon bottom"
+  },
+  {
+    "id": "avian_talon_top_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "avian_talon_l",
+    "side": "left",
+    "opposite": "avian_talon_r",
+    "name_multiple": "talon top",
+    "name": "left talon top"
+  },
+  {
+    "id": "avian_talon_talons_l",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "avian_talon_l",
+    "side": "left",
+    "opposite": "avian_talon_talons_r",
+    "name_multiple": "front talons",
+    "name": "left front talons"
+  },
+  {
+    "id": "avian_talon_ankle_l",
+    "type": "sub_body_part",
+    "max_coverage": 15,
+    "parent": "avian_talon_l",
+    "side": "left",
+    "opposite": "avian_talon_ankle_r",
+    "name_multiple": "ankles",
+    "name": "left ankle"
+  },
+  {
+    "id": "avian_talon_rear_l",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "avian_talon_l",
+    "side": "left",
+    "opposite": "avian_talon_rear_r",
+    "name_multiple": "rear talons",
+    "name": "left rear talon"
+  },
+  {
+    "id": "avian_talon_bottom_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "avian_talon_r",
+    "side": "right",
+    "opposite": "avian_talon_bottom_l",
+    "name_multiple": "talon bottoms",
+    "name": "right talon bottom"
+  },
+  {
+    "id": "avian_talon_top_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "avian_talon_r",
+    "side": "right",
+    "opposite": "avian_talon_l",
+    "name_multiple": "talon top",
+    "name": "right talon top"
+  },
+  {
+    "id": "avian_talon_talons_r",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "avian_talon_r",
+    "side": "right",
+    "opposite": "avian_talon_talons_l",
+    "name_multiple": "front talons",
+    "name": "right front talons"
+  },
+  {
+    "id": "avian_talon_ankle_r",
+    "type": "sub_body_part",
+    "max_coverage": 15,
+    "parent": "avian_talon_r",
+    "side": "right",
+    "opposite": "avian_talon_ankle_l",
+    "name_multiple": "ankles",
+    "name": "right ankle"
+  },
+  {
+    "id": "avian_talon_rear_r",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "avian_talon_r",
+    "side": "right",
+    "opposite": "avian_talon_rear_l",
+    "name_multiple": "rear talons",
+    "name": "right rear talon"
   },
   {
     "id": "tail_long_base",

@@ -58,7 +58,7 @@ jobs:
       should_skip_code: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@master
+        uses: fkirc/skip-duplicate-actions@04a1aebece824b56e6ad6a401d015479cd1c50b3 # master
         with:
           skip_after_successful_duplicate: 'false'
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "tools/**", "utilities/**", "data/**", "lang/**"]'
@@ -70,7 +70,7 @@ jobs:
       should_skip_data: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@master
+        uses: fkirc/skip-duplicate-actions@04a1aebece824b56e6ad6a401d015479cd1c50b3 # master
         with:
           skip_after_successful_duplicate: 'false'
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "tools/**", "utilities/**"]'
@@ -226,7 +226,7 @@ jobs:
     steps:
     - name: Maximize build space (ubuntu)
       if: ${{ runner.os == 'Linux' }}
-      uses: AdityaGarg8/remove-unwanted-software@v4.1
+      uses: AdityaGarg8/remove-unwanted-software@8831c82abf29b34eb2caac48d5f999ecfc0d8eef # v4.1
       with:
         remove-android: ${{ matrix.android == '' }}
     - name: Maximize build space (mac)
@@ -235,7 +235,9 @@ jobs:
         sudo rm -rf $ANDROID_HOME
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      with:
+        persist-credentials: false
     - name: install dependencies (ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       run: |
@@ -255,7 +257,7 @@ jobs:
           ccache --version
     - name: install runtime dependencies (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
-      uses: BrettDong/setup-sdl2-frameworks@v1
+      uses: BrettDong/setup-sdl2-frameworks@8ec523df88d65b2af0e1ae520695badd88851497 # v1
       with:
         sdl2: 2.30.11
         sdl2-ttf: 2.24.0
@@ -267,7 +269,7 @@ jobs:
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel
     - name: install macports (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' && matrix.tiles == 1 }}
-      uses: melusina-org/setup-macports@v1
+      uses: melusina-org/setup-macports@c7eb59386def259a274627092566a7f7b8d219b1 # v1
     - name: install macports packages (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' && matrix.tiles == 1 }}
       run: |
@@ -285,18 +287,18 @@ jobs:
       shell: bash
     - name: ccache cache files
       if: ${{ env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) && matrix.ccache_key != '' }}
-      uses: actions/cache@v4
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
         path: ${{ steps.get-vars.outputs.ccache-path }}
         # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
         key: ccache-${{ github.ref_name }}-${{ matrix.ccache_key }}--${{ steps.get-vars.outputs.datetime }}
         restore-keys: |
           ccache-master-${{ matrix.ccache_key }}--
-    - uses: ammaraskar/gcc-problem-matcher@master
+    - uses: ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28 # master
 
     - name: Set up JDK (android)
       if: runner.os == 'Linux' && matrix.android != 'none'
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
       with:
         java-version: '11'
         distribution: 'adopt'
@@ -330,18 +332,18 @@ jobs:
         echo ${{ github.event.number }} > pull_request_id
         echo "false" > ${{ env.ARCHIVE_SUCCESS }}
       if: ${{ env.ARCHIVE_SUCCESS && failure() }}
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       if: ${{ always() && env.ARCHIVE_SUCCESS }}
       with:
         name: pull_request_id
         path: pull_request_id
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       if: ${{ always() && env.ARCHIVE_SUCCESS }}
       with:
         name: ${{ env.ARCHIVE_SUCCESS }}
         path: ${{ env.ARCHIVE_SUCCESS }}
     - name: upload artifacts if failed
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       if: failure()
       with:
         name: cata_test

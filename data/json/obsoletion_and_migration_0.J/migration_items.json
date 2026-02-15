@@ -437,5 +437,35 @@
     "type": "MIGRATION",
     "id": "sleeveless_trenchcoat_survivor",
     "replace": "sleeveless_trenchcoat"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "lsurvivor_pants",
+    "replace": "aketon_pants_canvas"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_lsurvivor_pants",
+    "replace": "xs_aketon_pants_canvas"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_lsurvivor_pants",
+    "replace": "xl_aketon_pants_canvas"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "pants_survivor",
+    "replace": "gambeson_pants_canvas"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_pants_survivor",
+    "replace": "xl_gambeson_pants_canvas"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_pants_survivor",
+    "replace": "xs_gambeson_pants_canvas"
   }
 ]

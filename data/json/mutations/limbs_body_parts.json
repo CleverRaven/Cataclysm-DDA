@@ -89,6 +89,28 @@
     "unarmed_damage": [ { "damage_type": "bash", "amount": 3 }, { "damage_type": "stab", "amount": 16 } ]
   },
   {
+    "id": "muzzle_rodent",
+    "copy-from": "mouth",
+    "type": "body_part",
+    "name": "muzzle",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "muzzle" },
+    "heading": "muzzle",
+    "heading_multiple": "muzzle",
+    "opposite_part": "muzzle_rodent",
+    "hit_size": 0.65,
+    "limb_type": "mouth",
+    "limb_scores": [ [ "breathing", 0.95 ], [ "manip", 0.05, 0.2 ], [ "consume_liquid", 1.1 ], [ "consume_solid", 1.25 ] ],
+    "side": "both",
+    "similar_bodypart": "muzzle",
+    "base_hp": 75,
+    "bionic_slots": 3,
+    "flags": [ "LIMB_UPPER" ],
+    "sub_parts": [ "muzzle_rodent_lips", "muzzle_rodent_nose", "muzzle_rodent_cheeks", "muzzle_rodent_chin" ],
+    "//": "We'll assume that if you've mutated far enough to have a reptilian mouth, biting is a primary attack for you",
+    "techniques": [ "TECH_RODENT_BITE" ],
+    "unarmed_damage": [ { "damage_type": "bash", "amount": 3 }, { "damage_type": "stab", "amount": 10 } ]
+  },
+  {
     "id": "crustacean_pincer_r",
     "copy-from": "hand_r",
     "type": "body_part",
@@ -191,6 +213,50 @@
         "max_duration": 15
       }
     ]
+  },
+  {
+    "id": "avian_talon_l",
+    "copy-from": "foot_l",
+    "type": "body_part",
+    "name": "left talon",
+    "name_multiple": "talons",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "left talon" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "talons" },
+    "heading": "l. talon",
+    "heading_multiple": "talons",
+    "encumbrance_text": "Running is slowed.",
+    "encumbrance_threshold": 5,
+    "main_part": "leg_l",
+    "opposite_part": "avian_talon_r",
+    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "footing", 0.6 ], [ "swim", 0.0 ] ],
+    "smash_message": "You kick down the %s, smashing it.",
+    "techniques": [ "TECH_AVIAN_KICK" ],
+    "bionic_slots": 1,
+    "sub_parts": [ "avian_talon_bottom_l", "avian_talon_top_l", "avian_talon_talons_l", "avian_talon_ankle_l", "avian_talon_rear_l" ],
+    "flags": [ "LIMB_LOWER" ],
+    "unarmed_damage": [ { "damage_type": "cut", "amount": 6 } ]
+  },
+  {
+    "id": "avian_talon_r",
+    "copy-from": "foot_r",
+    "type": "body_part",
+    "name": "right talon",
+    "name_multiple": "talons",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "right talon" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "talons" },
+    "heading": "r. talon",
+    "heading_multiple": "talons",
+    "encumbrance_text": "Running is slowed.",
+    "encumbrance_threshold": 5,
+    "main_part": "leg_l",
+    "opposite_part": "avian_talon_l",
+    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "footing", 0.6 ], [ "swim", 0.0 ] ],
+    "smash_message": "You kick down the %s, smashing it.",
+    "techniques": [ "TECH_AVIAN_KICK" ],
+    "bionic_slots": 1,
+    "sub_parts": [ "avian_talon_bottom_r", "avian_talon_top_r", "avian_talon_talons_r", "avian_talon_ankle_r", "avian_talon_rear_r" ],
+    "flags": [ "LIMB_LOWER" ],
+    "unarmed_damage": [ { "damage_type": "cut", "amount": 6 } ]
   },
   {
     "id": "tail",
@@ -422,7 +488,7 @@
     "base_hp": 35,
     "health_limit": 10,
     "similar_bodypart": "tail",
-    "techniques": [ "TAIL_THICK_BASH", "TAIL_THICK_BASH_NATURAL", "TAIL_THICK_BASH_CRIT_VS_LARGE", "TAIL_THICK_BASH_CRIT_VS_STUMBLE" ],
+    "techniques": [ "TAIL_THICK_BASH", "TAIL_THICK_BASH_NATURAL", "TAIL_THICK_BASH_CRIT_VS_STUMBLE" ],
     "technique_encumbrance_limit": 5,
     "effects_on_hit": [
       {

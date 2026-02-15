@@ -281,7 +281,8 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
                                             ( wear_multiplier * enchant_multiplier ) ) );
     // DURABLE_MELEE items are made to hit stuff and they do it well, so they're considered to be a lot tougher
     // than other weapons made of the same materials.
-    if( shield->has_flag( flag_DURABLE_MELEE ) ) {
+    // Sturdy armor (such as a pair of steel gauntlets) are considered durable too.
+    if( shield->has_flag( flag_DURABLE_MELEE ) || shield->has_flag( flag_STURDY ) ) {
         damage_chance *= 4;
     }
 

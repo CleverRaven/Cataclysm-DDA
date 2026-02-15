@@ -114,6 +114,7 @@ class multi_zone_activity_actor : public activity_actor
         void do_turn( player_activity &act, Character &you ) override;
         void finish( player_activity &, Character & ) override {};
         // for allowing a return value from do_turn
+        // @return whether this activity should continue to the next turn
         bool simulate_turn( player_activity &act, Character &you, bool check_only );
 
         /** Check whether activity can be done immediately if it has requirements */
@@ -3186,6 +3187,40 @@ class heat_activity_actor : public activity_actor
         drop_locations to_heat;
         heating_requirements requirements;
         heater heater_data;
+};
+
+
+class fire_start_activity_actor : public activity_actor
+{
+    private:
+        fire_start_activity_actor() = default;
+    public:
+        fire_start_activity_actor( const tripoint_abs_ms &fire_placement, const item_location &fire_starter,
+                                   int potential_skill_gain, int initial_moves ) :
+            fire_placement( fire_placement ), fire_starter( fire_starter ),
+            potential_skill_gain( potential_skill_gain ), initial_moves( initial_moves ) {
+        };
+        const activity_id &get_type() const override {
+            static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
+            return ACT_START_FIRE;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<fire_start_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        tripoint_abs_ms fire_placement;
+        item_location fire_starter;
+        int potential_skill_gain;
+        int initial_moves; // NOLINT(cata-serialize)
 };
 
 class wear_activity_actor : public activity_actor
