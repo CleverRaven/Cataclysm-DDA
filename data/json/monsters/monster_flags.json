@@ -610,6 +610,11 @@
     "//": "This monster can always be seen regardless of los or light or anything"
   },
   {
+    "id": "APPEARS_NEUTRAL",
+    "type": "monster_flag",
+    "//COMMENT": "This monster appears neutral but AI behaves as if not. (The effect is hardcoded)"
+  },
+  {
     "id": "ALWAYS_SEES_YOU",
     "type": "monster_flag",
     "//": "This monster always knows where the avatar is"

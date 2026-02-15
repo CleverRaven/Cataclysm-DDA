@@ -181,7 +181,7 @@
     "name": { "str": "stray soul" },
     "description": "A sing songy voice repeats lullaby sounding lyrics over and over as though comforting themselves.  Thin and with every limb just a little longer than what feels normal when you look at them.  Despite their sorrowful lamentations their interspersed laughter betrays a vicious glee.",
     "looks_like": "mon_civilian_panic",
-    "default_faction": "human",
+    "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
     "material": [ "hflesh" ],
@@ -280,6 +280,6 @@
       }
     ],
     "extend": { "move_skills": { "climb": 8 }, "flags": [ "SMELLS" ] },
-    "delete": { "flags": [ "HUMAN", "HUMAN_GUILT", "APPEARS_NEUTRAL" ] }
+    "delete": { "flags": [ "HUMAN", "GUILT_HUMAN", "APPEARS_NEUTRAL" ] }
   }
 ]
