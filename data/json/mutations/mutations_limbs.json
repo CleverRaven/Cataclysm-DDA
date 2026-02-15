@@ -997,6 +997,8 @@
     "visibility": 3,
     "ugliness": 1,
     "activated_is_setup": false,
+    "stamina": true,
+    "cost": 2000,
     "activated_eocs": [ "EOC_SHORT_LEAP" ]
   },
   {
@@ -1014,6 +1016,8 @@
     "visibility": 3,
     "ugliness": 1,
     "activated_is_setup": false,
+    "stamina": true,
+    "cost": 6000,
     "activated_eocs": [ "EOC_CRUSHING_LEAP" ]
   },
   {
@@ -1068,10 +1072,18 @@
     "ugliness": 2,
     "flags": [ "TOUGH_FEET" ],
     "activated_is_setup": false,
+    "stamina": true,
+    "cost": 2500,
     "activated_eocs": [ "EOC_AVIAN_LEAP" ],
     "destroys_gear": true,
     "allowed_items": [ "ALLOWS_TALONS" ],
-    "restricts_gear": [ "foot_l", "foot_r" ]
+    "restricts_gear": [ "foot_l", "foot_r" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "avian_talon_l" }, { "gain": "avian_talon_r" } ]
+      }
+    ]
   },
   {
     "type": "mutation",

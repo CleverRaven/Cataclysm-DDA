@@ -1141,9 +1141,8 @@ TEST_CASE( "uncraft_sanity_check", "[item]" )
         }
 
         const units::mass item_weight = target.type->weight;
-
-        const int weight_difference = std::abs( to_milligram( sum_of_components_weight - item_weight ) );
-        const int weight_tolerance = to_milligram( tolerance * item_weight );
+        const units::mass weight_difference = units::fabs( sum_of_components_weight - item_weight );
+        const units::mass weight_tolerance = tolerance * item_weight;
         const bool is_within_tolerance = weight_difference <= weight_tolerance;
 
         if( !is_within_tolerance ) {
@@ -1183,8 +1182,8 @@ TEST_CASE( "uncraft_blacklist_is_pruned", "[item]" )
             sum_of_components_weight += c.type->weight * c.count;
         }
 
-        const int weight_difference = std::abs( to_milligram( sum_of_components_weight - item_weight ) );
-        const int weight_tolerance = to_milligram( tolerance * item_weight );
+        const units::mass weight_difference = units::fabs( sum_of_components_weight - item_weight );
+        const units::mass weight_tolerance = tolerance * item_weight;
         const bool is_within_tolerance = weight_difference <= weight_tolerance;
 
         if( is_within_tolerance ) {

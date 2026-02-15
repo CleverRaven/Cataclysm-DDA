@@ -39,8 +39,6 @@
 #include "type_id.h"
 #include "weather_type.h"
 
-static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
-
 static const construction_str_id construction_constr_floor( "constr_floor" );
 static const construction_str_id
 construction_constr_ov_smreb_cage_thconc_floor( "constr_ov_smreb_cage_thconc_floor" );
@@ -94,11 +92,6 @@ void run_activities( Character &u, int max_moves )
             u.start_destination_activity();
         }
         u.activity.do_turn( u );
-        // npc plz do your thing
-        if( u.is_npc() && u.activity.is_null() && !u.is_auto_moving() && !u.backlog.empty() &&
-            u.backlog.back().id() == ACT_MULTIPLE_CONSTRUCTION ) {
-            activity_handlers::resume_for_multi_activities( u );
-        }
         turns++;
     }
 }

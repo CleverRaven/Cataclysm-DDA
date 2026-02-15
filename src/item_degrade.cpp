@@ -474,7 +474,7 @@ void item::set_rot( time_duration val )
 void item::randomize_rot()
 {
     if( is_comestible() && get_comestible()->spoils > 0_turns ) {
-        const time_duration age_from_zero = calendar::turn - calendar::turn_zero;
+        const time_duration age_from_zero = calendar::turn - calendar::start_of_cataclysm;
         const time_duration cap = get_shelf_life() * 2;
         time_duration base_rot = std::min( age_from_zero, cap );
         const double x_input = rng_float( 0.0, 1.0 );
