@@ -104,6 +104,7 @@ SDL_Color get_critter_color( Creature *critter, int flicker, int mixture )
     SDL_Color result = curses_color_to_SDL( critter->symbol_color() );
 
     if( const monster *m = dynamic_cast<monster *>( critter ) ) {
+        //faction status (attacking or tracking) determines if red highlights get applied to creature
         const monster_attitude matt = m->attitude( &get_player_character() );
 
         if( ( MATT_ATTACK == matt || MATT_FOLLOW == matt ) &&
