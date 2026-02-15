@@ -37,13 +37,22 @@
     "type": "attack_vector",
     "id": "vector_hoof_kick",
     "limbs": [ "hoof_l", "hoof_r" ],
-    "contact_area": [ "hoof_sole_l", "hoof_sole_r", "hoof_wall_l", "hoof_wall_r" ]
+    "contact_area": [ "hoof_sole_l", "hoof_sole_r", "hoof_wall_l", "hoof_wall_r" ],
+    "limb_req": [ [ "leg", 2 ] ]
   },
   {
     "type": "attack_vector",
     "id": "vector_avian_talons",
     "limbs": [ "avian_talon_l", "avian_talon_r" ],
-    "contact_area": [ "avian_talon_talons_l", "avian_talon_talons_r", "avian_talon_bottom_l", "avian_talon_bottom_r" ]
+    "contact_area": [ "avian_talon_talons_l", "avian_talon_talons_r", "avian_talon_bottom_l", "avian_talon_bottom_r" ],
+    "limb_req": [ [ "leg", 2 ] ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_digitigrade_paws",
+    "limbs": [ "animal_paw_l", "animal_paw_r" ],
+    "contact_area": [ "hoof_sole_l", "hoof_sole_r", "hoof_wall_l", "hoof_wall_r" ],
+    "limb_req": [ [ "leg", 2 ] ]
   },
   {
     "type": "attack_vector",
