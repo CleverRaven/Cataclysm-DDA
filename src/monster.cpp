@@ -756,7 +756,7 @@ std::string monster::disp_name( bool possessive, bool capitalize_first ) const
     }
 }
 
-std::pair<std::string, nc_color> monster::get_attitude() const
+std::string monster::skin_name() const
 {
     monster_attitude matt = attitude( &get_player_character() );
 
