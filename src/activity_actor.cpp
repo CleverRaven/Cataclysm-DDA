@@ -65,6 +65,7 @@
 #include "harvest.h"
 #include "iexamine.h"
 #include "inventory.h"
+#include "inventory_ui.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_contents.h"
@@ -225,6 +226,7 @@ static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
+static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_STASH( "ACT_STASH" );
 static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_TENT_DECONSTRUCT( "ACT_TENT_DECONSTRUCT" );
@@ -289,9 +291,14 @@ static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
 
 static const furn_str_id furn_f_gunsafe_mj( "f_gunsafe_mj" );
 static const furn_str_id furn_f_gunsafe_ml( "f_gunsafe_ml" );
+static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
+static const furn_str_id furn_f_kiln_metal_empty( "f_kiln_metal_empty" );
+static const furn_str_id furn_f_kiln_portable_empty( "f_kiln_portable_empty" );
+static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
 static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
 static const furn_str_id furn_f_safe_c( "f_safe_c" );
 static const furn_str_id furn_f_safe_o( "f_safe_o" );
+static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 
@@ -4709,9 +4716,10 @@ std::optional<requirement_id> multi_zone_activity_actor::multi_activity_requirem
 void multi_zone_activity_actor::do_turn( player_activity &act, Character &you )
 {
     activity_id prior_act = get_type();
-    simulate_turn( act, you, false );
-    // If this activity still exists, end it
-    if( !act.is_null() && ( prior_act == you.activity.id() ) ) {
+    bool activity_continues = simulate_turn( act, you, false );
+    // If this activity still exists and was not successful or resulted in a new travel route, end it
+    if( ( you.has_destination() || !activity_continues ) &&
+        !act.is_null() && ( prior_act == you.activity.id() ) ) {
         // Nuke the current activity, leaving the backlog alone
         // No multi_zone_activity_actor functions will be called from this point, so `this` can be nullptr
         you.activity = player_activity();
@@ -4752,12 +4760,16 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         if( !check_only ) {
             if( !here.inbounds( src_bub ) ) {
                 if( zone_sorting::sorter_out_of_bounds( you, current_activity ) ) {
+                    // activity cancelled
                     return false;
                 }
                 //TODO: remove dummy argument
                 zone_activity_stage dummy;
+                // if route successful, activity cancelled
                 if( !zone_sorting::route_to_destination( you, act, src_bub, dummy ) ) {
                     continue;
+                } else {
+                    return false;
                 }
             }
         }
@@ -4772,7 +4784,8 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         const requirement_check_result req_res = check_requirements( you, act_info, src, src_bub, src_set,
                 check_only );
         if( req_res == requirement_check_result::RETURN_EARLY ) {
-            return true;
+            // activity cancelled
+            return false;
         }
         req_fail_reason.convert_requirement_check_result( req_res );
         if( req_fail_reason.check_skip_location() ) {
@@ -4788,6 +4801,8 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
             continue;
         }
         if( *route_result ) {
+            // activity re-assigned OR route set; leave the multi-activity alone,
+            // it won't process turns while auto-moving
             return true;
         }
 
@@ -4809,8 +4824,8 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
             if( !multi_activity_do( you, act_info, src, src_bub ) ) {
                 // if the activity was successful
                 // then a new activity was assigned
-                // and the backlog was given the multi-act
-                return false;
+                // and the multi-act is now in the backlog
+                return true;
             }
         } else {
             return true;
@@ -4818,12 +4833,13 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
     }
 
     if( !check_only ) {
-        if( multi_activity_actor::out_of_moves( you, current_activity ) ) {
-            return false;
+        if( multi_activity_actor::out_of_moves( you ) ) {
+            // being out of moves means we need to try again next turn
+            return true;
         }
         multi_activity_actor::revert_npc_post_activity( you, current_activity, src_set.empty() );
     }
-    // scanned every location, tried every path.
+    // scanned every location, tried every route, we're out of eligible zone tiles and the activity is over.
     if( !check_only ) {
         if( you.is_npc() ) {
             multi_activity_actor::activity_failure_message( you, current_activity, req_fail_reason,
@@ -5045,11 +5061,6 @@ bool fetch_required_activity_actor::multi_activity_do( Character &you,
 
     if( reason == do_activity_reason::CAN_DO_FETCH ) {
         if( fetch_activity( you, src_loc, ACT_FETCH_REQUIRED, MAX_VIEW_DISTANCE ) ) {
-            if( !you.is_npc() ) {
-                // Npcs will automatically start the next thing in the backlog, players need to be manually prompted
-                // Because some player activities are necessarily not marked as auto-resume.
-                activity_handlers::resume_for_multi_activities( you );
-            }
             return false;
         }
     }
@@ -6374,10 +6385,7 @@ void plant_seed_activity_actor::finish( player_activity &act, Character &who )
         who.add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
                                    item::nname( seed_id ) );
     }
-    // Go back to what we were doing before
-    // could be player zone activity, or could be NPC multi-farming
     act.set_to_null();
-    activity_handlers::resume_for_multi_activities( who );
 }
 
 void plant_seed_activity_actor::serialize( JsonOut &jsout ) const
@@ -9038,7 +9046,6 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
     who.add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act.set_to_null();
-    activity_handlers::resume_for_multi_activities( who );
 }
 
 void chop_logs_activity_actor::serialize( JsonOut &jsout ) const
@@ -9098,7 +9105,6 @@ void chop_planks_activity_actor::finish( player_activity &act, Character &who )
         who.add_msg_if_player( m_bad, _( "You waste a lot of the wood." ) );
     }
     act.set_to_null();
-    activity_handlers::resume_for_multi_activities( who );
 }
 
 void chop_planks_activity_actor::serialize( JsonOut &jsout ) const
@@ -9204,7 +9210,6 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
                              sfx::get_heard_volume( here.get_bub( act.placement ) ) );
     get_event_bus().send<event_type::cuts_tree>( who.getID() );
     act.set_to_null();
-    activity_handlers::resume_for_multi_activities( who );
 }
 
 void chop_tree_activity_actor::serialize( JsonOut &jsout ) const
@@ -9255,7 +9260,6 @@ void churn_activity_actor::finish( player_activity &act, Character &who )
     // Go back to what we were doing before
     // could be player zone activity, or could be NPC multi-farming
     act.set_to_null();
-    activity_handlers::resume_for_multi_activities( who );
 }
 
 void churn_activity_actor::serialize( JsonOut &jsout ) const
@@ -9332,7 +9336,6 @@ void fertilize_plant_activity_actor::finish( player_activity &act, Character &wh
              planted.front().tname() );
 
     act.set_to_null();
-    activity_handlers::resume_for_multi_activities( who );
 }
 
 void fertilize_plant_activity_actor::serialize( JsonOut &jsout ) const
@@ -10071,7 +10074,7 @@ void mine_activity_actor::finish( player_activity &act, Character &who )
     }
 
     act.set_to_null();
-    if( activity_handlers::resume_for_multi_activities( who ) ) {
+    if( !who.backlog.empty() && who.backlog.front().id() == ACT_MULTIPLE_MINE ) {
         for( item &elem : here.i_at( pos ) ) {
             elem.set_var( "activity_var", who.name );
             who.may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor{ here.get_abs( pos ) },
@@ -10137,7 +10140,6 @@ void mop_activity_actor::finish( player_activity &act, Character &who )
         here.mop_spills( here.get_bub( act.placement ) );
     }
     act.set_to_null();
-    activity_handlers::resume_for_multi_activities( who );
 }
 
 void mop_activity_actor::serialize( JsonOut &jsout ) const
@@ -10363,7 +10365,7 @@ void vehicle_activity_actor::finish( player_activity &act, Character &you )
             here.invalidate_map_cache( here.get_abs_sub().z() );
             // TODO: Z (and also where the activity is queued)
             // Or not, because the vehicle coordinates are dropped anyway
-            if( !activity_handlers::resume_for_multi_activities( you ) ) {
+            if( you.backlog.empty() || !you.backlog.front().is_multi_type() ) {
                 const point_rel_ms &mount_loc = vp_mount_location.xy();
                 if( vp->vehicle().is_appliance() ) {
                     g->exam_appliance( vp->vehicle(), mount_loc );
@@ -11264,6 +11266,162 @@ std::unique_ptr<activity_actor> heat_activity_actor::deserialize( JsonValue &jsi
         data.read( "vpt", legacy_heater_data.vpt );
         actor.heater_data = legacy_heater_data;
     }
+    return actor.clone();
+}
+
+void fire_start_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = initial_moves;
+    act.moves_left = initial_moves;
+}
+
+void fire_start_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    tripoint_bub_ms where = here.get_bub( fire_placement );
+    if( !here.is_flammable( where ) ) {
+        try_fuel_fire( act, who, true );
+        if( !here.is_flammable( where ) ) {
+            if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, where ) ||
+                here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, where ) ) {
+                who.add_msg_if_player( m_info, _( "You can't light a fire on water." ) );
+            } else {
+                who.add_msg_if_player( m_info, _( "There's nothing to light there." ) );
+            }
+            who.cancel_activity();
+            return;
+        }
+    }
+
+    // Sometimes when an item is dropped it causes the whole item* to get set to null.
+    // This null pointer gets cast to a reference at some point, causing UB and
+    // segfaults. It looks like something is supposed to catch this, maybe
+    // get_safe_reference in item.cpp, but it's not working so we check for a
+    // null pointer here.
+    //
+    if( !fire_starter ) {
+        add_msg( m_bad, _( "You have lost the item you were using to start the fire." ) );
+        who.cancel_activity();
+        return;
+    }
+
+    item &firestarter = *fire_starter;
+
+    const furn_id f_id = here.furn( here.get_bub( fire_placement ) );
+    const bool is_smoker = f_id == furn_f_smoking_rack ||
+                           f_id == furn_f_metal_smoking_rack;
+
+    if( firestarter.has_flag( flag_REQUIRES_TINDER ) && !is_smoker ) {
+        if( !here.tinder_at( where ) ) {
+            inventory_filter_preset preset( []( const item_location & loc ) {
+                return loc->has_flag( flag_TINDER );
+            } );
+            inventory_pick_selector inv_s( who, preset );
+            inv_s.add_nearby_items( PICKUP_RANGE );
+            inv_s.add_character_items( who );
+
+            inv_s.set_title( _( "Select tinder to use for lighting a fire" ) );
+
+            item_location tinder;
+            if( inv_s.empty() || !( tinder = inv_s.execute() ) ) {
+                who.add_msg_if_player( m_info, _( "This item requires tinder to light." ) );
+                who.cancel_activity();
+                return;
+            }
+
+            item copy = *tinder;
+            bool count_by_charges = tinder->count_by_charges();
+            if( count_by_charges ) {
+                tinder->charges--;
+                copy.charges = 1;
+            }
+            here.add_item_or_charges( where, copy );
+            if( !count_by_charges || tinder->charges <= 0 ) {
+                tinder.remove_item();
+            }
+        }
+    }
+
+    const use_function *usef = firestarter.type->get_use( "firestarter" );
+    if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
+        add_msg( m_bad, _( "You have lost the item you were using to start the fire." ) );
+        who.cancel_activity();
+        return;
+    }
+
+    who.mod_moves( -who.get_moves() );
+    const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+    const float light = actor->light_mod( &here, who.pos_bub( here ) );
+    act.moves_left -= light * 100;
+    if( light < 0.1 ) {
+        add_msg( m_bad, _( "There is not enough sunlight to start a fire now.  You stop trying." ) );
+        who.cancel_activity();
+    }
+}
+
+void fire_start_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+
+    static const std::string iuse_name_string( "firestarter" );
+
+    item &it = *fire_starter;
+    item *used_tool = it.get_usable_item( iuse_name_string );
+    if( used_tool == nullptr ) {
+        debugmsg( "Lost tool used for starting fire" );
+        act.set_to_null();
+        return;
+    }
+
+    const use_function *use_fun = used_tool->get_use( iuse_name_string );
+    const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>
+                                     ( use_fun->get_actor_ptr() );
+    if( actor == nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act.set_to_null();
+        return;
+    }
+
+    who.practice( skill_survival, potential_skill_gain, 5 );
+
+    const furn_id &f_id = here.furn( here.get_bub( act.placement ) );
+    const bool is_smoking_rack = f_id == furn_f_metal_smoking_rack ||
+                                 f_id == furn_f_smoking_rack;
+    const bool is_kiln = f_id == furn_f_kiln_empty ||
+                         f_id == furn_f_kiln_metal_empty || f_id == furn_f_kiln_portable_empty;
+
+    firestarter_actor::start_type st = firestarter_actor::start_type::FIRE;
+
+    if( is_smoking_rack ) {
+        st = firestarter_actor::start_type::SMOKER;
+    } else if( is_kiln ) {
+        st = firestarter_actor::start_type::KILN;
+    }
+
+    it.activation_consume( 1, who.pos_bub(), &who );
+
+    firestarter_actor::resolve_firestarter_use( &who, &here, here.get_bub( fire_placement ),
+            st );
+
+    act.set_to_null();
+}
+
+void fire_start_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "fire_placement", fire_placement );
+    jsout.member( "fire_starter", fire_starter );
+    jsout.member( "potential_skill_gain", potential_skill_gain );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> fire_start_activity_actor::deserialize( JsonValue &jsin )
+{
+    fire_start_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "fire_placement", actor.fire_placement );
+    data.read( "fire_starter", actor.fire_starter );
+    data.read( "potential_skill_gain", actor.potential_skill_gain );
     return actor.clone();
 }
 
@@ -12572,7 +12730,6 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     // Dropping off
     if( !dropoff_coords.empty() && !picked_up_stuff.empty() ) {
         auto dest_iter = dropoff_coords.begin();
-
         while( dest_iter != dropoff_coords.end() ) {
             const tripoint_abs_ms drop_dest = *dest_iter;
             // Sometimes we loop back to here while still picking stuff up (because we spent all our moves picking up)
@@ -12595,10 +12752,10 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                     }
 
                     // FIXME HACK: teleports item onto ground
+                    you.mod_moves( -you.item_handling_cost( **iter ) );
                     std::vector<item_location> dropped_crap = put_into_vehicle_or_drop_ret_locs( you,
-                            item_drop_reason::deliberate, { **iter }, here.get_bub( drop_dest ), false );
+                            item_drop_reason::deliberate, { **iter }, here.get_bub( drop_dest ) );
                     if( !dropped_crap.empty() ) {
-                        you.mod_moves( -you.item_handling_cost( **iter ) );
                         if( const vehicle_cursor *veh_curs = iter->veh_cursor() ) {
                             vehicle &cart_with_items = veh_curs->veh;
                             cart_with_items.remove_item( cart_with_items.part( veh_curs->part ), iter->get_item() );
@@ -12757,88 +12914,8 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         //this location is sorted
         stage = THINK;
         dropoff_coords.clear();
-
     } else if( !dropoff_coords.empty() && !you.has_destination() )  {
-        bool match = false;
-        tripoint_abs_ms destination;
-
-        // Find a dropoff location that can take all the items picked up.
-        for( tripoint_abs_ms &dest : dropoff_coords ) {
-            std::vector<item_location> placed_items;
-
-            match = true;
-
-            for( item_location &item : picked_up_stuff ) {
-                std::vector<item_location> placed_item = put_into_vehicle_or_drop_ret_locs( you,
-                        item_drop_reason::deliberate, { *item }, here.get_bub( dest ), false );
-
-                if( placed_item.empty() ) {
-                    match = false;
-                    break;
-
-                } else {
-                    placed_items.emplace_back( placed_item.front() );
-                }
-            }
-
-            // Get rid of the placed items, as we really only wanted to know if they COULD be placed.
-            for( item_location &item : placed_items ) {
-                item.remove_item();
-            }
-
-            if( match ) {
-                destination = dest;
-                break;
-            }
-        }
-
-        if( !match ) {
-            // Couldn't find any destination that would take all items. Fallback to one that can accept
-            // the first one that has a usable destination.
-            // Note that we always have to be able to handle the situation where a destination is full
-            // when we get there due to things happening in the mean time (like other characters sorting
-            // stuff into that location as we move there), so we leave the handling of unsortable items
-            // in the inventory to that handling for now.
-            for( tripoint_abs_ms &dest : dropoff_coords ) {
-                std::vector<item_location> placed_items;
-
-                match = true;
-
-                for( item_location &item : picked_up_stuff ) {
-                    std::vector<item_location> placed_item = put_into_vehicle_or_drop_ret_locs( you,
-                            item_drop_reason::deliberate, { *item }, here.get_bub( dest ), false );
-
-                    if( placed_item.empty() ) {
-                        match = false;
-                        break;
-
-                    } else {
-                        placed_items.emplace_back( placed_item.front() );
-                        match = true;
-                        break;
-                    }
-                }
-
-                // Get rid of the placed items, as we really only wanted to know if they COULD be placed.
-                for( item_location &item : placed_items ) {
-                    item.remove_item();
-                }
-
-                if( match ) {
-                    destination = dest;
-                    break;
-                }
-            }
-        }
-
-        if( !match ) {
-            add_msg( m_bad, _( "None of the items picked up can be sorted because they won't fit anywhere." ) );
-            stage = LAST;
-            return;
-        }
-
-        zone_sorting::route_to_destination( you, act, here.get_bub( destination ), stage );
-
+        zone_sorting::route_to_destination( you, act, here.get_bub( dropoff_coords.front() ), stage );
     } else if( !you.has_destination() ) {
         debugmsg( "Sort activity has items to sort but no valid destination, this is a bug" );
         // Completely kick us out of this activity, something's gone wrong and we don't know what's going on.
@@ -12981,6 +13058,7 @@ deserialize_functions = {
     { ACT_SOCIALIZE, &socialize_activity_actor::deserialize },
     { ACT_SPELLCASTING, &spellcasting_activity_actor::deserialize },
     { ACT_START_ENGINES, &start_engines_activity_actor::deserialize },
+    { ACT_START_FIRE, &fire_start_activity_actor::deserialize },
     { ACT_STASH, &stash_activity_actor::deserialize },
     { ACT_STUDY_SPELL, &study_spell_activity_actor::deserialize },
     { ACT_TENT_DECONSTRUCT, &tent_deconstruct_activity_actor::deserialize },

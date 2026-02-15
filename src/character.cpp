@@ -5202,7 +5202,11 @@ void Character::assign_activity( const activity_id &type, int moves, int index, 
 
 void Character::assign_activity( const activity_actor &actor )
 {
-    assign_activity( player_activity( actor ) );
+    player_activity act( actor );
+    if( act.is_multi_type() ) {
+        act.auto_resume = true;
+    }
+    assign_activity( act );
 }
 
 void Character::assign_activity( const player_activity &act )
@@ -5281,7 +5285,9 @@ void Character::resume_backlog_activity()
 {
     if( !backlog.empty() && backlog.front().auto_resume ) {
         activity = backlog.front();
-        activity.auto_resume = false;
+        if( !activity.is_multi_type() ) {
+            activity.auto_resume = false;
+        }
         activity.allow_distractions();
         backlog.pop_front();
     }

@@ -4225,6 +4225,8 @@
     "active": true,
     "vitamin_cost": 160,
     "activated_is_setup": false,
+    "stamina": true,
+    "cost": 2000,
     "activated_eocs": [ "EOC_FELINE_LEAP" ],
     "//": "This is differentiated from the other two leaps by a shorter range yet a shorter prep time. Probably less useful than them since it will still exhaust you."
   },
@@ -4301,14 +4303,7 @@
     "points": 2,
     "vitamin_cost": 160,
     "visibility": 3,
-    "ugliness": 3,
-    "attacks": {
-      "attack_text_u": "You bite into %s with your ratlike incisors!",
-      "attack_text_npc": "%1$s bites %2$s with their ratlike incisors!",
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": [ { "damage_type": "cut", "amount": 3 }, { "damage_type": "bash", "amount": 3 } ]
-    }
+    "ugliness": 3
   },
   {
     "type": "mutation",
@@ -4322,7 +4317,8 @@
     "vitamin_cost": 160,
     "visibility": 6,
     "ugliness": 4,
-    "restricts_gear": [ "mouth" ]
+    "restricts_gear": [ "mouth" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_rodent" } ] } ]
   },
   {
     "type": "mutation",
@@ -4672,7 +4668,7 @@
     "vitamin_cost": 160,
     "visibility": 7,
     "ugliness": 4,
-    "encumbrance_always": [ [ "mouth", 10 ] ]
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_slit_nostrils_breathing_penalty", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",

@@ -4,6 +4,7 @@
     "id": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_DIFFERENT_PATHS_OF_CLOSETLAND",
     "condition": { "not": { "current_dimension": "dimension_perk_closetland" } },
     "effect": [
+      { "dimension_name": { "context_val": "closetland_paths_last_dimension" } },
       { "math": [ "u_closetland_perk_nearby_walls = 0" ] },
       { "math": [ "u_closetland_perk_nearby_doors = 0" ] },
       {
@@ -46,7 +47,13 @@
         "if": {
           "and": [ { "math": [ "u_closetland_perk_nearby_walls == 7" ] }, { "math": [ "u_closetland_perk_nearby_doors == 1" ] } ]
         },
-        "then": [ { "run_eocs": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_DIFFERENT_PATHS_OF_CLOSETLAND_MEMORIZE" } ],
+        "then": [
+          {
+            "if": { "compare_string": [ { "context_val": "closetland_paths_last_dimension" }, "" ] },
+            "then": [ { "run_eocs": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_DIFFERENT_PATHS_OF_CLOSETLAND_MEMORIZE" } ],
+            "else": [ { "u_message": "You can't memorize this closet, for some reason." } ]
+          }
+        ],
         "else": [ { "u_message": "You're not in a closet, and there's no path here to remember." } ]
       }
     ],
@@ -83,7 +90,8 @@
         "string_input": { "title": "Input a destination name:", "description": "Destination Name:" },
         "target_var": { "u_val": "perk_closetland_paths_destination_name_1" }
       },
-      { "u_location_variable": { "u_val": "perk_closetland_paths_destination_1" }, "min_radius": 0, "max_radius": 0 }
+      { "u_location_variable": { "u_val": "perk_closetland_paths_destination_1" }, "min_radius": 0, "max_radius": 0 },
+      { "dimension_name": { "u_val": "perk_closetland_paths_destination_dimension_1" } }
     ]
   },
   {
@@ -95,7 +103,8 @@
         "string_input": { "title": "Input a destination name:", "description": "Destination Name:" },
         "target_var": { "u_val": "perk_closetland_paths_destination_name_2" }
       },
-      { "u_location_variable": { "u_val": "perk_closetland_paths_destination_2" }, "min_radius": 0, "max_radius": 0 }
+      { "u_location_variable": { "u_val": "perk_closetland_paths_destination_2" }, "min_radius": 0, "max_radius": 0 },
+      { "dimension_name": { "u_val": "perk_closetland_paths_destination_dimension_2" } }
     ]
   },
   {
@@ -107,7 +116,8 @@
         "string_input": { "title": "Input a destination name:", "description": "Destination Name:" },
         "target_var": { "u_val": "perk_closetland_paths_destination_name_3" }
       },
-      { "u_location_variable": { "u_val": "perk_closetland_paths_destination_3" }, "min_radius": 0, "max_radius": 0 }
+      { "u_location_variable": { "u_val": "perk_closetland_paths_destination_3" }, "min_radius": 0, "max_radius": 0 },
+      { "dimension_name": { "u_val": "perk_closetland_paths_destination_dimension_3" } }
     ]
   },
   {
@@ -138,7 +148,7 @@
     "condition": { "math": [ "has_var(u_perk_closetland_paths_destination_1)" ] },
     "effect": [
       { "u_add_effect": "blind", "duration": 0 },
-      { "u_travel_to_dimension": "default" },
+      { "u_travel_to_dimension": { "u_val": "perk_closetland_paths_destination_dimension_1" } },
       { "u_teleport": { "u_val": "perk_closetland_paths_destination_1" } },
       { "u_lose_effect": "blind" },
       { "u_lose_effect": "effect_perk_closetland_sleepiness" },
@@ -151,7 +161,7 @@
     "condition": { "math": [ "has_var(u_perk_closetland_paths_destination_2)" ] },
     "effect": [
       { "u_add_effect": "blind", "duration": 0 },
-      { "u_travel_to_dimension": "default" },
+      { "u_travel_to_dimension": { "u_val": "perk_closetland_paths_destination_dimension_2" } },
       { "u_teleport": { "u_val": "perk_closetland_paths_destination_2" } },
       { "u_lose_effect": "blind" },
       { "u_lose_effect": "effect_perk_closetland_sleepiness" },
@@ -164,7 +174,7 @@
     "condition": { "math": [ "has_var(u_perk_closetland_paths_destination_3)" ] },
     "effect": [
       { "u_add_effect": "blind", "duration": 0 },
-      { "u_travel_to_dimension": "default" },
+      { "u_travel_to_dimension": { "u_val": "perk_closetland_paths_destination_dimension_3" } },
       { "u_teleport": { "u_val": "perk_closetland_paths_destination_3" } },
       { "u_lose_effect": "blind" },
       { "u_lose_effect": "effect_perk_closetland_sleepiness" },

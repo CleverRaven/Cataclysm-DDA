@@ -917,7 +917,7 @@ The field `charge_info` supports the following:
 Identifier           | Description
 ---                  |---
 `regenerate_ammo`    | `true`.
-`recharge_type`      | Can be one of: `lunar`, `periodic`, `solar_cloudy`, `solar_sunny`, or `none`.
+`recharge_type`      | Can be one of: `lunar`, `periodic`, `solar_cloudy`, `solar_sunny`, `forest` or `none`.
 `time`               | Time required per charge.
 `recharge_condition` | (optional) Similar to `has` from enchantments: can be one of `held`, `worn`, `wield`.  If omitted, the item recharges regardless, even if dropped.
 

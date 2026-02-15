@@ -22,9 +22,28 @@
   },
   {
     "type": "attack_vector",
+    "id": "vector_rodent_bite",
+    "limbs": [ "muzzle_rodent" ],
+    "contact_area": [ "muzzle_rodent_lips" ],
+    "encumbrance_limit": 1
+  },
+  {
+    "type": "attack_vector",
     "id": "vector_crab_pincer",
     "limbs": [ "crustacean_pincer_r" ],
     "contact_area": [ "crustacean_pincer_claws_r" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_avian_talons",
+    "limbs": [ "avian_talon_l", "avian_talon_r" ],
+    "contact_area": [ "avian_talon_talons_l", "avian_talon_talons_r", "avian_talon_bottom_l", "avian_talon_bottom_r" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_avian_talons_rear",
+    "limbs": [ "avian_talon_l", "avian_talon_r" ],
+    "contact_area": [ "avian_talon_rear_l", "avian_talon_rear_r" ]
   },
   {
     "type": "attack_vector",
