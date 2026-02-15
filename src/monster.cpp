@@ -756,16 +756,6 @@ std::string monster::disp_name( bool possessive, bool capitalize_first ) const
     }
 }
 
-std::string monster::skin_name() const
-{
-    return name_with_armor();
-}
-
-void monster::get_HP_Bar( nc_color &color, std::string &text ) const
-{
-    std::tie( text, color ) = ::get_hp_bar( hp, type->hp, true );
-}
-
 std::pair<std::string, nc_color> monster::get_attitude() const
 {
     monster_attitude matt = attitude( &get_player_character() );
@@ -776,7 +766,10 @@ std::pair<std::string, nc_color> monster::get_attitude() const
     }
 
     const auto &entry = attitude_names.at( matt );
-    return { _( entry.first ), get_color_from_id( entry.second ) };
+    return {
+        _( entry.first ),
+        all_colors.get( entry.second )
+    };
 }
 
 static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
