@@ -548,6 +548,10 @@ void spell_type::check_consistency()
             }
         }
 
+        if( sp_t.spell_tags[spell_flag::TOUCH_REQUIRED] && sp_t.spell_tags[spell_flag::NO_HANDS] ) {
+            debugmsg( "ERROR: %s has both TOUCH_REQUIRED and NO_HANDS flags!", sp_t.id.c_str() );
+        }
+
         if( !sp_t.targeted_species_ids.empty() ) {
             for( const auto &targeted_species : sp_t.targeted_species_ids ) {
                 if( !targeted_species.is_valid() ) {
@@ -2890,6 +2894,9 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
         spell_data.emplace_back( _( "impeded by gloves" ) );
     } else if( no_hands() && !has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "does not require hands" ) );
+    }
+    if( has_flag( spell_flag::TOUCH_REQUIRED ) ) {
+        spell_data.emplace_back( _( "must touch target" ) );
     }
     if( !has_flag( spell_flag::NO_LEGS ) && temp_somatic_difficulty_multiplyer > 0 ) {
         spell_data.emplace_back( _( "requires mobility" ) );

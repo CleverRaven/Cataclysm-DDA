@@ -115,7 +115,7 @@
     "description": "With the force of a landslide behind it, punch a single target and knock them backwards.",
     "message": "You wide up and deliver a punch with the strength of a rockslide.",
     "valid_targets": [ "hostile", "ground", "ally" ],
-    "flags": [ "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "TOUCH_REQUIRED" ],
     "difficulty": 2,
     "max_level": { "math": [ "str_to_level(1)" ] },
     "skill": "deduction",

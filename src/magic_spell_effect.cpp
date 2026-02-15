@@ -522,13 +522,31 @@ static void add_effect_to_target( const tripoint_bub_ms &target, const spell &sp
     }
 }
 
+
+// Used for TOUCH_REQUIRED spells to check if the caster hits
+static bool touch_required_hit( Creature &caster,
+                             Creature &target )
+{
+    return caster.hit_roll() > target.dodge_roll();
+}
+
 static void damage_targets( const spell &sp, Creature &caster,
                             const std::set<tripoint_bub_ms> &targets )
 {
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_bub_ms &target : targets ) {
+
         if( !sp.is_valid_target( caster, target ) ) {
+            continue;
+        }
+        Creature *const cr = creatures.creature_at<Creature>( target );
+        if( !cr ) {
+            continue;
+        }
+
+        if( sp.has_flag( spell_flag::TOUCH_REQUIRED ) && !touch_required_hit( caster, *cr ) ) {
+            caster.add_msg_if_player( m_bad, _( "Your target avoids your attempt to touch them!" ) );
             continue;
         }
         sp.make_sound( target, caster );
@@ -540,10 +558,6 @@ static void damage_targets( const spell &sp, Creature &caster,
             if( player_character.has_unfulfilled_pyromania() ) {
                 player_character.fulfill_pyromania_sees( here, target );
             }
-        }
-        Creature *const cr = creatures.creature_at<Creature>( target );
-        if( !cr ) {
-            continue;
         }
 
         dealt_projectile_attack atk = sp.get_projectile_attack( target, *cr, caster );
@@ -673,12 +687,7 @@ static void damage_targets( const spell &sp, Creature &caster,
 void spell_effect::attack( const spell &sp, Creature &caster, const tripoint_bub_ms &epicenter )
 {
     const std::set<tripoint_bub_ms> area = spell_effect_area( sp, epicenter, caster );
-    if( ( sp.has_flag( spell_flag::TOUCH_REQUIRED ) && ) ||
-        !sp.has_flag( spell_flag::TOUCH_REQUIRED ) ) {
-        damage_targets( sp, caster, area );
-    } else {
-        caster.add_msg_if_player( m_bad, _( "Your target avoids your attempt to touch them!" ) );
-    }
+    damage_targets( sp, caster, area );
     if( sp.has_flag( spell_flag::SWAP_POS ) ) {
         swap_pos( caster, epicenter );
     }
