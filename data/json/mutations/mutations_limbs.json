@@ -970,7 +970,12 @@
     "flags": [ "TOUGH_FEET" ],
     "destroys_gear": true,
     "restricts_gear": [ "foot_sole_l", "foot_sole_r" ],
-    "integrated_armor": [ "integrated_hooves" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "hoof_l" }, { "gain": "hoof_r" } ]
+      }
+    ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ]
   },
   {

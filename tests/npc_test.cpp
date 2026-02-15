@@ -615,6 +615,7 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
     hostile.inv->clear();
     hostile.remove_weapon();
     hostile.clear_mutations();
+    hostile.set_body();
     hostile.mutation_category_level.clear();
     hostile.clear_bionics();
     REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
@@ -655,6 +656,7 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
     hostile.inv->clear();
     hostile.remove_weapon();
     hostile.clear_mutations();
+    hostile.set_body();
     hostile.mutation_category_level.clear();
     hostile.clear_bionics();
     REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );

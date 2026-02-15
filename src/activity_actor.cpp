@@ -4716,9 +4716,10 @@ std::optional<requirement_id> multi_zone_activity_actor::multi_activity_requirem
 void multi_zone_activity_actor::do_turn( player_activity &act, Character &you )
 {
     activity_id prior_act = get_type();
-    simulate_turn( act, you, false );
-    // If this activity still exists, end it
-    if( !act.is_null() && ( prior_act == you.activity.id() ) ) {
+    bool activity_continues = simulate_turn( act, you, false );
+    // If this activity still exists and was not successful or resulted in a new travel route, end it
+    if( ( you.has_destination() || !activity_continues ) &&
+        !act.is_null() && ( prior_act == you.activity.id() ) ) {
         // Nuke the current activity, leaving the backlog alone
         // No multi_zone_activity_actor functions will be called from this point, so `this` can be nullptr
         you.activity = player_activity();
@@ -4759,12 +4760,16 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         if( !check_only ) {
             if( !here.inbounds( src_bub ) ) {
                 if( zone_sorting::sorter_out_of_bounds( you, current_activity ) ) {
+                    // activity cancelled
                     return false;
                 }
                 //TODO: remove dummy argument
                 zone_activity_stage dummy;
+                // if route successful, activity cancelled
                 if( !zone_sorting::route_to_destination( you, act, src_bub, dummy ) ) {
                     continue;
+                } else {
+                    return false;
                 }
             }
         }
@@ -4779,7 +4784,8 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         const requirement_check_result req_res = check_requirements( you, act_info, src, src_bub, src_set,
                 check_only );
         if( req_res == requirement_check_result::RETURN_EARLY ) {
-            return true;
+            // activity cancelled
+            return false;
         }
         req_fail_reason.convert_requirement_check_result( req_res );
         if( req_fail_reason.check_skip_location() ) {
@@ -4795,6 +4801,8 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
             continue;
         }
         if( *route_result ) {
+            // activity re-assigned OR route set; leave the multi-activity alone,
+            // it won't process turns while auto-moving
             return true;
         }
 
@@ -4816,8 +4824,8 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
             if( !multi_activity_do( you, act_info, src, src_bub ) ) {
                 // if the activity was successful
                 // then a new activity was assigned
-                // and the backlog was given the multi-act
-                return false;
+                // and the multi-act is now in the backlog
+                return true;
             }
         } else {
             return true;
@@ -4825,12 +4833,13 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
     }
 
     if( !check_only ) {
-        if( multi_activity_actor::out_of_moves( you, current_activity ) ) {
-            return false;
+        if( multi_activity_actor::out_of_moves( you ) ) {
+            // being out of moves means we need to try again next turn
+            return true;
         }
         multi_activity_actor::revert_npc_post_activity( you, current_activity, src_set.empty() );
     }
-    // scanned every location, tried every path.
+    // scanned every location, tried every route, we're out of eligible zone tiles and the activity is over.
     if( !check_only ) {
         if( you.is_npc() ) {
             multi_activity_actor::activity_failure_message( you, current_activity, req_fail_reason,
@@ -5052,11 +5061,6 @@ bool fetch_required_activity_actor::multi_activity_do( Character &you,
 
     if( reason == do_activity_reason::CAN_DO_FETCH ) {
         if( fetch_activity( you, src_loc, ACT_FETCH_REQUIRED, MAX_VIEW_DISTANCE ) ) {
-            if( !you.is_npc() ) {
-                // Npcs will automatically start the next thing in the backlog, players need to be manually prompted
-                // Because some player activities are necessarily not marked as auto-resume.
-                activity_handlers::resume_for_multi_activities( you );
-            }
             return false;
         }
     }
@@ -6381,10 +6385,7 @@ void plant_seed_activity_actor::finish( player_activity &act, Character &who )
         who.add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
                                    item::nname( seed_id ) );
     }
-    // Go back to what we were doing before
-    // could be player zone activity, or could be NPC multi-farming
     act.set_to_null();
-    activity_handlers::resume_for_multi_activities( who );
 }
 
 void plant_seed_activity_actor::serialize( JsonOut &jsout ) const
@@ -9045,7 +9046,6 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
     who.add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act.set_to_null();
-    activity_handlers::resume_for_multi_activities( who );
 }
 
 void chop_logs_activity_actor::serialize( JsonOut &jsout ) const
@@ -9105,7 +9105,6 @@ void chop_planks_activity_actor::finish( player_activity &act, Character &who )
         who.add_msg_if_player( m_bad, _( "You waste a lot of the wood." ) );
     }
     act.set_to_null();
-    activity_handlers::resume_for_multi_activities( who );
 }
 
 void chop_planks_activity_actor::serialize( JsonOut &jsout ) const
@@ -9211,7 +9210,6 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
                              sfx::get_heard_volume( here.get_bub( act.placement ) ) );
     get_event_bus().send<event_type::cuts_tree>( who.getID() );
     act.set_to_null();
-    activity_handlers::resume_for_multi_activities( who );
 }
 
 void chop_tree_activity_actor::serialize( JsonOut &jsout ) const
@@ -9262,7 +9260,6 @@ void churn_activity_actor::finish( player_activity &act, Character &who )
     // Go back to what we were doing before
     // could be player zone activity, or could be NPC multi-farming
     act.set_to_null();
-    activity_handlers::resume_for_multi_activities( who );
 }
 
 void churn_activity_actor::serialize( JsonOut &jsout ) const
@@ -9339,7 +9336,6 @@ void fertilize_plant_activity_actor::finish( player_activity &act, Character &wh
              planted.front().tname() );
 
     act.set_to_null();
-    activity_handlers::resume_for_multi_activities( who );
 }
 
 void fertilize_plant_activity_actor::serialize( JsonOut &jsout ) const
@@ -10078,7 +10074,7 @@ void mine_activity_actor::finish( player_activity &act, Character &who )
     }
 
     act.set_to_null();
-    if( activity_handlers::resume_for_multi_activities( who ) ) {
+    if( !who.backlog.empty() && who.backlog.front().id() == ACT_MULTIPLE_MINE ) {
         for( item &elem : here.i_at( pos ) ) {
             elem.set_var( "activity_var", who.name );
             who.may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor{ here.get_abs( pos ) },
@@ -10144,7 +10140,6 @@ void mop_activity_actor::finish( player_activity &act, Character &who )
         here.mop_spills( here.get_bub( act.placement ) );
     }
     act.set_to_null();
-    activity_handlers::resume_for_multi_activities( who );
 }
 
 void mop_activity_actor::serialize( JsonOut &jsout ) const
@@ -10370,7 +10365,7 @@ void vehicle_activity_actor::finish( player_activity &act, Character &you )
             here.invalidate_map_cache( here.get_abs_sub().z() );
             // TODO: Z (and also where the activity is queued)
             // Or not, because the vehicle coordinates are dropped anyway
-            if( !activity_handlers::resume_for_multi_activities( you ) ) {
+            if( you.backlog.empty() || !you.backlog.front().is_multi_type() ) {
                 const point_rel_ms &mount_loc = vp_mount_location.xy();
                 if( vp->vehicle().is_appliance() ) {
                     g->exam_appliance( vp->vehicle(), mount_loc );
