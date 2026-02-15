@@ -756,19 +756,22 @@ std::string monster::disp_name( bool possessive, bool capitalize_first ) const
     }
 }
 
+std::string monster::skin_name() const
+{
+    return name_with_armor();
+}
+
+void monster::get_HP_Bar( nc_color &color, std::string &text ) const
+{
+    std::tie( text, color ) = ::get_hp_bar( hp, type->hp, true );
+}
+
 std::pair<std::string, nc_color> monster::get_attitude() const
 {
-    monster_attitude matt = attitude( &get_player_character() );
-
-    // monsters with APPEARS_NEUTRAL should display as non-hostile
-    if( matt == MATT_ATTACK && has_flag( mon_flag_APPEARS_NEUTRAL ) ) {
-        matt = MATT_IGNORE;
-    }
-
-    const auto &entry = attitude_names.at( matt );
+    const auto att = attitude_names.at( attitude( &get_player_character() ) );
     return {
-        _( entry.first ),
-        all_colors.get( entry.second )
+        _( att.first ),
+        all_colors.get( att.second )
     };
 }
 
@@ -1679,9 +1682,6 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             case MATT_FOLLOW:
                 return Attitude::NEUTRAL;
             case MATT_ATTACK:
-                if( has_flag( mon_flag_APPEARS_NEUTRAL ) ) {
-                    return Attitude::NEUTRAL;
-                }
                 return Attitude::HOSTILE;
             case MATT_NULL:
             case NUM_MONSTER_ATTITUDES:
