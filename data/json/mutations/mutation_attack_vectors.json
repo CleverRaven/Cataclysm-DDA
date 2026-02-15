@@ -28,6 +28,12 @@
   },
   {
     "type": "attack_vector",
+    "id": "vector_hoof_kick",
+    "limbs": [ "hoof_l", "hoof_r" ],
+    "contact_area": [ "hoof_sole_l", "hoof_sole_r", "hoof_wall_l", "hoof_wall_r" ]
+  },
+  {
+    "type": "attack_vector",
     "id": "vector_tail_sting",
     "limbs": [ "tail_scorpion" ],
     "contact_area": [ "tail_scorpion_stinger" ],

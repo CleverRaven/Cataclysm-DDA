@@ -292,12 +292,10 @@
     "type": "technique",
     "id": "HOOVES_KICK",
     "name": "Hoof Kick",
-    "melee_allowed": true,
     "messages": [ "You kick %s with your hooves", "<npcname> kicks %s with their hooves" ],
     "unarmed_allowed": true,
-    "weighting": -4,
     "reach_ok": false,
-    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "attack_vectors": [ "vector_hoof_kick" ],
     "condition": {
       "and": [
         { "math": [ "u_val('size') >= n_val('size')" ] },
@@ -317,12 +315,10 @@
     "type": "technique",
     "id": "HOOVES_KICK_AGAINST_LARGE",
     "name": "Hoof Kick",
-    "melee_allowed": true,
     "messages": [ "You kick %s with your hooves", "<npcname> kicks %s with their hooves" ],
     "unarmed_allowed": true,
-    "weighting": -4,
     "reach_ok": false,
-    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "attack_vectors": [ "vector_hoof_kick" ],
     "condition": {
       "and": [
         { "math": [ "u_val('size') < n_val('size')" ] },
@@ -344,9 +340,9 @@
     "melee_allowed": true,
     "messages": [ "You kick %s with your hooves", "<npcname> kicks %s with their hooves" ],
     "unarmed_allowed": true,
-    "weighting": 0,
+    "weighting": 2,
     "reach_ok": false,
-    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "attack_vectors": [ "vector_hoof_kick" ],
     "knockback_dist": 1,
     "condition": {
       "and": [
@@ -370,9 +366,9 @@
     "melee_allowed": true,
     "messages": [ "You kick %s with your hooves", "<npcname> kicks %s with their hooves" ],
     "unarmed_allowed": true,
-    "weighting": 0,
+    "weighting": 2,
     "reach_ok": false,
-    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "attack_vectors": [ "vector_hoof_kick" ],
     "condition": {
       "and": [
         { "math": [ "u_val('size') < n_val('size')" ] },
@@ -393,33 +389,14 @@
     "id": "HOOVES_KICK_CRIT",
     "name": "Critical Hoof Kick",
     "melee_allowed": true,
-    "messages": [ "You deliver a wicked kick to %s with your hooves", "<npcname> delivers a kick to %s with their hooves" ],
+    "messages": [ "You kick %s with your hooves, knocking them down.", "<npcname> kick %s with their hooves, knocking them down." ],
     "unarmed_allowed": true,
     "reach_ok": false,
     "crit_tec": true,
     "down_dur": 2,
     "knockback_dist": 1,
-    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "attack_vectors": [ "vector_hoof_kick" ],
     "condition": { "math": [ "u_val('size') >= n_val('size')" ] },
-    "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1.0 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
-      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
-    ]
-  },
-  {
-    "type": "technique",
-    "id": "HOOVES_KICK_CRIT_AGAINST_LARGE",
-    "name": "Critical Hoof Kick",
-    "melee_allowed": true,
-    "messages": [ "You deliver a wicked kick to %s with your hooves", "<npcname> delivers a kick to %s with their hooves" ],
-    "unarmed_allowed": true,
-    "reach_ok": false,
-    "crit_tec": true,
-    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
-    "condition": { "math": [ "u_val('size') < n_val('size')" ] },
     "flat_bonuses": [
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1.0 },

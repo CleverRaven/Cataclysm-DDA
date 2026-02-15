@@ -27,7 +27,8 @@
     "ugliness": 1,
     "allow_soft_gear": true,
     "restricts_gear": [ "head_crown" ],
-    "integrated_armor": [ "integrated_horns_small" ]
+    "integrated_armor": [ "integrated_horns_small" ],
+    "flags": [ "HEADBUTT_ATTACKS_PREFERRED" ]
   },
   {
     "type": "mutation",
@@ -43,7 +44,8 @@
     "visibility": 8,
     "ugliness": 2,
     "restricts_gear": [ "head_crown" ],
-    "integrated_armor": [ "integrated_horns_curled" ]
+    "integrated_armor": [ "integrated_horns_curled" ],
+    "flags": [ "HEADBUTT_ATTACKS_PREFERRED" ]
   },
   {
     "type": "mutation",
@@ -59,7 +61,8 @@
     "ugliness": 2,
     "allow_soft_gear": true,
     "restricts_gear": [ "head_crown" ],
-    "integrated_armor": [ "integrated_horns_pointed" ]
+    "integrated_armor": [ "integrated_horns_pointed" ],
+    "flags": [ "HEADBUTT_ATTACKS_PREFERRED" ]
   },
   {
     "type": "mutation",
@@ -75,7 +78,8 @@
     "ugliness": 3,
     "allow_soft_gear": true,
     "restricts_gear": [ "head_crown" ],
-    "integrated_armor": [ "integrated_antlers" ]
+    "integrated_armor": [ "integrated_antlers" ],
+    "flags": [ "HEADBUTT_ATTACKS_PREFERRED" ]
   },
   {
     "type": "mutation",
@@ -970,7 +974,12 @@
     "flags": [ "TOUGH_FEET" ],
     "destroys_gear": true,
     "restricts_gear": [ "foot_sole_l", "foot_sole_r" ],
-    "integrated_armor": [ "integrated_hooves" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "hoof_l" }, { "gain": "hoof_r" } ]
+      }
+    ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ]
   },
   {

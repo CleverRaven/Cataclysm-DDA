@@ -367,7 +367,7 @@
     "unarmed_allowed": true,
     "crit_ok": true,
     "flat_bonuses": [ { "stat": "hit", "scale": 5.0 } ],
-    "attack_vectors": [ "vector_punch", "vector_foot_toes", "vector_headbutt", "vector_shoulder" ]
+    "attack_vectors": [ "vector_punch", "vector_foot_toes", "vector_hoof_kick", "vector_headbutt", "vector_shoulder" ]
   },
   {
     "type": "technique",
@@ -387,7 +387,7 @@
     },
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
     "down_dur": 1,
-    "attack_vectors": [ "vector_foot_toes", "vector_shin" ]
+    "attack_vectors": [ "vector_foot_toes", "vector_hoof_kick", "vector_shin" ]
   },
   {
     "type": "technique",
