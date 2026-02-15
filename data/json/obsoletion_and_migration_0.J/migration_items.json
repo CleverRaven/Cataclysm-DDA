@@ -301,6 +301,11 @@
   },
   {
     "type": "MIGRATION",
+    "id": "integrated_hooves",
+    "replace": "wristwatch"
+  },
+  {
+    "type": "MIGRATION",
     "id": "armguard_lightplate",
     "replace": "armor_lc_armguard"
   },
