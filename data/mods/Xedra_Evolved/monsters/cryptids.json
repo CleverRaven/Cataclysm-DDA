@@ -188,7 +188,7 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "chat_topics": [ "TALK_CIVILIAN_WENDI" ],
     "volume": "62500 ml",
-    "weight": "81500 g",
+    "weight": "61500 g",
     "hp": 75,
     "speed": 90,
     "symbol": "@",
@@ -208,7 +208,7 @@
     "id": "debug_self_poly",
     "attack_type": "polymorph_special",
    "cooldown": 50,
-    "mon_id": "mon_cryptid_wendigo",
+    "mon_id": "mon_cryptid_wendi",
    "poly_keep_speed": true,
     "poly_keep_hp": true,
     "poly_keep_anger": true,
@@ -234,5 +234,42 @@
     "dodge": 1,
     "death_drops": "default_zombie_death_drops",
     "flags": [ "SEES", "HEARS", "WARM", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "CONVERSATION", "GUILT_HUMAN", "APPEARS_NEUTRAL" ]
+  },
+    {
+    "id": "mon_cryptid_wendi",
+    "type": "MONSTER",
+    "name": { "str": "hunger and greed" },
+    "description": "Blacked out pupils, deer like antlers coming out of the skull, a cavernous mouth with rows of teeth down the throat, fingernails like sharpened bones, and a distended belly surrounded by starvation thin limbs that shouldn't have the strength that they do.",
+    "copy-from": "mon_civilian_wendi",
+    "volume": "62500 ml",
+    "weight": "61500 g",
+    "species": [ "ZOMBIE" ],
+    "hp": 190,
+    "speed": 110,
+    "color": "brown",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "dodge": 3,
+    "bleed_rate": 50,
+    "vision_night": 5,
+    "//": "Legs are important to this monster as he needs them to climb and leap.",
+    "weakpoints": [
+      { "name": "the head", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 },
+      { "name": "the leg", "armor_mult": { "physical": 0.75 }, "coverage": 3 }
+    ],
+    "weakpoint_sets": [  ],
+    "special_attacks": [
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 16 } ] },
+      { "type": "leap", "cooldown": 5, "max_range": 4 },
+      { "id": "grab", "cooldown": 10 },
+      {
+        "type": "bite",
+        "cooldown": 10,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ]
+      }
+    ],
+    "extend": { "move_skills": { "climb": 8 }, "flags": [ "SMELLS" ] }
   }
 ]
