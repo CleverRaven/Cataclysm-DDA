@@ -27,8 +27,7 @@
     "ugliness": 1,
     "allow_soft_gear": true,
     "restricts_gear": [ "head_crown" ],
-    "integrated_armor": [ "integrated_horns_small" ],
-    "flags": [ "HEADBUTT_ATTACKS_PREFERRED" ]
+    "integrated_armor": [ "integrated_horns_small" ]
   },
   {
     "type": "mutation",
@@ -44,8 +43,7 @@
     "visibility": 8,
     "ugliness": 2,
     "restricts_gear": [ "head_crown" ],
-    "integrated_armor": [ "integrated_horns_curled" ],
-    "flags": [ "HEADBUTT_ATTACKS_PREFERRED" ]
+    "integrated_armor": [ "integrated_horns_curled" ]
   },
   {
     "type": "mutation",
@@ -61,8 +59,7 @@
     "ugliness": 2,
     "allow_soft_gear": true,
     "restricts_gear": [ "head_crown" ],
-    "integrated_armor": [ "integrated_horns_pointed" ],
-    "flags": [ "HEADBUTT_ATTACKS_PREFERRED" ]
+    "integrated_armor": [ "integrated_horns_pointed" ]
   },
   {
     "type": "mutation",
@@ -78,8 +75,7 @@
     "ugliness": 3,
     "allow_soft_gear": true,
     "restricts_gear": [ "head_crown" ],
-    "integrated_armor": [ "integrated_antlers" ],
-    "flags": [ "HEADBUTT_ATTACKS_PREFERRED" ]
+    "integrated_armor": [ "integrated_antlers" ]
   },
   {
     "type": "mutation",

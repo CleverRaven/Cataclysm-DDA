@@ -2667,11 +2667,6 @@
     "info": "The character is intensely liked by natural animals."
   },
   {
-    "id": "HEADBUTT_ATTACKS_PREFERRED",
-    "type": "json_flag",
-    "//": "Used for horns-type mutations to so that characters with them will make headbutts even when not grabbed."
-  },
-  {
     "id": "UNDERFED",
     "type": "json_flag",
     "//": "This corpse is from a monster with the CRITTER_UNDERFED flag."
