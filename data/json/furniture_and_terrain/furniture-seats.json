@@ -212,6 +212,7 @@
     "floor_bedding_warmth": -1000,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 3,
+    "mass": "2 kg",
     "deployed_item": "camp_chair",
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "SHORT", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
