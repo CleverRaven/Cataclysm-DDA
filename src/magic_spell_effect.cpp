@@ -525,7 +525,7 @@ static void add_effect_to_target( const tripoint_bub_ms &target, const spell &sp
 
 // Used for TOUCH_REQUIRED spells to check if the caster hits
 static bool touch_required_hit( Creature &caster,
-                             Creature &target )
+                                Creature &target )
 {
     return caster.hit_roll() > target.dodge_roll();
 }
