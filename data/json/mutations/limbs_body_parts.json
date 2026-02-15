@@ -336,7 +336,7 @@
     "bionic_slots": 1,
     "sub_parts": [
       "digitigrade_foot_sole_l",
-      "digitigrade_foot_sole_l",
+      "digitigrade_foot_arch_l",
       "digitigrade_foot_toes_l",
       "digitigrade_foot_ankle_l",
       "digitigrade_foot_heel_l"
@@ -363,7 +363,7 @@
     "bionic_slots": 1,
     "sub_parts": [
       "digitigrade_foot_sole_r",
-      "digitigrade_foot_sole_r",
+      "digitigrade_foot_arch_r",
       "digitigrade_foot_toes_r",
       "digitigrade_foot_ankle_r",
       "digitigrade_foot_heel_r"
