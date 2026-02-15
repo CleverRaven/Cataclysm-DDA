@@ -233,16 +233,7 @@
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "dodge": 1,
     "death_drops": "default_zombie_death_drops",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "HUMAN",
-      "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER",
-      "CONVERSATION",
-      "GUILT_HUMAN",
-      "APPEARS_NEUTRAL"
-    ]
+    "flags": [ "SEES", "HEARS", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "CONVERSATION", "GUILT_HUMAN", "APPEARS_NEUTRAL" ]
   },
   {
     "id": "mon_cryptid_wendi",
