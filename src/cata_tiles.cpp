@@ -4048,8 +4048,6 @@ bool cata_tiles::draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &h
                 draw_entity_with_overlays( *m, p, ll, height_3d );
                 sees_player = m->sees( here, you );
                 attitude = m->attitude_to( you );
-                if( m->has_flag( mon_flag_APPEARS_NEUTRAL ) ) {
-                    attitude = Creature::Attitude::NEUTRAL;
                 }
             }
         }
@@ -4138,9 +4136,7 @@ bool cata_tiles::draw_critter_above( const tripoint_bub_ms &p, lit_level ll, int
         const monster *m = dynamic_cast<const monster *>( &critter );
         if( m != nullptr ) {
             sees_player = m->sees( here, you );
-            attitude = m->attitude_to( you );
-            if( m->has_flag( mon_flag_APPEARS_NEUTRAL ) ) {
-                attitude = Creature::Attitude::NEUTRAL;
+                attitude = m->attitude_to( you );
             }
         }
 

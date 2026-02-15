@@ -768,11 +768,15 @@ void monster::get_HP_Bar( nc_color &color, std::string &text ) const
 
 std::pair<std::string, nc_color> monster::get_attitude() const
 {
-    const auto att = attitude_names.at( attitude( &get_player_character() ) );
-    return {
-        _( att.first ),
-        all_colors.get( att.second )
-    };
+    monster_attitude matt = attitude( &get_player_character() );
+
+    // monsters with APPEARS_NEUTRAL should display as non-hostile
+    if( matt == MATT_ATTACK && has_flag( mon_flag_APPEARS_NEUTRAL ) ) {
+        matt = MATT_IGNORE;
+    }
+
+    const auto &entry = attitude_names.at( matt );
+    return { _( entry.first ), get_color_from_id( entry.second ) };
 }
 
 static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
@@ -1682,6 +1686,9 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             case MATT_FOLLOW:
                 return Attitude::NEUTRAL;
             case MATT_ATTACK:
+                if( has_flag( mon_flag_APPEARS_NEUTRAL ) ) {
+                    return Attitude::NEUTRAL;
+                }
                 return Attitude::HOSTILE;
             case MATT_NULL:
             case NUM_MONSTER_ATTITUDES:
