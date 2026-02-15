@@ -4143,7 +4143,7 @@ bool npc::do_player_activity()
     // to satisfy the infinite loop counter.
     const bool multi_type = activity ? activity.is_multi_type() : false;
     const int moves_before = moves;
-    while( moves > 0 && activity ) {
+    while( moves > 0 && activity && !has_destination() ) {
         activity.do_turn( *this );
         if( !is_active() ) {
             return true;
