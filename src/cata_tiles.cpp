@@ -4140,8 +4140,8 @@ bool cata_tiles::draw_critter_above( const tripoint_bub_ms &p, lit_level ll, int
             sees_player = m->sees( here, you );
             attitude = m->attitude_to( you );
             if( m->has_flag( mon_flag_APPEARS_NEUTRAL ) ) {
-                    attitude = Creature::Attitude::NEUTRAL;
-                }
+                attitude = Creature::Attitude::NEUTRAL;
+            }
         }
 
         // Get critter status disposition if character
