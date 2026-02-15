@@ -92,6 +92,66 @@
     "opposite": "hand_fingers_l"
   },
   {
+    "id": "hoof_sole_l",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "hoof_l",
+    "side": "left",
+    "opposite": "hoof_sole_r",
+    "name_multiple": "hoof soles",
+    "name": "left hoof sole"
+  },
+  {
+    "id": "hoof_wall_l",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "hoof_l",
+    "side": "left",
+    "opposite": "hoof_wall_r",
+    "name_multiple": "hoof walls",
+    "name": "left hoof wall"
+  },
+  {
+    "id": "hoof_fetlock_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "hoof_l",
+    "side": "left",
+    "opposite": "hoof_fetlock_r",
+    "name_multiple": "hoof fetlocks",
+    "name": "left hoof fetlock"
+  },
+  {
+    "id": "hoof_sole_r",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "hoof_r",
+    "side": "left",
+    "opposite": "hoof_sole_l",
+    "name_multiple": "hoof soles",
+    "name": "right hoof sole"
+  },
+  {
+    "id": "hoof_wall_r",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "hoof_r",
+    "side": "left",
+    "opposite": "hoof_wall_l",
+    "name_multiple": "hoof walls",
+    "name": "right hoof wall"
+  },
+  {
+    "id": "hoof_fetlock_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "hoof_r",
+    "side": "left",
+    "opposite": "hoof_fetlock_l",
+    "name_multiple": "hoof fetlocks",
+    "name": "right hoof fetlock"
+  },
+  {
     "id": "avian_talon_bottom_l",
     "type": "sub_body_part",
     "max_coverage": 20,

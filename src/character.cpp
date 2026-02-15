@@ -7168,6 +7168,11 @@ action_id Character::get_next_auto_move_direction()
         // they will cancel the auto-move on the next cycle (as the distance increases).
         if( std::max( { diff.x(), diff.y(), diff.z()} ) > 1 ) {
             // We're off course, possibly stumbling or stuck, cancel auto move
+            add_msg_debug( debugmode::DF_ACTIVITY,
+                           "auto_move: OFF COURSE pos=(%d,%d) expected=(%d,%d) diff=(%d,%d,%d) route_left=%zu",
+                           pos_bub().x(), pos_bub().y(),
+                           next_expected_position->x(), next_expected_position->y(),
+                           diff.x(), diff.y(), diff.z(), auto_move_route.size() );
             return ACTION_NULL;
         }
     }
@@ -7176,6 +7181,12 @@ action_id Character::get_next_auto_move_direction()
     auto_move_route.erase( auto_move_route.begin() );
 
     tripoint_rel_ms dp = *next_expected_position - pos_bub();
+
+    add_msg_debug( debugmode::DF_ACTIVITY,
+                   "auto_move: step dp=(%d,%d) pos=(%d,%d) target=(%d,%d) route_left=%zu",
+                   dp.x(), dp.y(), pos_bub().x(), pos_bub().y(),
+                   next_expected_position->x(), next_expected_position->y(),
+                   auto_move_route.size() );
 
     return get_movement_action_from_delta( dp, iso_rotate::yes );
 }
