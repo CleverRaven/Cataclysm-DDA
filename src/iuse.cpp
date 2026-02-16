@@ -3764,7 +3764,9 @@ void iuse::play_music( Character *p, const tripoint_bub_ms &source, const int vo
 std::optional<int> iuse::mp3_on( Character *p, item *it, const tripoint_bub_ms &pos )
 {
     if( !it->activation_success() ) {
-        p->add_msg_if_player( m_bad, _( "Your %s goes silent for a moment." ), it->tname() );
+        if( p ) {
+            p->add_msg_if_player( m_bad, _( "Your %s goes silent for a moment." ), it->tname() );
+        }
         return std::nullopt;
     }
 
