@@ -56,11 +56,58 @@
   {
     "id": [ "NC_ROBOFAC_SCIENTIST_CHOP_SHOP" ],
     "type": "talk_topic",
-    "dynamic_line": "&The scientist looks shocked to see you, and quickly tucks a large object under their lab coat.  They then address you with a quivering, yet indignant tone.  \"Wh-who are you?  How did you get in here?  D-don't know who I am?!  Leave, or I'll have y-y-you killed!\"",
+    "dynamic_line": "&The scientist looks shocked to see you, and quickly tucks a large object under their lab coat.  They then address you with a quivering, yet indignant tone.  \"Wh-who are you?  How did you get in here?  You shouldn't be here.\"",
     "responses": [
       {
-        "text": "I'm here for the alien - the robot.  Where is it?",
-        "condition": { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" },
+        "text": "I'm here for the alien - the robot you abducted.  Where is it?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_got_exodii_chop_shop_head" } ] } }
+          ]
+        },
+        "effect": { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_REPORTED_YOU_TO_HUB", "time_in_future": [ "120 seconds", "240 seconds" ] },
+        "topic": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_EXODII_1"
+      },
+      {
+        "text": "Your program has been shut down by the Hub 01 IRB.  Anything to say for yourself?",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" },
+        "topic": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_KILL_ORDERS_1"
+      },
+      { "text": "What is this place?  Who are you?", "topic": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_QUESTIONS" },
+      {
+        "text": "[Move to attack]",
+        "effect": [
+          "hostile",
+          { "u_message": "The scientist covers their face with their arms \"No, please!\"" },
+          {
+            "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_SCIENTIST_1_REPORTED_YOU_TO_HUB",
+            "time_in_future": [ "120 seconds", "240 seconds" ]
+          },
+          { "u_faction_rep": -100 }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I don't want any trouble.  I'm leaving.",
+        "effect": [ { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_HATES_YOU", "time_in_future": [ "60 seconds", "120 seconds" ] } ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": [ "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_QUESTIONS" ],
+    "type": "talk_topic",
+    "dynamic_line": "&They relax some, but still keep a defensive posture, tightly gripping their lab coat.  \"I'm here doing important work for the future of all mankind.  But I'm-I'm-I'm not valuable to you.  P-please, don't hurt me.  Just take the tools and the medical supplies, and go.  If you go quickly, I-I-I promise I won't call the guards.  Please.\"",
+    "responses": [
+      {
+        "text": "I'm here for the alien - the robot you abducted.  Where is it?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_got_exodii_chop_shop_head" } ] } }
+          ]
+        },
         "effect": { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_REPORTED_YOU_TO_HUB", "time_in_future": [ "120 seconds", "240 seconds" ] },
         "topic": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_EXODII_1"
       },
@@ -70,7 +117,7 @@
         "topic": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_KILL_ORDERS_1"
       },
       {
-        "text": "Not if I kill you first.",
+        "text": "[Move to attack]",
         "effect": [
           "hostile",
           { "u_message": "The scientist covers their face with their arms \"No, please!\"" },
@@ -92,15 +139,36 @@
   {
     "id": [ "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_EXODII_1" ],
     "type": "talk_topic",
-    "dynamic_line": "&The scientist scowls and pulls an object out of their labcoat - the head of some otherworldly robot.  \"The head is all that's left.\"  He then cracks a wide, toothy smile, \"the rest has been… used.\"  The scientist giggles, then takes on a dismissive tone.  \"Here, take it.  But you won't get away with this, you know.  They'll come for you.\"",
+    "dynamic_line": "&The scientist frowns, and you see tears well up in their eyes.  They set the object they were hiding in front of them - the head of some otherworldly robot - and put their hands up in resignation.  \"Abduct?  No, please, i-i-it was a killer robot.  And it is valuable to me.  Please, no.  Don't take it.  You'll just set humanity back - months of progress lost.  This isn't valuable to scrappers - just to science.  P-please, just take the tools, the medical supplies, whatever you want, and go.  And p-please, don't hurt me.",
     "responses": [
       {
-        "text": "That's all I need.  I'll take that and be going.",
-        "effect": [ { "u_spawn_item": "exodii_chop_shop_head" }, { "npc_consume_item": "exodii_chop_shop_head", "count": 1 } ],
-        "topic": "TALK_DONE"
+        "text": "Give me that now, and I'll go in peace.",
+        "effect": [
+          { "u_spawn_item": "exodii_chop_shop_head" },
+          { "npc_consume_item": "exodii_chop_shop_head", "count": 1 },
+          { "u_add_var": "dialogue_got_exodii_chop_shop_head", "value": "yes" }
+        ],
+        "topic": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_EXODII_2"
       },
       {
-        "text": "If you're dead, who's going to tell them?",
+        "text": "[Move to attack]",
+        "effect": [
+          "hostile",
+          { "u_message": "The scientist covers their face with their arms \"No, please!\"" },
+          { "u_faction_rep": -100 }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": [ "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_EXODII_2" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The scientist starts to sob.  \"Fine, take it.  P-please don't hurt me.  I-I-I have children.",
+    "responses": [
+      { "text": "[Take the head and go]", "topic": "TALK_DONE" },
+      {
+        "text": "[Move to attack]",
         "effect": [
           "hostile",
           { "u_message": "The scientist covers their face with their arms \"No, please!\"" },
@@ -113,8 +181,39 @@
   {
     "id": [ "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_KILL_ORDERS_1" ],
     "type": "talk_topic",
-    "dynamic_line": "&The scientist scowls, points a finger at you, and starts to shout.  \"Impossible!  My work is on the verge of major breakthroughs!  It's much too important!  You're wrong!  Leave, and I won't escalate this any further!\"",
-    "responses": [ { "text": "If you say so.", "topic": "TALK_DONE" } ]
+    "dynamic_line": "&The scientist scowls, swallows, and visibly tenses up.  \"No.  No, they wouldn't.  I send weekly reports.  Detailed reports.  I follow all of their protocols.  This can't be.  Please, I'm begging you, tell them I'm making progress.  That I'm still following the same protocols.  This is impossible.  Please!\"",
+    "responses": [
+      {
+        "text": "The IRB has hired me to execute you, and to end your unethical program.",
+        "topic": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_KILL_ORDERS_2"
+      },
+      {
+        "text": "[Move to attack]",
+        "effect": [
+          "hostile",
+          { "u_message": "The scientist covers their face with their arms \"No, please!\"" },
+          { "u_faction_rep": -100 }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": [ "NC_ROBOFAC_SCIENTIST_CHOP_SHOP_KILL_ORDERS_2" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The scientist grasps their hands together and curls their shoulder up.  They start to sob.  \"Un-unethical?  No.  P-p-please don't hurt me.  Take the supplies.  Take whatever you want.  I-I-I have children.  Please!\"",
+    "responses": [
+      { "text": "[Stay silent and decide what to do]", "topic": "TALK_DONE" },
+      {
+        "text": "[Move to attack]",
+        "effect": [
+          "hostile",
+          { "u_message": "The scientist covers their face with their arms \"No, please!\"" },
+          { "u_faction_rep": -100 }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
