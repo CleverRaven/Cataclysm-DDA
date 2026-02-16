@@ -1268,7 +1268,7 @@
     "id": "bio_str_enhancer",
     "type": "bionic",
     "name": { "str": "Muscle Augmentation" },
-    "description": "Your muscular system has been surgically enhanced with myomer fibers, giving you a +2 bonus to strength while powered.  Hwoever, you will suffer penalties if unpowered.",
+    "description": "Your muscular system has been surgically enhanced with myomer fibers, giving you a +2 bonus to strength while powered.  However, you will suffer penalties if unpowered.",
     "occupied_bodyparts": [ [ "torso", 6 ], [ "arm_l", 4 ], [ "arm_r", 4 ], [ "leg_l", 8 ], [ "leg_r", 8 ] ],
     "enchantments": [
       { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 5 } ] },
