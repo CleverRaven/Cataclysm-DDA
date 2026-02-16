@@ -298,6 +298,56 @@
   },
   {
     "type": "technique",
+    "id": "TECH_RABBIT_BITE",
+    "name": "Bite",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "weighting": -2,
+    "messages": [ "You bite %s", "<npcname> bites %s" ],
+    "description": "A rabbit bite.",
+    "attack_vectors": [ "vector_rabbit_bite" ],
+    "condition": { "u_has_trait": "INCISORS" },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.45 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_RABBIT_BITE_GRABBED",
+    "name": "Bite",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "messages": [ "You bite %s", "<npcname> bites %s" ],
+    "description": "A rabbit bite.",
+    "attack_vectors": [ "vector_rabbit_bite" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "INCISORS" },
+        {
+          "or": [
+            { "u_has_effect": "grabbed", "bodypart": "arm_r" },
+            { "u_has_effect": "grabbed", "bodypart": "arm_l" },
+            { "u_has_effect": "grabbed", "bodypart": "hand_r" },
+            { "u_has_effect": "grabbed", "bodypart": "hand_l" }
+          ]
+        }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.45 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
     "id": "TECH_CRAB_PUNCH",
     "//": "This is just base punch for crabs",
     "name": "Punch",
