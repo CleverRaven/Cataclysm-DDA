@@ -9,6 +9,7 @@
     "move_cost_mod": 2,
     "coverage": 80,
     "required_str": 5,
+    "mass": "13 kg",
     "crafting_pseudo_item": "mirror",
     "flags": [ "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
     "examine_action": "change_appearance",
@@ -33,6 +34,7 @@
     "move_cost_mod": 2,
     "coverage": 80,
     "required_str": 5,
+    "mass": "9 kg",
     "flags": [ "NOITEM", "BLOCKSDOOR" ],
     "bash": {
       "str_min": 8,
@@ -51,7 +53,7 @@
     "color": "light_gray",
     "move_cost_mod": 2,
     "coverage": 30,
-    "required_str": 0,
+    "required_str": -1,
     "bash": {
       "str_min": 80,
       "str_max": 200,
@@ -71,7 +73,7 @@
     "looks_like": "f_bitts",
     "move_cost_mod": 2,
     "coverage": 30,
-    "required_str": 0,
+    "required_str": -1,
     "bash": {
       "str_min": 80,
       "str_max": 200,
@@ -109,6 +111,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": 10,
+    "mass": "100 kg",
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
     "bash": {
       "str_min": 16,
@@ -147,6 +150,7 @@
     "move_cost_mod": 2,
     "coverage": 40,
     "required_str": 5,
+    "mass": "10 kg",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
     "deployed_item": "mannequin",
     "item": "mannequin",
@@ -169,6 +173,7 @@
     "color": "light_gray",
     "move_cost_mod": -1,
     "required_str": 10,
+    "mass": "40 kg",
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "LIQUIDCONT", "TRANSPARENT" ],
     "bash": {
       "str_min": 16,
@@ -187,6 +192,7 @@
     "color": "white",
     "move_cost_mod": -1,
     "required_str": 10,
+    "mass": "40 kg",
     "flags": [ "BLOCKSDOOR", "MINEABLE" ],
     "bash": {
       "str_min": 16,
@@ -209,6 +215,7 @@
     "color": "white",
     "move_cost_mod": -2,
     "required_str": 10,
+    "mass": "10 kg",
     "flags": [ "TRANSPARENT", "BLOCKSDOOR", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
@@ -240,6 +247,7 @@
     "color": "light_gray",
     "move_cost_mod": 2,
     "required_str": 1,
+    "mass": "2500 g",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "standing_lamp" },
     "flags": [ "TRANSPARENT", "BLOCKSDOOR", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
     "item": "standing_lamp",
@@ -272,6 +280,7 @@
     "color": "light_green",
     "move_cost_mod": 2,
     "required_str": 5,
+    "mass": "7 kg",
     "bash": {
       "str_min": 20,
       "str_max": 40,
@@ -312,6 +321,7 @@
     "looks_like": "t_tree_pine",
     "move_cost_mod": -1,
     "required_str": 10,
+    "mass": "50 kg",
     "flags": [ "BLOCKSDOOR", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 20,
@@ -359,6 +369,7 @@
     "move_cost_mod": 2,
     "coverage": 20,
     "required_str": 1,
+    "mass": "1 kg",
     "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
     "max_volume": "2 L",
     "bash": {
@@ -379,6 +390,7 @@
     "move_cost_mod": 2,
     "coverage": 20,
     "required_str": 1,
+    "mass": "1 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "ORGANIC" ],
     "max_volume": "2 L",
     "deconstruct": {
