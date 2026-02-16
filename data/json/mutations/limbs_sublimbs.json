@@ -252,6 +252,106 @@
     "name": "right rear talon"
   },
   {
+    "id": "digitigrade_foot_sole_l",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "animal_paw_l",
+    "side": "left",
+    "opposite": "digitigrade_foot_sole_r",
+    "name_multiple": "foot bottoms",
+    "name": "left foot bottom"
+  },
+  {
+    "id": "digitigrade_foot_arch_l",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "animal_paw_l",
+    "side": "left",
+    "opposite": "digitigrade_foot_arch_r",
+    "name_multiple": "foot arches",
+    "name": "left foot arch"
+  },
+  {
+    "id": "digitigrade_foot_toes_l",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "animal_paw_l",
+    "side": "left",
+    "opposite": "digitigrade_foot_toes_r",
+    "name_multiple": "toes",
+    "name": "left toes"
+  },
+  {
+    "id": "digitigrade_foot_ankle_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "animal_paw_l",
+    "side": "left",
+    "opposite": "digitigrade_foot_ankle_r",
+    "name_multiple": "ankles",
+    "name": "left ankle"
+  },
+  {
+    "id": "digitigrade_foot_heel_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "animal_paw_l",
+    "side": "left",
+    "opposite": "digitigrade_foot_heel_r",
+    "name_multiple": "heels",
+    "name": "left heel"
+  },
+  {
+    "id": "digitigrade_foot_sole_r",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "animal_paw_r",
+    "side": "right",
+    "opposite": "digitigrade_foot_sole_l",
+    "name_multiple": "foot bottoms",
+    "name": "right foot bottom"
+  },
+  {
+    "id": "digitigrade_foot_arch_r",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "animal_paw_r",
+    "side": "right",
+    "opposite": "digitigrade_foot_arch_l",
+    "name_multiple": "foot arches",
+    "name": "right foot arch"
+  },
+  {
+    "id": "digitigrade_foot_toes_r",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "animal_paw_r",
+    "side": "right",
+    "opposite": "digitigrade_foot_toes_l",
+    "name_multiple": "toes",
+    "name": "right toes"
+  },
+  {
+    "id": "digitigrade_foot_ankle_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "animal_paw_r",
+    "side": "right",
+    "opposite": "digitigrade_foot_ankle_l",
+    "name_multiple": "ankles",
+    "name": "right ankle"
+  },
+  {
+    "id": "digitigrade_foot_heel_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "animal_paw_r",
+    "side": "right",
+    "opposite": "digitigrade_foot_heel_l",
+    "name_multiple": "heels",
+    "name": "right heel"
+  },
+  {
     "id": "tail_long_base",
     "type": "sub_body_part",
     "name": "long tail base",

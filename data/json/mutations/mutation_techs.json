@@ -359,6 +359,17 @@
   },
   {
     "type": "technique",
+    "id": "TECH_ANIMAL_FOOT_KICK",
+    "//": "This is just a kick for animal feet with no special characteristics",
+    "name": "Kick",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You kick %s", "<npcname> kicks %s" ],
+    "description": "A basic kick",
+    "attack_vectors": [ "vector_digitigrade_paws", "vector_knee", "vector_shin" ]
+  },
+  {
+    "type": "technique",
     "id": "TECH_AVIAN_KICK",
     "name": "Kick",
     "crit_ok": true,

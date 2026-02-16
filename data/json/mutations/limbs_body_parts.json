@@ -256,6 +256,7 @@
       "HOOVES_KICK_CRIT"
     ],
     "bionic_slots": 2,
+    "temp_mod": [ 200, 450 ],
     "sub_parts": [ "hoof_sole_l", "hoof_wall_l", "hoof_fetlock_l" ],
     "unarmed_damage": [ { "damage_type": "bash", "amount": 8 } ],
     "armor": { "bash": 5, "cut": 3, "stab": 2, "acid": 4 }
@@ -283,6 +284,7 @@
       "HOOVES_KICK_CRIT"
     ],
     "bionic_slots": 2,
+    "temp_mod": [ 200, 450 ],
     "sub_parts": [ "hoof_sole_r", "hoof_wall_r", "hoof_fetlock_r" ],
     "unarmed_damage": [ { "damage_type": "bash", "amount": 8 } ],
     "armor": { "bash": 5, "cut": 3, "stab": 2, "acid": 4 }
@@ -305,6 +307,7 @@
     "smash_message": "You kick down the %s, smashing it.",
     "techniques": [ "TECH_AVIAN_KICK" ],
     "bionic_slots": 1,
+    "temp_mod": [ 100, 250 ],
     "sub_parts": [ "avian_talon_bottom_l", "avian_talon_top_l", "avian_talon_talons_l", "avian_talon_ankle_l", "avian_talon_rear_l" ],
     "flags": [ "LIMB_LOWER" ],
     "unarmed_damage": [ { "damage_type": "cut", "amount": 6 } ]
@@ -327,9 +330,64 @@
     "smash_message": "You kick down the %s, smashing it.",
     "techniques": [ "TECH_AVIAN_KICK" ],
     "bionic_slots": 1,
+    "temp_mod": [ 100, 250 ],
     "sub_parts": [ "avian_talon_bottom_r", "avian_talon_top_r", "avian_talon_talons_r", "avian_talon_ankle_r", "avian_talon_rear_r" ],
     "flags": [ "LIMB_LOWER" ],
     "unarmed_damage": [ { "damage_type": "cut", "amount": 6 } ]
+  },
+  {
+    "id": "animal_paw_l",
+    "copy-from": "foot_l",
+    "type": "body_part",
+    "name": "left hindpaw",
+    "name_multiple": "hindpaws",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "left hindpaw" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "hindpaws" },
+    "heading": "l. hindpaw",
+    "heading_multiple": "hindpaws",
+    "encumbrance_text": "Running is slowed.",
+    "encumbrance_threshold": 5,
+    "main_part": "leg_l",
+    "opposite_part": "animal_paw_r",
+    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "footing", 0.5 ], [ "swim", 0.1 ] ],
+    "smash_message": "You kick down the %s, smashing it.",
+    "techniques": [ "TECH_ANIMAL_FOOT_KICK" ],
+    "bionic_slots": 1,
+    "sub_parts": [
+      "digitigrade_foot_sole_l",
+      "digitigrade_foot_arch_l",
+      "digitigrade_foot_toes_l",
+      "digitigrade_foot_ankle_l",
+      "digitigrade_foot_heel_l"
+    ],
+    "flags": [ "LIMB_LOWER" ]
+  },
+  {
+    "id": "animal_paw_r",
+    "copy-from": "foot_r",
+    "type": "body_part",
+    "name": "right hindpaw",
+    "name_multiple": "hindpaws",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "right hindpaw" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "hindpaws" },
+    "heading": "r. hindpaw",
+    "heading_multiple": "hindpaws",
+    "encumbrance_text": "Running is slowed.",
+    "encumbrance_threshold": 5,
+    "main_part": "leg_l",
+    "opposite_part": "animal_paw_l",
+    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "footing", 0.5 ], [ "swim", 0.1 ] ],
+    "smash_message": "You kick down the %s, smashing it.",
+    "techniques": [ "TECH_ANIMAL_FOOT_KICK" ],
+    "bionic_slots": 1,
+    "sub_parts": [
+      "digitigrade_foot_sole_r",
+      "digitigrade_foot_arch_r",
+      "digitigrade_foot_toes_r",
+      "digitigrade_foot_ankle_r",
+      "digitigrade_foot_heel_r"
+    ],
+    "flags": [ "LIMB_LOWER" ]
   },
   {
     "id": "tail",
