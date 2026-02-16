@@ -12663,6 +12663,7 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
     mgr.cache_avatar_location();
 
     num_processed = 0;
+    virtual_pickup_active = false;
     // Clear stale state from previous source. Fresh destinations are computed
     // in stage_do when items are picked up from the new source.
     dropoff_coords.clear();
@@ -12846,6 +12847,12 @@ void zone_sort_activity_actor::return_items_to_source( Character &you,
     int return_failures = 0;
     for( item_location &item : picked_up_stuff ) {
         if( item.get_item() ) {
+            // Skip virtual pickup items still at source - they were never moved.
+            if( const vehicle_cursor *vc = item.veh_cursor() ) {
+                if( vc->veh.abs_part_pos( vc->part ) == get_map().get_abs( src_bub ) ) {
+                    continue;
+                }
+            }
             // Place the item back at the source tile
             std::vector<item_location> returned = put_into_vehicle_or_drop_ret_locs(
                     you, item_drop_reason::deliberate, { *item }, src_bub );
@@ -12972,12 +12979,34 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             }
 
             if( !routed ) {
-                // All dropoff destinations unreachable. Return items to source.
-                // Don't erase source -- other items may have different reachable destinations.
-                return_items_to_source( you, src_bub );
+                // All dropoff destinations unreachable after player left source.
+                // Defensive: route_length populated dropoff_coords earlier, but
+                // route_to_destination failed from the player's current position.
+                // Both use the same A* in a single turn, so this can't fire normally.
+                if( virtual_pickup_active ) {
+                    // Items are still on the cart - just clear batch state.
+                    add_msg_debug( debugmode::DF_ACTIVITY,
+                                   "zone_sort DO: virtual items kept on cart, source marked unreachable" );
+                    picked_up_stuff.clear();
+                    dropoff_coords.clear();
+                    unreachable_sources.emplace( src );
+                } else {
+                    return_items_to_source( you, src_bub );
+                }
                 stage = THINK;
             }
             return;
+        }
+    }
+
+    // Rotate virtual-batch state when a batch has been fully delivered.
+    // Must happen before items.begin() + num_processed arithmetic below.
+    bool had_virtual_batch = false;
+    if( picked_up_stuff.empty() ) {
+        had_virtual_batch = virtual_pickup_active;
+        virtual_pickup_active = false;
+        if( had_virtual_batch ) {
+            num_processed = 0;
         }
     }
 
@@ -13030,6 +13059,32 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             continue;
         }
 
+        // Direct delivery: if grabbed cart IS a destination, place items
+        // directly into cart cargo without the full pickup-route-dropoff cycle.
+        if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
+            const tripoint_bub_ms cart_position = you.pos_bub() + you.as_avatar()->grab_point;
+            const tripoint_abs_ms cart_abs = here.get_abs( cart_position );
+            if( cart_position != src_bub && dest_set.count( cart_abs ) ) {
+                if( std::optional<vpart_reference> ovp = here.veh_at( cart_position ).cargo() ) {
+                    item copy_thisitem( thisitem );
+                    if( ovp->vehicle().add_item( here, ovp->part(), copy_thisitem ) ) {
+                        you.mod_moves( -you.item_handling_cost( copy_thisitem ) );
+                        if( vp ) {
+                            vp->vehicle().remove_item( vp->part(), &thisitem );
+                        } else {
+                            here.i_rem( src_bub, &thisitem );
+                        }
+                        num_processed--;
+                        if( you.get_moves() <= 0 || *move_and_reset ) {
+                            return;
+                        }
+                        continue;
+                    }
+                    // Cart full: fall through to normal pickup
+                }
+            }
+        }
+
         // Picking up
 
         if( !picked_up_stuff.empty() ) {
@@ -13073,14 +13128,25 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             }
         }
 
-        // FIXME HACK: teleports thisitem into inventory
-        item copy_thisitem( thisitem );
         item_location thisitem_loc;
+        bool cart_at_source = false;
         if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
-            // Try putting item into grabbed vehicle, but not if cart IS the
-            // source tile - that would cause infinite re-pickup.
             const tripoint_bub_ms cart_position = you.pos_bub() + you.as_avatar()->grab_point;
-            if( cart_position != src_bub ) {
+            cart_at_source = ( cart_position == src_bub );
+        }
+
+        if( cart_at_source && vp ) {
+            // Virtual pickup: cart IS the transport. Leave item in cart cargo,
+            // just create an item_location pointing at the original.
+            thisitem_loc = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ),
+                                          &thisitem );
+            virtual_pickup_active = true;
+            you.mod_moves( -you.item_handling_cost( thisitem ) );
+        } else {
+            // Physical pickup: copy item to cart or inventory, remove from source.
+            item copy_thisitem( thisitem );
+            if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
+                const tripoint_bub_ms cart_position = you.pos_bub() + you.as_avatar()->grab_point;
                 if( std::optional<vpart_reference> ovp = get_map().veh_at( cart_position ).cargo() ) {
                     vehicle &veh = ovp->vehicle();
                     std::optional<vehicle_stack::iterator> vehstack = veh.add_item( here, ovp->part(),
@@ -13091,26 +13157,22 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                     }
                 }
             }
+            if( !thisitem_loc ) {
+                thisitem_loc = you.try_add( copy_thisitem );
+            }
+            if( !thisitem_loc ) {
+                cart_or_carry_blocked = true;
+                continue;
+            }
+            you.mod_moves( -you.item_handling_cost( copy_thisitem ) );
+            // Remove the item we just copy-teleported
+            if( vp ) {
+                vp->vehicle().remove_item( vp->part(), &thisitem );
+            } else {
+                here.i_rem( src_bub, &thisitem );
+            }
+            num_processed--;
         }
-
-        if( !thisitem_loc ) {  // We either couldn't put it in a vehicle, or didn't have one. Let's try pockets.
-            thisitem_loc = you.try_add( copy_thisitem );
-        }
-        if( !thisitem_loc ) {
-            cart_or_carry_blocked = true;
-            continue;
-        }
-        // Pickup cost
-        you.mod_moves( -you.item_handling_cost( copy_thisitem ) );
-
-        // Remove the item we just copy-teleported
-        if( vp ) {
-            vp->vehicle().remove_item( vp->part(), &thisitem );
-        } else {
-            here.i_rem( src_bub, &thisitem );
-        }
-        // Decrement the count of how many items we need to process; one just disappeared from the stack
-        num_processed--;
 
         if( dropoff_coords.empty() ) {
             // Defensive fallback - 4a normally handles this. Probe fresh.
@@ -13208,8 +13270,12 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             }
 
             // Get rid of the placed items, as we really only wanted to know if they COULD be placed.
+            // count_by_charges items may merge during placement, so multiple item_locations
+            // can point to the same stack. Guard against removing an already-removed item.
             for( item_location &item : placed_items ) {
-                item.remove_item();
+                if( item.get_item() ) {
+                    item.remove_item();
+                }
             }
 
             if( match ) {
@@ -13247,7 +13313,9 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
                 // Get rid of the placed items, as we really only wanted to know if they COULD be placed.
                 for( item_location &item : placed_items ) {
-                    item.remove_item();
+                    if( item.get_item() ) {
+                        item.remove_item();
+                    }
                 }
 
                 if( match ) {
@@ -13267,12 +13335,25 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                        "zone_sort DO: routing to dest (%d,%d,%d) with %zu items",
                        destination.x(), destination.y(), destination.z(),
                        picked_up_stuff.size() );
+        // Already adjacent to destination - next do_turn enters the dropoff section directly.
+        if( square_dist( abspos, destination ) <= 1 ) {
+            return;
+        }
         if( !zone_sorting::route_to_destination( you, act, here.get_bub( destination ), stage ) ) {
-            // Can't reach destination. Return items to source and retry.
-            // Don't erase source -- other items may have different reachable destinations.
-            add_msg_debug( debugmode::DF_ACTIVITY,
-                           "zone_sort DO: route to dest FAILED, returning items, back to THINK" );
-            return_items_to_source( you, src_bub );
+            // Defensive: route_length passed (destination was in dropoff_coords)
+            // but route_to_destination failed. Both use the same A* in a single
+            // turn, so this shouldn't happen normally.
+            if( virtual_pickup_active ) {
+                add_msg_debug( debugmode::DF_ACTIVITY,
+                               "zone_sort DO: virtual items kept on cart, source marked unreachable" );
+                picked_up_stuff.clear();
+                dropoff_coords.clear();
+                unreachable_sources.emplace( src );
+            } else {
+                add_msg_debug( debugmode::DF_ACTIVITY,
+                               "zone_sort DO: route to dest FAILED, returning items, back to THINK" );
+                return_items_to_source( you, src_bub );
+            }
             stage = THINK;
         }
 
@@ -13296,6 +13377,7 @@ void zone_sort_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "picked_up_stuff", picked_up_stuff );
     jsout.member( "dropoff_coords", dropoff_coords );
     jsout.member( "pickup_failure_reported", pickup_failure_reported );
+    jsout.member( "virtual_pickup_active", virtual_pickup_active );
     jsout.member( "unreachable_sources", unreachable_sources );
 
     jsout.end_object();
@@ -13318,6 +13400,9 @@ std::unique_ptr<activity_actor> zone_sort_activity_actor::deserialize( JsonValue
     // Element introduced 2026-01-26. Existence check to be removed when support for older saves is dropped.
     if( data.has_bool( "pickup_failure_reported" ) ) {
         data.read( "pickup_failure_reported", actor.pickup_failure_reported );
+    }
+    if( data.has_member( "virtual_pickup_active" ) ) {
+        data.read( "virtual_pickup_active", actor.virtual_pickup_active );
     }
     if( data.has_member( "unreachable_sources" ) ) {
         data.read( "unreachable_sources", actor.unreachable_sources );

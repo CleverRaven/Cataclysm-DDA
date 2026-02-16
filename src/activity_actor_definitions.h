@@ -4038,6 +4038,9 @@ class zone_sort_activity_actor : public zone_activity_actor
         // Place(s) that the current stuff can be dropped off at.
         std::vector<tripoint_abs_ms> dropoff_coords;
         bool pickup_failure_reported = false;
+        // Tracks whether current batch used virtual pickup (items left on cart).
+        // Batch-scoped: captured and cleared in pre-loop section of stage_do.
+        bool virtual_pickup_active = false;
         // Source tiles where routing failed or cart blocked pickup this cycle.
         // Cleared when player position or grab state changes (per stage_think).
         // Destination reachability is probed fresh per-source in stage_do.
