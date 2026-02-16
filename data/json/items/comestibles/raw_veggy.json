@@ -1318,7 +1318,8 @@
     "material": [ "veggy", "powder" ],
     "volume": "25 ml",
     "//": "250 ml is equivalent to 1 cup of flour.  10 charges is roughly equivalent to a cup of flour for American recipes.  Nutritional data based off buckwheat flour.",
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "NO_AUTO_CONSUME" ],
+    "use_action": [ "BLECH" ],
     "vitamins": [ [ "iron", "500 μg" ], [ "calcium", "5 mg" ], [ "veggy_allergen", 1 ] ],
     "fun": -5
   },

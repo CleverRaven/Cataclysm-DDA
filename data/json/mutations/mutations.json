@@ -3982,20 +3982,14 @@
     "category": [ "URSINE" ],
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
+    "prereqs2": [ "FANGS" ],
     "points": 0,
     "mixed_effect": true,
     "vitamin_cost": 160,
     "visibility": 5,
     "ugliness": 4,
     "restricts_gear": [ "mouth" ],
-    "attacks": {
-      "attack_text_u": "You bite %s!",
-      "attack_text_npc": "%1$s bites %2$s!",
-      "blocker_mutations": [ "FANGS" ],
-      "body_part": "mouth",
-      "chance": 20,
-      "base_damage": { "damage_type": "cut", "amount": 5 }
-    }
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_bear" } ] } ]
   },
   {
     "type": "mutation",
@@ -4080,6 +4074,7 @@
     "category": [ "BEAST", "LUPINE" ],
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
+    "prereqs2": [ "FANGS" ],
     "points": 0,
     "mixed_effect": true,
     "vitamin_cost": 160,
@@ -4087,14 +4082,7 @@
     "ugliness": 4,
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 6 },
-    "attacks": {
-      "attack_text_u": "You nip at %s!",
-      "attack_text_npc": "%1$s nips and harries %2$s!",
-      "blocker_mutations": [ "FANGS" ],
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": { "damage_type": "cut", "amount": 4 }
-    }
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_lupine" } ] } ]
   },
   {
     "type": "mutation",
@@ -4221,14 +4209,7 @@
     "destroys_gear": true,
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 15 },
-    "attacks": {
-      "attack_text_u": "You tear into %s with your saber teeth!",
-      "attack_text_npc": "%1$s tears into %2$s with their saber teeth!",
-      "body_part": "mouth",
-      "chance": 20,
-      "base_damage": { "damage_type": "stab", "amount": 25 },
-      "strength_damage": { "damage_type": "stab", "amount": 1 }
-    }
+    "integrated_armor": [ "integrated_saber_teeth" ]
   },
   {
     "type": "mutation",
@@ -4244,6 +4225,8 @@
     "active": true,
     "vitamin_cost": 160,
     "activated_is_setup": false,
+    "stamina": true,
+    "cost": 2000,
     "activated_eocs": [ "EOC_FELINE_LEAP" ],
     "//": "This is differentiated from the other two leaps by a shorter range yet a shorter prep time. Probably less useful than them since it will still exhaust you."
   },
@@ -4320,14 +4303,7 @@
     "points": 2,
     "vitamin_cost": 160,
     "visibility": 3,
-    "ugliness": 3,
-    "attacks": {
-      "attack_text_u": "You bite into %s with your ratlike incisors!",
-      "attack_text_npc": "%1$s bites %2$s with their ratlike incisors!",
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": [ { "damage_type": "cut", "amount": 3 }, { "damage_type": "bash", "amount": 3 } ]
-    }
+    "ugliness": 3
   },
   {
     "type": "mutation",
@@ -4341,7 +4317,8 @@
     "vitamin_cost": 160,
     "visibility": 6,
     "ugliness": 4,
-    "restricts_gear": [ "mouth" ]
+    "restricts_gear": [ "mouth" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_rodent" } ] } ]
   },
   {
     "type": "mutation",
@@ -4544,6 +4521,7 @@
     "category": [ "LIZARD" ],
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
+    "prereqs2": [ "FANGS" ],
     "points": 0,
     "mixed_effect": true,
     "vitamin_cost": 160,
@@ -4551,14 +4529,7 @@
     "ugliness": 8,
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 20 },
-    "attacks": {
-      "attack_text_u": "You bite a chunk out of %s!",
-      "attack_text_npc": "%1$s bites a chunk out of %2$s!",
-      "blocker_mutations": [ "FANGS" ],
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": { "damage_type": "stab", "amount": 18 }
-    }
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_long" } ] } ]
   },
   {
     "type": "mutation",
@@ -4697,7 +4668,7 @@
     "vitamin_cost": 160,
     "visibility": 7,
     "ugliness": 4,
-    "encumbrance_always": [ [ "mouth", 10 ] ]
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_slit_nostrils_breathing_penalty", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -5001,13 +4972,15 @@
     "vitamin_cost": 210,
     "visibility": 8,
     "ugliness": 9,
-    "flags": [ "SLUDGE_IMMUNE" ],
-    "encumbrance_always": [ [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
+    "flags": [ "SLUDGE_IMMUNE", "TOUGH_FEET" ],
     "destroys_gear": true,
-    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r", "leg_stub_r", "leg_stub_l" ],
+    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
     "enchantments": [
       {
         "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": 0.25 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.75 } ]
+      },
+      {
+        "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "leg_r" }, { "lose": "foot_r" }, { "lose": "foot_l" }, { "gain": "gastropod_foot" } ]
       }
     ]
   },
@@ -5476,14 +5449,7 @@
     "visibility": 10,
     "ugliness": 8,
     "social_modifiers": { "intimidate": 5 },
-    "attacks": {
-      "attack_text_u": "You tear into %s with your teeth!",
-      "attack_text_npc": "%1$s tears into %2$s with their teeth!",
-      "body_part": "mouth",
-      "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
-      "chance": 20,
-      "base_damage": { "damage_type": "stab", "amount": 25 }
-    },
+    "integrated_armor": [ "integrated_shark_teeth" ],
     "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": -0.7 } ] } ]
   },
   {
@@ -5795,7 +5761,7 @@
     "vitamin_cost": 90,
     "visibility": 8,
     "ugliness": 6,
-    "butchering_quality": 4,
+    "provided_qualities": { "BUTCHER": 4 },
     "integrated_armor": [ "integrated_mandibles" ],
     "attacks": {
       "attack_text_u": "You bite %s with your fangs!",

@@ -239,7 +239,7 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
         // NOLINTNEXTLINE(cata-ot-match)
         CHECK( is_ot_match( "forest", oter_id( "forest" ), ot_match_type::exact ) );
         // NOLINTNEXTLINE(cata-ot-match)
-        CHECK( is_ot_match( "central_lab", oter_id( "central_lab" ), ot_match_type::exact ) );
+        CHECK( is_ot_match( "forest_thick", oter_id( "forest_thick" ), ot_match_type::exact ) );
 
         // Does not exactly match if rotation differs
         // NOLINTNEXTLINE(cata-ot-match)
@@ -261,7 +261,7 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
 
         // Does not match if base type does not match
         // NOLINTNEXTLINE(cata-ot-match)
-        CHECK_FALSE( is_ot_match( "lab", oter_id( "central_lab" ), ot_match_type::type ) );
+        CHECK_FALSE( is_ot_match( "forest", oter_id( "forest_thick" ), ot_match_type::type ) );
         // NOLINTNEXTLINE(cata-ot-match)
         CHECK_FALSE( is_ot_match( "sub_station", oter_id( "sewer_sub_station" ), ot_match_type::type ) );
     }
@@ -269,15 +269,16 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
     SECTION( "prefix match" ) {
         // Matches the complete string
         CHECK( is_ot_match( "forest", oter_id( "forest" ), ot_match_type::prefix ) );
-        CHECK( is_ot_match( "central_lab", oter_id( "central_lab" ), ot_match_type::prefix ) );
+        CHECK( is_ot_match( "forest_thick", oter_id( "forest_thick" ),
+                            ot_match_type::prefix ) );
 
         // Prefix matches when an underscore separator exists
-        CHECK( is_ot_match( "central", oter_id( "central_lab" ), ot_match_type::prefix ) );
-        CHECK( is_ot_match( "central", oter_id( "central_lab_stairs" ), ot_match_type::prefix ) );
+        CHECK( is_ot_match( "forest", oter_id( "forest_thick" ), ot_match_type::prefix ) );
+        CHECK( is_ot_match( "underground", oter_id( "underground_sub_station" ), ot_match_type::prefix ) );
 
         // Prefix itself may contain underscores
-        CHECK( is_ot_match( "central_lab", oter_id( "central_lab_stairs" ), ot_match_type::prefix ) );
-        CHECK( is_ot_match( "central_lab_train", oter_id( "central_lab_train_depot" ),
+        CHECK( is_ot_match( "sewer_end", oter_id( "sewer_end_north" ), ot_match_type::prefix ) );
+        CHECK( is_ot_match( "test_forest_very", oter_id( "test_forest_very_thick" ),
                             ot_match_type::prefix ) );
 
         // Prefix does not match without an underscore separator
@@ -285,28 +286,29 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
         CHECK_FALSE( is_ot_match( "fore", oter_id( "forest_thick" ), ot_match_type::prefix ) );
 
         // Prefix does not match the middle or end
-        CHECK_FALSE( is_ot_match( "lab", oter_id( "central_lab" ), ot_match_type::prefix ) );
-        CHECK_FALSE( is_ot_match( "lab", oter_id( "central_lab_stairs" ), ot_match_type::prefix ) );
+        CHECK_FALSE( is_ot_match( "sub", oter_id( "sewer_sub_station" ), ot_match_type::prefix ) );
+        CHECK_FALSE( is_ot_match( "station", oter_id( "sewer_sub_station" ), ot_match_type::prefix ) );
     }
 
     SECTION( "contains match" ) {
         // Matches the complete string
         CHECK( is_ot_match( "forest", oter_id( "forest" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "central_lab", oter_id( "central_lab" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "forest_thick", oter_id( "forest_thick" ),
+                            ot_match_type::contains ) );
 
         // Matches the beginning/middle/end of an underscore-delimited id
-        CHECK( is_ot_match( "central", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "lab", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "stairs", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "sewer", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "sub", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "station", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
 
         // Matches the beginning/middle/end without undercores as well
-        CHECK( is_ot_match( "cent", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "ral_lab", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "_lab_", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "airs", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "sewe", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "er_su", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "_sub_", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "tion", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
 
         // Does not match if substring is not contained
-        CHECK_FALSE( is_ot_match( "forest", oter_id( "central_lab" ), ot_match_type::contains ) );
+        CHECK_FALSE( is_ot_match( "forest", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
         CHECK_FALSE( is_ot_match( "forestry", oter_id( "forest" ), ot_match_type::contains ) );
     }
 }

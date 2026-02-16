@@ -44,7 +44,7 @@ static void check_x_in_y( double x, double y )
     const epsilon_threshold target_range{ x / y, 0.05 };
     do {
         stats.add( x_in_y( x, y ) );
-    } while( stats.n() < 100 || stats.uncertain_about( target_range ) );
+    } while( stats.n() < 500 || stats.uncertain_about( target_range ) );
     INFO( "Goal: " << x << " / " << y << " ( " << x / y << " )" );
     INFO( "Result: " << stats.avg() );
     INFO( "Samples: " << stats.n() );

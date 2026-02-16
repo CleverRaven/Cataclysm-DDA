@@ -17,6 +17,7 @@
 class Character;
 class JsonObject;
 class item;
+class item_location;
 class time_point;
 class vpart_reference;
 struct itype;
@@ -71,7 +72,6 @@ void cardreader_robofac( Character &you, const tripoint_bub_ms &examp );
 void cardreader_foodplace( Character &you, const tripoint_bub_ms &examp );
 void intercom( Character &you, const tripoint_bub_ms &examp );
 void intercom_balthazar( Character &you, const tripoint_bub_ms &examp );
-void cvdmachine( Character &you, const tripoint_bub_ms &examp );
 void change_appearance( Character &you, const tripoint_bub_ms &examp );
 void rubble( Character &you, const tripoint_bub_ms &examp );
 void chainfence( Character &you, const tripoint_bub_ms &examp );
@@ -164,7 +164,7 @@ std::list<item> get_harvest_items( const itype &type, int plant_count,
                                    int seed_count, bool byproducts );
 
 // Planting functions
-std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );
+std::vector<seed_tuple> get_seed_entries( const std::vector<item_location> &seed_inv );
 int query_seed( const std::vector<seed_tuple> &seed_entries );
 void plant_seed( Character &you, const tripoint_bub_ms &examp, const itype_id &seed_id );
 void clear_overgrown( Character &you, const tripoint_bub_ms &examp );

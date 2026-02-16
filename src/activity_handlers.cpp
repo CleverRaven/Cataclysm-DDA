@@ -9,15 +9,12 @@
 #include <stdexcept>
 #include <string>
 #include <type_traits>
-#include <unordered_map>
 #include <unordered_set>
 #include <utility>
 
-#include "activity_actor.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "clzones.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -29,7 +26,6 @@
 #include "game_inventory.h"
 #include "iexamine.h"
 #include "inventory.h"
-#include "inventory_ui.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
@@ -59,15 +55,9 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
-static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
-static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
-static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
-static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
-static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
 static const ammotype ammo_battery( "battery" );
@@ -82,62 +72,32 @@ static const furn_str_id furn_f_compost_full( "f_compost_full" );
 static const furn_str_id furn_f_fvat_empty( "f_fvat_empty" );
 static const furn_str_id furn_f_fvat_wood_empty( "f_fvat_wood_empty" );
 static const furn_str_id furn_f_fvat_wood_full( "f_fvat_wood_full" );
-static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
-static const furn_str_id furn_f_kiln_metal_empty( "f_kiln_metal_empty" );
-static const furn_str_id furn_f_kiln_portable_empty( "f_kiln_portable_empty" );
-static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
-static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
 static const itype_id itype_pseudo_magazine_mod( "pseudo_magazine_mod" );
-
-static const skill_id skill_survival( "survival" );
-
-static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 
 using namespace activity_handlers;
 
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 activity_handlers::do_turn_functions = {
     { ACT_FILL_LIQUID, fill_liquid_do_turn },
-    { ACT_START_FIRE, start_fire_do_turn },
-    { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
-    { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
-    { ACT_FETCH_REQUIRED, fetch_do_turn },
-    { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
-    { ACT_FIND_MOUNT, find_mount_do_turn },
-    { ACT_FERTILIZE_PLOT, fertilize_plot_do_turn }
+    { ACT_FIND_MOUNT, find_mount_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 activity_handlers::finish_functions = {
-    { ACT_START_FIRE, start_fire_finish },
     { ACT_REPAIR_ITEM, repair_item_finish }
 };
-
-static void assign_multi_activity( Character &you, const player_activity &act )
-{
-    const bool requires_actor = activity_actors::deserialize_functions.find( act.id() ) !=
-                                activity_actors::deserialize_functions.end();
-    if( requires_actor ) {
-        // the activity uses `activity_actor` and requires `player_activity::actor` to be set
-        you.assign_activity( player_activity( act ) );
-    } else {
-        // the activity uses the older type of player_activity where `player_activity::actor` is not used
-        you.assign_activity( act.id() );
-    }
-}
 
 bool activity_handlers::resume_for_multi_activities( Character &you )
 {
     if( !you.backlog.empty() ) {
         player_activity &back_act = you.backlog.front();
         if( back_act.is_multi_type() ) {
-            assign_multi_activity( you, back_act );
-            you.backlog.pop_front();
+            you.assign_activity( back_act );
             return true;
         }
     }
@@ -341,137 +301,6 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         debugmsg( "error in activity data: \"%s\"", err.what() );
         act_ref.set_to_null();
         return;
-    }
-}
-
-void activity_handlers::start_fire_finish( player_activity *act, Character *you )
-{
-    map &here = get_map();
-
-    static const std::string iuse_name_string( "firestarter" );
-
-    item &it = *act->targets.front();
-    item *used_tool = it.get_usable_item( iuse_name_string );
-    if( used_tool == nullptr ) {
-        debugmsg( "Lost tool used for starting fire" );
-        act->set_to_null();
-        return;
-    }
-
-    const use_function *use_fun = used_tool->get_use( iuse_name_string );
-    const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>
-                                     ( use_fun->get_actor_ptr() );
-    if( actor == nullptr ) {
-        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
-        act->set_to_null();
-        return;
-    }
-
-    you->practice( skill_survival, act->index, 5 );
-
-    const furn_id &f_id = here.furn( here.get_bub( act->placement ) );
-    const bool is_smoking_rack = f_id == furn_f_metal_smoking_rack ||
-                                 f_id == furn_f_smoking_rack;
-    const bool is_kiln = f_id == furn_f_kiln_empty ||
-                         f_id == furn_f_kiln_metal_empty || f_id == furn_f_kiln_portable_empty;
-
-    firestarter_actor::start_type st = firestarter_actor::start_type::FIRE;
-
-    if( is_smoking_rack ) {
-        st = firestarter_actor::start_type::SMOKER;
-    } else if( is_kiln ) {
-        st = firestarter_actor::start_type::KILN;
-    }
-
-    it.activation_consume( 1, you->pos_bub(), you );
-
-    firestarter_actor::resolve_firestarter_use( you, &here, here.get_bub( act->placement ),
-            st );
-
-    act->set_to_null();
-}
-
-void activity_handlers::start_fire_do_turn( player_activity *act, Character *you )
-{
-    map &here = get_map();
-    tripoint_bub_ms where = here.get_bub( act->placement );
-    if( !here.is_flammable( where ) ) {
-        try_fuel_fire( *act, *you, true );
-        if( !here.is_flammable( where ) ) {
-            if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, where ) ||
-                here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, where ) ) {
-                you->add_msg_if_player( m_info, _( "You can't light a fire on water." ) );
-            } else {
-                you->add_msg_if_player( m_info, _( "There's nothing to light there." ) );
-            }
-            you->cancel_activity();
-            return;
-        }
-    }
-
-    // Sometimes when an item is dropped it causes the whole item* to get set to null.
-    // This null pointer gets cast to a reference at some point, causing UB and
-    // segfaults. It looks like something is supposed to catch this, maybe
-    // get_safe_reference in item.cpp, but it's not working so we check for a
-    // null pointer here.
-    //
-    if( act->targets.front().get_item() == nullptr ) {
-        add_msg( m_bad, _( "You have lost the item you were using to start the fire." ) );
-        you->cancel_activity();
-        return;
-    }
-
-    item &firestarter = *act->targets.front();
-
-    const furn_id f_id = here.furn( here.get_bub( act->placement ) );
-    const bool is_smoker = f_id == furn_f_smoking_rack ||
-                           f_id == furn_f_metal_smoking_rack;
-
-    if( firestarter.has_flag( flag_REQUIRES_TINDER ) && !is_smoker ) {
-        if( !here.tinder_at( where ) ) {
-            inventory_filter_preset preset( []( const item_location & loc ) {
-                return loc->has_flag( flag_TINDER );
-            } );
-            inventory_pick_selector inv_s( *you, preset );
-            inv_s.add_nearby_items( PICKUP_RANGE );
-            inv_s.add_character_items( *you );
-
-            inv_s.set_title( _( "Select tinder to use for lighting a fire" ) );
-
-            item_location tinder;
-            if( inv_s.empty() || !( tinder = inv_s.execute() ) ) {
-                you->add_msg_if_player( m_info, _( "This item requires tinder to light." ) );
-                you->cancel_activity();
-                return;
-            }
-
-            item copy = *tinder;
-            bool count_by_charges = tinder->count_by_charges();
-            if( count_by_charges ) {
-                tinder->charges--;
-                copy.charges = 1;
-            }
-            here.add_item_or_charges( where, copy );
-            if( !count_by_charges || tinder->charges <= 0 ) {
-                tinder.remove_item();
-            }
-        }
-    }
-
-    const use_function *usef = firestarter.type->get_use( "firestarter" );
-    if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
-        add_msg( m_bad, _( "You have lost the item you were using to start the fire." ) );
-        you->cancel_activity();
-        return;
-    }
-
-    you->mod_moves( -you->get_moves() );
-    const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-    const float light = actor->light_mod( &here, you->pos_bub( here ) );
-    act->moves_left -= light * 100;
-    if( light < 0.1 ) {
-        add_msg( m_bad, _( "There is not enough sunlight to start a fire now.  You stop trying." ) );
-        you->cancel_activity();
     }
 }
 
@@ -951,86 +780,6 @@ void activity_handlers::find_mount_do_turn( player_activity *act, Character *you
     }
 }
 
-void activity_handlers::tidy_up_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_fish_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_construction_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_mine_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_mop_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_chop_planks_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_butcher_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_craft_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_dis_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_read_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_study_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::vehicle_deconstruction_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::vehicle_repair_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::chop_trees_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::multiple_farm_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
-void activity_handlers::fetch_do_turn( player_activity *act, Character *you )
-{
-    generic_multi_activity_handler( *act, *you );
-}
-
 template<typename fn>
 static void cleanup_tiles( std::unordered_set<tripoint_abs_ms> &tiles, fn &cleanup )
 {
@@ -1045,99 +794,4 @@ static void cleanup_tiles( std::unordered_set<tripoint_abs_ms> &tiles, fn &clean
             tiles.erase( current );
         }
     }
-}
-
-static void perform_zone_activity_turn(
-    Character *you, const zone_type_id &ztype,
-    const std::function<bool( const tripoint_bub_ms & )> &tile_filter,
-    const std::function<void ( Character &you, const tripoint_bub_ms & )> &tile_action,
-    const std::string &finished_msg )
-{
-    const zone_manager &mgr = zone_manager::get_manager();
-    map &here = get_map();
-    const tripoint_abs_ms abspos = you->pos_abs();
-    std::unordered_set<tripoint_abs_ms> unsorted_tiles = mgr.get_near( ztype, abspos );
-
-    cleanup_tiles( unsorted_tiles, tile_filter );
-
-    // sort remaining tiles by distance
-    const std::vector<tripoint_abs_ms> &tiles =
-        get_sorted_tiles_by_distance( abspos, unsorted_tiles );
-
-    for( const tripoint_abs_ms &tile : tiles ) {
-        const tripoint_bub_ms &tile_loc = here.get_bub( tile );
-
-        std::vector<tripoint_bub_ms> route =
-            here.route( *you, pathfinding_target::point( tile_loc ) );
-        if( route.size() > 1 ) {
-            route.pop_back();
-
-            you->set_destination( route, you->activity );
-            you->activity.set_to_null();
-            return;
-        } else {
-            // we are at destination already
-            /* Perform action */
-            tile_action( *you, tile_loc );
-            if( you->get_moves() <= 0 ) {
-                return;
-            }
-        }
-    }
-    add_msg( m_info, finished_msg );
-    you->activity.set_to_null();
-}
-
-void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character *you )
-{
-    itype_id fertilizer;
-
-    auto have_fertilizer = [&]() {
-        return !fertilizer.is_empty() && you->has_amount( fertilizer, 1 );
-    };
-
-    auto check_fertilizer = [&]( bool ask_user = true ) -> void {
-        if( act->str_values.empty() )
-        {
-            act->str_values.emplace_back( "" );
-        }
-        fertilizer = itype_id( act->str_values[0] );
-
-        /* If unspecified, or if we're out of what we used before, ask */
-        if( ask_user && !have_fertilizer() )
-        {
-            fertilizer = iexamine::choose_fertilizer( *you, "plant",
-                    false /* Don't confirm action with player */ );
-            act->str_values[0] = fertilizer.str();
-        }
-    };
-
-
-    const auto reject_tile = [&]( const tripoint_bub_ms & tile ) {
-        check_fertilizer();
-        ret_val<void> can_fert = iexamine::can_fertilize( *you, tile, fertilizer );
-        return !can_fert.success();
-    };
-
-    const auto fertilize = [&]( Character & you, const tripoint_bub_ms & tile ) {
-        check_fertilizer();
-        if( have_fertilizer() ) {
-            iexamine::fertilize_plant( you, tile, fertilizer );
-            if( !have_fertilizer() ) {
-                add_msg( m_info, _( "You have run out of %s." ), item::nname( fertilizer ) );
-            }
-        }
-    };
-
-    check_fertilizer();
-    if( !have_fertilizer() ) {
-        act->set_to_null();
-        return;
-    }
-
-    perform_zone_activity_turn( you,
-                                zone_type_FARM_PLOT,
-                                reject_tile,
-                                fertilize,
-                                _( "You fertilized every plot you could." ) );
 }

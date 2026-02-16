@@ -377,7 +377,7 @@
     "type": "SPELL",
     "name": "Greater Acid Resistance",
     "description": "Protects the user from acid.  Now you know this spell like the back of your hand, and start to design your own version, no longer requiring you to hold concentration.",
-    "valid_targets": [ "none" ],
+    "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "effect_acid_res_aura_greater",
     "shape": "blast",

@@ -314,7 +314,7 @@
     "type": "profession",
     "id": "xe_specter",
     "name": "Xedra Offworld Team: Specter",
-    "description": "Part of Xedra's Offworld Acquisitions team, you were trained to infiltrate any human compatible cultures that were discovered.  You never found any with technology worth stealing and you aren't sure what that says about humanity.",
+    "description": "Part of Xedra's Offworld Acquisitions team, you were trained to infiltrate any human compatible cultures that were discovered.  Your personal best aquisition was a network firewall that steals the soul of failed hackers and you aren't sure what that says about humanity.",
     "traits": [ "XEDRA_CYBORG" ],
     "proficiencies": [ "prof_wp_syn_armored", "prof_auto_pistols_familiar" ],
     "points": 6,
@@ -1025,6 +1025,7 @@
           { "item": "pockknife" },
           { "item": "water_clean" },
           { "item": "wristwatch" },
+          { "item": "holy_symbol_wood" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "item": "knife_combat", "container-item": "sheath" }
@@ -1061,12 +1062,15 @@
         "entries": [
           { "item": "jeans" },
           { "item": "longshirt" },
+          { "item": "trenchcoat_leather" },
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "sheath", "contents-item": "knife_hunting" },
-          { "group": "charged_smart_phone" },
+          { "group": "charged_smart_phone", "contents-item": [ "mag_deduction", "paperback_romance_diodes" ] },
           { "group": "starter_wallet_full" },
+          { "item": "garlic_powder", "count": 100, "container-item": "null", "entry-wrapper": "bag_plastic" },
           { "item": "wristwatch" },
+          { "item": "holy_symbol", "variant": "cross_necklace" },
           {
             "item": "compcrossbow",
             "ammo-item": "bolt_steel",
@@ -1106,12 +1110,14 @@
         "entries": [
           { "item": "jeans" },
           { "item": "longshirt" },
+          { "item": "trenchcoat_leather" },
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "sheath", "contents-item": "knife_combat_marine" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "item": "wristwatch" },
+          { "item": "holy_symbol", "variant": "cross_necklace" },
           {
             "item": "compcrossbow",
             "ammo-item": "bolt_cf",
@@ -1154,12 +1160,14 @@
         "entries": [
           { "item": "jeans" },
           { "item": "longshirt" },
+          { "item": "trenchcoat_aramid" },
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "sheath", "contents-item": "knife_combat_marine" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "item": "wristwatch" },
+          { "item": "holy_symbol", "variant": "cross_necklace" },
           {
             "item": "compcrossbow",
             "ammo-item": "bolt_cf",

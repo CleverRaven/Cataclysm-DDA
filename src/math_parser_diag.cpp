@@ -31,6 +31,7 @@
 #include "faction.h"
 #include "field.h"
 #include "game.h"
+#include "input_popup.h"
 #include "item.h"
 #include "item_location.h"
 #include "magic.h"
@@ -47,7 +48,6 @@
 #include "point.h"
 #include "proficiency.h"
 #include "stomach.h"
-#include "string_input_popup.h"
 #include "talker.h"
 #include "translations.h"
 #include "type_id.h"
@@ -606,14 +606,13 @@ double item_rad_eval( const_dialogue const &d, char scope, std::vector<diag_valu
 double num_input_eval( const_dialogue const &d, char /*scope*/,
                        std::vector<diag_value> const &params, diag_kwargs const & /* kwargs */ )
 {
-    string_input_popup popup;
     double dv = params[1].dbl( d );
     int popup_val = dv;
-    popup.title( _( "Input a value:" ) )
-    .width( 20 )
-    .description( params[0].str( d ) )
-    .edit( popup_val );
-    if( popup.canceled() ) {
+    number_input_popup<int> popup( 55, popup_val );
+    popup.set_label( _( "Input a value:" ) );
+    popup.set_description( params[0].str( d ) );
+    popup_val = popup.query();
+    if( popup.cancelled() ) {
         return dv;
     }
     return static_cast<double>( popup_val );

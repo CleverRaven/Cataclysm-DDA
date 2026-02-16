@@ -170,6 +170,39 @@ int map_entity_stack<T>::get_selected_index() const
 }
 
 template<typename T>
+nc_color map_entity_stack<T>::get_selected_color()
+{
+    if( entities.empty() || selected_index < 0 ||
+        selected_index >= static_cast<int>( entities.size() ) ) {
+        return c_light_gray;
+    }
+
+    if( !entities[selected_index].cached_color ) {
+        make_color_cache();
+    }
+
+    return *entities[selected_index].cached_color;
+}
+
+template<>
+void map_entity_stack<item>::make_color_cache()
+{
+    entities[selected_index].cached_color = get_selected_entity()->color_in_inventory();
+}
+
+template<>
+void map_entity_stack<Creature>::make_color_cache()
+{
+    entities[selected_index].cached_color = get_selected_entity()->basic_symbol_color();
+}
+
+template<>
+void map_entity_stack<map_data_common_t>::make_color_cache()
+{
+    entities[selected_index].cached_color = get_selected_entity()->color();
+}
+
+template<typename T>
 map_entity_stack<T>::map_entity_stack() : totalcount( 0 )
 {
     entities.emplace_back();

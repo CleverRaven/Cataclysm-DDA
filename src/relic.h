@@ -154,6 +154,7 @@ enum class relic_recharge_type : int {
     NEW_MOON,
     SOLAR_SUNNY,
     SOLAR_CLOUDY,
+    FOREST,
     NUM
 };
 

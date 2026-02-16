@@ -81,7 +81,7 @@
     "ocean_start_north": 500,
     "ocean_start_east": 10,
     "ocean_start_west": 1000,
-    "ocean_start_south": 0,
+    "ocean_start_south": null,
     "sandy_beach_width": 6
   },
   {
@@ -172,7 +172,6 @@
       "campsite_field_biker",
       "campsite_field_biker_destroyed",
       "cave",
-      "central_lab_entrance",
       "corpse_tentacle_surface_entry",
       "derelict_property",
       "desolatebarn",
@@ -460,7 +459,6 @@
       [ "house_29", 50 ],
       [ "house_30", 50 ],
       [ "house_31", 50 ],
-      [ "basement_hidden_lab_entrance", 50 ],
       [ "house_32", 50 ],
       [ "house_33", 50 ],
       [ "house_34", 50 ],
@@ -800,7 +798,6 @@
       [ "office_tower_2", 150 ],
       [ "office_skyscraper", 300 ],
       [ "office_tower_large", 300 ],
-      [ "office_tower_hiddenlab", 50 ],
       [ "mall", 200 ],
       [ "home_improvement_superstore_new", 150 ],
       [ "lumberyard", 75 ],
@@ -1644,11 +1641,11 @@
   {
     "type": "weather_generator",
     "id": "default",
-    "base_temperature": 6.5,
+    "base_temperature": 11.1,
     "base_humidity": 70.0,
     "base_pressure": 1015.0,
     "base_wind": 3.4,
     "base_wind_distrib_peaks": 80,
-    "base_wind_season_variation": 50
+    "base_wind_season_variation": 0
   }
 ]

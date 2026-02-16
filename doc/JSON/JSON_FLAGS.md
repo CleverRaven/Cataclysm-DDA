@@ -821,6 +821,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```E_STORABLE``` This item can be stored on an in-game electronic device.
 - ```E_STORABLE_EXCLUSIVE``` This item can ONLY be stored on an in-game electronic device; it may only be handled electronically.
 - ```ELECTRONIC``` This item contain sensitive electronics which can be fried by nearby EMP blast.
+- ```EXODII_STRING_DIMENSION_CARD``` This item opens the door in the string dimension Exodii dome.
 - ```FAKE_MILL``` Item is a fake item, to denote a partially milled product by @ref Item::process_fake_mill, where conditions for its removal are set.
 - ```FAKE_SMOKE``` Item is a fake item generating smoke, recognizable by @ref item::process_fake_smoke, where conditions for its removal are set.
 - ```FELINE``` Food that only player with `FELINE` threshold mutation can eat.  See also `INEDIBLE`.
@@ -1136,6 +1137,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```CAN_DIG``` Will dig on any diggable terrain the same way `DIGS` does, however, will walk normally over non-diggable terrain.
 - ```CAN_OPEN_DOORS``` Can open doors on its path.
 - ```CLIMBS``` (depricated in favor of [moveskills](MONSTERS.md#move_skills)) Can climb over fences or similar obstacles quickly.
+- ```CLUMSY_ATTACKS``` Has a 1 in 4 chance of falling over when missing an attack.
 - ```COLDPROOF``` Immune to cold damage.
 - ```COMBAT_MOUNT```  This mount has better chance to ignore hostile monster fear.
 - ```CONSOLE_DESPAWN``` Despawns when a nearby console is properly hacked.

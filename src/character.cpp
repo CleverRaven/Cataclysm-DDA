@@ -198,6 +198,7 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_mech_recon_vision( "mech_recon_vision" );
+static const efftype_id effect_melatonin( "melatonin" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -1986,11 +1987,12 @@ bool Character::has_min_manipulators() const
     return get_limb_score( limb_score_manip ) > MIN_MANIPULATOR_SCORE;
 }
 
-/** Returns true if the character has two functioning arms */
+/** Returns true if the character has two functioning arms and two human-like hands */
 bool Character::has_two_arms_lifting() const
 {
-    // 0.5f is one "standard" arm, so if you have more than that you barely qualify.
-    return get_limb_score( limb_score_lift, bp_type::arm ) > 0.5f;
+    // 0.5f is one "standard" arm, so if you have more than that you barely qualify. Same with hands.
+    return get_limb_score( limb_score_lift, bp_type::arm ) > 0.5f &&
+           get_limb_score( limb_score_grip, bp_type::hand ) > 0.5f;
 }
 
 std::set<matec_id> Character::get_limb_techs() const
@@ -2230,8 +2232,8 @@ void Character::process_turn()
     // Didn't just pick something up
     last_item = itype_id::NULL_ID();
 
-    cache_visit_items_with( "is_relic", &item::is_relic, [this]( item & it ) {
-        it.process_relic( this, pos_bub() );
+    cache_visit_items_with( "is_relic", &item::is_relic, [this]( item_location & it ) {
+        it->process_relic( this, pos_bub() );
     } );
 
     suffer();
@@ -3024,9 +3026,9 @@ std::map<damage_type_id, int> Character::smash_ability() const
 {
     int bonus = 0;
     std::map<damage_type_id, int> ret;
-
-    ///\EFFECT_STR increases smashing capability
+    ///\EFFECT_STR and SMASH_BONUS increase smashing capability
     bonus += get_arm_str();
+    bonus += enchantment_cache->get_value_add( enchant_vals::mod::SMASH_BONUS );
     if( is_mounted() ) {
         auto *mon = mounted_creature.get();
         bonus += mon->mech_str_addition() + mon->type->melee_dice * mon->type->melee_sides;
@@ -3753,8 +3755,8 @@ float Character::active_light() const
     float lumination = 0.0f;
 
     int maxlum = 0;
-    cache_visit_items_with( "is_emissive", &item::is_emissive, [&maxlum]( const item & it ) {
-        const int lumit = it.getlight_emit();
+    cache_visit_items_with( "is_emissive", &item::is_emissive, [&maxlum]( const item_location & it ) {
+        const int lumit = it->getlight_emit();
         if( maxlum < lumit ) {
             maxlum = lumit;
         }
@@ -4785,14 +4787,14 @@ void Character::recalculate_enchantment_cache()
 {
     enchantment_cache->clear();
 
-    cache_visit_items_with( "is_relic", &item::is_relic, [this]( const item & it ) {
-        for( const enchant_cache &ench : it.get_proc_enchantments() ) {
-            if( ench.is_active( *this, it ) ) {
+    cache_visit_items_with( "is_relic", &item::is_relic, [this]( const item_location & it ) {
+        for( const enchant_cache &ench : it->get_proc_enchantments() ) {
+            if( ench.is_active( *this, *it ) ) {
                 enchantment_cache->force_add( ench );
             }
         }
-        for( const enchantment &ench : it.get_defined_enchantments() ) {
-            if( ench.is_active( *this, it ) ) {
+        for( const enchantment &ench : it->get_defined_enchantments() ) {
+            if( ench.is_active( *this, *it ) ) {
                 enchantment_cache->force_add( ench, *this );
             }
         }
@@ -5200,7 +5202,11 @@ void Character::assign_activity( const activity_id &type, int moves, int index, 
 
 void Character::assign_activity( const activity_actor &actor )
 {
-    assign_activity( player_activity( actor ) );
+    player_activity act( actor );
+    if( act.is_multi_type() ) {
+        act.auto_resume = true;
+    }
+    assign_activity( act );
 }
 
 void Character::assign_activity( const player_activity &act )
@@ -5215,6 +5221,9 @@ void Character::assign_activity( const player_activity &act )
     } else {
         if( activity ) {
             backlog.push_front( activity );
+            if( backlog.size() > 100 ) {
+                debugmsg( "activity backlog exceeded 100, likely an infinite loop" );
+            }
         }
 
         activity = act;
@@ -5276,7 +5285,9 @@ void Character::resume_backlog_activity()
 {
     if( !backlog.empty() && backlog.front().auto_resume ) {
         activity = backlog.front();
-        activity.auto_resume = false;
+        if( !activity.is_multi_type() ) {
+            activity.auto_resume = false;
+        }
         activity.allow_distractions();
         backlog.pop_front();
     }
@@ -5317,7 +5328,11 @@ void Character::fall_asleep()
         // In practice, the sleepiness from filling the tank from (no msg) to Time For Bed
         // will last about 8 days.
     } else {
-        fall_asleep( 10_hours );    // default max sleep time.
+        time_duration sleep_duration = 10_hours;  // default max sleep time
+        if( has_effect( effect_melatonin ) ) {
+            sleep_duration = 12_hours;  // Artificial sleep hormone boost allows you to sleep longer
+        }
+        fall_asleep( sleep_duration );
     }
 }
 
@@ -5517,13 +5532,13 @@ const
     std::pair<float, item> best_weapon = std::make_pair( 0.0f, item() );
 
     cache_visit_items_with( "best_damage_" + dmg_type.str(), &item::is_melee, [&best_weapon, this,
-                  dmg_type]( const item & it ) {
+                  dmg_type]( const item_location & it ) {
         damage_instance di;
-        roll_damage( dmg_type, false, di, true, it, attack_vector_id::NULL_ID(),
+        roll_damage( dmg_type, false, di, true, *it, attack_vector_id::NULL_ID(),
                      sub_bodypart_str_id::NULL_ID(), 1.f );
         for( damage_unit &du : di.damage_units ) {
             if( du.type == dmg_type && best_weapon.first < du.amount ) {
-                best_weapon = std::make_pair( du.amount, it );
+                best_weapon = std::make_pair( du.amount, *it );
             }
         }
     } );
@@ -5542,8 +5557,8 @@ units::energy Character::available_ups() const
     }
 
     bool has_bio_powered_ups = false;
-    cache_visit_items_with( flag_IS_UPS, [&has_bio_powered_ups]( const item & it ) {
-        if( it.has_flag( flag_USES_BIONIC_POWER ) && !has_bio_powered_ups ) {
+    cache_visit_items_with( flag_IS_UPS, [&has_bio_powered_ups]( const item_location & it ) {
+        if( it->has_flag( flag_USES_BIONIC_POWER ) && !has_bio_powered_ups ) {
             has_bio_powered_ups = true;
         }
     } );
@@ -5551,9 +5566,8 @@ units::energy Character::available_ups() const
         available_charges += get_power_level();
     }
 
-    cache_visit_items_with( flag_IS_UPS, [&available_charges]( const item & it ) {
-        available_charges += units::from_kilojoule( static_cast<std::int64_t>( it.ammo_remaining(
-                             ) ) );
+    cache_visit_items_with( flag_IS_UPS, [&available_charges]( const item_location & it ) {
+        available_charges += units::from_kilojoule( static_cast<std::int64_t>( it->ammo_remaining( ) ) );
     } );
 
     return available_charges;
@@ -5572,8 +5586,8 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from bionic
     bool has_bio_powered_ups = false;
-    cache_visit_items_with( flag_IS_UPS, [&has_bio_powered_ups]( const item & it ) {
-        if( it.has_flag( flag_USES_BIONIC_POWER ) && !has_bio_powered_ups ) {
+    cache_visit_items_with( flag_IS_UPS, [&has_bio_powered_ups]( const item_location & it ) {
+        if( it->has_flag( flag_USES_BIONIC_POWER ) && !has_bio_powered_ups ) {
             has_bio_powered_ups = true;
         }
     } );
@@ -5585,12 +5599,12 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from inventory
     if( qty != 0_kJ ) {
-        cache_visit_items_with( flag_IS_UPS, [&qty]( item & it ) {
-            if( it.is_tool() && it.type->tool->fuel_efficiency >= 0 ) {
-                qty -= it.energy_consume( qty, tripoint_bub_ms::zero, nullptr,
-                                          it.type->tool->fuel_efficiency );
+        cache_visit_items_with( flag_IS_UPS, [&qty]( item_location & it ) {
+            if( it->is_tool() && it->type->tool->fuel_efficiency >= 0 ) {
+                qty -= it->energy_consume( qty, tripoint_bub_ms::zero, nullptr,
+                                           it->type->tool->fuel_efficiency );
             } else {
-                qty -= it.energy_consume( qty, tripoint_bub_ms::zero, nullptr );
+                qty -= it->energy_consume( qty, tripoint_bub_ms::zero, nullptr );
             }
         } );
     }
@@ -7154,6 +7168,11 @@ action_id Character::get_next_auto_move_direction()
         // they will cancel the auto-move on the next cycle (as the distance increases).
         if( std::max( { diff.x(), diff.y(), diff.z()} ) > 1 ) {
             // We're off course, possibly stumbling or stuck, cancel auto move
+            add_msg_debug( debugmode::DF_ACTIVITY,
+                           "auto_move: OFF COURSE pos=(%d,%d) expected=(%d,%d) diff=(%d,%d,%d) route_left=%zu",
+                           pos_bub().x(), pos_bub().y(),
+                           next_expected_position->x(), next_expected_position->y(),
+                           diff.x(), diff.y(), diff.z(), auto_move_route.size() );
             return ACTION_NULL;
         }
     }
@@ -7162,6 +7181,12 @@ action_id Character::get_next_auto_move_direction()
     auto_move_route.erase( auto_move_route.begin() );
 
     tripoint_rel_ms dp = *next_expected_position - pos_bub();
+
+    add_msg_debug( debugmode::DF_ACTIVITY,
+                   "auto_move: step dp=(%d,%d) pos=(%d,%d) target=(%d,%d) route_left=%zu",
+                   dp.x(), dp.y(), pos_bub().x(), pos_bub().y(),
+                   next_expected_position->x(), next_expected_position->y(),
+                   auto_move_route.size() );
 
     return get_movement_action_from_delta( dp, iso_rotate::yes );
 }

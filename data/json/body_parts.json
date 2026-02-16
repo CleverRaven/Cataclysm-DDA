@@ -900,6 +900,14 @@
     "name": { "str": "debug limb for debug tail", "//~": "NO_I18N" }
   },
   {
+    "id": "sub_limb_debug_muzzle",
+    "type": "sub_body_part",
+    "parent": "muzzle",
+    "side": "both",
+    "opposite": "sub_limb_debug_muzzle",
+    "name": { "str": "debug limb for debug muzzle", "//~": "NO_I18N" }
+  },
+  {
     "id": "torso_upper",
     "type": "sub_body_part",
     "max_coverage": 60,

@@ -1353,11 +1353,11 @@
     "type": "effect_type",
     "id": "melatonin",
     "name": [ "Melatonin Supplements" ],
-    "desc": [ "You took some melatonin supplements.  These will help with sleep deprivation." ],
-    "max_duration": 100800,
-    "dur_add_perc": 60,
-    "rating": "good",
-    "blood_analysis_description": "Melatonin"
+    "desc": [ "You took some melatonin supplements.  It makes you fall asleep more easily, and you sleep longer." ],
+    "max_duration": "14 h",
+    "rating": "neutral",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 4 }, { "value": "SLEEPINESS", "add": 0.2 } ] } ],
+    "blood_analysis_description": "Elevated sleep hormone levels (Melatonin)"
   },
   {
     "type": "effect_type",
@@ -5438,5 +5438,111 @@
     "desc": [ "You are not entirely present in baseline reality." ],
     "rating": "good",
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RANGE_DODGE", "add": 0.66 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hound_of_tindalos_slobber",
+    "name": [ "Hound Ichor" ],
+    "desc": [ "Your %s is stained with bluish ichor." ],
+    "rating": "bad",
+    "show_in_info": true,
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "remove_message": "The bluish ichor boils away into nothingness.",
+    "enchantments": [
+      {
+        "condition": { "u_is_in_field": "fd_tindalos_gas" },
+        "values": [
+          {
+            "value": "ARTIFACT_RESONANCE",
+            "add": { "math": [ "u_effect_intensity('effect_hound_of_tindalos_slobber', 'bodypart': 'torso') * 250" ] }
+          },
+          {
+            "value": "ARTIFACT_RESONANCE",
+            "add": { "math": [ "u_effect_intensity('effect_hound_of_tindalos_slobber', 'bodypart': 'head') * 250" ] }
+          },
+          {
+            "value": "ARTIFACT_RESONANCE",
+            "add": { "math": [ "u_effect_intensity('effect_hound_of_tindalos_slobber', 'bodypart': 'tail') * 250" ] }
+          },
+          {
+            "value": "ARTIFACT_RESONANCE",
+            "add": { "math": [ "u_effect_intensity('effect_hound_of_tindalos_slobber', 'bodypart': 'arm_l') * 250" ] }
+          },
+          {
+            "value": "ARTIFACT_RESONANCE",
+            "add": { "math": [ "u_effect_intensity('effect_hound_of_tindalos_slobber', 'bodypart': 'arm_r') * 250" ] }
+          },
+          {
+            "value": "ARTIFACT_RESONANCE",
+            "add": { "math": [ "u_effect_intensity('effect_hound_of_tindalos_slobber', 'bodypart': 'leg_l') * 250" ] }
+          },
+          {
+            "value": "ARTIFACT_RESONANCE",
+            "add": { "math": [ "u_effect_intensity('effect_hound_of_tindalos_slobber', 'bodypart': 'leg_r') * 250" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hunting_horror_poison",
+    "name": [ "Poisoned" ],
+    "desc": [ "You have been poisoned!" ],
+    "miss_messages": [ [ "You feel bad inside.", 2 ] ],
+    "rating": "bad",
+    "show_in_info": true,
+    "blood_analysis_description": "Unknown Contaminant",
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') <= 3" ] },
+        "ench_effects": [ { "effect": "effect_hunting_horror_poison_light_sensitive", "intensity": 1 } ]
+      }
+    ],
+    "flags": [ "SUNBURN", "SUNBURN_SUPERNATURAL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hunting_horror_poison_light_sensitive",
+    "name": [ "Uncomfortable" ],
+    "desc": [ "The light is making you itchy and painful." ],
+    "apply_message": "Your skin itches as the light falls on you.",
+    "remove_message": "The itching fades as the light does.",
+    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 20 ], "pain_max_val": [ 30 ], "pain_tick": [ 30 ] },
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.9 },
+      { "limb_score": "reaction", "modifier": 0.9 },
+      { "limb_score": "vision", "modifier": 0.8 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "alienfoodpoison",
+    "name": [ "Food Poisoning" ],
+    "desc": [ "Your stomach is extremely upset, and you are quite nauseated." ],
+    "//": "Separate id because there's no reason Poison Resistance would help you against alien toxins.",
+    "apply_message": "Your stomach is seized with cramps!",
+    "miss_messages": [ [ "Your stomach bothers you.", 1 ] ],
+    "rating": "bad",
+    "base_mods": {
+      "per_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "str_mod": [ -3, -1 ],
+      "speed_mod": [ -20 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 300, 900 ],
+      "vomit_chance": [ 600, 1200 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_slit_nostrils_breathing_penalty",
+    "//": "Hidden effect, provides the limb score penalty from Slit Nostrils",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.9 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]

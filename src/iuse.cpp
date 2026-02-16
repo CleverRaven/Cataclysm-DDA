@@ -201,7 +201,6 @@ static const efftype_id effect_jetinjector( "jetinjector" );
 static const efftype_id effect_lack_sleep( "lack_sleep" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_lying_down( "lying_down" );
-static const efftype_id effect_melatonin( "melatonin" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
@@ -472,8 +471,8 @@ void remove_radio_mod( item &it, Character &p )
 // Checks that the player can smoke
 std::optional<std::string> iuse::can_smoke( const Character &you )
 {
-    auto cigs = you.cache_get_items_with( flag_LITCIG, []( const item & it ) {
-        return it.active;
+    auto cigs = you.cache_get_items_with( flag_LITCIG, []( const item_location & it ) {
+        return it->active;
     } );
 
     if( !cigs.empty() ) {
@@ -2563,7 +2562,7 @@ std::optional<int> iuse::directional_antenna( Character *p, item *it, const trip
         map_stack items = get_map().i_at( p->pos_bub() );
         for( item &an_item : items ) {
             if( an_item.typeId() == itype_radio_on ) {
-                radios.push_back( &an_item );
+                radios.emplace_back( map_cursor( p->pos_bub() ), &an_item );
             }
         }
     }
@@ -4119,11 +4118,12 @@ std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint_b
             }
             for( npc *n : friends_w_game ) {
                 // this vector may be empty, so a nullptr would be passed
-                std::vector<item *> nit = n->cache_get_items_with( it->typeId(), []( const item & i ) {
-                    return i.ammo_sufficient( nullptr );
+                std::vector<item_location> nit = n->cache_get_items_with( it->typeId(), [](
+                const item_location & i ) {
+                    return i->ammo_sufficient( nullptr );
                 } );
-                portable_game_activity_actor portable_game_act( 15_minutes, item_location( *n, nit.front() ),
-                        entertain_players, winner );
+                portable_game_activity_actor portable_game_act( 15_minutes, nit.front(), entertain_players,
+                        winner );
                 n->assign_activity( portable_game_act );
             }
         }
@@ -5134,7 +5134,7 @@ std::optional<int> iuse::stimpack( Character *p, item *it, const tripoint_bub_ms
 
     } else if( !it->activation_success() ) {
         p->add_msg_if_player( m_bad,
-                              _( "nothing happens when you try to inject yourself with your %s. Try again." ), it->tname() );
+                              _( "You try to inject yourself with the %s, but nothing happens." ), it->tname() );
         return std::nullopt;
 
     } else {
@@ -8837,17 +8837,6 @@ std::optional<int> iuse::post_up( Character *p, item *it, const tripoint_bub_ms 
     p->add_msg_if_player( m_good, _( "You put up the %s." ), copy_item.tname() );
 
     return 0;
-}
-
-std::optional<int> iuse::melatonin_tablet( Character *p, item *it, const tripoint_bub_ms & )
-{
-    p->add_msg_if_player( _( "You pop a %s." ), it->tname() );
-    if( p->has_effect( effect_melatonin ) ) {
-        p->add_msg_if_player( m_warning,
-                              _( "Simply taking more melatonin won't help.  You have to go to sleep for it to work." ) );
-    }
-    p->add_effect( effect_melatonin, 16_hours );
-    return 1;
 }
 
 std::optional<int> iuse::coin_flip( Character *p, item *it, const tripoint_bub_ms & )

@@ -49,8 +49,8 @@
     "activity_level": "NO_EXERCISE",
     "verb": "constructing",
     "based_on": "neither",
-    "can_resume": false,
     "multi_activity": true,
+    "fetch_items_to_zone": false,
     "auto_needs": true
   },
   {
@@ -59,7 +59,6 @@
     "activity_level": "EXTRA_EXERCISE",
     "verb": "mining",
     "based_on": "neither",
-    "can_resume": false,
     "multi_activity": true
   },
   {
@@ -68,7 +67,6 @@
     "activity_level": "NO_EXERCISE",
     "verb": "mopping",
     "based_on": "neither",
-    "can_resume": false,
     "multi_activity": true
   },
   {
@@ -87,7 +85,6 @@
     "activity_level": "NO_EXERCISE",
     "verb": "studying",
     "based_on": "neither",
-    "can_resume": false,
     "multi_activity": true,
     "auto_needs": true
   },
@@ -99,19 +96,11 @@
     "based_on": "speed"
   },
   {
-    "id": "ACT_TIDY_UP",
-    "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
-    "verb": "tidying up",
-    "based_on": "neither"
-  },
-  {
     "id": "ACT_VEHICLE_DECONSTRUCTION",
     "type": "activity_type",
     "activity_level": "BRISK_EXERCISE",
     "verb": "deconstructing a vehicle",
     "based_on": "neither",
-    "can_resume": false,
     "multi_activity": true
   },
   {
@@ -138,7 +127,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "verb": "repairing a vehicle",
     "based_on": "neither",
-    "can_resume": false,
     "multi_activity": true
   },
   {
@@ -177,7 +165,6 @@
     "activity_level": "EXTRA_EXERCISE",
     "verb": "chopping logs",
     "based_on": "neither",
-    "can_resume": false,
     "multi_activity": true,
     "auto_needs": true
   },
@@ -197,8 +184,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "verb": "disassembling things",
     "based_on": "neither",
-    "can_resume": false,
     "multi_activity": true,
+    "fetch_items_to_zone": false,
     "auto_needs": true
   },
   {
@@ -207,7 +194,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "verb": "butchering",
     "based_on": "neither",
-    "can_resume": false,
     "multi_activity": true,
     "auto_needs": true
   },
@@ -217,7 +203,6 @@
     "activity_level": "EXTRA_EXERCISE",
     "verb": "chopping trees",
     "based_on": "neither",
-    "can_resume": false,
     "multi_activity": true,
     "auto_needs": true
   },
@@ -529,8 +514,7 @@
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "fetching components",
-    "based_on": "neither",
-    "can_resume": false
+    "based_on": "neither"
   },
   {
     "id": "ACT_MULTIPLE_FARM",
@@ -538,17 +522,7 @@
     "activity_level": "BRISK_EXERCISE",
     "verb": "farming",
     "based_on": "neither",
-    "can_resume": false,
     "multi_activity": true,
-    "auto_needs": true
-  },
-  {
-    "id": "ACT_FERTILIZE_PLOT",
-    "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
-    "verb": "fertilizing plots",
-    "based_on": "neither",
-    "can_resume": false,
     "auto_needs": true
   },
   {
@@ -822,6 +796,13 @@
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "planting seeds",
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_FERTILIZE_PLANT",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "fertilizing plants",
     "based_on": "time"
   },
   {

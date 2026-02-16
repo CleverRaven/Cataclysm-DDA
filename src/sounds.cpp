@@ -116,6 +116,7 @@ static const ter_str_id ter_t_dirtfloor( "t_dirtfloor" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
 static const ter_str_id ter_t_dirtmoundfloor( "t_dirtmoundfloor" );
 static const ter_str_id ter_t_elevator( "t_elevator" );
+static const ter_str_id ter_t_forestfloor( "t_forestfloor" );
 static const ter_str_id ter_t_golf_hole( "t_golf_hole" );
 static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
@@ -1805,6 +1806,7 @@ void sfx::do_footstep()
             ter_t_railroad_track_d_on_tie,
             ter_t_railroad_tie_d1,
             ter_t_railroad_tie_d2,
+            ter_t_forestfloor,
         };
         static const std::set<ter_str_id> metal = {
             ter_t_ov_smreb_cage,

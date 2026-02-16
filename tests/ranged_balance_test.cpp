@@ -290,7 +290,7 @@ static constexpr tripoint_bub_ms shooter_pos( 60, 60, 0 );
 // The gun used for the test is the easiest for players to find.
 TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
 {
-    clear_map();
+    clear_map_without_vision();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
     shooter.set_body();
     shooter.worn.wear_item( shooter, item( itype_backpack ), false, false );
@@ -332,7 +332,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
 // To simulate players who already have sufficient proficiency and equipment
 TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 {
-    clear_map();
+    clear_map_without_vision();
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 10, 10, 10 );
     shooter.set_body();
     equip_shooter( shooter, { itype_cloak_wool, itype_footrags_wool, itype_gloves_wraps_fur, itype_glasses_safety, itype_balclava } );
@@ -378,7 +378,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 // To simulate hero
 TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
 {
-    clear_map();
+    clear_map_without_vision();
     standard_npc shooter( "Shooter", shooter_pos, {}, 10, 20, 20, 20, 20 );
     shooter.set_body();
     equip_shooter( shooter, { } );
@@ -497,7 +497,7 @@ static void shoot_monster( const itype_id &gun_type, const std::vector<itype_id>
                            const std::function<bool ( const standard_npc &, const monster & )> &other_checks = nullptr )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     statistics<int> damage;
     constexpr tripoint_bub_ms shooter_pos{ 60, 60, 0 };
     const tripoint_bub_ms monster_pos = shooter_pos + ( point::east * range );
@@ -537,7 +537,7 @@ static void shoot_monster( const itype_id &gun_type, const std::vector<itype_id>
 
 TEST_CASE( "shot_features", "[gun]" "[slow]" )
 {
-    clear_map();
+    clear_map_without_vision();
     // BIRDSHOT
     // Unarmored target
     // Minor damage at range.
@@ -656,7 +656,7 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
 
 TEST_CASE( "shot_custom_damage_type", "[gun]" "[slow]" )
 {
-    clear_map();
+    clear_map_without_vision();
     auto check_eocs = []( const standard_npc & src, const monster & tgt ) {
         return src.get_value( "general_dmg_type_test_test_fire" ) == "source" &&
                tgt.get_value( "general_dmg_type_test_test_fire" ) == "target";

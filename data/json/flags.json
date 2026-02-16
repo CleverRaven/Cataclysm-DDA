@@ -296,6 +296,11 @@
     "info": "You could probably use this to get into a secure Anduril Industries facility."
   },
   {
+    "id": "EXODII_STRING_DIMENSION_CARD",
+    "type": "json_flag",
+    "info": "You could probably use this to open some lock."
+  },
+  {
     "id": "COOP_CARD",
     "type": "json_flag",
     "info": "Gives you access to the artisans workshop."
@@ -2944,7 +2949,6 @@
     "id": "PHASE_BACK",
     "type": "json_flag",
     "//": "Terrain / Furniture flag",
-    "name": "Phase back",
-    "info": "This terrain will phase back to its original terrain when no longer modified."
+    "//2": "This terrain will phase back to its original terrain when no longer modified."
   }
 ]

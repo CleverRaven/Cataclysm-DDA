@@ -209,23 +209,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "lab_subway",
-    "name": "subway",
-    "vision_levels": "underground_stone",
-    "color": "dark_gray",
-    "see_cost": "full_high",
-    "extras": "lab_subway",
-    "mapgen_straight": [ { "builtin": "subway_straight" } ],
-    "mapgen_curved": [ { "builtin": "subway_curved" } ],
-    "mapgen_end": [ { "builtin": "subway_end" } ],
-    "mapgen_tee": [ { "builtin": "subway_tee" } ],
-    "mapgen_four_way": [ { "builtin": "subway_four_way" } ],
-    "spawns": { "group": "GROUP_SUBWAY_LAB", "population": [ 1, 3 ], "chance": 50 },
-    "travel_cost_type": "dirt_road",
-    "flags": [ "LINEAR" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": [ "sub_ramp_above", "sub_ramp_below" ],
     "name": "subway ramp",
     "vision_levels": "underground_stone",

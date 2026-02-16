@@ -9,6 +9,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "avatar.h"
 #include "build_reqs.h"
@@ -37,8 +38,6 @@
 #include "requirements.h"
 #include "type_id.h"
 #include "weather_type.h"
-
-static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
 static const construction_str_id construction_constr_floor( "constr_floor" );
 static const construction_str_id
@@ -79,9 +78,13 @@ void run_activities( Character &u, int max_moves )
 {
     map &here = get_map();
 
-    u.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
+    u.assign_activity( multi_build_construction_activity_actor() );
     int turns = 0;
-    while( ( !u.activity.is_null() || u.is_auto_moving() ) && turns < max_moves ) {
+    while( !u.activity.is_null() || u.is_auto_moving() ) {
+        if( turns == max_moves ) {
+            FAIL( "turn count exceeded, infinite loop possible" );
+            return;
+        }
         u.set_moves( u.get_speed() );
         if( u.is_auto_moving() ) {
             u.setpos( here, here.get_bub( *u.destination_point ) );
@@ -89,11 +92,6 @@ void run_activities( Character &u, int max_moves )
             u.start_destination_activity();
         }
         u.activity.do_turn( u );
-        // npc plz do your thing
-        if( u.is_npc() && u.activity.is_null() && !u.is_auto_moving() && !u.backlog.empty() &&
-            u.backlog.back().id() == ACT_MULTIPLE_CONSTRUCTION ) {
-            activity_handlers::resume_for_multi_activities( u );
-        }
         turns++;
     }
 }
@@ -122,6 +120,8 @@ construction get_construction( std::string const &name )
 construction setup_testcase( Character &u, std::string const &constr,
                              tripoint_bub_ms const &build_loc, tripoint_bub_ms const &loot_loc )
 {
+    u.backlog.clear();
+    u.cancel_activity();
     construction build = get_construction( constr );
 
     zone_manager &zmgr = zone_manager::get_manager();
@@ -157,7 +157,7 @@ construction setup_testcase( Character &u, std::string const &constr,
 void run_test_case( Character &u )
 {
     calendar::turn = calendar::turn_zero + 9_hours + 30_minutes;
-    clear_map();
+    clear_map_without_vision();
     scoped_weather_override weather_clear( WEATHER_CLEAR );
     clear_avatar();
     map &here = get_map();
@@ -165,6 +165,7 @@ void run_test_case( Character &u )
 
     u.wear_item( item( itype_test_backpack ), false, false );
     u.wear_item( item( itype_wearable_test_lamp ), false, true );
+    //TODO: this test assumes that tools are on-person, but it should also test without tools on-person
     u.i_add( item( itype_test_multitool ) );
     u.i_add( item( itype_hammer ) );
     u.i_add( item( itype_bow_saw ) );

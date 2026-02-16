@@ -127,7 +127,7 @@ static std::ostream &operator<<( std::ostream &os, const std::vector<track> &vec
 static int can_catch_player( const std::string &monster_type, const tripoint &direction_of_flight )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     REQUIRE( g->num_creatures() == 1 ); // the player
     Character &test_player = get_player_character();
     // Strip off any potentially encumbering clothing.
@@ -185,11 +185,11 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                                } );
             if( rl_dist( test_monster.pos_bub(), test_player.pos_bub() ) == 1 ) {
                 INFO( tracker );
-                clear_map();
+                clear_map_without_vision();
                 return turn;
             } else if( rl_dist( test_monster.pos_bub(), test_player.pos_bub() ) > 20 ) {
                 INFO( tracker );
-                clear_map();
+                clear_map_without_vision();
                 return -turn;
             }
         }
@@ -656,7 +656,7 @@ TEST_CASE( "limit_mod_size_bonus", "[monster]" )
 
 TEST_CASE( "monsters_spawn_eggs", "[monster][reproduction]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     g->place_player( { 66, 66, 0 } );
     tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint::east;
@@ -679,7 +679,7 @@ TEST_CASE( "monsters_spawn_eggs", "[monster][reproduction]" )
 
 TEST_CASE( "monsters_spawn_egg_itemgroups", "[monster][reproduction]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     g->place_player( { 66, 66, 0 } );
     tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint::east;
@@ -702,7 +702,7 @@ TEST_CASE( "monsters_spawn_egg_itemgroups", "[monster][reproduction]" )
 
 TEST_CASE( "monsters_spawn_babies", "[monster][reproduction]" )
 {
-    clear_map();
+    clear_map_without_vision();
     creature_tracker &creatures = get_creature_tracker();
     g->place_player( { 66, 66, 0 } );
     tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint::east;
@@ -726,7 +726,7 @@ TEST_CASE( "monsters_spawn_babies", "[monster][reproduction]" )
 
 TEST_CASE( "monsters_spawn_baby_groups", "[monster][reproduction]" )
 {
-    clear_map();
+    clear_map_without_vision();
     creature_tracker &creatures = get_creature_tracker();
     g->place_player( { 66, 66, 0 } );
     tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint::east;
@@ -885,7 +885,7 @@ TEST_CASE( "monster_can_navigate_from_overmap_to_reality_bubble_following_sound"
 
 TEST_CASE( "monster_moved_to_overmap_after_map_shift", "[monster][hordes]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     // Place character in the central submap of map.
     tripoint_bub_ms player_start_pos{ 11 * 6, 11 * 6, 0 };
@@ -1118,7 +1118,7 @@ TEST_CASE( "monsters_appear_on_map_as_expected", "[monster][map][hordes]" )
 
 TEST_CASE( "obstacles_placed_on_map_are_present_in_overmap", "[map][hordes]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     tripoint_bub_ms player_start_pos{ 11 * 6, 11 * 6, 0 };
     Character &test_player = get_player_character();
@@ -1181,7 +1181,7 @@ TEST_CASE( "obstacles_placed_on_map_are_present_in_overmap", "[map][hordes]" )
 
 TEST_CASE( "dormant_zombie_places_corpse_and_trap", "[monster][map]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     tripoint_bub_ms player_start_pos{ 11 * 6, 11 * 6, 0 };
     Character &test_player = get_player_character();

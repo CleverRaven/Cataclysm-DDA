@@ -1,8 +1,17 @@
 [
   {
+    "type": "overmap_terrain",
+    "id": "afs_cryo_room",
+    "name": "afs_cryo_room",
+    "sym": "a",
+    "color": "red",
+    "flags": [ "SHOULD_NOT_SPAWN" ],
+    "see_cost": "none"
+  },
+  {
     "//": "Aftershock - cryo pod room",
     "type": "mapgen",
-    "om_terrain": [ "lab_1side" ],
+    "om_terrain": [ "afs_cryo_room" ],
     "weight": 120,
     "object": {
       "fill_ter": "t_thconc_floor",

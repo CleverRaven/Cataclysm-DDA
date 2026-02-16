@@ -41,7 +41,7 @@
       "target": "psionic_transporter_remote_on",
       "msg": "You turn the transporter remote on and the screen begins displaying coordinates.",
       "need_charges": 1,
-      "need_charges_msg": "The transporter remote's batteries need more charge.",
+      "need_charges_msg": "The batteries are dead.",
       "type": "transform"
     },
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],

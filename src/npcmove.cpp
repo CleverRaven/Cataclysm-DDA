@@ -22,7 +22,6 @@
 
 #include "active_item_cache.h"
 #include "activity_actor_definitions.h"
-#include "activity_handlers.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -115,8 +114,10 @@ enum class side : int;
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
@@ -125,7 +126,6 @@ static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
-static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
@@ -2219,16 +2219,6 @@ static bool wants_to_reload_with( const item &weap, const item &ammo )
     return !ammo.is_magazine() || ammo.ammo_remaining( ) > weap.ammo_remaining( );
 }
 
-// todo: make visit_items use item_locations and remove this
-static item_location form_loc_recursive( Character *npc, item *node, item *parent )
-{
-    if( parent ) {
-        return item_location( form_loc_recursive( npc, parent, npc->find_parent( *parent ) ), node );
-    }
-
-    return item_location( *npc, node );
-}
-
 item_location npc::find_reloadable()
 {
     auto cached_value = cached_info.find( "reloadables" );
@@ -2242,12 +2232,12 @@ item_location npc::find_reloadable()
     // TODO: Cache items checked for reloading to avoid re-checking same items every turn
     // TODO: Make it understand smaller and bigger magazines
     item_location reloadable;
-    visit_items( [this, &reloadable]( item * node, item * parent ) {
+    visit_items( [this, &reloadable]( item * node, item * ) {
         if( !wants_to_reload( *this, *node ) ) {
             return VisitResponse::NEXT;
         }
 
-        item_location node_loc = form_loc_recursive( this, node, parent );
+        item_location node_loc = form_loc_recursive( *this, *node );
 
         const item_location it_loc = select_ammo( node_loc ).ammo;
         if( it_loc && wants_to_reload_with( *node, *it_loc ) ) {
@@ -3442,8 +3432,11 @@ bool npc::find_job_to_perform()
         } else if( elem == ACT_MULTIPLE_DIS ) {
             assign_activity( multi_disassemble_activity_actor() );
             return true;
-        } else if( generic_multi_activity_handler( scan_act, *this->as_character(), true ) ) {
-            assign_activity( elem );
+        } else if( elem == ACT_MULTIPLE_CONSTRUCTION ) {
+            assign_activity( multi_build_construction_activity_actor() );
+            return true;
+        } else if( elem == ACT_MULTIPLE_BUTCHER ) {
+            assign_activity( multi_butchery_activity_actor() );
             return true;
         }
     }
@@ -4141,17 +4134,6 @@ bool npc::can_do_pulp()
 bool npc::do_player_activity()
 {
     int old_moves = moves;
-    if( moves > 200 && activity && ( activity.is_multi_type() ||
-                                     activity.id() == ACT_TIDY_UP ) ) {
-        // a huge backlog of a multi-activity type can forever loop
-        // instead; just scan the map ONCE for a task to do, and if it returns false
-        // then stop scanning, abandon the activity, and kill the backlog of moves.
-        if( !generic_multi_activity_handler( activity, *this->as_character(), true ) ) {
-            revert_after_activity();
-            set_moves( 0 );
-            return true;
-        }
-    }
     // the multi-activity types can sometimes cancel the activity, and return without using up any moves.
     // ( when they are setting a destination etc. )
     // normally this isn't a problem, but in the main game loop, if the NPC has a huge backlog of moves;
@@ -4161,7 +4143,7 @@ bool npc::do_player_activity()
     // to satisfy the infinite loop counter.
     const bool multi_type = activity ? activity.is_multi_type() : false;
     const int moves_before = moves;
-    while( moves > 0 && activity ) {
+    while( moves > 0 && activity && !has_destination() ) {
         activity.do_turn( *this );
         if( !is_active() ) {
             return true;
@@ -4734,12 +4716,12 @@ bool npc::consume_food_from_camp()
 bool npc::consume_food()
 {
     float best_weight = 0.0f;
-    item *best_food = nullptr;
+    item_location best_food;
     bool consumed = false;
     int want_hunger = std::max( 0, get_hunger() );
     int want_quench = std::max( 0, get_thirst() );
 
-    const std::vector<item *> inv_food = cache_get_items_with( "is_food", &item::is_food );
+    const std::vector<item_location> inv_food = cache_get_items_with( "is_food", &item::is_food );
 
     if( inv_food.empty() ) {
         if( !needs_food() ) {
@@ -4748,7 +4730,7 @@ bool npc::consume_food()
             set_thirst( 0 );
         }
     } else {
-        for( item * const &food_item : inv_food ) {
+        for( const item_location &food_item : inv_food ) {
             float cur_weight = rate_food( *food_item, want_hunger, want_quench );
             // Note: will_eat is expensive, avoid calling it if possible
             if( cur_weight > best_weight && will_eat( *food_item ).success() ) {
@@ -4758,9 +4740,9 @@ bool npc::consume_food()
         }
 
         // consume doesn't return a meaningful answer, we need to compare moves
-        if( best_food != nullptr ) {
+        if( best_food ) {
             const time_duration &consume_time = get_consume_time( *best_food );
-            consumed = consume( item_location( *this, best_food ) ) != trinary::NONE;
+            consumed = consume( best_food ) != trinary::NONE;
             if( consumed ) {
                 // TODO: Message that "X begins eating Y?" Right now it appears to the player
                 //       that "Urist eats a carp roast" and then stands still doing nothing

@@ -66,6 +66,7 @@ enum class do_activity_reason : int {
     NEEDS_HARVESTING,       //* For farming - tile is harvestable now.
     NEEDS_PLANTING,         //* For farming - tile can be planted
     NEEDS_TILLING,          //* For farming - tile can be tilled
+    NEEDS_FERTILIZING,          //* For farming - tile can be fertilized
     BLOCKING_TILE,          // Something has made it's way onto the tile, so the activity cannot proceed
     NEEDS_BOOK_TO_LEARN,    //* There is book to learn
     NEEDS_CHOPPING,         //* There is wood there to be chopped
@@ -155,13 +156,6 @@ struct activity_reason_info {
     }
 };
 
-// activity_item_handling.cpp
-void activity_on_turn_drop();
-// return true if there is an activity that can be done potentially
-// return false if no work can be found or if we're routing to the activity's next destination
-bool generic_multi_activity_handler( player_activity &act, Character &you,
-                                     bool check_only = false );
-void activity_on_turn_fetch( player_activity &, Character *you );
 int get_auto_consume_moves( Character &you, bool food );
 bool try_fuel_fire( player_activity &act, Character &you, bool starting_fire = false );
 
@@ -176,14 +170,13 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items,
                                map *here, const tripoint_bub_ms &where, bool force_ground = false );
 std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you, item_drop_reason,
-        const std::list<item> &items, tripoint_bub_ms dest = tripoint_bub_ms::invalid,
-        bool allow_overflow = true );
+        const std::list<item> &items, tripoint_bub_ms dest = tripoint_bub_ms::invalid );
 std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you, item_drop_reason,
         const std::list<item> &items, map *here, const tripoint_bub_ms &where,
-        bool force_ground = false, bool allow_overflow = true );
+        bool force_ground = false );
 std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
                                         const std::list<item> &items,
-                                        map *here, const tripoint_bub_ms &where, bool allow_overflow = true );
+                                        map *here, const tripoint_bub_ms &where );
 // used in unit tests to avoid triggering user input
 void repair_item_finish( player_activity *act, Character *you, bool no_menu );
 
@@ -193,28 +186,10 @@ namespace activity_handlers
 bool resume_for_multi_activities( Character &you );
 
 /** activity_do_turn functions: */
-void chop_trees_do_turn( player_activity *act, Character *you );
-void fertilize_plot_do_turn( player_activity *act, Character *you );
-void fetch_do_turn( player_activity *act, Character *you );
 void fill_liquid_do_turn( player_activity *act, Character *you );
 void find_mount_do_turn( player_activity *act, Character *you );
-void multiple_butcher_do_turn( player_activity *act, Character *you );
-void multiple_chop_planks_do_turn( player_activity *act, Character *you );
-void multiple_construction_do_turn( player_activity *act, Character *you );
-void multiple_craft_do_turn( player_activity *act, Character *you );
-void multiple_dis_do_turn( player_activity *act, Character *you );
-void multiple_farm_do_turn( player_activity *act, Character *you );
-void multiple_fish_do_turn( player_activity *act, Character *you );
-void multiple_read_do_turn( player_activity *act, Character *you );
-void multiple_study_do_turn( player_activity *act, Character *you );
-void multiple_mine_do_turn( player_activity *act, Character *you );
-void multiple_mop_do_turn( player_activity *act, Character *you );
 void repair_item_do_turn( player_activity *act, Character *you );
-void start_fire_do_turn( player_activity *act, Character *you );
-void tidy_up_do_turn( player_activity *act, Character *you );
 void travel_do_turn( player_activity *act, Character *you );
-void vehicle_deconstruction_do_turn( player_activity *act, Character *you );
-void vehicle_repair_do_turn( player_activity *act, Character *you );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -222,7 +197,6 @@ do_turn_functions;
 
 /** activity_finish functions: */
 void repair_item_finish( player_activity *act, Character *you );
-void start_fire_finish( player_activity *act, Character *you );
 
 int move_cost( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest );
 int move_cost_cart( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest,

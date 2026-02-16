@@ -190,6 +190,37 @@
     "passive_effects": [ { "id": "ench_climate_control_marzanna" } ]
   },
   {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "dream_bezoar",
+    "name": { "str_sp": "dream bezoar" },
+    "copy-from": "bezoar",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "description": "An iridescent and oily stone that came from the belly of a goat and was treated with mugwort and lotus blossum.  Consuming one is said to increase one's skill to dream lucidly.",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "menu_text": "Swallow the dream bezoar",
+      "description": "Consuming one will increase your proficiency at lucid dreaming.  Consuming further dream bezoards will result in a horrendous mess.",
+      "effect_on_conditions": [ "EOC_DREAM_BEZOAR" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DREAM_BEZOAR",
+    "condition": { "not": { "u_has_effect": "consumed_bezoar" } },
+    "effect": [
+      { "math": [ "u_proficiency('prof_lucid_dreaming', 'format': 'percent') += 5" ] },
+      { "u_add_effect": "consumed_bezoar", "duration": "PERMANENT" }
+    ],
+    "false_effect": [
+      { "u_message": "Having already consumed a bezoar you cannot consume another", "type": "bad" },
+      { "u_lose_morale": "morale_vomited" },
+      { "u_cast_spell": { "id": "bezoar_vomit", "hit_self": true } }
+    ]
+  },
+  {
     "id": "feline_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
     "type": "ITEM",

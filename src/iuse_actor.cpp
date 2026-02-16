@@ -103,7 +103,6 @@
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
-static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 
 static const damage_type_id damage_acid( "acid" );
 static const damage_type_id damage_bash( "bash" );
@@ -183,7 +182,7 @@ static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 
 template<typename T>
-static item_location form_loc_recursive( T &loc, item &it )
+item_location form_loc_recursive( T &loc, item &it )
 {
     item *parent = loc.find_parent( it );
     if( parent != nullptr ) {
@@ -192,6 +191,10 @@ static item_location form_loc_recursive( T &loc, item &it )
 
     return item_location( loc, &it );
 }
+
+//explict template instantiation
+template item_location form_loc_recursive<Character>( Character &loc, item &it );
+template item_location form_loc_recursive<npc>( npc &loc, item &it );
 
 static item_location form_loc( Character &you, map *here, const tripoint_bub_ms &p, item &it )
 {
@@ -1649,11 +1652,8 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
 
     // skill gains are handled by the activity, but stored here in the index field
     const int potential_skill_gain = moves_modifier * ( std::min( 10.0, moves_cost_fast / 100.0 ) + 2 );
-    p->assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
-                        0, it.tname() );
-    p->activity.targets.emplace_back( *p, &it );
-    p->activity.values.push_back( g->natural_light_level( pos.z() ) );
-    p->activity.placement = here->get_abs( pos );
+    p->assign_activity( fire_start_activity_actor( here->get_abs( pos ), form_loc( *p, here, pos, it ),
+                        potential_skill_gain, moves ) );
     // charges to use are handled by the activity
     return 0;
 }
@@ -3049,7 +3049,8 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
         if( print_msg ) {
             for( const itype_id &mat_comp : valid_entries ) {
                 pl.add_msg_if_player( m_info,
-                                      _( "You don't have enough clean %s to do that.  Have: %d, need: %d" ),
+                                      //~Note the quotation marks around the item name here. In English, a lot of people were confused that "Clean foo" might be a different item than "foo". It is recommended your translation also uses quotation marks or other punctuation to specify.
+                                      _( "You don't have enough clean \"%1$s\" to do that.  Have: %2$d, need: %3$d" ),
                                       item::nname( mat_comp, 2 ),
                                       item::find_type( mat_comp )->count_by_charges() ?
                                       crafting_inv.charges_of( mat_comp, items_needed ) :

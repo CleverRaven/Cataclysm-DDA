@@ -1449,3 +1449,40 @@ bool gun_actor::shoot( monster &z, const tripoint_bub_ms &target, const gun_mode
     }
     return true;
 }
+
+void polymorph_special::load_internal( const JsonObject &jo, const std::string &/*src*/ )
+{
+    // required
+    mon_id = mtype_id( jo.get_string( "mon_id" ) );
+
+    // optional, default true
+    optional( jo, was_loaded, "poly_keep_speed", keep_speed, true );
+    optional( jo, was_loaded, "poly_keep_hp", keep_hp, true );
+    optional( jo, was_loaded, "poly_keep_anger", keep_anger, true );
+}
+
+bool polymorph_special::call( monster &z ) const
+{
+    const int old_speed = z.get_speed_base();
+    const int old_hp = z.get_hp();
+    const int old_anger = z.anger;
+
+    z.poly( mon_id );
+
+    if( keep_speed ) {
+        z.set_speed_base( old_speed );
+    }
+    if( keep_hp ) {
+        z.set_hp( old_hp );
+    }
+    if( keep_anger ) {
+        z.anger = old_anger;
+    }
+
+    return true;
+}
+
+std::unique_ptr<mattack_actor> polymorph_special::clone() const
+{
+    return std::make_unique<polymorph_special>( *this );
+}

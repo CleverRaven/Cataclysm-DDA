@@ -766,7 +766,7 @@
       "msg": "You activate your %s.",
       "target": "thermal_socks_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "warmth": 10,
     "material_thickness": 0.3,
@@ -821,7 +821,7 @@
       "msg": "You activate your %s.",
       "target": "thermal_suit_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "warmth": 10,
     "material_thickness": 0.1,
@@ -876,7 +876,7 @@
       "msg": "You activate your %s.",
       "target": "thermal_gloves_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "warmth": 10,
     "material_thickness": 0.3,
@@ -931,7 +931,7 @@
       "msg": "You activate your %s.",
       "target": "thermal_mask_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "warmth": 10,
     "material_thickness": 0.3,
@@ -1011,7 +1011,7 @@
       "msg": "You turn the headlamp on.",
       "target": "wearable_light_on",
       "need_charges": 1,
-      "need_charges_msg": "The headlamp batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "material_thickness": 1,
     "pocket_data": [
@@ -1126,7 +1126,7 @@
       "msg": "You turn the headlamp on.",
       "target": "wearable_big_light_on",
       "need_charges": 1,
-      "need_charges_msg": "The headlamp batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "material_thickness": 1,
     "pocket_data": [
@@ -1469,7 +1469,7 @@
       "target": "rm13_armor_on",
       "need_worn": true,
       "need_charges": 1,
-      "need_charges_msg": "The RM13 combat armor's battery is dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "warmth": 30,
     "environmental_protection": 10,
@@ -1892,7 +1892,7 @@
       "msg": "You activate your %s.",
       "target": "rebreather_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's filter is used up."
+      "need_charges_msg": "The filter is used up."
     },
     "warmth": 10,
     "environmental_protection": 3,
@@ -1944,7 +1944,7 @@
       "msg": "You activate your %s.",
       "target": "rebreather_xl_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's filter is used up."
+      "need_charges_msg": "The filter is used up."
     },
     "warmth": 10,
     "environmental_protection": 3,
@@ -2002,7 +2002,7 @@
       "msg": "You activate your %s.",
       "target": "rebreather_xs_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's filter is used up."
+      "need_charges_msg": "The filter is used up."
     },
     "covers": [ "mouth" ],
     "warmth": 10,
@@ -2118,7 +2118,7 @@
           { "type": "plastic", "covered_by_mat": 30, "thickness": 1 }
         ],
         "//": "The exhale valve, speech diaphragm, and, if a mask has them, the communications unit and drinking tube, are located over the mouth and nose sections. They're represented by the plastic content.",
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "specifically_covers": [ "mouth_lips", "mouth_nose", "mouth_chin" ],
         "coverage": 100,
         "encumbrance": [ 20, 40 ],
@@ -2130,7 +2130,7 @@
           { "type": "plastic", "covered_by_mat": 25, "thickness": 1 }
         ],
         "//": "Most modern gas masks possess plastic filter mounts on either one or both of the cheek sections, which this plastic represents. Again, we can tactically handwave away the outliers.",
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "specifically_covers": [ "mouth_cheeks" ],
         "coverage": 100,
         "encumbrance": 20,
@@ -2258,7 +2258,7 @@
           { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 2 }
         ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 100,
         "encumbrance": 37
       },
@@ -2372,7 +2372,7 @@
           { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 },
           { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1 }
         ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 100,
         "encumbrance": 38
       },
@@ -2441,7 +2441,7 @@
     "armor": [
       {
         "material": [ { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 } ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 100,
         "encumbrance": 35
       }
@@ -2560,7 +2560,7 @@
       "msg": "You activate your %s.",
       "target": "goggles_nv_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "warmth": 10,
     "environmental_protection": 3,
@@ -2923,7 +2923,7 @@
       "msg": "You activate your %s and the fan starts to audibly whoosh.",
       "target": "basic_papr_belt_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "tool_ammo": [ "battery" ],
     "flags": [ "BELTED", "OVERSIZE", "ELECTRONIC", "WATER_BREAK_ACTIVE" ],
@@ -3019,7 +3019,7 @@
       "msg": "You activate your %s and the fan starts to audibly whoosh.",
       "target": "military_papr_blower_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "tool_ammo": [ "battery" ],
     "flags": [ "BELTED", "OVERSIZE", "ELECTRONIC" ],
@@ -3115,7 +3115,7 @@
       "msg": "You activate your %s and the fan starts to audibly whoosh.",
       "target": "molle_papr_blower_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "tool_ammo": [ "battery" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ELECTRONIC" ],
@@ -3219,7 +3219,7 @@
       "msg": "You activate your %s.",
       "target": "goggles_ir_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "warmth": 10,
     "environmental_protection": 3,
@@ -3322,7 +3322,7 @@
       "msg": "You activate your %s.",
       "target": "mask_h20survivor_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's filter is used up."
+      "need_charges_msg": "The filter is used up."
     },
     "warmth": 15,
     "environmental_protection": 4,
@@ -3386,7 +3386,7 @@
       "msg": "You activate your %s.",
       "target": "mask_h20survivorxl_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's filter is used up."
+      "need_charges_msg": "The filter is used up."
     }
   },
   {
@@ -3403,7 +3403,7 @@
       "msg": "You activate your %s.",
       "target": "mask_h20survivorxs_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's filter is used up."
+      "need_charges_msg": "The filter is used up."
     },
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SWIM_GOGGLES", "UNDERSIZE", "PREFIX_XS" ]
   },
@@ -3605,7 +3605,7 @@
       "msg": "You activate your %s.",
       "target": "thermal_outfit_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "warmth": 10,
     "material_thickness": 0.1,
@@ -3879,7 +3879,7 @@
       "msg": "You turn the earmuffs on.",
       "target": "powered_earmuffs_on",
       "need_charges": 1,
-      "need_charges_msg": "The earmuff's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "warmth": 5,
     "material_thickness": 2,
@@ -3955,7 +3955,7 @@
       "msg": "You turn the earplugs on.",
       "target": "powered_earplugs_on",
       "need_charges": 1,
-      "need_charges_msg": "The earplugs' batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "material_thickness": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10 } } ],
@@ -4363,7 +4363,7 @@
         "msg": "You turn the blanket's heating elements on.",
         "target": "electric_blanket_on",
         "need_charges": 1,
-        "need_charges_msg": "The blanket's batteries are dead."
+        "need_charges_msg": "The batteries are dead."
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "110 W" }
     ],
@@ -4429,7 +4429,7 @@
       "target": "foodperson_mask_on",
       "need_worn": true,
       "need_charges": 1,
-      "need_charges_msg": "The mask's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "flags": [ "OUTER", "SUN_GLASSES" ],
     "pocket_data": [
@@ -4553,7 +4553,7 @@
       "msg": "You turn the flight helmet on.",
       "target": "flight_helmet_on",
       "need_charges": 1,
-      "need_charges_msg": "The helmet's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "pocket_data": [
       {
@@ -4774,7 +4774,7 @@
         "msg": "You activate your AR system.\nAnduril IVASos v1.2: ONLINE.\nVisual systems:      ONLINE.\nRadio systems:       ONLINE.\nTargeting HUD:       ONLINE.\nGPS:                  ERROR.",
         "target": "military_vis_aug_system_on",
         "need_charges": 1,
-        "need_charges_msg": "The %s's batteries are dead."
+        "need_charges_msg": "The batteries are dead."
       },
       "CAMERA",
       "EBOOKSAVE",

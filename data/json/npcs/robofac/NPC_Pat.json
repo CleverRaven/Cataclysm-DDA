@@ -280,7 +280,7 @@
             { "math": [ "time_since(robofac_timer_pat_recon) >= time('3 d')" ] }
           ]
         },
-        "effect": [ { "math": [ "robofac_pat_recon_random_loc = rand(11)" ] }, { "math": [ "robofac_timer_pat_recon = time('now')" ] } ]
+        "effect": [ { "math": [ "robofac_pat_recon_random_loc = rand(12)" ] }, { "math": [ "robofac_timer_pat_recon = time('now')" ] } ]
       },
       {
         "text": "Any ideas on places we've seen worth scanning with the HEW system?",
@@ -1320,6 +1320,11 @@
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_STRING_DIMENSION",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_string_dimension" } ] }
       },
+      {
+        "text": "[Point to the photos of the spiral rock formations] How about that 'mine?'",
+        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_SPIRAL_MINE",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_spiral_mine" } ] }
+      },
       { "text": "Hmm.  Well, I guess we'll just see what I can find.", "topic": "TALK_DONE" }
     ]
   },
@@ -1411,6 +1416,12 @@
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_STRING_DIMENSION",
     "type": "talk_topic",
     "dynamic_line": "The data I pulled on that was wicked pissah - some of the coldest temps I've ever seen.  Definitely get some interestin' HEW scans there.  If I were you I'd track down a woobie - a liner for the modular defense system, yeah?  Keep ya' warm.",
+    "responses": [ { "text": "Guess I'll give it a try.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
+  },
+  {
+    "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_SPIRAL_MINE",
+    "type": "talk_topic",
+    "dynamic_line": "I'd say that theah was an elaborate prank, if it weren't for the fuckin' wicked crazy shit inside.  Yeah.  Scan it from the parking lot, will ya'?",
     "responses": [ { "text": "Guess I'll give it a try.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
   },
   {
@@ -1758,6 +1769,18 @@
         },
         "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_11" }
       },
+      {
+        "text": "[Motion to a sheet of paper with several spirals drawn on it] What's that?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_12",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 12" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_12" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_spiral_mine" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_12" }
+      },
       { "text": "Nothing looks interesting to me.  I'll check in again later.", "topic": "TALK_ROBOFAC_MERC_PAT" }
     ]
   },
@@ -1825,6 +1848,12 @@
     "id": "MISSION_ROBOFAC_PAT_RECON_11",
     "type": "talk_topic",
     "dynamic_line": "Check this out.\"  Pat hits play on the recorder, and nothing but static plays for a moment before they stop it.  \"Nothin', right?  Wrong.  I recorded somethin' - someone talkin' - but it's just gone.  Didn't record anythin'.  Somethin's afoot.  I'm pretty sure the source is this radio tower, heah.  Check it out, maybe?",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_12",
+    "type": "talk_topic",
+    "dynamic_line": "Right, look at this heah.  Merc I talked to said they wandered deep into this fuckin' mine and found all these strange ass spirals.  Even drew a map.\"  Pat flips over the paper to show you a sketched map.  \"Fuckah wasn't right in the head, I'll tell ya' that.  Anyway.  Sounds like the kinda strange shit that's right up your alley, though.  Check it out.",
     "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
   },
   {
@@ -2281,6 +2310,30 @@
     "start": {
       "assign_mission_target": { "om_terrain": "radio_tower_reverberation_mp3", "om_special": "Radio_Tower_Reverberation_mp3", "reveal_radius": 2 }
     },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_12",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: Spirals" },
+    "description": "Pat learned about a mine filled with 'spirals,' and thinks there is something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "mine_entrance",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "mine_entrance", "om_special": "Spiral mine", "reveal_radius": 2 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {

@@ -105,7 +105,7 @@ TEST_CASE( "Martial_art_required_weapon_categories", "[martial_arts]" )
 
 TEST_CASE( "Attack_vector_test", "[martial_arts][limb]" )
 {
-    clear_map();
+    clear_map_without_vision();
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     clear_character( dude );
     dude.martial_arts_data->add_martialart( test_style_ma1 );
@@ -167,7 +167,7 @@ TEST_CASE( "Attack_vector_test", "[martial_arts][limb]" )
 
 TEST_CASE( "Martial_art_technique_conditionals", "[martial_arts]" )
 {
-    clear_map();
+    clear_map_without_vision();
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     const tripoint_bub_ms target_1_pos = dude_pos + tripoint::east;
     const tripoint_bub_ms target_2_pos = dude_pos + tripoint::north;

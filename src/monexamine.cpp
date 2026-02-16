@@ -21,6 +21,7 @@
 #include "game.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
+#include "input_popup.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -36,7 +37,6 @@
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "talker.h"  // IWYU pragma: keep
 #include "translations.h"
 #include "type_id.h"
@@ -192,11 +192,10 @@ void push( monster &z )
 
 void rename_pet( monster &z )
 {
-    std::string unique_name = string_input_popup()
-                              .title( _( "Enter new pet name:" ) )
-                              .width( 20 )
-                              .query_string();
-    if( !unique_name.empty() ) {
+    string_input_popup_imgui pet_popup( 55, z.unique_name );
+    pet_popup.set_label( _( "Enter new pet name:" ) );
+    std::string unique_name = pet_popup.query();
+    if( !pet_popup.cancelled() ) {
         z.unique_name = unique_name;
     }
 }
@@ -416,7 +415,7 @@ void add_leash( monster &z )
         return;
     }
     Character &player_character = get_player_character();
-    std::vector<item *> rope_inv = player_character.cache_get_items_with( json_flag_TIE_UP );
+    std::vector<item_location> rope_inv = player_character.cache_get_items_with( json_flag_TIE_UP );
     if( rope_inv.empty() ) {
         return;
     }
@@ -424,7 +423,7 @@ void add_leash( monster &z )
     uilist selection_menu;
     selection_menu.text = string_format( _( "Select an item to leash your %s with." ), z.get_name() );
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
-    for( const item *iter : rope_inv ) {
+    for( const item_location &iter : rope_inv ) {
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
     }
     selection_menu.selected = 1;
@@ -434,9 +433,9 @@ void add_leash( monster &z )
         index > static_cast<int>( rope_inv.size() ) ) {
         return;
     }
-    item *rope_item = rope_inv[index - 1];
+    item_location rope_item = rope_inv[index - 1];
     z.tied_item = cata::make_value<item>( *rope_item );
-    player_character.i_rem( rope_item );
+    rope_item.remove_item();
     z.add_effect( effect_leashed, 1_turns, true );
     add_msg( _( "You add a leash to your %s." ), z.get_name() );
 }
@@ -608,7 +607,7 @@ void insert_battery( monster &z )
         return;
     }
     Character &player_character = get_player_character();
-    std::vector<item *> bat_inv = player_character.cache_get_items_with( json_flag_MECH_BAT );
+    std::vector<item_location> bat_inv = player_character.cache_get_items_with( json_flag_MECH_BAT );
     if( bat_inv.empty() ) {
         return;
     }
@@ -617,7 +616,7 @@ void insert_battery( monster &z )
     selection_menu.text = string_format( _( "Select an battery to insert into your %s." ),
                                          z.get_name() );
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
-    for( const item *iter : bat_inv ) {
+    for( const item_location &iter : bat_inv ) {
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
     }
     selection_menu.selected = 1;
@@ -627,9 +626,9 @@ void insert_battery( monster &z )
         index > static_cast<int>( bat_inv.size() ) ) {
         return;
     }
-    item *bat_item = bat_inv[index - 1];
+    item_location &bat_item = bat_inv[index - 1];
     z.battery_item = cata::make_value<item>( *bat_item );
-    player_character.i_rem( bat_item );
+    bat_item.remove_item();
 }
 
 } // namespace

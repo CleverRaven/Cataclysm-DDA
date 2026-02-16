@@ -20,6 +20,7 @@
 #include "craft_command.h"
 #include "game_constants.h"
 #include "inventory.h"
+#include "item_components.h"
 #include "item_location.h"
 #include "map.h"
 #include "mapgendata.h"
@@ -531,6 +532,9 @@ class basecamp_action_components
         // Returns true iff all necessary components were successfully chosen
         bool choose_components();
         void consume_components();
+        item_components &consumed_components() {
+            return consumed_components_;
+        }
     private:
         const recipe &making_;
         const mapgen_arguments &args_;
@@ -538,6 +542,7 @@ class basecamp_action_components
         basecamp &base_;
         std::vector<comp_selection<item_comp>> item_selections_;
         std::vector<comp_selection<tool_comp>> tool_selections_;
+        item_components consumed_components_;
 };
 
 #endif // CATA_SRC_BASECAMP_H

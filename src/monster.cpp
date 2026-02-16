@@ -173,6 +173,7 @@ static const json_character_flag json_flag_ANIMALDISCORD2( "ANIMALDISCORD2" );
 static const json_character_flag json_flag_ANIMALEMPATH( "ANIMALEMPATH" );
 static const json_character_flag json_flag_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+static const json_character_flag json_flag_BLIND( "BLIND" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_flesh( "flesh" );
@@ -2185,6 +2186,13 @@ bool monster::melee_attack( Creature &target, float accuracy )
     if( hitspread < 0 ) {
         bool monster_missed = monster_hit_roll < 0.0;
         // Miss
+        if( has_flag( mon_flag_CLUMSY_ATTACKS ) && one_in( 4 ) ) {
+            add_effect( effect_downed, 2_turns, true );
+            if( target.is_avatar() && u_see_my_spot && !target.in_sleep_state() ) {
+                add_msg( _( "%s stumbles and falls as it attacks you." ),
+                         u_see_me ? disp_name() : _( "something" ) );
+            }
+        }
         if( u_see_my_spot && !target.in_sleep_state() ) {
             if( target.is_avatar() ) {
                 if( monster_missed ) {
@@ -3453,7 +3461,8 @@ void monster::process_one_effect( effect &it, bool is_new )
         }
     } else if( id == effect_run ) {
         effect_cache[FLEEING] = true;
-    } else if( id == effect_no_sight || id == effect_blind ) {
+    } else if( id == effect_no_sight || id == effect_blind ||
+               has_effect_with_flag( json_flag_BLIND ) ) {
         effect_cache[VISION_IMPAIRED] = true;
     } else if( ( id == effect_bleed || id == effect_dripping_mechanical_fluid ) &&
                x_in_y( it.get_intensity(), it.get_max_intensity() ) ) {
@@ -4026,8 +4035,9 @@ void monster::hear_sound( const tripoint_bub_ms &source, const int vol, const in
     if( !tmp_provocative ) {
         return;
     }
-    // already following a more interesting sound
-    if( provocative_sound && wandf > 0 ) {
+    // already following a more interesting sound,
+    // so 50% will try to stick to it, and 50% will move in direction of a new sound
+    if( provocative_sound && wandf > 0 && rng( 0, 1 ) ) {
         return;
     }
 

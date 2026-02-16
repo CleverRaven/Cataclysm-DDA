@@ -135,6 +135,7 @@ class plot_options : public zone_options, public mark_option
     private:
         itype_id mark;
         itype_id seed;
+        itype_id fertilizer;
 
         enum query_seed_result {
             canceled,
@@ -143,6 +144,7 @@ class plot_options : public zone_options, public mark_option
         };
 
         query_seed_result query_seed();
+        bool query_fertilizer();
 
     public:
         std::string get_mark() const override {
@@ -150,6 +152,9 @@ class plot_options : public zone_options, public mark_option
         }
         itype_id get_seed() const {
             return seed;
+        }
+        itype_id get_fertilizer() const {
+            return fertilizer;
         }
 
         bool has_options() const override {

@@ -45,5 +45,19 @@
     "material": [ "plastic" ],
     "weight": "10 g",
     "volume": "20 ml"
+  },
+  {
+    "id": "string_dimension_hypercube",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "category": "artifacts",
+    "name": { "str": "transparent hypercube" },
+    "description": "A transparent cube within a cube.  It seems to be made of clear plastic or glass, but it feels quite solid, despite also seeming weightless.  It's full of stars.",
+    "material": [ "anomaly" ],
+    "symbol": "[",
+    "volume": "500 ml",
+    "weight": "0 g",
+    "flags": [ "ZERO_WEIGHT" ],
+    "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": 2000 } ] } ]
   }
 ]

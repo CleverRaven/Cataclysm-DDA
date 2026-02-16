@@ -900,7 +900,8 @@ void vehicle::honk_horn( map &here ) const
 void vehicle::reload_seeds( map *here, const tripoint_bub_ms &pos )
 {
     Character &player_character = get_player_character();
-    std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed );
+    std::vector<item_location> seed_inv = player_character.cache_get_items_with( "is_seed",
+                                          &item::is_seed );
 
     auto seed_entries = iexamine::get_seed_entries( seed_inv );
     seed_entries.emplace( seed_entries.begin(), itype_id::NULL_ID(), _( "No seed" ), 0 );
@@ -2139,7 +2140,7 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
                     g->setremoteveh( nullptr );
                 } );
             } else if( controls_here && has_engine_type_not( fuel_type_muscle, true ) ) {
-                menu.add( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ) )
+                menu.add( engine_on ? colorize( _( "Turn off the engine" ), c_pink ) : _( "Turn on the engine" ) )
                 .hotkey( "TOGGLE_ENGINE" )
                 .skip_theft_check()
                 .on_submit( [this, here] {

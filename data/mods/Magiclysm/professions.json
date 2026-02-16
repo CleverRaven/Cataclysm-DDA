@@ -964,7 +964,7 @@
           { "item": "helmet_army" },
           { "item": "hatchet" },
           { "item": "balclava", "variant": "black" },
-          { "item": "rifle_case_soft" },
+          { "item": "rifle_case_xl_soft_leather" },
           { "item": "mess_kit" },
           { "item": "emer_blanket", "custom-flags": [ "no_auto_equip" ] },
           { "item": "tank_top", "variant": "tank_top_camo" },

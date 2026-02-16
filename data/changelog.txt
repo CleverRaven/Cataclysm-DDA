@@ -183,6 +183,10 @@ Use `EXTRADIMENSIONAL` flag as a catch-all for other-dimensional specials
 Set of clothes takes off ALL items, always
 Frezze water in winter monster and plant part. (3/?)
 Promote "SWIM_UNDER" flag to docks and bridges.
+Water frozen in winter veh and thick ice part. (4/5)
+Limbify tails
+Allow furniture/vehicles to be vertically dragged
+Shift Alpha Exodii Labyrinth to its own dimension
 
 
 
@@ -411,6 +415,10 @@ Your new pal, Pat (check the Hub)
 Add feldspar chunks to forest/field itemgroups, add feldspar veins to Innawood
 Dimension of sundered spacetime
 Turn various traits into limb-adding mutations
+Add tarot reading
+Devourer Evolution
+Multilevel Exodii dungeon in the string dimension
+Hunting horrors have a poison that makes you burn in light
 
 
 ## Interface:
@@ -555,6 +563,12 @@ Add a new display mode to the construction menu: ready.
 Disable invalid file operations for empty e-devices
 Show time required to hotwire a car
 Add sidebar widgets for oxygen levels
+Show time required to pick a lock
+Show time to hacksaw before committing to doing it
+Show objective directions on overmap
+Allow resuming hacksaw cutting metal with different tools
+Add missing components to view priority from crafting menu
+Add deprioritize components of a recipe to the crafting menu
 
 
 ## Mods:
@@ -1015,6 +1029,17 @@ Add an enchantment that modifies the 'free dodges' stat introduced for Martial A
 [MoM] Add biokinesis/vitakinesis research facility
 [Aftershock] Add esper enkindling tinctures
 [MoM] Add spoiler doc to explain how power learning works
+[XE] Add three vampire hunter professions
+[Mods] Use external options in the manipulation of mods skills and proficiencies
+[Xedra Evolved] Fix elemental fae joining the Butlerian Jihad
+[Sky Island] Spawn the Island in a void
+[Sky Island] Mod compatibility
+[Sky Island] Dummy EOCs so the innawood integration does not cause an error
+[No Hope] Actually use defined region settings
+[XE] The holy-burnt suffer from wearing holy symbols.
+[Bombastic Perks] Change the way you get playstyle perks
+[Bombastic Perks] Add more prerequisites for perks
+[Xedra Evolved] Make Nether Sorcery learnable
 
 
 
@@ -1144,6 +1169,14 @@ Scale devourer flesh raptor generation with size
 Remove grenade hacks from direct spawn, make lab bots spawn flashbang hacks instead
 Reduce the rate of siphoning and drawing a liquid from vehicle from 0.66L to 0.25L per second
 Technique-ify Several traits
+Hub 01 pays less for HEW reports
+Exodii do not pay for clothes or common kitchen goods
+Remove free attack from rabbit feet
+Give krecks a bite attack
+Make riding an animal exerting; add walking gait
+Flying Polyps are out of phase
+Adjusts default game temperatures to be more in line with Boston, MA
+Melatonin makes sense now
 
 
 ## Bugfixes:
@@ -1572,6 +1605,17 @@ Fix bandages or disinfectant could apply bonus healing to other body parts
 Updated logic for sunlight availability for planting
 More reasonable approach to item rot
 Fix vehicles not being seriously impacted by flat tires
+fix focus always be a penalty when install GUNMOD with `INSTALL_DIFFICULT`
+Fix supermarket items spawning with unrealistic quantities and missing containers
+Fix update_mapgen in missions to use mission target as origin instead of player if possible
+Fix add_mod printf specifier
+Fix basic typos in code and comments
+[MoM] Remove riot damage from labs
+Fix typos in code and comments
+Fix another edge case with zone sorting
+Fix monster infighting slowing game down
+Support copy from in string extractor for overmap special
+Adjusts region seasonal wind variation so it actually does something
 
 
 ## Performance:
@@ -1606,6 +1650,8 @@ Speed up mapgen especially noticeable in Sky Islands
 don’t call std::pow for squaring numbers
 don’t compute the size of far away hordes when drawing the world map
 can_contain: calculate pocket volume once (huge speed up in special cases)
+Shrink binary by using constexpr arrays for units constants
+Speed up autopickup by skipping items that were already checked
 
 
 ## Infrastructure:
@@ -1786,6 +1832,13 @@ clean up heat_activity_actor
 Add tileset support for pets wearing armor
 activity_actor framework for multi-activities, move ACT_MULTIPLE_MINE to activity_actor
 Rewrite and migrate V menu to ImGui
+move ACT_MULTIPLE_MOP, ACT_MULTIPLE_CHOP_PLANKS, ACT_MULTIPLE_CHOP_TREES to activity actor
+move ACT_VEHICLE_REPAIR, ACT_VEHICLE_DECONSTRUCTION to activity_actor
+Move ACT_MULTIPLE_FISH/FARM/READ/STUDY to activity_actors
+move ACT_MULTIPLE_CRAFT, ACT_MULTIPLE_DIS(assembly) to activity_actors
+Make inv_search_cache operate on item_location
+move ACT_MULTIPLE_BUTCHER, ACT_FETCH_REQUIRED, ACT_MULTIPLE_CONSTRUCTION to activity_actors
+obsolete ACT_TIDY_UP
 
 
 ## Build:

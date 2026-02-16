@@ -1082,7 +1082,7 @@ reference at least one body part or sub body part.
   Only one step of substitution occurs ( Ie. an armor covering `arm_l` will cover `arm_bear_l`, but not any similar bps defined in `arm_bear_l` ).
   Any coverage of a similar sbp will imply coverage of the substitute subpart's parent for the sub-part in question:  Armor covering the elbows will cover similar elbows on other limbs, but not any of the other locations.
 | `armor`                | (_optional_) An object containing damage resistance values. Ex: `"armor": { "bash": 2, "cut": 1 }`. See [Part Resistance](#part-resistance) for details.
-
+| `qualities`            | (_optional_) Object that defines potential tool qualities this bodypart provide; `quality` and `level` fields are self-explanatory, `disable_percent` removes a quality if limb HP is less than percent defined
 ```jsonc
 {
   "id": "arm_l",
@@ -1116,6 +1116,7 @@ reference at least one body part or sub body part.
   "smash_message": "You elbow-smash the %s.",
   "bionic_slots": 20,
   "similar_bodyparts": [ "arm_bear_l" ],
+  "qualities": [ { "quality": "HAMMER", "level": 1, "disable_percent": 0.5 }, { "quality": "BUTCHER", "level": 2 } ],
   "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
 }
 ```
@@ -1212,6 +1213,7 @@ Here are the currently defined limb scores:
 | `manipulator_score`    | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.  The manipulator scores of each limb type are aggregated and the best limb group is chosen for checks.
 | `manipulator_max`      | The upper limit of manipulator score the limb can contribute to.
 | `lifting_score`        | Modifies melee attack stamina and move cost, as well as a number of STR checks.  A sum above 0.5 qualifies for wielding two-handed weapons and similar checks.  Arms below 0.1 lift score don't count as working for the purposes of melee combat.
+| `grip_score`           | Modifies chance to escape traps, ability to wield two-handed weapons, chance mounts are spooked if approaching enemies, and ability to resist being disarmed.
 | `blocking_score`       | The blocking limb is chosen by a roll weighted by eligible limbs' block score, and blocking efficiency is multiplied by the target limb's score.
 | `breathing_score`      | Modifies stamina recovery speed and shout volume.
 | `vision_score`         | Modifies ranged dispersion, ranged and melee weakpoint hit chances.
@@ -4423,27 +4425,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         "translucency": 2.0, // How much light the field blocks (higher numbers mean less light can penetrate through)
         "concentration": 1, // How concentrated this intensity of gas is. Generally the thin/hazy cloud intensity will be 1, the standard gas will be 2, and thick gas will be 4. The amount of time a gas mask filter will last will be divided by this value.
         "convection_temperature_mod": 12, // Heat given off by this level of intensity
-        "effects":  // List of effects applied to any creatures within the field as long as they aren't immune to the effect or the field itself
-        [
-          {
-            "effect_id": "webbed", // Effect ID
-            "min_duration": "1 minutes",
-            "max_duration": "5 minutes", // Effect duration randomized between min and max duration
-            "intensity": 1, // Intensity of the effect to apply
-            "body_part": "head", // Bodypart the effect gets applied to, default BP_NULL ("whole body")
-            "is_environmental": false, // If true the environmental effect roll is used to determine if the effect gets applied: <intensity>d3 > <target BP's armor/bionic env resist>d3
-            "immune_in_vehicle": // If true, *standing* inside a vehicle (like without walls or roof) protects from the effect
-            "immune_inside_vehicle": false, // If true being inside a vehicle protects from the effect
-            "immune_outside_vehicle": false, // If true being *outside* a vehicle protects from the effect,
-            "chance_in_vehicle": 2,
-            "chance_inside_vehicle": 2,
-            "chance_outside_vehicle": 2, // 1-in-<chance> chance of the effect being applied when traversing a field in a vehicle, inside a vehicle (as in, under a roof), and outside a vehicle
-            "message": "You're debilitated!", // Message to print when the effect is applied to the player
-            "message_npc": "<npcname> is debilitated!", // Message to print when the effect is applied to an NPC
-            "message_type": "bad", // Type of the above messages - good/bad/mixed/neutral
-            "immunity_data": {...} // See Immunity Data below
-          }
-        ]
+        "effects": [  ] // List of effects applied to any creatures within the field as long as they aren't immune to the effect or the field itself. See field_effect below for syntax
         "scent_neutralization": 3, // Reduce scents at the field's position by this value        
     ],
     "npc_complain": { "chance": 20, "issue": "weed_smoke", "duration": "10 minutes", "speech": "<weed_smoke>" }, // NPCs in this field will complain about being in it once per <duration> if a 1-in-<chance> roll succeeds, giving off a <speech> bark that supports snippets
@@ -4507,6 +4489,33 @@ Defines field emissions
   "qty": 100,             // amount of fields that would be emitted, in a circle, 1 means 1 field; 9 would be 3x3, 16 would be 4x4 square etc
   "chance": 50            // chance to emit one unit of field, from 1 to 100
 },
+```
+
+## field_effect
+Field effect defines what effect/effects will be applied on character or monsters, and what immunity protections can be used to defend against this effect.
+currnetly used as `"effects"` field in `field_type`, and as `passive_effects` in `weather_type`
+
+```jsonc
+[
+  {
+    "effect_id": "webbed", // Effect ID
+    "min_duration": "1 minutes",
+    "max_duration": "5 minutes", // Effect duration randomized between min and max duration
+    "intensity": 1, // Intensity of the effect to apply
+    "body_part": "head", // Bodypart the effect gets applied to, default BP_NULL ("whole body")
+    "is_environmental": false, // If true the environmental effect roll is used to determine if the effect gets applied: intensity amount of d3 vs bodypart environment resistance amount of d3 
+    "immune_in_vehicle": false, // If true, *standing* inside a vehicle (like without walls or roof) protects from the effect
+    "immune_inside_vehicle": false, // If true, being inside a vehicle protects from the effect
+    "immune_outside_vehicle": false, // If true, being *outside* a vehicle protects from the effect,
+    "chance_in_vehicle": 2,
+    "chance_inside_vehicle": 2,
+    "chance_outside_vehicle": 2, // 1-in-<chance> chance of the effect being applied when traversing a field in a vehicle, inside a vehicle (as in, under a roof), and outside a vehicle
+    "message": "You're debilitated!", // Message to print when the effect is applied to the player
+    "message_npc": "<npcname> is debilitated!", // Message to print when the effect is applied to an NPC
+    "message_type": "bad", // Type of the above messages - good/bad/mixed/neutral
+    "immunity_data": {...} // See Immunity Data below
+  }
+]
 ```
 
 ## Immunity data

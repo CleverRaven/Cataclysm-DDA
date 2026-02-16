@@ -502,11 +502,6 @@
   },
   {
     "type": "monstergroup",
-    "id": "GROUP_CENTRAL_LAB",
-    "monsters": [ { "monster": "mon_zombie_oa_agent", "weight": 50, "cost_multiplier": 50 } ]
-  },
-  {
-    "type": "monstergroup",
     "id": "GROUP_LAB",
     "monsters": [ { "monster": "mon_zombie_oa_agent", "weight": 50, "cost_multiplier": 5 } ]
   },

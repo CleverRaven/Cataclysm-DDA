@@ -10,13 +10,11 @@
 #include "game.h"
 #include "item.h"
 #include "map.h"
-#include "map_scale_constants.h"
 #include "requirements.h"
 #include "type_id.h"
 
 class item_location;
 class player_activity;
-class vehicle;
 class vpart_reference;
 class zone_data;
 class zone_manager;
@@ -119,6 +117,11 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
 void move_item( Character &you, const std::optional<vpart_reference> &vpr_src,
                 const tripoint_bub_ms &src_bub, const std::unordered_set<tripoint_abs_ms> &dest_set,
                 item &it, int &num_processed );
+
+// Returns A* route length from the player to a tile adjacent to dest.
+// Uses grab-aware routing when the player is dragging a vehicle.
+// Returns INT_MAX if unreachable.
+int route_length( const Character &you, const tripoint_bub_ms &dest );
 } //namespace zone_sorting
 
 
@@ -134,6 +137,7 @@ bool activity_reason_continue( do_activity_reason reason );
 bool activity_reason_quit( do_activity_reason reason );
 // the activity (reason) requires picking up tools
 bool activity_reason_picks_up_tools( do_activity_reason reason );
+void check_npc_revert( Character &you );
 // assigns fetch activity to find requirements
 requirement_check_result fetch_requirements( Character &you, requirement_id what_we_need,
         const activity_id &act_id,
@@ -152,40 +156,11 @@ requirement_id synthesize_requirements(
 // eliminates satisfied requirements from tools/qualities, keeps items
 requirement_id remove_met_requirements( requirement_id base_req_id, Character &you );
 
-/* begin TODO: move to activity actor */
-
-std::optional<requirement_id> construction_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & );
 std::optional<requirement_id> vehicle_work_requirements( Character &you,
         activity_reason_info &act_info, const tripoint_bub_ms &src_loc );
-std::optional<requirement_id> mining_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & );
-std::optional<requirement_id> farm_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms &, const zone_data *zone );
-std::optional<requirement_id> chop_planks_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & );
-std::optional<requirement_id> chop_trees_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & );
-std::optional<requirement_id> butcher_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & );
-std::optional<requirement_id> fish_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & );
-std::optional<requirement_id> craft_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & );
-std::optional<requirement_id> disassemble_requirements( Character &,
-        activity_reason_info &act_info, const tripoint_bub_ms & );
 
 //general function for non-specific multi activities
 std::unordered_set<tripoint_abs_ms> generic_locations( Character &you, const activity_id &act_id );
-std::unordered_set<tripoint_abs_ms> construction_locations( Character &you,
-        const activity_id &act_id );
-std::unordered_set<tripoint_abs_ms> tidy_up_locations( Character &you, const activity_id & );
-std::unordered_set<tripoint_abs_ms> read_locations( Character &you, const activity_id &act_id );
-std::unordered_set<tripoint_abs_ms> study_locations( Character &you, const activity_id &act_id );
-std::unordered_set<tripoint_abs_ms> craft_locations( Character &you, const activity_id &act_id );
-std::unordered_set<tripoint_abs_ms> fetch_locations( Character &you, const activity_id & );
-std::unordered_set<tripoint_abs_ms> fish_locations( Character &you, const activity_id &act_id );
-std::unordered_set<tripoint_abs_ms> mop_locations( Character &you, const activity_id &act_id );
 void prune_same_tile_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set );
 void prune_dark_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set,
                            const activity_id &act_id );
@@ -193,80 +168,8 @@ void prune_dangerous_field_locations( std::unordered_set<tripoint_abs_ms> &src_s
 std::unordered_set<tripoint_abs_ms> no_same_tile_locations( Character &you,
         const activity_id &act_id );
 
-//shared helper function for deconstruction/repair
-activity_reason_info vehicle_work_can_do( const activity_id &, Character &you,
-        const tripoint_bub_ms &src_loc, std::vector<int> &already_working_indexes,
-        vehicle *veh );
-activity_reason_info vehicle_deconstruction_can_do( const activity_id &act, Character &you,
-        const tripoint_bub_ms &src_loc );
-activity_reason_info vehicle_repair_can_do( const activity_id &act, Character &you,
-        const tripoint_bub_ms &src_loc );
-activity_reason_info mine_can_do( const activity_id &, Character &you,
-                                  const tripoint_bub_ms &src_loc );
-activity_reason_info mop_can_do( const activity_id &, Character &you,
-                                 const tripoint_bub_ms &src_loc );
-activity_reason_info fish_can_do( const activity_id &act, Character &you,
-                                  const tripoint_bub_ms &src_loc );
-activity_reason_info chop_trees_can_do( const activity_id &act, Character &you,
-                                        const tripoint_bub_ms &src_loc );
-activity_reason_info butcher_can_do( const activity_id &, Character &you,
-                                     const tripoint_bub_ms &src_loc );
-activity_reason_info read_can_do( const activity_id &, Character &you,
-                                  const tripoint_bub_ms & );
-activity_reason_info study_can_do( const activity_id &, Character &you,
-                                   const tripoint_bub_ms &src_loc );
-activity_reason_info chop_planks_can_do( const activity_id &, Character &you,
-        const tripoint_bub_ms &src_loc );
-activity_reason_info tidy_up_can_do( const activity_id &, Character &you,
-                                     const tripoint_bub_ms &src_loc, int distance = MAX_VIEW_DISTANCE );
-activity_reason_info construction_can_do( const activity_id &, Character &you,
-        const tripoint_bub_ms &src_loc );
-activity_reason_info farm_can_do( const activity_id &, Character &you,
-                                  const tripoint_bub_ms &src_loc );
-activity_reason_info fetch_can_do( const activity_id &, Character &,
-                                   const tripoint_bub_ms & );
-activity_reason_info craft_can_do( const activity_id &, Character &you,
-                                   const tripoint_bub_ms &src_loc );
-activity_reason_info disassemble_can_do( const activity_id &, Character &you,
-        const tripoint_bub_ms &src_loc );
-
-bool mine_do( Character &you, const activity_reason_info &act_info,
-              const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool mop_do( Character &you, const activity_reason_info &act_info,
-             const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool fish_do( Character &you, const activity_reason_info &act_info,
-              const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool chop_trees_do( Character &you, const activity_reason_info &act_info,
-                    const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool butcher_do( Character &you, const activity_reason_info &act_info,
-                 const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool read_do( Character &you, const activity_reason_info &act_info,
-              const tripoint_abs_ms &, const tripoint_bub_ms & );
-bool study_do( Character &you, const activity_reason_info &act_info,
-               const tripoint_abs_ms &src, const tripoint_bub_ms & );
-bool chop_planks_do( Character &you, const activity_reason_info &act_info,
-                     const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool tidy_up_do( Character &you, const activity_reason_info &act_info,
-                 const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool construction_do( Character &you, const activity_reason_info &act_info,
-                      const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc );
-bool farm_do( Character &you, const activity_reason_info &act_info,
-              const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc );
-bool fetch_do( Character &you, const activity_reason_info &act_info,
-               const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool craft_do( Character &you, const activity_reason_info &act_info,
-               const tripoint_abs_ms &, const tripoint_bub_ms & );
-bool disassemble_do( Character &you, const activity_reason_info &act_info,
-                     const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool vehicle_deconstruction_do( Character &you, const activity_reason_info &act_info,
-                                const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-bool vehicle_repair_do( Character &you, const activity_reason_info &act_info,
-                        const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
-
-/* end TODO: move to activity actor */
-
 void revert_npc_post_activity( Character &you, activity_id act_id, bool no_locations );
-bool out_of_moves( Character &you, activity_id act_id );
+bool out_of_moves( Character &you );
 std::optional<bool> route( Character &you, player_activity &act, const tripoint_bub_ms &src_bub,
                            requirement_failure_reasons &fail_reason, bool check_only );
 void activity_failure_message( Character &you, activity_id new_activity,

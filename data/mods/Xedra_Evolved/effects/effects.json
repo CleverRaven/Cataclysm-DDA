@@ -804,7 +804,7 @@
       {
         "values": [
           {
-            "value": "STRENGTH",
+            "value": "SMASH_BONUS",
             "add": {
               "math": [
                 "(1 + (vampire_total_tier_one_traits_plus_potency() * 0.25) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)  + (vampire_total_tier_five_traits_plus_cauldron() * 1) ) * (u_effect_intensity('effect_vampire_unholy_devastation') * 0.25 )"
@@ -3630,7 +3630,7 @@
         "values": [
           {
             "value": "MAX_MANA",
-            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 250 )" ] }
+            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_destabilizing_strikes') ), 250 )" ] }
           }
         ]
       }
@@ -3652,7 +3652,7 @@
         "values": [
           {
             "value": "MAX_MANA",
-            "add": { "math": [ "-max( 500 - ( 12.5 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 125 )" ] }
+            "add": { "math": [ "-max( 500 - ( 12.5 * u_spell_level('xedra_chronomancer_stabilize_timeline') ), 125 )" ] }
           }
         ]
       }
@@ -4166,6 +4166,22 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bloodthorne_druid_prevent_vampirism",
+    "name": [ "Sapshield" ],
+    "desc": [ "You are protected against the vampires' curse." ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bloodthorne_druid_prevent_vampirism_active",
+    "name": [ "Blooming Sapshield" ],
+    "desc": [ "You are protected against the vampires' curse." ],
+    "show_in_info": true,
+    "removes_effects": [ "vampire_virus" ],
+    "remove_message": "Your sapshield fades away."
   },
   {
     "type": "effect_type",

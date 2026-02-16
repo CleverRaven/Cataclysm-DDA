@@ -39,7 +39,7 @@
           "spell_data": { "id": "migo_fleshwarper_mutate", "min_level": 1 },
           "cooldown": 50,
           "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-          "monster_message": "As %1$s touches %3$s, the flesh warps and twists!"
+          "monster_message": "%1$s reaches an appendage toward %3$s!"
         },
         {
           "id": "migo_fleshwarper_block_healing_spell",

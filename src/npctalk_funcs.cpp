@@ -64,8 +64,6 @@
 #include "viewer.h"
 
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
-static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
-static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
 static const efftype_id effect_allow_sleep( "allow_sleep" );
 static const efftype_id effect_asked_for_item( "asked_for_item" );
@@ -238,7 +236,7 @@ void talk_function::sort_loot( npc &p )
 
 void talk_function::do_construction( npc &p )
 {
-    p.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
+    p.assign_activity( multi_build_construction_activity_actor() );
 }
 
 void talk_function::do_mining( npc &p )
@@ -296,7 +294,7 @@ void talk_function::find_mount( npc &p )
 
 void talk_function::do_butcher( npc &p )
 {
-    p.assign_activity( ACT_MULTIPLE_BUTCHER );
+    p.assign_activity( multi_butchery_activity_actor() );
 }
 
 void talk_function::do_chop_plank( npc &p )

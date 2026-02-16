@@ -264,6 +264,10 @@
           { "npc_assign_activity": "ACT_VAMPIRE_DRINKING_BLOOD", "duration": "3 seconds" },
           { "message": "You are drinking from an NPC.", "type": "debug" },
           {
+            "if": { "and": [ { "u_has_worn_with_flag": "WARDING_SYMBOL" }, { "npc_has_trait": "VAMPIRE_WEAKNESS_HOLY_BURN" } ] },
+            "then": [ { "npc_message": "The holy symbol they wear burns you!", "type": "bad" }, { "math": [ "n_pain() += rng(10,15)" ] } ]
+          },
+          {
             "if": { "or": [ { "math": [ "u_vitamin('blood') <= -40000" ] }, { "math": [ "u_vitamin('redcells') <= -40000" ] } ] },
             "then": "u_die"
           }
@@ -292,6 +296,12 @@
               {
                 "if": { "or": [ { "u_has_species": "CHANGELING" }, { "u_has_species": "HOMULLUS" }, { "u_has_trait": "FAE_CREATURE" } ] },
                 "then": [ { "math": [ "n_vampire_just_drank_fae_blood = 1" ] } ]
+              },
+              {
+                "if": {
+                  "and": [ "u_is_npc", { "u_has_worn_with_flag": "WARDING_SYMBOL" }, { "npc_has_trait": "VAMPIRE_WEAKNESS_HOLY_BURN" } ]
+                },
+                "then": [ { "npc_message": "The holy symbol they wear burns you!", "type": "bad" }, { "math": [ "n_pain() += rng(10,15)" ] } ]
               },
               { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT", "alpha_talker": "npc", "time_in_future": 2 },
               { "u_add_effect": "effect_vampire_drunk_from_in_combat", "duration": "48 hours" },
@@ -429,7 +439,7 @@
         "math": [
           "u_max_blood_amount_for_graph",
           "=",
-          "5400 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000)"
+          "5400 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 2300) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 5600)"
         ]
       },
       { "run_eocs": "EOC_VAMPIRE_BLOOD_MAX_LIMIT" }
@@ -442,16 +452,16 @@
       "math": [
         "u_vitamin('human_blood_vitamin')",
         ">=",
-        "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000)"
+        "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 2300) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 5600)"
       ]
     },
     "effect": [
       {
         "if": { "u_has_trait": "VAMPIRE_STORE_MORE_BLOOD_UPGRADE" },
-        "then": { "math": [ "u_vitamin('human_blood_vitamin') = 32600" ] },
+        "then": { "math": [ "u_vitamin('human_blood_vitamin') = 13500" ] },
         "else": {
           "if": { "u_has_trait": "VAMPIRE_STORE_MORE_BLOOD" },
-          "then": { "math": [ "u_vitamin('human_blood_vitamin') = 14600" ] },
+          "then": { "math": [ "u_vitamin('human_blood_vitamin') = 7900" ] },
           "else": { "math": [ "u_vitamin('human_blood_vitamin') = 5600" ] }
         }
       }
@@ -2957,7 +2967,6 @@
           "BLOODHASTE",
           "MAGICFORBLOOD",
           "HYPNOTIC_GAZE",
-          "BLOODBANK",
           "VAMPIRE_COMMAND_BEAST",
           "VAMPIRE_EARTH_SLUMBER",
           "VAMPIRE_CARDIO_BONUS",
@@ -3105,8 +3114,16 @@
     "id": "EOC_VAMPIRE_UNHOLY_DEVASTATION_BONUSES",
     "eoc_type": "EVENT",
     "required_event": "character_smashes_tile",
-    "condition": { "u_has_trait": "VAMPIRIC_STRENGTH_REFINEMENT_SMASHING_TILES" },
-    "effect": [ { "u_add_effect": "effect_vampire_unholy_devastation", "duration": 2 } ]
+    "condition": {
+      "and": [ { "u_has_effect": "effect_vampiric_strength" }, { "u_has_trait": "VAMPIRIC_STRENGTH_REFINEMENT_SMASHING_TILES" } ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "effect_vampire_unholy_devastation",
+        "duration": 2,
+        "intensity": { "math": [ "u_effect_intensity('effect_vampire_unholy_devastation') + 1" ] }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

@@ -162,7 +162,8 @@ struct vision_test_case {
         player_character.clear_bionics();
         player_character.clear_mutations(); // remove mutations that potentially affect vision
         player_character.clear_moncams();
-        clear_map( -2, OVERMAP_HEIGHT );
+        clear_map_without_vision( -2,
+                                  OVERMAP_HEIGHT ); // without_vision just skips updating map memory which we don't test here.
         g->reset_light_level();
         scoped_weather_override weather_clear( WEATHER_CLEAR );
 
