@@ -180,9 +180,9 @@ uncraft
 vehicle_part
 ```
 `overmap_special` and `city_building` only partially support `copy-from`
-- Fixed specials do not support overriding the `overmaps` or `connections` properties
-- City buildings do not support overriding the `overmaps` property
-- Mutable specials do not support overriding the `overmaps`, `root`, `phases`, `check_for_locations`, or `check_for_locations_area` properties
+- Fixed specials do not support overriding or copying the `overmaps` or `connections` properties
+- City buildings do not support overriding or copying the `overmaps` property
+- Mutable specials do not support overriding or copying the `overmaps`, `root`, `phases`, `check_for_locations`, or `check_for_locations_area` properties
 
 To find out if a type supports `copy-from`, you need to know if it has implemented generic_factory.  To find out if this is the case, do the following:
 * Open [init.cpp](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/src/init.cpp)
