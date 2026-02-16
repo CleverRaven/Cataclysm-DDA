@@ -189,17 +189,18 @@
     "chat_topics": [ "TALK_CIVILIAN_WENDI" ],
     "volume": "62500 ml",
     "weight": "61500 g",
-    "hp": 75,
+    "hp": 475,
     "speed": 90,
     "symbol": "@",
     "color": "white",
-    "diff": 2,
+    "diff": 1,
     "aggression": 100,
     "morale": 100,
-    "vision_day": 10,
+    "vision_day": 28,
+    "vision_night": 18,
     "melee_dice": 1,
-    "melee_dice_sides": 2,
-    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "melee_dice_sides": 0,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "special_attacks": [
       { "id": "grab", "cooldown": 1 },
@@ -212,16 +213,7 @@
         "poly_keep_speed": true,
         "poly_keep_hp": true,
         "poly_keep_anger": true,
-        "condition": {
-          "or": [
-            { "npc_has_effect": "grabbed", "bodypart": "arm_r" },
-            { "npc_has_effect": "grabbed", "bodypart": "arm_l" },
-            { "npc_has_effect": "grabbed", "bodypart": "head" },
-            { "npc_has_effect": "grabbed", "bodypart": "torso" },
-            { "npc_has_effect": "grabbed", "bodypart": "leg_l" },
-            { "npc_has_effect": "grabbed", "bodypart": "leg_r" }
-          ]
-        }
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] }
       },
       [ "PARROT", 5 ]
     ],
@@ -240,7 +232,9 @@
     "type": "MONSTER",
     "name": { "str": "hunger and greed" },
     "description": "Blacked out pupils, deer like antlers coming out of the skull, a cavernous mouth with rows of teeth down the throat, fingernails like sharpened bones, and a distended belly surrounded by starvation thin limbs that shouldn't have the strength that they do.",
-    "copy-from": "mon_civilian_wendi",
+    "default_faction": "zombie",
+    "copy-from": "mon_zombie_base",
+    "looks_like": "mon_zombie_hunter",
     "volume": "62500 ml",
     "weight": "61500 g",
     "species": [ "ZOMBIE" ],
@@ -252,6 +246,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 3,
     "bleed_rate": 50,
+    "regenerates": 10,
+    "regeneration_modifiers": [ [ "onfire", -8 ] ],
     "vision_night": 5,
     "//": "Legs are important to this monster as he needs them to climb and leap.",
     "weakpoints": [
@@ -268,9 +264,9 @@
         "type": "bite",
         "cooldown": 10,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ]
-      }
+      },
+      [ "PARROT", 5 ]
     ],
-    "extend": { "move_skills": { "climb": 8 }, "flags": [ "SMELLS" ] },
-    "delete": { "flags": [ "HUMAN", "GUILT_HUMAN", "APPEARS_NEUTRAL" ] }
+    "extend": { "move_skills": { "climb": 8 }, "flags": [ "SMELLS", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EAT_FOOD", "EAT_CARRION" ] }
   }
 ]

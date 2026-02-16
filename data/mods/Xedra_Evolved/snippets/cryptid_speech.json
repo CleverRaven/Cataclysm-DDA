@@ -154,5 +154,23 @@
     "speaker": [ "mon_sevenoclock_active" ],
     "sound": "\"For the last time: SLEEP!\"",
     "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_wendi" ],
+    "sound": "\"Help! I'm lost and alone!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_wendi" ],
+    "sound": "\"This hunger is neverending.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_cryptid_wendi" ],
+    "sound": "\"I'm going to eat you!\"",
+    "volume": 25
   }
 ]
