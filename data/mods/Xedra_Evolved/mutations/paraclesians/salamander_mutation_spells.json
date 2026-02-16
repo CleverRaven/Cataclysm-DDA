@@ -101,7 +101,7 @@
     "name": "Blazing Blow",
     "description": "Wreathe your fist in flames and punch a single target, causing fire damage and knocking them backward.",
     "valid_targets": [ "hostile", "ground", "ally" ],
-    "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_LEGS", "TOUCH_REQUIRED" ],
     "skill": "deduction",
     "teachable": false,
     "spell_class": "SALAMANDER",
