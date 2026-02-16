@@ -399,9 +399,11 @@ void item::set_random_fault_of_type( const std::string &fault_type, bool force, 
 
 }
 
-void item::remove_fault( const fault_id &fault_id )
+bool item::remove_fault( const fault_id &fault_id )
 {
+    size_t count = faults.size();
     faults.erase( fault_id );
+    return count != faults.size();
 }
 
 void item::remove_single_fault_of_type( const std::string &fault_type )
