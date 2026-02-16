@@ -4289,7 +4289,8 @@
     "points": -1,
     "vitamin_cost": 90,
     "visibility": 6,
-    "ugliness": 1
+    "ugliness": 1,
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_rabbit" } ] } ]
   },
   {
     "type": "mutation",
