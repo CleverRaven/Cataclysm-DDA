@@ -15,6 +15,7 @@
 #include <memory>
 #include <optional>
 #include <set>
+#include <stddef.h>
 #include <string>
 #include <tuple>
 #include <utility>
