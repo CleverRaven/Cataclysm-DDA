@@ -7,7 +7,7 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC", "NON_MAGICAL" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC", "NON_MAGICAL", "TOUCH_REQUIRED" ],
     "spell_class": "LILIN_TRAITS",
     "magic_type": "xedra_magic_generic",
     "max_level": 1,
