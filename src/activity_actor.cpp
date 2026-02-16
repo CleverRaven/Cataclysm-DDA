@@ -9758,8 +9758,11 @@ void mend_item_activity_actor::finish( player_activity &act, Character &who )
     }
     who.invalidate_crafting_inventory();
 
+    int num_faults_removed = 0;
     for( const ::fault_id &id : fix.faults_removed ) {
-        target.remove_fault( id );
+        if( target.remove_fault( id ) ) {
+            num_faults_removed++;
+        }
     }
     for( const ::fault_id &id : fix.faults_added ) {
         target.set_fault( id, true, false );
@@ -9776,10 +9779,10 @@ void mend_item_activity_actor::finish( player_activity &act, Character &who )
     const std::string start_durability = target.durability_indicator( true );
 
     if( fix.mod_damage ) {
-        target.mod_damage( fix.mod_damage );
+        target.mod_damage( fix.mod_damage * num_faults_removed );
     }
     if( fix.mod_degradation ) {
-        target.set_degradation( target.degradation() + fix.mod_degradation );
+        target.set_degradation( target.degradation() + ( fix.mod_degradation * num_faults_removed ) );
     }
 
     for( const auto& [skill_id, level] : fix.skills ) {
