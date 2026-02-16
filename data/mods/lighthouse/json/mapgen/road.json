@@ -1,5 +1,12 @@
 [
   {
+    "type": "effect_on_condition",
+    "id": "EOC_VANILLA_ROAD_WEIGHT",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "effect": [ { "math": [ "vanilla_road_weight = 0" ] } ]
+  },
+  {
     "type": "mapgen",
     "om_terrain": "road_end",
     "object": {
@@ -901,13 +908,5 @@
       "remove_vehicles": [ { "vehicles": [  ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
-  },
-  {
-    "//": "END_NESTED/////////////////////////////////////////////////////////////////////////////////////////////",
-    "type": "effect_on_condition",
-    "id": "EOC_VANILLA_ROAD_WEIGHT",
-    "eoc_type": "EVENT",
-    "required_event": "game_begin",
-    "effect": [ { "math": [ "vanilla_road_weight = 0" ] } ]
   }
 ]

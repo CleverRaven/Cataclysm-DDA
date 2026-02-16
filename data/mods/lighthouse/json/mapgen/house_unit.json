@@ -161,7 +161,8 @@
     "vision_levels": "city_building",
     "travel_cost_type": "structure",
     "see_cost": "high",
-    "flags": [ "RISK_HIGH", "GENERIC_LOOT", "SIDEWALK" ]
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT", "SIDEWALK" ],
+    "spawns": { "group": "euzhvil_group", "population": [ 10, 11 ], "chance": 100 }
   },
   {
     "type": "overmap_terrain",
@@ -172,7 +173,8 @@
     "vision_levels": "city_building",
     "travel_cost_type": "structure",
     "see_cost": "high",
-    "flags": [ "RISK_HIGH", "GENERIC_LOOT", "SIDEWALK", "SOURCE_DRINK" ]
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT", "SIDEWALK", "SOURCE_DRINK" ],
+    "spawns": { "group": "euzhvil_group", "population": [ 10, 11 ], "chance": 100 }
   },
   {
     "type": "mapgen",

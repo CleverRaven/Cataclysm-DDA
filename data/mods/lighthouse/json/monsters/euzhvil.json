@@ -1,36 +1,59 @@
 [
   {
-    "id": "mon_euzhvil_quadruped",
+    "type": "monster_attack",
+    "attack_type": "eoc",
+    "id": "euzhvil_phase",
+    "cooldown": 1,
+    "range": 100,
+    "eoc": [ "eoc_euzhvil_phase" ]
+  },
+  {
+    "abstract": "mon_euzhvil",
     "type": "MONSTER",
-    "name": { "str": "euzhvil quadruped" },
-    "description": "A quadrupedal creature, its disproportionate maw lined with human-like teeth and its white body partially weaving in and out of existence.",
+    "name": { "str": "abstract euzhvil" },
+    "description": "Abstract euzhvil.",
     "symbol": "E",
     "color": "red",
-    "looks_like": "mon_dog_skeleton",
     "categories": [ "NULL" ],
-    "default_faction": "euzhvil",
+    "default_faction": "euzhvil_fac",
     "species": [ "EUZHVIL" ],
-    "bodytype": "dog",
     "material": [ "flesh" ],
+    "special_attacks": [ { "id": "euzhvil_phase", "cooldown": 1 } ]
+  },
+  {
+    "id": "mon_euzhvil_chaser",
+    "copy-from": "mon_euzhvil",
+    "type": "MONSTER",
+    "name": { "str": "euzhvil chaser" },
+    "description": "A quadrupedal euzhvil, its grotesquely oversized maw lined with human teeth. It scans its surroundings with a feral, animalistic gaze.",
+    "looks_like": "mon_dog_skeleton",
+    "default_faction": "euzhvil_fac",
+    "bodytype": "dog",
     "volume": "30 L",
     "weight": "30 kg",
     "hp": 30,
     "speed": 150,
-    "aggression": -10,
-    "morale": 15,
-    "aggro_character": false,
-    "melee_skill": 6,
-    "melee_dice": 2,
-    "melee_dice_sides": 3,
-    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "dodge": 3,
-    "vision_night": 5,
-    "death_drops": "mon_dog_death_drops",
-    "weakpoint_sets": [ "wps_animal_quadruped" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_canine" ],
-    "path_settings": { "max_dist": 10 },
-    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "special_attacks": [ [ "EAT_FOOD", 100 ], [ "PARROT_AT_DANGER", 0 ] ],
-    "flags": [ "ANIMAL", "HEARS", "SEES", "SMELLS" ]
+    "flags": [ "HEARS", "SEES", "SMELLS" ]
+  },
+  {
+    "id": "mon_euzhvil_bound",
+    "copy-from": "mon_euzhvil_chaser",
+    "type": "MONSTER",
+    "name": { "str": "bound euzhvil" },
+    "description": "You can see limbs pushing and struggling inside of this misshapen euzhvil, it keeps gnashing at the air and thrashing as if it was trying to escape its own skin."
+  },
+  {
+    "id": "mon_euzhvil_bully",
+    "copy-from": "mon_euzhvil_chaser",
+    "type": "MONSTER",
+    "name": { "str": "euzhvil bully" },
+    "description": "A towering euzhvil with a head squeezed between two gigantic arms almost dragging on the floor, its face stuck in an expression of sadistic bliss."
+  },
+  {
+    "id": "mon_euzhvil_suffocating",
+    "copy-from": "mon_euzhvil_chaser",
+    "type": "MONSTER",
+    "name": { "str": "suffocating euzhvil" },
+    "description": "This euzhvil is perpetually seized by violent convulsions, fingers raking desperately at its throat and at the skin that seals its mouth, nose, and eyes.  Just looking at it makes your own breathing laborious."
   }
 ]
