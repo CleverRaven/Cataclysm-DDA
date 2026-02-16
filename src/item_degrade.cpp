@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <iterator>
@@ -15,7 +16,6 @@
 #include <memory>
 #include <optional>
 #include <set>
-#include <stddef.h>
 #include <string>
 #include <tuple>
 #include <utility>
