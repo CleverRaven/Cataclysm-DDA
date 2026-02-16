@@ -1241,8 +1241,11 @@
       [ "foot_l", 2 ],
       [ "foot_r", 2 ]
     ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.1 } ] } ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "SPEED", "multiply": 0.1 } ] } ],
+    "act_cost": "10 J",
+    "react_cost": "10 J",
+    "time": "1 s",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_stiff",
