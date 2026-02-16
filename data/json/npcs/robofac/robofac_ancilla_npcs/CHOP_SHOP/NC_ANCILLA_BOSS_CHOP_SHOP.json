@@ -194,7 +194,7 @@
         "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" }
       },
       {
-        "text": "I'm here for the alien tech, and I'm not leaving until I get it.",
+        "text": "I'm here for the alien robot, and I'm not leaving until I get it.",
         "effect": [
           "hostile",
           { "u_message": "The mercenary makes a quick hand motion and shouts \"Kill'em!\"" },
@@ -206,14 +206,16 @@
       {
         "text": "I'm here for the scientist, and just the scientist, on orders from the intercom.  I'll give you and your team one chance to back down.",
         "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" },
-        "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "BRAVERY", -1 ], [ "FEAR", 3 ] ] },
+        "trial": { "type": "INTIMIDATE", "difficulty": 15, "mod": [ [ "BRAVERY", -1 ], [ "FEAR", 3 ] ] },
         "success": {
           "topic": "TALK_DONE",
           "effect": [
-            "flee",
             {
-              "u_message": "The mercenary makes a quick hand motion and shouts \"Fuck this, this hellhole isn't worth it.  Let's get out of here.\""
-            }
+              "u_message": "The mercenary makes a quick hand motion and shouts \"Fuck this, this hellhole isn't worth it.  Let's get out of here.\"  The group unceremoniously packs up and leaves.",
+              "popup": true
+            },
+            { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_CLEAN_UP_MERCS", "time_in_future": "5 seconds" },
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 seconds" }
           ]
         },
         "failure": {
@@ -226,16 +228,18 @@
         }
       },
       {
-        "text": "I'm here for the alien tech.  I'll give you and your team one chance to back down.",
+        "text": "I'm here for the alien.  I'll give you and your team one chance to back down.",
         "condition": { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" },
-        "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "BRAVERY", -1 ], [ "FEAR", 3 ] ] },
+        "trial": { "type": "INTIMIDATE", "difficulty": 15, "mod": [ [ "BRAVERY", -1 ], [ "FEAR", 3 ] ] },
         "success": {
           "topic": "TALK_DONE",
           "effect": [
-            "flee",
             {
-              "u_message": "The mercenary makes a quick hand motion and shouts \"Fuck this, this hellhole isn't worth it.  Let's get out of here.\""
-            }
+              "u_message": "The mercenary makes a quick hand motion and shouts \"Fuck this, this hellhole isn't worth it.  Let's get out of here.\"  The group unceremoniously packs up and leaves.",
+              "popup": true
+            },
+            { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_CLEAN_UP_MERCS", "time_in_future": "5 seconds" },
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 seconds" }
           ]
         },
         "failure": {

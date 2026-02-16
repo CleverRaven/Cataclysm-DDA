@@ -14,10 +14,10 @@
   {
     "type": "npc_class",
     "id": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP",
-    "name": { "str": "Hub Mercenary" },
-    "job_description": "Fighting in the name of Hub 01 and money, mostly money.",
+    "name": { "str": "Hub Scientist" },
+    "job_description": "A Hub 01 scientist.",
     "common": false,
-    "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "bonus_str": { "rng": [ 0, 1 ] },
     "bonus_dex": { "rng": [ 0, 2 ] },
     "bonus_int": { "rng": [ -2, 0 ] },
