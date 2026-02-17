@@ -26,7 +26,7 @@
     "copy-from": "mon_euzhvil",
     "type": "MONSTER",
     "name": { "str": "euzhvil chaser" },
-    "description": "A quadrupedal euzhvil, its grotesquely oversized maw lined with human teeth. It scans its surroundings with a feral, animalistic gaze.",
+    "description": "A quadrupedal euzhvil, its grotesquely oversized maw lined with human teeth.  It scans its surroundings with a feral, animalistic gaze.",
     "looks_like": "mon_dog_skeleton",
     "default_faction": "euzhvil_fac",
     "bodytype": "dog",

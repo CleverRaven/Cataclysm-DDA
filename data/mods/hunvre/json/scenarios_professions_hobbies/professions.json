@@ -1,0 +1,23 @@
+[
+  {
+    "type": "profession",
+    "id": "helminth",
+    "name": "Helminth",
+    "description": "You're a helminth.",
+    "points": 0
+  },
+  {
+    "type": "profession",
+    "id": "factory_worker",
+    "name": "Factory Worker",
+    "description": "You're a helminth.",
+    "points": 0
+  },
+  {
+    "type": "profession",
+    "id": "homeless",
+    "name": "Homeless",
+    "description": "You're a helminth.",
+    "points": 0
+  }
+]

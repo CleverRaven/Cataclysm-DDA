@@ -1,6 +1,6 @@
 [
   {
-    "id": "nulland",
+    "id": "hunvre",
     "copy-from": "default",
     "type": "region_settings",
     "rivers": null,
@@ -12,7 +12,7 @@
     "forest_trails": null,
     "map_extras": "no_map_extras",
     "highways": null,
-    "cities": "nulland_city",
+    "cities": "hunvre_city",
     "urbanity_increase": [ 0, 0, 0, 0 ],
     "default_oter": [
       "deep_rock",
@@ -40,7 +40,7 @@
     "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "LIGHTHOUSE" ] }
   },
   {
-    "id": "nulland_city",
+    "id": "hunvre_city",
     "copy-from": "default",
     "type": "region_settings_city",
     "shop_radius": 0,

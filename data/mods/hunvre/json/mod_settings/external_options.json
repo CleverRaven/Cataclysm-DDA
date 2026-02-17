@@ -417,7 +417,7 @@
     "name": "DEFAULT_REGION",
     "//": "(WIP feature) Determines terrain, shops, plants, and more.",
     "stype": "string_input",
-    "value": "nulland"
+    "value": "hunvre"
   },
   {
     "type": "EXTERNAL_OPTION",

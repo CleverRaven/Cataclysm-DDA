@@ -1,0 +1,14 @@
+[
+  {
+    "type": "scenario",
+    "id": "lonely_dawn",
+    "name": "Lonely Dawn",
+    "points": 0,
+    "description": "You wake up alone.",
+    "start_name": "Lonely Dawn",
+    "allowed_locs": [ "sloc_road_lighthouse" ],
+    "reveal_locale": false,
+    "distance_initial_visibility": 0,
+    "flags": [ "LONE_START" ]
+  }
+]

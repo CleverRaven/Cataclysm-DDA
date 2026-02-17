@@ -1,0 +1,12 @@
+[
+  {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "whitelist",
+    "scenarios": [ "lonely_dawn" ]
+  },
+  {
+    "type": "profession_blacklist",
+    "subtype": "whitelist",
+    "professions": [ "helminth", "recycler" ]
+  }
+]

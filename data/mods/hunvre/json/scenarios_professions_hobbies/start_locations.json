@@ -1,0 +1,9 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_road_lighthouse",
+    "name": "Road",
+    "terrain": [ "hab_unit" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  }
+]
