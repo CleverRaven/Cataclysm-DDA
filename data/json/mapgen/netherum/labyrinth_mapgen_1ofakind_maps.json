@@ -71,13 +71,13 @@
         "vvv....|||vvvvvvvvvvvvvv..............vvvvvvvv.|",
         "vvv....|||vvvvvvvvvvvvvv..............vvvvvvvvvv",
         "vvv....|..vvvvvvvvvvvvvv..(A||||||..vvvvvvvvvvvv",
-        "vvv....|..vvvvvvvvvvvvvv..1||....|..vvvvvvvvvvvv",
-        "vvv....|..vvvvvvvvvvvvvv..||.....F..vvvvvvvvvvvv",
-        "vvv....|...vvvvvvvvvvvvv.||L.....F..vvvvvvvvvvvv",
-        "vvv....|...vvvvvvvvvvvvv.|.......|..vvvvvvvvvvvv",
-        "vvv....|...vvvvvvvvvvvvv.|......||..vvvvvvvvvvvv",
-        "vvv....|...vvvvvvvvvvvvv.|.....||..vvvvvvvvvvvvv",
-        "vvv....|....vvvvvvvvvvvv.|....||..vvvvvvvvvvvvvv",
+        "vvv....|..vvvvvvvvvvvvvv..1||(ßṪß|..vvvvvvvvvvvv",
+        "vvv....|..vvvvvvvvvvvvvv..||.2.2.+..vvvvvvvvvvvv",
+        "vvv....|...vvvvvvvvvvvvv.||L..2..+..vvvvvvvvvvvv",
+        "vvv....|...vvvvvvvvvvvvv.|(...dM2|..vvvvvvvvvvvv",
+        "vvv....|...vvvvvvvvvvvvv.||FF|||||..vvvvvvvvvvvv",
+        "vvv....|...vvvvvvvvvvvvv.|d.2.L||..vvvvvvvvvvvvv",
+        "vvv....|....vvvvvvvvvvvv.|MâäM||..vvvvvvvvvvvvvv",
         "vvv....|....vvvvvvvvvvvv.||||||..vvvvvvvvvvvvvvv",
         "vvv....|.....vvvvvvvvvvv........vvvvvvvvvvvvvvvv",
         "vvv....|......vvvvvvvvvv.......vvvvvvvvvvvvvvvvv",
@@ -96,9 +96,7 @@
       ],
       "palettes": [ "labyrinthine_base_palette" ],
       "monster": { "1": { "monster": "mon_LS_sparkgenerator" }, "2": { "monster": "mon_LS_fixbot" } },
-      "items": {
-        "Ṫ": { "item": "LS_SUS_table_items_workspace", "chance": 25 }
-      }
+      "items": { "Ṫ": { "item": "LS_SUS_table_items_workspace", "chance": 25 } }
     }
   }
 ]
