@@ -442,7 +442,11 @@ void Character::randomize( const bool random_scenario, bool play_now )
 
     bool gender_selection = one_in( 2 );
     male = gender_selection;
-    outfit = gender_selection;
+    if( one_in( 10 ) ) {
+        outfit = !gender_selection;
+    } else {
+        outfit = gender_selection;
+    }
     if( !MAP_SHARING::isSharing() ) {
         play_now ? pick_name() : pick_name( true );
     } else {
