@@ -19,17 +19,21 @@ This section introduces several magical classes and spells and abilities for the
 The third chapter has brought with it Vampires both as monsters and as a disease that can infect you the player character and render you a being with unnatural powers and thirsts.  This section has also added some CBMs and the monsters you can dissect them out of.   Looking for more location, similarly themed CBMs and content for Vampire Hunters including NPCs and quests. The ability to use the blood you consume to power new abilities has been added.  Vampire traits are a side lane of the mutation code and should be available no matter what threshold you pursue.
 
 ### Shipping manifest
-Dozens of new monsters
+Dozens of new monsters including unique cryptid monsters with special abilities and trophies.
 The ability to become a vampire as a side path to standard mutations.  Should not interfere with any other mutation paths.
-A combat rated mount can be found via a short mission chain.
+Dhampir racial profession and Bloodvine Druid Vampire Hunter profession.
+A dozen plus missions and mission unique rewards
 16 professions
 6 Elemental Race Mutation Categories locked to Paraclesian starts, similar to Made of Sugar
+5 Changeling Races based on their mythological namesakes
 Over a dozen Map Specials
 5 Map Extra
 Dozens of items
 2 NPC classes
-Several new CBMs
+Many new CBMs
 4 Magical classes with unique playstyles and spells.  Dreamers, who can summon things from nearby dimensions.  Eaters, who consume the substance of dreams for mana and health and abilities to improve their body and banish monsters not native to this dimension.  Dreamsmiths are the blacksmiths of dreams and can forge dreamdross into a more durable substance that can be repaired.  The Mad Genius is an inventor who borrows the physics of other dimensions to temporarily improve toys and other objects into powerful devices.  Eater locks out Dreamer and Mad Genius locks out Dreamsmith.  
+Chronomancer magickal class can control time.  Locks out all other major magickal paths.
+Hedge magic, lesser magics that can be used by anyone but have very limited effects.
 Dozens of new spells
 1 Vehicle
 1 new skill
