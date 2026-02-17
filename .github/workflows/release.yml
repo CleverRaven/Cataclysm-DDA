@@ -92,7 +92,7 @@ jobs:
             tiles: 1
             sound: 1
           - name: Linux Tiles x64
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             android: none
             libbacktrace: 1
             tiles: 1
@@ -101,7 +101,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: Linux Tiles Sounds x64
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             android: none
             libbacktrace: 1
             tiles: 1
@@ -110,7 +110,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: Linux Curses x64
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             android: none
             libbacktrace: 1
             tiles: 0
@@ -269,7 +269,7 @@ jobs:
       - name: Build CDDA (linux)
         if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm
         run: |
-          make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 LIBBACKTRACE=${{ matrix.libbacktrace }} WARN_STALE_DATA=1 PCH=0 bindist
+          make COMPILER=clang++-18 -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 LIBBACKTRACE=${{ matrix.libbacktrace }} WARN_STALE_DATA=1 PCH=0 bindist
           mv cataclysmdda-0.J.tar.gz cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
       - name: Build CDDA (WebAssembly)
         if: matrix.wasm && success()
