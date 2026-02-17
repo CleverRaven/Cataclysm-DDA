@@ -1,12 +1,49 @@
 [
   {
+    "id": "muzzle_lips",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "muzzle",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "lips"
+  },
+  {
+    "id": "muzzle_nose",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "muzzle",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nostrils"
+  },
+  {
+    "id": "muzzle_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "muzzle",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks"
+  },
+  {
+    "id": "muzzle_chin",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "muzzle",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "chin"
+  },
+  {
     "id": "muzzle_long_lips",
     "type": "sub_body_part",
     "max_coverage": 20,
     "parent": "muzzle_long",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "lips"
+    "name": "lips",
+    "similar_bodypart": "muzzle_lips"
   },
   {
     "id": "muzzle_long_nostrils",
@@ -15,7 +52,8 @@
     "parent": "muzzle_long",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "nostrils"
+    "name": "nostrils",
+    "similar_bodypart": "muzzle_nostrils"
   },
   {
     "id": "muzzle_long_cheeks",
@@ -24,7 +62,8 @@
     "parent": "muzzle_long",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "cheeks"
+    "name": "cheeks",
+    "similar_bodypart": "muzzle_cheeks"
   },
   {
     "id": "muzzle_long_chin",
@@ -33,7 +72,8 @@
     "parent": "muzzle_long",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "chin"
+    "name": "chin",
+    "similar_bodypart": "muzzle_chin"
   },
   {
     "id": "muzzle_rodent_lips",
@@ -42,7 +82,8 @@
     "parent": "muzzle_rodent",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "lips"
+    "name": "lips",
+    "similar_bodypart": "muzzle_lips"
   },
   {
     "id": "muzzle_rodent_nose",
@@ -51,7 +92,8 @@
     "parent": "muzzle_rodent",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "nostrils"
+    "name": "nostrils",
+    "similar_bodypart": "muzzle_nostrils"
   },
   {
     "id": "muzzle_rodent_cheeks",
@@ -60,7 +102,8 @@
     "parent": "muzzle_rodent",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "cheeks"
+    "name": "cheeks",
+    "similar_bodypart": "muzzle_cheeks"
   },
   {
     "id": "muzzle_rodent_chin",
@@ -69,7 +112,8 @@
     "parent": "muzzle_rodent",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "chin"
+    "name": "chin",
+    "similar_bodypart": "muzzle_chin"
   },
   {
     "id": "crustacean_pincer_wrist_r",

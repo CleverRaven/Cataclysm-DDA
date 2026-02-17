@@ -20,7 +20,7 @@
     "hp_bar_ui_text": "DFLT MUZZLE",
     "base_hp": 20,
     "limb_scores": [ [ "balance", 0.0 ] ],
-    "sub_parts": [ "sub_limb_debug_muzzle" ]
+    "sub_parts": [ "muzzle_lips", "muzzle_nose", "muzzle_cheeks", "muzzle_chin" ]
   },
   {
     "id": "muzzle_bear",
@@ -39,7 +39,7 @@
     "base_hp": 75,
     "bionic_slots": 4,
     "flags": [ "LIMB_UPPER" ],
-    "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks", "mouth_chin" ],
+    "sub_parts": [ "muzzle_bear_lips", "muzzle_bear_nose", "muzzle_bear_cheeks", "muzzle_bear_chin" ],
     "//": "We'll assume that if you've mutated far enough to have a bear mouth, biting is a primary attack for you",
     "techniques": [ "TECH_BEAR_BITE" ],
     "unarmed_damage": [ { "damage_type": "bash", "amount": 3 }, { "damage_type": "stab", "amount": 13 } ]
@@ -61,7 +61,7 @@
     "base_hp": 65,
     "bionic_slots": 4,
     "flags": [ "LIMB_UPPER" ],
-    "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks", "mouth_chin" ],
+    "sub_parts": [ "muzzle_lupine_lips", "muzzle_lupine_nose", "muzzle_lupine_cheeks", "muzzle_lupine_chin" ],
     "//": "We'll assume that if you've mutated far enough to have a lupine mouth, biting is a primary attack for you",
     "techniques": [ "TECH_LUPINE_BITE" ],
     "unarmed_damage": [ { "damage_type": "bash", "amount": 3 }, { "damage_type": "stab", "amount": 8 } ]
@@ -124,7 +124,7 @@
     "side": "both",
     "similar_bodypart": "mouth",
     "flags": [ "LIMB_UPPER" ],
-    "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks", "mouth_chin" ],
+    "sub_parts": [ "muzzle_rabbit_lips", "muzzle_rabbit_nose", "muzzle_rabbit_cheeks", "muzzle_rabbit_chin" ],
     "//": "Biting is not a primary attack for rabbits but they'll do it if they have to",
     "techniques": [ "TECH_RABBIT_BITE", "TECH_RABBIT_BITE_GRABBED" ],
     "unarmed_damage": [ { "damage_type": "bash", "amount": 2 }, { "damage_type": "stab", "amount": 8 } ]
