@@ -909,10 +909,10 @@
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_IVAS",
     "type": "talk_topic",
-    "dynamic_line": "Andril?  Holy shit, real assholes those guys.  Defense contractah thinks they could get away with naming their weapons manufacturin' after the fuckin' sword of the West - Tolkien - Aragon, yeah?  Read a lot about'em online before it all.  If it's the headset I'm thinkin' of, you mind bringin' it by heah to me before giving it to our employers?  They may'a been assholes but maybe after the end'a the world we can do somethin' fuckin' cool with their tech.",
+    "dynamic_line": "Anduril?  Holy shit, real assholes those guys.  Defense contractah thinks they could get away with naming their weapons manufacturin' after the fuckin' sword of the West - Tolkien - Aragon, yeah?  Read a lot about'em online before it all.  If it's the headset I'm thinkin' of, you mind bringin' it by heah to me before giving it to our employers?  They may'a been assholes but maybe after the end'a the world we can do somethin' fuckin' cool with their tech.",
     "responses": [
       {
-        "text": "Thanks a lot.  If I find the headset, I'll think about bring it by to you.",
+        "text": "Thanks a lot.  If I find the headset, I'll think about bringing it by to you.",
         "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE"
       }
     ]
