@@ -194,6 +194,7 @@
     "fire_warmth_bonus": 300,
     "squeamish_penalty": 1,
     "flags": [ "NONSTANDARD_BLOCK" ],
+    "sub_parts": [ "arm_insect_upper_l", "arm_insect_elbow_l", "arm_insect_lower_l" ],
     "ugliness": 3
   },
   {
@@ -206,7 +207,8 @@
     "hp_bar_ui_text": "R I ARM",
     "main_part": "arm_insect_r",
     "opposite_part": "arm_insect_l",
-    "side": "right"
+    "side": "right",
+    "sub_parts": [ "arm_insect_upper_r", "arm_insect_elbow_r", "arm_insect_lower_r" ]
   },
   {
     "type": "body_part",
