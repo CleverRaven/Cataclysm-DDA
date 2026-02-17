@@ -226,7 +226,7 @@
     "similar_bodypart": "muzzle_cheeks"
   },
   {
-    "id": "muzzle_rabbit_cheeks",
+    "id": "muzzle_rabbit_chin",
     "type": "sub_body_part",
     "max_coverage": 35,
     "parent": "muzzle_rabbit",

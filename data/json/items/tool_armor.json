@@ -2119,7 +2119,7 @@
         ],
         "//": "The exhale valve, speech diaphragm, and, if a mask has them, the communications unit and drinking tube, are located over the mouth and nose sections. They're represented by the plastic content.",
         "covers": [ "mouth", "muzzle" ],
-        "specifically_covers": [ "mouth_lips", "mouth_nose", "mouth_chin" ],
+        "specifically_covers": [ "mouth_lips", "mouth_nose", "mouth_chin", "muzzle_lips", "muzzle_lips", "muzzle_chin" ],
         "coverage": 100,
         "encumbrance": [ 20, 40 ],
         "layers": [ "SKINTIGHT", "NORMAL" ]
@@ -2131,7 +2131,7 @@
         ],
         "//": "Most modern gas masks possess plastic filter mounts on either one or both of the cheek sections, which this plastic represents. Again, we can tactically handwave away the outliers.",
         "covers": [ "mouth", "muzzle" ],
-        "specifically_covers": [ "mouth_cheeks" ],
+        "specifically_covers": [ "mouth_cheeks", "muzzle_cheeks" ],
         "coverage": 100,
         "encumbrance": 20,
         "layers": [ "SKINTIGHT", "NORMAL", "OUTER" ],
