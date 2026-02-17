@@ -36,6 +36,86 @@
     "name": "chin"
   },
   {
+    "id": "muzzle_bear_lips",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "muzzle_bear",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "lips",
+    "similar_bodypart": "muzzle_lips"
+  },
+  {
+    "id": "muzzle_bear_nose",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "muzzle_bear",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nostrils",
+    "similar_bodypart": "muzzle_nose"
+  },
+  {
+    "id": "muzzle_bear_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "muzzle_bear",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks",
+    "similar_bodypart": "muzzle_cheeks"
+  },
+  {
+    "id": "muzzle_bear_chin",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "muzzle_bear",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "chin",
+    "similar_bodypart": "muzzle_chin"
+  },
+  {
+    "id": "muzzle_lupine_lips",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "muzzle_bear",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "lips",
+    "similar_bodypart": "muzzle_lips"
+  },
+  {
+    "id": "muzzle_lupine_nose",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "muzzle_bear",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nostrils",
+    "similar_bodypart": "muzzle_nose"
+  },
+  {
+    "id": "muzzle_lupine_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "muzzle_bear",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks",
+    "similar_bodypart": "muzzle_cheeks"
+  },
+  {
+    "id": "muzzle_lupine_chin",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "muzzle_bear",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "chin",
+    "similar_bodypart": "muzzle_chin"
+  },
+  {
     "id": "muzzle_long_lips",
     "type": "sub_body_part",
     "max_coverage": 20,
@@ -53,7 +133,7 @@
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "nostrils",
-    "similar_bodypart": "muzzle_nostrils"
+    "similar_bodypart": "muzzle_nose"
   },
   {
     "id": "muzzle_long_cheeks",
@@ -93,7 +173,7 @@
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "nostrils",
-    "similar_bodypart": "muzzle_nostrils"
+    "similar_bodypart": "muzzle_nose"
   },
   {
     "id": "muzzle_rodent_cheeks",
@@ -110,6 +190,46 @@
     "type": "sub_body_part",
     "max_coverage": 30,
     "parent": "muzzle_rodent",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "chin",
+    "similar_bodypart": "muzzle_chin"
+  },
+  {
+    "id": "muzzle_rabbit_lips",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "muzzle_rabbit",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "lips",
+    "similar_bodypart": "muzzle_lips"
+  },
+  {
+    "id": "muzzle_rabbit_nose",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "muzzle_rabbit",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nostrils",
+    "similar_bodypart": "muzzle_nose"
+  },
+  {
+    "id": "muzzle_rabbit_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "muzzle_rabbit",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks",
+    "similar_bodypart": "muzzle_cheeks"
+  },
+  {
+    "id": "muzzle_rabbit_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "muzzle_rabbit",
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "chin",
