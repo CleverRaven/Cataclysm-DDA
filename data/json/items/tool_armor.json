@@ -2119,7 +2119,7 @@
         ],
         "//": "The exhale valve, speech diaphragm, and, if a mask has them, the communications unit and drinking tube, are located over the mouth and nose sections. They're represented by the plastic content.",
         "covers": [ "mouth", "muzzle", "beak" ],
-        "specifically_covers": [ "mouth_lips", "mouth_nose", "mouth_chin", "beak_tip", "beak_bottom", "beak_top", "beak_nares" ],
+        "specifically_covers": [ "mouth_lips", "mouth_nose", "mouth_chin", "beak_tip", "beak_bottom", "beak_top" ],
         "coverage": 100,
         "encumbrance": [ 20, 40 ],
         "layers": [ "SKINTIGHT", "NORMAL" ]

@@ -150,7 +150,7 @@
     "hp_bar_ui_text": "DFLT BEAK",
     "base_hp": 20,
     "limb_scores": [ [ "balance", 0.0 ] ],
-    "sub_parts": [ "sub_limb_debug_muzzle" ]
+    "sub_parts": [ "beak_nares", "beak_top", "beak_tip", "beak_bottom" ]
   },
   {
     "id": "beak_bird",
@@ -166,7 +166,7 @@
     "side": "both",
     "similar_bodypart": "beak",
     "flags": [ "LIMB_UPPER" ],
-    "sub_parts": [ "beak_nares", "beak_top", "beak_tip", "beak_bottom" ],
+    "sub_parts": [ "beak_bird_nares", "beak_bird_top", "beak_bird_tip", "beak_bird_bottom" ],
     "//": "Pecking is not a primary attack for birds but they'll do it if they have to",
     "techniques": [ "TECH_BIRD_PECK", "TECH_BIRD_PECK_GRABBED" ],
     "unarmed_damage": [ { "damage_type": "stab", "amount": 8 } ]
