@@ -97,7 +97,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": "road_straight",
+    "om_terrain": [ "road_straight" ],
     "object": {
       "fallback_predecessor_mapgen": "field",
       "fill_ter": "t_concrete_wall",

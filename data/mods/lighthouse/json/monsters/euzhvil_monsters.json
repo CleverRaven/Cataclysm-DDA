@@ -18,7 +18,8 @@
     "default_faction": "euzhvil_fac",
     "species": [ "EUZHVIL" ],
     "material": [ "flesh" ],
-    "special_attacks": [ { "id": "euzhvil_phase", "cooldown": 1 } ]
+    "special_attacks": [ { "id": "euzhvil_phase", "cooldown": 1 } ],
+    "aggression": 100
   },
   {
     "id": "mon_euzhvil_chaser",
@@ -46,7 +47,7 @@
     "id": "mon_euzhvil_bully",
     "copy-from": "mon_euzhvil_chaser",
     "type": "MONSTER",
-    "name": { "str": "euzhvil bully" },
+    "name": { "str": "euzhvil bully", "str_pl": "euzhvil bullies" },
     "description": "A towering euzhvil with a head squeezed between two gigantic arms almost dragging on the floor, its face stuck in an expression of sadistic bliss."
   },
   {
