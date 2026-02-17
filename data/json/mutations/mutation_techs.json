@@ -352,7 +352,7 @@
     "name": "Bite",
     "crit_ok": true,
     "unarmed_allowed": true,
-    "weighting": 2,
+    "weighting": -1,
     "messages": [ "You peck %s", "<npcname> pecks %s" ],
     "description": "A bird peck.",
     "attack_vectors": [ "vector_bird_peck" ],
