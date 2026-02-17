@@ -500,7 +500,7 @@
             { "not": { "math": [ "hub01_bought_exodii_warehouse == 1" ] } },
             {
               "or": [
-                { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" },
+                { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
                 { "math": [ "warehouse_was_found == 1" ] },
                 { "compare_string": [ "yes", { "u_val": "mission_completed_u_found_warehouse" } ] },
                 { "math": [ "u_rebooted_locator == 1" ] }
@@ -518,7 +518,7 @@
             { "not": { "math": [ "hub01_bought_exodii_warehouse == 1" ] } },
             {
               "or": [
-                { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" },
+                { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
                 { "math": [ "warehouse_was_found == 1" ] },
                 { "compare_string": [ "yes", { "u_val": "mission_completed_u_found_warehouse" } ] },
                 { "math": [ "u_rebooted_locator == 1" ] }
@@ -536,7 +536,7 @@
             { "math": [ "hub01_promised_warehouse_info != 1" ] },
             { "math": [ "hub01_stole_warehouse == 1" ] }
           ]
-        }
+        },
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_4a"
       },
       {
@@ -547,7 +547,7 @@
             { "math": [ "hub01_promised_warehouse_info == 1" ] },
             { "math": [ "hub01_stole_warehouse == 1" ] }
           ]
-        }
+        },
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_4b"
       },
       {
@@ -557,7 +557,7 @@
             { "math": [ "has_var(u_timer_hub_waiting_on_warehouse)" ] },
             { "math": [ "hub01_stole_warehouse != 1" ] }
           ]
-        }
+        },
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_4c"
       },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
@@ -1232,7 +1232,7 @@
             { "compare_string": [ "yes", { "u_val": "mission_completed_u_found_warehouse" } ] }
           ]
         },
-        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2a",
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2a"
       },
       {
         "text": "I'll give you the coordinates free of charge - consider it part of our ongoing professional relationship.",
@@ -1246,7 +1246,7 @@
           { "u_add_faction_trust": 3 },
           { "math": [ "hub01_bought_exodii_warehouse = 1" ] }
         ],
-        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3"
       },
       { "text": "Actually, nevermind.  I don't know where it is.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
@@ -1263,7 +1263,7 @@
           { "math": [ "hub01_bought_exodii_warehouse = 1" ] },
           { "u_spawn_item": "RobofacCoin", "count": 5 }
         ],
-        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3"
       },
       {
         "text": "I don't need any coins, but I'd like you to tell me about the tech you find inside.",
@@ -1272,11 +1272,11 @@
           { "math": [ "hub01_bought_exodii_warehouse = 1" ] },
           { "math": [ "hub01_promised_warehouse_info = 1" ] }
         ],
-        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3"
       },
       {
         "text": "I want 10 HCG.",
-        "trial": { "type": "PERSUADE", "difficulty": 10 },
+        "trial": { "type": "PERSUADE", "difficulty": 20 },
         "success": {
           "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
           "effect": [
@@ -1291,7 +1291,7 @@
       },
       {
         "text": "I want 5 HCG and information on the tech you find.",
-        "trial": { "type": "PERSUADE", "difficulty": 10 },
+        "trial": { "type": "PERSUADE", "difficulty": 20 },
         "success": {
           "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
           "effect": [
@@ -1304,10 +1304,10 @@
         "failure": {
           "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2b"
         }
-      }
+      },
       {
         "text": "I want 10 HCG and information on the tech you find.",
-        "trial": { "type": "PERSUADE", "difficulty": 20 },
+        "trial": { "type": "PERSUADE", "difficulty": 10 },
         "success": {
           "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
           "effect": [
@@ -1335,7 +1335,7 @@
           { "math": [ "hub01_bought_exodii_warehouse = 1" ] },
           { "u_spawn_item": "RobofacCoin", "count": 5 }
         ],
-        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3"
       },
       {
         "text": "Deal!  Information on the tech in exchange for the coordinates.",
@@ -1344,7 +1344,7 @@
           { "math": [ "hub01_bought_exodii_warehouse = 1" ] },
           { "math": [ "hub01_promised_warehouse_info = 1" ] }
         ],
-        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3"
       }
     ]
   },

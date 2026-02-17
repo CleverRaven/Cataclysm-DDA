@@ -105,9 +105,8 @@
         "    ....,,,,,,,,....    ",
         "       ..........       "
       ],
-      "fill_ter": "t_dirtfloor",
       "palettes": [ "exodii_stone_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
-  },
+  }
 ]

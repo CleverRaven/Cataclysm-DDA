@@ -483,6 +483,7 @@
         "condition": {
           "and": [
             { "math": [ "hub01_stole_warehouse != 1" ] },
+            { "math": [ "hub01_bought_exodii_warehouse != 1" ] }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete_success"
@@ -490,9 +491,9 @@
       {
         "text": "Yes, but you should know that it was empty when I got there.  Someone must have beat us to it.",
         "condition": { "math": [ "hub01_stole_warehouse == 1" ] },
-        "trial": { "type": "LIE", "difficulty": 20 },
+        "trial": { "type": "LIE", "difficulty": 10 },
         "success": {
-          "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_empty_lie_success",
+          "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_empty_lie_success"
         },
         "failure": {
           "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_failure"
@@ -501,9 +502,9 @@
       {
         "text": "Yes, but you should know that the people from that bunker may be poking around.  I think they caught on that I was looking for it while I asking around for information.  Sorry, Rubik.",
         "condition": { "math": [ "hub01_bought_exodii_warehouse == 1" ] },
-        "trial": { "type": "LIE", "difficulty": 5 },
+        "trial": { "type": "LIE", "difficulty": 30 },
         "success": {
-          "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_hub_poking_lie_success",
+          "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_hub_poking_lie_success"
         },
         "failure": {
           "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_failure"
@@ -590,12 +591,12 @@
     "type": "talk_topic",
     "dynamic_line": {
       "math": [ "u_rebooted_locator == 1" ],
-      "yes": "*gives you a long look and then addresses you in a skeptical tone.  \"As'n'ye say.  Alas and allack.",
+      "yes": "*gives you a long look and then addresses you in a skeptical tone.  \"As'n'ye say.  Alas and allack.\"",
       "no": "*gives you a long look and then addresses you in a skeptical tone.  \"An' did ye forget sommat?  The booter?  Me heart and skelpy, 'tis not so hard a job.  Alas and alack, give us some directions then.\"  They pull out a notepad and pass a pencil your way."
     },
     "responses": [
       {
-        "text": "Let's talk payment.",
+        "text": "I guess we should talk payment.",
         "condition": { "math": [ "u_rebooted_locator == 1" ] },
         "effect": [ { "u_add_faction_trust": -3 } ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
