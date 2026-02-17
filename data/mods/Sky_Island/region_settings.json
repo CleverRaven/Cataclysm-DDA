@@ -10,7 +10,7 @@
     "type": "region_settings",
     "id": "dimension_sky_island_region",
     "copy-from": "default",
-    "feature_flag_settings": { "extend": { "blacklist": [ "SKY_ISLAND" ] } }
+    "feature_flag_settings": { "extend": { "blacklist": [ "SKY_ISLAND", "SKY_ISLAND_NO_RAID_SPAWN" ] } }
   },
   {
     "type": "region_settings",
