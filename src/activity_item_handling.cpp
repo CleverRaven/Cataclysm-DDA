@@ -529,8 +529,12 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
     }
     std::vector<item_location> items_dropped;
     for( const item &it : items ) {
-        item &dropped_item = here->add_item_or_charges( where, it );
-        items_dropped.emplace_back( map_cursor( here, where ), &dropped_item );
+        // Use ret_loc variant so the item_location tracks the actual position,
+        // which may differ from 'where' if the tile overflowed to an adjacent one.
+        item_location dropped_loc = here->add_item_or_charges_ret_loc( where, it );
+        if( dropped_loc.get_item() ) {
+            items_dropped.push_back( std::move( dropped_loc ) );
+        }
         item( it ).handle_pickup_ownership( you );
     }
 
@@ -1295,6 +1299,16 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
 
     *pickup_failure = false;
 
+    // When grabbed cart sits on the source tile, items stay in cart cargo
+    // (virtual pickup) so the player carry capacity check doesn't apply.
+    bool virtual_pickup_available = false;
+    if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
+        const tripoint_bub_ms cart_pos = you.pos_bub() + you.as_avatar()->grab_point;
+        if( get_map().get_abs( cart_pos ) == src ) {
+            virtual_pickup_available = get_map().veh_at( cart_pos ).cargo().has_value();
+        }
+    }
+
     for( std::pair<item *, bool> it_pair : items ) {
         item *it = it_pair.first;
         const zone_type_id dest_zone_type_id = mgr.get_near_zone_type_for_item( *it, abspos,
@@ -1304,7 +1318,7 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
             continue;
         }
 
-        if( !you.can_add( *it ) ) {
+        if( !virtual_pickup_available && !you.can_add( *it ) ) {
             bool vehicle_can_hold = false;
             if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
                 const tripoint_bub_ms cart_pos = you.pos_bub() + you.as_avatar()->grab_point;
@@ -1561,6 +1575,10 @@ void move_item( Character &you, const std::optional<vpart_reference> &vpr_src,
 }
 int route_length( const Character &you, const tripoint_bub_ms &dest )
 {
+    if( square_dist( you.pos_bub(), dest ) <= 1 ) {
+        return 0;
+    }
+
     const map &here = get_map();
     std::vector<tripoint_bub_ms> route;
 
