@@ -301,7 +301,7 @@
   },
   {
     "type": "MIGRATION",
-    "id": "integrated_hooves",
+    "id": [ "integrated_hooves", "integrated_rabbit_feet" ],
     "replace": "wristwatch"
   },
   {

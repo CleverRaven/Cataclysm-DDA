@@ -390,6 +390,20 @@
     "flags": [ "LIMB_LOWER" ]
   },
   {
+    "id": "animal_paw_rabbit_l",
+    "copy-from": "animal_paw_l",
+    "type": "body_part",
+    "similar_bodypart": "animal_paw_l",
+    "unarmed_damage": [ { "damage_type": "bash", "amount": 3 } ]
+  },
+  {
+    "id": "animal_paw_rabbit_r",
+    "copy-from": "animal_paw_r",
+    "type": "body_part",
+    "similar_bodypart": "animal_paw_r",
+    "unarmed_damage": [ { "damage_type": "bash", "amount": 3 } ]
+  },
+  {
     "id": "tail",
     "//": "Used as a default for similar_bodypart to work for armor.",
     "type": "body_part",
