@@ -260,6 +260,9 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 16 } ] },
       { "type": "leap", "cooldown": 5, "max_range": 4 },
       { "id": "grab", "cooldown": 10 },
+      [ "EAT_FOOD", 20 ],
+      [ "EAT_CROP", 30 ],
+      [ "EAT_CARRION", 40 ],
       {
         "type": "bite",
         "cooldown": 10,
@@ -269,7 +272,7 @@
     ],
     "extend": {
       "move_skills": { "climb": 8 },
-      "flags": [ "SMELLS", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EAT_FOOD", "EAT_CARRION" ]
+      "flags": [ "SMELLS", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER" ]
     }
   }
 ]

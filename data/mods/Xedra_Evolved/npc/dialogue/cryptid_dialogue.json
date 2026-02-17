@@ -12,7 +12,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CIVILIAN_WENDI_FOOD",
-    "dynamic_line": "It's not enough. It's not enough!",
+    "dynamic_line": "It's not enough.  It's not enough!",
     "responses": [ { "text": "[You step back.]", "topic": "TALK_DONE" } ]
   }
 ]
