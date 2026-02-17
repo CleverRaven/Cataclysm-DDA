@@ -552,12 +552,7 @@
       },
       {
         "text": "Any news on the Exodii warehouse?",
-        "condition": {
-          "and": [
-            { "math": [ "has_var(u_timer_hub_waiting_on_warehouse)" ] },
-            { "math": [ "hub01_stole_warehouse != 1" ] }
-          ]
-        },
+        "condition": { "and": [ { "math": [ "has_var(u_timer_hub_waiting_on_warehouse)" ] }, { "math": [ "hub01_stole_warehouse != 1" ] } ] },
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_4c"
       },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
@@ -1179,28 +1174,19 @@
       {
         "text": "It's a warehouse owned by a race of inter-dimensional beings who call themselves the Exodii.  They're… robots?  Cyborgs?  More metal than man in my opinion.  They use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent, but when talking they use a strange dialect they like to call Anglic.",
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE",
-        "effect": [
-          { "u_add_faction_trust": 1 },
-          { "math": [ "hub01_knows_exodii = 1" ] }
-        ]
+        "effect": [ { "u_add_faction_trust": 1 }, { "math": [ "hub01_knows_exodii = 1" ] } ]
       },
       {
         "text": "It's a warehouse owned by a race of inter-dimensional beings who call themselves the Exodii.  They're… robots?  Cyborgs?  More metal than man in my opinion.  They use automated machinery to do their fighting and heavy lifting, and they seem to have a preference for large firearms, swords, and spears.  They do understand English to a certain extent, but when talking they use a strange dialect they like to call Anglic.",
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE",
         "condition": { "compare_string": [ "yes", { "u_val": "u_talk_exodii_about_medieval_stock" } ] },
-        "effect": [
-          { "u_add_faction_trust": 2 },
-          { "math": [ "hub01_knows_exodii = 1" ] }
-        ]
+        "effect": [ { "u_add_faction_trust": 2 }, { "math": [ "hub01_knows_exodii = 1" ] } ]
       },
       {
         "text": "It's a warehouse owned by a race of inter-dimensional beings who call themselves the Exodii.  They're… robots?  Cyborgs?  More metal than man in my opinion.  They use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent, but when talking they use a strange dialect they like to call Anglic.  From what I understand, they are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE",
         "condition": { "compare_string": [ "yes", { "u_val": "u_know_exodii_purpose2" } ] },
-        "effect": [
-          { "u_add_faction_trust": 2 },
-          { "math": [ "hub01_knows_exodii = 1" ] }
-        ]
+        "effect": [ { "u_add_faction_trust": 2 }, { "math": [ "hub01_knows_exodii = 1" ] } ]
       },
       {
         "text": "It's a warehouse owned by a race of inter-dimensional beings who call themselves the Exodii.  They're… robots?  Cyborgs?  More metal than man in my opinion.  They use automated machinery to do their fighting and heavy lifting, and they seem to have a preference for large firearms, swords, and spears.  They do understand English to a certain extent, but when talking they use a strange dialect they like to call Anglic.  From what I understand, they are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
@@ -1211,10 +1197,7 @@
             { "compare_string": [ "yes", { "u_val": "u_talk_exodii_about_medieval_stock" } ] }
           ]
         },
-        "effect": [
-          { "u_add_faction_trust": 3 },
-          { "math": [ "hub01_knows_exodii = 1" ] }
-        ]
+        "effect": [ { "u_add_faction_trust": 3 }, { "math": [ "hub01_knows_exodii = 1" ] } ]
       },
       { "text": "Actually, nevermind.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
@@ -1242,10 +1225,7 @@
             { "compare_string": [ "yes", { "u_val": "mission_completed_u_found_warehouse" } ] }
           ]
         },
-        "effect": [
-          { "u_add_faction_trust": 3 },
-          { "math": [ "hub01_bought_exodii_warehouse = 1" ] }
-        ],
+        "effect": [ { "u_add_faction_trust": 3 }, { "math": [ "hub01_bought_exodii_warehouse = 1" ] } ],
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3"
       },
       { "text": "Actually, nevermind.  I don't know where it is.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
@@ -1280,14 +1260,12 @@
         "success": {
           "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
           "effect": [
-              { "u_add_faction_trust": 1 },
-              { "math": [ "hub01_bought_exodii_warehouse = 1" ] },
-              { "u_spawn_item": "RobofacCoin", "count": 10 }
+            { "u_add_faction_trust": 1 },
+            { "math": [ "hub01_bought_exodii_warehouse = 1" ] },
+            { "u_spawn_item": "RobofacCoin", "count": 10 }
           ]
         },
-        "failure": {
-          "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2b"
-        }
+        "failure": { "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2b" }
       },
       {
         "text": "I want 5 HCG and information on the tech you find.",
@@ -1295,15 +1273,13 @@
         "success": {
           "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
           "effect": [
-              { "u_add_faction_trust": 1 },
-              { "math": [ "hub01_bought_exodii_warehouse = 1" ] },
-              { "u_spawn_item": "RobofacCoin", "count": 5 },
-              { "math": [ "hub01_promised_warehouse_info = 1" ] }
+            { "u_add_faction_trust": 1 },
+            { "math": [ "hub01_bought_exodii_warehouse = 1" ] },
+            { "u_spawn_item": "RobofacCoin", "count": 5 },
+            { "math": [ "hub01_promised_warehouse_info = 1" ] }
           ]
         },
-        "failure": {
-          "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2b"
-        }
+        "failure": { "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2b" }
       },
       {
         "text": "I want 10 HCG and information on the tech you find.",
@@ -1311,15 +1287,13 @@
         "success": {
           "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
           "effect": [
-              { "u_add_faction_trust": 1 },
-              { "math": [ "hub01_bought_exodii_warehouse = 1" ] },
-              { "u_spawn_item": "RobofacCoin", "count": 10 },
-              { "math": [ "hub01_promised_warehouse_info = 1" ] }
+            { "u_add_faction_trust": 1 },
+            { "math": [ "hub01_bought_exodii_warehouse = 1" ] },
+            { "u_spawn_item": "RobofacCoin", "count": 10 },
+            { "math": [ "hub01_promised_warehouse_info = 1" ] }
           ]
         },
-        "failure": {
-          "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2b"
-        }
+        "failure": { "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2b" }
       }
     ]
   },
@@ -1355,12 +1329,7 @@
     "responses": [
       {
         "text": "Nice doing business with you.",
-        "condition": {
-          "or": [
-            { "math": [ "warehouse_was_found == 1" ] },
-            { "math": [ "u_rebooted_locator == 1" ] }
-          ]
-        },
+        "condition": { "or": [ { "math": [ "warehouse_was_found == 1" ] }, { "math": [ "u_rebooted_locator == 1" ] } ] },
         "effect": [
           { "u_add_faction_trust": -3 },
           { "math": [ "hub01_and_exodii_found_warehouse = 1" ] },
@@ -1372,10 +1341,7 @@
       {
         "text": "Nice doing business with you.",
         "condition": {
-          "and": [
-            { "not": { "math": [ "warehouse_was_found == 1" ] } },
-            { "not": { "math": [ "u_rebooted_locator == 1" ] } }
-          ]
+          "and": [ { "not": { "math": [ "warehouse_was_found == 1" ] } }, { "not": { "math": [ "u_rebooted_locator == 1" ] } } ]
         },
         "effect": [
           { "u_add_faction_trust": 1 },
@@ -1400,10 +1366,7 @@
       {
         "text": "Glad to hear it.",
         "condition": { "math": [ "time_since(u_timer_hub_waiting_on_warehouse) >= time('1 d')" ] },
-        "effect": [
-          { "u_lose_var": "dialogue_hub_u_waiting_on_warehouse" },
-          { "u_lose_var": "timer_hub_waiting_on_warehouse" }
-        ],
+        "effect": [ { "u_lose_var": "dialogue_hub_u_waiting_on_warehouse" }, { "u_lose_var": "timer_hub_waiting_on_warehouse" } ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
       { "text": "I'll check in later.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
@@ -1421,10 +1384,7 @@
       {
         "text": "Great.  I'll check in later about helping out, if I can.",
         "condition": { "math": [ "time_since(u_timer_hub_waiting_on_warehouse) >= time('1 d')" ] },
-        "effect": [
-          { "u_lose_var": "dialogue_hub_u_waiting_on_warehouse" },
-          { "u_lose_var": "timer_hub_waiting_on_warehouse" }
-        ],
+        "effect": [ { "u_lose_var": "dialogue_hub_u_waiting_on_warehouse" }, { "u_lose_var": "timer_hub_waiting_on_warehouse" } ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
       { "text": "I'll check in later.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
@@ -1442,10 +1402,7 @@
       {
         "text": "Right.",
         "condition": { "math": [ "time_since(u_timer_hub_waiting_on_warehouse) >= time('1 d')" ] },
-        "effect": [
-          { "u_lose_var": "dialogue_hub_u_waiting_on_warehouse" },
-          { "u_lose_var": "timer_hub_waiting_on_warehouse" }
-        ],
+        "effect": [ { "u_lose_var": "dialogue_hub_u_waiting_on_warehouse" }, { "u_lose_var": "timer_hub_waiting_on_warehouse" } ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
       { "text": "I'll check in later.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }

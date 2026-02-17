@@ -473,42 +473,26 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_2_complete",
     "type": "talk_topic",
-    "dynamic_line": {
-      "//~": "Aye?",
-      "str": "Aye?"
-    },
+    "dynamic_line": { "//~": "Aye?", "str": "Aye?" },
     "responses": [
       {
         "text": "Yes, I found it intact.",
-        "condition": {
-          "and": [
-            { "math": [ "hub01_stole_warehouse != 1" ] },
-            { "math": [ "hub01_bought_exodii_warehouse != 1" ] }
-          ]
-        },
+        "condition": { "and": [ { "math": [ "hub01_stole_warehouse != 1" ] }, { "math": [ "hub01_bought_exodii_warehouse != 1" ] } ] },
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete_success"
       },
       {
         "text": "Yes, but you should know that it was empty when I got there.  Someone must have beat us to it.",
         "condition": { "math": [ "hub01_stole_warehouse == 1" ] },
         "trial": { "type": "LIE", "difficulty": 10 },
-        "success": {
-          "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_empty_lie_success"
-        },
-        "failure": {
-          "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_failure"
-        }
+        "success": { "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_empty_lie_success" },
+        "failure": { "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_failure" }
       },
       {
         "text": "Yes, but you should know that the people from that bunker may be poking around.  I think they caught on that I was looking for it while I asking around for information.  Sorry, Rubik.",
         "condition": { "math": [ "hub01_bought_exodii_warehouse == 1" ] },
         "trial": { "type": "LIE", "difficulty": 30 },
-        "success": {
-          "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_hub_poking_lie_success"
-        },
-        "failure": {
-          "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_failure"
-        }
+        "success": { "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_hub_poking_lie_success" },
+        "failure": { "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_failure" }
       },
       {
         "text": "Yes, but you should know that I sold its location to someone else.",
