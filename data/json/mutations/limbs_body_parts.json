@@ -185,7 +185,6 @@
     "mend_rate": 0.7,
     "drench_capacity": 12,
     "drench_increment": 1,
-    "drying_capacity": 6,
     "drying_rate": 2,
     "hot_morale_mod": 0.1,
     "cold_morale_mod": 0.1,
