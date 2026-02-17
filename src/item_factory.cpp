@@ -1072,6 +1072,11 @@ void Item_factory::finalize_post_armor( itype &obj )
         // for each body part this covers we need to add to the overall data for that bp
         if( sub_armor.covers.has_value() ) {
             for( const bodypart_str_id &bp : sub_armor.covers.value() ) {
+                // skip anything contributing 0 coverage
+                const float sub_cov = sub_armor.max_coverage( bp );
+                if( sub_cov <= 0.0f ) {
+                    continue;
+                }
                 bool found = false;
                 // go through and find if the body part already exists
 
