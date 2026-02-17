@@ -270,9 +270,6 @@
       },
       [ "PARROT", 5 ]
     ],
-    "extend": {
-      "move_skills": { "climb": 8 },
-      "flags": [ "SMELLS", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER" ]
-    }
+    "extend": { "move_skills": { "climb": 8 }, "flags": [ "SMELLS", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER" ] }
   }
 ]
